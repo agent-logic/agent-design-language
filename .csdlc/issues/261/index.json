@@ -3,9 +3,9 @@
   "issue": 261,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "79989eec9d376fe03f54c75e0368aa38a2e52820742db16b14eae9eb5a7dfe69",
-  "phase": "bound",
-  "generation": 15,
-  "digest": "1e035d561ebe3e65241f2692ed93b472f848e101bab13175a6ec73cb173ed8fb",
+  "phase": "implemented",
+  "generation": 16,
+  "digest": "9f75b795dfff4feeff521920faefc183ad25fbb3f8f261ed172fe8d51f06e3c0",
   "branch": "codex/261-podcast-show-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-261-podcast-show-identity",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "72f71e771293c23940fae9bd078c6a47b247575eb64827c1f39f3031a8f8caac",
+      "values_digest": "a7de1d6441e71301b9c68a733aad44e252cb977ac3c889a97e0cddf86341d0fa",
       "rendered_digest": "93a2c62e359bbcd5dad24acd2770a0ca3affdadf924958fa8733d2454e17a44f",
       "ast_digest": "82040e4c170fce1e8e2cf144146b469dbd77b0eb9cf6a0ce648dbbf53a1c9170"
     },
     "stp": {
-      "values_digest": "93600e2b394681bf3b3810c14c1c894d4f2d5f5d3e16b630ab00b90aca15e611",
+      "values_digest": "637d63584bdfb9a5077d5a6e67a436ee579d73b1f43cef7c456d73a80b6a909d",
       "rendered_digest": "5a818e58e482b72dc1480ea444a6ef2b11cb26d123b7dba036b57dc5f1eb2e2d",
       "ast_digest": "6981a756aad6aa3ded34a3d678e2f97ea6c5b67aac93577bbe13c9461164fd3c"
     },
     "spp": {
-      "values_digest": "ae394e6ed1f1be82b7a6d26e013322654dd30b46a56691e4ed7fe5eeb6dd35c9",
+      "values_digest": "7bc89debc17cea1b33e023badff9d1fef9640e3d9f0e5f3ba97bf9ffc44de14d",
       "rendered_digest": "abe1f9b484461c31ae318681fbe179287a32bef44e3529eef599908f6a88239e",
       "ast_digest": "354904c65e4002755644e653ae9c9943ab365461952b252923f7815d524f7e53"
     },
     "vpp": {
-      "values_digest": "78723513bc2a2173c08aae8da4dac036bd29fa29ee6457397a2c7c819e20da7d",
+      "values_digest": "4022593e85855352c295edaf110bf849fbdf9e3385525bee3175a2f3a1b4cf52",
       "rendered_digest": "cb2716456370655d7fbfa88f5ee58ada17b3b80f6c398f582962a514a59d668f",
       "ast_digest": "0961496d9f65d5dda646f3ad1fff38d07a09cf5f5215b99e9207369744087881"
     },
     "srp": {
-      "values_digest": "47084c648576d8b003f33b531fc6e39bb6b745ac8d286c267e844f8f0828b240",
+      "values_digest": "6b7f3ee8a9cb428a6f24f5f5bdba8e2f42c4f085f1aefd97a1cb29fd63081e8c",
       "rendered_digest": "6df13c2f908e8a5a2ef2451f6fda27038bb4e372ef5fb79ca4b6212f7e20802f",
       "ast_digest": "7294907a08041ed74c6ed5c13eb722a37f4c813f9fad85c82c0eeaed6894007b"
     },
     "sor": {
-      "values_digest": "be4034eff10aaa601c1393f9531f1b4af73feeb83c6c506ac49be01287d5a9ff",
-      "rendered_digest": "feec442b642880de4bdc54355941232dda070feb01e73560354d7ec571b1f8a0",
-      "ast_digest": "a35d34ab90886c5ee9fa8ecf9b5a1a780cc5c7865d3ed33860e4310d67c60b1a"
+      "values_digest": "feb8598424c3c6482f44d9cd1902f32deef0adb9f7d5c958e15f3d74f86fe614",
+      "rendered_digest": "da32f2af8e02e6506a7805a527d3da0cadedb996dc7efe9864b52726ad9fbe1b",
+      "ast_digest": "1f7ef1bf6a8929a39399319c335dd5bb40db3c0c43bc052ee2915bfd53f3b0b1"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:podcast-issue-owner",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -189,6 +196,13 @@
       "actor": "Codex / Sprint 8 podcast lane",
       "reason": "Record focused #261 redaction validation after refreshing the working title to The Cognitive Stack.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--redaction-only\"],\"purpose\":\"Prove the refreshed identity packet retains no credential, token, private mailbox content, recovery code, verification code, private key material, or unbounded retained authority text.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal transcript 2026-08-28: redaction-only mode passed for exact #261 packet scope after The Cognitive Stack refresh.\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
