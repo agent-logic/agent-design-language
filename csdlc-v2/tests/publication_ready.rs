@@ -1,7 +1,7 @@
 use csdlc_v2::{
-    prepare_ready_publication, publication::validate_ready_remote, DesignReview, IssueRecord,
-    LifecyclePhase, NonSubstantiveProof, PublicationEvidence, PublicationLinkageMode,
-    ReadyPublicationRequest, RemotePullRequest, ReviewEvidence, Store,
+    prepare_ready_publication, public_schema_bundle, publication::validate_ready_remote,
+    DesignReview, IssueRecord, LifecyclePhase, NonSubstantiveProof, PublicationEvidence,
+    PublicationLinkageMode, ReadyPublicationRequest, RemotePullRequest, ReviewEvidence, Store,
 };
 use std::collections::BTreeMap;
 use std::path::Path;
@@ -189,8 +189,21 @@ fn ready_readback_rejects_identity_drift_and_wrong_draft_state() {
     closed.state = "closed".into();
     assert!(validate_ready_remote(&governed, &request, &closed, false).is_err());
 
+    let mut linkage_drift = remote(false);
+    linkage_drift.body = "Related #604".into();
+    assert!(validate_ready_remote(&governed, &request, &linkage_drift, false).is_err());
+
     assert!(validate_ready_remote(&governed, &request, &remote(false), true).is_err());
     assert!(validate_ready_remote(&governed, &request, &remote(true), false).is_err());
+}
+
+#[test]
+fn ready_request_contracts_are_in_public_schema_bundle() {
+    let schemas = public_schema_bundle();
+    assert!(schemas.get("ready_publication_request").is_some());
+    assert!(schemas
+        .get("ready_publication_reconciliation_request")
+        .is_some());
 }
 
 #[test]

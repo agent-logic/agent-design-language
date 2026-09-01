@@ -546,6 +546,11 @@ pub fn validate_ready_remote(
     remote: &RemotePullRequest,
     expected_draft: bool,
 ) -> Result<()> {
+    let split_authority = request
+        .code_repository
+        .as_deref()
+        .is_some_and(|repository| repository != request.repository);
+    let linkage_mode = governed.linkage_mode.unwrap_or_default();
     if governed.issue != request.issue
         || remote.repository != governed.repository
         || remote.number != request.pull_request
@@ -554,6 +559,13 @@ pub fn validate_ready_remote(
         || remote.head_sha != request.expected_head_sha
         || remote.draft != expected_draft
         || remote.state != "open"
+        || !body_has_exact_publication_linkage(
+            &remote.body,
+            request.issue,
+            &request.repository,
+            split_authority,
+            linkage_mode,
+        )
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
