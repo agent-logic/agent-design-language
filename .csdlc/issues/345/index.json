@@ -4,35 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 106,
-  "digest": "27892acf66387294b28bfe1d617456a08eebb2943d2ebf4a1181842bfe12f107",
+  "phase": "implemented",
+  "generation": 108,
+  "digest": "37f78fcf62ed7cf29d428eeac8796e722f680b565cfb52a4c224e1451f582e94",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
-    "revision": "git-blake3:4c9cffce469c0b4f9a99b2f492d41e7f3b6cb67b:74b61f37bd1294657eaab733b2a0cb984b944ad4b5574b3a73c052fd05767eb9",
-    "scope": [
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      ".csdlc/issues/345"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "scope": [
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      ".csdlc/issues/345"
-    ],
-    "reviewed_revision": "git-blake3:4c9cffce469c0b4f9a99b2f492d41e7f3b6cb67b:74b61f37bd1294657eaab733b2a0cb984b944ad4b5574b3a73c052fd05767eb9",
-    "findings": [],
-    "residual_risks": [
-      "Final paid two-node success remains pending.",
-      "The bounded qualification does not establish 24/7 production readiness."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b723eb15db605be52e3d59690b0deddd0f6b6cd336b954bccb9d62b674d64e2f",
+      "values_digest": "b35dda6fae9ed61c7ef12c3bc1206177ad545eea6b87f48bd66786e1ca249dd8",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "84d92da5e1591590337e344bf0b92f6f009dcc62a71740ba46929a7f569a6ac2",
+      "values_digest": "c60543963e3b58ccf18f663890355f67c8ce15cc5357ac1d90210ab583013813",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "8971a242675e12b308f2f253c020b5e7cecb1f35bd0b24d090c42e4da9cafa89",
+      "values_digest": "c0aeed550f2f277ef8bf6b69f08713855d7eb8bd6132f99d8ef7d73b1b88e47f",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "8d15c905f9515545a8f78d3c69b9b96587bf8922ca38189d9070a53e2de9842f",
+      "values_digest": "ad9efe996b5d08fcba54fb0351d66df206662b92b9e3c59dc86cac1d9ace489c",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "3ed5f5f80cd4424339c61ecec2f595d001666bc9836e630dd393261b2ce01346",
-      "rendered_digest": "7fbfda40a1270664516f7eb7b3b521d75600990ba9cf52ab2112200b94f710ab",
-      "ast_digest": "3a2f1898dbac256c4af6b5d6dde7356b936f5c132b6707a56a4ae1c4008fbb38"
+      "values_digest": "1ec6647a7e6bf5939894ca42ef9ab165a8a7cc16479b4d95df3272323f66f8bb",
+      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
+      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "111266656d1816783d2e2ab7dbd7981374edac016b8d3f6357f243e2bfdf9127",
-      "rendered_digest": "c02d6a2b4c1da2f563d5900fe331a63500feea98074f02eeb7318a3cdc0547bb",
-      "ast_digest": "2db94fce4682484f9d8f220e3b12bd2900f3d7edc666a376489fc526090fd29b"
+      "values_digest": "d4b25104e7881b941ad929e202982186aeca57a5f7b96551c1f84f725b6fa9b9",
+      "rendered_digest": "292da297fccc1cc33ad5b5ab443d179a97b55b307c824f5d78ed978fdbe46ea9",
+      "ast_digest": "b0f64b20aa8543e4e88972afd3a80056f3d10816a6f79465890533fbc37ed073"
     }
   },
   "transitions": [
@@ -315,6 +293,13 @@
       "to": "reviewed",
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 35,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the reviewed us-west-2c Terraform run completed successfully, so the passing paid proof and confirmed zero-residue cleanup can be recorded truthfully before final review and integration."
     }
   ],
   "audit": [
@@ -1248,6 +1233,20 @@
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 134,
+      "generation": 107,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the reviewed us-west-2c Terraform run completed successfully, so the passing paid proof and confirmed zero-residue cleanup can be recorded truthfully before final review and integration.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 135,
+      "generation": 108,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Record the successful reviewed two-node AWS qualification, exact GPU and Runtime proof, six governed agent ACC executions, and confirmed zero-residue cleanup without overstating direct Runtime-to-Ollama transit.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The reviewed Terraform runner completed the authorized us-west-2c two-node qualification successfully within the USD 20 ceiling. The GPU node verified and simultaneously retained llama3.1:8b and qwen3:8b with exact immutable digests and nonzero VRAM while Ollama remained private. The Runtime node restored the Git-free repo archive, compiled and launched Guardian and Runtime v3, passed authenticated HTTPS and v3 WSS fanout plus restart, state, degradation, Vector, log, and shutdown assertions, executed live Shepherd inference against both models, and produced six distinct governed ACC agent execution receipts. Cleanup terminated both instances, removed all tagged volumes, emptied Terraform state, and released the S3 lock. The receipt truthfully does not claim direct Runtime-v3-to-Ollama transit; it proves the two live model paths and the six ACC tool paths separately.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology with one shared SSH key, mandatory public /32 SSH ingress on both nodes, private Ollama ingress from only the Runtime security group, immutable S3 artifacts, single-use authorization, and USD 20 hard ceiling.\",\"Launched one r7i.2xlarge Runtime and Guardian node and one g6.xlarge Ollama GPU node in us-west-2c with public SSH and private application transit.\",\"Verified llama3.1:8b digest 46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e at 5271715839 bytes VRAM and qwen3:8b digest 500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41 at 5578204118 bytes VRAM simultaneously resident.\",\"Proved Guardian launch, Runtime kernel readiness, authenticated HTTPS and schema=v3 WSS, bounded child restart, preserved state, dependency and Vector recovery, clean logs, and clean shutdown.\",\"Executed live real-model Shepherd proof against both configured GPU models and retained response, model, backend, runner, and nonce hashes.\",\"Executed six distinct resident agent tool cycles across the two model assignments; every receipt records decision executed, gate_allowed, governed_execution_completed, and exit code zero with distinct ACC contract and authority evidence.\",\"Kept the evidence boundary explicit: direct Runtime-v3-to-Ollama transit is not claimed by this bounded runner; the live Shepherd model execution and governed Runtime agent ACC execution are separate proofs.\",\"Confirmed cleanup left zero run instances, zero tagged volumes, zero Terraform resources, and no S3 run lock.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"infra/cloud/aws/issue345-two-node/main.tf\",\".adl/local/issue345/adl-issue345-20260901-152336/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-152336/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-152336/summary.json\",\".adl/local/issue345/adl-issue345-20260901-152336/cleanup.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"tests::observatory_wss_qualification_requests_current_feed_schema\",\"--\",\"--exact\"],\"purpose\":\"Prove the lifecycle WSS upgrade explicitly selects the v3 feed and retains the configured Observatory origin.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify Rust formatting for the WSS schema-selection remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"4c9cffce469c0b4f9a99b2f492d41e7f3b6cb67b\",\"--run-id\",\"adl-issue345-20260901-152336\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-wss-v3-2c.json\",\"--execute\"],\"purpose\":\"Execute the complete authorized Terraform two-node AWS qualification with real GPU models, Guardian and Runtime lifecycle proof, six governed agent ACC cycles, and automatic cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-152336/summary.json\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"aws\",\"ec2\",\"describe-instances/describe-volumes\"],\"purpose\":\"Verify no run instances or tagged volumes remain after Terraform cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-152336/cleanup.json\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"aws\",\"s3api\",\"head-object\",\"--key\",\"locks/issue345-paid-run.json\"],\"purpose\":\"Verify the single-use paid-run lock was released after cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-152336/cleanup.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
     }
   ]
 }

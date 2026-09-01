@@ -12,8 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
-.csdlc/issues/345
+
 
 ## Prompts
 
@@ -34,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Final paid two-node success remains pending.
-- The bounded qualification does not establish 24/7 production readiness.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:4c9cffce469c0b4f9a99b2f492d41e7f3b6cb67b:74b61f37bd1294657eaab733b2a0cb984b944ad4b5574b3a73c052fd05767eb9")
+Revision: None
 
-Reviewer: Some("fresh-session:/root/issue_345_final_launch_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
