@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 496,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "546e85c2e5fb163a29c67d6f148cbc79eacddcf8485fd831d8b91861c0f1db0c",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "c3f812f3b4fc54b9c25d9fdfe2e2735f07fa093f2574087700446f0c980197d2",
+  "branch": "codex/496-aws-cloudformation-retirement-decision-bound",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-496-aws-cloudformation-retirement-decision-bound",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/496/design.md",
+  "diagram_path": ".csdlc/prepared/issues/496/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:9f072012-8e3d-427e-92c5-52079ec0e7c1",
+      "revision": "b7ec7d835333580abc4fccf19a551bc045ad38efc5a336af84d264c52eaac6d3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "597e597442fe24caeac71a0ccb6019e4bc60230eed6b197d1eb66bf66b176a9f",
+      "rendered_digest": "ba724bb557f178cb5cb116d66a996a8be304c3c3267bcb9c6abef00453559c4d",
+      "ast_digest": "8d1a475c90b9205b3bf9f5209251d2c26e8cf00423adb149d47ab2ec22a29f85"
+    },
+    "stp": {
+      "values_digest": "c6ab179d745a5b1748a1f017474e274c027c3a87337a919c35ea55ade927bafc",
+      "rendered_digest": "6f09d3f746bb0d0154a6b0f45fb6453cf231120c3bee68f8ffab2e8bd9abdd4e",
+      "ast_digest": "a5ddf4bd3bd32d5cdec6f46287e8b8afd1cb26569351cd3f7ba963c3c6b0f857"
+    },
+    "spp": {
+      "values_digest": "50e59f2d105305f17f90b8e7189c8fbec1dde0192d0af91bea126997d34f0a9b",
+      "rendered_digest": "0105d5c6f6e6dcddcc5ffc7da19eb15ee6ac63ac7185fdbea3a1546d41e929d4",
+      "ast_digest": "1734583f180d9d866dd1a49234a9c97bdc81164bb0f0827f3d6a56f6757b1745"
+    },
+    "vpp": {
+      "values_digest": "530d56529b794074b7c6fb7c9407f388a16c9161830f2ae925829f746d9a0b1c",
+      "rendered_digest": "799643cf95bfe518a9d5553802b3c94e7b1e05a73b18922beb1f40c8239afa3c",
+      "ast_digest": "9c4f5fe032c4978e1516611f0c2529159e3e74e0eaa292c810fd7d11f2c80478"
+    },
+    "srp": {
+      "values_digest": "2911f79267ecadd3cd6716d26bbd27360423c2a4217f977a8bccb660e662180b",
+      "rendered_digest": "35126f32898cc791cdc53a6721327f38207548902b706cac0ec2c92892b4d389",
+      "ast_digest": "16dfc042a9536d30b1b416a100078584cbb839c075d5e9eee69ab20045bf3cd4"
+    },
+    "sor": {
+      "values_digest": "134f395a7e65e2fdb125002f88004addb4adaa926f5b9a62d6df5dfc3bf95132",
+      "rendered_digest": "c4e5761f96c1a853052764e3f7afbebc89f42c9fc1841250bdac5a415adbe2ec",
+      "ast_digest": "0cc7cd1130bb3db397a092fe7f1739e6e830ba4780e01f8e54ae54a26296de69"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #496 to ready after fresh design review PASS and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:9f072012-8e3d-427e-92c5-52079ec0e7c1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b7ec7d835333580abc4fccf19a551bc045ad38efc5a336af84d264c52eaac6d3\",\"design_ref\":\".csdlc/prepared/issues/496/design.md\",\"diagram_digest\":\"ec7899a1e9c64e4b9210f04c768e816e430083c5f3a0b615af0b3034734114d6\",\"diagram_ref\":\".csdlc/prepared/issues/496/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance #496 to ready after fresh design review PASS and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Replace pre-bind prepared validator lane with the implemented #496 docs validator path after bind.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"aws-g-retirement-ledger-static\",\"proof_role\":\"Verifies the #496 retirement ledger inventories both CloudFormation templates, classifies consumer/reference paths with disposition-bearing rows, records #489/#495 dependency truth including merge SHAs, preserves rollback/retained-evidence boundaries, rejects deletion authority, and records the live-stack non-claim.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\"],\"parallel_group\":\"local-static\",\"defer_reason\":null},{\"lane\":\"aws-g-diff-hygiene\",\"proof_role\":\"Verifies the implemented #496 docs and lifecycle diff are whitespace-clean before exact-head review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

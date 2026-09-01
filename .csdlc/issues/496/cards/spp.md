@@ -1,0 +1,111 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 496
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Bootstrap #496 from current main after #489/#495 live merge truth, approve a design centered on a no-deletion retirement ledger, bind a FastWork worktree, implement the ledger and validator, run focused proof, obtain exact-head review, publish with closing linkage, and finish when green.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Bootstrap and approve the AWS-G retirement-ledger design from current main containing #489 and #495 merge truth.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Bind the #496 FastWork execution worktree and preserve dependency/collision truth.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement the retirement ledger, retained-evidence/rollback dispositions, and issue-owned validator.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Validate, obtain fresh exact-head review, publish with closing linkage, and finish when green.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- The two CloudFormation templates remain retained evidence unless a later authorized issue deletes them
+- Each current repo consumer/reference path to either template is classified as rollback, source-denominator, migrated replacement, retained evidence, or follow-on
+- Merged #489/#495 evidence is consumed read-only and not silently widened
+- No active live stack is declared retired without readback evidence or an explicit non-claim
+- The retirement ledger distinguishes accepted-retained, accepted-retired, and blocked/deferred dispositions
+- No credential material appears in source, cards, ledger, or validation output
+
+## Risks
+
+- Merged #495 may lack a derived terminal cache even though GitHub reports the PR merged and issue closed
+- A lingering consumer/reference path could be missed if validation only checks obvious paths or accepts path mentions without disposition-bearing rows
+- A retirement decision could be mistaken for deletion authority
+- Live stack readback may require cloud credentials or explicit operator authorization
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/496/design.md
+
+Digest: b7ec7d835333580abc4fccf19a551bc045ad38efc5a336af84d264c52eaac6d3
+
+## Diagram
+
+.csdlc/prepared/issues/496/diagram.mmd
+
+Digest: ec7899a1e9c64e4b9210f04c768e816e430083c5f3a0b615af0b3034734114d6
+
+## Stop Conditions
+
+- A consumer/reference path is unclassified
+- A live stack owner is ambiguous
+- Terraform parity is absent or contradicted
+- A proposed change deletes CloudFormation evidence or mutates AWS resources without explicit authorization
+- A proposed proof would expose credential material
+
+## Handoff
+
+Proceed only after doctor readiness.

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 496,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+    "slug": "aws-cloudformation-retirement-decision",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #496 AWS-G paths only: docs/milestones/v0.92.1/evidence/cloud/aws-g, .csdlc/prepared/issues/496, .csdlc/evidence/496, and read-only references to infra/aws/runtime, infra/runtime-portable, and the two retained CloudFormation templates.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #496 to a retirement decision ledger without deleting templates or reimplementing #489/#495?",
+        "Are the #194 and #268 template denominators and every current repo consumer/reference classified truthfully?",
+        "Does the ledger require Terraform parity, rollback authority, retained evidence, and live-stack disposition before any retirement claim?",
+        "Does the plan avoid cloud mutation and credential disclosure while preserving a clear future live readback route?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

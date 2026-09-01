@@ -1,0 +1,95 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 496,
+  "expected_generation": 3,
+  "expected_digest": "edfce7effec7ffac331951f66cf6eda872f1b783509a09fc0bb221e60fc66543",
+  "actor": "codex:/root",
+  "summary": "Implemented the AWS-G CloudFormation retirement decision ledger and final issue-owned validator. The decision retains the #194/#268 CloudFormation templates as rollback/source-denominator evidence, classifies current repo consumer/reference paths, consumes #489/#495 merge evidence, and makes no live-stack retirement or deletion claim.",
+  "changes": [
+    "Added docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+    "Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh",
+    "Updated VPP validation lanes to the implemented docs validator"
+  ],
+  "artifacts": [
+    "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+    "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh"
+  ],
+  "execution": {
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/496",
+    "budget": {
+      "cpu_units": 1,
+      "memory_mib": 1024,
+      "tokens": 2000,
+      "max_parallel": 1
+    },
+    "selection": {
+      "requested_lanes": [
+        "aws-g-retirement-ledger-static",
+        "aws-g-diff-hygiene"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "aws-g-retirement-ledger-static",
+          "purpose": "Validate the #496 CloudFormation retirement ledger and disposition-bearing consumer/reference path census.",
+          "proof_role": "Verifies the #496 retirement ledger inventories both CloudFormation templates, classifies consumer/reference paths with disposition-bearing rows, records #489/#495 dependency truth including merge SHAs, preserves rollback/retained-evidence boundaries, rejects deletion authority, and records the live-stack non-claim.",
+          "executable": "bash",
+          "argv": [
+            "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh"
+          ],
+          "execution": "local",
+          "determinism": "deterministic",
+          "network": "denied",
+          "credentials": [],
+          "dependencies": [],
+          "timeout_seconds": 180,
+          "parallel_group": "local-static",
+          "release_gate": "required",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 500
+          },
+          "evidence": {
+            "require_relative_paths": true,
+            "max_log_bytes": 4000,
+            "redact_values": []
+          }
+        },
+        {
+          "id": "aws-g-diff-hygiene",
+          "purpose": "Validate the #496 diff has no whitespace errors before review/publication.",
+          "proof_role": "Verifies the implemented #496 docs and lifecycle diff are whitespace-clean before exact-head review and publication.",
+          "executable": "git",
+          "argv": [
+            "diff",
+            "--check"
+          ],
+          "execution": "local",
+          "determinism": "deterministic",
+          "network": "denied",
+          "credentials": [],
+          "dependencies": [],
+          "timeout_seconds": 60,
+          "parallel_group": "local-static",
+          "release_gate": "required",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 128,
+            "tokens": 250
+          },
+          "evidence": {
+            "require_relative_paths": true,
+            "max_log_bytes": 4000,
+            "redact_values": []
+          }
+        }
+      ]
+    }
+  }
+}
