@@ -134,7 +134,7 @@ Implementation remains bounded to the Vertex AI Gemini provider transport, with 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
     "slug": "vertex-ai-gemini-provider-transport",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 12
   },
   "status": "ready",
   "content": {
@@ -121,7 +121,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/528/design.md",
-      "design_digest": "dab6c9d56989cb945ed16286e39691dbfb79daa512ed48141cc4280daa518c21",
+      "design_digest": "3c3bddc9b94c407bbd6e70a2a8e29f15df162ee39493f09787361d7a3007d5f4",
       "diagram_ref": ".csdlc/prepared/issues/528/diagram.mmd",
       "diagram_digest": "e6676e2e88750ea4db2327dfe7187c3e0b43806b6cdc1f17ddbf9959a91d3179"
     }

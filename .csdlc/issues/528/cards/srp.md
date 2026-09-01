@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Design and implementation review for #528 Vertex AI Gemini provider transport only; exclude GCP infrastructure, #509 qualification, and live paid provider proof unless separately authorized.
+
 
 ## Prompts
 

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
     "slug": "vertex-ai-gemini-provider-transport",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Design and implementation review for #528 Vertex AI Gemini provider transport only; exclude GCP infrastructure, #509 qualification, and live paid provider proof unless separately authorized.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

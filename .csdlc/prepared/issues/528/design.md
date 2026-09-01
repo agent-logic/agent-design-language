@@ -51,4 +51,3 @@ Not owned by #528:
 - #514 is the completed shared provider-profile dependency.
 - #509 remains a separate GCP portability qualification issue and is not a prerequisite for local deterministic #528 implementation proof.
 - `aiplatform.googleapis.com`, quota, IAM, ADC/workload identity, and billing are required only for the separately authorized live smoke test.
-
