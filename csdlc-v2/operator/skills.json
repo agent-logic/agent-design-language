@@ -91,6 +91,16 @@
     },
     {
       "binary": "csdlc-publish",
+      "operation": "ready",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-publish",
+      "operation": "reconcile-ready",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-publish",
       "operation": "schema",
       "mutates_state": false
     },

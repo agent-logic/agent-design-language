@@ -4,8 +4,10 @@ use std::path::{Path, PathBuf};
 use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
-    prepare_publication, reconcile_action, record_publication, PublicationAction,
-    PublicationIntent, PublicationRequest, RemotePullRequest, Store,
+    prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
+    record_publication, record_ready_publication, record_ready_reconciliation, PublicationAction,
+    PublicationEvidence, PublicationIntent, PublicationRequest,
+    ReadyPublicationReconciliationRequest, ReadyPublicationRequest, RemotePullRequest, Store,
 };
 use octocrab::models::IssueState;
 use octocrab::params::State;
@@ -26,6 +28,14 @@ enum Command {
         request: PathBuf,
     },
     Status {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    Ready {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ReconcileReady {
         #[arg(long)]
         request: PathBuf,
     },
@@ -52,11 +62,25 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     if matches!(cli.command, Command::Schema) {
         return Ok(csdlc_v2::public_schema_bundle());
     }
-    if matches!(cli.command, Command::Publish { .. }) {
-        csdlc_v2::verify_installed_owner_operation(&cli.root, "publish")?;
+    match &cli.command {
+        Command::Publish { .. } => {
+            csdlc_v2::verify_installed_owner_operation(&cli.root, "publish")?
+        }
+        Command::Ready { .. } => csdlc_v2::verify_installed_owner_operation(&cli.root, "ready")?,
+        Command::ReconcileReady { .. } => {
+            csdlc_v2::verify_installed_owner_operation(&cli.root, "reconcile-ready")?
+        }
+        Command::Status { .. } | Command::Schema => {}
+    }
+    if let Command::Ready { request } = &cli.command {
+        return mark_ready(&cli.root, request).await;
+    }
+    if let Command::ReconcileReady { request } = &cli.command {
+        return reconcile_ready(&cli.root, request).await;
     }
     let request_path = match &cli.command {
         Command::Publish { request } | Command::Status { request } => request,
+        Command::Ready { .. } | Command::ReconcileReady { .. } => unreachable!(),
         Command::Schema => unreachable!(),
     };
     let request: PublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
@@ -180,6 +204,79 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     )
 }
 
+async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
+    let request: ReadyPublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
+    let store = Store::new(root);
+    let governed = prepare_ready_publication(&store, &request)?;
+    let token = csdlc_v2::github_token::resolve(request.token_file.as_deref())?;
+    let crab = github_client(token)?;
+    let (owner, repo) = repository_parts(
+        request
+            .code_repository
+            .as_deref()
+            .unwrap_or(&request.repository),
+    )?;
+    let before = crab
+        .pulls(owner, repo)
+        .get(request.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    let before = normalize_ready(&governed, &before)?;
+    csdlc_v2::publication::validate_ready_remote(&governed, &request, &before, true)?;
+    let node_id = ready_node_id(&request, &before, &crab).await?;
+    let _: serde_json::Value = crab
+        .graphql(&serde_json::json!({
+            "query": "mutation MarkReady($pullRequestId: ID!) { markPullRequestReadyForReview(input: {pullRequestId: $pullRequestId}) { pullRequest { id isDraft } } }",
+            "variables": {"pullRequestId": node_id}
+        }))
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    let after = crab
+        .pulls(owner, repo)
+        .get(request.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    let after = normalize_ready(&governed, &after)?;
+    csdlc_v2::publication::validate_ready_remote(&governed, &request, &after, false)?;
+    let record = record_ready_publication(&store, &request, &governed, after.clone())?;
+    Ok(serde_json::json!({
+        "schema": "csdlc.ready_publication_result.v1",
+        "publication": after,
+        "generation": record.generation,
+        "digest": record.digest
+    }))
+}
+
+async fn reconcile_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
+    let request: ReadyPublicationReconciliationRequest =
+        serde_json::from_slice(&fs::read(request_path)?)?;
+    let store = Store::new(root);
+    let governed = prepare_ready_reconciliation(&store, &request)?;
+    let token = csdlc_v2::github_token::resolve(request.ready.token_file.as_deref())?;
+    let crab = github_client(token)?;
+    let (owner, repo) = repository_parts(
+        request
+            .ready
+            .code_repository
+            .as_deref()
+            .unwrap_or(&request.ready.repository),
+    )?;
+    let observed = crab
+        .pulls(owner, repo)
+        .get(request.ready.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    let observed = normalize_ready(&governed, &observed)?;
+    csdlc_v2::publication::validate_ready_remote(&governed, &request.ready, &observed, false)?;
+    let record = record_ready_reconciliation(&store, &request, &governed, observed.clone())?;
+    Ok(serde_json::json!({
+        "schema": "csdlc.ready_publication_reconciliation_result.v1",
+        "publication": observed,
+        "generation": record.generation,
+        "digest": record.digest
+    }))
+}
+
 fn existing_pr_matches_governed_mode(
     intent: &PublicationIntent,
     value: &RemotePullRequest,
@@ -193,8 +290,98 @@ fn existing_pr_matches_governed_mode(
     ) && value.draft == intent.draft
 }
 
+fn normalize_ready(
+    governed: &PublicationEvidence,
+    pr: &octocrab::models::pulls::PullRequest,
+) -> csdlc_v2::Result<RemotePullRequest> {
+    let base = pr.base.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "observed PR has no base identity",
+        )
+    })?;
+    let head = pr.head.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "observed PR has no head identity",
+        )
+    })?;
+    validate_ready_repository_identity(
+        governed,
+        base.repo
+            .as_ref()
+            .and_then(|repo| repo.full_name.as_deref()),
+        head.repo
+            .as_ref()
+            .and_then(|repo| repo.full_name.as_deref()),
+    )?;
+    Ok(RemotePullRequest {
+        number: pr_number(pr)?,
+        url: pr
+            .html_url
+            .as_ref()
+            .map(ToString::to_string)
+            .unwrap_or_else(|| governed.url.clone()),
+        repository: governed.repository.clone(),
+        base: base.ref_field.clone(),
+        head: head.ref_field.clone(),
+        title: pr.title.clone().unwrap_or_default(),
+        body: pr.body.clone().unwrap_or_default(),
+        linkage_mode: governed.linkage_mode.unwrap_or_default(),
+        draft: pr.draft.unwrap_or(false),
+        state: normalized_remote_state(pr).into(),
+        head_sha: head.sha.clone(),
+    })
+}
+
+fn validate_ready_repository_identity(
+    governed: &PublicationEvidence,
+    base_repository: Option<&str>,
+    head_repository: Option<&str>,
+) -> csdlc_v2::Result<()> {
+    if base_repository != Some(governed.repository.as_str())
+        || head_repository != Some(governed.repository.as_str())
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "observed PR base or head repository differs from governed publication",
+        ));
+    }
+    Ok(())
+}
+
+async fn ready_node_id(
+    request: &ReadyPublicationRequest,
+    observed: &RemotePullRequest,
+    crab: &octocrab::Octocrab,
+) -> csdlc_v2::Result<String> {
+    let (owner, repo) = repository_parts(
+        request
+            .code_repository
+            .as_deref()
+            .unwrap_or(&request.repository),
+    )?;
+    let pull = crab
+        .pulls(owner, repo)
+        .get(observed.number)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    pull.node_id.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "draft PR node id is missing",
+        )
+    })
+}
+
 fn resolve_token(request: &PublicationRequest) -> csdlc_v2::Result<String> {
     csdlc_v2::github_token::resolve(request.token_file.as_deref())
+}
+
+fn repository_parts(repository: &str) -> csdlc_v2::Result<(&str, &str)> {
+    repository
+        .split_once('/')
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository must be owner/name"))
 }
 
 fn validate_metadata_followup_remote(
