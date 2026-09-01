@@ -82,7 +82,7 @@ Created the Sprint 3 cloud convergence closeout evidence artifact after all decl
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
