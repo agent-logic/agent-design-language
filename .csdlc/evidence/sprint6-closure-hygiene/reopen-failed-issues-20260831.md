@@ -1,40 +1,42 @@
-# Sprint 5/6 closure hygiene sweep
+# Sprint 6 Closure Hygiene Readback
 
 Date: 2026-08-31
 Actor: worker-6
 Repository: agent-logic/agent-design-language
+Transport: typed C-SDLC v2 `csdlc-github-issue`; no raw `gh` was used.
 
 ## Purpose
 
-Ensure sprint issues are closed only when successful terminal evidence is present.
-Issues with failed, stale, or not-yet-accepted review evidence were reopened so
-they cannot be mistaken for completed work before V3-F cutover.
+Ensure Sprint 5/6 and v3 cutover issues are closed only when their successful
+terminal state is proven. Issues with available FAIL review evidence, unresolved
+acceptance gaps, or missing operator cutover approval must remain open.
 
-## Transport
+## Live Disposition
 
-All remote reads and updates used the typed C-SDLC v2 GitHub issue route:
+| Issue | Live state | Disposition | Reason |
+| --- | --- | --- | --- |
+| #500 | open | reopened | Prior #500/#565 review was FAIL and corrective proof remains tracked by #571. |
+| #501 | open | reopened | Prior #568 review was FAIL against #501 foundation proof and no accepted terminal review was available in this hygiene pass. |
+| #502 | open | reopened | Prior #572 review was FAIL against #502 lifecycle-kernel authority and durable-storage proof. |
+| #503 | closed | left closed | Live GitHub shows #503 closed by merged PR #581, and terminal truth was materialized on current main-derived state. |
+| #504 | open | reopened | Prior #588/#597 review evidence left remote-delivery authority findings unresolved for #504 scope. |
+| #505 | open | left open | #505 is the V3-F authority-transition decision gate and must not close before explicit operator-reviewed cutover. |
+| #570 | open | reopened | Prior #584/#585 review evidence found docs/skill and proof-lane contradictions; no accepted terminal review was available in this hygiene pass. |
+| #571 | open | reopened | Prior #585 review evidence found V3-A follow-up proof gaps; no accepted terminal review was available in this hygiene pass. |
+| #596 | open | left open | #596 remains the remediation/truth issue and must stay open until its lifecycle is actually successful. |
 
-- `.adl/bin/csdlc-v2/csdlc-github-issue run --request ...`
+## Typed Readback Evidence
 
-No raw `gh` transport was used for this sweep.
+All issue states above were re-read through prepared request files under
+`.csdlc/prepared/issues/503/closure-hygiene/` using:
 
-## Live issue disposition after sweep
+```sh
+/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue run --request <request.json>
+```
 
-| Issue | Live state | Disposition |
-| --- | --- | --- |
-| #500 | open | Reopened because the available review evidence for the delivered V3-A work was FAIL/unproven. |
-| #501 | open | Reopened because the available review evidence for the delivered V3-B work was FAIL/unproven. |
-| #502 | open | Reopened because the available review evidence for the delivered V3-C work was FAIL/unproven. |
-| #503 | closed | Left closed because PR #581 merged, live GitHub reports the issue closed, and terminal truth was materialized locally from current main. |
-| #504 | open | Reopened because the available review evidence for the delivered V3-E work was FAIL/unproven. |
-| #505 | open | Left open because it is the explicit V3-F authority-transition decision gate and must not close before review/cutover approval. |
-| #570 | open | Reopened because the available review evidence for the docs/skill cutover-readiness work was FAIL/unproven. |
-| #571 | open | Reopened because the available review evidence for the V3-A corrective follow-up was FAIL/unproven. |
-| #596 | open | Left open because PR #597 was changed to a non-closing relation and the remediation issue remains a live tracking gate. |
+The readbacks returned `reconciled: true` for each issue.
 
-## Request evidence
-
-Typed read/update request packets are retained under:
+Request packets are retained under:
 
 - `.csdlc/prepared/issues/503/closure-hygiene/`
 
@@ -42,8 +44,9 @@ The #503 terminal materialization request is retained at:
 
 - `.csdlc/prepared/issues/503/materialize-terminal-main.json`
 
-## Non-claims
+## Non-Claims
 
-This sweep does not assert that reopened issues are unfixed forever. It only
-asserts they must not remain closed until successful lifecycle/review evidence is
-current, explicit, and accepted.
+This packet does not claim v3 cutover readiness, #505 completion, or terminal
+success for reopened issues. It records closure hygiene only: failed or
+unproven issues were reopened so future closeout must be tied to successful
+review and terminal evidence.
