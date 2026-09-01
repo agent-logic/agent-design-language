@@ -30,6 +30,7 @@ spp = json(".csdlc/issues/505/cards/spp.values.json")
 vpp = json(".csdlc/issues/505/cards/vpp.values.json")
 srp = json(".csdlc/issues/505/cards/srp.values.json")
 v3_trial = json(".csdlc/evidence/505/v3-local-trial.json")
+pr591_state_request = json(".csdlc/prepared/issues/505/pr591-state-after-prep-refresh-request.json")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
@@ -70,6 +71,12 @@ assert(v3_trial["operational_authority"] == false, "v3 local trial must not gran
 assert(v3_trial.dig("result", "issue") == 505, "v3 local trial targeted wrong issue")
 assert(v3_trial.dig("result", "findings", 0, "code") == "doctor_ready", "v3 local trial did not reach doctor-ready plan")
 assert(v3_trial.dig("result", "cards", "card_kinds") == ["sip", "stp", "spp", "vpp", "srp", "sor"], "v3 local trial did not use six-card registry")
+
+assert(pr591_state_request.keys.sort == ["linked_issue", "linked_issue_repository", "pull_request", "repository", "require_review", "required_checks", "token_file"].sort, "PR #591 state request must use the current typed state schema")
+assert(pr591_state_request["repository"] == "agent-logic/agent-design-language", "PR #591 state request repository drift")
+assert(pr591_state_request["pull_request"] == 591, "PR #591 state request must target PR #591")
+assert(pr591_state_request["linked_issue"].nil?, "PR #591 state readback must not require closing linkage before operator approval")
+assert(!pr591_state_request.key?("action"), "PR #591 state request must not use the retired action-envelope schema")
 
 [504, 570, 571].each do |issue_number|
   receipt_path = File.join(GIT_COMMON, "csdlc-v2", "closeout", "#{issue_number}.json")
@@ -224,6 +231,7 @@ puts JSON.generate(
       "no_silent_v2_retirement",
       "operator_approval_gate",
       "future_closing_linkage",
+      "current_pr591_state_request_schema",
       "non_authoritative_v3_local_trial",
       "single_prebind_validator_lane",
       "bound_execution_topology"
