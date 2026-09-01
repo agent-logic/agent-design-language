@@ -12,46 +12,49 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the AWS-G CloudFormation retirement decision ledger and final issue-owned validator. The decision retains the #194/#268 CloudFormation templates as rollback/source-denominator evidence, classifies current repo consumer/reference paths, consumes #489/#495 merge evidence, and makes no live-stack retirement or deletion claim.
+Repaired #496 after exact review FAIL by adding the validator self-reference disposition row, removing ledger whitespace issues, and updating diff hygiene to prove the candidate diff against HEAD before commit.
 
 ## Artifacts
 
 - docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md
 - docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh
+- .csdlc/evidence/496/aws-g-retirement-ledger-static.log
+- .csdlc/evidence/496/aws-g-diff-hygiene.log
 
 ## Execution
 
-- Added docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md
-- Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh
-- Updated VPP validation lanes to the implemented docs validator
+- Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition
+- Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md
+- Updated VPP diff hygiene lane to run git diff --check HEAD
 
 ## Validation
 
 [
   {
     "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Validate the #496 diff has no whitespace errors before review/publication.",
-    "outcome": "passed",
-    "evidence_ref": "aws-g-diff-hygiene.log"
-  },
-  {
-    "command": [
       "bash",
       "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh"
     ],
-    "purpose": "Validate the #496 CloudFormation retirement ledger and disposition-bearing consumer/reference path census.",
+    "purpose": "Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.",
     "outcome": "passed",
-    "evidence_ref": "aws-g-retirement-ledger-static.log"
+    "evidence_ref": ".csdlc/evidence/496/aws-g-retirement-ledger-static.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "HEAD"
+    ],
+    "purpose": "Validate candidate diff whitespace hygiene before immutable commit.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/496/aws-g-diff-hygiene.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

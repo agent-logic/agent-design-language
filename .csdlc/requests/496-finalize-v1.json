@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.finalize_request.v1",
   "issue": 496,
-  "expected_generation": 3,
-  "expected_digest": "edfce7effec7ffac331951f66cf6eda872f1b783509a09fc0bb221e60fc66543",
+  "expected_generation": 7,
+  "expected_digest": "e1d4c3d5186167db261836a4a564f1b4be132cb1e6ea424e070384857fb33a5a",
   "actor": "codex:/root",
   "summary": "Implemented the AWS-G CloudFormation retirement decision ledger and final issue-owned validator. The decision retains the #194/#268 CloudFormation templates as rollback/source-denominator evidence, classifies current repo consumer/reference paths, consumes #489/#495 merge evidence, and makes no live-stack retirement or deletion claim.",
   "changes": [
@@ -64,11 +64,12 @@
         {
           "id": "aws-g-diff-hygiene",
           "purpose": "Validate the #496 diff has no whitespace errors before review/publication.",
-          "proof_role": "Verifies the implemented #496 docs and lifecycle diff are whitespace-clean before exact-head review and publication.",
+          "proof_role": "Verifies the #496 candidate diff against HEAD is whitespace-clean before immutable commit and exact-head review.",
           "executable": "git",
           "argv": [
             "diff",
-            "--check"
+            "--check",
+            "HEAD"
           ],
           "execution": "local",
           "determinism": "deterministic",

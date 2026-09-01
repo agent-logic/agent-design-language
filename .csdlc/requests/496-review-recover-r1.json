@@ -1,0 +1,7 @@
+{
+  "issue": 496,
+  "expected_generation": 5,
+  "expected_digest": "ee4aff00d3a9ae26de100efbf7fa9e14f8ecd98602080b9a541be19bb6baf79c",
+  "actor": "codex:/root",
+  "reason": "Recover #496 from exact review FAIL before repairing validator self-reference and diff-hygiene findings."
+}

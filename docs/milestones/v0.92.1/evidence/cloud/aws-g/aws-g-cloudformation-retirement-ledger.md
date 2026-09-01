@@ -1,7 +1,7 @@
 # AWS-G CloudFormation retirement ledger (#496)
 
-Issue: #496  
-Decision date: 2026-09-01  
+Issue: #496
+Decision date: 2026-09-01
 Scope: `adl/tools/issue194_private_network.cloudformation.json` and `adl/tools/issue268_runtime_qualification.cloudformation.yaml`
 
 ## Decision
@@ -54,6 +54,7 @@ CloudFormation rollback authority remains retained. No template deletion is auth
 | `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml` | follow-on, retained-evidence | Sprint specification records AWS-G scope and the two CloudFormation denominators. |
 | `docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh` | terraform-replacement, retained-evidence | XCL-01 validator references denominators while proving replacement evidence. |
 | `docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md` | terraform-replacement, retained-evidence | XCL-01 proof references the denominators and replacement boundary. |
+| `docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh` | retained-evidence | #496 validator self-reference is retained evidence for the census rule; it has no deletion or runtime authority. |
 | `docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json` | retained-evidence | WP-01 issue-creation evidence preserves the AWS-G issue contract. |
 | `docs/milestones/v0.92.1/evidence/wp-01/operations/015-aws-g-observed.json` | retained-evidence | WP-01 observed issue evidence preserves the AWS-G issue contract. |
 | `docs/milestones/v0.92.1/evidence/wp-01/requests/015-aws-g-request.json` | retained-evidence | WP-01 request evidence preserves the AWS-G issue contract. |
@@ -69,4 +70,3 @@ Future template deletion or live-stack retirement requires separate issue author
 2. Terraform rollback/parity has been proven for the intended environment,
 3. the operator explicitly authorizes deletion or retirement,
 4. credential material remains outside repository evidence.
-

@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #496 AWS-G paths only: docs/milestones/v0.92.1/evidence/cloud/aws-g, .csdlc/prepared/issues/496, .csdlc/evidence/496, and read-only references to infra/aws/runtime, infra/runtime-portable, and the two retained CloudFormation templates.
+
 
 ## Prompts
 

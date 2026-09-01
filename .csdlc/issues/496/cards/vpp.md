@@ -45,7 +45,7 @@ Diagram: .csdlc/prepared/issues/496/diagram.mmd
   },
   {
     "lane": "aws-g-diff-hygiene",
-    "proof_role": "Verifies the implemented #496 docs and lifecycle diff are whitespace-clean before exact-head review and publication.",
+    "proof_role": "Verifies the #496 candidate diff against HEAD is whitespace-clean before immutable commit and exact-head review.",
     "acceptance_ids": [
       "AC-5"
     ],
@@ -56,7 +56,8 @@ Diagram: .csdlc/prepared/issues/496/diagram.mmd
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "HEAD"
     ],
     "parallel_group": "local-static",
     "defer_reason": null
@@ -76,7 +77,7 @@ Tokens: 25000
 ## Commands
 
 - `bash docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh`
-- `git diff --check`
+- `git diff --check HEAD`
 
 ## Failure Semantics
 
