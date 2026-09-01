@@ -35,7 +35,17 @@ grep -q 'length >= 2' "$RUNNER" || fail "multi-model input is not required"
 grep -q 'adl.issue345.aws_gpu_proof.v2' "$RUNNER" || fail "multi-model proof schema is missing"
 grep -q 'estimated_compute_cost_usd' "$RUNNER" || fail "cost evidence is missing"
 grep -q 'validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x' "$RUNNER" || fail "Runtime Guardian launch proof is missing"
-grep -q 'architecture:\["guardian","runtime","ollama"\]' "$RUNNER" || fail "full architecture receipt is missing"
+grep -q 'run_issue268_six_resident_uts_cycle.py' "$RUNNER" || fail "real Runtime agent UTS/ACC path is missing"
+grep -q 'runtime_agent_acc_proofs' "$RUNNER" || fail "Runtime agent ACC proof receipt is missing"
+grep -q 'components_exercised:\["guardian_supervised_runtime_v3","governed_runtime_agents","ollama_gpu"\]' "$RUNNER" || fail "component-complete architecture receipt is missing"
+grep -q 'runtime_v3_to_ollama_transit_proved:false' "$RUNNER" || fail "Runtime v3 provider-boundary non-claim is missing"
+grep -q 'issue345-authorizations/\$AUTHORIZATION_SHA256.json' "$RUNNER" || fail "durable single-use authorization marker is missing"
+grep -q -- "--if-none-match '\*'" "$RUNNER" || fail "authorization replay guard is missing"
+grep -q 'instance role assume-role trust policy drifted' "$RUNNER" || fail "instance-role trust verification is missing"
+grep -q 'deadline reaper assume-role trust policy drifted' "$RUNNER" || fail "reaper-role trust verification is missing"
+grep -q 'active_issue_volumes' "$RUNNER" || fail "stale EBS detection is missing"
+grep -q 'VolumeSize=\$GP3_VOLUME_SIZE_GIB' "$RUNNER" || fail "bounded 10x disk setting is not used at launch"
+grep -q 'conservative_worst_case_total_cost_usd' "$RUNNER" || fail "complete worst-case cost receipt is missing"
 
 tmp="$(mktemp -d "${TMPDIR:-/tmp}/issue345-contract.XXXXXX")"
 trap 'rm -rf "$tmp"' EXIT
@@ -56,7 +66,11 @@ if [[ "${ADL_ISSUE345_LIVE_PREFLIGHT:-0}" == 1 ]]; then
   "$RUNNER" preflight >"$tmp/live-preflight.json"
   jq -e '.schema == "adl.issue345.aws_gpu_preflight.v1"
     and .model_count >= 2 and .price_ready and .total_cost_ready and .quota_ready
-    and .active_issue_instance_count == 0 and .public_ingress == false
+    and .active_issue_instance_count == 0 and .active_issue_volume_count == 0
+    and .max_billable_seconds == (.max_instance_seconds + .reaper_max_lag_seconds)
+    and .cost_overheads.gp3_volume_size_gib >= 200
+    and .worst_case_total_cost_usd <= .max_total_cost_usd
+    and .public_ingress == false
     and .paid_launch == false' "$tmp/live-preflight.json" >/dev/null || fail "live AWS preflight contract failed"
   live_preflight="passed"
   expect_failure 'approved Agent Logic account hash' env \

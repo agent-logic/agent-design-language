@@ -26,7 +26,11 @@ installer.
 
 Paid execution is separate. Retain an authorization JSON file that binds the
 exact reviewed commit and revision, unique run id, model set, instance type,
-expiry, deadline, hourly ceiling, and total-cost ceiling, then run:
+expiry, deadline, 300-second reaper-lag allowance, maximum billable seconds,
+hourly ceiling, total-cost ceiling, and conservative gp3/public-IPv4/request
+overheads. The default 200 GiB encrypted gp3 root volume provides more than
+10x the approximately 9.9 GB compressed two-model store while leaving room for
+extraction and Runtime builds. Then run:
 
 ```bash
 bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run \
@@ -36,11 +40,24 @@ bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run \
   --execute
 ```
 
+Before acquiring compute, the runner writes a create-only, versioned S3 marker
+keyed by the authorization digest. Cleanup never deletes that marker, so the
+same authorization cannot be replayed from another checkout or host. A lock
+collision is checked before consuming the authorization.
+
 The runner attempts at most one On-Demand GPU instance and has no fallback or
-retry. The reviewed commit must equal the tracked-clean checkout HEAD. The
-guest runs one current governed Shepherd request for every configured model,
-keeps each model loaded, and only then accepts `/api/ps` proof when the complete
-configured set is simultaneously GPU-resident.
+retry. The reviewed commit must equal the tracked-clean checkout HEAD. On that
+one host, the guest proves the Guardian-supervised Runtime v3 lifecycle, runs
+the current governed Shepherd adapter once per configured model, and runs real
+long-lived Runtime agents whose Ollama responses are compiled and executed
+through UTS, ACC, the Freedom Gate, and the harmless `runtime.observe` adapter.
+It keeps every configured model loaded and only accepts `/api/ps` proof when
+the complete configured set is simultaneously GPU-resident.
+
+Runtime v3 does not yet expose an Ollama provider ingress. The receipt therefore
+records the Guardian/Runtime-v3 and governed-agent/model/tool paths separately
+and explicitly sets `runtime_v3_to_ollama_transit_proved` to `false`. Component
+co-location is not represented as a transitive integration claim.
 
 Cleanup is owner-bound and re-verifies the AWS account before mutation:
 
@@ -63,9 +80,10 @@ Required non-secret preflight inputs are:
 
 The default role policy set is exactly `ADLIssue345ArtifactReadOnly` plus the
 managed-policy ARN for `AmazonSSMManagedInstanceCore`; extra policies are
-drift. The deadline reaper check binds code digest, role, least-privilege
-policy, schedule, target, and invoke permission. Missing or drifted resources
-stop before paid mutation.
+drift. Preflight also verifies the exact EC2 and Lambda assume-role trust
+policies. The deadline reaper check binds code digest, role, least-privilege
+policy, schedule, target, and invoke permission. Any active issue instance or
+issue-tagged EBS volume, missing resource, or drift stops before paid mutation.
 
 The deterministic local contract check is:
 
@@ -79,7 +97,8 @@ the real read-only AWS preflight. Without that opt-in the result explicitly
 reports `live_aws_preflight: "not_run"`; it is not AWS proof.
 
 The final receipt records authorization and model-set digests, instance type,
-elapsed seconds, observed hourly rate, estimated compute cost, authorized
-deadline and total-cost ceiling, every governed model proof, simultaneous
-residency, and cleanup. It excludes raw account, instance, security-group,
-subnet, lock-version, and owner-token identifiers.
+elapsed seconds, observed hourly rate, estimated cost bounds, every governed
+model proof, the redacted Runtime-agent ACC receipts, simultaneous residency,
+the explicit Runtime-v3 provider-boundary non-claim, and cleanup. It excludes
+raw account, instance, security-group, subnet, lock-version, and owner-token
+identifiers.

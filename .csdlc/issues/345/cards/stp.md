@@ -30,13 +30,13 @@ Recover, rename, harden, test, and document one optional AWS GPU Shepherd proof 
 ## Acceptance
 
 1. AC-1: One reusable issue-owned command exposes explicit preflight, exact-revision run, and owner-bound cleanup actions.
-2. AC-2: Preflight verifies the agent-logic-admin business account, exact permanent instance profile/policies, named no-ingress security group, immutable S3 manifest/object versions, GPU quota, bounded On-Demand price, deadline reaper, and zero stale issue compute before launch.
-3. AC-3: Paid execution requires an exact commit, unique run identity, explicit execute flag, retained operator authorization, and declared cost/deadline bounds; it launches at most one On-Demand GPU instance with no fallback or retry.
-4. AC-4: The guest proves exact source revision, artifact digests, expected GPU/driver/runtime state, nonzero model GPU residency, and one current governed Shepherd real-model result.
-5. AC-5: Local trap, guest deadline timer, and permanent tag-scoped reaper provide independent cleanup; success, failure, interruption, timeout, and cleanup retry leave no temporary instance or volume.
-6. AC-6: Public evidence is machine-readable, digest-bound, cost-relevant, and redacted; credentials, account/resource identifiers, prompts, responses, private paths, and environment dumps are absent.
-7. AC-7: Executable negative proofs cover lock collision, wrong account/profile, IAM or security-group drift, stale revision, artifact mismatch, deadline/interruption, and cleanup failure without paid mutation.
-8. AC-8: Documentation states AWS is an optional portability proof, does not change local Shepherd acceptance, and does not create production inference fallback or standing launch authority.
+2. AC-2: Preflight verifies the agent-logic-admin business account, exact IAM permission and trust policies, named no-ingress security group, immutable S3 manifest/object versions, GPU quota, bounded On-Demand price, deadline reaper, and zero stale issue instances or volumes before launch.
+3. AC-3: Paid execution requires an exact commit, unique run identity, explicit execute flag, retained single-use operator authorization, and conservative compute, reaper-lag, storage, public-IPv4, and request-cost bounds; it launches at most one On-Demand GPU instance with no fallback or retry.
+4. AC-4: The guest proves exact source revision, artifact digests, expected GPU/driver/runtime state, one current governed Shepherd real-model result for every configured model, and simultaneous nonzero GPU residency for the complete configured set of at least two models.
+5. AC-5: The same host proves Guardian-supervised Runtime v3 health and lifecycle plus real long-lived Runtime agents that execute Ollama-backed proposals through UTS, ACC, the Freedom Gate, and the governed runtime.observe adapter; evidence explicitly does not claim a Runtime-v3-to-Ollama transit path that does not exist.
+6. AC-6: Local trap, guest deadline timer, and permanent tag-scoped reaper provide independent cleanup; success, failure, interruption, timeout, and cleanup retry leave no temporary instance or volume.
+7. AC-7: Public evidence is machine-readable, digest-bound, cost-relevant, and redacted; credentials, account/resource identifiers, prompts, responses, private paths, and environment dumps are absent.
+8. AC-8: Executable preflight and negative proofs cover authorization replay, wrong account/profile, IAM trust or permission drift, security-group drift, stale revision, artifact mismatch, stale volume, deadline/reaper bounds, and cleanup ownership without paid mutation; the live GPU lane supplies guest, model, ACC, residency, and cleanup proof, while documentation preserves the optional portability and no-fallback boundary.
 9. AC-9: Fresh exact-head review has no unresolved actionable finding before publication, and a separate launch-readiness review is required after any source change before paid execution.
 
 ## Dependencies

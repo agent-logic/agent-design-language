@@ -35,6 +35,11 @@ GPU_QUOTA_CODE="${ADL_ISSUE345_GPU_QUOTA_CODE:-L-DB2E81BA}"
 GPU_VCPUS_REQUIRED="${ADL_ISSUE345_GPU_VCPUS_REQUIRED:-4}"
 MAX_GPU_HOURLY_USD="${ADL_ISSUE345_MAX_GPU_HOURLY_USD:-0.85}"
 MAX_INSTANCE_SECONDS="${ADL_ISSUE345_MAX_INSTANCE_SECONDS:-3300}"
+REAPER_MAX_LAG_SECONDS="${ADL_ISSUE345_REAPER_MAX_LAG_SECONDS:-300}"
+GP3_VOLUME_SIZE_GIB="${ADL_ISSUE345_GP3_VOLUME_SIZE_GIB:-200}"
+GP3_MONTHLY_USD_PER_GIB="${ADL_ISSUE345_GP3_MONTHLY_USD_PER_GIB:-0.08}"
+PUBLIC_IPV4_HOURLY_USD="${ADL_ISSUE345_PUBLIC_IPV4_HOURLY_USD:-0.005}"
+AWS_REQUEST_OVERHEAD_USD="${ADL_ISSUE345_AWS_REQUEST_OVERHEAD_USD:-0.05}"
 MAX_TOTAL_COST_USD="${ADL_ISSUE345_MAX_TOTAL_COST_USD:-20.00}"
 HARD_MAX_TOTAL_COST_USD="20.00"
 GIT_COMMON_DIR="$(git -C "$ROOT" rev-parse --git-common-dir 2>/dev/null || true)"
@@ -53,6 +58,7 @@ AUTHORIZATION_FILE=""
 AUTHORIZATION_SHA256=""
 OWNER_TOKEN=""
 LOCK_VERSION_ID=""
+AUTHORIZATION_CONSUMPTION_VERSION_ID=""
 RUN_LAUNCH_ATTEMPTED=false
 EXECUTE=false
 
@@ -142,7 +148,7 @@ validate_model_identities() {
 }
 
 load_authorization() {
-  local now worst_case
+  local now worst_case billable_seconds gp3_cost public_ipv4_cost total_worst_case
   [[ -f "$AUTHORIZATION_FILE" ]] || {
     echo "paid execution requires --authorization-file naming a retained authorization JSON file" >&2
     exit 2
@@ -161,6 +167,12 @@ load_authorization() {
     and (.max_instance_seconds | type == "number" and floor == . and . >= 1 and . <= 3600)
     and (.max_gpu_hourly_usd | type == "number" and . > 0)
     and (.max_total_cost_usd | type == "number" and . > 0)
+    and (.max_reaper_lag_seconds | type == "number" and floor == . and . == 300)
+    and (.max_billable_seconds | type == "number" and floor == . and . == (.max_instance_seconds + .max_reaper_lag_seconds))
+    and (.cost_overheads.gp3_volume_size_gib | type == "number" and . >= 200)
+    and (.cost_overheads.gp3_monthly_usd_per_gib | type == "number" and . >= 0.08)
+    and (.cost_overheads.public_ipv4_hourly_usd | type == "number" and . >= 0.005)
+    and (.cost_overheads.aws_request_overhead_usd | type == "number" and . >= 0.05)
     and (.expires_epoch | type == "number" and floor == .)
   ' "$AUTHORIZATION_FILE" >/dev/null || {
     echo "paid-run authorization is malformed or does not bind the requested commit and run id" >&2
@@ -175,6 +187,11 @@ load_authorization() {
   GPU_INSTANCE_TYPE="$(jq -r '.instance_type' "$AUTHORIZATION_FILE")"
   MODEL_IDENTITIES_JSON="$(jq -c '.model_identities' "$AUTHORIZATION_FILE")"
   MAX_INSTANCE_SECONDS="$(jq -r '.max_instance_seconds' "$AUTHORIZATION_FILE")"
+  REAPER_MAX_LAG_SECONDS="$(jq -r '.max_reaper_lag_seconds' "$AUTHORIZATION_FILE")"
+  GP3_VOLUME_SIZE_GIB="$(jq -r '.cost_overheads.gp3_volume_size_gib' "$AUTHORIZATION_FILE")"
+  GP3_MONTHLY_USD_PER_GIB="$(jq -r '.cost_overheads.gp3_monthly_usd_per_gib' "$AUTHORIZATION_FILE")"
+  PUBLIC_IPV4_HOURLY_USD="$(jq -r '.cost_overheads.public_ipv4_hourly_usd' "$AUTHORIZATION_FILE")"
+  AWS_REQUEST_OVERHEAD_USD="$(jq -r '.cost_overheads.aws_request_overhead_usd' "$AUTHORIZATION_FILE")"
   MAX_GPU_HOURLY_USD="$(jq -r '.max_gpu_hourly_usd' "$AUTHORIZATION_FILE")"
   MAX_TOTAL_COST_USD="$(jq -r '.max_total_cost_usd' "$AUTHORIZATION_FILE")"
   validate_model_identities
@@ -183,11 +200,22 @@ load_authorization() {
     echo "paid-run total-cost ceiling exceeds the hard safety cap" >&2
     exit 2
   }
-  worst_case="$(awk -v hourly="$MAX_GPU_HOURLY_USD" -v seconds="$MAX_INSTANCE_SECONDS" \
+  billable_seconds="$(( MAX_INSTANCE_SECONDS + REAPER_MAX_LAG_SECONDS ))"
+  [[ "$(jq -r '.max_billable_seconds' "$AUTHORIZATION_FILE")" == "$billable_seconds" ]] || {
+    echo "paid-run authorization billable seconds do not match instance deadline plus reaper lag" >&2
+    exit 2
+  }
+  worst_case="$(awk -v hourly="$MAX_GPU_HOURLY_USD" -v seconds="$billable_seconds" \
     'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
-  awk -v estimated="$worst_case" -v total="$MAX_TOTAL_COST_USD" \
+  gp3_cost="$(awk -v gib="$GP3_VOLUME_SIZE_GIB" -v monthly="$GP3_MONTHLY_USD_PER_GIB" -v seconds="$billable_seconds" \
+    'BEGIN { printf "%.6f", gib * monthly * seconds / (30 * 24 * 3600) }')"
+  public_ipv4_cost="$(awk -v hourly="$PUBLIC_IPV4_HOURLY_USD" -v seconds="$billable_seconds" \
+    'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
+  total_worst_case="$(awk -v compute="$worst_case" -v gp3="$gp3_cost" -v ipv4="$public_ipv4_cost" -v request="$AWS_REQUEST_OVERHEAD_USD" \
+    'BEGIN { printf "%.6f", compute + gp3 + ipv4 + request }')"
+  awk -v estimated="$total_worst_case" -v total="$MAX_TOTAL_COST_USD" \
     'BEGIN { exit !(estimated <= total) }' || {
-    echo "authorized hourly price and deadline exceed the authorized total-cost ceiling" >&2
+    echo "authorized compute, storage, IPv4, request overhead, and reaper lag exceed the authorized total-cost ceiling" >&2
     exit 2
   }
   AUTHORIZATION_SHA256="$(sha256_file "$AUTHORIZATION_FILE")"
@@ -256,7 +284,7 @@ verify_no_ingress_security_group() {
 }
 
 verify_instance_profile() {
-  local profile role_name account expected_role_arn inline_policies inline_policy_document
+  local profile role role_name account expected_role_arn inline_policies inline_policy_document
   local inline_policy_sha256 managed_policies managed_policy_name
   [[ "$INSTANCE_REQUIRED_INLINE_POLICY_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
     echo "ADL_ISSUE345_INSTANCE_REQUIRED_INLINE_POLICY_SHA256 must pin the approved inline policy document" >&2
@@ -277,6 +305,18 @@ verify_instance_profile() {
     exit 2
   }
   role_name="$(jq -er '.InstanceProfile.Roles[0].RoleName' <<<"$profile")"
+  role="$(aws --profile "$PROFILE" iam get-role --role-name "$role_name" --output json)"
+  jq -e --arg role "$INSTANCE_PROFILE_ROLE" '
+    .Role.RoleName == $role
+    and .Role.AssumeRolePolicyDocument.Version == "2012-10-17"
+    and (.Role.AssumeRolePolicyDocument.Statement | length == 1)
+    and .Role.AssumeRolePolicyDocument.Statement[0].Effect == "Allow"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Principal.Service == "ec2.amazonaws.com"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Action == "sts:AssumeRole"
+  ' <<<"$role" >/dev/null || {
+    echo "instance role assume-role trust policy drifted" >&2
+    exit 2
+  }
   inline_policies="$(aws --profile "$PROFILE" iam list-role-policies \
     --role-name "$role_name" --output json)"
   jq -e --arg expected "$INSTANCE_REQUIRED_INLINE_POLICY" \
@@ -306,7 +346,7 @@ verify_instance_profile() {
 
 verify_deadline_reaper() {
   local account function_config function_arn expected_role_arn rule rule_arn targets
-  local policy_names attached_policies policy lambda_policy expected_instance_resource
+  local role policy_names attached_policies policy lambda_policy expected_instance_resource
   [[ -n "$DEADLINE_REAPER_CODE_SHA256_B64" ]] || {
     echo "ADL_ISSUE345_DEADLINE_REAPER_CODE_SHA256_B64 must pin the approved reaper code" >&2
     exit 2
@@ -314,6 +354,18 @@ verify_deadline_reaper() {
   account="$(aws --profile "$PROFILE" sts get-caller-identity --query Account --output text)"
   expected_role_arn="arn:aws:iam::$account:role/$DEADLINE_REAPER_ROLE"
   expected_instance_resource="arn:aws:ec2:$REGION:$account:instance/*"
+  role="$(aws --profile "$PROFILE" iam get-role --role-name "$DEADLINE_REAPER_ROLE" --output json)"
+  jq -e --arg role "$DEADLINE_REAPER_ROLE" '
+    .Role.RoleName == $role
+    and .Role.AssumeRolePolicyDocument.Version == "2012-10-17"
+    and (.Role.AssumeRolePolicyDocument.Statement | length == 1)
+    and .Role.AssumeRolePolicyDocument.Statement[0].Effect == "Allow"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Principal.Service == "lambda.amazonaws.com"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Action == "sts:AssumeRole"
+  ' <<<"$role" >/dev/null || {
+    echo "deadline reaper assume-role trust policy drifted" >&2
+    exit 2
+  }
   function_config="$(aws_cli lambda get-function-configuration \
     --function-name "$DEADLINE_REAPER_FUNCTION" --output json)"
   jq -e --arg issue "$ISSUE_TAG" --arg code "$DEADLINE_REAPER_CODE_SHA256_B64" \
@@ -495,12 +547,27 @@ active_issue_instances() {
     --query 'Reservations[].Instances[].InstanceId' --output text
 }
 
+active_issue_volumes() {
+  aws_cli ec2 describe-volumes \
+    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" \
+    --query 'Volumes[?State!=`deleting`].VolumeId' --output text
+}
+
 preflight() {
-  local account_hash sg_id sg_id_hash profile_name quota price active model_set_sha256 ami_hash subnet_hash worst_case_cost
+  local account_hash sg_id sg_id_hash profile_name quota price active active_volumes model_set_sha256 ami_hash subnet_hash
+  local billable_seconds worst_case_compute_cost gp3_cost public_ipv4_cost total_worst_case_cost
   require_profile
   require_command aws
   require_command jq
   require_command shasum
+  [[ "$REAPER_MAX_LAG_SECONDS" =~ ^[0-9]+$ && "$REAPER_MAX_LAG_SECONDS" -ge 300 ]] || {
+    echo "ADL_ISSUE345_REAPER_MAX_LAG_SECONDS must be at least 300" >&2
+    exit 2
+  }
+  [[ "$GP3_VOLUME_SIZE_GIB" =~ ^[0-9]+$ && "$GP3_VOLUME_SIZE_GIB" -ge 200 ]] || {
+    echo "ADL_ISSUE345_GP3_VOLUME_SIZE_GIB must be at least 200" >&2
+    exit 2
+  }
   account_hash="$(verify_account)"
   sg_id="$(verify_no_ingress_security_group)"
   sg_id_hash="$(sha256_text "$sg_id")"
@@ -511,9 +578,17 @@ preflight() {
   subnet_hash="$(sha256_text "$(resolve_subnet)")"
   quota="$(gpu_quota)"
   price="$(gpu_hourly_price_usd)"
-  worst_case_cost="$(awk -v hourly="$price" -v seconds="$MAX_INSTANCE_SECONDS" \
+  billable_seconds="$(( MAX_INSTANCE_SECONDS + REAPER_MAX_LAG_SECONDS ))"
+  worst_case_compute_cost="$(awk -v hourly="$price" -v seconds="$billable_seconds" \
     'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
+  gp3_cost="$(awk -v gib="$GP3_VOLUME_SIZE_GIB" -v monthly="$GP3_MONTHLY_USD_PER_GIB" -v seconds="$billable_seconds" \
+    'BEGIN { printf "%.6f", gib * monthly * seconds / (30 * 24 * 3600) }')"
+  public_ipv4_cost="$(awk -v hourly="$PUBLIC_IPV4_HOURLY_USD" -v seconds="$billable_seconds" \
+    'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
+  total_worst_case_cost="$(awk -v compute="$worst_case_compute_cost" -v gp3="$gp3_cost" -v ipv4="$public_ipv4_cost" -v request="$AWS_REQUEST_OVERHEAD_USD" \
+    'BEGIN { printf "%.6f", compute + gp3 + ipv4 + request }')"
   active="$(active_issue_instances)"
+  active_volumes="$(active_issue_volumes)"
   jq -n \
     --arg schema "adl.issue345.aws_gpu_preflight.v1" \
     --arg profile "$PROFILE" \
@@ -534,9 +609,19 @@ preflight() {
     --argjson gpu_hourly_price_usd "$price" \
     --argjson max_gpu_hourly_price_usd "$MAX_GPU_HOURLY_USD" \
     --argjson max_instance_seconds "$MAX_INSTANCE_SECONDS" \
-    --argjson worst_case_compute_cost_usd "$worst_case_cost" \
+    --argjson reaper_max_lag_seconds "$REAPER_MAX_LAG_SECONDS" \
+    --argjson max_billable_seconds "$billable_seconds" \
+    --argjson gp3_volume_size_gib "$GP3_VOLUME_SIZE_GIB" \
+    --argjson gp3_monthly_usd_per_gib "$GP3_MONTHLY_USD_PER_GIB" \
+    --argjson public_ipv4_hourly_usd "$PUBLIC_IPV4_HOURLY_USD" \
+    --argjson aws_request_overhead_usd "$AWS_REQUEST_OVERHEAD_USD" \
+    --argjson worst_case_compute_cost_usd "$worst_case_compute_cost" \
+    --argjson worst_case_gp3_cost_usd "$gp3_cost" \
+    --argjson worst_case_public_ipv4_cost_usd "$public_ipv4_cost" \
+    --argjson worst_case_total_cost_usd "$total_worst_case_cost" \
     --argjson max_total_cost_usd "$MAX_TOTAL_COST_USD" \
     --arg active_issue_instances "$active" \
+    --arg active_issue_volumes "$active_volumes" \
     '{schema:$schema,profile:$profile,region:$region,account_sha256:$account_sha256,
       ami_sha256:$ami_sha256,subnet_sha256:$subnet_sha256,
       no_ingress_security_group_sha256:$no_ingress_security_group_sha256,
@@ -546,20 +631,36 @@ preflight() {
       artifact_manifest_sha256:$artifact_manifest_sha256,gpu_quota_vcpus:$gpu_quota_vcpus,
       gpu_vcpus_required:$gpu_vcpus_required,gpu_hourly_price_usd:$gpu_hourly_price_usd,
       max_gpu_hourly_price_usd:$max_gpu_hourly_price_usd,
-      max_instance_seconds:$max_instance_seconds,worst_case_compute_cost_usd:$worst_case_compute_cost_usd,
+      max_instance_seconds:$max_instance_seconds,reaper_max_lag_seconds:$reaper_max_lag_seconds,
+      max_billable_seconds:$max_billable_seconds,
+      cost_overheads:{
+        gp3_volume_size_gib:$gp3_volume_size_gib,
+        gp3_monthly_usd_per_gib:$gp3_monthly_usd_per_gib,
+        public_ipv4_hourly_usd:$public_ipv4_hourly_usd,
+        aws_request_overhead_usd:$aws_request_overhead_usd
+      },
+      worst_case_compute_cost_usd:$worst_case_compute_cost_usd,
+      worst_case_gp3_cost_usd:$worst_case_gp3_cost_usd,
+      worst_case_public_ipv4_cost_usd:$worst_case_public_ipv4_cost_usd,
+      worst_case_total_cost_usd:$worst_case_total_cost_usd,
       max_total_cost_usd:$max_total_cost_usd,
       price_ready:($gpu_hourly_price_usd <= $max_gpu_hourly_price_usd),
-      total_cost_ready:($worst_case_compute_cost_usd <= $max_total_cost_usd),
+      total_cost_ready:($worst_case_total_cost_usd <= $max_total_cost_usd),
       quota_ready:($gpu_quota_vcpus >= $gpu_vcpus_required),
       active_issue_instance_count:(if $active_issue_instances == "" then 0 else ($active_issue_instances | split("\t") | length) end),
+      active_issue_volume_count:(if $active_issue_volumes == "" then 0 else ($active_issue_volumes | split("\t") | length) end),
       public_ingress:false, paid_launch:false}'
   [[ -z "$active" ]] || {
     echo "active issue-345 compute already exists" >&2
     exit 2
   }
+  [[ -z "$active_volumes" ]] || {
+    echo "active or stale issue-345 EBS volumes already exist" >&2
+    exit 2
+  }
   awk -v quota="$quota" -v required="$GPU_VCPUS_REQUIRED" 'BEGIN { exit !(quota >= required) }'
   awk -v price="$price" -v maximum="$MAX_GPU_HOURLY_USD" 'BEGIN { exit !(price <= maximum) }'
-  awk -v estimated="$worst_case_cost" -v maximum="$MAX_TOTAL_COST_USD" \
+  awk -v estimated="$total_worst_case_cost" -v maximum="$MAX_TOTAL_COST_USD" \
     'BEGIN { exit !(estimated <= maximum) }'
   awk -v total="$MAX_TOTAL_COST_USD" -v hard="$HARD_MAX_TOTAL_COST_USD" \
     'BEGIN { exit !(total <= hard) }'
@@ -574,12 +675,35 @@ acquire_run_lock() {
   jq -n --arg schema adl.issue345.aws_gpu_lock.v1 --arg run_id "$RUN_ID" \
     --arg owner_token_sha256 "$owner_token_sha256" \
     --arg authorization_sha256 "$AUTHORIZATION_SHA256" \
-    --argjson expires_epoch "$(( $(date +%s) + MAX_INSTANCE_SECONDS + 300 ))" \
+    --argjson expires_epoch "$(( $(date +%s) + MAX_INSTANCE_SECONDS + REAPER_MAX_LAG_SECONDS ))" \
     '{schema:$schema,run_id:$run_id,owner_token_sha256:$owner_token_sha256,
       authorization_sha256:$authorization_sha256,expires_epoch:$expires_epoch}' >"$lock_file"
   response="$(aws_cli s3api put-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
     --body "$lock_file" --content-type application/json --if-none-match '*' --output json)"
   LOCK_VERSION_ID="$(jq -er '.VersionId | select(type == "string" and length > 0)' <<<"$response")"
+}
+
+consume_authorization_once() {
+  local run_dir marker_file marker_key response authorization_consumed_at
+  run_dir="$STATE_ROOT/$RUN_ID"
+  marker_file="$run_dir/authorization-consumed.json"
+  marker_key="shepherd/locks/issue345-authorizations/$AUTHORIZATION_SHA256.json"
+  authorization_consumed_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  jq -n --arg schema adl.issue345.paid_run_authorization_consumed.v1 \
+    --arg run_id "$RUN_ID" \
+    --arg source_commit "$SOURCE_COMMIT" \
+    --arg authorization_sha256 "$AUTHORIZATION_SHA256" \
+    --arg consumed_at "$authorization_consumed_at" \
+    '{schema:$schema,run_id:$run_id,source_commit:$source_commit,
+      authorization_sha256:$authorization_sha256,consumed_at:$consumed_at,
+      retained:true,cleanup_deletes_marker:false}' >"$marker_file"
+  if ! response="$(aws_cli s3api put-object --bucket "$ARTIFACT_BUCKET" --key "$marker_key" \
+    --body "$marker_file" --content-type application/json --if-none-match '*' --output json 2>"$run_dir/authorization-consume.err")"; then
+    echo "paid-run authorization has already been consumed or could not be durably reserved" >&2
+    cat "$run_dir/authorization-consume.err" >&2 || true
+    exit 2
+  fi
+  AUTHORIZATION_CONSUMPTION_VERSION_ID="$(jq -er '.VersionId | select(type == "string" and length > 0)' <<<"$response")"
 }
 
 release_run_lock() {
@@ -744,8 +868,9 @@ cleanup_on_exit() {
 
 run_proof() {
   local sg_id preflight_json run_dir started_at finished_at started_epoch finished_epoch elapsed_seconds
-  local owner_token_sha256 ami subnet hourly_price estimated_compute_cost model_set_sha256
-  local deadline_epoch user_data instance_id bootstrap_script result status current_head lock_version_sha256
+  local owner_token_sha256 ami subnet hourly_price estimated_compute_cost estimated_gp3_cost estimated_public_ipv4_cost estimated_total_cost
+  local model_set_sha256 billable_seconds worst_case_total_cost
+  local deadline_epoch user_data instance_id bootstrap_script result status current_head lock_version_sha256 authorization_consumption_version_sha256
   [[ "$EXECUTE" == true ]] || {
     echo "paid execution requires --execute" >&2
     exit 2
@@ -791,6 +916,7 @@ run_proof() {
   trap cleanup_on_exit EXIT
   trap 'exit 130' INT TERM
   acquire_run_lock
+  consume_authorization_once
   started_epoch="$(date +%s)"
   started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   owner_token_sha256="$(sha256_text "$OWNER_TOKEN")"
@@ -837,7 +963,7 @@ CLOUD_INIT
     --security-group-ids "$sg_id" \
     --instance-initiated-shutdown-behavior terminate \
     --metadata-options HttpTokens=required,HttpEndpoint=enabled \
-    --block-device-mappings 'DeviceName=/dev/sda1,Ebs={DeleteOnTermination=true,Encrypted=true,VolumeSize=75,VolumeType=gp3}' \
+    --block-device-mappings "DeviceName=/dev/sda1,Ebs={DeleteOnTermination=true,Encrypted=true,VolumeSize=$GP3_VOLUME_SIZE_GIB,VolumeType=gp3}" \
     --user-data "file://$user_data" \
     --tag-specifications \
       "ResourceType=instance,Tags=[{Key=Name,Value=$RUN_ID},{Key=adl:issue,Value=$ISSUE_TAG},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$OWNER_TOKEN},{Key=adl:managed-deadline,Value=true},{Key=adl:deadline-epoch,Value=$deadline_epoch}]" \
@@ -911,11 +1037,11 @@ export CARGO_TARGET_DIR=/opt/adl-issue345/target
 export ADL_VECTOR_INSTALL_ROOT=/opt/adl-issue345/vector
 bash adl/tools/install_vector_component.sh >/opt/adl-issue345/vector-install.log
 export ADL_RUNTIME_VECTOR_BIN=/opt/adl-issue345/vector/bin/vector
-export ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT=/opt/adl-issue345/runtime-guardian
+export ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT=/opt/adl-issue345/repo/.adl/runtime-v3/issue345
 export ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/opt/adl-issue345
 bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x \
   >/opt/adl-issue345/runtime-guardian.log 2>&1
-GUARDIAN_PROOF_PATH=\$(find /opt/adl-issue345/runtime-guardian -type f -name issue-proof.json -print)
+GUARDIAN_PROOF_PATH=\$(find "\$ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT" -type f -name issue-proof.json -print)
 [[ \$(printf '%s\n' "\$GUARDIAN_PROOF_PATH" | awk 'NF { count += 1 } END { print count + 0 }') -eq 1 ]]
 GUARDIAN_PROOF=\$(jq -ce '
   select(.schema == "adl.runtime_v3.guardian_lifecycle_proof.v1" and .status == "pass")
@@ -944,6 +1070,63 @@ while IFS=\$'\t' read -r MODEL_IDENTITY MODEL_DIGEST; do
   SHEPHERD_PROOFS=\$(jq -c --arg model "\$MODEL_IDENTITY" --argjson proof "\$SHEPHERD_PROOF" \
     '. + [{model_identity:\$model,proof:\$proof}]' <<<"\$SHEPHERD_PROOFS")
 done < <(jq -r '.[] | [.model_identity,.model_digest_sha256] | @tsv' <<<"\$MODEL_SET_JSON")
+
+# Exercise actual long-lived Runtime agents against the same Ollama process.
+# This is the production UTS -> ACC -> Freedom Gate -> governed adapter path
+# established by #446. Runtime v3's Guardian-supervised kernel is proven above
+# as a separate component path; it does not yet expose an Ollama provider
+# ingress, so the receipt must not claim a transitive kernel-to-Ollama request.
+cargo build --locked --manifest-path adl/Cargo.toml --bin adl --bin csm \
+  >/opt/adl-issue345/runtime-agent-build.log 2>&1
+RUNTIME_AGENT_PLAN=/opt/adl-issue345/runtime-agent-plan.json
+FIRST_MODEL=\$(jq -r '.[0].model_identity' <<<"\$MODEL_SET_JSON")
+SECOND_MODEL=\$(jq -r '.[1].model_identity' <<<"\$MODEL_SET_JSON")
+jq --arg first "\$FIRST_MODEL" --arg second "\$SECOND_MODEL" '
+  .host.instance_type = "g6.xlarge"
+  | .host.gpu_allowed = true
+  | .host.max_loaded_models = 2
+  | .residents |= (to_entries | map(
+      .value.model = (if (.key % 2) == 0 then \$first else \$second end)
+      | .value
+    ))
+' adl/tools/issue268_six_resident_uts_plan.json >"\$RUNTIME_AGENT_PLAN"
+mkdir -p /opt/adl-issue345/runtime-agent-evidence
+python3 adl/tools/run_issue268_six_resident_uts_cycle.py \
+  --phase pre \
+  --state /opt/adl-issue345/runtime-agent-state.json \
+  --evidence-dir /opt/adl-issue345/runtime-agent-evidence \
+  --plan "\$RUNTIME_AGENT_PLAN" \
+  --runtime-bin /opt/adl-issue345/target/debug/adl \
+  --runtime-root /opt/adl-issue345/runtime-agent \
+  >/opt/adl-issue345/runtime-agent.log 2>&1
+RUNTIME_AGENT_PROOFS=\$(jq -sc --argjson expected "\$MODEL_SET_JSON" '
+  map(select(
+    .schema == "adl.issue268.runtime_resident_cycle.v1"
+    and .agent_test_outcome == "executed"
+    and .runtime_exit_code == 0
+    and (.model as \$model | ([\$expected[].model_identity] | index(\$model)) != null)
+    and .runtime_receipt.schema == "adl.runtime.resident_tool_receipt.v1"
+    and .runtime_receipt.decision == "executed"
+    and (.runtime_receipt.acc_contract_id | type == "string" and length > 0)
+    and (.runtime_receipt.authority_sha256 | test("^[0-9a-f]{64}$"))
+  ))
+  | select(length == 6)
+  | map({
+      agent_id,role,model,task_id,agent_test_outcome,runtime_exit_code,
+      runtime_receipt:{
+        schema:.runtime_receipt.schema,
+        resident_id:.runtime_receipt.resident_id,
+        authority_sha256:.runtime_receipt.authority_sha256,
+        proposal_sha256:.runtime_receipt.proposal_sha256,
+        acc_contract_id:.runtime_receipt.acc_contract_id,
+        gate_reason_code:.runtime_receipt.gate_reason_code,
+        adapter_id:.runtime_receipt.adapter_id,
+        decision:.runtime_receipt.decision,
+        reason_code:.runtime_receipt.reason_code
+      }
+    })
+' /opt/adl-issue345/runtime-agent-evidence/pre-*.json)
+[[ \$(jq 'length' <<<"\$RUNTIME_AGENT_PROOFS") -eq 6 ]]
 MODEL_RESIDENCY=\$(curl -fsS http://127.0.0.1:11434/api/ps | jq -ce --argjson expected "\$MODEL_SET_JSON" '
   [.models[] | {model_identity:.name,model_digest_sha256:(.digest | sub("^sha256:"; "")),size_vram:.size_vram}]
   | sort_by(.model_identity)
@@ -961,11 +1144,19 @@ jq -n --arg schema adl.issue345.aws_gpu_proof.v2 \
   --argjson models "\$MODEL_RESIDENCY" --argjson total_vram_bytes "\$TOTAL_VRAM_BYTES" \
   --argjson guardian "\$GUARDIAN_PROOF" \
   --argjson shepherd_proofs "\$SHEPHERD_PROOFS" \
+  --argjson runtime_agent_proofs "\$RUNTIME_AGENT_PROOFS" \
   '{schema:\$schema,gpu:\$gpu,gpu_memory_mib:\$gpu_memory_mib,
     artifact_manifest_sha256:\$manifest,source_commit:\$commit,
     models:\$models,model_count:(\$models | length),total_vram_bytes:\$total_vram_bytes,
     guardian_runtime:\$guardian,shepherd_proofs:\$shepherd_proofs,
-    architecture:["guardian","runtime","ollama"],multi_model_residency:"passed"}'
+    runtime_agent_acc_proofs:\$runtime_agent_proofs,
+    components_exercised:["guardian_supervised_runtime_v3","governed_runtime_agents","ollama_gpu"],
+    request_paths:{
+      guardian_runtime_v3:"authenticated lifecycle and health proof",
+      governed_agent_model_tool:"Runtime agent -> Ollama -> UTS/ACC -> Freedom Gate -> runtime.observe"
+    },
+    runtime_v3_to_ollama_transit_proved:false,
+    multi_model_residency:"passed"}'
 BOOTSTRAP
   bash -n "$bootstrap_script"
   run_ssm_script "$instance_id" bootstrap "$bootstrap_script"
@@ -976,7 +1167,8 @@ BOOTSTRAP
       and .source_commit == $commit
       and .artifact_manifest_sha256 == $manifest
       and .multi_model_residency == "passed"
-      and .architecture == ["guardian","runtime","ollama"]
+      and .components_exercised == ["guardian_supervised_runtime_v3","governed_runtime_agents","ollama_gpu"]
+      and .runtime_v3_to_ollama_transit_proved == false
       and .guardian_runtime.schema == "adl.runtime_v3.guardian_lifecycle_proof.v1"
       and .guardian_runtime.status == "pass"
       and .guardian_runtime.source_revision == $commit
@@ -991,6 +1183,13 @@ BOOTSTRAP
         .proof.execution_class == "real_local_model"
         and .proof.provenance == "live_execution"
         and .proof.retained == false)
+      and (.runtime_agent_acc_proofs | length) == 6
+      and all(.runtime_agent_acc_proofs[];
+        .agent_test_outcome == "executed"
+        and .runtime_exit_code == 0
+        and .runtime_receipt.schema == "adl.runtime.resident_tool_receipt.v1"
+        and .runtime_receipt.decision == "executed"
+        and (.runtime_receipt.acc_contract_id | type == "string" and length > 0))
       and .total_vram_bytes > 0' <<<"$result")"
   [[ "$status" == "true" ]]
   cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$LOCK_VERSION_ID" >"$run_dir/cleanup.json"
@@ -1000,25 +1199,53 @@ BOOTSTRAP
   elapsed_seconds="$((finished_epoch - started_epoch))"
   estimated_compute_cost="$(awk -v hourly="$hourly_price" -v seconds="$elapsed_seconds" \
     'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
+  estimated_gp3_cost="$(awk -v gib="$GP3_VOLUME_SIZE_GIB" -v monthly="$GP3_MONTHLY_USD_PER_GIB" -v seconds="$elapsed_seconds" \
+    'BEGIN { printf "%.6f", gib * monthly * seconds / (30 * 24 * 3600) }')"
+  estimated_public_ipv4_cost="$(awk -v hourly="$PUBLIC_IPV4_HOURLY_USD" -v seconds="$elapsed_seconds" \
+    'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
+  estimated_total_cost="$(awk -v compute="$estimated_compute_cost" -v gp3="$estimated_gp3_cost" -v ipv4="$estimated_public_ipv4_cost" -v request="$AWS_REQUEST_OVERHEAD_USD" \
+    'BEGIN { printf "%.6f", compute + gp3 + ipv4 + request }')"
+  billable_seconds="$(( MAX_INSTANCE_SECONDS + REAPER_MAX_LAG_SECONDS ))"
+  worst_case_total_cost="$(jq -er '.worst_case_total_cost_usd' "$run_dir/preflight.json")"
+  authorization_consumption_version_sha256="$(sha256_text "$AUTHORIZATION_CONSUMPTION_VERSION_ID")"
   jq -n --arg schema adl.issue345.aws_gpu_run.v1 --arg run_id "$RUN_ID" \
     --arg source_commit "$SOURCE_COMMIT" --arg started_at "$started_at" --arg finished_at "$finished_at" \
     --arg instance_type "$GPU_INSTANCE_TYPE" --arg authorization_sha256 "$AUTHORIZATION_SHA256" \
+    --arg authorization_consumption_version_sha256 "$authorization_consumption_version_sha256" \
     --arg owner_token_sha256 "$owner_token_sha256" \
     --arg lock_version_sha256 "$lock_version_sha256" \
     --arg model_set_sha256 "$model_set_sha256" \
     --argjson model_identities "$MODEL_IDENTITIES_JSON" \
     --argjson elapsed_seconds "$elapsed_seconds" --argjson gpu_hourly_price_usd "$hourly_price" \
     --argjson estimated_compute_cost_usd "$estimated_compute_cost" \
+    --argjson estimated_gp3_cost_usd "$estimated_gp3_cost" \
+    --argjson estimated_public_ipv4_cost_usd "$estimated_public_ipv4_cost" \
+    --argjson aws_request_overhead_usd "$AWS_REQUEST_OVERHEAD_USD" \
+    --argjson estimated_total_cost_usd "$estimated_total_cost" \
+    --argjson conservative_worst_case_total_cost_usd "$worst_case_total_cost" \
     --argjson authorized_max_total_cost_usd "$MAX_TOTAL_COST_USD" \
     --argjson authorized_max_instance_seconds "$MAX_INSTANCE_SECONDS" \
+    --argjson authorized_reaper_max_lag_seconds "$REAPER_MAX_LAG_SECONDS" \
+    --argjson authorized_max_billable_seconds "$billable_seconds" \
+    --argjson gp3_volume_size_gib "$GP3_VOLUME_SIZE_GIB" \
     --argjson proof "$result" \
     '{schema:$schema,run_id:$run_id,source_commit:$source_commit,started_at:$started_at,
       finished_at:$finished_at,elapsed_seconds:$elapsed_seconds,instance_type:$instance_type,
       gpu_hourly_price_usd:$gpu_hourly_price_usd,estimated_compute_cost_usd:$estimated_compute_cost_usd,
+      estimated_gp3_cost_usd:$estimated_gp3_cost_usd,
+      estimated_public_ipv4_cost_usd:$estimated_public_ipv4_cost_usd,
+      aws_request_overhead_usd:$aws_request_overhead_usd,
+      estimated_total_cost_usd:$estimated_total_cost_usd,
+      conservative_worst_case_total_cost_usd:$conservative_worst_case_total_cost_usd,
       authorized_max_total_cost_usd:$authorized_max_total_cost_usd,
       authorized_max_instance_seconds:$authorized_max_instance_seconds,
+      authorized_reaper_max_lag_seconds:$authorized_reaper_max_lag_seconds,
+      authorized_max_billable_seconds:$authorized_max_billable_seconds,
+      gp3_volume_size_gib:$gp3_volume_size_gib,
       authorization_sha256:$authorization_sha256,model_identities:$model_identities,
       model_count:($model_identities | length),model_set_sha256:$model_set_sha256,
+      authorization_consumption_version_sha256:$authorization_consumption_version_sha256,
+      authorization_single_use:true,
       owner_token_sha256:$owner_token_sha256,lock_version_sha256:$lock_version_sha256,
       paid_launch:true,public_ingress:false,model_execution:"proved_by_guest_ssm",
       proof:$proof,cleanup:"passed"}' | tee "$run_dir/summary.json"
