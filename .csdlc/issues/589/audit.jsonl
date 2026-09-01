@@ -50,3 +50,4 @@
 {"sequence":50,"generation":37,"actor":"codex-issue-589","reason":"Recover exact-review truth after hosted Linux runtime coverage exposed a stale integration-test child that consumed only the pre-PID two-byte Guardian lease acknowledgement.","operation":"recover_review"}
 {"sequence":51,"generation":37,"actor":"codex-issue-589","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":52,"generation":38,"actor":"subagent:/root/issue_589_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":53,"generation":39,"actor":"codex-issue-589","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
