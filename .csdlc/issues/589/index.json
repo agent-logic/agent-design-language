@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 69,
-  "digest": "71ebe48d3bb6e67746e8c223b78dbe1fd141a738435f1926abb3faf07af054ba",
+  "generation": 72,
+  "digest": "81223224d168736cc3732b0065714c5ccce8b2bce0abb9a601e5e995c85c9930",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "806747352c72faefa4b70d85fc25b12105480b3255d6cef0270b99c3bf39b5b3",
+      "values_digest": "33bdcd7f3462bdb2d0f3c10f04b7632437352ffc8f1b5822c62984322b117911",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "d356f486625f7a054653c02a5a7fcf7125ad2bc8a7e392f6b23750730fac6955",
+      "values_digest": "8e9c2632d28069ea2fb9c64c60943a6ac05038ff9b8de4953bc20b18bed22617",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "8299766af2ae76a72d8dc834680a37666ab474b15d8961a4b95cd3ff19887270",
+      "values_digest": "7e7b2f95bc540a6ea4be58294bdfc056e109f563bc098210e8445964ce79ffbd",
       "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
       "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "3c1cd85f98dafad5d8f095c757513be3107632de501e2ea500cbdde059cc065e",
+      "values_digest": "25de5180aec2619cc5c076da9115becb972e9b69a4ea6cb424e5c4e4e0762490",
       "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
       "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "d6d56bce36716add231311ad7d9318f6db89d7ebccd5096da50d87b97eb1558f",
+      "values_digest": "a3590027ba4512486a2cf95c1b715b04b9ae97239f2000e37e0307bf19384b7e",
       "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
       "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "d770e52766f6de9045c33d798d0407e99daa93b9cccb09dac07fddf694271fe5",
-      "rendered_digest": "61b4ea8c8afcefcd0896013abc624a2dfe25afa4efa5256a1d73fa8221bab942",
-      "ast_digest": "424b3033543dd25aa1a4fcdc4df17ead9da5c8f302e127012bb6cdd23269b586"
+      "values_digest": "0fc94d9adb6e0b85e29b4e255cacb1c2f4e591f4e4d3c292271085fdb8751296",
+      "rendered_digest": "e4edb0c6ee5348d4f4078344e1aa09f8c88064bab9a5f9b6b7329f29069e4ab6",
+      "ast_digest": "7ab1cc676566a7f15ab099bf4677bfb14f4774c81d2a0525503b4ce523f04cf3"
     }
   },
   "transitions": [
@@ -861,6 +861,34 @@
       "actor": "codex-issue-589",
       "reason": "Record the post-fix focused proof for fail-closed interrupted-reload rollback.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"cli::csm_runtime_v3_cmd::tests\",\"--\",\"--nocapture\"],\"purpose\":\"Prove interrupted-reload rollback and all focused CSM lifecycle behavior after replacing the final lossy loaded-state gate.\",\"outcome\":\"passed\",\"evidence_ref\":\"27 focused CSM tests passed after the rollback-gate fix; cargo fmt --check and git diff --check passed. Hosted Linux CI remains the systemd command-path denominator.\"}}"
+    },
+    {
+      "sequence": 90,
+      "generation": 69,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 70,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 92,
+      "generation": 71,
+      "actor": "codex-issue-589",
+      "reason": "Resolve the Wuji macOS review finding by accepting only launchctl success as running and the verified service-not-found exit as stopped, while failing closed on all other errors.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 93,
+      "generation": 72,
+      "actor": "codex-issue-589",
+      "reason": "Record focused macOS stopped-state and listener-disappearance proof after resolving the Wuji launchctl finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"cli::csm_runtime_v3_cmd::tests\",\"--\",\"--nocapture\"],\"purpose\":\"Prove fail-closed launchctl stopped-state classification, real missing-service handling, listener disappearance without a captured owner PID, and the complete focused CSM lifecycle surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"28 focused CSM tests passed on Wuji/macOS; real launchctl print for a missing label returned the accepted service-not-found exit 113; cargo fmt --check and git diff --check passed.\"}}"
     }
   ]
 }

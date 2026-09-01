@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 69
+    "generation": 72
   },
   "status": "ready",
   "content": {
@@ -302,6 +302,22 @@
           "purpose": "Prove interrupted-reload rollback and all focused CSM lifecycle behavior after replacing the final lossy loaded-state gate.",
           "outcome": "passed",
           "evidence_ref": "27 focused CSM tests passed after the rollback-gate fix; cargo fmt --check and git diff --check passed. Hosted Linux CI remains the systemd command-path denominator."
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl",
+            "cli::csm_runtime_v3_cmd::tests",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Prove fail-closed launchctl stopped-state classification, real missing-service handling, listener disappearance without a captured owner PID, and the complete focused CSM lifecycle surface.",
+          "outcome": "passed",
+          "evidence_ref": "28 focused CSM tests passed on Wuji/macOS; real launchctl print for a missing label returned the accepted service-not-found exit 113; cargo fmt --check and git diff --check passed."
         }
       ],
       "integration_state": "worktree_only",

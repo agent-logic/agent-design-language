@@ -570,7 +570,8 @@ fn wait_for_stopped(
     let deadline = std::time::Instant::now() + timeout;
     while std::time::Instant::now() < deadline {
         let stopped_listener_gone = runtime_readiness(init).map_or(true, |readiness| {
-            stopped_guardian_process_id != Some(readiness.guardian_process_id)
+            stopped_guardian_process_id
+                .is_some_and(|process_id| process_id != readiness.guardian_process_id)
         });
         if platform_stopped(args)? && stopped_listener_gone {
             return Ok(());
@@ -686,7 +687,7 @@ fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 
 #[cfg(target_os = "macos")]
 fn platform_stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    if !platform_loaded(args) {
+    if platform_stopped(args)? {
         return Ok(());
     }
     run(Command::new("launchctl").args(["bootout", &launchd_target(args)]))
@@ -702,7 +703,26 @@ fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
 
 #[cfg(target_os = "macos")]
 fn platform_stopped(args: &RuntimeV3ServiceArgs) -> Result<bool> {
-    Ok(!platform_loaded(args))
+    let target = launchd_target(args);
+    let output = Command::new("launchctl")
+        .args(["print", &target])
+        .output()
+        .with_context(|| format!("inspect launchd service {target}"))?;
+    launchctl_print_is_stopped(output.status.success(), output.status.code())
+        .with_context(|| format!("inspect launchd service {target}"))
+}
+
+#[cfg(any(target_os = "macos", test))]
+fn launchctl_print_is_stopped(success: bool, exit_code: Option<i32>) -> Result<bool> {
+    if success {
+        return Ok(false);
+    }
+    if exit_code == Some(113) {
+        return Ok(true);
+    }
+    Err(anyhow!(
+        "launchctl print failed ambiguously with exit code {exit_code:?}"
+    ))
 }
 
 #[cfg(target_os = "macos")]
@@ -1381,6 +1401,15 @@ mod tests {
         );
         assert_eq!(parse_launchctl_process_id("pid = 0\n"), None);
         assert_eq!(parse_launchctl_process_id("parent-pid = 12345\n"), None);
+    }
+
+    #[test]
+    fn launchctl_state_classifier_accepts_only_running_or_service_not_found() {
+        assert_eq!(launchctl_print_is_stopped(true, Some(0)).unwrap(), false);
+        assert_eq!(launchctl_print_is_stopped(false, Some(113)).unwrap(), true);
+        for exit_code in [Some(1), Some(3), None] {
+            assert!(launchctl_print_is_stopped(false, exit_code).is_err());
+        }
     }
 
     #[test]
