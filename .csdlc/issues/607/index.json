@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "688c474699e1a8a830387e07df68ad03e00c99f4a2ced81ff73cad661c5e1fd7",
+  "generation": 21,
+  "digest": "80894d90fce1d8a6d7772ae13cb1ff130db0d8647673ed23617b36bbff7e9c7f",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/607/design.md",
   "diagram_path": ".csdlc/prepared/issues/607/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:3ea960bc-31d1-467e-a0ae-45b7ca657cf0",
+      "revision": "4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "4ca06a855f20d3121846892c2612abc93329d2aaf3c2e2b77c0c70a807f50732",
+      "values_digest": "4b9a040880926159865a8f9d5bdbd0eb763db2b6c126074b5cb35d7109116a20",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "7f1558e0f2c2f4925660872acf7a692e9b896a1325e2f0a247d9c6713f2e6827",
+      "values_digest": "76b9582ebc2699c98a9e182c3caf2a6f6ba9ca0fc2a3caff12f8924e162869cd",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "0ab864a95c9313e334ef60a4633033eaf4d230582bdee6fc14b594e71c7c8d76",
-      "rendered_digest": "bb59ffdec430b54767eee143bb0a349e96a8b293e7f5bbdf7e6c31881ee463e6",
-      "ast_digest": "695c7333004c4e9013205fdc89e6947bbdf02ee0174b2235f1ffd9f5bdff35f3"
+      "values_digest": "a6bbf8fd42664276ee54e3cd6a3800b2c5154a3e827ac183563c4e322d124159",
+      "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
+      "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "cdb806872352b4a53410bdc19cba0e6e2f5ad5e9867b87e1e77b44d6e269b854",
+      "values_digest": "afa985ed51e95b2f507aa6b2743fa3e37de8f3800fbbf3bcfd77c1d0092d540e",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "0de7b9503c01c1b9e9f20892a87ef3afed4a9d36e4615cf50ef74f6c1879022e",
+      "values_digest": "5d935c51a9c4856fa7ffdc18e788eb9aeb5cded2ea45a0ba8a28fd444d332982",
       "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
       "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "12438e77d4303336c1eb127ee9a52215887e4f8d529be71a26fb427ffc844907",
+      "values_digest": "5420061a185034a4c5a6784ce2659dfe83cba96c1a14b17a62c4686857e48478",
       "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
       "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
@@ -233,6 +238,13 @@
       "actor": "codex-primary-issue607",
       "reason": "Mark the retained AWS preparation, restore, and repeated launch proof as the sole active execution step.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "fresh-session:3ea960bc-31d1-467e-a0ae-45b7ca657cf0",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e\",\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
