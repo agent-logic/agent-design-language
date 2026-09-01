@@ -4,13 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "441fec45d4e996219640d1b85b1189f3252bc7d8040c26828fea256a77e10f3f",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "9ece151805fedd9409784828c671d9849b757088164055eb0e9992932a0be8c9",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "743627d463c67d9ac362f07064188ebed06fce9d4ebe3802ad820ade64004257",
   "branch": "codex/608-vertex-global-thinking-provider-config",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:46bb64c7-f7cb-4e58-9591-d0e4ad8af0ed",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:01c1e3abe635850261db1b3062535230e986a202:ed6b585597baf5bcc7eec8ed5c1bc47d0832d840c5c95b7d514f93a4162116f4",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/tests.rs",
+      ".csdlc/prepared/issues/608",
+      ".csdlc/evidence/608",
+      ".csdlc/issues/608"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:46bb64c7-f7cb-4e58-9591-d0e4ad8af0ed",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/tests.rs",
+      ".csdlc/prepared/issues/608",
+      ".csdlc/evidence/608",
+      ".csdlc/issues/608"
+    ],
+    "reviewed_revision": "git-blake3:01c1e3abe635850261db1b3062535230e986a202:ed6b585597baf5bcc7eec8ed5c1bc47d0832d840c5c95b7d514f93a4162116f4",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Live Vertex proof used the approved company service-account key path in the implementation session; committed evidence redacts local key path, token material, and service-account identity.",
+      "#592 Polis integration remains a follow-on and is intentionally not implemented by #608."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8eb5502a62e7ed4f116a2d7a968c4d80dab251bdf6050bfd5940b0494e882892",
+      "values_digest": "54a242b1cb0af7fd3cf92133dc424e0018ca57ced0778c25423f1a4687555242",
       "rendered_digest": "be65d9203b2c74102ac352c28e6eb4e153548faf50a048d45fb39d08b52cec66",
       "ast_digest": "eeeafa3d11967bd3f7444e3c7950803293f5826bd5805879f07b1670e112456d"
     },
     "stp": {
-      "values_digest": "e8ea067c14517f7d550e17654d4f4e1d616bb3e2fa44b12c4c95b116216c1201",
+      "values_digest": "f612cfbf97b38dcebe7c002331967c6b8782e850e634043cf4f1fe01b02ab226",
       "rendered_digest": "f06942e46e39f6caf1928c7d0792e65207ba57fb47776a069f6c2132e49a040b",
       "ast_digest": "37ea2512965f1546c37985239dcd410357f1931e15e778b00e270b0bd0648760"
     },
     "spp": {
-      "values_digest": "184ec3c5f0329fb04149d7b552d5f0444a2374296fc204f00c67091f3cacb683",
+      "values_digest": "920a41ea8cec0e9e8ad8d41878249197330d9d1b62d5eb24530c468aba23021a",
       "rendered_digest": "9d7711434fe23e9a15155afd851dc054f249ada1ac11e7e0ebf3079b241142d2",
       "ast_digest": "a56b2b8380fccba17f20cf2ea6df9981c81a17da8142127009b39d5a93044b46"
     },
     "vpp": {
-      "values_digest": "36e8f4596cb029d010fbb8ed0b8fdce611ac09ec9264a89711c8a8953e118581",
+      "values_digest": "b70dd7a2c6a3a4b60b0ec2b667ef83e96e51fb37b09b21eef5e947f550b7e648",
       "rendered_digest": "377592f996d1118147690f84da042fd2b9a65f4c5a28ae9f84dc1d53ff2d932a",
       "ast_digest": "ad5f5cca32856fefb6c07c6b3bc5d2080da179d05bdc928d938e50ecc2ff6381"
     },
     "srp": {
-      "values_digest": "3a8e7876da0749a89080954e8c1e92749f6d7b986a4ba937f1ee0cd26f81eaf8",
-      "rendered_digest": "d7d02964917e206bee1349e07fddbf49981ccd4b428099a72f1e3d72141e18eb",
-      "ast_digest": "6593f29a8dd8a0fc7874b47ee7073a9dbc7ec9965bdf68a0e4a13549ae9fb5b3"
+      "values_digest": "97043d720bd3c2d94bbddf46fb6facde34b3e6a180b5a62eac58ae1c50cd61dd",
+      "rendered_digest": "9fd00266e2fd14c406cfeb44b727a6a6bec3269df5a4bb977020943891302b67",
+      "ast_digest": "eaccff1f8cde347df4f0b6e793033844d6c81a3091e354fdd67f53cf8e0f19fd"
     },
     "sor": {
-      "values_digest": "57ba05def1cf9b81bda7dd626bb88fed471952ca028fb3226614e028bd1d8c3a",
+      "values_digest": "d05476a36a5dbcee1b14cfa1521cc5ee0dd72b0a171282c204393b5dc85311bb",
       "rendered_digest": "4a1d62301681e8c28d8be0dc3d8770aa877cb31d73176530aaac2b5ed06555a1",
       "ast_digest": "fbeb38d65977bdbafecd2bb737b75699bf876459c067dd1d07964c98bf7a1187"
     }
@@ -76,6 +105,13 @@
       "to": "implemented",
       "actor": "codex:608-vertex-provider",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -141,6 +177,20 @@
       "actor": "codex:/root",
       "reason": "Record the exact post-review remediation for Vertex endpoint trust, strict thinking-budget validation, and redacted live-proof evidence.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Vertex AI Gemini provider support for native global endpoints and configurable thinking parameters, then remediated exact review findings by tying trusted Vertex hosts to the configured location, failing closed on invalid thinking_budget values, and redacting credential-adjacent proof details.\",\"changes\":[\"Generated regional Vertex endpoints as <location>-aiplatform.googleapis.com and global Vertex endpoints as aiplatform.googleapis.com without endpoint overrides.\",\"Accepted only the configured regional host or the global host for credential-bearing Vertex calls unless an explicit custom endpoint trust override is set.\",\"Rendered thinkingLevel, thinkingBudget, and includeThoughts into generationConfig.thinkingConfig while rejecting mutually exclusive or invalid thinking settings.\",\"Added focused regressions for global endpoint derivation, global trust, configured regional trust, arbitrary aiplatform-looking host refusal, thinking config rendering, mutual exclusion, and invalid thinking_budget values.\",\"Preserved live Vertex proof through approved key-path routing while redacting local key path and service-account identity from committed evidence.\"],\"artifacts\":[\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\",\".csdlc/prepared/issues/608/validate-provider.sh\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\",\".csdlc/evidence/608/live-vertex/proof-summary.md\",\".csdlc/evidence/608/vertex-provider-focused.log\",\".csdlc/evidence/608/vertex-provider-live.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/608/validate-provider.sh\"],\"purpose\":\"Prove endpoint derivation, request body rendering, strict trust policy, invalid config behavior, formatting, diff hygiene, and package compile.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/608/vertex-provider-focused.log; 6/6 focused Vertex tests passed and cargo check passed.\"},{\"command\":[\"bash\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\"],\"purpose\":\"Prove native provider calls against approved company Vertex endpoints without endpoint overrides for regional Gemini 2.5 and global Gemini 3.x models.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/608/vertex-provider-live.log; regional 2.5 matrix 3/3 and global 3.x matrix 6/6 succeeded.\"},{\"command\":[\"rg\",\"-n\",\"ya29\\\\.|private_key|BEGIN PRIVATE|refresh_token|client_secret|/Users/daniel/keys|tf-bootstrap@\",\".csdlc/evidence/608\",\".csdlc/prepared/issues/608\",\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\"],\"purpose\":\"Prove committed #608 source, proof scripts, and evidence do not expose provider tokens, key material, local key paths, or service-account identity.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local scan returned no matches after proof redaction.\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
