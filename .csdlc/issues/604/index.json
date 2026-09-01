@@ -4,13 +4,78 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "d09f0e3d237316fef81b6dbabebe904e89e6bafd3507742e6e580038eb3750c5",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "63b958c19baf9cc8909e30f0641a2a336b4585fe4a0fb198bf0ed32e3a479d70",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/review_604_pre_pr_repaired",
+    "assigned_by": "codex:/root/worker-6/issue-604",
+    "revision": "git-blake3:a33acd1d38921893e1a376be3ae3f103da1710d8:21c7db2c21439e7e86ad87f37a7e252a8532a1fa5df39156befcbb8b15ceba34",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_604_pre_pr_repaired",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ],
+    "reviewed_revision": "git-blake3:a33acd1d38921893e1a376be3ae3f103da1710d8:21c7db2c21439e7e86ad87f37a7e252a8532a1fa5df39156befcbb8b15ceba34",
+    "findings": [],
+    "residual_risks": [
+      "PR #610 had already been marked ready by the initial canary run before the ready metadata-tail bug was repaired; the repaired path is exercised through typed publication update and retained for subsequent draft-to-ready invocations."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +90,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "471ecd9cd150f1a759dd8e8e82e9f962057529fcf2a79a527d8b94970f8f2d9a",
+      "values_digest": "8591fe50ed8f0269fdb23cd196e4b8564c9b5984403e37fac6b00a30c3b2c728",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "3b2e1c8fb2fa7f86a9f3c5ac0a803f482ffca5806dd3d24dd4d63fe059769ab6",
+      "values_digest": "3bda6c3b8b4e7263ad84e4a73f476650611fbf21bd6a5d8cbd3721df103aa4fc",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "4145d5b7e98773e6dd9d33b8238bd930e6fce5cb2f3d373aa18ff4560e24d6fd",
+      "values_digest": "0df47428c909ef7568c34c0c26a3ab7659a8109d4ac475d3eb36a664db1dda7a",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "802d8ae83f6b6cd36e96f0c49d95950300b554102f7027479cb061cc36b6dd24",
+      "values_digest": "3182d82bb4b4bdf3de4d2640b715168807b544bd52777214ee34ca0440116ecc",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "ef48ffccc80420ec42d9bc47e10c1073adc2fabf96fbf893498caee01417db11",
-      "rendered_digest": "6521d3d327da10bb1f72a25546d0721d3fb4f827e19ce3a48477d3a071365771",
-      "ast_digest": "d6631edc7e03e03c23d19446bf4618d3806a58c44cf76c2a5166d8c68631562d"
+      "values_digest": "487d1cc982c4d281dfdb1b47c24ca074571bbd56d6d711778fde89ca1f6ac253",
+      "rendered_digest": "5c33a31f1cec6c5f02a98968190c359683ded5d16f0594b65b460e0200b39635",
+      "ast_digest": "22c56d1078486c4698125719bf4408489c0c78c5c7e263d5ba879f9c0b01b59c"
     },
     "sor": {
-      "values_digest": "3ac211927861158a10bed990fef9709767e45123b202e5c26faf84c3ca2e2166",
+      "values_digest": "ca988da6bc0527c7e3ffcbd50190f57770c0568070c665eeff74f29877d34bab",
       "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
       "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
     }
@@ -111,6 +176,13 @@
       "to": "implemented",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -211,6 +283,20 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
