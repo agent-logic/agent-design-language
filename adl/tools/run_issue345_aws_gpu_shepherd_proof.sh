@@ -39,6 +39,7 @@ HARD_MAX_TOTAL_COST_USD=20.00
 SSH_INGRESS_CIDR="${ADL_ISSUE345_SSH_INGRESS_CIDR:-}"
 SSH_PUBLIC_KEY_FILE="${ADL_ISSUE345_SSH_PUBLIC_KEY_FILE:-}"
 VPC_ID="${ADL_ISSUE345_VPC_ID:-}"
+PREFERRED_SUBNET_ID="${ADL_ISSUE345_PREFERRED_SUBNET_ID:-}"
 LOCK_KEY="${ADL_ISSUE345_LOCK_KEY:-shepherd/locks/issue345-aws-two-node.lock}"
 SOURCE_ARCHIVE_PATHS=(
   adl
@@ -73,7 +74,8 @@ The paid lane uses Terraform to create one regular Runtime node and one GPU
 Ollama node. Both bootstrap automatically through cloud-init. SSH is mandatory
 from ADL_ISSUE345_SSH_INGRESS_CIDR (an IPv4 /32) using the public key in
 ADL_ISSUE345_SSH_PUBLIC_KEY_FILE. SSM is recovery-only. Terraform state and all
-run files stay below .adl/local/issue345.
+run files stay below .adl/local/issue345. ADL_ISSUE345_PREFERRED_SUBNET_ID may
+select a capacity-available public subnet; preflight still validates and binds it.
 USAGE
 }
 
@@ -210,6 +212,20 @@ resolve_subnet() {
   [[ -n "$VPC_ID" ]] || { echo "ADL_ISSUE345_VPC_ID is required" >&2; exit 2; }
   subnets="$(aws_cli ec2 describe-subnets --filters Name=state,Values=available "Name=vpc-id,Values=$VPC_ID" \
     --query 'Subnets[].{id:SubnetId,az:AvailabilityZone}' --output json)"
+  if [[ -n "$PREFERRED_SUBNET_ID" ]]; then
+    jq -e --arg subnet "$PREFERRED_SUBNET_ID" --argjson offerings "$offerings" \
+      '[.[] | select(.id == $subnet and (.az as $az | $offerings | index($az)))] | length == 1' \
+      <<<"$subnets" >/dev/null || {
+        echo "preferred subnet is unavailable, outside the selected VPC, or does not offer the GPU type" >&2
+        return 2
+      }
+    verify_public_subnet "$PREFERRED_SUBNET_ID" >/dev/null || {
+      echo "preferred subnet lacks the required public route or network ACL" >&2
+      return 2
+    }
+    printf '%s\n' "$PREFERRED_SUBNET_ID"
+    return 0
+  fi
   while read -r subnet; do
     if verify_public_subnet "$subnet" >/dev/null 2>&1; then
       printf '%s\n' "$subnet"

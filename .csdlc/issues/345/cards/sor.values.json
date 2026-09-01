@@ -7,48 +7,34 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 97
+    "generation": 99
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Seven real Terraform launches have repeatedly proved the GPU half and cleanup. The latest run proved both models simultaneously resident, restored the complete Git-free archive, compiled the Guardian successfully in 1m05s, and passed the Git-free lifecycle-root boundary. Runtime launch then failed because the lifecycle validator localized the API URL and TLS server name to localhost without localizing polis.public_domain to the same canonical host. The retained receipt captured that exact policy error. The already-orphaned HTTPS/WSS probe alone was terminated to avoid ten minutes of impossible waiting; cleanup then destroyed both nodes and all volumes and released the lock. The validator now localizes all three coupled host fields together and fails closed when the polis field is missing or ambiguous. Final paid proof remains pending exact-head review and rerun.",
+      "summary": "The eighth Terraform attempt never created an instance: AWS repeatedly returned InsufficientInstanceCapacity for g6.xlarge in us-west-2a and reported availability in us-west-2b, 2c, and 2d. The controller was interrupted after the diagnosis to stop useless retries, then destroyed every temporary Terraform prerequisite and released the lock; direct inventory confirmed zero instances and volumes. The runner now accepts one explicit preferred subnet, but validates that it belongs to the authorized VPC, offers the GPU type, and has the required public route and network ACL before binding its hash in preflight and authorization. Read-only preflight passed for the public us-west-2b subnet. Final paid proof remains pending exact-head review and relaunch.",
       "actual_changes": [
-        "Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, USD 20 hard budget, and three cleanup paths.",
-        "Observed the seventh real GPU receipt again prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
-        "Observed the Runtime node restore the complete Git-free archive, compile the Guardian successfully in 1m05s, and enter lifecycle-soak through the new archive-root fallback.",
-        "Captured the exact Runtime policy diagnostic that polis.public_domain still named runtime.dev.agent-logic.ai while the validator had localized the API and TLS host to localhost.",
-        "Terminated only the already-orphaned readiness probe after immediate soak failure so the failure trap and cost-bounded cleanup could proceed.",
-        "Localized polis.public_domain to localhost in the same fail-closed transform as public_base_url and api.tls.server_name.",
-        "Extended the focused validator contract to prove all three localized host fields and reject missing or duplicate polis public-domain fields.",
-        "Confirmed cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock; direct AWS inventory returned zero issue instances and volumes."
+        "Retained the reviewed two-node Terraform topology, one SSH key, mandatory /32 SSH ingress, private Ollama, immutable artifacts, single-use authorization, and USD 20 hard ceiling.",
+        "Observed AWS reject g6.xlarge creation in us-west-2a for insufficient capacity before any instance or volume was created.",
+        "Stopped the capacity retry loop after AWS explicitly identified available alternate AZs, then confirmed Terraform destroyed all temporary roles, profiles, policies, key, and security groups and released the lock.",
+        "Added an optional explicit preferred-subnet input for capacity routing without weakening VPC, GPU-offering, route-table, network-ACL, preflight-digest, or authorization binding checks.",
+        "Proved the preferred us-west-2b public subnet through live read-only preflight with a new authorization-bound subnet digest.",
+        "Confirmed direct AWS inventory returned zero issue instances and zero issue volumes after cleanup."
       ],
       "artifacts": [
-        "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
         "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-        ".adl/local/issue345/adl-issue345-20260901-124301/gpu-ready.json",
-        ".adl/local/issue345/adl-issue345-20260901-124301/runtime-final.json",
-        ".adl/local/issue345/adl-issue345-20260901-124301/cleanup-on-exit.json"
+        ".adl/local/issue345/adl-issue345-20260901-131309/preflight.json",
+        ".adl/local/issue345/adl-issue345-20260901-131309/cleanup-on-exit.json"
       ],
       "actual_validation": [
         {
           "command": [
             "bash",
-            "adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
-          ],
-          "purpose": "Run the existing extracted Runtime-init localization contract, including the new coupled-host assertions and missing or duplicate polis-domain negative cases.",
-          "outcome": "failed",
-          "evidence_ref": "adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
-        },
-        {
-          "command": [
-            "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
-          "purpose": "Prove the no-paid topology, bootstrap, complete archive, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.",
+          "purpose": "Prove the no-paid topology, preferred-subnet fail-closed markers, authorization, recovery, and cleanup contracts.",
           "outcome": "passed",
           "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
         },
@@ -56,18 +42,28 @@
           "command": [
             "bash",
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+            "preflight"
+          ],
+          "purpose": "Validate and bind the selected us-west-2b public subnet, AMIs, network, SSH key and CIDR, model set, Terraform source, prices, quota, and zero stale compute without mutation.",
+          "outcome": "passed",
+          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-131309/preflight.json"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
             "run",
             "--commit",
-            "93975b7988ed7b71c3881550830a60aa46f9261c",
+            "904ffa5867297455252350b1601ab9292753dc00",
             "--run-id",
-            "adl-issue345-20260901-124301",
+            "adl-issue345-20260901-131309",
             "--authorization-file",
-            ".adl/local/issue345/operator-authorization-git-free-root-fix.json",
+            ".adl/local/issue345/operator-authorization-polis-domain-fix.json",
             "--execute"
           ],
-          "purpose": "Run the real Terraform two-node qualification through repeated GPU residency, successful Guardian compilation, successful Git-free lifecycle-root resolution, exact polis-domain policy failure, and cleanup.",
+          "purpose": "Attempt the reviewed two-node proof; AWS refused GPU capacity before instance creation and the controller cleaned all Terraform prerequisites.",
           "outcome": "failed",
-          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-124301"
+          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-131309"
         },
         {
           "command": [

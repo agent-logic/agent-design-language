@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 97
+    "generation": 99
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/validate_v092_runtime_guardian_lifecycle.sh\nadl/tools/test_run_issue268_six_hour_spot_qualification.sh\n.csdlc/issues/345",
-      "review_revision": "git-blake3:904ffa5867297455252350b1601ab9292753dc00:0cd5b397eecf328f0bdcbb9303a3cc414f20c9513fcf8114bcbdb1febeed5507",
-      "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can Terraform create any topology other than exactly one regular Runtime node and one GPU Ollama node, or omit the single shared key pair, public IPv4, or required /32 SSH ingress from either node?",
         "Can TCP/11434 become public or reachable from any source other than the Runtime security group, or can bootstrap depend on controller-side SSM commands?",
@@ -25,11 +25,8 @@
         "Can public evidence or Terraform state escape the worktree, expose credentials/private key/raw identifiers/prompts/responses, or claim 24/7 readiness beyond this bounded qualification?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Final paid two-node success remains pending.",
-        "The bounded qualification does not establish 24/7 production readiness."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
