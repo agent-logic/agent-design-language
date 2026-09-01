@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-infra/cloud/aws/issue345-two-node
+infra/aws/runtime/gpu-proof
 adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
 adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
 adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
@@ -39,12 +39,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The bounded qualification does not establish 24/7 production readiness.
+- The receipt proves live Shepherd model execution and governed Runtime agent ACC execution separately; it does not claim direct Runtime-v3-to-Ollama transit.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:dcbc088de62907b9025a6a0023ec67214a77b3c4:c82898ef6a37bb696f1c8ac0a9f21228a1680bd4a1c3847f84d0fc3fd6e90cd9")
 
-Reviewer: None
+Reviewer: Some("fresh-session:/root/issue_345_final_launch_review")
 
-Result: pre_review
+Result: pass
