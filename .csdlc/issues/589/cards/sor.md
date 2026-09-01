@@ -12,11 +12,13 @@ Status: ready
 
 ## Summary
 
-Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, Shepherd-gated readiness, bounded CloudWatch health, and governed SSM recovery.
+Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.
 
 ## Artifacts
 
 - adl/src/cli/csm_runtime_v3_cmd.rs
+- adl/tools/check_coverage_impact.sh
+- adl/tools/test_check_coverage_impact.sh
 - adl-runtime/src/bin/adl-runtime-guardian.rs
 - adl-runtime-kernel/src/assembly.rs
 - adl-runtime-kernel/src/control.rs
@@ -30,6 +32,7 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
 - Readiness requires a fresh Shepherd admission lease.
 - Health export is allowlisted and emits the active canonical config hash.
 - CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.
+- CSM failure-path tests prove transaction cleanup never deletes a pre-existing destination, and coverage-impact routing selects the focused CSM lifecycle tests.
 
 ## Validation
 
@@ -45,9 +48,33 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
       "adl",
       "csm_runtime_v3"
     ],
-    "purpose": "CSM lifecycle and transaction regression proof",
+    "purpose": "CSM lifecycle, failure-path, and transaction regression proof",
     "outcome": "passed",
-    "evidence_ref": "final focused run: 11 passed"
+    "evidence_ref": "final focused run: 20 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "llvm-cov",
+      "--bin",
+      "adl",
+      "--json",
+      "--summary-only",
+      "--",
+      "csm_runtime_v3"
+    ],
+    "purpose": "Focused changed-source line coverage proof",
+    "outcome": "passed",
+    "evidence_ref": "csm_runtime_v3_cmd.rs: 686/851 lines, 80.61 percent"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "purpose": "Coverage-impact mapping contract proof",
+    "outcome": "passed",
+    "evidence_ref": "focused mapping selects cli::csm_runtime_v3_cmd::tests"
   },
   {
     "command": [
@@ -113,17 +140,17 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
     ],
     "purpose": "CloudWatch-to-SSM recovery proof",
     "outcome": "passed",
-    "evidence_ref": "alarm recovery command 9ce0b157-5862-4622-a90d-a39c9f7ff1c4 succeeded"
+    "evidence_ref": "governed Wuji SSM recovery command succeeded"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
