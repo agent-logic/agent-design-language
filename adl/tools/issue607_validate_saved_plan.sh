@@ -9,7 +9,18 @@ PLAN_JSON="${2:-}"
   exit 2
 }
 [[ -f "$PLAN_JSON" ]] || { echo "saved plan JSON is missing: $PLAN_JSON" >&2; exit 2; }
-jq -e '.format_version and ((.resource_changes // []) | type == "array")' "$PLAN_JSON" >/dev/null
+jq -e '
+  .format_version
+  and (
+    ((.resource_changes | type) == "array")
+    or (
+      (has("resource_changes") | not)
+      and ((.terraform_version | type) == "string")
+      and ((.planned_values | type) == "object")
+      and ((.configuration | type) == "object")
+    )
+  )
+' "$PLAN_JSON" >/dev/null
 
 if [[ "$MODE" == compute ]]; then
   jq -e '

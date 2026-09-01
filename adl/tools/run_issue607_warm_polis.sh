@@ -31,6 +31,12 @@ GPU_ROOT_GIB=200
 WARM_RUNTIME_GIB=200
 WARM_GPU_GIB=200
 SNAPSHOT_ALLOCATED_ALLOWANCE_GIB=260
+PREPARATION_STOP_OBSERVATIONS="${ADL_ISSUE607_PREPARATION_STOP_OBSERVATIONS:-3}"
+PREPARATION_POLL_SECONDS="${ADL_ISSUE607_PREPARATION_POLL_SECONDS:-5}"
+[[ "$PREPARATION_STOP_OBSERVATIONS" =~ ^[1-9][0-9]*$ && "$PREPARATION_POLL_SECONDS" =~ ^[0-9]+$ ]] || {
+  echo "invalid preparation observation controls" >&2
+  exit 2
+}
 
 COMMIT=""
 RUN_ID=""
@@ -321,29 +327,40 @@ wait_object() {
   return 2
 }
 
-wait_preparation_receipt() {
-  success_key="$1" failure_key="$2" instance_id="$3" destination="$4" max_seconds="$5"
-  deadline=$((SECONDS+max_seconds)); stopped_observations=0
+wait_preparation_receipts() {
+  runtime_success="$1" runtime_failure="$2" runtime_instance="$3" runtime_destination="$4"
+  gpu_success="$5" gpu_failure="$6" gpu_instance="$7" gpu_destination="$8" max_seconds="$9"
+  deadline=$((SECONDS+max_seconds)); runtime_stopped=0; gpu_stopped=0
+  runtime_done=false; gpu_done=false
   while ((SECONDS<deadline)); do
-    aws_cli s3api get-object --bucket "$BUCKET" --key "$success_key" "$destination" >/dev/null 2>&1 && return 0
-    if aws_cli s3api get-object --bucket "$BUCKET" --key "$failure_key" "$destination.failed" >/dev/null 2>&1; then
-      echo "preparation guest reported failure: $failure_key" >&2
-      return 1
-    fi
-    instance_state="$(aws_cli ec2 describe-instances --instance-ids "$instance_id" --query 'Reservations[0].Instances[0].State.Name' --output text)" \
-      || { echo "failed to read preparation instance state: $instance_id" >&2; return 2; }
-    if [[ "$instance_state" == stopped || "$instance_state" == terminated ]]; then
-      stopped_observations=$((stopped_observations+1))
-      if ((stopped_observations>=3)); then
-        echo "preparation instance stopped without a success or failure receipt: $instance_id" >&2
+    for node in runtime gpu; do
+      if [[ "$node" == runtime ]]; then
+        success="$runtime_success"; failure="$runtime_failure"; instance="$runtime_instance"; destination="$runtime_destination"; done_state="$runtime_done"; stopped="$runtime_stopped"
+      else
+        success="$gpu_success"; failure="$gpu_failure"; instance="$gpu_instance"; destination="$gpu_destination"; done_state="$gpu_done"; stopped="$gpu_stopped"
+      fi
+      [[ "$done_state" == false ]] || continue
+      if aws_cli s3api get-object --bucket "$BUCKET" --key "$success" "$destination" >/dev/null 2>&1; then
+        if [[ "$node" == runtime ]]; then runtime_done=true; else gpu_done=true; fi
+        continue
+      fi
+      if aws_cli s3api get-object --bucket "$BUCKET" --key "$failure" "$destination.failed" >/dev/null 2>&1; then
+        echo "$node preparation guest reported failure: $failure" >&2
         return 1
       fi
-    else
-      stopped_observations=0
-    fi
-    sleep 5
+      instance_state="$(aws_cli ec2 describe-instances --instance-ids "$instance" --query 'Reservations[0].Instances[0].State.Name' --output text)" \
+        || { echo "failed to read preparation instance state: $instance" >&2; return 2; }
+      if [[ "$instance_state" == stopped || "$instance_state" == terminated ]]; then stopped=$((stopped+1)); else stopped=0; fi
+      if [[ "$node" == runtime ]]; then runtime_stopped="$stopped"; else gpu_stopped="$stopped"; fi
+      if ((stopped>=PREPARATION_STOP_OBSERVATIONS)); then
+        echo "$node preparation instance stopped without a success or failure receipt: $instance" >&2
+        return 1
+      fi
+    done
+    [[ "$runtime_done" == true && "$gpu_done" == true ]] && return 0
+    sleep "$PREPARATION_POLL_SECONDS"
   done
-  echo "timed out waiting for $success_key" >&2
+  echo "timed out waiting for preparation receipts" >&2
   return 2
 }
 
@@ -808,8 +825,10 @@ prepare() {
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" output -state="$run_dir/preparation.tfstate" -json >"$run_dir/preparation-outputs.json"
   runtime_preparation_instance="$(jq -r .runtime_preparation_instance_id.value "$run_dir/preparation-outputs.json")"
   gpu_preparation_instance="$(jq -r .gpu_preparation_instance_id.value "$run_dir/preparation-outputs.json")"
-  wait_preparation_receipt "${receipt_prefix}runtime-preparation-final.json" "${receipt_prefix}runtime-preparation-failed.json" "$runtime_preparation_instance" "$run_dir/runtime-preparation.json" "$PREPARATION_SECONDS"
-  wait_preparation_receipt "${receipt_prefix}gpu-preparation-final.json" "${receipt_prefix}gpu-preparation-failed.json" "$gpu_preparation_instance" "$run_dir/gpu-preparation.json" "$PREPARATION_SECONDS"
+  wait_preparation_receipts \
+    "${receipt_prefix}runtime-preparation-final.json" "${receipt_prefix}runtime-preparation-failed.json" "$runtime_preparation_instance" "$run_dir/runtime-preparation.json" \
+    "${receipt_prefix}gpu-preparation-final.json" "${receipt_prefix}gpu-preparation-failed.json" "$gpu_preparation_instance" "$run_dir/gpu-preparation.json" \
+    "$PREPARATION_SECONDS"
   jq -e '.status=="prepared" and .fully_initialized==true' "$run_dir/runtime-preparation.json" "$run_dir/gpu-preparation.json" >/dev/null
   aws_cli ec2 wait instance-stopped --instance-ids "$runtime_preparation_instance" "$gpu_preparation_instance"
   create_prepared_image runtime "$runtime_preparation_instance" "$retention_until"
@@ -940,6 +959,11 @@ case "$ACTION" in
     [[ $# -eq 2 ]] || { echo "test-resource-absence requires kind and id" >&2; exit 2; }
     if resource_exists "$1" "$2"; then printf 'exists\n'
     else rc=$?; [[ "$rc" -eq 1 ]] && printf 'absent\n' || exit "$rc"; fi
+    ;;
+  test-preparation-wait)
+    require aws
+    [[ $# -eq 9 ]] || { echo "test-preparation-wait requires the nine wait arguments" >&2; exit 2; }
+    wait_preparation_receipts "$@"
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;

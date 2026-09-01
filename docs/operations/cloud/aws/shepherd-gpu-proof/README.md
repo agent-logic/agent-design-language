@@ -258,12 +258,14 @@ preparation instances, ENIs, security group, IAM resources, scheduler, shared
 key pair, and root volumes must be absent according to both Terraform and live
 tag inventory.
 
-The Ubuntu 24.04 preparation guests install the officially supported AWS CLI v2
-Snap package because that release does not provide the `awscli` APT package.
-This package-manager work occurs only during one-time preparation; normal warm
-launch performs no package installation. The controller also fails preparation
-after three stopped-instance observations when neither a success nor failure
-receipt exists, avoiding a full timeout after an early cloud-init failure.
+The Ubuntu 24.04 preparation guests use the distribution-packaged `python3-boto3`
+client for their bounded version-pinned S3 reads and create-only receipt writes;
+neither the unavailable `awscli` APT package nor an auto-refreshing Snap is
+installed into the prepared images. This package-manager work occurs only during
+one-time preparation; normal warm launch performs no package installation. The
+controller polls both preparation nodes together and fails after three stopped-
+instance observations when neither a success nor failure receipt exists,
+avoiding a full timeout after an early cloud-init failure on either node.
 
 Before image capture, both preparation guests clear cloud-init state and logs,
 reset machine identity, and remove SSH host keys so first launch regenerates
