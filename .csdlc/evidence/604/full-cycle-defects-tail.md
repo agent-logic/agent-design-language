@@ -38,3 +38,16 @@
   drift during PR readback.
 - Required fix: update retained examples or provide a schema-guided request
   generator for PR-state readbacks.
+
+## DEFECT-013: published resume path did not push an advanced local head
+
+- Status: fixed in #604.
+- Evidence: after committing evidence-only metadata at local head `31d8b99e`,
+  `csdlc-publish publish` on an already-published record failed with
+  `metadata publication PR did not converge to the exact governed follow-up
+  head`; typed PR readback and `git ls-remote` still showed remote branch head
+  `4a4da4b8`.
+- Impact: a valid local metadata/evidence head could remain unpublished when
+  the publish command entered its resume path with no new issue metadata tail.
+- Fix: the resume path now pushes the current branch head before reobserving the
+  PR at the expected metadata head.

@@ -99,6 +99,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         } else {
             csdlc_v2::publication::current_head_sha(&cli.root)?
         };
+        push(&cli.root, &request.remote, &request.head)?;
         let observed = reobserve_pr_at_head(&crab, &intent, &metadata_head)
             .await?
             .ok_or_else(|| {
