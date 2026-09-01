@@ -51,11 +51,11 @@ Restored governed C-SDLC v2 draft-to-ready publication reconciliation with exact
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
