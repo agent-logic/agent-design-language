@@ -3,6 +3,7 @@ set -Eeuo pipefail
 export DEBIAN_FRONTEND=noninteractive HOME=/root
 work=/opt/adl-issue607-gpu-preparation
 mkdir -p "$work"
+stage=bootstrap
 
 s3_get() {
   python3 - "$@" <<'PY'
@@ -61,7 +62,7 @@ base_facility_inventory="$(jq -n \
 
 finish_failure() {
   rc=$?
-  jq -n --argjson rc "$rc" '{schema:"adl.issue607.gpu_preparation.v1",status:"failed",exit_code:$rc}' >"$work/final.json" 2>/dev/null || true
+  jq -n --argjson rc "$rc" --arg stage "$stage" '{schema:"adl.issue607.gpu_preparation.v1",status:"failed",exit_code:$rc,failure_stage:$stage}' >"$work/final.json" 2>/dev/null || true
   s3_put_once '${region}' '${artifact_bucket}' '${receipt_write_prefix}gpu-preparation-failed.json' "$work/final.json" >/dev/null 2>&1 || true
   shutdown -h now || true
   exit "$rc"
@@ -77,6 +78,7 @@ volume_device() {
   return 1
 }
 
+stage=volume_initialization
 dev="$(volume_device '${gpu_volume_id}')"
 sgdisk --zap-all "$dev"
 sgdisk -n 1:1MiB:-8GiB -t 1:8300 -c 1:adl-content "$dev"
@@ -89,6 +91,7 @@ mkdir -p "$work/content" "$work/artifacts"
 mount "$${dev}p1" "$work/content"
 mkdir -p "$work/content/install/bin" "$work/content/install/models"
 
+stage=artifact_download
 manifest="$work/artifact-manifest.json"
 s3_get '${region}' '${artifact_bucket}' '${artifact_manifest_key}' '${artifact_manifest_version_id}' "$manifest"
 printf '%s  %s\n' '${artifact_manifest_sha256}' "$manifest" | sha256sum -c -
@@ -116,6 +119,7 @@ jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_genera
   >"$work/content/sealed-volume-manifest.json"
 find "$work/content" -xdev -type f ! -name files.sha256 -print0 | sort -z | xargs -0 sha256sum >"$work/content/files.sha256"
 
+stage=seal
 sync
 umount "$work/content"
 verity_output="$(veritysetup format "$${dev}p1" "$${dev}p2")"
@@ -124,6 +128,7 @@ root_hash="$(awk '/Root hash:/ {print $3}' <<<"$verity_output")"
 jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_generation}' \
   --arg volume_id '${gpu_volume_id}' --arg root_hash "$root_hash" --argjson facility_inventory "$facility_inventory" \
   '{schema:"adl.issue607.gpu_preparation.v1",status:"prepared",source_commit:$source_commit,artifact_generation:$generation,volume_id:$volume_id,root_hash:$root_hash,fully_initialized:true,facility_inventory:$facility_inventory}' >"$work/final.json"
+stage=image_hygiene
 finalize_preparation
 trap - EXIT
 shutdown -h now

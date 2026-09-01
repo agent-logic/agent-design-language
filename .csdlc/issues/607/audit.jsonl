@@ -30,3 +30,4 @@
 {"sequence":30,"generation":26,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":31,"generation":26,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":32,"generation":27,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":33,"generation":28,"actor":"codex-primary-issue607","reason":"Recover reviewed state after the authorized preparation run proved the Runtime script attempted to unmount its warm filesystem while its current directory remained inside that mount.","operation":"recover_review"}
