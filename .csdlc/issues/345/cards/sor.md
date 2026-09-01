@@ -12,23 +12,26 @@ Status: pre_phase
 
 ## Summary
 
-The eighth Terraform attempt never created an instance: AWS repeatedly returned InsufficientInstanceCapacity for g6.xlarge in us-west-2a and reported availability in us-west-2b, 2c, and 2d. The controller was interrupted after the diagnosis to stop useless retries, then destroyed every temporary Terraform prerequisite and released the lock; direct inventory confirmed zero instances and volumes. The runner now accepts one explicit preferred subnet, but validates that it belongs to the authorized VPC, offers the GPU type, and has the required public route and network ACL before binding its hash in preflight and authorization. Read-only preflight passed for the public us-west-2b subnet. Final paid proof remains pending exact-head review and relaunch.
+After AWS refused g6.xlarge placement in 2a and then transiently in 2b and 2c, authorization-bound preferred-subnet routing launched both nodes in us-west-2d. The GPU node again proved both configured models simultaneously resident with exact digests and nonzero VRAM. The Runtime node restored the complete Git-free archive, compiled Guardian in 1m06s, passed Git-free root and polis-domain validation, then failed because the validator localized the Observatory allowed-origin entry without localizing polis.observatory_public_origin. The orphaned probe alone was terminated after the immediate soak failure. Cleanup destroyed both nodes and volumes and released the lock. The validator now localizes both Observatory-origin fields together and rejects missing or duplicate polis origin fields. Final paid proof remains pending review and rerun.
 
 ## Artifacts
 
+- adl/tools/validate_v092_runtime_guardian_lifecycle.sh
+- adl/tools/test_run_issue268_six_hour_spot_qualification.sh
 - adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
-- adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
-- .adl/local/issue345/adl-issue345-20260901-131309/preflight.json
-- .adl/local/issue345/adl-issue345-20260901-131309/cleanup-on-exit.json
+- .adl/local/issue345/adl-issue345-20260901-134726/gpu-ready.json
+- .adl/local/issue345/adl-issue345-20260901-134726/runtime-final.json
+- .adl/local/issue345/adl-issue345-20260901-134726/cleanup-on-exit.json
 
 ## Execution
 
-- Retained the reviewed two-node Terraform topology, one SSH key, mandatory /32 SSH ingress, private Ollama, immutable artifacts, single-use authorization, and USD 20 hard ceiling.
-- Observed AWS reject g6.xlarge creation in us-west-2a for insufficient capacity before any instance or volume was created.
-- Stopped the capacity retry loop after AWS explicitly identified available alternate AZs, then confirmed Terraform destroyed all temporary roles, profiles, policies, key, and security groups and released the lock.
-- Added an optional explicit preferred-subnet input for capacity routing without weakening VPC, GPU-offering, route-table, network-ACL, preflight-digest, or authorization binding checks.
-- Proved the preferred us-west-2b public subnet through live read-only preflight with a new authorization-bound subnet digest.
-- Confirmed direct AWS inventory returned zero issue instances and zero issue volumes after cleanup.
+- Retained the reviewed two-node Terraform topology, one SSH key, /32 SSH ingress, private Ollama, immutable artifacts, single-use authorization, and USD 20 ceiling.
+- Used the reviewed preferred-subnet path to route around transient g6.xlarge capacity refusals while preserving VPC, GPU offering, route, network ACL, preflight, and authorization binding.
+- Observed the us-west-2d GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.
+- Observed Runtime restore the archive, compile Guardian in 1m06s, and pass the previously repaired Git-free root and polis-domain checks.
+- Captured the exact remaining policy error: polis.observatory_public_origin was not present in the localized Observatory allowed-origin set.
+- Localized the polis Observatory origin to the same test origin as the allowed-origin entry and added fail-closed missing and duplicate cases.
+- Confirmed cleanup left zero issue instances and volumes, destroyed Terraform state resources, and released the lock.
 
 ## Validation
 
@@ -36,9 +39,18 @@ The eighth Terraform attempt never created an instance: AWS repeatedly returned 
   {
     "command": [
       "bash",
+      "adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
+    ],
+    "purpose": "Run the extracted Runtime-init localization contract, including coupled Observatory origins and missing or duplicate negative cases.",
+    "outcome": "failed",
+    "evidence_ref": "adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
+  },
+  {
+    "command": [
+      "bash",
       "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
     ],
-    "purpose": "Prove the no-paid topology, preferred-subnet fail-closed markers, authorization, recovery, and cleanup contracts.",
+    "purpose": "Prove the issue-owned no-paid topology, capacity subnet, authorization, recovery, and cleanup contracts.",
     "outcome": "passed",
     "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
   },
@@ -46,28 +58,18 @@ The eighth Terraform attempt never created an instance: AWS repeatedly returned 
     "command": [
       "bash",
       "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "preflight"
-    ],
-    "purpose": "Validate and bind the selected us-west-2b public subnet, AMIs, network, SSH key and CIDR, model set, Terraform source, prices, quota, and zero stale compute without mutation.",
-    "outcome": "passed",
-    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-131309/preflight.json"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
       "run",
       "--commit",
-      "904ffa5867297455252350b1601ab9292753dc00",
+      "993cd46101709a400a2d3e3615921219bea85ede",
       "--run-id",
-      "adl-issue345-20260901-131309",
+      "adl-issue345-20260901-134726",
       "--authorization-file",
-      ".adl/local/issue345/operator-authorization-polis-domain-fix.json",
+      ".adl/local/issue345/operator-authorization-capacity-subnet-2d.json",
       "--execute"
     ],
-    "purpose": "Attempt the reviewed two-node proof; AWS refused GPU capacity before instance creation and the controller cleaned all Terraform prerequisites.",
+    "purpose": "Run the real us-west-2d two-node qualification through repeated GPU residency, Guardian compilation, exact Observatory-origin policy failure, and cleanup.",
     "outcome": "failed",
-    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-131309"
+    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-134726"
   },
   {
     "command": [

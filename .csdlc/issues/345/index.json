@@ -4,37 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 100,
-  "digest": "48ca7cf900200e2ef94048589e2691ac33c5206005033533c4896f53a6758175",
+  "phase": "implemented",
+  "generation": 102,
+  "digest": "229031c56018c82f7edff195e34274b9a6e91d1ae0876c591d1a8030c39b998d",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
-    "revision": "git-blake3:993cd46101709a400a2d3e3615921219bea85ede:a33d879bec37ce8781f26307de5bde236dec2884e3860ce3a574417f92b4966b",
-    "scope": [
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      ".csdlc/issues/345"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "scope": [
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      ".csdlc/issues/345"
-    ],
-    "reviewed_revision": "git-blake3:993cd46101709a400a2d3e3615921219bea85ede:a33d879bec37ce8781f26307de5bde236dec2884e3860ce3a574417f92b4966b",
-    "findings": [],
-    "residual_risks": [
-      "Final paid two-node success remains pending.",
-      "AWS capacity remains external and transient; the selected alternate subnet is revalidated and authorization-bound."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fabb7c6bde2bd47d8e5ac3c46a9e396f8c1e777661b89190503f6d24b77bbf83",
+      "values_digest": "1fccd15a1011785d800ec9c180656c83a7a3669b6f4ab8a7630b4b9a7c990167",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "793124f96920357af50d3535fb7aa2a8576e35baed8544e60ce7d02fe0a8e5c3",
+      "values_digest": "64ead8917151211f171727e97355aedc4d9ef7d7be8c2d39075f917243ac570e",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "f2841903e3a476806efa3f93466d1df3530e67859e0a91d75da7a08308ec2462",
+      "values_digest": "7b490ab82726e0250f0bf976b26bd7378229ffb296531db2594f3d2adf10e7c1",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "ba66e3d9b4889d359b4b376847f49c27e697a2d836d3be854d6407beb50f53a0",
+      "values_digest": "2629109af7c803f7f657c00e36a8266f87edd625d02a0c39a80d74b7c070c1e5",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "ac7107f8faddb015425e6d99fc7e7d7440656ade97b1d2fdcdcee95d221db049",
-      "rendered_digest": "c1bc3edb72dfe2912f61afe73d60047ee4135862b04485f05292f4af72c86e98",
-      "ast_digest": "96d05ade61eaad6a0165d3f8beefbab37e7e2024eca111e78f110f1aa43b4c71"
+      "values_digest": "6b6bf362492c1502fcdc0db4185868216831b0d26fdfdcd7e6b3ce874030dda1",
+      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
+      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "c12464aa33a5362e238975e511644ee6b96e6fcf71e0698feb2a556bc7e14eab",
-      "rendered_digest": "b519800e2945a35004ec72ee230c89b228a48568c3592fb3ebcb552fed9d0d03",
-      "ast_digest": "ffe4786c8f5ff68031c985678a070e8bc5f45cfd757fde8b66d96e01d109fe9e"
+      "values_digest": "21af0293a32308fa0c16e69982a03d3802fbbfbd33c214625c444fdfa9f23cb1",
+      "rendered_digest": "82ecb5405f47277680f1dca10f4d07d14390555fa573989c4bb46fcabaad0ec6",
+      "ast_digest": "d48a95aa3e10def0c525a9b48d6fdfc6bdb739732583265f2c31819422d22d7e"
     }
   },
   "transitions": [
@@ -289,6 +265,13 @@
       "to": "reviewed",
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 31,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the successful us-west-2d launch passed two-model residency, Git-free lifecycle entry, and polis domain validation, then exposed that the validator localized the Observatory allowed-origin entry without localizing polis.observatory_public_origin; couple the fields fail-closed, record the capacity attempts and live failure truth, then re-review."
     }
   ],
   "audit": [
@@ -1166,6 +1149,20 @@
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 126,
+      "generation": 101,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the successful us-west-2d launch passed two-model residency, Git-free lifecycle entry, and polis domain validation, then exposed that the validator localized the Observatory allowed-origin entry without localizing polis.observatory_public_origin; couple the fields fail-closed, record the capacity attempts and live failure truth, then re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 127,
+      "generation": 102,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Record the capacity-routed attempts, successful us-west-2d two-node launch, repeated GPU residency, exact Observatory-origin policy failure, zero-residue cleanup, and narrow fail-closed localization remediation without claiming final success.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"After AWS refused g6.xlarge placement in 2a and then transiently in 2b and 2c, authorization-bound preferred-subnet routing launched both nodes in us-west-2d. The GPU node again proved both configured models simultaneously resident with exact digests and nonzero VRAM. The Runtime node restored the complete Git-free archive, compiled Guardian in 1m06s, passed Git-free root and polis-domain validation, then failed because the validator localized the Observatory allowed-origin entry without localizing polis.observatory_public_origin. The orphaned probe alone was terminated after the immediate soak failure. Cleanup destroyed both nodes and volumes and released the lock. The validator now localizes both Observatory-origin fields together and rejects missing or duplicate polis origin fields. Final paid proof remains pending review and rerun.\",\"changes\":[\"Retained the reviewed two-node Terraform topology, one SSH key, /32 SSH ingress, private Ollama, immutable artifacts, single-use authorization, and USD 20 ceiling.\",\"Used the reviewed preferred-subnet path to route around transient g6.xlarge capacity refusals while preserving VPC, GPU offering, route, network ACL, preflight, and authorization binding.\",\"Observed the us-west-2d GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed Runtime restore the archive, compile Guardian in 1m06s, and pass the previously repaired Git-free root and polis-domain checks.\",\"Captured the exact remaining policy error: polis.observatory_public_origin was not present in the localized Observatory allowed-origin set.\",\"Localized the polis Observatory origin to the same test origin as the allowed-origin entry and added fail-closed missing and duplicate cases.\",\"Confirmed cleanup left zero issue instances and volumes, destroyed Terraform state resources, and released the lock.\"],\"artifacts\":[\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\".adl/local/issue345/adl-issue345-20260901-134726/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-134726/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-134726/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"],\"purpose\":\"Run the extracted Runtime-init localization contract, including coupled Observatory origins and missing or duplicate negative cases.\",\"outcome\":\"failed\",\"evidence_ref\":\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"},{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the issue-owned no-paid topology, capacity subnet, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"993cd46101709a400a2d3e3615921219bea85ede\",\"--run-id\",\"adl-issue345-20260901-134726\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-capacity-subnet-2d.json\",\"--execute\"],\"purpose\":\"Run the real us-west-2d two-node qualification through repeated GPU residency, Guardian compilation, exact Observatory-origin policy failure, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-134726\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
     }
   ]
 }
