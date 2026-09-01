@@ -7,23 +7,25 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 76
+    "generation": 77
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/src/cli/csm_runtime_v3_cmd.rs\n.csdlc/issues/589",
+      "review_revision": "git-blake3:2a2ab485271cdcda11a2f34bb2c97a507f09fe38:3625684ad2c52c228371524fc80ea793a6a87c8690e7e9a7081633944b3b7ce0",
+      "reviewer": "subagent:/root/issue_589_review",
       "review_prompts": [
         "Verify startup no longer requires the separate continuity channel while Guardian ownership remains intact.",
         "Verify stale-state recovery cannot remove a lock owned by a live writer.",
         "Verify reload preserves the last known-good running configuration on candidate failure."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Fresh exact-head CI must confirm strict hosted Clippy after publication; live Runtime and cloud readbacks remain mutable point-in-time evidence."
+      ],
+      "review_result": "pass"
     }
   }
 }

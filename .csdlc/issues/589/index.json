@@ -3,13 +3,34 @@
   "issue": 589,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
-  "phase": "implemented",
-  "generation": 76,
-  "digest": "bc74bd0fca257144520701b555bea37dc934c2a24fc1495ab2e80a48a77eade5",
+  "phase": "reviewed",
+  "generation": 77,
+  "digest": "88ca73cc068809562c28e8f186a0ee45189fcca851574e0c721b4bfa56f1ccf7",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "assigned_by": "codex-issue-589",
+    "revision": "git-blake3:2a2ab485271cdcda11a2f34bb2c97a507f09fe38:3625684ad2c52c228371524fc80ea793a6a87c8690e7e9a7081633944b3b7ce0",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/issues/589"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/issues/589"
+    ],
+    "reviewed_revision": "git-blake3:2a2ab485271cdcda11a2f34bb2c97a507f09fe38:3625684ad2c52c228371524fc80ea793a6a87c8690e7e9a7081633944b3b7ce0",
+    "findings": [],
+    "residual_risks": [
+      "Fresh exact-head CI must confirm strict hosted Clippy after publication; live Runtime and cloud readbacks remain mutable point-in-time evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a081bd3616d6ed7ae71033101c1951bc7e3a4c92cd8cd9eae30969df76ca1f7",
+      "values_digest": "9c468552ad0af1a557f297d2fdffbe1bb9784ddd03c18a7011cd81d8394c776a",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "687f317f69bc573a21d50910657c947d6820ea28103a0979d525df4961399bb5",
+      "values_digest": "1278e31ea7c4ee36b7f4ee1a0b1b7174cb4f00a46ad26810f3e163e351c5d2f1",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "166fd4298232bf09b2ceeb97340bb6d6b9513d4e3a6af374adee0a65d6bc8c22",
+      "values_digest": "bdce26ed938efd32eeb4f0b17db7ec803d9a929844671907b3663a5cb4f0241b",
       "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
       "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "9140bde753305f4eda13cdcd71266c7fb03c893af6c3de9a1e807cc8bd85bac6",
+      "values_digest": "d80e6c9bb62b8088f2c647e6d48e4de2c140c51df910d8eb84caf7297b60bc9a",
       "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
       "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "6f34eae53bcc37927e686ccc4ab80f9be1682377de9d3c8e292ec97898e2c7ad",
-      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
-      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
+      "values_digest": "8a22c825183bb1e014cdd188dfce009efba14e8ded401b5f3877159ee657c1fa",
+      "rendered_digest": "88c5964620a54c2e2ee280418ec6866dfa93beefc3afe4419d307e840e8f2a31",
+      "ast_digest": "60ffb2a8e011645e81d4a2e830b69a0a2485eacf56148f321f385d96c89d9068"
     },
     "sor": {
-      "values_digest": "2970e78334a8c5fd966f688926be86cf03df7bc24f79b315682c327400d09110",
+      "values_digest": "fed29943a5f68b493316f398dc15e7ed8e151a5d366750d3cbe7711032207c31",
       "rendered_digest": "44638ef01be8b1638fb8ba09a4ddab68b6d6ee9dab90428553b75c01d4acad41",
       "ast_digest": "9fb0403c8ed982fd96b0aaace46f8d324b3c61d196d0f83c0e63cbd13b19444d"
     }
@@ -257,6 +278,13 @@
       "to": "implemented",
       "actor": "codex-issue-589",
       "reason": "Recover published review truth after exact-head hosted Clippy rejected boolean literal comparisons in the new launchctl classifier test."
+    },
+    {
+      "sequence": 30,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -945,6 +973,20 @@
       "actor": "codex-issue-589",
       "reason": "Record the exact local proof for the hosted Clippy remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the exact hosted lint failure is resolved without weakening warning policy.\",\"outcome\":\"passed\",\"evidence_ref\":\"ADL binary Clippy completed successfully with -D warnings; all 28 focused CSM tests also passed after the lint-only assertion rewrite.\"}}"
+    },
+    {
+      "sequence": 99,
+      "generation": 76,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 100,
+      "generation": 77,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
