@@ -14,6 +14,7 @@ const DEFAULT_LABEL: &str = "com.agentlogic.adl-runtime-v3";
 struct RuntimeV3ServiceArgs {
     init: PathBuf,
     candidate: Option<PathBuf>,
+    #[cfg_attr(not(target_os = "macos"), allow(dead_code))]
     plist: Option<PathBuf>,
     label: String,
     json: bool,
