@@ -4,13 +4,57 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "3069c53f6bd84ddb15416a5ba533283b11c48de62325a84851e746d3ce5a28c1",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "8277602ccf885ea1d0269795ad9843fa4b9792089e011fa274244251ccefbbf7",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "review_591_head_01e22",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:12d5d2678b7bc2f80a7fdb4e883fce0490a9a4de:b2e6ab0f7522ebff63f9551269c56aeff1ee74451a010ac6682144fd9db71e99",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates",
+      ".csdlc/evidence/sprints-8-9-v3-readiness",
+      ".csdlc/prepared/issues/505"
+    ]
+  },
+  "review": {
+    "reviewer": "review_591_head_01e22",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates",
+      ".csdlc/evidence/sprints-8-9-v3-readiness",
+      ".csdlc/prepared/issues/505"
+    ],
+    "reviewed_revision": "git-blake3:12d5d2678b7bc2f80a7fdb4e883fce0490a9a4de:b2e6ab0f7522ebff63f9551269c56aeff1ee74451a010ac6682144fd9db71e99",
+    "findings": [],
+    "residual_risks": [
+      "This PASS covers the local #505/#591 refreshed work product only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.",
+      "PR #591 remote mergeability must be rechecked after this reviewed head is pushed and publication truth is recorded."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bcffd3d3d193c3bfc08111574018ff205d17ac5889379c1b2165130cb28199b5",
+      "values_digest": "7b0f24e4de5b66e577a24b7dde826107cd1ab9f8fd2438c25670533d74841b30",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "2ae34363c1798484f8a16b0d692c0980aa7b0ea1f9e9936f010bbe635afb503c",
+      "values_digest": "6d05b7658e2267dee240a81f820a5ad8df50bd72cc3e4dd65f6cb03cd9d5be2e",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "91e23bf114ef241bd35e37ed69e071599bc4168d5f45c3eb4ea3100be60c590d",
+      "values_digest": "4ba324c92eed12612e0d00cc0964322af785f6dab7701a2feac6bb9fed57757f",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "b97b051d8268a020fdb2b8dcb478d461bc0fe263b0b3f6f2f15f21735ee396de",
+      "values_digest": "bbac09109493339c39d63a8cf9faf41dd42f9fac31eb218f9286015427d13a34",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "25e1c3b53f7bebab82170f3958bdead2e843f332795dcf60e5d6efc39502f307",
-      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
-      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
+      "values_digest": "694d9bab96b3beafc43d3bf1b8e8d0c7cfaa05995b2ff9dcf1d994eaeb920a43",
+      "rendered_digest": "2c1173d7c50e12375e411351081ded4c7ae13e5f83fe76ce4369388c9b5fb647",
+      "ast_digest": "3f94ec2dbc8f93dee6e78635025d3f625810627994a16179a203c3ffdc22274b"
     },
     "sor": {
-      "values_digest": "e4ff15bda2616aa9abcf71d12d7c8eb8eff38846a4512fd49fef8cebe07e04ef",
+      "values_digest": "6873d0569fb3486311bf2bbd44781eed3c0b19c58fcb8d8de849aa847549069a",
       "rendered_digest": "8d3bb810b722aa8e728d53e103a2900522e2300072769623dadeb9ba3690ca3f",
       "ast_digest": "971f5ee1de0a8c60dc4a72465ec8baf4d8196561aa8d012c301e50d2675b794f"
     }
@@ -146,6 +190,13 @@
       "to": "implemented",
       "actor": "Worker #6",
       "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -309,6 +360,20 @@
       "actor": "Worker #6",
       "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

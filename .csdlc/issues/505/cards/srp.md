@@ -12,7 +12,19 @@ Status: draft
 
 ## Scope
 
-
+AGENTS.md
+csdlc-v3
+docs/csdlc-v3
+docs/default_workflow.md
+docs/onboarding.md
+docs/architecture/ADL_ARCHITECTURE.md
+docs/tooling/adl_pr_cycle_skill.md
+docs/tooling/card-lifecycle.md
+docs/tooling/structured-prompt-contracts.md
+docs/tooling/editor
+docs/templates
+.csdlc/evidence/sprints-8-9-v3-readiness
+.csdlc/prepared/issues/505
 
 ## Prompts
 
@@ -31,12 +43,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This PASS covers the local #505/#591 refreshed work product only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.
+- PR #591 remote mergeability must be rechecked after this reviewed head is pushed and publication truth is recorded.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:12d5d2678b7bc2f80a7fdb4e883fce0490a9a4de:b2e6ab0f7522ebff63f9551269c56aeff1ee74451a010ac6682144fd9db71e99")
 
-Reviewer: None
+Reviewer: Some("review_591_head_01e22")
 
-Result: pre_review
+Result: pass
