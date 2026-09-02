@@ -5,11 +5,27 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "0d87454d415483ac2baee77b91f070bb0fdbe8898d822f8452c537f149deb614",
+  "generation": 14,
+  "digest": "97234601bd736ef7c2290fb2e993ace113755651c7c80bd65bacc4bdd6d4c075",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_628_post627_restack",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:70991794f3a0bb9737c7c000ba94da5af6d22b8c:f0bfa307a1d85a0d967878fc69e76f4a19ba69bb7f9c0990afc92fa8d008d28f",
+    "scope": [
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/628",
+      ".csdlc/evidence/628",
+      ".csdlc/issues/627",
+      ".csdlc/evidence/627"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -25,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2a22192ec0448340223734f721a46e82375820f2624b7abadc69662c1112090b",
+      "values_digest": "faea2f27663372175eee8ba912090c2b0832d7ca13b83cdf37e3f0b64b794094",
       "rendered_digest": "ec86154fbe8bea2e97c924434eeb9628c5ed7da45613790a6ac03fbb543a27a5",
       "ast_digest": "2acce6b1beca8f33b77c7b8cf371d468d8f199e4f56aa9dcfe4a298d3acd9593"
     },
     "stp": {
-      "values_digest": "74c0572494dc34f22cd1417e415b83375d4111a7289a765c41944b4d6c03876c",
+      "values_digest": "bb3491b8935537497753b1f41d5d1d0300ee0e08d2603454868a55ad7d008cb1",
       "rendered_digest": "bc3cd8bd8745a5adceb6c9595367ec1919f1797064fee91ee7eb896d4f155efd",
       "ast_digest": "57dfad5b0fe0bea239cfdf214b53671017845b79aff12963238f44d33d0c57db"
     },
     "spp": {
-      "values_digest": "470b512a5e74e77a39cb13745fd5f4f964421fafd8077b9a8c2587a13ce101ba",
+      "values_digest": "d9fbd212b8ed99ee8fb5dcd31b2f3b51fe1524fa649bab26b9e1da9ec2aca942",
       "rendered_digest": "d819514ecc09935b395491930a0d9d63e1b5046f4c83282c0e9c3ba0dc04689a",
       "ast_digest": "14bf84ef4d04a577ee0b6f619469d6cddc0148f5d840a78313ae0c6973a2d204"
     },
     "vpp": {
-      "values_digest": "8820f903e16e48d861bfc19327c47e8db1c0898c7bf1d38a72ace49b04bc29d5",
+      "values_digest": "250610c170e75999da087b1cc5b632b312be20d5740a234ce5b1a90599e9e43e",
       "rendered_digest": "43d4653b64b0dd707774309d0824415e41d4fd92b04d28591b58488a8e59f8ed",
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "4488c2b34e86006743d164df130e58472716578fea63faa183fe931590f12c1f",
-      "rendered_digest": "2e4b0d62c3ff55fa707a9f45db163c258a06e12d6cfbf36cc5d4b039375f34ad",
-      "ast_digest": "2f29a8922955564d3077596be9ce4658e0c95e4f10828b2471b7df1849299821"
+      "values_digest": "0114ddbf37c778fe21f74d4577ed04d14816e41d36e465ac95db90a15ab87142",
+      "rendered_digest": "3ba37952c0c51c361dec1973fab578f01e6ea436ca7843cc055cd4fea5ecf1ce",
+      "ast_digest": "a4172b8a132eee33d72cc7efefb8930c12f7f05fe65419003ee99659695f0fb4"
     },
     "sor": {
-      "values_digest": "c3134795528387169189b74683c8f7171f48efa61ab2a93e14c4afb94dece364",
-      "rendered_digest": "6813ba702916dcfdeb3f4e59c6963467b7e5fdbe121dc337f41979e12352173c",
-      "ast_digest": "34dd48dd5a08ac16c0d9757cfe376f066796e959c29f96a3a18628dc8be6e650"
+      "values_digest": "2217d3eb30e491d66bed3b7704ab42caf5f5770592b5ed3ffd7a18333c58fe6f",
+      "rendered_digest": "5d34af06134eebc23c0330e62c33d73bf4d0cb9695c13e2069e8480d967c482a",
+      "ast_digest": "9ab03151caa4910418a3949f9b5e6d281de51433bfe454ca8dd7519759e8590e"
     }
   },
   "transitions": [
@@ -295,6 +311,20 @@
       "actor": "codex:/root",
       "reason": "Recover #628 after #627 merged and typed finish materialized terminal truth on origin/main; restacked #628 at 0f427912c0332016a8bb3b40914199208d57f667 preserves final #627 lifecycle/proof surfaces before fresh exact-head review and republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Correct exact-review P2 SOR truth drift: local routes are operationally non-authoritative before #505 cutover, but the issue route intentionally writes explicit v3 construction state when --v3-state-root is supplied.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state.\",\"changes\":[\"Implemented the #628-owned local routes issue, bind, edit, validate, doctor, schedule, shepherd, and eligibility as one-binary v3 commands.\",\"Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied.\",\"Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.\",\"Updated the v3 command manifest so #628 local routes are implemented but not live authority.\",\"Added focused tests for local route help/dispatch, eight-command contract coverage, issue-route construction-state writes, and missing lifecycle state diagnostics.\",\"Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps.\"],\"artifacts\":[\"csdlc-v3/src/commands/local/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/local_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/628/design.md\",\".csdlc/prepared/issues/628/diagram.mmd\",\".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh\",\".csdlc/issues/628\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy across csdlc-v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"purpose\":\"Run exact-range diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-diff-hygiene.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run all C-SDLC v3 tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-full-v3-regression.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh\",\"all\"],\"purpose\":\"Run the #628 issue-owned validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-issue-validator.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"local_commands\"],\"purpose\":\"Run focused local command tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-local-route-tests.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Run real issue canary tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-real-issue-canary.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify rustfmt.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-rustfmt.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec\",\"issue\",\"--issue\",\"628\"],\"purpose\":\"Verify #628 C-SDLC issue state.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-typed-issue-validation.log\"}]}"
     }
   ]
 }

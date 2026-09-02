@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3/src/commands/local/mod.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/command_manifest.rs
+csdlc-v3/tests/local_commands.rs
+csdlc-v3/tests/real_issue_canary.rs
+docs/csdlc-v3/v3-command-manifest.json
+.csdlc/prepared/issues/628
+.csdlc/evidence/628
+.csdlc/issues/627
+.csdlc/evidence/627
 
 ## Prompts
 

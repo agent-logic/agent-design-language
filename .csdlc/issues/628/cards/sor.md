@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the V3-H.2 local lifecycle routes under the single non-authoritative csdlc v3 binary.
+Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state.
 
 ## Artifacts
 
@@ -30,10 +30,10 @@ Implemented the V3-H.2 local lifecycle routes under the single non-authoritative
 ## Execution
 
 - Implemented the #628-owned local routes issue, bind, edit, validate, doctor, schedule, shepherd, and eligibility as one-binary v3 commands.
-- Kept all local routes read-only and non-authoritative before #505 cutover.
+- Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied.
 - Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.
 - Updated the v3 command manifest so #628 local routes are implemented but not live authority.
-- Added focused tests for local route help/dispatch, eight-command contract coverage, and missing lifecycle state diagnostics.
+- Added focused tests for local route help/dispatch, eight-command contract coverage, issue-route construction-state writes, and missing lifecycle state diagnostics.
 - Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps.
 
 ## Validation
