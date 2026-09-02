@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "b8c955327eea050bf8b1719bc43f6c1683299c4977626ca03cd00fbe04e4d65a",
+  "generation": 17,
+  "digest": "9d7ecdf9a4da6db65c0ca3e61d84f42260b3b07eb628a75ffe22cc2f2f2ba8aa",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f49defdd357228146e2af4b4b93b1617c83573da850719aa51f34c06f4896e66",
+      "values_digest": "c1f3dcc584040d8a1f4b17ffee48e65b376e7808dad88a28f4e03b6edefa2fed",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "e16f3415f6b091fe290de70bcf5b3d4df3732e7d22b6dda24eee7860d2659e2f",
+      "values_digest": "01e1ea12b5bc46ae4669809450441e83ba13c292d596c1901fa84b7d3b3bb4ea",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "53fafaabf878105ace8951798ab3e8b38af40c0a5d670dba5e36639266c2ecdc",
+      "values_digest": "41f51c1d63e392441e64a42e1e330b55cef1068bbbf2d5fc53e924a553bb15b6",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "cc1d7eb26e40cb2170f64fb30e9a5dee3ba5f10f0278c545a26221502a908b4b",
+      "values_digest": "c1513f63be057c8c39aca9bb7933a7bda87ddca50bf96cf4982740c653b8adc5",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "9c68cd5e6adbfac63525cb904a2437f17383d28f55f0147a0d13c64de981896d",
+      "values_digest": "1734fd89b68a1201bfd5a81f506a11fc5c2b83105677a1416999e61af1cbb0ca",
       "rendered_digest": "dcdf4ee8ff229a906d36c1cb33afe3bd1f7a8ab1d233a85470863a2370c63c92",
       "ast_digest": "e85613914db766ef65fdae1fdd2679d823f21ee29038e12abbd7c038f47a15f1"
     },
     "sor": {
-      "values_digest": "80353110943aecf177c0002ca78721f053f451d8a37423e0ed7f32269d20576f",
-      "rendered_digest": "f3a204d2f5465c86b9b7d3bed085d8011ff744f17fabc1ee9d313276a6205067",
-      "ast_digest": "b2398752b0db18b408a6dc06229dec2867647c09cdfbc7f569c3fa346ebc9975"
+      "values_digest": "fd2bebed869f2dcfdd9ec71b82bb6226268381f0ab8cd15f9f522270be51cea0",
+      "rendered_digest": "eb82acfe6b51aeed884456451cc91ce168ba441d342b8fc79eb06ebdb8cebec9",
+      "ast_digest": "a85c03c3c4638184a9f7eadcf36e87634f7a03e2a4ec48963a8838c967c9f474"
     }
   },
   "transitions": [
@@ -246,6 +246,27 @@
       "actor": "codex:/root",
       "reason": "Record R5 remediation: mainline exemptions now require exact blob equivalence with origin/main.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the R5 review finding while preserving the existing GCS artifact bundle and retained live GCP proof. Canonical mainline changes after the live source revision are accepted only when the reviewed HEAD blob exactly matches origin/main for that path; #509-owned post-live drift remains rejected.\",\"changes\":[\"Recovered the stale R5 review assignment after reviewer fresh-session:17be44d4-b4c6-4b46-bb9e-0f4a1bc4a27f found the path-name-only mainline exemption.\",\"Updated the issue-owned implementation validator to compare per-path Git object IDs for HEAD and origin/main before exempting any mainline-touched path.\",\"Kept the DRT-D shell proof wrapper delegated to the issue-owned Ruby validator plus the focused Rust retained-proof test.\",\"Did not rebuild Runtime/Ollama artifacts or rerun the paid GCP qualification; the retained GCS-backed live run remains adl-509-drt-d-20260902192222.\"],\"artifacts\":[\".csdlc/prepared/issues/509/validate-implementation.rb\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification and blob-equivalent canonical mainline exemption policy.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r5-mainline-blob-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify the DRT-D retained proof denominator with the blob-equivalent mainline guard.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r5-mainline-blob-drt-d-contract\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after R5 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r5-mainline-blob-diff-check\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:b65fbab1-bc0e-47c9-8117-96f9f3215a9d returned FAIL: cleanup --run-id and retained cleanup proof covered only VM instances while the default Terraform root can create per-run Cloud Router/NAT. Implementation will add Router/NAT cleanup and absent-proof keys, without rebuilding artifacts or rerunning paid GCP qualification.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record R6 remediation: cleanup now covers optional per-run Cloud Router/NAT as well as disposable VM instances.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the R6 cleanup-zero finding without rebuilding artifacts or rerunning the paid GCP qualification. The #509 cleanup command now removes any per-run Cloud NAT and Cloud Router created by the default Terraform path, and retained proof requires VM, Router, NAT, and selector absence.\",\"changes\":[\"Recovered the stale R6 review assignment after reviewer fresh-session:b65fbab1-bc0e-47c9-8117-96f9f3215a9d found cleanup proof covered only instances.\",\"Extended adl/tools/run_issue509_gcp_drt_d_qualification.sh cleanup --run-id to remove the exact per-run NAT and Router names after deleting run-labeled instances.\",\"Extended live-run destroy readback to fail if the per-run NAT or Router remains and to write structured cleanup-readback JSON with instances, cloud_router, and cloud_nat fields.\",\"Updated the retained qualification receipt and issue-owned implementation validator so cleanup proof requires runtime_instance, ollama_instance, cloud_router, cloud_nat, and run_selector all absent.\",\"Confirmed the retained run adl-509-drt-d-20260902192222 has absent Router/NAT readback via read-only gcloud describe commands.\"],\"artifacts\":[\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\",\".csdlc/prepared/issues/509/validate-implementation.rb\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\"],\"validation\":[{\"command\":[\"gcloud\",\"compute\",\"routers\",\"describe\",\"adl-509-drt-d-20260902192222-router\",\"--region\",\"us-west1\"],\"purpose\":\"Read-only retained-run Cloud Router absence check.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r6-cleanup-router-absent:not-found\"},{\"command\":[\"gcloud\",\"compute\",\"routers\",\"nats\",\"describe\",\"adl-509-drt-d-20260902192222-nat\",\"--router\",\"adl-509-drt-d-20260902192222-router\",\"--region\",\"us-west1\"],\"purpose\":\"Read-only retained-run Cloud NAT absence check.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r6-cleanup-nat-absent:not-found\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification, blob-equivalent mainline policy, and expanded cleanup-zero denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r6-cleanup-zero-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify the DRT-D retained proof denominator after cleanup-zero remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r6-cleanup-zero-drt-d-contract\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\"],\"purpose\":\"Reject shell syntax regressions in cleanup and live-run readback logic.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r6-cleanup-zero-shell-syntax\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after R6 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r6-cleanup-zero-diff-check\"}]}"
     }
   ]
 }

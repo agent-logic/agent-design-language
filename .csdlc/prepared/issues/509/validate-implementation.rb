@@ -72,5 +72,8 @@ abort("cost availability must not claim exact billing") unless cost.fetch("actua
 abort("actual cost must be unset when billing is unavailable") unless cost["actual_cost_usd"].nil?
 abort("cost budget missing") unless cost.fetch("max_budget_usd").is_a?(Numeric) && cost.fetch("max_budget_usd") > 0
 abort("cost method must state bounded budget") unless cost.fetch("method").include?("bounded-budget")
-abort("cleanup not proven") unless receipt.fetch("cleanup").values.all? { |v| v == "absent" }
+cleanup = receipt.fetch("cleanup")
+%w[runtime_instance ollama_instance cloud_router cloud_nat run_selector].each do |k|
+  abort("cleanup #{k} not proven absent") unless cleanup.fetch(k) == "absent"
+end
 puts '{"schema":"adl.v0921.drt_d.implementation.v1","outcome":"passed"}'

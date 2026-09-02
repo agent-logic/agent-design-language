@@ -38,7 +38,9 @@ stored in the retained receipt.
 Because the company project denies external VM IP addresses, the Terraform root
 also creates a disposable regional Cloud Router/NAT for outbound bootstrap when
 `create_cloud_nat=true`. The NAT and router share the issue/run labels and are
-destroyed by the same Terraform cleanup path.
+destroyed by the same Terraform cleanup path. The `cleanup --run-id` path also
+removes any matching per-run Router/NAT names, and retained cleanup proof
+requires absent readback for instances, Router, and NAT.
 
 The VM startup scripts must not call `ollama pull`, `git clone`, `rustup`, or
 `cargo build`, and they must not perform normal-start package installation.

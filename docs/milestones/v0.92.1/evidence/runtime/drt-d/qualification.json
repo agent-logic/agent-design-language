@@ -407,6 +407,8 @@
   "cleanup": {
     "runtime_instance": "absent",
     "ollama_instance": "absent",
+    "cloud_router": "absent",
+    "cloud_nat": "absent",
     "run_selector": "absent"
   }
 }

@@ -366,7 +366,23 @@ run_live() {
   terraform_cmd destroy -input=false -auto-approve -var-file="$tfvars" >"$run_dir/terraform-destroy.log"
   cleanup_json="$(gcloud_cmd compute instances list --filter="$cleanup_selector" --format=json)"
   [[ "$(jq 'length' <<<"$cleanup_json")" == "0" ]] || { echo "cleanup residue remains for $run_id" >&2; exit 1; }
-  printf '%s\n' "$cleanup_json" >"$run_dir/cleanup-readback.json"
+  local router_name nat_name router_state nat_state
+  router_name="${run_id}-router"
+  nat_name="${run_id}-nat"
+  router_state="absent"
+  nat_state="absent"
+  if gcloud_cmd compute routers nats describe "$nat_name" --router="$router_name" --region "$REGION" >/dev/null 2>&1; then
+    nat_state="present"
+  fi
+  if gcloud_cmd compute routers describe "$router_name" --region "$REGION" >/dev/null 2>&1; then
+    router_state="present"
+  fi
+  [[ "$nat_state" == "absent" && "$router_state" == "absent" ]] || { echo "cleanup router/NAT residue remains for $run_id" >&2; exit 1; }
+  jq -n \
+    --argjson instances "$cleanup_json" \
+    --arg router "$router_state" \
+    --arg nat "$nat_state" \
+    '{instances:$instances,cloud_router:$router,cloud_nat:$nat}' >"$run_dir/cleanup-readback.json"
   cost_json="$(jq -n --argjson max_budget_usd "$MAX_BUDGET_USD" '{currency:"USD",actual_cost_usd:null,actual_cost_available:false,method:"bounded-budget-disposable-run; billing export is not read during qualification",max_budget_usd:$max_budget_usd}')"
 
   jq -n \
@@ -397,7 +413,7 @@ run_live() {
       runtime_receipt:$runtime[0],
       ollama_receipt:$ollama[0],
       cost:$cost,
-      cleanup:{runtime_instance:"absent",ollama_instance:"absent",run_selector:"absent"}
+      cleanup:{runtime_instance:"absent",ollama_instance:"absent",cloud_router:"absent",cloud_nat:"absent",run_selector:"absent"}
     }' >"$QUALIFICATION_JSON"
   ruby "$ROOT/.csdlc/prepared/issues/509/validate-implementation.rb"
   trap - EXIT INT TERM
@@ -406,11 +422,20 @@ run_live() {
 cleanup() {
   [[ "${1:-}" == "--run-id" && -n "${2:-}" ]] || { usage; exit 2; }
   local run_id="$2"
+  local router_name nat_name
+  router_name="${run_id}-router"
+  nat_name="${run_id}-nat"
   gcloud_cmd compute instances list --filter="labels.issue=509 AND labels.lane=drt-d AND labels.run_id=$(printf '%s' "$run_id" | tr '_' '-')" --format='value(name,zone)' |
     while read -r name zone_url; do
       [[ -n "$name" ]] || continue
       gcloud_cmd compute instances delete "$name" --zone "${zone_url##*/}" --quiet
     done
+  if gcloud_cmd compute routers nats describe "$nat_name" --router="$router_name" --region "$REGION" >/dev/null 2>&1; then
+    gcloud_cmd compute routers nats delete "$nat_name" --router="$router_name" --region "$REGION" --quiet
+  fi
+  if gcloud_cmd compute routers describe "$router_name" --region "$REGION" >/dev/null 2>&1; then
+    gcloud_cmd compute routers delete "$router_name" --region "$REGION" --quiet
+  fi
 }
 
 case "${1:-}" in
