@@ -15,6 +15,7 @@ ENCLOSURE_JSON = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworke
 IDENTITY = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/show-identity.json")
 RIGHTS = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json")
 MAILBOX = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json")
+QA_REPORT = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md")
 
 def fail!(reason)
   warn JSON.generate(schema: "agent_logic.podcast.hosting_validation.v1", status: "failed", reason: reason)
@@ -80,6 +81,8 @@ audio_path = File.join(ROOT, "demos/podcast/audio/meet-the-ai-coworkers.mp3")
 audio = File.binread(audio_path)
 fail!("audio byte length mismatch") unless audio.bytesize == enclosure["bytes"]
 fail!("audio SHA-256 mismatch") unless Digest::SHA256.hexdigest(audio) == enclosure["sha256"]
+fail!("audio ID3 metadata still names Cognitive Spacetime") if audio.include?("Cognitive Spacetime")
+fail!("audio ID3 metadata missing The Cognitive Stack") unless audio.include?("The Cognitive Stack")
 
 artwork_path = File.join(ROOT, "demos/podcast/artwork.png")
 artwork = File.binread(artwork_path)
@@ -94,8 +97,14 @@ fail!("artwork SHA-256 mismatch") unless Digest::SHA256.hexdigest(artwork) == id
   html = read(path)
   fail!("#{label} missing The Cognitive Stack") unless html.include?("The Cognitive Stack")
   fail!("#{label} has stale page title") if html.match?(%r{<title>[^<]*Cognitive Spacetime}i)
+  fail!("#{label} has stale show transcript copy") if html.include?("Welcome back to Cognitive Spacetime")
   fail!("#{label} contains prohibited local URL") if html.match?(%r{(?:localhost|127\.0\.0\.1|file:|/private/tmp|/var/folders)})
 end
+
+qa_report = read(QA_REPORT)
+fail!("QA report audio hash mismatch") unless qa_report.include?(enclosure["sha256"])
+fail!("QA report still names Cognitive Spacetime metadata") if qa_report.include?("Artist: Cognitive Spacetime") || qa_report.include?("Album: Cognitive Spacetime")
+fail!("QA report missing The Cognitive Stack metadata") unless qa_report.include?("Artist: The Cognitive Stack") && qa_report.include?("Album: The Cognitive Stack")
 
 puts JSON.generate(
   schema: "agent_logic.podcast.hosting_validation.v1",

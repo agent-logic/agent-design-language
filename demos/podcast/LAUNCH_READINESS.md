@@ -26,7 +26,7 @@ declares `noindex,nofollow`.
 | Transcript and notes | Reconciled to final script | `demos/podcast/episodes/001-meet-the-ai-coworkers/` |
 | First ten topics | Drafted | episode list in `demos/podcast/index.html` |
 | Guest workflow | Page-ready | contact button uses `mailto:podcast@agent-logic.ai`; FAQ invites guest suggestions |
-| Contact path | Address configured; mailbox verification deferred | `podcast@agent-logic.ai` appears only in CTA/FAQ/feed owner metadata |
+| Contact path | Address configured; mailbox verified for launch packet | `docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json` records verified receipt and publication authorization |
 | Final launch route | Planned | promote `/podcast/` as the public route after review |
 
 ## Audio Truth
@@ -48,8 +48,9 @@ submission, verify:
   reachable and returns the complete file.
 - `https://agent-logic.ai/podcast/artwork.png` is publicly reachable and
   returns the 3000 x 3000 RGB PNG.
-- `podcast@agent-logic.ai` receives directory verification mail; this remains a
-  launch-issue check and is not claimed by WP-24A.
+- `podcast@agent-logic.ai` receives directory verification mail; #261 records
+  the mailbox as verified for the launch packet, while directory-specific
+  account-side verification remains part of the later #264 submission workflow.
 - The first submitted episode uses final approved audio, title, description,
   publish date, and content-rights truth.
 

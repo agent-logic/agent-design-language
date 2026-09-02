@@ -4,7 +4,7 @@ Status: complete candidate held for human review
 
 ## Show Identity
 
-- Show: Cognitive Spacetime: The Agent Logic Podcast
+- Show: The Cognitive Stack
 - Episode: 001
 - Title: Meet the AI Coworkers
 - Canonical GUID: `agent-logic-cognitive-spacetime-episode-001`
