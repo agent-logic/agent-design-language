@@ -1,0 +1,7 @@
+{
+  "issue": 342,
+  "expected_generation": 20,
+  "expected_digest": "dc404d52f8dcdea3f6279d77b3974b65780a5ed6328eab48488d31bb40c12b46",
+  "actor": "codex:/root/sprint8-podcast-lane",
+  "reason": "Recover the pre-activity review assignment after the fresh review task failed from a model usage-limit system error before inspecting files or producing review evidence."
+}

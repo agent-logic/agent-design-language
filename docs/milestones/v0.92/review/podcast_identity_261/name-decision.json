@@ -1,0 +1,13 @@
+{
+  "schema": "agent_logic.podcast.name_decision.v1",
+  "version": "v0.92.1-261-candidate.1",
+  "status": "operator_approved",
+  "candidate_title": "The Cognitive Stack",
+  "decision": "approved",
+  "approved_title": "The Cognitive Stack",
+  "decided_at_utc": "2026-09-01T18:44:04Z",
+  "operator_confirmation_receipt": "docs/milestones/v0.92/review/podcast_identity_261/title-decision-receipt.json",
+  "operator_confirmation_sha256": "aa777984517b00686bbfb07f0efa77f584f8a67e60cde9edbeec520b9667938d",
+  "research_record": "docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md",
+  "research_sha256": "f76361b60b3b9a79db6964460128ffa9ac92c8a6e576f9f05b4d7a56a5d026ca"
+}

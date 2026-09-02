@@ -196,6 +196,109 @@ fn bedrock_request_and_response_shapes_cover_nova_messages() {
 }
 
 #[test]
+fn vertex_ai_global_location_uses_global_aiplatform_host() {
+    assert_eq!(
+        vertex_ai_gemini_endpoint("company-project", "global", "gemini-3.7-flash"),
+        "https://aiplatform.googleapis.com/v1/projects/company-project/locations/global/publishers/google/models/gemini-3.7-flash:generateContent"
+    );
+    assert_eq!(
+        vertex_ai_gemini_endpoint("company-project", "us-west1", "gemini-2.5-flash"),
+        "https://us-west1-aiplatform.googleapis.com/v1/projects/company-project/locations/us-west1/publishers/google/models/gemini-2.5-flash:generateContent"
+    );
+}
+
+#[test]
+fn vertex_ai_global_endpoint_is_trusted_without_custom_override() {
+    let spec = adl::ProviderSpec {
+        id: Some("vertex_ai_gemini_primary".to_string()),
+        profile: None,
+        kind: "vertex_ai_gemini".to_string(),
+        base_url: None,
+        default_model: Some("gemini-3.7-flash".to_string()),
+        config: HashMap::from([("location".to_string(), json!("global"))]),
+    };
+
+    validate_vertex_ai_endpoint(
+        &spec,
+        "https://aiplatform.googleapis.com/v1/projects/company-project/locations/global/publishers/google/models/gemini-3.7-flash:generateContent",
+    )
+    .expect("global Vertex AI endpoint should be trusted");
+}
+
+#[test]
+fn vertex_ai_regional_endpoint_must_match_configured_location() {
+    let spec = adl::ProviderSpec {
+        id: Some("vertex_ai_gemini_primary".to_string()),
+        profile: None,
+        kind: "vertex_ai_gemini".to_string(),
+        base_url: None,
+        default_model: Some("gemini-2.5-flash".to_string()),
+        config: HashMap::from([("location".to_string(), json!("us-west1"))]),
+    };
+
+    validate_vertex_ai_endpoint(
+        &spec,
+        "https://us-west1-aiplatform.googleapis.com/v1/projects/company-project/locations/us-west1/publishers/google/models/gemini-2.5-flash:generateContent",
+    )
+    .expect("matching regional Vertex AI endpoint should be trusted");
+
+    let err = validate_vertex_ai_endpoint(
+        &spec,
+        "https://not-a-region-aiplatform.googleapis.com/v1/projects/company-project/locations/us-west1/publishers/google/models/gemini-2.5-flash:generateContent",
+    )
+    .expect_err("arbitrary aiplatform-looking hosts should not be trusted");
+    assert!(err
+        .to_string()
+        .contains("refusing to send Vertex AI bearer credentials"));
+}
+
+#[test]
+fn vertex_ai_generation_config_supports_thinking_parameters() {
+    let mut cfg = HashMap::new();
+    cfg.insert("thinking_level".to_string(), json!("low"));
+    cfg.insert("include_thoughts".to_string(), json!(true));
+    let thinking =
+        vertex_ai_thinking_config_from_config(&cfg).expect("thinking config should parse");
+    let body = vertex_ai_gemini_request_body("hello", 128, thinking.as_ref(), None);
+    assert_eq!(
+        body["generationConfig"]["thinkingConfig"]["thinkingLevel"],
+        "LOW"
+    );
+    assert_eq!(
+        body["generationConfig"]["thinkingConfig"]["includeThoughts"],
+        true
+    );
+    assert!(body["generationConfig"]["thinkingConfig"]
+        .get("thinkingBudget")
+        .is_none());
+}
+
+#[test]
+fn vertex_ai_thinking_level_and_budget_are_mutually_exclusive() {
+    let cfg = HashMap::from([
+        ("thinking_level".to_string(), json!("LOW")),
+        ("thinking_budget".to_string(), json!(512)),
+    ]);
+    let err = vertex_ai_thinking_config_from_config(&cfg)
+        .expect_err("thinking level and budget should not both be accepted");
+    assert!(err
+        .to_string()
+        .contains("config.thinking_level and config.thinking_budget are mutually exclusive"));
+}
+
+#[test]
+fn vertex_ai_thinking_budget_fails_closed_on_invalid_values() {
+    for invalid in [json!(0), json!(-1), json!("not-a-number"), json!(true)] {
+        let cfg = HashMap::from([("thinking_budget".to_string(), invalid)]);
+        let err = vertex_ai_thinking_config_from_config(&cfg)
+            .expect_err("invalid thinking_budget should fail closed");
+        assert!(err
+            .to_string()
+            .contains("config.thinking_budget must be a positive integer"));
+    }
+}
+
+#[test]
 fn bedrock_provider_requires_agent_logic_profile_before_live_call() {
     let spec = adl::ProviderSpec {
         id: Some("bedrock_primary".to_string()),
@@ -1271,11 +1374,15 @@ fn zai_provider_rejects_missing_credentials_and_bad_response_shape() {
 
     let spec = provider_spec(
         "z_ai",
-        Z_AI_CHAT_COMPLETIONS_ENDPOINT,
+        Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
         Some("ZAI_API_KEY"),
         &[],
     );
-    let target = provider_target("z_ai", Z_AI_CHAT_COMPLETIONS_ENDPOINT.to_string(), "glm-5");
+    let target = provider_target(
+        "z_ai",
+        Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT.to_string(),
+        "glm-5",
+    );
     let provider = ZAiProvider::from_target(&spec, &target).expect("provider");
     let missing_key = provider
         .complete("hello")

@@ -1,0 +1,337 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 496,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "546e85c2e5fb163a29c67d6f148cbc79eacddcf8485fd831d8b91861c0f1db0c",
+  "phase": "published",
+  "generation": 19,
+  "digest": "3610f63bc63aeb20857da122bc880167c5cf2ea967cf72dda9f692af338a2cc2",
+  "branch": "codex/496-aws-cloudformation-retirement-decision-bound",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-496-aws-cloudformation-retirement-decision-bound",
+  "review_assignment": {
+    "reviewer": "fresh-session:c1b4c95e-27f4-4a9a-a839-2c51632e9b04",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:e16a5499bdda3d9025fec5f4ea91955233abf3db:4d6623234961f7f30115b1235b3c4ddf55355530388723a49090e1a79af487eb",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:c1b4c95e-27f4-4a9a-a839-2c51632e9b04",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g"
+    ],
+    "reviewed_revision": "git-blake3:e16a5499bdda3d9025fec5f4ea91955233abf3db:4d6623234961f7f30115b1235b3c4ddf55355530388723a49090e1a79af487eb",
+    "findings": [],
+    "residual_risks": [
+      "No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 496,
+    "pull_request": 599,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/599",
+    "base": "main",
+    "head": "codex/496-aws-cloudformation-retirement-decision-bound",
+    "revision": "git-blake3:e16a5499bdda3d9025fec5f4ea91955233abf3db:4d6623234961f7f30115b1235b3c4ddf55355530388723a49090e1a79af487eb",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/496/design.md",
+  "diagram_path": ".csdlc/prepared/issues/496/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:9f072012-8e3d-427e-92c5-52079ec0e7c1",
+      "revision": "b7ec7d835333580abc4fccf19a551bc045ad38efc5a336af84d264c52eaac6d3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8df75a145eb474f01205044ca1b5439ed4410db6975ea42dc03a79e2ca99ce4f",
+      "rendered_digest": "ba724bb557f178cb5cb116d66a996a8be304c3c3267bcb9c6abef00453559c4d",
+      "ast_digest": "8d1a475c90b9205b3bf9f5209251d2c26e8cf00423adb149d47ab2ec22a29f85"
+    },
+    "stp": {
+      "values_digest": "758927fd773d91d3869d4b95346ccb8eb252b1922ead2c1c5dfe329210c0776c",
+      "rendered_digest": "a6c0f4c24427d2b8696d8dbe42448f206ee759bec5da0b381e393202adcf0e9a",
+      "ast_digest": "c9adddb3b47c7a71749ca4f9e0f09f608a2f2cdda7ad77e708d61b40a2717c8a"
+    },
+    "spp": {
+      "values_digest": "6ae73366027dfca911b306f642849a0bef46ae2f5e675da0a441152f5fe94d9c",
+      "rendered_digest": "00873878f734ff3283c4ef2b04056fac3f2412a6196c6b84a99561dc1f07265f",
+      "ast_digest": "cee8bb85ae34ea6615d406dbd6920ab323199c2d42b18ad1ba37b2dee78e6078"
+    },
+    "vpp": {
+      "values_digest": "1d252775df8f57e0ca59ecd07e04b43682deb8aa90d0830fb398a50c479df577",
+      "rendered_digest": "54016a4be7498595d1cae5c00addc1acc5cf86c046f3813abd7e0b571001a11a",
+      "ast_digest": "cd09ef4297970a6fd71522ea0f2c846ec95ff4b2e71ed08e180f05d0cf0f8cd4"
+    },
+    "srp": {
+      "values_digest": "499095d5282b6c006ab2f75621bfdda990f30da32dcc4850e11daa5cf19c12ef",
+      "rendered_digest": "d2b9b21379f98bb020de20e653c08dbb6d4efdb33fed3e6e46c1e9e352295253",
+      "ast_digest": "204c55dc77b55f407310d6bb0b5c76223a7e4c70910bf4be5310c21064ac8d82"
+    },
+    "sor": {
+      "values_digest": "8feac66a123efdcdae7d91f992414cbe10120bf96842b75f357144c53bb7a052",
+      "rendered_digest": "f61006ae57b113ba398be36cbf2e6375d01024ecfa32cadd3202b343d79b8442",
+      "ast_digest": "5ff036532c951bfd6dd8d9c955600170ab10d4581d522b9b7215ba13ae0c62a1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #496 to ready after fresh design review PASS and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard reported review_publication_dead_end because the R3 reviewed revision included non-clean assignment metadata; reassign against the current clean committed head before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard again reported review_publication_dead_end because post-review committed request-packet metadata made the reviewed evidence non-current; reassign current clean head and publish before any further post-review commit."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:9f072012-8e3d-427e-92c5-52079ec0e7c1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b7ec7d835333580abc4fccf19a551bc045ad38efc5a336af84d264c52eaac6d3\",\"design_ref\":\".csdlc/prepared/issues/496/design.md\",\"diagram_digest\":\"ec7899a1e9c64e4b9210f04c768e816e430083c5f3a0b615af0b3034734114d6\",\"diagram_ref\":\".csdlc/prepared/issues/496/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance #496 to ready after fresh design review PASS and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Replace pre-bind prepared validator lane with the implemented #496 docs validator path after bind.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"aws-g-retirement-ledger-static\",\"proof_role\":\"Verifies the #496 retirement ledger inventories both CloudFormation templates, classifies consumer/reference paths with disposition-bearing rows, records #489/#495 dependency truth including merge SHAs, preserves rollback/retained-evidence boundaries, rejects deletion authority, and records the live-stack non-claim.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\"],\"parallel_group\":\"local-static\",\"defer_reason\":null},{\"lane\":\"aws-g-diff-hygiene\",\"proof_role\":\"Verifies the implemented #496 docs and lifecycle diff are whitespace-clean before exact-head review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover #496 from exact review FAIL before repairing validator self-reference and diff-hygiene findings.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Repair #496 review finding by making diff hygiene validate the candidate worktree diff against HEAD before commit.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"aws-g-retirement-ledger-static\",\"proof_role\":\"Verifies the #496 retirement ledger inventories both CloudFormation templates, classifies consumer/reference paths with disposition-bearing rows, records #489/#495 dependency truth including merge SHAs, preserves rollback/retained-evidence boundaries, rejects deletion authority, and records the live-stack non-claim.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\"],\"parallel_group\":\"local-static\",\"defer_reason\":null},{\"lane\":\"aws-g-diff-hygiene\",\"proof_role\":\"Verifies the #496 candidate diff against HEAD is whitespace-clean before immutable commit and exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"parallel_group\":\"local-static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record repaired #496 proof after exact review findings: validator self-reference row added and candidate diff hygiene uses git diff --check HEAD.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired #496 after exact review FAIL by adding the validator self-reference disposition row, removing ledger whitespace issues, and updating diff hygiene to prove the candidate diff against HEAD before commit.\",\"changes\":[\"Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition\",\"Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"Updated VPP diff hygiene lane to run git diff --check HEAD\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\",\".csdlc/evidence/496/aws-g-retirement-ledger-static.log\",\".csdlc/evidence/496/aws-g-diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\"],\"purpose\":\"Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/496/aws-g-retirement-ledger-static.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Validate candidate diff whitespace hygiene before immutable commit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/496/aws-g-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record final #496 proof after excluding #496 request self-surfaces from the validator census.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired #496 validator/proof after exact review by adding the validator self-reference ledger row, removing ledger whitespace issues, updating diff hygiene to prove the candidate diff against HEAD, and excluding #496 request-packet self-surfaces from the validator census.\",\"changes\":[\"Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition\",\"Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"Updated VPP diff hygiene lane to run git diff --check HEAD\",\"Excluded .csdlc/requests/496-* request-packet self-surfaces from the validator census\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\",\".csdlc/evidence/496/aws-g-retirement-ledger-static.log\",\".csdlc/evidence/496/aws-g-diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\"],\"purpose\":\"Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.\",\"outcome\":\"passed\",\"evidence_ref\":\"rerun: aws-g CloudFormation retirement validation passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Validate candidate diff whitespace hygiene before immutable commit.\",\"outcome\":\"passed\",\"evidence_ref\":\"rerun: git diff --check HEAD exited 0\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #496 from R2 exact review FAIL before repairing STP/SPP prepared-validator card drift.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Repair #496 R2 review finding by replacing the non-existent prepared validator deliverable with the implemented docs validator path.",
+      "operation": "{\"new_values\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\",\"typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\".csdlc/prepared/issues/496/validate-aws-g-cloudformation-retirement.sh\",\"typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth\"],\"recovery_generation\":11,\"recovery_sequence\":15}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Repair #496 R2 review finding by aligning SPP affected areas to the implemented docs validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\",\".csdlc/evidence/496\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard reported review_publication_dead_end because the R3 reviewed revision included non-clean assignment metadata; reassign against the current clean committed head before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard again reported review_publication_dead_end because post-review committed request-packet metadata made the reviewed evidence non-current; reassign current clean head and publish before any further post-review commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

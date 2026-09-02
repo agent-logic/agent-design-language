@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
     "slug": "v0-92-1-v3-d-c-sdlc-v3-local-preparation-workflow",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-1",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-2",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -52,7 +52,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -63,7 +63,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

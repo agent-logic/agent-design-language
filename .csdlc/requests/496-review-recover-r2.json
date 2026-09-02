@@ -1,0 +1,7 @@
+{
+  "issue": 496,
+  "expected_generation": 10,
+  "expected_digest": "846c4c3c813246fe0a833d828b0e09e6a099e859f4ab37fd3189cf77be85e88e",
+  "actor": "codex:/root",
+  "reason": "Recover #496 from R2 exact review FAIL before repairing STP/SPP prepared-validator card drift."
+}

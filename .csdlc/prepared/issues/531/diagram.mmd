@@ -1,0 +1,22 @@
+flowchart TD
+    I531["#531 Sprint 3 umbrella"]
+    R["Roster v4"]
+    C489["#489 AWS-F"]
+    C494["#494 GCP-E"]
+    C495["#495 XCL-01"]
+    C496["#496 AWS-G"]
+    E["Sprint 3 closeout evidence"]
+    V["Sprint review and validation"]
+    P["Typed publish / finish gate"]
+
+    I531 --> R
+    R --> C489
+    R --> C494
+    R --> C495
+    R --> C496
+    C489 --> E
+    C494 --> E
+    C495 --> E
+    C496 --> E
+    E --> V
+    V --> P

@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.ready_publication_request.v1",
+  "issue": 604,
+  "expected_generation": 8,
+  "expected_digest": "e567bf2baaad877debe5ebeeb42c9585379bb560168c8b102b6f2cf1f039ca48",
+  "actor": "codex:/root/worker-6/issue-604",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "pull_request": 610,
+  "expected_head_sha": "a568abba0e0f69663d081cc1a4a0e999ff2325d6",
+  "remote": "origin",
+  "token_file": null
+}

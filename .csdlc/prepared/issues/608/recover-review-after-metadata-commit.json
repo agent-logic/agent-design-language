@@ -1,0 +1,7 @@
+{
+  "issue": 608,
+  "expected_generation": 7,
+  "expected_digest": "743627d463c67d9ac362f07064188ebed06fce9d4ebe3802ad820ade64004257",
+  "actor": "codex:/root",
+  "reason": "Recover reviewed state after committing review metadata changed the clean current head without changing product files; route a metadata-only exact-head review before publication."
+}

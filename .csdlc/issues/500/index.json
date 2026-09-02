@@ -3,9 +3,9 @@
   "issue": 500,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
-  "phase": "published",
-  "generation": 27,
-  "digest": "ece81f34cd7ffb9f56bec1c3ff9fe5b0ee5ec9d847bc20e15d9418d6a08e2989",
+  "phase": "closed_out",
+  "generation": 28,
+  "digest": "33e4fac747c1dc058d8e2bdf60cf62b66d08db96a9394aa2788aff858909028b",
   "branch": "codex/500-v3-a-contract-construction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
   "review_assignment": {
@@ -55,10 +55,18 @@
     "revision": "git-blake3:6a5648b79edcb29ab21f0eed28669e0976ea0cab:d8761fb7d92a98b91f7505c088d5f683322a588bf8e61e2987e6cc99f0f002e9",
     "linkage_mode": "closing",
     "draft": false,
-    "observed_state": "open"
+    "observed_state": "merged"
   },
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 565,
+    "disposition": "merged",
+    "observed_sha": "d02f90008acadcc10df048b7f089cc4b98ef608f",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/500.json",
+    "branch": "codex/500-v3-a-contract-construction",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction"
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/500/design.recovered.md",
   "diagram_path": ".csdlc/prepared/issues/500/diagram.recovered.mmd",
@@ -70,34 +78,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5365cf6da67aeb81ca9a53bec7862f958ed84b6c15f6c9d6df284ca6d7341d0d",
+      "values_digest": "7e4ab78d485556499e56f6c633fa392ab2d74531307e522d8b7c8d21351c2a39",
       "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
       "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
     },
     "stp": {
-      "values_digest": "16563ea9c8adddadb8d171d335e9ec176e34bde99bb10f94f4578a156812a40f",
+      "values_digest": "841c662e85c52cf4435f18d9fbf871ef222a38cbcaeb4d437450142ce8974231",
       "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
       "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
     },
     "spp": {
-      "values_digest": "f1d4a0fcaf7aa0ec11dfdd45a42924bcae3293032705c0a1a30920a349fec664",
+      "values_digest": "c7e416bdaf72ecdd20ef65dd8d0540b43c6799ccdc7a0ebefa96788bd80aa7e3",
       "rendered_digest": "1c24245d83c0cee53b3e8038b04058de056147cda54573dbde245dcb55836cb2",
       "ast_digest": "62679e503e5f2ee877d31e9dc6fb31a38de425cdf37c5457241165ec9325dd88"
     },
     "vpp": {
-      "values_digest": "530f82ca33102299f83b7af2ec20800ab607a069a7ed4175c71d31db9c559cfc",
+      "values_digest": "9e54c61c13c279a00917ca4a7d3d067174a92734d86814f8a5ef93d6fa693626",
       "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
       "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
     },
     "srp": {
-      "values_digest": "0afea1074c986b9056b4aa4396079392fadcc2831dbbfa15d183ce8d89e4e3bc",
+      "values_digest": "2b4b9369342838114cbfa8529eb5019fe5ce2277521151d840962f1acd36e0d6",
       "rendered_digest": "e05d3a1344bbdf91f4586e78ae1603c34ce108054a057a76caf53ea0f508c39b",
       "ast_digest": "f033612d5fb8d20e9739b2af08d0a587f8bb17b81e73eb8fff7718d96714157b"
     },
     "sor": {
-      "values_digest": "f1e95c1782ff9176d01748290e1f1494da4fdef0ee39bbd39bdfa0cb69c40f94",
-      "rendered_digest": "4b18dea1d60262bea3124c1e719b6f50e594a137d734f6f047b024e0a7351388",
-      "ast_digest": "b75763901f20c38cc0e90e1f71714366160e1251e08fa54c5c4b57335fec37d6"
+      "values_digest": "109bcfba9a4f1c08848c8fbbf9eb68b5fc09a31dd24511fc4bdb0da8b553716a",
+      "rendered_digest": "213b3eb2c44505cfebce1af851bc31ea95e84799304b8518d8359e23c460649e",
+      "ast_digest": "143c82ec11398de828bb061b5cc260396338f69547dfc939505306a1195d21b8"
     }
   },
   "transitions": [
@@ -135,6 +143,27 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "worker-6",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "worker-6",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "worker-6",
+      "reason": "Materialize #500 terminal truth as historically failed but corrected later by #571, after #571 was restored to closed and materialized terminal from merged PR #585 exact-head PASS evidence."
     }
   ],
   "audit": [
@@ -382,6 +411,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "worker-6",
+      "reason": "Materialize #500 terminal truth as historically failed but corrected later by #571, after #571 was restored to closed and materialized terminal from merged PR #585 exact-head PASS evidence.",
+      "operation": "materialize_derived_terminal"
     }
   ]
 }

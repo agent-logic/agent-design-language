@@ -1,0 +1,18 @@
+{
+  "issue": 496,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "66ed7bebacec5918c7289b72e8e133b7025f730e3c982709b0cdd02d7a40377f",
+  "actor": "codex:/root",
+  "reason": "Repair #496 R2 review finding by aligning SPP affected areas to the implemented docs validator path.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh",
+      ".csdlc/evidence/496"
+    ]
+  }
+}

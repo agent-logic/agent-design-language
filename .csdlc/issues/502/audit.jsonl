@@ -42,3 +42,4 @@
 {"sequence":42,"generation":29,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":43,"generation":30,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":44,"generation":31,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":45,"generation":32,"actor":"worker-6","reason":"Materialize #502 terminal truth after live PR #572 readback showed a merged closing PR with green checks and exact-head PASS review evidence, and current-main transaction tests passed for durable/recovery behavior.","operation":"materialize_derived_terminal"}

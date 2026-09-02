@@ -1,0 +1,7 @@
+{
+  "issue": 578,
+  "expected_generation": 32,
+  "expected_digest": "a3d7a5a26ef4d8aac7d66f9cc46a21a757ef40ec26e386708cf3a18b57538f24",
+  "actor": "codex:root",
+  "reason": "Recover #578 review state after binding the GLM-5.3-Flash reviewer-quality evidence to exact candidate commits and packet digests."
+}

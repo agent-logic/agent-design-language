@@ -1,0 +1,21 @@
+{
+  "issue": 578,
+  "card": "sor",
+  "expected_generation": 18,
+  "expected_digest": "fba618c5bbe50a75395b1dc507befb41e405b0b434933af766a272722efcce6a",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "reason": "Record Ox Alpha / GLM-5.3-Flash reviewer-style viability proof after live provider callability was established.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "env ZAI_API_KEY=<redacted from operator-approved ZAI_API_KEY source> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request <local ignored reviewer-proof request> --out <local ignored reviewer-proof result> --log <local ignored reviewer-proof run log>"
+      ],
+      "purpose": "Prove Ox Alpha / GLM-5.3-Flash can complete a bounded reviewer-style verdict task through the direct Z.ai profile with the approved credential source and reviewer-fast parameters.",
+      "outcome": "passed",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json reviewer_verdict_smoke final_status=ok http_status=200 duration_ms=2405 retained_verdict=PASS_WITH_LIMITATION"
+    }
+  },
+  "fail_after_backup": false
+}

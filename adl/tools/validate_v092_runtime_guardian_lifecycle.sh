@@ -109,7 +109,15 @@ cargo build --locked --manifest-path "$repo_root/adl-runtime-kernel/Cargo.toml" 
 cargo build --locked --manifest-path "$repo_root/adl-runtime/Cargo.toml" \
   --bin adl-runtime-guardian --bin adl-runtime-lifecycle-soak
 
-revision=$(git -C "$repo_root" rev-parse HEAD)
+revision=${ADL_RUNTIME_SOURCE_REVISION:-}
+if [[ -n "$revision" ]]; then
+  [[ "$revision" =~ ^[0-9a-f]{40}$ ]] || {
+    echo "ADL_RUNTIME_SOURCE_REVISION must be an exact lowercase Git commit" >&2
+    exit 64
+  }
+else
+  revision=$(git -C "$repo_root" rev-parse HEAD)
+fi
 run_root=$(mktemp -d "$qualification_root/5820-run.XXXXXX")
 state_root="$run_root/state"
 report="$run_root/report.json"
@@ -198,6 +206,10 @@ text = source_path.read_text(encoding="utf-8")
 address = 'address = "127.0.0.1:20997"'
 public_url_pattern = re.compile(r'^public_base_url\s*=\s*"https://[^"]+"$', re.MULTILINE)
 server_name_pattern = re.compile(r'^server_name\s*=\s*"[^"]+"$', re.MULTILINE)
+public_domain_pattern = re.compile(r'^public_domain\s*=\s*"[^"]+"$', re.MULTILINE)
+polis_observatory_origin_pattern = re.compile(
+    r'^observatory_public_origin\s*=\s*"https://[^"]+"$', re.MULTILINE
+)
 observatory_origin = '  "https://observatory.dev.agent-logic.ai",'
 readiness_timeout = "readiness_timeout_millis = 10000"
 tls_fields = {
@@ -214,6 +226,10 @@ if len(public_url_pattern.findall(text)) != 1:
     raise SystemExit("canonical public URL field missing or ambiguous")
 if len(server_name_pattern.findall(text)) != 1:
     raise SystemExit("canonical TLS server name field missing or ambiguous")
+if len(public_domain_pattern.findall(text)) != 1:
+    raise SystemExit("canonical polis public domain field missing or ambiguous")
+if len(polis_observatory_origin_pattern.findall(text)) != 1:
+    raise SystemExit("canonical polis Observatory origin field missing or ambiguous")
 if text.count(observatory_origin) != 1:
     raise SystemExit("canonical Observatory origin missing or ambiguous")
 if text.count(readiness_timeout) != 1:
@@ -221,6 +237,10 @@ if text.count(readiness_timeout) != 1:
 text = text.replace(address, f'address = "127.0.0.1:{port}"', 1)
 text = public_url_pattern.sub(f'public_base_url = "https://localhost:{port}"', text, count=1)
 text = server_name_pattern.sub('server_name = "localhost"', text, count=1)
+text = public_domain_pattern.sub('public_domain = "localhost"', text, count=1)
+text = polis_observatory_origin_pattern.sub(
+    'observatory_public_origin = "https://observatory.example.test"', text, count=1
+)
 text = text.replace(observatory_origin, '  "https://observatory.example.test",', 1)
 text = text.replace(readiness_timeout, "readiness_timeout_millis = 120000", 1)
 for canonical, localized in tls_fields.items():

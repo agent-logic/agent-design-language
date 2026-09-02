@@ -1,0 +1,11 @@
+flowchart LR
+  I["#496 AWS-G"] --> T["#194/#268 CloudFormation templates"]
+  I --> C["Current repo consumer census"]
+  I --> R["#489/#495 Terraform replacement evidence"]
+  T --> L["Retirement ledger"]
+  C --> L
+  R --> L
+  L --> D{"Disposition"}
+  D --> Retain["Retain as rollback/evidence"]
+  D --> Deferred["Defer retirement if parity/live owner is ambiguous"]
+  D --> Future["Future deletion only by separate authority"]

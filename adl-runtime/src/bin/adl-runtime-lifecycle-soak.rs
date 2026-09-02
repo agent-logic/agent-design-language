@@ -2253,17 +2253,10 @@ async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(),
         .connect(server_name, stream)
         .await
         .map_err(|error| error.to_string())?;
-    let request = format!(
-        "GET {OBSERVATORY_WS_PATH} HTTP/1.1\r\n\
-         Host: {}:{}\r\n\
-         Origin: {}\r\n\
-         Connection: Upgrade\r\n\
-         Upgrade: websocket\r\n\
-         Sec-WebSocket-Version: 13\r\n\
-         Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n",
-        fixture.tls_server_name,
+    let request = observatory_ws_upgrade_request(
+        &fixture.tls_server_name,
         fixture.address.port(),
-        fixture.observatory_origin,
+        &fixture.observatory_origin,
     );
     stream
         .write_all(request.as_bytes())
@@ -2301,6 +2294,18 @@ async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(),
         }
     }
     Err("authenticated WSS Observatory did not prove feed and control authentication".to_owned())
+}
+
+fn observatory_ws_upgrade_request(tls_server_name: &str, port: u16, origin: &str) -> String {
+    format!(
+        "GET {OBSERVATORY_WS_PATH}?schema=v3 HTTP/1.1\r\n\
+         Host: {tls_server_name}:{port}\r\n\
+         Origin: {origin}\r\n\
+         Connection: Upgrade\r\n\
+         Upgrade: websocket\r\n\
+         Sec-WebSocket-Version: 13\r\n\
+         Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n"
+    )
 }
 
 async fn read_http_headers<S>(stream: &mut S) -> Result<String, String>
@@ -3667,14 +3672,29 @@ fn repository_root_for_init_template(init_template: &Path) -> Result<PathBuf, St
     })?;
     init_template
         .ancestors()
-        .find(|candidate| candidate.join(".git").exists())
+        .find(|candidate| {
+            candidate.join(".git").exists()
+                || is_complete_adl_source_archive_root(candidate, &init_template)
+        })
         .map(Path::to_path_buf)
         .ok_or_else(|| {
             format!(
-                "init template {} is not inside a Git worktree",
+                "init template {} is not inside a Git worktree or complete ADL source archive",
                 init_template.display()
             )
         })
+}
+
+fn is_complete_adl_source_archive_root(candidate: &Path, init_template: &Path) -> bool {
+    init_template.starts_with(candidate.join(".adl").join("runtime-v3"))
+        && [
+            "adl/Cargo.toml",
+            "adl-runtime/Cargo.toml",
+            "adl-runtime-kernel/Cargo.toml",
+            "infra/runtime-v3/runtime-init.toml",
+        ]
+        .into_iter()
+        .all(|path| candidate.join(path).is_file())
 }
 
 fn short_qualification_cleanup_residue(repository_root: &Path) -> BTreeMap<String, u64> {
@@ -3762,6 +3782,64 @@ fn read_pem_der_bytes(bytes: &[u8]) -> Result<Vec<u8>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn observatory_wss_qualification_requests_current_feed_schema() {
+        let request =
+            observatory_ws_upgrade_request("localhost", 20997, "https://observatory.example.test");
+        assert!(request.starts_with("GET /v1/observatory/ws?schema=v3 HTTP/1.1\r\n"));
+        assert!(request.contains("Origin: https://observatory.example.test\r\n"));
+    }
+
+    fn git_free_archive_fixture() -> (tempfile::TempDir, PathBuf, PathBuf) {
+        let current_dir = std::env::current_dir().expect("current directory");
+        let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
+        let root = directory.path().join("source");
+        for path in [
+            "adl/Cargo.toml",
+            "adl-runtime/Cargo.toml",
+            "adl-runtime-kernel/Cargo.toml",
+            "infra/runtime-v3/runtime-init.toml",
+            ".adl/runtime-v3/issue345/runtime-init.toml",
+        ] {
+            let path = root.join(path);
+            std::fs::create_dir_all(path.parent().expect("fixture parent"))
+                .expect("create fixture parent");
+            std::fs::write(path, b"fixture\n").expect("write fixture file");
+        }
+        let init_template = root.join(".adl/runtime-v3/issue345/runtime-init.toml");
+        (directory, root, init_template)
+    }
+
+    #[test]
+    fn repository_root_for_init_template_accepts_git_free_archive_layout() {
+        let (_directory, root, init_template) = git_free_archive_fixture();
+        assert_eq!(
+            repository_root_for_init_template(&init_template).expect("archive root"),
+            root.canonicalize().expect("canonical archive root")
+        );
+    }
+
+    #[test]
+    fn git_free_archive_root_rejects_incomplete_layout() {
+        let (_directory, root, init_template) = git_free_archive_fixture();
+        std::fs::remove_file(root.join("adl-runtime-kernel/Cargo.toml"))
+            .expect("remove required marker");
+        assert!(!is_complete_adl_source_archive_root(&root, &init_template));
+    }
+
+    #[test]
+    fn qualification_lock_uses_git_free_archive_root() {
+        let (_directory, root, init_template) = git_free_archive_fixture();
+        let address = "127.0.0.1:20997".parse().expect("test address");
+        let lock = QualificationLock::acquire(&init_template, address)
+            .expect("archive qualification lock");
+        let lock_path = root.join(".adl/runtime-v3/qualification/api-127.0.0.1_20997.lock");
+        assert_eq!(lock.path, lock_path);
+        assert!(lock_path.is_file());
+        drop(lock);
+        assert!(!lock_path.exists());
+    }
 
     #[test]
     fn qualification_lock_serializes_the_configured_api_address() {

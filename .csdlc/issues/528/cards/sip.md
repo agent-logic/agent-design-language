@@ -1,0 +1,50 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 528
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Add a production-capable Google Vertex AI transport for Gemini using Google Cloud-native identity while reusing the existing Gemini semantic normalization.
+
+## Required Outcome
+
+ADL can select a distinct Vertex AI Gemini route that uses ADC or workload identity, resolves explicit Google Cloud project/location/model configuration, preserves governed UTS/ACC behavior, and produces reviewable provider evidence without changing existing Gemini Developer API or other provider baselines.
+
+## Scope
+
+- Vertex AI provider transport integrated with the existing provider substrate and adapter boundary
+- Shared Gemini request, response, streaming, tool, safety, and error normalization reused across Gemini Developer API and Vertex AI transports
+- ADC/workload-identity authentication boundary with bounded token refresh and no embedded API keys
+- Explicit project, global-or-regional location, endpoint, publisher, model identity, timeout, and cancellation configuration
+- Provider receipts and telemetry distinguishing gemini_developer_api from vertex_ai with redacted project/location/model/latency/usage/quota/failure data
+- Focused deterministic contract tests for endpoint construction, authentication boundary, request/response mapping, streaming, UTS tools, retries, cancellation, redaction, and error mapping
+- Operator documentation and an optional separately authorized live Vertex AI smoke-test plan
+
+## Authority
+
+- Use typed C-SDLC v2 lifecycle routes
+- Do not scan, print, copy, commit, or expose credential material
+- Do not enable Google Cloud APIs, mutate IAM, create service accounts, or perform GCP infrastructure work inside #528
+- Do not execute live paid Vertex AI calls without explicit operator authorization naming project, region, identity, and budget
+- Do not replace Ollama, MLX, Bedrock, OpenRouter, or direct Gemini Developer API access
+- Do not absorb #509 GCP portability qualification or broader GCP Terraform move-in scope
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits
+- Preserve primary main cleanliness
+- Use standard runners only for hosted CI unless explicitly authorized otherwise
+- Keep live provider calls separate from deterministic local proof
+- Use the focused provider validation lane and smallest proving Rust tests before broad validation

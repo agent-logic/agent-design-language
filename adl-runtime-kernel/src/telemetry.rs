@@ -12,7 +12,7 @@ pub const RUNTIME_SNAPSHOT_SCHEMA: &str = "adl.runtime.control_snapshot.v1";
 pub const RUNTIME_MASTER_LOG_RECORD_SCHEMA: &str = "adl.runtime.master_log_record.v1";
 pub const RUNTIME_MASTER_LOG_AUDIT_SCHEMA: &str = "adl.runtime.master_log_audit.v1";
 pub const RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA: &str = "adl.runtime_v3.observability.pipeline.v1";
-pub const AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS: u64 = 5_000;
+pub const AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS: u64 = 30_000;
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "status", rename_all = "snake_case")]

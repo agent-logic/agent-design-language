@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-A follow-up] Correct C-SDLC v3 predecessor proof and lifecycle gates",
     "slug": "v0-92-1-v3-a-follow-up-correct-c-sdlc-v3-predecessor-proof-and-lifecycle-gates",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -26,7 +26,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -35,7 +35,7 @@
             "AC-1",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -44,7 +44,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -53,7 +53,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -65,7 +65,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

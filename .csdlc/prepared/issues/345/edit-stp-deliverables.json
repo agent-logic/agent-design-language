@@ -1,0 +1,24 @@
+{
+  "issue": 345,
+  "card": "stp",
+  "expected_generation": 0,
+  "expected_digest": "678e7c64cb2930b58adc2b7f2d893d3e09a0d28b41879cf8ff45b4999799c3d2",
+  "actor": "codex:/root:issue-345-preparation",
+  "reason": "Name the exact issue-owned runner and executable fixture so initialized readiness can bind their intentional implementation deferral.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Issue-#345-owned reusable AWS GPU proof command",
+      "Executable deterministic runner contract and negative tests",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "Read-only business-account, IAM, no-ingress, artifact, quota, price, and reaper preflight",
+      "Exact-revision model-backed GPU execution and bounded evidence contract",
+      "Owner-bound trap, guest-timer, and permanent-reaper cleanup",
+      "Redacted cost, proof, and cleanup receipt schema",
+      "Operator runbook separating preflight from paid execution",
+      "Fresh exact-head review and truthful publication handoff"
+    ]
+  }
+}

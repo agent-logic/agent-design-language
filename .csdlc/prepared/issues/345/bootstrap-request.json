@@ -1,0 +1,222 @@
+{
+  "issue": 345,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root:issue-345-preparation",
+  "design_path": ".csdlc/prepared/issues/345/design.md",
+  "diagram_path": ".csdlc/prepared/issues/345/diagram.mmd",
+  "design_reviewer": "fresh-session-required-before-execution",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+    "slug": "aws-gpu-shepherd-proof-runner",
+    "version": "v0.92.1",
+    "goal": "Recover and harden one bounded reusable AWS GPU proof runner for the current governed Shepherd adapter without making AWS a Runtime dependency.",
+    "required_outcome": "A reviewed issue-owned command can preflight, run one explicitly authorized real GPU-backed Shepherd proof at an exact repository revision, retain redacted machine-readable evidence, and remove all temporary compute on every exit path.",
+    "review_scope": "Review the complete issue-#345 diff against exact origin/main, with emphasis on paid-launch authority, AWS account and pre-provisioned resource verification, owner-bound cleanup, exact revision/artifact/model proof, evidence redaction, and the optional/non-production claim boundary.",
+    "declared_scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/**",
+      ".csdlc/prepared/issues/345/**",
+      ".csdlc/evidence/345/**"
+    ],
+    "authority_boundary": [
+      "Issue #345 owns only the optional AWS GPU Shepherd proof runner, focused tests, proof documentation, and redacted evidence.",
+      "The former #5795 local Shepherd contract and commit 7a26886c47962e71c128489f5176a045ae8e9a64 are read-only recovery inputs.",
+      "Issue #256 is a downstream birthday-demo consumer and is not executed or modified by #345.",
+      "IAM roles, instance profiles, security groups, S3 artifacts, quota, and the deadline reaper are operator-provisioned inputs that the runner verifies but does not create or broaden.",
+      "Paid AWS execution requires separate exact-run operator authorization and the Agent Logic business account.",
+      "No hosted inference, production fallback, public ingress, or default model change is authorized."
+    ],
+    "operator_constraints": [
+      "Use AWS profile agent-logic-admin and verify the resolved business account before any mutation.",
+      "Do not print, copy, commit, or expose AWS credentials or credential files.",
+      "Do not create IAM profiles, roles, policies, security groups, or public ingress.",
+      "Use one On-Demand GPU instance with no fallback or retry only after explicit paid-run authorization.",
+      "Retain no raw account IDs, AWS resource IDs, model prompts, model output, secrets, private paths, or environment dumps in public evidence.",
+      "Preparation and deterministic validation must not launch paid compute.",
+      "Obtain fresh exact-head review before publication and again before any paid launch if source changes."
+    ],
+    "task_boundary": "Recover, rename, harden, test, and document one optional AWS GPU Shepherd proof runner; live execution is a separately authorized validation lane and not implicit preparation work.",
+    "deliverables": [
+      "Issue-#345-owned reusable AWS GPU proof command",
+      "Executable deterministic runner contract and negative tests",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "Read-only business-account, IAM, no-ingress, artifact, quota, price, and reaper preflight",
+      "Exact-revision model-backed GPU execution and bounded evidence contract",
+      "Owner-bound trap, guest-timer, and permanent-reaper cleanup",
+      "Redacted cost, proof, and cleanup receipt schema",
+      "Operator runbook separating preflight from paid execution",
+      "Fresh exact-head review and truthful publication handoff"
+    ],
+    "acceptance_criteria": [
+      "AC-1: One reusable issue-owned command exposes explicit preflight, exact-revision run, and owner-bound cleanup actions.",
+      "AC-2: Preflight verifies the agent-logic-admin business account, exact permanent instance profile/policies, named no-ingress security group, immutable S3 manifest/object versions, GPU quota, bounded On-Demand price, deadline reaper, and zero stale issue compute before launch.",
+      "AC-3: Paid execution requires an exact commit, unique run identity, explicit execute flag, retained operator authorization, and declared cost/deadline bounds; it launches at most one On-Demand GPU instance with no fallback or retry.",
+      "AC-4: The guest proves exact source revision, artifact digests, expected GPU/driver/runtime state, nonzero model GPU residency, and one current governed Shepherd real-model result.",
+      "AC-5: Local trap, guest deadline timer, and permanent tag-scoped reaper provide independent cleanup; success, failure, interruption, timeout, and cleanup retry leave no temporary instance or volume.",
+      "AC-6: Public evidence is machine-readable, digest-bound, cost-relevant, and redacted; credentials, account/resource identifiers, prompts, responses, private paths, and environment dumps are absent.",
+      "AC-7: Executable negative proofs cover lock collision, wrong account/profile, IAM or security-group drift, stale revision, artifact mismatch, deadline/interruption, and cleanup failure without paid mutation.",
+      "AC-8: Documentation states AWS is an optional portability proof, does not change local Shepherd acceptance, and does not create production inference fallback or standing launch authority.",
+      "AC-9: Fresh exact-head review has no unresolved actionable finding before publication, and a separate launch-readiness review is required after any source change before paid execution."
+    ],
+    "dependencies": [
+      "Historical recovery commit 7a26886c47962e71c128489f5176a045ae8e9a64",
+      "Current governed Shepherd adapter and local real-model proof contract formerly owned by #5795",
+      "Agent Logic business AWS account and operator-provisioned profile, IAM, no-ingress security group, immutable S3 model bundle, quota, and deadline reaper",
+      "#256 as downstream consumer only"
+    ],
+    "repo_inputs": [
+      "https://github.com/agent-logic/agent-design-language/issues/345",
+      "docs/milestones/v0.92.1/features/DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+      "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
+      "git:7a26886c47962e71c128489f5176a045ae8e9a64:adl/tools/run_wp5795_aws_gpu_proof.sh",
+      "git:7a26886c47962e71c128489f5176a045ae8e9a64:.csdlc/evidence/5795/foundation",
+      ".csdlc/prepared/issues/345/design.md"
+    ],
+    "non_goals": [
+      "Changing the local Shepherd adapter or its acceptance criteria",
+      "Making AWS a Runtime dependency or inference fallback",
+      "Creating or modifying IAM roles, policies, instance profiles, security groups, quotas, or permanent reaper resources",
+      "Opening SSH or public ingress",
+      "Using Spot capacity, retries, or another cloud/provider as fallback",
+      "Executing or closing #256",
+      "Claiming distributed multi-agent qualification beyond the bounded Shepherd GPU proof"
+    ],
+    "plan_summary": "Recover the retained runner into issue-owned paths, reconcile it with the current Shepherd contract and business-account controls, add executable failure/cleanup/redaction tests, prove a read-only preflight, obtain exact-head review, and leave paid execution gated on separate exact-run authorization.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind exact historical runner/evidence inputs and current Shepherd/AWS authority boundaries without importing legacy lifecycle state.",
+        "acceptance_ids": ["AC-1", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Recover, rename, and simplify the runner under issue-#345 ownership while preserving explicit preflight, run, cleanup, owner lock, deadlines, and no-fallback semantics.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add executable deterministic positive and negative runner tests plus evidence redaction and cleanup contracts without AWS mutation.",
+        "acceptance_ids": ["AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run the read-only business-account preflight and reconcile any operator-provisioned resource drift without creating or broadening resources.",
+        "acceptance_ids": ["AC-2", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Obtain exact-head implementation review and prepare a truthful publication handoff with the paid lane still separately gated.",
+        "acceptance_ids": ["AC-6", "AC-8", "AC-9"],
+        "status": "pending"
+      },
+      {
+        "id": "S6",
+        "action": "Only after explicit exact-run operator authorization, run one bounded On-Demand GPU proof, retain redacted proof/cost/cleanup evidence, and re-review the final evidence head.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6", "AC-9"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      ".csdlc/prepared/issues/345",
+      ".csdlc/evidence/345"
+    ],
+    "invariants": [
+      "The approved Agent Logic business account is verified before mutation.",
+      "No IAM or security-group creation/broadening and no public ingress occurs.",
+      "No paid launch occurs without exact-run authorization, revision, budget, run ID, and deadline.",
+      "At most one On-Demand instance is attempted and there is no fallback or retry.",
+      "Immutable artifacts and current source are digest-bound before model execution.",
+      "All temporary compute is owner-tagged, deadline-bound, and cleaned on every path.",
+      "Public evidence is redacted and cannot expose credentials, identifiers, prompts, responses, private paths, or environment dumps.",
+      "AWS remains optional and does not change Runtime/local Shepherd availability."
+    ],
+    "risks": [
+      "Recovered shell logic may encode stale account, AMI, IAM, artifact, quota, or pricing assumptions.",
+      "A launch/lock ordering gap could leave unowned paid compute.",
+      "Cleanup could target another run or fail after the operator session exits.",
+      "S3 or source drift could produce a model result that is not bound to the reviewed revision.",
+      "Raw AWS responses or model data could leak into retained evidence.",
+      "A long bootstrap could exceed the declared budget before proof begins."
+    ],
+    "planning_profile": "large",
+    "failure_policy": "Fail closed before paid mutation on any account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, reaper, exact-revision, model-proof, redaction, or cleanup ambiguity; preserve bounded diagnostics and require a fresh reviewed attempt rather than fallback or retry.",
+    "stop_conditions": [
+      "The configured AWS profile does not resolve to the approved business account.",
+      "The instance profile, policies, security group, immutable artifact manifest, quota, price, or permanent deadline reaper is missing or ambiguous.",
+      "A required change would create or broaden IAM/security-group authority.",
+      "Exact adapter/source/artifact identity cannot be proven.",
+      "A paid launch lacks explicit exact-run operator authorization or exceeds its cost/deadline ceiling.",
+      "Cleanup ownership is ambiguous or any temporary compute remains.",
+      "Evidence cannot be redacted without losing the proving denominator.",
+      "Fresh review reports an unresolved actionable finding."
+    ],
+    "validation_lanes": [
+      {
+        "lane": "issue345-runner-contract",
+        "proof_role": "Execute positive and negative runner fixtures for parsing, account/IAM/security-group/artifact validation, lock ownership, exact revision, interruption, deadline, cleanup, and redaction without AWS mutation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": ["bash", "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"],
+        "parallel_group": "local-contract",
+        "defer_reason": "The issue-owned executable fixture is an explicit implementation deliverable; readiness fails closed until this exact target exists and passes."
+      },
+      {
+        "lane": "issue345-readonly-aws-preflight",
+        "proof_role": "Verify the approved business-account and all pre-provisioned launch predicates without acquiring a lock or launching compute.",
+        "acceptance_ids": ["AC-2", "AC-8"],
+        "deterministic": false,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1500,
+        "argv": ["bash", "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh", "preflight"],
+        "parallel_group": "aws-readonly",
+        "defer_reason": "The issue-owned runner is an explicit implementation deliverable; no AWS readback or mutation is authorized until this exact target exists and passes deterministic review."
+      },
+      {
+        "lane": "issue345-paid-gpu-proof",
+        "proof_role": "Run one exact-revision, real-model, GPU-resident Shepherd proof and prove owner-bound cleanup and bounded cost.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6", "AC-9"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 3600,
+        "budget_tokens": 4000,
+        "argv": ["bash", "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh", "run", "--commit", "EXACT_REVIEWED_SHA", "--run-id", "AUTHORIZED_RUN_ID", "--execute"],
+        "parallel_group": "aws-paid-serial",
+        "defer_reason": "Requires separate operator authorization naming the exact reviewed revision, one run ID, deadline, and maximum cost after read-only preflight and launch-readiness review pass."
+      },
+      {
+        "lane": "issue345-diff-hygiene",
+        "proof_role": "Reject whitespace defects in the exact issue change.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check", "origin/main...HEAD"],
+        "parallel_group": "local-contract",
+        "defer_reason": null
+      }
+    ],
+    "review_prompts": [
+      "Can any path launch paid compute before account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, and reaper predicates are proven?",
+      "Can interruption or a partial AWS response leave an unowned instance, volume, lock, or cleanup ambiguity?",
+      "Can a stale source, artifact, runner, backend, or retained response be presented as current real-model GPU proof?",
+      "Can public evidence expose credentials, AWS identifiers, private paths, prompts, responses, or environment values?",
+      "Does the issue remain an optional portability proof without changing Runtime/local Shepherd acceptance or absorbing #256?"
+    ]
+  }
+}

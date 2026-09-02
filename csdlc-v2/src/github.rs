@@ -118,6 +118,12 @@ impl TryFrom<&GithubActionRequest> for PrStateRequest {
     type Error = crate::V2Error;
 
     fn try_from(request: &GithubActionRequest) -> crate::Result<Self> {
+        if request.action != GithubAction::PrState {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::InvalidInput,
+                "PR-state request envelope must use pr_state action",
+            ));
+        }
         Ok(Self {
             repository: request.repository.clone(),
             pull_request: request.pull_request.ok_or_else(|| {
@@ -129,6 +135,21 @@ impl TryFrom<&GithubActionRequest> for PrStateRequest {
             linked_issue: request.linked_issue,
             linked_issue_repository: None,
         })
+    }
+}
+
+pub fn decode_pr_state_request(bytes: &[u8]) -> crate::Result<PrStateRequest> {
+    match serde_json::from_slice::<PrStateRequest>(bytes) {
+        Ok(request) => Ok(request),
+        Err(direct_error) => {
+            let envelope: GithubActionRequest = serde_json::from_slice(bytes).map_err(|_| {
+                crate::V2Error::new(
+                    crate::ErrorCode::InvalidInput,
+                    format!("invalid PR-state request: {direct_error}"),
+                )
+            })?;
+            PrStateRequest::try_from(&envelope)
+        }
     }
 }
 
@@ -1982,6 +2003,46 @@ mod tests {
             required_check_names: vec!["ci".into()],
             classification: String::new(),
         }
+    }
+
+    #[test]
+    fn pr_state_decode_accepts_retained_action_envelope_examples() {
+        let direct = br#"{
+          "repository":"agent-logic/agent-design-language",
+          "pull_request":610,
+          "required_checks":[],
+          "require_review":false,
+          "token_file":null,
+          "linked_issue":604
+        }"#;
+        let direct_request = decode_pr_state_request(direct).expect("direct request");
+        assert_eq!(direct_request.pull_request, 610);
+        assert_eq!(direct_request.linked_issue, Some(604));
+
+        let envelope = br#"{
+          "action":"pr_state",
+          "repository":"agent-logic/agent-design-language",
+          "operation_key":"retained-example",
+          "token_file":null,
+          "issue":null,
+          "pull_request":591,
+          "title":null,
+          "body":null,
+          "labels":[],
+          "assignees":[],
+          "milestone":null,
+          "state":null,
+          "comment_body":null,
+          "required_checks":[],
+          "require_review":false,
+          "linked_issue":null
+        }"#;
+        let envelope_request = decode_pr_state_request(envelope).expect("retained action envelope");
+        assert_eq!(envelope_request.pull_request, 591);
+        assert_eq!(
+            envelope_request.repository,
+            "agent-logic/agent-design-language"
+        );
     }
 
     #[test]

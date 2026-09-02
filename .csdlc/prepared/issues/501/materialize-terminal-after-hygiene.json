@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.terminal_materialize_request.v1",
+  "issue": 501,
+  "expected_generation": 19,
+  "expected_digest": "d7b242abf1c020fc98e8175c8324180f3875dc0cf8628728cdc74107d7214698",
+  "actor": "worker-6",
+  "reason": "Materialize #501 terminal truth after live PR #568 readback showed a merged closing PR with green checks and exact-head PASS review evidence, and focused current-main import/path-safety tests passed."
+}

@@ -1,0 +1,21 @@
+{
+  "issue": 596,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "89646785bf817d21533d8209c8f43b42a92976c8112c6b0e683578f210d87f95",
+  "actor": "worker-6:lifecycle-truth-repair",
+  "reason": "Correct #596 deliverable truth after PR #597 merged with non-closing Part-Of linkage.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Typed six-card lifecycle state for #596",
+      "PR #597 body with non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully",
+      "Typed GitHub PR create/update operations with owner provenance and idempotent update safety",
+      "Single csdlc v3 binary and standalone locked CI coverage",
+      "Behavior-backed v3 importer, durability, review, finish, and cleanup fixes",
+      "Real issue canary evidence for #592, OBS-A/#511, and OBS-B/#512"
+    ]
+  },
+  "fail_after_backup": false
+}

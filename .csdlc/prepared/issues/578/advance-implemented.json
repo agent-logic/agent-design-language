@@ -1,0 +1,13 @@
+{
+  "issue": 578,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "cc3adbc3cc2ac75bde7b9edef07bac26f9c4fa162e2b2aba8ad15f5068f81e11",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "reason": "The bounded GLM-5.3-Flash provider profile implementation and focused validation are complete.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

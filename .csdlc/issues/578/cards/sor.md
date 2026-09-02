@@ -1,0 +1,120 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 578
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Repaired PR #582 after exact-head review by making GLM-5.3-Flash validation provider-alias aware, normalizing reasoning_effort before serialization/config retention, replacing machine-local credential-path evidence with retained redacted proof, and making the live GLM-5.3-Flash proof self-consistent.
+
+## Artifacts
+
+- adl/src/provider_communication.rs
+- adl/src/provider_adapter.rs
+- adl/src/provider/profiles.rs
+- adl/tests/provider_tests/profiles.rs
+- docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md
+- docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json
+- .csdlc/prepared/issues/578/verify-no-glm-secret-paths.sh
+
+## Execution
+
+- Applied GLM-5.3-Flash request validation to all accepted Z.ai provider aliases (`z_ai`, `zai`, and `zhipu`) before network dispatch.
+- Normalized GLM-5.3-Flash `reasoning_effort` by trimming before profile retention and provider serialization so whitespace cannot silently fall through to Z.ai provider-default behavior.
+- Retained a redacted live-proof summary under milestone evidence and routed documentation/prepared requests to that proof instead of ignored local provider-smoke files.
+- Redacted tracked #578 lifecycle index and audit credential-source strings to use an operator-approved `ZAI_API_KEY` source without retaining the machine-local key filename.
+- Recovered the published review state back to implemented generation 39 before applying the repair so the PR can be re-reviewed and republished truthfully.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo fmt --manifest-path adl/Cargo.toml --check"
+    ],
+    "purpose": "Verify Rust formatting for touched provider/profile/adapter code.",
+    "outcome": "passed",
+    "evidence_ref": "local command output, #578 worktree"
+  },
+  {
+    "command": [
+      "cargo test --manifest-path adl/Cargo.toml provider_communication::tests::request_validation_rejects_empty_and_zero_policy_fields"
+    ],
+    "purpose": "Prove GLM-5.3-Flash request validation rejects invalid token, reasoning, temperature, and top-p overrides, including accepted Z.ai aliases before dispatch.",
+    "outcome": "passed",
+    "evidence_ref": "local command output, #578 worktree"
+  },
+  {
+    "command": [
+      "cargo test --manifest-path adl/Cargo.toml provider_adapter::tests::zai_glm_5_3_flash_adapter_request_uses_documented_defaults_and_fast_overrides"
+    ],
+    "purpose": "Prove adapter materialization emits documented GLM-5.3-Flash defaults, trims reasoning_effort overrides, and keeps legacy GLM-5 on the established endpoint.",
+    "outcome": "passed",
+    "evidence_ref": "local command output, #578 worktree"
+  },
+  {
+    "command": [
+      "cargo test --manifest-path adl/Cargo.toml --test provider_tests profiles::z_ai_glm_5_3_flash_profile_preserves_runtime_overrides"
+    ],
+    "purpose": "Prove the GLM-5.3-Flash profile preserves runtime overrides after canonicalizing whitespace-sensitive reasoning effort.",
+    "outcome": "passed",
+    "evidence_ref": "local command output, #578 worktree"
+  },
+  {
+    "command": [
+      "cargo test --manifest-path adl/Cargo.toml --test provider_tests"
+    ],
+    "purpose": "Prove provider profile expansion, request materialization, strict invalid override rejection, and existing provider coverage after the review-finding repair.",
+    "outcome": "passed",
+    "evidence_ref": "66 passed, 1 ignored"
+  },
+  {
+    "command": [
+      "git diff --check"
+    ],
+    "purpose": "Verify whitespace hygiene for the current issue worktree delta.",
+    "outcome": "passed",
+    "evidence_ref": "local command output, #578 worktree"
+  },
+  {
+    "command": [
+      "jq empty docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json"
+    ],
+    "purpose": "Verify retained redacted live-proof summary JSON parses cleanly.",
+    "outcome": "passed",
+    "evidence_ref": "local command output, #578 worktree"
+  },
+  {
+    "command": [
+      "bash .csdlc/prepared/issues/578/verify-no-glm-secret-paths.sh"
+    ],
+    "purpose": "Prove tracked #578 records, prepared requests, and retained GLM-5.3-Flash evidence no longer expose the machine-local key filename, stale 3748 ms live-smoke claim, or ignored local provider-smoke proof artifacts flagged by review.",
+    "outcome": "passed",
+    "evidence_ref": "local command output, #578 worktree"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

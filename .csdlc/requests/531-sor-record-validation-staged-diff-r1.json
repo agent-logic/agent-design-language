@@ -1,0 +1,22 @@
+{
+  "issue": 531,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "89d4988e8deee7a6440a4a7865539f8df001fce4700d9c19ae045fac779bd94a",
+  "actor": "codex",
+  "reason": "Record corrected staged diff hygiene after the sprint closeout artifact trailing whitespace was fixed.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "purpose": "Reject whitespace errors in the exact staged Sprint 3 closeout records and evidence before commit and typed review.",
+      "outcome": "passed",
+      "evidence_ref": "Command completed successfully with no output."
+    }
+  }
+}

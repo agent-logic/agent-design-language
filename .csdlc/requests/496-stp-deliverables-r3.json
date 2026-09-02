@@ -1,0 +1,16 @@
+{
+  "issue": 496,
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "6017ea6bec0072c32642999a43cf542599e95ffaac05ae33e9fbdfeef438beb8",
+  "actor": "codex:/root",
+  "reason": "Repair #496 R2 review finding by replacing the non-existent prepared validator deliverable with the implemented docs validator path.",
+  "operation": {
+    "operation": "correct_stp_deliverables_after_recovery",
+    "values": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh",
+      "typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth"
+    ]
+  }
+}

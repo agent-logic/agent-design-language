@@ -1,0 +1,23 @@
+flowchart LR
+    Runtime[ADL Runtime provider substrate]
+    Selector[Provider route selector]
+    Codec[Shared Gemini semantic codec]
+    Dev[Gemini Developer API transport]
+    Vertex[Vertex AI Gemini transport]
+    Auth[ADC / workload identity token boundary]
+    Endpoint[Project + location + publisher + model endpoint]
+    Receipt[Provider receipt + telemetry]
+
+    Runtime --> Selector
+    Selector --> Dev
+    Selector --> Vertex
+    Dev --> Codec
+    Vertex --> Codec
+    Vertex --> Auth
+    Vertex --> Endpoint
+    Dev --> Receipt
+    Vertex --> Receipt
+
+    Receipt -. redacts .-> Auth
+    Receipt -. distinguishes .-> Dev
+    Receipt -. distinguishes .-> Vertex

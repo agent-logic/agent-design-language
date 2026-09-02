@@ -203,7 +203,7 @@ async fn main() -> ExitCode {
                     }
                 };
             let continuity_key_id = init.credentials.continuity_key_id.clone();
-            let mut guardian_lease = match connect_guardian_lease(
+            let (mut guardian_lease, guardian_process_id) = match connect_guardian_lease(
                 guardian_lease_connect_timeout,
                 guardian_lease_auth_timeout,
             )
@@ -212,6 +212,13 @@ async fn main() -> ExitCode {
                 Ok(lease) => lease,
                 Err(error) => {
                     eprintln!("runtime Guardian lease invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let active_init_hash = match file_hash(&init_path).await {
+                Ok(hash) => hash,
+                Err(error) => {
+                    eprintln!("runtime init identity could not be hashed: {error}");
                     return ExitCode::from(78);
                 }
             };
@@ -499,6 +506,7 @@ async fn main() -> ExitCode {
             )
             .to_hex()
             .to_string();
+            let active_config_hash = config_hash.clone();
             let snapshot = LiveKernelSnapshot::new(
                 assembly.topology_hash.clone(),
                 config_hash,
@@ -604,6 +612,7 @@ async fn main() -> ExitCode {
                 init.observatory_allowed_origins(),
                 AgentPopulationFeed::resident_shepherd(),
             )
+            .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
             if let Some((authority, exchange)) = layer8 {
@@ -829,6 +838,9 @@ async fn main() -> ExitCode {
             let mut shepherd_heartbeat =
                 tokio::time::interval(std::time::Duration::from_millis(1_000));
             shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut cloud_health_heartbeat =
+                tokio::time::interval(std::time::Duration::from_secs(30));
+            cloud_health_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let serve_result = 'serve: loop {
                 if let Some(observability) = observability.as_mut() {
                     if let Err(error) = observability.poll_health() {
@@ -884,6 +896,33 @@ async fn main() -> ExitCode {
                                 );
                             }
                         }
+                    },
+                    _ = cloud_health_heartbeat.tick() => {
+                        let snapshot = recorder.snapshot();
+                        let health = recorder.health();
+                        tracing::info!(
+                            target: "adl_runtime_kernel",
+                            schema = "adl.runtime_v3.cloud_health.v1",
+                            event = "runtime_health_heartbeat",
+                            polis_id = %init.polis.id,
+                            runtime_instance_id = %instance_id,
+                            topology_generation = snapshot.topology_generation,
+                            continuity_generation = snapshot
+                                .continuity_head
+                                .as_ref()
+                                .map(|head| head.generation)
+                                .unwrap_or(0),
+                            config_hash = %active_config_hash,
+                            ready = health.ready,
+                            live = health.live,
+                            ready_metric = u8::from(health.ready),
+                            live_metric = u8::from(health.live),
+                            degraded_components = health.degraded_components.len(),
+                            failed_components = health.failed_components.len(),
+                            restarting_components = health.restarting_components.len(),
+                            saturated_queues = health.saturated_queues.len(),
+                            "runtime health heartbeat"
+                        );
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {
@@ -1275,7 +1314,7 @@ impl ShutdownSignalReceiver {
 async fn connect_guardian_lease(
     connect_timeout: std::time::Duration,
     auth_timeout: std::time::Duration,
-) -> Result<TcpStream, String> {
+) -> Result<(TcpStream, u32), String> {
     let address = std::env::var(GUARDIAN_LEASE_ADDRESS_ENV).ok();
     let token = std::env::var(GUARDIAN_LEASE_TOKEN_ENV).ok();
     let (address, token) = match (address, token) {
@@ -1298,15 +1337,23 @@ async fn connect_guardian_lease(
         .write_all(token.as_bytes())
         .await
         .map_err(|error| format!("lease authentication failed: {error}"))?;
-    let mut acknowledgement = [0_u8; 2];
+    let mut acknowledgement = [0_u8; 6];
     tokio::time::timeout(auth_timeout, stream.read_exact(&mut acknowledgement))
         .await
         .map_err(|_| "lease authentication timed out".to_owned())?
         .map_err(|error| format!("lease authentication failed: {error}"))?;
-    if acknowledgement != *b"ok" {
+    if acknowledgement[..2] != *b"ok" {
         return Err("lease authentication was refused".to_owned());
     }
-    Ok(stream)
+    let process_id = u32::from_be_bytes(
+        acknowledgement[2..]
+            .try_into()
+            .expect("Guardian acknowledgement process id is four bytes"),
+    );
+    if process_id == 0 {
+        return Err("Guardian process id must be non-zero".to_owned());
+    }
+    Ok((stream, process_id))
 }
 
 async fn guardian_lease_lost(lease: &mut TcpStream) {

@@ -1,0 +1,18 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "issue-578-glm-5-3-flash-general-provider-profile-v1",
+  "token_file": null,
+  "issue": 578,
+  "pull_request": null,
+  "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
+  "body": "## Summary\n\nAdd a first-class, general-purpose ADL provider profile for Z.ai GLM-5.3-Flash and prove it can be selected by a reviewer agent. This is intentionally not a reviewer-only profile: reviewer selection is a proof of normal agent/provider routing through the shared provider-profile machinery from #514.\n\n## Scope\n\n- Add `z_ai:glm-5.3-flash` to the provider profile registry.\n- Resolve it to stable ADL model identity `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`.\n- Use the current direct Z.ai chat-completions endpoint `https://api.z.ai/api/paas/v4/chat/completions`.\n- Materialize good defaults and bounded runtime overrides for GLM-5.3-Flash: `reasoning_effort`, `thinking.clear_thinking`, `temperature`, `top_p`, and output-token budget.\n- Document the source rationale and keep OpenRouter/Ollama cloud routes distinct from the direct Z.ai profile.\n- Add deterministic tests proving profile expansion, reviewer-agent selection, request materialization, and invalid override rejection.\n\n## Acceptance Criteria\n\n1. ADL exposes a first-class direct Z.ai profile named `z_ai:glm-5.3-flash` with stable ADL model identity `hosted:adl-z-ai:glm-5.3-flash`, provider model id `glm-5.3-flash`, and the current documented Z.ai chat-completions endpoint.\n2. Profile expansion is deterministic, redacted, and distinct from existing `z_ai:glm-5` and `z_ai:glm-5-current` profiles.\n3. The Z.ai provider request path applies good default GLM-5.3-Flash settings and supports runtime overrides for `reasoning_effort` in `low|high|max`, explicit `thinking.clear_thinking`, `temperature`, `top_p`, and output tokens bounded to 131072.\n4. Invalid GLM-5.3-Flash runtime overrides fail before network dispatch.\n5. Documentation records source facts from Z.ai, Hugging Face, Unsloth, and provider-variant boundaries for OpenRouter and Ollama cloud.\n6. A reviewer-agent selection proof or smoke command can select the general `z_ai:glm-5.3-flash` profile; if `ZAI_API_KEY` is absent, live dispatch is not claimed.\n7. Focused provider tests and exact-head review pass.\n8. No #446 or #455 implementation scope is changed.\n\n## Non-Goals\n\n- Do not implement OpenRouter `z-ai/glm-5.3-flash` as part of this issue.\n- Do not implement Ollama `glm-5.3-flash:cloud` as part of this issue.\n- Do not make paid/live Z.ai acceptance claims without credentials and retained proof.\n- Do not touch #446 or #455 scope.\n\n## Validation\n\n- `cargo fmt --manifest-path adl/Cargo.toml --check`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests profiles::z_ai_glm_5_3_flash_profile_expands_for_reviewer_agent_selection`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests http_family::zai_glm_5_3_flash_request_materializes_profile_defaults_and_runtime_overrides`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests`\n- `.csdlc/prepared/issues/578/reviewer-selection-smoke.sh`",
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

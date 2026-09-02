@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.finish_request.v1",
+  "issue": 571,
+  "expected_generation": 13,
+  "expected_digest": "726dd72f563c5fc8b95c7fa44c7c6a86c7e7da0eff128ac55609e90d14172c3e",
+  "actor": "worker-6",
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 585,
+  "base": "main",
+  "head": "codex/571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
+  "expected_head_sha": "2155f3fbb84598f19b65fcec855c6e41790b1c71",
+  "merge_method": "squash",
+  "required_checks": [],
+  "require_review": false,
+  "approved_no_pr_reason": null,
+  "token_file": null
+}

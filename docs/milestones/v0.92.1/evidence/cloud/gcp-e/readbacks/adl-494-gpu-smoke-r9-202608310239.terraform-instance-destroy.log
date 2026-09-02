@@ -1,0 +1,192 @@
+[0m[1mmodule.gpu_smoke_instance.data.google_compute_subnetwork.private: Reading...[0m[0m
+[0m[1mmodule.gpu_smoke_instance.data.google_compute_subnetwork.private: Read complete after 1s [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-central1/subnetworks/default][0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Refreshing state... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/instances/adl-494-gpu-smoke-r9-202608310239-vm][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [31m-[0m destroy[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.gpu_smoke_instance.google_compute_instance.gpu_smoke[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "google_compute_instance" "gpu_smoke" {
+      [31m-[0m[0m can_ip_forward             = false [90m-> null[0m[0m
+      [31m-[0m[0m cpu_platform               = "Intel Cascade Lake" [90m-> null[0m[0m
+      [31m-[0m[0m creation_timestamp         = "2026-08-30T19:19:51.448-07:00" [90m-> null[0m[0m
+      [31m-[0m[0m current_status             = "RUNNING" [90m-> null[0m[0m
+      [31m-[0m[0m deletion_policy            = "DELETE" [90m-> null[0m[0m
+      [31m-[0m[0m deletion_protection        = false [90m-> null[0m[0m
+      [31m-[0m[0m effective_labels           = {
+          [31m-[0m[0m "app"                        = "adl"
+          [31m-[0m[0m "goog-terraform-provisioned" = "true"
+          [31m-[0m[0m "issue"                      = "494"
+          [31m-[0m[0m "lane"                       = "gcp-e"
+          [31m-[0m[0m "milestone"                  = "v0-92-1"
+          [31m-[0m[0m "owner"                      = "agent-logic"
+          [31m-[0m[0m "run_id"                     = "adl-494-gpu-smoke-r9-202608310239"
+          [31m-[0m[0m "ttl"                        = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m enable_display             = false [90m-> null[0m[0m
+      [31m-[0m[0m id                         = "projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/instances/adl-494-gpu-smoke-r9-202608310239-vm" [90m-> null[0m[0m
+      [31m-[0m[0m instance_id                = "7377296814320998952" [90m-> null[0m[0m
+      [31m-[0m[0m label_fingerprint          = "lZMs9esZ4lg=" [90m-> null[0m[0m
+      [31m-[0m[0m labels                     = {
+          [31m-[0m[0m "app"       = "adl"
+          [31m-[0m[0m "issue"     = "494"
+          [31m-[0m[0m "lane"      = "gcp-e"
+          [31m-[0m[0m "milestone" = "v0-92-1"
+          [31m-[0m[0m "owner"     = "agent-logic"
+          [31m-[0m[0m "run_id"    = "adl-494-gpu-smoke-r9-202608310239"
+          [31m-[0m[0m "ttl"       = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m machine_type               = "g2-standard-4" [90m-> null[0m[0m
+      [31m-[0m[0m metadata                   = {
+          [31m-[0m[0m "adl-cleanup-required" = "true"
+          [31m-[0m[0m "adl-issue"            = "494"
+          [31m-[0m[0m "adl-max-budget-usd"   = "20"
+          [31m-[0m[0m "adl-model-name"       = "gpu-smoke-local"
+          [31m-[0m[0m "adl-run-id"           = "adl-494-gpu-smoke-r9-202608310239"
+          [31m-[0m[0m "adl-ttl-expires-at"   = "2026-08-31T06:19:33Z"
+          [31m-[0m[0m "enable-oslogin"       = "TRUE"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m metadata_fingerprint       = "1vxQBFqC1Cc=" [90m-> null[0m[0m
+      [31m-[0m[0m metadata_startup_script    = <<-EOT
+            #!/bin/bash
+            set -euo pipefail
+            install -d -m 0755 /var/lib/adl /var/log/adl
+            {
+              printf 'issue=494\n'
+              printf 'run_id=%s\n' 'adl-494-gpu-smoke-r9-202608310239'
+              printf 'machine_type=%s\n' 'g2-standard-4'
+              printf 'accelerator_type=%s\n' 'nvidia-l4'
+              printf 'accelerator_count=%s\n' '1'
+              printf 'model_name=%s\n' 'gpu-smoke-local'
+              date -u '+started_at=%Y-%m-%dT%H:%M:%SZ'
+              if command -v nvidia-smi >/dev/null 2>&1; then
+                nvidia-smi --query-gpu=name,driver_version,memory.total,memory.free --format=csv,noheader || true
+              else
+                printf 'nvidia_smi=missing\n'
+              fi
+              free -h || true
+              df -h / || true
+              date -u '+finished_at=%Y-%m-%dT%H:%M:%SZ'
+            } >/var/log/adl/issue494-gpu-smoke.log 2>&1
+            touch /var/lib/adl/issue494-startup-complete
+        EOT [90m-> null[0m[0m
+      [31m-[0m[0m name                       = "adl-494-gpu-smoke-r9-202608310239-vm" [90m-> null[0m[0m
+      [31m-[0m[0m project                    = "cs-poc-cha8mmii0xk0iaw5vpf8mxf" [90m-> null[0m[0m
+      [31m-[0m[0m resource_policies          = [] [90m-> null[0m[0m
+      [31m-[0m[0m self_link                  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/instances/adl-494-gpu-smoke-r9-202608310239-vm" [90m-> null[0m[0m
+      [31m-[0m[0m tags                       = [
+          [31m-[0m[0m "adl-494-gpu-smoke",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m tags_fingerprint           = "okp3GrMPvpc=" [90m-> null[0m[0m
+      [31m-[0m[0m terraform_labels           = {
+          [31m-[0m[0m "app"                        = "adl"
+          [31m-[0m[0m "goog-terraform-provisioned" = "true"
+          [31m-[0m[0m "issue"                      = "494"
+          [31m-[0m[0m "lane"                       = "gcp-e"
+          [31m-[0m[0m "milestone"                  = "v0-92-1"
+          [31m-[0m[0m "owner"                      = "agent-logic"
+          [31m-[0m[0m "run_id"                     = "adl-494-gpu-smoke-r9-202608310239"
+          [31m-[0m[0m "ttl"                        = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m zone                       = "us-central1-a" [90m-> null[0m[0m
+        [90m# (4 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m boot_disk {
+          [31m-[0m[0m auto_delete                     = true [90m-> null[0m[0m
+          [31m-[0m[0m device_name                     = "persistent-disk-0" [90m-> null[0m[0m
+          [31m-[0m[0m force_attach                    = false [90m-> null[0m[0m
+          [31m-[0m[0m guest_os_features               = [
+              [31m-[0m[0m "VIRTIO_SCSI_MULTIQUEUE",
+              [31m-[0m[0m "UEFI_COMPATIBLE",
+              [31m-[0m[0m "GVNIC",
+            ] [90m-> null[0m[0m
+          [31m-[0m[0m mode                            = "READ_WRITE" [90m-> null[0m[0m
+          [31m-[0m[0m source                          = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/disks/adl-494-gpu-smoke-r9-202608310239-vm" [90m-> null[0m[0m
+            [90m# (6 unchanged attributes hidden)[0m[0m
+
+          [31m-[0m[0m initialize_params {
+              [31m-[0m[0m enable_confidential_compute = false [90m-> null[0m[0m
+              [31m-[0m[0m image                       = "https://www.googleapis.com/compute/v1/projects/deeplearning-platform-release/global/images/common-cu129-ubuntu-2204-nvidia-580-v20260818" [90m-> null[0m[0m
+              [31m-[0m[0m labels                      = {} [90m-> null[0m[0m
+              [31m-[0m[0m provisioned_iops            = 0 [90m-> null[0m[0m
+              [31m-[0m[0m provisioned_throughput      = 0 [90m-> null[0m[0m
+              [31m-[0m[0m replica_zones               = [] [90m-> null[0m[0m
+              [31m-[0m[0m resource_manager_tags       = {} [90m-> null[0m[0m
+              [31m-[0m[0m resource_policies           = [] [90m-> null[0m[0m
+              [31m-[0m[0m size                        = 100 [90m-> null[0m[0m
+              [31m-[0m[0m type                        = "pd-balanced" [90m-> null[0m[0m
+                [90m# (3 unchanged attributes hidden)[0m[0m
+            }
+        }
+
+      [31m-[0m[0m guest_accelerator {
+          [31m-[0m[0m count = 1 [90m-> null[0m[0m
+          [31m-[0m[0m type  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/acceleratorTypes/nvidia-l4" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m network_interface {
+          [31m-[0m[0m internal_ipv6_prefix_length = 0 [90m-> null[0m[0m
+          [31m-[0m[0m name                        = "nic0" [90m-> null[0m[0m
+          [31m-[0m[0m network                     = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default" [90m-> null[0m[0m
+          [31m-[0m[0m network_ip                  = "10.128.0.3" [90m-> null[0m[0m
+          [31m-[0m[0m queue_count                 = 0 [90m-> null[0m[0m
+          [31m-[0m[0m stack_type                  = "IPV4_ONLY" [90m-> null[0m[0m
+          [31m-[0m[0m subnetwork                  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-central1/subnetworks/default" [90m-> null[0m[0m
+          [31m-[0m[0m subnetwork_project          = "cs-poc-cha8mmii0xk0iaw5vpf8mxf" [90m-> null[0m[0m
+          [31m-[0m[0m vlan                        = 0 [90m-> null[0m[0m
+            [90m# (6 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m scheduling {
+          [31m-[0m[0m automatic_restart           = false [90m-> null[0m[0m
+          [31m-[0m[0m availability_domain         = 0 [90m-> null[0m[0m
+          [31m-[0m[0m host_error_timeout_seconds  = 0 [90m-> null[0m[0m
+          [31m-[0m[0m min_node_cpus               = 0 [90m-> null[0m[0m
+          [31m-[0m[0m on_host_maintenance         = "TERMINATE" [90m-> null[0m[0m
+          [31m-[0m[0m preemptible                 = false [90m-> null[0m[0m
+          [31m-[0m[0m provisioning_model          = "STANDARD" [90m-> null[0m[0m
+            [90m# (2 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m service_account {
+          [31m-[0m[0m email  = "adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com" [90m-> null[0m[0m
+          [31m-[0m[0m scopes = [
+              [31m-[0m[0m "https://www.googleapis.com/auth/cloud-platform",
+            ] [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m shielded_instance_config {
+          [31m-[0m[0m enable_integrity_monitoring = true [90m-> null[0m[0m
+          [31m-[0m[0m enable_secure_boot          = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_vtpm                 = true [90m-> null[0m[0m
+        }
+    }
+
+[1mPlan:[0m [0m0 to add, 0 to change, 1 to destroy.
+
+Changes to Outputs:
+  [31m-[0m[0m instance_cleanup_selector = "labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=adl-494-gpu-smoke-r9-202608310239" [90m-> null[0m[0m
+  [31m-[0m[0m instance_name             = "adl-494-gpu-smoke-r9-202608310239-vm" [90m-> null[0m[0m
+  [31m-[0m[0m readiness_marker          = "/var/lib/adl/issue494-startup-complete" [90m-> null[0m[0m
+  [31m-[0m[0m startup_log               = "/var/log/adl/issue494-gpu-smoke.log" [90m-> null[0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/instances/adl-494-gpu-smoke-r9-202608310239-vm][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 00m10s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 00m20s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 00m30s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 00m40s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 00m50s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 01m00s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 01m10s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 01m20s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 01m30s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 01m40s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 01m50s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 02m00s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 02m10s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-494-gpu-smoke-r9-202608310239-vm, 02m20s elapsed][0m[0m
+[0m[1mmodule.gpu_smoke_instance.google_compute_instance.gpu_smoke: Destruction complete after 2m27s[0m
+[0m[1m[32m
+Destroy complete! Resources: 1 destroyed.[0m

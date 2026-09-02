@@ -1,0 +1,10 @@
+flowchart LR
+  P["profile: z_ai:glm-5.3-flash"] --> R["#514 profile registry"]
+  R --> T["ProviderTarget: z_ai / glm-5.3-flash"]
+  T --> D["Source-grounded defaults"]
+  D --> V["Validate runtime overrides"]
+  V --> H["Z.ai chat request body"]
+  H --> S["Reviewer-selection smoke"]
+  S --> C{"ZAI_API_KEY present?"}
+  C -->|yes| L["optional live reviewer dispatch"]
+  C -->|no| K["truthful credential-gated skip"]

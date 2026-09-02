@@ -1,0 +1,7 @@
+{
+  "issue": 578,
+  "expected_generation": 30,
+  "expected_digest": "76950882e6b66e5cbabba5191ab1ce3e4fc6d120e34816f25d8ec46254b4403d",
+  "actor": "codex:root",
+  "reason": "Recover #578 review state after adding tracked GLM-5.3-Flash reviewer-quality evidence from complete focused endpoint-regression packets."
+}

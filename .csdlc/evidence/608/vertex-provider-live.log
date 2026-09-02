@@ -1,0 +1,73 @@
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.27s
+adl_event schema=adl.observability.event.v1 command=adl stage=dispatch result=started subcommand=.csdlc<path>
+RUN SUMMARY: 3 step(s)
+  step=gemini_2_5_flash provider=vertex_gemini_2_5_flash status=success attempts=1 bytes=37
+  step=gemini_2_5_flash_lite provider=vertex_gemini_2_5_flash_lite status=success attempts=1 bytes=36
+  step=gemini_2_5_pro provider=vertex_gemini_2_5_pro status=success attempts=1 bytes=42
+TRACE run_id=vertex-live-2-5-native-endpoint-matrix workflow_id=workflow version=0.3
+2026-09-01T18:08:55.840Z (+0ms) LifecyclePhaseEntered phase=init
+2026-09-01T18:08:55.840Z (+0ms) ExecutionBoundaryCrossed boundary=runtime_init state=fresh_start
+2026-09-01T18:08:55.840Z (+0ms) LifecyclePhaseEntered phase=execute
+2026-09-01T18:08:55.840Z (+0ms) RuntimeResilienceDecision step=gemini_2_5_flash watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:08:55.840Z (+0ms) StepStarted step=gemini_2_5_flash agent=gemini_2_5_flash provider=vertex_gemini_2_5_flash task=compact_model_probe
+2026-09-01T18:08:55.841Z (+1ms) PromptAssembled step=gemini_2_5_flash hash=a6b972ca62b9e948
+2026-09-01T18:08:58.115Z (+2275ms) StepFinished step=gemini_2_5_flash success=true duration=2.275s
+2026-09-01T18:08:58.115Z (+2275ms) RuntimeResilienceDecision step=gemini_2_5_flash watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=2275 max_concurrency=1 queue_depth=none
+2026-09-01T18:08:58.115Z (+2275ms) RuntimeResilienceDecision step=gemini_2_5_flash_lite watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:08:58.115Z (+2275ms) StepStarted step=gemini_2_5_flash_lite agent=gemini_2_5_flash_lite provider=vertex_gemini_2_5_flash_lite task=compact_model_probe
+2026-09-01T18:08:58.115Z (+2275ms) PromptAssembled step=gemini_2_5_flash_lite hash=a6b972ca62b9e948
+2026-09-01T18:08:59.493Z (+3653ms) StepFinished step=gemini_2_5_flash_lite success=true duration=1.378s
+2026-09-01T18:08:59.493Z (+3653ms) RuntimeResilienceDecision step=gemini_2_5_flash_lite watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=1378 max_concurrency=1 queue_depth=none
+2026-09-01T18:08:59.494Z (+3654ms) RuntimeResilienceDecision step=gemini_2_5_pro watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:08:59.494Z (+3654ms) StepStarted step=gemini_2_5_pro agent=gemini_2_5_pro provider=vertex_gemini_2_5_pro task=compact_model_probe
+2026-09-01T18:08:59.494Z (+3654ms) PromptAssembled step=gemini_2_5_pro hash=a6b972ca62b9e948
+2026-09-01T18:09:03.055Z (+7215ms) StepFinished step=gemini_2_5_pro success=true duration=3.561s
+2026-09-01T18:09:03.055Z (+7215ms) RuntimeResilienceDecision step=gemini_2_5_pro watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=3561 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:03.055Z (+7215ms) LifecyclePhaseEntered phase=complete
+2026-09-01T18:09:03.055Z (+7215ms) ExecutionBoundaryCrossed boundary=run_completion state=success
+2026-09-01T18:09:03.055Z (+7215ms) LifecyclePhaseEntered phase=teardown
+adl_event schema=adl.observability.event.v1 command=adl stage=dispatch result=started subcommand=.csdlc<path>
+RUN SUMMARY: 6 step(s)
+  step=gemini_3_7_flash provider=vertex_gemini_3_7_flash status=success attempts=1 bytes=52
+  step=gemini_3_6_flash provider=vertex_gemini_3_6_flash status=success attempts=1 bytes=51
+  step=gemini_3_5_flash provider=vertex_gemini_3_5_flash status=success attempts=1 bytes=37
+  step=gemini_3_5_flash_lite provider=vertex_gemini_3_5_flash_lite status=success attempts=1 bytes=48
+  step=gemini_3_1_pro_preview provider=vertex_gemini_3_1_pro_preview status=success attempts=1 bytes=37
+  step=gemini_3_flash_preview provider=vertex_gemini_3_flash_preview status=success attempts=1 bytes=46
+TRACE run_id=vertex-live-global-3x-native-endpoint-matrix workflow_id=workflow version=0.3
+2026-09-01T18:09:03.097Z (+0ms) LifecyclePhaseEntered phase=init
+2026-09-01T18:09:03.097Z (+0ms) ExecutionBoundaryCrossed boundary=runtime_init state=fresh_start
+2026-09-01T18:09:03.097Z (+0ms) LifecyclePhaseEntered phase=execute
+2026-09-01T18:09:03.097Z (+0ms) RuntimeResilienceDecision step=gemini_3_7_flash watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:03.097Z (+0ms) StepStarted step=gemini_3_7_flash agent=gemini_3_7_flash provider=vertex_gemini_3_7_flash task=compact_model_probe
+2026-09-01T18:09:03.097Z (+0ms) PromptAssembled step=gemini_3_7_flash hash=a6b972ca62b9e948
+2026-09-01T18:09:07.014Z (+3917ms) StepFinished step=gemini_3_7_flash success=true duration=3.917s
+2026-09-01T18:09:07.014Z (+3917ms) RuntimeResilienceDecision step=gemini_3_7_flash watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=3917 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:07.014Z (+3917ms) RuntimeResilienceDecision step=gemini_3_6_flash watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:07.014Z (+3917ms) StepStarted step=gemini_3_6_flash agent=gemini_3_6_flash provider=vertex_gemini_3_6_flash task=compact_model_probe
+2026-09-01T18:09:07.014Z (+3917ms) PromptAssembled step=gemini_3_6_flash hash=a6b972ca62b9e948
+2026-09-01T18:09:27.138Z (+24041ms) StepFinished step=gemini_3_6_flash success=true duration=20.124s
+2026-09-01T18:09:27.138Z (+24041ms) RuntimeResilienceDecision step=gemini_3_6_flash watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=20124 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:27.138Z (+24041ms) RuntimeResilienceDecision step=gemini_3_5_flash watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:27.138Z (+24041ms) StepStarted step=gemini_3_5_flash agent=gemini_3_5_flash provider=vertex_gemini_3_5_flash task=compact_model_probe
+2026-09-01T18:09:27.138Z (+24041ms) PromptAssembled step=gemini_3_5_flash hash=a6b972ca62b9e948
+2026-09-01T18:09:29.650Z (+26553ms) StepFinished step=gemini_3_5_flash success=true duration=2.512s
+2026-09-01T18:09:29.650Z (+26553ms) RuntimeResilienceDecision step=gemini_3_5_flash watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=2512 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:29.650Z (+26553ms) RuntimeResilienceDecision step=gemini_3_5_flash_lite watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:29.650Z (+26553ms) StepStarted step=gemini_3_5_flash_lite agent=gemini_3_5_flash_lite provider=vertex_gemini_3_5_flash_lite task=compact_model_probe
+2026-09-01T18:09:29.650Z (+26553ms) PromptAssembled step=gemini_3_5_flash_lite hash=a6b972ca62b9e948
+2026-09-01T18:09:30.684Z (+27587ms) StepFinished step=gemini_3_5_flash_lite success=true duration=1.034s
+2026-09-01T18:09:30.684Z (+27587ms) RuntimeResilienceDecision step=gemini_3_5_flash_lite watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=1034 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:30.684Z (+27587ms) RuntimeResilienceDecision step=gemini_3_1_pro_preview watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:30.684Z (+27587ms) StepStarted step=gemini_3_1_pro_preview agent=gemini_3_1_pro_preview provider=vertex_gemini_3_1_pro_preview task=compact_model_probe
+2026-09-01T18:09:30.684Z (+27587ms) PromptAssembled step=gemini_3_1_pro_preview hash=a6b972ca62b9e948
+2026-09-01T18:09:34.552Z (+31455ms) StepFinished step=gemini_3_1_pro_preview success=true duration=3.868s
+2026-09-01T18:09:34.552Z (+31455ms) RuntimeResilienceDecision step=gemini_3_1_pro_preview watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=3868 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:34.552Z (+31455ms) RuntimeResilienceDecision step=gemini_3_flash_preview watcher=admitted middleware=admitted terminal=false attempts=1 elapsed_ms=0 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:34.552Z (+31455ms) StepStarted step=gemini_3_flash_preview agent=gemini_3_flash_preview provider=vertex_gemini_3_flash_preview task=compact_model_probe
+2026-09-01T18:09:34.552Z (+31455ms) PromptAssembled step=gemini_3_flash_preview hash=a6b972ca62b9e948
+2026-09-01T18:09:37.500Z (+34403ms) StepFinished step=gemini_3_flash_preview success=true duration=2.948s
+2026-09-01T18:09:37.500Z (+34403ms) RuntimeResilienceDecision step=gemini_3_flash_preview watcher=succeeded middleware=succeeded terminal=false attempts=1 elapsed_ms=2948 max_concurrency=1 queue_depth=none
+2026-09-01T18:09:37.501Z (+34404ms) LifecyclePhaseEntered phase=complete
+2026-09-01T18:09:37.501Z (+34404ms) ExecutionBoundaryCrossed boundary=run_completion state=success
+2026-09-01T18:09:37.501Z (+34404ms) LifecyclePhaseEntered phase=teardown
