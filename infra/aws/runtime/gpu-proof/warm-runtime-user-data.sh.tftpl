@@ -59,10 +59,16 @@ rm -rf "$runtime_state"
 mkdir -p "$runtime_state"
 cp -a /mnt/adl-warm-runtime/install/runtime-state/. "$runtime_state/"
 init="$runtime_state/runtime-init.toml"
-systemd-run --unit=adl-runtime-guardian --property=Restart=always \
+systemd-run --unit=adl-runtime-guardian \
+  --property=Restart=always \
+  --property=RestartSec=1s \
+  --property=StartLimitIntervalSec=0 \
   /mnt/adl-warm-runtime/target/debug/adl-runtime-guardian --init "$init"
-python3 /mnt/adl-warm-runtime/repo/adl/tools/issue607_probe_runtime.py \
+until python3 /mnt/adl-warm-runtime/repo/adl/tools/issue607_probe_runtime.py \
   --init "$init" --state-root "$runtime_state" --output "$state/running-transport-proof.json" --timeout-seconds 15
+do
+  sleep 1
+done
 jq -e '.status=="pass" and .authenticated_https==true and .authenticated_wss==true' "$state/running-transport-proof.json" >/dev/null
 end_uptime="$(cut -d' ' -f1 /proc/uptime)"
 elapsed="$(awk -v start="$start_uptime" -v end="$end_uptime" 'BEGIN {printf "%.3f", end-start}')"
