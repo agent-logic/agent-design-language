@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Review issue #264 non-submission gate packet, validation evidence, operator authorization boundary, #51 parent handoff truth, and exact terminal dependency proof.
+docs/milestones/v0.92.1/review/podcast_submission_264
+.csdlc/prepared/issues/264
+.csdlc/evidence/264
 
 ## Prompts
 
