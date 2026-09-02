@@ -189,13 +189,13 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
 }
 
 #[test]
-fn lifecycle_and_durable_storage_canary_uses_real_terminal_issue_and_recovery_provenance() {
+fn lifecycle_and_durable_storage_canary_uses_real_terminal_issue_4646_and_recovery_provenance() {
     let root = repo_root();
-    let index = read_issue_index(&root, 504);
+    let index = read_issue_index(&root, 4646);
     assert_eq!(index["phase"], "closed_out");
 
     let store_dir = root.join(format!(
-        "csdlc-v3/target/real-issue-canary-504-store-{}",
+        "csdlc-v3/target/real-issue-canary-4646-store-{}",
         std::process::id()
     ));
     let _ = fs::remove_dir_all(&store_dir);
