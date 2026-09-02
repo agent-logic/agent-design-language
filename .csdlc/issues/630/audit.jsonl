@@ -9,3 +9,4 @@
 {"sequence":9,"generation":5,"actor":"codex:worker-6","reason":"Recover stale exact-review assignment after the post-fix review found that verified terminal readback construction was still caller-forgeable and nonexistent cleanup traversal was not denied.","operation":"recover_review"}
 {"sequence":10,"generation":5,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":6,"actor":"codex:worker-6","reason":"Recover stale exact-review assignment after final review found nonexistent children under symlinked parents could classify as absent and one retained proof log was stale.","operation":"recover_review"}
+{"sequence":12,"generation":6,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}

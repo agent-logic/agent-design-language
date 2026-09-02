@@ -6,10 +6,39 @@
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
   "phase": "implemented",
   "generation": 6,
-  "digest": "19c611945d623a38bbb0d7a9bde361ce320d61e40a56dd7a9b0fe2db039a7f09",
+  "digest": "374cdc7a4f22a99621c2a1e99667e8cf22c6d5000074d1094c7b7d33ff5c3caf",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_630_final_safe",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:b0458eed46b3a09f87efcaeb8ae2391f25b2ec5f:7b3d628809a9ef85835ecff2fd405995fa5d3f51a7eae9246f0b8e4562a3f1f7",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/create-request.json",
+      ".csdlc/prepared/issues/630/design.md",
+      ".csdlc/prepared/issues/630/diagram.mmd",
+      ".csdlc/prepared/issues/630/finalize-request.json",
+      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
+      ".csdlc/prepared/issues/630/recover-review-after-sealed-readback.json",
+      ".csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json",
+      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
+      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+      ".csdlc/evidence/630/630-diff-hygiene.log",
+      ".csdlc/evidence/630/630-full-v3-regression.log",
+      ".csdlc/evidence/630/630-issue-validator.log",
+      ".csdlc/evidence/630/630-rustfmt.log",
+      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
+      ".csdlc/evidence/630/630-typed-issue-validation.log",
+      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +74,9 @@
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "7dfe53b99abd038facbea664ad6d0d947ab87587e514252c040c6be91c71fc95",
-      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
-      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
+      "values_digest": "3bbaa03ae6cb7e4a4c59d5e3b3c890ac35e677fde260ae045ddfc00f665c8095",
+      "rendered_digest": "667e1696254ebbb58aa0efafd9d26a74c04c2068fd703619f538e174e735a7f4",
+      "ast_digest": "45e85fbe561137e4424f1fca4cbe23d6864d74afc0d53682d8689a40d0984c43"
     },
     "sor": {
       "values_digest": "16c465e765c8765a5d88832aee9ed4e56d789e313add0a33d0e89af8b4603b7d",
@@ -155,6 +184,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover stale exact-review assignment after final review found nonexistent children under symlinked parents could classify as absent and one retained proof log was stale.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
