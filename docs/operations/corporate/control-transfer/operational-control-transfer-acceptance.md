@@ -1,9 +1,9 @@
 # Corporate Operational-Control Transfer Acceptance
 
-Issue: #497  
-Sprint umbrella: #532  
-Machine-readable packet: `docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json`  
-Evidence directory: `docs/milestones/v0.92.1/evidence/corporate/corp-c/`
+- Issue: #497
+- Sprint umbrella: #532
+- Machine-readable packet: `docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json`
+- Evidence directory: `docs/milestones/v0.92.1/evidence/corporate/corp-c/`
 
 This packet accepts CORP-C as a repository-local operational-control transfer surface. It deliberately does not claim that every live provider, billing, credential, DNS, certificate, legal, or private-custody action has been performed. Completed evidence, deferred actions, blocked actions, and operator-authorized actions are separated so Sprint 4 can proceed without turning a truthful corporate register into a fog machine.
 
