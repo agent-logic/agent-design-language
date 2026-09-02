@@ -6,13 +6,13 @@
   "initialization_digest": "eb634f362b943f978e69a24cbc0a476e531099b999d4accfc9f0b7f342b488d9",
   "phase": "implemented",
   "generation": 8,
-  "digest": "eddc2139d53338e6dc5ef3861ed559a09d06377c27597cc560bcfa957a3c3459",
+  "digest": "bce7833b4b62d83f7088828d99552ab53d8b7577413683b52646f82759944fb0",
   "branch": "codex/592-runtime-gcp-polis-vertex-ai",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-592-runtime-gcp-polis-vertex-ai",
   "review_assignment": {
     "reviewer": "codex-subagent:/root/review_592_prepr_r1",
     "assigned_by": "codex:/root/Worker-7",
-    "revision": "git-blake3:863f76d48d828dffc3cfb36bc73fc265500db8d2:1e6f87687a0979c12ab0bcc662219c22a30f1ba91d480080cbe1fafd5aea4922",
+    "revision": "git-blake3:afacbb13006ff2bfcb53a3ad7187e14147a667a6:38da938feceb7d2991c8cfc1314ca9b48f376646223ff0391830b4bc7b25e0f7",
     "scope": [
       "adl-runtime-kernel/src/config.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -172,6 +172,13 @@
     },
     {
       "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
       "generation": 8,
       "actor": "codex:/root/Worker-7",
       "reason": "assign bounded exact-revision review",
