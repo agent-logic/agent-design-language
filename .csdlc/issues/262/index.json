@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
-  "phase": "implemented",
-  "generation": 34,
-  "digest": "896aa30873907719cdb9912499277428a9d21cac6ce929b71ccfd76aa9b269cd",
+  "phase": "reviewed",
+  "generation": 35,
+  "digest": "074ab59eefac9f376846c549db621db2e252639fc6d9ab7b4a66790005e46f55",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": {
@@ -41,7 +41,43 @@
       "demos/podcast/studio/podcast-studio.html"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/podcast-studio.html"
+    ],
+    "reviewed_revision": "git-blake3:662e57966b5b057e8c8ae0f4fd0377b3fd9abcdd:cca84389ceead8a0f998f1c458b3704cedfa577d66d8ff5150928bc4b685bba7",
+    "findings": [],
+    "residual_risks": [
+      "No live S3 or CloudFront probe was performed during the read-only exact-head review; retained local hosting proof remains the review denominator."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -56,32 +92,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e5d6067febb54db4fa585015d68391f46d9b75272844f07f9a8c2193d962a589",
+      "values_digest": "9d041cd9900cb77bb6e87c2a663d9a239fc12e03798aab48b6f30d93f5710e53",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "08c73eb76a93725fdae1eea16eaf6f553224e3149e385bd29adb0e5c9704a2e8",
+      "values_digest": "8ee9b09738820a6540b0f6e7868837c91607794fb61894773f6e74607b1dc978",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "c731dd3d2a8611c018b33b0b34f68fa7e944325de877429e0ccb46e133e043ae",
+      "values_digest": "1945be9813fab8abcbf7a94a51cd9044cf62599812c5ba7a938adfad9ae45cd2",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "604a26ea75af6a6b4835bf805ab9ecfc0dc5accfa65e094ff5a56cf7d24e77d4",
+      "values_digest": "4ac933d3c4842341cd6b63c7c3c42a810d074bf4e3ba19606e4b5d5232d3b4df",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "66c5de9bb12c0b8fe32dcbc49c82bb5f1065376985c4b469346751a7e8a4fc9d",
-      "rendered_digest": "c16e55d8a30d1a26cca61063a2c7aea0b201d6886deb9ddbf14b8e712869030b",
-      "ast_digest": "d622f27f2f5c19ebd1f25cab3aaca8ac57bca17b62a11e0ade12924a3c9d46f7"
+      "values_digest": "eb342a3f2c2bf541993bf836808a890a6e78448bf418374373e11a0e38053042",
+      "rendered_digest": "5782c920434b5e6acabf501ba9dd30fa4b289e49740b05d644c960d6e90b8ed5",
+      "ast_digest": "dcf7990cf0d420654fce43cba1725869f48bde236d4db96a0e698883378884f0"
     },
     "sor": {
-      "values_digest": "9d57857e7b513b2377a57dc05362e776239598e5a9dcb858f016c98d70b514d0",
+      "values_digest": "ce2d3f2cb0e997ba8e922aab8a7ea1ec0893fd1eac3779a102fd3b7d2d89bf48",
       "rendered_digest": "90fc0f272d2c0fc5399517385c27a62cb995fe975a9e2c720f934d0f948b2ced",
       "ast_digest": "3390a5c703600e48d5b98f0e965cd1bc36b79d0312bce271c9614edf28ceed1a"
     }
@@ -107,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:root/podcast-262",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -410,6 +453,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 35,
+      "actor": "fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -54,12 +54,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live S3 or CloudFront probe was performed during the read-only exact-head review; retained local hosting proof remains the review denominator.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:662e57966b5b057e8c8ae0f4fd0377b3fd9abcdd:cca84389ceead8a0f998f1c458b3704cedfa577d66d8ff5150928bc4b685bba7")
 
-Reviewer: None
+Reviewer: Some("fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9")
 
-Result: pre_review
+Result: pass
