@@ -241,16 +241,45 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
     "purpose": "Reject whitespace and conflict-marker residue across the exact #262 archive aggregate byte remediation diff.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_podcast_launch_packet.sh"
+    ],
+    "purpose": "Prove the podcast launch packet contract accepts The Cognitive Stack schedule title, studio reference digest, production source packet boundary, generated packet, and current demo route.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-podcast-launch-packet.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack hosting packet remains consistent after launch schedule title, studio digest, and validator-boundary repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 post-publication CI remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

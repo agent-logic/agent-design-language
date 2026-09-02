@@ -4,92 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
-  "phase": "published",
-  "generation": 36,
-  "digest": "672c6c23bfaa0c5494113ca69277b082d0e88b53d0a298ce9cac6d8b08fd4208",
+  "phase": "implemented",
+  "generation": 40,
+  "digest": "d12e5ef838c3b45aecc0227c9ccab36dd3dff047b1f1d1399b61fdbd7ab954c6",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
-  "review_assignment": {
-    "reviewer": "fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9",
-    "assigned_by": "codex:root/podcast-262",
-    "revision": "git-blake3:662e57966b5b057e8c8ae0f4fd0377b3fd9abcdd:cca84389ceead8a0f998f1c458b3704cedfa577d66d8ff5150928bc4b685bba7",
-    "scope": [
-      ".csdlc/evidence/262",
-      ".csdlc/prepared/issues/262",
-      "adl/tools/record_podcast_native_playback.sh",
-      "adl/tools/record_podcast_browser_playback.mjs",
-      "adl/tools/record_podcast_ios_safari_playback.sh",
-      "demos/_preview/podcast/index.html",
-      "demos/podcast/LAUNCH_READINESS.md",
-      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
-      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
-      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
-      "demos/podcast/feed.xml",
-      "demos/podcast/index.html",
-      "demos/podcast/studio-reference/podcast-studio.html",
-      "demos/podcast/studio/podcast-studio.html"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9",
-    "scope": [
-      ".csdlc/evidence/262",
-      ".csdlc/prepared/issues/262",
-      "adl/tools/record_podcast_native_playback.sh",
-      "adl/tools/record_podcast_browser_playback.mjs",
-      "adl/tools/record_podcast_ios_safari_playback.sh",
-      "demos/_preview/podcast/index.html",
-      "demos/podcast/LAUNCH_READINESS.md",
-      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
-      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
-      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
-      "demos/podcast/feed.xml",
-      "demos/podcast/index.html",
-      "demos/podcast/studio-reference/podcast-studio.html",
-      "demos/podcast/studio/podcast-studio.html"
-    ],
-    "reviewed_revision": "git-blake3:662e57966b5b057e8c8ae0f4fd0377b3fd9abcdd:cca84389ceead8a0f998f1c458b3704cedfa577d66d8ff5150928bc4b685bba7",
-    "findings": [],
-    "residual_risks": [
-      "No live S3 or CloudFront probe was performed during the read-only exact-head review; retained local hosting proof remains the review denominator."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 262,
-    "pull_request": 618,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/618",
-    "base": "main",
-    "head": "codex/262-podcast-production-hosting",
-    "revision": "git-blake3:bea7862305bd55d8ee88e1369847ea12ae94f4b4:e7cd010d5b9a8c36493d36505f194714fd222776fae07e5f9441174b04eec3ac",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -103,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "edda2a4974551a50fa9b8cea478b8173801ec23b0184b5f31943e057eab28de8",
+      "values_digest": "00448edc8ab224b510b077282ae5b5e1f9ed5f4266b1db20261fe006a387fc27",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "5b75c4de4c65eeaf4d01e513ff024899d330c42269af989bdd8b8a35b9bbe476",
+      "values_digest": "67faa0dc43e5ce5045810c27d34cc3e0f6768f9983ed6189333e8dd43b464414",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "ee3509e0df494164bae68a2c1ab65372cb9fdc8fa6fa2bdae4807d142189a359",
+      "values_digest": "d30ad847b8ee95078d535208dc0aea23a2428516be4549b75777817a8ccb4875",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "75d9918f143a7bae1651ffdd0ad84843f1fe045889bf935529fb9bcfb656980d",
+      "values_digest": "682054ea8ad858022b9ea4995b76c97a768b2c296357123bacc9e2c051afce47",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "d5d0113d90236f812c91c2b22e0bc6db8f7ef5a33c45f08e2ca068773c10629e",
-      "rendered_digest": "5782c920434b5e6acabf501ba9dd30fa4b289e49740b05d644c960d6e90b8ed5",
-      "ast_digest": "dcf7990cf0d420654fce43cba1725869f48bde236d4db96a0e698883378884f0"
+      "values_digest": "469be5877e12c26f0b5c4248c3e7a2179fc1652eb9a5e5d0c89030ce2b4b2188",
+      "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
+      "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
     },
     "sor": {
-      "values_digest": "ce0d46d7ec9c09c1f3c5250b6586e6b2ff7dd24c88de28e7b014fe57b00b519c",
-      "rendered_digest": "98fb12abe32976d4580940b77a6c020e3f2ac1595b766788a710be31d9317295",
-      "ast_digest": "b5eda627d5b66579fb638a54caf3b22ddcdd2b15492d8539ea52a9f7f7ce55c0"
+      "values_digest": "f170d056cce3112b52bd69544f94a4c5afd22a0078151b3dca1b5c5f962da6d4",
+      "rendered_digest": "38942ef1bf685bfed3f569a0625ffd7aecc8af567cfebfdc0eb67fc9f194b123",
+      "ast_digest": "a75b81475ba0e1b6111a821b59ee4032f72b033173a6030ba8f3d46647768688"
     }
   },
   "transitions": [
@@ -168,6 +90,13 @@
       "to": "published",
       "actor": "codex:root/podcast-262",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after hosted adl-tooling-contracts failed the podcast launch packet contract because The Cognitive Stack studio HTML and launch schedule title changed but reference digests and validator/source title expectations were stale; prepare a remediated exact-head candidate."
     }
   ],
   "audit": [
@@ -485,6 +414,34 @@
       "actor": "codex:root/podcast-262",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 46,
+      "generation": 37,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after hosted adl-tooling-contracts failed the podcast launch packet contract because The Cognitive Stack studio HTML and launch schedule title changed but reference digests and validator/source title expectations were stale; prepare a remediated exact-head candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 38,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record hosted adl-tooling-contracts reproducer after The Cognitive Stack title/digest remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_podcast_launch_packet.sh\"],\"purpose\":\"Prove the podcast launch packet contract accepts The Cognitive Stack schedule title, studio reference digest, production source packet boundary, generated packet, and current demo route.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-podcast-launch-packet.log\"}}"
+    },
+    {
+      "sequence": 48,
+      "generation": 39,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record focused validation after The Cognitive Stack launch packet title/digest remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack hosting packet remains consistent after launch schedule title, studio digest, and validator-boundary repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 49,
+      "generation": 40,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after The Cognitive Stack launch packet title/digest remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 post-publication CI remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
     }
   ]
 }
