@@ -18,7 +18,9 @@ commands will detect it and remind you to do so if necessary.[0m
 [0m
 archive_contract.tftest.hcl... [37min progress[0m
 [0m  run "runtime_log_archive_plan_contract"... [32mpass[0m[0m
+  run "runtime_log_archive_accepts_single_character_identity_labels"... [32mpass[0m[0m
+  run "runtime_log_archive_rejects_bucket_separator_parity_violations"... [32mpass[0m[0m
 archive_contract.tftest.hcl... [37mtearing down[0m
 [0marchive_contract.tftest.hcl... [32mpass[0m[0m
 
-[32mSuccess![0m[0m 1 passed, 0 failed.
+[32mSuccess![0m[0m 3 passed, 0 failed.

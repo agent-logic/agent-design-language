@@ -36,3 +36,31 @@ run "runtime_log_archive_plan_contract" {
     error_message = "The archive prefix must be identity-partitioned by environment, Polis, and Runtime."
   }
 }
+
+run "runtime_log_archive_accepts_single_character_identity_labels" {
+  command = plan
+
+  variables {
+    environment = "d"
+    polis_id    = "p"
+    runtime_id  = "r"
+    bucket_name = "agent-logic-runtime-log-archive-d-p-r"
+  }
+
+  assert {
+    condition     = local.archive_prefix == "logs/env=d/polis=p/runtime=r"
+    error_message = "Terraform identity labels must match Runtime DNS-safe label boundaries, including one-character labels."
+  }
+}
+
+run "runtime_log_archive_rejects_bucket_separator_parity_violations" {
+  command = plan
+
+  variables {
+    bucket_name = "agent-logic..runtime"
+  }
+
+  expect_failures = [
+    var.bucket_name
+  ]
+}

@@ -10,7 +10,7 @@ variable "environment" {
   default     = "dev"
 
   validation {
-    condition     = can(regex("^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$", var.environment))
+    condition     = can(regex("^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$", var.environment))
     error_message = "environment must be a lowercase DNS-safe label."
   }
 }
@@ -21,7 +21,7 @@ variable "polis_id" {
   default     = "konishi"
 
   validation {
-    condition     = can(regex("^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$", var.polis_id))
+    condition     = can(regex("^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$", var.polis_id))
     error_message = "polis_id must be a lowercase DNS-safe label."
   }
 }
@@ -32,7 +32,7 @@ variable "runtime_id" {
   default     = "wuji"
 
   validation {
-    condition     = can(regex("^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$", var.runtime_id))
+    condition     = can(regex("^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$", var.runtime_id))
     error_message = "runtime_id must be a lowercase DNS-safe label."
   }
 }
@@ -46,7 +46,7 @@ variable "bucket_name" {
     condition = var.bucket_name == null || can(regex(
       "^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$",
       var.bucket_name
-    ))
+    )) && !can(regex("\\.\\.|\\.\\-|-\\.", var.bucket_name))
     error_message = "bucket_name must be a DNS-compatible S3 bucket name when set."
   }
 }

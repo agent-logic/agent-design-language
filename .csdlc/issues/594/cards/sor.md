@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented bounded Runtime redacted-log archival to S3 with optional Runtime init configuration, rendered Vector S3 delivery, focused tests including direct offline S3 failure/drop proof and runtime startup/master-log survival proof, issue-owned validation wrappers, and an isolated Terraform archive module.
+Implemented bounded Runtime redacted-log archival to S3 with optional Runtime init configuration, rendered Vector S3 delivery, focused tests including direct offline S3 failure/drop proof, runtime startup/master-log survival proof, Runtime/Terraform identifier parity proof, issue-owned validation wrappers, and an isolated Terraform archive module.
 
 ## Artifacts
 
@@ -42,7 +42,9 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
 - Added optional observability_pipeline.s3_archive runtime init configuration with lowercase AWS region, DNS-compatible bucket, and DNS-safe environment, Polis, and Runtime identity validation.
 - Rendered runtime_v3_s3_archive from runtime_v3_redacted through a bounded delivery transform with identity-partitioned keys, SSE-S3, gzip JSON, disabled S3 health checks, 5 MiB or 60 second batching, 512 MiB drop-newest disk buffering, bounded retry settings, and explicit failure/drop telemetry annotations.
 - Added focused Runtime configuration and observability tests, including a pinned Vector validate check for the generated archive config, an archive-enabled runtime startup/master-log survival test, and a pinned Vector offline S3 outage test that observes retry exhaustion, service-call failure, and dropped-event telemetry while master-log output progresses.
-- Tightened the issue-owned Runtime validation wrapper so it runs S3 archive configuration tests, Vector rendering/validation tests, the archive outage-survival test, and the direct offline S3 sink failure/drop test.
+- Aligned Terraform identity-label validation with Runtime's DNS-safe label boundaries, including one-character labels, and tightened Terraform bucket validation to reject the same consecutive/dot-hyphen separator forms rejected by Runtime.
+- Added Runtime and Terraform parity tests for accepted one-character identity labels and rejected unsafe S3 bucket separator forms.
+- Tightened the issue-owned Runtime validation wrapper so it runs S3 archive configuration tests, Vector rendering/validation tests, the archive outage-survival test, the direct offline S3 sink failure/drop test, and Runtime/Terraform identifier parity tests.
 - Added an issue-owned diff hygiene wrapper that emits a non-empty success receipt after git diff --check passes.
 - Added infra/aws/runtime/log-archive Terraform for private S3 bucket controls, versioning, lifecycle retention, SSE-S3, bucket-owner-enforced ownership, and exact-prefix publisher IAM policy with terraform test assertions.
 - Added a module-local Terraform ignore rule so generated provider cache files are not tracked.
@@ -64,7 +66,7 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
       "/bin/bash",
       "/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/.csdlc/prepared/issues/594/validate-runtime-log-archive.sh"
     ],
-    "purpose": "Issue 594 Runtime S3 archive validation covering configuration parsing, unsafe identity rejection, Vector S3 sink rendering, pinned Vector config validation, archive-enabled startup/master-log survival, and direct offline S3 sink retry-exhaustion/drop telemetry with master-log progress.",
+    "purpose": "Issue 594 Runtime S3 archive validation covering configuration parsing, unsafe identity rejection, Runtime/Terraform identifier parity, Vector S3 sink rendering, pinned Vector config validation, archive-enabled startup/master-log survival, and direct offline S3 sink retry-exhaustion/drop telemetry with master-log progress.",
     "outcome": "passed",
     "evidence_ref": "runtime-log-archive.log"
   },
@@ -82,7 +84,7 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
       "-E",
       "test(s3_archive)"
     ],
-    "purpose": "Issue 594 Runtime init S3 archive configuration validation",
+    "purpose": "Issue 594 Runtime init S3 archive configuration and identifier parity validation",
     "outcome": "passed",
     "evidence_ref": "runtime-log-archive-config.log"
   },
@@ -91,7 +93,7 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
       "/bin/bash",
       "/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/.csdlc/prepared/issues/594/validate-terraform-log-archive.sh"
     ],
-    "purpose": "Issue 594 Terraform S3 archive validation",
+    "purpose": "Issue 594 Terraform S3 archive validation, including identity-label and bucket-validation parity assertions",
     "outcome": "passed",
     "evidence_ref": "terraform-log-archive.log"
   }

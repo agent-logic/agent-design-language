@@ -771,6 +771,46 @@ runtime_id = "wuji"
 }
 
 #[test]
+fn runtime_init_s3_archive_identity_boundaries_match_terraform_contract() {
+    let root = config_test_root();
+    let accepted = valid_runtime_init_toml(root.path()).replace(
+        "\n[weather]\n",
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-d-p-r"
+environment = "d"
+polis_id = "p"
+runtime_id = "r"
+
+[weather]
+"#,
+    );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&accepted).is_ok());
+
+    for rejected_bucket in [
+        "agent-logic..runtime",
+        "agent-logic.-runtime",
+        "agent-logic-.runtime",
+    ] {
+        let rejected = format!(
+            r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "{rejected_bucket}"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+"#
+        );
+        assert!(
+            adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&runtime_init_toml(&rejected))
+                .is_err()
+        );
+    }
+}
+
+#[test]
 fn runtime_init_rejects_unsafe_s3_archive_identity_segments() {
     for fragment in [
         r#"
