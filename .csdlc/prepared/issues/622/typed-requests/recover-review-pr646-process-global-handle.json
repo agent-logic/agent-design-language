@@ -1,7 +1,0 @@
-{
-  "actor": "codex:/root:issue-622-review-repair",
-  "expected_digest": "2d2bc1fc0af64f9525db1fa27bfca4d6e0e027882f211a12321a0438d7f8825d",
-  "expected_generation": 17,
-  "issue": 622,
-  "reason": "Recover #622 from published phase after PR #646 exact-head review failed on process-global provider reload state and stale retained review evidence; bounded repair, validation, fresh review, and re-publication are required."
-}

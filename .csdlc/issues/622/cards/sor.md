@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Addressed PR #646 exact-head review blockers by making provider/profile reload state run-scoped for execution and adding overlap/shutdown-order regression coverage.
+Applied bounded CI janitor fixes after PR #646 reported an adl-rust-fmt-clippy failure.
 
 ## Artifacts
 
@@ -32,11 +32,6 @@ Addressed PR #646 exact-head review blockers by making provider/profile reload s
 - docs/providers/provider-profile-hot-loading.md
 - adl-runtime-kernel/src/control.rs
 - adl/src/cli/csmctl_cmd.rs
-- adl/src/execute/mod.rs
-- adl/src/execute/runner.rs
-- adl/src/execute/tests.rs
-- adl/src/long_lived_agent.rs
-- adl/src/provider/reload.rs
 
 ## Execution
 
@@ -53,11 +48,6 @@ Addressed PR #646 exact-head review blockers by making provider/profile reload s
 - Updated #622 validation lanes and documentation to name the production config knob and stronger credential boundary.
 - Ran rustfmt across the ADL workspace and accepted the single formatting change in adl-runtime-kernel/src/control.rs required by the hosted fmt check.
 - Fixed the csmctl command import to use the public adl_runtime_kernel::agent_roster::is_canonical_agent_name path instead of the private control re-export surface.
-- Added execute_sequential_with_provider_reload_handle so production execution can consume an explicit run-scoped ProviderReloadHandle instead of process-global reload state.
-- Threaded the run-scoped reload handle through sequential execution, concurrent execution, step retry execution, and called-workflow recursion while preserving the existing global fallback for compatibility callers.
-- Changed CSM adl_workflow production wiring to store the ProviderReloadOwner handle on ActiveProviderReload and pass it directly into execution, removing CSM reliance on global provider reload registration.
-- Made the compatibility global provider reload guard identity-aware so dropping an older guard cannot clear a newer registration.
-- Added a two-workflow overlap and shutdown-order regression test proving same-provider-id workflows keep separate reload snapshots and shutting down one workflow does not clear the other's handle.
 
 ## Validation
 
@@ -110,54 +100,16 @@ Addressed PR #646 exact-head review blockers by making provider/profile reload s
     "purpose": "Prove the local equivalent of the failed hosted adl-rust-fmt-clippy lane after bounded CI janitor fixes.",
     "outcome": "passed",
     "evidence_ref": "terminal:issue-622-ci-janitor-local-fmt-clippy: cargo fmt --all -- --check passed; cargo clippy --all-targets -- -D warnings finished successfully in adl/"
-  },
-  {
-    "command": [
-      "bash",
-      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
-      "production"
-    ],
-    "purpose": "Prove the #622 production provider/profile hot-loading lane after replacing process-global production wiring with a run-scoped reload handle.",
-    "outcome": "passed",
-    "evidence_ref": "terminal:issue-622-process-global-repair-production-lane:provider_mod_profile 14 passed; provider_reload 6 passed including overlap/shutdown regression; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed"
-  },
-  {
-    "command": [
-      "bash",
-      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
-      "safety"
-    ],
-    "purpose": "Prove the #622 safety lane after run-scoped reload repair, including runtime-kernel reload safety, credential boundary, production tick proof, and whitespace/diff hygiene.",
-    "outcome": "passed",
-    "evidence_ref": "terminal:issue-622-process-global-repair-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 6 passed including overlap/shutdown regression; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "fmt --manifest-path adl/Cargo.toml --all -- --check && cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings"
-    ],
-    "purpose": "Prove formatting and clippy cleanliness for the #622 process-global reload repair before fresh exact-head review.",
-    "outcome": "passed",
-    "evidence_ref": "terminal:issue-622-process-global-repair-local-fmt-clippy: cargo fmt --manifest-path adl/Cargo.toml --all -- --check passed; cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings finished successfully"
-  },
-  {
-    "command": [
-      "cargo",
-      "test --locked --manifest-path adl/Cargo.toml --lib global_provider_reload_guard_only_clears_owned_registration -- --nocapture"
-    ],
-    "purpose": "Prove the compatibility process-global provider reload guard is identity-aware: registering handle B after handle A must remain on B when guard A is dropped, and guard B must clear only its own registration.",
-    "outcome": "passed",
-    "evidence_ref": "terminal:issue-622-global-guard-regression: global_provider_reload_guard_only_clears_owned_registration 1 passed; production and safety lanes subsequently included provider_reload 7 passed; fmt and clippy passed"
   }
 ]
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

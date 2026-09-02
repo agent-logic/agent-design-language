@@ -1,0 +1,74 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 648,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e474bee8b7ea0cf78980cbfa31d64187c08d8d66120a0a13e935836019bdd680",
+  "phase": "initialized",
+  "generation": 1,
+  "digest": "aad9a2552f6deb4fdc4b5afbd66c2749917a0ff68d165f9a06d42c85b797412d",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/648/design.md",
+  "diagram_path": ".csdlc/prepared/issues/648/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root:issue-648-design-review",
+      "revision": "752accf4705a4e5c4559b72ff5051629a23d03975617874c43eb1b5d09081baf"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c78d5e01cf96892c4f15ee05175e5aae745413529d2fe502d1175019b3a47fbd",
+      "rendered_digest": "d76ac9c988495e8bc6dfdb47d07e1ff8347056507a338d2af9dcc2904a7b0b92",
+      "ast_digest": "731b22b5572f8e65901e8bdf7e6d2281c1b83478291d756a92b37f113e1b250a"
+    },
+    "stp": {
+      "values_digest": "951652e9f5895bbb559d23fba8eb89fb7c30792ef8e7a62e5060858e1317e56f",
+      "rendered_digest": "74ebbaefb0938e0c011d2905584f8e9ba32c7ebaa305cbcee11461846e3ed733",
+      "ast_digest": "3864e33451386d117a0f46ce9449363fdf14891e6a0526b271931eb45eb219ee"
+    },
+    "spp": {
+      "values_digest": "e5dc4c7da26e7771189b48f7612bbaf9795189b5b57af827008bb38e4fdd9c9c",
+      "rendered_digest": "64f66a0bde2ee42890cc22f6571b079be34f8abf12fa242377a22d2b2ebaa394",
+      "ast_digest": "8179ff2ca28a6d452f0bfb13326b0da5c4f1591b852558616ec88ca93e5eebd1"
+    },
+    "vpp": {
+      "values_digest": "f93ec6d30a4536eae0ff76b72fa968797650be3760b9037bceb273ec14170466",
+      "rendered_digest": "3ac7551c1214e4ca7cbd3c66fc292c98946816ef9c3ffc23faf02b7e1eb046ca",
+      "ast_digest": "e32a5a7d0c798695350428512aa5fbb5802854a8e927476e20c22637ee90fa55"
+    },
+    "srp": {
+      "values_digest": "9babc3915156dab42d9d7dad737c8e67f3ceac02c890b7195e6e3ed0d8346666",
+      "rendered_digest": "25aeb88e4be502b4575d6022fe8dfd7d96a7a41a92db2caf3e39e1b1f07f1609",
+      "ast_digest": "c323b853959afc3b91fec5dcc0e2e2c0691aecd12b72fa544c84a4337de67cbd"
+    },
+    "sor": {
+      "values_digest": "3c71b698fc2a348008d227df67e4b8ffdbf5874038fd9dd6d635288caa29a85e",
+      "rendered_digest": "04132ff7e9781806fb3c8196e40caef46c5251e63d8692b25631fafec43cc9e2",
+      "ast_digest": "4e33cd1bc8b31a8eb12c69e943512fb0cb4d29c3e81a35f2c6742eddf161a387"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:issue-648-corrective-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #648 readiness so the issue-owned validation script is an exact governed affected area rather than only covered by a non-proving glob.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/reload.rs\",\"adl/src/execute/mod.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl/src/long_lived_agent.rs\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\",\".csdlc/prepared/issues/648/**\",\".csdlc/issues/648/**\"]}"
+    }
+  ]
+}
