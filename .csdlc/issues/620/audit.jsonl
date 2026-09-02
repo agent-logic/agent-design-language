@@ -8,3 +8,4 @@
 {"sequence":8,"generation":3,"actor":"codex:620-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":4,"actor":"codex:620-execution","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":10,"generation":5,"actor":"codex:620-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":11,"generation":6,"actor":"codex:620-pr-janitor","reason":"Recover published review truth after external review found empty retained PVF logs and no non-substantive guard at PR #633 head 8ef74d78f8797f6f815f65350db17b0fbe565086.","operation":"recover_review"}

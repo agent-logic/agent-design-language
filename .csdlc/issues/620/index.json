@@ -4,99 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "27daaf822151ec5c7c21a683ef36b956dfbdea03f327bda3d70143df0eafaae5",
-  "phase": "published",
-  "generation": 5,
-  "digest": "d5766fe1cc583e3ab7d44b6e6ccbd7e11489dc708fa430b665acbad2b0e1b6ed",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "818b65b0d1299602270614b868ed1ed75a5e891d980abd3a9f375708f5dd270e",
   "branch": "codex/620-v0922-first-pass-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
-  "review_assignment": {
-    "reviewer": "fresh-session:620-docs-2e87de485",
-    "assigned_by": "codex:620-execution",
-    "revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-    "scope": [
-      "docs/milestones/v0.92.2/**",
-      ".csdlc/prepared/issues/620/design.md",
-      ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:620-docs-2e87de485",
-    "scope": [
-      "docs/milestones/v0.92.2/**",
-      ".csdlc/prepared/issues/620/design.md",
-      ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh"
-    ],
-    "reviewed_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-    "findings": [
-      {
-        "id": "620-R1",
-        "severity": "p1",
-        "summary": "MLX admission lacked a recorded operator decision.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-        "route": null
-      },
-      {
-        "id": "620-R2",
-        "severity": "p1",
-        "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-        "route": null
-      },
-      {
-        "id": "620-R3",
-        "severity": "p1",
-        "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-        "route": null
-      },
-      {
-        "id": "620-R4",
-        "severity": "p2",
-        "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-        "route": null
-      },
-      {
-        "id": "620-R5",
-        "severity": "p1",
-        "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Live PR mergeability and CI must be checked after publication because origin/main advanced during implementation."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 620,
-    "pull_request": 633,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/633",
-    "base": "main",
-    "head": "codex/620-v0922-first-pass-planning",
-    "revision": "git-blake3:7c48f471d2f827ea251a1b4e6faf9f2c60f6cbfb:24d3a576e6658773722875280959f6b4987754230d7847edfa32d3040da592fe",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -110,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d32f4de752ac65d7335a09bdc89f92240cd2175372f61ac0721f22031021f045",
+      "values_digest": "701309ed96153d7bd1f87e4dfadc1a6af9a27f2c91bdffacbcb364f9bb4e1bf4",
       "rendered_digest": "ff6c09a07b5783513d3f6aa5e379b535fffbb29c0f0b18ad148f6f4866fcc8a3",
       "ast_digest": "c19b45b77eea4cf049f1a7008cbb0c9a812b05c8b67b08aefc03a55703e1b6b6"
     },
     "stp": {
-      "values_digest": "b5f0ea6ec4460109b02732f28465861c356c72156734a7eeb03a3bedc082a380",
+      "values_digest": "d251c6d661dd743ae884644cc0d8b132cf8a110627aaf37fdd981161eac8990b",
       "rendered_digest": "47ce6d4c296578e64a794b00ddf1df6670ef9d722cfd0c78e643e464502e6d6d",
       "ast_digest": "e776234549aed48f895ce9ab02cb6b0ac1b0706af7339ac240c0228a5d7fb19b"
     },
     "spp": {
-      "values_digest": "cf3067f5fcb8492ffd395db87fcab2f2f3c08b2dd399f9ef41a69f0492b104e4",
+      "values_digest": "bd1c93caab348ff4be61418f66d2f658e9479fd14ee5fa87cb0ebba5d04bbe45",
       "rendered_digest": "83d1ed7b635567c1e5da20c16408cfa2735cf6812943daa8af163e13f92a9b9c",
       "ast_digest": "72444acd007b81b32dcee29422aae02f89aac6cc23155f3b09b900842509d3e5"
     },
     "vpp": {
-      "values_digest": "e11ea53522742abf4fbda440814328d07f7ff864d55a4bbb2bd66ba60eec46bc",
+      "values_digest": "fc3733358fc08508504ee2511813c521d7933e777a2d86603ecc62f28e095267",
       "rendered_digest": "a3c6a9eacf872eeacbe942d91c65ee40a50eb5baa3cf62a93cdbf773de707b76",
       "ast_digest": "bf715ffcb46f3967e861dde61bdffb56cc7550ef009f0c3736e67744c176f24c"
     },
     "srp": {
-      "values_digest": "b918f325b63dba19a68054d64e4d014f62b5fcc613170eb5bdb01ce6cf43418a",
-      "rendered_digest": "ca64156e511ff9d6a495b5b7494b139092a6372806d29f48d2ff3bf0251d25dd",
-      "ast_digest": "c8071a51097daf8fa794980ce0ac77d4466bfa3203ab0b0a4b84c2151b076f46"
+      "values_digest": "fa91ae0a7260d148772bc250acd127f7f06db6e037e9bb18921f2743b3b4034b",
+      "rendered_digest": "e296c1c32dff361d5c400468b3653d7d45dcc29fcef0fc3c92d724e19f0288af",
+      "ast_digest": "790263dcd098e1244a6104a70e3b2f32968b3899b474ae736c7cee7fa2828e75"
     },
     "sor": {
-      "values_digest": "a4e865b48b143ef25190c4bcdc7083dc592372ecc8aca7032613e145b2a42482",
-      "rendered_digest": "6133fa3c432f9429958397280174b0a3429a816c110f292cad6eaf85c2fb247b",
-      "ast_digest": "233b19a62f7c3e4c21266678c3b775442756ac0fde5f65da4c396fa207ed894c"
+      "values_digest": "9c3bc5b32e7911ab41a6a0103fa57286ebc65df90db6255a9881c5458f4f2f47",
+      "rendered_digest": "7f1bb32d9ccaddba052a92c31265603048340baab62d0cc1fb3586962626568e",
+      "ast_digest": "8fa7eab804f27b845ed6e53a2178699e1689f64b5beafe54ffc89dfbcff78aa6"
     }
   },
   "transitions": [
@@ -175,6 +90,13 @@
       "to": "published",
       "actor": "codex:620-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:620-pr-janitor",
+      "reason": "Recover published review truth after external review found empty retained PVF logs and no non-substantive guard at PR #633 head 8ef74d78f8797f6f815f65350db17b0fbe565086."
     }
   ],
   "audit": [
@@ -247,6 +169,13 @@
       "actor": "codex:620-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:620-pr-janitor",
+      "reason": "Recover published review truth after external review found empty retained PVF logs and no non-substantive guard at PR #633 head 8ef74d78f8797f6f815f65350db17b0fbe565086.",
+      "operation": "recover_review"
     }
   ]
 }

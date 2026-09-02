@@ -194,3 +194,6 @@ case "$mode" in
   all) structure; scheduling; consistency ;;
   *) echo "usage: $0 {structure|scheduling|consistency|all}" >&2; exit 2 ;;
 esac
+
+head_sha="$(git rev-parse HEAD)"
+printf '{"schema":"adl.validation_receipt.v1","validator":".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh","argv":["bash",".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh","%s"],"head_sha":"%s","status":"passed","provenance":"git_worktree_exact_head"}\n' "$mode" "$head_sha"

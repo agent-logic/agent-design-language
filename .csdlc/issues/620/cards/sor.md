@@ -63,11 +63,11 @@ Refreshed and reconciled the complete number-free v0.92.2 first-pass planning pa
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

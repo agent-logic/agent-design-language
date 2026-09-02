@@ -8,13 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-docs/milestones/v0.92.2/**
-.csdlc/prepared/issues/620/design.md
-.csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh
+
 
 ## Prompts
 
@@ -26,58 +24,7 @@ docs/milestones/v0.92.2/**
 
 ## Findings
 
-[
-  {
-    "id": "620-R1",
-    "severity": "p1",
-    "summary": "MLX admission lacked a recorded operator decision.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-    "route": null
-  },
-  {
-    "id": "620-R2",
-    "severity": "p1",
-    "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-    "route": null
-  },
-  {
-    "id": "620-R3",
-    "severity": "p1",
-    "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-    "route": null
-  },
-  {
-    "id": "620-R4",
-    "severity": "p2",
-    "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-    "route": null
-  },
-  {
-    "id": "620-R5",
-    "severity": "p1",
-    "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -85,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live PR mergeability and CI must be checked after publication because origin/main advanced during implementation.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4")
+Revision: None
 
-Reviewer: Some("fresh-session:620-docs-2e87de485")
+Reviewer: None
 
-Result: pass
+Result: pre_review
