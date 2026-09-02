@@ -33,7 +33,6 @@ child issues, a milestone, or a version label.
 ## Boundary
 
 `.adl/docs/TBD/` is read-only source evidence for this issue. Unity, ATE,
-OCI packaging, cloud migrations, broad integrations, Runtime v4, and other
-deferred work remain outside v0.92.2 unless the operator makes an explicit
-later decision. The operator explicitly admitted a bounded MLX/Metal provider
-adapter to v0.92.2; that admission is recorded in the milestone decisions.
+MLX/Metal, OCI packaging, cloud migrations, broad integrations, Runtime v4,
+and other deferred work remain outside v0.92.2 unless the operator makes an
+explicit later decision.
