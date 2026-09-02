@@ -1817,7 +1817,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .write()
             .expect("agent population state poisoned");
         for agent in &agents {
-            validate_persisted_agent_admission(&agent)?;
+            validate_persisted_agent_admission(agent)?;
             if !seen.insert(agent.id.clone()) {
                 return Err(ControlError::InvalidIdentifier);
             }
@@ -1873,8 +1873,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             };
             sample.observed_at_unix_millis = observed_at_unix_millis;
             sample.freshness_deadline_unix_millis = observed_at_unix_millis
-                .checked_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
-                .unwrap_or(u64::MAX);
+                .saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
             sample.state = if healthy { "ready" } else { "unavailable" }.to_owned();
             sample.health = if healthy { "healthy" } else { "unhealthy" }.to_owned();
             sample.availability = if healthy { "available" } else { "unavailable" }.to_owned();
