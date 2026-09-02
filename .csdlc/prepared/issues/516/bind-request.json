@@ -1,7 +1,7 @@
 {
   "issue": 516,
-  "base_branch": "main",
+  "base_branch": "codex/516-release-tail-admission-preparation",
   "branch": "codex/516-release-tail-admission",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec",
   "code_repository": "agent-logic/agent-design-language"
 }
