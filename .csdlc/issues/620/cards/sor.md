@@ -12,19 +12,22 @@ Status: pre_phase
 
 ## Summary
 
-Refreshed and reconciled the complete number-free v0.92.2 first-pass planning package.
+Refreshed and reconciled the complete number-free v0.92.2 first-pass planning package; post-publication evidence repair reran all three focused validators at exact head ae3232c6992fc21a4ab03f8b0736be9e96e62484.
 
 ## Artifacts
 
 - docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md
 - docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt
 - docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml
+- .csdlc/evidence/620/tbd-scheduling-reconciliation.log
+- .csdlc/evidence/620/v0922-package-consistency.log
+- .csdlc/evidence/620/v0922-package-structure.log
 
 ## Execution
 
 - Reconciled 30 bounded work packages and exact dependencies across human and machine planning surfaces.
 - Audited and dispositioned the relevant ignored TBD corpus through a retained 45-path source manifest.
-- Strengthened focused validation for issue-number, graph, tail, link, source, and readiness drift.
+- Strengthened focused validation and retained non-empty exact-head validation receipts.
 
 ## Validation
 
@@ -35,9 +38,9 @@ Refreshed and reconciled the complete number-free v0.92.2 first-pass planning pa
       ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
       "scheduling"
     ],
-    "purpose": "Validate exact TBD source-manifest parity and scheduling dispositions.",
+    "purpose": "Validate exact TBD source-manifest parity and scheduling dispositions at ae3232c6992fc21a4ab03f8b0736be9e96e62484.",
     "outcome": "passed",
-    "evidence_ref": "tbd-scheduling-reconciliation.log"
+    "evidence_ref": ".csdlc/evidence/620/tbd-scheduling-reconciliation.log"
   },
   {
     "command": [
@@ -45,9 +48,9 @@ Refreshed and reconciled the complete number-free v0.92.2 first-pass planning pa
       ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
       "consistency"
     ],
-    "purpose": "Validate placeholders, portability, and exact-range diff hygiene.",
+    "purpose": "Validate placeholders, portability, and exact-range diff hygiene at ae3232c6992fc21a4ab03f8b0736be9e96e62484.",
     "outcome": "passed",
-    "evidence_ref": "v0922-package-consistency.log"
+    "evidence_ref": ".csdlc/evidence/620/v0922-package-consistency.log"
   },
   {
     "command": [
@@ -55,9 +58,9 @@ Refreshed and reconciled the complete number-free v0.92.2 first-pass planning pa
       ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
       "structure"
     ],
-    "purpose": "Validate canonical planning surfaces, graph identity, ordering, and links.",
+    "purpose": "Validate canonical planning surfaces, graph identity, ordering, and links at ae3232c6992fc21a4ab03f8b0736be9e96e62484.",
     "outcome": "passed",
-    "evidence_ref": "v0922-package-structure.log"
+    "evidence_ref": ".csdlc/evidence/620/v0922-package-structure.log"
   }
 ]
 

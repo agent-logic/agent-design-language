@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "27daaf822151ec5c7c21a683ef36b956dfbdea03f327bda3d70143df0eafaae5",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "818b65b0d1299602270614b868ed1ed75a5e891d980abd3a9f375708f5dd270e",
+  "generation": 7,
+  "digest": "22d25131f8f7c6f2b4171a9f732b24085b18603fb3ffc0b33803b001d754ab00",
   "branch": "codex/620-v0922-first-pass-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "701309ed96153d7bd1f87e4dfadc1a6af9a27f2c91bdffacbcb364f9bb4e1bf4",
+      "values_digest": "e2eb1f62f7be2b733cc04cc42663e8ff70a62cf1cf91b7b9eb31ae60db54a379",
       "rendered_digest": "ff6c09a07b5783513d3f6aa5e379b535fffbb29c0f0b18ad148f6f4866fcc8a3",
       "ast_digest": "c19b45b77eea4cf049f1a7008cbb0c9a812b05c8b67b08aefc03a55703e1b6b6"
     },
     "stp": {
-      "values_digest": "d251c6d661dd743ae884644cc0d8b132cf8a110627aaf37fdd981161eac8990b",
+      "values_digest": "b9e91dee81e5b673bf23ed940d3dc9a232c08f2f770c1e3172ced8ae51e9e05b",
       "rendered_digest": "47ce6d4c296578e64a794b00ddf1df6670ef9d722cfd0c78e643e464502e6d6d",
       "ast_digest": "e776234549aed48f895ce9ab02cb6b0ac1b0706af7339ac240c0228a5d7fb19b"
     },
     "spp": {
-      "values_digest": "bd1c93caab348ff4be61418f66d2f658e9479fd14ee5fa87cb0ebba5d04bbe45",
+      "values_digest": "d5b0297a85ce940101a2a36d0a91b81d47dc9c560345440eb7464477fb498ae8",
       "rendered_digest": "83d1ed7b635567c1e5da20c16408cfa2735cf6812943daa8af163e13f92a9b9c",
       "ast_digest": "72444acd007b81b32dcee29422aae02f89aac6cc23155f3b09b900842509d3e5"
     },
     "vpp": {
-      "values_digest": "fc3733358fc08508504ee2511813c521d7933e777a2d86603ecc62f28e095267",
+      "values_digest": "2c1aea9e2b130d71dd4ee9f2da397dca45b4f2ef408daf49b4056d12d5279d2b",
       "rendered_digest": "a3c6a9eacf872eeacbe942d91c65ee40a50eb5baa3cf62a93cdbf773de707b76",
       "ast_digest": "bf715ffcb46f3967e861dde61bdffb56cc7550ef009f0c3736e67744c176f24c"
     },
     "srp": {
-      "values_digest": "fa91ae0a7260d148772bc250acd127f7f06db6e037e9bb18921f2743b3b4034b",
+      "values_digest": "7b72aa2215313ce9cb30268bb85c7c766d2e4f881a4402ed4a985b1ffcf9bf6f",
       "rendered_digest": "e296c1c32dff361d5c400468b3653d7d45dcc29fcef0fc3c92d724e19f0288af",
       "ast_digest": "790263dcd098e1244a6104a70e3b2f32968b3899b474ae736c7cee7fa2828e75"
     },
     "sor": {
-      "values_digest": "9c3bc5b32e7911ab41a6a0103fa57286ebc65df90db6255a9881c5458f4f2f47",
-      "rendered_digest": "7f1bb32d9ccaddba052a92c31265603048340baab62d0cc1fb3586962626568e",
-      "ast_digest": "8fa7eab804f27b845ed6e53a2178699e1689f64b5beafe54ffc89dfbcff78aa6"
+      "values_digest": "eda8defdc772c9a7f17e2bdb3fb7798d99cb3abd91f378dea367dbd574903d4c",
+      "rendered_digest": "ccef27a57708551cb87dcbb5670bcfac216df81b166d64f924a12a94e96a2126",
+      "ast_digest": "03b91b197adea4ea157f6edf44be41bbdd845547693e699e2e71e64e661d364a"
     }
   },
   "transitions": [
@@ -176,6 +176,13 @@
       "actor": "codex:620-pr-janitor",
       "reason": "Recover published review truth after external review found empty retained PVF logs and no non-substantive guard at PR #633 head 8ef74d78f8797f6f815f65350db17b0fbe565086.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:620-pr-janitor",
+      "reason": "Replace stale zero-byte validation claims with rerun exact-head receipts retained at ae3232c6992fc21a4ab03f8b0736be9e96e62484.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Refreshed and reconciled the complete number-free v0.92.2 first-pass planning package; post-publication evidence repair reran all three focused validators at exact head ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"changes\":[\"Reconciled 30 bounded work packages and exact dependencies across human and machine planning surfaces.\",\"Audited and dispositioned the relevant ignored TBD corpus through a retained 45-path source manifest.\",\"Strengthened focused validation and retained non-empty exact-head validation receipts.\"],\"artifacts\":[\"docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md\",\"docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt\",\"docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml\",\".csdlc/evidence/620/tbd-scheduling-reconciliation.log\",\".csdlc/evidence/620/v0922-package-consistency.log\",\".csdlc/evidence/620/v0922-package-structure.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh\",\"scheduling\"],\"purpose\":\"Validate exact TBD source-manifest parity and scheduling dispositions at ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/620/tbd-scheduling-reconciliation.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh\",\"consistency\"],\"purpose\":\"Validate placeholders, portability, and exact-range diff hygiene at ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/620/v0922-package-consistency.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh\",\"structure\"],\"purpose\":\"Validate canonical planning surfaces, graph identity, ordering, and links at ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/620/v0922-package-structure.log\"}]}"
     }
   ]
 }
