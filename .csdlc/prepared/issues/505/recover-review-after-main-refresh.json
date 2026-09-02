@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 16,
+  "expected_digest": "768943a43841c42fd13b8d0fb3adb6cde4c896e715f0bd50dd1e6c0517d9d21b",
+  "actor": "Worker #6",
+  "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence."
+}

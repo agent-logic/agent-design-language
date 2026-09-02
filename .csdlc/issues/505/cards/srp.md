@@ -12,22 +12,7 @@ Status: draft
 
 ## Scope
 
-AGENTS.md
-csdlc-v2/AGENTS.md
-csdlc-v2/operator/SKILLS.md
-csdlc-v2/operator/skills
-csdlc-v2/tests/projection_recovery_integration.rs
-csdlc-v3/AGENTS.md
-csdlc-v3/README.md
-docs/csdlc-v3
-docs/default_workflow.md
-docs/onboarding.md
-docs/architecture/ADL_ARCHITECTURE.md
-docs/tooling/adl_pr_cycle_skill.md
-docs/tooling/card-lifecycle.md
-docs/tooling/structured-prompt-contracts.md
-docs/tooling/editor
-docs/templates
+
 
 ## Prompts
 
@@ -46,13 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This PASS covers the #505 preparation gate only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.
-- Hosted checks were still pending during review and must settle before merge readiness is claimed.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a6749932e540a8adb7b2ccf29ca3bc808a24dec1:e3c056beadf1bbf578b73d95014656791809f6e9436b658e4eabd3ade94e24e8")
+Revision: None
 
-Reviewer: Some("review_591_head_a6749932e")
+Reviewer: None
 
-Result: pass
+Result: pre_review

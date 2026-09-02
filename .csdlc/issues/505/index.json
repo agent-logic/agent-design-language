@@ -4,75 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "published",
-  "generation": 16,
-  "digest": "768943a43841c42fd13b8d0fb3adb6cde4c896e715f0bd50dd1e6c0517d9d21b",
+  "phase": "implemented",
+  "generation": 17,
+  "digest": "3069c53f6bd84ddb15416a5ba533283b11c48de62325a84851e746d3ce5a28c1",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": {
-    "reviewer": "review_591_head_a6749932e",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:a6749932e540a8adb7b2ccf29ca3bc808a24dec1:e3c056beadf1bbf578b73d95014656791809f6e9436b658e4eabd3ade94e24e8",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/operator/SKILLS.md",
-      "csdlc-v2/operator/skills",
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v3/README.md",
-      "docs/csdlc-v3",
-      "docs/default_workflow.md",
-      "docs/onboarding.md",
-      "docs/architecture/ADL_ARCHITECTURE.md",
-      "docs/tooling/adl_pr_cycle_skill.md",
-      "docs/tooling/card-lifecycle.md",
-      "docs/tooling/structured-prompt-contracts.md",
-      "docs/tooling/editor",
-      "docs/templates"
-    ]
-  },
-  "review": {
-    "reviewer": "review_591_head_a6749932e",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/operator/SKILLS.md",
-      "csdlc-v2/operator/skills",
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v3/README.md",
-      "docs/csdlc-v3",
-      "docs/default_workflow.md",
-      "docs/onboarding.md",
-      "docs/architecture/ADL_ARCHITECTURE.md",
-      "docs/tooling/adl_pr_cycle_skill.md",
-      "docs/tooling/card-lifecycle.md",
-      "docs/tooling/structured-prompt-contracts.md",
-      "docs/tooling/editor",
-      "docs/templates"
-    ],
-    "reviewed_revision": "git-blake3:a6749932e540a8adb7b2ccf29ca3bc808a24dec1:e3c056beadf1bbf578b73d95014656791809f6e9436b658e4eabd3ade94e24e8",
-    "findings": [],
-    "residual_risks": [
-      "This PASS covers the #505 preparation gate only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.",
-      "Hosted checks were still pending during review and must settle before merge readiness is claimed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 505,
-    "pull_request": 591,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
-    "base": "main",
-    "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:2a6508f5e5785f6e61b4b0e4dfc19766a9a4df28:aa3ac330f1c37222b0582cfdb0173be67f85d44b8b96f011eb4879f56b175c71",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -86,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2144c0d5d1951a2f6566ef9f4fc63d3ebf97b436b2aad8194b30fe25d6e58038",
+      "values_digest": "bcffd3d3d193c3bfc08111574018ff205d17ac5889379c1b2165130cb28199b5",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "4188418014e8bce2d73a551170f5e8454b8a33e84705e2145ad8fd60a0af0530",
+      "values_digest": "2ae34363c1798484f8a16b0d692c0980aa7b0ea1f9e9936f010bbe635afb503c",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "5865612e90c1cd37159475dc459f34b3a682fefbc23660f50e1156de31954b8e",
+      "values_digest": "91e23bf114ef241bd35e37ed69e071599bc4168d5f45c3eb4ea3100be60c590d",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "649b710b7579aaf4ba93c333102e3dc9f918a24b02c318626c34abac6dfaed1b",
+      "values_digest": "b97b051d8268a020fdb2b8dcb478d461bc0fe263b0b3f6f2f15f21735ee396de",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "c9cc4abf121d51baab21efb7ea87676f048573d5492789756326c75f68a1fe2f",
-      "rendered_digest": "a22813a9d4d53461dedcaf5f69f52af105a064e812fd64003a137852b8c3b6b5",
-      "ast_digest": "975c89bc778d54e9323c288b9c7f15da6399c4b2f23f3b3a9c739b14f38eaab4"
+      "values_digest": "25e1c3b53f7bebab82170f3958bdead2e843f332795dcf60e5d6efc39502f307",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "f4be082f4e5b02a8a3fec9eb4ed842a7da9bfeb66cb5fa795a9b802a1d9789c1",
-      "rendered_digest": "9d2a5e4d32d7672eab991171fef2ee40315227f939425e9c9d042c66d3dc155d",
-      "ast_digest": "e7552027aa508e4ea41e8e0618e97d5389c50db453cdf8221792607cd29baf39"
+      "values_digest": "e4ff15bda2616aa9abcf71d12d7c8eb8eff38846a4512fd49fef8cebe07e04ef",
+      "rendered_digest": "8d3bb810b722aa8e728d53e103a2900522e2300072769623dadeb9ba3690ca3f",
+      "ast_digest": "971f5ee1de0a8c60dc4a72465ec8baf4d8196561aa8d012c301e50d2675b794f"
     }
   },
   "transitions": [
@@ -200,6 +139,13 @@
       "to": "published",
       "actor": "worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence."
     }
   ],
   "audit": [
@@ -356,6 +302,13 @@
       "actor": "worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence.",
+      "operation": "recover_review"
     }
   ]
 }

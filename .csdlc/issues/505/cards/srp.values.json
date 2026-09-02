@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "AGENTS.md\ncsdlc-v2/AGENTS.md\ncsdlc-v2/operator/SKILLS.md\ncsdlc-v2/operator/skills\ncsdlc-v2/tests/projection_recovery_integration.rs\ncsdlc-v3/AGENTS.md\ncsdlc-v3/README.md\ndocs/csdlc-v3\ndocs/default_workflow.md\ndocs/onboarding.md\ndocs/architecture/ADL_ARCHITECTURE.md\ndocs/tooling/adl_pr_cycle_skill.md\ndocs/tooling/card-lifecycle.md\ndocs/tooling/structured-prompt-contracts.md\ndocs/tooling/editor\ndocs/templates",
-      "review_revision": "git-blake3:a6749932e540a8adb7b2ccf29ca3bc808a24dec1:e3c056beadf1bbf578b73d95014656791809f6e9436b658e4eabd3ade94e24e8",
-      "reviewer": "review_591_head_a6749932e",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,11 +23,8 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [
-        "This PASS covers the #505 preparation gate only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.",
-        "Hosted checks were still pending during review and must settle before merge readiness is claimed."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
