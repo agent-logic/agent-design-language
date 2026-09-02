@@ -30,6 +30,7 @@ RUNTIME_LOCAL_READY_MAX_SECONDS=30
 SERVICE_READY_MAX_SECONDS=120
 PREPARATION_SECONDS=2700
 LAUNCH_SECONDS=600
+LAUNCH_OPERATION_SECONDS=540
 PREPARATION_ROOT_GIB=80
 RUNTIME_ROOT_GIB=80
 GPU_ROOT_GIB=200
@@ -66,6 +67,8 @@ PREP_RESOURCE_LEDGER=""
 CLEANUP_STORAGE_ON_FAILURE=false
 PRESERVE_PREPARATION_ON_EXIT=false
 COST_LEDGER_LOCK=""
+ACTION_OPERATION_DEADLINE=0
+CLEANUP_OWNER=""
 
 usage() {
   cat <<'EOF' >&2
@@ -333,7 +336,7 @@ consume_authorization() {
 saved_plan() {
   mode="$1" root="$2" data="$3" state="$4" vars="$5" plan="$6" json="$7"
   state_sha=absent; [[ -f "$state" ]] && state_sha="$(sha256_file "$state")"
-  input_signature="$(sha256_text "$mode:$COMMIT:$(sha256_file "$vars"):$state_sha")"
+  input_signature="$(sha256_text "$mode:$COMMIT:$(git -C "$ROOT" rev-parse HEAD):$(sha256_file "$vars"):$state_sha")"
   if [[ -f "$plan" ]]; then
     [[ -f "$plan.inputs.sha256" && "$(tr -d '[:space:]' <"$plan.inputs.sha256")" == "$input_signature" ]] \
       || { echo "saved plan inputs changed; choose a new run ID instead of reusing authorization state" >&2; return 2; }
@@ -371,11 +374,45 @@ saved_destroy_plan() {
 }
 
 wait_object() {
-  key="$1" destination="$2"
+  key="$1" destination="$2" deadline="${3:-0}"
   while true; do
+    if ((deadline > 0 && $(date +%s) >= deadline)); then
+      echo "controller deadline expired while waiting for S3 receipt: $key" >&2
+      return 124
+    fi
     aws_cli s3api get-object --bucket "$BUCKET" --key "$key" "$destination" >/dev/null 2>&1 && return 0
     sleep 5
   done
+}
+
+run_with_action_deadline() {
+  local deadline="$1" pid rc
+  shift
+  ((deadline > $(date +%s))) || { echo "controller operation deadline already expired" >&2; return 124; }
+  "$@" &
+  pid=$!
+  while kill -0 "$pid" 2>/dev/null; do
+    if (($(date +%s) >= deadline)); then
+      kill -TERM "$pid" 2>/dev/null || true
+      wait "$pid" 2>/dev/null || true
+      echo "controller operation deadline expired" >&2
+      return 124
+    fi
+    sleep 1
+  done
+  wait "$pid" || { rc=$?; return "$rc"; }
+}
+
+terminate_owned_compute() {
+  local owner="$1" ids
+  [[ -n "$owner" ]] || return 0
+  ids="$(aws_cli ec2 describe-instances \
+    --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" \
+      Name=instance-state-name,Values=pending,running,stopping,stopped \
+    --query 'Reservations[].Instances[].InstanceId' --output text)" || return 1
+  [[ -n "$ids" && "$ids" != None ]] || return 0
+  # shellcheck disable=SC2086 -- AWS returns a whitespace-delimited instance ID list.
+  aws_cli ec2 terminate-instances --instance-ids $ids >/dev/null
 }
 
 wait_preparation_receipts() {
@@ -586,7 +623,10 @@ cleanup_on_exit() {
   if [[ "$CLEANUP_COMPLETE" != true && -n "$CLEANUP_RUN_DIR" ]]; then
     case "$CLEANUP_KIND" in
       preparation) cleanup_preparation_state "$CLEANUP_RUN_DIR" || cleanup_rc=$? ;;
-      compute) cleanup_compute_state "$CLEANUP_RUN_DIR" || cleanup_rc=$? ;;
+      compute)
+        terminate_owned_compute "$CLEANUP_OWNER" || cleanup_rc=$?
+        cleanup_compute_state "$CLEANUP_RUN_DIR" || cleanup_rc=$?
+        ;;
     esac
   fi
   if [[ "$CLEANUP_STORAGE_ON_FAILURE" == true && -n "$CLEANUP_RUN_DIR" ]]; then
@@ -1392,13 +1432,14 @@ launch() {
   verify_remote_cost_audit "$ISSUE_COST_AUDIT"
   reserve_issue_action_cost "$launch_action" "$RUN_ID" "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
   consume_authorization; touch "$run_dir/paid-started"; apply_start="$SECONDS"
-  CLEANUP_KIND=compute; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
-  tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute.tfplan" >/dev/null
+  ACTION_OPERATION_DEADLINE=$(($(date +%s)+LAUNCH_OPERATION_SECONDS))
+  CLEANUP_KIND=compute; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false; CLEANUP_OWNER="$owner"
+  run_with_action_deadline "$ACTION_OPERATION_DEADLINE" tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute.tfplan" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" output -state="$run_dir/compute.tfstate" -json >"$run_dir/compute-outputs.json"
   runtime_instance="$(jq -r .runtime_instance_id.value "$run_dir/compute-outputs.json")"
   gpu_instance="$(jq -r .gpu_instance_id.value "$run_dir/compute-outputs.json")"
-  wait_object "$gpu_key" "$run_dir/gpu-ready.json"
-  wait_object "$runtime_key" "$run_dir/runtime-local-ready.json"
+  wait_object "$gpu_key" "$run_dir/gpu-ready.json" "$ACTION_OPERATION_DEADLINE"
+  wait_object "$runtime_key" "$run_dir/runtime-local-ready.json" "$ACTION_OPERATION_DEADLINE"
   elapsed=$((SECONDS-apply_start))
   assert_readiness_deadlines "$run_dir/gpu-ready.json" "$run_dir/runtime-local-ready.json" "$elapsed"
   jq -e --arg run "$RUN_ID" --arg instance "$gpu_instance" --arg volume "$gpu_volume" --arg generation "$generation" --arg root "$gpu_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
@@ -1406,7 +1447,7 @@ launch() {
   jq -n --arg run_id "$RUN_ID" --arg runtime_instance_id "$runtime_instance" --arg gpu_instance_id "$gpu_instance" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --argjson elapsed "$elapsed" --arg generation "$generation" --arg gpu_sha "$(sha256_file "$run_dir/gpu-ready.json")" --arg runtime_sha "$(sha256_file "$run_dir/runtime-local-ready.json")" \
     '{schema:"adl.issue607.service_ready.v2",status:"ready",run_id:$run_id,runtime_instance_id:$runtime_instance_id,gpu_instance_id:$gpu_instance_id,runtime_volume_id:$runtime_volume_id,gpu_volume_id:$gpu_volume_id,runtime_root_hash:$runtime_root_hash,gpu_root_hash:$gpu_root_hash,clock_source:"controller_bash_SECONDS_monotonic",apply_to_observed_seconds:$elapsed,artifact_generation:$generation,gpu_local_ready_sha256:$gpu_sha,runtime_local_ready_sha256:$runtime_sha}' >"$run_dir/service-ready.json"
   aws_cli s3api put-object --bucket "$BUCKET" --key "$service_key" --body "$run_dir/service-ready.json" --if-none-match '*' >/dev/null
-  wait_object "$qualification_key" "$run_dir/qualification-complete.json"
+  wait_object "$qualification_key" "$run_dir/qualification-complete.json" "$ACTION_OPERATION_DEADLINE"
   jq -e --arg run "$RUN_ID" --arg commit "$COMMIT" '.status=="passed" and .run_id==$run and .source_commit==$commit and (.shepherd_proofs|length)>=2 and (.runtime_agent_acc_proofs|length)==6 and ([.assertions[]]|all)' "$run_dir/qualification-complete.json" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" plan -destroy -input=false -state="$run_dir/compute.tfstate" -var-file="$run_dir/compute.tfvars.json" -out="$run_dir/compute-destroy.tfplan" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" show -json "$run_dir/compute-destroy.tfplan" >"$run_dir/compute-destroy-plan.json"
@@ -1529,6 +1570,15 @@ case "$ACTION" in
   test-readiness-deadlines)
     [[ $# -eq 3 ]] || { echo "test-readiness-deadlines requires GPU receipt, Runtime receipt, and controller elapsed seconds" >&2; exit 2; }
     assert_readiness_deadlines "$1" "$2" "$3"
+    ;;
+  test-wait-object-deadline)
+    [[ $# -eq 0 ]] || { echo "test-wait-object-deadline takes no arguments" >&2; exit 2; }
+    ! wait_object test/missing-receipt.json "$STATE_ROOT/test-missing-receipt.json" "$(date +%s)"
+    ;;
+  test-terminate-owned-compute)
+    require aws
+    [[ $# -eq 1 ]] || { echo "test-terminate-owned-compute requires an owner token" >&2; exit 2; }
+    terminate_owned_compute "$1"
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;

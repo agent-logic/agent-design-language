@@ -229,6 +229,28 @@ run_contracts() {
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready.late" "$runtime_ready" 120 >/dev/null 2>&1
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready" "$runtime_ready" 121 >/dev/null 2>&1
 
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-wait-object-deadline
+  termination_log="$CASE_ROOT/termination.log"
+  rm -f "$termination_log"
+  (
+    aws() {
+      case " $* " in
+        *' describe-instances '*) printf 'i-0123456789abcdef0\ti-0abcdef0123456789\n' ;;
+        *' terminate-instances '*) printf '%s\n' "$*" >"$ADL_ISSUE607_TERMINATION_LOG" ;;
+        *) return 2 ;;
+      esac
+    }
+    export -f aws
+    ADL_ISSUE607_TERMINATION_LOG="$termination_log" \
+      bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-terminate-owned-compute owner-test
+  )
+  rg -q -- '--instance-ids i-0123456789abcdef0 i-0abcdef0123456789' "$termination_log"
+  rg -q 'LAUNCH_OPERATION_SECONDS=540' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'terminate_owned_compute "\$CLEANUP_OWNER"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  for template in "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"; do
+    rg -q 'systemd-run --unit=adl-issue607-budget-shutdown --on-active=8m /sbin/shutdown -h now' "$template"
+  done
+
   for template in \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"; do
