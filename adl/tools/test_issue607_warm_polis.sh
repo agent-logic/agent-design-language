@@ -220,6 +220,8 @@ run_contracts() {
   jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and .cumulative_reserved_usd==19.928733' "$issue_cost_ledger" >/dev/null
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation-2 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-retry-1 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
+  rg -q 'qualification-quota-recovery' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  jq -e '([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .outcome=="rejected_before_instance" and .compute_upper_bound_usd==0 and (.cloudtrail_response_instance_ids|length)==0)]|length)==1' "$issue_cost_audit" >/dev/null
 
   gpu_ready="$CASE_ROOT/gpu-ready-deadline.json"; runtime_ready="$CASE_ROOT/runtime-ready-deadline.json"
   jq -n '{status:"ready",local_ready_seconds:30}' >"$gpu_ready"

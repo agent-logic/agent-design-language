@@ -326,6 +326,20 @@ bash adl/tools/run_issue607_warm_polis.sh qualification-remediation \
   --storage-id adl-issue607-warm-v1 --execute
 ```
 
+If that authorization is consumed but AWS rejects `RunInstances` before
+creating either node, first add the exact CloudTrail zero-instance evidence and
+new remote marker to the issue-wide cost audit. After the live G-family quota
+meets the selected shape, the distinct `qualification-quota-recovery` action
+uses a new run ID, plan, marker, and authorization; it does not reuse the failed
+action:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh qualification-quota-recovery \
+  --commit PREPARED_ARTIFACT_SHA \
+  --run-id adl-issue607-CAMPAIGNPREFIX-quota-recovery \
+  --storage-id adl-issue607-warm-v1 --execute
+```
+
 Each guest boots the exact prepared launch AMI and verifies its facility inventory, volume ID,
 generation, manifest, and dm-verity root. GPU readiness requires all configured
 models resident with nonzero VRAM. The default GPU node is `g6.4xlarge`, whose

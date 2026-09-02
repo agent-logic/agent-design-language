@@ -78,6 +78,7 @@ Usage:
   run_issue607_warm_polis.sh prepare --commit <sha> --run-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh launch --commit <sha> --run-id <id> --storage-id <id> --ordinal 1|2 --authorization-file <json> --execute
   run_issue607_warm_polis.sh qualification-remediation --commit <artifact-sha> --run-id <id> --storage-id <id> --authorization-file <json> --execute
+  run_issue607_warm_polis.sh qualification-quota-recovery --commit <artifact-sha> --run-id <id> --storage-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh retention-status --storage-id <id>
   run_issue607_warm_polis.sh extend-retention --storage-id <id> --retention-until <UTC> --authorization-file <json> --execute
   run_issue607_warm_polis.sh retire-storage --storage-id <id> --authorization-file <json> --execute
@@ -275,21 +276,21 @@ write_authorization_request() {
 }
 
 write_remediation_authorization_request() {
-  local output="$1" plan_sha="$2" preflight_sha="$3" manifest_sha="$4" campaign_id="$5" projected_total="$6" reservation="$7"
+  local output="$1" action="$2" plan_sha="$3" preflight_sha="$4" manifest_sha="$5" campaign_id="$6" projected_total="$7" reservation="$8"
   jq -n --arg commit "$COMMIT" --arg controller "$(git -C "$ROOT" rev-parse HEAD)" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
     --arg plan "$plan_sha" --arg preflight "$preflight_sha" --arg manifest "$manifest_sha" --arg campaign "$campaign_id" \
-    --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$reservation" --argjson projected "$projected_total" \
-    '{schema:"adl.issue607.remediation_authorization_request.v1",action:"qualification-remediation",source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:$storage,saved_plan_sha256:$plan,preflight_sha256:$preflight,action_manifest_sha256:$manifest,campaign_id:$campaign,issue_cost_audit_sha256:$audit_sha,reserved_cost_usd:$reservation,projected_issue_total_usd:$projected,authorized_ceiling_usd:20}' >"$output"
+    --arg action "$action" --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$reservation" --argjson projected "$projected_total" \
+    '{schema:"adl.issue607.remediation_authorization_request.v1",action:$action,source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:$storage,saved_plan_sha256:$plan,preflight_sha256:$preflight,action_manifest_sha256:$manifest,campaign_id:$campaign,issue_cost_audit_sha256:$audit_sha,reserved_cost_usd:$reservation,projected_issue_total_usd:$projected,authorized_ceiling_usd:20}' >"$output"
 }
 
 validate_remediation_authorization() {
-  local expected_plan="$1" expected_preflight="$2" expected_manifest="$3" expected_campaign="$4" expected_total="$5" expected_reservation="$6"
+  local expected_action="$1" expected_plan="$2" expected_preflight="$3" expected_manifest="$4" expected_campaign="$5" expected_total="$6" expected_reservation="$7"
   [[ -f "$AUTHORIZATION_FILE" ]] || { echo "remediation authorization file is required; review the emitted authorization-request.json" >&2; exit 3; }
-  jq -e --arg commit "$COMMIT" --arg controller "$(git -C "$ROOT" rev-parse HEAD)" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
+  jq -e --arg action "$expected_action" --arg commit "$COMMIT" --arg controller "$(git -C "$ROOT" rev-parse HEAD)" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
     --arg plan "$expected_plan" --arg preflight "$expected_preflight" --arg manifest "$expected_manifest" --arg campaign "$expected_campaign" \
     --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$expected_reservation" --argjson projected "$expected_total" '
     .schema=="adl.issue607.remediation_authorization.v1" and .authorized==true and .single_use==true
-    and .action=="qualification-remediation" and .source_commit==$commit and .controller_revision==$controller
+    and .action==$action and .source_commit==$commit and .controller_revision==$controller
     and .run_id==$run and .storage_id==$storage and .saved_plan_sha256==$plan and .preflight_sha256==$preflight
     and .action_manifest_sha256==$manifest and .campaign_id==$campaign and .issue_cost_audit_sha256==$audit_sha
     and .reserved_cost_usd==$reservation and .projected_issue_total_usd==$projected and .authorized_ceiling_usd==20
@@ -297,7 +298,7 @@ validate_remediation_authorization() {
   ' "$AUTHORIZATION_FILE" >/dev/null || { echo "remediation authorization does not bind the exact plan, controller, global cost audit, and USD 20 reservation" >&2; exit 2; }
   AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
   AUTH_CAMPAIGN_ID="$expected_campaign"
-  AUTH_ACTION=qualification-remediation
+  AUTH_ACTION="$expected_action"
 }
 
 assert_campaign_action_unused() {
@@ -314,7 +315,7 @@ assert_remote_run_unused() {
 
 consume_authorization() {
   if [[ -n "$AUTH_CAMPAIGN_ID" ]]; then
-    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12]|qualification-remediation)$ ]] \
+    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12]|qualification-remediation|qualification-quota-recovery)$ ]] \
       || { echo "authorization campaign slot is invalid" >&2; exit 2; }
     marker="${PREFIX}campaigns/$AUTH_CAMPAIGN_ID/actions/$AUTH_ACTION.json"
   elif [[ "$AUTH_ACTION" == retire-snapshots ]]; then
@@ -667,13 +668,14 @@ validate_issue_cost_audit() {
   jq -e --argjson ceiling "$MAX_TOTAL_USD" '
     .schema=="adl.issue607.paid_action_cost_audit.v1" and .status=="pass"
     and .authorized_ceiling_usd==$ceiling
-    and (.historical_paid_attempts|length)==15
-    and (.audited_remote_action_markers|length)==15
+    and (.historical_paid_attempts|length)==16
+    and (.audited_remote_action_markers|length)==16
     and ((.audited_remote_action_markers|length)==(.audited_remote_action_markers|unique|length))
     and ((.historical_compute_upper_bound_usd-([.historical_paid_attempts[].compute_upper_bound_usd]|add))|fabs)<0.00001
     and ((.fixed_allowances.total_usd+.historical_compute_upper_bound_usd+.historical_disposable_ebs_ipv4_allowance_usd-.historical_total_upper_bound_usd)|fabs)<0.00001
     and .historical_total_upper_bound_usd<=.authorized_ceiling_usd
     and ((.authorized_ceiling_usd-.historical_total_upper_bound_usd-.remaining_before_remediation_usd)|fabs)<0.00001
+    and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .action=="qualification-remediation" and .outcome=="rejected_before_instance" and .runtime_seconds==0 and .gpu_seconds==0 and .compute_upper_bound_usd==0 and .error_code=="Client.VcpuLimitExceeded" and .quota_code=="L-DB2E81BA" and .observed_quota_vcpus==4 and .required_vcpus==16 and (.cloudtrail_event_ids|length)==3 and (.cloudtrail_response_instance_ids|length)==0)]|length)==1
   ' "$audit" >/dev/null || { echo "issue-wide paid-action cost audit is invalid" >&2; return 2; }
 }
 
@@ -697,7 +699,7 @@ validate_issue_cost_ledger() {
     and ($ledger.reservations|type=="array")
     and (($ledger.reservations|map(.run_id)|length)==($ledger.reservations|map(.run_id)|unique|length))
     and all($ledger.reservations[]; . as $reservation
-      | ($reservation.action=="prepare" or $reservation.action=="launch-1" or $reservation.action=="launch-2" or $reservation.action=="qualification-remediation")
+      | ($reservation.action=="prepare" or $reservation.action=="launch-1" or $reservation.action=="launch-2" or $reservation.action=="qualification-remediation" or $reservation.action=="qualification-quota-recovery")
       and (($reservation.run_id|type)=="string" and ($reservation.run_id|contains("-retry-")|not))
       and $reservation.status=="reserved"
       and (($reservation.reserved_seconds|type)=="number" and $reservation.reserved_seconds>0)
@@ -727,7 +729,7 @@ calculate_issue_action_reservation() {
   local action="$1" audit="$2" runtime_type seconds runtime_rate gpu_rate
   case "$action" in
     prepare) runtime_type="$RUNTIME_PREPARATION_TYPE"; seconds="$PREPARATION_SECONDS" ;;
-    launch-1|launch-2|qualification-remediation) runtime_type="$RUNTIME_TYPE"; seconds="$LAUNCH_SECONDS" ;;
+    launch-1|launch-2|qualification-remediation|qualification-quota-recovery) runtime_type="$RUNTIME_TYPE"; seconds="$LAUNCH_SECONDS" ;;
     *) echo "unsupported issue-wide cost action: $action" >&2; return 2 ;;
   esac
   runtime_rate="$(jq -er --arg type "$runtime_type" '.rates_usd_per_hour[$type]' "$audit")"
@@ -1375,9 +1377,10 @@ prepare() {
 }
 
 launch() {
-  [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 || "$ORDINAL" == remediation ) ]] || { echo "launch requires --ordinal 1|2|remediation and --execute" >&2; exit 2; }
-  launch_action="launch-$ORDINAL"
-  [[ "$ORDINAL" == remediation ]] && launch_action=qualification-remediation
+  [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 || "$ORDINAL" == remediation || "$ORDINAL" == quota-recovery ) ]] || { echo "launch requires --ordinal 1|2|remediation|quota-recovery and --execute" >&2; exit 2; }
+  launch_action="launch-$ORDINAL"; remediation_like=false
+  [[ "$ORDINAL" == remediation ]] && { launch_action=qualification-remediation; remediation_like=true; }
+  [[ "$ORDINAL" == quota-recovery ]] && { launch_action=qualification-quota-recovery; remediation_like=true; }
   validate_generation_controller
   run_dir="$STATE_ROOT/runs/$RUN_ID"; storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
   [[ -f "$storage_dir/preparation-result.json" && ! -e "$run_dir/paid-started" ]] || { echo "prepared storage missing or launch already started" >&2; exit 2; }
@@ -1420,14 +1423,15 @@ launch() {
   estimated_total="$(jq -r .cost.aggregate_maximum_usd "$run_dir/preflight.json")"
   campaign="$(jq -c .campaign "$storage_dir/preparation-result.json")"
   campaign_id="$(jq -r .id <<<"$campaign")"
-  if [[ "$ORDINAL" == remediation ]]; then
+  if [[ "$remediation_like" == true ]]; then
     expected_run="adl-issue607-${campaign_id:0:12}-remediate"
+    [[ "$ORDINAL" == quota-recovery ]] && expected_run="adl-issue607-${campaign_id:0:12}-quota-recovery"
     [[ "$RUN_ID" == "$expected_run" ]] || { echo "remediation run ID must be exactly: $expected_run" >&2; exit 2; }
     initialize_issue_cost_ledger "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
     reservation="$(calculate_issue_action_reservation "$launch_action" "$ISSUE_COST_AUDIT")"
     projected_total="$(awk -v baseline="$(jq -r .baseline_upper_bound_usd "$ISSUE_COST_LEDGER")" -v reservation="$reservation" 'BEGIN {printf "%.6f",baseline+reservation}')"
-    write_remediation_authorization_request "$run_dir/authorization-request.json" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$campaign_id" "$projected_total" "$reservation"
-    validate_remediation_authorization "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$campaign_id" "$projected_total" "$reservation"
+    write_remediation_authorization_request "$run_dir/authorization-request.json" "$launch_action" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$campaign_id" "$projected_total" "$reservation"
+    validate_remediation_authorization "$launch_action" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$campaign_id" "$projected_total" "$reservation"
   else
     expected_run="$(jq -r --arg action "$launch_action" '.actions[]|select(.action==$action)|.run_id' <<<"$campaign")"
     [[ "$RUN_ID" == "$expected_run" ]] || { echo "launch run ID must match the prepared campaign exactly: $expected_run" >&2; exit 2; }
@@ -1441,7 +1445,7 @@ launch() {
   [[ "$preparation_source_bytes" =~ ^[1-9][0-9]*$ ]] || { echo "preparation source-byte cost evidence is missing" >&2; exit 2; }
   validate_existing_prepare_cost_entry "$storage_dir/cost-ledger.json" "$run_dir/preflight.json" "$(jq -r '.campaign.actions[]|select(.action=="prepare")|.run_id' "$storage_dir/preparation-result.json")" "$preparation_source_bytes"
   assert_remote_run_unused
-  [[ "$ORDINAL" == remediation ]] || assert_campaign_action_unused "$launch_action" "$storage_dir/cost-ledger.json"
+  [[ "$remediation_like" == true ]] || assert_campaign_action_unused "$launch_action" "$storage_dir/cost-ledger.json"
   verify_remote_cost_audit "$ISSUE_COST_AUDIT"
   verify_gpu_on_demand_quota
   reserve_issue_action_cost "$launch_action" "$RUN_ID" "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
@@ -1474,9 +1478,9 @@ launch() {
   verify_no_disposable_residue "$owner" "$run_dir/compute-zero-residue.json"
   for volume in "$runtime_volume" "$gpu_volume"; do aws_cli ec2 describe-volumes --volume-ids "$volume" --query 'Volumes[0].State' --output text | grep -qx available; done
   action_elapsed=$((SECONDS-apply_start))
-  [[ "$ORDINAL" == remediation ]] || record_cost_ledger "$launch_action" "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID"
+  [[ "$remediation_like" == true ]] || record_cost_ledger "$launch_action" "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID"
   release_cost_ledger_lock
-  ordinal_json="$ORDINAL"; [[ "$ORDINAL" == remediation ]] && ordinal_json=null
+  ordinal_json="$ORDINAL"; [[ "$remediation_like" == true ]] && ordinal_json=null
   jq -n --arg action "$launch_action" --argjson ordinal "$ordinal_json" --arg run_id "$RUN_ID" --arg generation "$generation" --arg controller "$controller_revision" --arg plan_sha256 "$plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/compute-zero-residue.json")" --argjson elapsed "$elapsed" --arg service_ready_sha256 "$(sha256_file "$run_dir/service-ready.json")" --arg qualification_sha256 "$(sha256_file "$run_dir/qualification-complete.json")" \
     '{schema:"adl.issue607.warm_launch_result.v4",status:"passed",action:$action,ordinal:$ordinal,run_id:$run_id,artifact_generation:$generation,controller_revision:$controller,plan_sha256:$plan_sha256,authorization_sha256:$authorization_sha256,apply_to_service_ready_seconds:$elapsed,service_ready_sha256:$service_ready_sha256,qualification_complete_sha256:$qualification_sha256,zero_disposable_residue_sha256:$residue_sha256,compute_residue:0,warm_volumes_retained:2}' | tee "$run_dir/summary.json"
   trap - EXIT INT TERM
@@ -1495,6 +1499,7 @@ case "$ACTION" in
   prepare) require aws; require terraform; prepare ;;
   launch) require aws; require terraform; launch ;;
   qualification-remediation) require aws; require terraform; ORDINAL=remediation; launch ;;
+  qualification-quota-recovery) require aws; require terraform; ORDINAL=quota-recovery; launch ;;
   retention-status) require aws; require terraform; retention_status ;;
   extend-retention) require aws; require terraform; extend_retention ;;
   retire-storage) require aws; require terraform; retire_storage ;;
