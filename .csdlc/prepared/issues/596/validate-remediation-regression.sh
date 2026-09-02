@@ -16,10 +16,10 @@ import json
 from pathlib import Path
 
 body = json.loads(Path(".csdlc/prepared/issues/596/pr-create-request.json").read_text())["body"]
-for required in ("Closes #596", "Part-Of #505", "Part-Of #534"):
+for required in ("Closes #596", "issue 505", "issue 534"):
     if required not in body:
         raise SystemExit(f"PR body must retain required lifecycle linkage: {required}")
-for forbidden in ("Fixes #596", "Resolves #596", "Closes #505", "Fixes #505", "Resolves #505", "Closes #534", "Fixes #534", "Resolves #534"):
+for forbidden in ("Fixes #596", "Resolves #596", "#505", "#534", "Closes issue 505", "Fixes issue 505", "Resolves issue 505", "Closes issue 534", "Fixes issue 534", "Resolves issue 534"):
     if forbidden in body:
         raise SystemExit(f"PR body has forbidden lifecycle linkage: {forbidden}")
 
