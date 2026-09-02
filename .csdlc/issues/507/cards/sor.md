@@ -112,11 +112,11 @@ Implement deterministic DRT-B six-resident UTS qualification proof as Sprint 7's
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
