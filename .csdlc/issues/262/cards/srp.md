@@ -45,7 +45,18 @@ demos/podcast/studio/podcast-studio.html
 
 ## Findings
 
-[]
+[
+  {
+    "id": "262-review-r3-p1-playback-proof-source-binding-incomplete",
+    "severity": "p1",
+    "summary": "R2 is not fully fixed because the retained HTTP playback proof is not mechanically bound to an exact source/candidate digest. The receipt records generated_at, candidate paths, audio byte count/SHA, server binding, and HTTP checks, but no recomputable source manifest digest, proof producer identity, assignment revision, or scoped candidate binding. The validator checks hashes and HTTP checks but does not reject a stale receipt from a different source revision with matching visible bytes or an arbitrary hand-authored receipt matching the current shape.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -57,8 +68,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fe11952225ace692393ac041adf0e2167878757f:c43790c9fa5937c617e5119b0082777077cc0206ed23aa36372d7d062a4cd64c")
 
-Reviewer: None
+Reviewer: Some("fresh-session:944f3936-2e43-4a7e-a4ac-d380cccf2ff4")
 
-Result: pre_review
+Result: changes_required

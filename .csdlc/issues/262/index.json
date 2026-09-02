@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "a118f02a81ac8e3ca1a4614b09dde0b92fbee8fffc92941097b1f3b510f0d22c",
+  "generation": 15,
+  "digest": "dd95fb9995b07beb62600f0a4674ae5a03f198cac1584002c0703f2e47d82eb5",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": {
@@ -40,7 +40,51 @@
       "demos/podcast/studio/podcast-studio.html"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:944f3936-2e43-4a7e-a4ac-d380cccf2ff4",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/podcast-studio.html"
+    ],
+    "reviewed_revision": "git-blake3:fe11952225ace692393ac041adf0e2167878757f:c43790c9fa5937c617e5119b0082777077cc0206ed23aa36372d7d062a4cd64c",
+    "findings": [
+      {
+        "id": "262-review-r3-p1-playback-proof-source-binding-incomplete",
+        "severity": "p1",
+        "summary": "R2 is not fully fixed because the retained HTTP playback proof is not mechanically bound to an exact source/candidate digest. The receipt records generated_at, candidate paths, audio byte count/SHA, server binding, and HTTP checks, but no recomputable source manifest digest, proof producer identity, assignment revision, or scoped candidate binding. The validator checks hashes and HTTP checks but does not reject a stale receipt from a different source revision with matching visible bytes or an arbitrary hand-authored receipt matching the current shape.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,32 +99,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e7988dd49dd6ddc4e8d59d8c390df43ab1b54a952e04fc78a2adf19f5e2abe09",
+      "values_digest": "fa7074fc9f67cbb2f8997840a7ef3e3cd563cc4c3462b8c1fe8e3dc5846a4766",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "5f2493fe862da6db5288504b3cf911bc60ba5048d8970861e435e8bb1edd9fdc",
+      "values_digest": "0b5b7e935fa23c01853a674046a2c8b1ef1142f3b7297647d59dd599a554e96e",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "2dea775f27a13dda9cb9a1f204b18e1283c379fb2a996f2620132144e7323a4b",
+      "values_digest": "f5f2b50905d8d5f850e8cac8f5feed2b7a88ddb258a31e83cc00237370768f0f",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "cc022467eec89d534fe99ea5a1d5856688b34af4f85c65c4bc3051c9319d9944",
+      "values_digest": "83c7659008d782d97c5885cdb54510c6e0644bfb86453be134825b952d3ac184",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "c0b29e44e4c6b76775ffbb56807c059da55a8341d87641f9cecddf279e211d26",
-      "rendered_digest": "2f6e9345b61faedc3978544e1a0f8f05c1d5f21f3b734883f75a65d1390351ac",
-      "ast_digest": "db692111e501968288a9654e42f9712400da34dec59584eb1d502495ee443913"
+      "values_digest": "971eef96d99d52d67793c48d0c09e8df9d15a37e718475ec57b6b17fbca5382f",
+      "rendered_digest": "64cc5858599ed19217e8a93ab5b22c7b1cadffa257dd08a5a7255773fc034205",
+      "ast_digest": "bed1e8d94a6bb2a1c7abad8d1886f2028819e3347f54eb4b1044b0c4fc8c0a18"
     },
     "sor": {
-      "values_digest": "adb3860f6d6a6cb31909f318de85a15a232adecedb02fbeb0b38ed2818200634",
+      "values_digest": "46a2f706a5d061a0d816a2b3d73115d7461394ea45550b110d7ca7fb26dac4a7",
       "rendered_digest": "843b048b59470d8286992c6ad0ddfbca18d8f0aef3aaa0971ea52d3a4c87c341",
       "ast_digest": "9712c9af05379927a9deb0b59004fbd3349085807fee6fc3f959129546128ed7"
     }
@@ -241,6 +285,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "fresh-session:944f3936-2e43-4a7e-a4ac-d380cccf2ff4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
