@@ -182,6 +182,204 @@ fn unique_temp_path(label: &str) -> std::path::PathBuf {
     std::env::temp_dir().join(format!("{label}-{now}-{}", std::process::id()))
 }
 
+fn provider_reload_resolved(fixed_output: &str, sleep_ms: u64) -> AdlResolved {
+    let mut provider = mock_provider_spec();
+    provider
+        .config
+        .insert("fixed_output".to_string(), serde_json::json!(fixed_output));
+    if sleep_ms > 0 {
+        provider
+            .config
+            .insert("sleep_ms".to_string(), serde_json::json!(sleep_ms));
+    }
+
+    let step = crate::resolve::ResolvedStep {
+        id: "reload.step".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("provider reload production prompt".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+
+    let mut doc = minimal_resolved().doc;
+    doc.providers.insert("p1".to_string(), provider);
+    doc.run.workflow = Some(WorkflowSpec {
+        id: None,
+        kind: WorkflowKind::Sequential,
+        max_concurrency: None,
+        steps: vec![],
+    });
+
+    AdlResolved {
+        run_id: "run".to_string(),
+        workflow_id: "wf".to_string(),
+        doc,
+        steps: vec![step],
+        execution_plan: crate::execution_plan::ExecutionPlan {
+            workflow_kind: WorkflowKind::Sequential,
+            nodes: vec![crate::execution_plan::ExecutionNode {
+                step_id: "reload.step".to_string(),
+                depends_on: vec![],
+                save_as: None,
+                delegation: None,
+            }],
+        },
+    }
+}
+
+fn provider_reload_sidecar(fixed_output: &str, sleep_ms: u64) -> String {
+    format!(
+        r#"schema: adl.provider_reload_sidecar.v1
+version: "0.3"
+providers:
+  p1:
+    type: mock
+    default_model: echo-v1
+    config:
+      fixed_output: "{fixed_output}"
+      sleep_ms: {sleep_ms}
+"#
+    )
+}
+
+fn execute_reload_once(resolved: &AdlResolved, base: &std::path::Path) -> String {
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(resolved, &mut tr, false, false, base, &out_dir)
+        .expect("provider reload execution should succeed");
+    result.outputs[0].model_output.clone()
+}
+
+#[test]
+fn execute_sequential_consumes_provider_reload_snapshots_without_restart() {
+    let base = unique_temp_path("adl-provider-reload-production");
+    std::fs::create_dir_all(&base).expect("create base");
+    let sidecar = base.join("providers.yaml");
+    std::fs::write(&sidecar, provider_reload_sidecar("old-output", 0)).expect("write sidecar");
+
+    let resolved = provider_reload_resolved("base-output", 0);
+    let runtime = tokio::runtime::Runtime::new().expect("runtime");
+    let owner = runtime
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar.clone(),
+            resolved.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions {
+                poll_interval: std::time::Duration::from_millis(10),
+                debounce: std::time::Duration::from_millis(20),
+            },
+        ))
+        .expect("start provider reload owner");
+    let mut handle = owner.handle();
+    let _guard = crate::provider::set_global_provider_reload_handle(owner.handle());
+
+    assert_eq!(handle.current_snapshot().generation, 0);
+    assert_eq!(execute_reload_once(&resolved, &base), "old-output");
+
+    std::fs::write(&sidecar, provider_reload_sidecar("new-output", 0)).expect("rewrite sidecar");
+    let changed = runtime
+        .block_on(async {
+            tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
+        })
+        .expect("provider reload should publish changed snapshot")
+        .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
+
+    assert_eq!(execute_reload_once(&resolved, &base), "new-output");
+
+    std::fs::write(
+        &sidecar,
+        r#"schema: adl.provider_reload_sidecar.v1
+version: "0.3"
+providers:
+  p1:
+    type: mock
+    default_model: echo-v1
+    config:
+      api_key: "secret-value"
+"#,
+    )
+    .expect("write invalid sidecar");
+    std::thread::sleep(std::time::Duration::from_millis(80));
+
+    assert_eq!(execute_reload_once(&resolved, &base), "new-output");
+    let diagnostic = handle
+        .last_diagnostic()
+        .expect("invalid candidate should leave redacted diagnostic");
+    assert!(diagnostic.generation >= 1);
+    assert_eq!(diagnostic.code, "validation_error");
+    assert!(diagnostic.redacted_message.contains("<redacted>"));
+
+    let outcome = runtime.block_on(owner.shutdown()).expect("shutdown owner");
+    assert!(outcome.shutdown_requested);
+    assert!(outcome.reloads_applied >= 1);
+    assert!(outcome.invalid_updates_rejected >= 1);
+}
+
+#[test]
+fn execute_sequential_retains_starting_provider_snapshot_for_in_flight_step() {
+    let base = unique_temp_path("adl-provider-reload-inflight");
+    std::fs::create_dir_all(&base).expect("create base");
+    let sidecar = base.join("providers.yaml");
+    std::fs::write(&sidecar, provider_reload_sidecar("slow-old-output", 180))
+        .expect("write sidecar");
+
+    let resolved = provider_reload_resolved("base-output", 0);
+    let runtime = tokio::runtime::Runtime::new().expect("runtime");
+    let owner = runtime
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar.clone(),
+            resolved.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions {
+                poll_interval: std::time::Duration::from_millis(10),
+                debounce: std::time::Duration::from_millis(20),
+            },
+        ))
+        .expect("start provider reload owner");
+    let mut handle = owner.handle();
+    let _guard = crate::provider::set_global_provider_reload_handle(owner.handle());
+
+    assert_eq!(handle.current_snapshot().generation, 0);
+    let thread_resolved = resolved.clone();
+    let thread_base = base.clone();
+    let running = std::thread::spawn(move || execute_reload_once(&thread_resolved, &thread_base));
+
+    std::thread::sleep(std::time::Duration::from_millis(30));
+    std::fs::write(&sidecar, provider_reload_sidecar("fast-new-output", 0))
+        .expect("rewrite sidecar");
+    let changed = runtime
+        .block_on(async {
+            tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
+        })
+        .expect("provider reload should publish changed snapshot")
+        .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
+
+    assert_eq!(
+        running.join().expect("join in-flight run"),
+        "slow-old-output"
+    );
+    assert_eq!(execute_reload_once(&resolved, &base), "fast-new-output");
+
+    let outcome = runtime.block_on(owner.shutdown()).expect("shutdown owner");
+    assert!(outcome.shutdown_requested);
+}
+
 fn steering_patch() -> SteeringPatch {
     let mut set_state = HashMap::new();
     set_state.insert("next.input".to_string(), "ready".to_string());

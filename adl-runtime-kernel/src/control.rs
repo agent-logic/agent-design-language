@@ -1872,8 +1872,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 continue;
             };
             sample.observed_at_unix_millis = observed_at_unix_millis;
-            sample.freshness_deadline_unix_millis = observed_at_unix_millis
-                .saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
+            sample.freshness_deadline_unix_millis =
+                observed_at_unix_millis.saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
             sample.state = if healthy { "ready" } else { "unavailable" }.to_owned();
             sample.health = if healthy { "healthy" } else { "unhealthy" }.to_owned();
             sample.availability = if healthy { "available" } else { "unavailable" }.to_owned();

@@ -8,7 +8,7 @@ use csdlc_v3::{
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --help\n  clean --help\n  cutover --help\n  doctor --help\n  edit --help\n  eligibility --help\n  finish --help\n  github --help\n  github-issue --help\n  github-pr --help\n  install --help\n  issue --help\n  pr-state --help\n  proof --help\n  publish --help\n  review --help\n  schedule --help\n  shadow --help\n  shepherd --help\n  soak --help\n  validate --help";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -35,8 +35,32 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "--help" | "-h" => Ok(ROOT_USAGE.into()),
         "foundation" => run_foundation(rest),
         "local" => run_local(rest),
+        "bind" | "clean" | "cutover" | "doctor" | "edit" | "eligibility" | "finish" | "github"
+        | "github-issue" | "github-pr" | "install" | "issue" | "pr-state" | "proof" | "publish"
+        | "review" | "schedule" | "shepherd" | "soak" => {
+            if rest == ["--help"] || rest == ["-h"] {
+                return Ok(reserved_usage(command, "fail_closed"));
+            }
+            Err(format!(
+                "fail_closed: csdlc {command} is reserved for C-SDLC v3 replacement work and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
+            ))
+        }
+        "shadow" | "validate" => {
+            if rest == ["--help"] || rest == ["-h"] {
+                return Ok(reserved_usage(command, "partial"));
+            }
+            Err(format!(
+                "partial: csdlc {command} has construction evidence only and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
+            ))
+        }
         _ => Err(format!("{ROOT_USAGE}; unexpected command {command}")),
     }
+}
+
+fn reserved_usage(command: &str, status: &str) -> String {
+    format!(
+        "usage: csdlc {command} [--help]\n\nstatus: {status}\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+    )
 }
 
 fn run_foundation(args: &[String]) -> Result<String, String> {

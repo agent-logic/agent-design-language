@@ -45,7 +45,7 @@ use crate::memory_palace::{build_context_from_agent_memory, MEMORY_PALACE_CONTEX
 use crate::runtime_aws_signal::{
     preflight_csm_governed_notice_signal, publish_csm_governed_notice_signal_for_channel,
 };
-use crate::{adl, execute, resident_tool_execution, resolve, trace};
+use crate::{adl, execute, provider, resident_tool_execution, resolve, trace};
 
 /// Explicit long-lived Runtime transition from verified resident authorities
 /// into the one-time production birthday commit. Ordinary tick/start paths do
@@ -3155,6 +3155,34 @@ struct AdlWorkflowRunSummary {
     outputs: Vec<execute::StepOutput>,
 }
 
+struct ActiveProviderReload {
+    runtime: tokio::runtime::Runtime,
+    owner: Option<provider::ProviderReloadOwner>,
+    guard: Option<provider::ProviderReloadGlobalGuard>,
+    source: PathBuf,
+}
+
+impl ActiveProviderReload {
+    fn shutdown(mut self) -> Result<Value> {
+        self.guard.take();
+        let owner = self
+            .owner
+            .take()
+            .context("provider reload owner already shut down")?;
+        let outcome = self
+            .runtime
+            .block_on(owner.shutdown())
+            .map_err(|error| anyhow!("provider reload shutdown failed: {error}"))?;
+        Ok(json!({
+            "status": "enabled",
+            "source": path_artifact_ref(&self.source),
+            "reloads_applied": outcome.reloads_applied,
+            "invalid_updates_rejected": outcome.invalid_updates_rejected,
+            "shutdown_requested": outcome.shutdown_requested
+        }))
+    }
+}
+
 fn run_adl_workflow_cycle(
     loaded: &LoadedAgentSpec,
     cycle_id: &str,
@@ -3180,6 +3208,8 @@ fn run_adl_workflow_cycle(
     let resolved = resolve::resolve_run(&doc)
         .with_context(|| format!("failed resolving CSM ADL workflow {}", adl_path.display()))?;
     let adl_base_dir = adl_path.parent().unwrap_or_else(|| Path::new("."));
+    let provider_reload = start_adl_workflow_provider_reload(loaded, adl_base_dir, &resolved.doc)
+        .context("failed starting CSM ADL provider reload owner")?;
     let out_dir = cycle_dir.join("adl_runtime");
     fs::create_dir_all(&out_dir)
         .with_context(|| format!("failed creating CSM ADL runtime dir {}", out_dir.display()))?;
@@ -3189,9 +3219,11 @@ fn run_adl_workflow_cycle(
         resolved.workflow_id.clone(),
         resolved.doc.version.clone(),
     );
+    let execution =
+        execute::execute_sequential(&resolved, &mut tr, false, false, adl_base_dir, &out_dir);
+    let provider_reload_status = shutdown_adl_workflow_provider_reload(provider_reload)?;
     let result =
-        execute::execute_sequential(&resolved, &mut tr, false, false, adl_base_dir, &out_dir)
-            .with_context(|| format!("CSM ADL DAG execution failed for cycle {cycle_id}"))?;
+        execution.with_context(|| format!("CSM ADL DAG execution failed for cycle {cycle_id}"))?;
     tr.run_finished(result.pause.is_none());
 
     let records: Vec<Value> = result
@@ -3236,6 +3268,7 @@ fn run_adl_workflow_cycle(
         "artifacts": artifacts,
         "out_dir": path_artifact_ref(&out_dir),
         "scheduler_policy": scheduler_policy,
+        "provider_reload": provider_reload_status,
         "runtime_control": serde_json::to_value(&result.runtime_control)?,
         "trace_event_count": trace_events.len(),
         "trace_events": trace_events,
@@ -3249,6 +3282,69 @@ fn run_adl_workflow_cycle(
         trace_ref: "csm_adl_run_status.json#trace_events".to_string(),
         outputs: result.outputs,
     })
+}
+
+fn start_adl_workflow_provider_reload(
+    loaded: &LoadedAgentSpec,
+    adl_base_dir: &Path,
+    doc: &adl::AdlDoc,
+) -> Result<Option<ActiveProviderReload>> {
+    let Some(path) = provider_reload_sidecar_path(loaded, adl_base_dir)? else {
+        return Ok(None);
+    };
+    let runtime = tokio::runtime::Runtime::new().context("create provider reload runtime")?;
+    let owner = runtime
+        .block_on(provider::ProviderReloadOwner::start(
+            path.clone(),
+            doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
+        ))
+        .map_err(|error| anyhow!("start provider reload owner: {error}"))?;
+    let guard = provider::set_global_provider_reload_handle(owner.handle());
+    Ok(Some(ActiveProviderReload {
+        runtime,
+        owner: Some(owner),
+        guard: Some(guard),
+        source: path,
+    }))
+}
+
+fn shutdown_adl_workflow_provider_reload(
+    provider_reload: Option<ActiveProviderReload>,
+) -> Result<Value> {
+    match provider_reload {
+        Some(active) => active.shutdown(),
+        None => Ok(json!({
+            "status": "disabled",
+            "reason": "workflow.run_args.provider_reload_sidecar_path_not_configured"
+        })),
+    }
+}
+
+fn provider_reload_sidecar_path(
+    loaded: &LoadedAgentSpec,
+    adl_base_dir: &Path,
+) -> Result<Option<PathBuf>> {
+    let Some(raw) = loaded
+        .spec
+        .workflow
+        .run_args
+        .get("provider_reload_sidecar_path")
+        .and_then(Value::as_str)
+    else {
+        return Ok(None);
+    };
+    if raw.trim().is_empty() {
+        return Err(anyhow!(
+            "workflow.run_args.provider_reload_sidecar_path must be non-empty when configured"
+        ));
+    }
+    let path = PathBuf::from(raw);
+    if path.is_absolute() {
+        Ok(Some(path))
+    } else {
+        Ok(Some(adl_base_dir.join(path)))
+    }
 }
 
 fn status_with_state(

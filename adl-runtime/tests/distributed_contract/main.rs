@@ -274,7 +274,15 @@ fn drt_d_gcp_portability() {
         retained["dehydrated_population_digest"],
         retained["restored_population_digest"]
     );
-    assert!(retained["cost_usd"].is_number());
+    assert_eq!(retained["cost"]["currency"], "USD");
+    assert_eq!(retained["cost"]["actual_cost_available"], false);
+    assert!(retained["cost"]["actual_cost_usd"].is_null());
+    assert!(retained["cost"]["max_budget_usd"]
+        .as_f64()
+        .is_some_and(|budget| budget > 0.0));
+    assert!(retained["cost"]["method"]
+        .as_str()
+        .is_some_and(|method| method.contains("bounded-budget")));
     assert_eq!(retained["cleanup"]["runtime_instance"], "absent");
     assert_eq!(retained["cleanup"]["ollama_instance"], "absent");
     assert_eq!(retained["cleanup"]["run_selector"], "absent");

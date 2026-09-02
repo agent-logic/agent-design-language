@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "1ebe52271a93fa11985c86ec252a55838ac97bcd036f6c0f377d9167c90900ad",
+  "generation": 7,
+  "digest": "06f8afee179f9493d90bdf893d25afeef7793153a56bac65d7b70af29f7d15be",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9c1250801bdf0977b446c024186ec53061ff14ce21634cdaa5fe14caff8620a0",
+      "values_digest": "3a5b4d994428f2b674bba5e10cdb945ea4ca85ac03322df31aa71ee7fe443a72",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "65eb05afc252b9b14d2551249a166647047a2e5eba53626d99a15cf09757a631",
+      "values_digest": "f3ecc8b32afaa8c46e9b7585b6fc8846bd9c846df34d47a54b3bd73b836c46db",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "b791c12f6f6c3c7759c0991036d983fdf915bdc2313c04fea59f59ed7de2819b",
+      "values_digest": "9c4d032a2196987fa9926281926137f996ed2895cbd71183cc44e5aec9c89fed",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "7157d130007339a6697fd62dcf9429a6dabbff717fed0ff76316bd73c09bb922",
+      "values_digest": "8d23eb91468d74334c220e3aecfb8cbcb79a65c71f852d056ee1334bfecf4c98",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "135fcef353ad9ee8860a68b03e116119e498950724f5e8f53552407a93e111af",
+      "values_digest": "2cd9be7620f95ad20121f3cc5c12394d88559c6c73ea7d43ab3db73e4b2efd0c",
       "rendered_digest": "dcdf4ee8ff229a906d36c1cb33afe3bd1f7a8ab1d233a85470863a2370c63c92",
       "ast_digest": "e85613914db766ef65fdae1fdd2679d823f21ee29038e12abbd7c038f47a15f1"
     },
     "sor": {
-      "values_digest": "f45558a620f5766d95033b2c72ce9f3c3990379641b875c018da858dca87a9d1",
-      "rendered_digest": "c224fef8ecf3cb36b7aee1cba4d916c2799e323f7ead605976eaf1ad5edcb641",
-      "ast_digest": "f695ee9e0523dbd12eb33ca5a71b8e436ce058588566666c821818f6ea303f8b"
+      "values_digest": "39528b410e047e167a1370555f4cc9b99c8fae5812baf95ceb48c3ecc5e0eb63",
+      "rendered_digest": "38f9a0ed3fc48bf986dc8ea7946ec1874d3dd489d90225cbe2c41992cd7eaa0e",
+      "ast_digest": "8bb5c9235677956f080c8e5cea9316e0437cd2fb69ec97b76fc3f2d323e8ebf0"
     }
   },
   "transitions": [
@@ -134,6 +134,27 @@
       "actor": "codex:/root",
       "reason": "Record #509 review-remediation truth after replacing unsupported exact zero GCP cost with bounded unavailable actual-cost semantics.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Finalize #509 DRT-D GCP portability after a live two-node GCP qualification run using the stored GCS Runtime/Ollama artifact bundle, six resident agent receipts, clean teardown, and review-remediated bounded cost truth.\",\"changes\":[\"Added the GCP DRT-D two-node Terraform module/root and startup scripts for a private Runtime node talking to a private Ollama GPU node.\",\"Added the #509 GCP qualification runner and relay bundle builder so Runtime/Ollama binaries and model artifacts are built once, stored in GCS, and consumed by live runs without repeated rebuilds.\",\"Reused the #268 six-resident UTS cycle on GCP with private Ollama-backed Runtime execution and retained the successful qualification receipt.\",\"Recorded successful live GCP proof for run adl-509-drt-d-20260902183922 with Terraform cleanup destroying the ephemeral run resources.\",\"Remediated review finding P2 by replacing unsupported exact cost_usd=0 with structured bounded-budget cost truth: actual_cost_available=false, actual_cost_usd=null, max_budget_usd=20.\"],\"artifacts\":[\"adl/src/cli/csmctl_cmd.rs\",\"adl/tools/build_issue509_runtime_bundle_on_relay.sh\",\"adl/tools/run_issue268_six_resident_uts_cycle.py\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\".csdlc/prepared/issues/509/validate-implementation.rb\",\"infra/gcp/workloads/drt-d-six-resident/main.tf\",\"infra/gcp/workloads/drt-d-six-resident/outputs.tf\",\"infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh\",\"infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh\",\"infra/gcp/workloads/drt-d-six-resident/variables.tf\",\"infra/gcp/workloads/drt-d-six-resident/versions.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification receipt and bounded cost semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-review-cost-truth-validator\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\"],\"purpose\":\"Reject shell syntax regressions in the remediated qualification runner.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-review-cost-truth-shell-syntax\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace/conflict-marker drift after remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-review-cost-truth-diff-check\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover interrupted fresh-session:b6b7039a-0be4-4d5e-b6d4-b41747bee69d assignment because origin/main advanced and read-only merge-tree predicted a real conflict in adl/src/cli/csmctl_cmd.rs; #509 must merge current main and re-review the new exact head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #509 post-origin/main merge reconciliation and focused proof after resolving the csmctl_cmd.rs import conflict and updating the DRT-D cost-denominator test to the reviewed bounded-cost contract.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled #509 DRT-D GCP portability with current origin/main without rebuilding the Runtime/Ollama bundle. The existing GCS runtime artifact remains the launch source; the only source conflict was csmctl_cmd.rs import topology, and focused post-merge proof is green.\",\"changes\":[\"Merged current origin/main into the #509 FastWork worktree and resolved the single csmctl_cmd.rs conflict by retaining origin/main's agent_roster import topology with #509's csmctl control-plane additions.\",\"Updated the DRT-D distributed contract test to assert the reviewed bounded-cost proof shape instead of the obsolete numeric cost_usd field.\",\"Preserved the already-built GCS runtime bundle as the live artifact source; no rebuild was performed for the post-merge recovery.\"],\"artifacts\":[\"adl/src/cli/csmctl_cmd.rs\",\"adl-runtime/tests/distributed_contract/main.rs\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-readiness.rb\"],\"purpose\":\"Verify #509 dependency gates remain terminal and ancestral after origin/main movement.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-main-merge-readiness\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification and bounded-cost semantics after merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-main-merge-implementation\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\"],\"purpose\":\"Reject shell syntax regressions in the GCP qualification runner.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-main-merge-shell-syntax\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"csm\"],\"purpose\":\"Verify the reconciled csmctl import topology compiles.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-main-merge-cargo-check\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify the DRT-D retained qualification denominator accepts the reviewed bounded-cost proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-main-merge-drt-d-contract\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after merge resolution.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-main-merge-diff-check\"}]}"
     }
   ]
 }

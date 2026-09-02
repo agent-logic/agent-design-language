@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 627,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.1] Define v3 command denominator and one-binary CLI shell",
+    "slug": "v3-h1-command-denominator-one-binary-cli-shell",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Confirm the v2 command denominator, normalize the v3 command manifest, implement the single-binary command shell and fail-closed live-authority stubs, then run focused denominator/help/fail-closed/no-v2-source validation.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Confirm the installed v2 binary denominator and the operator-confirmed 19-route sprint target.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Author or update the machine-readable v3 command manifest with ownership, status, and child-issue routing.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement the one-binary `csdlc` command shell with visible help and fail-closed stubs for not-yet-implemented live-authority routes.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Add focused denominator, help, fail-closed, and no-v2-source-change validation.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Record handoff notes for #628 through #632 and stop before claiming full v3 behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/csdlc-v3/full-replacement-denominator.json",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands",
+        "csdlc-v3/tests/command_manifest.rs",
+        ".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh",
+        ".csdlc/prepared/issues/627",
+        ".csdlc/issues/627"
+      ],
+      "invariants": [
+        "v2 remains live authority until #505.",
+        "The final v3 replacement target is one `csdlc` binary.",
+        "Missing command behavior is explicit and fail-closed.",
+        "No hidden fallback to v2, raw gh, v1 wrappers, or shell strings.",
+        "No v2 source changes occur in this issue."
+      ],
+      "risks": [
+        "A command name can be listed without behavior or fail-closed proof.",
+        "The manifest can drift from help output.",
+        "A later child issue can implement against a different denominator.",
+        "Tests can prove strings instead of command behavior.",
+        "v2 source can be touched accidentally while building parity."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The denominator cannot be reconciled to the installed v2 binary set.",
+        "A route requires live v3 authority before #505.",
+        "A route implementation would require raw gh or v2 fallback.",
+        "The change needs C-SDLC v2 source edits.",
+        "The one-binary model conflicts with an explicit operator decision."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/627/design.md",
+      "design_digest": "dca1208e4d4b73d2e1848dca19978f06b5e2c377fea89576f8e8c0e95d2610dd",
+      "diagram_ref": ".csdlc/prepared/issues/627/diagram.mmd",
+      "diagram_digest": "e7bf94eabbac6c71577f94162fabf619a55418214985e2c542c1fdfb39b69ed7"
+    }
+  }
+}
