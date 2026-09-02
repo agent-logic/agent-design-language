@@ -5195,6 +5195,13 @@ mod agent_lifecycle {
         legacy.role = "legacy persisted assistant".to_owned();
         assert!(validate_persisted_agent_admission(&legacy).is_ok());
         assert!(validate_agent_admission(&legacy).is_err());
+        assert!(validate_persisted_agent_admission(&request).is_ok());
+        let mut conflicting = legacy.clone();
+        conflicting.office = "current office".to_owned();
+        assert!(validate_persisted_agent_admission(&conflicting).is_err());
+        let mut malformed_current = request.clone();
+        malformed_current.name = "Gemma".to_owned();
+        assert!(validate_persisted_agent_admission(&malformed_current).is_err());
 
         assert_eq!(
             source.admit_agent(request.clone()).await.unwrap().status,
@@ -5402,10 +5409,15 @@ fn validate_agent_admission(request: &AgentAdmissionRequest) -> Result<(), Contr
 
 fn validate_persisted_agent_admission(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
     validate_agent_admission_base(request)?;
-    if request.office.is_empty() && request.role.is_empty() {
-        return Err(ControlError::InvalidIdentifier);
+    match (request.office.is_empty(), request.role.is_empty()) {
+        (true, false) => Ok(()),
+        (false, true)
+            if is_canonical_agent_name(&request.name) && !request.display_name.is_empty() =>
+        {
+            Ok(())
+        }
+        _ => Err(ControlError::InvalidIdentifier),
     }
-    Ok(())
 }
 
 async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), AgentAdmissionFailure> {

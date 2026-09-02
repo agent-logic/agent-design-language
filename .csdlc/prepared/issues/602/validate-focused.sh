@@ -9,3 +9,4 @@ cargo test --offline --locked --manifest-path adl/Cargo.toml --bin adl csmctl_ag
 cargo test --offline --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib agent_lifecycle
 cargo test --offline --locked --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract
 git diff --check
+git diff --check origin/main...HEAD

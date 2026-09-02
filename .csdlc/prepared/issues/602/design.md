@@ -81,4 +81,3 @@ operators need lifecycle deletion rather than admission rollback.
 - Editing Runtime init.
 - Replacing the resident Shepherd.
 - Changing #589 lifecycle or continuity behavior.
-
