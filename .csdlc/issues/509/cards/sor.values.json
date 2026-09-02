@@ -7,66 +7,55 @@
     "title": "[v0.92.1][DRT-D] GCP portability qualification",
     "slug": "v0-92-1-drt-d-gcp-portability-qualification",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Reconciled #509 DRT-D GCP portability with current origin/main without rebuilding the Runtime/Ollama bundle. The existing GCS runtime artifact remains the launch source; the only source conflict was csmctl_cmd.rs import topology, and focused post-merge proof is green.",
+      "summary": "Refreshed #509 DRT-D GCP portability proof at current exact head using the existing GCS runtime/model artifact bundle, with no local runtime rebuild. The disposable two-node GCP run passed, produced runtime and Ollama receipts, destroyed both nodes, and retained bounded-cost plus source-revision truth.",
       "actual_changes": [
-        "Merged current origin/main into the #509 FastWork worktree and resolved the single csmctl_cmd.rs conflict by retaining origin/main's agent_roster import topology with #509's csmctl control-plane additions.",
-        "Updated the DRT-D distributed contract test to assert the reviewed bounded-cost proof shape instead of the obsolete numeric cost_usd field.",
-        "Preserved the already-built GCS runtime bundle as the live artifact source; no rebuild was performed for the post-merge recovery."
+        "Reran the live GCP DRT-D qualification at current head using the already-stored GCS artifact manifest instead of rebuilding Runtime/Ollama binaries.",
+        "Set Terraform provider auth to the approved service-account key and disabled per-run NAT creation because an existing regional ALL_SUBNETWORKS_ALL_IP_RANGES NAT was already present.",
+        "Updated retained qualification evidence to run adl-509-drt-d-20260902192222 with source_revision f61de6ac171253db3d0afb47ec3e4c1838b47c54.",
+        "Added executable stale-proof guards so the Ruby implementation validator and DRT-D retained-proof test reject qualification receipts whose source_revision does not match the current exact head."
       ],
       "artifacts": [
-        "adl/src/cli/csmctl_cmd.rs",
+        ".csdlc/prepared/issues/509/validate-implementation.rb",
         "adl-runtime/tests/distributed_contract/main.rs",
+        "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
         "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json",
-        "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
-        ".csdlc/prepared/issues/509/validate-implementation.rb"
+        ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/preflight.json",
+        ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json",
+        ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json",
+        ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log",
+        ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-destroy.log",
+        ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/cleanup-readback.json"
       ],
       "actual_validation": [
         {
           "command": [
-            "ruby",
-            ".csdlc/prepared/issues/509/validate-readiness.rb"
+            "CLOUDSDK_CONFIG=.csdlc/evidence/509/gcloud-config",
+            "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json",
+            "GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json",
+            "ADL_ISSUE509_CREATE_CLOUD_NAT=false",
+            "bash",
+            "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+            "run",
+            "--execute"
           ],
-          "purpose": "Verify #509 dependency gates remain terminal and ancestral after origin/main movement.",
+          "purpose": "Run live two-node GCP DRT-D qualification using existing GCS artifact bundle and destroy ephemeral resources.",
           "outcome": "passed",
-          "evidence_ref": "manual:post-main-merge-readiness"
+          "evidence_ref": ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222"
         },
         {
           "command": [
             "ruby",
             ".csdlc/prepared/issues/509/validate-implementation.rb"
           ],
-          "purpose": "Verify retained live GCP qualification and bounded-cost semantics after merge.",
+          "purpose": "Verify retained live GCP qualification, bounded-cost semantics, cleanup, and current source_revision binding.",
           "outcome": "passed",
-          "evidence_ref": "manual:post-main-merge-implementation"
-        },
-        {
-          "command": [
-            "bash",
-            "-n",
-            "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
-          ],
-          "purpose": "Reject shell syntax regressions in the GCP qualification runner.",
-          "outcome": "passed",
-          "evidence_ref": "manual:post-main-merge-shell-syntax"
-        },
-        {
-          "command": [
-            "cargo",
-            "check",
-            "--manifest-path",
-            "adl/Cargo.toml",
-            "--bin",
-            "csm"
-          ],
-          "purpose": "Verify the reconciled csmctl import topology compiles.",
-          "outcome": "passed",
-          "evidence_ref": "manual:post-main-merge-cargo-check"
+          "evidence_ref": "manual:post-live-refresh-implementation"
         },
         {
           "command": [
@@ -74,9 +63,9 @@
             "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
             "gcp-portability"
           ],
-          "purpose": "Verify the DRT-D retained qualification denominator accepts the reviewed bounded-cost proof.",
+          "purpose": "Verify DRT-D retained proof denominator including current source_revision binding.",
           "outcome": "passed",
-          "evidence_ref": "manual:post-main-merge-drt-d-contract"
+          "evidence_ref": "manual:post-live-refresh-drt-d-contract"
         },
         {
           "command": [
@@ -84,9 +73,9 @@
             "diff",
             "--check"
           ],
-          "purpose": "Reject whitespace and conflict-marker drift after merge resolution.",
+          "purpose": "Reject whitespace and conflict-marker drift after live refresh and stale-proof guard repair.",
           "outcome": "passed",
-          "evidence_ref": "manual:post-main-merge-diff-check"
+          "evidence_ref": "manual:post-live-refresh-diff-check"
         }
       ],
       "integration_state": "worktree_only",

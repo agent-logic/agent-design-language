@@ -7,4 +7,7 @@ case "$lane" in
   *) echo "unknown DRT-D lane: $lane" >&2; exit 2 ;;
 esac
 
+export ADL_DRT_D_EXPECTED_SOURCE_REVISION
+ADL_DRT_D_EXPECTED_SOURCE_REVISION="$(git rev-parse HEAD)"
+
 cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_contract "$filter" -- --exact --nocapture

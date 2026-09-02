@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require "json"
+require "shellwords"
 root = File.expand_path("../../../..", __dir__)
 receipt_path = File.join(root, "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json")
 unless File.file?(receipt_path)
@@ -12,6 +13,8 @@ unless File.file?(receipt_path)
   exit 1
 end
 receipt = JSON.parse(File.read(receipt_path))
+head = `git -C #{Shellwords.escape(root)} rev-parse HEAD`.strip
+abort("source revision mismatch") unless receipt.fetch("source_revision") == head
 abort("schema mismatch") unless receipt.fetch("schema") == "adl.v0921.drt_d.gcp_portability_qualification.v1"
 abort("issue mismatch") unless receipt.fetch("issue") == 509
 abort("status mismatch") unless receipt.fetch("status") == "passed"

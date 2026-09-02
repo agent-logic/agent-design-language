@@ -256,6 +256,9 @@ fn drt_d_gcp_portability() {
         json!(["llama3.1:8b", "qwen3:8b", "phi4-mini:latest"])
     );
     assert_eq!(retained["aws_qualification_authority"], "unchanged");
+    if let Ok(expected_revision) = std::env::var("ADL_DRT_D_EXPECTED_SOURCE_REVISION") {
+        assert_eq!(retained["source_revision"], expected_revision);
+    }
 
     let residents = retained["residents"].as_array().expect("resident array");
     assert_eq!(residents.len(), 6);
