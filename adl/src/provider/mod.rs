@@ -6,6 +6,7 @@ use anyhow::{anyhow, Context, Result};
 use serde::Serialize;
 use serde_json::Value;
 use sha2::{Digest, Sha256};
+use std::cell::Cell;
 use std::collections::{BTreeMap, HashMap};
 use std::env;
 use std::error::Error as StdError;
@@ -15,7 +16,7 @@ use std::io::{Read, Write};
 use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use std::sync::{mpsc, Mutex, OnceLock};
+use std::sync::{mpsc, Arc, Mutex, OnceLock};
 use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
@@ -276,6 +277,9 @@ fn sha256_text(value: &str) -> String {
 }
 
 fn observe_shadow_provider(provider: &dyn Provider, prompt: &str) -> ProviderShadowObservation {
+    thread_local! {
+        static SUPPRESS_SHADOW_PANIC_HOOK: Cell<bool> = const { Cell::new(false) };
+    }
     static SHADOW_PANIC_HOOK_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
 
     let _hook_guard = SHADOW_PANIC_HOOK_LOCK
@@ -283,9 +287,30 @@ fn observe_shadow_provider(provider: &dyn Provider, prompt: &str) -> ProviderSha
         .lock()
         .unwrap_or_else(|poisoned| poisoned.into_inner());
     let previous_hook = std::panic::take_hook();
-    std::panic::set_hook(Box::new(|_| {}));
+    let previous_hook = Arc::new(Mutex::new(Some(previous_hook)));
+    let previous_hook_for_delegate = Arc::clone(&previous_hook);
+    std::panic::set_hook(Box::new(move |info| {
+        if SUPPRESS_SHADOW_PANIC_HOOK.with(Cell::get) {
+            return;
+        }
+        let guard = previous_hook_for_delegate
+            .lock()
+            .unwrap_or_else(|poisoned| poisoned.into_inner());
+        if let Some(delegate) = guard.as_ref() {
+            delegate(info);
+        }
+    }));
+    SUPPRESS_SHADOW_PANIC_HOOK.with(|suppressed| suppressed.set(true));
     let result = catch_unwind(AssertUnwindSafe(|| provider.complete(prompt)));
-    std::panic::set_hook(previous_hook);
+    SUPPRESS_SHADOW_PANIC_HOOK.with(|suppressed| suppressed.set(false));
+    let _shadow_hook = std::panic::take_hook();
+    if let Some(previous_hook) = previous_hook
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner())
+        .take()
+    {
+        std::panic::set_hook(previous_hook);
+    }
 
     match result {
         Ok(Ok(output)) => ProviderShadowObservation::completed(&output),
