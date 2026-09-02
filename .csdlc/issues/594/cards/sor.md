@@ -21,6 +21,7 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
 - adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/observability.rs
 - .csdlc/prepared/issues/594/validate-runtime-log-archive.sh
+- .csdlc/prepared/issues/594/validate-diff-hygiene.sh
 - .csdlc/prepared/issues/594/validate-terraform-log-archive.sh
 - .csdlc/prepared/issues/594/validate-live-aws.sh
 - .csdlc/evidence/594/runtime-log-archive.log
@@ -42,6 +43,7 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
 - Rendered runtime_v3_s3_archive from runtime_v3_redacted through a bounded delivery transform with identity-partitioned keys, SSE-S3, gzip JSON, disabled S3 health checks, 5 MiB or 60 second batching, 512 MiB drop-newest disk buffering, and bounded retry settings.
 - Added focused Runtime configuration and observability tests, including a pinned Vector validate check for the generated archive config.
 - Tightened the issue-owned Runtime validation wrapper so it runs both S3 archive configuration tests and Vector rendering/validation tests.
+- Added an issue-owned diff hygiene wrapper that emits a non-empty success receipt after git diff --check passes.
 - Added infra/aws/runtime/log-archive Terraform for private S3 bucket controls, versioning, lifecycle retention, SSE-S3, bucket-owner-enforced ownership, and exact-prefix publisher IAM policy with terraform test assertions.
 - Added a module-local Terraform ignore rule so generated provider cache files are not tracked.
 
@@ -50,11 +52,10 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
 [
   {
     "command": [
-      "git",
-      "diff",
-      "--check"
+      "/bin/bash",
+      ".csdlc/prepared/issues/594/validate-diff-hygiene.sh"
     ],
-    "purpose": "Issue 594 diff hygiene validation",
+    "purpose": "Issue 594 diff hygiene validation with non-empty retained success receipt",
     "outcome": "passed",
     "evidence_ref": "diff-hygiene.log"
   },

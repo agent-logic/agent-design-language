@@ -1,0 +1,5 @@
+issue=594
+lane=diff-hygiene
+argv=git diff --check
+head=c267886f3415df689a7661332c9fca2dc1947991
+status=passed
