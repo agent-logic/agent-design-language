@@ -6,7 +6,7 @@
     "#186",
     "#187"
   ],
-  "runtime_revision": "d022d6c198669bcbc10cd98bee4d7c8520f9c4d4",
+  "runtime_revision": "dfd4eec2069199d9a1e110a2560918b104dae9e5",
   "source_drt_b_contract_digest": "b84cc6f1503e3547082034b5d6e437a85d0cb4e7805ae2052e1ed32683804a11",
   "fail_closed_cases": [
     "identity",
@@ -17,7 +17,7 @@
     "runtime_emitted": true,
     "redacted": true,
     "feed_schema": "adl.runtime_v3.observatory.feed.v1",
-    "artifact_sha256": "114f0f63abc137c4a5ddf029fd47dab2606fd1991f339aba8c8a7a70572bc9b6"
+    "artifact_sha256": "4807cd8694d3352b8931b0a54012c48568a44ff852a768c6c3de676a3a365015"
   },
   "soak": {
     "bounded": true,
@@ -30,24 +30,24 @@
       {
         "id": "local-production-window",
         "duration_seconds": 900,
-        "source_revision": "d022d6c198669bcbc10cd98bee4d7c8520f9c4d4",
-        "command_digest": "d49c366eedec7444f1bab4e0cd80e978dc14f8223139fdd0a6687c9bdcba434f",
-        "model_digest": "ae17203ee018568940d9f46f707bb720e1cb8a603fd7f25e77f3548f101a4879",
+        "source_revision": "dfd4eec2069199d9a1e110a2560918b104dae9e5",
+        "command_digest": "804611df92f0a0a459029c4b35a98dd80bb179104bf23bc776ec297cbe89e4c9",
+        "model_digest": "3b359e7da66f4627106cf530e37b73360e7f1019cf4c1ba2fea0bff41515cac1",
         "started_at_unix_seconds": 1798700000,
         "ended_at_unix_seconds": 1798700900,
-        "receipt_digest": "bc6305d6e5e87b6f25adb596c17466ce5eec6b2bd38475ee5dc4dc16bf54fc04",
+        "receipt_digest": "1bd153778846a93fae89f6770e0e1fe7e881f0324ba3d2d7da1f9ca67025e3ed",
         "independent_replay": true,
         "cleanup_readback": "absent"
       },
       {
         "id": "hybrid-production-window",
         "duration_seconds": 900,
-        "source_revision": "d022d6c198669bcbc10cd98bee4d7c8520f9c4d4",
-        "command_digest": "dbb1bcfb997de60c263f83a6d328d0b8294d43e8dde56d8ae48d850cb2c2f732",
-        "model_digest": "9c9f21e96dc3156972a2efc86356c118e1575a571c1ca54be7598d014cd12414",
+        "source_revision": "dfd4eec2069199d9a1e110a2560918b104dae9e5",
+        "command_digest": "e95831f29be6b4e18f4184a874b52be93f1148226e712b20988ca06ab9be6545",
+        "model_digest": "f41d9121e95b54f9887476cde59ecaf5dff29f583b352b3c5d3062a4eefa58c6",
         "started_at_unix_seconds": 1798701000,
         "ended_at_unix_seconds": 1798701900,
-        "receipt_digest": "7ec5d45d9ff132053c8fae928e01871ad1db6190dd8c71d371653dbc49cbcd49",
+        "receipt_digest": "203c2e718f50cb1e6fcb41195a17666c66232dca96049971ccbbb4e18b4e2b02",
         "independent_replay": true,
         "cleanup_readback": "absent"
       }
