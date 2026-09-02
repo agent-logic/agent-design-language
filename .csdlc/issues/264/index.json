@@ -1,0 +1,222 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 264,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "84e1450497552128fe6fcb39a6160b028d303f3ca97fae8355b4750443422f55",
+  "phase": "published",
+  "generation": 10,
+  "digest": "6f26be73785d92bcf33fcf2827f7856379a16d5c0a0bf66d962f91e889297f21",
+  "branch": "codex/264-podcast-directory-submission-gate-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-264-podcast-directory-submission-gate-exec",
+  "review_assignment": {
+    "reviewer": "fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9c944965116eccf989b50198f1f13b7daf2da9a4:4b31ea4b82de2e74deb1ec5f2b8ca78fc4238327dfe0e5f44814b7dc6828e650",
+    "scope": [
+      "docs/milestones/v0.92.1/review/podcast_submission_264",
+      ".csdlc/prepared/issues/264",
+      ".csdlc/evidence/264"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130",
+    "scope": [
+      "docs/milestones/v0.92.1/review/podcast_submission_264",
+      ".csdlc/prepared/issues/264",
+      ".csdlc/evidence/264"
+    ],
+    "reviewed_revision": "git-blake3:9c944965116eccf989b50198f1f13b7daf2da9a4:4b31ea4b82de2e74deb1ec5f2b8ca78fc4238327dfe0e5f44814b7dc6828e650",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #264 repository-side non-submission deliverables; no provider account access, directory submission, mailbox-code use, website destination-link activation, or public launch was authorized or performed.",
+      "Issue #51 remains open unless the operator explicitly accepts #264's blocked external-action disposition for parent routing."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 264,
+    "pull_request": 649,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/649",
+    "base": "main",
+    "head": "codex/264-podcast-directory-submission-gate-exec",
+    "revision": "git-blake3:99724e9fb9db72c32cf1b8e9dd7897460c1313bd:4c39661a9d638d857cb6f1bcc7664868cdec1044b1ca9a8f0ee997388c7b3a39",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/264/design.md",
+  "diagram_path": ".csdlc/prepared/issues/264/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:ec73fd86-0781-46c0-beb6-8edec77e630c",
+      "revision": "1dca3f7e0d976a470f5932e16c41c5848f8339b275c5fe44db2442e5dc688a64"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e9fff21cff9296903e0249100445a09260350c37922bb74a5bd09ff75baf907d",
+      "rendered_digest": "754fcf41f9e6ea1c54f03e9e078a8d80de26b018de956e34fb4780f2a3cf788d",
+      "ast_digest": "8971878c268bd1cac1541a26afa87522a4cae0b4b16a42406a63132c43b0bec3"
+    },
+    "stp": {
+      "values_digest": "93e496beb52289a471589aeabdad2eac6d35df581ffc7b4d2dd9385ee346284c",
+      "rendered_digest": "23f1f6deaa32203880369afb07c813e40d0b3b7dde6622ac9ed9f8c147defedd",
+      "ast_digest": "37b2e6b1244e1e4c267f3032d5283501c3af6f7dabd517e3ead64c071173755e"
+    },
+    "spp": {
+      "values_digest": "7261f63c7b53673ceebbca1b070c049306afb0d783f7423410777f7777e2123b",
+      "rendered_digest": "dae0b9b0b85204ca28524358ad7af55f991f0bc6443c4355b40553acff3e49ba",
+      "ast_digest": "243c3d6fee4cbc8e0510782b083dec4c72589771be9522eb9148bfe685909fce"
+    },
+    "vpp": {
+      "values_digest": "6d5f8994468770d980ec6ae0d10bc038475b5ed30515c0c9d119b50557381d16",
+      "rendered_digest": "b508958c9ce6009394735abab05618d03f8caf6667d24ef132ba1087b7bc7c18",
+      "ast_digest": "c79397aca18190196da7c84d62de09b295e8fbf16745c591b1475011c0f923f0"
+    },
+    "srp": {
+      "values_digest": "54b43a4861bf656f3f804b4b87af3aab48f9245d55d32906a84aa0c440d29e75",
+      "rendered_digest": "e71c043e4c562e143dc574c7dd820f955312b10b2b210b1bb42f9fd0d29fb68f",
+      "ast_digest": "aee5dc1610943c14db3533ad0a8f417e436ae4f05f0d9bd11c35c2f89c309fbc"
+    },
+    "sor": {
+      "values_digest": "9889205b244c025b111d3399f8eb179ae2e9a27c7b7128b2611674f5677fb350",
+      "rendered_digest": "a1a930ea1628cda28ad52415da2de2f9b392f5d2943612ebd934ac36949c2d2d",
+      "ast_digest": "c31a6cd8f468ab95e7284ca98ba8a6b92ca80373242efbd39e29009570b2a215"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #264 to ready after non-submission gate design approval and governed validation lanes."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #264 to implemented after non-submission deliverables and retained validation proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Use governed interpreter argv for all #264 issue-owned validation targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-264-focused\",\"proof_role\":\"Validate non-submission gate packet, initialized ledger, redaction boundary, provider census, and #51 parent handoff truth.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/264/validate-submission-gate.rb\"],\"parallel_group\":\"sprint8-issue-264\",\"defer_reason\":\"Run after the non-submission gate packet exists; any retained submission, secret-like material, or destination-link activation claim blocks publication.\"},{\"lane\":\"issue-264-terminal-dependencies\",\"proof_role\":\"Validate #261, #262, and #263 terminal caches before publication.\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/264/validate-terminal-dependencies.rb\"],\"parallel_group\":\"sprint8-issue-264\",\"defer_reason\":\"Run after bind and before publication; any noncanonical dependency blocks #264.\"},{\"lane\":\"issue-264-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"sprint8-hygiene\",\"defer_reason\":\"Run after the issue has a bounded candidate diff.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:ec73fd86-0781-46c0-beb6-8edec77e630c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1dca3f7e0d976a470f5932e16c41c5848f8339b275c5fe44db2442e5dc688a64\",\"design_ref\":\".csdlc/prepared/issues/264/design.md\",\"diagram_digest\":\"7cff9f020a0de84494367ffda2d2ac744d6c8fd94a45db18c676f37bc7c436be\",\"diagram_ref\":\".csdlc/prepared/issues/264/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Advance #264 to ready after non-submission gate design approval and governed validation lanes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Record #264 non-submission gate execution.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed #264 repo-side non-submission deliverables for The Cognitive Stack: future operator authorization template, initialized not-authorized submission ledger, monitoring/correction/rollback rules, parent #51 handoff, and validation that no provider submission, account mutation, destination-link activation, or public-launch claim occurred.\",\"changes\":[\"Added the #264 submission gate packet under docs/milestones/v0.92.1/review/podcast_submission_264.\",\"Initialized all four provider targets as not_authorized in a redaction-safe submission ledger.\",\"Added a future operator authorization template requiring per-provider approval before external action.\",\"Added monitoring, correction, rollback, and destination-link activation rules that fail closed until live provider evidence and operator authorization exist.\",\"Added parent #51 handoff truth that #264 non-submission materials are complete while provider submission/public-launch action remains blocked.\",\"Added focused validators for non-submission claims and terminal #261/#262/#263 dependency truth.\"],\"artifacts\":[\"docs/milestones/v0.92.1/review/podcast_submission_264/README.md\",\"docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md\",\"docs/milestones/v0.92.1/review/podcast_submission_264/submission-ledger.json\",\"docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md\",\"docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md\",\".csdlc/prepared/issues/264/bootstrap-request.json\",\".csdlc/prepared/issues/264/design.md\",\".csdlc/prepared/issues/264/diagram.mmd\",\".csdlc/prepared/issues/264/validate-submission-gate.rb\",\".csdlc/prepared/issues/264/validate-terminal-dependencies.rb\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record #264 focused non-submission gate validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/264/validate-submission-gate.rb\"],\"purpose\":\"Validate non-submission gate packet, initialized not-authorized ledger, redaction boundary, provider census, and #51 parent handoff truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/264/submission-gate-validation.json\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record #264 terminal dependency validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/264/validate-terminal-dependencies.rb\"],\"purpose\":\"Prove #261, #262, and #263 terminal caches are canonical before #264 publication.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/264/terminal-dependencies-validation.json\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #264 exact-range diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace errors and conflict-marker residue across the #264 reviewable diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/264/diff-check.log\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Advance #264 to implemented after non-submission deliverables and retained validation proof.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

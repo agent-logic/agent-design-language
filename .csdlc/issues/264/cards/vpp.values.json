@@ -1,0 +1,84 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 264,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast directory submission gate packet and blocked disposition",
+    "slug": "podcast-directory-submission-gate",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-264-focused",
+          "proof_role": "Validate non-submission gate packet, initialized ledger, redaction boundary, provider census, and #51 parent handoff truth.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/264/validate-submission-gate.rb"
+          ],
+          "parallel_group": "sprint8-issue-264",
+          "defer_reason": "Run after the non-submission gate packet exists; any retained submission, secret-like material, or destination-link activation claim blocks publication."
+        },
+        {
+          "lane": "issue-264-terminal-dependencies",
+          "proof_role": "Validate #261, #262, and #263 terminal caches before publication.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/264/validate-terminal-dependencies.rb"
+          ],
+          "parallel_group": "sprint8-issue-264",
+          "defer_reason": "Run after bind and before publication; any noncanonical dependency blocks #264."
+        },
+        {
+          "lane": "issue-264-diff-hygiene",
+          "proof_role": "Reject malformed tracked changes before exact-head review.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "sprint8-hygiene",
+          "defer_reason": "Run after the issue has a bounded candidate diff."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency drift, provider-action ambiguity, secret retention, unsupported public claim, destination-link overclaim, review drift, or parent-child truth mismatch.",
+      "design_ref": ".csdlc/prepared/issues/264/design.md",
+      "design_digest": "1dca3f7e0d976a470f5932e16c41c5848f8339b275c5fe44db2442e5dc688a64",
+      "diagram_ref": ".csdlc/prepared/issues/264/diagram.mmd",
+      "diagram_digest": "7cff9f020a0de84494367ffda2d2ac744d6c8fd94a45db18c676f37bc7c436be"
+    }
+  }
+}

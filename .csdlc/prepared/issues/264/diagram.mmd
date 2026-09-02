@@ -1,0 +1,7 @@
+flowchart LR
+  A["#261 identity terminal"] --> D["#264 non-submission gate packet"]
+  B["#262 hosting terminal"] --> D
+  C["#263 directory runbooks terminal"] --> D
+  D --> E["Future explicit operator authorization required"]
+  E -. only after authorization .-> F["Provider submission / monitoring / rollback"]
+  D --> G["#51 parent handoff: blocked, not launched"]
