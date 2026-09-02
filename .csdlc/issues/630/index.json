@@ -4,76 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "090a0236d5be109bb89e2550ea2db41c11a11ac9e20f297f21a32c5259ed061a",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "ae16977d5dcbb423fccd9e1af66e3553c5df9b6e062d6909c10b519592c7f243",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_630_final_safe",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:b0458eed46b3a09f87efcaeb8ae2391f25b2ec5f:7b3d628809a9ef85835ecff2fd405995fa5d3f51a7eae9246f0b8e4562a3f1f7",
-    "scope": [
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/630/create-request.json",
-      ".csdlc/prepared/issues/630/design.md",
-      ".csdlc/prepared/issues/630/diagram.mmd",
-      ".csdlc/prepared/issues/630/finalize-request.json",
-      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
-      ".csdlc/prepared/issues/630/recover-review-after-sealed-readback.json",
-      ".csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json",
-      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
-      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
-      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
-      ".csdlc/evidence/630/630-diff-hygiene.log",
-      ".csdlc/evidence/630/630-full-v3-regression.log",
-      ".csdlc/evidence/630/630-issue-validator.log",
-      ".csdlc/evidence/630/630-rustfmt.log",
-      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
-      ".csdlc/evidence/630/630-typed-issue-validation.log",
-      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_630_final_safe",
-    "scope": [
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/630/create-request.json",
-      ".csdlc/prepared/issues/630/design.md",
-      ".csdlc/prepared/issues/630/diagram.mmd",
-      ".csdlc/prepared/issues/630/finalize-request.json",
-      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
-      ".csdlc/prepared/issues/630/recover-review-after-sealed-readback.json",
-      ".csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json",
-      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
-      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
-      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
-      ".csdlc/evidence/630/630-diff-hygiene.log",
-      ".csdlc/evidence/630/630-full-v3-regression.log",
-      ".csdlc/evidence/630/630-issue-validator.log",
-      ".csdlc/evidence/630/630-rustfmt.log",
-      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
-      ".csdlc/evidence/630/630-typed-issue-validation.log",
-      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
-    ],
-    "reviewed_revision": "git-blake3:b0458eed46b3a09f87efcaeb8ae2391f25b2ec5f:7b3d628809a9ef85835ecff2fd405995fa5d3f51a7eae9246f0b8e4562a3f1f7",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains construction-only until explicit V3-F/#505 cutover; finish, clean, and cutover routes do not provide live operational authority."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -88,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eaf4b1a5d5b58a40de12e853d328e9fbead069653acf0a7237f47bcff40ddde8",
+      "values_digest": "243c06ffa750788ecb068e7f9ba925962e25f34a63ae8158bac277871204367a",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "91bb2d55bb806f0ceb2cb780302f72ee3e252b827e0df73117eff02c6f894580",
+      "values_digest": "2456a6d0a8005d848562711cc78f11f81c9a4fdce515f4b5f63aed9c9e762078",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "fce1f18602de4bf9afbf6cf00ad08e2b6dfa2ac282617ae73cb6ad60d62cb30a",
+      "values_digest": "ce59677863141d468e6a1d8dd3e02f3f671325b6b63844378ea4c571cc42a489",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "7b6bc8200b8b3b2c117496791dd32c3975263191063a37a2fe01018b4a736ca0",
+      "values_digest": "7cd21275aabe7619524a2bc258a55a1a2bf49768dc4ab38c092581b017f2bbea",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "699ec2304384cbdb42623112b1fc49e4200747dc49f284b8b249be319490b651",
-      "rendered_digest": "c411ba7689c0a1c8756d96c4d02f3ba259142c7b2daeefdf48ba44467c2b9744",
-      "ast_digest": "f5807169ca5d6ef42c4e520ebf0a694c72c6b1a66e2a4a9dc6d4d53b65e9cf25"
+      "values_digest": "fd705d3254c0c32132990fc0ce128a8eeba034d1586d5dea233b89ef223e57ed",
+      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
+      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
     },
     "sor": {
-      "values_digest": "74f48878c910a81da7cc772f95ef23e262712e8b4eb55f6bee8ab9bcb6596274",
+      "values_digest": "eb1a54c22e35a38c441561a870ee5d864a0880f58d557ff77e9acd924af87b13",
       "rendered_digest": "ee57911d5890498fa99996f24f0028189ea748fbd7ddf2b9f6298d5d15ed4468",
       "ast_digest": "a88e352e1de52995dc2437cc731c6ceee2a4d460c1d35866a7eb8d822e945f14"
     }
@@ -146,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:worker-6",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover reviewed state because tracked review request artifacts polluted the metadata-only publication range; subsequent review requests are kept under git common-dir request storage."
     }
   ],
   "audit": [
@@ -239,6 +183,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover reviewed state because tracked review request artifacts polluted the metadata-only publication range; subsequent review requests are kept under git common-dir request storage.",
+      "operation": "recover_review"
     }
   ]
 }

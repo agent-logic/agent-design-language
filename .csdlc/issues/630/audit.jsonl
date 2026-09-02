@@ -11,3 +11,4 @@
 {"sequence":11,"generation":6,"actor":"codex:worker-6","reason":"Recover stale exact-review assignment after final review found nonexistent children under symlinked parents could classify as absent and one retained proof log was stale.","operation":"recover_review"}
 {"sequence":12,"generation":6,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":7,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":14,"generation":8,"actor":"codex:worker-6","reason":"Recover reviewed state because tracked review request artifacts polluted the metadata-only publication range; subsequent review requests are kept under git common-dir request storage.","operation":"recover_review"}
