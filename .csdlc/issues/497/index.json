@@ -4,50 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "310bed020d2d7cf8562632c720514a23f6869faf35f91cfd2c76cb371c014b0a",
-  "phase": "published",
-  "generation": 8,
-  "digest": "8df0abb0693efae8c1aa97f95a7b6e8abb11b7ccc0c480eb895dce5e3b8e890b",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "20b665808b8d3f1576632e31487d301596471a6fc991abafc67be32cc47ccd8d",
   "branch": "codex/497-corp-c-sprint4-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
-  "review_assignment": {
-    "reviewer": "fresh-session:review-497-corp-c-final",
-    "assigned_by": "worker-7",
-    "revision": "git-blake3:631724dbd58a7567bfdcb9bdf9500d8ac645f889:0ee7f9593c1d904c61e4eefcb57aee017f21ac36ba2a1f5b52a7d7ae387b0e1a",
-    "scope": [
-      ".csdlc/evidence/497",
-      ".csdlc/prepared/issues/497",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-c",
-      "docs/operations/corporate/control-transfer"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:review-497-corp-c-final",
-    "scope": [
-      ".csdlc/evidence/497",
-      ".csdlc/prepared/issues/497",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-c",
-      "docs/operations/corporate/control-transfer"
-    ],
-    "reviewed_revision": "git-blake3:631724dbd58a7567bfdcb9bdf9500d8ac645f889:0ee7f9593c1d904c61e4eefcb57aee017f21ac36ba2a1f5b52a7d7ae387b0e1a",
-    "findings": [],
-    "residual_risks": [
-      "Live external corporate transfer actions remain intentionally deferred by #497 and must be handled under explicit operator authority in later work."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 497,
-    "pull_request": 613,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/613",
-    "base": "main",
-    "head": "codex/497-corp-c-sprint4-execution",
-    "revision": "git-blake3:c953ee7252b55b95172cfe8e5c47167862e1d4d3:9f646eb27feaebf2572831455139ac3a75776087891c157eb3973301f205b746",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ac590280f2ae350dddfb328403d6cb25ace69423ed54d18a1a6e3b80d66d7cf0",
+      "values_digest": "7ddd4efdaf6712a1e085842886c5f51af507eb0e2699e88c08a2dcd5cd1a288d",
       "rendered_digest": "827f7ced73029442d52b51476266da516a2d44b0a599aa255f430c2f6fc12f09",
       "ast_digest": "8c718c00b376ec069717bb11e1bd37e5e003c7cddbcc65236acf11871e235535"
     },
     "stp": {
-      "values_digest": "0ef4693c45ed90b107e641bfb76ee5648d031c9a4ad9d119c16dac7207d6604f",
+      "values_digest": "f7b5c28c432b00ef9914fe03d543d59829de38a3b52a3de530a357c482df4213",
       "rendered_digest": "c7adcc018351d8406f634e15ff8481a00d8f80d26d8edff6faa8c0d209485b04",
       "ast_digest": "401e84fd9cdce741773ed18077b057bc12dde07d92909b4bea9371743d6dc805"
     },
     "spp": {
-      "values_digest": "4a9ba51d42cbc15f44f2bb5686735e44e0b53edf70596cfc0902664d642e597b",
+      "values_digest": "91255fecb62339670bc1d87b087b7b1f1aae1e978e3365e58886e73ccc49e6c6",
       "rendered_digest": "ce108ef6737abe6ef127ececbf21f4775706788fa64e92aa9efc8297ec441008",
       "ast_digest": "c4bfbbc695fee4636c74151b76e06cf74f62d9596646d14ba4b225de9e4dae48"
     },
     "vpp": {
-      "values_digest": "6351a44d7700a433ad2524038ce12c4c65f422badc738a612f3b012e02f0bf9a",
+      "values_digest": "36bf923264e50b9d15e052146ac9de0eaae55ace65c8d216e04314d834f7002a",
       "rendered_digest": "7cdb84aaf6cfa37a96efffb576846fb56b5b9c61bc3d1ddfed6984d5d6f12522",
       "ast_digest": "840260204bab8f6551b69557ff06f0c8a159ee502aa2245228bedcfaec9a0b95"
     },
     "srp": {
-      "values_digest": "15abada19ff3875103ebe0b5419ffa7d5fa3b23796b21dd6e01528e3a0a54ee0",
-      "rendered_digest": "ef6a3e881075d3a7d7256240ae757f99c1c529ae5cd1bed03e4f064627ff2c32",
-      "ast_digest": "3819b1839b3445d6badf21c4edf515726cc6dbc046226866ee5a60b65eee6598"
+      "values_digest": "334894b7119a40fb47e690777451026117dd8c9a663bf8a0d15101080f91e4c6",
+      "rendered_digest": "fe1dbb37c3d4b688955c4cf158dcc77bdeea4d47a59a56565b9473dfc1dbcfd5",
+      "ast_digest": "19fa77c29e406baafaa4062ea5a124cfe4adcd8b5b3d7bf12d4b9c8d3504ccf6"
     },
     "sor": {
-      "values_digest": "fee91920e34dc148761ee3181bb72fc664150d561d9296e007e9c4c94f9b9d6c",
-      "rendered_digest": "d4706f51fa52f49ee513950289addb3b6079f6f303652ecf81d6a0a6b0b29977",
-      "ast_digest": "0f19214dc051b4534c66cc431f04730e8d38dfaacc4aafd1be2989d8174f2751"
+      "values_digest": "755c5a1ae149743849ff4fe7ece80ed1c779e40d383b6352b5a635b1011d803b",
+      "rendered_digest": "ede0d12798512ee7da8179fbd4182da1aa073f3faef9e036be09c6c49929f1ea",
+      "ast_digest": "3e890056999363488c1ae3e9ffbfd18af1131a08e27d0d693f444b74b222b505"
     }
   },
   "transitions": [
@@ -126,6 +90,13 @@
       "to": "published",
       "actor": "worker-7",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "worker-7",
+      "reason": "Recover #497 after substantive review findings showed the published packet weakened the live issue acceptance denominator and lacked retained AWS business-account readback evidence."
     }
   ],
   "audit": [
@@ -205,6 +176,13 @@
       "actor": "worker-7",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "worker-7",
+      "reason": "Recover #497 after substantive review findings showed the published packet weakened the live issue acceptance denominator and lacked retained AWS business-account readback evidence.",
+      "operation": "recover_review"
     }
   ]
 }

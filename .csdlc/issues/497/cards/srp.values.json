@@ -7,15 +7,15 @@
     "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
     "slug": "v0-92-1-corp-c-corporate-operational-control-transfer",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/497\n.csdlc/prepared/issues/497\ndocs/milestones/v0.92.1/evidence/corporate/corp-c\ndocs/operations/corporate/control-transfer",
-      "review_revision": "git-blake3:631724dbd58a7567bfdcb9bdf9500d8ac645f889:0ee7f9593c1d904c61e4eefcb57aee017f21ac36ba2a1f5b52a7d7ae387b0e1a",
-      "reviewer": "fresh-session:review-497-corp-c-final",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the packet distinguish completed, deferred, blocked, and authorized actions?",
         "Are all external-provider and credential boundaries truthful and non-leaking?",
@@ -23,10 +23,8 @@
         "Do validation claims match the actual commands and evidence produced?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live external corporate transfer actions remain intentionally deferred by #497 and must be handled under explicit operator authority in later work."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -9,3 +9,4 @@
 {"sequence":9,"generation":6,"actor":"worker-7","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":7,"actor":"worker-7","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":11,"generation":8,"actor":"worker-7","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":12,"generation":9,"actor":"worker-7","reason":"Recover #497 after substantive review findings showed the published packet weakened the live issue acceptance denominator and lacked retained AWS business-account readback evidence.","operation":"recover_review"}
