@@ -7,3 +7,4 @@
 {"sequence":7,"generation":5,"actor":"codex:root/podcast-262","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":8,"generation":5,"actor":"codex:root/podcast-262","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"fresh-session:ec6fb5a9-f376-4e33-97c7-8ad14b12cd20","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":7,"actor":"codex:root/podcast-262","reason":"Recover after assigned #262 review found stale public transcript show name, stale MP3 ID3 metadata, and stale mailbox readiness text; prepare a remediated exact-head candidate.","operation":"recover_review"}
