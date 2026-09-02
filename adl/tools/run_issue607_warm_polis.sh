@@ -65,7 +65,6 @@ AUTH_ACTION=""
 PREP_RESOURCE_LEDGER=""
 CLEANUP_STORAGE_ON_FAILURE=false
 PRESERVE_PREPARATION_ON_EXIT=false
-PRESERVE_COMPUTE_ON_EXIT=false
 COST_LEDGER_LOCK=""
 
 usage() {
@@ -556,10 +555,6 @@ cleanup_on_exit() {
   if [[ -n "$COST_LEDGER_LOCK" ]]; then rmdir "$COST_LEDGER_LOCK" 2>/dev/null || cleanup_rc=1; COST_LEDGER_LOCK=""; fi
   if [[ "$PRESERVE_PREPARATION_ON_EXIT" == true ]]; then
     echo "preparation progress retained for resume-preparation" >&2
-    exit "$rc"
-  fi
-  if [[ "$PRESERVE_COMPUTE_ON_EXIT" == true && "$CLEANUP_KIND" == compute ]]; then
-    echo "compute retained for live qualification diagnosis" >&2
     exit "$rc"
   fi
   if [[ -n "$RESTORE_TEST_VOLUME_ID" ]]; then
@@ -1402,7 +1397,6 @@ launch() {
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" output -state="$run_dir/compute.tfstate" -json >"$run_dir/compute-outputs.json"
   runtime_instance="$(jq -r .runtime_instance_id.value "$run_dir/compute-outputs.json")"
   gpu_instance="$(jq -r .gpu_instance_id.value "$run_dir/compute-outputs.json")"
-  PRESERVE_COMPUTE_ON_EXIT=true
   wait_object "$gpu_key" "$run_dir/gpu-ready.json"
   wait_object "$runtime_key" "$run_dir/runtime-local-ready.json"
   elapsed=$((SECONDS-apply_start))
@@ -1422,7 +1416,6 @@ launch() {
     || { echo "failed to read compute Terraform state after destroy" >&2; exit 1; }
   [[ -z "$managed" ]] || { echo "compute Terraform state retains managed resources: $managed" >&2; exit 1; }
   CLEANUP_COMPLETE=true
-  PRESERVE_COMPUTE_ON_EXIT=false
   verify_no_disposable_residue "$owner" "$run_dir/compute-zero-residue.json"
   for volume in "$runtime_volume" "$gpu_volume"; do aws_cli ec2 describe-volumes --volume-ids "$volume" --query 'Volumes[0].State' --output text | grep -qx available; done
   action_elapsed=$((SECONDS-apply_start))
