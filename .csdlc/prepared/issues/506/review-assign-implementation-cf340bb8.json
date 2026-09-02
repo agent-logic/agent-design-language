@@ -1,7 +1,7 @@
 {
   "issue": 506,
   "expected_generation": 12,
-  "expected_digest": "ede128dc71255c0876fcf0d0b6224e946696bd07f64768c097616ffbdf84f611",
+  "expected_digest": "b6c6aa6b7946966dd6072bac646bcb3aba2c217a8e07eaa66fe8a6df36ca211e",
   "reviewer": "fresh-session:cf340bb8-f76b-4401-97bf-4e85b570f3a8",
   "assigned_by": "codex:/root",
   "scope": [

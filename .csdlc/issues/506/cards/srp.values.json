@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-A] Distributed qualification contract",
     "slug": "v0-92-1-drt-a-distributed-qualification-contract",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 15
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/506/design.md\n.csdlc/prepared/issues/506/diagram.mmd\nadl-runtime/src/qualification/mod.rs\nadl-runtime/tests/distributed_contract/main.rs\nadl-runtime/tests/distributed_contract/validate_drt_a.sh\ndocs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

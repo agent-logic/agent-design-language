@@ -78,6 +78,38 @@ pub struct QualificationReceipt {
     pub acip_vector_count: usize,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ReceiptDecision {
+    Accepted,
+    Denied,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ExactQualificationReceipt {
+    pub schema: String,
+    pub lane: String,
+    pub scenario: String,
+    pub contract_digest: String,
+    pub authority_digest: String,
+    pub decision: ReceiptDecision,
+    pub cleanup: String,
+    pub mutation: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct AcipVectorProbe {
+    pub id: String,
+    pub mutation: String,
+    pub authority_digest: String,
+    pub credential: String,
+    pub signed: bool,
+    pub domain: String,
+    pub polis_id: String,
+    pub monotonic_sequence: u64,
+    pub payload_well_formed: bool,
+}
+
 impl DistributedQualificationContract {
     pub fn deterministic_drt_a() -> Self {
         let participants = vec![
@@ -389,6 +421,135 @@ impl DistributedQualificationContract {
 
     pub fn vector_by_id(&self, id: &str) -> Option<&AcipVector> {
         self.acip_vectors.iter().find(|vector| vector.id == id)
+    }
+
+    pub fn scenario_receipt(
+        &self,
+        lane: &str,
+        scenario_id: &str,
+        authority_digest: &str,
+        decision: ReceiptDecision,
+    ) -> Result<ExactQualificationReceipt, String> {
+        self.validate_topology()?;
+        self.validate_scenarios()?;
+        self.validate_acip_vectors()?;
+        let scenario = self
+            .scenarios
+            .iter()
+            .find(|scenario| scenario.id == scenario_id)
+            .ok_or_else(|| format!("unknown DRT-A scenario {scenario_id}"))?;
+        let baseline = self.baseline_authority_digest()?;
+        if authority_digest != baseline {
+            return Err(format!(
+                "scenario {scenario_id} authority digest changed from qualified baseline"
+            ));
+        }
+        Ok(ExactQualificationReceipt {
+            schema: DRT_A_RECEIPT_SCHEMA.to_string(),
+            lane: lane.to_string(),
+            scenario: scenario.id.clone(),
+            contract_digest: self.digest(),
+            authority_digest: authority_digest.to_string(),
+            decision,
+            cleanup: scenario.cleanup.clone(),
+            mutation: "none".to_string(),
+        })
+    }
+
+    pub fn acip_probe_for(&self, id: &str) -> Result<AcipVectorProbe, String> {
+        let vector = self
+            .vector_by_id(id)
+            .ok_or_else(|| format!("unknown ACIP vector {id}"))?;
+        let mut probe = AcipVectorProbe {
+            id: vector.id.clone(),
+            mutation: vector.mutation.clone(),
+            authority_digest: vector.authority_digest.clone(),
+            credential: "credential:adl:runtime:agent-alpha:v1".to_string(),
+            signed: true,
+            domain: "runtime-api-authenticated".to_string(),
+            polis_id: "polis-drt-a".to_string(),
+            monotonic_sequence: 42,
+            payload_well_formed: true,
+        };
+        match id {
+            "positive-roundtrip" | "byte-stable-reencode" => {}
+            "duplicate" => probe.monotonic_sequence = 42,
+            "reordered" => probe.monotonic_sequence = 41,
+            "stale" => probe.monotonic_sequence = 0,
+            "malformed" => probe.payload_well_formed = false,
+            "unsigned" => probe.signed = false,
+            "wrong-domain" => probe.domain = "browser-only".to_string(),
+            "cross-polis" => probe.polis_id = "polis-other".to_string(),
+            "authority-mutation" => {
+                probe.authority_digest =
+                    authority_digest("runtime-api-authenticated", "agent-beta", 42)
+            }
+            "credential-binding" => {
+                probe.credential = "credential:adl:runtime:agent-beta:v1".to_string()
+            }
+            other => return Err(format!("unknown ACIP vector {other}")),
+        }
+        Ok(probe)
+    }
+
+    pub fn evaluate_acip_probe(
+        &self,
+        probe: &AcipVectorProbe,
+    ) -> Result<ExactQualificationReceipt, String> {
+        self.validate_topology()?;
+        self.validate_scenarios()?;
+        self.validate_acip_vectors()?;
+        let vector = self
+            .vector_by_id(&probe.id)
+            .ok_or_else(|| format!("unknown ACIP vector {}", probe.id))?;
+        if vector.mutation != probe.mutation {
+            return Err(format!(
+                "{} probe mutation does not match denominator",
+                probe.id
+            ));
+        }
+        let baseline = self.baseline_authority_digest()?;
+        let decision = if probe.authority_digest == baseline
+            && probe.credential == "credential:adl:runtime:agent-alpha:v1"
+            && probe.signed
+            && probe.domain == "runtime-api-authenticated"
+            && probe.polis_id == "polis-drt-a"
+            && probe.monotonic_sequence == 42
+            && probe.payload_well_formed
+            && vector.expected == VectorOutcome::Accepted
+        {
+            ReceiptDecision::Accepted
+        } else {
+            ReceiptDecision::Denied
+        };
+        let expected = match vector.expected {
+            VectorOutcome::Accepted => ReceiptDecision::Accepted,
+            VectorOutcome::Denied => ReceiptDecision::Denied,
+        };
+        if decision != expected {
+            return Err(format!(
+                "{} expected {expected:?} but evaluated {decision:?}",
+                probe.id
+            ));
+        }
+        Ok(ExactQualificationReceipt {
+            schema: DRT_A_RECEIPT_SCHEMA.to_string(),
+            lane: "acip-vector".to_string(),
+            scenario: probe.id.clone(),
+            contract_digest: self.digest(),
+            authority_digest: baseline.to_string(),
+            decision,
+            cleanup: format!("remove {} fixture state", probe.id),
+            mutation: probe.mutation.clone(),
+        })
+    }
+
+    fn baseline_authority_digest(&self) -> Result<&str, String> {
+        self.acip_vectors
+            .iter()
+            .find(|vector| vector.expected == VectorOutcome::Accepted)
+            .map(|vector| vector.authority_digest.as_str())
+            .ok_or_else(|| "missing accepted ACIP baseline".to_string())
     }
 }
 

@@ -12,10 +12,11 @@ Status: pre_phase
 
 ## Summary
 
-Implemented DRT-A distributed qualification contract surfaces for deterministic topology requirements, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.
+Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.
 
 ## Artifacts
 
+- adl-runtime/src/lib.rs
 - adl-runtime/src/qualification/mod.rs
 - adl-runtime/tests/distributed_contract/main.rs
 - adl-runtime/tests/distributed_contract/validate_drt_a.sh
@@ -23,21 +24,33 @@ Implemented DRT-A distributed qualification contract surfaces for deterministic 
 
 ## Execution
 
-- Added adl-runtime qualification contract types and deterministic validation helpers for DRT-A.
-- Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, replay receipt stability, and fail-closed invalid vectors.
-- Added the DRT-A qualification contract evidence packet under the v0.92.1 runtime evidence tree.
-- Added the issue-owned validation script for the four DRT-A proof lanes.
+- Added and exported adl_runtime::qualification for downstream DRT consumers.
+- Added deterministic DRT-A contract types, exact qualification receipt types, per-scenario receipt construction, and per-vector ACIP probe evaluation.
+- Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, exact replay/duplicate receipts, and fail-closed invalid vector behavior.
+- Expanded retained evidence with scenario and ACIP denominators, receipt schema, digest source, and validation output.
+- Preserved #507/#508/#509 and live cloud/provider execution as non-goals.
 
 ## Validation
 
 [
   {
     "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Format the touched adl-runtime Rust sources and tests.",
+    "outcome": "passed",
+    "evidence_ref": "local command completed with exit 0 in /Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3"
+  },
+  {
+    "command": [
       "bash",
       "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
       "qualification-contract"
     ],
-    "purpose": "Prove deterministic DRT-A requirement mapping and topology qualification.",
+    "purpose": "Prove deterministic DRT-A requirement mapping and exact scenario receipt construction.",
     "outcome": "passed",
     "evidence_ref": "qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out"
   },
@@ -57,7 +70,7 @@ Implemented DRT-A distributed qualification contract surfaces for deterministic 
       "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
       "replay-conformance"
     ],
-    "purpose": "Prove replay receipt stability and duplicate/reordered delivery classification.",
+    "purpose": "Prove replay projection and exact duplicate-denial receipt behavior.",
     "outcome": "passed",
     "evidence_ref": "replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out"
   },
@@ -67,7 +80,7 @@ Implemented DRT-A distributed qualification contract surfaces for deterministic 
       "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
       "negative-matrix"
     ],
-    "purpose": "Prove fail-closed stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation cases.",
+    "purpose": "Prove fail-closed evaluation of stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, authority-mutation, and credential-binding probes.",
     "outcome": "passed",
     "evidence_ref": "negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out"
   },
@@ -78,7 +91,7 @@ Implemented DRT-A distributed qualification contract surfaces for deterministic 
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Verify exact-range diff hygiene before implementation review.",
+    "purpose": "Verify exact-range diff hygiene before replacement implementation review.",
     "outcome": "passed",
     "evidence_ref": "local command produced no output and exited 0"
   }
@@ -86,7 +99,7 @@ Implemented DRT-A distributed qualification contract surfaces for deterministic 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

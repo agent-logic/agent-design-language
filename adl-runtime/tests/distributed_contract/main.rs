@@ -1,11 +1,10 @@
-#[path = "../../src/qualification/mod.rs"]
-mod qualification;
-
 use adl_runtime::acip::{
     decode_protobuf_envelope, deterministic_json_to_protobuf, encode_semantic_envelope,
     protobuf_to_deterministic_json, websocket_frame_status, AcipEnvelopeInput,
 };
-use qualification::{DistributedQualificationContract, VectorOutcome};
+use adl_runtime::qualification::{
+    DistributedQualificationContract, ReceiptDecision, VectorOutcome,
+};
 use serde_json::{json, Value};
 
 fn contract() -> DistributedQualificationContract {
@@ -24,6 +23,24 @@ fn qualification_contract() {
     assert_eq!(receipt.requirement_count, 2);
     assert_eq!(receipt.participant_count, 8);
     assert_eq!(receipt.scenario_count, 11);
+    let baseline = contract
+        .vector_by_id("positive-roundtrip")
+        .expect("positive vector")
+        .authority_digest
+        .clone();
+    let exact = contract
+        .scenario_receipt(
+            "qualification-contract",
+            "duplicate-denial",
+            &baseline,
+            ReceiptDecision::Denied,
+        )
+        .expect("exact scenario receipt");
+    assert_eq!(exact.schema, "adl.runtime.qualification.drt_a_receipt.v1");
+    assert_eq!(exact.scenario, "duplicate-denial");
+    assert_eq!(exact.authority_digest, baseline);
+    assert_eq!(exact.decision, ReceiptDecision::Denied);
+    assert!(exact.cleanup.contains("duplicate-denial"));
 }
 
 #[test]
@@ -57,9 +74,15 @@ fn replay_conformance() {
     let parsed: Value = serde_json::from_str(&projected).expect("projection json");
     assert_eq!(parsed["monotonic_sequence"], "42");
     let duplicate = contract
-        .vector_by_id("duplicate")
-        .expect("duplicate vector");
-    assert_eq!(duplicate.expected, VectorOutcome::Denied);
+        .evaluate_acip_probe(
+            &contract
+                .acip_probe_for("duplicate")
+                .expect("duplicate probe"),
+        )
+        .expect("duplicate-denial receipt");
+    assert_eq!(duplicate.decision, ReceiptDecision::Denied);
+    assert_eq!(duplicate.scenario, "duplicate");
+    assert_eq!(duplicate.mutation, "message-id-repeat");
     assert_eq!(
         duplicate.authority_digest,
         contract
@@ -86,6 +109,13 @@ fn negative_matrix() {
     ] {
         let vector = contract.vector_by_id(id).expect("negative vector");
         assert_eq!(vector.expected, VectorOutcome::Denied, "{id} must deny");
+        let probe = contract.acip_probe_for(id).expect("negative probe");
+        let receipt = contract
+            .evaluate_acip_probe(&probe)
+            .expect("negative receipt");
+        assert_eq!(receipt.decision, ReceiptDecision::Denied, "{id} must deny");
+        assert_eq!(receipt.scenario, id);
+        assert_eq!(receipt.mutation, vector.mutation);
     }
 
     assert_eq!(

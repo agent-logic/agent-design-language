@@ -8,16 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/506/design.md
-.csdlc/prepared/issues/506/diagram.mmd
-adl-runtime/src/qualification/mod.rs
-adl-runtime/tests/distributed_contract/main.rs
-adl-runtime/tests/distributed_contract/validate_drt_a.sh
-docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json
+
 
 ## Prompts
 
