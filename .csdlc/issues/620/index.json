@@ -1,0 +1,330 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 620,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "27daaf822151ec5c7c21a683ef36b956dfbdea03f327bda3d70143df0eafaae5",
+  "phase": "published",
+  "generation": 9,
+  "digest": "5eb1dd686a84a68be14af5f69e54133508f33ae02f6a664acba37fabc034ef96",
+  "branch": "codex/620-v0922-first-pass-planning",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
+  "review_assignment": {
+    "reviewer": "fresh-session:620-evidence-1e1ea63a9",
+    "assigned_by": "codex:620-pr-janitor",
+    "revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "scope": [
+      "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/design.md",
+      ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+      ".csdlc/evidence/620/**"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:620-evidence-1e1ea63a9",
+    "scope": [
+      "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/design.md",
+      ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+      ".csdlc/evidence/620/**"
+    ],
+    "reviewed_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "findings": [
+      {
+        "id": "620-R1",
+        "severity": "p1",
+        "summary": "MLX admission lacked a recorded operator decision.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+        "route": null
+      },
+      {
+        "id": "620-R2",
+        "severity": "p1",
+        "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+        "route": null
+      },
+      {
+        "id": "620-R3",
+        "severity": "p1",
+        "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+        "route": null
+      },
+      {
+        "id": "620-R4",
+        "severity": "p2",
+        "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+        "route": null
+      },
+      {
+        "id": "620-R5",
+        "severity": "p1",
+        "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+        "route": null
+      },
+      {
+        "id": "620-PUB-R1",
+        "severity": "p1",
+        "summary": "Retained validation logs were empty while SOR claimed passing validators.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+        "route": null
+      },
+      {
+        "id": "620-PUB-R2",
+        "severity": "p1",
+        "summary": "Published review evidence was stale relative to the PR head without an exact-head guard.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Live PR checks and mergeability require verification after the existing PR branch is updated; no merge is authorized."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 620,
+    "pull_request": 633,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/633",
+    "base": "main",
+    "head": "codex/620-v0922-first-pass-planning",
+    "revision": "git-blake3:8ee262846c318fa4739462d3580d82ab2a82da1d:8ca91264c4892131788b9f735c1b4dd03d49f7065d9cfba8632bb1625384ff75",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/620/design.md",
+  "diagram_path": ".csdlc/prepared/issues/620/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:620-readiness-design-review",
+      "revision": "e84e2afd2d541ae719b55446dec8dedf1e211a03fa9dda36336480b0850d028c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "43db4b8191ce714cb357239b441ecf97d20ac46b1052a39b1a90d69dc34bc62f",
+      "rendered_digest": "ff6c09a07b5783513d3f6aa5e379b535fffbb29c0f0b18ad148f6f4866fcc8a3",
+      "ast_digest": "c19b45b77eea4cf049f1a7008cbb0c9a812b05c8b67b08aefc03a55703e1b6b6"
+    },
+    "stp": {
+      "values_digest": "d62c1e9a34e7a9016116dde23abf58b4a513acf612be0fe09890e25abf85e351",
+      "rendered_digest": "47ce6d4c296578e64a794b00ddf1df6670ef9d722cfd0c78e643e464502e6d6d",
+      "ast_digest": "e776234549aed48f895ce9ab02cb6b0ac1b0706af7339ac240c0228a5d7fb19b"
+    },
+    "spp": {
+      "values_digest": "5b698bf33d24e201aca9f5054906bdbb34d12906cd32099e995112ac54a903b8",
+      "rendered_digest": "83d1ed7b635567c1e5da20c16408cfa2735cf6812943daa8af163e13f92a9b9c",
+      "ast_digest": "72444acd007b81b32dcee29422aae02f89aac6cc23155f3b09b900842509d3e5"
+    },
+    "vpp": {
+      "values_digest": "9b58f50dbfc9a76ca2ada13c911f723ff5b2c8a6dc7aca3494cc687306b63578",
+      "rendered_digest": "a3c6a9eacf872eeacbe942d91c65ee40a50eb5baa3cf62a93cdbf773de707b76",
+      "ast_digest": "bf715ffcb46f3967e861dde61bdffb56cc7550ef009f0c3736e67744c176f24c"
+    },
+    "srp": {
+      "values_digest": "4b2933b792cdd73584b66265532a3f1a871c8014aea80f449fb604c5f4d59df9",
+      "rendered_digest": "4fc0975827af5d12feaf6bc5a099851cd469ba89bc556d5eb8946fe1d6c5bed4",
+      "ast_digest": "8da641e3a3ee2246c4ee6270c61ca6fc7198a6e02facbd04bc2e129170e505ad"
+    },
+    "sor": {
+      "values_digest": "673c40e328f39aef4633e96f9faccde52e6340f2cef0a0071b1a69ae8ba31814",
+      "rendered_digest": "5289b41db30a39bcc2a9308f38806b999b638d76c1516aa4569bd5900b6aa4c5",
+      "ast_digest": "fc1d731c7d7dd2c7c82a746080410107c501b756b1032bc5e652bdff0e7d9854"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:620-execution",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:620-execution",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:620-execution",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:620-pr-janitor",
+      "reason": "Recover published review truth after external review found empty retained PVF logs and no non-substantive guard at PR #633 head 8ef74d78f8797f6f815f65350db17b0fbe565086."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:620-pr-janitor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:620-pr-janitor",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:620-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:620-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:620-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:620-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:620-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:620-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "codex:620-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:620-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:620-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:620-pr-janitor",
+      "reason": "Recover published review truth after external review found empty retained PVF logs and no non-substantive guard at PR #633 head 8ef74d78f8797f6f815f65350db17b0fbe565086.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:620-pr-janitor",
+      "reason": "Replace stale zero-byte validation claims with rerun exact-head receipts retained at ae3232c6992fc21a4ab03f8b0736be9e96e62484.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Refreshed and reconciled the complete number-free v0.92.2 first-pass planning package; post-publication evidence repair reran all three focused validators at exact head ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"changes\":[\"Reconciled 30 bounded work packages and exact dependencies across human and machine planning surfaces.\",\"Audited and dispositioned the relevant ignored TBD corpus through a retained 45-path source manifest.\",\"Strengthened focused validation and retained non-empty exact-head validation receipts.\"],\"artifacts\":[\"docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md\",\"docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt\",\"docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml\",\".csdlc/evidence/620/tbd-scheduling-reconciliation.log\",\".csdlc/evidence/620/v0922-package-consistency.log\",\".csdlc/evidence/620/v0922-package-structure.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh\",\"scheduling\"],\"purpose\":\"Validate exact TBD source-manifest parity and scheduling dispositions at ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/620/tbd-scheduling-reconciliation.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh\",\"consistency\"],\"purpose\":\"Validate placeholders, portability, and exact-range diff hygiene at ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/620/v0922-package-consistency.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh\",\"structure\"],\"purpose\":\"Validate canonical planning surfaces, graph identity, ordering, and links at ae3232c6992fc21a4ab03f8b0736be9e96e62484.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/620/v0922-package-structure.log\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:620-pr-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:620-pr-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:620-pr-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

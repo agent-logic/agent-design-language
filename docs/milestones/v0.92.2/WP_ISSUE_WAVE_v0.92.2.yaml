@@ -78,9 +78,74 @@ work_packages:
     lane: integration
     title: Integrate and qualify the complete CodeFriend Beta 1 path
     issue: null
-    depends_on: [CF-SHELL, CF-ADAPTER, CF-EVIDENCE, CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX, CF-PROOF]
+    depends_on: [CF-SHELL, CF-ADAPTER, CF-EVIDENCE, CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX, CF-PROOF, PLAT-PROVIDER, PLAT-MLX, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, PLAT-MEMORY, SPEC-RETEST]
     deliverables: [integrated_beta, acceptance_packet, residual_risk_register]
     proof: [end_to_end_beta_run, failure_path_matrix, package_validator]
+  - id: PLAT-PROVIDER
+    lane: provider_platform
+    title: Config-driven provider definitions
+    issue: null
+    depends_on: [WP-01]
+    external_dependencies: [v0.92.1-issue-622]
+    deliverables: [provider_definition_schema, external_profile_files]
+    proof: [schema_negative_tests, profile_parity]
+  - id: PLAT-MLX
+    lane: provider_platform
+    title: Bounded MLX and Apple Metal provider adapter
+    issue: null
+    depends_on: [PLAT-PROVIDER]
+    deliverables: [mlx_metal_adapter]
+    proof: [mlx_metal_smoke, unsupported_platform_failure]
+  - id: PLAT-UTS
+    lane: uts_productization
+    title: UTS standardization and productization
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [canonical_uts_contract, supported_consumer_package, migration_notes]
+    proof: [schema_conformance, consumer_fixture, compatibility_check]
+  - id: PLAT-RUST
+    lane: rust_reduction
+    title: Milestone Rust reduction slice
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [bounded_refactor, before_after_measurement]
+    proof: [behavior_parity, focused_tests, size_or_complexity_reduction]
+  - id: OPS-AWS
+    lane: aws_inventory
+    title: Refresh AWS SCR, S3, and model inventory from the #484 ownership baseline
+    issue: null
+    depends_on: [WP-01]
+    external_dependencies: [completed-issue-484-baseline]
+    deliverables: [inventory_delta_from_484, staleness_register, maintenance_runbook]
+    proof: [readonly_readbacks, baseline_comparison, account_identity_check, redaction_check]
+  - id: PUB-MEDIUM
+    lane: publication_preparation
+    title: Prepare one v0.92.2 Medium article packet
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [medium_article_packet]
+    proof: [source_traceability, citation_check, nonpublication_check]
+  - id: PUB-CSDLC
+    lane: publication_preparation
+    title: Advance one C-SDLC paper packet
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [csdlc_paper_packet]
+    proof: [source_traceability, citation_check, nonsubmission_check]
+  - id: PLAT-MEMORY
+    lane: memory_palace
+    title: Bounded Memory Palace production integration
+    issue: null
+    depends_on: [CF-EVIDENCE, CF-MEMORY]
+    deliverables: [production_consumer, retrieval_contract, privacy_boundary]
+    proof: [production_path_test, deterministic_retrieval, redaction_negative_test]
+  - id: SPEC-RETEST
+    lane: speculative_decoding
+    title: Speculative-decoding requalification
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [current_retest_packet, keep_repair_or_retire_decision]
+    proof: [reproducible_benchmark, correctness_check, fallback_check]
   - id: TAIL-01
     lane: release_tail
     title: Quality gate
@@ -88,7 +153,7 @@ work_packages:
     depends_on: [CF-INTEGRATE]
   - id: TAIL-02
     lane: release_tail
-    title: Docs and release-truth pass
+    title: Documentation review and external-review handoff
     issue: null
     depends_on: [TAIL-01]
   - id: TAIL-03
@@ -132,4 +197,4 @@ work_packages:
     issue: null
     depends_on: [TAIL-09]
 canonical_release_tail: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
-deferred_tracks: [jira, linear, slack, broad_workspace, autonomous_mutation, public_customer_scale, security_tournaments, ate, mlx_metal, oci_model_packaging, optional_openrewrite, runtime_v4]
+deferred_tracks: [jira, linear, slack, broad_workspace, autonomous_mutation, public_customer_scale, security_tournaments, ate, oci_model_packaging, optional_openrewrite, runtime_v4]

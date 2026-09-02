@@ -13,5 +13,6 @@ Status: planned.
 | Longitudinal memory | [LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md](LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md) | CF-MEMORY |
 | Publication | [GOVERNED_PUBLICATION_v0.92.2.md](GOVERNED_PUBLICATION_v0.92.2.md) | CF-UX |
 | Product qualification | [BETA1_QUALIFICATION_v0.92.2.md](BETA1_QUALIFICATION_v0.92.2.md) | CF-PROOF / CF-INTEGRATE |
+| Supporting platform and publication tracks | [SUPPORTING_PLATFORM_TRACKS_v0.92.2.md](SUPPORTING_PLATFORM_TRACKS_v0.92.2.md) | PLAT-PROVIDER / PLAT-MLX / PLAT-UTS / PLAT-RUST / OPS-AWS / PUB-MEDIUM / PUB-CSDLC / PLAT-MEMORY / SPEC-RETEST |
 
 These feature docs define intended product and proof surfaces; they do not claim implementation.
