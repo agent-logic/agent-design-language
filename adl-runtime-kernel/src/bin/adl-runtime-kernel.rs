@@ -19,18 +19,18 @@ use adl_runtime_kernel::{
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
     build_production_operation_executors_with_recorder, load_control_tls, load_identity,
     load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
-    serve_control_listener_until_ready, serve_private_continuity_listener,
-    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
-    verifying_key_from_hex, AdapterKind, AgentPopulationFeed, CatalogSigningAuthority,
-    CheckpointShutdownRequest, CheckpointingControl, ConfigApplier, ConfigParser,
-    ConfigReloadError, ConfigReloadOptions, ContinuityControlService, ControlApiPolicy,
-    ControlAuthority, ControlCapability, ControlService, DurableContinuityJournal, Kernel,
-    KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
-    ObservabilityHealth, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource,
-    RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
-    TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
-    TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
-    PRIVATE_ALPN,
+    preload_resident_shepherd_model, serve_control_listener_until_ready,
+    serve_private_continuity_listener, start_config_reload_with_applier_and_shutdown,
+    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
+    AgentPopulationFeed, CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
+    ConfigApplier, ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
+    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
+    DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot,
+    ObservabilityDegradation, ObservabilityHealth, OperationRequest, RecorderTrustedTime,
+    ResidentShepherdExecutor, RsntpTimeSampleSource, RunningState, RuntimeInitConfig,
+    RuntimeRecorder, SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds,
+    TimeSampleSource, TlsIdentityPaths, TrustedControlKey, TrustedTime,
+    AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -239,7 +239,7 @@ async fn main() -> ExitCode {
                 }
             };
             let continuity_reasoning = reasoning.clone();
-            let operation_executors = match build_production_operation_executors_with_recorder(
+            let mut operation_executors = match build_production_operation_executors_with_recorder(
                 operation_state_identity.clone(),
                 recorder.clone(),
             ) {
@@ -249,6 +249,18 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let native_shepherd_executor = operation_executors
+                .get(&AdapterKind::Shepherd)
+                .cloned()
+                .expect("production assembly contains native Shepherd admission");
+            operation_executors.insert(
+                AdapterKind::Shepherd,
+                Arc::new(ResidentShepherdExecutor::new(
+                    instance_id.clone(),
+                    init.resident_shepherd.primary().clone(),
+                    native_shepherd_executor,
+                )),
+            );
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
@@ -610,7 +622,7 @@ async fn main() -> ExitCode {
                 authority,
                 init.kernel.control_history_capacity,
                 init.observatory_allowed_origins(),
-                AgentPopulationFeed::resident_shepherd_from_config(&init.resident_shepherd),
+                AgentPopulationFeed::resident_shepherds_from_config(&init.resident_shepherd),
             )
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
@@ -687,6 +699,72 @@ async fn main() -> ExitCode {
                 init.kernel.weather_stale_after_millis,
             ));
             let api_shutdown = tokio_util::sync::CancellationToken::new();
+            for shepherd in init.resident_shepherd.iter().cloned() {
+                let health_service = Arc::clone(&service);
+                let shutdown = api_shutdown.child_token();
+                tokio::spawn(async move {
+                    let mut retry =
+                        std::time::Duration::from_millis(shepherd.preload.retry_initial_millis);
+                    let retry_max =
+                        std::time::Duration::from_millis(shepherd.preload.retry_max_millis);
+                    let mut was_ready = false;
+                    loop {
+                        if !was_ready {
+                            health_service.update_resident_shepherd_health(
+                                &shepherd.name,
+                                "model_loading",
+                                "Provider model preload in progress",
+                            );
+                        }
+                        let probe = preload_resident_shepherd_model(&shepherd, &shutdown);
+                        let result = tokio::time::timeout(
+                            std::time::Duration::from_millis(shepherd.preload.timeout_millis),
+                            probe,
+                        )
+                        .await;
+                        match result {
+                            Ok(Ok(())) => {
+                                health_service.update_resident_shepherd_health(
+                                    &shepherd.name,
+                                    "ready",
+                                    "Configured provider model is loaded and responsive",
+                                );
+                                was_ready = true;
+                                retry = std::time::Duration::from_millis(
+                                    shepherd.preload.retry_initial_millis,
+                                );
+                                tokio::select! {
+                                    _ = shutdown.cancelled() => break,
+                                    _ = tokio::time::sleep(retry_max) => continue,
+                                }
+                            }
+                            Ok(Err(reason)) => {
+                                eprintln!(
+                                    "resident Shepherd {} degraded; retrying provider preload: {}",
+                                    shepherd.name, reason
+                                );
+                            }
+                            Err(_) => {
+                                eprintln!(
+                                    "resident Shepherd {} preload exceeded its configured budget; retrying",
+                                    shepherd.name
+                                );
+                            }
+                        }
+                        health_service.update_resident_shepherd_health(
+                            &shepherd.name,
+                            "degraded",
+                            "Provider model unavailable; recovery retry scheduled",
+                        );
+                        was_ready = false;
+                        tokio::select! {
+                            _ = shutdown.cancelled() => break,
+                            _ = tokio::time::sleep(retry) => {}
+                        }
+                        retry = retry.saturating_mul(2).min(retry_max);
+                    }
+                });
+            }
             let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
                 RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
                     eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
@@ -795,12 +873,7 @@ async fn main() -> ExitCode {
                 .execute(&shepherd_admission)
                 .await
             {
-                eprintln!("runtime resident Shepherd admission failed: {error}");
-                let _ = handle.shutdown(kernel_shutdown_grace).await;
-                if let Some(observability) = observability.as_mut() {
-                    let _ = observability.shutdown().await;
-                }
-                return ExitCode::from(70);
+                eprintln!("runtime resident Shepherd admission degraded; Runtime remains available: {error}");
             }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
                 private_listener,

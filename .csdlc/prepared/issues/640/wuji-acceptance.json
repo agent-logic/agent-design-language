@@ -1,0 +1,22 @@
+{
+  "schema": "adl.issue_640.wuji_acceptance.v1",
+  "status": "pass",
+  "runtime": {
+    "service_manager": "launchd",
+    "service_loaded": true,
+    "listener_ready": true,
+    "observability_ready": true,
+    "restart_verified": true
+  },
+  "resident_shepherd": {
+    "id": "shepherd",
+    "name": "beacon.axioma",
+    "provider": "ollama",
+    "model": "qwen3:8b",
+    "state": "ready",
+    "communication_eligible": true,
+    "model_residency": "Forever"
+  },
+  "proof_command": "bash .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh --live-wuji",
+  "secrets_recorded": false
+}

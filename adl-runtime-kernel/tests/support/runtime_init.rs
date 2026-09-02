@@ -312,6 +312,9 @@ observatory_public_origin = "https://localhost:8765"
 name = "beacon.axioma"
 display_name = "Beacon"
 office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
 [observatory]
 allowed_origins = ["https://localhost:8765"]
 [observability_pipeline]

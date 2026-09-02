@@ -13,7 +13,7 @@ use super::csm_cmd::real_csm_standalone;
 use super::process_cmd::real_process;
 use adl::long_lived_agent::load_spec;
 use adl_runtime::runtime_api_auth::RuntimeApiCredentialStore;
-use adl_runtime_kernel::control::{is_canonical_agent_name, AGENT_ADMISSION_SCHEMA};
+use adl_runtime_kernel::{is_canonical_agent_name, AGENT_ADMISSION_SCHEMA};
 use adl_runtime_kernel::RuntimeInitConfig;
 
 static AGENT_ARTIFACT_TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);

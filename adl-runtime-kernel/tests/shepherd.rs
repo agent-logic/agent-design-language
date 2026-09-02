@@ -7,11 +7,13 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    AdapterKind, AdapterPolicy, AuthorityMode, ExecutionPermit, ExecutorError, LocalShepherdConfig,
-    LocalShepherdExecutor, OperationError, OperationExecutor, OperationRequest, OperationalAdapter,
-    ShepherdError, ShepherdExecutionClass, ShepherdFailureResponse, ShepherdModelIdentity,
-    ShepherdProvenance, ShepherdResponse, OPERATION_REQUEST_SCHEMA, SHEPHERD_FAILURE_SCHEMA,
-    SHEPHERD_REQUEST_SCHEMA, SHEPHERD_RESPONSE_SCHEMA, SHEPHERD_RUNNER_RESPONSE_SCHEMA,
+    build_production_operation_executors_with_recorder, AdapterKind, AdapterPolicy, AuthorityMode,
+    ExecutionPermit, ExecutorError, LocalShepherdConfig, LocalShepherdExecutor, OperationError,
+    OperationExecutor, OperationRequest, OperationalAdapter, ResidentShepherdExecutor,
+    ResidentShepherdInitConfig, ShepherdError, ShepherdExecutionClass, ShepherdFailureResponse,
+    ShepherdModelIdentity, ShepherdProvenance, ShepherdResponse, OPERATION_REQUEST_SCHEMA,
+    SHEPHERD_FAILURE_SCHEMA, SHEPHERD_REQUEST_SCHEMA, SHEPHERD_RESPONSE_SCHEMA,
+    SHEPHERD_RUNNER_RESPONSE_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 use serde_json::{json, Value};
@@ -866,4 +868,90 @@ async fn unavailable_and_excess_output_are_truthful() {
         .await
         .unwrap_err();
     assert_eq!(reason(&error), "shepherd_output_too_large");
+}
+
+#[tokio::test]
+async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let address = listener.local_addr().unwrap();
+    let server = tokio::spawn(async move {
+        let (mut stream, _) = listener.accept().await.unwrap();
+        let mut request = Vec::new();
+        loop {
+            let mut chunk = [0; 2048];
+            let read = stream.read(&mut chunk).await.unwrap();
+            assert!(read > 0);
+            request.extend_from_slice(&chunk[..read]);
+            let Some(header_end) = request.windows(4).position(|window| window == b"\r\n\r\n")
+            else {
+                continue;
+            };
+            let headers = String::from_utf8_lossy(&request[..header_end]);
+            let content_length = headers
+                .lines()
+                .find_map(|line| {
+                    line.to_ascii_lowercase()
+                        .strip_prefix("content-length: ")
+                        .and_then(|value| value.parse::<usize>().ok())
+                })
+                .unwrap();
+            if request.len() >= header_end + 4 + content_length {
+                break;
+            }
+        }
+        let request = String::from_utf8_lossy(&request);
+        assert!(request.contains("POST /api/generate"));
+        assert!(request.contains("qwen3:8b"));
+        assert!(request.contains("\"keep_alive\":-1"));
+        let body = br#"{"response":"provider-backed answer"}"#;
+        stream.write_all(format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+            body.len()
+        ).as_bytes()).await.unwrap();
+        stream.write_all(body).await.unwrap();
+    });
+    let temp = tempfile::tempdir().unwrap();
+    let native = build_production_operation_executors_with_recorder(
+        temp.path().to_path_buf(),
+        adl_runtime_kernel::RuntimeRecorder::new(16),
+    )
+    .unwrap()
+    .remove(&AdapterKind::Shepherd)
+    .unwrap();
+    let executor = ResidentShepherdExecutor::new(
+        "runtime-test",
+        ResidentShepherdInitConfig {
+            name: "beacon.axioma".to_owned(),
+            display_name: "Beacon".to_owned(),
+            office: "resident shepherd".to_owned(),
+            provider: "ollama".to_owned(),
+            model: "qwen3:8b".to_owned(),
+            endpoint: format!("http://{address}"),
+            preload: Default::default(),
+        },
+        native,
+    );
+    let request = OperationRequest {
+        schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+        request_id: "provider-request".to_owned(),
+        idempotency_key: "provider-request".to_owned(),
+        principal: "runtime".to_owned(),
+        payload: serde_json::to_vec(&json!({
+            "schema": SHEPHERD_REQUEST_SCHEMA,
+            "correlation_id": "provider-correlation",
+            "runtime_id": "runtime-test",
+            "prompt": "hello"
+        }))
+        .unwrap(),
+        permit: None,
+    };
+    let response: ShepherdResponse =
+        serde_json::from_slice(&executor.execute(&request).await.unwrap()).unwrap();
+    assert_eq!(
+        response.execution_class,
+        ShepherdExecutionClass::RealLocalModel
+    );
+    assert_eq!(response.response, "provider-backed answer");
+    server.await.unwrap();
 }

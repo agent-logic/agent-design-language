@@ -35,6 +35,15 @@ observatory_public_origin = "https://observatory.dev.agent-logic.ai"
 name = "beacon.axioma"
 display_name = "Beacon"
 office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
+
+[resident_shepherd.preload]
+enabled = true
+timeout_millis = 900000
+retry_initial_millis = 5000
+retry_max_millis = 60000
 
 [observatory]
 allowed_origins = [

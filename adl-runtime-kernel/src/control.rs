@@ -43,8 +43,8 @@ use crate::{
     },
     decode_acip_envelope, is_canonical_agent_name, AgentRosterEntry, AgentRosterQuery,
     CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError, KernelControl,
-    KernelExit, LiveContinuity, ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot,
-    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    KernelExit, LiveContinuity, ObservabilityHealth, ResidentShepherdInitConfig, RuntimeRecorder,
+    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -1872,8 +1872,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 continue;
             };
             sample.observed_at_unix_millis = observed_at_unix_millis;
-            sample.freshness_deadline_unix_millis = observed_at_unix_millis
-                .saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
+            sample.freshness_deadline_unix_millis =
+                observed_at_unix_millis.saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
             sample.state = if healthy { "ready" } else { "unavailable" }.to_owned();
             sample.health = if healthy { "healthy" } else { "unhealthy" }.to_owned();
             sample.availability = if healthy { "available" } else { "unavailable" }.to_owned();
@@ -2722,6 +2722,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 agent_id,
             )
             .map_err(|_| ControlError::InvalidBounds)
+    }
+
+    pub fn update_resident_shepherd_health(&self, name: &str, state: &str, detail: &str) {
+        self.agent_population
+            .write()
+            .expect("agent population state poisoned")
+            .update_resident_shepherd_health(name, state, detail);
     }
 
     pub async fn execute(
@@ -4594,6 +4601,8 @@ mod layer8_conversation_ingress_tests {
                 name: format!("{id}.runtime"),
                 label: label.to_owned(),
                 role: "conversation agent".to_owned(),
+                provider: None,
+                model: None,
                 state: "unknown".to_owned(),
                 detail: "Awaiting Runtime projection".to_owned(),
                 health: "unknown".to_owned(),
@@ -5582,6 +5591,40 @@ async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), Agen
     Ok(())
 }
 
+pub async fn preload_resident_shepherd_model(
+    config: &ResidentShepherdInitConfig,
+    cancellation: &CancellationToken,
+) -> Result<(), &'static str> {
+    let request = AgentAdmissionRequest {
+        schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+        id: "resident-shepherd-preload".to_owned(),
+        name: config.name.clone(),
+        display_name: config.display_name.clone(),
+        office: config.office.clone(),
+        role: String::new(),
+        provider: config.provider.clone(),
+        model: config.model.clone(),
+        endpoint: config.endpoint.clone(),
+    };
+    verify_ollama_model(&request)
+        .await
+        .map_err(|failure| match failure {
+            AgentAdmissionFailure::Invalid(reason)
+            | AgentAdmissionFailure::Conflict(reason)
+            | AgentAdmissionFailure::Unavailable(reason) => reason,
+        })?;
+    if config.preload.enabled {
+        invoke_ollama_model(
+            &config.endpoint,
+            &config.model,
+            "Reply with READY.",
+            cancellation,
+        )
+        .await?;
+    }
+    Ok(())
+}
+
 fn decode_http_chunked_body(encoded: &[u8]) -> Option<Vec<u8>> {
     let mut cursor = 0_usize;
     let mut decoded = Vec::new();
@@ -5649,6 +5692,7 @@ pub(crate) async fn invoke_ollama_model(
             "model": model,
             "prompt": prompt,
             "stream": false,
+            "keep_alive": -1,
         }))
         .map_err(|_| "agent_provider_request_invalid")?;
         let headers = format!(
@@ -5747,6 +5791,8 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
         } else {
             request.office.clone()
         },
+        provider: Some(request.provider.clone()),
+        model: Some(request.model.clone()),
         state: "ready".to_owned(),
         detail: format!("{} model {}", request.provider, request.model),
         health: "healthy".to_owned(),

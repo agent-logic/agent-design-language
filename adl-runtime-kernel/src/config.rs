@@ -369,7 +369,7 @@ pub struct RuntimeInitConfig {
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub polis: PolisInitConfig,
-    pub resident_shepherd: ResidentShepherdInitConfig,
+    pub resident_shepherd: ResidentShepherdSetInitConfig,
     pub kernel: RuntimeKernelInitConfig,
     #[serde(default)]
     pub continuity_control: Option<crate::ContinuityControlInitConfig>,
@@ -1119,6 +1119,90 @@ pub struct ResidentShepherdInitConfig {
     pub name: String,
     pub display_name: String,
     pub office: String,
+    pub provider: String,
+    pub model: String,
+    pub endpoint: String,
+    #[serde(default)]
+    pub preload: ResidentShepherdPreloadConfig,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ResidentShepherdSetInitConfig {
+    One(ResidentShepherdInitConfig),
+    Many(Vec<ResidentShepherdInitConfig>),
+}
+
+impl ResidentShepherdSetInitConfig {
+    pub fn iter(&self) -> std::slice::Iter<'_, ResidentShepherdInitConfig> {
+        match self {
+            Self::One(config) => std::slice::from_ref(config).iter(),
+            Self::Many(configs) => configs.iter(),
+        }
+    }
+
+    pub fn primary(&self) -> &ResidentShepherdInitConfig {
+        self.iter()
+            .next()
+            .expect("validated Shepherd set is non-empty")
+    }
+
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        let configs = self.iter().collect::<Vec<_>>();
+        if configs.is_empty() {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd must contain at least one configured Shepherd".to_owned(),
+            ));
+        }
+        let mut names = std::collections::BTreeSet::new();
+        for config in configs {
+            config.validate()?;
+            if !names.insert(config.name.as_str()) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "duplicate resident_shepherd.name: {}",
+                    config.name
+                )));
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentShepherdPreloadConfig {
+    #[serde(default = "default_true")]
+    pub enabled: bool,
+    #[serde(default = "default_shepherd_preload_timeout_millis")]
+    pub timeout_millis: u64,
+    #[serde(default = "default_shepherd_retry_initial_millis")]
+    pub retry_initial_millis: u64,
+    #[serde(default = "default_shepherd_retry_max_millis")]
+    pub retry_max_millis: u64,
+}
+
+impl Default for ResidentShepherdPreloadConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            timeout_millis: default_shepherd_preload_timeout_millis(),
+            retry_initial_millis: default_shepherd_retry_initial_millis(),
+            retry_max_millis: default_shepherd_retry_max_millis(),
+        }
+    }
+}
+
+const fn default_true() -> bool {
+    true
+}
+const fn default_shepherd_preload_timeout_millis() -> u64 {
+    15 * 60 * 1_000
+}
+const fn default_shepherd_retry_initial_millis() -> u64 {
+    5_000
+}
+const fn default_shepherd_retry_max_millis() -> u64 {
+    60_000
 }
 
 impl ResidentShepherdInitConfig {
@@ -1130,6 +1214,28 @@ impl ResidentShepherdInitConfig {
         }
         validate_non_empty_trimmed("resident_shepherd.display_name", &self.display_name)?;
         validate_non_empty_trimmed("resident_shepherd.office", &self.office)?;
+        validate_non_empty_trimmed("resident_shepherd.provider", &self.provider)?;
+        validate_non_empty_trimmed("resident_shepherd.model", &self.model)?;
+        validate_non_empty_trimmed("resident_shepherd.endpoint", &self.endpoint)?;
+        if self.provider != "ollama" {
+            return Err(RuntimeInitError::Policy(format!(
+                "unsupported resident_shepherd.provider: {}",
+                self.provider
+            )));
+        }
+        if !self.endpoint.starts_with("http://") {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd.endpoint must be a private HTTP provider endpoint".to_owned(),
+            ));
+        }
+        if self.preload.timeout_millis < 60_000
+            || self.preload.retry_initial_millis == 0
+            || self.preload.retry_max_millis < self.preload.retry_initial_millis
+        {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd preload and retry budgets are invalid".to_owned(),
+            ));
+        }
         Ok(())
     }
 }

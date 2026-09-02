@@ -235,6 +235,9 @@ observatory_public_origin = "https://observatory.example.test"
 name = "beacon.axioma"
 display_name = "Beacon"
 office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
 
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
@@ -1213,8 +1216,24 @@ fn canonical_name_is_required_for_resident_shepherd_configuration() {
     let root = tempfile::tempdir().unwrap();
     let valid = valid_runtime_init_toml(root.path());
     let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid).unwrap();
-    assert_eq!(parsed.resident_shepherd.name, "beacon.axioma");
+    assert_eq!(parsed.resident_shepherd.primary().name, "beacon.axioma");
 
     let invalid = valid.replace("name = \"beacon.axioma\"", "name = \"Beacon\"");
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
+}
+
+#[test]
+fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set() {
+    let root = tempfile::tempdir().unwrap();
+    let valid = valid_runtime_init_toml(root.path());
+    let unsupported = valid.replace("provider = \"ollama\"", "provider = \"placeholder\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&unsupported).is_err());
+
+    let duplicate = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"beacon.axioma\"\ndisplay_name = \"Duplicate\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"qwen3:8b\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&duplicate).is_err());
 }
