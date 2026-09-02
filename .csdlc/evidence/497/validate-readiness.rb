@@ -141,7 +141,7 @@ assert(acceptance_statuses["AC-4"] == "blocked", "AC-4 status must be blocked")
 markdown = read_text("docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md")
 [
   "CORP-C is blocked, not accepted.",
-  "This PR must not close #497 while they remain missing.",
+  "This PR must not be treated as terminal closeout for issue 497 while they remain",
   "No production/provider mutation",
   "This packet does not mean:",
   "#497 is ready to close",

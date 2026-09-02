@@ -19,7 +19,8 @@ This packet preserves that denominator and records the current truth: several
 required rows remain unproven or require explicit operator/provider authority.
 Those rows are not converted into optional follow-ups.
 
-This PR must not close #497 while they remain missing.
+This PR must not be treated as terminal closeout for issue 497 while they remain
+missing.
 
 ## Prerequisite Gate
 
