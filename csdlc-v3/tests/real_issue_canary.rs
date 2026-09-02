@@ -30,6 +30,26 @@ fn read_issue_index(root: &Path, issue: u64) -> serde_json::Value {
     serde_json::from_slice(&bytes).expect("real issue index is valid JSON")
 }
 
+fn read_card_values(root: &Path, issue: u64, card: &str) -> serde_json::Value {
+    let path = root.join(format!(".csdlc/issues/{issue}/cards/{card}.values.json"));
+    let bytes = fs::read(&path).expect("real card values exist");
+    serde_json::from_slice(&bytes).expect("real card values are valid JSON")
+}
+
+fn real_issue_title(root: &Path, issue: u64) -> String {
+    read_card_values(root, issue, "sip")["identity"]["title"]
+        .as_str()
+        .expect("real issue title is rendered in SIP values")
+        .to_owned()
+}
+
+fn lifecycle_state_from_real_phase(phase: &str) -> LifecycleState {
+    match phase {
+        "closed_out" => LifecycleState::ClosedOut,
+        other => panic!("real issue phase {other:?} is not supported by this canary"),
+    }
+}
+
 fn prompt_registry(root: &Path) -> PromptRegistry {
     let registry_bytes =
         fs::read(root.join("docs/templates/prompts/current.json")).expect("prompt registry");
@@ -64,7 +84,7 @@ fn real_issue_request(
     let index = read_issue_index(root, issue);
     LocalPreparationRequest {
         issue,
-        title: "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation".into(),
+        title: real_issue_title(root, issue),
         repository: index["repository"]
             .as_str()
             .expect("real issue repository")
@@ -189,10 +209,12 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
 }
 
 #[test]
-fn lifecycle_and_durable_storage_canary_uses_real_terminal_issue_4646_and_recovery_provenance() {
+fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4646() {
     let root = repo_root();
     let index = read_issue_index(&root, 4646);
-    assert_eq!(index["phase"], "closed_out");
+    let real_phase = index["phase"].as_str().expect("real issue phase");
+    assert_eq!(real_phase, "closed_out");
+    let real_terminal_state = lifecycle_state_from_real_phase(real_phase);
 
     let store_dir = root.join(format!(
         "csdlc-v3/target/real-issue-canary-4646-store-{}",
@@ -200,7 +222,7 @@ fn lifecycle_and_durable_storage_canary_uses_real_terminal_issue_4646_and_recove
     ));
     let _ = fs::remove_dir_all(&store_dir);
     let mut store =
-        DurableTransactionStore::create(&store_dir, StateRecord::new(LifecycleState::ClosedOut))
+        DurableTransactionStore::create(&store_dir, StateRecord::new(real_terminal_state))
             .expect("durable store creates under repo target");
     let committed = store.committed().clone();
     let transaction = store

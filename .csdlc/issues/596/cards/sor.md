@@ -27,7 +27,8 @@ Repaired the Sprint 5/6 cutover remediation branch so PR #615 visibly closes #59
 
 - Removed the net csdlc-v2 source/test implementation delta from the remediation branch; v2 remains live authority until #505 and is not patched by this v3 cutover-remediation PR.
 - Updated #596 SIP, STP, SPP, and VPP through typed C-SDLC edits so scope, outcome, deliverables, acceptance criteria, affected areas, invariants, stop conditions, and validation lanes match the v3-separate scope.
-- Strengthened the issue-owned validator to fail if the PR diff contains any csdlc-v2 source/test mutation, while retaining visible Closes #596 and non-closing Part-Of #505/#534 linkage checks.
+- Strengthened the issue-owned validator to fail if the PR diff contains any csdlc-v2 source/test mutation, and to consume a fresh typed PR #615 readback before accepting visible Closes #596 and non-closing issue 505/issue 534 references.
+- Narrowed the real-issue v3 canaries so #596 identity is read from the real issue cards and #4646 terminal state is derived from the observed real issue phase before exercising v3 durable-storage behavior.
 - Retained the v3 full replacement denominator and real-issue canary evidence as pre-cutover proof surfaces; v3 remains non-authoritative until #505 cutover.
 - Kept duplicate-publication, PR #612 supersession, and the SRP prompt-edit recovery-window limitation as captured defects for the replacement/cutover lane rather than repairing them by mutating v2 source.
 
@@ -39,9 +40,9 @@ Repaired the Sprint 5/6 cutover remediation branch so PR #615 visibly closes #59
       "bash",
       ".csdlc/prepared/issues/596/validate-remediation-regression.sh"
     ],
-    "purpose": "Prove #596 card presence, PR linkage, portable owner-lane sources, and no net csdlc-v2 diff.",
+    "purpose": "Prove #596 card presence, fresh typed PR #615 live readback linkage, portable owner-lane sources, and no net csdlc-v2 diff.",
     "outcome": "passed",
-    "evidence_ref": "local run after v2-source removal; exit 0"
+    "evidence_ref": "local run after live PR readback validator repair; exit 0; validator consumes fresh csdlc-github-pr state output"
   },
   {
     "command": [
@@ -53,7 +54,7 @@ Repaired the Sprint 5/6 cutover remediation branch so PR #615 visibly closes #59
       "--test",
       "real_issue_canary"
     ],
-    "purpose": "Exercise C-SDLC v3 against real issue records while preserving non-authoritative pre-cutover status.",
+    "purpose": "Exercise C-SDLC v3 against real issue records while preserving non-authoritative pre-cutover status and deriving identity/state from tracked issue data.",
     "outcome": "passed",
     "evidence_ref": "4 passed; 0 failed"
   },
