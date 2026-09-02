@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+adl/src/provider/mod.rs
+adl/tests/provider_shadow_isolation.rs
+adl/tests/provider_shadow_comparison.rs
+adl/tests/provider_shadow_fallback.rs
+docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json
+.csdlc/prepared/issues/515
 
 ## Prompts
 
