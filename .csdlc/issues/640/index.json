@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "f53b7e10666f4184c2bb784dd35479f3d8ad9f1aa197d5e42bb9f4232a1b0340",
+  "generation": 15,
+  "digest": "ba4d0125e3dd60eb74fdb2cd9080fc063989f4df009e702a46eb9c0991b17355",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c744b4f0edc82c05cba5b9a8ed550d711896fa6b1c8302b8b01364daaffa7cf7",
+      "values_digest": "33357d7f188906e82ef5e787373cf176e3af4d35dde8d7a3ec1da7fc7becb14c",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "cf194fcf7392449a046664b4ab6102dbe99420b1e36cb126fd441ae2d95104ae",
+      "values_digest": "3638f150a2618e6e27dd9250ea109abdac5bd473f54a8885d6c131f68c8295ee",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "c8470ae004cdaeb462e5fd080d57cff912b0b1404bd153eacb7d947f4ce5a1e5",
+      "values_digest": "1779cb5e0f782aaeb7bc4802bb059d04ca0ed157e21792937d0c4f8c195cdad9",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "09aa50ad21f4b62f03b0b6c8eea2fc78587447e7d5d743712187e69d3ab1a7ca",
+      "values_digest": "21be56fcb8e649434481e064f2f4ef93a0cb063cbdf71353b203c13cbad95455",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "9b470491f7ffd1a43d0d7cf55c0152bdc20e378431acbee6f074552014c26f2b",
+      "values_digest": "138c42e85ecd293662a8968cf5123308ac1cf7ec9174e4fc13bc050ebf223b93",
       "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
       "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
     },
     "sor": {
-      "values_digest": "def710be1d5fa4e119814f604049dbbdeec4779c9a89c5a7247b1a476e83ee44",
-      "rendered_digest": "c4c9903abea8bfd083ddc4f430e6c10fb3b7125b07103978b8d6c3d0dc08ce0e",
-      "ast_digest": "1b9e122a90c416b521a93b317a7c85ba0423e788d66ce20b900d1b016a7dcc41"
+      "values_digest": "c34a1c7b49f03d2fb12dae8495edcfcc1321a15ce29d7cc945b1359cd4df64de",
+      "rendered_digest": "e138e7d1466a10498cb8c23821db071d71cfdf6c302e39e94b5f6ed5fd2eb40c",
+      "ast_digest": "21fc437aa23b2207215da565e784fdae67aad89689c1ec4bdfdc609d586b7eef"
     }
   },
   "transitions": [
@@ -217,6 +217,13 @@
       "actor": "codex:/root",
       "reason": "Recover the failed exact-head review assignment so the provider binding findings can be fixed and submitted for a fresh independent review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record the final provider-binding remediation, presentation-safe continuity identity, and exact-commit Wuji restart proof before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a provider-backed resident Shepherd with fail-closed executable Ollama bindings, model preload recovery, shared-clock readiness, presentation-safe continuity identity, and exact-commit Wuji restart proof.\",\"changes\":[\"Reject resident Shepherd provider profiles without an executable adapter and reject malformed models, incomplete endpoints, and non-private Ollama endpoints during startup validation.\",\"Route governed Shepherd inference to the configured provider model and require successful preload and governed inference before advertising readiness.\",\"Use one trusted Runtime clock for Shepherd admission freshness and Observatory/readiness projection.\",\"Exclude only the resident Shepherd display label from continuity identity while retaining canonical name, provider, model, endpoint, and all stateful bindings.\",\"Set the production Shepherd canonical identity to beacon.axioma with the presentation label Beacon Axioma.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\"],\"purpose\":\"Prove all 27 Runtime configuration tests, including private provider binding and presentation-safe continuity identity.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:configuration:27-passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove the five nonzero provider execution, model-health, canonical identity, readiness, and roster behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-nextest:75e851f630dab23d413b8dfcfa75226347dd7c65:5-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the affected Runtime production and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:clippy:passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"purpose\":\"Prove the installed exact-commit kernel restarts under Guardian, restores the corrected continuity generation, preloads qwen3:8b, completes governed inference, and reports Beacon Axioma with consistent readiness/feed truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace and conflict markers.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:diff-check:passed\"}]}"
     }
   ]
 }

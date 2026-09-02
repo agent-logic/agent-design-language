@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented provider-backed resident Shepherds with executable-adapter validation, shared trusted-clock readiness, governed inference gating, automatic model preload recovery, and race-free Wuji restart acceptance.
+Implemented a provider-backed resident Shepherd with fail-closed executable Ollama bindings, model preload recovery, shared-clock readiness, presentation-safe continuity identity, and exact-commit Wuji restart proof.
 
 ## Artifacts
 
@@ -24,17 +24,19 @@ Implemented provider-backed resident Shepherds with executable-adapter validatio
 - adl-runtime-kernel/tests/agent_roster.rs
 - adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/shepherd.rs
+- adl-runtime-kernel/tests/support/runtime_init.rs
+- infra/runtime-v3/runtime-init.toml
 - .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh
 - .csdlc/evidence/640/model-backed-shepherd.log
 - .csdlc/evidence/640/wuji-shepherd-acceptance.log
 
 ## Execution
 
-- Reject resident Shepherd provider profiles at configuration validation when the current Runtime build has no executable adapter for the declared provider.
-- Route governed Shepherd requests to the configured resident identity and provider model.
-- Require a successful provider preload and governed inference probe before advertising the resident Shepherd as ready.
-- Compare Shepherd admission freshness with the same trusted Runtime clock that creates and refreshes admission evidence.
-- Wait until both public and private Runtime listeners are released before acceptance restarts the permanent launchd service.
+- Reject resident Shepherd provider profiles without an executable adapter and reject malformed models, incomplete endpoints, and non-private Ollama endpoints during startup validation.
+- Route governed Shepherd inference to the configured provider model and require successful preload and governed inference before advertising readiness.
+- Use one trusted Runtime clock for Shepherd admission freshness and Observatory/readiness projection.
+- Exclude only the resident Shepherd display label from continuity identity while retaining canonical name, provider, model, endpoint, and all stateful bindings.
+- Set the production Shepherd canonical identity to beacon.axioma with the presentation label Beacon Axioma.
 
 ## Validation
 
@@ -47,35 +49,20 @@ Implemented provider-backed resident Shepherds with executable-adapter validatio
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "configuration",
-      "resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set"
+      "configuration"
     ],
-    "purpose": "Prove a provider profile without a compiled execution adapter is rejected before Runtime startup.",
+    "purpose": "Prove all 27 Runtime configuration tests, including private provider binding and presentation-safe continuity identity.",
     "outcome": "passed",
-    "evidence_ref": "1 focused configuration test passed at source 7c639ebb3."
+    "evidence_ref": "local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:configuration:27-passed"
   },
   {
     "command": [
       "bash",
       ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"
     ],
-    "purpose": "Prove five nonzero focused configuration, multi-resident routing, canonical validation, model-health recovery, roster consistency, formatting, and diff-hygiene behaviors.",
+    "purpose": "Prove the five nonzero provider execution, model-health, canonical identity, readiness, and roster behaviors.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/640/model-backed-shepherd.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "shepherd_readiness_tests",
-      "--lib"
-    ],
-    "purpose": "Prove readiness uses the same trusted clock as admission and still fails closed after heartbeat loss.",
-    "outcome": "passed",
-    "evidence_ref": "2 focused readiness tests passed."
+    "evidence_ref": "local-nextest:75e851f630dab23d413b8dfcfa75226347dd7c65:5-passed"
   },
   {
     "command": [
@@ -86,13 +73,14 @@ Implemented provider-backed resident Shepherds with executable-adapter validatio
       "adl-runtime-kernel/Cargo.toml",
       "--lib",
       "--bins",
+      "--tests",
       "--",
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings on changed Runtime production targets.",
+    "purpose": "Reject warnings across the affected Runtime production and test targets.",
     "outcome": "passed",
-    "evidence_ref": "Strict Clippy exited zero after the provider-availability repair."
+    "evidence_ref": "local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:clippy:passed"
   },
   {
     "command": [
@@ -100,7 +88,7 @@ Implemented provider-backed resident Shepherds with executable-adapter validatio
       ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
       "--live-wuji"
     ],
-    "purpose": "Prove the committed Wuji candidate restarts cleanly, preloads qwen3:8b, passes governed inference, and reports consistent readiness/feed truth.",
+    "purpose": "Prove the installed exact-commit kernel restarts under Guardian, restores the corrected continuity generation, preloads qwen3:8b, completes governed inference, and reports Beacon Axioma with consistent readiness/feed truth.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/640/wuji-shepherd-acceptance.log"
   },
@@ -110,9 +98,9 @@ Implemented provider-backed resident Shepherds with executable-adapter validatio
       "diff",
       "--check"
     ],
-    "purpose": "Reject malformed whitespace in current issue changes.",
+    "purpose": "Reject malformed whitespace and conflict markers.",
     "outcome": "passed",
-    "evidence_ref": "No output at source 7c639ebb3."
+    "evidence_ref": "local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:diff-check:passed"
   }
 ]
 

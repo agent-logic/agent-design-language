@@ -1,38 +1,31 @@
 {
   "schema": "adl.issue_640.wuji_acceptance.v2",
   "status": "pass",
-  "candidate_revision": "843df6a967db3f91712be2280f4a602fd9b422b9",
+  "candidate_revision": "75e851f630dab23d413b8dfcfa75226347dd7c65",
   "host": "wuji.local",
   "command": [
     "bash",
     ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
     "--live-wuji"
   ],
-  "runtime_process_before": 96861,
-  "runtime_process_after": 766,
+  "installed_kernel_sha256": "d84b41cf3ee68ade9876c5e4db5c06d7ad0c8093eda6d666c5bfff8888a8d651",
+  "runtime_process_before": 71774,
+  "runtime_process_after": 76691,
   "restart_proved": true,
   "governed_inference_proved": true,
   "readiness_feed_consistent": true,
   "shepherd": {
-    "activity": null,
     "availability": "available",
-    "capabilities": [
-      "conversation"
-    ],
     "communication_eligible": true,
     "detail": "Configured provider model loaded; governed inference probe passed",
-    "freshness_deadline_unix_millis": 1788372466547,
     "health": "healthy",
     "id": "shepherd",
-    "label": "Beacon",
+    "label": "Beacon Axioma",
     "location": "local_runtime",
     "model": "qwen3:8b",
     "name": "beacon.axioma",
-    "observed_at_unix_millis": 1788372166547,
-    "provenance": "runtime_resident_shepherd",
     "provider": "ollama",
     "role": "resident shepherd",
-    "source_revision": "4",
     "state": "ready"
   }
 }
