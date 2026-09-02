@@ -72,11 +72,11 @@ Completed #264 repo-side non-submission deliverables for The Cognitive Stack: fu
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
