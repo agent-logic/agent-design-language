@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "published",
-  "generation": 19,
-  "digest": "b3c0900f58dfe802148201020b135283612f13062ea98240bcb2d42578149b12",
+  "generation": 20,
+  "digest": "ad3f7876307308d236fe4a5b3b0bcd3171081d79cc6eb201b0e45d30c5c9c5ea",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
@@ -62,8 +62,8 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/591",
     "base": "main",
     "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:716b9595f4ecc500747ba63f2434f37bbf765934:eecf1fee34be3376e0e78fe68bacba45feafb7dea2c59a03811e76167d3de06d",
-    "linkage_mode": "part_of",
+    "revision": "git-blake3:f5c440473f49e23a25d4264a750076679e04d4ea:c663542d768d8fe078ceb97d89228ac1e740875fe576034571b18edecac43373",
+    "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
   },
@@ -80,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "44fb02df5c19d5268bb0f6c12e4a9aaa1790144a579c16e32a27c143b7af0887",
+      "values_digest": "95865abef869e9c9e48d997f20e8d3f729fd24126fe35593a7fd9cf1fd1c55f4",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "cd9e9668b4261163d333ae4a989e3438a7dbd9297f6b8fe29b324d3d55230032",
+      "values_digest": "3b9f2377339697a916792014db8b5c37bf3793fe35e0bea7c745f173e167ade3",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "f6431eab184cf40d1c9e6ecc98af2d29a380a84a251afb3078a0e25e3bb3f599",
+      "values_digest": "77edf49ceaa0f0d2b29061f2e27af7c0c03df3237f5d4cae4ef66a6eebdd11ec",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "2578c6e5f7c4c4349b5f42040820f54f9fa47117004bee213e95c836a7e0b33e",
+      "values_digest": "b48bcb7df70e8348d3380ba4e4798a7e0531d1c7f03b3f8727f58ab2a5b2b4aa",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "82d0641d7eb7eea7bc457bfffe79bfa2198e8fe748db38be6d93dc7a04bfc6bd",
+      "values_digest": "147db96199699bace2edcb860130db02793eb01bc4bdb72d25ac64b363ea086e",
       "rendered_digest": "2c1173d7c50e12375e411351081ded4c7ae13e5f83fe76ce4369388c9b5fb647",
       "ast_digest": "3f94ec2dbc8f93dee6e78635025d3f625810627994a16179a203c3ffdc22274b"
     },
     "sor": {
-      "values_digest": "a19397ca86b19f90a79bb22cb83254b3a04f6182f247974e7c928c6155fec014",
+      "values_digest": "35faa07d51b6f244a5129bcb8693e76574e09ff7b4c9a20c3947cecff0879bae",
       "rendered_digest": "9d2a5e4d32d7672eab991171fef2ee40315227f939425e9c9d042c66d3dc155d",
       "ast_digest": "e7552027aa508e4ea41e8e0618e97d5389c50db453cdf8221792607cd29baf39"
     }
@@ -397,6 +397,13 @@
       "sequence": 26,
       "generation": 19,
       "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
     }
