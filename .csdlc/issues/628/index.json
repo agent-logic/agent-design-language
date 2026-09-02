@@ -6,10 +6,24 @@
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
   "phase": "implemented",
   "generation": 10,
-  "digest": "cac10bba8b7841a6281ee45987b5a345ee09f040d2c3ea3c12ff41d9bdcb933d",
+  "digest": "b0814a50a27cec8753a9793652a15040a31400e8e868f20a118e240e7a1e3d25",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_628_local_route_state",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:453ec5973d048ed18df374b3a944e51fad42e783:a89b5cbbb4945b5e461a2139acd122c2cf68ce4b89681f64dd77a586fff72625",
+    "scope": [
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/628",
+      ".csdlc/evidence/628"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "d3c6e1d00724f623e08bd6c249058fd16a397a35b9eea34f89db99a6c5df909c",
-      "rendered_digest": "2e4b0d62c3ff55fa707a9f45db163c258a06e12d6cfbf36cc5d4b039375f34ad",
-      "ast_digest": "2f29a8922955564d3077596be9ce4658e0c95e4f10828b2471b7df1849299821"
+      "values_digest": "ba4d29e3ed99f1339b74706c6822beb3a926518fa753dd446198767ba47c46b1",
+      "rendered_digest": "2f9d62a288ff0646dcefbad93dbcb7d99645432e62ec5334020623ab34258429",
+      "ast_digest": "b48db5a5ad518283d7231bde43059fce503a57bae1e97754866ee248b9bd11c0"
     },
     "sor": {
       "values_digest": "d9a52b8fe753cb571e831730282e60af0bf115006bc253b20ebdaf311653e764",
@@ -246,6 +260,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover review/publication truth after local route repair made bind/edit/validate/doctor/schedule/shepherd consume observed lifecycle state and reject stale digest or unsupported transitions.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
