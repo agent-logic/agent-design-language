@@ -18,6 +18,7 @@
     "terraform_backend": {
       "status": "pass_after_authorized_bootstrap_apply_and_state_migration",
       "source_examples": [
+        "infra/aws/account-foundation/backend.hcl.example",
         "infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example",
         "infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example"
       ],
@@ -54,7 +55,7 @@
         "plan_resource_change_count": 11,
         "private_log_directory": "git-worktree-private:corp-c-497"
       },
-      "readback": "The apparent Terraform break was caused by a merged but unapplied AWS-C bootstrap plus stale downstream AWS-F backend examples. The bootstrap was applied under the approved business profile, the bootstrap state was migrated to the new backend, post-apply readbacks passed, and downstream examples now use the bootstrap-derived redacted bucket/table shape."
+      "readback": "The apparent Terraform break was caused by a merged but unapplied AWS-C bootstrap plus stale downstream backend examples. The bootstrap was applied under the approved business profile, the bootstrap state was migrated to the new backend, post-apply readbacks passed, and the account-foundation/runtime examples now use the bootstrap-derived redacted bucket/table shape."
     },
     "route53": {
       "status": "partial",

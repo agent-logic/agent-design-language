@@ -87,7 +87,7 @@
       "availability_readback": "partial",
       "recovery_readback": "partial",
       "classification": "partial_readback",
-      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json records the AWS-C bootstrap apply and post-apply S3/DynamoDB/IAM readbacks. Downstream runtime roots still require reviewed backend config substitution and deployment/rollback proof before deployment acceptance."
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json records the AWS-C bootstrap apply and post-apply S3/DynamoDB/IAM readbacks. The account-foundation and runtime backend examples now point at the bootstrap-derived backend shape; downstream live roots still require reviewed backend config substitution and issue-scoped plan/apply/rollback evidence before deployment acceptance."
     },
     {
       "id": "corp-c-deployment-operations",
@@ -117,7 +117,7 @@
     "Route53 hosted-zone ownership, delegation, change-freeze, rollback, and DNS recovery readbacks.",
     "Certificate inventory, renewal owner, revocation/reissue, and recovery readbacks.",
     "AWS billing, root/contact, IAM Identity Center, audit/break-glass, and recovery readbacks beyond profile identity, account-level MFA, and inventory visibility; CloudTrail, AWS Config, and Access Analyzer are absent in the current readback.",
-    "Downstream Terraform runtime roots still need reviewed backend config substitution from AWS-C outputs and issue-scoped plan/apply/rollback evidence before deployment acceptance.",
+    "Downstream Terraform account-foundation and runtime roots still need reviewed backend config substitution from AWS-C outputs and issue-scoped plan/apply/rollback evidence before deployment acceptance.",
     "Deployment role, rollback authority, incident audit logging, emergency access, and recovery drill readbacks.",
     "Private custody redacted receipt proving company-controlled vault and non-single-founder recovery."
   ],
