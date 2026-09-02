@@ -3,91 +3,14 @@
   "issue": 602,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
-  "phase": "published",
-  "generation": 10,
-  "digest": "1bd32da5410c9128e97f67d2225ebd3edb0ec1f708996565c5d7583e9bc73220",
+  "phase": "implemented",
+  "generation": 16,
+  "digest": "ddab586db46ed8e47eb573a0b7e7755b27b1f45e594307a4fbbe56be7235feb2",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
-  "review_assignment": {
-    "reviewer": "codex-subagent:issue_602_review",
-    "assigned_by": "codex:issue-602-runtime-agent-lifecycle",
-    "revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl/src/cli/csmctl_cmd.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/agents/ember.axioma.yaml",
-      ".csdlc/issues/602"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:issue_602_review",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl/src/cli/csmctl_cmd.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/agents/ember.axioma.yaml",
-      ".csdlc/issues/602"
-    ],
-    "reviewed_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-    "findings": [
-      {
-        "id": "602-review-name-authority",
-        "severity": "p1",
-        "summary": "Canonical agent naming was not originally enforced at Runtime admission and rehydration authority.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-        "route": null
-      },
-      {
-        "id": "602-review-office-compatibility",
-        "severity": "p2",
-        "summary": "Office needed first-class persistence with an explicit non-conflicting legacy role compatibility boundary.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-        "route": null
-      },
-      {
-        "id": "602-review-portable-live-config",
-        "severity": "p2",
-        "summary": "The live validator originally generated a machine-local retained config with textual substitution.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Live Wuji deployment is deferred until after PR publication; the reviewed focused local proof is complete."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 602,
-    "pull_request": 614,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/614",
-    "base": "main",
-    "head": "codex/602-runtime-csmctl-agent-add",
-    "revision": "git-blake3:66bdb353e5251c0c5c704a71f803a422e58e864b:4915b5882261ba3aa656df3ba43e2589939417a6a9b5d0b1022d277a79d0d6d3",
-    "linkage_mode": "closing",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -95,40 +18,40 @@
   "diagram_path": ".csdlc/prepared/issues/602/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:issue-602-design-review",
-      "revision": "8ec2477720ecd6e79add81268ac981bfbe427822a88219b463d19a4c13ee2235"
+      "reviewer": "fresh-session:eb4e86bd-92b2-46e8-a480-50cf12642990",
+      "revision": "c0ec199912a0a77bf5b599ac006daac660997eeacf32027503ae4432aac78827"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "a7e7ebbacd061c5136ce68f18281772d83d4dd206f7bd07f05a8cb7bf69cea04",
+      "values_digest": "46c2338b783b7b520d61940a512cd9d236f29414f1cebd5c9d5d6aebe019ef6f",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "234c67865e05aca2987034988f5c7f0ce1032cda752f476582a4d1567848bc01",
+      "values_digest": "fbefdec2a2690c689a6c2296fda9191bc9a524e5c36a6d00efb59864c0536966",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "e7a0cc36cc36ce9f8ff97325a0da3e26e7b9ad0e3d9320c092af2c23a294648a",
-      "rendered_digest": "c8af228a4cdde45398c6926e3e379354a9bf3b87c465d938c42463d5e75b8e67",
-      "ast_digest": "5eb02c31ceef753b624e256d5907c886c1b52da461470ab13f96acbfcc93e62b"
+      "values_digest": "5126271081795b62283d62da397551cf2841f4487b9fcbd8d9f721244bad1e6a",
+      "rendered_digest": "ccb37dbef2530ba00930b9e5f1ddf66361372ad181f115ffc2ffa0c97c77a054",
+      "ast_digest": "ce6b07721349077126c03c4dd2513a3e3fc408c9c6f6d445ec0e281575ac2f30"
     },
     "vpp": {
-      "values_digest": "ca13ef739ceaf7906e006f73a48706133753d39228ed56d881bd4ac6ab47a072",
+      "values_digest": "475a0bb0d15670e0153f8edb10fcf8c414b9b2c1d7c45075105ba8713b7934e5",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "03ae65689c549f1eb57f6cc08da492b3cd17a35ea7734afc3d66033d82c854e2",
-      "rendered_digest": "66a291c722a359fbe68370a60eea81ddbb983457932e3562607f4d66894571b5",
-      "ast_digest": "14fb5de87e25be3f9ee9f46471fa53f6211b9254db95163a42fbf4eb3214d52b"
+      "values_digest": "59e9652816ce45a86b0b4397439cceb5858f1ef9dc901314ae77a1972028d7dd",
+      "rendered_digest": "8c81a1f384103fc85c77447ef28e2fdfb72044350e278290921e0afced2a73bf",
+      "ast_digest": "dc81c7f36f32c92e5f51d585a328d1e7bf522b488f81684982557012fb1aad87"
     },
     "sor": {
-      "values_digest": "c477f8d30a363452cbae2720c5b54e84a74f5a808c5b87214ffe0ab7ece0e945",
-      "rendered_digest": "3e4009bf0e140a1dc15a62d0c83f2817983b27a6100ef0c92954a3a10386374d",
-      "ast_digest": "8b9721b65070186fa47b4ff05e89767d195d94021b6a2660cdb457ac4db2e607"
+      "values_digest": "59f02d6306fb55f559aa5f5d3979208c974f48d1fae90a26a267aab484b32756",
+      "rendered_digest": "8b5be9551a4d646b4692782700ddbef2722f276698285d4183640c658b4e0372",
+      "ast_digest": "c9ee1ade3394e28c0b58811ceac3b81e007bf3aecf4e43d38b23e3a665e63a18"
     }
   },
   "transitions": [
@@ -180,6 +103,13 @@
       "to": "published",
       "actor": "codex:issue-602-runtime-agent-lifecycle",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:602-remediation",
+      "reason": "Recover stale review and publication identity after rebase, review fixes, and exact-candidate live Wuji proof."
     }
   ],
   "audit": [
@@ -280,6 +210,48 @@
       "actor": "codex:issue-602-runtime-agent-lifecycle",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:602-remediation",
+      "reason": "Recover stale review and publication identity after rebase, review fixes, and exact-candidate live Wuji proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:602-remediation",
+      "reason": "{\"disposition\":\"Refresh authored design and diagram digests after the review-requested range-diff whitespace correction.\",\"false_reviewer\":\"codex:issue-602-design-review\",\"previous_approval\":{\"reviewer\":\"codex:issue-602-design-review\",\"revision\":\"8ec2477720ecd6e79add81268ac981bfbe427822a88219b463d19a4c13ee2235\"},\"reason\":\"The committed EOF whitespace correction changed the authored design identities without changing their semantics.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:602-remediation",
+      "reason": "Refresh authored bindings after the review-requested EOF whitespace correction.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/602/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/602/diagram.mmd\",\"new_design_digest\":\"c0ec199912a0a77bf5b599ac006daac660997eeacf32027503ae4432aac78827\",\"new_diagram_digest\":\"a0537252b6076f8d9d79ebe006443712fcdbbbc8796c7cebfad75846edce8775\",\"old_design_digest\":\"8ec2477720ecd6e79add81268ac981bfbe427822a88219b463d19a4c13ee2235\",\"old_diagram_digest\":\"db4dc6f1b58fbe972497399037f5a3cb17293843c4c7d8e16c45c37b709b2463\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":11,\"recovery_sequence\":15}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "fresh-session:eb4e86bd-92b2-46e8-a480-50cf12642990",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"c0ec199912a0a77bf5b599ac006daac660997eeacf32027503ae4432aac78827\",\"design_ref\":\".csdlc/prepared/issues/602/design.md\",\"diagram_digest\":\"a0537252b6076f8d9d79ebe006443712fcdbbbc8796c7cebfad75846edce8775\",\"diagram_ref\":\".csdlc/prepared/issues/602/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:602-remediation",
+      "reason": "Record exact-candidate live Wuji lifecycle and inference acceptance.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented config-driven dynamic Ollama agent admission and lifecycle management through csmctl and proved the exact candidate live on Wuji.\",\"changes\":[\"Added authenticated csmctl agent add --config plus list, get, checkpoint, dehydrate, migrate, rehydrate, and remove commands.\",\"Separated canonical two-part agent identity and display name from provider, model, endpoint, and first-class office configuration; persisted records reject simultaneous current office and legacy role authority.\",\"Added durable Runtime dynamic-agent state, governed Ollama execution, health, checkpoints with conversation continuity, two-phase migration, and unambiguous legacy persisted-store compatibility.\",\"Rebased issue 602 onto current main so PR 614 contains only issue 602 work.\"],\"artifacts\":[\".csdlc/prepared/issues/602/design.md\",\".csdlc/prepared/issues/602/diagram.mmd\",\".csdlc/prepared/issues/602/validate-focused.sh\",\".csdlc/evidence/602/live-wuji-acceptance.md\",\"infra/runtime-v3/agents/ember.axioma.yaml\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:602-remediation",
+      "reason": "Record focused and exact-candidate live Wuji proof after review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash .csdlc/prepared/issues/602/validate-focused.sh\",\"exact-candidate csmctl add, duplicate, checkpoint, migrate, rehydrate, authenticated WSS inference, clean restart, and roster verification on Wuji\"],\"purpose\":\"Prove issue 602 focused contracts and the required live Wuji lifecycle and gemma4:e4b-mlx inference acceptance.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/602/live-wuji-acceptance.md\"}}"
     }
   ]
 }

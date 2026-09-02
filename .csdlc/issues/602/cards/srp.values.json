@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
     "slug": "runtime-csmctl-dynamic-agent-admission",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl/src/cli/csmctl_cmd.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/agents/ember.axioma.yaml\n.csdlc/issues/602",
-      "review_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-      "reviewer": "codex-subagent:issue_602_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any unauthorized or conflicting request mutate durable or live roster state?",
         "Can persistence and in-memory roster truth split after any modeled failure?",
@@ -23,42 +23,9 @@
         "Does csmctl keep credentials out of argv output errors and persisted state?",
         "Does the live proof preserve Shepherd and avoid init mutation or restart for first add?"
       ],
-      "findings": [
-        {
-          "id": "602-review-name-authority",
-          "severity": "p1",
-          "summary": "Canonical agent naming was not originally enforced at Runtime admission and rehydration authority.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-          "route": null
-        },
-        {
-          "id": "602-review-office-compatibility",
-          "severity": "p2",
-          "summary": "Office needed first-class persistence with an explicit non-conflicting legacy role compatibility boundary.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-          "route": null
-        },
-        {
-          "id": "602-review-portable-live-config",
-          "severity": "p2",
-          "summary": "The live validator originally generated a machine-local retained config with textual substitution.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:a8de57cd3190a6193fee1cb22eb5ba244e9b1cfe:901281288bbf6e2ae9bfa0cfdc746524b1121bbb3255a994cfbb5683f24189d7",
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "Live Wuji deployment is deferred until after PR publication; the reviewed focused local proof is complete."
-      ],
-      "review_result": "pass"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
