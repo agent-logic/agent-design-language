@@ -15,7 +15,7 @@ use std::io::{Read, Write};
 use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
-use std::sync::mpsc;
+use std::sync::{mpsc, Mutex, OnceLock};
 use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
@@ -248,16 +248,7 @@ pub fn complete_with_local_model_shadow(
     let authority_input_digest = sha256_text(input.prompt());
 
     let shadow = match shadow_provider {
-        Some(provider) => {
-            match catch_unwind(AssertUnwindSafe(|| provider.complete(input.prompt()))) {
-                Ok(Ok(output)) => ProviderShadowObservation::completed(&output),
-                Ok(Err(err)) => ProviderShadowObservation::failed(&err),
-                Err(_) => ProviderShadowObservation::failed(&panic_error(
-                    "local-model-shadow",
-                    "shadow provider panicked",
-                )),
-            }
-        }
+        Some(provider) => observe_shadow_provider(provider, input.prompt()),
         None => ProviderShadowObservation::not_configured(),
     };
 
@@ -282,6 +273,28 @@ pub fn complete_with_local_model_shadow(
 
 fn sha256_text(value: &str) -> String {
     format!("sha256:{:x}", Sha256::digest(value.as_bytes()))
+}
+
+fn observe_shadow_provider(provider: &dyn Provider, prompt: &str) -> ProviderShadowObservation {
+    static SHADOW_PANIC_HOOK_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+
+    let _hook_guard = SHADOW_PANIC_HOOK_LOCK
+        .get_or_init(|| Mutex::new(()))
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner());
+    let previous_hook = std::panic::take_hook();
+    std::panic::set_hook(Box::new(|_| {}));
+    let result = catch_unwind(AssertUnwindSafe(|| provider.complete(prompt)));
+    std::panic::set_hook(previous_hook);
+
+    match result {
+        Ok(Ok(output)) => ProviderShadowObservation::completed(&output),
+        Ok(Err(err)) => ProviderShadowObservation::failed(&err),
+        Err(_) => ProviderShadowObservation::failed(&panic_error(
+            "local-model-shadow",
+            "shadow provider panicked",
+        )),
+    }
 }
 
 #[derive(Debug, Clone, Copy)]

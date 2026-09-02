@@ -2,6 +2,7 @@ use adl::provider::{
     complete_with_local_model_shadow, Provider, ProviderShadowInput, ProviderShadowObservationClass,
 };
 use anyhow::{anyhow, Result};
+use std::sync::{Arc, Mutex, OnceLock};
 
 struct OkProvider(&'static str);
 
@@ -23,7 +24,7 @@ struct PanickingProvider;
 
 impl Provider for PanickingProvider {
     fn complete(&self, _prompt: &str) -> Result<String> {
-        panic!("shadow panic payload must not escape");
+        panic!("shadow panic payload must not escape: SECRET_PROMPT_TEXT");
     }
 }
 
@@ -68,6 +69,21 @@ fn authoritative_failure_is_not_masked_by_shadow_success() {
 
 #[test]
 fn local_model_shadow_panic_preserves_authoritative_result() {
+    static PANIC_HOOK_TEST_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+
+    let _guard = PANIC_HOOK_TEST_LOCK
+        .get_or_init(|| Mutex::new(()))
+        .lock()
+        .expect("panic hook test lock");
+    let observed_panic_payloads = Arc::new(Mutex::new(Vec::new()));
+    let observed_for_hook = Arc::clone(&observed_panic_payloads);
+    std::panic::set_hook(Box::new(move |info| {
+        observed_for_hook
+            .lock()
+            .expect("observed panic payloads")
+            .push(info.to_string());
+    }));
+
     let authority = OkProvider("AUTHORITATIVE_RESULT_SURVIVES_PANIC");
     let shadow = PanickingProvider;
     let input = ProviderShadowInput::new("panic fallback input", "prov_b_shadow_panic_failure_v1")
@@ -87,4 +103,13 @@ fn local_model_shadow_panic_preserves_authoritative_result() {
     assert_eq!(result.shadow.output_digest, None);
     assert_eq!(result.shadow.failure_kind.as_deref(), Some("panic"));
     assert_eq!(result.comparison.authority_outcome_class, "completed");
+    assert!(
+        observed_panic_payloads
+            .lock()
+            .expect("observed panic payloads")
+            .is_empty(),
+        "shadow panic payload escaped through panic hook"
+    );
+
+    let _ = std::panic::take_hook();
 }
