@@ -8,18 +8,21 @@ const REMAINING_REPLACEMENT_COMMANDS: &[&str] = &[
     "edit",
     "eligibility",
     "finish",
-    "github",
-    "github-issue",
-    "github-pr",
     "install",
     "issue",
-    "pr-state",
     "proof",
-    "publish",
-    "review",
     "schedule",
     "shepherd",
     "soak",
+];
+
+const IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS: &[&str] = &[
+    "github",
+    "github-issue",
+    "github-pr",
+    "pr-state",
+    "publish",
+    "review",
 ];
 
 const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow", "validate"];
@@ -39,6 +42,12 @@ fn help_exposes_one_binary_command_surface() {
         assert!(
             stdout.contains(&format!("{command} --help")),
             "help should expose {command}"
+        );
+    }
+    for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
+        assert!(
+            stdout.contains(&format!("{command} --request <path>")),
+            "help should expose implemented remote/publication route {command}"
         );
     }
     for command in PARTIAL_CONSTRUCTION_COMMANDS {
@@ -82,6 +91,29 @@ fn fail_closed_routes_do_not_claim_live_authority() {
         assert!(
             !stderr.contains("csdlc-v2") && !stderr.contains("gh "),
             "{command} must not advertise v2/raw-gh fallback: {stderr}"
+        );
+    }
+}
+
+#[test]
+fn implemented_remote_publication_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
+        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
+        assert!(
+            help.status.success(),
+            "{command} --help should describe implemented route"
+        );
+        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
+        assert!(
+            help_stdout.contains("status: implemented"),
+            "{command} help should be truthful: {help_stdout}"
+        );
+        assert!(
+            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+            "{command} help should preserve authority boundary: {help_stdout}"
         );
     }
 }

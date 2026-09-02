@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 629,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
+    "slug": "v3-h3-github-publication",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Implement #629-owned remote/publication command dispatch and typed evidence contracts, prove rejection of forged/stale authority, then publish only after exact-head review.",
+      "steps": [
+        {
+          "id": "629-1",
+          "action": "Verify #627 command manifest availability and #629 route ownership.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "629-2",
+          "action": "Implement #629 one-binary route dispatch and typed remote/publication reports.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "629-3",
+          "action": "Add focused remote/publication tests and real issue canary.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "629-4",
+          "action": "Run typed validation, exact-head review, and publication readiness.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/remote",
+        "csdlc-v3/src/publication",
+        "csdlc-v3/src/review",
+        "csdlc-v3/tests/command_manifest.rs",
+        "csdlc-v3/tests/real_issue_canary.rs",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
+        ".csdlc/prepared/issues/629",
+        ".csdlc/issues/629"
+      ],
+      "invariants": [
+        "One binary remains named csdlc.",
+        "C-SDLC v3 remains non-authoritative before #505.",
+        "No csdlc-v2 source changes.",
+        "Remote authority must come from authenticated readback, not caller strings."
+      ],
+      "risks": [
+        "GitHub publication behavior can accidentally become caller-forgeable.",
+        "Stacked PR dependencies can hide closing-linkage behavior.",
+        "Credentials can leak through argv/debug output if not redacted."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Need to edit csdlc-v2 source.",
+        "Need merge/finish/cleanup/cutover authority.",
+        "Need raw gh lifecycle write.",
+        "Cannot prove live PR readback without operator-approved typed route."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/629/design.md",
+      "design_digest": "7fb92a9d1a316579eecfd3770f73944b5e0de8ad994a2c6a9b570b1b31252881",
+      "diagram_ref": ".csdlc/prepared/issues/629/diagram.mmd",
+      "diagram_digest": "f90355de9124a86eeb577d5cfdf7a028d0e2d6b4ff26de06e04352aa2bff98f1"
+    }
+  }
+}

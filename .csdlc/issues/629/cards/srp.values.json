@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 629,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
+    "slug": "v3-h3-github-publication",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #629 GitHub/publication routes, evidence model, tests, validator, canary evidence, and issue-local lifecycle records only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify remote authority is not caller-forgeable.",
+        "Verify publication refuses stale or missing review truth.",
+        "Verify closing publications produce visible and typed Closes #xxx linkage.",
+        "Verify credentials are redacted and no raw gh lifecycle writes are used."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -9,6 +9,233 @@ use crate::review::{
     authorize_publication, PublicationAuthorization, ReviewFinding, ReviewRecord,
     ReviewRejectReason, ReviewTarget,
 };
+use serde::{Deserialize, Serialize};
+
+pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [
+    "github",
+    "github-issue",
+    "github-pr",
+    "pr-state",
+    "publish",
+    "review",
+];
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RemoteRouteRequest {
+    pub repository: String,
+    pub issue: u64,
+    #[serde(default)]
+    pub pull_request: Option<u64>,
+    #[serde(default)]
+    pub actor: Option<String>,
+    #[serde(default)]
+    pub implementer: Option<String>,
+    #[serde(default)]
+    pub reviewer: Option<String>,
+    #[serde(default)]
+    pub review_revision: Option<String>,
+    #[serde(default)]
+    pub expected_head_sha: Option<String>,
+    #[serde(default)]
+    pub head_sha: Option<String>,
+    #[serde(default)]
+    pub mode: Option<RemotePublicationMode>,
+    #[serde(default)]
+    pub body: Option<String>,
+    #[serde(default)]
+    pub review_present: bool,
+    #[serde(default)]
+    pub readback_source: Option<RemoteReadbackSource>,
+    #[serde(default)]
+    pub closes_issue: Option<u64>,
+    #[serde(default)]
+    pub part_of_issue: Option<u64>,
+    #[serde(default)]
+    pub credential_names: Vec<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RemotePublicationMode {
+    Closing,
+    PartOf,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RemoteReadbackSource {
+    Github,
+    Caller,
+    Fixture,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct RemoteRoutePlan {
+    pub route: String,
+    pub issue: u64,
+    pub repository: String,
+    pub status: RemoteRouteStatus,
+    pub findings: Vec<RemoteRouteFinding>,
+    pub redacted_credentials: Vec<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RemoteRouteStatus {
+    Ready,
+    Blocked,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct RemoteRouteFinding {
+    pub code: String,
+    pub message: String,
+}
+
+pub fn prepare_remote_publication_route(
+    route: &str,
+    request: &RemoteRouteRequest,
+) -> Result<RemoteRoutePlan, RemoteRouteFinding> {
+    if !REMOTE_PUBLICATION_ROUTE_NAMES.contains(&route) {
+        return Err(remote_finding(
+            "unknown_remote_publication_route",
+            "route is not owned by #629",
+        ));
+    }
+    let findings = match route {
+        "publish" => publication_findings(request),
+        "pr-state" | "github-pr" => pr_state_findings(request),
+        "review" => review_findings(request),
+        "github" | "github-issue" => Vec::new(),
+        _ => unreachable!("route checked above"),
+    };
+    let status = if findings.is_empty() {
+        RemoteRouteStatus::Ready
+    } else {
+        RemoteRouteStatus::Blocked
+    };
+    Ok(RemoteRoutePlan {
+        route: route.to_owned(),
+        issue: request.issue,
+        repository: request.repository.clone(),
+        status,
+        findings,
+        redacted_credentials: request
+            .credential_names
+            .iter()
+            .map(|name| format!("{name}=<redacted>"))
+            .collect(),
+    })
+}
+
+fn publication_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
+    let mut findings = Vec::new();
+    if !request.review_present {
+        findings.push(remote_finding(
+            "missing_review_truth",
+            "publication requires current typed review truth",
+        ));
+    }
+    if request.expected_head_sha != request.head_sha {
+        findings.push(remote_finding(
+            "stale_review_truth",
+            "publication head must match the reviewed exact head",
+        ));
+    }
+    match request.mode {
+        Some(RemotePublicationMode::Closing)
+            if !body_has_relation(request.body.as_deref(), "Closes", request.issue) =>
+        {
+            findings.push(remote_finding(
+                "missing_closing_relation",
+                "closing publication must visibly include Closes #<issue>",
+            ));
+        }
+        Some(RemotePublicationMode::PartOf)
+            if !body_has_relation(request.body.as_deref(), "Part of", request.issue)
+                && !body_has_relation(request.body.as_deref(), "Part-Of", request.issue) =>
+        {
+            findings.push(remote_finding(
+                "missing_part_of_relation",
+                "checkpoint publication must visibly include Part of #<issue>",
+            ));
+        }
+        None => findings.push(remote_finding(
+            "missing_publication_mode",
+            "publication mode is required",
+        )),
+        _ => {}
+    }
+    findings
+}
+
+fn pr_state_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
+    let mut findings = Vec::new();
+    if request.readback_source != Some(RemoteReadbackSource::Github) {
+        findings.push(remote_finding(
+            "caller_forged_readback",
+            "PR state must come from authenticated GitHub readback",
+        ));
+    }
+    match request.mode {
+        Some(RemotePublicationMode::Closing) if request.closes_issue != Some(request.issue) => {
+            findings.push(remote_finding(
+                "missing_closing_readback",
+                "GitHub readback must expose the closing issue relation",
+            ));
+        }
+        Some(RemotePublicationMode::PartOf) if request.part_of_issue != Some(request.issue) => {
+            findings.push(remote_finding(
+                "missing_part_of_readback",
+                "GitHub readback must expose the part-of relation",
+            ));
+        }
+        _ => {}
+    }
+    findings
+}
+
+fn review_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
+    let mut findings = Vec::new();
+    if same_principal(request.implementer.as_deref(), request.reviewer.as_deref()) {
+        findings.push(remote_finding(
+            "self_review_denied",
+            "implementer and reviewer must be distinct principals",
+        ));
+    }
+    if request
+        .review_revision
+        .as_deref()
+        .unwrap_or_default()
+        .trim()
+        .is_empty()
+    {
+        findings.push(remote_finding(
+            "missing_exact_review_revision",
+            "review route requires an exact reviewed revision",
+        ));
+    }
+    findings
+}
+
+fn same_principal(left: Option<&str>, right: Option<&str>) -> bool {
+    let left = left.unwrap_or_default().trim();
+    let right = right.unwrap_or_default().trim();
+    !left.is_empty() && left.eq_ignore_ascii_case(right)
+}
+
+fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
+    body.unwrap_or_default()
+        .lines()
+        .any(|line| line.trim_start().starts_with(&format!("{verb} #{issue}")))
+}
+
+fn remote_finding(code: &str, message: &str) -> RemoteRouteFinding {
+    RemoteRouteFinding {
+        code: code.to_owned(),
+        message: message.to_owned(),
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AcceptedPvfResult {
