@@ -181,20 +181,15 @@ run_contracts() {
   cp "$checkpoint" "$recovery_storage/preparation-result.json"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-recovery-checkpoint-guard "$recovery_storage" >/dev/null 2>&1
 
-  recovery_run="$CASE_ROOT/recovery-run"; mkdir -p "$recovery_run"
-  recovery_commit="$ancestor"; recovery_run_id=adl-issue607-test-recovery; recovery_storage_id=adl-issue607-test-storage
-  recovery_owner="$(printf '%s' "$recovery_commit:$recovery_run_id:$recovery_storage_id:prepare" | shasum -a 256 | awk '{print substr($1,1,32)}')"
-  recovery_owner_sha="$(printf '%s' "$recovery_owner" | shasum -a 256 | awk '{print $1}')"
-  recovery_campaign="$(jq -n -c --arg commit "$recovery_commit" '{schema:"adl.issue607.campaign.v2",id:"campaign-test",source_commit:$commit}')"
-  jq -n --arg commit "$recovery_commit" --arg run "$recovery_run_id" --arg storage "$recovery_storage_id" --argjson campaign "$recovery_campaign" \
-    '{schema:"adl.issue607.authorization_request.v3",action:"prepare",source_commit:$commit,run_id:$run,storage_id:$storage,campaign:$campaign}' >"$recovery_run/authorization-request.json"
-  jq -n --arg run "$recovery_run_id" --arg storage "$recovery_storage_id" --arg owner "$recovery_owner_sha" \
-    '{schema:"adl.issue607.preparation_resource_ledger.v1",status:"active",run_id:$run,storage_id:$storage,campaign_id:"campaign-test",owner_token_sha256:$owner,resources:[]}' >"$recovery_run/preparation-resources.json"
-  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-recovery-identity --commit "$recovery_commit" --run-id "$recovery_run_id" --storage-id "$recovery_storage_id" \
-    "$recovery_run" "$recovery_run/preparation-resources.json"
-  jq '.owner_token_sha256="tampered"' "$recovery_run/preparation-resources.json" >"$recovery_run/preparation-resources-tampered.json"
-  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-recovery-identity --commit "$recovery_commit" --run-id "$recovery_run_id" --storage-id "$recovery_storage_id" \
-    "$recovery_run" "$recovery_run/preparation-resources-tampered.json" >/dev/null 2>&1
+  ledger_run_id=adl-issue607-test-resume; ledger_storage_id=adl-issue607-test-storage; ledger_owner=test-owner
+  ledger_owner_sha="$(printf '%s' "$ledger_owner" | shasum -a 256 | awk '{print $1}')"
+  jq -n --arg run "$ledger_run_id" --arg storage "$ledger_storage_id" --arg owner "$ledger_owner_sha" \
+    '{schema:"adl.issue607.preparation_resource_ledger.v1",status:"active",run_id:$run,storage_id:$storage,campaign_id:"campaign-test",owner_token_sha256:$owner,resources:[]}' >"$CASE_ROOT/resume-ledger.json"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-preparation-resource-ledger --run-id "$ledger_run_id" --storage-id "$ledger_storage_id" \
+    "$CASE_ROOT/resume-ledger.json" campaign-test "$ledger_owner"
+  jq '.campaign_id="tampered"' "$CASE_ROOT/resume-ledger.json" >"$CASE_ROOT/resume-ledger-tampered.json"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-preparation-resource-ledger --run-id "$ledger_run_id" --storage-id "$ledger_storage_id" \
+    "$CASE_ROOT/resume-ledger-tampered.json" campaign-test "$ledger_owner" >/dev/null 2>&1
 
   launch_manifest="$CASE_ROOT/launch-action-manifest.json"; controller="$(git -C "$ROOT" rev-parse HEAD)"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-write-launch-action-manifest --commit "$ancestor" --run-id adl-issue607-test-launch --storage-id adl-issue607-test-storage \
@@ -212,6 +207,10 @@ run_contracts() {
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 2 "$cost_preflight" "$cost_ledger.tampered" adl-issue607-test-prepare >/dev/null 2>&1
   jq '.entries += [.entries[0]] | .cumulative_conservative_usd=([.entries[].conservative_cost_usd]|add)' "$cost_ledger" >"$cost_ledger.duplicate"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 2 "$cost_preflight" "$cost_ledger.duplicate" adl-issue607-test-prepare >/dev/null 2>&1
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-cost-lock "$cost_ledger"
+  mkdir "$cost_ledger.lock"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-cost-lock "$cost_ledger" >/dev/null 2>&1
+  rmdir "$cost_ledger.lock"
 
   for template in \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
@@ -296,7 +295,14 @@ run_contracts() {
   rg -q 'reconcile_completed_preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation-result.json.next' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'action_manifest.v3' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
-  rg -Fq 'Name=tag:adl:owner-token,Values="$owner" Name=tag:adl:artifact-generation,Values="$COMMIT"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'recover-preparation is disabled' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'acquire_cost_ledger_lock' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  launch_block="$(sed -n '/^launch() {$/,/^}$/p' "$ROOT/adl/tools/run_issue607_warm_polis.sh")"
+  lock_line="$(rg -n 'acquire_cost_ledger_lock' <<<"$launch_block" | cut -d: -f1)"
+  consume_line="$(rg -n 'consume_authorization' <<<"$launch_block" | cut -d: -f1)"
+  record_line="$(rg -n 'record_cost_ledger' <<<"$launch_block" | cut -d: -f1)"
+  release_line="$(rg -n 'release_cost_ledger_lock' <<<"$launch_block" | cut -d: -f1)"
+  [[ "$lock_line" -lt "$consume_line" && "$consume_line" -lt "$record_line" && "$record_line" -lt "$release_line" ]]
   rg -Fq '>"$ledger.next"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:image/$image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:snapshot/$snapshot' "$ROOT/adl/tools/run_issue607_warm_polis.sh"

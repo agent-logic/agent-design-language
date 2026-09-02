@@ -60,6 +60,7 @@ AUTH_ACTION=""
 PREP_RESOURCE_LEDGER=""
 CLEANUP_STORAGE_ON_FAILURE=false
 PRESERVE_PREPARATION_ON_EXIT=false
+COST_LEDGER_LOCK=""
 
 usage() {
   cat <<'EOF' >&2
@@ -521,6 +522,7 @@ cleanup_recorded_preparation_resources() {
 cleanup_on_exit() {
   local rc=$? cleanup_rc=0
   trap - EXIT INT TERM
+  if [[ -n "$COST_LEDGER_LOCK" ]]; then rmdir "$COST_LEDGER_LOCK" 2>/dev/null || cleanup_rc=1; COST_LEDGER_LOCK=""; fi
   if [[ "$PRESERVE_PREPARATION_ON_EXIT" == true ]]; then
     echo "preparation progress retained for resume-preparation" >&2
     exit "$rc"
@@ -562,6 +564,18 @@ cleanup_on_exit() {
   fi
   ((rc == 0 && cleanup_rc != 0)) && rc=$cleanup_rc
   exit "$rc"
+}
+
+acquire_cost_ledger_lock() {
+  ledger="$1"; COST_LEDGER_LOCK="$ledger.lock"
+  mkdir "$COST_LEDGER_LOCK" 2>/dev/null \
+    || { COST_LEDGER_LOCK=""; echo "another campaign action owns the cost ledger lock" >&2; return 2; }
+}
+
+release_cost_ledger_lock() {
+  [[ -n "$COST_LEDGER_LOCK" ]] || return 0
+  rmdir "$COST_LEDGER_LOCK"
+  COST_LEDGER_LOCK=""
 }
 
 wait_images_available() {
@@ -899,44 +913,8 @@ retire_snapshots() {
 }
 
 recover_preparation() {
-  [[ "$EXECUTE" == true ]] || { echo "recover-preparation requires --execute" >&2; exit 2; }
-  validate_generation_controller
-  run_dir="$STATE_ROOT/runs/$RUN_ID"; ledger="$run_dir/preparation-resources.json"
-  [[ -f "$ledger" ]] || { echo "preparation resource ledger is missing" >&2; exit 2; }
-  [[ -f "$run_dir/authorization-request.json" ]] || { echo "preparation authorization request is missing" >&2; exit 2; }
-  require_no_terminal_checkpoint_for_recovery "$STATE_ROOT/storage/$STORAGE_ID"
-  [[ "$(jq -r .status "$ledger")" != completed ]] || { echo "completed preparation has no recovery cleanup to perform" >&2; exit 2; }
-  business_account >/dev/null
-  validate_recovery_identity "$run_dir" "$ledger"
-  jq '.resources=[]' "$ledger" >"$ledger.next"; mv "$ledger.next" "$ledger"
-  PREP_RESOURCE_LEDGER="$ledger"
-  for id in $(aws_cli ec2 describe-images --owners self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:owner-token,Values="$owner" Name=tag:adl:artifact-generation,Values="$COMMIT" --query 'Images[].ImageId' --output text); do
-    record_preparation_resource image "$id" active
-    for snapshot in $(aws_cli ec2 describe-images --image-ids "$id" --query 'Images[0].BlockDeviceMappings[].Ebs.SnapshotId' --output text); do record_preparation_resource snapshot "$snapshot" active; done
-  done
-  for id in $(aws_cli ec2 describe-snapshots --owner-ids self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:owner-token,Values="$owner" Name=tag:adl:artifact-generation,Values="$COMMIT" --query 'Snapshots[].SnapshotId' --output text); do record_preparation_resource snapshot "$id" active; done
-  for id in $(aws_cli ec2 describe-volumes --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:owner-token,Values="$snapshot_owner" Name=tag:adl:artifact-generation,Values="$COMMIT" Name=tag:adl:snapshot-restore-test,Values=true --query 'Volumes[].VolumeId' --output text); do record_preparation_resource volume "$id" active; done
-  cleanup_recorded_preparation_resources "$ledger"
-  cleanup_preparation_state "$run_dir"
-  cleanup_storage_state "$STATE_ROOT/storage/$STORAGE_ID"
-  jq '.status="recovered"|.resources|=map(if .state=="active" then .state="deleted" else . end)' "$ledger" >"$ledger.next"
-  mv "$ledger.next" "$ledger"
-  jq -n --arg run_id "$RUN_ID" --arg storage_id "$STORAGE_ID" --arg ledger_sha256 "$(sha256_file "$ledger")" \
-    '{schema:"adl.issue607.preparation_recovery.v1",status:"recovered",run_id:$run_id,storage_id:$storage_id,resource_ledger_sha256:$ledger_sha256}'
-}
-
-validate_recovery_identity() {
-  run_dir="$1" ledger="$2"
-  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:prepare" | cut -c1-32)"
-  snapshot_owner="$(sha256_text "$owner:snapshot-restore" | cut -c1-32)"
-  campaign="$(jq -c .campaign "$run_dir/authorization-request.json")"; campaign_id="$(jq -r .id <<<"$campaign")"
-  jq -e --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --argjson campaign "$campaign" \
-    '.schema=="adl.issue607.authorization_request.v3" and .action=="prepare" and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .campaign==$campaign and .campaign.source_commit==$commit' \
-    "$run_dir/authorization-request.json" >/dev/null \
-    || { echo "preparation recovery authorization identity mismatch" >&2; exit 2; }
-  jq -e --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg campaign "$campaign_id" --arg owner_sha "$(sha256_text "$owner")" \
-    '.schema=="adl.issue607.preparation_resource_ledger.v1" and .status=="active" and .run_id==$run and .storage_id==$storage and .campaign_id==$campaign and .owner_token_sha256==$owner_sha' "$ledger" >/dev/null \
-    || { echo "preparation recovery ledger identity mismatch" >&2; return 2; }
+  echo "recover-preparation is disabled: consumed preparations must resume; terminal storage uses authorized retirement" >&2
+  return 2
 }
 
 require_no_terminal_checkpoint_for_recovery() {
@@ -951,6 +929,13 @@ load_preparation_instance_ids() {
   gpu_preparation_instance="$(jq -r .gpu_preparation_instance_id.value "$preparation_outputs")"
   [[ "$runtime_preparation_instance" =~ ^i-[0-9a-f]+$ && "$gpu_preparation_instance" =~ ^i-[0-9a-f]+$ ]] \
     || { echo "preparation instance identity is missing" >&2; return 2; }
+}
+
+validate_preparation_resource_ledger() {
+  ledger="$1" campaign_id="$2" owner_token="$3"
+  jq -e --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg campaign "$campaign_id" --arg owner_sha "$(sha256_text "$owner_token")" \
+    '.schema=="adl.issue607.preparation_resource_ledger.v1" and (.status=="active" or .status=="completed") and .run_id==$run and .storage_id==$storage and .campaign_id==$campaign and .owner_token_sha256==$owner_sha' "$ledger" >/dev/null \
+    || { echo "preparation resource ledger identity mismatch" >&2; return 2; }
 }
 
 mark_preparation_checkpoint_completed() {
@@ -1001,8 +986,7 @@ validate_completed_preparation() {
   checkpoint_volumes="$(aws_cli ec2 describe-volumes --volume-ids "$(jq -r .runtime.volume_id "$result")" "$(jq -r .gpu.volume_id "$result")" --query 'Volumes[].State' --output json)"
   jq -e 'length==2 and all(.[];.=="available")' <<<"$checkpoint_volumes" >/dev/null \
     || { echo "prepared warm volumes are not available" >&2; return 2; }
-  jq -e --arg owner_sha "$(sha256_text "$owner")" '.owner_token_sha256==$owner_sha' "$PREP_RESOURCE_LEDGER" >/dev/null \
-    || { echo "preparation checkpoint owner mismatch" >&2; return 2; }
+  validate_preparation_resource_ledger "$PREP_RESOURCE_LEDGER" "$(jq -r .id <<<"$campaign")" "$owner"
 }
 
 reconcile_completed_preparation() {
@@ -1062,6 +1046,7 @@ validate_consumed_preparation() {
   preflight_sha="$(sha256_file "$run_dir/preflight.json")"; action_manifest_sha="$(sha256_file "$run_dir/prepare-action-manifest.json")"
   source_sha="$(sha256_file "$run_dir/source.tar")"; authorization_sha="$(jq -S -c . "$run_dir/authorization.json" | shasum -a 256 | awk '{print $1}')"
   owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:prepare" | cut -c1-32)"
+  validate_preparation_resource_ledger "$PREP_RESOURCE_LEDGER" "$(jq -r .id <<<"$campaign")" "$owner"
   jq -e --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$storage_plan_sha" --arg preflight "$preflight_sha" --arg manifest "$action_manifest_sha" --arg source "$source_sha" --arg owner_sha "$(sha256_text "$owner")" \
     '.schema=="adl.issue607.action_manifest.v4" and .action=="prepare" and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .storage_create_plan_sha256==$plan and .preflight_sha256==$preflight and .source_archive_sha256==$source and .owner_token_sha256==$owner_sha' "$run_dir/prepare-action-manifest.json" >/dev/null \
     || { echo "resume action manifest identity mismatch" >&2; return 2; }
@@ -1100,8 +1085,8 @@ resume_preparation() {
   [[ -f "$storage_dir/terraform.tfstate" && -f "$storage_dir/terraform.tfvars.json" && -f "$storage_dir/outputs.json" ]] || { echo "prepared storage state is incomplete" >&2; exit 2; }
   jq -e '.status=="prepared" and .fully_initialized==true' "$run_dir/runtime-preparation.json" "$run_dir/gpu-preparation.json" >/dev/null
   business_account >/dev/null
-  validate_consumed_preparation "$run_dir" "$storage_dir"
   PREP_RESOURCE_LEDGER="$run_dir/preparation-resources.json"
+  validate_consumed_preparation "$run_dir" "$storage_dir"
   generation="$COMMIT"
   CLEANUP_KIND=preparation; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false; CLEANUP_STORAGE_ON_FAILURE=true; PRESERVE_PREPARATION_ON_EXIT=true
   trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
@@ -1113,7 +1098,8 @@ resume_preparation() {
   retention_until="$(jq -r .retention_until "$storage_dir/terraform.tfvars.json")"
   ensure_prepared_images "$runtime_preparation_instance" "$gpu_preparation_instance" "$retention_until"
   jq -e --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg owner_sha "$(sha256_text "$owner")" --arg runtime "$PREP_RUNTIME_AMI_ID" --arg gpu "$PREP_GPU_AMI_ID" \
-    '.schema=="adl.issue607.preparation_resource_ledger.v1" and .status=="active" and .run_id==$run and .storage_id==$storage and .owner_token_sha256==$owner_sha and ([.resources[]|select(.kind=="image")|.id]|unique|sort)==([$runtime,$gpu]|sort)' "$PREP_RESOURCE_LEDGER" >/dev/null \
+    --arg campaign "$(jq -r .id <<<"$campaign")" \
+    '.schema=="adl.issue607.preparation_resource_ledger.v1" and .status=="active" and .run_id==$run and .storage_id==$storage and .campaign_id==$campaign and .owner_token_sha256==$owner_sha and ([.resources[]|select(.kind=="image")|.id]|unique|sort)==([$runtime,$gpu]|sort)' "$PREP_RESOURCE_LEDGER" >/dev/null \
     || { echo "preparation resource ledger identity mismatch" >&2; exit 2; }
   complete_preparation "$run_dir" "$storage_dir" "$runtime_volume" "$gpu_volume" "$generation" "$storage_plan_sha" "$prep_plan_sha" "$campaign" "$owner" "$PREPARATION_SECONDS"
 }
@@ -1238,11 +1224,16 @@ launch() {
   [[ "$RUN_ID" == "$expected_run" ]] || { echo "launch run ID must match the prepared campaign: $expected_run" >&2; exit 2; }
   write_authorization_request "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$run_dir/authorization-request.json" "$estimated_total" "$campaign"
   validate_authorization "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$campaign"
+  acquire_cost_ledger_lock "$storage_dir/cost-ledger.json"
+  trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
+  [[ -f "$storage_dir/cost-ledger.json" ]] || { echo "preparation cost ledger is missing" >&2; exit 2; }
+  preparation_source_bytes="$(jq -r '.entries[]|select(.action=="prepare")|.s3_new_artifact_bytes' "$storage_dir/cost-ledger.json")"
+  [[ "$preparation_source_bytes" =~ ^[1-9][0-9]*$ ]] || { echo "preparation source-byte cost evidence is missing" >&2; exit 2; }
+  validate_existing_prepare_cost_entry "$storage_dir/cost-ledger.json" "$run_dir/preflight.json" "$(jq -r '.campaign.actions[]|select(.action=="prepare")|.run_id' "$storage_dir/preparation-result.json")" "$preparation_source_bytes"
   assert_remote_run_unused
   assert_campaign_action_unused "launch-$ORDINAL" "$storage_dir/cost-ledger.json"
   consume_authorization; touch "$run_dir/paid-started"; apply_start="$SECONDS"
   CLEANUP_KIND=compute; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
-  trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute.tfplan" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" output -state="$run_dir/compute.tfstate" -json >"$run_dir/compute-outputs.json"
   runtime_instance="$(jq -r .runtime_instance_id.value "$run_dir/compute-outputs.json")"
@@ -1265,13 +1256,15 @@ launch() {
   managed="$(tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" state list -state="$run_dir/compute.tfstate" | awk '!/^data\./')" \
     || { echo "failed to read compute Terraform state after destroy" >&2; exit 1; }
   [[ -z "$managed" ]] || { echo "compute Terraform state retains managed resources: $managed" >&2; exit 1; }
-  CLEANUP_COMPLETE=true; trap - EXIT INT TERM
+  CLEANUP_COMPLETE=true
   verify_no_disposable_residue "$owner" "$run_dir/compute-zero-residue.json"
   for volume in "$runtime_volume" "$gpu_volume"; do aws_cli ec2 describe-volumes --volume-ids "$volume" --query 'Volumes[0].State' --output text | grep -qx available; done
   action_elapsed=$((SECONDS-apply_start))
   record_cost_ledger "launch-$ORDINAL" "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID"
+  release_cost_ledger_lock
   jq -n --argjson ordinal "$ORDINAL" --arg run_id "$RUN_ID" --arg generation "$generation" --arg controller "$controller_revision" --arg plan_sha256 "$plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/compute-zero-residue.json")" --argjson elapsed "$elapsed" --arg service_ready_sha256 "$(sha256_file "$run_dir/service-ready.json")" --arg qualification_sha256 "$(sha256_file "$run_dir/qualification-complete.json")" \
     '{schema:"adl.issue607.warm_launch_result.v3",status:"passed",ordinal:$ordinal,run_id:$run_id,artifact_generation:$generation,controller_revision:$controller,plan_sha256:$plan_sha256,authorization_sha256:$authorization_sha256,apply_to_service_ready_seconds:$elapsed,service_ready_sha256:$service_ready_sha256,qualification_complete_sha256:$qualification_sha256,zero_disposable_residue_sha256:$residue_sha256,compute_residue:0,warm_volumes_retained:2}' | tee "$run_dir/summary.json"
+  trap - EXIT INT TERM
 }
 
 write_launch_action_manifest() {
@@ -1351,13 +1344,18 @@ case "$ACTION" in
     [[ $# -eq 1 ]] || { echo "test-recovery-checkpoint-guard requires storage directory" >&2; exit 2; }
     require_no_terminal_checkpoint_for_recovery "$1"
     ;;
-  test-validate-recovery-identity)
-    [[ $# -eq 2 ]] || { echo "test-validate-recovery-identity requires run directory and ledger" >&2; exit 2; }
-    validate_recovery_identity "$1" "$2"
+  test-validate-preparation-resource-ledger)
+    [[ $# -eq 3 ]] || { echo "test-validate-preparation-resource-ledger requires ledger, campaign ID, and owner" >&2; exit 2; }
+    validate_preparation_resource_ledger "$1" "$2" "$3"
     ;;
   test-write-launch-action-manifest)
     [[ $# -eq 10 ]] || { echo "test-write-launch-action-manifest requires output and nine manifest values" >&2; exit 2; }
     write_launch_action_manifest "$@"
+    ;;
+  test-cost-lock)
+    [[ $# -eq 1 ]] || { echo "test-cost-lock requires ledger path" >&2; exit 2; }
+    acquire_cost_ledger_lock "$1"
+    release_cost_ledger_lock
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;
