@@ -1,0 +1,95 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 509
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Verify terminal dependencies and GCP authority, run the optional bounded workload only after paid authorization, retain cost and cleanup-zero receipts, and review.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Verify terminal #508, #494, and #495 plus GCP billing, project identity, credential contract, and paid-run authority.",
+    "acceptance_ids": [
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Run the six-resident GCP workload and continuity proof only after explicit paid-run authorization.",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Retain cost and cleanup-zero receipts, validate no per-run residue, and obtain exact-head review.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- AWS authority is unchanged.
+- GCP identity, billing, and credential contract are explicit.
+- Six identities and lineage remain exact.
+- No owned per-run resources remain after the run.
+- Credential material remains outside the repository.
+
+## Risks
+
+- Wrong GCP project or billing identity.
+- Residual GCP resources.
+- False cross-cloud equivalence.
+- Accidental credential path/content retention.
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/509/design.md
+
+Digest: cda651f8784308d6344a9ff859fa58eb942d1387c0f07171cccfa9066e1ea8dc
+
+## Diagram
+
+.csdlc/prepared/issues/509/diagram.mmd
+
+Digest: ae70c09da0f0276ff416d8f32cfdaf28e652ad4f1723c103f12a11ccfe078c64
+
+## Stop Conditions
+
+- Paid-run authorization is absent for live launch.
+- Provider identity is ambiguous.
+- Cleanup cannot be proven.
+- Credential material would be read, copied, printed, or committed.
+
+## Handoff
+
+Proceed only after doctor readiness.

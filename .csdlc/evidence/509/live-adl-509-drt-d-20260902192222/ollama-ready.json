@@ -1,0 +1,25 @@
+{
+  "schema": "adl.issue509.ollama_gpu_receipt.v1",
+  "status": "ready",
+  "ollama_public": false,
+  "model_source": "gcs_object_storage",
+  "artifact_manifest_sha256": "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc",
+  "model_count": 3,
+  "models": [
+    {
+      "model_identity": "llama3.1:8b",
+      "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+      "size_vram": 5271715839
+    },
+    {
+      "model_identity": "phi4-mini:latest",
+      "digest": "78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753",
+      "size_vram": 3087615917
+    },
+    {
+      "model_identity": "qwen3:8b",
+      "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+      "size_vram": 5578204118
+    }
+  ]
+}

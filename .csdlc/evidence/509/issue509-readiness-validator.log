@@ -1,0 +1,11 @@
+{
+  "schema": "adl.v0921.drt_d.readiness.v2",
+  "outcome": "passed",
+  "head": "9f6bae16fafbc085839ee6abca7a1067965c658e",
+  "dependencies": {
+    "issue_494": "terminal_and_ancestral",
+    "issue_495": "terminal_and_ancestral",
+    "issue_508": "terminal_and_ancestral"
+  },
+  "paid_run_gate": "explicit_authorization_required_before_live_launch"
+}
