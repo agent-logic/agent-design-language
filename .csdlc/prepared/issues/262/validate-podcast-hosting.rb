@@ -4,6 +4,7 @@
 require "digest"
 require "json"
 require "rexml/document"
+require "time"
 
 ROOT = File.expand_path("../../../../", __dir__)
 FEED = File.join(ROOT, "demos/podcast/feed.xml")
@@ -16,6 +17,10 @@ IDENTITY = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/sh
 RIGHTS = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json")
 MAILBOX = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json")
 QA_REPORT = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md")
+HTTP_PLAYBACK_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-proof.json")
+HTTP_PLAYBACK_NATIVE_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-native-proof.json")
+HTTP_PLAYBACK_BROWSER_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-browser-proof.json")
+HTTP_PLAYBACK_IOS_SAFARI_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-ios-safari-proof.json")
 
 def fail!(reason)
   warn JSON.generate(schema: "agent_logic.podcast.hosting_validation.v1", status: "failed", reason: reason)
@@ -39,6 +44,12 @@ rights = load_json(RIGHTS)
 mailbox = load_json(MAILBOX)
 episode = load_json(EPISODE_JSON)
 enclosure = load_json(ENCLOSURE_JSON)
+http_playback_proof = load_json(HTTP_PLAYBACK_PROOF)
+wrapper_playback_proofs = {
+  HTTP_PLAYBACK_NATIVE_PROOF => %w[desktop-safari desktop-chrome],
+  HTTP_PLAYBACK_BROWSER_PROOF => %w[desktop-safari desktop-chrome mobile-safari android-chrome],
+  HTTP_PLAYBACK_IOS_SAFARI_PROOF => %w[mobile-safari]
+}.transform_keys { |path| path.sub(ROOT + "/", "") }
 
 fail!("identity packet title is not The Cognitive Stack") unless identity.dig("show", "title") == "The Cognitive Stack"
 fail!("identity packet is not operator approved") unless identity["approval_status"] == "operator_approved"
@@ -105,6 +116,98 @@ qa_report = read(QA_REPORT)
 fail!("QA report audio hash mismatch") unless qa_report.include?(enclosure["sha256"])
 fail!("QA report still names Cognitive Spacetime metadata") if qa_report.include?("Artist: Cognitive Spacetime") || qa_report.include?("Album: Cognitive Spacetime")
 fail!("QA report missing The Cognitive Stack metadata") unless qa_report.include?("Artist: The Cognitive Stack") && qa_report.include?("Album: The Cognitive Stack")
+
+fail!("HTTP playback proof schema mismatch") unless http_playback_proof["schema"] == "agent_logic.podcast.http_playback_proof.v1"
+fail!("HTTP playback proof did not pass") unless http_playback_proof["status"] == "passed"
+fail!("HTTP playback proof candidate audio path mismatch") unless http_playback_proof.dig("candidate", "audio") == "demos/podcast/audio/meet-the-ai-coworkers.mp3"
+fail!("HTTP playback proof candidate feed path mismatch") unless http_playback_proof.dig("candidate", "feed") == "demos/podcast/feed.xml"
+fail!("HTTP playback proof candidate podcast page mismatch") unless http_playback_proof.dig("candidate", "podcast_page") == "demos/podcast/index.html"
+fail!("HTTP playback proof candidate episode page mismatch") unless http_playback_proof.dig("candidate", "episode_page") == "demos/podcast/episodes/meet-the-ai-coworkers/index.html"
+fail!("HTTP playback proof byte count mismatch") unless http_playback_proof.dig("candidate", "audio_bytes") == enclosure["bytes"]
+fail!("HTTP playback proof audio SHA mismatch") unless http_playback_proof.dig("candidate", "audio_sha256") == enclosure["sha256"]
+fail!("HTTP playback proof server binding mismatch") unless http_playback_proof.dig("server", "bind") == "127.0.0.1"
+fail!("HTTP playback proof range support mismatch") unless http_playback_proof.dig("server", "range_support") == "single-range bytes"
+
+begin
+  proof_generated_at = Time.parse(http_playback_proof["generated_at"])
+  fail!("HTTP playback proof timestamp missing") unless proof_generated_at
+  fail!("HTTP playback proof timestamp is not UTC") unless http_playback_proof["generated_at"].end_with?("Z")
+rescue ArgumentError, TypeError
+  fail!("HTTP playback proof timestamp invalid")
+end
+
+expected_profiles = %w[desktop-safari desktop-chrome mobile-safari android-chrome]
+profiles = http_playback_proof["profiles"]
+fail!("HTTP playback proof profiles missing") unless profiles.is_a?(Hash)
+fail!("HTTP playback proof profiles mismatch") unless profiles.keys.sort == expected_profiles.sort
+
+expected_file_sha = {
+  "/podcast/feed.xml" => Digest::SHA256.hexdigest(File.binread(FEED)),
+  "/podcast/" => Digest::SHA256.hexdigest(File.binread(SHOW_PAGE)),
+  "/podcast/episodes/meet-the-ai-coworkers/" => Digest::SHA256.hexdigest(File.binread(EPISODE_PAGE))
+}
+expected_first_range_sha = Digest::SHA256.hexdigest(audio.byteslice(0, 1024))
+expected_tail_start = enclosure["bytes"] - 1024
+expected_tail_range_sha = Digest::SHA256.hexdigest(audio.byteslice(expected_tail_start, 1024))
+
+expected_profiles.each do |profile|
+  profile_receipt = profiles[profile]
+  fail!("HTTP playback proof #{profile} receipt missing") unless profile_receipt.is_a?(Hash)
+  fail!("HTTP playback proof #{profile} user agent missing") unless profile_receipt["user_agent"].to_s.length >= 20
+  checks = profile_receipt["checks"]
+  fail!("HTTP playback proof #{profile} checks missing") unless checks.is_a?(Array)
+
+  head_feed = checks.find { |check| check["method"] == "HEAD" && check["path"] == "/podcast/feed.xml" }
+  fail!("HTTP playback proof #{profile} missing HEAD feed check") unless head_feed
+  fail!("HTTP playback proof #{profile} HEAD feed did not return 200") unless head_feed["status"] == 200
+  fail!("HTTP playback proof #{profile} HEAD feed returned a body") unless head_feed["body_bytes"] == 0
+  fail!("HTTP playback proof #{profile} HEAD feed lacks byte-range support") unless head_feed["accept_ranges"] == "bytes"
+
+  expected_file_sha.each do |path, sha256|
+    get_check = checks.find { |check| check["method"] == "GET" && check["path"] == path && check["status"] == 200 }
+    fail!("HTTP playback proof #{profile} missing GET #{path} check") unless get_check
+    fail!("HTTP playback proof #{profile} GET #{path} SHA mismatch") unless get_check["body_sha256"] == sha256
+  end
+
+  head_audio = checks.find { |check| check["method"] == "HEAD" && check["path"] == "/podcast/audio/meet-the-ai-coworkers.mp3" }
+  fail!("HTTP playback proof #{profile} missing HEAD audio check") unless head_audio
+  fail!("HTTP playback proof #{profile} HEAD audio did not return 200") unless head_audio["status"] == 200
+  fail!("HTTP playback proof #{profile} HEAD audio type mismatch") unless head_audio["content_type"] == "audio/mpeg"
+  fail!("HTTP playback proof #{profile} HEAD audio length mismatch") unless head_audio["content_length_header"] == enclosure["bytes"].to_s
+  fail!("HTTP playback proof #{profile} HEAD audio returned a body") unless head_audio["body_bytes"] == 0
+  fail!("HTTP playback proof #{profile} HEAD audio lacks byte-range support") unless head_audio["accept_ranges"] == "bytes"
+
+  first_range = checks.find do |check|
+    check["method"] == "GET" &&
+      check["path"] == "/podcast/audio/meet-the-ai-coworkers.mp3" &&
+      check["status"] == 206 &&
+      check["content_range"] == "bytes 0-1023/#{enclosure["bytes"]}"
+  end
+  fail!("HTTP playback proof #{profile} missing first-byte-range audio check") unless first_range
+  fail!("HTTP playback proof #{profile} first range length mismatch") unless first_range["body_bytes"] == 1024 && first_range["content_length_header"] == "1024"
+  fail!("HTTP playback proof #{profile} first range SHA mismatch") unless first_range["body_sha256"] == expected_first_range_sha
+
+  tail_range = checks.find do |check|
+    check["method"] == "GET" &&
+      check["path"] == "/podcast/audio/meet-the-ai-coworkers.mp3" &&
+      check["status"] == 206 &&
+      check["content_range"] == "bytes #{expected_tail_start}-#{enclosure["bytes"] - 1}/#{enclosure["bytes"]}"
+  end
+  fail!("HTTP playback proof #{profile} missing tail-byte-range audio check") unless tail_range
+  fail!("HTTP playback proof #{profile} tail range length mismatch") unless tail_range["body_bytes"] == 1024 && tail_range["content_length_header"] == "1024"
+  fail!("HTTP playback proof #{profile} tail range SHA mismatch") unless tail_range["body_sha256"] == expected_tail_range_sha
+end
+
+wrapper_playback_proofs.each do |relative_proof_path, expected_wrapper_profiles|
+  wrapper_proof = load_json(File.join(ROOT, relative_proof_path))
+  fail!("#{relative_proof_path} schema mismatch") unless wrapper_proof["schema"] == "agent_logic.podcast.http_playback_proof.v1"
+  fail!("#{relative_proof_path} did not pass") unless wrapper_proof["status"] == "passed"
+  fail!("#{relative_proof_path} audio path mismatch") unless wrapper_proof.dig("candidate", "audio") == "demos/podcast/audio/meet-the-ai-coworkers.mp3"
+  fail!("#{relative_proof_path} audio SHA mismatch") unless wrapper_proof.dig("candidate", "audio_sha256") == enclosure["sha256"]
+  wrapper_profiles = wrapper_proof["profiles"]
+  fail!("#{relative_proof_path} profiles missing") unless wrapper_profiles.is_a?(Hash)
+  fail!("#{relative_proof_path} profiles mismatch") unless wrapper_profiles.keys.sort == expected_wrapper_profiles.sort
+end
 
 puts JSON.generate(
   schema: "agent_logic.podcast.hosting_validation.v1",

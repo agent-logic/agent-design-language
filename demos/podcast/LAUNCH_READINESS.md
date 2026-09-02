@@ -27,6 +27,7 @@ declares `noindex,nofollow`.
 | First ten topics | Drafted | episode list in `demos/podcast/index.html` |
 | Guest workflow | Page-ready | contact button uses `mailto:podcast@agent-logic.ai`; FAQ invites guest suggestions |
 | Contact path | Address configured; mailbox verified for launch packet | `docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json` records verified receipt and publication authorization |
+| HTTP playback behavior | Source-SHA-bound local proof retained | `.csdlc/evidence/262/http-playback-proof.json` records HEAD, GET, and 206 byte-range behavior across desktop and mobile user-agent profiles |
 | Final launch route | Planned | promote `/podcast/` as the public route after review |
 
 ## Audio Truth

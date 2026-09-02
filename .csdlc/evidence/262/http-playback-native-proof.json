@@ -1,0 +1,183 @@
+{
+  "schema": "agent_logic.podcast.http_playback_proof.v1",
+  "status": "passed",
+  "generated_at": "2026-09-02T00:47:40Z",
+  "candidate": {
+    "feed": "demos/podcast/feed.xml",
+    "podcast_page": "demos/podcast/index.html",
+    "episode_page": "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+    "audio": "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+    "audio_bytes": 22804249,
+    "audio_sha256": "ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c"
+  },
+  "server": {
+    "bind": "127.0.0.1",
+    "range_support": "single-range bytes"
+  },
+  "profiles": {
+    "desktop-safari": {
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
+      "checks": [
+        {
+          "method": "HEAD",
+          "path": "/podcast/feed.xml",
+          "status": 200,
+          "content_type": "application/rss+xml; charset=utf-8",
+          "content_length_header": "2550",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 0,
+          "body_sha256": null
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/feed.xml",
+          "status": 200,
+          "content_type": "application/rss+xml; charset=utf-8",
+          "content_length_header": "2550",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 2550,
+          "body_sha256": "4315538d1833e01793e8cedbfe6ef364805f478985f1a1a9c8c5fb2cee8d23c7"
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/",
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length_header": "29388",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 29388,
+          "body_sha256": "95c2de880aae8d8c2a0a437095eb3fa6c711e3a573bc9090e752bcc9aaef2bfb"
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/episodes/meet-the-ai-coworkers/",
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length_header": "20244",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 20244,
+          "body_sha256": "fb5c33d0202dde7a9b446a01e89cd4668f0283847bc811975bf0252b19e544d3"
+        },
+        {
+          "method": "HEAD",
+          "path": "/podcast/audio/meet-the-ai-coworkers.mp3",
+          "status": 200,
+          "content_type": "audio/mpeg",
+          "content_length_header": "22804249",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 0,
+          "body_sha256": null
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/audio/meet-the-ai-coworkers.mp3",
+          "status": 206,
+          "content_type": "audio/mpeg",
+          "content_length_header": "1024",
+          "accept_ranges": "bytes",
+          "content_range": "bytes 0-1023/22804249",
+          "body_bytes": 1024,
+          "body_sha256": "cbaabbd7a9e64b3d88fb3e7cb7b1e64509c7e5660a8839659c925b1e05c374cd"
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/audio/meet-the-ai-coworkers.mp3",
+          "status": 206,
+          "content_type": "audio/mpeg",
+          "content_length_header": "1024",
+          "accept_ranges": "bytes",
+          "content_range": "bytes 22803225-22804248/22804249",
+          "body_bytes": 1024,
+          "body_sha256": "0b735a237c06734ea6857eab6d7dbe6f0613635c961986657e204b44ef5431ff"
+        }
+      ]
+    },
+    "desktop-chrome": {
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+      "checks": [
+        {
+          "method": "HEAD",
+          "path": "/podcast/feed.xml",
+          "status": 200,
+          "content_type": "application/rss+xml; charset=utf-8",
+          "content_length_header": "2550",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 0,
+          "body_sha256": null
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/feed.xml",
+          "status": 200,
+          "content_type": "application/rss+xml; charset=utf-8",
+          "content_length_header": "2550",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 2550,
+          "body_sha256": "4315538d1833e01793e8cedbfe6ef364805f478985f1a1a9c8c5fb2cee8d23c7"
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/",
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length_header": "29388",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 29388,
+          "body_sha256": "95c2de880aae8d8c2a0a437095eb3fa6c711e3a573bc9090e752bcc9aaef2bfb"
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/episodes/meet-the-ai-coworkers/",
+          "status": 200,
+          "content_type": "text/html; charset=utf-8",
+          "content_length_header": "20244",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 20244,
+          "body_sha256": "fb5c33d0202dde7a9b446a01e89cd4668f0283847bc811975bf0252b19e544d3"
+        },
+        {
+          "method": "HEAD",
+          "path": "/podcast/audio/meet-the-ai-coworkers.mp3",
+          "status": 200,
+          "content_type": "audio/mpeg",
+          "content_length_header": "22804249",
+          "accept_ranges": "bytes",
+          "content_range": null,
+          "body_bytes": 0,
+          "body_sha256": null
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/audio/meet-the-ai-coworkers.mp3",
+          "status": 206,
+          "content_type": "audio/mpeg",
+          "content_length_header": "1024",
+          "accept_ranges": "bytes",
+          "content_range": "bytes 0-1023/22804249",
+          "body_bytes": 1024,
+          "body_sha256": "cbaabbd7a9e64b3d88fb3e7cb7b1e64509c7e5660a8839659c925b1e05c374cd"
+        },
+        {
+          "method": "GET",
+          "path": "/podcast/audio/meet-the-ai-coworkers.mp3",
+          "status": 206,
+          "content_type": "audio/mpeg",
+          "content_length_header": "1024",
+          "accept_ranges": "bytes",
+          "content_range": "bytes 22803225-22804248/22804249",
+          "body_bytes": 1024,
+          "body_sha256": "0b735a237c06734ea6857eab6d7dbe6f0613635c961986657e204b44ef5431ff"
+        }
+      ]
+    }
+  }
+}
