@@ -1,0 +1,7 @@
+flowchart LR
+  A[Canonical v0.92.1 baseline] --> C[Expected vs observed census]
+  B[Merged code, tests, reviews, docs, receipts] --> C
+  C --> D{Material gap?}
+  D -->|P0/P1 or unowned| E[Block admission and route owner]
+  D -->|No unresolved blocker| F[Immutable release-tail admission]
+

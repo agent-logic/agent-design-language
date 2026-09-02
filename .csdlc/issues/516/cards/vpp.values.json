@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 516,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-01] Release-tail admission",
+    "slug": "release-tail-admission",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "release-tail-denominator",
+          "proof_role": "Prove every planned issue and retained dependency is represented exactly once with canonical acceptance authority.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1600,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+            "denominator"
+          ],
+          "parallel_group": "census",
+          "defer_reason": null
+        },
+        {
+          "lane": "implementation-gap-analysis",
+          "proof_role": "Prove each acceptance row has production implementation, meaningful validation, current review, and truthful closeout evidence or an explicit finding.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 6000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+            "gaps"
+          ],
+          "parallel_group": "gap-analysis",
+          "defer_reason": null
+        },
+        {
+          "lane": "admission-consistency",
+          "proof_role": "Prove Markdown, JSON, ancestry, findings, owners, and the final fail-closed admission decision agree.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1800,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+            "decision"
+          ],
+          "parallel_group": "decision",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on an incomplete denominator, missing production-path proof, stale or contradictory evidence, unresolved collision, unresolved P0/P1 finding, unowned material gap, or disagreement between gap reports and admission decision.",
+      "design_ref": ".csdlc/prepared/issues/516/design.md",
+      "design_digest": "965ab7b077be961324d424363b09b7fa629838492dd37fd3dd3db5d1af00c839",
+      "diagram_ref": ".csdlc/prepared/issues/516/diagram.mmd",
+      "diagram_digest": "5b96c9bd5e3067a32349ca90a59de550f0ae4677443fbe4957fc8e6aa0ffc5a0"
+    }
+  }
+}

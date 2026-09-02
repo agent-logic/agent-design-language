@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 516,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-01] Release-tail admission",
+    "slug": "release-tail-admission",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The complete v0.92.1 expected-versus-observed denominator, implementation and execution gaps, evidence truth, ownership routing, and release-tail admission decision only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the denominator include every planned issue, retained dependency, and acceptance row exactly once?",
+        "Does observed evidence prove production behavior rather than test-only or string-presence claims?",
+        "Are missing evidence and ambiguity reported rather than converted into success?",
+        "Does every material gap have a truthful classification and existing owner?",
+        "Would the admission decision fail closed for every unresolved P0/P1 gap?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
