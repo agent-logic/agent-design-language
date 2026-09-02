@@ -57,8 +57,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:8933a5e2f4012f5e8b4568c39124ab927bc092be:20408bc08e7d250e23a82d640579495f04be25efa380cdc0c450c8d74b78bc45")
+Revision: Some("git-blake3:7a91400b5377b53350d71c4874c844dc73c59409:804f96dc98c0a9530197b9bc9ef41fd06135ef5dd0b8e2b5b7d741cfd9435409")
 
-Reviewer: Some("subagent:/root/review_630_common_dir_final")
+Reviewer: Some("subagent:/root/review_630_head_7a91400b")
 
 Result: pass

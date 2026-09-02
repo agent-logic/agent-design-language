@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
-  "phase": "published",
-  "generation": 10,
-  "digest": "268b49d8b0e636ac7d591dbf27e6236fb1471dc1a9f19ec3e5430f83aff1f5e5",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "8d84059405f1f57f5a513c8e099a41923a5b0b817cb4ba3fcc779ab144dd02e4",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_630_common_dir_final",
+    "reviewer": "subagent:/root/review_630_head_7a91400b",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:8933a5e2f4012f5e8b4568c39124ab927bc092be:20408bc08e7d250e23a82d640579495f04be25efa380cdc0c450c8d74b78bc45",
+    "revision": "git-blake3:7a91400b5377b53350d71c4874c844dc73c59409:804f96dc98c0a9530197b9bc9ef41fd06135ef5dd0b8e2b5b7d741cfd9435409",
     "scope": [
       "csdlc-v3/src/commands/mod.rs",
       "csdlc-v3/src/commands/terminal.rs",
@@ -40,7 +40,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_630_common_dir_final",
+    "reviewer": "subagent:/root/review_630_head_7a91400b",
     "scope": [
       "csdlc-v3/src/commands/mod.rs",
       "csdlc-v3/src/commands/terminal.rs",
@@ -66,7 +66,7 @@
       ".csdlc/evidence/630/630-typed-issue-validation.log",
       ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
     ],
-    "reviewed_revision": "git-blake3:8933a5e2f4012f5e8b4568c39124ab927bc092be:20408bc08e7d250e23a82d640579495f04be25efa380cdc0c450c8d74b78bc45",
+    "reviewed_revision": "git-blake3:7a91400b5377b53350d71c4874c844dc73c59409:804f96dc98c0a9530197b9bc9ef41fd06135ef5dd0b8e2b5b7d741cfd9435409",
     "findings": [],
     "residual_risks": [
       "C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue."
@@ -74,18 +74,7 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 630,
-    "pull_request": 642,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/642",
-    "base": "main",
-    "head": "codex/630-v3-h4-finish-clean-cutover-impl",
-    "revision": "git-blake3:214bebe536a8b90268fbaec0143dd90c7bbeb797:16e7c785395249d9977b3b64852a29ff88ca7e6849c481237eeaee613a789631",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -99,34 +88,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ca978e788a619b4ed0bfe680f51bed59df0b9647c02563da4ef1233de6ac3c2",
+      "values_digest": "0b97cbbd3ce8796b4c6dc529cddf666860bed7b41a8afc984268efd401755e00",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "87e25d5765d217d60ac9bf6c29a90c0ed5a85c6f5b87e6f13ec9d6c76d2a134d",
+      "values_digest": "4deafb51a9dcd77fe4654c4524c9d535df4e6ba154297e04508f4981707c51cb",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "0e2563dbc0c8375d33ec4152de86b63a793ed96c0dfcbfe218ae007c7b8b7c46",
+      "values_digest": "eefbf02d994d030a94965775f54aaa7f56e7b670d50db5bd9f432f967ae0d8bf",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "8aac569e6bff7a722e21cdc42e70af3d757abd0a174f64b498b08daaecf1d446",
+      "values_digest": "a9d65746d6c92f9264cf25ba4c1ed2ec80a5ff2e26de72aa7fe6953d1d73b6d2",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "3e72ee356828867320173d8aba84ba106f23b07d2db7062ea8f14aa983d8668e",
-      "rendered_digest": "929e433633209229438f610fc58b6ea1beae5f371408789f3c25f7f549e8efcc",
-      "ast_digest": "b17700c8e3608b4d4e7d6fa5de0c1039e80df6e7c22353ab1b10b7ddf1704b3a"
+      "values_digest": "4b7f6de7247ba29b8b923477696786605025fb6be6536f78501e7e5250d53a69",
+      "rendered_digest": "7afe3719489aec56da11842e6413a00ad2f7e39ca0f8059e90b800332757254c",
+      "ast_digest": "aaf8fcc3dc986ca10728c10b1f80f8a6059ee5bee4700d994e101d61c38f43aa"
     },
     "sor": {
-      "values_digest": "1567264f4fab7920bd81c8c67db14a2ab0542a41270ae7d3bf199f1c9bcfec12",
-      "rendered_digest": "6198ace734451a605498278725ae6439fe08ad937e0940367d0a9b9198bf2769",
-      "ast_digest": "178628d2bcb319adf73f4325ea3a484d916c010ca16fe04347b78e5c9b162527"
+      "values_digest": "1adf51f0880a8b39ac850c0f0d51d32f750c09ac19ad70bb7f40299973893225",
+      "rendered_digest": "ee57911d5890498fa99996f24f0028189ea748fbd7ddf2b9f6298d5d15ed4468",
+      "ast_digest": "a88e352e1de52995dc2437cc731c6ceee2a4d460c1d35866a7eb8d822e945f14"
     }
   },
   "transitions": [
@@ -178,6 +167,20 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review/publication truth after strict-clippy-only head update 7a91400b5377b53350d71c4874c844dc73c59409."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -299,6 +302,27 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Recover review/publication truth after strict-clippy-only head update 7a91400b5377b53350d71c4874c844dc73c59409.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
