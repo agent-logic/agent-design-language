@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "aec65d9b1f0c389ca94aed48172f24f6c2e3d19f3a62ec5779adc6a59b3420e7",
   "phase": "initialized",
-  "generation": 7,
-  "digest": "992cab344e920cc2f2f998800838d5d20f9a235e6075cca6529d153acd8fab5b",
+  "generation": 8,
+  "digest": "7906147416887b8e8adf8fac35bae1c20b5f9e96c40ce67b2b729c22f0102b71",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/594/design.md",
   "diagram_path": ".csdlc/prepared/issues/594/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:ddde8a9d-ba19-4487-b55e-ed054bc170c5",
+      "revision": "d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "1b61f781ce4294cc9f6ee2a3ae10e008e574cc3949e0af5670e8332c9d27a0bf",
+      "values_digest": "0b535421212edbf06c897eb38054fd704c12bd40746b36ee1da386e212199b17",
       "rendered_digest": "781db80b317128aafed48e76faebccd16212f69908747ee91f7aa62cf1ba2501",
       "ast_digest": "b195a921b5a51a4f668b7f142e7088207a930bce127852141a9a3fb6003a9d83"
     },
     "stp": {
-      "values_digest": "10aa396fd4937176bed60a103273a10ee4edb44c1ca695cadd1f37458687943c",
+      "values_digest": "074df6718b15b4f87bdf3d05a5885f91f3216fac4949123b3a4a1181e33c478e",
       "rendered_digest": "3cfbf1a5c0bd56ef4b277f6803a796ac618f2c452b9f01c5c1143d6beb618e69",
       "ast_digest": "5c9ab05c717b7b5e4e20e2a02436be4fa027121c83f158fcb7cef2f805e3c039"
     },
     "spp": {
-      "values_digest": "19bd5718da8e1441255195e2accfd0a804d861ae9dae8088ef2c9f5ac4e74671",
+      "values_digest": "080faa1baa2586c6dd01ad7f5e9ff0e8758c6cad494060ae75d7766bad35f8c7",
       "rendered_digest": "feddbdafde8bd4a035c902bbc499312f4c43d27e943a83b7e55f533df8fe04f4",
       "ast_digest": "2162613fba3d0812fd23818a317b75ab9d7cd90ec92f9442d78b507758039562"
     },
     "vpp": {
-      "values_digest": "3f8ecf1b1adbbdc2d8e50f54e0d120fc3361472bc4de61886ba2535766275f6d",
+      "values_digest": "e28be6c67f4145cc888192625b21d382cf6355abc0d1b02bd2cec4a3f11dec4a",
       "rendered_digest": "662b6f9f0676e396feb0d8047caedec71977a6733323e201cc43d6ae6a212437",
       "ast_digest": "201a859011a718e42ac9cebf9f9c43740d126e3f309fe8c3e7c3a376f6442300"
     },
     "srp": {
-      "values_digest": "47c34a06eb08fad9c8340ebdf183f2da7b9cf07419aa61e25c780333d7423340",
+      "values_digest": "2bdb180b94e2f5074e408f31ccb4d3de07a41b484468604e0ea32604e1a7e7c0",
       "rendered_digest": "6d5289c530bf46a16978c97d32d478b7d4bdc57e17f1258097f785751ec6f69f",
       "ast_digest": "945fa2a6b28eb2a511afcec5b7b3faff3648a3075183943fdf415064209ce139"
     },
     "sor": {
-      "values_digest": "64777e9af2fb5b120810b21023bed96b114320777c0e945ec94390f7c682035e",
+      "values_digest": "f27dbb2f390a044b2f7043bd0b051483677537f54919820c15b63723224f17f1",
       "rendered_digest": "fb79540362117fe10db8bfe22bfb64746ab9917bdd5210c2f7e48548e45b1421",
       "ast_digest": "115292e30ed5f1576ace42c2460f65e688033b963025e0500189ccfda469389a"
     }
@@ -106,6 +111,13 @@
       "actor": "codex:/root",
       "reason": "Resolve independent review by removing the stale cleanup-proof claim from the non-mutating live inspection step.",
       "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/594/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/594/diagram.mmd\",\"new_design_digest\":\"d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de\",\"new_diagram_digest\":\"b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b\",\"old_design_digest\":\"d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de\",\"old_diagram_digest\":\"b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"action\":\"Implement and semantically test the private encrypted versioned S3 archive and exact-prefix publisher policy in Terraform.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"action\":\"Add bounded identity-partitioned Vector S3 delivery and prove outage, exhaustion, telemetry, redaction, and Runtime-survival behavior locally.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"action\":\"After explicit authorization, verify the expected AWS account, exact bucket controls and publisher policy, then retrieve and inspect one encrypted archived object without mutating the deployment; retain typed lifecycle truth.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "fresh-session:ddde8a9d-ba19-4487-b55e-ed054bc170c5",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de\",\"design_ref\":\".csdlc/prepared/issues/594/design.md\",\"diagram_digest\":\"b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b\",\"diagram_ref\":\".csdlc/prepared/issues/594/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
