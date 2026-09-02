@@ -6,13 +6,13 @@
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
   "phase": "implemented",
   "generation": 7,
-  "digest": "1dfd5c5fb0db4f5c5b2cf5f04ff56bb28215abdd1b7c424cf156e863dd3cd3ec",
+  "digest": "189f83aa1d13bf0f6f32fda30f7c9620753179ca797d1bf6dcfb4b66dbf7086c",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
   "review_assignment": {
-    "reviewer": "codex-reviewer:review_628_route_specifics_r3",
+    "reviewer": "codex-reviewer:review_628_route_specifics_r4",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:893ebde287905eda547fe2880b27c220cd1332ea:4e7bea7080c2ef27bd5b3f7bc2c9ebd69d63b140bdcd9f8eb907946e62b9e5fa",
+    "revision": "git-blake3:2b3883de71da2b22ab162752a466c92330916579:c002997fe022eda14072d4db875aeaa7f14e14728851b92588f27fb83df85aa3",
     "scope": [
       "csdlc-v3/src/commands/local/mod.rs",
       "csdlc-v3/src/main.rs",
@@ -193,6 +193,13 @@
     },
     {
       "sequence": 12,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
       "generation": 7,
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
