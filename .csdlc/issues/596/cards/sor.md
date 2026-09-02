@@ -21,7 +21,6 @@ Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left iss
 - csdlc-v2/tests/gate2.rs
 - csdlc-v3/tests/real_issue_canary.rs
 - docs/csdlc-v3/full-replacement-denominator.json
-- .csdlc/evidence/596/post-finalize-typed-validation.log
 - .csdlc/evidence/604/full-cycle-defects-tail.md
 - .csdlc/issues/596
 - .csdlc/prepared/issues/596
@@ -37,17 +36,6 @@ Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left iss
 ## Validation
 
 [
-  {
-    "command": [
-      ".adl/bin/csdlc-v2/csdlc-validate",
-      "issue",
-      "--issue",
-      "596"
-    ],
-    "purpose": "Validate current #596 C-SDLC record after implementation finalization.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/596/post-finalize-typed-validation.log"
-  },
   {
     "command": [
       "bash",
