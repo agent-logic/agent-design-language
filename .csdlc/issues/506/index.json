@@ -4,45 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "318259b231fb7c80a9bcb6569b4efd06c19f1bd3e8e261c38d0f1c9a7c5e1dcd",
-  "phase": "reviewed",
-  "generation": 19,
-  "digest": "44cb6bbd7368997be99a8f35a214784fe3f00b33a123e36ad3e7fa5a21cd649f",
+  "phase": "implemented",
+  "generation": 20,
+  "digest": "4f45cb15a7b9c41c9dd10212edba529b24fe31c313d831e3f8d1167878138bc3",
   "branch": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3",
-  "review_assignment": {
-    "reviewer": "fresh-session:459cc47f-ffff-4d3a-981e-6d2f329c8456",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:1e8d9773cbc749a3e88d7217b34cc7e79e3b0210:0c8e522add6f65fcb35a7e846696edf276360dd88435c782916c14ef64f2c0e2",
-    "scope": [
-      ".csdlc/prepared/issues/506/design.md",
-      ".csdlc/prepared/issues/506/diagram.mmd",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/src/qualification/mod.rs",
-      "adl-runtime/tests/distributed_contract/main.rs",
-      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
-      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:459cc47f-ffff-4d3a-981e-6d2f329c8456",
-    "scope": [
-      ".csdlc/prepared/issues/506/design.md",
-      ".csdlc/prepared/issues/506/diagram.mmd",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/src/qualification/mod.rs",
-      "adl-runtime/tests/distributed_contract/main.rs",
-      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
-      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
-    ],
-    "reviewed_revision": "git-blake3:1e8d9773cbc749a3e88d7217b34cc7e79e3b0210:0c8e522add6f65fcb35a7e846696edf276360dd88435c782916c14ef64f2c0e2",
-    "findings": [],
-    "residual_risks": [
-      "Read-only exact-head review only; no live cloud/provider proof was run or claimed.",
-      "Post-assignment generated review metadata dirt was outside the assigned product scope."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -57,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9861f478881e9c6ecb33b8e9e7c665e2305de30a6fb9341a0c98cdf0b4f017fd",
+      "values_digest": "9b491c1b47d39aa67333d0f11517b80de6e5bfd73e057ddd3f4bf2e4c002cd15",
       "rendered_digest": "b5e991dbdf41c13e51045af2418c02855d6e7f2a73b2fe2129cbf12b8b8be54e",
       "ast_digest": "db8a583fc4cb6c375b601ea09825f7f7373d79f1b530a2e82307f6121e62fb02"
     },
     "stp": {
-      "values_digest": "967deee43986b4053327b285606f8fdf6ed9ee9b74727a68ac44d6696fe30bf2",
+      "values_digest": "3997a235184e36163c5b06dffd75f7a30ac573a990bb4b84fbb3591261c77e07",
       "rendered_digest": "49d01c25700c08151a200ab30ba4e4e1e195d5b7e51055560e8c69a5761343be",
       "ast_digest": "9c2a10f6aaddb72c1ef32e68399027dcc6e91a153af398163acc9f9a1fffa775"
     },
     "spp": {
-      "values_digest": "0698f84596bc9ae8eafc5c6b109bbc2f1848e811e7af5a4d87684762ff20043a",
+      "values_digest": "71d7f38e5f10bfb8a38de57faf635f0597b0b4bab9c845e65b9741085b7a321c",
       "rendered_digest": "0e8296c6a288858d2723d418c9a4449a43dd76c3f1e1b44ef238322290f31821",
       "ast_digest": "bcd9ece2793e94d00617e46ad3da4738bc19f0dc5934fa3941e8e37ea3b77e19"
     },
     "vpp": {
-      "values_digest": "7393f89486b312c0a1e815317cb4fc17cac40e79ad547767641a3aa6f63ef761",
+      "values_digest": "843c7c777d8f2e581873ae62aa31aef801b9f903037095772e5aeaaded41f3f6",
       "rendered_digest": "7ed31f7abb8e5799f3e8a174cabab822e88be3952d3435becef99b02f79f718f",
       "ast_digest": "dc2194a768d365dd310c08b11142284e4fd43fa9c83ceea3357de9eb6cd73ec7"
     },
     "srp": {
-      "values_digest": "8bfe6a2998e768469a5f3f400436e5d9195c9fb09e6469ba581b72cca7044b7d",
-      "rendered_digest": "7c300e30116d29cb6ad9715048c4d1473e05dd8a3ed9cf979ea878aaa045ae24",
-      "ast_digest": "68ff2611f288cffba6eb3206f4ebca870af570e63d371c31a5a473dbee112f7b"
+      "values_digest": "ee41a74f098484f3d950c7881f43af49045e1b9772831b2e01f61604e9225168",
+      "rendered_digest": "ff13c0b52a20d0acf8770d85cc9aab520f7a742d12c2d1784b8b80aad12e7748",
+      "ast_digest": "b688d0d826524e917a25949113c7967fb327b699b4abede139124aeff504368a"
     },
     "sor": {
-      "values_digest": "793603973b2d6a8540f78aae3e1b80ed5d2471828c6bb71a0a0f0d5501e71a94",
+      "values_digest": "99e932a44fa3761af0d2017de0e25065c0b6b7f23cebf2549b237456f8daf557",
       "rendered_digest": "32c3781f648efa2c8db5e9a09177e7b968c2499dc9712b934346992959a8ad2d",
       "ast_digest": "058cee05ea8b7da23241aab6d98a3decca6d1a3f72d78b2562d8345ba9cb5799"
     }
@@ -115,6 +83,13 @@
       "to": "reviewed",
       "actor": "fresh-session:459cc47f-ffff-4d3a-981e-6d2f329c8456",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #506 reviewed state because committing typed review metadata moved the clean current HEAD from the reviewed substantive revision to a metadata-only lifecycle revision; preserve PASS evidence and request a fresh exact-head review of the current immutable head before publication."
     }
   ],
   "audit": [
@@ -292,6 +267,13 @@
       "actor": "fresh-session:459cc47f-ffff-4d3a-981e-6d2f329c8456",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover #506 reviewed state because committing typed review metadata moved the clean current HEAD from the reviewed substantive revision to a metadata-only lifecycle revision; preserve PASS evidence and request a fresh exact-head review of the current immutable head before publication.",
+      "operation": "recover_review"
     }
   ]
 }
