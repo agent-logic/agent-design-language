@@ -1,19 +1,15 @@
-adl_event schema=adl.observability.event.v1 command=csm stage=dispatch result=started subcommand=runtime-v3
-adl_event schema=adl.observability.event.v1 command=csm stage=dispatch result=started subcommand=runtime-v3
-adl_event schema=adl.observability.event.v1 command=csm stage=dispatch result=started subcommand=runtime-v3
-adl_event schema=adl.observability.event.v1 command=csm stage=dispatch result=started subcommand=runtime-v3
 {
   "schema": "adl.issue_640.wuji_acceptance.v2",
   "status": "pass",
-  "candidate_revision": "f043dedbe6583461b3f26dc10b84a9914267ff01",
+  "candidate_revision": "843df6a967db3f91712be2280f4a602fd9b422b9",
   "host": "wuji.local",
   "command": [
     "bash",
     ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
     "--live-wuji"
   ],
-  "runtime_process_before": 79184,
-  "runtime_process_after": 80172,
+  "runtime_process_before": 96861,
+  "runtime_process_after": 766,
   "restart_proved": true,
   "governed_inference_proved": true,
   "readiness_feed_consistent": true,
@@ -25,14 +21,14 @@ adl_event schema=adl.observability.event.v1 command=csm stage=dispatch result=st
     ],
     "communication_eligible": true,
     "detail": "Configured provider model loaded; governed inference probe passed",
-    "freshness_deadline_unix_millis": 1788371085642,
+    "freshness_deadline_unix_millis": 1788372466547,
     "health": "healthy",
     "id": "shepherd",
     "label": "Beacon",
     "location": "local_runtime",
     "model": "qwen3:8b",
     "name": "beacon.axioma",
-    "observed_at_unix_millis": 1788370785642,
+    "observed_at_unix_millis": 1788372166547,
     "provenance": "runtime_resident_shepherd",
     "provider": "ollama",
     "role": "resident shepherd",
@@ -40,4 +36,4 @@ adl_event schema=adl.observability.event.v1 command=csm stage=dispatch result=st
     "state": "ready"
   }
 }
-qwen3:8b    500a1f067a9f    9.0 GB    100% GPU     40960      Forever    
+qwen3:8b          500a1f067a9f    9.0 GB    100% GPU     40960      Forever
