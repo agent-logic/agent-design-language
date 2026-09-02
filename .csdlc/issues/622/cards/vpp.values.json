@@ -1,0 +1,72 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 622,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
+    "slug": "provider-profile-hotload",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "provider-reload-production",
+          "proof_role": "Prove valid activation last-known-good retention and the production execution call path with a nonzero exact target.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+            "production"
+          ],
+          "parallel_group": "provider-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "provider-reload-safety",
+          "proof_role": "Prove atomic concurrency parameter capability redaction debounce and shutdown behavior with nonzero focused tests.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+            "safety"
+          ],
+          "parallel_group": "provider-safety",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing production ownership, partial snapshots, invalid-candidate promotion, credential disclosure, authority mutation, restart-based substitution, zero-test selectors, or absent exact-head review.",
+      "design_ref": ".csdlc/prepared/issues/622/design.md",
+      "design_digest": "ea275103456f784d54a414064086d2bd7e100815c04337cd95b857e3ee868966",
+      "diagram_ref": ".csdlc/prepared/issues/622/diagram.mmd",
+      "diagram_digest": "535f79ff7ecaf9bd9e1afae0f7393ff03c94d02a69dd2b2b953a5a72fc5dbb32"
+    }
+  }
+}

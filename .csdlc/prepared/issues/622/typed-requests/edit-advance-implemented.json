@@ -1,0 +1,12 @@
+{
+  "actor": "codex:/root:issue-622-implementation",
+  "card": "spp",
+  "expected_digest": "babbe9f05d8a5d1455e30cd690e619e2ba5c4ba959ea174b738728a51783cef6",
+  "expected_generation": 4,
+  "issue": 622,
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "reason": "Advance #622 after implementing production provider/profile hot loading, documenting behavior, and passing the declared focused production and safety validation lanes."
+}

@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root:issue-622-implementation",
+  "card": "sor",
+  "expected_digest": "f02a00064a0116a84d7d1d278054634e456f2e2e066b45e3bf1002a33492c0fa",
+  "expected_generation": 9,
+  "issue": 622,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove the refreshed safety lane after exact-head review fixes, including runtime-kernel debounce/shutdown, stronger credential rejection, generation truth, production tick proof, and diff hygiene.",
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+        "safety"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:issue-622-post-review-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed; git diff --check passed"
+    }
+  },
+  "reason": "Record refreshed #622 safety validation after exact-head review fixes."
+}
