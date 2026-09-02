@@ -37,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Read-only final review did not rerun Cargo validation; implementation session reran the focused local validation set and recorded it in SOR.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:03acd1e223009e0ebf8f012e3b478ee5e27ead1c:9a42de2ac8c2ed8fe289d74c88f051c12ec52a69971838c00a4e9293de44448e")
 
-Reviewer: None
+Reviewer: Some("fresh-session:9a0d288c-d5ab-4529-9b5c-9c7706136ada")
 
-Result: pre_review
+Result: pass

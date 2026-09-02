@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "b424c411d4abf35b7d5e97fc1980a352d174507e04185a85ad4dfe5571773baf",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "dcc10308ffff959dc36058ba8f3ceebb83ebff07c9c9b2d7e2618bbb24c0ca0d",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
   "review_assignment": {
@@ -22,7 +22,24 @@
       ".csdlc/prepared/issues/515"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:9a0d288c-d5ab-4529-9b5c-9c7706136ada",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
+      ".csdlc/prepared/issues/515"
+    ],
+    "reviewed_revision": "git-blake3:03acd1e223009e0ebf8f012e3b478ee5e27ead1c:9a42de2ac8c2ed8fe289d74c88f051c12ec52a69971838c00a4e9293de44448e",
+    "findings": [],
+    "residual_risks": [
+      "Read-only final review did not rerun Cargo validation; implementation session reran the focused local validation set and recorded it in SOR."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "03dd047ca2e79a1f8a7c7cd25550b587cd7a78d6b2f0956583d1dc9aaa8d62f9",
+      "values_digest": "ae3a801057850a1a10a91f25d13652f646c575f597f61eb51f3cc3eecc1459b9",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "ca79257dbd32fe7d093317d371ef8b70910eed61945978ff43b19916922ae262",
+      "values_digest": "844036b2cc16a895d81def18ad33727547242055fbadf8ad5fbbb02bf0569623",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "8fcd206af47d393ca13c58d693787d85335b2e477496b809c98b6465cb75e445",
+      "values_digest": "9f8175fdd460cfe7e12f66874bcd0836ad0e473719a8dbdaae5710d0258f86b3",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "5da31707ef2dc3917f858cb44de9a6639a076f6d764c8032ad8d3baf3073cf1f",
+      "values_digest": "80f3e789ad0775b430c3868ea009bf2c3a94c0bcb658018b056685194ccea069",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "efb5755c0cb3130ddc49dc26aef17aa875b99beb6fef59116cf5f38a4daf66b0",
-      "rendered_digest": "167d92ba1efcf0ba600b1cd1f5409d0f89f2d2b46b7040962aa97e823087a82a",
-      "ast_digest": "e94a0785a8bf592cc7f4cf3516a1f30b7925774a4c56348b2922849c11688f54"
+      "values_digest": "5d1ae5da84f710a79c62a27021fdef35502564ccf74076c8c768e5a8e8f89600",
+      "rendered_digest": "0df0c50755f55bcd0c5c5999677e64bf601e390f30ee6f46fe7463bab3152105",
+      "ast_digest": "d3076dd6e8ac772c3a2b234486ffb32e4d82eb8954fd5c34cececffaa1ce2f57"
     },
     "sor": {
-      "values_digest": "a68ef8e457147c1c5466b21e7f91205c32e5ae5fda5847dab00db63ae8d6106d",
+      "values_digest": "ebe7f8c4cc992cd48182a764928973e1006758e2aa9c3387bb65d9eed4311934",
       "rendered_digest": "6d06ae885df1fbd8d5f918d5887d122e4e8b0457cb762d473506504122ccff0c",
       "ast_digest": "00c6565d0177c8d5d5c876a2c0572c36862a02cb0331ece814d54a6c864b18f8"
     }
@@ -102,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Recover #515 review truth so the final exact-head review can include the current branch history after removing an accidental non-governed one-shot review request copy."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -293,6 +317,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
