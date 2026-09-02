@@ -44,7 +44,7 @@ Implemented config-driven dynamic Ollama agent admission, lifecycle management, 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
