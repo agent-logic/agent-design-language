@@ -16,3 +16,4 @@
 {"sequence":16,"generation":12,"actor":"codex:worker-6","reason":"Recover review after merging origin/main so #596 can receive fresh exact-head review and publication truth.","operation":"recover_review"}
 {"sequence":17,"generation":12,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":13,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":19,"generation":14,"actor":"codex:worker-6","reason":"Recover review after fixing typed publication reconciliation for already-pushed metadata-only tails.","operation":"recover_review"}

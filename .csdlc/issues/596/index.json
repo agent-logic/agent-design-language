@@ -4,33 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "1f73425dc4f21636d14b207ce4ce2ae76432f6d4af6322cb76be2b53759c30db",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "5f81d0fea5aeae72b2d745209398fc6450ee15a60727caedf99463b82b2df881",
   "branch": "codex/sprints-5-6-cutover-fixes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
-  "review_assignment": {
-    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:d59da475fcc349c4c334bdc3ceb0bbd3e3be7c4d:66b12c6528862391f5a7577f1b59d8da3de996164ca76cc9e8a7dd0954f67482",
-    "scope": [
-      "."
-    ]
-  },
-  "review": {
-    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:d59da475fcc349c4c334bdc3ceb0bbd3e3be7c4d:66b12c6528862391f5a7577f1b59d8da3de996164ca76cc9e8a7dd0954f67482",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.",
-      "The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must update PR #615 with a closing keyword for #596 only."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "20d80160156f710a4e8a80d3319fe42d310053689d2758010f6aaba4910b75bd",
+      "values_digest": "a29c9c0763df58c2b50358e85597ffa1e3fa11ad42ee2df258aeb43f86ad62ef",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "c2ac7df4c94f6061440fdc22f6cb46e8c4f1ec21cb96abeb7784b2004debf2de",
+      "values_digest": "5ddb11d381b63302837c8965f268930ac88fa080b650408c83ddaa1a9bbfb217",
       "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
       "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
     },
     "spp": {
-      "values_digest": "2dac70ae96e168a93de49c2432236b4f21e311f5d3601476cc9e704d4ac14830",
+      "values_digest": "1a406ab9bd313d1dd4f9f993a262cbacd2f1e2642ec63babada09857cc07e716",
       "rendered_digest": "e24a19c3602aadf2b603b80220b548d9d3a7da22ced8bb66557d4962ea017d30",
       "ast_digest": "b3ea625a7cd080feb19e1687b9aaa1cd8f732fb2011b5a16f9c2b4d1d8c38c9b"
     },
     "vpp": {
-      "values_digest": "bfed1f94f6e1619c958d54bc93dc025593776b328e223d63e70fa844f3b9a50e",
+      "values_digest": "9b474085b73cf57d56984c921eb00f60f0bcfae256d360f8118b0c505b27870b",
       "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
       "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "7dd6f85820377be5a4779911aaa2c854aa153a2aae84d8cc258bab996be7382b",
-      "rendered_digest": "e12602daaa7c3e0b7da471f96ea11b69153350c48c4dffe1166830e604937782",
-      "ast_digest": "9e119bdb56dac68d6eaab47f124b14f97d83886535b98b4723783836b5e352c7"
+      "values_digest": "5d633767e6d3737d11478a8f828591a9fe871df1254bca25ec9606d79c3d2f9f",
+      "rendered_digest": "2c68b62032294cf243dd1df772afd0e5d451be2b996fd02f522bf6d1affa1884",
+      "ast_digest": "d2fae27f6ffd715d1ce79c78293674463911d5b45ba12568418e5892af3b77da"
     },
     "sor": {
-      "values_digest": "70dafa345f2588f18a05f82d71c5c06f225f1a1742ad9d6bd912f86095b0030b",
+      "values_digest": "aa599439cf13a0233290b8993dc4cd0bf2b15ef1e76dae18a4c53c4d3cb4137d",
       "rendered_digest": "a5dc0dff44f0fe339ba796fed31ae7c8349242d7425158c7f62a13b20333fcb4",
       "ast_digest": "d8adc037f1d14455a66253af55836f1ff6f8b3933953ce3a00eb21c94d0b14f2"
     }
@@ -138,6 +118,13 @@
       "to": "reviewed",
       "actor": "codex:worker-6",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review after fixing typed publication reconciliation for already-pushed metadata-only tails."
     }
   ],
   "audit": [
@@ -266,6 +253,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "Recover review after fixing typed publication reconciliation for already-pushed metadata-only tails.",
+      "operation": "recover_review"
     }
   ]
 }
