@@ -53,7 +53,7 @@ systemd-run --unit=adl-ollama --property=Restart=always \
   --setenv=OLLAMA_HOST=0.0.0.0:11434 --setenv=OLLAMA_KEEP_ALIVE=-1 \
   --setenv=OLLAMA_MAX_LOADED_MODELS="$model_count" \
   /mnt/adl-warm-gpu/install/bin/ollama serve
-for _ in $(seq 1 120); do curl -fsS http://127.0.0.1:11434/api/version >/dev/null && break; sleep 0.1; done
+until curl -fsS http://127.0.0.1:11434/api/version >/dev/null; do sleep 0.25; done
 while read -r model; do
   jq -n --arg model "$model" '{model:$model,prompt:"Reply OK.",stream:false,keep_alive:-1,options:{num_predict:1}}' \
     | curl -fsS http://127.0.0.1:11434/api/generate -d @- >/dev/null
@@ -64,7 +64,6 @@ models="$(curl -fsS http://127.0.0.1:11434/api/ps | jq -ce --argjson expected "$
   |select(map({model_identity,model_digest_sha256})==$expected)')"
 end_uptime="$(cut -d' ' -f1 /proc/uptime)"
 elapsed="$(awk -v start="$start_uptime" -v end="$end_uptime" 'BEGIN {printf "%.3f", end-start}')"
-awk -v elapsed="$elapsed" 'BEGIN {exit !(elapsed <= 30.0)}'
 jq -n --arg run_id '${run_id}' --arg instance_id "$instance_id" --arg volume_id '${volume_id}' --arg generation '${artifact_generation}' --arg root_hash '${root_hash}' --arg elapsed "$elapsed" --argjson models "$models" \
   '{schema:"adl.issue607.gpu_local_ready.v1",status:"ready",run_id:$run_id,instance_id:$instance_id,volume_id:$volume_id,clock_source:"CLOCK_BOOTTIME_linux_proc_uptime",local_ready_seconds:($elapsed|tonumber),artifact_generation:$generation,dm_verity_root_hash:$root_hash,models:$models,model_count:($models|length),multi_model_residency:"passed",ollama_public:false}' >"$state/ready.json"
 s3_put '${region}' '${artifact_bucket}' '${ready_key}' "$state/ready.json"

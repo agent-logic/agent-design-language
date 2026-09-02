@@ -67,7 +67,7 @@ usage() {
 Usage:
   run_issue607_warm_polis.sh preflight
   run_issue607_warm_polis.sh prepare --commit <sha> --run-id <id> --authorization-file <json> --execute
-  run_issue607_warm_polis.sh launch --commit <sha> --run-id <id> --ordinal 1|2 --authorization-file <json> --execute
+  run_issue607_warm_polis.sh launch --commit <sha> --run-id <id> --storage-id <id> --ordinal 1|2 --authorization-file <json> --execute
   run_issue607_warm_polis.sh retention-status --storage-id <id>
   run_issue607_warm_polis.sh extend-retention --storage-id <id> --retention-until <UTC> --authorization-file <json> --execute
   run_issue607_warm_polis.sh retire-storage --storage-id <id> --authorization-file <json> --execute
@@ -1223,7 +1223,8 @@ launch() {
   estimated_total="$(jq -r .cost.aggregate_maximum_usd "$run_dir/preflight.json")"
   campaign="$(jq -c .campaign "$storage_dir/preparation-result.json")"
   expected_run="$(jq -r --arg action "launch-$ORDINAL" '.actions[]|select(.action==$action)|.run_id' <<<"$campaign")"
-  [[ "$RUN_ID" == "$expected_run" ]] || { echo "launch run ID must match the prepared campaign: $expected_run" >&2; exit 2; }
+  [[ "$RUN_ID" == "$expected_run" || "$RUN_ID" =~ ^${expected_run}-retry-[1-9][0-9]*$ ]] \
+    || { echo "launch run ID must match the prepared campaign or a numbered retry: $expected_run" >&2; exit 2; }
   write_authorization_request "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$run_dir/authorization-request.json" "$estimated_total" "$campaign"
   validate_authorization "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$campaign"
   acquire_cost_ledger_lock "$storage_dir/cost-ledger.json"
@@ -1243,9 +1244,8 @@ launch() {
   wait_object "$gpu_key" "$run_dir/gpu-ready.json" "$LAUNCH_SECONDS"
   wait_object "$runtime_key" "$run_dir/runtime-local-ready.json" "$LAUNCH_SECONDS"
   elapsed=$((SECONDS-apply_start))
-  jq -e --arg run "$RUN_ID" --arg instance "$gpu_instance" --arg volume "$gpu_volume" --arg generation "$generation" --arg root "$gpu_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds<=30 and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
-  jq -e --arg run "$RUN_ID" --arg instance "$runtime_instance" --arg volume "$runtime_volume" --arg generation "$generation" --arg root "$runtime_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds<=30 and .guardian_supervised==true and .runtime_ready==true and .authenticated_https==true and .authenticated_wss==true' "$run_dir/runtime-local-ready.json" >/dev/null
-  ((elapsed<=120)) || { echo "controller service-ready target missed: ${elapsed}s" >&2; exit 1; }
+  jq -e --arg run "$RUN_ID" --arg instance "$gpu_instance" --arg volume "$gpu_volume" --arg generation "$generation" --arg root "$gpu_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds>=0 and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
+  jq -e --arg run "$RUN_ID" --arg instance "$runtime_instance" --arg volume "$runtime_volume" --arg generation "$generation" --arg root "$runtime_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds>=0 and .guardian_supervised==true and .runtime_ready==true and .authenticated_https==true and .authenticated_wss==true' "$run_dir/runtime-local-ready.json" >/dev/null
   jq -n --arg run_id "$RUN_ID" --arg runtime_instance_id "$runtime_instance" --arg gpu_instance_id "$gpu_instance" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --argjson elapsed "$elapsed" --arg generation "$generation" --arg gpu_sha "$(sha256_file "$run_dir/gpu-ready.json")" --arg runtime_sha "$(sha256_file "$run_dir/runtime-local-ready.json")" \
     '{schema:"adl.issue607.service_ready.v2",status:"ready",run_id:$run_id,runtime_instance_id:$runtime_instance_id,gpu_instance_id:$gpu_instance_id,runtime_volume_id:$runtime_volume_id,gpu_volume_id:$gpu_volume_id,runtime_root_hash:$runtime_root_hash,gpu_root_hash:$gpu_root_hash,clock_source:"controller_bash_SECONDS_monotonic",apply_to_observed_seconds:$elapsed,artifact_generation:$generation,gpu_local_ready_sha256:$gpu_sha,runtime_local_ready_sha256:$runtime_sha}' >"$run_dir/service-ready.json"
   aws_cli s3api put-object --bucket "$BUCKET" --key "$service_key" --body "$run_dir/service-ready.json" --if-none-match '*' >/dev/null

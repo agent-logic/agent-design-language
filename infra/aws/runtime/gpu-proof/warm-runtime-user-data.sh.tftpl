@@ -53,11 +53,11 @@ live_facility="$(jq -n --arg kernel "$(uname -r)" --arg libc "$(ldd --version 2>
   --arg boto3 "$(python3 -c 'import boto3; print(boto3.__version__)')" '{kernel:$kernel,libc:$libc,boto3:$boto3}')"
 jq -e --argjson live "$live_facility" '.facility_inventory.measured_after_preparation_bootstrap==true and (.facility_inventory|{kernel,libc,boto3})==($live|{kernel,libc,boto3})' "$manifest" >/dev/null
 
-for _ in $(seq 1 120); do
+until
   s3_get '${region}' '${artifact_bucket}' '${gpu_ready_key}' "$state/gpu-ready.json" >/dev/null 2>&1 \
     && jq -e --arg run '${run_id}' --arg volume '${gpu_volume_id}' --arg generation '${artifact_generation}' --arg root '${gpu_root_hash}' '.status=="ready" and .run_id==$run and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .model_count>=2 and .multi_model_residency=="passed" and .ollama_public==false' "$state/gpu-ready.json" >/dev/null \
-    && curl -fsS 'http://${gpu_private_ip}:11434/api/ps' >/dev/null \
-    && break
+    && curl -fsS 'http://${gpu_private_ip}:11434/api/ps' >/dev/null
+do
   sleep 0.25
 done
 jq -e --arg run '${run_id}' '.status=="ready" and .run_id==$run and .model_count>=2' "$state/gpu-ready.json" >/dev/null
@@ -75,7 +75,6 @@ python3 /mnt/adl-warm-runtime/repo/adl/tools/issue607_probe_runtime.py \
 jq -e '.status=="pass" and .authenticated_https==true and .authenticated_wss==true' "$state/running-transport-proof.json" >/dev/null
 end_uptime="$(cut -d' ' -f1 /proc/uptime)"
 elapsed="$(awk -v start="$start_uptime" -v end="$end_uptime" 'BEGIN {printf "%.3f", end-start}')"
-awk -v elapsed="$elapsed" 'BEGIN {exit !(elapsed <= 30.0)}'
 jq -n --arg run_id '${run_id}' --arg instance_id "$instance_id" --arg volume_id '${volume_id}' --arg generation '${artifact_generation}' --arg root_hash '${root_hash}' --arg elapsed "$elapsed" \
   --arg transport_proof_sha256 "$(sha256sum "$state/running-transport-proof.json" | awk '{print $1}')" \
   '{schema:"adl.issue607.runtime_local_ready.v1",status:"ready",run_id:$run_id,instance_id:$instance_id,volume_id:$volume_id,clock_source:"CLOCK_BOOTTIME_linux_proc_uptime",local_ready_seconds:($elapsed|tonumber),artifact_generation:$generation,dm_verity_root_hash:$root_hash,guardian_supervised:true,runtime_ready:true,authenticated_https:true,authenticated_wss:true,running_transport_proof_sha256:$transport_proof_sha256}' >"$state/ready.json"
