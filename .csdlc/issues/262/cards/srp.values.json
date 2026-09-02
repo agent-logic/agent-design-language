@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/evidence/262\n.csdlc/prepared/issues/262\nadl/tools/record_podcast_native_playback.sh\nadl/tools/record_podcast_browser_playback.mjs\nadl/tools/record_podcast_ios_safari_playback.sh\ndemos/_preview/podcast/index.html\ndemos/podcast/LAUNCH_READINESS.md\ndemos/podcast/S3_CLOUDFRONT_RUNBOOK.md\ndemos/podcast/audio/meet-the-ai-coworkers.mp3\ndemos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/episode.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/script.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md\ndemos/podcast/episodes/meet-the-ai-coworkers/index.html\ndemos/podcast/feed.xml\ndemos/podcast/index.html\ndemos/podcast/studio-reference/podcast-studio.html\ndemos/podcast/studio/podcast-studio.html",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
