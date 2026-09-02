@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 507,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+    "slug": "six-resident-uts-qualification",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #507 DRT-B paths only: adl-runtime/src/qualification, adl-runtime/tests/distributed_contract, adl-runtime-kernel/src, adl/tools/run_issue268_, docs/milestones/v0.92.1/evidence/runtime/drt-b, .csdlc/prepared/issues/507, and .csdlc/evidence/507.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #507 prove six distinct residents from actual contract state rather than labels or fixture names?",
+        "Does dehydrate/restore preserve exact population, lineage, workload receipts, and replay/idempotency evidence?",
+        "Are reclamation, resource-envelope, cost, and cleanup predicates machine-checkable and truthfully separated from optional paid/GPU proof?",
+        "Does the packet consume #506 and #345 read-only while avoiding #508/#509 scope and credential exposure?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
