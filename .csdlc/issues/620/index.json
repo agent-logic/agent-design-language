@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "27daaf822151ec5c7c21a683ef36b956dfbdea03f327bda3d70143df0eafaae5",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "2f93d621e93956d7b5cf3c37dcaa86e3323388789b2dd45d1d2e01984f1367e6",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "aa67411b8f7d3c9fc87ab83d3b630e070782df341724f563259f5e86567798ae",
   "branch": "codex/620-v0922-first-pass-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
   "review_assignment": {
-    "reviewer": "fresh-session:620-docs-f51c25c52",
+    "reviewer": "fresh-session:620-docs-2e87de485",
     "assigned_by": "codex:620-execution",
-    "revision": "git-blake3:f51c25c52df05a98209ef65a3b732a01ae501f99:47db3bf536685aa0f264a1f9bb4f194e3a91b034dc52407313759fa8e1b25d63",
+    "revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
     "scope": [
       "docs/milestones/v0.92.2/**",
       ".csdlc/prepared/issues/620/design.md",
@@ -20,27 +20,67 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:620-docs-f51c25c52",
+    "reviewer": "fresh-session:620-docs-2e87de485",
     "scope": [
       "docs/milestones/v0.92.2/**",
       ".csdlc/prepared/issues/620/design.md",
       ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh"
     ],
-    "reviewed_revision": "git-blake3:f51c25c52df05a98209ef65a3b732a01ae501f99:47db3bf536685aa0f264a1f9bb4f194e3a91b034dc52407313759fa8e1b25d63",
+    "reviewed_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
     "findings": [
+      {
+        "id": "620-R1",
+        "severity": "p1",
+        "summary": "MLX admission lacked a recorded operator decision.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+        "route": null
+      },
+      {
+        "id": "620-R2",
+        "severity": "p1",
+        "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+        "route": null
+      },
+      {
+        "id": "620-R3",
+        "severity": "p1",
+        "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+        "route": null
+      },
+      {
+        "id": "620-R4",
+        "severity": "p2",
+        "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+        "route": null
+      },
       {
         "id": "620-R5",
         "severity": "p1",
-        "summary": "The #484/OPS-AWS reconciliation guard uses a literal pipe and makes scheduling validation fail without diagnostics.",
+        "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
         "route": null
       }
     ],
     "residual_risks": [
-      "Live PR mergeability and CI remain publication-time checks."
+      "Live PR mergeability and CI must be checked after publication because origin/main advanced during implementation."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -59,32 +99,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6b48c22c4feb328b4d74c7811cc4cef652efb01455784d287815195dc4596587",
+      "values_digest": "55894984d4146fc307a42970f6f1a221a46c5ec8ccb2cbd9d9f1c3d02e25a290",
       "rendered_digest": "ff6c09a07b5783513d3f6aa5e379b535fffbb29c0f0b18ad148f6f4866fcc8a3",
       "ast_digest": "c19b45b77eea4cf049f1a7008cbb0c9a812b05c8b67b08aefc03a55703e1b6b6"
     },
     "stp": {
-      "values_digest": "6e0b89c20e698b5c8c26c04a4654f03494f597b39bc47ebd3bb6e103b3ba7bdb",
+      "values_digest": "81905b96c380b00875b34735fbb6183ba80e5aed13220311040a2c3c71b48e2b",
       "rendered_digest": "47ce6d4c296578e64a794b00ddf1df6670ef9d722cfd0c78e643e464502e6d6d",
       "ast_digest": "e776234549aed48f895ce9ab02cb6b0ac1b0706af7339ac240c0228a5d7fb19b"
     },
     "spp": {
-      "values_digest": "e6a3f49b040cfb1f62de34082457ebc504cff0382193a9991987f7d40202851b",
+      "values_digest": "2c4d775813aa0350ec9fd5d3980b06058af720f0f9267975fd9c55416219f0ca",
       "rendered_digest": "83d1ed7b635567c1e5da20c16408cfa2735cf6812943daa8af163e13f92a9b9c",
       "ast_digest": "72444acd007b81b32dcee29422aae02f89aac6cc23155f3b09b900842509d3e5"
     },
     "vpp": {
-      "values_digest": "1ed5b42b49c17cd2ab12bf581dd6a5fa831eb588fa9bb928143a66d1a54c7c73",
+      "values_digest": "b7344fbbbea4f074f866234bb39f2db23aae4d75fda70a140affd88bcb4c92b8",
       "rendered_digest": "a3c6a9eacf872eeacbe942d91c65ee40a50eb5baa3cf62a93cdbf773de707b76",
       "ast_digest": "bf715ffcb46f3967e861dde61bdffb56cc7550ef009f0c3736e67744c176f24c"
     },
     "srp": {
-      "values_digest": "ab12bfae7dba0fe70dbb289e70cf19d32589318a8c4fc0aa7dab0b4ac6635e7f",
-      "rendered_digest": "1f41e236a94c40d96f1acae69e7120cc1e7f4b2d85213ccd80e777572230471d",
-      "ast_digest": "4af2e248696b0a9e8691ad7ad57d1269ab525cf87e425816d81bf5aa9d12dd89"
+      "values_digest": "3ed8446b0ff23a1f866bf742929316327ce2be558d022e773f37abac2ade7785",
+      "rendered_digest": "ca64156e511ff9d6a495b5b7494b139092a6372806d29f48d2ff3bf0251d25dd",
+      "ast_digest": "c8071a51097daf8fa794980ce0ac77d4466bfa3203ab0b0a4b84c2151b076f46"
     },
     "sor": {
-      "values_digest": "bced8a42209e8ea07b8a9b6b920194b35c707e8940c8d9cd0fa5db8bbf69b75e",
+      "values_digest": "33207e66fcf986f8da562002ca6f83f1f9bfa2f7db16990765d23c3cc97cd04f",
       "rendered_digest": "910677c70eb78bc03809a1c04606800ed073e8727a3d148cc8cbd81acf54dd04",
       "ast_digest": "bbffd1c40722ce0005fc81310e797665aee8f9e2da66367a462699e907a0ba33"
     }
@@ -110,6 +150,13 @@
       "to": "implemented",
       "actor": "codex:620-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:620-execution",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -158,6 +205,20 @@
     {
       "sequence": 7,
       "generation": 3,
+      "actor": "codex:620-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "codex:620-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
       "actor": "codex:620-execution",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

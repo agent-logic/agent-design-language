@@ -28,13 +28,53 @@ docs/milestones/v0.92.2/**
 
 [
   {
-    "id": "620-R5",
+    "id": "620-R1",
     "severity": "p1",
-    "summary": "The #484/OPS-AWS reconciliation guard uses a literal pipe and makes scheduling validation fail without diagnostics.",
+    "summary": "MLX admission lacked a recorded operator decision.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+    "route": null
+  },
+  {
+    "id": "620-R2",
+    "severity": "p1",
+    "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+    "route": null
+  },
+  {
+    "id": "620-R3",
+    "severity": "p1",
+    "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+    "route": null
+  },
+  {
+    "id": "620-R4",
+    "severity": "p2",
+    "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+    "route": null
+  },
+  {
+    "id": "620-R5",
+    "severity": "p1",
+    "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
     "route": null
   }
 ]
@@ -45,12 +85,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live PR mergeability and CI remain publication-time checks.
+- Live PR mergeability and CI must be checked after publication because origin/main advanced during implementation.
 
 ## Review Result
 
-Revision: Some("git-blake3:f51c25c52df05a98209ef65a3b732a01ae501f99:47db3bf536685aa0f264a1f9bb4f194e3a91b034dc52407313759fa8e1b25d63")
+Revision: Some("git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4")
 
-Reviewer: Some("fresh-session:620-docs-f51c25c52")
+Reviewer: Some("fresh-session:620-docs-2e87de485")
 
-Result: changes_required
+Result: pass

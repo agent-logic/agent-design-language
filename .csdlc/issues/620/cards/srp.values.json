@@ -7,15 +7,15 @@
     "title": "[v0.92.2][planning] Audit and refresh first-pass milestone documentation",
     "slug": "v0922-first-pass-planning",
     "version": "v0.92.2",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "docs/milestones/v0.92.2/**\n.csdlc/prepared/issues/620/design.md\n.csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
-      "review_revision": "git-blake3:f51c25c52df05a98209ef65a3b732a01ae501f99:47db3bf536685aa0f264a1f9bb4f194e3a91b034dc52407313759fa8e1b25d63",
-      "reviewer": "fresh-session:620-docs-f51c25c52",
+      "review_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+      "reviewer": "fresh-session:620-docs-2e87de485",
       "review_prompts": [
         "Does the package include every canonical document and first-class feature surface?",
         "Does each planned issue describe one bounded unit with a concrete result?",
@@ -25,20 +25,60 @@
       ],
       "findings": [
         {
-          "id": "620-R5",
+          "id": "620-R1",
           "severity": "p1",
-          "summary": "The #484/OPS-AWS reconciliation guard uses a literal pipe and makes scheduling validation fail without diagnostics.",
+          "summary": "MLX admission lacked a recorded operator decision.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+          "route": null
+        },
+        {
+          "id": "620-R2",
+          "severity": "p1",
+          "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+          "route": null
+        },
+        {
+          "id": "620-R3",
+          "severity": "p1",
+          "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+          "route": null
+        },
+        {
+          "id": "620-R4",
+          "severity": "p2",
+          "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
+          "route": null
+        },
+        {
+          "id": "620-R5",
+          "severity": "p1",
+          "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:2e87de485b7ac7db1c947a56e02d741dabb526a1:59c59dfe85a6096388ac9aa84c1171803cb9972355c2523a644af3304c57e3d4",
           "route": null
         }
       ],
       "residual_risk": [
-        "Live PR mergeability and CI remain publication-time checks."
+        "Live PR mergeability and CI must be checked after publication because origin/main advanced during implementation."
       ],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }
