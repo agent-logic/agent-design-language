@@ -25,12 +25,11 @@ for command in curl jq mount python3 readlink systemctl veritysetup nvidia-smi; 
 python3 -c 'import boto3, botocore' >/dev/null
 compact='${volume_id}'
 compact="$${compact//-/}"
-for _ in $(seq 1 120); do
+while true; do
   device="/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$compact"
   [[ -e "$device" ]] && break
-  sleep 0.1
+  sleep 1
 done
-[[ -e "$device" ]]
 device="$(readlink -f "$device")"
 veritysetup open "$${device}p1" adl-warm-gpu "$${device}p2" '${root_hash}'
 mount -o ro,nosuid,nodev /dev/mapper/adl-warm-gpu /mnt/adl-warm-gpu
@@ -48,7 +47,10 @@ live_facility="$(jq -n --arg kernel "$(uname -r)" --arg libc "$(ldd --version 2>
 jq -e --argjson live "$live_facility" '.facility_inventory.measured_after_preparation_bootstrap==true and (.facility_inventory|{kernel,libc,nvidia_driver,cuda,gpu,boto3})==$live' "$manifest" >/dev/null
 
 model_count="$(jq '.models|length' "$manifest")"
-systemd-run --unit=adl-ollama --property=Restart=always \
+systemd-run --unit=adl-ollama \
+  --property=Restart=always \
+  --property=RestartSec=1s \
+  --property=StartLimitIntervalSec=0 \
   --setenv=HOME="$state" --setenv=OLLAMA_MODELS=/mnt/adl-warm-gpu/install/models/models \
   --setenv=OLLAMA_HOST=0.0.0.0:11434 --setenv=OLLAMA_KEEP_ALIVE=-1 \
   --setenv=OLLAMA_MAX_LOADED_MODELS="$model_count" \

@@ -35,12 +35,11 @@ for command in curl jq mount openssl python3 readlink systemctl veritysetup; do 
 python3 -c 'import boto3, botocore' >/dev/null
 compact='${volume_id}'
 compact="$${compact//-/}"
-for _ in $(seq 1 120); do
+while true; do
   device="/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$compact"
   [[ -e "$device" ]] && break
-  sleep 0.1
+  sleep 1
 done
-[[ -e "$device" ]]
 device="$(readlink -f "$device")"
 veritysetup open "$${device}p1" adl-warm-runtime "$${device}p2" '${root_hash}'
 mount -o ro,nosuid,nodev /dev/mapper/adl-warm-runtime /mnt/adl-warm-runtime

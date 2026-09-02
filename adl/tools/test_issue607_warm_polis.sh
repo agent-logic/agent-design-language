@@ -267,6 +267,10 @@ run_contracts() {
   rg -q 'Restart=always' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'StartLimitIntervalSec=0' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q '^until python3 .*issue607_probe_runtime.py' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'StartLimitIntervalSec=0' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl"
+  ! rg -q 'for _ in \$\(seq 1 120\)' \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl" \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl"
   rg -q 'ADL_RUNTIME_PREPARE_STATE_ONLY=1' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   ! rg -q 'apt-get install[^\n]*awscli|snap install|snapd' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
