@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
     "slug": "sprints-5-6-cutover-fixes",
     "version": "v0.92.1",
-    "generation": 26
+    "generation": 38
   },
   "status": "draft",
   "content": {
@@ -17,9 +17,10 @@
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Does #596 now have canonical local lifecycle state before PR #597 closes it?",
-        "Can the same PR update operation key overwrite a different body?",
-        "Can a crash after durable state commit but before projection write reopen as complete?",
+        "Does #596 have canonical local lifecycle state before PR #615 closes it?",
+        "Does PR #615 visibly close #596 while keeping #505 and #534 as non-closing Part-Of links?",
+        "Does the branch have zero net csdlc-v2 source/test mutation against origin/main?",
+        "Are observed v2 defects captured as v3 replacement requirements rather than patched in v2?",
         "Does any evidence claim v3 authority before #505?"
       ],
       "findings": [],

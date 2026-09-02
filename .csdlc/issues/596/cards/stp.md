@@ -18,20 +18,19 @@ Bounded remediation of sprint review blockers and typed-tool canary defects need
 
 - Typed six-card lifecycle state for #596
 - PR #615 body with visible Closes #596 and non-closing #505/#534 linkage
-- Issue-owned validator that proves PR linkage, six-card state, portable owner-lane sources, and no net csdlc-v2 source/test mutation
-- Single csdlc v3 binary and standalone locked CI coverage evidence
-- Behavior-backed v3 importer, durability, review, finish, and cleanup denominator evidence
-- Real issue canary evidence for #592, OBS-A/#511, and OBS-B/#512
+- Issue-owned validator that rejects missing closing linkage, accidental #505/#534 closure, and any csdlc-v2 source/test diff
+- V3 full-replacement denominator and real-issue canary evidence
+- Captured v2 lifecycle/tooling defects for v3 replacement without mutating v2 source
 
 ## Acceptance
 
 1. AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards
 2. AC-2: PR #615 visibly closes #596 and does not close #505 or #534
-3. AC-3: Covered publication/readback operations are performed through typed C-SDLC v2 GitHub owners, not raw gh
-4. AC-4: The remediation branch has no net csdlc-v2 source or test mutation; v2 defects remain captured as v3 replacement/cutover blockers
-5. AC-5: v3 durable transaction and real-issue canary proof remains non-authoritative until #505 cutover
-6. AC-6: v3 construction remains non-authoritative until #505 cutover
-7. AC-7: Focused v3, CI-policy, canary, issue-owned validator, and diff-hygiene validation passes before handoff
+3. AC-3: PR body publication is performed through typed C-SDLC v2 owners, not raw gh
+4. AC-4: The remediation branch has zero net csdlc-v2 source/test mutation against origin/main
+5. AC-5: V3 replacement/canary evidence is present without granting v3 lifecycle authority before #505
+6. AC-6: Observed v2 lifecycle/tooling defects are captured as v3 replacement requirements rather than patched in v2
+7. AC-7: Focused v2 structural validation, v3 canary, issue validator, and diff hygiene pass before handoff
 
 ## Dependencies
 
@@ -42,10 +41,10 @@ Bounded remediation of sprint review blockers and typed-tool canary defects need
 ## Inputs
 
 - /Volumes/FastWork/adl-reviews/csdlc-sprints-5-6-20260830/SYNTHESIS.md
-- PR #597
+- PR #615
 - Issue #596
-- .csdlc/evidence/sprints-5-6-cutover-fixes/remediation-pr-create-result.json
-- .csdlc/evidence/sprints-5-6-cutover-fixes/remediation-pr597-state-after-push.json
+- .csdlc/prepared/issues/596/pr-create-request.json
+- .csdlc/evidence/604/full-cycle-defects-tail.md
 
 ## Non Goals
 

@@ -1,8 +1,8 @@
 {
   "issue": 596,
   "card": "sor",
-  "expected_generation": 25,
-  "expected_digest": "c24f0d4ca4c84e0232e6be49fb1ba4879e93eefb824dabbc5c7e57e56f65118f",
+  "expected_generation": 36,
+  "expected_digest": "302274fa360ad9347bfa52aa154e2c3818e35daa0bee98b046a6c18e27691894",
   "actor": "codex:worker-6",
   "reason": "Correct #596 output truth after restoring v3 separation and proving the branch has no net C-SDLC v2 source/test mutation.",
   "operation": {

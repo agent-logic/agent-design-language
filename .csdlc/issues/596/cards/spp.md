@@ -12,45 +12,45 @@ Status: ready
 
 ## Summary
 
-Create the typed lifecycle record, repair the idempotency and durability defects found by review, rerun focused proof, push the remediation branch, and re-check PR #597 without touching main.
+Create and publish a truthful #596 remediation PR that visibly closes #596, preserves #505/#534 as non-closing links, records v3 replacement/canary evidence, and fails closed if the branch mutates csdlc-v2 source or tests.
 
 ## Plan
 
-Revision 5
+Revision 7
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Create canonical typed six-card lifecycle state for #596.",
+    "action": "Restore #596 lifecycle truth after the stale #597 publication path and keep it bound to PR #615.",
     "acceptance_ids": [
-      "AC-1"
+      "AC-1",
+      "AC-2"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Verify and preserve PR #597 linkage so it closes #596 only and marks #505/#534 as Part-Of.",
+    "action": "Require visible Closes #596 linkage while preserving #505 and #534 as non-closing Part-Of references.",
     "acceptance_ids": [
       "AC-2",
-      "AC-3",
-      "AC-6"
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Make typed PR update idempotency operation-key bound and add regression proof.",
+    "action": "Remove net csdlc-v2 source/test mutations from the remediation branch and capture observed v2 defects as v3 replacement requirements.",
     "acceptance_ids": [
-      "AC-3",
-      "AC-4"
+      "AC-4",
+      "AC-6"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Close the v3 durable projection crash window and add regression proof.",
+    "action": "Keep the v3 replacement denominator and real-issue canary evidence current without granting v3 lifecycle authority before #505.",
     "acceptance_ids": [
       "AC-5",
       "AC-6"
@@ -59,7 +59,7 @@ Revision 5
   },
   {
     "id": "S5",
-    "action": "Run focused validation, push, and refresh PR #597 readback.",
+    "action": "Run focused validation, review the v3-separation result, and republish PR #615 only after the branch has zero csdlc-v2 source/test diff.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -74,10 +74,10 @@ Revision 5
 ## Invariants
 
 - Primary checkout remains clean on main
-- V2 remains the only live lifecycle authority until #505 cutover
+- V2 remains the only live lifecycle authority until explicit #505 cutover
 - PR #615 closes only #596
-- The remediation branch has no net csdlc-v2 source or test mutation
-- V3 canary evidence remains non-authoritative before #505
+- The remediation branch keeps zero net csdlc-v2 source/test diff against origin/main
+- Observed v2 lifecycle/tooling defects are captured as v3 replacement requirements, not patched in v2
 
 ## Risks
 
@@ -104,13 +104,13 @@ Digest: 52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966
 
 .csdlc/prepared/issues/596/diagram.mmd
 
-Digest: 3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070
+Digest: 4c1b143d16c6e661e4dcc6c84d7da2b912140f4fb02898807fbc52b576c266a8
 
 ## Stop Conditions
 
 - Primary checkout is no longer clean on main
 - PR #615 body would close #505 or #534
-- The branch gains a net csdlc-v2 source/test diff
+- Any csdlc-v2 source/test path appears in the origin/main...HEAD diff
 - Typed C-SDLC v2 owner refuses required lifecycle mutation
 - Fix requires widening beyond sprint remediation
 

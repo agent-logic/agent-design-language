@@ -101,4 +101,4 @@ not_started
 
 ## Follow Ups
 
-- none
+- DEFECT-019 records that v2 recovery-window card editing is brittle; v3 must provide one deterministic lifecycle-truth repair route before cutover.

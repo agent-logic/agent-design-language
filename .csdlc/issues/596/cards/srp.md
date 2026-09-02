@@ -16,9 +16,10 @@ Status: draft
 
 ## Prompts
 
-- Does #596 now have canonical local lifecycle state before PR #597 closes it?
-- Can the same PR update operation key overwrite a different body?
-- Can a crash after durable state commit but before projection write reopen as complete?
+- Does #596 have canonical local lifecycle state before PR #615 closes it?
+- Does PR #615 visibly close #596 while keeping #505 and #534 as non-closing Part-Of links?
+- Does the branch have zero net csdlc-v2 source/test mutation against origin/main?
+- Are observed v2 defects captured as v3 replacement requirements rather than patched in v2?
 - Does any evidence claim v3 authority before #505?
 
 ## Findings

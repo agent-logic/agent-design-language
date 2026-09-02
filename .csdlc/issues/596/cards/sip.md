@@ -29,10 +29,11 @@ The remediation PR has typed local lifecycle state, uses typed C-SDLC v2 operati
 ## Authority
 
 - C-SDLC v2 remains live authority until explicit #505 cutover
-- PR #597 may close #596 only
+- PR #615 may close #596 only
 - #505 and #534 references are Part-Of only
 - No merge, finish, cleanup, or v3 authority cutover is authorized by this issue
 - Raw gh is not used for covered lifecycle writes
+- No csdlc-v2 source/test mutation is in scope for this v3 cutover-remediation branch
 
 ## Assumptions
 
@@ -42,5 +43,7 @@ The remediation PR has typed local lifecycle state, uses typed C-SDLC v2 operati
 
 - Do not work on primary main
 - Do not use /private/tmp for generated task artifacts
-- Use typed C-SDLC v2 operations for covered lifecycle state
-- Capture defects found while testing real issues for later resolution
+- Use typed C-SDLC v2 operations for covered lifecycle state until #505 cutover
+- PR #615 may close #596 only; #505 and #534 remain non-closing Part-Of links
+- Capture defects found while testing real issues for later v3 resolution
+- Do not mutate csdlc-v2 source or tests in this v3 cutover-remediation branch
