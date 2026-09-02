@@ -181,6 +181,21 @@ run_contracts() {
   cp "$checkpoint" "$recovery_storage/preparation-result.json"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-recovery-checkpoint-guard "$recovery_storage" >/dev/null 2>&1
 
+  recovery_run="$CASE_ROOT/recovery-run"; mkdir -p "$recovery_run"
+  recovery_commit="$ancestor"; recovery_run_id=adl-issue607-test-recovery; recovery_storage_id=adl-issue607-test-storage
+  recovery_owner="$(printf '%s' "$recovery_commit:$recovery_run_id:$recovery_storage_id:prepare" | shasum -a 256 | awk '{print substr($1,1,32)}')"
+  recovery_owner_sha="$(printf '%s' "$recovery_owner" | shasum -a 256 | awk '{print $1}')"
+  recovery_campaign="$(jq -n -c --arg commit "$recovery_commit" '{schema:"adl.issue607.campaign.v2",id:"campaign-test",source_commit:$commit}')"
+  jq -n --arg commit "$recovery_commit" --arg run "$recovery_run_id" --arg storage "$recovery_storage_id" --argjson campaign "$recovery_campaign" \
+    '{schema:"adl.issue607.authorization_request.v3",action:"prepare",source_commit:$commit,run_id:$run,storage_id:$storage,campaign:$campaign}' >"$recovery_run/authorization-request.json"
+  jq -n --arg run "$recovery_run_id" --arg storage "$recovery_storage_id" --arg owner "$recovery_owner_sha" \
+    '{schema:"adl.issue607.preparation_resource_ledger.v1",status:"active",run_id:$run,storage_id:$storage,campaign_id:"campaign-test",owner_token_sha256:$owner,resources:[]}' >"$recovery_run/preparation-resources.json"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-recovery-identity --commit "$recovery_commit" --run-id "$recovery_run_id" --storage-id "$recovery_storage_id" \
+    "$recovery_run" "$recovery_run/preparation-resources.json"
+  jq '.owner_token_sha256="tampered"' "$recovery_run/preparation-resources.json" >"$recovery_run/preparation-resources-tampered.json"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-recovery-identity --commit "$recovery_commit" --run-id "$recovery_run_id" --storage-id "$recovery_storage_id" \
+    "$recovery_run" "$recovery_run/preparation-resources-tampered.json" >/dev/null 2>&1
+
   launch_manifest="$CASE_ROOT/launch-action-manifest.json"; controller="$(git -C "$ROOT" rev-parse HEAD)"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-write-launch-action-manifest --commit "$ancestor" --run-id adl-issue607-test-launch --storage-id adl-issue607-test-storage \
     "$launch_manifest" launch-1 "$controller" plan-sha preflight-sha vol-0123456789abcdef0 vol-abcdef01234567890 runtime-root gpu-root owner-sha
@@ -193,6 +208,10 @@ run_contracts() {
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 1 "$cost_preflight" "$cost_ledger" adl-issue607-test-prepare
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 2 "$cost_preflight" "$cost_ledger" adl-issue607-test-prepare
   jq -e '(.entries|length)==1 and .entries[0].measured_elapsed_seconds==1' "$cost_ledger" >/dev/null
+  jq '.entries[0].conservative_cost_usd += 1 | .cumulative_conservative_usd += 1' "$cost_ledger" >"$cost_ledger.tampered"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 2 "$cost_preflight" "$cost_ledger.tampered" adl-issue607-test-prepare >/dev/null 2>&1
+  jq '.entries += [.entries[0]] | .cumulative_conservative_usd=([.entries[].conservative_cost_usd]|add)' "$cost_ledger" >"$cost_ledger.duplicate"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 2 "$cost_preflight" "$cost_ledger.duplicate" adl-issue607-test-prepare >/dev/null 2>&1
 
   for template in \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
@@ -277,6 +296,8 @@ run_contracts() {
   rg -q 'reconcile_completed_preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation-result.json.next' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'action_manifest.v3' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -Fq 'Name=tag:adl:owner-token,Values="$owner" Name=tag:adl:artifact-generation,Values="$COMMIT"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -Fq '>"$ledger.next"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:image/$image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:snapshot/$snapshot' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   ! rg -q 'CONTROL_PLANE_WAIT_SECONDS|ec2 wait (image-available|snapshot-completed|instance-stopped)' "$ROOT/adl/tools/run_issue607_warm_polis.sh"

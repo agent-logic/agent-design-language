@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 43
+    "generation": 44
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/607\n.csdlc/evidence/607/local-validation-resume-375ae8f88.json\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh",
+      "review_revision": "git-blake3:88c3fe568fb1f3ce5047dc7f7878ce3eac39e3e7:1eb17bb323dc664e7cbaa05b3a273d3b379a0e0e4dc5757ecb9fa0a2e765e258",
+      "reviewer": "subagent:issue_607_resume_r5_review",
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -23,9 +23,32 @@
         "Can stale or cross-AZ volume content activate?",
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "607-resume-r5-f1-recovery-owner",
+          "severity": "p1",
+          "summary": "Destructive preparation recovery is not exactly bound to ledger, owner, campaign, and artifact generation.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "607-resume-r5-f2-cost-reuse",
+          "severity": "p2",
+          "summary": "Preparation cost reconciliation accepts a weakly validated duplicate and initializes the cost ledger non-atomically.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "No compute is running; retained warm artifacts remain preserved while recovery and cost fail-closed checks are repaired."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

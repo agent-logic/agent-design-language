@@ -702,7 +702,7 @@ snapshot_prepared_generation() {
   else
     [[ -z "$existing_restore" ]] || { echo "temporary restore volume identity is not unique: $existing_restore" >&2; return 1; }
     RESTORE_TEST_VOLUME_ID="$(aws_cli ec2 create-volume --snapshot-id "$gpu_snapshot" --availability-zone "$AZ" --volume-type gp3 --iops 3000 --throughput 500 \
-      --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=$RUN_ID-snapshot-restore-test},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:snapshot-restore-test,Value=true},{Key=adl:cleanup-required,Value=true}]" \
+      --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=$RUN_ID-snapshot-restore-test},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:snapshot-restore-test,Value=true},{Key=adl:cleanup-required,Value=true}]" \
       --query VolumeId --output text)"
   fi
   [[ "$RESTORE_TEST_VOLUME_ID" =~ ^vol-[0-9a-f]+$ ]] || { echo "snapshot restore did not return an exact volume ID" >&2; return 1; }
@@ -750,20 +750,45 @@ verify_no_disposable_residue() {
   jq -n --arg owner_sha256 "$(sha256_text "$owner")" --argjson allowed "$allowed" --argjson evidence "$evidence" '{schema:"adl.issue607.zero_disposable_residue.v2",status:"pass",owner_token_sha256:$owner_sha256,allowed_retained_resources:$allowed,targeted_queries:$evidence,unexpected_resources:[]}' >"$output"
 }
 
-record_cost_ledger() {
-  action="$1" elapsed="$2" preflight_file="$3" ledger="$4" run_id="$5" source_bytes="${6:-0}"
+calculate_action_cost() {
+  action="$1" elapsed="$2" preflight_file="$3"
   runtime_rate="$(jq -r .cost.rates.runtime_hourly_usd "$preflight_file")"
   prep_rate="$(jq -r .cost.rates.runtime_preparation_hourly_usd "$preflight_file")"
   gpu_rate="$(jq -r .cost.rates.gpu_hourly_usd "$preflight_file")"
   if [[ "$action" == prepare ]]; then
-    action_cost="$(awk -v e="$elapsed" -v r="$prep_rate" -v g="$gpu_rate" -v root="$PREPARATION_ROOT_GIB" -v warm="$(jq -r .cost.warm_storage_seven_day_usd "$preflight_file")" -v snapshots="$(jq -r .cost.snapshot_seven_day_allowance_usd "$preflight_file")" 'BEGIN {printf "%.6f", warm+snapshots+0.20+((r+g)*e/3600)+(2*root*0.08*e/(30*24*3600))+(2*0.005*e/3600)}')"
+    awk -v e="$elapsed" -v r="$prep_rate" -v g="$gpu_rate" -v root="$PREPARATION_ROOT_GIB" -v warm="$(jq -r .cost.warm_storage_seven_day_usd "$preflight_file")" -v snapshots="$(jq -r .cost.snapshot_seven_day_allowance_usd "$preflight_file")" 'BEGIN {printf "%.6f", warm+snapshots+0.20+((r+g)*e/3600)+(2*root*0.08*e/(30*24*3600))+(2*0.005*e/3600)}'
   else
-    action_cost="$(awk -v e="$elapsed" -v r="$runtime_rate" -v g="$gpu_rate" -v rr="$RUNTIME_ROOT_GIB" -v gr="$GPU_ROOT_GIB" 'BEGIN {printf "%.6f", ((r+g)*e/3600)+((rr+gr)*0.08*e/(30*24*3600))+(2*0.005*e/3600)}')"
+    awk -v e="$elapsed" -v r="$runtime_rate" -v g="$gpu_rate" -v rr="$RUNTIME_ROOT_GIB" -v gr="$GPU_ROOT_GIB" 'BEGIN {printf "%.6f", ((r+g)*e/3600)+((rr+gr)*0.08*e/(30*24*3600))+(2*0.005*e/3600)}'
   fi
-  [[ -f "$ledger" ]] || jq -n --argjson ceiling "$MAX_TOTAL_USD" '{schema:"adl.issue607.aggregate_cost_ledger.v1",authorized_ceiling_usd:$ceiling,entries:[]}' >"$ledger"
+}
+
+validate_existing_prepare_cost_entry() {
+  ledger="$1" preflight_file="$2" run_id="$3" source_bytes="$4"
+  jq -e --argjson ceiling "$MAX_TOTAL_USD" --arg run "$run_id" --argjson source_bytes "$source_bytes" '
+    .schema=="adl.issue607.aggregate_cost_ledger.v1" and .authorized_ceiling_usd==$ceiling
+    and (.entries|type=="array") and ((.entries|map(.action)) as $actions | ($actions|length)==($actions|unique|length))
+    and all(.entries[];.action=="prepare" or .action=="launch-1" or .action=="launch-2")
+    and ([.entries[]|select(.action=="prepare")]|length)==1
+    and any(.entries[];.action=="prepare" and .run_id==$run and (.measured_elapsed_seconds|type=="number" and .>=0) and .s3_new_artifact_bytes==$source_bytes and .snapshot_count==4 and (.conservative_cost_usd|type=="number" and .>=0))
+    and (.cumulative_conservative_usd|type=="number" and .>=0 and .<=$ceiling)
+    and ((.cumulative_conservative_usd-([.entries[].conservative_cost_usd]|add))|fabs)<0.000001' "$ledger" >/dev/null \
+    || { echo "existing preparation cost ledger is invalid" >&2; return 2; }
+  existing_elapsed="$(jq -r '.entries[]|select(.action=="prepare")|.measured_elapsed_seconds' "$ledger")"
+  existing_cost="$(jq -r '.entries[]|select(.action=="prepare")|.conservative_cost_usd' "$ledger")"
+  expected_cost="$(calculate_action_cost prepare "$existing_elapsed" "$preflight_file")"
+  awk -v actual="$existing_cost" -v expected="$expected_cost" 'BEGIN {d=actual-expected;if(d<0)d=-d;exit !(d<0.000001)}' \
+    || { echo "existing preparation cost does not match its measured inputs" >&2; return 2; }
+}
+
+record_cost_ledger() {
+  action="$1" elapsed="$2" preflight_file="$3" ledger="$4" run_id="$5" source_bytes="${6:-0}"
+  action_cost="$(calculate_action_cost "$action" "$elapsed" "$preflight_file")"
+  if [[ ! -f "$ledger" ]]; then
+    jq -n --argjson ceiling "$MAX_TOTAL_USD" '{schema:"adl.issue607.aggregate_cost_ledger.v1",authorized_ceiling_usd:$ceiling,entries:[]}' >"$ledger.next"
+    mv "$ledger.next" "$ledger"
+  fi
   if ! jq -e --arg action "$action" 'all(.entries[]; .action!=$action)' "$ledger" >/dev/null; then
-    if [[ "$action" == prepare ]] && jq -e --arg action "$action" --arg run "$run_id" \
-      '([.entries[]|select(.action==$action)]|length)==1 and any(.entries[];.action==$action and .run_id==$run)' "$ledger" >/dev/null; then
+    if [[ "$action" == prepare ]] && validate_existing_prepare_cost_entry "$ledger" "$preflight_file" "$run_id" "$source_bytes"; then
       return 0
     fi
     echo "refusing duplicate campaign action in cost ledger: $action" >&2
@@ -875,19 +900,22 @@ retire_snapshots() {
 
 recover_preparation() {
   [[ "$EXECUTE" == true ]] || { echo "recover-preparation requires --execute" >&2; exit 2; }
-  validate_identity
+  validate_generation_controller
   run_dir="$STATE_ROOT/runs/$RUN_ID"; ledger="$run_dir/preparation-resources.json"
   [[ -f "$ledger" ]] || { echo "preparation resource ledger is missing" >&2; exit 2; }
+  [[ -f "$run_dir/authorization-request.json" ]] || { echo "preparation authorization request is missing" >&2; exit 2; }
   require_no_terminal_checkpoint_for_recovery "$STATE_ROOT/storage/$STORAGE_ID"
   [[ "$(jq -r .status "$ledger")" != completed ]] || { echo "completed preparation has no recovery cleanup to perform" >&2; exit 2; }
   business_account >/dev/null
+  validate_recovery_identity "$run_dir" "$ledger"
+  jq '.resources=[]' "$ledger" >"$ledger.next"; mv "$ledger.next" "$ledger"
   PREP_RESOURCE_LEDGER="$ledger"
-  for id in $(aws_cli ec2 describe-images --owners self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" --query 'Images[].ImageId' --output text); do
+  for id in $(aws_cli ec2 describe-images --owners self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:owner-token,Values="$owner" Name=tag:adl:artifact-generation,Values="$COMMIT" --query 'Images[].ImageId' --output text); do
     record_preparation_resource image "$id" active
     for snapshot in $(aws_cli ec2 describe-images --image-ids "$id" --query 'Images[0].BlockDeviceMappings[].Ebs.SnapshotId' --output text); do record_preparation_resource snapshot "$snapshot" active; done
   done
-  for id in $(aws_cli ec2 describe-snapshots --owner-ids self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" --query 'Snapshots[].SnapshotId' --output text); do record_preparation_resource snapshot "$id" active; done
-  for id in $(aws_cli ec2 describe-volumes --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:snapshot-restore-test,Values=true --query 'Volumes[].VolumeId' --output text); do record_preparation_resource volume "$id" active; done
+  for id in $(aws_cli ec2 describe-snapshots --owner-ids self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:owner-token,Values="$owner" Name=tag:adl:artifact-generation,Values="$COMMIT" --query 'Snapshots[].SnapshotId' --output text); do record_preparation_resource snapshot "$id" active; done
+  for id in $(aws_cli ec2 describe-volumes --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:owner-token,Values="$snapshot_owner" Name=tag:adl:artifact-generation,Values="$COMMIT" Name=tag:adl:snapshot-restore-test,Values=true --query 'Volumes[].VolumeId' --output text); do record_preparation_resource volume "$id" active; done
   cleanup_recorded_preparation_resources "$ledger"
   cleanup_preparation_state "$run_dir"
   cleanup_storage_state "$STATE_ROOT/storage/$STORAGE_ID"
@@ -895,6 +923,20 @@ recover_preparation() {
   mv "$ledger.next" "$ledger"
   jq -n --arg run_id "$RUN_ID" --arg storage_id "$STORAGE_ID" --arg ledger_sha256 "$(sha256_file "$ledger")" \
     '{schema:"adl.issue607.preparation_recovery.v1",status:"recovered",run_id:$run_id,storage_id:$storage_id,resource_ledger_sha256:$ledger_sha256}'
+}
+
+validate_recovery_identity() {
+  run_dir="$1" ledger="$2"
+  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:prepare" | cut -c1-32)"
+  snapshot_owner="$(sha256_text "$owner:snapshot-restore" | cut -c1-32)"
+  campaign="$(jq -c .campaign "$run_dir/authorization-request.json")"; campaign_id="$(jq -r .id <<<"$campaign")"
+  jq -e --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --argjson campaign "$campaign" \
+    '.schema=="adl.issue607.authorization_request.v3" and .action=="prepare" and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .campaign==$campaign and .campaign.source_commit==$commit' \
+    "$run_dir/authorization-request.json" >/dev/null \
+    || { echo "preparation recovery authorization identity mismatch" >&2; exit 2; }
+  jq -e --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg campaign "$campaign_id" --arg owner_sha "$(sha256_text "$owner")" \
+    '.schema=="adl.issue607.preparation_resource_ledger.v1" and .status=="active" and .run_id==$run and .storage_id==$storage and .campaign_id==$campaign and .owner_token_sha256==$owner_sha' "$ledger" >/dev/null \
+    || { echo "preparation recovery ledger identity mismatch" >&2; return 2; }
 }
 
 require_no_terminal_checkpoint_for_recovery() {
@@ -943,8 +985,8 @@ validate_completed_preparation() {
     || { echo "preparation checkpoint evidence hash mismatch" >&2; return 2; }
   jq -e '.status=="pass" and (.unexpected_resources|length)==0' "$run_dir/preparation-zero-residue.json" >/dev/null \
     && jq -e '.status=="passed" and .restore.deleted_after_test==true' "$storage_dir/snapshot-restore-test.json" >/dev/null \
-    && jq -e --arg run "$RUN_ID" 'any(.entries[];.action=="prepare" and .run_id==$run)' "$storage_dir/cost-ledger.json" >/dev/null \
     || { echo "preparation checkpoint proof is incomplete" >&2; return 2; }
+  validate_existing_prepare_cost_entry "$storage_dir/cost-ledger.json" "$run_dir/preflight.json" "$RUN_ID" "$(wc -c <"$run_dir/source.tar" | tr -d '[:space:]')"
   PREP_RUNTIME_AMI_ID="$(jq -r .prepared_images.runtime_ami_id "$result")"; PREP_GPU_AMI_ID="$(jq -r .prepared_images.gpu_ami_id "$result")"
   PREP_RUNTIME_ROOT_SNAPSHOT_ID="$(jq -r .prepared_images.runtime_root_snapshot_id "$result")"; PREP_GPU_ROOT_SNAPSHOT_ID="$(jq -r .prepared_images.gpu_root_snapshot_id "$result")"
   runtime_snapshot="$(jq -r .runtime.snapshot_id "$result")"; gpu_snapshot="$(jq -r .gpu.snapshot_id "$result")"
@@ -1308,6 +1350,10 @@ case "$ACTION" in
   test-recovery-checkpoint-guard)
     [[ $# -eq 1 ]] || { echo "test-recovery-checkpoint-guard requires storage directory" >&2; exit 2; }
     require_no_terminal_checkpoint_for_recovery "$1"
+    ;;
+  test-validate-recovery-identity)
+    [[ $# -eq 2 ]] || { echo "test-validate-recovery-identity requires run directory and ledger" >&2; exit 2; }
+    validate_recovery_identity "$1" "$2"
     ;;
   test-write-launch-action-manifest)
     [[ $# -eq 10 ]] || { echo "test-write-launch-action-manifest requires output and nine manifest values" >&2; exit 2; }
