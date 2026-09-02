@@ -3,36 +3,13 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "reviewed",
-  "generation": 33,
-  "digest": "2695aa899b76d9439ac91ce4efc931e12eb7233ac24bf4ff2eb5d7064eecc173",
+  "phase": "implemented",
+  "generation": 34,
+  "digest": "30d0fd6e172912dc60a3b6131e67b5f7a2c7af25de47fe23ae22e52b6c494208",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": {
-    "reviewer": "subagent:issue_607_waiter_review",
-    "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:4ce115221322978ce1f24a028abd74e5efd9f6e6:30157191880709c350b2e7a0483fda21ab655980264ed3314cedaddb40c9e6c2",
-    "scope": [
-      ".csdlc/issues/607",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue_607_waiter_review",
-    "scope": [
-      ".csdlc/issues/607",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh"
-    ],
-    "reviewed_revision": "git-blake3:4ce115221322978ce1f24a028abd74e5efd9f6e6:30157191880709c350b2e7a0483fda21ab655980264ed3314cedaddb40c9e6c2",
-    "findings": [],
-    "residual_risks": [
-      "Real AWS control-plane latency and state transitions remain to be proven by the next authorized preparation campaign."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "00c9f23605f93e731b9ca3de515f9c9bb1609dca7a4cc0d2c2f7ce105f5945d0",
+      "values_digest": "780e338e3e582204140df3410e20e8588053303a87f3e1750938a50574ed839b",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "b66e2b2dd5e9eb7e695f683c30af33f8d838ae39b292a931dac9604b24b97f21",
+      "values_digest": "537e01bdf82454ab2cafd92bf146d195edce3b513514ab86ac85dd882b94a8dc",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "203e576ec6b156a376acaac17896689f72077d6829748603392e0e15e82db30a",
+      "values_digest": "9be2c90185e993e3ac7b4bf229a60c564be90db7b72b88a69f8c20a3da1df121",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "8e507c9dc344e251a14cb9b7f2e50934b9c4a53961c8e33538c612f8824e921b",
+      "values_digest": "a04f2f0e1462e5380e22d851405ba489d934a2c0ccb40d01d146915adeadbb7e",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "6d1550b7d30cd4c0fb0fd79dd3a3a24622d9b5dbf161ba22de51f2f331e9e0fc",
-      "rendered_digest": "add620eab884f2d2aba4fc37fd21021831696eeb6cfaeb9dae3004f1c9b7940b",
-      "ast_digest": "5480c96352b378456841dfd80ea82495b7584b3db382c75f26568f375bbb0984"
+      "values_digest": "5cea3461329638624dd24d948cc5d8c10203432c0f01df3591abc36af6234271",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "8f71263c3d58ea2d8c988cdfc0491a730c069f36e95a281381474cb17118e4b4",
+      "values_digest": "29f70fbe8f004ce41843d7c68aae8ddbd3e16fbeee4c0ae3450a5b1165976739",
       "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
       "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
@@ -161,6 +138,13 @@
       "to": "reviewed",
       "actor": "codex-primary-issue607",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after live AWS preparation showed that healthy image and snapshot work must wait without a deadline, start both images before waiting, and survive controller interruption through exact-state resume."
     }
   ],
   "audit": [
@@ -450,6 +434,13 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 34,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after live AWS preparation showed that healthy image and snapshot work must wait without a deadline, start both images before waiting, and survive controller interruption through exact-state resume.",
+      "operation": "recover_review"
     }
   ]
 }
