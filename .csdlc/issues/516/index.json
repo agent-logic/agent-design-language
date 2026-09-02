@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 516,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "670ffe99105f46abfdfc8e71aabafe81c8295d9ab7dbb3aed49a072b3b72ba9f",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 1,
-  "digest": "3291daf0d8e3cc894631066df3cdd75b07997311d8ba2a91f06ca0c4a496f76f",
-  "branch": null,
-  "worktree": null,
+  "digest": "40e7408fb7096e9263942d51060bc0869b9078e7366d40671016de2bfeedee01",
+  "branch": "codex/516-release-tail-admission",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +55,22 @@
       "ast_digest": "456723fc76bdf8b0cb7d20a2ec27b87f58eac695a5d4cd4704d0df0d547fa47f"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -69,6 +85,13 @@
       "actor": "codex:516-readiness",
       "reason": "Replace prose affected areas with exact repository-owned paths and explicitly own the issue validator used by every proving lane.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/516\",\".csdlc/prepared/issues/516\",\".csdlc/prepared/issues/516/validate-release-tail-admission.sh\",\"docs/milestones/v0.92.1/evidence/integration\",\"docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
