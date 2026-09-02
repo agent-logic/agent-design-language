@@ -3,7 +3,8 @@ use adl_runtime::acip::{
     protobuf_to_deterministic_json, websocket_frame_status, AcipEnvelopeInput,
 };
 use adl_runtime::qualification::{
-    AcipVectorProbe, DistributedQualificationContract, ReceiptDecision, VectorOutcome,
+    AcipVectorProbe, DistributedQualificationContract, DrtBQualificationContract, ReceiptDecision,
+    VectorOutcome,
 };
 use serde_json::{json, Value};
 
@@ -151,6 +152,71 @@ fn negative_matrix() {
         "rejected",
         "malformed input must fail closed"
     );
+}
+
+#[test]
+fn drt_b_six_resident_uts() {
+    let drt_a = contract();
+    let drt_b = drt_a.deterministic_drt_b().expect("DRT-B contract");
+    drt_b.validate().expect("DRT-B validates");
+
+    assert_eq!(drt_b.resident_count, 6);
+    assert_eq!(drt_b.residents.len(), 6);
+    let resident_ids = drt_b
+        .residents
+        .iter()
+        .map(|resident| resident.resident_id.as_str())
+        .collect::<std::collections::BTreeSet<_>>();
+    let receipt_ids = drt_b
+        .residents
+        .iter()
+        .map(|resident| resident.workload_receipt_id.as_str())
+        .collect::<std::collections::BTreeSet<_>>();
+    assert_eq!(resident_ids.len(), 6, "resident IDs must be distinct");
+    assert_eq!(
+        receipt_ids.len(),
+        6,
+        "workload receipt IDs must be distinct"
+    );
+    assert!(drt_b
+        .residents
+        .iter()
+        .all(|resident| resident.workload_receipt_id.len() == 64));
+    assert_eq!(drt_b.requirements, ["#183", "#184"]);
+
+    println!("DRT_B_CONTRACT_DIGEST={}", drt_b.digest());
+    println!(
+        "DRT_B_CONTRACT_JSON={}",
+        serde_json::to_string_pretty(&drt_b).expect("DRT-B json")
+    );
+    let retained: DrtBQualificationContract = serde_json::from_str(include_str!(
+        "../../../docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+    ))
+    .expect("retained DRT-B evidence json");
+    assert_eq!(
+        retained, drt_b,
+        "retained evidence must match code contract"
+    );
+}
+
+#[test]
+fn drt_b_continuity_reclamation() {
+    let drt_b = contract().deterministic_drt_b().expect("DRT-B contract");
+    drt_b.validate().expect("DRT-B validates");
+
+    let dehydrated = serde_json::to_string(&drt_b).expect("dehydrate DRT-B");
+    let restored: DrtBQualificationContract =
+        serde_json::from_str(&dehydrated).expect("restore DRT-B");
+    assert_eq!(restored, drt_b, "dehydrate/restore must be exact");
+    assert_eq!(restored.dehydrate_restore, "exact");
+    assert!(restored.cleanup_zero);
+    assert_eq!(restored.resource_envelope["resident_slots"], 6);
+    assert_eq!(restored.resource_envelope["workload_receipts"], 6);
+    assert!(restored.cleanup_selectors.len() >= 3);
+    assert!(restored
+        .negative_matrix
+        .iter()
+        .all(|case| case.decision == "fail_closed"));
 }
 
 fn repair_negative_probe(

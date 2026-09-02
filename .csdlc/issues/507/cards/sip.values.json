@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 507,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+    "slug": "six-resident-uts-qualification",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one six-resident UTS continuity and reclamation qualification packet.",
+      "required_outcome": "One retained six-resident UTS continuity and reclamation qualification packet proving requirements 183 and 184 without widening into DRT-C, DRT-D, or cloud-provider implementation scope.",
+      "declared_scope": [
+        "Map requirements 183 and 184 to a deterministic six-resident qualification denominator",
+        "Exercise six distinct residents completing assigned UTS work",
+        "Prove dehydrate and restore preserve exact population, lineage, workload, and receipt identity",
+        "Prove reclamation/cost/cleanup predicates without unbounded soak or unrelated provider work",
+        "Consume #506 DRT-A and #345 AWS GPU Shepherd proof-runner authority as closed predecessors"
+      ],
+      "authority_boundary": [
+        "Do not execute #508 DRT-C final distributed Runtime qualification",
+        "Do not execute #509 DRT-D GCP portability qualification",
+        "Do not invent a new continuity system outside the DRT-B qualification boundary",
+        "Do not perform paid/cloud/GPU launch without explicit operator authorization and bounded proof packet",
+        "Do not read, print, copy, retain, or commit credential material"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits",
+        "Use standard runners only for hosted CI",
+        "Preserve primary main cleanliness and unrelated #515 staging",
+        "Keep #507 scoped to DRT-B six-resident UTS qualification"
+      ]
+    }
+  }
+}
