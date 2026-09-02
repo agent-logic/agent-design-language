@@ -1,0 +1,71 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 640,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
+    "slug": "runtime-model-backed-resident-shepherd",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Run one issue-owned deterministic nonzero Runtime validator followed by a coordinated exact-candidate Wuji acceptance mode.",
+      "lanes": [
+        {
+          "lane": "model-backed-shepherd",
+          "proof_role": "Prove provider-neutral non-empty unique configuration, governed provider execution, preload state, degraded isolation, restart recovery, canonical identity, /v1/ready and Observatory agreement, API health, formatting, and diff hygiene with nonzero focused tests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 3900,
+          "budget_tokens": 20000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": "The issue-owned wrapper exists; its named resident_shepherd, shepherd_provider, shepherd_model_health, and shepherd_readiness_consistency cases are issue #640 implementation deliverables."
+        },
+        {
+          "lane": "wuji-shepherd-acceptance",
+          "proof_role": "Prove the exact candidate restarts on Wuji, automatically preloads its configured local model, reports consistent readiness, and completes one governed Shepherd inference without manual Ollama loading.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 2400,
+          "budget_tokens": 5000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
+            "--live-wuji"
+          ],
+          "parallel_group": "live-wuji",
+          "defer_reason": "The issue-owned live mode fails closed until implementation supplies the coordinated exact-candidate Wuji acceptance."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing #617 ancestry, invalid or secret-bearing configuration, an empty Shepherd set, duplicate configured identity, ungoverned inference, false or inconsistent readiness, whole-Runtime failure coupling, zero-test validation, stale review, or uncoordinated Wuji mutation.",
+      "design_ref": ".csdlc/prepared/issues/640/design.md",
+      "design_digest": "f73bbe055c9d064099191075b3e9c1e38eb3dee8693df8ed48569325290f1959",
+      "diagram_ref": ".csdlc/prepared/issues/640/diagram.mmd",
+      "diagram_digest": "81aeb9544c88940ec0fcef0ed2963e68ee37fd481c16f1199bd28c5f6ef0efaa"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 640,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
+    "slug": "runtime-model-backed-resident-shepherd",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #640 resident Shepherd configuration, provider execution, preload/lifetime recovery, readiness and Observatory health consistency, focused proof, and bounded Wuji acceptance only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does configuration remain provider-neutral and keep credentials outside tracked and API surfaces?",
+        "Does every Shepherd execute through the existing governed operation boundary?",
+        "Can any preload or inference timeout terminate or globally block the Runtime or unrelated agents?",
+        "Do /v1/ready, blocking_reasons, roster/detail, and Observatory agree for model_loading, ready, and degraded?",
+        "Is recovery lifetime-long with bounded probes and intervals and idempotent per configured canonical identity?",
+        "Does the branch start from merged #617 rather than carrying an accidental PR stack?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Live Wuji acceptance remains deferred until deterministic proof passes and the host is coordinated."
+      ],
+      "review_result": "pre_review"
+    }
+  }
+}

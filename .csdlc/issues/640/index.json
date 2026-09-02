@@ -1,0 +1,102 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 640,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
+  "phase": "initialized",
+  "generation": 5,
+  "digest": "88d4fd76c9d34cc38d25ebdd6ff9e8893d9fb71d11bc9bbe13ea26fbb2d9b945",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/640/design.md",
+  "diagram_path": ".csdlc/prepared/issues/640/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:015a7785-e86b-4607-803c-84a8f221de18",
+      "revision": "f73bbe055c9d064099191075b3e9c1e38eb3dee8693df8ed48569325290f1959"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b2ea608a4af9816eea037678174aba9843d5a66bb4752996638bf2b4f66bd2d6",
+      "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
+      "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
+    },
+    "stp": {
+      "values_digest": "c21c53dfe75ff9a6cccacddc59ff958b49752bfe36cfa38dd16dc5e5993926c9",
+      "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
+      "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
+    },
+    "spp": {
+      "values_digest": "87412668f86fe71611439362bb96a7fdbb1a58f5cda1202f342268e437e1c75c",
+      "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
+      "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
+    },
+    "vpp": {
+      "values_digest": "42e02fae261bb280a76cae12868594b7ec84c74d2f0d717b770053237f7464e4",
+      "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
+      "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
+    },
+    "srp": {
+      "values_digest": "37777b5a54bc1ec05a8f5e552b8de76bd872ca1c70f974d48ee3c36fa6f1d133",
+      "rendered_digest": "219ad3831e3decdaba8de952803fe9f9fd132659f68cba3ea71751aac7c7a5e4",
+      "ast_digest": "da589c486da3691292581f573c81d026978b5b3996c6732b7f4da00223452fb9"
+    },
+    "sor": {
+      "values_digest": "653e19eaec058250a7787eb2e04b2acf7a0c9899502a7524e0b29dd9f398ebc4",
+      "rendered_digest": "066e8aa7358990b084c492f54f479bf23c4a83f2e34dc8149890a6d26f7503b7",
+      "ast_digest": "f8ed2183eab77949dbee862f5d4cfed1a37e7d9c19b2c2b8039c359c45a86889"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Replace semantic area labels with the exact safe repository-owned implementation and proof path denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\".csdlc/prepared/issues/640\",\".csdlc/evidence/640\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Route all model-backed Shepherd proof through one executable issue-owned nonzero validator while retaining the live Wuji acceptance as an explicit deferred mode.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"model-backed-shepherd\",\"proof_role\":\"Prove provider-neutral configuration, exactly-one bootstrap, governed provider execution, preload state, degraded isolation, restart recovery, canonical identity, API health, formatting, and diff hygiene with nonzero focused tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":3900,\"budget_tokens\":20000,\"argv\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"The issue-owned wrapper exists; its named resident_shepherd, shepherd_provider, and shepherd_model_health cases are issue #640 implementation deliverables.\"},{\"lane\":\"wuji-shepherd-acceptance\",\"proof_role\":\"Prove the exact candidate restarts on Wuji, automatically preloads its configured local model, reports ready, and completes one governed Shepherd inference without manual Ollama loading.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":2400,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"parallel_group\":\"live-wuji\",\"defer_reason\":\"The issue-owned live mode fails closed until implementation supplies the coordinated exact-candidate Wuji acceptance.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Own the exact issue-specific executable validator path required by the governed validation lanes.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\".csdlc/prepared/issues/640/design.md\",\".csdlc/prepared/issues/640/diagram.mmd\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Align all initialized cards with independent design findings before design-envelope recovery and execution binding.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"issue-640-runtime-slice\",\"relation\":\"integrates_into\",\"to\":\"issue-640\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":640,\"node_id\":\"issue-640\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"implementation-owner\"},{\"in_scope\":true,\"issue\":640,\"node_id\":\"issue-640-runtime-slice\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"runtime-shepherd-slice\"}],\"parent_integration_owner\":\"issue-640\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"27c6c8c0ce907449a0fd66e9e459b07f428a8cf54b6d8be581b6ab1706e118b7\",\"byte_sha256\":\"6a5a6d110f515ef039d9588a6b98d6f5befceb7f46c7c7a250f5adf5c8d85c08\",\"path\":\".csdlc/prepared/issues/640/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"94e8dd802cfa6a402ea7eeadf091ddd3fd8849bcb4bdd1ae1bc47da3ddee16ba\",\"byte_sha256\":\"5278f09658a83e0da20959033f52599d0821aa38ddd8e98fb547be337b6e9f17\",\"path\":\".csdlc/prepared/issues/640/diagram.mmd\"},\"recovery_scope\":[\"non-empty uniquely named resident Shepherd set\",\"lifetime recovery with bounded configurable probes and backoff\",\"single-snapshot readiness truth across Runtime and Observatory\",\"issue-owned nonzero validation denominator\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "fresh-session:015a7785-e86b-4607-803c-84a8f221de18",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"f73bbe055c9d064099191075b3e9c1e38eb3dee8693df8ed48569325290f1959\",\"design_ref\":\".csdlc/prepared/issues/640/design.md\",\"diagram_digest\":\"81aeb9544c88940ec0fcef0ed2963e68ee37fd481c16f1199bd28c5f6ef0efaa\",\"diagram_ref\":\".csdlc/prepared/issues/640/diagram.mmd\",\"operation\":\"approve_design\"}"
+    }
+  ]
+}

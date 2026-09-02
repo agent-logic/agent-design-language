@@ -1,0 +1,236 @@
+{
+  "issue": 640,
+  "expected_generation": 3,
+  "expected_digest": "fdd5f7836174f510b658551212ad68f3122245952a288c726947543fb5caf54a",
+  "actor": "codex:/root",
+  "reason": "Align all initialized cards with independent design findings before design-envelope recovery and execution binding.",
+  "request_root": "/Volumes/FastWork/adl-worktrees/adl-issue-640-preparation",
+  "recovery_scope": [
+    "non-empty uniquely named resident Shepherd set",
+    "lifetime recovery with bounded configurable probes and backoff",
+    "single-snapshot readiness truth across Runtime and Observatory",
+    "issue-owned nonzero validation denominator"
+  ],
+  "preserved_design": {
+    "path": ".csdlc/prepared/issues/640/design.md",
+    "authored_digest": "27c6c8c0ce907449a0fd66e9e459b07f428a8cf54b6d8be581b6ab1706e118b7",
+    "byte_sha256": "6a5a6d110f515ef039d9588a6b98d6f5befceb7f46c7c7a250f5adf5c8d85c08"
+  },
+  "preserved_diagram": {
+    "path": ".csdlc/prepared/issues/640/diagram.mmd",
+    "authored_digest": "94e8dd802cfa6a402ea7eeadf091ddd3fd8849bcb4bdd1ae1bc47da3ddee16ba",
+    "byte_sha256": "5278f09658a83e0da20959033f52599d0821aa38ddd8e98fb547be337b6e9f17"
+  },
+  "graph": {
+    "nodes": [
+      {
+        "node_id": "issue-640",
+        "issue": 640,
+        "repository": "agent-logic/agent-design-language",
+        "role": "implementation-owner",
+        "in_scope": true
+      },
+      {
+        "node_id": "issue-640-runtime-slice",
+        "issue": 640,
+        "repository": "agent-logic/agent-design-language",
+        "role": "runtime-shepherd-slice",
+        "in_scope": true
+      }
+    ],
+    "edges": [
+      {
+        "from": "issue-640-runtime-slice",
+        "relation": "integrates_into",
+        "to": "issue-640"
+      }
+    ],
+    "parent_integration_owner": "issue-640",
+    "forbidden_cross_child_trust_redefinition": false
+  },
+  "replacements": {
+    "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
+    "slug": "runtime-model-backed-resident-shepherd",
+    "version": "v0.92.1",
+    "goal": "Give every Polis at least one resident Shepherd whose reasoning is backed by a declaratively configured provider and model without making transient inference failure fatal to the Runtime.",
+    "required_outcome": "Runtime configuration selects a non-empty set of uniquely named resident Shepherds and each provider profile, model, endpoint reference, and preload policy; startup preloads models before Shepherd readiness; Shepherd reasoning uses the governed provider path; one health snapshot keeps Runtime readiness and Observatory projections consistent; lifetime recovery with bounded probes isolates temporary model failures from the rest of the Runtime.",
+    "declared_scope": [
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      ".csdlc/prepared/issues/640",
+      ".csdlc/evidence/640",
+      ".csdlc/issues/640"
+    ],
+    "authority_boundary": [
+      "Issue authority is agent-logic/agent-design-language#640",
+      "The execution base must contain merged #617 canonical-name projection",
+      "Runtime configuration is authoritative for each resident Shepherd provider, model, endpoint reference, preload policy, and canonical identity",
+      "Provider credentials remain external and must never appear in API, logs, or evidence",
+      "Existing governed-operation and agent-continuity boundaries remain authoritative"
+    ],
+    "initial_assumptions": [],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Do not hard-code Ollama or qwen3:8b",
+      "Do not use short fixed launch or inference deadlines",
+      "Temporary provider failure must not terminate the Runtime or unrelated agents",
+      "Require at least one resident Shepherd and reject duplicate configured canonical identities",
+      "Use typed C-SDLC v2 authority"
+    ],
+    "task_boundary": "One provider-backed resident Shepherd configuration, preload, execution, health, recovery, API, and focused proof slice; no general dynamic-agent lifecycle redesign.",
+    "deliverables": [
+      "Declarative non-empty resident Shepherd set with provider/model/endpoint/preload configuration",
+      "Provider-backed Shepherd executor through the governed operation boundary",
+      "Startup preload and idempotent lifetime non-fatal recovery behavior",
+      "One truthful readiness snapshot shared by /v1/ready, blocking_reasons, roster/detail, and Observatory",
+      "Focused configuration, provider, preload, restart, isolation, consistency, and API tests",
+      "Bounded Wuji restart and governed-inference acceptance evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Runtime configuration requires a non-empty resident Shepherd set, validates each canonical identity/provider/model/endpoint/preload policy, and rejects duplicate canonical identities",
+      "AC-2: Each Shepherd invokes its declared provider/model through the existing governed operation boundary",
+      "AC-3: A Shepherd remains model_loading until provider health and preload succeed, then reports ready",
+      "AC-4: Provider/model identity and admitted, model_loading, ready, or degraded health are observable without credentials; /v1/ready, blocking_reasons, roster/detail, and Observatory snapshot/feed agree",
+      "AC-5: Temporary provider or model failure visibly degrades and retries only the affected Shepherd without terminating the Runtime, globally blocking readiness, or disrupting unrelated agents",
+      "AC-6: Restart reconstructs one resident per unique configured Shepherd identity and repeats preload without manual provider commands or duplicate residents",
+      "AC-7: Existing checkpoint, continuity, canonical-name, and non-Shepherd lifecycle behavior remains valid",
+      "AC-8: Wuji acceptance with a local Ollama model proves restart, automatic preload, truthful consistent health, and one successful governed Shepherd inference"
+    ],
+    "dependencies": [
+      "Issue #617 and PR #636 must be merged into the execution base"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#640",
+      "agent-logic/agent-design-language#617",
+      "agent-logic/agent-design-language#602",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/governed_operations.rs"
+    ],
+    "non_goals": [
+      "Hard-coding one provider or model",
+      "Requiring Ollama for cloud deployments",
+      "Making temporary inference degradation terminate or globally block the Runtime",
+      "General dynamic-agent lifecycle, migration, or checkpoint redesign",
+      "Reimplementing #617 canonical-name work or stacking its unmerged PR into #640",
+      "Broad workspace test execution when focused Runtime proof is sufficient"
+    ],
+    "plan_summary": "Add provider-neutral configuration for a non-empty unique Shepherd set, replace native placeholder reasoning with the governed provider executor, implement preload and isolated lifetime recovery, derive all readiness projections from one snapshot, and prove it with focused tests plus bounded Wuji acceptance.",
+    "plan_steps": [
+      {"id":"S1","action":"Extend and validate the non-empty uniquely named resident Shepherd set and thread authoritative identity/provider/model/preload values into Runtime bootstrap.","acceptance_ids":["AC-1","AC-6","AC-7"],"status":"pending"},
+      {"id":"S2","action":"Wire each Shepherd reasoning path through its configured provider and the existing governed operation boundary.","acceptance_ids":["AC-2","AC-7"],"status":"pending"},
+      {"id":"S3","action":"Implement startup preload, truthful per-Shepherd readiness states, and idempotent lifetime recovery using generous bounded probes and backoff.","acceptance_ids":["AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Derive /v1/ready, blocking_reasons, roster/detail, and Observatory snapshot/feed from one non-secret Shepherd health snapshot and update OpenAPI.","acceptance_ids":["AC-4","AC-5","AC-7"],"status":"pending"},
+      {"id":"S5","action":"Run focused deterministic validation and bounded Wuji restart/preload/inference acceptance, then resolve independent exact-head review.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      ".csdlc/prepared/issues/640/design.revised.md",
+      ".csdlc/prepared/issues/640/diagram.revised.mmd",
+      ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
+      ".csdlc/evidence/640"
+    ],
+    "invariants": [
+      "At least one resident Shepherd exists and each configured canonical identity is unique",
+      "Runtime configuration is authoritative for Shepherd identity and provider selection",
+      "No provider credential is serialized or logged",
+      "One health snapshot keeps Runtime readiness, blocking reasons, roster/detail, and Observatory projections consistent",
+      "Transient inference failure is isolated from global Runtime and non-Shepherd availability",
+      "Lifetime recovery uses bounded configurable probes and backoff; no short timeout terminates the Runtime",
+      "Canonical name and lifecycle continuity delivered by #617 remain unchanged"
+    ],
+    "risks": [
+      "Provider-specific preload behavior leaks into the Runtime contract",
+      "A cold model exceeds a small startup or inference budget and creates false failure",
+      "Recovery duplicates a configured Shepherd identity or provider task",
+      "API health claims ready before the model can infer",
+      "Provider failure globally blocks Runtime readiness or makes /v1/ready disagree with Observatory",
+      "Execution accidentally stacks or duplicates unmerged #617 changes"
+    ],
+    "stop_conditions": [
+      "Execution base does not contain merged #617/#636 state",
+      "Provider credentials would need to enter tracked config or API output",
+      "The design requires terminating or globally blocking the Runtime on temporary provider/model failure",
+      "A validation lane selects zero tests",
+      "Scope expands into general dynamic-agent lifecycle redesign",
+      "Wuji acceptance would overwrite another session's live configuration without coordination"
+    ],
+    "replan_triggers": [
+      "The existing governed operation boundary cannot host provider-backed Shepherd inference without semantic expansion",
+      "Runtime and Observatory readiness cannot share one authoritative health snapshot",
+      "Supporting a non-empty Shepherd set requires general distributed-runtime coordination"
+    ],
+    "validation_summary": "Run one issue-owned deterministic nonzero Runtime validator followed by a coordinated exact-candidate Wuji acceptance mode.",
+    "validation_lanes": [
+      {
+        "lane": "model-backed-shepherd",
+        "proof_role": "Prove provider-neutral non-empty unique configuration, governed provider execution, preload state, degraded isolation, restart recovery, canonical identity, /v1/ready and Observatory agreement, API health, formatting, and diff hygiene with nonzero focused tests.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 3900,
+        "budget_tokens": 20000,
+        "argv": ["bash", ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"],
+        "parallel_group": "runtime",
+        "defer_reason": "The issue-owned wrapper exists; its named resident_shepherd, shepherd_provider, shepherd_model_health, and shepherd_readiness_consistency cases are issue #640 implementation deliverables."
+      },
+      {
+        "lane": "wuji-shepherd-acceptance",
+        "proof_role": "Prove the exact candidate restarts on Wuji, automatically preloads its configured local model, reports consistent readiness, and completes one governed Shepherd inference without manual Ollama loading.",
+        "acceptance_ids": ["AC-4","AC-6","AC-8"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 2400,
+        "budget_tokens": 5000,
+        "argv": ["bash", ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh", "--live-wuji"],
+        "parallel_group": "live-wuji",
+        "defer_reason": "The issue-owned live mode fails closed until implementation supplies the coordinated exact-candidate Wuji acceptance."
+      }
+    ],
+    "failure_policy": "Fail closed on missing #617 ancestry, invalid or secret-bearing configuration, an empty Shepherd set, duplicate configured identity, ungoverned inference, false or inconsistent readiness, whole-Runtime failure coupling, zero-test validation, stale review, or uncoordinated Wuji mutation.",
+    "review_scope": "Exact #640 resident Shepherd configuration, provider execution, preload/lifetime recovery, readiness and Observatory health consistency, focused proof, and bounded Wuji acceptance only.",
+    "review_prompts": [
+      "Does configuration remain provider-neutral and keep credentials outside tracked and API surfaces?",
+      "Does every Shepherd execute through the existing governed operation boundary?",
+      "Can any preload or inference timeout terminate or globally block the Runtime or unrelated agents?",
+      "Do /v1/ready, blocking_reasons, roster/detail, and Observatory agree for model_loading, ready, and degraded?",
+      "Is recovery lifetime-long with bounded probes and intervals and idempotent per configured canonical identity?",
+      "Does the branch start from merged #617 rather than carrying an accidental PR stack?"
+    ],
+    "residual_risk": [
+      "Live Wuji acceptance remains deferred until deterministic proof passes and the host is coordinated."
+    ],
+    "sor_summary": "Pre-execution output record; no implementation, validation, publication, merge, or closeout has occurred.",
+    "sor_artifacts": [],
+    "sor_validation": [],
+    "sor_follow_ups": [
+      "Do not bind execution until #617/#636 is merged into the selected base."
+    ]
+  }
+}
