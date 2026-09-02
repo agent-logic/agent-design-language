@@ -7,34 +7,23 @@
     "title": "Podcast production hosting, RSS, enclosures, and playback",
     "slug": "podcast-production-hosting",
     "version": "v0.92.1",
-    "generation": 25
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/262\n.csdlc/prepared/issues/262\nadl/tools/record_podcast_native_playback.sh\nadl/tools/record_podcast_browser_playback.mjs\nadl/tools/record_podcast_ios_safari_playback.sh\ndemos/_preview/podcast/index.html\ndemos/podcast/LAUNCH_READINESS.md\ndemos/podcast/S3_CLOUDFRONT_RUNBOOK.md\ndemos/podcast/audio/meet-the-ai-coworkers.mp3\ndemos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/episode.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/script.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md\ndemos/podcast/episodes/meet-the-ai-coworkers/index.html\ndemos/podcast/feed.xml\ndemos/podcast/index.html\ndemos/podcast/studio-reference/podcast-studio.html\ndemos/podcast/studio/podcast-studio.html",
-      "review_revision": "git-blake3:3ee7d25e9aed1ebbc07eee59ba64e7d891b62a65:4f6051ba627f827e1863b3d222111c41954dbf5ca82458ae7bc1946e5316c094",
-      "reviewer": "fresh-session:39c407bb-11b7-4fb0-93e9-2b35c059f03c",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the candidate satisfy every acceptance criterion on its real owned path?",
         "Does it preserve sibling ownership, operator authority, privacy, and rollback?",
         "Are all proof claims exact-revision and non-overstated?"
       ],
-      "findings": [
-        {
-          "id": "262-review-r5-p1-storage-manifest-checksums-stale",
-          "severity": "p1",
-          "summary": "Archive inventory/checksum truth is stale after launch-identity remediation. storage-manifest.json still records old byte counts and SHA-256 values for changed package files including CREATOR_WORKFLOW.md, episode.json, source-packet.md, script.md, transcript.md, show-notes.md, audio-manifest.json, qa-report.md, and rss-enclosure.json. The validator binds the storage manifest file but does not recompute archive object byte/hash entries against current local package files.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }
