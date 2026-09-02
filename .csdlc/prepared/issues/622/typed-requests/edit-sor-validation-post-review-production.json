@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root:issue-622-implementation",
+  "card": "sor",
+  "expected_digest": "d030e7250f940a3197ea4a59a6675456e61d94a384fdc968a9aacb3aaab4a339",
+  "expected_generation": 8,
+  "issue": 622,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove the refreshed production lane after exact-head review fixes, including real CSM adl_workflow reload startup through workflow.run_args.provider_reload_sidecar_path.",
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+        "production"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:issue-622-post-review-production-lane:provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed"
+    }
+  },
+  "reason": "Record refreshed #622 production validation after exact-head review fixes."
+}

@@ -1,0 +1,11 @@
+{
+  "issue": 617,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "79f0460956d6c5afa19c83dd21d732c416dcefb63c00cebc16c046c050712364",
+  "actor": "codex:/root",
+  "reason": "Refresh the authored design identity after incorporating Shepherd configuration authority and explicit API compatibility posture from independent review.",
+  "operation": {
+    "operation": "refresh_authored_design_after_recovery"
+  }
+}

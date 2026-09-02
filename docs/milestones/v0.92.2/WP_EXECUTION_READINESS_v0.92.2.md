@@ -15,6 +15,8 @@ Status: not ready for execution until all opening gates are satisfied.
 
 CF-SHELL and CF-ADAPTER become ready after WP-01. CF-COG, CF-GOV, CF-REVIEW, and CF-MEMORY become ready after the evidence contract merges and may run in parallel. No track waits for individual closeout bookkeeping; it waits only for its declared merged authority.
 
+PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST become ready after WP-01. PLAT-PROVIDER additionally waits for merged v0.92.1 issue #622, and PLAT-MLX waits for PLAT-PROVIDER. PLAT-MEMORY waits for CF-EVIDENCE and CF-MEMORY. CF-INTEGRATE waits for every admitted product and supporting track.
+
 ## Fail-Closed Conditions
 
 Execution pauses for missing issue authority, scope conflict, unavailable evidence/privacy controls, provider or Runtime contract ambiguity, or a required planning surface that cannot be resolved context-free. A deferred track is not a blocker unless explicitly admitted.

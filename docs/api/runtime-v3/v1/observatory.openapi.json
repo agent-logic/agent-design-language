@@ -756,10 +756,32 @@
           "schema":{"const":"adl.runtime_v3.agent_checkpoint.v1"},
           "runtime_instance_id":{"type":"string"},
           "declaration":{"$ref":"#/components/schemas/AgentAdmissionRequest"},
-          "roster_state":{"$ref":"#/components/schemas/AgentSample"},
+          "roster_state":{"$ref":"#/components/schemas/CheckpointAgentSample"},
           "conversation_history":{"type":"array","items":{"$ref":"#/components/schemas/AgentConversationCheckpoint"}},
           "created_at_unix_millis":{"type":"integer","minimum":1},
           "checkpoint_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+        }
+      },
+      "CheckpointAgentSample": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "role", "state", "detail", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "properties": {
+          "id": {"type": "string"},
+          "label": {"type": "string"},
+          "role": {"type": "string"},
+          "state": {"type": "string"},
+          "detail": {"type": "string"},
+          "health": {"type": "string"},
+          "availability": {"type": "string"},
+          "activity": {"type": ["string", "null"]},
+          "capabilities": {"type": "array", "items": {"type": "string"}},
+          "location": {"type": ["string", "null"]},
+          "communication_eligible": {"type": "boolean"},
+          "observed_at_unix_millis": {"type": "integer"},
+          "freshness_deadline_unix_millis": {"type": "integer"},
+          "source_revision": {"type": "string"},
+          "provenance": {"type": "string"}
         }
       },
       "AgentConversationCheckpoint": {
@@ -801,10 +823,11 @@
       },
       "AgentRosterEntry": {
         "type": "object",
-        "required": ["schema", "id", "label", "role", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "required": ["schema", "id", "name", "label", "role", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
         "properties": {
           "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
           "id": {"type": "string"},
+          "name": {"type": "string", "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"},
           "label": {"type": "string"},
           "role": {"type": "string"},
           "presence": {"type": "string", "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]},
@@ -824,6 +847,7 @@
         "type": "object",
         "required": [
           "id",
+          "name",
           "label",
           "role",
           "state",
@@ -842,6 +866,10 @@
         "properties": {
           "id": {
             "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
           },
           "label": {
             "type": "string"

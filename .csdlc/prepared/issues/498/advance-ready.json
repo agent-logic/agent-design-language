@@ -1,0 +1,13 @@
+{
+  "issue": 498,
+  "card": "sip",
+  "expected_generation": 0,
+  "expected_digest": "c4c500b56cccc41ed315bc63da3f4ced3e2e600bd699134303798b1150d7215a",
+  "actor": "codex:worker-7/issue498-readiness",
+  "reason": "Typed issue initialization and preparation validation pass for CORP-D, with CORP-C #497 preserved as the fail-closed execution dependency.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "fail_after_backup": false
+}

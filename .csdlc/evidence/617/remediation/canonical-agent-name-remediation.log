@@ -1,0 +1,17 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+────────────
+ Nextest run ID edb5495a-51e7-4be9-85a5-0a6c60d6c0b8 with nextest profile: default
+    Starting 4 tests across 5 binaries (91 tests skipped)
+        PASS [   0.007s] (1/4) adl-runtime-kernel::openapi_contract canonical_name_is_required_by_agent_roster_openapi_contract
+        PASS [   0.007s] (2/4) adl-runtime-kernel::agent_roster production_shepherd_construction_uses_configured_canonical_name
+        PASS [   0.007s] (3/4) adl-runtime-kernel::agent_roster canonical_name_is_projected_and_old_v1_entries_remain_readable
+        PASS [   0.009s] (4/4) adl-runtime-kernel::configuration canonical_name_is_required_for_resident_shepherd_configuration
+────────────
+     Summary [   0.009s] 4 tests run: 4 passed, 91 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+────────────
+ Nextest run ID 49327fe0-50be-4f74-90fe-cb1065ed1542 with nextest profile: default
+    Starting 1 test across 1 binary (121 tests skipped)
+        PASS [   0.079s] (1/1) adl-runtime-kernel control::agent_lifecycle::agent_lifecycle_is_idempotent_portable_and_restart_safe
+────────────
+     Summary [   0.079s] 1 test run: 1 passed, 121 skipped

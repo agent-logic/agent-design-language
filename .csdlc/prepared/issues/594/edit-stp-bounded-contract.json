@@ -1,0 +1,19 @@
+{
+  "issue": 594,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "b0f7333c54c53f022e9709092c8d467b49cc1421c96692e7ba9c1e0a76b916ad",
+  "actor": "codex:/root",
+  "reason": "Resolve design review by making cadence, buffer, retry, retention, key grammar, startup isolation, and live proof bounds deterministic.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: Only runtime_v3_redacted records enter keys matching logs/env=<env>/polis=<polis>/runtime=<runtime>/year=<YYYY>/month=<MM>/day=<DD>/hour=<HH>/<uuid>.json.gz, flushed by 5 MiB or 60 seconds.",
+      "AC-2: The bucket blocks all public access, uses bucket-owner-enforced ownership and SSE-S3, enables versioning, retains current versions 30 days and noncurrent versions 7 days, and aborts incomplete multipart uploads after 1 day.",
+      "AC-3: Publisher IAM permits only GetBucketLocation on the exact bucket and PutObject plus multipart completion/abort operations on the exact environment, Polis, and Runtime prefix.",
+      "AC-4: The S3 sink disables startup health checks, uses an isolated 512 MiB disk buffer with drop-newest overflow, retries at most five times with backoff capped at 30 seconds, emits failure/drop telemetry, and cannot block Vector startup, Runtime readiness, master-log progress, or CloudWatch health.",
+      "AC-5: A separately authorized live proof verifies the expected business account, bucket controls and encrypted object metadata, retrieves one nonempty archived object into issue evidence, and inspects redaction without printing sensitive content.",
+      "AC-6: Lifecycle execution uses typed v2 authority unless and until explicit v3 cutover is recorded, and no live AWS action occurs without separate authorization."
+    ]
+  }
+}

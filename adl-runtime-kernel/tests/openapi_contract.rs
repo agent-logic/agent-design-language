@@ -8,6 +8,39 @@ const OBSERVATORY_OPENAPI: &str =
 const CONTROL_RS: &str = include_str!("../src/control.rs");
 
 #[test]
+fn canonical_name_is_required_by_agent_roster_openapi_contract() {
+    let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    let entry = &observatory["components"]["schemas"]["AgentRosterEntry"];
+    assert!(entry["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v == "name"));
+    assert_eq!(
+        entry["properties"]["name"]["pattern"],
+        "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+    );
+    let sample = &observatory["components"]["schemas"]["AgentSample"];
+    assert!(sample["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v == "name"));
+    let checkpoint = &observatory["components"]["schemas"]["AgentCheckpoint"];
+    assert_eq!(
+        checkpoint["properties"]["roster_state"]["$ref"],
+        "#/components/schemas/CheckpointAgentSample"
+    );
+    let checkpoint_sample = &observatory["components"]["schemas"]["CheckpointAgentSample"];
+    assert!(!checkpoint_sample["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v == "name"));
+    assert!(checkpoint_sample["properties"].get("name").is_none());
+}
+
+#[test]
 fn polis_identity_openapi_contract_is_required_and_redacted() {
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
     let feed = &observatory["components"]["schemas"]["ObservatoryFeed"];

@@ -369,6 +369,7 @@ pub struct RuntimeInitConfig {
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub polis: PolisInitConfig,
+    pub resident_shepherd: ResidentShepherdInitConfig,
     pub kernel: RuntimeKernelInitConfig,
     #[serde(default)]
     pub continuity_control: Option<crate::ContinuityControlInitConfig>,
@@ -453,6 +454,7 @@ impl RuntimeInitConfig {
             });
         }
         self.polis.validate(public_host)?;
+        self.resident_shepherd.validate()?;
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
                 "api.bind_attempts must be between 1 and 100".to_owned(),
@@ -1111,6 +1113,27 @@ pub struct PolisInitConfig {
     pub observatory_public_origin: String,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentShepherdInitConfig {
+    pub name: String,
+    pub display_name: String,
+    pub office: String,
+}
+
+impl ResidentShepherdInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if !crate::is_canonical_agent_name(&self.name) {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd.name must be a canonical two-part agent name".to_owned(),
+            ));
+        }
+        validate_non_empty_trimmed("resident_shepherd.display_name", &self.display_name)?;
+        validate_non_empty_trimmed("resident_shepherd.office", &self.office)?;
+        Ok(())
+    }
+}
+
 impl PolisInitConfig {
     fn validate(&self, public_host: &str) -> Result<(), RuntimeInitError> {
         if self.id.is_empty()
@@ -1170,6 +1193,8 @@ pub struct RuntimeObservabilityInitConfig {
     pub spool_retained_files: usize,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cloudwatch: Option<RuntimeCloudWatchInitConfig>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub s3_archive: Option<RuntimeS3LogArchiveInitConfig>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1178,6 +1203,16 @@ pub struct RuntimeCloudWatchInitConfig {
     pub region: String,
     pub log_group: String,
     pub log_stream: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeS3LogArchiveInitConfig {
+    pub region: String,
+    pub bucket: String,
+    pub environment: String,
+    pub polis_id: String,
+    pub runtime_id: String,
 }
 
 impl RuntimeObservabilityInitConfig {
@@ -1282,6 +1317,53 @@ impl RuntimeObservabilityInitConfig {
                 ));
             }
         }
+        if let Some(archive) = self.s3_archive.as_ref() {
+            for (field, value) in [
+                ("observability_pipeline.s3_archive.region", &archive.region),
+                ("observability_pipeline.s3_archive.bucket", &archive.bucket),
+                (
+                    "observability_pipeline.s3_archive.environment",
+                    &archive.environment,
+                ),
+                (
+                    "observability_pipeline.s3_archive.polis_id",
+                    &archive.polis_id,
+                ),
+                (
+                    "observability_pipeline.s3_archive.runtime_id",
+                    &archive.runtime_id,
+                ),
+            ] {
+                validate_non_empty_trimmed(field, value)?;
+            }
+            for (field, value) in [
+                (
+                    "observability_pipeline.s3_archive.environment",
+                    archive.environment.as_str(),
+                ),
+                (
+                    "observability_pipeline.s3_archive.polis_id",
+                    archive.polis_id.as_str(),
+                ),
+                (
+                    "observability_pipeline.s3_archive.runtime_id",
+                    archive.runtime_id.as_str(),
+                ),
+            ] {
+                validate_dns_safe_label(field, value)?;
+            }
+            validate_s3_bucket_name("observability_pipeline.s3_archive.bucket", &archive.bucket)?;
+            if !archive
+                .region
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+            {
+                return Err(RuntimeInitError::Policy(
+                    "observability_pipeline.s3_archive.region must be lowercase AWS region syntax"
+                        .to_owned(),
+                ));
+            }
+        }
         for (field, path) in [
             ("vector_config_path", &self.vector_config_path),
             ("ingress_spool_path", &self.ingress_spool_path),
@@ -1294,6 +1376,40 @@ impl RuntimeObservabilityInitConfig {
         }
         Ok(())
     }
+}
+
+fn validate_dns_safe_label(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    if value.len() > 63
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+        || value.starts_with('-')
+        || value.ends_with('-')
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be a lowercase DNS-safe label"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_s3_bucket_name(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    if value.len() < 3
+        || value.len() > 63
+        || !value.bytes().all(|byte| {
+            byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-' || byte == b'.'
+        })
+        || value.starts_with(['-', '.'])
+        || value.ends_with(['-', '.'])
+        || value.contains("..")
+        || value.contains(".-")
+        || value.contains("-.")
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be a DNS-compatible S3 bucket name"
+        )));
+    }
+    Ok(())
 }
 
 fn validate_non_empty_trimmed(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {

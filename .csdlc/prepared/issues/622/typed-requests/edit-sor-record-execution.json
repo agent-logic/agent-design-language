@@ -1,0 +1,30 @@
+{
+  "actor": "codex:/root:issue-622-implementation",
+  "card": "sor",
+  "expected_digest": "925e2d5f66cede7cab4fcd3a86bf86dad5cc3ea4510b20a63f69050ada59468f",
+  "expected_generation": 1,
+  "issue": 622,
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented production provider/profile hot loading through a provider reload owner, sidecar validation, immutable per-step runner snapshots, last-known-good preservation on invalid updates, credential-value rejection, and focused production/safety proof lanes.",
+    "changes": [
+      "Added a provider reload owner and global handle in adl/src/provider/reload.rs for provider-only sidecar loading, validation, diagnostics, stable provider digests, shutdown, and last-known-good preservation.",
+      "Wired the production execution runner to resolve provider specs from the current reload snapshot for each step while preserving the in-flight step's start snapshot.",
+      "Added deterministic mock-provider configuration hooks for fixed output and bounded sleep to prove reload behavior without external provider calls.",
+      "Added focused provider reload, production runner, and runtime-kernel watcher tests covering valid reloads, invalid reload retention, credential-value rejection, duplicate debounce, shutdown, and in-flight snapshot isolation.",
+      "Updated the #622 validation script to run focused production and safety lanes that avoid unrelated binary compile surfaces.",
+      "Documented provider profile hot-loading behavior, accepted sidecar shape, credential boundary, snapshot semantics, validation evidence, and non-goals."
+    ],
+    "artifacts": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md"
+    ]
+  },
+  "reason": "Record #622 implementation evidence before validation and implemented-phase advancement."
+}

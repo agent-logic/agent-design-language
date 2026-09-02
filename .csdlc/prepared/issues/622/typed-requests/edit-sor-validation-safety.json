@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root:issue-622-implementation",
+  "card": "sor",
+  "expected_digest": "a9929b9a381dc2b12a348018808688a17449f5a835d4aa1bf7d9f9cf5c77ffc0",
+  "expected_generation": 3,
+  "issue": 622,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove the safety lane for reload debounce, shutdown, invalid-update last-known-good retention, credential boundary, focused production invariants, and whitespace/diff hygiene.",
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+        "safety"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:issue-622-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 4 passed; in-flight snapshot 1 passed; git diff --check passed"
+    }
+  },
+  "reason": "Record the passing #622 safety validation lane."
+}

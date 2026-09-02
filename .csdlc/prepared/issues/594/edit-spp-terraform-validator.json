@@ -1,0 +1,25 @@
+{
+  "issue": 594,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "5983cd75b92dcfb5686d06cb2aeaea39b11285785d0da5a035d1385ff9c7245e",
+  "actor": "codex:/root",
+  "reason": "Own the exact Terraform format, initialization, and validation wrapper required by the design review.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/observability/vector.rs",
+      "adl-runtime-kernel/src/observability.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "infra/aws/runtime/log-archive",
+      ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+      ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh",
+      ".csdlc/prepared/issues/594/validate-live-aws.sh",
+      ".csdlc/evidence/594"
+    ]
+  }
+}

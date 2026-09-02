@@ -1,0 +1,112 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 620,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][planning] Audit and refresh first-pass milestone documentation",
+    "slug": "v0922-first-pass-planning",
+    "version": "v0.92.2",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Establish the canonical denominator, audit relevant TBD and issue truth, reconcile all planning surfaces, validate the package, and prepare a findings-first review handoff.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Build the canonical document, feature, work-package, sprint, and release-tail denominator.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Audit relevant active TBD sources and existing issue truth into explicit scheduling dispositions.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Reconcile the complete planning package so every issue is bounded and all machine and human surfaces agree.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused structural, YAML, link, placeholder, scheduling-coverage, and diff-hygiene validation.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Prepare the review handoff, resolve actionable findings, and leave the package planned and number-free.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.2/**",
+        ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+        ".csdlc/prepared/issues/620/**",
+        ".csdlc/issues/620/**"
+      ],
+      "invariants": [
+        "Milestone remains unopened",
+        "Package remains number-free",
+        "Complete and explicit TBD disposition denominator",
+        "No duplicate existing work",
+        "One concrete result per planned issue",
+        "Deferred scope remains deferred"
+      ],
+      "risks": [
+        "Treating a stale TBD inventory as complete",
+        "Silently dropping unscheduled material",
+        "Converting broad feature bundles into nominal single issues",
+        "Duplicating existing or completed issues",
+        "Opening the milestone through documentation overclaim"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The canonical package denominator cannot be established",
+        "A relevant TBD source lacks a truthful disposition",
+        "Machine-readable and human-readable work-package identities disagree",
+        "A proposed scope move requires operator judgment",
+        "An actionable review finding remains unresolved"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/620/design.md",
+      "design_digest": "e84e2afd2d541ae719b55446dec8dedf1e211a03fa9dda36336480b0850d028c",
+      "diagram_ref": ".csdlc/prepared/issues/620/diagram.mmd",
+      "diagram_digest": "1c6aaf76f37d34a7f603593ea39e85e28ab5882d892b51ef538d06d8558e10c7"
+    }
+  }
+}

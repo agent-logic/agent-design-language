@@ -1,0 +1,24 @@
+{
+  "issue": 498,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "e901da40532e68ebc6e95b24a965de9ba46b350f80020dc479014724a21a7af0",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Keep #498 executable validator targets in prepared issue-owned paths so PVF finalize can own `.csdlc/evidence/498` for retained logs.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/operations/corporate/diligence",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+      ".csdlc/prepared/issues/498",
+      ".csdlc/prepared/issues/498/validate-readiness.rb",
+      ".csdlc/prepared/issues/498/check-prerequisites.rb",
+      ".csdlc/prepared/issues/498/validate-diligence-index.rb",
+      ".csdlc/prepared/issues/498/validate-counsel-boundary.rb",
+      ".csdlc/prepared/issues/498/validate-acceptance-readback.rb",
+      ".csdlc/evidence/498"
+    ]
+  },
+  "fail_after_backup": false
+}

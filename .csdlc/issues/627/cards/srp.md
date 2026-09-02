@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Remote PR #635 branch remains stale until typed publication pushes this reviewed local candidate.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a")
 
-Reviewer: None
+Reviewer: Some("codex-reviewer:review_627_r5_exact_head")
 
-Result: pre_review
+Result: pass

@@ -1,0 +1,18 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "v0921-sprint4-sidecar-routing-20260902",
+  "token_file": null,
+  "issue": 532,
+  "pull_request": null,
+  "title": "[v0.92.1][Sprint 4] Corporate acceptance",
+  "body": "## Outcome\n\nCoordinate Sprint 4 — Corporate acceptance as one bounded execution wave without absorbing child implementation.\n\n## Current child membership baseline\n\n- #497 — CORP-C corporate IP-transfer acceptance. PR #613 merged; post-closeout truth repair routes broader operational control-plane hardening to sidecar #624 so those gaps do not block #497 transfer acceptance.\n- #498 — CORP-D corporate diligence acceptance. This remains the active Sprint 4 child before umbrella closeout.\n\n## Nonblocking sidecar\n\n- #624 tracks post-move-in operational control-plane hardening discovered during #497 review/closeout: GitHub/CI authority, DNS/certificate ownership, AWS guardrails, private custody receipt, and deployment rollback readback. #624 is important follow-up work, but it is not a Sprint 4 closure blocker unless a later operator-approved sprint policy explicitly makes it one.\n\n- Membership version: `5`\n- Change reason: Route #497 operational hardening residuals to sidecar #624 and keep Sprint 4 focused on corporate IP-transfer and diligence acceptance.\n\n## Change protocol\n\n- This roster is the opening baseline, not a permanent freeze.\n- The milestone operator may add, remove, split, or reroute work through a typed issue update that records the reason and rechecks dependencies.\n- Every update must preserve one bounded result per child and must not silently drop unfinished work.\n\n## Completion gate\n\n- Every child in the current declared roster has an independently reviewed, green merge into `main` and its merge commit is ancestral to the sprint closing revision.\n- Blocked or deferred children retain an explicit operator-approved disposition; the umbrella never fabricates completion.\n- Typed finish and worktree cleanup are asynchronous and never gate another issue.\n- Sidecar #624 remains open follow-up and does not block Sprint 4 closeout.\n\n## Concrete result\n\nOne reviewable Sprint 4 result records the current roster version, dispositions, reviewed merge heads, green checks, merge commits, ancestry, and nonblocking sidecar routing.\n\n## Non-goals\n\n- Implementing child work inside this umbrella.\n- Serializing children that have no declared dependency.\n- Treating closeout or cleanup as an execution dependency.\n- Completing #624 inside Sprint 4.\n\n<!-- csdlc-github-operation:v0921-wp01:sprint-4:create -->\n<!-- csdlc-github-operation:v0921-wp01:sprint-4:membership-v4-update -->",
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}
