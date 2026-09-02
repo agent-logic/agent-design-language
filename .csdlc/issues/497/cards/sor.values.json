@@ -7,20 +7,23 @@
     "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
     "slug": "v0-92-1-corp-c-corporate-operational-control-transfer",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Recovered #497 after PR #613 review found the published packet weakened the live acceptance denominator. Repaired the CORP-C packet so it preserves the original #497 control-plane denominator, retains a redacted read-only AWS STS identity receipt, and explicitly blocks issue closure until required owner, rollback, Terraform/CI, availability, recovery, deployment, DNS/certificate, AWS account-control, and private-custody readbacks pass.",
+      "summary": "Recovered #497 after PR #613 review found the published packet weakened the live acceptance denominator. The repaired CORP-C packet preserves the live #497 control-plane denominator, retains a redacted read-only AWS STS identity receipt, keeps CORP-C blocked on required owner, rollback, Terraform/CI, availability, recovery, deployment, DNS/certificate, AWS account-control, and private-custody readbacks, and reconciles the live PR body so it no longer advertises terminal closeout for #497.",
       "actual_changes": [
         "Recovered typed lifecycle from published back to implemented, clearing stale review/publication truth.",
         "Restored STP acceptance criteria to the live #497 issue denominator.",
         "Added a redacted AWS STS identity receipt for agent-logic-admin and bound the account-authority record to that receipt by SHA-256.",
         "Added a control-plane denominator record that marks required live readback rows as blocked or partial instead of deferred-but-accepted.",
         "Updated the external-action classifier and acceptance packet so CORP-C is not accepted and #497 is not ready to close.",
-        "Updated the issue-local validator so a pass means truthful blocked-denominator evidence, not acceptance readiness."
+        "Updated the issue-local validator so a pass means truthful blocked-denominator evidence, not acceptance readiness.",
+        "Updated PR #613 through typed csdlc-github-pr pr_update so the body uses Part-Of #497 and no GitHub closing linkage remains.",
+        "Retained a typed PR-state readback showing PR #613 at head c0028393005da803e1fad36df69edcca0bd3a4e9 with linkage_source null and linked_issue null.",
+        "Removed review-hostile close-keyword phrasing from the CORP-C acceptance Markdown and corresponding validator expectation."
       ],
       "artifacts": [
         "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
@@ -30,7 +33,10 @@
         "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
         "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md",
         "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json",
-        ".csdlc/evidence/497/validate-readiness.rb"
+        ".csdlc/evidence/497/validate-readiness.rb",
+        ".csdlc/prepared/issues/497/pr-update-blocked-body-no-closing-keywords-20260902.json",
+        ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.request.json",
+        ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.json"
       ],
       "actual_validation": [
         {
@@ -38,9 +44,9 @@
             "ruby",
             ".csdlc/evidence/497/validate-readiness.rb"
           ],
-          "purpose": "Validate prerequisite ancestry, redacted AWS receipt binding, live #497 denominator preservation, explicit blocking rows, and credential-marker hygiene.",
+          "purpose": "Validate prerequisite ancestry, redacted AWS receipt binding, live #497 denominator preservation, explicit blocking rows, PR-closeout boundary wording, and credential-marker hygiene.",
           "outcome": "passed",
-          "evidence_ref": "Local command exited zero with result pass, blocked_actions 7, issue_ready_to_close false."
+          "evidence_ref": "Local command exited zero with result pass, blocked_actions 7, issue_ready_to_close false, external_mutations_performed false."
         },
         {
           "command": [
@@ -49,11 +55,64 @@
             "-e",
             "ARGV.each { |path| JSON.parse(File.read(path)) }",
             "docs/milestones/v0.92.1/evidence/corporate/corp-c/*.json",
-            "docs/operations/corporate/control-transfer/*.json"
+            "docs/operations/corporate/control-transfer/*.json",
+            ".csdlc/prepared/issues/497/pr-update-blocked-body-no-closing-keywords-20260902.json",
+            ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.request.json",
+            ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.json"
           ],
-          "purpose": "Prove CORP-C machine-readable evidence files parse as JSON.",
+          "purpose": "Prove CORP-C machine-readable evidence files and PR reconciliation records parse as JSON.",
           "outcome": "passed",
           "evidence_ref": "Local JSON parse loop exited zero."
+        },
+        {
+          "command": [
+            "rg",
+            "-n",
+            "\\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\\s+#497\\b",
+            ".csdlc/issues/497",
+            "docs/operations/corporate/control-transfer",
+            "docs/milestones/v0.92.1/evidence/corporate/corp-c",
+            ".csdlc/prepared/issues/497"
+          ],
+          "purpose": "Prove scoped #497 card, evidence, and PR reconciliation surfaces no longer contain GitHub closing-keyword syntax for #497.",
+          "outcome": "passed",
+          "evidence_ref": "Local command returned no matches."
+        },
+        {
+          "command": [
+            "csdlc-github-pr",
+            "state",
+            "--request",
+            ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.request.json"
+          ],
+          "purpose": "Retain live PR #613 body/linkage readback after typed metadata correction.",
+          "outcome": "passed",
+          "evidence_ref": "Retained PR-state readback records head c0028393005da803e1fad36df69edcca0bd3a4e9, linkage_source null, linked_issue null."
+        },
+        {
+          "command": [
+            "csdlc-doctor",
+            "--repo",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
+            "--issue",
+            "497"
+          ],
+          "purpose": "Prove the typed #497 lifecycle package remains coherent after blocked-state repair and PR metadata reconciliation.",
+          "outcome": "passed",
+          "evidence_ref": "status pass, phase implemented, generation 12, ready false."
+        },
+        {
+          "command": [
+            "csdlc-validate",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
+            "issue",
+            "--issue",
+            "497"
+          ],
+          "purpose": "Prove the typed #497 issue package validates after blocked-state repair and PR metadata reconciliation.",
+          "outcome": "passed",
+          "evidence_ref": "status pass, phase implemented, generation 12, ready false."
         },
         {
           "command": [
@@ -68,28 +127,16 @@
         },
         {
           "command": [
-            "csdlc-doctor",
+            "gh",
+            "pr",
+            "checks",
+            "613",
             "--repo",
-            "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
-            "--issue",
-            "497"
+            "agent-logic/agent-design-language"
           ],
-          "purpose": "Prove the typed #497 lifecycle package remains coherent after review recovery and denominator repair.",
+          "purpose": "Observe current GitHub CI state for the PR head after the final PR-body reconciliation commit.",
           "outcome": "passed",
-          "evidence_ref": "status pass, phase implemented, generation 11."
-        },
-        {
-          "command": [
-            "csdlc-validate",
-            "--root",
-            "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
-            "issue",
-            "--issue",
-            "497"
-          ],
-          "purpose": "Prove the typed #497 issue package validates after review recovery and denominator repair.",
-          "outcome": "passed",
-          "evidence_ref": "status pass, phase implemented, generation 11."
+          "evidence_ref": "adl-ci, adl-coverage, and adl-path-policy passed; other routed checks skipped."
         }
       ],
       "integration_state": "worktree_only",
