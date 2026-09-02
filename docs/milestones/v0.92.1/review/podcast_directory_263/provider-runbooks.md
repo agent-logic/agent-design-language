@@ -1,6 +1,6 @@
 # The Cognitive Stack Directory Submission Runbooks
 
-Status: prepared 2026-09-01 from current official provider instructions. This is not submission authority.
+Status: prepared 2026-09-02 from current official provider instructions. This is not submission authority.
 
 ## Shared preflight for every provider
 
@@ -21,7 +21,7 @@ Never commit, paste into issue text, or retain:
 
 ## Apple Podcasts
 
-Official source sampled 2026-09-01: https://podcasters.apple.com/support/897-submit-a-show
+Official source sampled 2026-09-02: https://podcasters.apple.com/support/897-submit-a-show
 
 Operator-controlled steps:
 
@@ -39,11 +39,13 @@ Record only redacted status, canonical Apple show URL/ID after publication or cl
 
 ## Spotify for Creators
 
-Official sources sampled 2026-09-01:
+Official sources sampled 2026-09-02:
 
 - https://support.spotify.com/us/creators/article/getting-your-show-on-spotify/
 - https://support.spotify.com/us/creators/article/multiple-shows-under-one-account/
 - https://support.spotify.com/us/creators/article/finding-and-enabling-your-rss-feed/
+- https://support.spotify.com/sg-en/creators/article/claiming-your-podcast-on-spotify-for-creators/
+- https://support.spotify.com/mw/creators/article/adding-a-new-show/
 
 Operator-controlled steps:
 
@@ -58,7 +60,7 @@ Record only redacted verification outcome, canonical Spotify show URL/ID, owner,
 
 ## Amazon Music for Podcasters
 
-Official sources sampled 2026-09-01:
+Official sources sampled 2026-09-02:
 
 - https://podcasters.amazon.com/submit-rss
 - https://podcasters.amazon.com/frequently-asked-questions
@@ -76,7 +78,7 @@ Record only redacted status, canonical Amazon/Audible show URL/ID, date, owner, 
 
 ## YouTube RSS ingestion
 
-Official source sampled 2026-09-01: https://support.google.com/youtube/answer/13525207?hl=en
+Official source sampled 2026-09-02: https://support.google.com/youtube/answer/13525207?hl=en
 
 Operator-controlled steps:
 

@@ -42,6 +42,8 @@ official_sources = [
   "https://support.spotify.com/us/creators/article/getting-your-show-on-spotify/",
   "https://support.spotify.com/us/creators/article/multiple-shows-under-one-account/",
   "https://support.spotify.com/us/creators/article/finding-and-enabling-your-rss-feed/",
+  "https://support.spotify.com/sg-en/creators/article/claiming-your-podcast-on-spotify-for-creators/",
+  "https://support.spotify.com/mw/creators/article/adding-a-new-show/",
   "https://podcasters.amazon.com/submit-rss",
   "https://podcasters.amazon.com/frequently-asked-questions",
   "https://support.google.com/youtube/answer/13525207?hl=en"
@@ -55,7 +57,7 @@ end
 end
 
 required_phrases = [
-  "Status: prepared 2026-09-01 from current official provider instructions",
+  "Status: prepared 2026-09-02 from current official provider instructions",
   "This is not submission authority",
   "https://agent-logic.ai/podcast/feed.xml",
   "https://agent-logic.ai/podcast/",
@@ -91,7 +93,7 @@ puts JSON.generate(
   status: "passed",
   show: "The Cognitive Stack",
   feed: "https://agent-logic.ai/podcast/feed.xml",
-  official_sources_sampled_utc_date: "2026-09-01",
+  official_sources_sampled_utc_date: "2026-09-02",
   providers: expected_providers,
   submission_claimed: false,
   public_launch_claimed: false
