@@ -47,11 +47,11 @@ Produced the CORP-C corporate operational-control transfer acceptance packet as 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
