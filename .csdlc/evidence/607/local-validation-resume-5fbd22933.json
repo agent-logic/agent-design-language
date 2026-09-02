@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue607.local_validation.v1",
   "issue": 607,
-  "tested_revision": "f59fcbf6ae17a64326f6c90d049fb7dd203bc60a",
+  "tested_revision": "5fbd229330dda2ed6f080ebb54684e57c08e17e6",
   "status": "passed",
   "checks": [
     {
@@ -23,6 +23,7 @@
     "permanent AWS command failures terminate",
     "prepared AMI creation reuses one exact existing image",
     "sealed snapshot creation reuses one exact existing snapshot",
+    "retained prepared AMIs and their exact root snapshots are accepted by zero-disposable-residue proof",
     "resume binds the source archive, plans, preflight, action manifest, Terraform state, owner token, campaign, and consumed S3 authorization marker"
   ],
   "limitations": [

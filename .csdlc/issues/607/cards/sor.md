@@ -12,7 +12,7 @@ Status: draft
 
 ## Summary
 
-Implemented the warm two-node AWS path through restart-safe controller revision f59fcbf6a; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.
+Implemented the warm two-node AWS path through restart-safe controller revision 5fbd22933; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.
 
 ## Artifacts
 
@@ -23,7 +23,7 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
 - adl/tools/test_issue607_warm_polis.sh
 - infra/aws/runtime/gpu-proof
 - docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-- .csdlc/evidence/607/local-validation-resume-f59fcbf6a.json
+- .csdlc/evidence/607/local-validation-resume-5fbd22933.json
 
 ## Execution
 
@@ -33,6 +33,7 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
 - Made AMI and sealed-snapshot creation exact-state and idempotent across controller interruption.
 - Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.
 - Added consumed-authorization, source, plan, Terraform state, owner, image, and ledger identity validation before resume.
+- Allowed only the exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.
 - Added executable regressions for permanent AWS errors and exact reuse of existing images and snapshots.
 
 ## Validation
@@ -44,9 +45,9 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
       "adl/tools/test_issue607_warm_polis.sh",
       "all"
     ],
-    "purpose": "Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, and exact image and snapshot reuse.",
+    "purpose": "Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, exact image and snapshot reuse, and retained-artifact residue classification.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-5fbd22933.json"
   },
   {
     "command": [
@@ -56,7 +57,7 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
     ],
     "purpose": "Reject whitespace and conflict-marker residue after restart-safety remediation.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-5fbd22933.json"
   },
   {
     "command": [
@@ -67,7 +68,7 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
     ],
     "purpose": "Prove shell parse validity for the controller and its regression suite.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-5fbd22933.json"
   }
 ]
 
