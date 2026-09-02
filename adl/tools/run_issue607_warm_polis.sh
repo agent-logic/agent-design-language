@@ -710,12 +710,14 @@ snapshot_prepared_generation() {
   jq -e --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" 'length==2 and all(.[];.state=="completed" and .progress=="100%") and ([.[].source_volume_id]|sort)==([$runtime,$gpu]|sort)' <<<"$snapshot_state" >/dev/null
 
   restore_started="$(date +%s)"
+  restore_az="$(aws_cli ec2 describe-volumes --volume-ids "$gpu_volume" --query 'Volumes[0].AvailabilityZone' --output text)"
+  [[ "$restore_az" =~ ^[a-z]{2}-[a-z]+-[0-9][a-z]$ ]] || { echo "GPU source volume did not resolve an exact availability zone" >&2; return 1; }
   existing_restore="$(aws_cli ec2 describe-volumes --filters "Name=tag:adl:issue,Values=607" "Name=tag:adl:run-id,Values=$RUN_ID" "Name=tag:adl:storage-id,Values=$STORAGE_ID" "Name=tag:adl:snapshot-restore-test,Values=true" "Name=snapshot-id,Values=$gpu_snapshot" --query 'Volumes[].VolumeId' --output text)"
   if [[ "$existing_restore" =~ ^vol-[0-9a-f]+$ ]]; then
     RESTORE_TEST_VOLUME_ID="$existing_restore"
   else
     [[ -z "$existing_restore" ]] || { echo "temporary restore volume identity is not unique: $existing_restore" >&2; return 1; }
-    RESTORE_TEST_VOLUME_ID="$(aws_cli ec2 create-volume --snapshot-id "$gpu_snapshot" --availability-zone "$AZ" --volume-type gp3 --iops 3000 --throughput 500 \
+    RESTORE_TEST_VOLUME_ID="$(aws_cli ec2 create-volume --snapshot-id "$gpu_snapshot" --availability-zone "$restore_az" --volume-type gp3 --iops 3000 --throughput 500 \
       --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=$RUN_ID-snapshot-restore-test},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:snapshot-restore-test,Value=true},{Key=adl:cleanup-required,Value=true}]" \
       --query VolumeId --output text)"
   fi
@@ -724,7 +726,7 @@ snapshot_prepared_generation() {
   wait_volume_available "$RESTORE_TEST_VOLUME_ID"
   restore_available_elapsed=$(( $(date +%s) - restore_started ))
   restore_state="$(aws_cli ec2 describe-volumes --volume-ids "$RESTORE_TEST_VOLUME_ID" --query 'Volumes[0].{volume_id:VolumeId,snapshot_id:SnapshotId,state:State,availability_zone:AvailabilityZone,size_gib:Size,iops:Iops,throughput:Throughput,encrypted:Encrypted,kms_key_id:KmsKeyId}' --output json)"
-  jq -e --arg snapshot "$gpu_snapshot" --arg az "$AZ" '.snapshot_id==$snapshot and .state=="available" and .availability_zone==$az and .encrypted==true' <<<"$restore_state" >/dev/null
+  jq -e --arg snapshot "$gpu_snapshot" --arg az "$restore_az" '.snapshot_id==$snapshot and .state=="available" and .availability_zone==$az and .encrypted==true' <<<"$restore_state" >/dev/null
   aws_cli ec2 delete-volume --volume-id "$RESTORE_TEST_VOLUME_ID"
   wait_volume_absent "$RESTORE_TEST_VOLUME_ID"
   restored_volume="$RESTORE_TEST_VOLUME_ID"; RESTORE_TEST_VOLUME_ID=""
