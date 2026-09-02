@@ -18,6 +18,13 @@ source_revision = receipt.fetch("source_revision")
 abort("source revision format mismatch") unless source_revision.match?(/\A[0-9a-f]{40}\z/)
 system("git", "-C", root, "merge-base", "--is-ancestor", source_revision, head) or abort("source revision is not ancestral to HEAD")
 post_live_paths = `git -C #{Shellwords.escape(root)} diff --name-only #{Shellwords.escape(source_revision)}..HEAD`.lines.map(&:strip).reject(&:empty?)
+mainline_paths = []
+if system("git", "-C", root, "rev-parse", "--verify", "--quiet", "origin/main", out: File::NULL, err: File::NULL) &&
+    (mainline_base = `git -C #{Shellwords.escape(root)} merge-base #{Shellwords.escape(source_revision)} origin/main`.strip) &&
+    mainline_base.match?(/\A[0-9a-f]{40}\z/)
+  mainline_paths = `git -C #{Shellwords.escape(root)} diff --name-only #{Shellwords.escape(mainline_base)}..origin/main`.lines.map(&:strip).reject(&:empty?)
+end
+post_live_paths -= mainline_paths
 allowed_post_live = [
   /\A\.csdlc\/evidence\/509\//,
   /\A\.csdlc\/issues\/509\//,
