@@ -60,3 +60,5 @@
 {"sequence":60,"generation":46,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":61,"generation":47,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":62,"generation":48,"actor":"codex-primary-issue607","reason":"Recover failed review after disabling unsafe destructive preparation recovery, binding resume ledgers to campaign, and serializing paid launches behind validated aggregate cost evidence.","operation":"recover_review"}
+{"sequence":63,"generation":48,"actor":"codex-session:issue-607","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":64,"generation":49,"actor":"codex-session:issue-607","reason":"Refresh execution truth with the completed two-run AWS qualification, exact timings, cost evidence, and teardown remediations before final review.","operation":"recover_review"}
