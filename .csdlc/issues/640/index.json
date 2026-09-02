@@ -3,11 +3,11 @@
   "issue": 640,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 5,
-  "digest": "88d4fd76c9d34cc38d25ebdd6ff9e8893d9fb71d11bc9bbe13ea26fbb2d9b945",
-  "branch": null,
-  "worktree": null,
+  "digest": "93ee6e2e3ad19f463e18e28c355150ea38236d9fe8f84354760abd0ba919fb74",
+  "branch": "codex/640-runtime-model-backed-resident-shepherd",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +54,22 @@
       "ast_digest": "f8ed2183eab77949dbee862f5d4cfed1a37e7d9c19b2c2b8039c359c45a86889"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -97,6 +112,13 @@
       "actor": "fresh-session:015a7785-e86b-4607-803c-84a8f221de18",
       "reason": "approve completed issue design",
       "operation": "{\"design_digest\":\"f73bbe055c9d064099191075b3e9c1e38eb3dee8693df8ed48569325290f1959\",\"design_ref\":\".csdlc/prepared/issues/640/design.md\",\"diagram_digest\":\"81aeb9544c88940ec0fcef0ed2963e68ee37fd481c16f1199bd28c5f6ef0efaa\",\"diagram_ref\":\".csdlc/prepared/issues/640/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
