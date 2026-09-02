@@ -36,6 +36,7 @@ grep -Fq '#505' csdlc-v3/src/commands/terminal.rs || fail "cutover approval must
 grep -Fq 'terminal_verified_readback_denies_stale_nonmerged_and_open_issue' csdlc-v3/src/commands/terminal.rs || fail "missing stale/nonmerged/open issue finish denial tests"
 grep -Fq 'cleanup_denies_symlink_escape_from_approved_parent' csdlc-v3/tests/terminal_cleanup_cutover_commands.rs || fail "missing symlink escape cleanup denial test"
 grep -Fq 'cleanup_denies_nonexistent_parent_traversal_escape' csdlc-v3/tests/terminal_cleanup_cutover_commands.rs || fail "missing nonexistent traversal cleanup denial test"
+grep -Fq 'cleanup_denies_nonexistent_child_under_symlink_escape' csdlc-v3/tests/terminal_cleanup_cutover_commands.rs || fail "missing nonexistent child under symlink cleanup denial test"
 
 cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands
 cargo test --manifest-path csdlc-v3/Cargo.toml --lib terminal_verified_readback

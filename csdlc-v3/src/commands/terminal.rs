@@ -354,6 +354,15 @@ fn classify_cleanup_from_git(
             "cleanup target must not contain parent-directory traversal",
         ));
     }
+    if !request.candidate_path.exists() {
+        let existing_parent = canonical_existing_ancestor(&request.candidate_path)?;
+        if !existing_parent.starts_with(&approved_parent) {
+            return Err(finding(
+                "path_outside_approved_parent",
+                "cleanup target parent must remain beneath the approved worktree parent",
+            ));
+        }
+    }
     let candidate = if request.candidate_path.exists() {
         canonical_dir(&request.candidate_path, "candidate_path")?
     } else {
@@ -544,6 +553,26 @@ fn cleanup_receipt_digest(repository_root: &Path, candidate: &Path) -> String {
 fn contains_parent_component(path: &Path) -> bool {
     path.components()
         .any(|component| matches!(component, Component::ParentDir))
+}
+
+fn canonical_existing_ancestor(path: &Path) -> Result<PathBuf, TerminalFinding> {
+    let mut cursor = path;
+    loop {
+        if cursor.exists() {
+            return fs::canonicalize(cursor).map_err(|error| {
+                finding(
+                    "non_canonical_path",
+                    &format!("cleanup target parent must be canonicalizable: {error}"),
+                )
+            });
+        }
+        cursor = cursor.parent().ok_or_else(|| {
+            finding(
+                "non_canonical_path",
+                "cleanup target must have an existing canonical parent",
+            )
+        })?;
+    }
 }
 
 fn finding(code: &str, message: &str) -> TerminalFinding {

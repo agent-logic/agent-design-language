@@ -238,6 +238,28 @@ fn cleanup_denies_symlink_escape_from_approved_parent() {
 }
 
 #[test]
+fn cleanup_denies_nonexistent_child_under_symlink_escape() {
+    let fixture = fixture_root("cleanup_symlink_child_escape");
+    let approved = fixture.join("approved");
+    let primary = fixture.join("primary");
+    let outside = fixture.join("outside");
+    let escape = approved.join("escape-link");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    fs::create_dir_all(&approved).expect("approved parent");
+    fs::create_dir_all(&outside).expect("outside target");
+    init_repo(&primary);
+    create_symlink(&outside, &escape);
+
+    let plan = cleanup_plan(&approved, &primary, &escape.join("missing"), false, None);
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "path_outside_approved_parent"));
+}
+
+#[test]
 fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
     let mut request = base_request();
     request.cutover = Some(CutoverDecisionRequest {
