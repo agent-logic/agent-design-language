@@ -101,11 +101,11 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
