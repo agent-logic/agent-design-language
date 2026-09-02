@@ -12,7 +12,19 @@ Status: draft
 
 ## Scope
 
-
+adl/src/provider/mod.rs
+adl/src/execute/tests.rs
+adl/src/execute/runner.rs
+adl/src/remote_exec.rs
+adl/tests/provider_shadow_isolation.rs
+adl/tests/provider_shadow_comparison.rs
+adl/tests/provider_shadow_fallback.rs
+adl/tests/provider_shadow_open_pr_review.rs
+.csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh
+.csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh
+docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json
+docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json
+.csdlc/prepared/issues/515
 
 ## Prompts
 

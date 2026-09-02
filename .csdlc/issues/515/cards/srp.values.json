@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl/src/provider/mod.rs\nadl/src/execute/tests.rs\nadl/src/execute/runner.rs\nadl/src/remote_exec.rs\nadl/tests/provider_shadow_isolation.rs\nadl/tests/provider_shadow_comparison.rs\nadl/tests/provider_shadow_fallback.rs\nadl/tests/provider_shadow_open_pr_review.rs\n.csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh\n.csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh\ndocs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\ndocs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json\n.csdlc/prepared/issues/515",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
