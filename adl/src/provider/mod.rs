@@ -27,6 +27,7 @@ mod deepgram;
 mod http_family;
 mod local;
 mod profiles;
+pub mod reload;
 
 pub use deepgram::{
     build_speech_provider, AudioContainer, AudioEncoding, DeepgramSpeechProvider, SpeechErrorKind,
@@ -43,6 +44,10 @@ pub use profiles::{
     activate_provider_profile_candidate, expand_provider_profiles,
     provider_profile_materialization_projection, provider_profile_names,
     redacted_provider_profile_projection, ProviderProfileActivation,
+};
+pub use reload::{
+    current_provider_reload_document, set_global_provider_reload_handle, ProviderReloadDiagnostic,
+    ProviderReloadGlobalGuard, ProviderReloadHandle, ProviderReloadOwner, ProviderReloadSnapshot,
 };
 
 pub(crate) use profiles::{
@@ -687,7 +692,7 @@ pub fn build_provider_for_id(
             "ollama" | "local_ollama" => {
                 Box::new(OllamaProvider::from_target(spec, &target)?) as Box<dyn Provider>
             }
-            "mock" => Box::new(MockProvider::from_target(&target)),
+            "mock" => Box::new(MockProvider::from_target(spec, &target)),
             other => return Err(unknown_kind(other)),
         },
     };

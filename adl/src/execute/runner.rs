@@ -628,7 +628,9 @@ where
             let prompt_hash = prompt::hash_prompt(&prompt_text);
             on_prompt_hash(&prompt_hash);
 
-            let spec = doc.providers.get(provider_id).ok_or_else(|| {
+            let provider_doc_snapshot = provider::current_provider_reload_document();
+            let provider_doc = provider_doc_snapshot.as_deref().unwrap_or(doc);
+            let spec = provider_doc.providers.get(provider_id).ok_or_else(|| {
                 deterministic_setup_error(format!(
                     "step '{}' references unknown provider '{}'",
                     step_id, provider_id
