@@ -5496,18 +5496,18 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
     {
         return Err(ControlError::InvalidIdentifier);
     }
-    validate_private_ollama_binding(&request.model, &request.endpoint)?;
+    validate_private_provider_binding(&request.model, &request.endpoint)?;
     Ok(())
 }
 
-pub(crate) fn validate_private_ollama_binding(
+pub(crate) fn validate_private_provider_binding(
     model: &str,
     endpoint: &str,
 ) -> Result<(), ControlError> {
     if !is_safe_identifier(model) {
         return Err(ControlError::InvalidIdentifier);
     }
-    let (host, _) = parse_private_ollama_endpoint(endpoint)?;
+    let (host, _) = parse_private_provider_endpoint(endpoint)?;
     let host = host.as_str();
     let private = host == "localhost"
         || host.ends_with(".local")
@@ -5566,7 +5566,7 @@ fn persisted_agent_canonical_name(request: &AgentAdmissionRequest) -> String {
 async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), AgentAdmissionFailure> {
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
-    let (host, port) = parse_private_ollama_endpoint(&request.endpoint)
+    let (host, port) = parse_private_provider_endpoint(&request.endpoint)
         .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
     let address = tokio::net::lookup_host((host.as_str(), port))
         .await
@@ -5651,7 +5651,7 @@ pub async fn preload_resident_shepherd_model(
     config: &ResidentShepherdInitConfig,
     cancellation: &CancellationToken,
 ) -> Result<(), &'static str> {
-    if config.provider != "ollama" {
+    if !crate::resident_shepherd_provider_is_available(&config.provider) {
         return Err("resident_shepherd_provider_unsupported");
     }
     let request = AgentAdmissionRequest {
@@ -5665,15 +5665,18 @@ pub async fn preload_resident_shepherd_model(
         model: config.model.clone(),
         endpoint: config.endpoint.clone(),
     };
-    verify_ollama_model(&request)
-        .await
-        .map_err(|failure| match failure {
-            AgentAdmissionFailure::Invalid(reason)
-            | AgentAdmissionFailure::Conflict(reason)
-            | AgentAdmissionFailure::Unavailable(reason) => reason,
-        })?;
-    if config.preload.enabled {
-        invoke_ollama_model(
+    if config.provider == "ollama" {
+        verify_ollama_model(&request)
+            .await
+            .map_err(|failure| match failure {
+                AgentAdmissionFailure::Invalid(reason)
+                | AgentAdmissionFailure::Conflict(reason)
+                | AgentAdmissionFailure::Unavailable(reason) => reason,
+            })?;
+    }
+    if config.preload.enabled || config.provider != "ollama" {
+        invoke_resident_shepherd_provider(
+            &config.provider,
             &config.endpoint,
             &config.model,
             "Reply with READY.",
@@ -5682,6 +5685,22 @@ pub async fn preload_resident_shepherd_model(
         .await?;
     }
     Ok(())
+}
+
+pub(crate) async fn invoke_resident_shepherd_provider(
+    provider: &str,
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<String, &'static str> {
+    match provider {
+        "ollama" => invoke_ollama_model(endpoint, model, prompt, cancellation).await,
+        "openai-compatible" => {
+            invoke_openai_compatible_model(endpoint, model, prompt, cancellation).await
+        }
+        _ => Err("resident_shepherd_provider_unsupported"),
+    }
 }
 
 fn decode_http_chunked_body(encoded: &[u8]) -> Option<Vec<u8>> {
@@ -5734,7 +5753,7 @@ pub(crate) async fn invoke_ollama_model(
     let operation = async {
         use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
-        let (host, port) = parse_private_ollama_endpoint(endpoint)
+        let (host, port) = parse_private_provider_endpoint(endpoint)
             .map_err(|_| "agent_provider_binding_invalid")?;
         let address = tokio::net::lookup_host((host.as_str(), port))
             .await
@@ -5813,7 +5832,81 @@ pub(crate) async fn invoke_ollama_model(
     }
 }
 
-fn parse_private_ollama_endpoint(endpoint: &str) -> Result<(String, u16), ControlError> {
+async fn invoke_openai_compatible_model(
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<String, &'static str> {
+    validate_private_provider_binding(model, endpoint)
+        .map_err(|_| "agent_provider_binding_invalid")?;
+    let operation = async {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
+        let (host, port) = parse_private_provider_endpoint(endpoint)
+            .map_err(|_| "agent_provider_binding_invalid")?;
+        let address = tokio::net::lookup_host((host.as_str(), port))
+            .await
+            .map_err(|_| "agent_provider_unreachable")?
+            .find(|address| match address.ip() {
+                std::net::IpAddr::V4(ip) => ip.is_loopback() || ip.is_private(),
+                std::net::IpAddr::V6(ip) => ip.is_loopback() || ip.is_unique_local(),
+            })
+            .ok_or("agent_provider_unreachable")?;
+        let mut stream = tokio::net::TcpStream::connect(address)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let body = serde_json::to_vec(&serde_json::json!({
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": false
+        }))
+        .map_err(|_| "agent_provider_request_invalid")?;
+        let headers = format!(
+            "POST /v1/chat/completions HTTP/1.1\r\nHost: {host}:{port}\r\nConnection: close\r\nContent-Type: application/json\r\nAccept: application/json\r\nContent-Length: {}\r\n\r\n",
+            body.len()
+        );
+        stream
+            .write_all(headers.as_bytes())
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        stream
+            .write_all(&body)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let mut bytes = Vec::new();
+        stream
+            .take(4_194_305)
+            .read_to_end(&mut bytes)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let split = bytes
+            .windows(4)
+            .position(|window| window == b"\r\n\r\n")
+            .ok_or("agent_provider_response_invalid")?;
+        let response_headers =
+            std::str::from_utf8(&bytes[..split]).map_err(|_| "agent_provider_response_invalid")?;
+        if !response_headers
+            .lines()
+            .next()
+            .is_some_and(|line| line.contains(" 200 "))
+        {
+            return Err("agent_provider_failed");
+        }
+        let response: serde_json::Value = serde_json::from_slice(&bytes[split + 4..])
+            .map_err(|_| "agent_provider_response_invalid")?;
+        response["choices"][0]["message"]["content"]
+            .as_str()
+            .filter(|reply| !reply.trim().is_empty())
+            .map(str::to_owned)
+            .ok_or("agent_provider_response_invalid")
+    };
+    tokio::select! {
+        _ = cancellation.cancelled() => Err("operation cancelled"),
+        result = tokio::time::timeout(AGENT_PROVIDER_EXECUTION_TIMEOUT, operation) => result.map_err(|_| "agent_provider_timed_out")?,
+    }
+}
+
+fn parse_private_provider_endpoint(endpoint: &str) -> Result<(String, u16), ControlError> {
     let authority = endpoint
         .strip_prefix("http://")
         .ok_or(ControlError::InvalidIdentifier)?;

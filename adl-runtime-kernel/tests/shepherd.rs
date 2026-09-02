@@ -7,13 +7,14 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    build_production_operation_executors_with_recorder, AdapterKind, AdapterPolicy, AuthorityMode,
-    ExecutionPermit, ExecutorError, LocalShepherdConfig, LocalShepherdExecutor, OperationError,
-    OperationExecutor, OperationRequest, OperationalAdapter, ResidentShepherdExecutor,
-    ResidentShepherdInitConfig, ShepherdError, ShepherdExecutionClass, ShepherdFailureResponse,
-    ShepherdModelIdentity, ShepherdProvenance, ShepherdResponse, OPERATION_REQUEST_SCHEMA,
-    SHEPHERD_FAILURE_SCHEMA, SHEPHERD_REQUEST_SCHEMA, SHEPHERD_RESPONSE_SCHEMA,
-    SHEPHERD_RUNNER_RESPONSE_SCHEMA,
+    build_production_operation_executors_with_recorder, run_resident_shepherd_recovery,
+    AdapterKind, AdapterPolicy, AuthorityMode, ExecutionPermit, ExecutorError, LocalShepherdConfig,
+    LocalShepherdExecutor, OperationError, OperationExecutor, OperationRequest, OperationalAdapter,
+    ResidentShepherdExecutor, ResidentShepherdInitConfig, ResidentShepherdReadiness,
+    ResidentShepherdRecoveryPolicy, ResidentShepherdRecoveryState, ShepherdError,
+    ShepherdExecutionClass, ShepherdFailureResponse, ShepherdModelIdentity, ShepherdProvenance,
+    ShepherdResponse, OPERATION_REQUEST_SCHEMA, SHEPHERD_FAILURE_SCHEMA, SHEPHERD_REQUEST_SCHEMA,
+    SHEPHERD_RESPONSE_SCHEMA, SHEPHERD_RUNNER_RESPONSE_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 use serde_json::{json, Value};
@@ -970,6 +971,95 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
 }
 
 #[tokio::test]
+async fn shepherd_provider_routes_through_private_openai_compatible_gateway() {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let address = listener.local_addr().unwrap();
+    let server = tokio::spawn(async move {
+        let (mut stream, _) = listener.accept().await.unwrap();
+        let mut request = Vec::new();
+        loop {
+            let mut chunk = [0; 2048];
+            let read = stream.read(&mut chunk).await.unwrap();
+            assert!(read > 0);
+            request.extend_from_slice(&chunk[..read]);
+            let Some(header_end) = request.windows(4).position(|window| window == b"\r\n\r\n")
+            else {
+                continue;
+            };
+            let headers = String::from_utf8_lossy(&request[..header_end]);
+            let content_length = headers
+                .lines()
+                .find_map(|line| {
+                    line.to_ascii_lowercase()
+                        .strip_prefix("content-length: ")
+                        .and_then(|value| value.parse::<usize>().ok())
+                })
+                .unwrap();
+            if request.len() >= header_end + 4 + content_length {
+                break;
+            }
+        }
+        let request = String::from_utf8_lossy(&request);
+        assert!(request.contains("POST /v1/chat/completions"));
+        assert!(request.contains("gemini-2.5-flash"));
+        let body = br#"{"choices":[{"message":{"content":"gateway-backed answer"}}]}"#;
+        stream
+            .write_all(
+                format!(
+                    "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+                    body.len()
+                )
+                .as_bytes(),
+            )
+            .await
+            .unwrap();
+        stream.write_all(body).await.unwrap();
+    });
+    let temp = tempfile::tempdir().unwrap();
+    let native = build_production_operation_executors_with_recorder(
+        temp.path().to_path_buf(),
+        adl_runtime_kernel::RuntimeRecorder::new(16),
+    )
+    .unwrap()
+    .remove(&AdapterKind::Shepherd)
+    .unwrap();
+    let executor = ResidentShepherdExecutor::new(
+        "runtime-test",
+        [ResidentShepherdInitConfig {
+            name: "meridian.axioma".to_owned(),
+            display_name: "Meridian Axioma".to_owned(),
+            office: "resident shepherd".to_owned(),
+            provider: "openai-compatible".to_owned(),
+            model: "gemini-2.5-flash".to_owned(),
+            endpoint: format!("http://{address}"),
+            preload: Default::default(),
+        }],
+        native,
+    );
+    executor.readiness().mark_ready("meridian.axioma");
+    let request = OperationRequest {
+        schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+        request_id: "gateway-provider-request".to_owned(),
+        idempotency_key: "gateway-provider-request".to_owned(),
+        principal: "runtime".to_owned(),
+        payload: serde_json::to_vec(&json!({
+            "schema": SHEPHERD_REQUEST_SCHEMA,
+            "correlation_id": "gateway-provider-correlation",
+            "runtime_id": "runtime-test",
+            "shepherd_name": "meridian.axioma",
+            "prompt": "hello"
+        }))
+        .unwrap(),
+        permit: None,
+    };
+    let response: ShepherdResponse =
+        serde_json::from_slice(&executor.execute(&request).await.unwrap()).unwrap();
+    assert_eq!(response.response, "gateway-backed answer");
+    server.await.unwrap();
+}
+
+#[tokio::test]
 async fn resident_shepherd_model_health_gates_inference_and_recovers() {
     let temp = tempfile::tempdir().unwrap();
     let native = build_production_operation_executors_with_recorder(
@@ -1047,5 +1137,68 @@ async fn resident_shepherd_model_health_gates_inference_and_recovers() {
     assert_eq!(
         executor.execute(&request).await.unwrap_err().message,
         "shepherd_model_not_ready"
+    );
+}
+
+#[tokio::test]
+async fn resident_shepherd_lifetime_recovery_retries_and_recovers() {
+    use std::sync::{
+        atomic::{AtomicUsize, Ordering},
+        Mutex,
+    };
+
+    let name = "beacon.axioma".to_owned();
+    let readiness = ResidentShepherdReadiness::default();
+    let observed_readiness = readiness.clone();
+    let shutdown = CancellationToken::new();
+    let task_shutdown = shutdown.clone();
+    let attempts = Arc::new(AtomicUsize::new(0));
+    let observed_attempts = attempts.clone();
+    let states = Arc::new(Mutex::new(Vec::new()));
+    let observed_states = states.clone();
+    let task = tokio::spawn(async move {
+        run_resident_shepherd_recovery(
+            &name,
+            ResidentShepherdRecoveryPolicy {
+                timeout: Duration::from_secs(1),
+                retry_initial: Duration::from_millis(5),
+                retry_max: Duration::from_secs(1),
+            },
+            readiness,
+            task_shutdown,
+            move || {
+                let attempt = attempts.fetch_add(1, Ordering::SeqCst);
+                async move {
+                    if attempt == 0 {
+                        Err("provider_temporarily_unavailable")
+                    } else {
+                        Ok(())
+                    }
+                }
+            },
+            move |state| states.lock().unwrap().push(state),
+        )
+        .await;
+    });
+
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while !observed_readiness.is_ready("beacon.axioma") {
+            tokio::time::sleep(Duration::from_millis(5)).await;
+        }
+    })
+    .await
+    .expect("resident Shepherd should recover after a failed provider attempt");
+    shutdown.cancel();
+    task.await.unwrap();
+
+    assert!(observed_attempts.load(Ordering::SeqCst) >= 2);
+    assert_eq!(
+        observed_states.lock().unwrap().as_slice(),
+        &[
+            ResidentShepherdRecoveryState::ModelLoading,
+            ResidentShepherdRecoveryState::Degraded,
+            ResidentShepherdRecoveryState::ModelLoading,
+            ResidentShepherdRecoveryState::Ready,
+        ]
     );
 }

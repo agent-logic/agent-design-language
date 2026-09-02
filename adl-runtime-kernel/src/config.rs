@@ -678,11 +678,20 @@ impl RuntimeInitConfig {
                 serde_json::Value::Array(Vec::new()),
             );
         }
-        if let Some(resident_shepherd) = value
-            .get_mut("resident_shepherd")
-            .and_then(serde_json::Value::as_object_mut)
-        {
-            resident_shepherd.remove("display_name");
+        if let Some(resident_shepherd) = value.get_mut("resident_shepherd") {
+            match resident_shepherd {
+                serde_json::Value::Object(shepherd) => {
+                    shepherd.remove("display_name");
+                }
+                serde_json::Value::Array(shepherds) => {
+                    for shepherd in shepherds {
+                        if let Some(shepherd) = shepherd.as_object_mut() {
+                            shepherd.remove("display_name");
+                        }
+                    }
+                }
+                _ => {}
+            }
         }
         Ok(value)
     }
@@ -1239,7 +1248,7 @@ impl ResidentShepherdInitConfig {
                 self.provider
             )));
         }
-        if crate::control::validate_private_ollama_binding(&self.model, &self.endpoint).is_err() {
+        if crate::control::validate_private_provider_binding(&self.model, &self.endpoint).is_err() {
             return Err(RuntimeInitError::Policy(
                 "resident_shepherd model and endpoint must form a valid private provider binding"
                     .to_owned(),

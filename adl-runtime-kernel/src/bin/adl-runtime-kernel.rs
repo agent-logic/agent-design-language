@@ -19,19 +19,20 @@ use adl_runtime_kernel::{
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
     build_production_operation_executors_with_recorder, load_control_tls, load_identity,
     load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
-    preload_resident_shepherd_model, serve_control_listener_until_ready,
-    serve_private_continuity_listener, start_config_reload_with_applier_and_shutdown,
-    validate_production_operation_executors, verifying_key_from_hex, AdapterKind, AdapterPolicy,
-    AgentPopulationFeed, AuthorityMode, CatalogSigningAuthority, CheckpointShutdownRequest,
-    CheckpointingControl, ConfigApplier, ConfigParser, ConfigReloadError, ConfigReloadOptions,
-    ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
-    ControlService, DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
-    OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor, RsntpTimeSampleSource,
-    RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
-    TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
-    TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
-    PRIVATE_ALPN,
+    preload_resident_shepherd_model, run_resident_shepherd_recovery,
+    serve_control_listener_until_ready, serve_private_continuity_listener,
+    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
+    verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
+    CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
+    ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
+    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
+    DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot,
+    ObservabilityDegradation, ObservabilityHealth, OperationRequest, OperationalAdapter,
+    RecorderTrustedTime, ResidentShepherdExecutor, ResidentShepherdRecoveryPolicy,
+    RsntpTimeSampleSource, RunningState, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
+    TlsIdentityPaths, TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
+    OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -722,31 +723,43 @@ async fn main() -> ExitCode {
                 let probe_runtime_id = instance_id.clone();
                 let shutdown = api_shutdown.child_token();
                 tokio::spawn(async move {
-                    let mut retry =
-                        std::time::Duration::from_millis(shepherd.preload.retry_initial_millis);
-                    let retry_max =
-                        std::time::Duration::from_millis(shepherd.preload.retry_max_millis);
-                    let mut was_ready = false;
-                    let mut probe_sequence = 0_u64;
-                    loop {
-                        if !was_ready {
-                            readiness.mark_unready(&shepherd.name);
-                            health_service.update_resident_shepherd_health(
-                                &shepherd.name,
-                                "model_loading",
-                                "Provider model preload in progress",
-                            );
-                        }
-                        let probe = preload_resident_shepherd_model(&shepherd, &shutdown);
-                        let result = tokio::time::timeout(
-                            std::time::Duration::from_millis(shepherd.preload.timeout_millis),
-                            probe,
-                        )
-                        .await;
-                        match result {
-                            Ok(Ok(())) => {
+                    let name = shepherd.name.clone();
+                    let policy = ResidentShepherdRecoveryPolicy {
+                        timeout: std::time::Duration::from_millis(shepherd.preload.timeout_millis),
+                        retry_initial: std::time::Duration::from_millis(
+                            shepherd.preload.retry_initial_millis,
+                        ),
+                        retry_max: std::time::Duration::from_millis(
+                            shepherd.preload.retry_max_millis,
+                        ),
+                    };
+                    let attempt_shutdown = shutdown.clone();
+                    let attempt_shepherd = shepherd.clone();
+                    let attempt_readiness = readiness.clone();
+                    let health_name = name.clone();
+                    let sequence = Arc::new(std::sync::atomic::AtomicU64::new(0));
+                    run_resident_shepherd_recovery(
+                        &name,
+                        policy,
+                        readiness,
+                        shutdown,
+                        move || {
+                            let shepherd = attempt_shepherd.clone();
+                            let shutdown = attempt_shutdown.clone();
+                            let adapter = probe_adapter.clone();
+                            let runtime_id = probe_runtime_id.clone();
+                            let sequence = sequence.clone();
+                            let readiness = attempt_readiness.clone();
+                            async move {
+                                preload_resident_shepherd_model(&shepherd, &shutdown).await?;
+                                // Permit the internal governed self-probe through the
+                                // executor gate. Public health remains model_loading
+                                // until the controller observes the successful result.
                                 readiness.mark_ready(&shepherd.name);
-                                probe_sequence = probe_sequence.saturating_add(1);
+                                let probe_sequence = sequence.fetch_add(
+                                    1,
+                                    std::sync::atomic::Ordering::Relaxed,
+                                ) + 1;
                                 let probe_id = format!(
                                     "{}:resident-shepherd-probe:{probe_sequence}",
                                     shepherd.name
@@ -759,71 +772,29 @@ async fn main() -> ExitCode {
                                     payload: serde_json::to_vec(&serde_json::json!({
                                         "schema": adl_runtime_kernel::SHEPHERD_REQUEST_SCHEMA,
                                         "correlation_id": format!("{}-probe-{probe_sequence}", shepherd.name.replace('.', "-")),
-                                        "runtime_id": probe_runtime_id,
+                                        "runtime_id": runtime_id,
                                         "shepherd_name": shepherd.name,
                                         "prompt": "Reply with READY."
                                     })).expect("resident Shepherd probe request encodes"),
                                     permit: None,
                                 };
-                                if let Err(error) = probe_adapter.invoke(governed_probe).await {
-                                    readiness.mark_unready(&shepherd.name);
-                                    eprintln!(
-                                        "resident Shepherd {} governed probe failed: {error}",
-                                        shepherd.name
-                                    );
-                                    health_service.update_resident_shepherd_health(
-                                        &shepherd.name,
-                                        "degraded",
-                                        "Provider model loaded but governed inference probe failed",
-                                    );
-                                    was_ready = false;
-                                    tokio::select! {
-                                        _ = shutdown.cancelled() => break,
-                                        _ = tokio::time::sleep(retry) => {}
-                                    }
-                                    retry = retry.saturating_mul(2).min(retry_max);
-                                    continue;
-                                }
-                                health_service.update_resident_shepherd_health(
-                                    &shepherd.name,
-                                    "ready",
-                                    "Configured provider model loaded; governed inference probe passed",
-                                );
-                                was_ready = true;
-                                retry = std::time::Duration::from_millis(
-                                    shepherd.preload.retry_initial_millis,
-                                );
-                                tokio::select! {
-                                    _ = shutdown.cancelled() => break,
-                                    _ = tokio::time::sleep(retry_max) => continue,
-                                }
+                                adapter
+                                    .invoke(governed_probe)
+                                    .await
+                                    .map(|_| ())
+                                    .map_err(|_| "resident_shepherd_governed_probe_failed")
                             }
-                            Ok(Err(reason)) => {
-                                eprintln!(
-                                    "resident Shepherd {} degraded; retrying provider preload: {}",
-                                    shepherd.name, reason
-                                );
-                            }
-                            Err(_) => {
-                                eprintln!(
-                                    "resident Shepherd {} preload exceeded its configured budget; retrying",
-                                    shepherd.name
-                                );
-                            }
-                        }
-                        health_service.update_resident_shepherd_health(
-                            &shepherd.name,
-                            "degraded",
-                            "Provider model unavailable; recovery retry scheduled",
-                        );
-                        readiness.mark_unready(&shepherd.name);
-                        was_ready = false;
-                        tokio::select! {
-                            _ = shutdown.cancelled() => break,
-                            _ = tokio::time::sleep(retry) => {}
-                        }
-                        retry = retry.saturating_mul(2).min(retry_max);
-                    }
+                        },
+                        move |state| {
+                            let (status, detail) = state.health();
+                            health_service.update_resident_shepherd_health(
+                                &health_name,
+                                status,
+                                detail,
+                            );
+                        },
+                    )
+                    .await;
                 });
             }
             let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {

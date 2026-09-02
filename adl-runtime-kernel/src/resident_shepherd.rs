@@ -3,22 +3,22 @@ use std::{
     future::Future,
     pin::Pin,
     sync::{Arc, RwLock},
-    time::Instant,
+    time::{Duration, Instant},
 };
 
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    invoke_ollama_model, shepherd::decode_request, ExecutorError, FailureClass, OperationExecutor,
-    OperationRequest, ResidentShepherdInitConfig, ShepherdExecutionClass, ShepherdProvenance,
-    ShepherdRequest, ShepherdResponse, SHEPHERD_RESPONSE_SCHEMA,
+    invoke_resident_shepherd_provider, shepherd::decode_request, ExecutorError, FailureClass,
+    OperationExecutor, OperationRequest, ResidentShepherdInitConfig, ShepherdExecutionClass,
+    ShepherdProvenance, ShepherdRequest, ShepherdResponse, SHEPHERD_RESPONSE_SCHEMA,
 };
 
 /// Provider adapters that are compiled into this Runtime build. Configuration
 /// remains provider-shaped, but startup must reject profiles that have no
 /// executable adapter instead of admitting a permanently degraded resident.
 pub fn resident_shepherd_provider_is_available(provider: &str) -> bool {
-    matches!(provider, "ollama")
+    matches!(provider, "ollama" | "openai-compatible")
 }
 
 /// Provider-backed production Shepherd executor. The native executor remains
@@ -55,6 +55,81 @@ impl ResidentShepherdReadiness {
             .read()
             .expect("resident Shepherd readiness lock poisoned")
             .contains(name)
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ResidentShepherdRecoveryState {
+    ModelLoading,
+    Ready,
+    Degraded,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct ResidentShepherdRecoveryPolicy {
+    pub timeout: Duration,
+    pub retry_initial: Duration,
+    pub retry_max: Duration,
+}
+
+impl ResidentShepherdRecoveryState {
+    pub fn health(self) -> (&'static str, &'static str) {
+        match self {
+            Self::ModelLoading => ("model_loading", "Provider model preload in progress"),
+            Self::Ready => (
+                "ready",
+                "Configured provider model loaded; governed inference probe passed",
+            ),
+            Self::Degraded => (
+                "degraded",
+                "Provider model unavailable; recovery retry scheduled",
+            ),
+        }
+    }
+}
+
+/// Runs the resident Shepherd's complete lifetime health cycle. An attempt is
+/// successful only after both provider preload and governed inference succeed.
+/// The same controller is used by production and focused recovery tests.
+pub async fn run_resident_shepherd_recovery<Attempt, AttemptFuture, Observe>(
+    name: &str,
+    policy: ResidentShepherdRecoveryPolicy,
+    readiness: ResidentShepherdReadiness,
+    shutdown: CancellationToken,
+    mut attempt: Attempt,
+    mut observe: Observe,
+) where
+    Attempt: FnMut() -> AttemptFuture + Send,
+    AttemptFuture: Future<Output = Result<(), &'static str>> + Send,
+    Observe: FnMut(ResidentShepherdRecoveryState) + Send,
+{
+    let mut retry = policy.retry_initial;
+    let mut was_ready = false;
+    loop {
+        if !was_ready {
+            readiness.mark_unready(name);
+            observe(ResidentShepherdRecoveryState::ModelLoading);
+        }
+        let result = tokio::time::timeout(policy.timeout, attempt()).await;
+        if matches!(result, Ok(Ok(()))) {
+            readiness.mark_ready(name);
+            observe(ResidentShepherdRecoveryState::Ready);
+            was_ready = true;
+            retry = policy.retry_initial;
+            tokio::select! {
+                _ = shutdown.cancelled() => break,
+                _ = tokio::time::sleep(policy.retry_max) => continue,
+            }
+        }
+
+        readiness.mark_unready(name);
+        observe(ResidentShepherdRecoveryState::Degraded);
+        was_ready = false;
+        tokio::select! {
+            _ = shutdown.cancelled() => break,
+            _ = tokio::time::sleep(retry) => {}
+        }
+        retry = retry.saturating_mul(2).min(policy.retry_max);
     }
 }
 
@@ -149,14 +224,9 @@ impl OperationExecutor for ResidentShepherdExecutor {
                     message: "shepherd_model_not_ready".to_owned(),
                 });
             }
-            if config.provider != "ollama" {
-                return Err(ExecutorError {
-                    class: FailureClass::Retryable,
-                    message: "resident_shepherd_provider_unsupported".to_owned(),
-                });
-            }
             let started = Instant::now();
-            let response = invoke_ollama_model(
+            let response = invoke_resident_shepherd_provider(
+                &config.provider,
                 &config.endpoint,
                 &config.model,
                 &shepherd_request.prompt,

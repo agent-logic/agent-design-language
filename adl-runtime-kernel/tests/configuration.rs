@@ -743,6 +743,25 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         expected
     );
 
+    let mut multi_shepherd = next_cycle.clone();
+    let primary = multi_shepherd.resident_shepherd.primary().clone();
+    let mut secondary = primary.clone();
+    secondary.name = "lumen.axioma".to_owned();
+    secondary.display_name = "Lumen".to_owned();
+    multi_shepherd.resident_shepherd =
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, secondary]);
+    let multi_expected = multi_shepherd.continuity_identity_projection().unwrap();
+    if let adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) =
+        &mut multi_shepherd.resident_shepherd
+    {
+        shepherds[0].display_name = "Beacon Axioma".to_owned();
+        shepherds[1].display_name = "Lumen Axioma".to_owned();
+    }
+    assert_eq!(
+        multi_shepherd.continuity_identity_projection().unwrap(),
+        multi_expected
+    );
+
     changed_origins.observatory.allowed_origins =
         vec!["https://observatory.example.test".to_owned()];
     assert_ne!(
@@ -1373,6 +1392,9 @@ fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_s
         .contains("has no executable adapter in this Runtime build"));
     let invalid_provider = valid.replace("provider = \"ollama\"", "provider = \"Vertex AI\"");
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
+    let gateway_provider =
+        valid.replace("provider = \"ollama\"", "provider = \"openai-compatible\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&gateway_provider).is_ok());
     for invalid in [
         valid.replace("model = \"qwen3:8b\"", "model = \"bad model\""),
         valid.replace(
