@@ -4,13 +4,54 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aec65d9b1f0c389ca94aed48172f24f6c2e3d19f3a62ec5779adc6a59b3420e7",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "b69700930a86c1e5bc96da07e7d002817c49f82517722e9b95f237d95f364c5a",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "3830d6a338dce425c8d1914114a4551cb1231aff7d2e780437be60cd51136a25",
   "branch": "codex/594-runtime-logs-s3-archive",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_594_prepr_r2",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:061f7f740b2cbb8dfeb702193601e212b0e6035f:71e5db8b438e6b3a5e80bd68cb0b9359706b282354290b460956f8651edf51f7",
+    "scope": [
+      ".csdlc/evidence/594/diff-hygiene.log",
+      ".csdlc/evidence/594/runtime-log-archive.log",
+      ".csdlc/evidence/594/runtime-log-archive-config.log",
+      ".csdlc/evidence/594/terraform-log-archive.log",
+      ".csdlc/prepared/issues/594/validate-diff-hygiene.sh",
+      ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+      ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/observability/vector.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "infra/aws/runtime/log-archive"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_594_prepr_r2",
+    "scope": [
+      ".csdlc/evidence/594/diff-hygiene.log",
+      ".csdlc/evidence/594/runtime-log-archive.log",
+      ".csdlc/evidence/594/runtime-log-archive-config.log",
+      ".csdlc/evidence/594/terraform-log-archive.log",
+      ".csdlc/prepared/issues/594/validate-diff-hygiene.sh",
+      ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+      ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/observability/vector.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "infra/aws/runtime/log-archive"
+    ],
+    "reviewed_revision": "git-blake3:061f7f740b2cbb8dfeb702193601e212b0e6035f:71e5db8b438e6b3a5e80bd68cb0b9359706b282354290b460956f8651edf51f7",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS delivery/readback remains separately authorization-gated and was not executed by this local implementation review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5587b9cabb8b0f8e8189f2f0496699b3f576f818db7f5a401028f8b7ba2e8811",
+      "values_digest": "ce167e002b9230e26c957f663633020774514f8843de9bdac32f13956f3b8277",
       "rendered_digest": "781db80b317128aafed48e76faebccd16212f69908747ee91f7aa62cf1ba2501",
       "ast_digest": "b195a921b5a51a4f668b7f142e7088207a930bce127852141a9a3fb6003a9d83"
     },
     "stp": {
-      "values_digest": "0f05cc3beb58c989e5e0cfc95c186cd438a954630d044c4ae1815c3a9fdedbfa",
+      "values_digest": "e06b91cae8b376e67dc628f7697c7eb8dec1f9337a92858728040b3886047dcf",
       "rendered_digest": "3cfbf1a5c0bd56ef4b277f6803a796ac618f2c452b9f01c5c1143d6beb618e69",
       "ast_digest": "5c9ab05c717b7b5e4e20e2a02436be4fa027121c83f158fcb7cef2f805e3c039"
     },
     "spp": {
-      "values_digest": "790df1ab740e8d95fbe6bb22153eeafe9aec6f1df63ba093deb4c485279296a1",
+      "values_digest": "9e78267bca5b13a6dbbbe4c6587338b273817104a8cc142688d31be3bc012ae1",
       "rendered_digest": "feddbdafde8bd4a035c902bbc499312f4c43d27e943a83b7e55f533df8fe04f4",
       "ast_digest": "2162613fba3d0812fd23818a317b75ab9d7cd90ec92f9442d78b507758039562"
     },
     "vpp": {
-      "values_digest": "9a4b951e7ca01b9eb4860030329234d5d58799964f57134efb6d539ac306bfee",
+      "values_digest": "590299e64fa6e287807acf44e548ddf36bd71139dd59ffb9b56e12160c891c4f",
       "rendered_digest": "662b6f9f0676e396feb0d8047caedec71977a6733323e201cc43d6ae6a212437",
       "ast_digest": "201a859011a718e42ac9cebf9f9c43740d126e3f309fe8c3e7c3a376f6442300"
     },
     "srp": {
-      "values_digest": "67f4e46b6c41feb21618e50149226cc38a93fe0e324093475931599ec0b20ff5",
-      "rendered_digest": "b31d9c0134c36ff6c4fe658951307f19c94f773fe42afec994c6857c36c53768",
-      "ast_digest": "04757a8d2fef8152cd0920715e538546f22fc916f653e8e54ce7a11d22abd512"
+      "values_digest": "1d2eade887c1e1bc639962d70469b5fd1e85f3fea6d71e36ef88e630f5b5ca64",
+      "rendered_digest": "ccb5dfcf78a6da684d4a18a250ccd6b360fa3351226a75740798b9fdd82b3fb6",
+      "ast_digest": "0222506e0d515eb41fad518d95144adc5e5ab71c0d75ab3473368571f6ed0e85"
     },
     "sor": {
-      "values_digest": "8f95309fca3b7430525a21dc1099d85e49b9ef4d115334652fff1827906b7ce5",
+      "values_digest": "4bc259fcbe9ebec3b7867a1800299940dbd4ce78a4d9f4a3f2040adcaccf93b5",
       "rendered_digest": "f0010154a4674612937431a83b38322990228222f7976be42ba746f535cfde8f",
       "ast_digest": "95592adb4a5abb25e849fef2163e4b4ed255d196458d8bee5f368eebde6bf392"
     }
@@ -90,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover review truth after the recorded review metadata commit included prepared request files that are not metadata-safe for publication review reconciliation."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -239,6 +287,20 @@
       "actor": "codex:/root",
       "reason": "Refresh SOR execution truth after aligning Runtime and Terraform S3 archive identifier and bucket validation boundaries.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded Runtime redacted-log archival to S3 with optional Runtime init configuration, rendered Vector S3 delivery, focused tests including direct offline S3 failure/drop proof, runtime startup/master-log survival proof, Runtime/Terraform identifier parity proof, issue-owned validation wrappers, and an isolated Terraform archive module.\",\"changes\":[\"Added optional observability_pipeline.s3_archive runtime init configuration with lowercase AWS region, DNS-compatible bucket, and DNS-safe environment, Polis, and Runtime identity validation.\",\"Rendered runtime_v3_s3_archive from runtime_v3_redacted through a bounded delivery transform with identity-partitioned keys, SSE-S3, gzip JSON, disabled S3 health checks, 5 MiB or 60 second batching, 512 MiB drop-newest disk buffering, bounded retry settings, and explicit failure/drop telemetry annotations.\",\"Added focused Runtime configuration and observability tests, including a pinned Vector validate check for the generated archive config, an archive-enabled runtime startup/master-log survival test, and a pinned Vector offline S3 outage test that observes retry exhaustion, service-call failure, and dropped-event telemetry while master-log output progresses.\",\"Aligned Terraform identity-label validation with Runtime's DNS-safe label boundaries, including one-character labels, and tightened Terraform bucket validation to reject the same consecutive/dot-hyphen separator forms rejected by Runtime.\",\"Added Runtime and Terraform parity tests for accepted one-character identity labels and rejected unsafe S3 bucket separator forms.\",\"Tightened the issue-owned Runtime validation wrapper so it runs S3 archive configuration tests, Vector rendering/validation tests, the archive outage-survival test, the direct offline S3 sink failure/drop test, and Runtime/Terraform identifier parity tests.\",\"Added an issue-owned diff hygiene wrapper that emits a non-empty success receipt after git diff --check passes.\",\"Added infra/aws/runtime/log-archive Terraform for private S3 bucket controls, versioning, lifecycle retention, SSE-S3, bucket-owner-enforced ownership, and exact-prefix publisher IAM policy with terraform test assertions.\",\"Added a module-local Terraform ignore rule so generated provider cache files are not tracked.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/observability/vector.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/observability.rs\",\".csdlc/prepared/issues/594/validate-runtime-log-archive.sh\",\".csdlc/prepared/issues/594/validate-diff-hygiene.sh\",\".csdlc/prepared/issues/594/validate-terraform-log-archive.sh\",\".csdlc/prepared/issues/594/validate-live-aws.sh\",\".csdlc/evidence/594/runtime-log-archive.log\",\".csdlc/evidence/594/runtime-log-archive-config.log\",\".csdlc/evidence/594/terraform-log-archive.log\",\".csdlc/evidence/594/diff-hygiene.log\",\"infra/aws/runtime/log-archive/.gitignore\",\"infra/aws/runtime/log-archive/.terraform.lock.hcl\",\"infra/aws/runtime/log-archive/versions.tf\",\"infra/aws/runtime/log-archive/variables.tf\",\"infra/aws/runtime/log-archive/locals.tf\",\"infra/aws/runtime/log-archive/main.tf\",\"infra/aws/runtime/log-archive/outputs.tf\",\"infra/aws/runtime/log-archive/archive_contract.tftest.hcl\"],\"validation\":[{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/594/validate-diff-hygiene.sh\"],\"purpose\":\"Issue 594 diff hygiene validation with non-empty retained success receipt\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"/bin/bash\",\"/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/.csdlc/prepared/issues/594/validate-runtime-log-archive.sh\"],\"purpose\":\"Issue 594 Runtime S3 archive validation covering configuration parsing, unsafe identity rejection, Runtime/Terraform identifier parity, Vector S3 sink rendering, pinned Vector config validation, archive-enabled startup/master-log survival, and direct offline S3 sink retry-exhaustion/drop telemetry with master-log progress.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-log-archive.log\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--no-tests=fail\",\"-E\",\"test(s3_archive)\"],\"purpose\":\"Issue 594 Runtime init S3 archive configuration and identifier parity validation\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-log-archive-config.log\"},{\"command\":[\"/bin/bash\",\"/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/.csdlc/prepared/issues/594/validate-terraform-log-archive.sh\"],\"purpose\":\"Issue 594 Terraform S3 archive validation, including identity-label and bucket-validation parity assertions\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-log-archive.log\"}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
