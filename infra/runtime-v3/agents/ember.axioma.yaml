@@ -1,0 +1,12 @@
+schema: adl.csm.agent_config.v1
+runtime:
+  init: ../runtime-init.toml
+identity:
+  id: ember-axioma
+  name: ember.axioma
+  display_name: Ember Axioma
+office: local assistant
+provider:
+  kind: ollama
+  model: gemma4:e4b-mlx
+  endpoint: http://127.0.0.1:11434

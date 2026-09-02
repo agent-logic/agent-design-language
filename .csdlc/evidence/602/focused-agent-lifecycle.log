@@ -1,0 +1,35 @@
+
+running 3 tests
+test cli::csmctl_cmd::tests::csmctl_agent_lifecycle_is_complete_and_bounded ... ok
+test cli::csmctl_cmd::tests::csmctl_agent_add_config_separates_identity_from_runtime_binding ... ok
+test cli::csmctl_cmd::tests::csmctl_agent_artifacts_are_committed_atomically_in_repo_fixture ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 251 filtered out; finished in 0.02s
+
+
+running 1 test
+test control::agent_lifecycle::agent_lifecycle_is_idempotent_portable_and_restart_safe ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 120 filtered out; finished in 0.06s
+
+
+running 7 tests
+test runtime_serves_machine_and_human_readable_openapi_docs ... ok
+test runtime_core_wss_documents_real_bidirectional_acip_boundary ... ok
+test polis_identity_openapi_contract_is_required_and_redacted ... ok
+test openapi_operations_are_deterministic_client_generation_ready ... ok
+test observatory_wss_documents_real_bidirectional_frame_boundary ... ok
+test openapi_paths_match_current_runtime_v3_axum_route_inventory ... ok
+test runtime_and_observatory_openapi_contracts_are_valid_and_disjoint ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add/adl-runtime)
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.31s
+     Running unittests src/main.rs (adl/target/debug/deps/adl-39d066d17f39639d)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/openapi_contract.rs (adl-runtime-kernel/target/debug/deps/openapi_contract-5c45175c8c0e60b4)

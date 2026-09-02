@@ -297,9 +297,25 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
     let mut routes = BTreeSet::new();
     for route in literal_routes_from_control_rs() {
         match route.as_str() {
-            "/v1/agents" | "/v1/agents/{agent_id}" | "/v1/observatory" | "/v1/ready" => {
+            "/v1/agents" => {
+                routes.insert(("get".to_owned(), route.clone()));
+                routes.insert(("post".to_owned(), route.clone()));
+                routes.insert(("options".to_owned(), route));
+            }
+            "/v1/agents/{agent_id}" => {
+                routes.insert(("get".to_owned(), route.clone()));
+                routes.insert(("delete".to_owned(), route.clone()));
+                routes.insert(("options".to_owned(), route));
+            }
+            "/v1/observatory" | "/v1/ready" => {
                 routes.insert(("get".to_owned(), route.clone()));
                 routes.insert(("options".to_owned(), route));
+            }
+            "/v1/agents/{agent_id}/checkpoint"
+            | "/v1/agents/{agent_id}/dehydrate"
+            | "/v1/agents/{agent_id}/dehydrate/commit"
+            | "/v1/agents/rehydrate" => {
+                routes.insert(("post".to_owned(), route));
             }
             "/v1/health"
             | "/v1/metrics"
@@ -330,6 +346,10 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
         "/v1/acip/ws",
         "/v1/agents",
         "/v1/agents/{agent_id}",
+        "/v1/agents/{agent_id}/checkpoint",
+        "/v1/agents/{agent_id}/dehydrate",
+        "/v1/agents/{agent_id}/dehydrate/commit",
+        "/v1/agents/rehydrate",
         "/v1/observatory",
         "/v1/control",
         "/v1/layer8/recipient-acknowledgement",
