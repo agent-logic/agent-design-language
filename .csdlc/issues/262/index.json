@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
-  "phase": "implemented",
-  "generation": 47,
-  "digest": "608831accde6e38508a5aa08d38cc37a9b48136c20b43b6f6f8f329995b13da5",
+  "phase": "reviewed",
+  "generation": 48,
+  "digest": "8a16c1c08cd2f273acc33c2cc3cbaaec5c16512d50c80e2e8e13a1c2e2c6cb79",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": {
@@ -47,7 +47,50 @@
       "demos/podcast/studio/podcast-studio.html"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      "adl/tools/test_podcast_launch_packet.sh",
+      "adl/tools/validate_podcast_launch_packet.py",
+      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio/reference.sha256",
+      "demos/podcast/studio/podcast-studio.html"
+    ],
+    "reviewed_revision": "git-blake3:572fe15253b5c91d36bbfd24c63a2f4692451c8e:1e3defcb84466723601d517579a9d1584e7a642732b280ef7c65d79e03387922",
+    "findings": [],
+    "residual_risks": [
+      "PR head 2b39189ce8a6f2dcb6d848b9106f0852697e934a includes only review-assignment lifecycle metadata after the assigned substantive revision 572fe15253b5c91d36bbfd24c63a2f4692451c8e; production artifacts and live proof surfaces are unchanged.",
+      "Directory submission remains out of scope for #262 and is reserved for #264."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -62,32 +105,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b8521872af9c23c9f670489d02522a91df6f8688b6a9b469349372ea96f70e6a",
+      "values_digest": "f91cd68c6e354113f5d8eecea9c7188fcf90797978b1dda950306a2505cbbfcb",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "d6d4ee84a05b9875633a24e1e693a2b9982c32e7e0e4edc34281c9a377f35532",
+      "values_digest": "e9191d35851fcd3a627f9d66e44d4cb5ce9245c5655b192464d19cbe4d5a60e4",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "524e0ef3a6e433382aa94697adbc79bda512770ba920151e4b789623d772b5f1",
+      "values_digest": "18b84d8ee2dacb3c4a19943be2015fca70c08f6888625aba68adac1f5280fd07",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "21c1b2ea53c550a508bc658e143aa2af2e1c81bfacf5b7133787f0dcff99899a",
+      "values_digest": "407192d9f4e8b357f12d0d2ece65c50c6aee8cf3450e8537f913669fe256dcfd",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "3f4b7b9a2b53b2854d8efd1b3047690ec7e7f18054b92a4260717e38e21ecdcb",
-      "rendered_digest": "090a633bd56261c7900d32d9f9d565055270f32fefdbb365afb4c8fb1c4be138",
-      "ast_digest": "c4c15cb8fe051b5ea4cdabfc25bdf9edfd11ae8ec7d402045283cf6461b5b66f"
+      "values_digest": "71a42e972016fd3993f33da08287bf9be0f66cf71e0967aa1b3c946945748123",
+      "rendered_digest": "01944c77cafc39826f5ab4b6b10c49e3e4a8f8d9d8af389f85296d9e305957a6",
+      "ast_digest": "5c269fcb7828f5ccc6849b1b6aa9e8fb814d7e1f560e5734f25d056badc99417"
     },
     "sor": {
-      "values_digest": "6ca2665ffa1e21633ab44c9b63daf4c7019817a2b86d185dc570c8fe5066e876",
+      "values_digest": "73a5fffc1036b0f2ef8ce4da7bc71f05430c3ce86a7e842a6cdb602a69f008c1",
       "rendered_digest": "bd1f4c21717ef8e372c5ea0aca5792f2bd59b31083f1f28718b01e91975d6053",
       "ast_digest": "b51ac0b9c86d8e1abcee39552d9bbc53ddfd75d05b6d34b863f735357387f02c"
     }
@@ -155,6 +198,13 @@
       "to": "implemented",
       "actor": "codex:root/podcast-262",
       "reason": "Recover after exact-head review found that the #262 PR closed the issue while retaining only loopback playback proof and publication_claimed=false; live production hosting was promoted to https://agent-logic.ai/podcast/ and public HTTPS playback proof was retained."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -563,6 +613,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 48,
+      "actor": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

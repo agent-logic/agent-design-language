@@ -60,12 +60,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR head 2b39189ce8a6f2dcb6d848b9106f0852697e934a includes only review-assignment lifecycle metadata after the assigned substantive revision 572fe15253b5c91d36bbfd24c63a2f4692451c8e; production artifacts and live proof surfaces are unchanged.
+- Directory submission remains out of scope for #262 and is reserved for #264.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:572fe15253b5c91d36bbfd24c63a2f4692451c8e:1e3defcb84466723601d517579a9d1584e7a642732b280ef7c65d79e03387922")
 
-Reviewer: None
+Reviewer: Some("fresh-session:43005e33-811b-442f-8235-e6bd940e39eb")
 
-Result: pre_review
+Result: pass
