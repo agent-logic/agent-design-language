@@ -12,14 +12,19 @@ Status: draft
 
 ## Scope
 
+CSMctl
 adl-runtime-kernel/src/assembly.rs
 adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 adl-runtime-kernel/src/control.rs
 adl-runtime-kernel/src/control/feeds.rs
 adl-runtime-kernel/src/conversation_sessions_tests.rs
+adl-runtime-kernel/tests/guardian_soak.rs
 adl-runtime-kernel/tests/openapi_contract.rs
+adl-runtime-kernel/tests/production_acip_wss.rs
+adl-runtime-kernel/tests/support/runtime_init.rs
 adl/src/cli/csmctl_cmd.rs
 docs/api/runtime-v3/v1/observatory.openapi.json
+infra/runtime-v3/runtime-init.toml
 infra/runtime-v3/agents/ember.axioma.yaml
 .csdlc/evidence/602/live-wuji-acceptance.md
 .csdlc/prepared/issues/602
@@ -42,13 +47,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The exact-head review reran focused conversation semantics and relied on committed live Wuji lifecycle and inference evidence for the remaining acceptance surface.
-- Guardian shutdown logged master_log_drain_incomplete during isolated acceptance; clean checkpointed shutdown and agent restoration succeeded, and observability drain behavior is outside issue 602.
+- The final review relied on committed live Wuji acceptance for the live model lane; local focused Runtime, Guardian, API, and lifecycle proof passed.
+- Broader Guardian startup simplification is intentionally outside issue 602 and must be handled separately.
 
 ## Review Result
 
-Revision: Some("git-blake3:3a913d9e6e7fa49bebf812ddf67351efe8683263:e86974db08898d509906c99bf5eda9cd40c3890580bedb8b862c2bc6df80d60e")
+Revision: Some("git-blake3:54ab39b1212bd6cbfc501e13b39eb9c9892ec514:784aa1bd7ea6f06ac57b84ae980c1e2199f806266e00e0b26c20a45cc6311386")
 
-Reviewer: Some("codex-subagent:issue_602_timeout_review")
+Reviewer: Some("codex-subagent:issue_602_production_lease_review")
 
 Result: pass

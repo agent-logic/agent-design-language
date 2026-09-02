@@ -3,65 +3,64 @@
   "issue": 602,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
-  "phase": "published",
-  "generation": 22,
-  "digest": "5f659d67e6575b2f484265a21a2ebd98a581d8bd8ea486ad7af948762c0a2a62",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "c36fce49562fc7b5b5961943f5b8d35be7580630c21a9b3bd5685f0778dc1665",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
   "review_assignment": {
-    "reviewer": "codex-subagent:issue_602_timeout_review",
+    "reviewer": "codex-subagent:issue_602_production_lease_review",
     "assigned_by": "codex:602-ci-remediation",
-    "revision": "git-blake3:3a913d9e6e7fa49bebf812ddf67351efe8683263:e86974db08898d509906c99bf5eda9cd40c3890580bedb8b862c2bc6df80d60e",
+    "revision": "git-blake3:54ab39b1212bd6cbfc501e13b39eb9c9892ec514:784aa1bd7ea6f06ac57b84ae980c1e2199f806266e00e0b26c20a45cc6311386",
     "scope": [
+      "CSMctl",
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/control/feeds.rs",
       "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
       "adl/src/cli/csmctl_cmd.rs",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
       "infra/runtime-v3/agents/ember.axioma.yaml",
       ".csdlc/evidence/602/live-wuji-acceptance.md",
       ".csdlc/prepared/issues/602"
     ]
   },
   "review": {
-    "reviewer": "codex-subagent:issue_602_timeout_review",
+    "reviewer": "codex-subagent:issue_602_production_lease_review",
     "scope": [
+      "CSMctl",
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/control/feeds.rs",
       "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
       "adl/src/cli/csmctl_cmd.rs",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
       "infra/runtime-v3/agents/ember.axioma.yaml",
       ".csdlc/evidence/602/live-wuji-acceptance.md",
       ".csdlc/prepared/issues/602"
     ],
-    "reviewed_revision": "git-blake3:3a913d9e6e7fa49bebf812ddf67351efe8683263:e86974db08898d509906c99bf5eda9cd40c3890580bedb8b862c2bc6df80d60e",
+    "reviewed_revision": "git-blake3:54ab39b1212bd6cbfc501e13b39eb9c9892ec514:784aa1bd7ea6f06ac57b84ae980c1e2199f806266e00e0b26c20a45cc6311386",
     "findings": [],
     "residual_risks": [
-      "The exact-head review reran focused conversation semantics and relied on committed live Wuji lifecycle and inference evidence for the remaining acceptance surface.",
-      "Guardian shutdown logged master_log_drain_incomplete during isolated acceptance; clean checkpointed shutdown and agent restoration succeeded, and observability drain behavior is outside issue 602."
+      "The final review relied on committed live Wuji acceptance for the live model lane; local focused Runtime, Guardian, API, and lifecycle proof passed.",
+      "Broader Guardian startup simplification is intentionally outside issue 602 and must be handled separately."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 602,
-    "pull_request": 614,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/614",
-    "base": "main",
-    "head": "codex/602-runtime-csmctl-agent-add",
-    "revision": "git-blake3:1057cf71302e60aac65ab2b9b98be3911c9af21a:df6dbd6140c1baafe5b598e22c309873e41c1665b3f14a9bb4fa0a44a6588cc7",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +74,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "317470a1d6c9edbf2fe463c1c81b9465939f004f1d3a2169e123c5b921671415",
+      "values_digest": "6010610787be20bee5cbd3e43bd0a9876af713071870cdea7336b565d54e1bfe",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "38d654f7f15f6f50d55d01cbc6dcc29e6babd24fab0e97e7c8b73127979e052b",
+      "values_digest": "26efc10b40c0c39d23de9fe8ed4bb127220fd77afbfb85260b88d9879851603b",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "030e400dbedfa973f39027e6cab7c43c3b1998c42e02ce26059662b2f40941b8",
+      "values_digest": "832f1153cb543906c758c0d4960b4425a2245f3f05d4c030a195c1ebd69951aa",
       "rendered_digest": "ccb37dbef2530ba00930b9e5f1ddf66361372ad181f115ffc2ffa0c97c77a054",
       "ast_digest": "ce6b07721349077126c03c4dd2513a3e3fc408c9c6f6d445ec0e281575ac2f30"
     },
     "vpp": {
-      "values_digest": "75d99bdb0f0199083bdbae06284cfa0c2488136aeeaab2a232d3a888e57c00f8",
+      "values_digest": "caffce3ee5234b08bcf15b10b7f7939195fcb589a9351bec2b7a7be259894d72",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "01161f1c06d7931584d7bda8f4d69c8f91eb51b941b94bc529558838634dfa0a",
-      "rendered_digest": "5b95f24bc03e2d4377a3e9e16708ebb27c33a1e7ff5cdafabb118d2bc59376ea",
-      "ast_digest": "01f04fe0d49fe7fc0634fb86c009b5f062f4b4bb3ac7cbff7b6e94b37c5f12c7"
+      "values_digest": "381be72857594e786754b42a37013fcf162bafb4718381a982d39d0829f95d97",
+      "rendered_digest": "00413296041b3df241973e5ec31ff32a741510837a8e1f926495df15b254ff84",
+      "ast_digest": "577e830b41c5fe0f871d2f909c8d964f2f5f71ccb893af4ff6f649287f036732"
     },
     "sor": {
-      "values_digest": "45edc8e97fff11fece12ad7293e2a618038d884d41c97f74390313b7ca379fb5",
-      "rendered_digest": "08ae7e93a36259669b7766dbce78f8e73b35bdc1d5fa5491975a545c5cae02e3",
-      "ast_digest": "baa4e5bc4d557b605823bd51a1d2b3c230faf6228594244007b9f5b7ca1f68bf"
+      "values_digest": "d1915fbae252c8ad598664ab11c454fa92bcc367101c3aa080f8792756f18e9c",
+      "rendered_digest": "8b5be9551a4d646b4692782700ddbef2722f276698285d4183640c658b4e0372",
+      "ast_digest": "c9ee1ade3394e28c0b58811ceac3b81e007bf3aecf4e43d38b23e3a665e63a18"
     }
   },
   "transitions": [
@@ -196,6 +195,20 @@
       "to": "published",
       "actor": "codex:602-ci-remediation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:602-ci-remediation",
+      "reason": "Correct stale Guardian lease ownership fixtures exposed by exact-head Runtime CI; return to implemented for fresh review."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:602-ci-remediation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -394,6 +407,41 @@
       "actor": "codex:602-ci-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "Correct stale Guardian lease ownership fixtures exposed by exact-head Runtime CI; return to implemented for fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
