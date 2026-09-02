@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
     "slug": "runtime-api-canonical-agent-names",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/control.rs\n.csdlc/evidence/617/hosted-ci-retry.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:0f8fec10d388ed5c8c1c0afa401edffe8ded9269:1bed52fc6c0efa86afd3b57311a0657617a83e5feacd29e6c4e18f89bd524e41",
+      "reviewer": "fresh-session:cd23d270-c41f-4421-a05f-05a77bd00428",
       "review_prompts": [
         "Does every canonical name come from authoritative configuration or admitted state?",
         "Are operational ID, canonical name, display name, and office still distinct?",
@@ -23,8 +23,10 @@
         "Is Shepherd naming stable without changing lifecycle semantics?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The bounded remediation review did not rerun the full Runtime suite; hosted CI remains the final integration gate."
+      ],
+      "review_result": "pass"
     }
   }
 }

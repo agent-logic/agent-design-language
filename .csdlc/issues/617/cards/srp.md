@@ -32,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The bounded remediation review did not rerun the full Runtime suite; hosted CI remains the final integration gate.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0f8fec10d388ed5c8c1c0afa401edffe8ded9269:1bed52fc6c0efa86afd3b57311a0657617a83e5feacd29e6c4e18f89bd524e41")
 
-Reviewer: None
+Reviewer: Some("fresh-session:cd23d270-c41f-4421-a05f-05a77bd00428")
 
-Result: pre_review
+Result: pass
