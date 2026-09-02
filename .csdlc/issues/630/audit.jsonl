@@ -10,3 +10,4 @@
 {"sequence":10,"generation":5,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":6,"actor":"codex:worker-6","reason":"Recover stale exact-review assignment after final review found nonexistent children under symlinked parents could classify as absent and one retained proof log was stale.","operation":"recover_review"}
 {"sequence":12,"generation":6,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":7,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
