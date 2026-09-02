@@ -1,7 +1,6 @@
 use csdlc_v3::commands::terminal::{
-    derive_finish_from_verified, prepare_terminal_route, CleanupDecision, CleanupRouteRequest,
-    CutoverDecisionRequest, FinishDecision, TerminalPublicationMode, TerminalRouteRequest,
-    TerminalRouteStatus, VerifiedTerminalReadback,
+    prepare_terminal_route, CleanupDecision, CleanupRouteRequest, CutoverDecisionRequest,
+    FinishDecision, TerminalPublicationMode, TerminalRouteRequest, TerminalRouteStatus,
 };
 use std::{
     fs,
@@ -40,120 +39,84 @@ fn public_finish_fails_closed_without_authenticated_adapter() {
 }
 
 #[test]
-fn sealed_typed_readback_can_derive_terminal_closeout() {
-    let request = base_request();
-    let readback = VerifiedTerminalReadback::from_typed_adapter_receipt(
-        "csdlc-github-pr-state",
-        request.repository.clone(),
-        request.issue,
-        request.pull_request.unwrap(),
-        request.expected_head_sha.clone().unwrap(),
-        TerminalPublicationMode::Closing,
-        true,
-        false,
-        Some(request.issue),
-        None,
-    )
-    .expect("typed receipt");
-    let decision = derive_finish_from_verified(&request, readback).expect("finish decision");
-    assert_eq!(
-        decision,
-        FinishDecision::TerminalClosedOut {
-            pull_request: 641,
-            issue: 630,
-            head_sha: "0123456789012345678901234567890123456789".into()
-        }
-    );
-}
-
-#[test]
 fn part_of_publication_cannot_terminally_close() {
     let mut request = base_request();
     request.mode = Some(TerminalPublicationMode::PartOf);
-    let readback = VerifiedTerminalReadback::from_typed_adapter_receipt(
-        "csdlc-github-pr-state",
-        request.repository.clone(),
-        request.issue,
-        request.pull_request.unwrap(),
-        request.expected_head_sha.clone().unwrap(),
-        TerminalPublicationMode::PartOf,
-        true,
-        true,
-        None,
-        Some(request.issue),
-    )
-    .expect("typed receipt");
-    let decision = derive_finish_from_verified(&request, readback).expect("finish decision");
+    let plan = prepare_terminal_route("finish", &request).expect("finish plan");
     assert_eq!(
-        decision,
-        FinishDecision::CheckpointDenied {
-            reason: "part_of publications cannot close a terminal issue".into()
-        }
+        plan.finish,
+        Some(FinishDecision::CheckpointDenied {
+            reason: "public finish route has no authenticated adapter receipt".into()
+        })
     );
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "terminal_requires_closing_publication"));
 }
 
 #[test]
-fn finish_denies_stale_nonmerged_and_open_issue_readbacks() {
-    let request = base_request();
-    let stale_head = VerifiedTerminalReadback::from_typed_adapter_receipt(
-        "csdlc-github-pr-state",
-        request.repository.clone(),
-        request.issue,
-        request.pull_request.unwrap(),
-        "fedcba9876543210012345678901234567890123".into(),
-        TerminalPublicationMode::Closing,
-        true,
-        false,
-        Some(request.issue),
-        None,
-    )
-    .expect("typed receipt");
-    assert_eq!(
-        derive_finish_from_verified(&request, stale_head)
-            .unwrap_err()
-            .code,
-        "head_mismatch"
-    );
+fn public_finish_requires_exact_closing_inputs_before_adapter_boundary() {
+    let mut request = base_request();
+    request.expected_head_sha = None;
+    request.pull_request = None;
+    let plan = prepare_terminal_route("finish", &request).expect("finish plan");
+    assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_pull_request"));
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_exact_head"));
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "authenticated_adapter_required"));
+}
 
-    let nonmerged = VerifiedTerminalReadback::from_typed_adapter_receipt(
-        "csdlc-github-pr-state",
-        request.repository.clone(),
-        request.issue,
-        request.pull_request.unwrap(),
-        request.expected_head_sha.clone().unwrap(),
-        TerminalPublicationMode::Closing,
-        false,
-        false,
-        Some(request.issue),
-        None,
-    )
-    .expect("typed receipt");
-    assert_eq!(
-        derive_finish_from_verified(&request, nonmerged)
-            .unwrap_err()
-            .code,
-        "pull_request_not_merged"
-    );
+#[test]
+fn public_finish_has_no_direct_verified_readback_constructor() {
+    let terminal_source = include_str!("../src/commands/terminal.rs");
+    assert!(terminal_source.contains("pub(crate) fn from_typed_adapter_receipt"));
+    assert!(!terminal_source.contains("pub fn from_typed_adapter_receipt"));
+}
 
-    let open_issue = VerifiedTerminalReadback::from_typed_adapter_receipt(
-        "csdlc-github-pr-state",
-        request.repository.clone(),
-        request.issue,
-        request.pull_request.unwrap(),
-        request.expected_head_sha.clone().unwrap(),
-        TerminalPublicationMode::Closing,
-        true,
-        true,
-        Some(request.issue),
+#[test]
+fn retained_unit_tests_cover_verified_readback_denials() {
+    let terminal_source = include_str!("../src/commands/terminal.rs");
+    assert!(terminal_source
+        .contains("terminal_verified_readback_can_derive_closeout_inside_adapter_boundary"));
+    assert!(terminal_source
+        .contains("terminal_verified_readback_denies_stale_nonmerged_and_open_issue"));
+    assert!(terminal_source.contains("\"head_mismatch\""));
+    assert!(terminal_source.contains("\"pull_request_not_merged\""));
+    assert!(terminal_source.contains("\"closing_issue_still_open\""));
+}
+
+#[test]
+fn cleanup_denies_nonexistent_parent_traversal_escape() {
+    let fixture = fixture_root("cleanup_parent_traversal_escape");
+    let approved = fixture.join("approved");
+    let primary = fixture.join("primary");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    fs::create_dir_all(&approved).expect("approved parent");
+    init_repo(&primary);
+
+    let plan = cleanup_plan(
+        &approved,
+        &primary,
+        &approved.join("missing").join("..").join("escape"),
+        false,
         None,
-    )
-    .expect("typed receipt");
-    assert_eq!(
-        derive_finish_from_verified(&request, open_issue)
-            .unwrap_err()
-            .code,
-        "closing_issue_still_open"
     );
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "path_not_normalized"));
 }
 
 #[test]

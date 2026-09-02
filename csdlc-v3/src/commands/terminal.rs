@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::{
     fs,
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
 };
 
 pub const TERMINAL_ROUTE_NAMES: [&str; 3] = ["finish", "clean", "cutover"];
@@ -154,7 +154,8 @@ pub struct VerifiedTerminalReadback {
 
 impl VerifiedTerminalReadback {
     #[allow(clippy::too_many_arguments)]
-    pub fn from_typed_adapter_receipt(
+    #[cfg(test)]
+    pub(crate) fn from_typed_adapter_receipt(
         producer: &str,
         repository: String,
         issue: u64,
@@ -347,6 +348,12 @@ fn classify_cleanup_from_git(
     }
     let approved_parent = canonical_dir(&request.approved_parent, "approved_parent")?;
     let repository_root = canonical_dir(&request.repository_root, "repository_root")?;
+    if contains_parent_component(&request.candidate_path) {
+        return Err(finding(
+            "path_not_normalized",
+            "cleanup target must not contain parent-directory traversal",
+        ));
+    }
     let candidate = if request.candidate_path.exists() {
         canonical_dir(&request.candidate_path, "candidate_path")?
     } else {
@@ -534,9 +541,123 @@ fn cleanup_receipt_digest(repository_root: &Path, candidate: &Path) -> String {
     hasher.finalize().to_hex().to_string()
 }
 
+fn contains_parent_component(path: &Path) -> bool {
+    path.components()
+        .any(|component| matches!(component, Component::ParentDir))
+}
+
 fn finding(code: &str, message: &str) -> TerminalFinding {
     TerminalFinding {
         code: code.to_owned(),
         message: message.to_owned(),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn base_request() -> TerminalRouteRequest {
+        TerminalRouteRequest {
+            repository: "agent-logic/agent-design-language".into(),
+            issue: 630,
+            pull_request: Some(641),
+            expected_head_sha: Some("0123456789012345678901234567890123456789".into()),
+            mode: Some(TerminalPublicationMode::Closing),
+            public_adapter_receipt: None,
+            cleanup: None,
+            cutover: None,
+        }
+    }
+
+    #[test]
+    fn terminal_verified_readback_can_derive_closeout_inside_adapter_boundary() {
+        let request = base_request();
+        let readback = VerifiedTerminalReadback::from_typed_adapter_receipt(
+            "csdlc-github-pr-state",
+            request.repository.clone(),
+            request.issue,
+            request.pull_request.unwrap(),
+            request.expected_head_sha.clone().unwrap(),
+            TerminalPublicationMode::Closing,
+            true,
+            false,
+            Some(request.issue),
+            None,
+        )
+        .expect("typed receipt");
+        let decision = derive_finish_from_verified(&request, readback).expect("finish decision");
+        assert_eq!(
+            decision,
+            FinishDecision::TerminalClosedOut {
+                pull_request: 641,
+                issue: 630,
+                head_sha: "0123456789012345678901234567890123456789".into()
+            }
+        );
+    }
+
+    #[test]
+    fn terminal_verified_readback_denies_stale_nonmerged_and_open_issue() {
+        let request = base_request();
+        let stale_head = VerifiedTerminalReadback::from_typed_adapter_receipt(
+            "csdlc-github-pr-state",
+            request.repository.clone(),
+            request.issue,
+            request.pull_request.unwrap(),
+            "fedcba9876543210012345678901234567890123".into(),
+            TerminalPublicationMode::Closing,
+            true,
+            false,
+            Some(request.issue),
+            None,
+        )
+        .expect("typed receipt");
+        assert_eq!(
+            derive_finish_from_verified(&request, stale_head)
+                .unwrap_err()
+                .code,
+            "head_mismatch"
+        );
+
+        let nonmerged = VerifiedTerminalReadback::from_typed_adapter_receipt(
+            "csdlc-github-pr-state",
+            request.repository.clone(),
+            request.issue,
+            request.pull_request.unwrap(),
+            request.expected_head_sha.clone().unwrap(),
+            TerminalPublicationMode::Closing,
+            false,
+            false,
+            Some(request.issue),
+            None,
+        )
+        .expect("typed receipt");
+        assert_eq!(
+            derive_finish_from_verified(&request, nonmerged)
+                .unwrap_err()
+                .code,
+            "pull_request_not_merged"
+        );
+
+        let open_issue = VerifiedTerminalReadback::from_typed_adapter_receipt(
+            "csdlc-github-pr-state",
+            request.repository.clone(),
+            request.issue,
+            request.pull_request.unwrap(),
+            request.expected_head_sha.clone().unwrap(),
+            TerminalPublicationMode::Closing,
+            true,
+            true,
+            Some(request.issue),
+            None,
+        )
+        .expect("typed receipt");
+        assert_eq!(
+            derive_finish_from_verified(&request, open_issue)
+                .unwrap_err()
+                .code,
+            "closing_issue_still_open"
+        );
     }
 }
