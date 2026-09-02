@@ -6,10 +6,29 @@
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
   "generation": 5,
-  "digest": "a00777efb12e8a85a0c3b49d93fad07b5700b8b903e2fa0eb964238a45783d90",
+  "digest": "6b9db6663b8330b5626aa546e0121c3c80b76e4f73ba853ba77dddf441a855d2",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ec6fb5a9-f376-4e33-97c7-8ad14b12cd20",
+    "assigned_by": "codex:root/podcast-262",
+    "revision": "git-blake3:96b32aef02826b52270f224b444583fd560b4b9d:3e96ee6c810713dd967e5c0469bf50d2d791b37d54d97690d5e5c8ad2a1e5529",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/podcast-studio.html"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +64,9 @@
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "68e5de36799ddd159761299e10ca96a1b963f93fa8ebb25b2fd2ae41493158f8",
-      "rendered_digest": "c9b41d47c14da6267ddcbcce440b838544cfc0ddebcaa091af0a44b1dca83e67",
-      "ast_digest": "058466a4cec1456ddfe31f45b6b71f86e098ecfdc2cca32bb8ee9392357c96e6"
+      "values_digest": "e18ab779adc82cd26c727c97d2f47bb358628803155c949bc7fbfb55e5f70ef7",
+      "rendered_digest": "7413774e33a5fff5aa9d0beed0c14f0d5ba4effbc647ebc4b20196632c607b5d",
+      "ast_digest": "f375432c58cdf15643a236bb918035cdc712747dbe2eb6c962e4c54a3e7fce3b"
     },
     "sor": {
       "values_digest": "62c2693d716da054d5bc512efe3a56b300faf989e899e2fa089faa5da6329afc",
@@ -127,6 +146,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

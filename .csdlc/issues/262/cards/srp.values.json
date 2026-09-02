@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review issue #262 design, implementation, focused proof, negative cases, ownership boundary, privacy, and terminal truth.",
+      "review_scope": ".csdlc/evidence/262\n.csdlc/prepared/issues/262\ndemos/_preview/podcast/index.html\ndemos/podcast/LAUNCH_READINESS.md\ndemos/podcast/S3_CLOUDFRONT_RUNBOOK.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/episode.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md\ndemos/podcast/episodes/meet-the-ai-coworkers/index.html\ndemos/podcast/feed.xml\ndemos/podcast/index.html\ndemos/podcast/studio-reference/podcast-studio.html\ndemos/podcast/studio/podcast-studio.html",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

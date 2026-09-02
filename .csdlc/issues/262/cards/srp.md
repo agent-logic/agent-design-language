@@ -12,7 +12,19 @@ Status: pre_phase
 
 ## Scope
 
-Review issue #262 design, implementation, focused proof, negative cases, ownership boundary, privacy, and terminal truth.
+.csdlc/evidence/262
+.csdlc/prepared/issues/262
+demos/_preview/podcast/index.html
+demos/podcast/LAUNCH_READINESS.md
+demos/podcast/S3_CLOUDFRONT_RUNBOOK.md
+demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json
+demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json
+demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md
+demos/podcast/episodes/meet-the-ai-coworkers/index.html
+demos/podcast/feed.xml
+demos/podcast/index.html
+demos/podcast/studio-reference/podcast-studio.html
+demos/podcast/studio/podcast-studio.html
 
 ## Prompts
 
