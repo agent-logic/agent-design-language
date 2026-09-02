@@ -38,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final integration gate before merge.
+- Live or billable Vertex AI generation remains intentionally deferred until separately authorized credentials, project, API enablement, quota, and runtime execution are in scope.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:afacbb13006ff2bfcb53a3ad7187e14147a667a6:38da938feceb7d2991c8cfc1314ca9b48f376646223ff0391830b4bc7b25e0f7")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_592_prepr_r1")
 
-Result: pre_review
+Result: pass

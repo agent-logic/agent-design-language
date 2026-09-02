@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "eb634f362b943f978e69a24cbc0a476e531099b999d4accfc9f0b7f342b488d9",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "bce7833b4b62d83f7088828d99552ab53d8b7577413683b52646f82759944fb0",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "b780c8a6f3283a9e8381b8e1966437e4f7dc3ef975abe63cb812f998c0c1b93e",
   "branch": "codex/592-runtime-gcp-polis-vertex-ai",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-592-runtime-gcp-polis-vertex-ai",
   "review_assignment": {
@@ -24,7 +24,27 @@
       ".csdlc/prepared/issues/592"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_592_prepr_r1",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "infra/runtime-v3/agents/ember.axioma.yaml",
+      "infra/runtime-v3/runtime-init.toml",
+      "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+      ".csdlc/prepared/issues/592"
+    ],
+    "reviewed_revision": "git-blake3:afacbb13006ff2bfcb53a3ad7187e14147a667a6:38da938feceb7d2991c8cfc1314ca9b48f376646223ff0391830b4bc7b25e0f7",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Live or billable Vertex AI generation remains intentionally deferred until separately authorized credentials, project, API enablement, quota, and runtime execution are in scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "efb7fcc788214decf33795bada8eb54b33c61df6100c39a59b5f92aad569f83b",
+      "values_digest": "8fc06222646d6ef0f57106d59dffb7639333e591a4006b23fc2743c9c05ecfb8",
       "rendered_digest": "1d53415e49346c4e47a3b934ca8c7832a4709d687c6180f2b99dc9f481ce6629",
       "ast_digest": "de4c7590bb85b0d56760b99af03a970ea61886f271e910f4c6891456a3b4c41e"
     },
     "stp": {
-      "values_digest": "9d9c3a19eee6c3d3643732d5dd2fed8fb0cbc03a336cd27db0b7cf0d5305377b",
+      "values_digest": "12fb1a4527b449a25ce7816fc1fc53487bf6c94608b70631f45d602e2c4967a0",
       "rendered_digest": "e1d030d29521c07a78be6a6fa6f648f8113ca829ea20a03a97dc2c47f4c9030b",
       "ast_digest": "6a2509ebbbc587a2b0947a30ddf0424021fedcfb44ed7c70476e07c4ffdca58d"
     },
     "spp": {
-      "values_digest": "b0fc044335ccc8c45a684c576df833a58a3cef55e3bd87e8f046fe15e6493b18",
+      "values_digest": "54ed9c6236352b4e6d9c2e45ba1977cd63cfdbbc43e2e0f2d369328d879f777f",
       "rendered_digest": "a5331a69c68db32c51e5ab0e5c4ea35b7fcc6e42899b84abffa219420064b99c",
       "ast_digest": "e58b089e9ba960812d99ab8a44b0bb6dea8e38cc632f96bc477551b5f839e3fe"
     },
     "vpp": {
-      "values_digest": "8388f9dffa292470073832b41ea1fcfc6e7085b12df3bb2fa58e278c96e62fae",
+      "values_digest": "e02d25998a6f4eafca3669a25f4c6deae641f28939a812e4b4603975ae875dd3",
       "rendered_digest": "cbf3f12a9fd64b17756cc336b932e11c4e4678548c69ec687a30d067fbd0d59d",
       "ast_digest": "ebf73ec3b512efaf43ca0bea42b25573e2ec3752e7daffc70baa45950b5bbd8c"
     },
     "srp": {
-      "values_digest": "bd3c8768a91474c7aeadd7b11d110f3cf41b11fff625961b14044762e0c5e610",
-      "rendered_digest": "bc3c83a86e6230d28416477768d5e7e0e719657fe200c99a7ea0fdda0ad55e15",
-      "ast_digest": "7f5f05a147e637977b288e7d8e0648ea38aa5c46221bc7694df1e26ee31ca03a"
+      "values_digest": "4e42caf2599771657fca1c6702126a3b6eed690acfff182717421291904ecded",
+      "rendered_digest": "2545ed237f341d41b561b2a2da713876cd983dfcb17eec100450d0e622d6f686",
+      "ast_digest": "50e58544341b116d7d0eebde66da374a27908c97d55e26eebe0c908e4651e4d7"
     },
     "sor": {
-      "values_digest": "c378f6c59789c5233d6b7e7344a82b6f762e0c73c1d34c96cdec72b76bd5e1dc",
+      "values_digest": "bfee7519d576507036c6f6e966a7400505401ea0c87d8c5b75ea0feff4536d71",
       "rendered_digest": "86672d6f1a6ec18ae5b5e7e59b50d66a011e2412266f27fd9eeb8d1fe1be7d4a",
       "ast_digest": "51b47c6cbefbfd10b4a02b09708083d3e208f851f2814cb6a27fe660e90ce7d0"
     }
@@ -90,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:/root/Worker-7",
       "reason": "Implementation and focused local validation are complete; enter implemented phase for independent exact-head review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/Worker-7",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -183,6 +210,13 @@
       "actor": "codex:/root/Worker-7",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
