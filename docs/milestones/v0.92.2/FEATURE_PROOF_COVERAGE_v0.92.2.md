@@ -22,5 +22,14 @@ Status: planned ownership map.
 | ADL self-review | CF-PROOF | Retained review packet |
 | External OSS proof | CF-PROOF | Licensed, bounded retained packet |
 | Complete Beta 1 | CF-INTEGRATE | Exit-bar reconciliation and end-to-end failure matrix |
+| Config-driven providers | PLAT-PROVIDER | Schema negatives and provider parity after merged #622 |
+| MLX/Metal adapter | PLAT-MLX | Bounded platform smoke and unsupported-platform failure |
+| UTS productization | PLAT-UTS | Schema conformance and supported-consumer fixture |
+| Recurring Rust reduction | PLAT-RUST | Behavior parity and before/after measurement |
+| AWS inventory maintenance | OPS-AWS | Business-account readbacks and redaction validation |
+| Medium article preparation | PUB-MEDIUM | Source/citation traceability and non-publication check |
+| C-SDLC paper preparation | PUB-CSDLC | Source/citation traceability and non-submission check |
+| Memory Palace production slice | PLAT-MEMORY | Production caller, deterministic retrieval, redaction negatives |
+| Speculative-decoding decision | SPEC-RETEST | Current benchmark, equivalence, and fallback proof |
 
 No row may be marked proven from a planned demo, a zero-test invocation, or green CI that does not cover the stated behavior.

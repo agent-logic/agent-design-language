@@ -14,6 +14,8 @@ Status: planning candidate. Inventory completeness is not execution or release p
 | Issue wave | [WP_ISSUE_WAVE_v0.92.2.yaml](WP_ISSUE_WAVE_v0.92.2.yaml) |
 | Execution specifications | [WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml) |
 | Execution readiness | [WP_EXECUTION_READINESS_v0.92.2.md](WP_EXECUTION_READINESS_v0.92.2.md) |
+| TBD scheduling reconciliation | [TBD_SCHEDULING_RECONCILIATION_v0.92.2.md](TBD_SCHEDULING_RECONCILIATION_v0.92.2.md) |
+| TBD source audit manifest | [TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt](TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt) |
 | Feature index | [features/README.md](features/README.md) |
 | Feature/proof coverage | [FEATURE_PROOF_COVERAGE_v0.92.2.md](FEATURE_PROOF_COVERAGE_v0.92.2.md) |
 | Quality gate | [QUALITY_GATE_v0.92.2.md](QUALITY_GATE_v0.92.2.md) |
@@ -26,7 +28,19 @@ Status: planning candidate. Inventory completeness is not execution or release p
 
 ## Feature Documents
 
-The feature index must resolve every first-class work track: shell, adapter, evidence, architecture cognition, governance, review, memory, publication, and proof/integration.
+| Surface | File |
+|---|---|
+| Feature index | [features/README.md](features/README.md) |
+| Product shell | [features/PRODUCT_SHELL_AND_OPERATOR_CONTROLS_v0.92.2.md](features/PRODUCT_SHELL_AND_OPERATOR_CONTROLS_v0.92.2.md) |
+| Portable adapter | [features/PORTABLE_ADAPTER_V2_v0.92.2.md](features/PORTABLE_ADAPTER_V2_v0.92.2.md) |
+| Evidence core | [features/EVIDENCE_CORE_v0.92.2.md](features/EVIDENCE_CORE_v0.92.2.md) |
+| Architecture cognition | [features/ARCHITECTURE_COGNITION_v0.92.2.md](features/ARCHITECTURE_COGNITION_v0.92.2.md) |
+| Executable governance | [features/EXECUTABLE_GOVERNANCE_v0.92.2.md](features/EXECUTABLE_GOVERNANCE_v0.92.2.md) |
+| Multi-perspective review | [features/MULTI_PERSPECTIVE_REVIEW_v0.92.2.md](features/MULTI_PERSPECTIVE_REVIEW_v0.92.2.md) |
+| Longitudinal memory | [features/LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md](features/LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md) |
+| Governed publication | [features/GOVERNED_PUBLICATION_v0.92.2.md](features/GOVERNED_PUBLICATION_v0.92.2.md) |
+| Beta 1 qualification | [features/BETA1_QUALIFICATION_v0.92.2.md](features/BETA1_QUALIFICATION_v0.92.2.md) |
+| Supporting tracks | [features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md](features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md) |
 
 ## Validation Contract
 

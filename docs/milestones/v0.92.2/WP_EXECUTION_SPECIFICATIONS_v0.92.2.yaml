@@ -79,6 +79,69 @@ specifications:
     pvf: [integrated_demo, failure_matrix, coverage_reconciliation, package_validation]
     stop_conditions: [missing_exit_bar_item, unresolved_p1, unowned_failure]
     non_goals: [deferred_tracks]
+  - id: PLAT-PROVIDER
+    outcome: Provider behavior consumes validated editable definitions instead of embedded instance data.
+    owned_surfaces: [provider_definition_schema, provider_profiles]
+    acceptance: [behavior_data_separated, definitions_validated, endpoint_and_profile_parity]
+    pvf: [schema_negative_suite, provider_fixture_parity]
+    stop_conditions: [hardcoded_instance_data, credential_in_config, missing_v0921_hotload_authority]
+    non_goals: [provider_rewrite, public_benchmark_marketing]
+  - id: PLAT-MLX
+    outcome: One bounded MLX and Apple Metal adapter consumes the canonical provider-definition contract.
+    owned_surfaces: [mlx_metal_adapter]
+    acceptance: [canonical_definition_consumed, platform_boundary_explicit, unsupported_platform_fails_cleanly]
+    pvf: [mlx_metal_smoke, unsupported_platform_failure]
+    stop_conditions: [provider_contract_bypass, unsupported_platform_claim]
+    non_goals: [general_local_model_rewrite, public_benchmark_marketing]
+  - id: PLAT-UTS
+    outcome: One canonical UTS package is usable by declared supported consumers.
+    owned_surfaces: [uts_schema, package, migration_notes]
+    acceptance: [canonical_contract, supported_consumers_named, compatibility_explicit]
+    pvf: [schema_conformance, consumer_fixture, compatibility_check]
+    stop_conditions: [ambiguous_authority, silent_breaking_change]
+    non_goals: [universal_ecosystem_standard]
+  - id: PLAT-RUST
+    outcome: One high-value Rust surface is simpler without behavior change.
+    owned_surfaces: [selected_module, focused_tests, measurement]
+    acceptance: [bounded_surface, behavior_preserved, measurable_reduction]
+    pvf: [focused_regression, before_after_measurement]
+    stop_conditions: [scope_sprawl, behavior_redesign]
+    non_goals: [repo_wide_rewrite]
+  - id: OPS-AWS
+    outcome: The Agent Logic business AWS inventory is current, sanitized, and repeatable.
+    owned_surfaces: [scr_inventory, s3_inventory, model_inventory, ownership_register, maintenance_runbook]
+    acceptance: [business_account_verified, readonly_inventory_current, staleness_explicit, secrets_absent]
+    pvf: [account_readback, inventory_validator, redaction_scan]
+    stop_conditions: [personal_account, mutation_required, credential_exposure]
+    non_goals: [resource_migration, deployment]
+  - id: PUB-MEDIUM
+    outcome: One reviewable Medium article packet is ready for a human editorial decision.
+    owned_surfaces: [medium_packet]
+    acceptance: [claims_source_grounded, citations_resolvable, publication_not_claimed]
+    pvf: [source_traceability, citation_check, nonpublication_check]
+    stop_conditions: [unsupported_claim, invented_citation, silent_publication]
+    non_goals: [medium_publish, article_series_completion]
+  - id: PUB-CSDLC
+    outcome: One reviewable C-SDLC paper packet is ready for a human research decision.
+    owned_surfaces: [csdlc_paper_packet]
+    acceptance: [claims_source_grounded, citations_resolvable, submission_not_claimed]
+    pvf: [source_traceability, citation_check, nonsubmission_check]
+    stop_conditions: [unsupported_claim, invented_citation, silent_submission]
+    non_goals: [arxiv_submission, publication]
+  - id: PLAT-MEMORY
+    outcome: One bounded production consumer uses Memory Palace with explicit privacy and compatibility behavior.
+    owned_surfaces: [production_consumer, retrieval_contract, privacy_policy]
+    acceptance: [production_caller, deterministic_retrieval, redaction_fail_closed, compatibility_explicit]
+    pvf: [production_path_test, retrieval_fixture, redaction_negative_suite]
+    stop_conditions: [test_only_integration, private_data_leak, unbounded_memory_claim]
+    non_goals: [complete_speculative_memory_architecture]
+  - id: SPEC-RETEST
+    outcome: Current evidence determines whether speculative decoding should be kept, repaired, or retired.
+    owned_surfaces: [retest_harness, result_packet, disposition]
+    acceptance: [current_runtime_tested, correctness_preserved, performance_measured, disposition_evidence_bound]
+    pvf: [reproducible_benchmark, output_equivalence, fallback_test]
+    stop_conditions: [stale_fixture_only, correctness_regression, unsupported_speed_claim]
+    non_goals: [productization_without_requalification]
   - id: TAIL-01
     outcome: Integrated quality evidence is reconciled into an explicit pass, fail, or not-proven result.
     acceptance: [quality_gate_evaluated, no_unresolved_p1]
