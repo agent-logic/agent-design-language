@@ -7,15 +7,15 @@
     "title": "[v0.92.2][planning] Audit and refresh first-pass milestone documentation",
     "slug": "v0922-first-pass-planning",
     "version": "v0.92.2",
-    "generation": 7
+    "generation": 8
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/milestones/v0.92.2/**\n.csdlc/prepared/issues/620/design.md\n.csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh\n.csdlc/evidence/620/**",
+      "review_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+      "reviewer": "fresh-session:620-evidence-1e1ea63a9",
       "review_prompts": [
         "Does the package include every canonical document and first-class feature surface?",
         "Does each planned issue describe one bounded unit with a concrete result?",
@@ -23,9 +23,82 @@
         "Does the plan avoid duplicating existing and completed issues?",
         "Does the package remain number-free and refrain from opening the milestone?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "620-R1",
+          "severity": "p1",
+          "summary": "MLX admission lacked a recorded operator decision.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+          "route": null
+        },
+        {
+          "id": "620-R2",
+          "severity": "p1",
+          "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+          "route": null
+        },
+        {
+          "id": "620-R3",
+          "severity": "p1",
+          "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+          "route": null
+        },
+        {
+          "id": "620-R4",
+          "severity": "p2",
+          "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+          "route": null
+        },
+        {
+          "id": "620-R5",
+          "severity": "p1",
+          "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+          "route": null
+        },
+        {
+          "id": "620-PUB-R1",
+          "severity": "p1",
+          "summary": "Retained validation logs were empty while SOR claimed passing validators.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+          "route": null
+        },
+        {
+          "id": "620-PUB-R2",
+          "severity": "p1",
+          "summary": "Published review evidence was stale relative to the PR head without an exact-head guard.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Live PR checks and mergeability require verification after the existing PR branch is updated; no merge is authorized."
+      ],
+      "review_result": "pass"
     }
   }
 }

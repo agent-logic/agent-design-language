@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+docs/milestones/v0.92.2/**
+.csdlc/prepared/issues/620/design.md
+.csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh
+.csdlc/evidence/620/**
 
 ## Prompts
 
@@ -24,7 +27,78 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "620-R1",
+    "severity": "p1",
+    "summary": "MLX admission lacked a recorded operator decision.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "route": null
+  },
+  {
+    "id": "620-R2",
+    "severity": "p1",
+    "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "route": null
+  },
+  {
+    "id": "620-R3",
+    "severity": "p1",
+    "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "route": null
+  },
+  {
+    "id": "620-R4",
+    "severity": "p2",
+    "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "route": null
+  },
+  {
+    "id": "620-R5",
+    "severity": "p1",
+    "summary": "The #484 reconciliation guard used invalid alternation and failed without diagnostics.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "route": null
+  },
+  {
+    "id": "620-PUB-R1",
+    "severity": "p1",
+    "summary": "Retained validation logs were empty while SOR claimed passing validators.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "route": null
+  },
+  {
+    "id": "620-PUB-R2",
+    "severity": "p1",
+    "summary": "Published review evidence was stale relative to the PR head without an exact-head guard.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -32,12 +106,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live PR checks and mergeability require verification after the existing PR branch is updated; no merge is authorized.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1e1ea63a9d4bc338eb187c17958a5094571bd2d1:cc07154e4898e7b5ee19e956627aac9aa46158d0a39458e381972d8ef6023e3f")
 
-Reviewer: None
+Reviewer: Some("fresh-session:620-evidence-1e1ea63a9")
 
-Result: pre_review
+Result: pass
