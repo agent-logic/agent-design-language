@@ -6,10 +6,24 @@
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
   "phase": "implemented",
   "generation": 7,
-  "digest": "79b0ce19e5656b75d331f638ac6f8deb76518cf3394fc4e35334696241b37d4c",
+  "digest": "1dfd5c5fb0db4f5c5b2cf5f04ff56bb28215abdd1b7c424cf156e863dd3cd3ec",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_628_route_specifics_r3",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:893ebde287905eda547fe2880b27c220cd1332ea:4e7bea7080c2ef27bd5b3f7bc2c9ebd69d63b140bdcd9f8eb907946e62b9e5fa",
+    "scope": [
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/628",
+      ".csdlc/evidence/628"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "b57300f3d7d4462ec242e4e80f84cd3d550b67f6276aa55ead00352de94b588b",
-      "rendered_digest": "2e4b0d62c3ff55fa707a9f45db163c258a06e12d6cfbf36cc5d4b039375f34ad",
-      "ast_digest": "2f29a8922955564d3077596be9ce4658e0c95e4f10828b2471b7df1849299821"
+      "values_digest": "0d7a766bc9b51d8839156ee4c31676443db69cc4a8a424cc6eb85b8a8e1da521",
+      "rendered_digest": "2f9d62a288ff0646dcefbad93dbcb7d99645432e62ec5334020623ab34258429",
+      "ast_digest": "b48db5a5ad518283d7231bde43059fce503a57bae1e97754866ee248b9bd11c0"
     },
     "sor": {
       "values_digest": "d8300ca8dcc12ec50bd00b0cc8cf72151bb30b65069fc0818b355320439959b5",
@@ -176,6 +190,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover #628 after review failures: route-specific behavior was incomplete, retained rustfmt/diff evidence was zero-byte, and review/publication were stale against current head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

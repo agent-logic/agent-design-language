@@ -9,3 +9,4 @@
 {"sequence":9,"generation":5,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":10,"generation":6,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":11,"generation":7,"actor":"codex:worker-6","reason":"Recover #628 after review failures: route-specific behavior was incomplete, retained rustfmt/diff evidence was zero-byte, and review/publication were stale against current head.","operation":"recover_review"}
+{"sequence":12,"generation":7,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
