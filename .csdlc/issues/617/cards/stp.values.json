@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 617,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+    "slug": "runtime-api-canonical-agent-names",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One additive canonical-name field carried from authoritative agent state through AgentRosterEntry, roster/detail JSON, and OpenAPI.",
+      "deliverables": [
+        "Canonical name field in AgentRosterEntry",
+        "Roster and detail API projection for dynamic agents and Shepherd",
+        "Updated Observatory OpenAPI and checked inventory",
+        "Focused serialization and compatibility tests"
+      ],
+      "acceptance_criteria": [
+        "AC-1: AgentRosterEntry and roster/detail JSON expose an explicit canonical two-part agent name",
+        "AC-2: Operational ID, canonical name, display name, and public office remain distinct and truthful",
+        "AC-3: Dynamic agents preserve their admitted canonical names across roster and detail responses",
+        "AC-4: The startup Shepherd exposes a configured stable canonical name without inference",
+        "AC-5: Observatory OpenAPI and checked API inventory require and describe the additive field",
+        "AC-6: Focused serialization and compatibility tests prove existing field meanings and clients are not unexpectedly broken"
+      ],
+      "dependencies": [
+        "Issue #602 and PR #614 must be merged into the execution base"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#617",
+        "agent-logic/agent-design-language#602",
+        "adl-runtime-kernel/src/agent_roster.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "docs/api/runtime-v3/v1/observatory.openapi.json"
+      ],
+      "non_goals": [
+        "Changing agent admission, checkpoint, migration, or rehydration semantics",
+        "Renaming operational agent IDs",
+        "Changing display-name or office semantics",
+        "Amending the already merged #602 implementation outside a correctness defect required for projection"
+      ]
+    }
+  }
+}

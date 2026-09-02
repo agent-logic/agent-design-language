@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 617,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+    "slug": "runtime-api-canonical-agent-names",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #617 Runtime roster/detail projection, OpenAPI, focused tests, and issue-local evidence paths only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every canonical name come from authoritative configuration or admitted state?",
+        "Are operational ID, canonical name, display name, and office still distinct?",
+        "Do roster, detail, JSON serialization, and OpenAPI agree?",
+        "Is Shepherd naming stable without changing lifecycle semantics?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

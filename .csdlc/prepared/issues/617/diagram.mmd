@@ -1,0 +1,10 @@
+flowchart LR
+    C[Agent configuration\ncanonical name] --> A[Admission and active state]
+    A --> R[AgentRosterEntry]
+    R --> L[GET roster]
+    R --> D[GET agent detail]
+    R --> O[Observatory/OpenAPI]
+    I[Operational ID] --> R
+    N[Canonical two-part name] --> R
+    P[Display name] --> R
+    F[Public office] --> R
