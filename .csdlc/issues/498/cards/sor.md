@@ -115,11 +115,11 @@ Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The r
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

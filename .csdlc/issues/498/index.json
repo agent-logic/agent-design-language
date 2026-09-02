@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5cba53deaba7c8e2a2a220194f4bb1433a12212ab512e95fdfe9591df5a470e5",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "5b0a71d9649eccb782c9c9bcdc0db82a027ac68ae0a02e015386cf8453d83c03",
+  "phase": "published",
+  "generation": 13,
+  "digest": "2e3a29f1c7671ed40eed7d4af5b427a53c161b1ec1258f38ca7ecd6310545b17",
   "branch": "codex/498-corp-d-corporate-diligence-acceptance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance",
   "review_assignment": {
-    "reviewer": "subagent:498-corp-d-exact-head-review-r6",
+    "reviewer": "subagent:498-corp-d-exact-head-review-r7",
     "assigned_by": "codex:/root/Worker-7",
-    "revision": "git-blake3:683a8c503994464e728806278d472b1ca351f090:cb09d34fb2b6200969390f9415d1b3a84eb75fc2a766a202989a43608e781af8",
+    "revision": "git-blake3:ac6b1891ddf6f82996a3419d204f9caa4de286fc:09f64e339a1421fbaba128f2f4921005ff67c92203e563c3bf4c5c435f5df4b9",
     "scope": [
       ".csdlc/evidence/498",
       ".csdlc/prepared/issues/498",
@@ -20,8 +20,32 @@
       "docs/operations/corporate/diligence"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "subagent:498-corp-d-exact-head-review-r7",
+    "scope": [
+      ".csdlc/evidence/498",
+      ".csdlc/prepared/issues/498",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+      "docs/operations/corporate/diligence"
+    ],
+    "reviewed_revision": "git-blake3:ac6b1891ddf6f82996a3419d204f9caa4de286fc:09f64e339a1421fbaba128f2f4921005ff67c92203e563c3bf4c5c435f5df4b9",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 498,
+    "pull_request": 637,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/637",
+    "base": "main",
+    "head": "codex/498-corp-d-corporate-diligence-acceptance",
+    "revision": "git-blake3:ac6b1891ddf6f82996a3419d204f9caa4de286fc:09f64e339a1421fbaba128f2f4921005ff67c92203e563c3bf4c5c435f5df4b9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -35,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "09b4cea083954fa61092cbafbfdf1391dc2d7f2a9af84d4ca2907ae57b29e6d7",
+      "values_digest": "d303a521f0daad01914f85628321ea66112855f34d2940f1767bc64f964d6157",
       "rendered_digest": "a7bc34d0c59c5807a8b0e7dbd9843c2c8a08f46ed987310125c3e4c2738a053f",
       "ast_digest": "2ffd5d6c88c83d6165aafcd1a3efecece8df8f58deae3d878e236ed57e59244e"
     },
     "stp": {
-      "values_digest": "c18953370482e8fa425f5cb765f787e26f0365178522914c96bb604fc53dbb03",
+      "values_digest": "0c58a0d62292f78eac2e969696eb5add3c88a38f2a1a59b773981e284566a1d2",
       "rendered_digest": "f16ff75f0f09836e1eb72918926648a861e099333c14ddd7e3b744c637200764",
       "ast_digest": "c496d6b4fc27fd91dce500d28f83e9d45119e3b4d4077a7e41b1bc423793b9e5"
     },
     "spp": {
-      "values_digest": "d173046dcbfa5160b9c5618e11891cac6864b619441aed2cde9e6d700072e82d",
+      "values_digest": "61e3b7da46137617df120ca8d5fff7cdc4207982211d5eda2e1a43a35c6a8615",
       "rendered_digest": "5fbd461707f5029fc3d98c0f70fde837396f62087158fe0ef02215f24393f928",
       "ast_digest": "7ad3097d27e125aafe92401338140c8479afa92f7049dfe071ca688fda60d53d"
     },
     "vpp": {
-      "values_digest": "45d0d596c3ef70d9965a400436ccee6eecbe2b1991626c85ca9212df89d4397c",
+      "values_digest": "108ca84390b9361b631c309e08a4305848de30874612c4959a3bbca5ebfd307c",
       "rendered_digest": "a6344553e55fdcd20db1d1f93d65266163be07e90c0552a9c710833664612ff7",
       "ast_digest": "006752cce1dd6225e56cbfc29a886f4ad200618e1cd9bb3a4f69e2a03aa2acbb"
     },
     "srp": {
-      "values_digest": "c3d2fa5bc41f5310453a25ff2c1f60baa74d942a2f83b50c6e9fff0c48fc5c40",
-      "rendered_digest": "c24977a4e4d14a1953ec539699fb19e0e9382562c7f5055563d201f08eae5efd",
-      "ast_digest": "bf26ed13d9fe9b6f5a00a5697d3cc8c6ca191408f0f17dd322a2f2e3985cc5d4"
+      "values_digest": "ce91203e7ac8dc978105d6ee3e6ecc22e81cc35bdc98892c76796ab4ea6ba485",
+      "rendered_digest": "2b084b7aa7a769c043847c017eac1e5bbd855f1ec7681bbd97cf4fd9b6103c32",
+      "ast_digest": "fae6593d61f8a27fda06e23187b7b4be74f4c1d3af6e31309230a34fc357bf6d"
     },
     "sor": {
-      "values_digest": "d38a4a255661560d306bdeb3caf7488f9708a57be828cdc25d0ac349213047ec",
-      "rendered_digest": "3261aaed03aa2fb06add1c1001e368689361a6d787122263c37b729b328666c3",
-      "ast_digest": "f9d7607ceeb8c5cbc78cfc8d11f8cb5d9fe34a68e66e83d728390554b84d280b"
+      "values_digest": "427ba2eb51a9f9599bdf77046fb5c1426e5f6abe45478dbdf43b89f0d993ce06",
+      "rendered_digest": "c104b944f26572c74cfc128cdfa25fd6df1a799e9a8022abf53b40c1470a62ba",
+      "ast_digest": "05a845d572f2577292b76a63cd2abd2a73252ae105e846247fc6ba2a16e07ca5"
     }
   },
   "transitions": [
@@ -100,6 +124,20 @@
       "to": "implemented",
       "actor": "codex:/root/Worker-7",
       "reason": "Recover after manually committing review metadata, which made the recorded review stale for publication; preserve audit history and re-review the current clean head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/Worker-7",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/Worker-7",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -235,6 +273,27 @@
       "actor": "codex:/root/Worker-7",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 11,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 12,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 13,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

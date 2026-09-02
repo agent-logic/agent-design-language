@@ -39,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ac6b1891ddf6f82996a3419d204f9caa4de286fc:09f64e339a1421fbaba128f2f4921005ff67c92203e563c3bf4c5c435f5df4b9")
 
-Reviewer: None
+Reviewer: Some("subagent:498-corp-d-exact-head-review-r7")
 
-Result: pre_review
+Result: pass
