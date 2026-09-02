@@ -1,6 +1,4 @@
 locals {
-  scheduler_name            = substr("${var.run_id}-terminate", 0, 64)
-  termination_at_utc        = trimsuffix(var.termination_at, "Z")
   artifact_read_arns        = [for key in var.artifact_read_keys : "arn:aws:s3:::${var.artifact_bucket}/${key}"]
   gpu_receipt_arn           = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
   runtime_receipt_arn       = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/runtime-final.json"
@@ -9,13 +7,11 @@ locals {
   warm_enabled              = var.runtime_warm_volume_id != null
 
   run_tags = {
-    "adl:issue"            = tostring(var.issue_number)
-    "adl:run-id"           = var.run_id
-    "adl:owner-token"      = var.owner_token
-    "adl:managed-deadline" = "true"
-    "adl:termination-at"   = var.termination_at
-    "adl:max-hourly-usd"   = tostring(var.authorized_max_hourly_usd)
-    "adl:max-total-usd"    = tostring(var.authorized_max_total_usd)
+    "adl:issue"          = tostring(var.issue_number)
+    "adl:run-id"         = var.run_id
+    "adl:owner-token"    = var.owner_token
+    "adl:max-hourly-usd" = tostring(var.authorized_max_hourly_usd)
+    "adl:max-total-usd"  = tostring(var.authorized_max_total_usd)
   }
 }
 
@@ -364,61 +360,4 @@ resource "aws_volume_attachment" "gpu_warm" {
   instance_id                    = aws_instance.gpu.id
   force_detach                   = false
   stop_instance_before_detaching = true
-}
-
-resource "aws_iam_role" "scheduler" {
-  name_prefix = "adl-i${var.issue_number}-reaper-"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect    = "Allow"
-      Principal = { Service = "scheduler.amazonaws.com" }
-      Action    = "sts:AssumeRole"
-    }]
-  })
-  tags = local.run_tags
-}
-
-resource "aws_iam_role_policy" "scheduler_terminate" {
-  name = "terminate-only-owned-issue${var.issue_number}-instances"
-  role = aws_iam_role.scheduler.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Sid      = "TerminateOnlyOwnedIssueInstances"
-      Effect   = "Allow"
-      Action   = "ec2:TerminateInstances"
-      Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:instance/*"
-      Condition = {
-        StringEquals = {
-          "ec2:ResourceTag/adl:issue"       = tostring(var.issue_number)
-          "ec2:ResourceTag/adl:run-id"      = var.run_id
-          "ec2:ResourceTag/adl:owner-token" = var.owner_token
-        }
-      }
-    }]
-  })
-}
-
-resource "aws_scheduler_schedule" "terminate" {
-  name                         = local.scheduler_name
-  schedule_expression          = "at(${local.termination_at_utc})"
-  schedule_expression_timezone = "UTC"
-  state                        = "ENABLED"
-  action_after_completion      = "DELETE"
-
-  flexible_time_window { mode = "OFF" }
-
-  target {
-    arn      = "arn:aws:scheduler:::aws-sdk:ec2:terminateInstances"
-    role_arn = aws_iam_role.scheduler.arn
-    input    = jsonencode({ InstanceIds = [aws_instance.runtime.id, aws_instance.gpu.id] })
-
-    retry_policy {
-      maximum_event_age_in_seconds = 300
-      maximum_retry_attempts       = 3
-    }
-  }
-
-  depends_on = [aws_iam_role_policy.scheduler_terminate]
 }

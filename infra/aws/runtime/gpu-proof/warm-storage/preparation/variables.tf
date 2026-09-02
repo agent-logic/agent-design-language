@@ -21,10 +21,6 @@ variable "owner_token" {
   sensitive = true
 }
 
-variable "termination_at" {
-  type = string
-}
-
 variable "runtime_ami_id" {
   description = "Exact Runtime AMI used for both preparation and warm launch."
   type        = string

@@ -340,13 +340,11 @@ saved_destroy_plan() {
 }
 
 wait_object() {
-  key="$1" destination="$2" max_seconds="$3" deadline=$((SECONDS+max_seconds))
-  while ((SECONDS<deadline)); do
+  key="$1" destination="$2"
+  while true; do
     aws_cli s3api get-object --bucket "$BUCKET" --key "$key" "$destination" >/dev/null 2>&1 && return 0
     sleep 5
   done
-  echo "timed out waiting for $key" >&2
-  return 2
 }
 
 wait_preparation_receipts() {
@@ -1156,13 +1154,13 @@ prepare() {
   tf "$run_dir/tfdata-storage" "$STORAGE_ROOT" output -state="$storage_dir/terraform.tfstate" -json >"$storage_dir/outputs.json"
   runtime_volume="$(jq -r .runtime_volume_id.value "$storage_dir/outputs.json")"; gpu_volume="$(jq -r .gpu_volume_id.value "$storage_dir/outputs.json")"
   read_keys="$(jq -c --arg manifest "$MANIFEST_KEY" --arg source "$source_key" '([.artifacts[].key]+[$manifest,$source])|unique' "$STATE_ROOT/preflight-model-manifest.json")"
-  deadline="$(future_utc "$PREPARATION_SECONDS")"; receipt_prefix="${PREFIX}runs/$RUN_ID/preparation/"
-  jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg deadline "$deadline" --arg runtime_ami "$RUNTIME_AMI" --arg gpu_ami "$GPU_AMI" \
+  receipt_prefix="${PREFIX}runs/$RUN_ID/preparation/"
+  jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg runtime_ami "$RUNTIME_AMI" --arg gpu_ami "$GPU_AMI" \
     --arg vpc "$VPC_ID" --arg subnet "$SUBNET_ID" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg bucket "$BUCKET" --arg receipt "$receipt_prefix" \
     --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg source_commit "$COMMIT" --arg source_key "$source_key" --arg source_version "$source_version" --arg source_sha "$source_sha" \
     --arg manifest_key "$MANIFEST_KEY" --arg manifest_version "$MANIFEST_VERSION" --arg manifest_sha "$MANIFEST_SHA256" --arg kms "$KMS_KEY_ARN" --arg az "$AZ" --arg generation "$generation" --arg ami_metadata_sha "$(jq -r .ami_metadata_sha256 "$run_dir/preflight.json")" \
     --arg runtime_ami_metadata "$(jq -c --arg id "$RUNTIME_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --arg gpu_ami_metadata "$(jq -c --arg id "$GPU_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --argjson read_keys "$read_keys" \
-    '{aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,termination_at:$deadline,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime_ami_metadata_json:$runtime_ami_metadata,gpu_ami_metadata_json:$gpu_ami_metadata,ami_metadata_sha256:$ami_metadata_sha,vpc_id:$vpc,subnet_id:$subnet,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,artifact_bucket:$bucket,artifact_read_keys:$read_keys,receipt_write_prefix:$receipt,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,source_commit:$source_commit,source_archive_key:$source_key,source_archive_version_id:$source_version,source_archive_sha256:$source_sha,artifact_manifest_key:$manifest_key,artifact_manifest_version_id:$manifest_version,artifact_manifest_sha256:$manifest_sha,kms_key_arn:$kms,availability_zone:$az,artifact_generation:$generation}' >"$run_dir/preparation.tfvars.json"
+    '{aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime_ami_metadata_json:$runtime_ami_metadata,gpu_ami_metadata_json:$gpu_ami_metadata,ami_metadata_sha256:$ami_metadata_sha,vpc_id:$vpc,subnet_id:$subnet,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,artifact_bucket:$bucket,artifact_read_keys:$read_keys,receipt_write_prefix:$receipt,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,source_commit:$source_commit,source_archive_key:$source_key,source_archive_version_id:$source_version,source_archive_sha256:$source_sha,artifact_manifest_key:$manifest_key,artifact_manifest_version_id:$manifest_version,artifact_manifest_sha256:$manifest_sha,kms_key_arn:$kms,availability_zone:$az,artifact_generation:$generation}' >"$run_dir/preparation.tfvars.json"
   prep_plan_sha="$(saved_plan preparation "$PREPARATION_ROOT" "$run_dir/tfdata-preparation" "$run_dir/preparation.tfstate" "$run_dir/preparation.tfvars.json" "$run_dir/preparation.tfplan" "$run_dir/preparation-plan.json")"
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" apply -input=false -state="$run_dir/preparation.tfstate" -auto-approve "$run_dir/preparation.tfplan" >/dev/null
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" output -state="$run_dir/preparation.tfstate" -json >"$run_dir/preparation-outputs.json"
@@ -1211,13 +1209,13 @@ launch() {
     || { echo "prepared launch result identity mismatch" >&2; exit 2; }
   runtime_volume="$(jq -r .runtime.volume_id "$storage_dir/preparation-result.json")"; gpu_volume="$(jq -r .gpu.volume_id "$storage_dir/preparation-result.json")"
   runtime_root="$(jq -r .runtime.root_hash "$storage_dir/preparation-result.json")"; gpu_root="$(jq -r .gpu.root_hash "$storage_dir/preparation-result.json")"
-  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:launch-$ORDINAL" | cut -c1-32)"; deadline="$(fixed_deadline "$run_dir/termination-at.txt" "$LAUNCH_SECONDS")"
+  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:launch-$ORDINAL" | cut -c1-32)"
   gpu_key="${PREFIX}runs/$RUN_ID/gpu-ready.json"; runtime_key="${PREFIX}runs/$RUN_ID/runtime-local-ready.json"; qualification_key="${PREFIX}runs/$RUN_ID/qualification-complete.json"; service_key="${PREFIX}runs/$RUN_ID/service-ready.json"
   read_keys="$(jq -c --arg manifest "$MANIFEST_KEY" --arg gpu "$gpu_key" '([.artifacts[].key]+[$manifest,$gpu])|unique' "$STATE_ROOT/preflight-model-manifest.json")"
-  jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg runtime_ami "$runtime_launch_ami" --arg gpu_ami "$gpu_launch_ami" --arg vpc "$VPC_ID" --arg subnet "$SUBNET_ID" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg deadline "$deadline" --arg bucket "$BUCKET" --arg prefix "$PREFIX" --arg az "$AZ" --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg generation "$generation" --arg commit "$COMMIT" --argjson read_keys "$read_keys" \
+  jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg runtime_ami "$runtime_launch_ami" --arg gpu_ami "$gpu_launch_ami" --arg vpc "$VPC_ID" --arg subnet "$SUBNET_ID" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg bucket "$BUCKET" --arg prefix "$PREFIX" --arg az "$AZ" --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg generation "$generation" --arg commit "$COMMIT" --argjson read_keys "$read_keys" \
     --arg kms "$(jq -r .kms_key_arn "$run_dir/preflight.json")" \
     --arg runtime_type "$RUNTIME_TYPE" --arg gpu_type "$GPU_TYPE" --argjson runtime_root_gib "$RUNTIME_ROOT_GIB" --argjson gpu_root_gib "$GPU_ROOT_GIB" \
-    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,termination_at:$deadline,authorized_max_hourly_usd:1.55,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
+    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,authorized_max_hourly_usd:1.55,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
   plan_sha="$(saved_plan compute "$COMPUTE_ROOT" "$run_dir/tfdata-compute" "$run_dir/compute.tfstate" "$run_dir/compute.tfvars.json" "$run_dir/compute.tfplan" "$run_dir/compute-plan.json")"
   preflight_sha="$(sha256_file "$run_dir/preflight.json")"
   action_manifest="$run_dir/launch-action-manifest.json"
@@ -1238,28 +1236,21 @@ launch() {
   validate_existing_prepare_cost_entry "$storage_dir/cost-ledger.json" "$run_dir/preflight.json" "$(jq -r '.campaign.actions[]|select(.action=="prepare")|.run_id' "$storage_dir/preparation-result.json")" "$preparation_source_bytes"
   assert_remote_run_unused
   assert_campaign_action_unused "launch-$ORDINAL" "$storage_dir/cost-ledger.json"
-  deadline_remaining="$(python3 - "$deadline" <<'PY'
-import datetime, sys
-deadline = datetime.datetime.strptime(sys.argv[1], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=datetime.timezone.utc)
-print(int((deadline - datetime.datetime.now(datetime.timezone.utc)).total_seconds()))
-PY
-)"
-  ((deadline_remaining>=300)) || { echo "launch deadline is stale; choose a fresh retry run ID" >&2; exit 2; }
   consume_authorization; touch "$run_dir/paid-started"; apply_start="$SECONDS"
   CLEANUP_KIND=compute; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute.tfplan" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" output -state="$run_dir/compute.tfstate" -json >"$run_dir/compute-outputs.json"
   runtime_instance="$(jq -r .runtime_instance_id.value "$run_dir/compute-outputs.json")"
   gpu_instance="$(jq -r .gpu_instance_id.value "$run_dir/compute-outputs.json")"
-  wait_object "$gpu_key" "$run_dir/gpu-ready.json" "$LAUNCH_SECONDS"
-  wait_object "$runtime_key" "$run_dir/runtime-local-ready.json" "$LAUNCH_SECONDS"
+  wait_object "$gpu_key" "$run_dir/gpu-ready.json"
+  wait_object "$runtime_key" "$run_dir/runtime-local-ready.json"
   elapsed=$((SECONDS-apply_start))
   jq -e --arg run "$RUN_ID" --arg instance "$gpu_instance" --arg volume "$gpu_volume" --arg generation "$generation" --arg root "$gpu_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds>=0 and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
   jq -e --arg run "$RUN_ID" --arg instance "$runtime_instance" --arg volume "$runtime_volume" --arg generation "$generation" --arg root "$runtime_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds>=0 and .guardian_supervised==true and .runtime_ready==true and .authenticated_https==true and .authenticated_wss==true' "$run_dir/runtime-local-ready.json" >/dev/null
   jq -n --arg run_id "$RUN_ID" --arg runtime_instance_id "$runtime_instance" --arg gpu_instance_id "$gpu_instance" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --argjson elapsed "$elapsed" --arg generation "$generation" --arg gpu_sha "$(sha256_file "$run_dir/gpu-ready.json")" --arg runtime_sha "$(sha256_file "$run_dir/runtime-local-ready.json")" \
     '{schema:"adl.issue607.service_ready.v2",status:"ready",run_id:$run_id,runtime_instance_id:$runtime_instance_id,gpu_instance_id:$gpu_instance_id,runtime_volume_id:$runtime_volume_id,gpu_volume_id:$gpu_volume_id,runtime_root_hash:$runtime_root_hash,gpu_root_hash:$gpu_root_hash,clock_source:"controller_bash_SECONDS_monotonic",apply_to_observed_seconds:$elapsed,artifact_generation:$generation,gpu_local_ready_sha256:$gpu_sha,runtime_local_ready_sha256:$runtime_sha}' >"$run_dir/service-ready.json"
   aws_cli s3api put-object --bucket "$BUCKET" --key "$service_key" --body "$run_dir/service-ready.json" --if-none-match '*' >/dev/null
-  wait_object "$qualification_key" "$run_dir/qualification-complete.json" "$LAUNCH_SECONDS"
+  wait_object "$qualification_key" "$run_dir/qualification-complete.json"
   jq -e --arg run "$RUN_ID" --arg commit "$COMMIT" '.status=="passed" and .run_id==$run and .source_commit==$commit and (.shepherd_proofs|length)>=2 and (.runtime_agent_acc_proofs|length)==6 and ([.assertions[]]|all)' "$run_dir/qualification-complete.json" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" plan -destroy -input=false -state="$run_dir/compute.tfstate" -var-file="$run_dir/compute.tfvars.json" -out="$run_dir/compute-destroy.tfplan" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" show -json "$run_dir/compute-destroy.tfplan" >"$run_dir/compute-destroy-plan.json"

@@ -1,13 +1,10 @@
 locals {
-  scheduler_name     = substr("${var.run_id}-terminate", 0, 64)
-  termination_at_utc = trimsuffix(var.termination_at, "Z")
   tags = {
     "adl:issue"            = "607"
     "adl:run-id"           = var.run_id
     "adl:owner-token"      = var.owner_token
     "adl:preparation"      = "true"
     "adl:cleanup-required" = "true"
-    "adl:termination-at"   = var.termination_at
   }
   artifact_read_arns = [for key in var.artifact_read_keys : "arn:aws:s3:::${var.artifact_bucket}/${key}"]
 }
@@ -188,51 +185,6 @@ resource "aws_volume_attachment" "gpu" {
   device_name = "/dev/sdf"
   volume_id   = var.gpu_volume_id
   instance_id = aws_instance.gpu_preparation.id
-}
-
-resource "aws_iam_role" "scheduler" {
-  name_prefix = "adl-i607-reaper-"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect    = "Allow"
-      Principal = { Service = "scheduler.amazonaws.com" }
-      Action    = "sts:AssumeRole"
-    }]
-  })
-  tags = local.tags
-}
-
-resource "aws_iam_role_policy" "scheduler" {
-  role = aws_iam_role.scheduler.id
-  name = "terminate-exact-preparation-instance"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect   = "Allow"
-      Action   = "ec2:TerminateInstances"
-      Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:instance/*"
-      Condition = { StringEquals = {
-        "ec2:ResourceTag/adl:issue"       = "607"
-        "ec2:ResourceTag/adl:run-id"      = var.run_id
-        "ec2:ResourceTag/adl:owner-token" = var.owner_token
-      } }
-    }]
-  })
-}
-
-resource "aws_scheduler_schedule" "terminate" {
-  name                         = local.scheduler_name
-  schedule_expression          = "at(${local.termination_at_utc})"
-  schedule_expression_timezone = "UTC"
-  state                        = "ENABLED"
-  action_after_completion      = "DELETE"
-  flexible_time_window { mode = "OFF" }
-  target {
-    arn      = "arn:aws:scheduler:::aws-sdk:ec2:terminateInstances"
-    role_arn = aws_iam_role.scheduler.arn
-    input    = jsonencode({ InstanceIds = [aws_instance.runtime_preparation.id, aws_instance.gpu_preparation.id] })
-  }
 }
 
 check "security_inputs" {

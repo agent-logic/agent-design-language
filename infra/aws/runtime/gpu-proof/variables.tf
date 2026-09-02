@@ -159,14 +159,6 @@ variable "gpu_root_volume_throughput_mibps" {
   default = 125
 }
 
-variable "termination_at" {
-  type = string
-  validation {
-    condition     = can(regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$", var.termination_at))
-    error_message = "termination_at must be an exact second-resolution UTC timestamp ending in Z."
-  }
-}
-
 variable "authorized_max_hourly_usd" {
   description = "Authorized combined hourly ceiling retained as tags; Terraform does not query pricing."
   type        = number

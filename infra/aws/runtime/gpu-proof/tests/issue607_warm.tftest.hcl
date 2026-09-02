@@ -37,13 +37,6 @@ override_data {
   }
 }
 
-override_resource {
-  target = aws_iam_role.scheduler
-  values = {
-    arn = "arn:aws:iam::123456789012:role/adl-i607-test-scheduler"
-  }
-}
-
 run "warm_launch_apply" {
   command = apply
 
@@ -58,7 +51,6 @@ run "warm_launch_apply" {
     subnet_id                     = "subnet-0123456789abcdef0"
     ssh_ingress_cidr              = "192.0.2.10/32"
     ssh_public_key                = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey issue607"
-    termination_at                = "2030-01-01T00:00:00Z"
     authorized_max_hourly_usd     = 1.55
     authorized_max_total_usd      = 20
     artifact_bucket               = "adl-test-artifacts"

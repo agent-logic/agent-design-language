@@ -9,8 +9,6 @@ output "gpu_private_ip" {
 }
 
 output "key_pair_name" { value = aws_key_pair.operator.key_name }
-output "termination_schedule_arn" { value = aws_scheduler_schedule.terminate.arn }
-output "termination_at" { value = var.termination_at }
 output "runtime_warm_volume_id" { value = var.runtime_warm_volume_id }
 output "gpu_warm_volume_id" { value = var.gpu_warm_volume_id }
 output "warm_volume_availability_zone" { value = var.warm_volume_availability_zone }

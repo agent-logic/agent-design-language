@@ -40,7 +40,6 @@ run "two_image_preparation_plan" {
     aws_account_id               = "123456789012"
     run_id                       = "adl-issue607-test-preparation"
     owner_token                  = "0123456789abcdef0123456789abcdef"
-    termination_at               = "2030-01-01T00:00:00Z"
     runtime_ami_id               = "ami-0123456789abcdef0"
     gpu_ami_id                   = "ami-0123456789abcdef1"
     runtime_ami_metadata_json    = "{\"image_id\":\"ami-0123456789abcdef0\"}"
