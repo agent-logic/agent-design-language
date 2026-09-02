@@ -6,13 +6,13 @@
   "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
   "phase": "implemented",
   "generation": 8,
-  "digest": "b7e71900840b142b9fad7292bdf80087430c642134e2b41b3b5ae80a1a258801",
+  "digest": "065eb0ab446d751178e7ba095027d004aa0385bdfdd64db1e9bb5cb1995c58e1",
   "branch": "codex/627-v3-h1-command-denominator-r2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
   "review_assignment": {
-    "reviewer": "codex-reviewer:review_627_r4_exact_head",
+    "reviewer": "codex-reviewer:review_627_r5_exact_head",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:354ee3250fb4dab8b46c8ca78a0d0037d84c2ea6:ad9b5ddc0fcbaa3c4f18f14af63fec7b7b171d0757067626f94f652fb3031fce",
+    "revision": "git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a",
     "scope": [
       "csdlc-v3/src/main.rs",
       "csdlc-v3/tests/command_manifest.rs",
@@ -211,6 +211,13 @@
     },
     {
       "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
       "generation": 8,
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
