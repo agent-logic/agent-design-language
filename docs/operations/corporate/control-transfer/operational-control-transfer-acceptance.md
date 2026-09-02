@@ -5,7 +5,21 @@
 - Machine-readable packet: `docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json`
 - Evidence directory: `docs/milestones/v0.92.1/evidence/corporate/corp-c/`
 
-This packet accepts CORP-C as a repository-local operational-control transfer surface. It deliberately does not claim that every live provider, billing, credential, DNS, certificate, legal, or private-custody action has been performed. Completed evidence, deferred actions, blocked actions, and operator-authorized actions are separated so Sprint 4 can proceed without turning a truthful corporate register into a fog machine.
+## Decision
+
+CORP-C is blocked, not accepted.
+
+The live #497 contract requires one accepted corporate operational-control
+transfer record for the complete control-plane denominator. That denominator
+requires corporate ownership and rollback for each control plane, approved
+business-account targeting, company-controlled Terraform and CI authority, and
+availability/recovery readbacks.
+
+This packet preserves that denominator and records the current truth: several
+required rows remain unproven or require explicit operator/provider authority.
+Those rows are not converted into optional follow-ups.
+
+This PR must not close #497 while they remain missing.
 
 ## Prerequisite Gate
 
@@ -20,66 +34,62 @@ The prerequisite gate passes for #497:
 
 Evidence: `docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json`.
 
-## Accepted Repository-Local Evidence
+## Current Evidence
 
-- CORP-A provides the critical-asset schedule and redacted custody evidence:
-  `docs/operations/corporate/asset-register/critical-asset-schedule.md`,
-  `docs/operations/corporate/asset-register/critical-asset-schedule.v1.json`,
-  and `docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json`.
-- CORP-B provides the corporate account custody register and readback receipts:
-  `docs/operations/corporate/account-custody/corporate-custody-register.md`,
-  `docs/operations/corporate/account-custody/corporate-custody-register.v1.json`,
-  and `docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json`.
-- AWS business-profile identity was read back using `agent-logic-admin` through
-  the retained AWS-G/Sprint 4 evidence boundary without provider mutation,
-  credential capture, billing change, IAM change, DNS change, or workflow
-  mutation by #497.
-- GCP-D is accepted here only as a closed, merged, ancestral prerequisite; this
-  issue does not repeat or extend GCP provider proof.
+- `agent-logic-admin` STS identity was read back without mutation and retained
+  as a redacted hash-only receipt:
+  `docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json`.
+- That account hash matches retained Agent Logic AWS evidence from
+  `docs/milestones/v0.91.7/review/build_throughput/remote_validation_4603/`.
+- Repository IaC source custody and some domain-registration custody are present
+  through CORP-A/CORP-B evidence.
+- AWS-G retains CloudFormation rollback/source-denominator evidence and does
+  not authorize deletion or live-stack retirement.
 
-## External Action Classification
+## Blocking Denominator Rows
 
-The canonical classification record is
-`docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json`.
+The current packet is blocked on these required #497 rows:
 
-| Class | Count | Meaning |
-| --- | ---: | --- |
-| Completed evidence | 4 | Repository-local or read-only provider evidence captured without mutation. |
-| Authorized action | 0 | No external mutation was authorized or performed for #497. |
-| Deferred action | 5 | Follow-up service, custody, or private-process work outside this issue's safe public packet. |
-| Blocked action | 0 | No required repository-local acceptance action is blocked after the prerequisite gate. |
+| Row | Blocking proof |
+| --- | --- |
+| Source control | GitHub organization owner roster, billing plan owner, MFA, repository recovery, and emergency access readbacks are missing. |
+| CI/CD | Actions billing, environments, required reviewers, runner authority, and emergency workflow-disable readbacks are missing. |
+| DNS / Route53 | Hosted-zone ownership, delegation, change-freeze, rollback, and DNS recovery readbacks are missing. |
+| Certificates | Certificate inventory, renewal owner, revocation/reissue, and recovery readbacks are missing. |
+| AWS account control | Billing, root/contact posture, IAM Identity Center/MFA, audit/break-glass, and recovery readbacks remain unproven beyond STS account targeting. |
+| Deployment operations | Deployment roles, rollback authority, incident audit logging, emergency access, and recovery drill readbacks are missing. |
+| Private custody | Redacted company-vault and non-single-founder recovery receipt is missing. |
 
-Deferred actions include hosted-zone and DNS transfer, certificate renewal ownership, GitHub organization and Actions billing readbacks, private vault and recovery-factor custody, payment-method custody, executed-instrument custody, deployment rollback readback, and private legal diligence. Those surfaces require explicit operator authorization and, where applicable, rollback or break-glass evidence before any mutation.
+Machine-readable row evidence:
+`docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json`.
 
-## Acceptance Result
+## Acceptance Status
 
-CORP-C is accepted with deferred external actions.
+| #497 acceptance criterion | Status |
+| --- | --- |
+| Each control plane has corporate owner and rollback | blocked |
+| AWS uses the approved business account | partial: STS account targeting is read back; full account-control proof is missing |
+| Terraform and CI authority are company-controlled | blocked |
+| Availability and recovery readbacks pass | blocked |
 
-This acceptance means:
+## Authority Boundary
 
-- Sprint 4 has a truthful corporate operational-control packet grounded in
-  merged CORP-A, CORP-B, AWS-G, and GCP-D prerequisites.
-- No production/provider mutation, billing change, credential transfer, DNS
-  change, certificate action, workflow mutation, or private custody transfer was
-  performed by #497.
-- The packet is safe to publish as repository-local operational-control
-  acceptance after bounded review.
+No production/provider mutation, billing change, credential transfer, DNS
+change, certificate action, workflow mutation, or private custody transfer was
+performed by #497.
 
-This acceptance does not mean:
+If satisfying a blocking row requires mutation, paid provider work, or private
+custody access, that work needs explicit operator authorization naming the
+exact action. Without that authority, #497 remains blocked.
 
+This packet does not mean:
+
+- CORP-C is accepted;
+- #497 is ready to close;
 - live provider cutover is complete;
-- all cloud parity or billing custody has been proved;
+- cloud parity and billing custody are globally proved;
 - private legal, diligence, vault, recovery-factor, payment-method, or executed
-  instrument material is present in the repository;
-- Sprint 7 #345 AWS GPU execution, Sprint 8 #84 Unity work, or CORP-D #498 diligence acceptance has been performed.
-
-## Validation
-
-The issue-local validator
-`.csdlc/evidence/497/validate-readiness.rb` checks:
-
-- prerequisite issue/PR/merge ancestry evidence;
-- account-authority readback boundary fields;
-- external action classifications and mutation flags;
-- packet-to-evidence references;
-- absence of obvious credential/private-key material in the CORP-C packet.
+  instrument material is committed to the repository;
+- Sprint 7 #345 AWS GPU execution is performed;
+- Sprint 8 #84 Unity work is performed;
+- CORP-D #498 diligence acceptance is performed.

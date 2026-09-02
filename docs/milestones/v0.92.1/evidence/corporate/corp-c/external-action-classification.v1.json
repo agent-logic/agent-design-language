@@ -4,12 +4,20 @@
   "repository": "agent-logic/agent-design-language",
   "created_at": "2026-09-01",
   "authorized_actions": [],
-  "blocked_actions": [],
+  "blocked_actions": [
+    "corp-c-source-control-live-readback",
+    "corp-c-ci-cd-live-readback",
+    "corp-c-dns-hosted-zone-transfer",
+    "corp-c-certificate-renewal-ownership",
+    "corp-c-aws-account-control-readback",
+    "corp-c-private-custody",
+    "corp-c-deployment-rollback-readback"
+  ],
   "rows": [
     {
       "id": "corp-c-prerequisite-evidence",
       "surface": "CORP-A, CORP-B, AWS-G, and GCP-D prerequisite closure and ancestry",
-      "classification": "completed_evidence",
+      "classification": "partial_evidence",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": false,
       "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json"
@@ -17,7 +25,7 @@
     {
       "id": "corp-c-repository-custody-evidence",
       "surface": "critical-asset schedule, corporate account custody register, and redacted custody/readback receipts",
-      "classification": "completed_evidence",
+      "classification": "partial_evidence",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": false,
       "evidence_ref": "docs/operations/corporate/"
@@ -25,10 +33,10 @@
     {
       "id": "corp-c-aws-business-account-readback",
       "surface": "Agent Logic business AWS account boundary",
-      "classification": "completed_evidence",
+      "classification": "partial_evidence",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": false,
-      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json"
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json"
     },
     {
       "id": "corp-c-gcp-foundation-prerequisite",
@@ -41,7 +49,7 @@
     {
       "id": "corp-c-dns-hosted-zone-transfer",
       "surface": "hosted-zone, DNS delegation, and rollback-control transfer",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B production_domains and dns_route53 follow-up rows"
@@ -49,7 +57,7 @@
     {
       "id": "corp-c-certificate-renewal-ownership",
       "surface": "certificate inventory, renewal ownership, and rollback controls",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B certificates follow-up row"
@@ -57,7 +65,7 @@
     {
       "id": "corp-c-github-actions-authority",
       "surface": "GitHub organization, Actions billing, environments, required reviewers, runner authority, and emergency workflow-disable procedure",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B source_control and ci_cd follow-up rows"
@@ -65,7 +73,7 @@
     {
       "id": "corp-c-private-custody",
       "surface": "vault, recovery factors, payment method, executed instruments, and counsel-controlled diligence material",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_private_receipt",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": false,
       "evidence_ref": "CORP-A redacted custody receipts and CORP-B private-custody follow-up rows"
@@ -73,7 +81,7 @@
     {
       "id": "corp-c-deployment-rollback-readback",
       "surface": "deployment roles, rollback authority, incident audit logging, and emergency access",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B deployment_operations follow-up row"

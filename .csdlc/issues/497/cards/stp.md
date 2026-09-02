@@ -23,10 +23,10 @@ Prepare and execute CORP-C acceptance only. Do not absorb CORP-D diligence accep
 
 ## Acceptance
 
-1. Prerequisite lanes CORP-A #482, CORP-B #483, AWS-G #496, and GCP-D #493 are verified closed, merged, and ancestral before CORP-C execution claims readiness.
-2. The corporate operational-control acceptance packet records completed, deferred, blocked, and operator-authorized actions separately.
-3. No production/provider mutation, billing change, credential transfer, or workflow mutation is performed without explicit operator authorization naming the exact action.
-4. Validation evidence proves repository-local packet structure and records any external checks as authorized, deferred, or blocked without overstating cloud or production parity.
+1. Each control plane has corporate owner and rollback.
+2. AWS uses the approved business account.
+3. Terraform and CI authority are company-controlled.
+4. Availability and recovery readbacks pass.
 
 ## Dependencies
 

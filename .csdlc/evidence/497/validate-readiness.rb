@@ -46,8 +46,10 @@ required_files = [
   "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
+  "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
+  "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
   "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json",
   "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md"
 ]
@@ -89,36 +91,60 @@ assert(aws, "missing AWS authority readback")
 assert(aws["profile"] == "agent-logic-admin", "AWS readback used unexpected profile")
 assert(aws["mutation"] == false, "AWS readback must be non-mutating")
 assert(aws["credential_material_captured"] == false, "AWS readback must not capture credential material")
-assert(aws["classification"] == "readback_pass", "AWS readback classification mismatch")
+assert(aws["classification"] == "partial_readback", "AWS readback classification must remain partial until account-control rows pass")
+assert(aws["evidence_source"] == "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json", "AWS readback must bind to redacted STS receipt")
+assert(aws["evidence_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/), "AWS readback must retain evidence sha256")
+
+aws_identity = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json")
+assert(aws_identity["schema"] == "adl.corporate.corp_c.aws_identity_readback_redacted.v1", "unexpected AWS identity receipt schema")
+assert(aws_identity["profile"] == "agent-logic-admin", "AWS identity receipt profile mismatch")
+assert(aws_identity["mutation"] == false, "AWS identity receipt must be non-mutating")
+assert(aws_identity["credential_material_captured"] == false, "AWS identity receipt must not capture credential material")
+assert(aws_identity["account_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/), "AWS identity receipt must retain account hash")
+assert(aws_identity["account_id_redacted"] == true, "AWS account id must be redacted")
+assert(aws_identity["arn_redacted"] == true, "AWS arn must be redacted")
+assert(aws_identity.fetch("retained_hash_matches").any? { |row| row["field"] == "account_id_sha256" && row["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) }, "AWS identity receipt must bind to retained hashed evidence")
 
 classification = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json")
 assert(classification["schema"] == "adl.corporate.corp_c.external_action_classification.v1", "unexpected classification schema")
 assert(classification["issue"] == 497, "classification issue mismatch")
 assert(classification["authorized_actions"] == [], "authorized actions must remain empty without explicit operator authorization")
-assert(classification["blocked_actions"] == [], "blocked actions must remain empty for CORP-C repository-local acceptance")
+assert(!classification.fetch("blocked_actions").empty?, "blocked actions must be explicit until live #497 denominator passes")
 assert(classification.fetch("rows").all? { |row| row["mutation_performed_by_497"] == false }, "no external mutation may be recorded for #497")
-assert(classification.fetch("rows").any? { |row| row["classification"] == "deferred_action" }, "expected at least one deferred external action")
+assert(classification.fetch("rows").any? { |row| row["classification"].to_s.start_with?("blocked_") }, "expected blocked external actions")
+
+denominator = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json")
+assert(denominator["schema"] == "adl.corporate.corp_c.control_plane_denominator.v1", "unexpected denominator schema")
+assert(denominator["status"] == "blocked_missing_required_readbacks", "denominator must remain blocked until all required #497 rows pass")
+assert(denominator.fetch("live_issue_acceptance").size == 4, "denominator must preserve all four live #497 acceptance criteria")
+assert(denominator.fetch("rows").all? { |row| row["required_by_497"] == true }, "all denominator rows must be required by #497")
+assert(denominator.fetch("rows").any? { |row| row["classification"].to_s.start_with?("blocked_") }, "denominator must identify blocking rows")
+assert(denominator.dig("mutation_authority", "new_mutation_performed_by_497") == false, "#497 must not record new mutation")
+assert(denominator.dig("mutation_authority", "blocked_if_mutation_required") == true, "mutation-required rows must block without authority")
 
 packet = read_json("docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json")
 assert(packet["schema"] == "adl.corporate.operational_control_transfer_acceptance.v1", "unexpected packet schema")
 assert(packet["issue"] == 497, "packet issue mismatch")
-assert(packet["status"] == "accepted_with_deferred_external_actions", "packet status mismatch")
+assert(packet["status"] == "blocked_missing_required_readbacks", "packet must not accept CORP-C with missing required readbacks")
 assert(packet.dig("prerequisite_gate", "status") == "pass", "packet prerequisite gate not pass")
 assert(packet["authorized_actions"] == [], "packet authorized actions must remain empty")
-assert(packet["blocked_actions"] == [], "packet blocked actions must remain empty")
-assert(packet.fetch("deferred_actions").size >= 4, "packet should record deferred external actions")
+assert(!packet.fetch("blocked_actions").empty?, "packet must record blocking actions")
+assert(packet.dig("mutation_authority", "new_mutation_performed_by_497") == false, "packet must not claim new mutation")
+assert(packet.dig("mutation_authority", "blocked_if_mutation_required") == true, "packet must block if mutation authority is required")
 
 acceptance_statuses = packet.fetch("acceptance").to_h { |row| [row.fetch("id"), row.fetch("status")] }
-assert(acceptance_statuses["AC-1"] == "pass", "AC-1 status mismatch")
-assert(acceptance_statuses["AC-2"] == "pass_with_deferred_external_actions", "AC-2 status mismatch")
-assert(acceptance_statuses["AC-3"] == "pass", "AC-3 status mismatch")
-assert(acceptance_statuses["AC-4"] == "pass", "AC-4 status mismatch")
+assert(acceptance_statuses["AC-1"] == "blocked", "AC-1 status must be blocked")
+assert(acceptance_statuses["AC-2"] == "partial", "AC-2 status must be partial")
+assert(acceptance_statuses["AC-3"] == "blocked", "AC-3 status must be blocked")
+assert(acceptance_statuses["AC-4"] == "blocked", "AC-4 status must be blocked")
 
 markdown = read_text("docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md")
 [
-  "CORP-C is accepted with deferred external actions.",
+  "CORP-C is blocked, not accepted.",
+  "This PR must not close #497 while they remain missing.",
   "No production/provider mutation",
-  "This acceptance does not mean:",
+  "This packet does not mean:",
+  "#497 is ready to close",
   "Sprint 7 #345 AWS GPU execution",
   "CORP-D #498 diligence acceptance"
 ].each do |needle|
@@ -149,6 +175,7 @@ puts JSON.pretty_generate({
   result: "pass",
   validated_files: required_files,
   prerequisite_issues: expected_prereqs.keys.sort,
-  deferred_external_actions: packet.fetch("deferred_actions").size,
+  blocked_actions: packet.fetch("blocked_actions").size,
+  issue_ready_to_close: false,
   external_mutations_performed: false
 })

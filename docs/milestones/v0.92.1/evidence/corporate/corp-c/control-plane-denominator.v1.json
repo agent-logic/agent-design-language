@@ -1,0 +1,128 @@
+{
+  "schema": "adl.corporate.corp_c.control_plane_denominator.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "created_at": "2026-09-01",
+  "status": "blocked_missing_required_readbacks",
+  "authority_boundary": "This record preserves the live #497 denominator. It does not convert required live owner, rollback, availability, recovery, Terraform, CI, provider, or private-custody readbacks into optional follow-ups.",
+  "live_issue_acceptance": [
+    "Each control plane has corporate owner and rollback.",
+    "AWS uses the approved business account.",
+    "Terraform and CI authority are company-controlled.",
+    "Availability and recovery readbacks pass."
+  ],
+  "rows": [
+    {
+      "id": "corp-c-source-control",
+      "surface": "GitHub organization and repository source-control authority",
+      "required_by_497": true,
+      "owner_readback": "missing",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_missing_live_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json service row corp-b-source-control records follow_up_required."
+    },
+    {
+      "id": "corp-c-ci-cd",
+      "surface": "GitHub Actions, release automation, environments, runner authority, and emergency workflow-disable procedure",
+      "required_by_497": true,
+      "owner_readback": "missing",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_missing_live_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json service row corp-b-ci-cd records follow_up_required."
+    },
+    {
+      "id": "corp-c-production-domains",
+      "surface": "Production domain registrations and web-property control",
+      "required_by_497": true,
+      "owner_readback": "partial",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_partial_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json records five registrations moved, but registrar recovery, hosted-zone timing, and rollback remain unproven."
+    },
+    {
+      "id": "corp-c-dns-route53",
+      "surface": "Route53 hosted zones, DNS delegation, and rollback-control transfer",
+      "required_by_497": true,
+      "owner_readback": "missing",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_missing_live_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json service row corp-b-dns-route53 records follow_up_required."
+    },
+    {
+      "id": "corp-c-certificates",
+      "surface": "TLS certificate inventory, renewal ownership, and revocation/reissue rollback",
+      "required_by_497": true,
+      "owner_readback": "missing",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_missing_live_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json service row corp-b-certificates records follow_up_required."
+    },
+    {
+      "id": "corp-c-aws-business-account",
+      "surface": "Agent Logic AWS business-account targeting",
+      "required_by_497": true,
+      "owner_readback": "partial",
+      "rollback_readback": "missing",
+      "availability_readback": "partial",
+      "recovery_readback": "missing",
+      "classification": "blocked_partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json proves profile-to-retained-account-hash only; billing/root/contact/IAM/recovery/break-glass remain unproven."
+    },
+    {
+      "id": "corp-c-terraform-authority",
+      "surface": "Terraform source, state/backend authority, and provider deployment authority",
+      "required_by_497": true,
+      "owner_readback": "partial",
+      "rollback_readback": "partial",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_partial_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json accepts repository IaC source custody, while live backend/provider authority remains separate service-row proof."
+    },
+    {
+      "id": "corp-c-deployment-operations",
+      "surface": "Deployment roles, rollback authority, incident audit logging, and emergency access",
+      "required_by_497": true,
+      "owner_readback": "missing",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_missing_live_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json service row corp-b-deployment-operations records follow_up_required."
+    },
+    {
+      "id": "corp-c-private-custody",
+      "surface": "Vault, recovery factors, payment method, executed instruments, and counsel-controlled diligence material",
+      "required_by_497": true,
+      "owner_readback": "missing_redacted_receipt",
+      "rollback_readback": "not_applicable",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "blocked_missing_private_receipt",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json service row corp-b-private-custody records follow_up_required."
+    }
+  ],
+  "blocking_gates": [
+    "GitHub organization, repository, Actions, environment, runner, required-reviewer, billing, MFA, recovery, and emergency-disable readbacks.",
+    "Route53 hosted-zone ownership, delegation, change-freeze, rollback, and DNS recovery readbacks.",
+    "Certificate inventory, renewal owner, revocation/reissue, and recovery readbacks.",
+    "AWS billing, root/contact, IAM Identity Center, MFA, audit/break-glass, and recovery readbacks beyond profile identity.",
+    "Deployment role, rollback authority, incident audit logging, emergency access, and recovery drill readbacks.",
+    "Private custody redacted receipt proving company-controlled vault and non-single-founder recovery."
+  ],
+  "mutation_authority": {
+    "new_mutation_performed_by_497": false,
+    "new_mutation_authorized": false,
+    "blocked_if_mutation_required": true
+  }
+}

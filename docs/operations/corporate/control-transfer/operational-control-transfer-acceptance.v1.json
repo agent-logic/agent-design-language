@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "sprint_umbrella": 532,
   "created_at": "2026-09-01",
-  "status": "accepted_with_deferred_external_actions",
-  "authority_boundary": "Repository-local acceptance packet only. No production/provider mutation, credential transfer, billing change, DNS change, certificate action, workflow mutation, private custody transfer, or legal/diligence disclosure is performed by #497.",
+  "status": "blocked_missing_required_readbacks",
+  "authority_boundary": "This packet preserves the live #497 acceptance denominator. It does not accept CORP-C while required control-plane ownership, rollback, availability, recovery, Terraform, CI, AWS account-control, DNS, certificate, deployment, or private-custody readbacks remain unproven.",
   "prerequisite_gate": {
     "status": "pass",
     "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
@@ -16,54 +16,72 @@
       496
     ]
   },
-  "accepted_repository_local_evidence": [
+  "evidence": [
     "docs/operations/corporate/asset-register/critical-asset-schedule.md",
     "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
     "docs/operations/corporate/account-custody/corporate-custody-register.md",
     "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
-    "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json"
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json"
   ],
   "completed_evidence": [
     "corp-c-prerequisite-evidence",
-    "corp-c-repository-custody-evidence",
-    "corp-c-aws-business-account-readback",
-    "corp-c-gcp-foundation-prerequisite"
+    "corp-c-aws-profile-redacted-sts-readback"
   ],
-  "authorized_actions": [],
-  "deferred_actions": [
+  "partial_evidence": [
+    "corp-c-repository-custody-evidence",
+    "corp-c-terraform-source-custody",
+    "corp-c-production-domain-registration-custody"
+  ],
+  "blocked_actions": [
+    "corp-c-source-control-live-readback",
+    "corp-c-ci-cd-live-readback",
     "corp-c-dns-hosted-zone-transfer",
     "corp-c-certificate-renewal-ownership",
-    "corp-c-github-actions-authority",
+    "corp-c-aws-account-control-readback",
     "corp-c-private-custody",
     "corp-c-deployment-rollback-readback"
   ],
-  "blocked_actions": [],
+  "authorized_actions": [],
   "acceptance": [
     {
       "id": "AC-1",
-      "status": "pass",
-      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json"
+      "status": "blocked",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+      "reason": "Several control planes lack required corporate-owner and rollback readbacks."
     },
     {
       "id": "AC-2",
-      "status": "pass_with_deferred_external_actions",
-      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json"
+      "status": "partial",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
+      "reason": "The agent-logic-admin profile resolves to a retained Agent Logic AWS account hash, but billing, root/contact, IAM/MFA, audit, recovery, and break-glass account-control readbacks remain unproven."
     },
     {
       "id": "AC-3",
-      "status": "pass",
-      "evidence_ref": "No external mutation or credential transfer was authorized or performed by #497."
+      "status": "blocked",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+      "reason": "Repository IaC custody is present, but live Terraform backend/provider authority and GitHub Actions authority are not proven company-controlled."
     },
     {
       "id": "AC-4",
-      "status": "pass",
-      "evidence_ref": ".csdlc/evidence/497/validate-readiness.rb"
+      "status": "blocked",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+      "reason": "Availability, recovery, and rollback readbacks do not pass for the complete control-plane denominator."
     }
   ],
+  "mutation_authority": {
+    "new_mutation_performed_by_497": false,
+    "new_mutation_authorized": false,
+    "blocked_if_mutation_required": true
+  },
   "non_claims": [
+    "CORP-C is not accepted.",
+    "Issue #497 is not ready to close.",
     "Live provider cutover is not complete.",
     "Cloud parity and billing custody are not globally proved by this packet.",
     "Private legal, diligence, vault, recovery-factor, payment-method, and executed-instrument material are not committed to the repository.",

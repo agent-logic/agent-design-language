@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "310bed020d2d7cf8562632c720514a23f6869faf35f91cfd2c76cb371c014b0a",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "20b665808b8d3f1576632e31487d301596471a6fc991abafc67be32cc47ccd8d",
+  "generation": 12,
+  "digest": "bad3e876474107f4e9b129b0c26de3f8d2a0e0f1d1bc9ea5fc8ab8e0d9a64fee",
   "branch": "codex/497-corp-c-sprint4-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7ddd4efdaf6712a1e085842886c5f51af507eb0e2699e88c08a2dcd5cd1a288d",
+      "values_digest": "512a5797d5cc2d69729d5785a879265a2863c3fbce9c324854aed94c817e8bad",
       "rendered_digest": "827f7ced73029442d52b51476266da516a2d44b0a599aa255f430c2f6fc12f09",
       "ast_digest": "8c718c00b376ec069717bb11e1bd37e5e003c7cddbcc65236acf11871e235535"
     },
     "stp": {
-      "values_digest": "f7b5c28c432b00ef9914fe03d543d59829de38a3b52a3de530a357c482df4213",
-      "rendered_digest": "c7adcc018351d8406f634e15ff8481a00d8f80d26d8edff6faa8c0d209485b04",
-      "ast_digest": "401e84fd9cdce741773ed18077b057bc12dde07d92909b4bea9371743d6dc805"
+      "values_digest": "39bc003abbf3c3f32cf46a17bff27de5b86736a5c8c24589723fb70f5737ad37",
+      "rendered_digest": "8a13f139b2544b54829753d2fa75b36c0e55a4dbc424b9ee0a1d5d0b3b428c21",
+      "ast_digest": "35b6fd9383a04fe61d6224d74d2be584e095e998c257abcceaa9cc2cdd7a23a2"
     },
     "spp": {
-      "values_digest": "91255fecb62339670bc1d87b087b7b1f1aae1e978e3365e58886e73ccc49e6c6",
+      "values_digest": "1be28c63702525b58f4d33340e6081b224b477f6cb1322b02d8c13f4fd92a07e",
       "rendered_digest": "ce108ef6737abe6ef127ececbf21f4775706788fa64e92aa9efc8297ec441008",
       "ast_digest": "c4bfbbc695fee4636c74151b76e06cf74f62d9596646d14ba4b225de9e4dae48"
     },
     "vpp": {
-      "values_digest": "36bf923264e50b9d15e052146ac9de0eaae55ace65c8d216e04314d834f7002a",
-      "rendered_digest": "7cdb84aaf6cfa37a96efffb576846fb56b5b9c61bc3d1ddfed6984d5d6f12522",
-      "ast_digest": "840260204bab8f6551b69557ff06f0c8a159ee502aa2245228bedcfaec9a0b95"
+      "values_digest": "f4b164857020f26c60d688b50510f9cbcbdffa1845b88389c779b50705c62bf5",
+      "rendered_digest": "034ddb9387bbaa82255ad6b7d273f22328c5508104718147478164aa423c9c82",
+      "ast_digest": "03e1b0b6b5886e06b2d00dec5fa1c4c3dab7b07e3ce1a57c2dac0cbaac91ea77"
     },
     "srp": {
-      "values_digest": "334894b7119a40fb47e690777451026117dd8c9a663bf8a0d15101080f91e4c6",
+      "values_digest": "02e6d8e48d1389b8576094e844dd660f911521d111bd29ab2ea52d4c62260f2d",
       "rendered_digest": "fe1dbb37c3d4b688955c4cf158dcc77bdeea4d47a59a56565b9473dfc1dbcfd5",
       "ast_digest": "19fa77c29e406baafaa4062ea5a124cfe4adcd8b5b3d7bf12d4b9c8d3504ccf6"
     },
     "sor": {
-      "values_digest": "755c5a1ae149743849ff4fe7ece80ed1c779e40d383b6352b5a635b1011d803b",
-      "rendered_digest": "ede0d12798512ee7da8179fbd4182da1aa073f3faef9e036be09c6c49929f1ea",
-      "ast_digest": "3e890056999363488c1ae3e9ffbfd18af1131a08e27d0d693f444b74b222b505"
+      "values_digest": "1699349d997a7ad7459930ef8f47f0505a5908f9539d8f6ce66a5d25f641eb53",
+      "rendered_digest": "f3d8d176dc2b4870941fdcc087b1a16dfe3b249da9fb7b380cdc253a56847d55",
+      "ast_digest": "262b5a44af83d3501eba3d48f75a663c77c6414846c7e9f858a511828a495d87"
     }
   },
   "transitions": [
@@ -183,6 +183,27 @@
       "actor": "worker-7",
       "reason": "Recover #497 after substantive review findings showed the published packet weakened the live issue acceptance denominator and lacked retained AWS business-account readback evidence.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "worker-7",
+      "reason": "Restore #497 STP acceptance criteria to the live issue denominator after review found the published packet had weakened the contract.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Each control plane has corporate owner and rollback.\",\"AWS uses the approved business account.\",\"Terraform and CI authority are company-controlled.\",\"Availability and recovery readbacks pass.\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "worker-7",
+      "reason": "Correct #497 validation plan after review recovery so the validator proves truthful blocked denominator state rather than acceptance readiness.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"corp-c-denominator-truth-validator\",\"proof_role\":\"Verify prerequisite merge ancestry, redacted AWS profile readback binding, complete live #497 denominator preservation, explicit blocking rows, and credential-marker hygiene without claiming issue closure.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/evidence/497/validate-readiness.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"corp-c-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts in the bounded CORP-C changes.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "worker-7",
+      "reason": "Record the corrected #497 outcome after review recovery: the packet is truthful and validated, but CORP-C remains blocked on required live readbacks.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered #497 after PR #613 review found the published packet weakened the live acceptance denominator. Repaired the CORP-C packet so it preserves the original #497 control-plane denominator, retains a redacted read-only AWS STS identity receipt, and explicitly blocks issue closure until required owner, rollback, Terraform/CI, availability, recovery, deployment, DNS/certificate, AWS account-control, and private-custody readbacks pass.\",\"changes\":[\"Recovered typed lifecycle from published back to implemented, clearing stale review/publication truth.\",\"Restored STP acceptance criteria to the live #497 issue denominator.\",\"Added a redacted AWS STS identity receipt for agent-logic-admin and bound the account-authority record to that receipt by SHA-256.\",\"Added a control-plane denominator record that marks required live readback rows as blocked or partial instead of deferred-but-accepted.\",\"Updated the external-action classifier and acceptance packet so CORP-C is not accepted and #497 is not ready to close.\",\"Updated the issue-local validator so a pass means truthful blocked-denominator evidence, not acceptance readiness.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json\",\"docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md\",\"docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json\",\".csdlc/evidence/497/validate-readiness.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/evidence/497/validate-readiness.rb\"],\"purpose\":\"Validate prerequisite ancestry, redacted AWS receipt binding, live #497 denominator preservation, explicit blocking rows, and credential-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero with result pass, blocked_actions 7, issue_ready_to_close false.\"},{\"command\":[\"ruby\",\"-rjson\",\"-e\",\"ARGV.each { |path| JSON.parse(File.read(path)) }\",\"docs/milestones/v0.92.1/evidence/corporate/corp-c/*.json\",\"docs/operations/corporate/control-transfer/*.json\"],\"purpose\":\"Prove CORP-C machine-readable evidence files parse as JSON.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local JSON parse loop exited zero.\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject malformed whitespace and patch artifacts in the bounded CORP-C changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"},{\"command\":[\"csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution\",\"--issue\",\"497\"],\"purpose\":\"Prove the typed #497 lifecycle package remains coherent after review recovery and denominator repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"status pass, phase implemented, generation 11.\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution\",\"issue\",\"--issue\",\"497\"],\"purpose\":\"Prove the typed #497 issue package validates after review recovery and denominator repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"status pass, phase implemented, generation 11.\"}]}"
     }
   ]
 }

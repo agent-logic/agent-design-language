@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/497/diagram.mmd
 
 [
   {
-    "lane": "corp-c-readiness-validator",
-    "proof_role": "Verify prerequisite merge ancestry, typed issue package presence, repository identity, and credential-marker hygiene for Sprint 4 CORP-C readiness.",
+    "lane": "corp-c-denominator-truth-validator",
+    "proof_role": "Verify prerequisite merge ancestry, redacted AWS profile readback binding, complete live #497 denominator preservation, explicit blocking rows, and credential-marker hygiene without claiming issue closure.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -45,7 +45,7 @@ Diagram: .csdlc/prepared/issues/497/diagram.mmd
   },
   {
     "lane": "corp-c-diff-hygiene",
-    "proof_role": "Reject malformed whitespace and patch artifacts before execution binding or publication.",
+    "proof_role": "Reject malformed whitespace and patch artifacts in the bounded CORP-C changes.",
     "acceptance_ids": [
       "AC-4"
     ],
@@ -56,7 +56,8 @@ Diagram: .csdlc/prepared/issues/497/diagram.mmd
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
     "parallel_group": "local",
     "defer_reason": null
@@ -76,7 +77,7 @@ Tokens: 25000
 ## Commands
 
 - `ruby .csdlc/evidence/497/validate-readiness.rb`
-- `git diff --check`
+- `git diff --check origin/main...HEAD`
 
 ## Failure Semantics
 

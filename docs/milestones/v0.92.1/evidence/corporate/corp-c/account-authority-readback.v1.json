@@ -8,17 +8,18 @@
     {
       "provider": "aws",
       "profile": "agent-logic-admin",
-      "classification": "readback_pass",
-      "evidence_source": "AWS-G #496 and Sprint 4 readiness STS/account-boundary triage",
+      "classification": "partial_readback",
+      "evidence_source": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
+      "evidence_sha256": "64f6cbc7dd5014e821f64761292436172d089781e48127e0f845cd480bcce434",
       "business_account_required": true,
       "mutation": false,
       "credential_material_captured": false,
-      "notes": "ADL AWS work remains bound to the Agent Logic business AWS profile. This CORP-C packet does not change IAM, billing, DNS, Route53, certificates, or infrastructure."
+      "notes": "The redacted STS receipt proves the local agent-logic-admin profile resolves to the same account hash retained by prior Agent Logic AWS evidence. It does not prove billing custody, root/contact recovery, IAM Identity Center, break-glass availability, hosted-zone control, or deployment rollback readiness."
     },
     {
       "provider": "github",
       "profile": "agent-logic/agent-design-language",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_live_readback",
       "evidence_source": "CORP-B follow-up register rows for source_control and ci_cd",
       "business_account_required": true,
       "mutation": false,
@@ -28,7 +29,7 @@
     {
       "provider": "dns_certificate",
       "profile": "corporate-operator-role",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_live_readback",
       "evidence_source": "CORP-B follow-up register rows for production_domains, dns_route53, and certificates",
       "business_account_required": true,
       "mutation": false,
@@ -38,7 +39,7 @@
     {
       "provider": "private_custody",
       "profile": "business-operations-role",
-      "classification": "deferred_action",
+      "classification": "blocked_missing_private_receipt",
       "evidence_source": "CORP-A redacted custody receipts and CORP-B private-custody follow-up rows",
       "business_account_required": true,
       "mutation": false,
