@@ -14,7 +14,7 @@
     "required_outcome": "Apple, Spotify, Amazon, and YouTube runbooks identify every account-side and irreversible step, consume the exact production feed, and hand a safe ledger schema to #264.",
     "declared_scope": [
       "docs/milestones/v0.92.1/evidence/podcast/51-c",
-      "docs/podcast/directory-runbooks"
+      "docs/milestones/v0.92.1/review/podcast_directory_263"
     ],
     "authority_boundary": [
       "Issue 263 owns only its declared result and paths; Sprint 8 umbrella #536 coordinates but cannot implement or approve this child."
@@ -46,7 +46,7 @@
     ],
     "repo_inputs": [
       "docs/milestones/v0.92.1/evidence/podcast/51-c",
-      "docs/podcast/directory-runbooks",
+      "docs/milestones/v0.92.1/review/podcast_directory_263",
       "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
       ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
     ],
@@ -89,7 +89,7 @@
     ],
     "affected_areas": [
       "docs/milestones/v0.92.1/evidence/podcast/51-c",
-      "docs/podcast/directory-runbooks"
+      "docs/milestones/v0.92.1/review/podcast_directory_263"
     ],
     "invariants": [
       "No ownership widening",

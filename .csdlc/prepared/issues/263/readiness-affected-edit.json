@@ -10,7 +10,7 @@
     "field": "affected_areas",
     "values": [
       "docs/milestones/v0.92.1/evidence/podcast/51-c",
-      "docs/podcast/directory-runbooks",
+      "docs/milestones/v0.92.1/review/podcast_directory_263",
       ".csdlc/prepared/issues/263/validate-directory-runbooks.rb"
     ]
   }

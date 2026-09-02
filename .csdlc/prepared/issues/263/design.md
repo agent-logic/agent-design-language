@@ -11,7 +11,7 @@ Apple, Spotify, Amazon, and YouTube runbooks identify every account-side and irr
 ## Ownership
 
 - `docs/milestones/v0.92.1/evidence/podcast/51-c`
-- `docs/podcast/directory-runbooks`
+- `docs/milestones/v0.92.1/review/podcast_directory_263`
 
 ## Dependencies
 
