@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 65
+    "generation": 72
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,35 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "issue607-preparation-contract",
-          "proof_role": "Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, snapshot preservation and restore timing, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before publication.",
+          "lane": "issue607-local-contracts",
+          "proof_role": "Prove Terraform topology, immutable warm-volume activation, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-8",
+            "AC-9",
+            "AC-10",
+            "AC-11"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 3500,
+          "argv": [
+            "bash",
+            "adl/tools/test_issue607_warm_polis.sh",
+            "all"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue607-current-quota-live",
+          "proof_role": "Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, controller service_ready at or below 270 seconds, two resident models, all six ACC cycles, teardown, and zero disposable residue.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -32,20 +59,28 @@
             "AC-11",
             "AC-12"
           ],
-          "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 60,
-          "budget_tokens": 1500,
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 6000,
           "argv": [
             "bash",
-            ".csdlc/prepared/issues/607/validate-preparation.sh"
+            "adl/tools/run_issue607_warm_polis.sh",
+            "qualification-quota-recovery",
+            "--commit",
+            "7be87dd22260d30a7966d1b129123e84bb761074",
+            "--run-id",
+            "adl-issue607-e8925c1dc8b0-quota-recovery",
+            "--storage-id",
+            "adl-issue607-warm-v6",
+            "--execute"
           ],
-          "parallel_group": "readiness",
+          "parallel_group": "aws-paid-serial",
           "defer_reason": null
         },
         {
           "lane": "issue607-diff-hygiene",
-          "proof_role": "Reject preparation and later implementation diff hygiene defects.",
+          "proof_role": "Reject branch diff hygiene defects before publication.",
           "acceptance_ids": [
             "AC-12"
           ],

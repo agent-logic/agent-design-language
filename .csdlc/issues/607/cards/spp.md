@@ -16,7 +16,7 @@ Separate slow preparation from fast launch, seal two persistent AZ-local data vo
 
 ## Plan
 
-Revision 7
+Revision 8
 
 ## Steps
 

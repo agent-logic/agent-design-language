@@ -16,7 +16,7 @@ Launch the proven two-node AWS Polis from sealed prebuilt Runtime and GPU volume
 
 ## Required Outcome
 
-A repeatable Terraform warm path starts both guests within 30 seconds of cloud-init activation, measures apply-to-Polis-ready against a 120-second target, preserves security behavior, and retains only intentional itemized warm volumes.
+A repeatable Terraform warm path uses the one-L4 g6.xlarge shape admitted by the current four-vCPU quota, reaches GPU and Runtime local readiness within 120 and 30 seconds respectively, reaches controller-observed Polis readiness within 270 seconds, preserves security behavior, and retains only intentional itemized warm volumes.
 
 ## Scope
 

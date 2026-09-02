@@ -7,14 +7,14 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 65
+    "generation": 72
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Launch the proven two-node AWS Polis from sealed prebuilt Runtime and GPU volumes without cold compilation, package installation, or model download.",
-      "required_outcome": "A repeatable Terraform warm path starts both guests within 30 seconds of cloud-init activation, measures apply-to-Polis-ready against a 120-second target, preserves security behavior, and retains only intentional itemized warm volumes.",
+      "required_outcome": "A repeatable Terraform warm path uses the one-L4 g6.xlarge shape admitted by the current four-vCPU quota, reaches GPU and Runtime local readiness within 120 and 30 seconds respectively, reaches controller-observed Polis readiness within 270 seconds, preserves security behavior, and retains only intentional itemized warm volumes.",
       "declared_scope": [
         "infra/aws/runtime/gpu-proof/**",
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
