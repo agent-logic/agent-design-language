@@ -246,6 +246,18 @@ run_contracts() {
   )
   rg -Fq 'describe --profile agent-logic-admin --region us-west-2 ec2 describe-instances --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values=owner-test Name=instance-state-name,Values=pending,running,stopping,stopped --query Reservations[].Instances[].InstanceId --output text' "$termination_log"
   rg -q -- '--instance-ids i-0123456789abcdef0 i-0abcdef0123456789' "$termination_log"
+  (
+    aws() {
+      case " $* " in
+        *' describe-instance-types '*) printf '16\n' ;;
+        *' get-service-quota '*) printf '%s\n' "$ADL_ISSUE607_TEST_GPU_QUOTA" ;;
+        *) return 2 ;;
+      esac
+    }
+    export -f aws
+    ADL_ISSUE607_TEST_GPU_QUOTA=16 bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-gpu-on-demand-quota
+    ! ADL_ISSUE607_TEST_GPU_QUOTA=4 bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-gpu-on-demand-quota >/dev/null 2>&1
+  )
   rg -q 'LAUNCH_OPERATION_SECONDS=540' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'terminate_owned_compute "\$CLEANUP_OWNER"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   for template in "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"; do
@@ -361,10 +373,11 @@ run_contracts() {
   rg -q 'acquire_cost_ledger_lock' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   launch_block="$(sed -n '/^launch() {$/,/^}$/p' "$ROOT/adl/tools/run_issue607_warm_polis.sh")"
   lock_line="$(rg -n 'acquire_cost_ledger_lock' <<<"$launch_block" | cut -d: -f1)"
+  quota_line="$(rg -n 'verify_gpu_on_demand_quota' <<<"$launch_block" | cut -d: -f1)"
   consume_line="$(rg -n 'consume_authorization' <<<"$launch_block" | cut -d: -f1)"
   record_line="$(rg -n 'record_cost_ledger' <<<"$launch_block" | cut -d: -f1)"
   release_line="$(rg -n 'release_cost_ledger_lock' <<<"$launch_block" | cut -d: -f1)"
-  [[ "$lock_line" -lt "$consume_line" && "$consume_line" -lt "$record_line" && "$record_line" -lt "$release_line" ]]
+  [[ "$lock_line" -lt "$quota_line" && "$quota_line" -lt "$consume_line" && "$consume_line" -lt "$record_line" && "$record_line" -lt "$release_line" ]]
   rg -Fq '>"$ledger.next"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:image/$image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:snapshot/$snapshot' "$ROOT/adl/tools/run_issue607_warm_polis.sh"

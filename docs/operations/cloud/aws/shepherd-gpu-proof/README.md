@@ -307,6 +307,11 @@ and performs no mutation. Add `--authorization-file` to the identical command
 only after authorization. Repeat with ordinal `2` and another unique run ID and
 authorization.
 
+Immediately before budget reservation and authorization consumption, launch
+also compares the selected GPU shape's live vCPU requirement with the business
+account's live on-demand G-family service quota. An insufficient or unreadable
+quota fails before the single-use marker is written.
+
 If an exact-head review requires one additional live proof after both campaign
 launch slots have been consumed, use the controller-emitted, single-use
 `qualification-remediation` request. It binds the existing prepared generation,

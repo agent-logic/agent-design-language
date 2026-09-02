@@ -31,6 +31,7 @@ SERVICE_READY_MAX_SECONDS=120
 PREPARATION_SECONDS=2700
 LAUNCH_SECONDS=600
 LAUNCH_OPERATION_SECONDS=540
+GPU_ON_DEMAND_QUOTA_CODE=L-DB2E81BA
 PREPARATION_ROOT_GIB=80
 RUNTIME_ROOT_GIB=80
 GPU_ROOT_GIB=200
@@ -413,6 +414,18 @@ terminate_owned_compute() {
   [[ -n "$ids" && "$ids" != None ]] || return 0
   # shellcheck disable=SC2086 -- AWS returns a whitespace-delimited instance ID list.
   aws_cli ec2 terminate-instances --instance-ids $ids >/dev/null
+}
+
+verify_gpu_on_demand_quota() {
+  local required available
+  required="$(aws_cli ec2 describe-instance-types --instance-types "$GPU_TYPE" \
+    --query 'InstanceTypes[0].VCpuInfo.DefaultVCpus' --output text)"
+  available="$(aws_cli service-quotas get-service-quota --service-code ec2 \
+    --quota-code "$GPU_ON_DEMAND_QUOTA_CODE" --query 'Quota.Value' --output text)"
+  [[ "$required" =~ ^[1-9][0-9]*$ && "$available" =~ ^[0-9]+([.][0-9]+)?$ ]] \
+    || { echo "could not establish live GPU on-demand vCPU quota" >&2; return 2; }
+  awk -v required="$required" -v available="$available" 'BEGIN {exit !(available>=required)}' \
+    || { echo "GPU on-demand vCPU quota is ${available}; ${GPU_TYPE} requires ${required}" >&2; return 2; }
 }
 
 wait_preparation_receipts() {
@@ -1430,6 +1443,7 @@ launch() {
   assert_remote_run_unused
   [[ "$ORDINAL" == remediation ]] || assert_campaign_action_unused "$launch_action" "$storage_dir/cost-ledger.json"
   verify_remote_cost_audit "$ISSUE_COST_AUDIT"
+  verify_gpu_on_demand_quota
   reserve_issue_action_cost "$launch_action" "$RUN_ID" "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
   consume_authorization; touch "$run_dir/paid-started"; apply_start="$SECONDS"
   ACTION_OPERATION_DEADLINE=$(($(date +%s)+LAUNCH_OPERATION_SECONDS))
@@ -1579,6 +1593,11 @@ case "$ACTION" in
     require aws
     [[ $# -eq 1 ]] || { echo "test-terminate-owned-compute requires an owner token" >&2; exit 2; }
     terminate_owned_compute "$1"
+    ;;
+  test-gpu-on-demand-quota)
+    require aws
+    [[ $# -eq 0 ]] || { echo "test-gpu-on-demand-quota takes no arguments" >&2; exit 2; }
+    verify_gpu_on_demand_quota
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;
