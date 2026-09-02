@@ -41,10 +41,10 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, AgentRosterEntry, AgentRosterQuery, CanonicalIngress, CheckpointManifest,
-    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity,
-    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    decode_acip_envelope, is_canonical_agent_name, AgentRosterEntry, AgentRosterQuery,
+    CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError, KernelControl,
+    KernelExit, LiveContinuity, ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot,
+    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -4546,6 +4546,7 @@ mod layer8_conversation_ingress_tests {
             ));
             population.sample.push(AgentSample {
                 id: id.to_owned(),
+                name: format!("{id}.runtime"),
                 label: label.to_owned(),
                 role: "conversation agent".to_owned(),
                 state: "unknown".to_owned(),
@@ -5347,22 +5348,6 @@ enum AgentAdmissionFailure {
     Unavailable(&'static str),
 }
 
-pub fn is_canonical_agent_name(name: &str) -> bool {
-    let segments = name.split('.').collect::<Vec<_>>();
-    segments.len() == 2
-        && segments.iter().all(|segment| {
-            let bytes = segment.as_bytes();
-            !segment.is_empty()
-                && segment.len() <= 32
-                && bytes[0].is_ascii_lowercase()
-                && (bytes[bytes.len() - 1].is_ascii_lowercase()
-                    || bytes[bytes.len() - 1].is_ascii_digit())
-                && bytes
-                    .iter()
-                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || *byte == b'-')
-        })
-}
-
 fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
     if request.schema != AGENT_ADMISSION_SCHEMA
         || request.id == "shepherd"
@@ -5663,6 +5648,7 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
     let now = now_unix_millis();
     AgentSample {
         id: request.id.clone(),
+        name: request.name.clone(),
         label: if request.display_name.is_empty() {
             request.name.clone()
         } else {

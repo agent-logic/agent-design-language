@@ -19,6 +19,7 @@ impl LifecycleControl for NoopLifecycle {
 fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvidence {
     AgentRuntimeEvidence {
         agent_id: id.to_owned(),
+        name: format!("{id}.runtime"),
         display_name: label.to_owned(),
         public_role: "resident agent".to_owned(),
         presence,
@@ -33,6 +34,25 @@ fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvide
         source_revision: "runtime-revision-7".to_owned(),
         provenance: "runtime_component_state".to_owned(),
     }
+}
+
+#[test]
+fn canonical_name_is_projected_and_old_v1_entries_remain_readable() {
+    let roster = AgentRoster::new(
+        1,
+        false,
+        [evidence("shepherd", "Shepherd", AgentPresence::Ready)],
+        [1; 32],
+    )
+    .unwrap();
+    let entry = roster
+        .detail(&policy(&["shepherd"]), "shepherd", 1_500)
+        .unwrap();
+    assert_eq!(entry.name, "shepherd.runtime");
+    let mut old = serde_json::to_value(&entry).unwrap();
+    old.as_object_mut().unwrap().remove("name");
+    let decoded: adl_runtime_kernel::AgentRosterEntry = serde_json::from_value(old).unwrap();
+    assert_eq!(decoded.name, "");
 }
 
 fn policy(ids: &[&str]) -> AgentRosterPolicy {

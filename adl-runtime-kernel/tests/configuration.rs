@@ -231,6 +231,11 @@ display_name = "Test Polis"
 public_domain = "runtime-gateway.example.test"
 observatory_public_origin = "https://observatory.example.test"
 
+[resident_shepherd]
+name = "beacon.axioma"
+display_name = "Beacon"
+office = "resident shepherd"
+
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
 additional_allowed_origins = ["http://localhost:8000"]
@@ -1201,4 +1206,15 @@ fn runtime_kernel_rejects_demo_and_implicit_demo_startup() {
         assert!(stderr.contains("usage: adl-runtime-kernel"));
         assert!(!stderr.contains("|demo"));
     }
+}
+
+#[test]
+fn canonical_name_is_required_for_resident_shepherd_configuration() {
+    let root = tempfile::tempdir().unwrap();
+    let valid = valid_runtime_init_toml(root.path());
+    let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid).unwrap();
+    assert_eq!(parsed.resident_shepherd.name, "beacon.axioma");
+
+    let invalid = valid.replace("name = \"beacon.axioma\"", "name = \"Beacon\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
 }

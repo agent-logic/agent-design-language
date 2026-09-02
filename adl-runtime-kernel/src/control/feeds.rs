@@ -99,11 +99,20 @@ impl AgentPopulationFeed {
     }
 
     pub fn resident_shepherd() -> Self {
+        Self::resident_shepherd_named("shepherd.runtime", "Shepherd", "resident shepherd")
+    }
+
+    pub fn resident_shepherd_named(
+        name: impl Into<String>,
+        label: impl Into<String>,
+        role: impl Into<String>,
+    ) -> Self {
         Self {
             sample: vec![AgentSample {
                 id: "shepherd".to_owned(),
-                label: "Shepherd".to_owned(),
-                role: "resident shepherd".to_owned(),
+                name: name.into(),
+                label: label.into(),
+                role: role.into(),
                 state: "unknown".to_owned(),
                 detail: "Awaiting production Runtime admission".to_owned(),
                 health: "unknown".to_owned(),
@@ -274,6 +283,7 @@ fn project_agent_evidence(
     };
     Some(AgentRuntimeEvidence {
         agent_id: agent.id.clone(),
+        name: agent.name.clone(),
         display_name: agent.label.clone(),
         public_role: agent.role.clone(),
         presence,
@@ -294,6 +304,7 @@ impl From<&AgentSample> for AgentRuntimeEvidence {
     fn from(agent: &AgentSample) -> Self {
         Self {
             agent_id: agent.id.clone(),
+            name: agent.name.clone(),
             display_name: agent.label.clone(),
             public_role: agent.role.clone(),
             presence: match agent.state.as_str() {
@@ -327,6 +338,7 @@ impl From<AgentRosterEntry> for AgentSample {
             .unwrap_or_else(|| "unknown".to_owned());
         Self {
             id: agent.id,
+            name: agent.name,
             label: agent.label,
             role: agent.role,
             state,
@@ -348,6 +360,7 @@ impl From<AgentRosterEntry> for AgentSample {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentSample {
     pub id: String,
+    pub name: String,
     pub label: String,
     pub role: String,
     pub state: String,

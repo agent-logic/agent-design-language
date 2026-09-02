@@ -31,6 +31,11 @@ display_name = "Agent Logic Development Polis"
 public_domain = "runtime.dev.agent-logic.ai"
 observatory_public_origin = "https://observatory.dev.agent-logic.ai"
 
+[resident_shepherd]
+name = "beacon.axioma"
+display_name = "Beacon"
+office = "resident shepherd"
+
 [observatory]
 allowed_origins = [
   "https://observatory.dev.agent-logic.ai",

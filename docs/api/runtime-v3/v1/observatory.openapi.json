@@ -801,10 +801,11 @@
       },
       "AgentRosterEntry": {
         "type": "object",
-        "required": ["schema", "id", "label", "role", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "required": ["schema", "id", "name", "label", "role", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
         "properties": {
           "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
           "id": {"type": "string"},
+          "name": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,31}$"},
           "label": {"type": "string"},
           "role": {"type": "string"},
           "presence": {"type": "string", "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]},
@@ -824,6 +825,7 @@
         "type": "object",
         "required": [
           "id",
+          "name",
           "label",
           "role",
           "state",
@@ -842,6 +844,10 @@
         "properties": {
           "id": {
             "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,31}$"
           },
           "label": {
             "type": "string"
