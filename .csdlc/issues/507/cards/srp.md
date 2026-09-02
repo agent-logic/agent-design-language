@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Issue #507 DRT-B paths only: adl-runtime/src/qualification, adl-runtime/tests/distributed_contract, adl-runtime-kernel/src, adl/tools/run_issue268_, docs/milestones/v0.92.1/evidence/runtime/drt-b, .csdlc/prepared/issues/507, and .csdlc/evidence/507.
+.csdlc/evidence/507
+.csdlc/prepared/issues/507
+adl-runtime/src/qualification/mod.rs
+adl-runtime/tests/distributed_contract/main.rs
+adl-runtime/tests/distributed_contract/validate_drt_b.sh
+docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json
 
 ## Prompts
 
@@ -31,12 +36,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer confirmed exact substantive revision cd5251801646070e1af21bea50b11902c21e61c8 and observed only uncommitted review-assignment metadata after that SHA.
+- Reviewer reran the focused DRT-B six-resident Rust test and confirmed digest b84cc6f1503e3547082034b5d6e437a85d0cb4e7805ae2052e1ed32683804a11.
+- Review is local deterministic DRT-B proof only; it does not prove live GPU/provider execution, DRT-C #508, or DRT-D #509.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:cd5251801646070e1af21bea50b11902c21e61c8:779b10e20bea40314d793a172cd0207ea6c02ea2635325d36af3bd632e0935bd")
 
-Reviewer: None
+Reviewer: Some("fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f")
 
-Result: pre_review
+Result: pass

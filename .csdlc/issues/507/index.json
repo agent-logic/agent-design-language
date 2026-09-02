@@ -4,13 +4,44 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23ba8f7d15d8319b39008f9453f898689137c0788dadffa3d95110777da6d5eb",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "32e943a2ebe50210459db5d27531c15a210697c974780a467120f2896a5a025a",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "0ca55841191eb0eee5f0cb35409586871cdb88e1e30e74d100944b2953cb3a37",
   "branch": "codex/507-six-resident-uts-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-507-six-resident-uts-qualification",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:cd5251801646070e1af21bea50b11902c21e61c8:779b10e20bea40314d793a172cd0207ea6c02ea2635325d36af3bd632e0935bd",
+    "scope": [
+      ".csdlc/evidence/507",
+      ".csdlc/prepared/issues/507",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_b.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+    "scope": [
+      ".csdlc/evidence/507",
+      ".csdlc/prepared/issues/507",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_b.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+    ],
+    "reviewed_revision": "git-blake3:cd5251801646070e1af21bea50b11902c21e61c8:779b10e20bea40314d793a172cd0207ea6c02ea2635325d36af3bd632e0935bd",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer confirmed exact substantive revision cd5251801646070e1af21bea50b11902c21e61c8 and observed only uncommitted review-assignment metadata after that SHA.",
+      "Reviewer reran the focused DRT-B six-resident Rust test and confirmed digest b84cc6f1503e3547082034b5d6e437a85d0cb4e7805ae2052e1ed32683804a11.",
+      "Review is local deterministic DRT-B proof only; it does not prove live GPU/provider execution, DRT-C #508, or DRT-D #509."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bfb8a93ad7f4596879e41a791d01555cb5f71f4a2d51e4d99c99ff98dd839e18",
+      "values_digest": "cd72c4fe253eb8e122c5bfd595fab2d0c8c803ad21557e82bcb42fe8ee05d08c",
       "rendered_digest": "55f6a2bcf3e2639bf32a4fc08e0a22013e8ae5194d5d45a8df1b391c5c8344f0",
       "ast_digest": "2b5f7df764bdb9955c3e3e0ba5d9446808d3f56887b096b502a3a946a294cb2c"
     },
     "stp": {
-      "values_digest": "894f2028f2fb74f77e2e56a72fbfc25e32bd4f4759f9cd4e98673187f7906c1c",
+      "values_digest": "1732957c7e206a6b28b3b9f24c74d84dcd309e4d3f461aa7364b044f841e5987",
       "rendered_digest": "ca81feaee42d04eb7cedc6ddd14c88497a03716551d08d4593b9c5a194228ee2",
       "ast_digest": "81f96bba3b4dc0d3b506d17711725b3bd85ac55192a0e6d74c51220876baf172"
     },
     "spp": {
-      "values_digest": "eba17d2f6eb4b5a37495df09109068a02f704d7230a48862d0b55e6fbde26fc7",
+      "values_digest": "01a9fdfdbc40d0c5974a6fa4d657c7c75c58e31ed6469e42da76386bf544626f",
       "rendered_digest": "a8bbce388343481ace3b4e23981c1b8be1c507a51b2cee43ea7bc7fb7494f8c5",
       "ast_digest": "ce6bd2ec919b1c6125718e0756e1396d44719a5053780b2df29e3e014f6e91b4"
     },
     "vpp": {
-      "values_digest": "0fa84ae5f2fa0043390177150bce717199bacf02d9a70f1ec1dfe72918db1a45",
+      "values_digest": "fb14fef0b2b288c4ddae54eceacfc31fee09e588477fcf801cf612829cf046ef",
       "rendered_digest": "4833b16b5dc5bb5d6b74d7484c8d563f21bf9a540562c4be11cd184d2da8a6ec",
       "ast_digest": "d8353daa96ae66dec85ef4d1f95448a38a411ddd48688e4aad3389caa073dcb6"
     },
     "srp": {
-      "values_digest": "14e6a8a1b2569c54b39b2571229871b98763d8e182c50a5a9ea03cb3ca0d92d4",
-      "rendered_digest": "a6f25960216f1423979e0b922717e9935f9f335abb916f6ea913b450258f3e62",
-      "ast_digest": "267ce5fde1946269f7c472c93f40024421fe9d14fb389ff235798e77c63662bd"
+      "values_digest": "6f4c93d7c80b0d05a5c91d986793e5cb0112759673e98127502c524d1916608b",
+      "rendered_digest": "1055955cabdb6cb0c3ba1346bf69c5daa62dbbe209f7f9de5ad0051828ccc5ad",
+      "ast_digest": "ec06965c9d29e0b17f0845c9acf4b1444fe971ddbdd4877d76af371a83c9dc59"
     },
     "sor": {
-      "values_digest": "9a08dfe7d34e7ab612136d26f77d365d102f5f0e19ae8cf1d1fcaf80e46c758a",
+      "values_digest": "bd193886fb11f951b00a66cd58d70f54241515c17f2091f7e2d699851cb6d78a",
       "rendered_digest": "33c84f3447da525fb2b524303265d5f41e997368b7da2712448c7458ba58d6b4",
       "ast_digest": "302391d8e9aa42eae462b53ba9c16c865e64a32f7d801806ad4e3ad8c64c41ad"
     }
@@ -76,6 +107,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -127,6 +165,20 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
