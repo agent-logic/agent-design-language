@@ -1,0 +1,110 @@
+{
+  "schema": "adl.corporate.corp_c.external_action_classification.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "created_at": "2026-09-01",
+  "authorized_actions": [
+    "corp-c-aws-c-terraform-bootstrap-apply"
+  ],
+  "blocked_actions": [
+    "corp-c-source-control-live-readback",
+    "corp-c-ci-cd-live-readback",
+    "corp-c-dns-hosted-zone-transfer",
+    "corp-c-certificate-renewal-ownership",
+    "corp-c-aws-account-control-readback",
+    "corp-c-private-custody",
+    "corp-c-deployment-rollback-readback"
+  ],
+  "rows": [
+    {
+      "id": "corp-c-prerequisite-evidence",
+      "surface": "CORP-A, CORP-B, AWS-G, and GCP-D prerequisite closure and ancestry",
+      "classification": "partial_evidence",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": false,
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json"
+    },
+    {
+      "id": "corp-c-repository-custody-evidence",
+      "surface": "critical-asset schedule, corporate account custody register, and redacted custody/readback receipts",
+      "classification": "partial_evidence",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": false,
+      "evidence_ref": "docs/operations/corporate/"
+    },
+    {
+      "id": "corp-c-aws-business-account-readback",
+      "surface": "Agent Logic business AWS account boundary",
+      "classification": "partial_evidence",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": false,
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json"
+    },
+    {
+      "id": "corp-c-live-control-plane-readonly-probe",
+      "surface": "Non-mutating AWS control-plane inventory for STS, Terraform backend names, Route53, ACM, CodeBuild, and IAM role visibility",
+      "classification": "partial_evidence",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": false,
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json"
+    },
+    {
+      "id": "corp-c-aws-c-terraform-bootstrap-apply",
+      "surface": "Authorized AWS-C Terraform bootstrap apply for the persistent backend foundation consumed by downstream Terraform roots",
+      "classification": "completed_authorized_mutation",
+      "mutation_performed_by_497": true,
+      "rollback_required_before_mutation": true,
+      "rollback_evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json#terraform_backend",
+      "authorization_ref": "Operator directed Worker #7 to proceed and get the sprint done after Terraform backend absence was diagnosed.",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json"
+    },
+    {
+      "id": "corp-c-gcp-foundation-prerequisite",
+      "surface": "GCP-D private platform foundation prerequisite",
+      "classification": "completed_evidence",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": false,
+      "evidence_ref": "issue #493 / PR #587 merge c0bf217934508d6dbc70d78633e6a95d5ddd9d06"
+    },
+    {
+      "id": "corp-c-dns-hosted-zone-transfer",
+      "surface": "hosted-zone, DNS delegation, and rollback-control transfer",
+      "classification": "blocked_missing_required_readback",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": true,
+      "evidence_ref": "CORP-B production_domains and dns_route53 follow-up rows"
+    },
+    {
+      "id": "corp-c-certificate-renewal-ownership",
+      "surface": "certificate inventory, renewal ownership, and rollback controls",
+      "classification": "blocked_missing_required_readback",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": true,
+      "evidence_ref": "CORP-B certificates follow-up row"
+    },
+    {
+      "id": "corp-c-github-actions-authority",
+      "surface": "GitHub organization, Actions billing, environments, required reviewers, runner authority, and emergency workflow-disable procedure",
+      "classification": "blocked_missing_required_readback",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": true,
+      "evidence_ref": "CORP-B source_control and ci_cd follow-up rows"
+    },
+    {
+      "id": "corp-c-private-custody",
+      "surface": "vault, recovery factors, payment method, executed instruments, and counsel-controlled diligence material",
+      "classification": "blocked_missing_private_receipt",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": false,
+      "evidence_ref": "CORP-A redacted custody receipts and CORP-B private-custody follow-up rows"
+    },
+    {
+      "id": "corp-c-deployment-rollback-readback",
+      "surface": "deployment roles, rollback authority, incident audit logging, and emergency access",
+      "classification": "blocked_missing_required_readback",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": true,
+      "evidence_ref": "CORP-B deployment_operations follow-up row"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+flowchart TD
+    Start["Issue #497 CORP-C start"] --> Deps["Verify #482 #483 #496 #493 closed, merged, ancestral"]
+    Deps --> Inventory["Inventory corporate operational-control surfaces"]
+    Inventory --> Authority["Record provider/account authority evidence without secrets"]
+    Authority --> Decision{"External mutation needed?"}
+    Decision -- "No" --> Packet["Write corporate control-transfer acceptance packet"]
+    Decision -- "Yes" --> Auth{"Explicit operator authorization present?"}
+    Auth -- "No" --> Blocked["Stop: record blocker and required authorization"]
+    Auth -- "Yes" --> Guard["Run bounded authorized action with rollback evidence"]
+    Guard --> Packet
+    Packet --> Review["Typed validation and review before publication"]

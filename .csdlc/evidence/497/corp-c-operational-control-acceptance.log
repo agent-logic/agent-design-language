@@ -1,0 +1,31 @@
+{
+  "schema": "adl.corporate.corp_c.validation.v1",
+  "issue": 497,
+  "result": "pass",
+  "validated_files": [
+    ".csdlc/issues/497/index.json",
+    ".csdlc/issues/497/cards/stp.md",
+    ".csdlc/issues/497/cards/spp.md",
+    ".csdlc/issues/497/cards/vpp.md",
+    ".csdlc/issues/497/cards/sor.md",
+    "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+    "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+    "docs/operations/corporate/account-custody/corporate-custody-register.md",
+    "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
+    "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json",
+    "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md"
+  ],
+  "prerequisite_issues": [
+    482,
+    483,
+    493,
+    496
+  ],
+  "deferred_external_actions": 5,
+  "external_mutations_performed": false
+}

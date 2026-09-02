@@ -1,4 +1,4 @@
-aws_account_id = "123456789012"
+aws_account_id = "<agent-logic-aws-account-id>"
 aws_profile    = "agent-logic-admin"
 aws_region     = "us-west-2"
 run_id        = "adl-issue345-20260901-013000"

@@ -1,0 +1,50 @@
+{
+  "issue": 497,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "654cd80ab274a96cb0ae0933ccfbbff4203132cc70c26feeb6e4a6441bcede59",
+  "actor": "codex:worker-7",
+  "reason": "Repair execution readiness by replacing non-executable/manual VPP lanes with an issue-owned readiness validator.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "corp-c-readiness-validator",
+        "proof_role": "Verify prerequisite merge ancestry, typed issue package presence, repository identity, and credential-marker hygiene for Sprint 4 CORP-C readiness.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": false,
+        "resource_profile": "small",
+        "budget_seconds": 180,
+        "budget_tokens": 2000,
+        "argv": [
+          "ruby",
+          ".csdlc/evidence/497/validate-readiness.rb"
+        ],
+        "parallel_group": "local"
+      },
+      {
+        "lane": "corp-c-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before execution binding or publication.",
+        "acceptance_ids": [
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "local"
+      }
+    ]
+  },
+  "fail_after_backup": false
+}
