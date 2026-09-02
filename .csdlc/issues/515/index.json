@@ -4,54 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
-  "phase": "published",
-  "generation": 22,
-  "digest": "dfe9ba8116caa5aa51f554ba36f8f0c593beb6b9cb18ae56c49590130091f5fe",
+  "phase": "implemented",
+  "generation": 23,
+  "digest": "662fe3a54aa6fa2db50192467f78abcc6c20d684a817ec16a4ade9e25cf3a187",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": {
-    "reviewer": "fresh-session:9a0d288c-d5ab-4529-9b5c-9c7706136ada",
-    "assigned_by": "codex:/root:issue-515-implementation",
-    "revision": "git-blake3:03acd1e223009e0ebf8f012e3b478ee5e27ead1c:9a42de2ac8c2ed8fe289d74c88f051c12ec52a69971838c00a4e9293de44448e",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      ".csdlc/prepared/issues/515"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:9a0d288c-d5ab-4529-9b5c-9c7706136ada",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      ".csdlc/prepared/issues/515"
-    ],
-    "reviewed_revision": "git-blake3:03acd1e223009e0ebf8f012e3b478ee5e27ead1c:9a42de2ac8c2ed8fe289d74c88f051c12ec52a69971838c00a4e9293de44448e",
-    "findings": [],
-    "residual_risks": [
-      "Read-only final review did not rerun Cargo validation; implementation session reran the focused local validation set and recorded it in SOR."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 515,
-    "pull_request": 621,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/621",
-    "base": "main",
-    "head": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
-    "revision": "git-blake3:b7cb19ea66d4a35483a6de72585357188493a9b1:ac492bbd9a1647dd928f37e5f2c534b43c42c67c096ff5747bb9c919f3971288",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dd09042348f95d9b43f3d719627d4316dec1ae2034df24dffcef0e2ee8f06eb6",
+      "values_digest": "20bd11cbaf24836255ee988f1ba9601d1ba1ab9b2a223df7b0b71a80fb703d15",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "5f179a254b57dd4bf86151067764707fd4b372c74e2ed911bae6bfad9e14b2d8",
+      "values_digest": "088980b69360e1c09c00182f233b229c722f67b00e999549ae47118a9f8b0bcc",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "6f1d8bbae77c5985fdbde184f17442d60b936093bcc3e7dfd38517a1efc05fab",
+      "values_digest": "9ece8a56cdc874ad85c56747c004db9bf55cf05bcb57c31e510d57f9074f566b",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "0f0eca54b6b99396124d22142d093847fa60cb27198f58cfc9d081f47e8b1849",
+      "values_digest": "6e0feeabeafb8570dee49e4d9ccd3d0262d1c9823248a4111a6c6c5e62132680",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "0585d09a6519f6f8cbdb0c3bf4d85cf0d53354f19c3efe86470c7e0ae036e59e",
-      "rendered_digest": "0df0c50755f55bcd0c5c5999677e64bf601e390f30ee6f46fe7463bab3152105",
-      "ast_digest": "d3076dd6e8ac772c3a2b234486ffb32e4d82eb8954fd5c34cececffaa1ce2f57"
+      "values_digest": "e22c614fdc3e6cdd1e4d874faf164976c80d9a14fa0a4873f02249944603e15e",
+      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
+      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
     },
     "sor": {
-      "values_digest": "9c132201ed4791fcb7bc69c9bfc4f5d71d2db3f5c1e239fe0ca6f9332920b72e",
-      "rendered_digest": "cb17423a85279f7078ef3091e11a18c9186197c701ee7e27736db38db76480cb",
-      "ast_digest": "3e6313c39acf2801e94fca668201979da23bc792fb39ac9991a34ddf9f14141c"
+      "values_digest": "2a35180ed73108dd1765b467e0c935ecb63beee8b5ecc586e39568d0c637701c",
+      "rendered_digest": "6d06ae885df1fbd8d5f918d5887d122e4e8b0457cb762d473506504122ccff0c",
+      "ast_digest": "00c6565d0177c8d5d5c876a2c0572c36862a02cb0331ece814d54a6c864b18f8"
     }
   },
   "transitions": [
@@ -144,6 +104,13 @@
       "to": "published",
       "actor": "codex:/root:issue-515-implementation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 lifecycle truth after adding the requested local Ollama open-PR shadow-review smoke test and redacted evidence to the already-published PR branch."
     }
   ],
   "audit": [
@@ -349,6 +316,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 lifecycle truth after adding the requested local Ollama open-PR shadow-review smoke test and redacted evidence to the already-published PR branch.",
+      "operation": "recover_review"
     }
   ]
 }

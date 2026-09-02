@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV-B] Local-model shadow execution",
     "slug": "prov-b-local-model-shadow-execution",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/mod.rs\nadl/tests/provider_shadow_isolation.rs\nadl/tests/provider_shadow_comparison.rs\nadl/tests/provider_shadow_fallback.rs\ndocs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\n.csdlc/prepared/issues/515",
-      "review_revision": "git-blake3:03acd1e223009e0ebf8f012e3b478ee5e27ead1c:9a42de2ac8c2ed8fe289d74c88f051c12ec52a69971838c00a4e9293de44448e",
-      "reviewer": "fresh-session:9a0d288c-d5ab-4529-9b5c-9c7706136ada",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any shadow result mutate or replace the authoritative result?",
         "Are authority and shadow paths represented distinctly enough for reviewers and validators?",
@@ -24,10 +24,8 @@
         "Does evidence redact credentials, private payloads, prompts, and host-local paths?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Read-only final review did not rerun Cargo validation; implementation session reran the focused local validation set and recorded it in SOR."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

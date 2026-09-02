@@ -7,7 +7,7 @@
     "title": "[v0.92.1][PROV-B] Local-model shadow execution",
     "slug": "prov-b-local-model-shadow-execution",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
@@ -108,8 +108,8 @@
           "evidence_ref": "terminal:cargo fmt --check"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
