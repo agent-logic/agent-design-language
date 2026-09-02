@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 55
+    "generation": 65
   },
   "status": "ready",
   "content": {
@@ -33,9 +33,9 @@
         "AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches",
         "AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted",
         "AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident",
-        "AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt within 30 seconds and controller-monotonic apply-to-observed aggregate service_ready meets 120 seconds or remains failed",
+        "AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt; under the current four-vCPU G-family quota the GPU limit is 120 seconds, the Runtime limit is 30 seconds, and controller-monotonic apply-to-observed aggregate service_ready must be at most 270 seconds or remain failed",
         "AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions",
-        "AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the 30-second warm path testable while stale cross-AZ partial dirty or mismatched volumes fail closed",
+        "AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the current-quota 120-second GPU path testable while stale cross-AZ partial dirty or mismatched volumes fail closed",
         "AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 20 ceiling with no retry reuse",
         "AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action",
         "AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication"

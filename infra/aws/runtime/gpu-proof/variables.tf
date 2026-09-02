@@ -89,7 +89,7 @@ variable "runtime_instance_type" {
 variable "gpu_instance_type" {
   description = "On-Demand GPU node for Ollama and at least two resident models."
   type        = string
-  default     = "g6.4xlarge"
+  default     = "g6.xlarge"
 }
 
 variable "detailed_monitoring" {

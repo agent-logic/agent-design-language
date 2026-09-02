@@ -4,86 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 55,
-  "digest": "9cc95af4aab18063bf04f7c2a793c76bea0104d2d6ac60148b02ba81c89960bf",
+  "generation": 65,
+  "digest": "5a5722ef0476d11449146c3e44940988cecf25d661395d1ac2dfecab853c6ed0",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": {
-    "reviewer": "fresh-session:9bf1aebb-3fcb-45fd-90dd-b1087f6feb00",
-    "assigned_by": "codex-session:issue-607",
-    "revision": "git-blake3:7a622c99bd54d99fe0c28349e5ccbf7d683b6838:46acff62ac090a8731675357c71b9b0531c397f03bc7139ad532312948e7eb7a",
-    "scope": [
-      ".csdlc/evidence/607",
-      ".csdlc/prepared/issues/607/design.md",
-      ".csdlc/prepared/issues/607/diagram.mmd",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl-runtime/src/guardian.rs",
-      "adl/tools/issue607_probe_runtime.py",
-      "adl/tools/issue607_qualify_warm_polis.sh",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      "infra/aws/runtime/gpu-proof"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:9bf1aebb-3fcb-45fd-90dd-b1087f6feb00",
-    "scope": [
-      ".csdlc/evidence/607",
-      ".csdlc/prepared/issues/607/design.md",
-      ".csdlc/prepared/issues/607/diagram.mmd",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl-runtime/src/guardian.rs",
-      "adl/tools/issue607_probe_runtime.py",
-      "adl/tools/issue607_qualify_warm_polis.sh",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      "infra/aws/runtime/gpu-proof"
-    ],
-    "reviewed_revision": "git-blake3:7a622c99bd54d99fe0c28349e5ccbf7d683b6838:46acff62ac090a8731675357c71b9b0531c397f03bc7139ad532312948e7eb7a",
-    "findings": [
-      {
-        "id": "F-607-1",
-        "severity": "p1",
-        "summary": "The qualification path reports PASS even when the GPU guest exceeds the 30-second local-ready limit and controller-observed service readiness exceeds 120 seconds.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-607-2",
-        "severity": "p1",
-        "summary": "The paid-action controller accounts per storage generation and only records successful attempts, so retries and earlier campaigns are not proven to remain inside one issue-wide 20 USD envelope.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-607-3",
-        "severity": "p2",
-        "summary": "The corrected warm-volume teardown behavior has focused static proof but has not been exercised by a successful live AWS qualification run.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -92,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/607/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:3ea960bc-31d1-467e-a0ae-45b7ca657cf0",
-      "revision": "4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e"
+      "reviewer": "fresh-session:5ba5f864-df40-4e50-8023-dae9a0e8ed48",
+      "revision": "d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "20e2c33d917b883fb1a2b50026c48631302831949207011f25954c7630df884c",
+      "values_digest": "01101a1f4ce52516b15f3e0e5dcee281bf6d8da31d19298ec60a67a925470b37",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "85dffa6df4b43fd990ea849c13207d5848b1ab568d6600137a0866972a3a90ff",
-      "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
-      "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
+      "values_digest": "c31a33afcbf34572b94c5dbe61bbd75e1b7d030d1b39a2e1286fc363d9726c0c",
+      "rendered_digest": "92a8368aa3e42d8bd5d44f8c75dead2d8c082435b5a05aaf5eede872d3801802",
+      "ast_digest": "9fe63eecb9ddc3e465d6287fc43f7e1fcfc314173c22f037a5e107ee52aa5e70"
     },
     "spp": {
-      "values_digest": "96af73c6ee5f6760b4d8e83f9ac2f6ab4faa276936f030034211b56f42d2c57b",
-      "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
-      "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
+      "values_digest": "bb50eaad4ff8b0c8c9e6b2e3eeb401170ad3425378e9b0bdeb823d701cc7ad5e",
+      "rendered_digest": "ec10d7e6e98da346985cfb8a123689a5518e8159a47357d14b2bfced47e4a7a7",
+      "ast_digest": "33dc0256bbb3ff6c31f25b019e2376d47a2f51f0280e919321b53ef5511b0358"
     },
     "vpp": {
-      "values_digest": "06154b6c0cba5f0371240882c88c3ea92314a886c2361e6a1d5c6bba443c5f18",
+      "values_digest": "5eff7c3a3f4e9a2b3aa4f74072a40375f9a94ce82eb11afcbbe55b838e41b9b9",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "950c6cc08ba1008d885e54dd519316d338f3f2784926810b9c46a23af6525bdb",
-      "rendered_digest": "e9386761137309ea36c98c77f476035b2320c8a4630111597834a8f7e7af1c24",
-      "ast_digest": "40229aee1be8d406122739e212e59a873ea47f246760035901d6f761556af7c3"
+      "values_digest": "6531972f83f70b944300924596c6906bdebee5ca0dd77628b4c457d078226104",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "78989b16c82e457a7adfc4a61b0652a9d1ae1fb49e641d610cc0b7f7f5083493",
+      "values_digest": "91fda26ecaf9ba7017c650d2eae71f9219b7538cfb65774ee6d1a56e294cc74d",
       "rendered_digest": "20c3f58b1f97c0923ee3811af7af7657dd7e754006979177bf99445b737b2a59",
       "ast_digest": "b40cdfba8252c11bdec5b09f08d58722b773182452e6acc20eb991796d3963d3"
     }
@@ -718,6 +644,76 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 72,
+      "generation": 56,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover superseded exact-head review truth before adopting the operator-authorized current-quota timing envelope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 57,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh the authored design after the operator accepted the current four-vCPU quota envelope as non-blocking.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"new_design_digest\":\"d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9\",\"new_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"old_design_digest\":\"4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e\",\"old_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:3ea960bc-31d1-467e-a0ae-45b7ca657cf0\",\"revision\":\"4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":56,\"recovery_sequence\":72}"
+    },
+    {
+      "sequence": 74,
+      "generation": 58,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the obsolete 30-second quota-dependent denominator with the operator-authorized current-quota limits.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download\",\"AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources\",\"AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals\",\"AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches\",\"AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted\",\"AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident\",\"AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt; under the current four-vCPU G-family quota the GPU limit is 120 seconds, the Runtime limit is 30 seconds, and controller-monotonic apply-to-observed aggregate service_ready must be at most 270 seconds or remain failed\",\"AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions\",\"AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the current-quota 120-second GPU path testable while stale cross-AZ partial dirty or mismatched volumes fail closed\",\"AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 20 ceiling with no retry reuse\",\"AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action\",\"AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication\"]}"
+    },
+    {
+      "sequence": 75,
+      "generation": 59,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the operative plan with the current-quota g6.xlarge proof and its fail-closed timing thresholds.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ canonical-plan authorization and destroy guards.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Build the complete immutable launch and qualification closure, seal the two sparse 200 GiB warm volumes, retain completed snapshots of both, and time a temporary snapshot restore.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\",\"AC-11\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement no-install activation, persistent Guardian readiness, separate qualification receipts, stage budgets, deterministic negative tests, and exact zero-residue queries.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Use the current-quota one-L4 g6.xlarge shape for the final distinct authorized launch and prove GPU local readiness at or below 120 seconds, Runtime local readiness at or below 30 seconds, controller service readiness at or below 270 seconds, full behavior, cost, and exact residue.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Obtain fresh exact-head review, fix every actionable finding, publish through typed lifecycle authority, finish, and clean.\",\"acceptance_ids\":[\"AC-12\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 76,
+      "generation": 60,
+      "actor": "codex-primary-issue607",
+      "reason": "Make the current-quota timing gate explicit in the operative plan and distinguish the retained 30-second GPU optimization risk from this issue's acceptance boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Normal launch has no compilation installation Git or model download\",\"Warm-volume identity is immutable and fail-closed\",\"Both nodes retain SSH with one key\",\"Ollama remains private\",\"SSM remains recovery-only\",\"Compute cleanup never deletes warm volumes\",\"Timing denominators remain explicit\",\"Under the current four-vCPU G-family quota the enforced timing envelope is GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, and controller service_ready at or below 270 seconds; 30-second GPU readiness remains a future optimization rather than an issue gate\",\"Aggregate AWS spend does not exceed USD 20\"]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 61,
+      "actor": "codex-primary-issue607",
+      "reason": "Restore truthful completed status after replacing the plan steps to adopt the current-quota S4 wording.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 78,
+      "generation": 62,
+      "actor": "codex-primary-issue607",
+      "reason": "Restore truthful completed status after replacing the plan steps to adopt the current-quota S4 wording.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 79,
+      "generation": 63,
+      "actor": "codex-primary-issue607",
+      "reason": "Restore truthful completed status after replacing the plan steps to adopt the current-quota S4 wording.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 80,
+      "generation": 64,
+      "actor": "codex-primary-issue607",
+      "reason": "Mark the remaining current-quota g6.xlarge live qualification as the active execution step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 81,
+      "generation": 65,
+      "actor": "fresh-session:5ba5f864-df40-4e50-8023-dae9a0e8ed48",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9\",\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

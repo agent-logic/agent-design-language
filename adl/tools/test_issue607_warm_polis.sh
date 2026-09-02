@@ -227,13 +227,13 @@ run_contracts() {
   jq '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")|.post_cleanup_owner_inventory.observed_at) = "invalid"' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-invalid-observed-at.json"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-invalid-observed-at.json" >/dev/null 2>&1
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation "$issue_cost_audit" "$issue_cost_ledger"
-  jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and .cumulative_reserved_usd==19.928733' "$issue_cost_ledger" >/dev/null
+  jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and .cumulative_reserved_usd==19.842333' "$issue_cost_ledger" >/dev/null
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation-2 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-retry-1 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
   recovery_ledger="$CASE_ROOT/issue-cost-recovery-ledger.json"
   rm -f "$recovery_ledger" "$recovery_ledger.next"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-quota-recovery adl-issue607-test-quota-recovery "$issue_cost_audit" "$recovery_ledger"
-  jq -e '.reservations==[{action:"qualification-quota-recovery",run_id:"adl-issue607-test-quota-recovery",reserved_seconds:600,reserved_cost_usd:0.328733,status:"reserved"}] and .cumulative_reserved_usd==19.928733' "$recovery_ledger" >/dev/null
+  jq -e '.reservations==[{action:"qualification-quota-recovery",run_id:"adl-issue607-test-quota-recovery",reserved_seconds:600,reserved_cost_usd:0.242333,status:"reserved"}] and .cumulative_reserved_usd==19.842333' "$recovery_ledger" >/dev/null
 
   recovery_campaign=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   recovery_run=adl-issue607-aaaaaaaaaaaa-quota-recovery
@@ -247,19 +247,19 @@ run_contracts() {
   recovery_auth="$CASE_ROOT/quota-recovery-authorization.json"
   controller="$(git -C "$ROOT" rev-parse HEAD)"; audit_sha="$(shasum -a 256 "$issue_cost_audit" | awk '{print $1}')"
   jq -n --arg commit "$ancestor" --arg controller "$controller" --arg run "$recovery_run" --arg campaign "$recovery_campaign" --arg audit "$audit_sha" \
-    '{schema:"adl.issue607.remediation_authorization.v1",authorized:true,single_use:true,action:"qualification-quota-recovery",action_id:"test-quota-recovery-authorization",source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:"adl-issue607-test-storage",saved_plan_sha256:"plan",preflight_sha256:"preflight",action_manifest_sha256:"manifest",campaign_id:$campaign,issue_cost_audit_sha256:$audit,reserved_cost_usd:0.328733,projected_issue_total_usd:19.928733,authorized_ceiling_usd:20,expires_at:"2099-01-01T00:00:00Z"}' >"$recovery_auth"
-  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 19.928733 0.328733
+    '{schema:"adl.issue607.remediation_authorization.v1",authorized:true,single_use:true,action:"qualification-quota-recovery",action_id:"test-quota-recovery-authorization",source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:"adl-issue607-test-storage",saved_plan_sha256:"plan",preflight_sha256:"preflight",action_manifest_sha256:"manifest",campaign_id:$campaign,issue_cost_audit_sha256:$audit,reserved_cost_usd:0.242333,projected_issue_total_usd:19.842333,authorized_ceiling_usd:20,expires_at:"2099-01-01T00:00:00Z"}' >"$recovery_auth"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 19.842333 0.242333
   jq '.action="qualification-remediation"' "$recovery_auth" >"$recovery_auth.mismatch"
-  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth.mismatch" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 19.928733 0.328733 >/dev/null 2>&1
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth.mismatch" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 19.842333 0.242333 >/dev/null 2>&1
   jq -e '([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .outcome=="rejected_before_instance" and .compute_upper_bound_usd==0 and (.cloudtrail_response_instance_ids|length)==0)]|length)==1' "$issue_cost_audit" >/dev/null
 
   gpu_ready="$CASE_ROOT/gpu-ready-deadline.json"; runtime_ready="$CASE_ROOT/runtime-ready-deadline.json"
-  jq -n '{status:"ready",local_ready_seconds:30}' >"$gpu_ready"
+  jq -n '{status:"ready",local_ready_seconds:120}' >"$gpu_ready"
   jq -n '{status:"ready",local_ready_seconds:30}' >"$runtime_ready"
-  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready" "$runtime_ready" 120
-  jq '.local_ready_seconds=30.001' "$gpu_ready" >"$gpu_ready.late"
-  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready.late" "$runtime_ready" 120 >/dev/null 2>&1
-  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready" "$runtime_ready" 121 >/dev/null 2>&1
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready" "$runtime_ready" 270
+  jq '.local_ready_seconds=120.001' "$gpu_ready" >"$gpu_ready.late"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready.late" "$runtime_ready" 270 >/dev/null 2>&1
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready" "$runtime_ready" 271 >/dev/null 2>&1
 
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-wait-object-deadline
   termination_log="$CASE_ROOT/termination.log"
@@ -283,16 +283,16 @@ run_contracts() {
   (
     aws() {
       case " $* " in
-        *' describe-instance-types '*) printf 'instance-type %s\n' "$*" >>"$ADL_ISSUE607_QUOTA_LOG"; printf '16\n' ;;
+        *' describe-instance-types '*) printf 'instance-type %s\n' "$*" >>"$ADL_ISSUE607_QUOTA_LOG"; printf '4\n' ;;
         *' get-service-quota '*) printf 'quota %s\n' "$*" >>"$ADL_ISSUE607_QUOTA_LOG"; printf '%s\n' "$ADL_ISSUE607_TEST_GPU_QUOTA" ;;
         *) return 2 ;;
       esac
     }
     export -f aws
-    ADL_ISSUE607_QUOTA_LOG="$quota_log" ADL_ISSUE607_TEST_GPU_QUOTA=16 bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-gpu-on-demand-quota
-    ! ADL_ISSUE607_QUOTA_LOG="$quota_log" ADL_ISSUE607_TEST_GPU_QUOTA=4 bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-gpu-on-demand-quota >/dev/null 2>&1
+    ADL_ISSUE607_QUOTA_LOG="$quota_log" ADL_ISSUE607_TEST_GPU_QUOTA=4 bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-gpu-on-demand-quota
+    ! ADL_ISSUE607_QUOTA_LOG="$quota_log" ADL_ISSUE607_TEST_GPU_QUOTA=3 bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-gpu-on-demand-quota >/dev/null 2>&1
   )
-  rg -Fq 'instance-type --profile agent-logic-admin --region us-west-2 ec2 describe-instance-types --instance-types g6.4xlarge --query InstanceTypes[0].VCpuInfo.DefaultVCpus --output text' "$quota_log"
+  rg -Fq 'instance-type --profile agent-logic-admin --region us-west-2 ec2 describe-instance-types --instance-types g6.xlarge --query InstanceTypes[0].VCpuInfo.DefaultVCpus --output text' "$quota_log"
   rg -Fq 'quota --profile agent-logic-admin --region us-west-2 service-quotas get-service-quota --service-code ec2 --quota-code L-DB2E81BA --query Quota.Value --output text' "$quota_log"
   rg -q 'LAUNCH_OPERATION_SECONDS=540' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'terminate_owned_compute "\$CLEANUP_OWNER"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
@@ -396,8 +396,9 @@ run_contracts() {
   rg -q 'adl.issue607.authorization.v3' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'adl.issue607.aggregate_cost_ledger.v2' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'retry run IDs are prohibited' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
-  rg -q 'SERVICE_READY_MAX_SECONDS=120' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
-  rg -q 'default[[:space:]]*=[[:space:]]*"g6.4xlarge"' "$ROOT/infra/aws/runtime/gpu-proof/variables.tf"
+  rg -q 'GPU_LOCAL_READY_MAX_SECONDS=120' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'SERVICE_READY_MAX_SECONDS=270' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'default[[:space:]]*=[[:space:]]*"g6.xlarge"' "$ROOT/infra/aws/runtime/gpu-proof/variables.tf"
   rg -Fq 'warm_pids+=("$!")' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl"
   rg -q 'start_prepared_image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'resume-preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"

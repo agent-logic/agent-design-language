@@ -342,12 +342,13 @@ bash adl/tools/run_issue607_warm_polis.sh qualification-quota-recovery \
 
 Each guest boots the exact prepared launch AMI and verifies its facility inventory, volume ID,
 generation, manifest, and dm-verity root. GPU readiness requires all configured
-models resident with nonzero VRAM. The default GPU node is `g6.4xlarge`, whose
-EBS bandwidth can consume the existing 500 MiB/s warm volume; both configured
-model warmups start concurrently and remain loaded. Runtime readiness requires the persistent
+models resident with nonzero VRAM. The default GPU node is the one-L4
+`g6.xlarge` shape admitted by the current four-vCPU G-family quota; both
+configured model warmups start concurrently and remain loaded. Runtime readiness requires the persistent
 Guardian process to pass authenticated HTTPS and WSS probes. Each guest must
-reach local readiness in 30 seconds; controller apply-to-observed readiness
-must remain within 120 seconds. The later qualification receipt separately
+reach its enforced local-readiness limit: 120 seconds for the GPU guest and 30
+seconds for the Runtime guest. Controller apply-to-observed readiness must
+remain within 270 seconds. The later qualification receipt separately
 requires both Shepherd model proofs, six governed Runtime-agent ACC executions,
 and restart/state/degradation/Vector/log/shutdown proof. Compute is then
 destroyed and live tag inventory must show zero disposable residue while the

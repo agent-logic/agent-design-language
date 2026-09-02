@@ -16,7 +16,7 @@ Separate slow preparation from fast launch, seal two persistent AZ-local data vo
 
 ## Plan
 
-Revision 5
+Revision 7
 
 ## Steps
 
@@ -63,9 +63,10 @@ Revision 5
   },
   {
     "id": "S4",
-    "action": "Bind three single-use authorizations to one aggregate envelope, prepare once, prove the snapshot restore timing, and launch twice proving timing full behavior cost and exact residue.",
+    "action": "Use the current-quota one-L4 g6.xlarge shape for the final distinct authorized launch and prove GPU local readiness at or below 120 seconds, Runtime local readiness at or below 30 seconds, controller service readiness at or below 270 seconds, full behavior, cost, and exact residue.",
     "acceptance_ids": [
       "AC-5",
+      "AC-6",
       "AC-7",
       "AC-8",
       "AC-9",
@@ -94,6 +95,7 @@ Revision 5
 - SSM remains recovery-only
 - Compute cleanup never deletes warm volumes
 - Timing denominators remain explicit
+- Under the current four-vCPU G-family quota the enforced timing envelope is GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, and controller service_ready at or below 270 seconds; 30-second GPU readiness remains a future optimization rather than an issue gate
 - Aggregate AWS spend does not exceed USD 20
 
 ## Risks
@@ -117,7 +119,7 @@ Revision 5
 
 .csdlc/prepared/issues/607/design.md
 
-Digest: 4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e
+Digest: d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9
 
 ## Diagram
 

@@ -153,8 +153,10 @@ inferences, six governed ACC executions, restart/state/degradation/Vector/log/
 shutdown assertions, and exact receipt digests from #605.
 
 Guest activation from that guest's cloud-init activation start to that guest's
-`local_ready` receipt must be at most 30 seconds for each node.
-Controller apply-start to observed `service_ready` targets 120 seconds or less.
+`local_ready` receipt must be at most 120 seconds for the GPU node and 30
+seconds for the Runtime node. Controller apply-start to observed
+`service_ready` must be at most 270 seconds under the current four-vCPU
+G-family quota.
 Qualification duration is reported separately and is not hidden inside either
 startup number. A missed target is a failing result, never rounded, excluded, or
 relabeled as success.
@@ -171,8 +173,9 @@ is deleted. dm-verity makes launch integrity verification proportional to
 manifest/root-hash verification rather than a full-volume scan. The timing
 receipt budgets mount and verity activation, Ollama start, model page-in,
 Guardian/Runtime activation, dependency convergence, and controller receipt
-observation separately; their sum must fit the 30-second guest target rather
-than relying on an unmeasured aggregate.
+observation separately; the GPU stages must fit the 120-second GPU target and
+the Runtime stages must fit the 30-second Runtime target rather than relying on
+an unmeasured aggregate.
 
 ## Storage safety
 

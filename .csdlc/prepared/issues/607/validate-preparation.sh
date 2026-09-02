@@ -35,8 +35,8 @@ jq -e '
 ' "$root/.csdlc/prepared/issues/607/bootstrap-request.json" >/dev/null
 
 rg -q "cloud-init activation start to that guest's" "$root/.csdlc/prepared/issues/607/design.md"
-rg -q '`local_ready` receipt must be at most 30 seconds' "$root/.csdlc/prepared/issues/607/design.md"
-rg -q 'Controller apply-start to observed `service_ready` targets 120 seconds or less' "$root/.csdlc/prepared/issues/607/design.md"
+rg -q '`local_ready` receipt must be at most 120 seconds for the GPU node and 30' "$root/.csdlc/prepared/issues/607/design.md"
+rg -q '`service_ready` must be at most 270 seconds' "$root/.csdlc/prepared/issues/607/design.md"
 rg -q 'IMDSv2' "$root/.csdlc/prepared/issues/607/design.md"
 rg -q 'zero disposable residue' "$root/.csdlc/prepared/issues/607/bootstrap-request.json"
 rg -q 'dm-verity' "$root/.csdlc/prepared/issues/607/design.md"
