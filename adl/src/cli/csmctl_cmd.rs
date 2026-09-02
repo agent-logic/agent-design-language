@@ -703,12 +703,13 @@ mod tests {
         csmctl_agent_usage, csmctl_api_get, csmctl_api_usage, csmctl_cloud_usage,
         csmctl_diagnostics_usage, csmctl_runtime_usage, csmctl_status_usage, csmctl_usage,
         load_agent_add_config, real_csmctl, runtime_service_args, safe_agent_id,
-        validate_canonical_agent_name, write_json_atomically,
+        validate_canonical_agent_name, write_json_atomically, RuntimeAgentClient,
     };
     use adl::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
     use adl_runtime::runtime_api_auth::RuntimeApiCredentialStore;
     use serde_json::{json, Value};
     use std::fs;
+    use std::io::{Read, Write};
     use std::net::TcpListener;
     use std::path::PathBuf;
     use std::sync::atomic::{AtomicU64, Ordering};
@@ -961,6 +962,33 @@ safety:
     }
 
     #[test]
+    fn csmctl_agent_commands_reject_incomplete_or_unsafe_requests() {
+        for (command, expected) in [
+            ("list", "missing required --init"),
+            ("get", "missing required --id"),
+            ("remove", "missing required --id"),
+            ("checkpoint", "missing required --id"),
+            ("dehydrate", "missing required --id"),
+            ("migrate", "missing required --id"),
+            ("rehydrate", "missing required --bundle"),
+        ] {
+            assert_err_contains(real_csmctl(&args(&["agent", command])), expected);
+        }
+        for command in ["remove", "checkpoint", "dehydrate", "migrate"] {
+            assert_err_contains(
+                real_csmctl(&args(&["agent", command, "--id", "../escape"])),
+                "agent id is invalid",
+            );
+        }
+        assert!(real_csmctl(&args(&["agent"])).is_ok());
+        assert!(real_csmctl(&args(&["agent", "help"])).is_ok());
+        assert_err_contains(
+            real_csmctl(&args(&["agent", "invent"])),
+            "unknown csmctl agent command 'invent'",
+        );
+    }
+
+    #[test]
     fn csmctl_agent_artifacts_are_committed_atomically_in_repo_fixture() {
         let root = temp_root("agent-artifact-atomic");
         let path = root.join("freeze-dried-agent.json");
@@ -1032,6 +1060,411 @@ provider: { kind: ollama, model: gemma4:e4b-mlx, endpoint: http://localhost:1143
                 "{invalid_name}"
             );
         }
+    }
+
+    #[test]
+    fn csmctl_agent_add_config_rejects_invalid_schema_and_fields() {
+        let root = temp_root("agent-config-invalid");
+        let config_path = root.join("agent.yaml");
+        let valid = |schema: &str,
+                     id: &str,
+                     display: &str,
+                     office: &str,
+                     kind: &str,
+                     model: &str,
+                     endpoint: &str| {
+            format!(
+                "schema: {schema}\nruntime: {{ init: runtime-init.toml }}\nidentity: {{ id: {id:?}, name: ember.axioma, display_name: {display:?} }}\noffice: {office:?}\nprovider: {{ kind: {kind:?}, model: {model:?}, endpoint: {endpoint:?} }}\n"
+            )
+        };
+        for (contents, expected) in [
+            (
+                valid(
+                    "wrong.schema",
+                    "ember",
+                    "Ember",
+                    "assistant",
+                    "ollama",
+                    "gemma",
+                    "http://localhost",
+                ),
+                "agent config schema",
+            ),
+            (
+                valid(
+                    "adl.csm.agent_config.v1",
+                    "",
+                    "Ember",
+                    "assistant",
+                    "ollama",
+                    "gemma",
+                    "http://localhost",
+                ),
+                "identity.id",
+            ),
+            (
+                valid(
+                    "adl.csm.agent_config.v1",
+                    "ember",
+                    "",
+                    "assistant",
+                    "ollama",
+                    "gemma",
+                    "http://localhost",
+                ),
+                "identity.display_name",
+            ),
+            (
+                valid(
+                    "adl.csm.agent_config.v1",
+                    "ember",
+                    "Ember",
+                    "",
+                    "ollama",
+                    "gemma",
+                    "http://localhost",
+                ),
+                "office",
+            ),
+            (
+                valid(
+                    "adl.csm.agent_config.v1",
+                    "ember",
+                    "Ember",
+                    "assistant",
+                    "",
+                    "gemma",
+                    "http://localhost",
+                ),
+                "provider.kind",
+            ),
+            (
+                valid(
+                    "adl.csm.agent_config.v1",
+                    "ember",
+                    "Ember",
+                    "assistant",
+                    "ollama",
+                    "",
+                    "http://localhost",
+                ),
+                "provider.model",
+            ),
+            (
+                valid(
+                    "adl.csm.agent_config.v1",
+                    "ember",
+                    "Ember",
+                    "assistant",
+                    "ollama",
+                    "gemma",
+                    "",
+                ),
+                "provider.endpoint",
+            ),
+        ] {
+            fs::write(&config_path, contents).expect("write invalid config");
+            let error = load_agent_add_config(&config_path).expect_err("reject invalid config");
+            assert!(
+                error.to_string().contains(expected),
+                "expected {expected:?} in {error}"
+            );
+        }
+        fs::write(&config_path, "not: [valid").expect("write malformed yaml");
+        assert!(load_agent_add_config(&config_path)
+            .expect_err("reject malformed yaml")
+            .to_string()
+            .contains("parse agent config"));
+    }
+
+    #[test]
+    fn csmctl_agent_client_validates_init_tls_and_write_credential() {
+        let root = temp_root("agent-client-config");
+        let init_path = root.join("runtime-init.toml");
+        let root_text = root.display().to_string();
+        let init = include_str!("../../../infra/runtime-v3/runtime-init.toml")
+            .replace("/var/lib/adl/runtime-v3", &root_text)
+            .replace(
+                "/opt/adl/bin/adl-runtime-kernel",
+                &root.join("adl-runtime-kernel").display().to_string(),
+            )
+            .replace(
+                "/opt/adl/bin/vector",
+                &root.join("vector").display().to_string(),
+            );
+        fs::write(&init_path, init).expect("write Runtime init");
+
+        let error = RuntimeAgentClient::from_init_path(init_path.clone())
+            .err()
+            .expect("missing trust roots must fail");
+        assert!(error.to_string().contains("read Runtime trust roots"));
+
+        let tls = root.join("tls");
+        fs::create_dir_all(&tls).expect("create tls directory");
+        let certified =
+            rcgen::generate_simple_self_signed(vec!["runtime.dev.agent-logic.ai".to_owned()])
+                .expect("generate test certificate");
+        fs::write(tls.join("trust-roots.pem"), certified.cert.pem()).expect("write valid roots");
+        let error = RuntimeAgentClient::from_init_path(init_path.clone())
+            .err()
+            .expect("missing write credential must fail");
+        assert!(error.to_string().contains("read Runtime write credential"));
+
+        let credentials = root.join("credentials");
+        fs::create_dir_all(&credentials).expect("create credentials directory");
+        fs::write(credentials.join("acip-write-token.txt"), "bad token\nvalue")
+            .expect("write invalid token");
+        let error = RuntimeAgentClient::from_init_path(init_path.clone())
+            .err()
+            .expect("whitespace-bearing write credential must fail");
+        assert!(error.to_string().contains("write credential is invalid"));
+
+        fs::write(
+            credentials.join("acip-write-token.txt"),
+            "test-write-token\n",
+        )
+        .expect("write valid token");
+        let client = RuntimeAgentClient::from_init_path(init_path)
+            .expect("build lifecycle client from governed init");
+        assert_eq!(client.write_token, "test-write-token");
+        assert!(client
+            .base_url
+            .starts_with("https://runtime.dev.agent-logic.ai:"));
+    }
+
+    #[test]
+    fn csmctl_agent_lifecycle_commands_call_the_authenticated_runtime_api() {
+        let _ = rustls::crypto::ring::default_provider().install_default();
+        let root = temp_root("agent-lifecycle-api");
+        let listener = TcpListener::bind("127.0.0.1:0").expect("bind lifecycle API fixture");
+        let address = listener.local_addr().expect("read lifecycle API address");
+        let certified =
+            rcgen::generate_simple_self_signed(vec!["runtime.dev.agent-logic.ai".to_owned()])
+                .expect("generate lifecycle API certificate");
+        let certificate = rustls::pki_types::CertificateDer::from(certified.cert.der().to_vec());
+        let private_key = rustls::pki_types::PrivateKeyDer::Pkcs8(
+            rustls::pki_types::PrivatePkcs8KeyDer::from(certified.signing_key.serialize_der()),
+        );
+        let server_config = std::sync::Arc::new(
+            rustls::ServerConfig::builder()
+                .with_no_client_auth()
+                .with_single_cert(vec![certificate], private_key)
+                .expect("build lifecycle API TLS config"),
+        );
+        listener
+            .set_nonblocking(true)
+            .expect("bound fixture accept timeout");
+        let server = std::thread::spawn(move || {
+            let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
+            let mut observed = Vec::new();
+            while observed.len() < 9 && std::time::Instant::now() < deadline {
+                let (stream, _) = match listener.accept() {
+                    Ok(accepted) => accepted,
+                    Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                        std::thread::sleep(std::time::Duration::from_millis(10));
+                        continue;
+                    }
+                    Err(error) => panic!("accept lifecycle API request: {error}"),
+                };
+                stream
+                    .set_nonblocking(false)
+                    .expect("restore blocking fixture stream");
+                stream
+                    .set_read_timeout(Some(std::time::Duration::from_secs(5)))
+                    .expect("bound fixture read timeout");
+                let connection =
+                    rustls::ServerConnection::new(server_config.clone()).expect("TLS connection");
+                let mut tls = rustls::StreamOwned::new(connection, stream);
+                let mut request = Vec::new();
+                let mut buffer = [0_u8; 4096];
+                loop {
+                    let count = tls.read(&mut buffer).expect("read lifecycle API request");
+                    if count == 0 {
+                        break;
+                    }
+                    request.extend_from_slice(&buffer[..count]);
+                    if let Some(header_end) = request
+                        .windows(4)
+                        .position(|window| window == b"\r\n\r\n")
+                        .map(|position| position + 4)
+                    {
+                        let headers = String::from_utf8_lossy(&request[..header_end]);
+                        let content_length = headers
+                            .lines()
+                            .find_map(|line| {
+                                line.to_ascii_lowercase()
+                                    .strip_prefix("content-length:")
+                                    .and_then(|value| value.trim().parse::<usize>().ok())
+                            })
+                            .unwrap_or(0);
+                        if request.len() >= header_end + content_length {
+                            break;
+                        }
+                    }
+                }
+                let request = String::from_utf8(request).expect("UTF-8 lifecycle request");
+                let request_lower = request.to_ascii_lowercase();
+                assert!(request_lower.contains("authorization: bearer test-write-token"));
+                assert!(!request
+                    .split("\r\n\r\n")
+                    .nth(1)
+                    .unwrap_or("")
+                    .contains("test-write-token"));
+                observed.push(request);
+                let body = r#"{"schema":"test","status":"ok","bundle_digest":"abc"}"#;
+                write!(
+                    tls,
+                    "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+                    body.len(),
+                    body
+                )
+                .expect("write lifecycle API response");
+                tls.flush().expect("flush lifecycle API response");
+            }
+            observed
+        });
+
+        let tls = root.join("tls");
+        let credentials = root.join("credentials");
+        fs::create_dir_all(&tls).expect("create lifecycle tls directory");
+        fs::create_dir_all(&credentials).expect("create lifecycle credentials directory");
+        fs::write(tls.join("trust-roots.pem"), certified.cert.pem())
+            .expect("write lifecycle trust root");
+        fs::write(credentials.join("acip-write-token.txt"), "test-write-token")
+            .expect("write lifecycle token");
+        let root_text = root.display().to_string();
+        let init = include_str!("../../../infra/runtime-v3/runtime-init.toml")
+            .replace("/var/lib/adl/runtime-v3", &root_text)
+            .replace("127.0.0.1:20997", &address.to_string())
+            .replace(
+                "/opt/adl/bin/adl-runtime-kernel",
+                &root.join("adl-runtime-kernel").display().to_string(),
+            )
+            .replace(
+                "/opt/adl/bin/vector",
+                &root.join("vector").display().to_string(),
+            );
+        let init_path = root.join("runtime-init.toml");
+        fs::write(&init_path, init).expect("write lifecycle Runtime init");
+        let init_arg = init_path.display().to_string();
+        let config_path = root.join("ember.axioma.yaml");
+        fs::write(
+            &config_path,
+            format!(
+                "schema: adl.csm.agent_config.v1\nruntime: {{ init: {:?} }}\nidentity: {{ id: ember-axioma, name: ember.axioma, display_name: Ember Axioma }}\noffice: assistant\nprovider: {{ kind: ollama, model: gemma4:e4b-mlx, endpoint: http://nessus.local:11434 }}\n",
+                init_path
+            ),
+        )
+        .expect("write lifecycle agent config");
+        let bundle = root.join("bundle.json");
+        fs::write(&bundle, r#"{"schema":"test","bundle_digest":"abc"}"#)
+            .expect("write rehydrate bundle");
+        let checkpoint = root.join("checkpoint.json");
+        let dehydration = root.join("dehydrated.json");
+        let migration = root.join("migrated.json");
+        let checkpoint_arg = checkpoint.display().to_string();
+        let dehydration_arg = dehydration.display().to_string();
+        let migration_arg = migration.display().to_string();
+        let bundle_arg = bundle.display().to_string();
+
+        real_csmctl(&args(&[
+            "agent",
+            "add",
+            "--config",
+            &config_path.display().to_string(),
+        ]))
+        .expect("add agent");
+        for command in [
+            vec!["agent", "list", "--init", &init_arg],
+            vec!["agent", "get", "--init", &init_arg, "--id", "ember-axioma"],
+            vec![
+                "agent",
+                "checkpoint",
+                "--init",
+                &init_arg,
+                "--id",
+                "ember-axioma",
+                "--out",
+                &checkpoint_arg,
+            ],
+            vec![
+                "agent",
+                "dehydrate",
+                "--init",
+                &init_arg,
+                "--id",
+                "ember-axioma",
+                "--out",
+                &dehydration_arg,
+            ],
+            vec![
+                "agent",
+                "migrate",
+                "--init",
+                &init_arg,
+                "--id",
+                "ember-axioma",
+                "--out",
+                &migration_arg,
+            ],
+            vec![
+                "agent",
+                "rehydrate",
+                "--init",
+                &init_arg,
+                "--bundle",
+                &bundle_arg,
+            ],
+            vec![
+                "agent",
+                "remove",
+                "--init",
+                &init_arg,
+                "--id",
+                "ember-axioma",
+            ],
+        ] {
+            real_csmctl(&args(&command)).expect("execute lifecycle command");
+        }
+        let observed = server.join().expect("join lifecycle API fixture");
+        assert_eq!(observed.len(), 9, "fixture timed out before all requests");
+        let request_parts = observed
+            .iter()
+            .map(|request| {
+                let (headers, body) = request.split_once("\r\n\r\n").expect("request framing");
+                (headers.lines().next().expect("request line"), body)
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(
+            request_parts
+                .iter()
+                .map(|(line, _)| *line)
+                .collect::<Vec<_>>(),
+            [
+                "POST /v1/agents HTTP/1.1",
+                "GET /v1/agents HTTP/1.1",
+                "GET /v1/agents/ember-axioma HTTP/1.1",
+                "POST /v1/agents/ember-axioma/checkpoint HTTP/1.1",
+                "POST /v1/agents/ember-axioma/dehydrate HTTP/1.1",
+                "POST /v1/agents/ember-axioma/dehydrate HTTP/1.1",
+                "POST /v1/agents/ember-axioma/dehydrate/commit HTTP/1.1",
+                "POST /v1/agents/rehydrate HTTP/1.1",
+                "DELETE /v1/agents/ember-axioma HTTP/1.1",
+            ]
+        );
+        let add: Value = serde_json::from_str(request_parts[0].1).expect("parse add body");
+        assert_eq!(add["id"], "ember-axioma");
+        assert_eq!(add["name"], "ember.axioma");
+        assert_eq!(add["model"], "gemma4:e4b-mlx");
+        let commit: Value =
+            serde_json::from_str(request_parts[6].1).expect("parse migration commit body");
+        assert_eq!(commit, json!({"bundle_digest":"abc"}));
+        let rehydrate: Value =
+            serde_json::from_str(request_parts[7].1).expect("parse rehydrate body");
+        assert_eq!(rehydrate["bundle_digest"], "abc");
+        assert!(checkpoint.exists());
+        assert!(dehydration.exists());
+        assert!(migration.exists());
     }
 
     #[test]
