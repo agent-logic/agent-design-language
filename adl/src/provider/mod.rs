@@ -12,6 +12,7 @@ use std::error::Error as StdError;
 use std::fmt;
 use std::fs;
 use std::io::{Read, Write};
+use std::panic::{catch_unwind, AssertUnwindSafe};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::mpsc;
@@ -247,10 +248,16 @@ pub fn complete_with_local_model_shadow(
     let authority_input_digest = sha256_text(input.prompt());
 
     let shadow = match shadow_provider {
-        Some(provider) => match provider.complete(input.prompt()) {
-            Ok(output) => ProviderShadowObservation::completed(&output),
-            Err(err) => ProviderShadowObservation::failed(&err),
-        },
+        Some(provider) => {
+            match catch_unwind(AssertUnwindSafe(|| provider.complete(input.prompt()))) {
+                Ok(Ok(output)) => ProviderShadowObservation::completed(&output),
+                Ok(Err(err)) => ProviderShadowObservation::failed(&err),
+                Err(_) => ProviderShadowObservation::failed(&panic_error(
+                    "local-model-shadow",
+                    "shadow provider panicked",
+                )),
+            }
+        }
         None => ProviderShadowObservation::not_configured(),
     };
 
