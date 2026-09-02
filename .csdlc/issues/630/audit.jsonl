@@ -7,3 +7,4 @@
 {"sequence":7,"generation":4,"actor":"codex:worker-6","reason":"Recover stale exact-review assignment after the pre-publication review found that v3 clean could remove worktrees before #505 cutover and denial tests were incomplete.","operation":"recover_review"}
 {"sequence":8,"generation":4,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":5,"actor":"codex:worker-6","reason":"Recover stale exact-review assignment after the post-fix review found that verified terminal readback construction was still caller-forgeable and nonexistent cleanup traversal was not denied.","operation":"recover_review"}
+{"sequence":10,"generation":5,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
