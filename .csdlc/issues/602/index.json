@@ -3,13 +3,50 @@
   "issue": 602,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "ddab586db46ed8e47eb573a0b7e7755b27b1f45e594307a4fbbe56be7235feb2",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "7ea28197be3713fc9da8fdd5a79666e81409305f8bf783ceeb55429d8f88e71a",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:issue_602_review",
+    "assigned_by": "codex:602-remediation",
+    "revision": "git-blake3:9522142c2ae8a6ce7a29ea39a57d67373b2d4a74:0f9640cc81b5cd0c63d9a3c1ce543548689f8604d01c3dc09a447a2acda01c72",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/agents/ember.axioma.yaml",
+      ".csdlc/evidence/602/live-wuji-acceptance.md",
+      ".csdlc/prepared/issues/602"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:issue_602_review",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/agents/ember.axioma.yaml",
+      ".csdlc/evidence/602/live-wuji-acceptance.md",
+      ".csdlc/prepared/issues/602"
+    ],
+    "reviewed_revision": "git-blake3:9522142c2ae8a6ce7a29ea39a57d67373b2d4a74:0f9640cc81b5cd0c63d9a3c1ce543548689f8604d01c3dc09a447a2acda01c72",
+    "findings": [],
+    "residual_risks": [
+      "Guardian shutdown logged master_log_drain_incomplete during isolated acceptance; clean checkpointed shutdown and agent restoration succeeded, and observability drain behavior is outside issue 602."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "46c2338b783b7b520d61940a512cd9d236f29414f1cebd5c9d5d6aebe019ef6f",
+      "values_digest": "c0414bdd21efed1ac22b5f34d9d42640c1a730f0553b9a1c0acda91922bf2c8c",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "fbefdec2a2690c689a6c2296fda9191bc9a524e5c36a6d00efb59864c0536966",
+      "values_digest": "0719277e0608202e5e820b72c2ba7fb9aec7cd0c682d6afa4cf5386ac28ab2f6",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "5126271081795b62283d62da397551cf2841f4487b9fcbd8d9f721244bad1e6a",
+      "values_digest": "ec2238caf9b11003b5ce7879735b5cddd69a4802a2f1112df487a0c6c5380cca",
       "rendered_digest": "ccb37dbef2530ba00930b9e5f1ddf66361372ad181f115ffc2ffa0c97c77a054",
       "ast_digest": "ce6b07721349077126c03c4dd2513a3e3fc408c9c6f6d445ec0e281575ac2f30"
     },
     "vpp": {
-      "values_digest": "475a0bb0d15670e0153f8edb10fcf8c414b9b2c1d7c45075105ba8713b7934e5",
+      "values_digest": "3762e02648377363ea1a3162df74662c5359e6745df6110d3c5aa850e881b2b6",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "59e9652816ce45a86b0b4397439cceb5858f1ef9dc901314ae77a1972028d7dd",
-      "rendered_digest": "8c81a1f384103fc85c77447ef28e2fdfb72044350e278290921e0afced2a73bf",
-      "ast_digest": "dc81c7f36f32c92e5f51d585a328d1e7bf522b488f81684982557012fb1aad87"
+      "values_digest": "9cf87ee75f1f1660ad909537132829f2765c78df6ad8dab14e7691ae5d380dac",
+      "rendered_digest": "69c2c500458356dcf12ab9c4353b3c7c78be361bc7f9bf2ae5c863a841b34e75",
+      "ast_digest": "67c48fba1c111342453871d51fcb7994b4c1a010d763a64caf72d58dc5bf346f"
     },
     "sor": {
-      "values_digest": "59f02d6306fb55f559aa5f5d3979208c974f48d1fae90a26a267aab484b32756",
+      "values_digest": "a722dd3a6de8f37a35b70976405e8cf17b951089c972a79b2ecbb56eadcf0ce4",
       "rendered_digest": "8b5be9551a4d646b4692782700ddbef2722f276698285d4183640c658b4e0372",
       "ast_digest": "c9ee1ade3394e28c0b58811ceac3b81e007bf3aecf4e43d38b23e3a665e63a18"
     }
@@ -110,6 +147,13 @@
       "to": "implemented",
       "actor": "codex:602-remediation",
       "reason": "Recover stale review and publication identity after rebase, review fixes, and exact-candidate live Wuji proof."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:602-remediation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -252,6 +296,20 @@
       "actor": "codex:602-remediation",
       "reason": "Record focused and exact-candidate live Wuji proof after review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash .csdlc/prepared/issues/602/validate-focused.sh\",\"exact-candidate csmctl add, duplicate, checkpoint, migrate, rehydrate, authenticated WSS inference, clean restart, and roster verification on Wuji\"],\"purpose\":\"Prove issue 602 focused contracts and the required live Wuji lifecycle and gemma4:e4b-mlx inference acceptance.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/602/live-wuji-acceptance.md\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:602-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:602-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
