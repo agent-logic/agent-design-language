@@ -3,9 +3,9 @@
   "issue": 264,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "84e1450497552128fe6fcb39a6160b028d303f3ca97fae8355b4750443422f55",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "f0adf069eb933a9d9c3f569548fd09499cdeb7b83f7618b35cae874b8bc2b428",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "58248921c19e3e675a64a2bd455f159759a8f45a0709b138b31358dafdc0a002",
   "branch": "codex/264-podcast-directory-submission-gate-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-264-podcast-directory-submission-gate-exec",
   "review_assignment": {
@@ -18,7 +18,22 @@
       ".csdlc/evidence/264"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130",
+    "scope": [
+      "docs/milestones/v0.92.1/review/podcast_submission_264",
+      ".csdlc/prepared/issues/264",
+      ".csdlc/evidence/264"
+    ],
+    "reviewed_revision": "git-blake3:9c944965116eccf989b50198f1f13b7daf2da9a4:4b31ea4b82de2e74deb1ec5f2b8ca78fc4238327dfe0e5f44814b7dc6828e650",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #264 repository-side non-submission deliverables; no provider account access, directory submission, mailbox-code use, website destination-link activation, or public launch was authorized or performed.",
+      "Issue #51 remains open unless the operator explicitly accepts #264's blocked external-action disposition for parent routing."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d447096aa6395fea7284c36102c83fd19a10994477882a7be1e13670a49413dd",
+      "values_digest": "7152654e645aeced582c6464f981b9bb9a5160eefdd3f2615527b7266a3d695a",
       "rendered_digest": "754fcf41f9e6ea1c54f03e9e078a8d80de26b018de956e34fb4780f2a3cf788d",
       "ast_digest": "8971878c268bd1cac1541a26afa87522a4cae0b4b16a42406a63132c43b0bec3"
     },
     "stp": {
-      "values_digest": "287b3a37c79959683947d7c03c6f2592dfab3131bd8e02bea603b928eaf10b3c",
+      "values_digest": "7a8ec9e38f6a975dd13d09290e54fa4cbce24d94ee91d8303337c50ec8ccffdb",
       "rendered_digest": "23f1f6deaa32203880369afb07c813e40d0b3b7dde6622ac9ed9f8c147defedd",
       "ast_digest": "37b2e6b1244e1e4c267f3032d5283501c3af6f7dabd517e3ead64c071173755e"
     },
     "spp": {
-      "values_digest": "846135992655297274f715f60ff5b072ad22c0d9319bd409f6e784e93afbe7be",
+      "values_digest": "e847d179c8ca1b249a91bbcdeacf7f7fc77fdd484385c06cb86de3f06b70b7b0",
       "rendered_digest": "dae0b9b0b85204ca28524358ad7af55f991f0bc6443c4355b40553acff3e49ba",
       "ast_digest": "243c3d6fee4cbc8e0510782b083dec4c72589771be9522eb9148bfe685909fce"
     },
     "vpp": {
-      "values_digest": "2668643632de97e1ac9312cda3e1cd143450cbf0a9fac921f71f5fc9f40dae50",
+      "values_digest": "75a88a444932541cf67288c54c36487f4084f949604e7b2c9a96df97bee8d1aa",
       "rendered_digest": "b508958c9ce6009394735abab05618d03f8caf6667d24ef132ba1087b7bc7c18",
       "ast_digest": "c79397aca18190196da7c84d62de09b295e8fbf16745c591b1475011c0f923f0"
     },
     "srp": {
-      "values_digest": "8d605950be0e342bde7d9f620344498a3689ebe60c1be2abba16e6a2938724fc",
-      "rendered_digest": "d4fc1589066b06e5b1050734b499c6c97fbfec236224f49e867a71c602b28c5c",
-      "ast_digest": "1a250270489774f9db011842d0731d8e80314d49a2bc2ddf08a30b0cd553d6d9"
+      "values_digest": "b25c9c5beed03ab1271207651b2fe1a1ef86364184241754352f38ca6f51dda1",
+      "rendered_digest": "e71c043e4c562e143dc574c7dd820f955312b10b2b210b1bb42f9fd0d29fb68f",
+      "ast_digest": "aee5dc1610943c14db3533ad0a8f417e436ae4f05f0d9bd11c35c2f89c309fbc"
     },
     "sor": {
-      "values_digest": "0718a282d846645802eeb4a2ddb4abecef8c5a65b8f1ada24ea23680493f5598",
+      "values_digest": "c17f7441fd438a693a6cf015b107abd9879ba6213c105fddef35966afe6cc7f9",
       "rendered_digest": "ac11c19184e7c2a11245e846101524025003929899a5da25ea10719323e0ad06",
       "ast_digest": "9c122150f5c815ede800fc21ebaa58f643a132baa720f275652ee54a891ab42e"
     }
@@ -84,6 +99,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Advance #264 to implemented after non-submission deliverables and retained validation proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -163,6 +185,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

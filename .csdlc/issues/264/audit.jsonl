@@ -9,3 +9,4 @@
 {"sequence":9,"generation":7,"actor":"codex:/root","reason":"Record #264 exact-range diff hygiene validation.","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace errors and conflict-marker residue across the #264 reviewable diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/264/diff-check.log\"}}"}
 {"sequence":10,"generation":8,"actor":"codex:/root","reason":"Advance #264 to implemented after non-submission deliverables and retained validation proof.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":11,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":9,"actor":"fresh-session:3de8d4f5-7947-4ea3-b13d-0f053a4e8130","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
