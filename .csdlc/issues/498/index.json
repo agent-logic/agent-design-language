@@ -4,36 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5cba53deaba7c8e2a2a220194f4bb1433a12212ab512e95fdfe9591df5a470e5",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "7221a3823bc79d1b4ec232c06dcc9ea721c48f12b43a634d6a0a4ec0d68b2d0c",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "1a33bb1490f82c116e55ffbfd11dba27bd6785d431502db4cc21daed9220b1a4",
   "branch": "codex/498-corp-d-corporate-diligence-acceptance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance",
-  "review_assignment": {
-    "reviewer": "subagent:498-corp-d-exact-head-review-r4",
-    "assigned_by": "codex:/root/Worker-7",
-    "revision": "git-blake3:86a58181d2f6957f0e9a3726eeb3ca16ebb1d04b:24763d241d8b3fafaeecfedebfb652f2490a3e452917eeddb07154d5491007cb",
-    "scope": [
-      ".csdlc/evidence/498",
-      ".csdlc/prepared/issues/498",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
-      "docs/operations/corporate/diligence"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:498-corp-d-exact-head-review-r4",
-    "scope": [
-      ".csdlc/evidence/498",
-      ".csdlc/prepared/issues/498",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
-      "docs/operations/corporate/diligence"
-    ],
-    "reviewed_revision": "git-blake3:86a58181d2f6957f0e9a3726eeb3ca16ebb1d04b:24763d241d8b3fafaeecfedebfb652f2490a3e452917eeddb07154d5491007cb",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -48,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "96462941260cb6d7004bc68bfbd4aa0af5808f54a5db5bce046378c8f92f219d",
+      "values_digest": "09b4cea083954fa61092cbafbfdf1391dc2d7f2a9af84d4ca2907ae57b29e6d7",
       "rendered_digest": "a7bc34d0c59c5807a8b0e7dbd9843c2c8a08f46ed987310125c3e4c2738a053f",
       "ast_digest": "2ffd5d6c88c83d6165aafcd1a3efecece8df8f58deae3d878e236ed57e59244e"
     },
     "stp": {
-      "values_digest": "641078965f1a758dcb7f6a66ce27c30b25eb308685cf1258ffa40a4cdd6636ed",
+      "values_digest": "c18953370482e8fa425f5cb765f787e26f0365178522914c96bb604fc53dbb03",
       "rendered_digest": "f16ff75f0f09836e1eb72918926648a861e099333c14ddd7e3b744c637200764",
       "ast_digest": "c496d6b4fc27fd91dce500d28f83e9d45119e3b4d4077a7e41b1bc423793b9e5"
     },
     "spp": {
-      "values_digest": "b1680e7544dea67fb713b6964bf75f41ffa41001777fb6b97cf97edcb2138293",
+      "values_digest": "d173046dcbfa5160b9c5618e11891cac6864b619441aed2cde9e6d700072e82d",
       "rendered_digest": "5fbd461707f5029fc3d98c0f70fde837396f62087158fe0ef02215f24393f928",
       "ast_digest": "7ad3097d27e125aafe92401338140c8479afa92f7049dfe071ca688fda60d53d"
     },
     "vpp": {
-      "values_digest": "6c6828d8de8e04b40e0baae440071186bf8ce00ea9efc1597e26104e0ec8957f",
+      "values_digest": "45d0d596c3ef70d9965a400436ccee6eecbe2b1991626c85ca9212df89d4397c",
       "rendered_digest": "a6344553e55fdcd20db1d1f93d65266163be07e90c0552a9c710833664612ff7",
       "ast_digest": "006752cce1dd6225e56cbfc29a886f4ad200618e1cd9bb3a4f69e2a03aa2acbb"
     },
     "srp": {
-      "values_digest": "a14752d1d5491e6e1e988e960de86035b90df84c42550fc806bbe8d47ca00686",
-      "rendered_digest": "ae9f483e949a3c1e5be0af99b46966c5d0c845dd06c783aa9dc1a1bfa1376346",
-      "ast_digest": "4cea46dc66efc6896f9ca4ae58d43945cebcce539bc5646abaeffc066be9939c"
+      "values_digest": "494be8e9e150cf40e05312068219d19bbf7dfe1c57a4d02d5294747495f802d6",
+      "rendered_digest": "08a5cfb2460dcbec5894e0bc6a2a888a17f8ec73108165d451ab3b0d08eb2804",
+      "ast_digest": "3bd53e36e67a36b40360720cca98f7b10a47d080a7666a64806f5fe47494db17"
     },
     "sor": {
-      "values_digest": "354b0a89b22e4860fc14d81ec979f88d4132776473e6ad1add94c0ece8933296",
-      "rendered_digest": "b0eaa6e0894a7ec2fb21c42d6f76f7c8d2eef96be35ea4eb7aae11d519981c55",
-      "ast_digest": "71836c4e326653ca019911ee6d0613a22d87f0382d176036d3a44adfa4873985"
+      "values_digest": "d38a4a255661560d306bdeb3caf7488f9708a57be828cdc25d0ac349213047ec",
+      "rendered_digest": "3261aaed03aa2fb06add1c1001e368689361a6d787122263c37b729b328666c3",
+      "ast_digest": "f9d7607ceeb8c5cbc78cfc8d11f8cb5d9fe34a68e66e83d728390554b84d280b"
     }
   },
   "transitions": [
@@ -106,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root/Worker-7",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/Worker-7",
+      "reason": "Recover after manually committing review metadata, which made the recorded review stale for publication; preserve audit history and re-review the current clean head."
     }
   ],
   "audit": [
@@ -220,6 +204,13 @@
       "actor": "codex:/root/Worker-7",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Recover after manually committing review metadata, which made the recorded review stale for publication; preserve audit history and re-review the current clean head.",
+      "operation": "recover_review"
     }
   ]
 }

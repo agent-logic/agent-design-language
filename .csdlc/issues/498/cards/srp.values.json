@@ -7,15 +7,15 @@
     "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
     "slug": "v0-92-1-corp-d-corporate-diligence-acceptance",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 11
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/498\n.csdlc/prepared/issues/498\ndocs/milestones/v0.92.1/evidence/corporate/corp-d\ndocs/operations/corporate/diligence",
-      "review_revision": "git-blake3:86a58181d2f6957f0e9a3726eeb3ca16ebb1d04b:24763d241d8b3fafaeecfedebfb652f2490a3e452917eeddb07154d5491007cb",
-      "reviewer": "subagent:498-corp-d-exact-head-review-r4",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does #498 refuse acceptance while CORP-C #497 remains open, non-closing, or non-ancestral?",
         "Does the diligence index cover every CORP-A through CORP-C blocker/disposition input without inventing legal conclusions?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }
