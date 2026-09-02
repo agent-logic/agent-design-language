@@ -41,10 +41,16 @@ check_no_v2_source_change() {
   echo "no v2 source changes"
 }
 
+check_route_specific_proof() {
+  cargo test --manifest-path "$root/csdlc-v3/Cargo.toml" --test local_commands
+  cargo test --manifest-path "$root/csdlc-v3/Cargo.toml" --test real_issue_canary
+}
+
 case "$mode" in
   all)
     check_manifest_handoff
     check_no_v2_source_change
+    check_route_specific_proof
     ;;
   manifest)
     check_manifest_handoff
@@ -52,8 +58,11 @@ case "$mode" in
   no-v2-source-change)
     check_no_v2_source_change
     ;;
+  route-specific-proof)
+    check_route_specific_proof
+    ;;
   *)
-    echo "usage: $0 [all|manifest|no-v2-source-change]" >&2
+    echo "usage: $0 [all|manifest|no-v2-source-change|route-specific-proof]" >&2
     exit 64
     ;;
 esac

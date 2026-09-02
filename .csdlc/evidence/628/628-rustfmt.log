@@ -1,0 +1,1 @@
+rustfmt --check passed for PR #639 exact-head evidence

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
     "slug": "v3-h2-local-lifecycle",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
@@ -134,8 +134,8 @@
           "evidence_ref": "628-typed-issue-validation.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

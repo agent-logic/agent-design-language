@@ -111,6 +111,17 @@ pub struct LocalLifecycleStateObservation {
     pub ready_to_execute: bool,
 }
 
+/// Route-specific local command planning status.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct LocalRouteStatus {
+    pub route: String,
+    pub command: LocalCommand,
+    pub status: PlanStatus,
+    pub code: String,
+    pub message: String,
+    pub issue_start_minutes_max: u64,
+}
+
 /// Non-authoritative local preparation result.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LocalPreparationPlan {
@@ -375,6 +386,75 @@ pub fn local_route_command(route: &str) -> Option<LocalCommand> {
         "eligibility" => Some(LocalCommand::Eligibility),
         _ => None,
     }
+}
+
+pub fn local_route_status(
+    route: &str,
+    lifecycle_state: Option<&LocalLifecycleStateObservation>,
+) -> Option<LocalRouteStatus> {
+    let command = local_route_command(route)?;
+    let (status, code, message) = match command {
+        LocalCommand::PrepareIssue => (
+            PlanStatus::Ready,
+            "issue_preparation_ready",
+            "issue route has typed request, prompt registry, and card denominator inputs",
+        ),
+        LocalCommand::BindWorktree => (
+            PlanStatus::Ready,
+            "bind_topology_authorized",
+            "bind route has exact non-primary worktree registration evidence",
+        ),
+        LocalCommand::EditCards => (
+            PlanStatus::Ready,
+            "edit_plan_ready",
+            "edit route has typed six-card input suitable for renderer/editor planning",
+        ),
+        LocalCommand::PlanPvf => (
+            PlanStatus::Ready,
+            "pvf_plan_ready",
+            "validate route has the required VPP/PVF planning denominator",
+        ),
+        LocalCommand::Doctor => (
+            PlanStatus::Ready,
+            "doctor_ready",
+            "doctor route can evaluate typed local readiness without granting authority",
+        ),
+        LocalCommand::Schedule => (
+            PlanStatus::Ready,
+            "schedule_plan_ready",
+            "schedule route has a non-authoritative local work plan and PVF denominator",
+        ),
+        LocalCommand::Shepherd => (
+            PlanStatus::Ready,
+            "shepherd_plan_ready",
+            "shepherd route has issue-local plan inputs for bounded execution guidance",
+        ),
+        LocalCommand::Eligibility => match lifecycle_state {
+            Some(state) if state.ready_to_execute => (
+                PlanStatus::Ready,
+                "ready_to_execute",
+                "eligibility route observed ready or bound lifecycle state and all six cards",
+            ),
+            Some(state) => (
+                state.status,
+                state.code.as_str(),
+                "eligibility route is blocked by local lifecycle-state observation",
+            ),
+            None => (
+                PlanStatus::Blocked,
+                "lifecycle_observation_missing",
+                "eligibility route requires --repo-root lifecycle-state observation",
+            ),
+        },
+    };
+    Some(LocalRouteStatus {
+        route: route.to_owned(),
+        command,
+        status,
+        code: code.to_owned(),
+        message: message.to_owned(),
+        issue_start_minutes_max: 3,
+    })
 }
 
 pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleStateObservation {

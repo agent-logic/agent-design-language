@@ -4,56 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
-  "phase": "published",
-  "generation": 6,
-  "digest": "2cbf433a511db445416756045a9c362cbcfbd02ce994fca7dadec0c10a451745",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "79b0ce19e5656b75d331f638ac6f8deb76518cf3394fc4e35334696241b37d4c",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_628_exact_head",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:63e65a58b70b12615f963137aab7499ba0cdfa1a:1cc588a593f5ec7acf1353a866020ac847d05cd7ad1659d01f80f0ffd22f533e",
-    "scope": [
-      "csdlc-v3/src/commands/local/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/628"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-reviewer:review_628_exact_head",
-    "scope": [
-      "csdlc-v3/src/commands/local/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/628"
-    ],
-    "reviewed_revision": "git-blake3:63e65a58b70b12615f963137aab7499ba0cdfa1a:1cc588a593f5ec7acf1353a866020ac847d05cd7ad1659d01f80f0ffd22f533e",
-    "findings": [],
-    "residual_risks": [
-      "csdlc-validate finalize cannot refresh implementation truth after a post-review fix; defect recorded for #632."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 628,
-    "pull_request": 639,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/639",
-    "base": "main",
-    "head": "codex/628-v3-h2-local-lifecycle-exec",
-    "revision": "git-blake3:361ed6c5f29a392866ebdccffae9d6753cbbaad7:565fed6f498ebe95c964e42f4059fd7018c59be04c2079bdc0f85be9f9e6189f",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -67,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "42638012ac6df309ccae0d766c59b7dca1159890022322f162483513842e2d42",
+      "values_digest": "ab641dd180ddec0b9ab2052a99b45db1967531e5cefa7144bfb25da405881004",
       "rendered_digest": "ec86154fbe8bea2e97c924434eeb9628c5ed7da45613790a6ac03fbb543a27a5",
       "ast_digest": "2acce6b1beca8f33b77c7b8cf371d468d8f199e4f56aa9dcfe4a298d3acd9593"
     },
     "stp": {
-      "values_digest": "0ace80bff085cfe04a7c947c496db3ad5a529aed052007727056d13a6f571818",
+      "values_digest": "c1770e7d4827e49252a2dc93a83d87e3dad966e913ce936da0b9adf2754f908f",
       "rendered_digest": "bc3cd8bd8745a5adceb6c9595367ec1919f1797064fee91ee7eb896d4f155efd",
       "ast_digest": "57dfad5b0fe0bea239cfdf214b53671017845b79aff12963238f44d33d0c57db"
     },
     "spp": {
-      "values_digest": "f0503e4710449b4a6530c40eff6eaf5981fc940488fbef55e449b269ae4de17f",
+      "values_digest": "ec882ff77d49d395d8abfc141eec07139d6c8d01c0c7b3e380addbb5060bf4b5",
       "rendered_digest": "d819514ecc09935b395491930a0d9d63e1b5046f4c83282c0e9c3ba0dc04689a",
       "ast_digest": "14bf84ef4d04a577ee0b6f619469d6cddc0148f5d840a78313ae0c6973a2d204"
     },
     "vpp": {
-      "values_digest": "48ea8f91ed0c1cd204b9974f1d06c921587102ca2b5b85c4625ab284e98cb5a5",
+      "values_digest": "efe0cde6d8cb1513b5382fe9e70735da129dbbb771648286d133f001b27e3e3f",
       "rendered_digest": "43d4653b64b0dd707774309d0824415e41d4fd92b04d28591b58488a8e59f8ed",
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "8a253d1c2110777a91bb8ed95499f0242831a273bd81daf590091acf7f4da85c",
-      "rendered_digest": "ce0fb14465cd545443181fb05c9f10c567ad2d87090315f0d3fd58a18904ae68",
-      "ast_digest": "0259eb2aaece7fa092ce267ad076c09934fff490f0a9bc4e96caaf2b1824a001"
+      "values_digest": "b57300f3d7d4462ec242e4e80f84cd3d550b67f6276aa55ead00352de94b588b",
+      "rendered_digest": "2e4b0d62c3ff55fa707a9f45db163c258a06e12d6cfbf36cc5d4b039375f34ad",
+      "ast_digest": "2f29a8922955564d3077596be9ce4658e0c95e4f10828b2471b7df1849299821"
     },
     "sor": {
-      "values_digest": "3ab67c144240f344c8af6c188354b4cee1d1d11403d2709ba0b29c3bdaf37153",
-      "rendered_digest": "0f28303141f89cbd88a0eefc814a91a5b0748c21c51803684428b7e14a684e54",
-      "ast_digest": "5ce4adfc07135820b0f45f0ed45fcf49d04b7dc2a0919102993cc05e7f9e0cb2"
+      "values_digest": "d8300ca8dcc12ec50bd00b0cc8cf72151bb30b65069fc0818b355320439959b5",
+      "rendered_digest": "6813ba702916dcfdeb3f4e59c6963467b7e5fdbe121dc337f41979e12352173c",
+      "ast_digest": "34dd48dd5a08ac16c0d9757cfe376f066796e959c29f96a3a18628dc8be6e650"
     }
   },
   "transitions": [
@@ -132,6 +90,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #628 after review failures: route-specific behavior was incomplete, retained rustfmt/diff evidence was zero-byte, and review/publication were stale against current head."
     }
   ],
   "audit": [
@@ -204,6 +169,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "Recover #628 after review failures: route-specific behavior was incomplete, retained rustfmt/diff evidence was zero-byte, and review/publication were stale against current head.",
+      "operation": "recover_review"
     }
   ]
 }

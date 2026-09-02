@@ -3,9 +3,9 @@ use std::process::Command;
 
 use csdlc_v3::commands::local::{
     authorize_bind, grants_operational_authority, inspect_local_lifecycle_state,
-    local_route_command, plan_cards, prepare_local_workflow, required_local_commands,
-    validate_contract, LocalPreparationRequest, PlanStatus, PromptRegistry, WorktreeRegistration,
-    LOCAL_ROUTE_NAMES,
+    local_route_command, local_route_status, plan_cards, prepare_local_workflow,
+    required_local_commands, validate_contract, LocalPreparationRequest, PlanStatus,
+    PromptRegistry, WorktreeRegistration, LOCAL_ROUTE_NAMES,
 };
 use csdlc_v3::{is_v3d_local_preparation_predecessor, LOCAL_PREPARATION_PREDECESSORS};
 use std::fs;
@@ -182,12 +182,13 @@ fn local_preparation_cli_emits_machine_readable_non_authoritative_plan() {
     assert_eq!(value["read_only"], true);
     assert_eq!(value["operational_authority"], false);
     assert_eq!(value["result"]["issue"], 503);
+    assert!(value["route_status"].is_null());
     assert_eq!(value["result"]["findings"][0]["code"], "doctor_ready");
     assert!(output.stderr.is_empty());
 }
 
 #[test]
-fn implemented_local_routes_share_the_typed_non_authoritative_contract() {
+fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
     let dir = fixture_dir("routes");
     let request_path = dir.join("request.json");
     let registrations_path = dir.join("registrations.json");
@@ -230,8 +231,57 @@ fn implemented_local_routes_share_the_typed_non_authoritative_contract() {
         assert_eq!(value["read_only"], true);
         assert_eq!(value["operational_authority"], false);
         assert_eq!(value["result"]["issue"], 503);
+        assert_eq!(value["route_status"]["route"], route);
+        assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
         assert!(output.stderr.is_empty());
     }
+}
+
+#[test]
+fn local_route_status_codes_are_route_specific() {
+    let mut codes = BTreeSet::new();
+    for route in LOCAL_ROUTE_NAMES {
+        let status = local_route_status(route, None).expect("known local route");
+        assert!(
+            codes.insert(status.code.clone()),
+            "route {route} reused status code {}",
+            status.code
+        );
+        assert_eq!(status.issue_start_minutes_max, 3);
+    }
+    assert!(codes.contains("issue_preparation_ready"));
+    assert!(codes.contains("bind_topology_authorized"));
+    assert!(codes.contains("edit_plan_ready"));
+    assert!(codes.contains("pvf_plan_ready"));
+    assert!(codes.contains("doctor_ready"));
+    assert!(codes.contains("schedule_plan_ready"));
+    assert!(codes.contains("shepherd_plan_ready"));
+    assert!(codes.contains("lifecycle_observation_missing"));
+}
+
+#[test]
+fn eligibility_route_consumes_lifecycle_observation() {
+    let dir = fixture_dir("eligibility-state");
+    let issue_root = dir.join(".csdlc/issues/628");
+    fs::create_dir_all(issue_root.join("cards")).expect("issue cards dir");
+    fs::write(issue_root.join("index.json"), br#"{"phase":"ready"}"#).expect("write index");
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.values.json")),
+            b"{}",
+        )
+        .expect("write values");
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.md")),
+            format!("# {card}\n"),
+        )
+        .expect("write card");
+    }
+    let observation = inspect_local_lifecycle_state(&dir, 628);
+    let status =
+        local_route_status("eligibility", Some(&observation)).expect("eligibility route status");
+    assert_eq!(status.status, PlanStatus::Ready);
+    assert_eq!(status.code, "ready_to_execute");
 }
 
 #[test]

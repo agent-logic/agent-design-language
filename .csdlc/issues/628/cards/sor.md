@@ -141,11 +141,11 @@ Implemented the V3-H.2 local lifecycle routes under the single non-authoritative
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

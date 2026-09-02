@@ -8,17 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v3/src/commands/local/mod.rs
-csdlc-v3/src/main.rs
-csdlc-v3/tests/command_manifest.rs
-csdlc-v3/tests/local_commands.rs
-csdlc-v3/tests/real_issue_canary.rs
-docs/csdlc-v3/v3-command-manifest.json
-.csdlc/prepared/issues/628
+
 
 ## Prompts
 
@@ -37,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- csdlc-validate finalize cannot refresh implementation truth after a post-review fix; defect recorded for #632.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:63e65a58b70b12615f963137aab7499ba0cdfa1a:1cc588a593f5ec7acf1353a866020ac847d05cd7ad1659d01f80f0ffd22f533e")
+Revision: None
 
-Reviewer: Some("codex-reviewer:review_628_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review
