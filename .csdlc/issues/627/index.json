@@ -6,10 +6,21 @@
   "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
   "phase": "implemented",
   "generation": 8,
-  "digest": "a56347630f9e49f0cd866bba78687db83b35851cc2fec5f9f4e13bbb81251cc7",
+  "digest": "b7e71900840b142b9fad7292bdf80087430c642134e2b41b3b5ae80a1a258801",
   "branch": "codex/627-v3-h1-command-denominator-r2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_627_r4_exact_head",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:354ee3250fb4dab8b46c8ca78a0d0037d84c2ea6:ad9b5ddc0fcbaa3c4f18f14af63fec7b7b171d0757067626f94f652fb3031fce",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/627",
+      ".csdlc/evidence/627"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "afeb335bdfb40004b4fec5a919bf5065dfc8a9bc4aa2ed73e5343f2fbb68b159"
     },
     "srp": {
-      "values_digest": "b67a9dbd458a2072f06ac068b0b22135663567edd4ac144c42a1e3f3466c3bc6",
-      "rendered_digest": "052e2b97374205df4d99a681f0b70f7c2f797f6a039c2b5c7904d4bf7b006b30",
-      "ast_digest": "255eacacbe5546333848c6b4266181ef9d698877656ebdaced731edddd99c569"
+      "values_digest": "4030fc0939a3080b23ee62c1e7bbb41f3ba14b2193df9a060dc3c85b48af2b67",
+      "rendered_digest": "038aa6bdd46db4fbfcd2df369d521d45f655689704ce4203c296170ec34deff5",
+      "ast_digest": "c697563833c2e626ce5dd8fb3bfe852d05ea4ca25a802bea9507d110ece92756"
     },
     "sor": {
       "values_digest": "b4a788d16b2d6d7a94f6f41bbd95cd8c949c0f2e9209efdf1ad0575b64e26bc8",
@@ -197,6 +208,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover #627 after publication guard found review_stale because review metadata was committed after the previously reviewed substantive evidence head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

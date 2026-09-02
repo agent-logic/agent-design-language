@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3/src/main.rs
+csdlc-v3/tests/command_manifest.rs
+docs/csdlc-v3/v3-command-manifest.json
+.csdlc/prepared/issues/627
+.csdlc/evidence/627
 
 ## Prompts
 

@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "csdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/627\n.csdlc/evidence/627",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
