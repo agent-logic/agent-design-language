@@ -4,13 +4,57 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "ec7285faa9ca970fd21c4983421c8ec0488a895fb7870da6170eb6258e3b8b65",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "cfd134c265f48aef7de5b6b4c6209f5788f332fba053c8c5c55c4ed9119a735c",
   "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_622_ci_janitor_exact_head",
+    "assigned_by": "codex:/root:issue-622-ci-janitor",
+    "revision": "git-blake3:92e8d07d7d6ab73159264a25e94f5bb44a0bbf04:96b78dcb8eb9a2dd269618910a6676a43c62dbbd763a18463b6b5138100115a5",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md",
+      "adl-runtime-kernel/src/control.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "bounded PR #646 CI janitor fixes for rustfmt and csmctl private import"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_622_ci_janitor_exact_head",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md",
+      "adl-runtime-kernel/src/control.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "bounded PR #646 CI janitor fixes for rustfmt and csmctl private import"
+    ],
+    "reviewed_revision": "git-blake3:92e8d07d7d6ab73159264a25e94f5bb44a0bbf04:96b78dcb8eb9a2dd269618910a6676a43c62dbbd763a18463b6b5138100115a5",
+    "findings": [],
+    "residual_risks": [
+      "Review passed for local exact head 92e8d07d7d6ab73159264a25e94f5bb44a0bbf04; PR #646 must be republished/updated and CI must rerun before remote merge readiness can be claimed.",
+      "Reviewer did not rerun cargo tests or clippy; local fmt/clippy proof was run and recorded by the implementation session before review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "13df716456aef4932c111beeb9d436e5760dea6c9c959f78c2ca5928746ef0d1",
+      "values_digest": "23229d285f966ae6d8799932f7567ca5a53458d84f6140d4bba3e65450371e2f",
       "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
       "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
     },
     "stp": {
-      "values_digest": "15a53473dc3af7fc0429cd9eb4725c2f32b39a2fc90d5b0eed5ddf7e18741549",
+      "values_digest": "e076802a665180ba78f5d755e679665a713462784f636fee4dcf6cab39f37495",
       "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
       "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
     },
     "spp": {
-      "values_digest": "2e2bb7ac35312c6f4ce7e3beba25515880b67838129c767bd7e1a921f0f2a17c",
+      "values_digest": "194822e690807f38cb1e9f48b8bf2a63fd294276014fafb3096a74bfd4623045",
       "rendered_digest": "cbd5bc3401a6967f6fb383c01b6d927f7d8b22356e20a53da1239f5a8b942b8a",
       "ast_digest": "f50038f904ded4622355bb9aa2e01c666aaef02f27a757a0779a5425aad9f191"
     },
     "vpp": {
-      "values_digest": "4838b93b4f949ccde2a17da20833ddedd340e77cb3dfd93bb00b6a5cb32157f1",
+      "values_digest": "9a5189355cd7c35895e7f087556fec0ed94981412be034ce8da9e5d0d2a07318",
       "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
       "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
     },
     "srp": {
-      "values_digest": "47922b4e3d75304a5c799fe369f407feae0d5f7f3203761e5137e59fc98ea9f9",
-      "rendered_digest": "7d5f81f9ea849204b89285ff66ae2df3380812717ddd66a17954d3b93574740e",
-      "ast_digest": "c874784ae80d00f7917c5b9bc1e91c5874aac5aa2383e0c85f847a09c5276dfa"
+      "values_digest": "3c0917d1a1828c6571793f368898d968a22fd84dfc395b013b3249937a3c702d",
+      "rendered_digest": "3d879a9460f49cb8dd527e2bf6d879eab390d262cbecf94eaec01e4fb0c6ca83",
+      "ast_digest": "49fbbb544b2bccf0219ee07e700e2602064dd9bf64c8cf387f088ffbf77f4fbd"
     },
     "sor": {
-      "values_digest": "3a0d4fc0457e82a165c6b28f8f182283b79116980387fd6c85a6b95559969799",
+      "values_digest": "f16b3290b53bf4ffa15256f6a28b3c4398e5c9160ac85923f9e6e672b16636d5",
       "rendered_digest": "fa64bb7fed07063084f47e15678fded175515911561fc6e4bad1e8de3a2f8e68",
       "ast_digest": "d95f4b28b2cacbefb9b004963821e19675336aa5bffc1d7cc081ba3a9ae0106b"
     }
@@ -97,6 +141,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-622-ci-janitor",
       "reason": "Recover #622 from published phase so bounded CI janitor fixes for the blocking fmt/clippy lane can be committed, validated, re-reviewed, and republished truthfully."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -232,6 +283,20 @@
       "actor": "codex:/root:issue-622-ci-janitor",
       "reason": "Record passing local fmt/clippy proof for PR #646 CI janitor fixes.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt --all -- --check && cargo clippy --all-targets -- -D warnings\"],\"purpose\":\"Prove the local equivalent of the failed hosted adl-rust-fmt-clippy lane after bounded CI janitor fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-ci-janitor-local-fmt-clippy: cargo fmt --all -- --check passed; cargo clippy --all-targets -- -D warnings finished successfully in adl/\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
