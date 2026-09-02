@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3 proof, shadow, soak, install routes; focused tests; issue-owned validation; no v2 source changes.",
+      "review_scope": "csdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\n.csdlc/prepared/issues/631/finalize-implementation.json\n.csdlc/evidence/631",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

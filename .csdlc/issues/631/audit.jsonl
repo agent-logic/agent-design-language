@@ -3,3 +3,4 @@
 {"sequence":3,"generation":2,"actor":"codex:worker-6","reason":"The #631 proof, parity, soak, shadow, and install route slice has an issue-specific validation lane and is ready for bounded implementation.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":5,"generation":3,"actor":"codex:worker-6","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":6,"generation":3,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}

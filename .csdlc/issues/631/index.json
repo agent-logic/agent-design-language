@@ -5,10 +5,25 @@
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
   "generation": 3,
-  "digest": "c6f926e6317c7b8798e099e6f2b13a1c2a53955602fc2d19ccdf14429066a2f1",
+  "digest": "416b07954b9f05bea04bbff9b67f841e677189d73f3a8d22880ae095a31b0849",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:review-631-task-e508ebc1",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:3a51bb32cd51197ec4ba0d512fe1191d83dcc794:cbc68adc883dfff1c66affa6e1622c567b2f889a3d1a68b2b46605c61224eba8",
+    "scope": [
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh",
+      ".csdlc/prepared/issues/631/finalize-implementation.json",
+      ".csdlc/evidence/631"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "3f889fcf5647e2e07e15555c8c202d6c4afa2cff8598b392ab16e237f327fb90",
-      "rendered_digest": "59990fa91d92a3669e2f0dbb1326c6ea811c0cdffa9460b03bd29b72b20d708e",
-      "ast_digest": "c808892533127d7b5195c8c5ca335e7eb4b08603b781e60b8b9f6b2f08590dc3"
+      "values_digest": "a954fac3464801aa3b13eb1fdf79845e129fb330c3fa311d4040f75cea4a6019",
+      "rendered_digest": "cbd0008c5738e052637704bd424b5806a48a2d59e3604f4710d2d96b687b23b3",
+      "ast_digest": "6f9e55138ec43dea50b80fb9374d6f917d4432505db5186e8fb3d87e8553c9ff"
     },
     "sor": {
       "values_digest": "6cff65e00575f9773848f0ba735bfa28e2a36dc7f89fcad93b8f4da18f076c56",
@@ -112,6 +127,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
