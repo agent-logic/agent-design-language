@@ -1,0 +1,67 @@
+{
+  "schema": "adl.provider.local_model_shadow_open_pr_review_smoke.v1",
+  "issue": 515,
+  "purpose": "Post-publication local smoke proof that the PROV-B provider shadow path can run a local model as non-authoritative shadow review over real open PR prompts while preserving authority-only accepted output and redacted evidence.",
+  "local_shadow_provider": {
+    "provider": "ollama",
+    "model": "phi4-mini:latest",
+    "transport": "local_cli",
+    "paid_or_cloud_usage": false
+  },
+  "authoritative_provider": {
+    "provider": "in_process_fixture",
+    "authority_boundary": "accepted review output remains fixture-controlled and cannot be replaced by shadow output"
+  },
+  "open_pr_prompts": [
+    {
+      "pull_request": 618,
+      "repository": "agent-logic/agent-design-language",
+      "rule_set": "open_pr_618_shadow_review_v1",
+      "authority_input_digest": "sha256:4ad081dabf1ea70ea3f8a91aae903eeb16e8aefb1f13085b4467a778bd70c1f1",
+      "shadow_input_digest": "sha256:4ad081dabf1ea70ea3f8a91aae903eeb16e8aefb1f13085b4467a778bd70c1f1",
+      "authority_channel": "authoritative",
+      "shadow_channel": "shadow",
+      "authority_outcome_class": "completed",
+      "shadow_observation_class": "completed",
+      "redaction": {
+        "policy": "provider_shadow_redaction_v1",
+        "prompt_redacted": true,
+        "output_redacted": true,
+        "credential_material_redacted": true,
+        "host_paths_redacted": true
+      }
+    },
+    {
+      "pull_request": 614,
+      "repository": "agent-logic/agent-design-language",
+      "rule_set": "open_pr_614_shadow_review_v1",
+      "authority_input_digest": "sha256:fe6dc20c80cf989c911db5e96dfae7ce1c06c72512049e64f884b1899cb80200",
+      "shadow_input_digest": "sha256:fe6dc20c80cf989c911db5e96dfae7ce1c06c72512049e64f884b1899cb80200",
+      "authority_channel": "authoritative",
+      "shadow_channel": "shadow",
+      "authority_outcome_class": "completed",
+      "shadow_observation_class": "completed",
+      "redaction": {
+        "policy": "provider_shadow_redaction_v1",
+        "prompt_redacted": true,
+        "output_redacted": true,
+        "credential_material_redacted": true,
+        "host_paths_redacted": true
+      }
+    }
+  ],
+  "validation": {
+    "command": "ADL_TIMEOUT_SECS=120 ADL_PROVIDER_SHADOW_OPEN_PR_MODEL=phi4-mini:latest CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/515-provider-shadow-target cargo test --manifest-path adl/Cargo.toml -p adl --test provider_shadow_open_pr_review -- --ignored --nocapture",
+    "outcome": "passed",
+    "tests": 1,
+    "open_prs_exercised": [
+      618,
+      614
+    ]
+  },
+  "non_claims": [
+    "The local shadow output is intentionally not retained or treated as authoritative review.",
+    "This smoke proof does not merge, approve, or comment on the reviewed PRs.",
+    "This smoke proof does not perform paid provider, cloud, AWS, or big-runner execution."
+  ]
+}
