@@ -6,10 +6,20 @@
   "initialization_digest": "310bed020d2d7cf8562632c720514a23f6869faf35f91cfd2c76cb371c014b0a",
   "phase": "implemented",
   "generation": 6,
-  "digest": "43c74c50a83d155fe85660433135611393d0fc86ed7b6831719e6e74176f4248",
+  "digest": "7dba7e9ddfaf1b2706be076669e3a33dc693fd3f990916e9a9311c6c206c536d",
   "branch": "codex/497-corp-c-sprint4-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:review-497-corp-c-final",
+    "assigned_by": "worker-7",
+    "revision": "git-blake3:631724dbd58a7567bfdcb9bdf9500d8ac645f889:0ee7f9593c1d904c61e4eefcb57aee017f21ac36ba2a1f5b52a7d7ae387b0e1a",
+    "scope": [
+      ".csdlc/evidence/497",
+      ".csdlc/prepared/issues/497",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c",
+      "docs/operations/corporate/control-transfer"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "840260204bab8f6551b69557ff06f0c8a159ee502aa2245228bedcfaec9a0b95"
     },
     "srp": {
-      "values_digest": "4de2fa6a404ae6e41d31ce8965d8622cb75e8727eb587c025b291eec95b01aca",
-      "rendered_digest": "bb267e29ed501681804e100577e56c36189c2e63109c969b48c276c33c655d39",
-      "ast_digest": "a030c6d34979912c8f8b8c98f63b92a703a21fa82abb53ce36ba2bdc617c964f"
+      "values_digest": "ba267813c464778e3c90c5b18f8772f1182787b90ee4d18edb89af168945027e",
+      "rendered_digest": "b422d106d661383055313bc5fa4f6a309461e36fb9d08662ea746eb9ede8a5a2",
+      "ast_digest": "5645854f90ef502fa1cff2332e8d0f0121ecc9f3a40710ab7465af1e25afaa51"
     },
     "sor": {
       "values_digest": "81d0aba8374a52f7852eee4709e599bfd2040f2397c5b67859bc902a460445d3",
@@ -134,6 +144,13 @@
       "actor": "codex:worker-7",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Review issue #497 corporate operational-control acceptance evidence, authorization boundaries, prerequisite truth, and validation claims. Do not review unrelated sprint lanes as if they were delivered by this issue.
+.csdlc/evidence/497
+.csdlc/prepared/issues/497
+docs/milestones/v0.92.1/evidence/corporate/corp-c
+docs/operations/corporate/control-transfer
 
 ## Prompts
 
