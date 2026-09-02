@@ -28,18 +28,7 @@ docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json
 
 ## Findings
 
-[
-  {
-    "id": "F-506-57BA3DC2-1",
-    "severity": "p1",
-    "summary": "negative_matrix still does not prove the invalid-input causes for each denied ACIP vector; denial can remain label-driven because expected denied vectors cannot accept.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -47,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Read-only exact-head review only; no live cloud/provider proof was run or claimed.
+- Read-only exact-head review only; no broad, paid, cloud, or live distributed tests were run or claimed.
+- Post-assignment generated review metadata dirt was outside the assigned product scope.
 
 ## Review Result
 
-Revision: Some("git-blake3:d20902de0916b8bf9f45acb77bc0026717bba30a:c6ef1c9cebe00c1ae5daa8229a39b6a5aea769d103a46acbe33fb35ef7a4e5f0")
+Revision: Some("git-blake3:dfa63786b98246d9eb0e919e03aa6508646d87bd:16d0be8f61a078adbcc6f80ae58cf69024a2a47fa34b80d6add75956a25da5ee")
 
-Reviewer: Some("fresh-session:57ba3dc2-e7d8-463b-8bcf-70963e12dcbb")
+Reviewer: Some("fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae")
 
-Result: changes_required
+Result: pass

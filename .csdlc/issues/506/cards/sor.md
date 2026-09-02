@@ -135,11 +135,11 @@ Implemented and remediated DRT-A distributed qualification contract surfaces for
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

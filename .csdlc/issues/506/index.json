@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "318259b231fb7c80a9bcb6569b4efd06c19f1bd3e8e261c38d0f1c9a7c5e1dcd",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "ad6c53a9d96f0d07913fc057ab0667e957277da3d441a7ae9d804d20150fb5b2",
+  "phase": "published",
+  "generation": 24,
+  "digest": "8ef7b0dca1658277c1b988c74abad07d0aa803e785c9cf7f054a3a8c0eabf0c9",
   "branch": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3",
   "review_assignment": {
-    "reviewer": "fresh-session:57ba3dc2-e7d8-463b-8bcf-70963e12dcbb",
+    "reviewer": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:d20902de0916b8bf9f45acb77bc0026717bba30a:c6ef1c9cebe00c1ae5daa8229a39b6a5aea769d103a46acbe33fb35ef7a4e5f0",
+    "revision": "git-blake3:dfa63786b98246d9eb0e919e03aa6508646d87bd:16d0be8f61a078adbcc6f80ae58cf69024a2a47fa34b80d6add75956a25da5ee",
     "scope": [
       ".csdlc/prepared/issues/506/design.md",
       ".csdlc/prepared/issues/506/diagram.mmd",
@@ -24,7 +24,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:57ba3dc2-e7d8-463b-8bcf-70963e12dcbb",
+    "reviewer": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
     "scope": [
       ".csdlc/prepared/issues/506/design.md",
       ".csdlc/prepared/issues/506/diagram.mmd",
@@ -34,26 +34,27 @@
       "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
       "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
     ],
-    "reviewed_revision": "git-blake3:d20902de0916b8bf9f45acb77bc0026717bba30a:c6ef1c9cebe00c1ae5daa8229a39b6a5aea769d103a46acbe33fb35ef7a4e5f0",
-    "findings": [
-      {
-        "id": "F-506-57BA3DC2-1",
-        "severity": "p1",
-        "summary": "negative_matrix still does not prove the invalid-input causes for each denied ACIP vector; denial can remain label-driven because expected denied vectors cannot accept.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:dfa63786b98246d9eb0e919e03aa6508646d87bd:16d0be8f61a078adbcc6f80ae58cf69024a2a47fa34b80d6add75956a25da5ee",
+    "findings": [],
     "residual_risks": [
-      "Read-only exact-head review only; no live cloud/provider proof was run or claimed."
+      "Read-only exact-head review only; no broad, paid, cloud, or live distributed tests were run or claimed.",
+      "Post-assignment generated review metadata dirt was outside the assigned product scope."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 506,
+    "pull_request": 616,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/616",
+    "base": "main",
+    "head": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
+    "revision": "git-blake3:dfa63786b98246d9eb0e919e03aa6508646d87bd:16d0be8f61a078adbcc6f80ae58cf69024a2a47fa34b80d6add75956a25da5ee",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -67,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e868bc19853c215463edbbe9ae790702c41f8ba4a3f19bdebc21942c602473c4",
+      "values_digest": "0adcca7bc6afd6455f1e3aec2766e8f0bd0d78acd6e75bac16df49318c24cf9b",
       "rendered_digest": "b5e991dbdf41c13e51045af2418c02855d6e7f2a73b2fe2129cbf12b8b8be54e",
       "ast_digest": "db8a583fc4cb6c375b601ea09825f7f7373d79f1b530a2e82307f6121e62fb02"
     },
     "stp": {
-      "values_digest": "a8fe2ae201957d4f5d5d639c1f3735fabaae917fe7aee79dad8f7fed099fa7c7",
+      "values_digest": "7639b0ec3fb401429786fd9a5653a8dd4b4f9ee340db8b096cc20fa4251b1358",
       "rendered_digest": "49d01c25700c08151a200ab30ba4e4e1e195d5b7e51055560e8c69a5761343be",
       "ast_digest": "9c2a10f6aaddb72c1ef32e68399027dcc6e91a153af398163acc9f9a1fffa775"
     },
     "spp": {
-      "values_digest": "f56c64bd11bd5f0c627e467240778d85af98e0c05a383f3eb780318cab5e735b",
+      "values_digest": "bd9a5d6b990bfe89b93fc0e45381d606bae6f60fc9913d6fc0ef216858b25cf2",
       "rendered_digest": "0e8296c6a288858d2723d418c9a4449a43dd76c3f1e1b44ef238322290f31821",
       "ast_digest": "bcd9ece2793e94d00617e46ad3da4738bc19f0dc5934fa3941e8e37ea3b77e19"
     },
     "vpp": {
-      "values_digest": "b774dd74ca31035cb54b5c1f0db637282a09e2347dbc7d9e95e32504cb3ad3f9",
+      "values_digest": "f24e924fc473041f80a14a6e8bbed0197297d96549ece4a041f70333b4c45592",
       "rendered_digest": "7ed31f7abb8e5799f3e8a174cabab822e88be3952d3435becef99b02f79f718f",
       "ast_digest": "dc2194a768d365dd310c08b11142284e4fd43fa9c83ceea3357de9eb6cd73ec7"
     },
     "srp": {
-      "values_digest": "69ca4ca99dcbabf0d9a74b5fd1f7b33ea57025a26c6594706347912d86128945",
-      "rendered_digest": "b243969a726066f31689e34b4aafb01211807f4e1d18bc996b347c2be4bebd8f",
-      "ast_digest": "8d71fa370c35edb1b19ce9c782c53b7854c27f2825ad5979e7f28ae405c133fa"
+      "values_digest": "c183b592d82003346c50c2bb5b716db94185ce08390cc91e038961bbd5848815",
+      "rendered_digest": "24289dbd0a046ee888d683af02478eaa41468c71683f7df476e94004df126413",
+      "ast_digest": "de48b157986ddce2d1473f14e650a043c611bc64530d9a5fcd72b9378bd68ca1"
     },
     "sor": {
-      "values_digest": "b2cf014331490646945dff1974fb373c826786113e9aeab0cb944dece0377b5f",
-      "rendered_digest": "ea1d937c7231f8a32ba4a9400d0f462265379bb9858807c3eefceb821cafbe58",
-      "ast_digest": "c6c38cd7463c5e24acf499091fae1679b00fd2d06f11802020f998da043c5396"
+      "values_digest": "dae6de811ec9ce3942d54509b76ff53fe7ea13a4d684f3bf643f56730605d4a0",
+      "rendered_digest": "85bdf6cbc3cc7fa8f027ebff72ec72e9f3429ca290687a7a5c4569a750c2297f",
+      "ast_digest": "0f3189377531a60adc31ef79df5eedf4b5acb90e2aa7bad77021d64a8dceed9b"
     }
   },
   "transitions": [
@@ -132,6 +133,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #506 reviewed state because committing typed review metadata moved the clean current HEAD from the reviewed substantive revision to a metadata-only lifecycle revision; preserve PASS evidence and request a fresh exact-head review of the current immutable head before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -337,6 +352,27 @@
       "actor": "codex:/root",
       "reason": "Normalize #506 SOR after causal negative-vector proof remediation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts with mutation fields, stateful duplicate rejection, causal invalid-vector denial, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.\",\"changes\":[\"Added and exported adl_runtime::qualification for downstream DRT consumers.\",\"Added deterministic DRT-A contract types, exact qualification receipt types, per-scenario receipt construction, and per-vector ACIP probe evaluation.\",\"Updated scenario receipt denominators to require mutation and exact receipt fields.\",\"Changed duplicate-vector proof to use explicit seen-message state before denial rather than expected-outcome labeling.\",\"Changed ACIP vector evaluation so denial is computed from actual invalid probe state before it is compared to the declared vector denominator.\",\"Added permit, correlation, and causation binding fields to the ACIP probe denominator.\",\"Added negative-matrix regression proof that repairing a denied vector's invalid field no longer produces a label-driven denial.\",\"Expanded retained evidence with scenario and ACIP denominators, receipt schema, computed contract digest, authority digest, exact receipt outputs, and validation output.\",\"Preserved #507/#508/#509 and live cloud/provider execution as non-goals.\"],\"artifacts\":[\"adl-runtime/src/lib.rs\",\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Format the touched adl-runtime Rust sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command completed with exit 0 in /Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_contract\",\"qualification_contract\",\"--\",\"--nocapture\"],\"purpose\":\"Extract and prove computed DRT-A contract digest and exact duplicate-denial receipt output.\",\"outcome\":\"passed\",\"evidence_ref\":\"DRT_A_CONTRACT_DIGEST=f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074 and exact duplicate-denial receipt printed; test passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_contract\",\"replay_conformance\",\"--\",\"--nocapture\"],\"purpose\":\"Extract and prove exact duplicate vector receipt output.\",\"outcome\":\"passed\",\"evidence_ref\":\"DRT_A_DUPLICATE_VECTOR_RECEIPT printed with decision denied and mutation message-id-repeat; test passed\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"qualification-contract\"],\"purpose\":\"Prove deterministic DRT-A requirement mapping and exact scenario receipt construction.\",\"outcome\":\"passed\",\"evidence_ref\":\"qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"acip-authority\"],\"purpose\":\"Prove ACIP authority envelope binding for qualified participants.\",\"outcome\":\"passed\",\"evidence_ref\":\"acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"replay-conformance\"],\"purpose\":\"Prove replay projection and exact duplicate-denial receipt behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"negative-matrix\"],\"purpose\":\"Prove fail-closed evaluation of stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, authority-mutation, credential-binding, permit-binding, correlation-binding, and causation-binding probes.\",\"outcome\":\"passed\",\"evidence_ref\":\"negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out; repaired negative probes fail instead of label-denying when their invalid condition is removed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range diff hygiene before replacement implementation review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no output and exited 0\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
