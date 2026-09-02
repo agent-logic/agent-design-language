@@ -1,0 +1,28 @@
+{
+  "schema": "adl.issue_640.wuji_acceptance.v1",
+  "status": "pass",
+  "shepherd": {
+    "activity": null,
+    "availability": "available",
+    "capabilities": [
+      "conversation"
+    ],
+    "communication_eligible": true,
+    "detail": "Configured provider model is loaded and responsive",
+    "freshness_deadline_unix_millis": 1788368166049,
+    "health": "healthy",
+    "id": "shepherd",
+    "label": "Beacon",
+    "location": "local_runtime",
+    "model": "qwen3:8b",
+    "name": "beacon.axioma",
+    "observed_at_unix_millis": 1788367866049,
+    "provenance": "runtime_resident_shepherd",
+    "provider": "ollama",
+    "role": "resident shepherd",
+    "source_revision": "9",
+    "state": "ready"
+  }
+}
+qwen3:8b    500a1f067a9f    9.0 GB    100% GPU     40960      Forever    
+adl_event schema=adl.observability.event.v1 command=csm stage=dispatch result=started subcommand=runtime-v3

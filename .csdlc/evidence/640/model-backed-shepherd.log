@@ -1,0 +1,9 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.68s
+────────────
+ Nextest run ID 20dc8e22-9f0d-4971-b017-617723a363f5 with nextest profile: default
+    Starting 2 tests across 6 binaries (115 tests skipped)
+        PASS [   0.010s] (1/2) adl-runtime-kernel::agent_roster shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed
+        PASS [   0.085s] (2/2) adl-runtime-kernel::shepherd shepherd_provider_routes_governed_reasoning_to_configured_model
+────────────
+     Summary [   0.086s] 2 tests run: 2 passed, 115 skipped
