@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Review #508 current-main design/readiness only: DRT-C final qualification decision, terminal #507 dependency truth, failure/authenticity/soak/cleanup evidence boundaries, and no #509 or Observatory product redesign absorption.
+.csdlc/evidence/508
+.csdlc/prepared/issues/508
+adl-runtime/Cargo.toml
+adl-runtime/src/qualification/mod.rs
+adl-runtime/tests/distributed_failure/drt_c_qualification.rs
+docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json
 
 ## Prompts
 

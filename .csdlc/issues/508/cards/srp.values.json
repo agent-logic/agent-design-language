@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review #508 current-main design/readiness only: DRT-C final qualification decision, terminal #507 dependency truth, failure/authenticity/soak/cleanup evidence boundaries, and no #509 or Observatory product redesign absorption.",
+      "review_scope": ".csdlc/evidence/508\n.csdlc/prepared/issues/508\nadl-runtime/Cargo.toml\nadl-runtime/src/qualification/mod.rs\nadl-runtime/tests/distributed_failure/drt_c_qualification.rs\ndocs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

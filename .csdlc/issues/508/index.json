@@ -6,10 +6,22 @@
   "initialization_digest": "cfacb01c100d1f8699ae21e7fe2c4e0178460ab0e6e27cee132722b2022f850a",
   "phase": "implemented",
   "generation": 3,
-  "digest": "7cd94ae838faccf1611f0d8e0734f7f4efe8f1da970682dde63e1b8e00cda926",
+  "digest": "3536383357f7e8e91c76b06bef3ab1d94e46b321348ebed7c2cfbd7bad35bfcd",
   "branch": "codex/508-drt-c-final-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2f0bb473-4c5c-4779-a0b0-4f0f33333d508",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9470a0620458fa5adefad01c612ca8a95ae6d561:2da45449d534772f4acfe8923ef14efb003b753db76637b677377946d08202ca",
+    "scope": [
+      ".csdlc/evidence/508",
+      ".csdlc/prepared/issues/508",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "3504504691e747421b0bf4d8b8fddc8baf5723ed3c348e216296a1bc51ec65c7"
     },
     "srp": {
-      "values_digest": "d816001bc63d0fdf3943856927db02490e2ff6e1c097969ded0eaf0d1029b156",
-      "rendered_digest": "800cebce55d1e50e9873368b9ee073cad3bcb1438748b26d06b398c44df36ff0",
-      "ast_digest": "d0af69856638c1688f7140e79d54f3d8fb4c5dff2ba665b96461769192434363"
+      "values_digest": "d1807e779c22fa808adf8ba45195ba34c8f41ab4eb812817297abd16152f5230",
+      "rendered_digest": "a9ad7b3310ccbb6c3427862287807d6bd840f1042166f0b9df05c874b58fe5d3",
+      "ast_digest": "87b0c745b4b9bd094d674e679da108989b48a7f4d9b5af85603560859d51c4b8"
     },
     "sor": {
       "values_digest": "2061e868016b6a42d99c0accba9cb5cbb32935be45494c6075c3ff7f0e150ce2",
@@ -113,6 +125,13 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
