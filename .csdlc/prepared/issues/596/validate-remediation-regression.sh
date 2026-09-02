@@ -9,6 +9,7 @@ done
 test -f ".csdlc/issues/596/index.json"
 test -f ".csdlc/prepared/issues/596/pr-create-request.json"
 test -f ".csdlc/prepared/issues/596/pr-state-request.json"
+test ! -e ".csdlc/prepared/issues/596/pr-update-after-review-fixes-request.json"
 
 python3 - <<'PY'
 import json

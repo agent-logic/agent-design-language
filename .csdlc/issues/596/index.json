@@ -4,45 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
-  "phase": "published",
-  "generation": 11,
-  "digest": "7ad3012fa5ed8c4f46ce75a93c5a08431d4f565667004477b910eba11337075e",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "a5ca170382728161b27a923f802aea2cc963adbe5295f2dee51dd3fe6e0327be",
   "branch": "codex/sprints-5-6-cutover-fixes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
-  "review_assignment": {
-    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:230f8c815057036321e92bef09bd85a80d9b7ffe:0ce6a0c7330927db60b6f549be338b59c43c3c0bc1b16bc4fb4c4f0f36fda3cd",
-    "scope": [
-      "."
-    ]
-  },
-  "review": {
-    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:230f8c815057036321e92bef09bd85a80d9b7ffe:0ce6a0c7330927db60b6f549be338b59c43c3c0bc1b16bc4fb4c4f0f36fda3cd",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.",
-      "The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must create or update the current remediation PR with a closing keyword for #596 only."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 596,
-    "pull_request": 615,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/615",
-    "base": "main",
-    "head": "codex/sprints-5-6-cutover-fixes",
-    "revision": "git-blake3:682ed2899cea21dec74ad5611ce8bf0d4f59e3b2:350e90f585868388d3e439acf69de137e1d8e1c83cc35cdf13366e53cbd4e489",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -56,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1d070908794916697c08ac576435d060ecfecc9c636bf82a5a0559bdb93f99f1",
+      "values_digest": "1659da690dbf397045d16027e38f236b12bf37f33657d3781ed6690899ec5bcc",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "de7a43ee7224e6d3856bc2912975c2a9c1d2cfc114564914535e77be4dfc1397",
+      "values_digest": "085ef220caec67212be91613ca45478689d335893d4a9cd3bd81d51e7438a491",
       "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
       "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
     },
     "spp": {
-      "values_digest": "8b9dbf490c4046b16be21026d8be145c6294f5c8a455cd903387e440c71dab71",
+      "values_digest": "14810165eec908d97f9264584033e92e0bbc4d810a7f9869ae8af69f501d3a73",
       "rendered_digest": "e24a19c3602aadf2b603b80220b548d9d3a7da22ced8bb66557d4962ea017d30",
       "ast_digest": "b3ea625a7cd080feb19e1687b9aaa1cd8f732fb2011b5a16f9c2b4d1d8c38c9b"
     },
     "vpp": {
-      "values_digest": "71ea4c3f87782ab0fe30b09342787c30fe8963509fe250cbf09a30a96e4c6f54",
+      "values_digest": "09bc9b0ead565be0f262b9502d018226528d93c9e2dfea37ed6036049932bbea",
       "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
       "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "ba9c31f8ab050df73fe5401f2d3bdcdf4edf68194a42aa416b4f78581e5c359a",
-      "rendered_digest": "35f72b47e31bbe5d4e01f0ac4c5b84254abd20961e42e1770ea0d092b967184e",
-      "ast_digest": "35cb526f4874b98d02f2703f3e40f9f2a56d2033347c3e06f96ed44aaadfb054"
+      "values_digest": "a71eb232e287abdcb129703c5f23dda87318a0e9f30189eab03a62df6155a5f3",
+      "rendered_digest": "2c68b62032294cf243dd1df772afd0e5d451be2b996fd02f522bf6d1affa1884",
+      "ast_digest": "d2fae27f6ffd715d1ce79c78293674463911d5b45ba12568418e5892af3b77da"
     },
     "sor": {
-      "values_digest": "fe45c317ae81080a569e7d8ddc9a6cdb3ae12a6615d35ebfc568b94c93461299",
-      "rendered_digest": "ce8c57725149ae308380f2927d4ca81fac82357822a689dca5d7bd9ac421f4b2",
-      "ast_digest": "010e52ae361907f5358d212e402ab58feece8dcde2a867d4cd2c003272223691"
+      "values_digest": "39ed358f83eaedafec2b4d5f1800527de5eff609e006a1d6f8e2aaff721a7abc",
+      "rendered_digest": "a5dc0dff44f0fe339ba796fed31ae7c8349242d7425158c7f62a13b20333fcb4",
+      "ast_digest": "d8adc037f1d14455a66253af55836f1ff6f8b3933953ce3a00eb21c94d0b14f2"
     }
   },
   "transitions": [
@@ -135,6 +104,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review after merging origin/main so #596 can receive fresh exact-head review and publication truth."
     }
   ],
   "audit": [
@@ -242,6 +218,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "Recover review after merging origin/main so #596 can receive fresh exact-head review and publication truth.",
+      "operation": "recover_review"
     }
   ]
 }
