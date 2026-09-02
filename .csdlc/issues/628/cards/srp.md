@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v3/src/commands/local/mod.rs
-csdlc-v3/src/main.rs
-csdlc-v3/tests/command_manifest.rs
-csdlc-v3/tests/local_commands.rs
-csdlc-v3/tests/real_issue_canary.rs
-docs/csdlc-v3/v3-command-manifest.json
-.csdlc/prepared/issues/628
-.csdlc/evidence/628
+
 
 ## Prompts
 
@@ -38,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Duplicate PR #639 remains open because no typed v2 route in scope exposes duplicate PR close; retain stacked #638 as canonical until #635 settles.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:453ec5973d048ed18df374b3a944e51fad42e783:a89b5cbbb4945b5e461a2139acd122c2cf68ce4b89681f64dd77a586fff72625")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_628_local_route_state")
+Reviewer: None
 
-Result: pass
+Result: pre_review

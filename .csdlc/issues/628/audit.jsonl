@@ -19,3 +19,4 @@
 {"sequence":19,"generation":10,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":20,"generation":11,"actor":"subagent:/root/fix_628_v3_h2_pr_topology","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":21,"generation":12,"actor":"subagent:/root/fix_628_v3_h2_pr_topology","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":22,"generation":13,"actor":"codex:/root","reason":"Recover #628 after #627 merged and typed finish materialized terminal truth on origin/main; restacked #628 at 0f427912c0332016a8bb3b40914199208d57f667 preserves final #627 lifecycle/proof surfaces before fresh exact-head review and republication.","operation":"recover_review"}
