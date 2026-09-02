@@ -1111,6 +1111,36 @@ pub struct PolisInitConfig {
     pub display_name: String,
     pub public_domain: String,
     pub observatory_public_origin: String,
+    #[serde(default)]
+    pub vertex_ai: Option<PolisVertexAiInitConfig>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PolisVertexAiInitConfig {
+    pub provider: String,
+    pub gcp_project: String,
+    pub vertex_location: String,
+    pub model: String,
+    pub credential_source: VertexAiCredentialSource,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
+pub enum VertexAiCredentialSource {
+    ApplicationDefaultCredentials,
+    ServiceAccountFile { path: PathBuf },
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum VertexAiProviderFailure {
+    MissingCredentials,
+    DisabledApi,
+    ProjectLocationMismatch,
+    QuotaOrAuth,
+    ModelOrRequest,
+    Transport,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1162,8 +1192,77 @@ impl PolisInitConfig {
             ));
         }
         validate_origin(&self.observatory_public_origin)?;
+        if let Some(vertex_ai) = &self.vertex_ai {
+            vertex_ai.validate()?;
+        }
         Ok(())
     }
+}
+
+impl PolisVertexAiInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if self.provider != "vertex_ai" {
+            return Err(RuntimeInitError::Policy(
+                "polis.vertex_ai.provider must be vertex_ai".to_owned(),
+            ));
+        }
+        validate_gcp_project("polis.vertex_ai.gcp_project", &self.gcp_project)?;
+        validate_safe_label("polis.vertex_ai.vertex_location", &self.vertex_location)?;
+        validate_safe_label("polis.vertex_ai.model", &self.model)?;
+        match &self.credential_source {
+            VertexAiCredentialSource::ApplicationDefaultCredentials => {}
+            VertexAiCredentialSource::ServiceAccountFile { path } => {
+                validate_absolute_path("polis.vertex_ai.credential_source.path", path)?;
+            }
+        }
+        Ok(())
+    }
+}
+
+pub fn classify_vertex_ai_provider_failure(
+    status: Option<u16>,
+    body: &str,
+) -> VertexAiProviderFailure {
+    let normalized = body.to_ascii_lowercase();
+    if normalized.contains("application default credentials")
+        || normalized.contains("could not load the default credentials")
+        || normalized.contains("missing credentials")
+        || normalized.contains("credential")
+            && (normalized.contains("not found") || normalized.contains("unavailable"))
+    {
+        return VertexAiProviderFailure::MissingCredentials;
+    }
+    if normalized.contains("api has not been used")
+        || normalized.contains("service disabled")
+        || normalized.contains("enable it by visiting")
+        || normalized.contains("aiplatform.googleapis.com") && normalized.contains("disabled")
+    {
+        return VertexAiProviderFailure::DisabledApi;
+    }
+    if normalized.contains("location")
+        && (normalized.contains("project") || normalized.contains("region"))
+        || normalized.contains("not found in location")
+        || normalized.contains("publisher model")
+            && (normalized.contains("not found") || normalized.contains("location"))
+    {
+        return VertexAiProviderFailure::ProjectLocationMismatch;
+    }
+    if matches!(status, Some(401 | 403 | 429))
+        || normalized.contains("permission")
+        || normalized.contains("quota")
+        || normalized.contains("rate limit")
+        || normalized.contains("unauthorized")
+    {
+        return VertexAiProviderFailure::QuotaOrAuth;
+    }
+    if matches!(status, Some(400 | 404))
+        || normalized.contains("invalid argument")
+        || normalized.contains("model")
+        || normalized.contains("request")
+    {
+        return VertexAiProviderFailure::ModelOrRequest;
+    }
+    VertexAiProviderFailure::Transport
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1323,6 +1422,43 @@ fn validate_non_empty_trimmed(field: &'static str, value: &str) -> Result<(), Ru
     if value.trim().is_empty() || value != value.trim() {
         return Err(RuntimeInitError::Policy(format!(
             "{field} must be non-empty without surrounding whitespace"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_safe_label(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    validate_non_empty_trimmed(field, value)?;
+    if value.len() > 128
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be a bounded provider label"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_gcp_project(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    validate_non_empty_trimmed(field, value)?;
+    if value.len() < 6
+        || value.len() > 30
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+        || !value
+            .bytes()
+            .next()
+            .is_some_and(|byte| byte.is_ascii_lowercase())
+        || !value
+            .bytes()
+            .last()
+            .is_some_and(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit())
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be an explicit GCP project id, not an ambient default"
         )));
     }
     Ok(())

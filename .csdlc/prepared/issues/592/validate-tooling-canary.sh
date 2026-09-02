@@ -17,6 +17,7 @@ for path in \
   .csdlc/prepared/issues/592/read-528-request.json; do
   test -s "$path"
 done
+test -s .csdlc/prepared/issues/592/bind-request.json
 
 git merge-base --is-ancestor edbc3ebc9b4e7c0862595345eebff8e04c9d5260 HEAD
 
