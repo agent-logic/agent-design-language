@@ -6,10 +6,22 @@
   "initialization_digest": "318259b231fb7c80a9bcb6569b4efd06c19f1bd3e8e261c38d0f1c9a7c5e1dcd",
   "phase": "implemented",
   "generation": 12,
-  "digest": "ede128dc71255c0876fcf0d0b6224e946696bd07f64768c097616ffbdf84f611",
+  "digest": "b6c6aa6b7946966dd6072bac646bcb3aba2c217a8e07eaa66fe8a6df36ca211e",
   "branch": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:cf340bb8-f76b-4401-97bf-4e85b570f3a8",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d54b4ff25d8034077d6ee01636d6260127eac60d:4bb4353a56ba6d39d1e8f4e4237f31c8bb2cbe13dacb3fbefbc05cac5f5f9c43",
+    "scope": [
+      ".csdlc/prepared/issues/506/design.md",
+      ".csdlc/prepared/issues/506/diagram.mmd",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc2194a768d365dd310c08b11142284e4fd43fa9c83ceea3357de9eb6cd73ec7"
     },
     "srp": {
-      "values_digest": "c4cf33cfa63f3eae941f20e6d041286d4b135f3d877002f895b20c4df5ff5085",
-      "rendered_digest": "f2a504dee86bea9669ba837203cc67effad2d441765e63aa5e8adb51d05b3a16",
-      "ast_digest": "275b6d957be3273ab09c2237a70a7a24d377092d11a977922f9a891a97cb069d"
+      "values_digest": "0007ed48858d3a5812325b2f7a0de9f190ef330403bac96077fea5a340ec5fec",
+      "rendered_digest": "54ea033f1ae54a0dfff08baf4f635b193bcf911a06e4b284d7d4940b6727e2ae",
+      "ast_digest": "48efb35790b569b4953cb42de077cb9cf3ed332fbc7d581bb75222853e9017da"
     },
     "sor": {
       "values_digest": "c137bd7baed69964d29b677b6391e234a25f4ca27df998d7fb3512d9d8fd335f",
@@ -176,6 +188,13 @@
       "actor": "codex:/root",
       "reason": "Advance #506 to implemented after recording scoped execution and passing focused validation evidence.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
