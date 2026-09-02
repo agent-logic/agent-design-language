@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+root="$(git rev-parse --show-toplevel)"
+
 python3 - <<'PY'
 import json
 from pathlib import Path
@@ -38,3 +40,5 @@ if git diff --name-only origin/main...HEAD | grep -E '(^|/)private/tmp|/private/
 fi
 
 echo "no v2 source changes"
+
+cargo test --manifest-path "$root/csdlc-v3/Cargo.toml" --test remote_publication_commands

@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #629 GitHub/publication routes, evidence model, tests, validator, canary evidence, and issue-local lifecycle records only.",
+      "review_scope": "csdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/629",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

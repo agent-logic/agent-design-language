@@ -47,6 +47,8 @@ pub struct RemoteRouteRequest {
     #[serde(default)]
     pub readback_source: Option<RemoteReadbackSource>,
     #[serde(default)]
+    pub readback_receipt_digest: Option<String>,
+    #[serde(default)]
     pub closes_issue: Option<u64>,
     #[serde(default)]
     pub part_of_issue: Option<u64>,
@@ -136,7 +138,18 @@ fn publication_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding>
             "publication requires current typed review truth",
         ));
     }
-    if request.expected_head_sha != request.head_sha {
+    let expected = request
+        .expected_head_sha
+        .as_deref()
+        .unwrap_or_default()
+        .trim();
+    let actual = request.head_sha.as_deref().unwrap_or_default().trim();
+    if expected.is_empty() || actual.is_empty() {
+        findings.push(remote_finding(
+            "missing_review_revision",
+            "publication requires exact reviewed and current head revisions",
+        ));
+    } else if expected != actual {
         findings.push(remote_finding(
             "stale_review_truth",
             "publication head must match the reviewed exact head",
@@ -175,6 +188,13 @@ fn pr_state_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
         findings.push(remote_finding(
             "caller_forged_readback",
             "PR state must come from authenticated GitHub readback",
+        ));
+    }
+    let expected_receipt = remote_readback_receipt_digest(request);
+    if request.readback_receipt_digest.as_deref() != Some(expected_receipt.as_str()) {
+        findings.push(remote_finding(
+            "missing_github_readback_receipt",
+            "PR state requires a receipt bound to the observed GitHub readback subject",
         ));
     }
     match request.mode {
@@ -235,6 +255,18 @@ fn remote_finding(code: &str, message: &str) -> RemoteRouteFinding {
         code: code.to_owned(),
         message: message.to_owned(),
     }
+}
+
+pub fn remote_readback_receipt_digest(request: &RemoteRouteRequest) -> String {
+    stable_digest(&[
+        "github-readback",
+        &request.repository,
+        &request.issue.to_string(),
+        &request.pull_request.unwrap_or_default().to_string(),
+        request.head_sha.as_deref().unwrap_or_default(),
+        &request.closes_issue.unwrap_or_default().to_string(),
+        &request.part_of_issue.unwrap_or_default().to_string(),
+    ])
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Issue #629 GitHub/publication routes, evidence model, tests, validator, canary evidence, and issue-local lifecycle records only.
+csdlc-v3/src/commands/remote/mod.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/command_manifest.rs
+csdlc-v3/tests/remote_publication_commands.rs
+docs/csdlc-v3/v3-command-manifest.json
+.csdlc/prepared/issues/629
 
 ## Prompts
 

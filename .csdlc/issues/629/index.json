@@ -6,10 +6,22 @@
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
   "phase": "implemented",
   "generation": 3,
-  "digest": "775bb716abc35666f2693ca1f9165cfa922ef190bd5185cfaf6b1850b6d1bd5f",
+  "digest": "810360ae95078fa63f3b316a32d724e99ff51b05929bd514066fc42eefb3d929",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_629_exact_head",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:63ecbc2a9564555a7197f317bd55ea16ef716d3e:4b42e3bc654e9bb2edd02e57b100cd485988e746bea2abba68fe7a8e1b288706",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/629"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
     },
     "srp": {
-      "values_digest": "3685962730e29c9f56c0c7ef9f671825251cc2a69c9d256051ac7e20240dfe4b",
-      "rendered_digest": "d058938a925b7b4c8fac75ddb9cfd3fab142f17144321ff2d5de1469154b7ab9",
-      "ast_digest": "89acae20a45a1b450198d81393ac858b8bcf645939265377f4da5a5b4ab44ed9"
+      "values_digest": "68291155d60d2b976e1a5f78f4f4618288263d26c6d32165d5987964c68a7808",
+      "rendered_digest": "edd36e98b00350210642d665f6411d88d96a4f82746d1cdd4053113e4cabf0aa",
+      "ast_digest": "0bd37e11520467bebe541418b057e8205cc49eb6f1687bb82496963826924ec9"
     },
     "sor": {
       "values_digest": "f7626b5a6de774a4bcf98ddb0a7764afb63326f2c024bc2469bab93ac75516aa",
@@ -113,6 +125,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -1,8 +1,8 @@
 use std::{fs, path::PathBuf, process::Command};
 
 use csdlc_v3::commands::remote::{
-    prepare_remote_publication_route, RemotePublicationMode, RemoteReadbackSource,
-    RemoteRouteRequest, RemoteRouteStatus, REMOTE_PUBLICATION_ROUTE_NAMES,
+    prepare_remote_publication_route, remote_readback_receipt_digest, RemotePublicationMode,
+    RemoteReadbackSource, RemoteRouteRequest, RemoteRouteStatus, REMOTE_PUBLICATION_ROUTE_NAMES,
 };
 
 fn repo_root() -> PathBuf {
@@ -22,7 +22,7 @@ fn fixture_dir(name: &str) -> PathBuf {
 }
 
 fn request() -> RemoteRouteRequest {
-    RemoteRouteRequest {
+    let mut request = RemoteRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
         issue: 629,
         pull_request: Some(639),
@@ -36,10 +36,13 @@ fn request() -> RemoteRouteRequest {
         body: Some("Closes #629\n\nPart of #625".into()),
         review_present: true,
         readback_source: Some(RemoteReadbackSource::Github),
+        readback_receipt_digest: None,
         closes_issue: Some(629),
         part_of_issue: None,
         credential_names: vec!["GITHUB_TOKEN".into()],
-    }
+    };
+    request.readback_receipt_digest = Some(remote_readback_receipt_digest(&request));
+    request
 }
 
 #[test]
@@ -97,6 +100,16 @@ fn publish_route_requires_current_review_and_closing_relation() {
         .iter()
         .any(|finding| finding.code == "stale_review_truth"));
 
+    let mut missing_revision = request();
+    missing_revision.expected_head_sha = None;
+    missing_revision.head_sha = None;
+    let plan = prepare_remote_publication_route("publish", &missing_revision).expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_review_revision"));
+
     let mut related_only = request();
     related_only.body = Some("Related #629".into());
     let plan = prepare_remote_publication_route("publish", &related_only).expect("plan");
@@ -117,6 +130,15 @@ fn pr_state_route_rejects_caller_forged_readback() {
         .findings
         .iter()
         .any(|finding| finding.code == "caller_forged_readback"));
+
+    let mut missing_receipt = request();
+    missing_receipt.readback_receipt_digest = None;
+    let plan = prepare_remote_publication_route("pr-state", &missing_receipt).expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_github_readback_receipt"));
 
     let mut missing_linkage = request();
     missing_linkage.closes_issue = None;
