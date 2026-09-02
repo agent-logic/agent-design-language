@@ -235,8 +235,8 @@ run_contracts() {
   (
     aws() {
       case " $* " in
-        *' describe-instances '*) printf 'i-0123456789abcdef0\ti-0abcdef0123456789\n' ;;
-        *' terminate-instances '*) printf '%s\n' "$*" >"$ADL_ISSUE607_TERMINATION_LOG" ;;
+        *' describe-instances '*) printf 'describe %s\n' "$*" >>"$ADL_ISSUE607_TERMINATION_LOG"; printf 'i-0123456789abcdef0\ti-0abcdef0123456789\n' ;;
+        *' terminate-instances '*) printf 'terminate %s\n' "$*" >>"$ADL_ISSUE607_TERMINATION_LOG" ;;
         *) return 2 ;;
       esac
     }
@@ -244,6 +244,7 @@ run_contracts() {
     ADL_ISSUE607_TERMINATION_LOG="$termination_log" \
       bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-terminate-owned-compute owner-test
   )
+  rg -Fq 'describe --profile agent-logic-admin --region us-west-2 ec2 describe-instances --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values=owner-test Name=instance-state-name,Values=pending,running,stopping,stopped --query Reservations[].Instances[].InstanceId --output text' "$termination_log"
   rg -q -- '--instance-ids i-0123456789abcdef0 i-0abcdef0123456789' "$termination_log"
   rg -q 'LAUNCH_OPERATION_SECONDS=540' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'terminate_owned_compute "\$CLEANUP_OWNER"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
