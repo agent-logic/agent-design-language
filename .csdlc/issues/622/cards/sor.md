@@ -92,11 +92,11 @@ Addressed exact-head review blockers by adding production CSM adl_workflow reloa
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
