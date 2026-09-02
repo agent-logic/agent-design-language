@@ -806,6 +806,7 @@ pub struct ControlService<C> {
     acip_write_bearer_digest: Mutex<Option<blake3::Hash>>,
     observatory_origin_policy: ObservatoryOriginPolicy,
     runtime_presentation: Arc<RwLock<RuntimePresentationState>>,
+    readiness_time: Option<Arc<dyn crate::TrustedTime>>,
     agent_population: RwLock<AgentPopulationFeed>,
     dynamic_agent_store: Mutex<Option<PathBuf>>,
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
@@ -912,6 +913,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             acip_write_bearer_digest: Mutex::new(None),
             observatory_origin_policy,
             runtime_presentation,
+            readiness_time: None,
             agent_population: RwLock::new(agent_population),
             dynamic_agent_store: Mutex::new(None),
             dynamic_agents: Mutex::new(Vec::new()),
@@ -985,6 +987,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             observatory_public_origin: init.polis.observatory_public_origin.clone(),
         };
         drop(active);
+        self
+    }
+
+    pub fn with_readiness_time(mut self, trusted_time: Arc<dyn crate::TrustedTime>) -> Self {
+        self.readiness_time = Some(trusted_time);
         self
     }
 
@@ -2646,7 +2653,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn readiness_report(&self) -> RuntimeReadinessReport {
         let feed = self.observatory_feed();
-        let now = now_unix_millis();
+        let now = self.readiness_now_unix_millis();
         let weather_freshness = feed.weather_freshness.clone();
         let weather_stale = weather_freshness
             .as_ref()
@@ -2675,6 +2682,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             weather_freshness,
             degraded_reasons,
         }
+    }
+
+    fn readiness_now_unix_millis(&self) -> u64 {
+        self.readiness_time
+            .as_ref()
+            .map_or_else(now_unix_millis, |trusted_time| {
+                trusted_time.now_unix_millis()
+            })
     }
 
     pub fn agent_roster_page(
@@ -4364,6 +4379,23 @@ fn shepherd_admission_is_fresh(snapshot: &RuntimeSnapshot, now_unix_millis: u64)
 mod shepherd_readiness_tests {
     use super::*;
 
+    struct FakeLifecycle;
+
+    #[async_trait]
+    impl LifecycleControl for FakeLifecycle {
+        async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
+            Ok(KernelExit::Clean)
+        }
+    }
+
+    struct FixedTrustedTime(u64);
+
+    impl crate::TrustedTime for FixedTrustedTime {
+        fn now_unix_millis(&self) -> u64 {
+            self.0
+        }
+    }
+
     #[test]
     fn readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss() {
         let recorder = RuntimeRecorder::new(4);
@@ -4380,6 +4412,20 @@ mod shepherd_readiness_tests {
         assert!(recorder.record_agent_heartbeat("shepherd", 2_000, 32_000));
         assert!(shepherd_admission_is_fresh(&recorder.snapshot(), 32_000));
         assert!(!shepherd_admission_is_fresh(&recorder.snapshot(), 32_001));
+    }
+
+    #[test]
+    fn readiness_uses_the_same_trusted_clock_as_shepherd_admission() {
+        let service = ControlService::new(
+            "trusted-readiness-runtime",
+            RuntimeRecorder::new(4),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            4,
+        )
+        .with_readiness_time(Arc::new(FixedTrustedTime(12_345)));
+
+        assert_eq!(service.readiness_now_unix_millis(), 12_345);
     }
 }
 
