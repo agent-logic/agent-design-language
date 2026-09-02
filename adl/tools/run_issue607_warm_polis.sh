@@ -1009,7 +1009,7 @@ extend_retention() {
   storage_dir="$STATE_ROOT/storage/$STORAGE_ID"; mkdir -p "$storage_dir/tfdata-retention"
   [[ -f "$storage_dir/terraform.tfstate" && -f "$storage_dir/terraform.tfvars.json" ]] || { echo "storage state is missing" >&2; exit 2; }
   jq --arg retention "$RETENTION_UNTIL" '.retention_until=$retention' "$storage_dir/terraform.tfvars.json" >"$storage_dir/terraform.tfvars.extend.json"
-  plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$storage_dir/tfdata-retention" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.extend.json" "$storage_dir/retention.tfplan" "$storage_dir/retention-plan.json")"
+  plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$storage_dir/tfdata-retention" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.extend.json" "$storage_dir/retention.tfplan" "$storage_dir/retention-plan.json")" || return $?
   runtime_volume="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="runtime")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"; gpu_volume="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="gpu")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"
   artifacts="$(retained_artifact_ids "$storage_dir")"
   jq -n --arg action extend-retention --arg storage "$STORAGE_ID" --arg plan "$plan_sha" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" --arg retention "$RETENTION_UNTIL" --argjson artifacts "$artifacts" '{schema:"adl.issue607.storage_authorization_request.v2",action:$action,storage_id:$storage,saved_plan_sha256:$plan,runtime_volume_id:$runtime,gpu_volume_id:$gpu,retained_artifact_ids:$artifacts,retention_until:$retention}' >"$storage_dir/authorization-request.json"
@@ -1166,7 +1166,7 @@ complete_preparation() {
   snapshot_receipt_key="$(jq -r .key "$storage_dir/snapshot-restore-object.json")"; snapshot_receipt_version="$(jq -r .version_id "$storage_dir/snapshot-restore-object.json")"
   jq --arg runtime "$runtime_root" --arg gpu "$gpu_root" '.runtime_seal_sha256=$runtime|.gpu_seal_sha256=$gpu' "$storage_dir/terraform.tfvars.json" >"$storage_dir/terraform.tfvars.next.json"
   mv "$storage_dir/terraform.tfvars.next.json" "$storage_dir/terraform.tfvars.json"
-  storage_tag_plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$run_dir/tfdata-storage" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.json" "$run_dir/storage-seal-tags.tfplan" "$run_dir/storage-seal-tags-plan.json")"
+  storage_tag_plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$run_dir/tfdata-storage" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.json" "$run_dir/storage-seal-tags.tfplan" "$run_dir/storage-seal-tags-plan.json")" || return $?
   tf "$run_dir/tfdata-storage" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$run_dir/storage-seal-tags.tfplan" >/dev/null
   record_cost_ledger prepare "$preparation_compute_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID" "$(wc -c <"$run_dir/source.tar" | tr -d '[:space:]')"
   jq -n --arg storage_id "$STORAGE_ID" --arg generation "$generation" --arg controller_revision "$(git -C "$ROOT" rev-parse HEAD)" --argjson campaign "$campaign" --arg base_runtime_ami "$(jq -r .runtime_ami_id "$run_dir/preflight.json")" --arg base_gpu_ami "$(jq -r .gpu_ami_id "$run_dir/preflight.json")" --arg runtime_ami "$PREP_RUNTIME_AMI_ID" --arg gpu_ami "$PREP_GPU_AMI_ID" --arg runtime_root_snapshot "$PREP_RUNTIME_ROOT_SNAPSHOT_ID" --arg gpu_root_snapshot "$PREP_GPU_ROOT_SNAPSHOT_ID" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_snapshot_id "$runtime_snapshot" --arg gpu_snapshot_id "$gpu_snapshot" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --arg storage_plan_sha256 "$storage_plan_sha" --arg preparation_plan_sha256 "$prep_plan_sha" --arg storage_tag_plan_sha256 "$storage_tag_plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/preparation-zero-residue.json")" --arg snapshot_restore_sha256 "$(sha256_file "$storage_dir/snapshot-restore-test.json")" --arg snapshot_receipt_key "$snapshot_receipt_key" --arg snapshot_receipt_version "$snapshot_receipt_version" \
@@ -1267,7 +1267,7 @@ prepare() {
   jq -n --arg account "$account" --arg region "$REGION" --arg az "$AZ" --arg storage "$STORAGE_ID" --arg owner "$owner" --arg kms "$KMS_KEY_ARN" --arg generation "$generation" --arg retention "$retention_until" --arg zeros "$zeros" \
     --argjson runtime_size_gib "$WARM_RUNTIME_GIB" --argjson gpu_size_gib "$WARM_GPU_GIB" \
     '{aws_account_id:$account,aws_region:$region,availability_zone:$az,storage_id:$storage,owner_token:$owner,kms_key_arn:$kms,artifact_generation:$generation,retention_until:$retention,runtime_size_gib:$runtime_size_gib,gpu_size_gib:$gpu_size_gib,runtime_seal_sha256:$zeros,gpu_seal_sha256:$zeros}' >"$storage_dir/terraform.tfvars.json"
-  storage_plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$run_dir/tfdata-storage" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.json" "$run_dir/storage-create.tfplan" "$run_dir/storage-create-plan.json")"
+  storage_plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$run_dir/tfdata-storage" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.json" "$run_dir/storage-create.tfplan" "$run_dir/storage-create-plan.json")" || return $?
   preflight_sha="$(sha256_file "$run_dir/preflight.json")"
   action_manifest="$run_dir/prepare-action-manifest.json"
   jq -n --arg action prepare --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$storage_plan_sha" --arg preflight "$preflight_sha" \
@@ -1306,7 +1306,7 @@ prepare() {
     --arg manifest_key "$MANIFEST_KEY" --arg manifest_version "$MANIFEST_VERSION" --arg manifest_sha "$MANIFEST_SHA256" --arg kms "$KMS_KEY_ARN" --arg az "$AZ" --arg generation "$generation" --arg ami_metadata_sha "$(jq -r .ami_metadata_sha256 "$run_dir/preflight.json")" \
     --arg runtime_ami_metadata "$(jq -c --arg id "$RUNTIME_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --arg gpu_ami_metadata "$(jq -c --arg id "$GPU_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --argjson read_keys "$read_keys" \
     '{aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime_ami_metadata_json:$runtime_ami_metadata,gpu_ami_metadata_json:$gpu_ami_metadata,ami_metadata_sha256:$ami_metadata_sha,vpc_id:$vpc,subnet_id:$subnet,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,artifact_bucket:$bucket,artifact_read_keys:$read_keys,receipt_write_prefix:$receipt,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,source_commit:$source_commit,source_archive_key:$source_key,source_archive_version_id:$source_version,source_archive_sha256:$source_sha,artifact_manifest_key:$manifest_key,artifact_manifest_version_id:$manifest_version,artifact_manifest_sha256:$manifest_sha,kms_key_arn:$kms,availability_zone:$az,artifact_generation:$generation}' >"$run_dir/preparation.tfvars.json"
-  prep_plan_sha="$(saved_plan preparation "$PREPARATION_ROOT" "$run_dir/tfdata-preparation" "$run_dir/preparation.tfstate" "$run_dir/preparation.tfvars.json" "$run_dir/preparation.tfplan" "$run_dir/preparation-plan.json")"
+  prep_plan_sha="$(saved_plan preparation "$PREPARATION_ROOT" "$run_dir/tfdata-preparation" "$run_dir/preparation.tfstate" "$run_dir/preparation.tfvars.json" "$run_dir/preparation.tfplan" "$run_dir/preparation-plan.json")" || return $?
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" apply -input=false -state="$run_dir/preparation.tfstate" -auto-approve "$run_dir/preparation.tfplan" >/dev/null
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" output -state="$run_dir/preparation.tfstate" -json >"$run_dir/preparation-outputs.json"
   runtime_preparation_instance="$(jq -r .runtime_preparation_instance_id.value "$run_dir/preparation-outputs.json")"
@@ -1364,7 +1364,7 @@ launch() {
     --arg kms "$(jq -r .kms_key_arn "$run_dir/preflight.json")" \
     --arg runtime_type "$RUNTIME_TYPE" --arg gpu_type "$GPU_TYPE" --argjson runtime_root_gib "$RUNTIME_ROOT_GIB" --argjson gpu_root_gib "$GPU_ROOT_GIB" \
     '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,authorized_max_hourly_usd:1.86,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
-  plan_sha="$(saved_plan compute "$COMPUTE_ROOT" "$run_dir/tfdata-compute" "$run_dir/compute.tfstate" "$run_dir/compute.tfvars.json" "$run_dir/compute.tfplan" "$run_dir/compute-plan.json")"
+  plan_sha="$(saved_plan compute "$COMPUTE_ROOT" "$run_dir/tfdata-compute" "$run_dir/compute.tfstate" "$run_dir/compute.tfvars.json" "$run_dir/compute.tfplan" "$run_dir/compute-plan.json")" || return $?
   preflight_sha="$(sha256_file "$run_dir/preflight.json")"
   action_manifest="$run_dir/launch-action-manifest.json"
   write_launch_action_manifest "$action_manifest" "$launch_action" "$controller_revision" "$plan_sha" "$preflight_sha" "$runtime_volume" "$gpu_volume" "$runtime_root" "$gpu_root" "$(sha256_text "$owner")"
@@ -1373,7 +1373,7 @@ launch() {
   campaign="$(jq -c .campaign "$storage_dir/preparation-result.json")"
   campaign_id="$(jq -r .id <<<"$campaign")"
   if [[ "$ORDINAL" == remediation ]]; then
-    expected_run="adl-issue607-${campaign_id:0:12}-qualification-remediation"
+    expected_run="adl-issue607-${campaign_id:0:12}-remediate"
     [[ "$RUN_ID" == "$expected_run" ]] || { echo "remediation run ID must be exactly: $expected_run" >&2; exit 2; }
     initialize_issue_cost_ledger "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
     reservation="$(calculate_issue_action_reservation "$launch_action" "$ISSUE_COST_AUDIT")"

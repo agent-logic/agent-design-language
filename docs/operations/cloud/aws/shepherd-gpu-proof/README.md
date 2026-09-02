@@ -317,7 +317,7 @@ ledger remains at or below USD 20:
 ```bash
 bash adl/tools/run_issue607_warm_polis.sh qualification-remediation \
   --commit PREPARED_ARTIFACT_SHA \
-  --run-id adl-issue607-CAMPAIGNPREFIX-qualification-remediation \
+  --run-id adl-issue607-CAMPAIGNPREFIX-remediate \
   --storage-id adl-issue607-warm-v1 --execute
 ```
 
