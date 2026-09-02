@@ -4,56 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "79248afb865bdc0597bf09ff7231d52a3849136c1683ea4f8225f04a3071a3b0",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "a56347630f9e49f0cd866bba78687db83b35851cc2fec5f9f4e13bbb81251cc7",
   "branch": "codex/627-v3-h1-command-denominator-r2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_627_r3_evidence",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:b9ad9881d81171625267d00e0921190437534420:3e6fa8662d07984b7428f33ccb1eb72d86f9a4af507de58a119b051b0e191d6b",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/627",
-      ".csdlc/evidence/627"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-reviewer:review_627_r3_evidence",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/627",
-      ".csdlc/evidence/627"
-    ],
-    "reviewed_revision": "git-blake3:b9ad9881d81171625267d00e0921190437534420:3e6fa8662d07984b7428f33ccb1eb72d86f9a4af507de58a119b051b0e191d6b",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:b9ad9881d81171625267d00e0921190437534420:3e6fa8662d07984b7428f33ccb1eb72d86f9a4af507de58a119b051b0e191d6b",
-      "to_revision": "git-blake3:0705a33f5fd677375a84b6fbca97b01417454ba4:1f3c4733d23ee4765c2ff49d42dac8bf172f55524bb69c0e88db74f029491e73",
-      "from_commit": "b9ad9881d81171625267d00e0921190437534420",
-      "to_commit": "0705a33f5fd677375a84b6fbca97b01417454ba4",
-      "changed_paths": [
-        ".csdlc/issues/627/audit.jsonl",
-        ".csdlc/issues/627/cards/sip.values.json",
-        ".csdlc/issues/627/cards/sor.md",
-        ".csdlc/issues/627/cards/sor.values.json",
-        ".csdlc/issues/627/cards/spp.values.json",
-        ".csdlc/issues/627/cards/srp.md",
-        ".csdlc/issues/627/cards/srp.values.json",
-        ".csdlc/issues/627/cards/stp.values.json",
-        ".csdlc/issues/627/cards/vpp.values.json",
-        ".csdlc/issues/627/index.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -68,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "057c8168530b66c419cd1fda0f46019af8da7188f089c433fc4ec4cc844c0388",
+      "values_digest": "b304d664f5106801ebb049f3ec44a967e3ee6972df0e8fa59c95e99166c72a81",
       "rendered_digest": "855325a14477c7ce2e1b90f0e6d9ba912151de93354db72604eabd9fbad12879",
       "ast_digest": "544e4a1cf30b8a35ebf34e687ba209a9cce107857d5c68eaa83b22298762dcfd"
     },
     "stp": {
-      "values_digest": "5515c90e7d4137f0a26d51938d8f25cf5f72825d1a685a3ce7833b84f5215825",
+      "values_digest": "5068c3a128f935c61dd22c608f5ce6ba44a9239a5858ffcf98451656fc49a186",
       "rendered_digest": "334cf29cd98a42918bca8ba4052870d45b62144849805c43ad5cee1b0c6b4bca",
       "ast_digest": "70bdafa0bcf9400aa34200a029f4a1c1f3c876b3356549201f24269e27c7261a"
     },
     "spp": {
-      "values_digest": "232ea9b85045418a1eda4039520cf862139fe6829cc0aeef0575c03f0660eceb",
+      "values_digest": "ceede03dfef609152f8d479a68093103d3573ea10f532821a4f192a72ae5973f",
       "rendered_digest": "d4720e149b43a7035dc0d3694c00ef1cd7663f600111662bf6eeec08e8802777",
       "ast_digest": "cd92e40f601f49a0add5d60697832e17f20cbb3712482367e38d55f253a66c78"
     },
     "vpp": {
-      "values_digest": "af84edb315c586982092ffd3a736d6e5ee19df0f889ad1083b509b64154a61b3",
+      "values_digest": "bc478ca9c4725de4c3e4593f78f4965b3a3f7d8490220552ebcf1f3720c29467",
       "rendered_digest": "fd2f7ae0bb0ffee7657ed885c898fb788e9f93c6eb12e2c2ce88aea7a7ba6f80",
       "ast_digest": "afeb335bdfb40004b4fec5a919bf5065dfc8a9bc4aa2ed73e5343f2fbb68b159"
     },
     "srp": {
-      "values_digest": "92166d75ca029d83d7d6d75cfcefae1500416345d6960cc9586225b55633e24b",
-      "rendered_digest": "f579d4adf2575d9093efba2fe6b1b937c1d09427b37380079718681b17bf9f5a",
-      "ast_digest": "82061c62cfc51c2b6b1840df568196473ad7060c65f4c6e1f235784db9b0693b"
+      "values_digest": "b67a9dbd458a2072f06ac068b0b22135663567edd4ac144c42a1e3f3466c3bc6",
+      "rendered_digest": "052e2b97374205df4d99a681f0b70f7c2f797f6a039c2b5c7904d4bf7b006b30",
+      "ast_digest": "255eacacbe5546333848c6b4266181ef9d698877656ebdaced731edddd99c569"
     },
     "sor": {
-      "values_digest": "d6f6fac9c8d73ae8c7a7ed058488613af42e6b149c1b1d68fe6c477e7e90c807",
+      "values_digest": "b4a788d16b2d6d7a94f6f41bbd95cd8c949c0f2e9209efdf1ad0575b64e26bc8",
       "rendered_digest": "19e2e3b6ad660b1460cebd0c0dd0323b1839794a928a86a58510b44e6110ca93",
       "ast_digest": "b5750dc9e8ea1b7b78f06254c5ea11ee89791cf14d5692331380a9307b95f0dd"
     }
@@ -147,6 +104,13 @@
       "to": "reviewed",
       "actor": "codex:worker-6",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after publication guard found review_stale because review metadata was committed after the previously reviewed substantive evidence head."
     }
   ],
   "audit": [
@@ -226,6 +190,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after publication guard found review_stale because review metadata was committed after the previously reviewed substantive evidence head.",
+      "operation": "recover_review"
     }
   ]
 }
