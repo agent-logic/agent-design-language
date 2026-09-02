@@ -349,10 +349,10 @@ wait_object() {
 
 wait_preparation_receipts() {
   runtime_success="$1" runtime_failure="$2" runtime_instance="$3" runtime_destination="$4"
-  gpu_success="$5" gpu_failure="$6" gpu_instance="$7" gpu_destination="$8" max_seconds="$9"
-  deadline=$((SECONDS+max_seconds)); runtime_stopped=0; gpu_stopped=0
+  gpu_success="$5" gpu_failure="$6" gpu_instance="$7" gpu_destination="$8"
+  runtime_stopped=0; gpu_stopped=0
   runtime_done=false; gpu_done=false
-  while ((SECONDS<deadline)); do
+  while true; do
     for node in runtime gpu; do
       if [[ "$node" == runtime ]]; then
         success="$runtime_success"; failure="$runtime_failure"; instance="$runtime_instance"; destination="$runtime_destination"; done_state="$runtime_done"; stopped="$runtime_stopped"
@@ -380,8 +380,6 @@ wait_preparation_receipts() {
     [[ "$runtime_done" == true && "$gpu_done" == true ]] && return 0
     sleep "$PREPARATION_POLL_SECONDS"
   done
-  echo "timed out waiting for preparation receipts" >&2
-  return 2
 }
 
 cleanup_preparation_state() {
