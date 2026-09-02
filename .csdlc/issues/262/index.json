@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "63a49e4803308aa217044ca5dd8d1b735e7751a65a9378caab3cdcf66349c390",
+  "generation": 19,
+  "digest": "881bcf6e067feb5721d934eed23fe33a049fdd9b637029dc1854a7f524cc49c0",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a4024727db71879a6d69846114a128aa49ac7e9747216219aed35f2c30724f22",
+      "values_digest": "415fb9509f7c5218b1cb11cbf33aac31f1ef1de63a38218ee0247968054d26a0",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "85186fc901a68574bc64a4da7c3b88b8bdb9ecf801a62435774967f8fd6e1a85",
+      "values_digest": "64715556250c798a0310a884f71bd20b9cb311b44762ba8dfc80dfe527fd3242",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "92891bf0d2eae7dcd2ff217f69eb92fe60c643b5359b9d9138ee7b3528c0803f",
+      "values_digest": "5038765f1302c617c1a8e7a2c18ca34b2f2c3205f60597d770fa4a5c0a7448d5",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "8b42ab6d113ab0e6b7ab93c2b6c53133925454674bdf6214f28ac893703a3b29",
+      "values_digest": "9ba5922b002cc5c28299b56733649f164ff0b7f17a3ebcac1dc2217222a4fc7c",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "1edcdcd235336cbc291d3f9ac124450d681549151ac1e343df45c5dbcbe9ddc0",
+      "values_digest": "044ec1dbfd401b03c286a21e0d1a88a684ae80b5b588ccefa2b47ab783219539",
       "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
       "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
     },
     "sor": {
-      "values_digest": "c347c5e086169f52d1212520947df740db4e4241986091c609d74727e8731023",
-      "rendered_digest": "843b048b59470d8286992c6ad0ddfbca18d8f0aef3aaa0971ea52d3a4c87c341",
-      "ast_digest": "9712c9af05379927a9deb0b59004fbd3349085807fee6fc3f959129546128ed7"
+      "values_digest": "e365a65c3913037cd32224e4f775155464cb97334f2641b564f54a7498fe2787",
+      "rendered_digest": "c49851016a3f7eb649430f053ea3c1becaefbf7131d86063fde90189eadfa055",
+      "ast_digest": "d120fae72fc6673bc27098b1667566279cee03587341ef7cea24f8e2c612c8d8"
     }
   },
   "transitions": [
@@ -225,6 +225,27 @@
       "actor": "codex:root/podcast-262",
       "reason": "Recover after assigned #262 R3 review found the retained HTTP playback proof was not mechanically bound to a recomputable source/candidate digest; prepare a remediated exact-head candidate.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R3 source-manifest-bound HTTP playback proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain HTTP HEAD, GET, first/tail 206 range, desktop/mobile profile playback proof bound to a recomputable source manifest digest over feed, pages, MP3, validator, generator, and wrapper scripts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R3 focused validation after source-manifest-bound playback proof repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack launch-feed artifacts, MP3 metadata, HTTP playback receipts, and wrapper receipts while recomputing the source manifest digest that binds the retained proof to current source artifacts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 source-manifest playback-proof repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 source-manifest playback-proof remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
     }
   ]
 }
