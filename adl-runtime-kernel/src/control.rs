@@ -597,23 +597,15 @@ impl ConversationDispatchGate {
             == sequence
     }
 
-    async fn wait_turn(
-        &self,
-        sequence: u64,
-        deadline: tokio::time::Instant,
-        cancellation: &CancellationToken,
-    ) -> bool {
+    async fn wait_turn(&self, sequence: u64, cancellation: &CancellationToken) -> bool {
         loop {
             let changed = self.changed.notified();
             if self.ready(sequence) {
                 return true;
             }
-            let notified = tokio::select! {
+            tokio::select! {
                 _ = cancellation.cancelled() => return false,
-                result = tokio::time::timeout_at(deadline, changed) => result,
-            };
-            if notified.is_err() {
-                return false;
+                _ = changed => {},
             }
         }
     }
@@ -1509,12 +1501,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "schema": "adl.runtime.local_agent_work.v1",
             "tasks": [task],
         }));
-        // Conversation execution is independent of the short WebSocket authentication
-        // handshake window. Local model cold starts can legitimately take much longer.
-        let deadline = tokio::time::Instant::now() + Duration::from_secs(120);
+        // Conversation execution is not an authentication handshake. Give local
+        // models enough room for cold starts while preserving explicit operator
+        // cancellation and bounded shutdown behavior.
         let turn_ready = dispatch
             .dispatch_gate
-            .wait_turn(dispatch.sequence, deadline, &dispatch.cancellation)
+            .wait_turn(dispatch.sequence, &dispatch.cancellation)
             .await;
         let result = if !turn_ready {
             if dispatch.cancellation.is_cancelled() {
@@ -1532,6 +1524,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 (Err(_), _) => outcome("refused", "invalid_conversation_intent"),
                 (_, None) => outcome("failed", "conversation_ingress_unavailable"),
                 (Ok(payload), Some(ingress)) => {
+                    let deadline = tokio::time::Instant::now() + Duration::from_secs(120);
                     let submit = ingress.submit_with_cancellation(
                         DomainWork {
                             schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
@@ -5912,15 +5905,8 @@ mod conversation_dispatch_gate_tests {
         let cancellation = CancellationToken::new();
         let later_gate = gate.clone();
         let later_cancellation = cancellation.clone();
-        let mut later = tokio::spawn(async move {
-            later_gate
-                .wait_turn(
-                    2,
-                    tokio::time::Instant::now() + Duration::from_secs(1),
-                    &later_cancellation,
-                )
-                .await
-        });
+        let mut later =
+            tokio::spawn(async move { later_gate.wait_turn(2, &later_cancellation).await });
 
         assert!(tokio::time::timeout(Duration::from_millis(20), &mut later)
             .await

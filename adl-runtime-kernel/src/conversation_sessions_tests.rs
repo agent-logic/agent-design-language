@@ -670,7 +670,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(budget_first["turn_id"], "turn-budget-1");
     assert_eq!(budget_first["status"], "delivered");
     assert_eq!(budget_second["turn_id"], "turn-budget-2");
-    assert_eq!(budget_second["status"], "timed_out");
+    assert_eq!(budget_second["status"], "delivered");
 
     socket
         .send(Message::Text(
@@ -769,11 +769,14 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(delayed_intent.to_string().into()))
         .await
         .unwrap();
-    let timed_out =
+    let still_running =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-    assert_eq!(timed_out["status"], "timed_out");
+    assert_eq!(still_running["status"], "accepted");
+    let completed_after_reconnect =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(completed_after_reconnect["status"], "delivered");
     assert_eq!(dispatches.load(Ordering::SeqCst), 11);
-    assert_eq!(completions.load(Ordering::SeqCst), 9);
+    assert_eq!(completions.load(Ordering::SeqCst), 11);
 
     socket
         .send(Message::Text(
@@ -817,7 +820,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
-    assert_eq!(completions.load(Ordering::SeqCst), 9);
+    assert_eq!(completions.load(Ordering::SeqCst), 11);
 
     let cleanup_race = serde_json::json!({
         "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
@@ -903,7 +906,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .is_err(),
         "stale completion removed or duplicated the current-generation attachment"
     );
-    assert_eq!(completions.load(Ordering::SeqCst), 10);
+    assert_eq!(completions.load(Ordering::SeqCst), 12);
     for task in scheduling_pressure {
         task.await.unwrap();
     }
