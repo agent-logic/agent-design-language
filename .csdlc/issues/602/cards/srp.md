@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/src/cli/csmctl_cmd.rs
+
 
 ## Prompts
 
@@ -32,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Authoritative GitHub workspace coverage rerun remains pending publication of this reviewed revision.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:c8f158252efd1ac536db5e966ad6d421daf85f7b:4ca47bc45e0e8f16f59a0271781f896e84e8ae07abcf45e0d3e3e7a0aa2d679c")
+Revision: None
 
-Reviewer: Some("codex-subagent:issue_602_timeout_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

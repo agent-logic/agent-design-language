@@ -3,44 +3,14 @@
   "issue": 602,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
-  "phase": "published",
-  "generation": 28,
-  "digest": "5c1a371865ac758b662b37a98f14332e74331db154ab219fe8ee6980df4d0f42",
+  "phase": "implemented",
+  "generation": 29,
+  "digest": "677cbb0f1096677d6e7837e64f3392c16f403b8ec65f837778b34d67ec45dc50",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
-  "review_assignment": {
-    "reviewer": "codex-subagent:issue_602_timeout_review",
-    "assigned_by": "codex:602-ci-remediation",
-    "revision": "git-blake3:c8f158252efd1ac536db5e966ad6d421daf85f7b:4ca47bc45e0e8f16f59a0271781f896e84e8ae07abcf45e0d3e3e7a0aa2d679c",
-    "scope": [
-      "adl/src/cli/csmctl_cmd.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:issue_602_timeout_review",
-    "scope": [
-      "adl/src/cli/csmctl_cmd.rs"
-    ],
-    "reviewed_revision": "git-blake3:c8f158252efd1ac536db5e966ad6d421daf85f7b:4ca47bc45e0e8f16f59a0271781f896e84e8ae07abcf45e0d3e3e7a0aa2d679c",
-    "findings": [],
-    "residual_risks": [
-      "Authoritative GitHub workspace coverage rerun remains pending publication of this reviewed revision."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 602,
-    "pull_request": 614,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/614",
-    "base": "main",
-    "head": "codex/602-runtime-csmctl-agent-add",
-    "revision": "git-blake3:b3f74856b8ca30744fd8afd0a0f54c4be04e5fb2:4b1951860c11763d04afbb4b9c0c1ee36fd8fcec5f49ea620740626ec117e010",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -54,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d48ed9395fb6e14573b62d7ddc61ed0fa87b0003af8e81af61d9f4b3ce2427e5",
+      "values_digest": "1d3fbba1f2f3bcaa527f5b8bbfa29866631d47b4e1dd384ddfce733e98f91311",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "314633925597811f7c03b709dcdbd8e5491c7aa582d45f8916dc93fde2c902c6",
+      "values_digest": "ca6f05ac4f964bf6418cf3b55ea1bcec0feedfda52d17a58f9ef7b04fc857691",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "f87f0fb8b170cba81eabfe1f1b86eb0d7292a981c2ded1c056057b08a6a1e101",
+      "values_digest": "a4d1baf5e45ab852c5b2f1933bfe9b234f40da86b27af8d816d9d49afa7d6777",
       "rendered_digest": "ccb37dbef2530ba00930b9e5f1ddf66361372ad181f115ffc2ffa0c97c77a054",
       "ast_digest": "ce6b07721349077126c03c4dd2513a3e3fc408c9c6f6d445ec0e281575ac2f30"
     },
     "vpp": {
-      "values_digest": "9e1f115b5da65f8b0b54cc83852fe775e91a8951c58c0a3c4e35e60c8dd5d1e5",
+      "values_digest": "a703e9f3b221239e1da26fce1a23b6995a3532e9171f838c32d54bef3dacf4f8",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "5056584519b936eceeb8137b6c9e7fc6bce90b54bfcd2394d19506692d294806",
-      "rendered_digest": "2ac40a5c336de2393940cabcdddd899e00ab977bd5b1f62f5455a6ec6e703a15",
-      "ast_digest": "21b6049fc4d2ad2172e90111824700fe4099e1ee3ce41216a68e60a94c246c40"
+      "values_digest": "fdad20f99f15841f82caf1f7f8e2d7a4727cf9c6009e75e110ba366a1ee40a1e",
+      "rendered_digest": "8c81a1f384103fc85c77447ef28e2fdfb72044350e278290921e0afced2a73bf",
+      "ast_digest": "dc81c7f36f32c92e5f51d585a328d1e7bf522b488f81684982557012fb1aad87"
     },
     "sor": {
-      "values_digest": "0e28461dc30975854d64c17197eb8359f5d83dde2d887e5615d4017428a7f07e",
-      "rendered_digest": "08ae7e93a36259669b7766dbce78f8e73b35bdc1d5fa5491975a545c5cae02e3",
-      "ast_digest": "baa4e5bc4d557b605823bd51a1d2b3c230faf6228594244007b9f5b7ca1f68bf"
+      "values_digest": "d282d4ee3644387ae2721a56809083f72ae64549ebb351dd28b1b75575e02734",
+      "rendered_digest": "8b5be9551a4d646b4692782700ddbef2722f276698285d4183640c658b4e0372",
+      "ast_digest": "c9ee1ade3394e28c0b58811ceac3b81e007bf3aecf4e43d38b23e3a665e63a18"
     }
   },
   "transitions": [
@@ -217,6 +187,13 @@
       "to": "published",
       "actor": "codex:602-ci-remediation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-602-completion",
+      "reason": "Runtime queue and provider timeout correction plus refreshed exact-candidate Wuji acceptance require current review and publication truth."
     }
   ],
   "audit": [
@@ -485,6 +462,13 @@
       "actor": "codex:602-ci-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:issue-602-completion",
+      "reason": "Runtime queue and provider timeout correction plus refreshed exact-candidate Wuji acceptance require current review and publication truth.",
+      "operation": "recover_review"
     }
   ]
 }

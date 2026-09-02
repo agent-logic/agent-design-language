@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
     "slug": "runtime-csmctl-dynamic-agent-admission",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 29
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/cli/csmctl_cmd.rs",
-      "review_revision": "git-blake3:c8f158252efd1ac536db5e966ad6d421daf85f7b:4ca47bc45e0e8f16f59a0271781f896e84e8ae07abcf45e0d3e3e7a0aa2d679c",
-      "reviewer": "codex-subagent:issue_602_timeout_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any unauthorized or conflicting request mutate durable or live roster state?",
         "Can persistence and in-memory roster truth split after any modeled failure?",
@@ -24,10 +24,8 @@
         "Does the live proof preserve Shepherd and avoid init mutation or restart for first add?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Authoritative GitHub workspace coverage rerun remains pending publication of this reviewed revision."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
