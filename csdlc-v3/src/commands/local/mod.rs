@@ -5,7 +5,7 @@
 //! worktrees, execute PVF lanes, publish PRs, write GitHub state, finish,
 //! cleanup, migrate v2, or grant operational authority.
 
-use std::{collections::BTreeSet, path::Path};
+use std::{collections::BTreeSet, fs, path::Path};
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -391,6 +391,23 @@ pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleS
             ready_to_execute: false,
         };
     }
+    let phase = match read_local_lifecycle_phase(&index_path) {
+        Ok(phase) => phase,
+        Err(message) => {
+            return LocalLifecycleStateObservation {
+                issue,
+                status: PlanStatus::Blocked,
+                code: "invalid_local_lifecycle_state".into(),
+                message,
+                cards_present: Vec::new(),
+                missing_cards: REQUIRED_CARD_KINDS
+                    .into_iter()
+                    .map(str::to_string)
+                    .collect(),
+                ready_to_execute: false,
+            };
+        }
+    };
     let mut cards_present = Vec::new();
     let mut missing_cards = Vec::new();
     for card in REQUIRED_CARD_KINDS {
@@ -408,12 +425,26 @@ pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleS
             missing_cards.push(card.to_owned());
         }
     }
-    if missing_cards.is_empty() {
+    if !matches!(phase.as_str(), "ready" | "bound") {
+        LocalLifecycleStateObservation {
+            issue,
+            status: PlanStatus::Blocked,
+            code: "unsupported_local_lifecycle_phase".into(),
+            message: format!(
+                "local lifecycle state is in phase {phase}; local execution readiness requires ready or bound"
+            ),
+            cards_present,
+            missing_cards,
+            ready_to_execute: false,
+        }
+    } else if missing_cards.is_empty() {
         LocalLifecycleStateObservation {
             issue,
             status: PlanStatus::Ready,
             code: "local_lifecycle_state_ready".into(),
-            message: "local lifecycle state contains the six-card denominator".into(),
+            message: format!(
+                "local lifecycle state is {phase} and contains the six-card denominator"
+            ),
             cards_present,
             missing_cards,
             ready_to_execute: true,
@@ -430,6 +461,19 @@ pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleS
             ready_to_execute: false,
         }
     }
+}
+
+fn read_local_lifecycle_phase(index_path: &Path) -> Result<String, String> {
+    let bytes = fs::read(index_path)
+        .map_err(|err| format!("local lifecycle index could not be read: {err}"))?;
+    let value: Value = serde_json::from_slice(&bytes)
+        .map_err(|err| format!("local lifecycle index is not valid JSON: {err}"))?;
+    value
+        .get("phase")
+        .and_then(Value::as_str)
+        .filter(|phase| !phase.trim().is_empty())
+        .map(str::to_string)
+        .ok_or_else(|| "local lifecycle index is missing nonempty phase".into())
 }
 
 pub fn finding(status: PlanStatus, code: &str, message: &str) -> DoctorFinding {

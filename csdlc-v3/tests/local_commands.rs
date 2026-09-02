@@ -249,6 +249,72 @@ fn missing_local_lifecycle_state_is_explicit_and_repairable() {
 }
 
 #[test]
+fn local_lifecycle_readiness_requires_supported_phase_and_all_cards() {
+    let dir = fixture_dir("ready-state");
+    let issue_root = dir.join(".csdlc/issues/628");
+    fs::create_dir_all(issue_root.join("cards")).expect("issue cards dir");
+    fs::write(issue_root.join("index.json"), br#"{"phase":"ready"}"#).expect("write index");
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.values.json")),
+            b"{}",
+        )
+        .expect("write values");
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.md")),
+            format!("# {card}\n"),
+        )
+        .expect("write card");
+    }
+
+    let observation = inspect_local_lifecycle_state(&dir, 628);
+    assert_eq!(observation.status, PlanStatus::Ready);
+    assert_eq!(observation.code, "local_lifecycle_state_ready");
+    assert!(observation.ready_to_execute);
+    assert!(observation.message.contains("ready"));
+}
+
+#[test]
+fn local_lifecycle_readiness_rejects_post_execution_phase() {
+    let dir = fixture_dir("implemented-state");
+    let issue_root = dir.join(".csdlc/issues/628");
+    fs::create_dir_all(issue_root.join("cards")).expect("issue cards dir");
+    fs::write(issue_root.join("index.json"), br#"{"phase":"implemented"}"#).expect("write index");
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.values.json")),
+            b"{}",
+        )
+        .expect("write values");
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.md")),
+            format!("# {card}\n"),
+        )
+        .expect("write card");
+    }
+
+    let observation = inspect_local_lifecycle_state(&dir, 628);
+    assert_eq!(observation.status, PlanStatus::Blocked);
+    assert_eq!(observation.code, "unsupported_local_lifecycle_phase");
+    assert!(!observation.ready_to_execute);
+    assert!(observation.message.contains("implemented"));
+}
+
+#[test]
+fn local_lifecycle_readiness_rejects_malformed_index() {
+    let dir = fixture_dir("malformed-state");
+    let issue_root = dir.join(".csdlc/issues/628");
+    fs::create_dir_all(&issue_root).expect("issue dir");
+    fs::write(issue_root.join("index.json"), b"{not-json").expect("write malformed index");
+
+    let observation = inspect_local_lifecycle_state(&dir, 628);
+    assert_eq!(observation.status, PlanStatus::Blocked);
+    assert_eq!(observation.code, "invalid_local_lifecycle_state");
+    assert!(!observation.ready_to_execute);
+    assert!(observation.message.contains("not valid JSON"));
+}
+
+#[test]
 fn local_preparation_cli_rejects_malformed_typed_request() {
     let dir = fixture_dir("malformed");
     let request_path = dir.join("request.json");
