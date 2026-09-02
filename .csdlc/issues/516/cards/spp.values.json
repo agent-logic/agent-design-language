@@ -7,13 +7,13 @@
     "title": "[v0.92.1][INT-01] Release-tail admission",
     "slug": "release-tail-admission",
     "version": "v0.92.1",
-    "generation": 0
+    "generation": 1
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Enumerate the complete expected baseline, collect exact observed evidence, run findings-first gap classification, route each material gap to an existing owner, and emit a fail-closed release-tail decision.",
       "steps": [
         {
@@ -65,10 +65,11 @@
         }
       ],
       "affected_areas": [
-        "v0.92.1 milestone evidence",
-        "release-tail integration",
-        "gap analysis",
-        "demo and readiness truth"
+        ".csdlc/issues/516",
+        ".csdlc/prepared/issues/516",
+        ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+        "docs/milestones/v0.92.1/evidence/integration",
+        "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md"
       ],
       "invariants": [
         "Complete denominator",

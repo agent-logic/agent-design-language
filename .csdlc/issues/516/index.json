@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "670ffe99105f46abfdfc8e71aabafe81c8295d9ab7dbb3aed49a072b3b72ba9f",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "4caad5f902735188fd61e6f5cf980850c8ea52fc4058186a4649cd74dcc15cd3",
+  "generation": 1,
+  "digest": "3291daf0d8e3cc894631066df3cdd75b07997311d8ba2a91f06ca0c4a496f76f",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f1b213c0dc1051eb9ad2c37d7a5f2356012ecf7195645f77b640d2669c82f1e7",
+      "values_digest": "5e0e0327121375067ae201930526229bb0682579ab723a1a5d261b62a98584ff",
       "rendered_digest": "0b45c599ee5bab16a0883ba5440e1202d44800fb0346c1bbee4a60f2686588ed",
       "ast_digest": "cbd68d251e7811fddc96006a4eb78e6fbf972d81a5ca5bc801c5c4393d2c21c4"
     },
     "stp": {
-      "values_digest": "d93181c5e8a7e6aacef5468f8379b19ba96e812ed27eb9720702d9543eb53c9c",
+      "values_digest": "13447b6ea8555dcba38d276ecc4bc479f44bc3a8b687c6f7191fc4117a838a54",
       "rendered_digest": "fe7a7dcff1d751596cec5f7e32fcb49526e1bdce9e5960b6d4f82133e7001e31",
       "ast_digest": "91fb89a215dbe713a320158df7e333c6251f0e37d90c6bb0a580e81bbeb2820f"
     },
     "spp": {
-      "values_digest": "31c7cf4033239c144da42f42410fe04ffc613bcac82bb7123c9cb4f22941b42a",
-      "rendered_digest": "310695398bacea9ae15a698a2f75144b5a263a5d741903fdc4460a482748da9e",
-      "ast_digest": "9dd3f69bad3b378819e57a82b94dbd5942e54592dcf52cd115d656a9f449656b"
+      "values_digest": "0d4a55fa3d2b5b527cad68c38d7146e1190ed01778f69647b4f66469f540786e",
+      "rendered_digest": "42d9fb60ff0b72f81ca512759ea43467d9ee744b7fc7ecf6654b60e9ce689294",
+      "ast_digest": "0118234610c4ac774d08edddef772ceaa16792b1e27f878ad79dad890a6bcb5a"
     },
     "vpp": {
-      "values_digest": "b3f8a1d05abd11f05e9afb7ae16dc62e01d865363a5fea5332695d2efad0a7ee",
+      "values_digest": "be3d6e9e5d62b51cc068d27e40affdd288763f02bd7face457c62585e734123c",
       "rendered_digest": "83c20533a1664ad1726b99f2e96235f77e74c0f4c790794b65e6b3c699f9928c",
       "ast_digest": "c68cfbac01182fba8bd81cf3207f245176714e4c1652bd2aa5f9581402ec56c4"
     },
     "srp": {
-      "values_digest": "b8418315b77b762c917c33a4d3216fb5ce93785e2bc03994d3b45fff5468caf1",
+      "values_digest": "83530a47d348c8516f40efb169a1279c4ad34c4c22b7344890ca3a8a14e17e5a",
       "rendered_digest": "7ca6be23f61c2551120e91c92a8a6e60f55050971c9443638a9830e762336aa2",
       "ast_digest": "4b92057e3cb6c85119e1d0b9cbfb2fb241d2888878fc4da54f1ed444d949dcbb"
     },
     "sor": {
-      "values_digest": "866d58ac3e06629ebce828faa3f8455d8bb3ad9ae655b367152a917237881bd1",
+      "values_digest": "7ac848bb276b002839794d88641b604a62e8a0d726e78d3c3d8e932799c22c6c",
       "rendered_digest": "ec2e9970975576e853f2b742d2b4c05e9b3ee5ebca62550b98ffb3577f0a50fe",
       "ast_digest": "456723fc76bdf8b0cb7d20a2ec27b87f58eac695a5d4cd4704d0df0d547fa47f"
     }
@@ -62,6 +62,13 @@
       "actor": "codex:516-readiness",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:516-readiness",
+      "reason": "Replace prose affected areas with exact repository-owned paths and explicitly own the issue validator used by every proving lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/516\",\".csdlc/prepared/issues/516\",\".csdlc/prepared/issues/516/validate-release-tail-admission.sh\",\"docs/milestones/v0.92.1/evidence/integration\",\"docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md\"]}"
     }
   ]
 }
