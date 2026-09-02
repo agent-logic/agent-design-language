@@ -45,7 +45,28 @@ demos/podcast/studio/podcast-studio.html
 
 ## Findings
 
-[]
+[
+  {
+    "id": "262-review-r4-p2-source-packet-guid-stale",
+    "severity": "p2",
+    "summary": "The public review source packet still declares the old canonical GUID agent-logic-cognitive-spacetime-episode-001, contradicting feed.xml, episode.json, and rss-enclosure.json which use agent-logic-the-cognitive-stack-episode-001. The focused validator misses this because source-packet.md is not in its source-manifest denominator.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "262-review-r4-p2-stale-production-path-truth",
+    "severity": "p2",
+    "summary": "Stale CognitiveSpacetime/cognitive-spacetime production path truth remains in the launch/hosting package: the S3/CloudFront runbook uses Project=CognitiveSpacetime and archive/cognitive-spacetime prefixes, episode/storage manifests repeat those prefixes, and the creator workflow defaults to /Volumes/FastWork/cognitive-spacetime-production. The candidate either needs explicit legacy alias truth or updated The Cognitive Stack paths.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -57,8 +78,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:54b3d66d13f3b11dada5d928ad976963e9626a88:d9cbfa67d342e3a44bd28e1e9aabd7d3ef1b396bf3329a9200dbb495ed99b946")
 
-Reviewer: None
+Reviewer: Some("fresh-session:01676b7c-d214-4993-bfda-c17dc3e696bf")
 
-Result: pre_review
+Result: changes_required

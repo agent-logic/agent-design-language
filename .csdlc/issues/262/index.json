@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "f108f4ec6bc28b0e77ae4fb660e67f723f163b3d4ca6696ac43bdb81b4ad67b2",
+  "generation": 20,
+  "digest": "d5018cdd01c335bf58ee3b6d2bc4ab9a834c60cd0ebf5c55ece7b4cc638d4b29",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": {
@@ -40,7 +40,61 @@
       "demos/podcast/studio/podcast-studio.html"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:01676b7c-d214-4993-bfda-c17dc3e696bf",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/podcast-studio.html"
+    ],
+    "reviewed_revision": "git-blake3:54b3d66d13f3b11dada5d928ad976963e9626a88:d9cbfa67d342e3a44bd28e1e9aabd7d3ef1b396bf3329a9200dbb495ed99b946",
+    "findings": [
+      {
+        "id": "262-review-r4-p2-source-packet-guid-stale",
+        "severity": "p2",
+        "summary": "The public review source packet still declares the old canonical GUID agent-logic-cognitive-spacetime-episode-001, contradicting feed.xml, episode.json, and rss-enclosure.json which use agent-logic-the-cognitive-stack-episode-001. The focused validator misses this because source-packet.md is not in its source-manifest denominator.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "262-review-r4-p2-stale-production-path-truth",
+        "severity": "p2",
+        "summary": "Stale CognitiveSpacetime/cognitive-spacetime production path truth remains in the launch/hosting package: the S3/CloudFront runbook uses Project=CognitiveSpacetime and archive/cognitive-spacetime prefixes, episode/storage manifests repeat those prefixes, and the creator workflow defaults to /Volumes/FastWork/cognitive-spacetime-production. The candidate either needs explicit legacy alias truth or updated The Cognitive Stack paths.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,32 +109,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "415fb9509f7c5218b1cb11cbf33aac31f1ef1de63a38218ee0247968054d26a0",
+      "values_digest": "78cdfcc4b0bea50890485d373fbe6f3384030588ac932abaaa44232e91e1f360",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "64715556250c798a0310a884f71bd20b9cb311b44762ba8dfc80dfe527fd3242",
+      "values_digest": "269b766649ace27ad6c829fc1dfa48d6332a7c16826a334563b3feb5ee433e6e",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "5038765f1302c617c1a8e7a2c18ca34b2f2c3205f60597d770fa4a5c0a7448d5",
+      "values_digest": "e490943ef002bc07f2ad4ded9071825288e458101a4c196422ba12018888f6ec",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "9ba5922b002cc5c28299b56733649f164ff0b7f17a3ebcac1dc2217222a4fc7c",
+      "values_digest": "4db80c730d906a257efa76f61a8510bd8a07a4b3c30c2456113646165fe6a752",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "9e908d18c54135d368260a636d621e8d520c5c7ce7da6e0046b80494a4554c0a",
-      "rendered_digest": "2f6e9345b61faedc3978544e1a0f8f05c1d5f21f3b734883f75a65d1390351ac",
-      "ast_digest": "db692111e501968288a9654e42f9712400da34dec59584eb1d502495ee443913"
+      "values_digest": "685df21ee37586dfbd457df2c7f34387bf4a3c512e117f8f812a667c4fb888c5",
+      "rendered_digest": "0437ca4379db07faa904541ab284efd361cee04824caf369342be5a6a2f3f1f7",
+      "ast_digest": "e150eb7df29ca339a1ae716e7556c50ee7641a79c0ba9f4b11a9cf974e7e81b4"
     },
     "sor": {
-      "values_digest": "e365a65c3913037cd32224e4f775155464cb97334f2641b564f54a7498fe2787",
+      "values_digest": "3da1b2629d0df3515705aef0d342364504db0767c6c5623e4de991d29fa0e98f",
       "rendered_digest": "c49851016a3f7eb649430f053ea3c1becaefbf7131d86063fde90189eadfa055",
       "ast_digest": "d120fae72fc6673bc27098b1667566279cee03587341ef7cea24f8e2c612c8d8"
     }
@@ -283,6 +337,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "fresh-session:01676b7c-d214-4993-bfda-c17dc3e696bf",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
