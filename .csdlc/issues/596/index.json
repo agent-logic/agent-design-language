@@ -4,45 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
-  "phase": "published",
-  "generation": 16,
-  "digest": "80d7d16eb18479af81ffd9fd721a022a728d3a757b9044ed13ac013dcaa4ccb3",
+  "phase": "implemented",
+  "generation": 26,
+  "digest": "11f6e384b52d05a86fb43a9c395f921df4bd8d084391b9efc73e13aeb7f92764",
   "branch": "codex/sprints-5-6-cutover-fixes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
-  "review_assignment": {
-    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:a856ac9da30078d431c1dbbe788980acd097e955:91bc39c2613ceaeefd1651d331e91797df7a340b206618ba2a38324143dfad3f",
-    "scope": [
-      "."
-    ]
-  },
-  "review": {
-    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:a856ac9da30078d431c1dbbe788980acd097e955:91bc39c2613ceaeefd1651d331e91797df7a340b206618ba2a38324143dfad3f",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.",
-      "The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must update PR #615 with a closing keyword for #596 only."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 596,
-    "pull_request": 615,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/615",
-    "base": "main",
-    "head": "codex/sprints-5-6-cutover-fixes",
-    "revision": "git-blake3:a856ac9da30078d431c1dbbe788980acd097e955:91bc39c2613ceaeefd1651d331e91797df7a340b206618ba2a38324143dfad3f",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -56,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d3376099c744c1fb1ed8d33f14b42b59dfb802a0ff1638ff544a7f28b952f876",
-      "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
-      "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
+      "values_digest": "ddf51a62e535b62f59b54307c94f45ddd5166928e093f6b09d144b6701b6b7e2",
+      "rendered_digest": "fd0aeddeea929bd226a07e1a5dcb89e2c5d137566b6f52557fb3eb4bc6b15be6",
+      "ast_digest": "678cf720d9175b448d4429791620c49e61bb372a6cce91d93393b3343101b934"
     },
     "stp": {
-      "values_digest": "b3eab0c12e5e10eff5e85da56fe972a0b811e10aafeda22f04ea2e21239bb8c4",
-      "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
-      "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
+      "values_digest": "d573f16f9721e3059c66acada2cd4e3460b45c13ad5ce5ab2ac2e6264ae5b405",
+      "rendered_digest": "b5a6f14f43b7c96d5df8235523580dd3e061fe8a33bf4f2265aca198ad1e53c4",
+      "ast_digest": "0e7bee00c603989caab018cc598f237f784b36bc619e288cbcc7ab9209376609"
     },
     "spp": {
-      "values_digest": "f8d1f64e1b3801d06baf06777eade98bb4b4ea0c99663c91ef4287965538b392",
-      "rendered_digest": "e24a19c3602aadf2b603b80220b548d9d3a7da22ced8bb66557d4962ea017d30",
-      "ast_digest": "b3ea625a7cd080feb19e1687b9aaa1cd8f732fb2011b5a16f9c2b4d1d8c38c9b"
+      "values_digest": "2b9eed0dd809b8054ff0e62280690036799e864c095e67f66c28f394083b02a0",
+      "rendered_digest": "dfb5c40487ed0a122178487861c02e92503d2f422ff39670d032c1fddce78aba",
+      "ast_digest": "57c317ea5c30e2ca77db8be45341b266b57953f4d1c66f7a9d63c623ff1195bc"
     },
     "vpp": {
-      "values_digest": "6ac77c3a49fd153cfec9244b24f04c584ca2fa4528d2a4d3449fb545d51b6ae0",
-      "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
-      "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
+      "values_digest": "f9203c1c75d1be8875c20e04ca6d9796fb07caf33e7ee0894100a2b268d7e5d7",
+      "rendered_digest": "f14a2b4723d787b2bfa593b4a4fb75e61fb6e6ffb9ed042a649517d773f97c19",
+      "ast_digest": "11e3b7cf95b223e4819ccfd6863db6676dc515af54af59359b1656ccaabcc89e"
     },
     "srp": {
-      "values_digest": "fec19a4d343608570c975fb96d4ca18163e2ff6af7e011ef912ac1535f2de8c3",
-      "rendered_digest": "f9ef3780f1a4aa702b5f415e6a3ffe727f500656eca2c52c33e1042b56daf40b",
-      "ast_digest": "9afc6f5d388821d64ab8d81d327abb40970719834eba7acaadc2a108c73ceacb"
+      "values_digest": "26768aeb1c6f0c3a65bff28996a604ccd9db6738d88287d03fa1cb8dacd6f294",
+      "rendered_digest": "2c68b62032294cf243dd1df772afd0e5d451be2b996fd02f522bf6d1affa1884",
+      "ast_digest": "d2fae27f6ffd715d1ce79c78293674463911d5b45ba12568418e5892af3b77da"
     },
     "sor": {
-      "values_digest": "f4c563b1c0b06c5cf6652e018ae30ea46293e6a29879ae3fd8fb36692e2c34b4",
-      "rendered_digest": "ce8c57725149ae308380f2927d4ca81fac82357822a689dca5d7bd9ac421f4b2",
-      "ast_digest": "010e52ae361907f5358d212e402ab58feece8dcde2a867d4cd2c003272223691"
+      "values_digest": "2bb55c867b65f7c8f8d03fdef3a2eafbc4981afda3f04e1f910c261ba28e28c2",
+      "rendered_digest": "14878028b1650a36f6e1359d30eb758dea1b4d0ea09645526293257f7ab70633",
+      "ast_digest": "b0c89179dbcd84f648096754203eb50fe3e420c04a4502b6a3e0dd4861a5f793"
     }
   },
   "transitions": [
@@ -170,6 +139,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review after removing net C-SDLC v2 source/test mutations from the v3 cutover remediation branch."
     }
   ],
   "audit": [
@@ -326,6 +302,76 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "Recover review after removing net C-SDLC v2 source/test mutations from the v3 cutover remediation branch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "Correct SIP outcome so #596 no longer claims v2 source fixes inside the v3-separate cutover lane.",
+      "operation": "{\"new_value\":\"The remediation PR has typed local lifecycle state, uses typed C-SDLC v2 operations only as the still-live lifecycle authority, preserves a zero-net csdlc-v2 source/test diff, captures v2 defects as v3 replacement blockers, and remains explicitly non-authoritative for v3 cutover.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"The remediation PR has typed local lifecycle state, uses typed GitHub operations, fixes reviewed v2/v3 defects with behavior-backed proof, and remains explicitly non-authoritative for v3 cutover.\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "Correct SIP declared scope after restoring #596 to a v3-separate remediation branch.",
+      "operation": "{\"new_values\":[\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\".csdlc/issues/596\",\".csdlc/prepared/issues/596\",\".csdlc/evidence/604/full-cycle-defects-tail.md\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/bin/csdlc-github-pr.rs\",\"csdlc-v2/operator\",\"csdlc-v3\",\".github/workflows/ci.yaml\",\"adl/tools\",\"docs/csdlc-v3\",\".csdlc/prepared/issues/596\",\".csdlc/evidence/sprints-5-6-cutover-fixes\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "Correct #596 task truth after removing v2 source/test mutations from the v3 cutover remediation branch.",
+      "operation": "{\"new_values\":[\"Typed six-card lifecycle state for #596\",\"PR #615 body with visible Closes #596 and non-closing #505/#534 linkage\",\"Issue-owned validator that proves PR linkage, six-card state, portable owner-lane sources, and no net csdlc-v2 source/test mutation\",\"Single csdlc v3 binary and standalone locked CI coverage evidence\",\"Behavior-backed v3 importer, durability, review, finish, and cleanup denominator evidence\",\"Real issue canary evidence for #592, OBS-A/#511, and OBS-B/#512\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Typed six-card lifecycle state for #596\",\"PR #597 body with visible Closes #596 and non-closing #505/#534 linkage\",\"Typed GitHub PR create/update operations with owner provenance and idempotent update safety\",\"Single csdlc v3 binary and standalone locked CI coverage\",\"Behavior-backed v3 importer, durability, review, finish, and cleanup fixes\",\"Real issue canary evidence for #592, OBS-A/#511, and OBS-B/#512\"],\"recovery_generation\":17,\"recovery_sequence\":23}"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "Make #596 acceptance fail closed if the v3 cutover remediation branch mutates C-SDLC v2 source or tests.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards\",\"AC-2: PR #615 visibly closes #596 and does not close #505 or #534\",\"AC-3: Covered publication/readback operations are performed through typed C-SDLC v2 GitHub owners, not raw gh\",\"AC-4: The remediation branch has no net csdlc-v2 source or test mutation; v2 defects remain captured as v3 replacement/cutover blockers\",\"AC-5: v3 durable transaction and real-issue canary proof remains non-authoritative until #505 cutover\",\"AC-6: v3 construction remains non-authoritative until #505 cutover\",\"AC-7: Focused v3, CI-policy, canary, issue-owned validator, and diff-hygiene validation passes before handoff\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:worker-6",
+      "reason": "Remove C-SDLC v2 source/test implementation surfaces from #596 planning after restoring v3 separation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/tests\",\"docs/csdlc-v3\",\".github/workflows/ci.yaml\",\".csdlc/issues/596\",\".csdlc/prepared/issues/596\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\",\".csdlc/evidence/596\",\".csdlc/evidence/604/full-cycle-defects-tail.md\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "Correct SPP invariants after restoring v3 separation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Primary checkout remains clean on main\",\"V2 remains the only live lifecycle authority until #505 cutover\",\"PR #615 closes only #596\",\"The remediation branch has no net csdlc-v2 source or test mutation\",\"V3 canary evidence remains non-authoritative before #505\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:worker-6",
+      "reason": "Correct SPP stop conditions after restoring v3 separation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Primary checkout is no longer clean on main\",\"PR #615 body would close #505 or #534\",\"The branch gains a net csdlc-v2 source/test diff\",\"Typed C-SDLC v2 owner refuses required lifecycle mutation\",\"Fix requires widening beyond sprint remediation\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:worker-6",
+      "reason": "Align #596 validation lanes with the v3-separate remediation scope after removing v2 source/test mutation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"remediation-regression\",\"proof_role\":\"Prove #596 local lifecycle, PR-closing linkage, non-closing #505/#534 linkage, portable owner-lane sources, and no net csdlc-v2 source/test mutation through the issue-owned validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\"],\"parallel_group\":\"policy\",\"defer_reason\":null},{\"lane\":\"v3-real-issue-canary\",\"proof_role\":\"Exercise C-SDLC v3 against real issue records while preserving its non-authoritative pre-cutover boundary.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":360,\"budget_tokens\":2600,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"parallel_group\":\"rust-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 26,
+      "actor": "codex:worker-6",
+      "reason": "Correct #596 output truth after restoring v3 separation and proving the branch has no net C-SDLC v2 source/test mutation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired the Sprint 5/6 cutover remediation branch so PR #615 visibly closes #596, preserves #505/#534 as non-closing links, restores v3 separation by removing net C-SDLC v2 source/test mutations, and records v3 replacement/canary evidence without claiming #505 cutover.\",\"changes\":[\"Removed the net csdlc-v2 source/test implementation delta from the remediation branch; v2 remains live authority until #505 and is not patched by this v3 cutover-remediation PR.\",\"Updated #596 SIP, STP, SPP, and VPP through typed C-SDLC edits so scope, outcome, deliverables, acceptance criteria, affected areas, invariants, stop conditions, and validation lanes match the v3-separate scope.\",\"Strengthened the issue-owned validator to fail if the PR diff contains any csdlc-v2 source/test mutation, while retaining visible Closes #596 and non-closing Part-Of #505/#534 linkage checks.\",\"Retained the v3 full replacement denominator and real-issue canary evidence as pre-cutover proof surfaces; v3 remains non-authoritative until #505 cutover.\",\"Kept duplicate-publication, PR #612 supersession, and the SRP prompt-edit recovery-window limitation as captured defects for the replacement/cutover lane rather than repairing them by mutating v2 source.\"],\"artifacts\":[\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\".csdlc/evidence/604/full-cycle-defects-tail.md\",\".csdlc/issues/596\",\".csdlc/prepared/issues/596\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\"],\"purpose\":\"Prove #596 card presence, PR linkage, portable owner-lane sources, and no net csdlc-v2 diff.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run after v2-source removal; exit 0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Exercise C-SDLC v3 against real issue records while preserving non-authoritative pre-cutover status.\",\"outcome\":\"passed\",\"evidence_ref\":\"4 passed; 0 failed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"CI parity/no-regression check proving the PR no longer trips csdlc-v2 standalone lint while not claiming v2 implementation changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"strict Clippy passed after restoring csdlc-v2 source/test files to origin/main\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run branch diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"no findings\"}]}"
     }
   ]
 }

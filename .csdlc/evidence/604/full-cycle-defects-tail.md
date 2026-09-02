@@ -130,3 +130,20 @@
   assertion that the manifest enumerates all 21 v2 entrypoints and marks the
   replacement incomplete until every required command has behavioral parity or
   an explicit operator-approved removal.
+
+## DEFECT-019: v2 recovery-window card editing is brittle for late truth cleanup
+
+- Status: captured as a v3 replacement requirement; do not patch v2 in the
+  v3-separate cutover lane.
+- Evidence: after #596 publication was recovered to remove net `csdlc-v2/**`
+  source/test mutations, `csdlc-edit` accepted some recovery-specific STP/SPP
+  repairs but rejected later SPP summary and SRP prompt cleanup with
+  `implemented card truth repair requires current typed recovery provenance and
+  cleared review, publication, readiness, and terminal truth`.
+- Impact: a correct operator can get trapped replaying recovery/edit sequences
+  merely to repair stale card wording, which is exactly the kind of tooling
+  drag the v3 replacement must eliminate.
+- Required v3 behavior: one command should expose an explicit, deterministic
+  lifecycle-truth repair route for stale card text after recovery, preserving
+  digest/projection guards without forcing fragile operation ordering or v2
+  source changes.

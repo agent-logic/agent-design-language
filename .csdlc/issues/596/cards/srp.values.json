@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
     "slug": "sprints-5-6-cutover-fixes",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".",
-      "review_revision": "git-blake3:a856ac9da30078d431c1dbbe788980acd097e955:91bc39c2613ceaeefd1651d331e91797df7a340b206618ba2a38324143dfad3f",
-      "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does #596 now have canonical local lifecycle state before PR #597 closes it?",
         "Can the same PR update operation key overwrite a different body?",
@@ -23,11 +23,8 @@
         "Does any evidence claim v3 authority before #505?"
       ],
       "findings": [],
-      "residual_risk": [
-        "C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.",
-        "The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must update PR #615 with a closing keyword for #596 only."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

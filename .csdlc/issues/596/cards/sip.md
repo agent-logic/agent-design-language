@@ -16,19 +16,15 @@ Repair the concrete Sprint 5/6 cutover-review blockers while keeping C-SDLC v2 a
 
 ## Required Outcome
 
-The remediation PR has typed local lifecycle state, uses typed GitHub operations, fixes reviewed v2/v3 defects with behavior-backed proof, and remains explicitly non-authoritative for v3 cutover.
+The remediation PR has typed local lifecycle state, uses typed C-SDLC v2 operations only as the still-live lifecycle authority, preserves a zero-net csdlc-v2 source/test diff, captures v2 defects as v3 replacement blockers, and remains explicitly non-authoritative for v3 cutover.
 
 ## Scope
 
-- csdlc-v2/src/github.rs
-- csdlc-v2/src/bin/csdlc-github-pr.rs
-- csdlc-v2/operator
-- csdlc-v3
-- .github/workflows/ci.yaml
-- adl/tools
-- docs/csdlc-v3
+- csdlc-v3/tests/real_issue_canary.rs
+- docs/csdlc-v3/full-replacement-denominator.json
+- .csdlc/issues/596
 - .csdlc/prepared/issues/596
-- .csdlc/evidence/sprints-5-6-cutover-fixes
+- .csdlc/evidence/604/full-cycle-defects-tail.md
 
 ## Authority
 

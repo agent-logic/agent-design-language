@@ -25,10 +25,12 @@ Diagram: .csdlc/prepared/issues/596/diagram.mmd
 [
   {
     "lane": "remediation-regression",
-    "proof_role": "Prove #596 local lifecycle, PR-closing linkage, and non-closing #505/#534 linkage through an issue-owned validator.",
+    "proof_role": "Prove #596 local lifecycle, PR-closing linkage, non-closing #505/#534 linkage, portable owner-lane sources, and no net csdlc-v2 source/test mutation through the issue-owned validator.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
+      "AC-3",
+      "AC-4",
       "AC-6",
       "AC-7"
     ],
@@ -44,34 +46,12 @@ Diagram: .csdlc/prepared/issues/596/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "v2-github-pr-transport",
-    "proof_role": "Prove typed PR create/update action validation, owner provenance, and idempotent conflict rejection.",
-    "acceptance_ids": [
-      "AC-3",
-      "AC-4"
-    ],
-    "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 300,
-    "budget_tokens": 2200,
-    "argv": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate_github_actions"
-    ],
-    "parallel_group": "rust-focused",
-    "defer_reason": null
-  },
-  {
-    "lane": "v3-durable-storage",
-    "proof_role": "Prove durable projection repair remains required across committed-state/missing-projection crash windows.",
+    "lane": "v3-real-issue-canary",
+    "proof_role": "Exercise C-SDLC v3 against real issue records while preserving its non-authoritative pre-cutover boundary.",
     "acceptance_ids": [
       "AC-5",
-      "AC-6"
+      "AC-6",
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -84,7 +64,7 @@ Diagram: .csdlc/prepared/issues/596/diagram.mmd
       "--manifest-path",
       "csdlc-v3/Cargo.toml",
       "--test",
-      "transactions"
+      "real_issue_canary"
     ],
     "parallel_group": "rust-focused",
     "defer_reason": null
@@ -104,8 +84,7 @@ Tokens: 25000
 ## Commands
 
 - `bash .csdlc/prepared/issues/596/validate-remediation-regression.sh`
-- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions`
-- `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test transactions`
+- `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test real_issue_canary`
 
 ## Failure Semantics
 

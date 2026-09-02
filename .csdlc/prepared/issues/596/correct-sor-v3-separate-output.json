@@ -1,0 +1,79 @@
+{
+  "issue": 596,
+  "card": "sor",
+  "expected_generation": 25,
+  "expected_digest": "c24f0d4ca4c84e0232e6be49fb1ba4879e93eefb824dabbc5c7e57e56f65118f",
+  "actor": "codex:worker-6",
+  "reason": "Correct #596 output truth after restoring v3 separation and proving the branch has no net C-SDLC v2 source/test mutation.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Repaired the Sprint 5/6 cutover remediation branch so PR #615 visibly closes #596, preserves #505/#534 as non-closing links, restores v3 separation by removing net C-SDLC v2 source/test mutations, and records v3 replacement/canary evidence without claiming #505 cutover.",
+    "changes": [
+      "Removed the net csdlc-v2 source/test implementation delta from the remediation branch; v2 remains live authority until #505 and is not patched by this v3 cutover-remediation PR.",
+      "Updated #596 SIP, STP, SPP, and VPP through typed C-SDLC edits so scope, outcome, deliverables, acceptance criteria, affected areas, invariants, stop conditions, and validation lanes match the v3-separate scope.",
+      "Strengthened the issue-owned validator to fail if the PR diff contains any csdlc-v2 source/test mutation, while retaining visible Closes #596 and non-closing Part-Of #505/#534 linkage checks.",
+      "Retained the v3 full replacement denominator and real-issue canary evidence as pre-cutover proof surfaces; v3 remains non-authoritative until #505 cutover.",
+      "Kept duplicate-publication, PR #612 supersession, and the SRP prompt-edit recovery-window limitation as captured defects for the replacement/cutover lane rather than repairing them by mutating v2 source."
+    ],
+    "artifacts": [
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json",
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/issues/596",
+      ".csdlc/prepared/issues/596",
+      ".csdlc/prepared/issues/596/validate-remediation-regression.sh"
+    ],
+    "validation": [
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/596/validate-remediation-regression.sh"
+        ],
+        "purpose": "Prove #596 card presence, PR linkage, portable owner-lane sources, and no net csdlc-v2 diff.",
+        "outcome": "passed",
+        "evidence_ref": "local run after v2-source removal; exit 0"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--test",
+          "real_issue_canary"
+        ],
+        "purpose": "Exercise C-SDLC v3 against real issue records while preserving non-authoritative pre-cutover status.",
+        "outcome": "passed",
+        "evidence_ref": "4 passed; 0 failed"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "purpose": "CI parity/no-regression check proving the PR no longer trips csdlc-v2 standalone lint while not claiming v2 implementation changes.",
+        "outcome": "passed",
+        "evidence_ref": "strict Clippy passed after restoring csdlc-v2 source/test files to origin/main"
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Run branch diff hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "no findings"
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

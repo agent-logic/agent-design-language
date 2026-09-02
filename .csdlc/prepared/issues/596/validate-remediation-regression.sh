@@ -41,11 +41,22 @@ expected_pr_state_keys = {
     "linked_issue_repository",
 }
 if set(pr_state) != expected_pr_state_keys:
-    raise SystemExit(f"PR #597 state request uses stale schema keys: {sorted(pr_state)}")
+    raise SystemExit(f"PR #615 state request uses stale schema keys: {sorted(pr_state)}")
 if pr_state["repository"] != "agent-logic/agent-design-language":
-    raise SystemExit("PR #597 state request repository drift")
-if pr_state["pull_request"] != 597 or pr_state["linked_issue"] is not None:
-    raise SystemExit("PR #597 state request must not assert issue closure before typed lifecycle execution")
+    raise SystemExit("PR #615 state request repository drift")
+if pr_state["pull_request"] != 615 or pr_state["linked_issue"] != 596:
+    raise SystemExit("PR #615 state request must assert issue #596 linkage only")
+
+import subprocess
+changed = subprocess.run(
+    ["git", "diff", "--name-only", "origin/main...HEAD", "--", "csdlc-v2"],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    check=True,
+)
+if changed.stdout.strip():
+    raise SystemExit(f"v3 cutover remediation must not mutate csdlc-v2 sources/tests: {changed.stdout.strip()}")
 
 owner_lanes = json.loads(Path("docs/csdlc-v3/owner-proof-lanes.json").read_text())
 for source in owner_lanes["sources"]:

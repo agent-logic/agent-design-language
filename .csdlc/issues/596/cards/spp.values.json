@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
     "slug": "sprints-5-6-cutover-fixes",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 26
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 5,
       "summary": "Create the typed lifecycle record, repair the idempotency and durability defects found by review, rerun focused proof, push the remediation branch, and re-check PR #597 without touching main.",
       "steps": [
         {
@@ -66,23 +66,21 @@
         }
       ],
       "affected_areas": [
-        "csdlc-v2/src/github.rs",
-        "csdlc-v2/operator",
-        "csdlc-v3/src/storage/mod.rs",
         "csdlc-v3/tests",
+        "docs/csdlc-v3",
         ".github/workflows/ci.yaml",
-        "adl/tools",
         ".csdlc/issues/596",
         ".csdlc/prepared/issues/596",
         ".csdlc/prepared/issues/596/validate-remediation-regression.sh",
-        ".csdlc/evidence/sprints-5-6-cutover-fixes"
+        ".csdlc/evidence/596",
+        ".csdlc/evidence/604/full-cycle-defects-tail.md"
       ],
       "invariants": [
         "Primary checkout remains clean on main",
-        "V2 remains the only live lifecycle authority",
-        "PR #597 closes only #596",
-        "Durable recovery must fail closed after committed state but missing projections",
-        "Operation keys must be replay-safe and conflict-detecting"
+        "V2 remains the only live lifecycle authority until #505 cutover",
+        "PR #615 closes only #596",
+        "The remediation branch has no net csdlc-v2 source or test mutation",
+        "V3 canary evidence remains non-authoritative before #505"
       ],
       "risks": [
         "Accidentally closing #505",
@@ -97,7 +95,8 @@
       },
       "stop_conditions": [
         "Primary checkout is no longer clean on main",
-        "PR #597 body would close #505",
+        "PR #615 body would close #505 or #534",
+        "The branch gains a net csdlc-v2 source/test diff",
         "Typed C-SDLC v2 owner refuses required lifecycle mutation",
         "Fix requires widening beyond sprint remediation"
       ],

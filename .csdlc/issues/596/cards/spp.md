@@ -16,7 +16,7 @@ Create the typed lifecycle record, repair the idempotency and durability defects
 
 ## Plan
 
-Revision 2
+Revision 5
 
 ## Steps
 
@@ -74,10 +74,10 @@ Revision 2
 ## Invariants
 
 - Primary checkout remains clean on main
-- V2 remains the only live lifecycle authority
-- PR #597 closes only #596
-- Durable recovery must fail closed after committed state but missing projections
-- Operation keys must be replay-safe and conflict-detecting
+- V2 remains the only live lifecycle authority until #505 cutover
+- PR #615 closes only #596
+- The remediation branch has no net csdlc-v2 source or test mutation
+- V3 canary evidence remains non-authoritative before #505
 
 ## Risks
 
@@ -109,7 +109,8 @@ Digest: 3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070
 ## Stop Conditions
 
 - Primary checkout is no longer clean on main
-- PR #597 body would close #505
+- PR #615 body would close #505 or #534
+- The branch gains a net csdlc-v2 source/test diff
 - Typed C-SDLC v2 owner refuses required lifecycle mutation
 - Fix requires widening beyond sprint remediation
 
