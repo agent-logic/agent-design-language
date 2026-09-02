@@ -12,47 +12,77 @@ Status: pre_phase
 
 ## Summary
 
-Runtime v3 now creates a configured model-backed resident Shepherd, preloads and keeps its local model resident, reports provider/model health through the roster, and isolates provider degradation from global Runtime readiness.
+Implemented provider-neutral model-backed resident Shepherds with canonical per-resident routing, shared inference-readiness gating, automatic recovery, canonical request validation, and exact Wuji restart acceptance.
 
 ## Artifacts
 
-- adl-runtime-kernel/src/resident_shepherd.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 - adl-runtime-kernel/src/config.rs
 - adl-runtime-kernel/src/control.rs
-- adl-runtime-kernel/src/control/feeds.rs
-- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-- infra/runtime-v3/runtime-init.toml
-- .csdlc/prepared/issues/640/wuji-acceptance.json
+- adl-runtime-kernel/src/resident_shepherd.rs
+- adl-runtime-kernel/src/shepherd.rs
+- adl-runtime-kernel/tests/configuration.rs
+- adl-runtime-kernel/tests/shepherd.rs
+- .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh
+- .csdlc/evidence/640/model-backed-shepherd.log
+- .csdlc/evidence/640/wuji-shepherd-acceptance.log
 
 ## Execution
 
-- Add validated one-or-many resident Shepherd provider, model, endpoint, and preload configuration.
-- Route governed Shepherd reasoning through the configured Ollama model while retaining native admission authority.
-- Preload and continuously recover resident Shepherd models without terminating or globally degrading the Runtime.
-- Expose non-secret provider/model identity and consistent model_loading, ready, and degraded roster health.
-- Deploy and restart the exact candidate on Wuji with qwen3:8b resident forever.
+- Route governed requests by canonical resident identity while retaining the configured primary as the compatibility default.
+- Share model readiness between preload recovery and provider inference so loading and degraded residents fail closed without affecting Runtime availability.
+- Reuse canonical Shepherd envelope, identifier, prompt-size, and NUL validation.
+- Advertise ready only after an internal OperationalAdapter inference probe succeeds.
+- Prove multi-resident routing, exact restart, automatic qwen3:8b residency, governed inference, and readiness/feed consistency.
 
 ## Validation
 
 [
   {
     "command": [
-      "/bin/bash",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd/.csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"
+      "bash",
+      ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"
     ],
-    "purpose": "Issue #640 focused deterministic implementation validation",
+    "purpose": "Prove five nonzero focused configuration, two-resident routing, canonical validation, model-health recovery, roster consistency, formatting, and diff-hygiene behaviors.",
     "outcome": "passed",
-    "evidence_ref": "model-backed-shepherd.log"
+    "evidence_ref": ".csdlc/evidence/640/model-backed-shepherd.log"
   },
   {
     "command": [
-      "/bin/bash",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd/.csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
+      "bash",
+      ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
       "--live-wuji"
     ],
-    "purpose": "Issue #640 bounded live Wuji acceptance",
+    "purpose": "Prove the exact Wuji candidate restarts to a new PID, automatically preloads qwen3:8b, passes governed inference, and reports consistent readiness/feed truth.",
     "outcome": "passed",
-    "evidence_ref": "wuji-shepherd-acceptance.log"
+    "evidence_ref": ".csdlc/evidence/640/wuji-shepherd-acceptance.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--bins",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warning regressions on the changed Runtime production targets.",
+    "outcome": "passed",
+    "evidence_ref": "Local strict Clippy exited zero before exact-head evidence capture."
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject malformed whitespace in current issue changes.",
+    "outcome": "passed",
+    "evidence_ref": "Local diff hygiene exited zero after retained evidence generation."
   }
 ]
 

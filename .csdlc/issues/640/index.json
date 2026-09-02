@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "b77c99ae328adfc1c77ecdee2ef6cf39b1c29a791d34fe51c82c7f8b1c3a5b05",
+  "generation": 9,
+  "digest": "034aa504db30ebdf7ce6977a2696719283d4eacb7c9c9d1b5ac560065f68ed83",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b819868686d46d1d878793c579effea6a0ba6bf3bb91ca10397f8a0dc71fa942",
+      "values_digest": "375e6256fb909b7cfc080ee43e2c63d1d2e3911bba59bbd63a319231e894f635",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "1097e1bd2b2da8b739bfd82d0720d5b7b47a2f74302286c5dee1506a867bd4f2",
+      "values_digest": "95b5af1225a256ff268b1f4c9c670a5f8c3f53cbfc3e10fd6679f5a9cdee1ea5",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "cff87b3b1036e49ab4c6dfef575e206578609be80ad5761a39bcc8035c4c8d39",
+      "values_digest": "e8c818f09452a0a2757f59ba701b10a768a689c919a1f5c6c26cc502011a6b49",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "939a611f10fb4d29f4ad3f0fbafa113da7c77ff9c911eedf6465b4dfe96af048",
+      "values_digest": "8ac5873a5f831fa9edd743c6456156a95506df3818de51833e074aef6b79a880",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "4bdbedac53939c0ac29d34788e3bb18846e63ad1d07189a21f03a0cdd71fad80",
+      "values_digest": "a7c0d1d595de23d98d0faf1134c608ede90a94e59dc0fe749faa2aae982f6597",
       "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
       "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
     },
     "sor": {
-      "values_digest": "db853df44e88554382358d485a102464906173a468998a2e75ee51e9963012f2",
-      "rendered_digest": "346c97621df1b71af2e6a1dfda8c3faed02d2fbcec5386545e36ede6b248f797",
-      "ast_digest": "5211631f813baffcf23f13c561a4dd6f4e882b4ae0052fa164841adc756a0d36"
+      "values_digest": "877e544930f6309746c31d8dffd930a60da55337e9ebb12f46052cd419efdd3b",
+      "rendered_digest": "eddbec2f95b3bdec2628d093118b28876f91807649dd99f3da22569c69d7295c",
+      "ast_digest": "000ea80ab024cc66ce8c3b398f59394fa6ebffac06c510ec23b41cd90a9aeb00"
     }
   },
   "transitions": [
@@ -154,6 +154,13 @@
       "actor": "codex:/root",
       "reason": "Recover the recorded changes-required review so all five actionable findings can be repaired and receive fresh exact-head validation and independent review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record the complete review-driven repair and fresh deterministic plus live Wuji proof before exact-head re-review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented provider-neutral model-backed resident Shepherds with canonical per-resident routing, shared inference-readiness gating, automatic recovery, canonical request validation, and exact Wuji restart acceptance.\",\"changes\":[\"Route governed requests by canonical resident identity while retaining the configured primary as the compatibility default.\",\"Share model readiness between preload recovery and provider inference so loading and degraded residents fail closed without affecting Runtime availability.\",\"Reuse canonical Shepherd envelope, identifier, prompt-size, and NUL validation.\",\"Advertise ready only after an internal OperationalAdapter inference probe succeeds.\",\"Prove multi-resident routing, exact restart, automatic qwen3:8b residency, governed inference, and readiness/feed consistency.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove five nonzero focused configuration, two-resident routing, canonical validation, model-health recovery, roster consistency, formatting, and diff-hygiene behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"purpose\":\"Prove the exact Wuji candidate restarts to a new PID, automatically preloads qwen3:8b, passes governed inference, and reports consistent readiness/feed truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warning regressions on the changed Runtime production targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local strict Clippy exited zero before exact-head evidence capture.\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace in current issue changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local diff hygiene exited zero after retained evidence generation.\"}]}"
     }
   ]
 }
