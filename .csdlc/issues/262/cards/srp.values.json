@@ -7,26 +7,23 @@
     "title": "Podcast production hosting, RSS, enclosures, and playback",
     "slug": "podcast-production-hosting",
     "version": "v0.92.1",
-    "generation": 42
+    "generation": 47
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/262\n.csdlc/prepared/issues/262\nadl/tools/record_podcast_native_playback.sh\nadl/tools/record_podcast_browser_playback.mjs\nadl/tools/record_podcast_ios_safari_playback.sh\nadl/tools/test_podcast_launch_packet.sh\nadl/tools/validate_podcast_launch_packet.py\ndocs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json\ndemos/_preview/podcast/index.html\ndemos/podcast/LAUNCH_READINESS.md\ndemos/podcast/S3_CLOUDFRONT_RUNBOOK.md\ndemos/podcast/audio/meet-the-ai-coworkers.mp3\ndemos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/episode.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/script.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md\ndemos/podcast/episodes/meet-the-ai-coworkers/index.html\ndemos/podcast/feed.xml\ndemos/podcast/index.html\ndemos/podcast/studio-reference/REFERENCE_DIGESTS.txt\ndemos/podcast/studio-reference/podcast-studio.html\ndemos/podcast/studio/REFERENCE_DIGESTS.txt\ndemos/podcast/studio/reference.sha256\ndemos/podcast/studio/podcast-studio.html",
-      "review_revision": "git-blake3:78caa6853c3113737701a69e6ec9d9023a8b5fcb:797cd0b6a8acf2f502252d2a9c18004eec192f679ce7bddb47b532ebe9948813",
-      "reviewer": "fresh-session:627ccf54-c965-42b7-8ce9-084791bad23b",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the candidate satisfy every acceptance criterion on its real owned path?",
         "Does it preserve sibling ownership, operator authority, privacy, and rollback?",
         "Are all proof claims exact-revision and non-overstated?"
       ],
       "findings": [],
-      "residual_risk": [
-        "No live S3 or CloudFront mutation/probe was performed during the read-only exact-head review; retained local hosting and launch-packet proof remain the review denominator.",
-        "ffprobe was unavailable in the reviewer environment, so ID3 behavior was verified through the repository validator's ID3 frame checks rather than an external ffprobe invocation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

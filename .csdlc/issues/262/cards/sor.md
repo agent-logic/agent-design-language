@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the #262 podcast production-hosting candidate for The Cognitive Stack by updating the canonical feed, episode metadata, public podcast page, preview page, studio references, launch readiness, and rollback/runbook surfaces, then promoting the approved public artifacts to the production `https://agent-logic.ai/podcast/` hosting surface.
+Implemented the #262 podcast production-hosting candidate for The Cognitive Stack, including promotion of the approved public page, RSS feed, artwork, MP3 enclosure, and episode page to the production https://agent-logic.ai/podcast/ hosting surface.
 
 ## Artifacts
 
@@ -26,16 +26,29 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
 - demos/podcast/LAUNCH_READINESS.md
 - demos/podcast/S3_CLOUDFRONT_RUNBOOK.md
 - .csdlc/prepared/issues/262/validate-podcast-hosting.rb
-- .csdlc/prepared/issues/262/record-live-production-proof.rb
 - .csdlc/evidence/262
-- .csdlc/evidence/262/live-production
+- .csdlc/prepared/issues/262/record-live-production-proof.rb
+- .csdlc/evidence/262/live-production/public-production-proof.json
+- .csdlc/evidence/262/live-production/cloudfront-invalidation.json
+- .csdlc/evidence/262/live-production/put-feed.json
+- .csdlc/evidence/262/live-production/put-audio.json
+- .csdlc/evidence/262/live-production/put-artwork.json
+- .csdlc/evidence/262/live-production/put-podcast-root.json
+- .csdlc/evidence/262/live-production/put-podcast-index.json
+- .csdlc/evidence/262/live-production/put-episode-root.json
+- .csdlc/evidence/262/live-production/put-episode-index.json
+- demos/podcast/LAUNCH_READINESS.md
+- demos/podcast/S3_CLOUDFRONT_RUNBOOK.md
 
 ## Execution
 
 - Renamed the production podcast feed, public page, preview page, episode page, studio reference, and episode metadata from the old working title to The Cognitive Stack.
-- Aligned Episode 001 RSS GUID and enclosure metadata with the approved show identity while preserving the stable HTTPS media URL, MIME type, byte length, audio digest, and artwork digest.
-- Promoted the approved public podcast page, RSS feed, artwork, MP3 enclosure, and episode page to the branded production website bucket behind `agent-logic.ai`, then invalidated the changed CloudFront paths.
-- Updated launch readiness and S3/CloudFront runbook text for the approved show title, branded production route, and retained local plus public validation of feed/page/enclosure/artwork consistency.
+- Aligned Episode 001 RSS GUID and enclosure metadata with the approved show identity while preserving the stable HTTPS media URL, MIME type, byte length, audio digest, artwork digest, and held-for-review publication boundary.
+- Updated launch readiness and S3/CloudFront runbook text for the approved show title and retained local validation of feed/page/enclosure/artwork consistency.
+- Promoted the approved public podcast page, RSS feed, artwork, MP3 enclosure, and episode page to the branded production website bucket behind agent-logic.ai.
+- Invalidated the changed CloudFront paths for the production podcast route.
+- Added validator-enforced public HTTPS proof so #262 can no longer pass with only 127.0.0.1 loopback playback receipts.
+- Updated launch-readiness and S3/CloudFront runbook truth to distinguish production hosting publication from #264 directory submission.
 
 ## Validation
 
@@ -56,7 +69,7 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
       "ruby",
       ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
     ],
-    "purpose": "Validate The Cognitive Stack production-feed candidate, episode metadata, stable HTTPS enclosure, MIME type, byte length, audio/artwork digests, and public/preview page references.",
+    "purpose": "Validate The Cognitive Stack production-feed candidate, episode metadata, stable HTTPS enclosure, MIME type, byte length, audio/artwork digests, and public/preview page references without claiming external publication.",
     "outcome": "passed",
     "evidence_ref": "issue-262-focused.log"
   },
@@ -279,7 +292,7 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
       "ruby",
       ".csdlc/prepared/issues/262/record-live-production-proof.rb"
     ],
-    "purpose": "Retain public production HTTPS proof for agent-logic.ai podcast page, feed, artwork, episode page, MP3 HEAD behavior, and first/tail 206 byte-range requests across desktop and mobile user-agent profiles.",
+    "purpose": "Retain source-manifest-bound public production proof for The Cognitive Stack feed, page, artwork, MP3 enclosure, S3 version receipts, CloudFront invalidation, public HTTPS HEAD/GET, and first/tail 206 byte-range playback behavior at https://agent-logic.ai/podcast/.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/262/live-production/public-production-proof.json"
   },
@@ -288,7 +301,7 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
       "ruby",
       ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
     ],
-    "purpose": "Validate The Cognitive Stack hosting packet with source-bound local playback receipts, public production proof, S3 version receipts, CloudFront invalidation evidence, and publication_claimed=true.",
+    "purpose": "Validate The Cognitive Stack hosting packet with source-bound local playback receipts, public production HTTPS proof, S3 version receipts, CloudFront invalidation evidence, and publication_claimed=true.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
   },
@@ -299,7 +312,7 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 live-production proof remediation diff.",
+    "purpose": "Verify whitespace and diff hygiene for the live production podcast hosting proof remediation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
   }
@@ -307,11 +320,11 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

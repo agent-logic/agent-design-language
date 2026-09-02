@@ -4,105 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
-  "phase": "published",
-  "generation": 42,
-  "digest": "c7d24c68313d69e4391d2de3648ed12fd812ddd4c9e04f7e79e0458e8bfb7d15",
+  "phase": "implemented",
+  "generation": 47,
+  "digest": "12af52dc888de28dbda97471ddef51b8f25220290e17f82a8f2e1a16dda2fdc7",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
-  "review_assignment": {
-    "reviewer": "fresh-session:627ccf54-c965-42b7-8ce9-084791bad23b",
-    "assigned_by": "codex:root/podcast-262",
-    "revision": "git-blake3:78caa6853c3113737701a69e6ec9d9023a8b5fcb:797cd0b6a8acf2f502252d2a9c18004eec192f679ce7bddb47b532ebe9948813",
-    "scope": [
-      ".csdlc/evidence/262",
-      ".csdlc/prepared/issues/262",
-      "adl/tools/record_podcast_native_playback.sh",
-      "adl/tools/record_podcast_browser_playback.mjs",
-      "adl/tools/record_podcast_ios_safari_playback.sh",
-      "adl/tools/test_podcast_launch_packet.sh",
-      "adl/tools/validate_podcast_launch_packet.py",
-      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json",
-      "demos/_preview/podcast/index.html",
-      "demos/podcast/LAUNCH_READINESS.md",
-      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
-      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
-      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
-      "demos/podcast/feed.xml",
-      "demos/podcast/index.html",
-      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio-reference/podcast-studio.html",
-      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio/reference.sha256",
-      "demos/podcast/studio/podcast-studio.html"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:627ccf54-c965-42b7-8ce9-084791bad23b",
-    "scope": [
-      ".csdlc/evidence/262",
-      ".csdlc/prepared/issues/262",
-      "adl/tools/record_podcast_native_playback.sh",
-      "adl/tools/record_podcast_browser_playback.mjs",
-      "adl/tools/record_podcast_ios_safari_playback.sh",
-      "adl/tools/test_podcast_launch_packet.sh",
-      "adl/tools/validate_podcast_launch_packet.py",
-      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json",
-      "demos/_preview/podcast/index.html",
-      "demos/podcast/LAUNCH_READINESS.md",
-      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
-      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
-      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
-      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
-      "demos/podcast/feed.xml",
-      "demos/podcast/index.html",
-      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio-reference/podcast-studio.html",
-      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio/reference.sha256",
-      "demos/podcast/studio/podcast-studio.html"
-    ],
-    "reviewed_revision": "git-blake3:78caa6853c3113737701a69e6ec9d9023a8b5fcb:797cd0b6a8acf2f502252d2a9c18004eec192f679ce7bddb47b532ebe9948813",
-    "findings": [],
-    "residual_risks": [
-      "No live S3 or CloudFront mutation/probe was performed during the read-only exact-head review; retained local hosting and launch-packet proof remain the review denominator.",
-      "ffprobe was unavailable in the reviewer environment, so ID3 behavior was verified through the repository validator's ID3 frame checks rather than an external ffprobe invocation."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 262,
-    "pull_request": 618,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/618",
-    "base": "main",
-    "head": "codex/262-podcast-production-hosting",
-    "revision": "git-blake3:df4250ed324c5f10c1594e4a9897be822b2e8d2e:c4ab2ff950281607934c391800eb58307a5998fe349cb7758db23615bad95135",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -116,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cdbb5aa1c55fb699434930e67831170a1216710b6c8dd357b9515187b0e59f0e",
+      "values_digest": "b8521872af9c23c9f670489d02522a91df6f8688b6a9b469349372ea96f70e6a",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "825367a23121a3648572c3efe11eb9dae4cac518b9ad389754b332c077d6867c",
+      "values_digest": "d6d4ee84a05b9875633a24e1e693a2b9982c32e7e0e4edc34281c9a377f35532",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "5b18486a53a4c59ea41ebaf07de9fb8a02e8e023e984237f2cf895cda188f969",
+      "values_digest": "524e0ef3a6e433382aa94697adbc79bda512770ba920151e4b789623d772b5f1",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "aa7df511f67d2dda18804a4f3d9893671ce93cf4c44407dbdf70bf86ed6ff02f",
+      "values_digest": "21c1b2ea53c550a508bc658e143aa2af2e1c81bfacf5b7133787f0dcff99899a",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "b994b7666062fafbeb3ef498da04428d91d487acf1d86139857803177a02064f",
-      "rendered_digest": "48eef3eef5473e6d5c2435903c794d2913d545ececc5d9d2a93642195675ac49",
-      "ast_digest": "bb1be1ba5183583848aade82b38c020e5cc9212a2df8c4cf11facaaf21a441ef"
+      "values_digest": "21ca04139d638cf57ed3e25e5b940a298b4fe2ad901d151826dd4ae86d3476fa",
+      "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
+      "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
     },
     "sor": {
-      "values_digest": "ddf3f71cafad247354ac09414b2113ad5510365ff2552e3059861aadbea75c49",
-      "rendered_digest": "343f774e4dd65b3a664c7c1c7c8606ac60ed50e032f4e875169c515025e0ee71",
-      "ast_digest": "3b7a24acf32c0f3147a3d4945f268d1b71a94f782d2d43b74f708a532b45c91d"
+      "values_digest": "6ca2665ffa1e21633ab44c9b63daf4c7019817a2b86d185dc570c8fe5066e876",
+      "rendered_digest": "bd1f4c21717ef8e372c5ea0aca5792f2bd59b31083f1f28718b01e91975d6053",
+      "ast_digest": "b51ac0b9c86d8e1abcee39552d9bbc53ddfd75d05b6d34b863f735357387f02c"
     }
   },
   "transitions": [
@@ -202,6 +111,13 @@
       "to": "published",
       "actor": "codex:root/podcast-262",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after exact-head review found that the #262 PR closed the issue while retaining only loopback playback proof and publication_claimed=false; live production hosting was promoted to https://agent-logic.ai/podcast/ and public HTTPS playback proof was retained."
     }
   ],
   "audit": [
@@ -568,6 +484,41 @@
       "actor": "codex:root/podcast-262",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 53,
+      "generation": 43,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after exact-head review found that the #262 PR closed the issue while retaining only loopback playback proof and publication_claimed=false; live production hosting was promoted to https://agent-logic.ai/podcast/ and public HTTPS playback proof was retained.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 44,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record live production hosting promotion after exact-head review found loopback-only proof insufficient for #262 closure.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #262 podcast production-hosting candidate for The Cognitive Stack, including promotion of the approved public page, RSS feed, artwork, MP3 enclosure, and episode page to the production https://agent-logic.ai/podcast/ hosting surface.\",\"changes\":[\"Promoted the approved public podcast page, RSS feed, artwork, MP3 enclosure, and episode page to the branded production website bucket behind agent-logic.ai.\",\"Invalidated the changed CloudFront paths for the production podcast route.\",\"Added validator-enforced public HTTPS proof so #262 can no longer pass with only 127.0.0.1 loopback playback receipts.\",\"Updated launch-readiness and S3/CloudFront runbook truth to distinguish production hosting publication from #264 directory submission.\"],\"artifacts\":[\".csdlc/prepared/issues/262/record-live-production-proof.rb\",\".csdlc/evidence/262/live-production/public-production-proof.json\",\".csdlc/evidence/262/live-production/cloudfront-invalidation.json\",\".csdlc/evidence/262/live-production/put-feed.json\",\".csdlc/evidence/262/live-production/put-audio.json\",\".csdlc/evidence/262/live-production/put-artwork.json\",\".csdlc/evidence/262/live-production/put-podcast-root.json\",\".csdlc/evidence/262/live-production/put-podcast-index.json\",\".csdlc/evidence/262/live-production/put-episode-root.json\",\".csdlc/evidence/262/live-production/put-episode-index.json\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/S3_CLOUDFRONT_RUNBOOK.md\"]}"
+    },
+    {
+      "sequence": 55,
+      "generation": 45,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record retained live production HTTPS proof after promoting The Cognitive Stack podcast artifacts to the public agent-logic.ai hosting surface.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-live-production-proof.rb\"],\"purpose\":\"Retain source-manifest-bound public production proof for The Cognitive Stack feed, page, artwork, MP3 enclosure, S3 version receipts, CloudFront invalidation, public HTTPS HEAD/GET, and first/tail 206 byte-range playback behavior at https://agent-logic.ai/podcast/.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/live-production/public-production-proof.json\"}}"
+    },
+    {
+      "sequence": 56,
+      "generation": 46,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record focused podcast hosting validation after live production publication proof was added to the #262 release gate.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack hosting packet with source-bound local playback receipts, public production HTTPS proof, S3 version receipts, CloudFront invalidation evidence, and publication_claimed=true.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 57,
+      "generation": 47,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record diff hygiene validation for the #262 live production proof remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify whitespace and diff hygiene for the live production podcast hosting proof remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
     }
   ]
 }
