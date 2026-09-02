@@ -4,22 +4,78 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 37,
-  "digest": "7127b45c80d4c376011a74446aa829218a83124db7cb3b70011b056eab6346e5",
+  "generation": 38,
+  "digest": "bff32836921bee6cf07a5215704cdee3b439d99ff66555b4740233856a02fd34",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": {
-    "reviewer": "subagent:issue_607_resume_r2_review",
+    "reviewer": "subagent:issue_607_resume_r3_review",
     "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:1a74892479c1b00549a800bbd0ef748d9f09ee13:0f153cf003c03275bdb913f962b52911f3084e73a30f89acc4bffbeb22b8f215",
+    "revision": "git-blake3:dc35154bb6bf109460f8d3286d4da6c7776efd87:55d40878b6c0a104c2f7578e5d74e64d6a6d5f25c9798a4bba354d3265929ef8",
     "scope": [
       ".csdlc/issues/607",
-      ".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json",
+      ".csdlc/evidence/607/local-validation-resume-5fbd22933.json",
       "adl/tools/run_issue607_warm_polis.sh",
       "adl/tools/test_issue607_warm_polis.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:issue_607_resume_r3_review",
+    "scope": [
+      ".csdlc/issues/607",
+      ".csdlc/evidence/607/local-validation-resume-5fbd22933.json",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh"
+    ],
+    "reviewed_revision": "git-blake3:dc35154bb6bf109460f8d3286d4da6c7776efd87:55d40878b6c0a104c2f7578e5d74e64d6a6d5f25c9798a4bba354d3265929ef8",
+    "findings": [
+      {
+        "id": "607-resume-r3-f1-partial-images",
+        "severity": "p1",
+        "summary": "Resume rejects a valid interrupted preparation with only one of two prepared AMIs instead of creating only the missing node image.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "607-resume-r3-f2-controller-generation",
+        "severity": "p1",
+        "summary": "Launch cannot use an older authorized prepared generation from a newer repaired controller HEAD.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "607-resume-r3-f3-terminal-checkpoint",
+        "severity": "p1",
+        "summary": "Preparation result and ledger completion are not committed as a reconcilable terminal checkpoint.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "607-resume-r3-f4-proof-claims",
+        "severity": "p2",
+        "summary": "SOR and evidence overstate interruption safety without regressions for partial images, controller-generation skew, and terminal checkpoint recovery.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Prepared AMIs, root snapshots, and warm volumes remain retained with no compute running while restart-safety is repaired."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +90,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ef6f32dcc08fdab65bccd315d8ab3564777cbfb730ae4494c329808686390ba1",
+      "values_digest": "03a962878491fe1f4e2ebcd07d2b89d7ca36cc042f5490c43a940427c9ec79b1",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "74d89e00deead72bda501da71d8110557cc9df021edf8706fe34dd91ce1a28f9",
+      "values_digest": "ddb8d0ad893ebfd11f90a425c91f184d9c5aab7ed087da1ee912d5ccb0e7a43f",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "0fdd392d7754c93bf7aeb7756b09b94bc5a46bc0b45b417beb7afe5fe5aeabc8",
+      "values_digest": "c8df618c124bae0220037a35fdcda4b9a810b9ad342755ae0d513e360340db71",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "1e55e9df725c13252164a1b188e19e098ca65e0720f7e72a78a2decd53bc5735",
+      "values_digest": "6630526bf5b37ca0fbafe6565ff4ced82fcd6a3472234666cb7eec5c8f8f5c2d",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "aab74b6be904e1bf232fa7d573a4499075e8f3cd0bfe0259bc89d739a911391c",
-      "rendered_digest": "128a4bbe63fa725f62b8e831e116bf903f2d30d409f6cfd2e1060ab6b810eb69",
-      "ast_digest": "776b8a5ca6720de4f79481b932d87da5fa76a64014f4379f6468a4172becba5b"
+      "values_digest": "060ab6a366d23b8a390c981b5b02052a22e8515ca8dfac1c137626af42ccf3ac",
+      "rendered_digest": "fe1476992cd7492c4df220fd61617022240b5ee1f1ebf91b2bba3acf50a9834e",
+      "ast_digest": "d6a31d1281ffab82ec9bdea983d982c9c0c6d7c99234ca946474bfee9498e9b8"
     },
     "sor": {
-      "values_digest": "144918972fe4e75c4451a2796a54e3c4e131f537cee4f0ac14048f414703351e",
+      "values_digest": "abe09f28529c51777e446ea637c1686678387fc6cbf16df9915c4f3ccf5dd3a7",
       "rendered_digest": "9af2bf2ece1296dcbaacccc66f96864f6a5e9e7775bcdf5c58ab7c435b3b3bc7",
       "ast_digest": "ceea8f7acb39b1ba8e0ca6e73db2493e94b122a69993f63f4a2766d3818637f8"
     }
@@ -486,6 +542,20 @@
       "actor": "codex-primary-issue607",
       "reason": "Refresh exact implementation and validation truth after correcting the retained image artifact allowlist.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the warm two-node AWS path through restart-safe controller revision 5fbd22933; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.\",\"Made AMI and sealed-snapshot creation exact-state and idempotent across controller interruption.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, and ledger identity validation before resume.\",\"Allowed only the exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.\",\"Added executable regressions for permanent AWS errors and exact reuse of existing images and snapshots.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, exact image and snapshot reuse, and retained-artifact residue classification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue after restart-safety remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and its regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"}]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 37,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 38,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

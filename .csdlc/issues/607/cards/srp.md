@@ -13,7 +13,7 @@ Status: draft
 ## Scope
 
 .csdlc/issues/607
-.csdlc/evidence/607/local-validation-resume-f59fcbf6a.json
+.csdlc/evidence/607/local-validation-resume-5fbd22933.json
 adl/tools/run_issue607_warm_polis.sh
 adl/tools/test_issue607_warm_polis.sh
 
@@ -29,9 +29,9 @@ adl/tools/test_issue607_warm_polis.sh
 
 [
   {
-    "id": "607-resume-f1-idempotence",
+    "id": "607-resume-r3-f1-partial-images",
     "severity": "p1",
-    "summary": "Interrupted completion can create duplicate retained sealed snapshots and an unreferenced temporary restore while understating cost.",
+    "summary": "Resume rejects a valid interrupted preparation with only one of two prepared AMIs instead of creating only the missing node image.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -39,9 +39,9 @@ adl/tools/test_issue607_warm_polis.sh
     "route": null
   },
   {
-    "id": "607-resume-f2-identity",
+    "id": "607-resume-r3-f2-controller-generation",
     "severity": "p1",
-    "summary": "Resume does not fully bind checkout, state, plans, artifacts, ledger, and consumed authorization to the original exact campaign.",
+    "summary": "Launch cannot use an older authorized prepared generation from a newer repaired controller HEAD.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -49,9 +49,9 @@ adl/tools/test_issue607_warm_polis.sh
     "route": null
   },
   {
-    "id": "607-resume-f3-api-errors",
+    "id": "607-resume-r3-f3-terminal-checkpoint",
     "severity": "p1",
-    "summary": "Permanent AWS API errors are retried forever instead of failing while only healthy transitional resource states wait indefinitely.",
+    "summary": "Preparation result and ledger completion are not committed as a reconcilable terminal checkpoint.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -59,19 +59,9 @@ adl/tools/test_issue607_warm_polis.sh
     "route": null
   },
   {
-    "id": "607-resume-f4-image-window",
+    "id": "607-resume-r3-f4-proof-claims",
     "severity": "p2",
-    "summary": "Preservation starts after both create-image calls, leaving an interruption window that destroys a partially created image and makes the consumed run non-resumable.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "607-resume-f5-tests-proof",
-    "severity": "p2",
-    "summary": "Tests do not execute resume rejection, idempotence, permanent API failure, preservation, and cost accuracy, and retained SOR validation is stale.",
+    "summary": "SOR and evidence overstate interruption safety without regressions for partial images, controller-generation skew, and terminal checkpoint recovery.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -86,12 +76,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The available prepared AMIs and completed root snapshots remain preserved while remediation and fresh review proceed.
+- Prepared AMIs, root snapshots, and warm volumes remain retained with no compute running while restart-safety is repaired.
 
 ## Review Result
 
-Revision: Some("git-blake3:b5debc6abc77eef40361abde362ea0458ef52668:f22cd6960bde70585c3737a7879c8c775610002b350a75f6fb3b77b9d956c945")
+Revision: Some("git-blake3:dc35154bb6bf109460f8d3286d4da6c7776efd87:55d40878b6c0a104c2f7578e5d74e64d6a6d5f25c9798a4bba354d3265929ef8")
 
-Reviewer: Some("subagent:issue_607_resume_review")
+Reviewer: Some("subagent:issue_607_resume_r3_review")
 
 Result: changes_required

@@ -131,6 +131,38 @@ run_contracts() {
   [[ "$(bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-ensure-sealed-snapshot runtime vol-0123456789abcdef0 deadbeef root-hash 2099-01-01T00:00:00Z owner)" == snap-0123456789abcdef0 ]]
   [[ ! -e "$CASE_ROOT/unexpected-create" ]]
 
+  rm -f "$CASE_ROOT/partial-image-creates"
+  aws() {
+    if [[ "$*" == *" describe-images "* && "$*" == *"Name=tag:adl:node,Values=runtime"* ]]; then printf 'ami-0123456789abcdef0\n'; return 0; fi
+    if [[ "$*" == *" describe-images "* && "$*" == *"Name=tag:adl:node,Values=gpu"* ]]; then return 0; fi
+    if [[ "$*" == *" create-image "* && "$*" == *"--instance-id i-gpu"* ]]; then printf 'ami-abcdef01234567890\n'; printf '%s\n' "$*" >>"$CASE_ROOT/partial-image-creates"; return 0; fi
+    if [[ "$*" == *" create-image "* ]]; then printf '%s\n' "$*" >>"$CASE_ROOT/partial-image-creates"; return 2; fi
+    if [[ "$*" == *" describe-images "* && "$*" == *"--image-ids"* ]]; then
+      printf '[{"image_id":"ami-0123456789abcdef0","state":"available"},{"image_id":"ami-abcdef01234567890","state":"available"}]\n'; return 0
+    fi
+    return 2
+  }
+  export -f aws
+  [[ "$(ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-ensure-prepared-images i-runtime i-gpu 2099-01-01T00:00:00Z)" == "ami-0123456789abcdef0 ami-abcdef01234567890" ]]
+  [[ "$(wc -l <"$CASE_ROOT/partial-image-creates" | tr -d '[:space:]')" == 1 ]]
+
+  ancestor="$(git -C "$ROOT" rev-parse HEAD^)"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-controller-generation --commit "$ancestor"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-controller-generation --commit 0000000000000000000000000000000000000000 >/dev/null 2>&1
+
+  checkpoint="$CASE_ROOT/preparation-result.json"; checkpoint_ledger="$CASE_ROOT/preparation-ledger.json"
+  jq -n '{schema:"adl.issue607.preparation_result.v5",status:"prepared",disposable_residue:0}' >"$checkpoint"
+  jq -n '{schema:"adl.issue607.preparation_resource_ledger.v1",status:"active",resources:[{kind:"image",id:"ami-0123456789abcdef0",state:"active"}]}' >"$checkpoint_ledger"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-mark-preparation-checkpoint "$checkpoint" "$checkpoint_ledger"
+  jq -e '.status=="completed" and .resources[0].state=="retained"' "$checkpoint_ledger" >/dev/null
+
+  cost_preflight="$CASE_ROOT/cost-preflight.json"; cost_ledger="$CASE_ROOT/cost-ledger.json"
+  jq -n '{cost:{rates:{runtime_hourly_usd:1,runtime_preparation_hourly_usd:1,gpu_hourly_usd:1},warm_storage_seven_day_usd:1,snapshot_seven_day_allowance_usd:1}}' >"$cost_preflight"
+  rm -f "$cost_ledger"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 1 "$cost_preflight" "$cost_ledger" adl-issue607-test-prepare
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-record-cost-ledger prepare 2 "$cost_preflight" "$cost_ledger" adl-issue607-test-prepare
+  jq -e '(.entries|length)==1 and .entries[0].measured_elapsed_seconds==1' "$cost_ledger" >/dev/null
+
   for template in \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"; do
@@ -211,6 +243,9 @@ run_contracts() {
   rg -q 'start_prepared_image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'resume-preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'PRESERVE_PREPARATION_ON_EXIT=true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'reconcile_completed_preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'preparation-result.json.next' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'action_manifest.v3' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:image/$image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'arn:aws:ec2:$REGION:$account:snapshot/$snapshot' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   ! rg -q 'CONTROL_PLANE_WAIT_SECONDS|ec2 wait (image-available|snapshot-completed|instance-stopped)' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
