@@ -15,12 +15,12 @@ import json
 from pathlib import Path
 
 body = json.loads(Path(".csdlc/prepared/issues/596/pr-create-request.json").read_text())["body"]
-for forbidden in ("Closes #596", "Fixes #596", "Resolves #596", "Closes #505", "Fixes #505", "Resolves #505"):
-    if forbidden in body:
-        raise SystemExit(f"PR body must not prematurely close lifecycle-tracked issues: {forbidden}")
-for required in ("Part-Of #596", "Part-Of #505", "Part-Of #534"):
+for required in ("Closes #596", "Part-Of #505", "Part-Of #534"):
     if required not in body:
-        raise SystemExit(f"PR body must retain non-closing linkage: {required}")
+        raise SystemExit(f"PR body must retain required lifecycle linkage: {required}")
+for forbidden in ("Fixes #596", "Resolves #596", "Closes #505", "Fixes #505", "Resolves #505", "Closes #534", "Fixes #534", "Resolves #534"):
+    if forbidden in body:
+        raise SystemExit(f"PR body has forbidden lifecycle linkage: {forbidden}")
 
 index = json.loads(Path(".csdlc/issues/596/index.json").read_text())
 cards = set(index["cards"])

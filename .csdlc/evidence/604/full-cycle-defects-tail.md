@@ -108,13 +108,12 @@
 - Impact: v3 readiness could look green without proving that the current
   non-authoritative v3 surfaces can ingest real ADL issue records before
   cutover.
-- Fix: added real-issue canaries for #604 across foundation projection, local
-  preparation, lifecycle recovery, durable storage reopen, adapter command
-  construction, and non-authoritative credential injection, plus a real #504
-  remote-delivery terminal-identity canary in preview-cleanup mode. The canary
-  records the observed v2 distinction between typed review revision evidence
-  and GitHub terminal SHA instead of treating those raw fields as the same
-  authority value.
+- Fix: added real-issue canaries for current #596 across foundation
+  projection, local preparation, adapter command construction, and
+  non-authoritative credential injection, plus terminal #4646 coverage for
+  lifecycle recovery and durable storage reopen. The canary records the
+  observed v2 distinction between active local preparation records and terminal
+  closeout records instead of treating one synthetic fixture as sufficient.
 
 ## DEFECT-018: v3 replacement denominator was implicit and much larger than current coverage
 

@@ -39,7 +39,7 @@
     "task_boundary": "Bounded remediation of sprint review blockers and typed-tool canary defects needed before #505 can be reviewed for cutover.",
     "deliverables": [
       "Typed six-card lifecycle state for #596",
-      "PR #597 body with non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully",
+      "Remediation PR body with visible Closes #596 and non-closing Part-Of #505/#534 linkage after #596 has passed typed lifecycle review",
       "Typed GitHub PR create/update operations with owner provenance and idempotent update safety",
       "Single csdlc v3 binary and standalone locked CI coverage",
       "Behavior-backed v3 importer, durability, review, finish, and cleanup fixes",
@@ -47,7 +47,7 @@
     ],
     "acceptance_criteria": [
       "AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards",
-      "AC-2: PR #597 uses non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully",
+      "AC-2: The remediation PR uses visible Closes #596 and non-closing Part-Of #505/#534 linkage only after #596 has been bound, implemented, reviewed, and publication-reconciled",
       "AC-3: PR body create/update operations are performed through typed C-SDLC v2 GitHub owners, not raw gh",
       "AC-4: Repeated PR update operation keys cannot overwrite a different governed body",
       "AC-5: v3 durable transaction proof fails closed across projection crash windows",
@@ -84,7 +84,7 @@
       },
       {
         "id": "S2",
-        "action": "Verify and preserve PR #597 linkage so it uses non-closing Part-Of #596/#505/#534 until #596 can finish truthfully.",
+        "action": "Verify the remediation PR linkage so it visibly Closes #596 while keeping #505/#534 as non-closing Part-Of links until their own lifecycle gates complete.",
         "acceptance_ids": [
           "AC-2",
           "AC-3",

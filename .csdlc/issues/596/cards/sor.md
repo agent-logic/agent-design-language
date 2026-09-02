@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left issue #596 open and after real-issue testing exposed missing local lifecycle adoption and branch-portability defects.
+Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left issue #596 open, then corrected the issue-owned validator and PR request so the next remediation PR visibly closes #596 while keeping #505/#534 non-closing.
 
 ## Artifacts
 
@@ -21,40 +21,22 @@ Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left iss
 - csdlc-v2/tests/gate2.rs
 - csdlc-v3/tests/real_issue_canary.rs
 - docs/csdlc-v3/full-replacement-denominator.json
+- .csdlc/evidence/596/post-finalize-typed-validation.log
 - .csdlc/evidence/604/full-cycle-defects-tail.md
 - .csdlc/issues/596
 - .csdlc/prepared/issues/596
 
 ## Execution
 
-- Added a safe typed C-SDLC v2 path to reapprove ready issue design references only when the SPP and VPP authored design and diagram refs match the canonical record paths and only the content digests changed.
+- Updated the issue-owned validator and prepared PR create request to require visible Closes #596 and non-closing Part-Of #505/#534 linkage, and removed the stale PR update request for already-merged PR #597.
+- Added a safe typed C-SDLC v2 path to reapprove ready design references only when the SPP and VPP authored design and diagram refs match the canonical record paths and only the content digests changed.
 - Added a safe typed bind-adoption path for an already-advanced ready issue running in its exact current FastWork remediation branch/worktree, rejecting topology mismatch and later lifecycle evidence.
-- Fixed terminal materialization after duplicate publication so a historical merged terminal PR can supersede stale open publication state without accepting caller-forged terminal or issue identity.
-- Brought the v3 full replacement denominator and real-issue canaries onto the remediation branch, proving v3 remains incomplete for cutover while exercising current #596 and terminal #4646 records.
-- Bound issue #596 through typed lifecycle state instead of leaving the PR-closing/follow-up path detached from local C-SDLC authority.
+- Retained and revalidated terminal materialization regression coverage for the duplicate-publication case while leaving terminal closeout pending for #596 until its new remediation PR is merged.
+- Brought the v3 full replacement denominator and real-issue canaries onto the remediation branch, proving v3 remains incomplete for #505 cutover while exercising current #596 and terminal #4646 records.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Run exact branch diff hygiene.",
-    "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
-  },
-  {
-    "command": [
-      "bash",
-      ".csdlc/prepared/issues/596/validate-remediation-regression.sh"
-    ],
-    "purpose": "Run the issue-owned remediation validator.",
-    "outcome": "passed",
-    "evidence_ref": "issue-596-remediation-regression.log"
-  },
   {
     "command": [
       ".adl/bin/csdlc-v2/csdlc-validate",
@@ -62,9 +44,46 @@ Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left iss
       "--issue",
       "596"
     ],
-    "purpose": "Validate the current #596 C-SDLC record.",
+    "purpose": "Validate current #596 C-SDLC record after implementation finalization.",
     "outcome": "passed",
-    "evidence_ref": "issue-596-typed-validation.log"
+    "evidence_ref": ".csdlc/evidence/596/post-finalize-typed-validation.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/596/validate-remediation-regression.sh"
+    ],
+    "purpose": "Prove the issue-owned remediation validator now requires Closes #596 and non-closing #505/#534 linkage.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/596/issue-596-remediation-regression.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "terminal_materialization_policy_tests",
+      "--lib"
+    ],
+    "purpose": "Run focused C-SDLC v2 terminal materialization regression tests.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/596/v2-terminal-materialization-regression.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "ready_unbound",
+      "--lib"
+    ],
+    "purpose": "Run focused C-SDLC v2 ready and bind adoption regressions.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/596/v2-ready-bind-regression.log"
   },
   {
     "command": [
@@ -79,35 +98,7 @@ Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left iss
     ],
     "purpose": "Run the focused gate2 prebind repair regression.",
     "outcome": "passed",
-    "evidence_ref": "v2-prebind-contract-regression.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "ready_unbound",
-      "--lib"
-    ],
-    "purpose": "Run focused C-SDLC v2 ready and bind adoption regressions.",
-    "outcome": "passed",
-    "evidence_ref": "v2-ready-bind-regression.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "terminal_materialization_policy_tests",
-      "--lib"
-    ],
-    "purpose": "Run focused C-SDLC v2 terminal materialization unit tests.",
-    "outcome": "passed",
-    "evidence_ref": "v2-terminal-materialization-regression.log"
+    "evidence_ref": ".csdlc/evidence/596/v2-prebind-contract-regression.log"
   },
   {
     "command": [
@@ -121,7 +112,17 @@ Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left iss
     ],
     "purpose": "Run C-SDLC v3 real issue canaries.",
     "outcome": "passed",
-    "evidence_ref": "v3-real-issue-canaries.log"
+    "evidence_ref": ".csdlc/evidence/596/v3-real-issue-canaries.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run branch diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/596/diff-hygiene.log"
   }
 ]
 

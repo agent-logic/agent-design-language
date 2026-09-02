@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "6b90582995d7af90000b1b6791645d0410a7414cc67784dcaaf3351261c182d1",
+  "generation": 6,
+  "digest": "23ea90c1f0ef4f2868490de2f16b9c7e6c19f8d0011f0a7e99e249178ff5dbc8",
   "branch": "codex/sprints-5-6-cutover-fixes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "632f1bb74da20d9813e4b7a4124939d8f187ceee438cf17738261b6f31891cfa",
+      "values_digest": "5e6a73597d0b7e0c85812399227e204a3abcce516c63877fa252ebb089c6ead2",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "5209c4d6aa44c5b6c870c4ca8990899482a46677ec8ebd0eac511a701c0cf2d7",
+      "values_digest": "8113c6511b70bbb004e9039c9814142b61fa51e4afa40cbf1bad07004347feaf",
       "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
       "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
     },
     "spp": {
-      "values_digest": "0b51f48ccb7cfe20f76e1843e80e164f938a60a7a80d89bec82d0e3c99276e77",
+      "values_digest": "88909e598d653ab98c01741339c9a05963ebac692ecae1cd86be84fac0af29e8",
       "rendered_digest": "e24a19c3602aadf2b603b80220b548d9d3a7da22ced8bb66557d4962ea017d30",
       "ast_digest": "b3ea625a7cd080feb19e1687b9aaa1cd8f732fb2011b5a16f9c2b4d1d8c38c9b"
     },
     "vpp": {
-      "values_digest": "468a273cfb8fbbb576dc387a6608da1f288dc7df8b2483233e18058798c21b57",
+      "values_digest": "c46bb4b8edfd62573b074a68eb2a23b26893837c331d1f23facee3e56128f765",
       "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
       "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "438bdc645fc007c1b27073876ba964db07f8a9510ad2fd44d24fa5ade8b1bb58",
+      "values_digest": "c434a0ca5ec71b154ecc27e9384f9583cac26730d7059bd74ac9800566b3a9d1",
       "rendered_digest": "5e73e5925328b092789181e36f16c36501741c98ff71962279354b445ecc3a5b",
       "ast_digest": "8e806d3673620d233597703b4598a0e42454a07c18d589a82ff8eed11b20b954"
     },
     "sor": {
-      "values_digest": "87dcf1501b3ad0253f5035b8378866085afb84cb94104ec43c706625ada4d218",
-      "rendered_digest": "2a1be63f00a7a9f86aff0948279d9899cc91abbce027aaf3995223c99f1ca331",
-      "ast_digest": "ef92ce52ecd481533ab6b3b1c1328cfdc58d42218bf3933d616dd770955a8f4e"
+      "values_digest": "f16f0a36c0654bf9e1f33c98b97c9b994f090dfa851dadad6a167477533eb2e1",
+      "rendered_digest": "ad43a9f54a1959e835de96b71f92c54e3c9ba48fb3f22b3e60a75e4ab250daaa",
+      "ast_digest": "2939da344dc53a12f53fd3e43209e26b1785092ae494ebfe35731db37c575edf"
     }
   },
   "transitions": [
@@ -127,6 +127,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "Correct SOR execution and validation truth after bounded review found stale PR-linkage and post-finalize validation evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left issue #596 open, then corrected the issue-owned validator and PR request so the next remediation PR visibly closes #596 while keeping #505/#534 non-closing.\",\"changes\":[\"Updated the issue-owned validator and prepared PR create request to require visible Closes #596 and non-closing Part-Of #505/#534 linkage, and removed the stale PR update request for already-merged PR #597.\",\"Added a safe typed C-SDLC v2 path to reapprove ready design references only when the SPP and VPP authored design and diagram refs match the canonical record paths and only the content digests changed.\",\"Added a safe typed bind-adoption path for an already-advanced ready issue running in its exact current FastWork remediation branch/worktree, rejecting topology mismatch and later lifecycle evidence.\",\"Retained and revalidated terminal materialization regression coverage for the duplicate-publication case while leaving terminal closeout pending for #596 until its new remediation PR is merged.\",\"Brought the v3 full replacement denominator and real-issue canaries onto the remediation branch, proving v3 remains incomplete for #505 cutover while exercising current #596 and terminal #4646 records.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\".csdlc/evidence/596/post-finalize-typed-validation.log\",\".csdlc/evidence/604/full-cycle-defects-tail.md\",\".csdlc/issues/596\",\".csdlc/prepared/issues/596\"],\"validation\":[{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"issue\",\"--issue\",\"596\"],\"purpose\":\"Validate current #596 C-SDLC record after implementation finalization.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/post-finalize-typed-validation.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\"],\"purpose\":\"Prove the issue-owned remediation validator now requires Closes #596 and non-closing #505/#534 linkage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/issue-596-remediation-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"terminal_materialization_policy_tests\",\"--lib\"],\"purpose\":\"Run focused C-SDLC v2 terminal materialization regression tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v2-terminal-materialization-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"ready_unbound\",\"--lib\"],\"purpose\":\"Run focused C-SDLC v2 ready and bind adoption regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v2-ready-bind-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"prebind_contract_repair_is_exact_atomic_and_fail_closed\",\"--test\",\"gate2\"],\"purpose\":\"Run the focused gate2 prebind repair regression.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v2-prebind-contract-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Run C-SDLC v3 real issue canaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v3-real-issue-canaries.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run branch diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/diff-hygiene.log\"}]}"
     }
   ]
 }

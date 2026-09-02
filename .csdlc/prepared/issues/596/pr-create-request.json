@@ -1,12 +1,12 @@
 {
   "action": "pr_create",
   "repository": "agent-logic/agent-design-language",
-  "operation_key": "worker-6-sprints56-remediation-pr-create-20260831",
+  "operation_key": "worker-6-sprints56-remediation-pr-create-20260901",
   "token_file": null,
   "issue": null,
   "pull_request": null,
   "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
-  "body": "Part-Of #596\nPart-Of #505\nPart-Of #534\n\nThis PR packages the bounded Sprint 5/6 cutover-review remediation branch without making C-SDLC v3 live authority.\n\nChanges:\n- Adds standalone locked csdlc-v3 CI selection and workflow coverage for v3 source changes.\n- Consolidates csdlc-v3 execution around a single `csdlc` binary with foundation/local subcommands.\n- Strengthens read-only v2 import to recompute issue-record and card digests before accepting projections.\n- Adds behavioral proof for durable reopen, failed state replacement, projection repair, review authority, finish linkage, part-of delivery, and cleanup classification/removal boundaries.\n- Exercises real issue canaries for Polis/Vertex issue creation plus OBS-A/#511 and OBS-B/#512 readiness.\n- Adds typed GitHub PR body update/create actions needed to avoid raw `gh` during sprint remediation.\n\nValidation:\n- `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets`\n- `cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings`\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions`\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --lib`\n- `bash adl/tools/test_ci_runtime_contracts.sh`\n- `bash adl/tools/test_ci_path_policy.sh`\n- `bash adl/tools/csdlc_obs_ready_canary.sh`\n- `git diff --check`\n\nNon-claims:\n- Leaves issue #596 open until its typed lifecycle is bound, reviewed, published, and reconciled.\n- Leaves issue #505 open; no cutover, merge, finish, or cleanup authority is claimed.",
+  "body": "Closes #596\nPart-Of #505\nPart-Of #534\n\nThis PR packages the bounded Sprint 5/6 cutover-review remediation branch without making C-SDLC v3 live authority.\n\nChanges:\n- Adds typed lifecycle repair for #596 so implementation, review, publication, merge, finish, and cleanup can be gated normally instead of leaving the issue open after merge.\n- Adds a safe C-SDLC v2 path to reapprove ready design references only when SPP and VPP point at the canonical authored design/diagram paths and only the content digests changed.\n- Adds a safe bind-adoption path for an already-advanced ready issue in its exact current FastWork branch/worktree, rejecting topology mismatch and later lifecycle evidence.\n- Fixes terminal materialization after duplicate publication so a historical merged terminal PR can supersede stale open publication state without accepting caller-forged terminal or issue identity.\n- Brings the v3 full replacement denominator and real-issue canaries onto this remediation branch, proving v3 is still incomplete for #505 cutover while exercising current #596 and terminal #4646 records.\n\nValidation:\n- `csdlc-validate issue --issue 596`\n- `bash .csdlc/prepared/issues/596/validate-remediation-regression.sh`\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml terminal_materialization_policy_tests --lib`\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml ready_unbound --lib`\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml prebind_contract_repair_is_exact_atomic_and_fail_closed --test gate2`\n- `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test real_issue_canary`\n- `git diff --check`\n\nNon-claims:\n- Leaves issue #505 open; no v3 authority cutover, v2 retirement, merge, finish, or cleanup authority is claimed by this PR.",
   "base": "main",
   "head": "codex/sprints-5-6-cutover-fixes",
   "labels": [],
@@ -16,5 +16,5 @@
   "comment_body": null,
   "required_checks": [],
   "require_review": false,
-  "linked_issue": null
+  "linked_issue": 596
 }
