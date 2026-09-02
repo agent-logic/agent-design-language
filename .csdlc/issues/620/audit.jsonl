@@ -1,1 +1,2 @@
 {"sequence":1,"generation":0,"actor":"codex:620-readiness","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":0,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}

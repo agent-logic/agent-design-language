@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 620,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "27daaf822151ec5c7c21a683ef36b956dfbdea03f327bda3d70143df0eafaae5",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 0,
-  "digest": "1b93b665f54e41e5d534df310f448eea334fe6bdb54911698c459298f062b427",
-  "branch": null,
-  "worktree": null,
+  "digest": "27cec46fbdcc562b9af41835ad3adb2aee4487f21493dd914f68f9fe49f8f1d6",
+  "branch": "codex/620-v0922-first-pass-planning",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +55,22 @@
       "ast_digest": "8e03d24edf70227d81fcc73d0eb5336b4954c5a771a89a8e96cea60d83dc4b39"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -62,6 +78,13 @@
       "actor": "codex:620-readiness",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
