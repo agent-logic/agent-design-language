@@ -105,10 +105,14 @@ pub struct AcipVectorProbe {
     pub seen_message_ids: Vec<String>,
     pub authority_digest: String,
     pub credential: String,
+    pub permit: String,
     pub signed: bool,
     pub domain: String,
     pub polis_id: String,
+    pub term: u64,
     pub monotonic_sequence: u64,
+    pub correlation_id: String,
+    pub causation_id: String,
     pub payload_well_formed: bool,
 }
 
@@ -207,6 +211,21 @@ impl DistributedQualificationContract {
             (
                 "credential-binding",
                 "credential-id-mismatch",
+                VectorOutcome::Denied,
+            ),
+            (
+                "permit-binding",
+                "permit-id-mismatch",
+                VectorOutcome::Denied,
+            ),
+            (
+                "correlation-binding",
+                "correlation-id-mismatch",
+                VectorOutcome::Denied,
+            ),
+            (
+                "causation-binding",
+                "causation-id-mismatch",
                 VectorOutcome::Denied,
             ),
         ]
@@ -377,6 +396,9 @@ impl DistributedQualificationContract {
                 "cross-polis",
                 "authority-mutation",
                 "credential-binding",
+                "permit-binding",
+                "correlation-binding",
+                "causation-binding",
             ],
             "acip vectors",
         )?;
@@ -470,17 +492,21 @@ impl DistributedQualificationContract {
             seen_message_ids: Vec::new(),
             authority_digest: vector.authority_digest.clone(),
             credential: "credential:adl:runtime:agent-alpha:v1".to_string(),
+            permit: "permit:adl:runtime:agent-alpha:drt-a:v1".to_string(),
             signed: true,
             domain: "runtime-api-authenticated".to_string(),
             polis_id: "polis-drt-a".to_string(),
+            term: 7,
             monotonic_sequence: 42,
+            correlation_id: "drt-a-correlation-42".to_string(),
+            causation_id: "drt-a-causation-42".to_string(),
             payload_well_formed: true,
         };
         match id {
             "positive-roundtrip" | "byte-stable-reencode" => {}
             "duplicate" => probe.seen_message_ids.push(probe.message_id.clone()),
             "reordered" => probe.monotonic_sequence = 41,
-            "stale" => probe.monotonic_sequence = 0,
+            "stale" => probe.term = 6,
             "malformed" => probe.payload_well_formed = false,
             "unsigned" => probe.signed = false,
             "wrong-domain" => probe.domain = "browser-only".to_string(),
@@ -492,6 +518,9 @@ impl DistributedQualificationContract {
             "credential-binding" => {
                 probe.credential = "credential:adl:runtime:agent-beta:v1".to_string()
             }
+            "permit-binding" => probe.permit = "permit:adl:runtime:agent-beta:drt-a:v1".to_string(),
+            "correlation-binding" => probe.correlation_id = "drt-a-correlation-other".to_string(),
+            "causation-binding" => probe.causation_id = "drt-a-causation-other".to_string(),
             other => return Err(format!("unknown ACIP vector {other}")),
         }
         Ok(probe)
@@ -518,30 +547,60 @@ impl DistributedQualificationContract {
             .seen_message_ids
             .iter()
             .any(|seen| seen == &probe.message_id);
-        let decision = if !duplicate_message
-            && probe.authority_digest == baseline
-            && probe.credential == "credential:adl:runtime:agent-alpha:v1"
-            && probe.signed
-            && probe.domain == "runtime-api-authenticated"
-            && probe.polis_id == "polis-drt-a"
-            && probe.monotonic_sequence == 42
-            && probe.payload_well_formed
-            && vector.expected == VectorOutcome::Accepted
-        {
-            ReceiptDecision::Accepted
+        let denial_cause = if duplicate_message {
+            Some("message-id-repeat")
+        } else if probe.monotonic_sequence < 42 {
+            Some("sequence-regression")
+        } else if probe.term < 7 {
+            Some("term-regression")
+        } else if !probe.payload_well_formed {
+            Some("invalid-protobuf-or-json")
+        } else if !probe.signed {
+            Some("missing-authority-signature")
+        } else if probe.domain != "runtime-api-authenticated" {
+            Some("authority-domain-mismatch")
+        } else if probe.polis_id != "polis-drt-a" {
+            Some("polis-id-mismatch")
+        } else if probe.authority_digest != baseline {
+            Some("authority-digest-change")
+        } else if probe.credential != "credential:adl:runtime:agent-alpha:v1" {
+            Some("credential-id-mismatch")
+        } else if probe.permit != "permit:adl:runtime:agent-alpha:drt-a:v1" {
+            Some("permit-id-mismatch")
+        } else if probe.correlation_id != "drt-a-correlation-42" {
+            Some("correlation-id-mismatch")
+        } else if probe.causation_id != "drt-a-causation-42" {
+            Some("causation-id-mismatch")
         } else {
-            ReceiptDecision::Denied
+            None
         };
-        let expected = match vector.expected {
-            VectorOutcome::Accepted => ReceiptDecision::Accepted,
-            VectorOutcome::Denied => ReceiptDecision::Denied,
-        };
-        if decision != expected {
-            return Err(format!(
-                "{} expected {expected:?} but evaluated {decision:?}",
-                probe.id
-            ));
+        match (vector.expected.clone(), denial_cause) {
+            (VectorOutcome::Accepted, None) => {}
+            (VectorOutcome::Accepted, Some(cause)) => {
+                return Err(format!(
+                    "{} expected acceptance but probe was denied by {cause}",
+                    probe.id
+                ));
+            }
+            (VectorOutcome::Denied, Some(cause)) if cause == vector.mutation => {}
+            (VectorOutcome::Denied, Some(cause)) => {
+                return Err(format!(
+                    "{} expected denial cause {} but probe was denied by {cause}",
+                    probe.id, vector.mutation
+                ));
+            }
+            (VectorOutcome::Denied, None) => {
+                return Err(format!(
+                    "{} expected denial cause {} but probe contained no invalid condition",
+                    probe.id, vector.mutation
+                ));
+            }
         }
+        let decision = if denial_cause.is_some() {
+            ReceiptDecision::Denied
+        } else {
+            ReceiptDecision::Accepted
+        };
         Ok(ExactQualificationReceipt {
             schema: DRT_A_RECEIPT_SCHEMA.to_string(),
             lane: "acip-vector".to_string(),

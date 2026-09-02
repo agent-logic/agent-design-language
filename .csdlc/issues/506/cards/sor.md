@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts with mutation fields, stateful duplicate rejection, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.
+Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts with mutation fields, stateful duplicate rejection, causal invalid-vector denial, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.
 
 ## Artifacts
 
@@ -28,7 +28,9 @@ Implemented and remediated DRT-A distributed qualification contract surfaces for
 - Added deterministic DRT-A contract types, exact qualification receipt types, per-scenario receipt construction, and per-vector ACIP probe evaluation.
 - Updated scenario receipt denominators to require mutation and exact receipt fields.
 - Changed duplicate-vector proof to use explicit seen-message state before denial rather than expected-outcome labeling.
-- Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, exact replay/duplicate receipts, and fail-closed invalid vector behavior.
+- Changed ACIP vector evaluation so denial is computed from actual invalid probe state before it is compared to the declared vector denominator.
+- Added permit, correlation, and causation binding fields to the ACIP probe denominator.
+- Added negative-matrix regression proof that repairing a denied vector's invalid field no longer produces a label-driven denial.
 - Expanded retained evidence with scenario and ACIP denominators, receipt schema, computed contract digest, authority digest, exact receipt outputs, and validation output.
 - Preserved #507/#508/#509 and live cloud/provider execution as non-goals.
 
@@ -60,7 +62,7 @@ Implemented and remediated DRT-A distributed qualification contract surfaces for
     ],
     "purpose": "Extract and prove computed DRT-A contract digest and exact duplicate-denial receipt output.",
     "outcome": "passed",
-    "evidence_ref": "DRT_A_CONTRACT_DIGEST=b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599 and exact duplicate-denial receipt printed; test passed"
+    "evidence_ref": "DRT_A_CONTRACT_DIGEST=f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074 and exact duplicate-denial receipt printed; test passed"
   },
   {
     "command": [
@@ -114,9 +116,9 @@ Implemented and remediated DRT-A distributed qualification contract surfaces for
       "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
       "negative-matrix"
     ],
-    "purpose": "Prove fail-closed evaluation of stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, authority-mutation, and credential-binding probes.",
+    "purpose": "Prove fail-closed evaluation of stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, authority-mutation, credential-binding, permit-binding, correlation-binding, and causation-binding probes.",
     "outcome": "passed",
-    "evidence_ref": "negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out"
+    "evidence_ref": "negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out; repaired negative probes fail instead of label-denying when their invalid condition is removed"
   },
   {
     "command": [

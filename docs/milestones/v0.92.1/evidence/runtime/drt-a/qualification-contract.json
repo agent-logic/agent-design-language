@@ -32,7 +32,10 @@
     "wrong-domain",
     "cross-polis",
     "authority-mutation",
-    "credential-binding"
+    "credential-binding",
+    "permit-binding",
+    "correlation-binding",
+    "causation-binding"
   ],
   "receipt_schema": {
     "schema": "adl.runtime.qualification.drt_a_receipt.v1",
@@ -47,7 +50,7 @@
       "mutation"
     ]
   },
-  "contract_digest": "b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599",
+  "contract_digest": "f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
   "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
   "contract_digest_source": "DistributedQualificationContract::digest() over the deterministic DRT-A contract fixture",
   "exact_receipts": [
@@ -55,7 +58,7 @@
       "schema": "adl.runtime.qualification.drt_a_receipt.v1",
       "lane": "qualification-contract",
       "scenario": "duplicate-denial",
-      "contract_digest": "b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599",
+      "contract_digest": "f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
       "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
       "decision": "denied",
       "cleanup": "remove duplicate-denial fixture state",
@@ -65,7 +68,7 @@
       "schema": "adl.runtime.qualification.drt_a_receipt.v1",
       "lane": "acip-vector",
       "scenario": "duplicate",
-      "contract_digest": "b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599",
+      "contract_digest": "f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
       "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
       "decision": "denied",
       "cleanup": "remove duplicate fixture state",
@@ -73,10 +76,10 @@
     }
   ],
   "validation_output": [
-    "qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out",
+    "qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out; printed DRT_A_CONTRACT_DIGEST=f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
     "acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out",
-    "replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out",
-    "negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out",
+    "replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out; printed DRT_A_DUPLICATE_VECTOR_RECEIPT with decision denied and mutation message-id-repeat",
+    "negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out; repaired negative probes fail instead of label-denying when their invalid condition is removed",
     "git diff --check origin/main...HEAD produced no output and exited 0"
   ],
   "non_claims": [

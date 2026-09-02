@@ -3,7 +3,7 @@ use adl_runtime::acip::{
     protobuf_to_deterministic_json, websocket_frame_status, AcipEnvelopeInput,
 };
 use adl_runtime::qualification::{
-    DistributedQualificationContract, ReceiptDecision, VectorOutcome,
+    AcipVectorProbe, DistributedQualificationContract, ReceiptDecision, VectorOutcome,
 };
 use serde_json::{json, Value};
 
@@ -118,6 +118,9 @@ fn negative_matrix() {
         "cross-polis",
         "authority-mutation",
         "credential-binding",
+        "permit-binding",
+        "correlation-binding",
+        "causation-binding",
     ] {
         let vector = contract.vector_by_id(id).expect("negative vector");
         assert_eq!(vector.expected, VectorOutcome::Denied, "{id} must deny");
@@ -128,6 +131,15 @@ fn negative_matrix() {
         assert_eq!(receipt.decision, ReceiptDecision::Denied, "{id} must deny");
         assert_eq!(receipt.scenario, id);
         assert_eq!(receipt.mutation, vector.mutation);
+
+        let repaired = repair_negative_probe(&contract, probe);
+        let err = contract
+            .evaluate_acip_probe(&repaired)
+            .expect_err("repaired negative probe must not be label-denied");
+        assert!(
+            err.contains("contained no invalid condition"),
+            "{id} repaired probe failed for unexpected reason: {err}"
+        );
     }
 
     assert_eq!(
@@ -139,6 +151,29 @@ fn negative_matrix() {
         "rejected",
         "malformed input must fail closed"
     );
+}
+
+fn repair_negative_probe(
+    contract: &DistributedQualificationContract,
+    mut probe: AcipVectorProbe,
+) -> AcipVectorProbe {
+    let positive = contract
+        .vector_by_id("positive-roundtrip")
+        .expect("positive vector");
+    probe.message_id = "drt-a-message-42".to_string();
+    probe.seen_message_ids.clear();
+    probe.authority_digest = positive.authority_digest.clone();
+    probe.credential = "credential:adl:runtime:agent-alpha:v1".to_string();
+    probe.permit = "permit:adl:runtime:agent-alpha:drt-a:v1".to_string();
+    probe.signed = true;
+    probe.domain = "runtime-api-authenticated".to_string();
+    probe.polis_id = "polis-drt-a".to_string();
+    probe.term = 7;
+    probe.monotonic_sequence = 42;
+    probe.correlation_id = "drt-a-correlation-42".to_string();
+    probe.causation_id = "drt-a-causation-42".to_string();
+    probe.payload_well_formed = true;
+    probe
 }
 
 fn encode_fixture(sequence: u64, payload: Value) -> Vec<u8> {
