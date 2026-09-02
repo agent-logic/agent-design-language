@@ -9,4 +9,3 @@ test sealed_typed_readback_can_derive_terminal_closeout ... ok
 test cleanup_uses_git_registration_and_preserves_distinct_outcomes ... ok
 
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
-
