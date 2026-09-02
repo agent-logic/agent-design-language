@@ -6,10 +6,20 @@
   "initialization_digest": "5cba53deaba7c8e2a2a220194f4bb1433a12212ab512e95fdfe9591df5a470e5",
   "phase": "implemented",
   "generation": 11,
-  "digest": "1a33bb1490f82c116e55ffbfd11dba27bd6785d431502db4cc21daed9220b1a4",
+  "digest": "37ef7944f5d77a340c220211dda408cabda15279684bc5ed853fef5b8b949d09",
   "branch": "codex/498-corp-d-corporate-diligence-acceptance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:498-corp-d-exact-head-review-r5",
+    "assigned_by": "codex:/root/Worker-7",
+    "revision": "git-blake3:b9cdd53b70220a7fe1c6fef61e74a4b8ae12b740:68daa21af3d3d8d7229e44da8cbcc4c8c1ebbaefe3ecd69f07df1a324c17c4f9",
+    "scope": [
+      ".csdlc/evidence/498",
+      ".csdlc/prepared/issues/498",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+      "docs/operations/corporate/diligence"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "006752cce1dd6225e56cbfc29a886f4ad200618e1cd9bb3a4f69e2a03aa2acbb"
     },
     "srp": {
-      "values_digest": "494be8e9e150cf40e05312068219d19bbf7dfe1c57a4d02d5294747495f802d6",
-      "rendered_digest": "08a5cfb2460dcbec5894e0bc6a2a888a17f8ec73108165d451ab3b0d08eb2804",
-      "ast_digest": "3bd53e36e67a36b40360720cca98f7b10a47d080a7666a64806f5fe47494db17"
+      "values_digest": "c3d2fa5bc41f5310453a25ff2c1f60baa74d942a2f83b50c6e9fff0c48fc5c40",
+      "rendered_digest": "c24977a4e4d14a1953ec539699fb19e0e9382562c7f5055563d201f08eae5efd",
+      "ast_digest": "bf26ed13d9fe9b6f5a00a5697d3cc8c6ca191408f0f17dd322a2f2e3985cc5d4"
     },
     "sor": {
       "values_digest": "d38a4a255661560d306bdeb3caf7488f9708a57be828cdc25d0ac349213047ec",
@@ -211,6 +221,13 @@
       "actor": "codex:/root/Worker-7",
       "reason": "Recover after manually committing review metadata, which made the recorded review stale for publication; preserve audit history and re-review the current clean head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

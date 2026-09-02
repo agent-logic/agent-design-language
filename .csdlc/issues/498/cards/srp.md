@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/498
+.csdlc/prepared/issues/498
+docs/milestones/v0.92.1/evidence/corporate/corp-d
+docs/operations/corporate/diligence
 
 ## Prompts
 

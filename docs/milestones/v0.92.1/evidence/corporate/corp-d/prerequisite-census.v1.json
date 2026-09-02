@@ -4,6 +4,7 @@
   "status": "pass",
   "base": "origin/main",
   "transport": "typed_csdlc_v2_github_read_owners",
+  "csdlc_v2_bin_dir": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2",
   "prerequisites": [
     {
       "issue": 482,

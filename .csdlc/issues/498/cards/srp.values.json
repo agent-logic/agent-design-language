@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/evidence/498\n.csdlc/prepared/issues/498\ndocs/milestones/v0.92.1/evidence/corporate/corp-d\ndocs/operations/corporate/diligence",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

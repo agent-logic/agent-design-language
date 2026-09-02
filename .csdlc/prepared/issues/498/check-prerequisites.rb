@@ -13,9 +13,22 @@ PREREQS = {
   483 => { planned_id: "CORP-B", merged_pr: 562 },
   497 => { planned_id: "CORP-C", merged_pr: 613, sidecar_issue: 624, sidecar_blocking_corp_d: false }
 }.freeze
-ISSUE_READER = "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue"
-PR_READER = "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-pr"
 REQUEST_DIR = Pathname.new(__dir__)
+BIN_DIR = Pathname.new(ENV.fetch("ADL_CSDLC_V2_BIN_DIR", File.join(ROOT, ".adl/bin/csdlc-v2"))).expand_path
+ISSUE_READER = BIN_DIR.join("csdlc-github-issue").to_s
+PR_READER = BIN_DIR.join("csdlc-github-pr").to_s
+
+unless File.executable?(ISSUE_READER) && File.executable?(PR_READER)
+  warn JSON.pretty_generate({
+    schema: "adl.issue498.prerequisite_census.v1",
+    issue: 498,
+    status: "fail",
+    failures: [
+      "typed C-SDLC v2 GitHub read-owner binaries are not executable; set ADL_CSDLC_V2_BIN_DIR or install the repo-local owner binaries"
+    ]
+  })
+  exit 1
+end
 
 def run(*argv)
   stdout, stderr, status = Open3.capture3(*argv, chdir: ROOT)
@@ -103,6 +116,7 @@ payload = {
   status: status,
   base: BASE,
   transport: "typed_csdlc_v2_github_read_owners",
+  csdlc_v2_bin_dir: BIN_DIR.to_s,
   prerequisites: results,
   nonblocking_sidecars: sidecars,
   failures: failures,
