@@ -1238,6 +1238,13 @@ launch() {
   validate_existing_prepare_cost_entry "$storage_dir/cost-ledger.json" "$run_dir/preflight.json" "$(jq -r '.campaign.actions[]|select(.action=="prepare")|.run_id' "$storage_dir/preparation-result.json")" "$preparation_source_bytes"
   assert_remote_run_unused
   assert_campaign_action_unused "launch-$ORDINAL" "$storage_dir/cost-ledger.json"
+  deadline_remaining="$(python3 - "$deadline" <<'PY'
+import datetime, sys
+deadline = datetime.datetime.strptime(sys.argv[1], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=datetime.timezone.utc)
+print(int((deadline - datetime.datetime.now(datetime.timezone.utc)).total_seconds()))
+PY
+)"
+  ((deadline_remaining>=300)) || { echo "launch deadline is stale; choose a fresh retry run ID" >&2; exit 2; }
   consume_authorization; touch "$run_dir/paid-started"; apply_start="$SECONDS"
   CLEANUP_KIND=compute; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute.tfplan" >/dev/null
