@@ -678,6 +678,12 @@ impl RuntimeInitConfig {
                 serde_json::Value::Array(Vec::new()),
             );
         }
+        if let Some(resident_shepherd) = value
+            .get_mut("resident_shepherd")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            resident_shepherd.remove("display_name");
+        }
         Ok(value)
     }
 }
@@ -1233,9 +1239,10 @@ impl ResidentShepherdInitConfig {
                 self.provider
             )));
         }
-        if !self.endpoint.starts_with("http://") {
+        if crate::control::validate_private_ollama_binding(&self.model, &self.endpoint).is_err() {
             return Err(RuntimeInitError::Policy(
-                "resident_shepherd.endpoint must be a private HTTP provider endpoint".to_owned(),
+                "resident_shepherd model and endpoint must form a valid private provider binding"
+                    .to_owned(),
             ));
         }
         if self.preload.timeout_millis < 60_000

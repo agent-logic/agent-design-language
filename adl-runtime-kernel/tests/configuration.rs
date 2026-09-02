@@ -233,7 +233,7 @@ observatory_public_origin = "https://observatory.example.test"
 
 [resident_shepherd]
 name = "beacon.axioma"
-display_name = "Beacon"
+display_name = "Beacon Axioma"
 office = "resident shepherd"
 provider = "ollama"
 model = "qwen3:8b"
@@ -712,6 +712,34 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         vec!["http://localhost:8000".to_owned()];
     assert_eq!(
         changed_origins.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut renamed_shepherd = next_cycle.clone();
+    match &mut renamed_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.display_name = "Beacon Axioma".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_eq!(
+        renamed_shepherd.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut rebound_shepherd = renamed_shepherd;
+    match &mut rebound_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.model = "gemma4:e4b-mlx".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_ne!(
+        rebound_shepherd.continuity_identity_projection().unwrap(),
         expected
     );
 
@@ -1234,6 +1262,23 @@ fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_s
         .contains("has no executable adapter in this Runtime build"));
     let invalid_provider = valid.replace("provider = \"ollama\"", "provider = \"Vertex AI\"");
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
+    for invalid in [
+        valid.replace("model = \"qwen3:8b\"", "model = \"bad model\""),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://\"",
+        ),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://public.example\"",
+        ),
+    ] {
+        let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid)
+            .expect_err("invalid model and endpoint bindings must fail at startup");
+        assert!(error
+            .to_string()
+            .contains("must form a valid private provider binding"));
+    }
 
     let duplicate = valid
         .replace("[resident_shepherd]", "[[resident_shepherd]]")

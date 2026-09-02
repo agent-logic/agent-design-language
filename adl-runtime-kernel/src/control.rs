@@ -5481,7 +5481,6 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
         || request.id == "shepherd"
         || !is_safe_identifier(&request.id)
         || request.provider != "ollama"
-        || !is_safe_identifier(&request.model)
         || request.name.is_empty()
         || request.name.len() > 128
         || request.display_name.len() > 128
@@ -5497,7 +5496,18 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
     {
         return Err(ControlError::InvalidIdentifier);
     }
-    let (host, _) = parse_private_ollama_endpoint(&request.endpoint)?;
+    validate_private_ollama_binding(&request.model, &request.endpoint)?;
+    Ok(())
+}
+
+pub(crate) fn validate_private_ollama_binding(
+    model: &str,
+    endpoint: &str,
+) -> Result<(), ControlError> {
+    if !is_safe_identifier(model) {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    let (host, _) = parse_private_ollama_endpoint(endpoint)?;
     let host = host.as_str();
     let private = host == "localhost"
         || host.ends_with(".local")

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "3defc547b61377e66d5c0c1587670c20d22ed7f9a978cb7ba717c1b0550f6aa7",
+  "generation": 14,
+  "digest": "f53b7e10666f4184c2bb784dd35479f3d8ad9f1aa197d5e42bb9f4232a1b0340",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d0dbda2fa895815d1d7dc687318455b42ce3ef9bd666b5840eb4ff8c0be8da29",
+      "values_digest": "c744b4f0edc82c05cba5b9a8ed550d711896fa6b1c8302b8b01364daaffa7cf7",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "0adb9e7de717fca4c8214cc03dc228909e47295c217e9dd4a766106455f81bd3",
+      "values_digest": "cf194fcf7392449a046664b4ab6102dbe99420b1e36cb126fd441ae2d95104ae",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "06e6cde456baf258edf5259c2deba690c6738455b22b8a73153055dc0451677b",
+      "values_digest": "c8470ae004cdaeb462e5fd080d57cff912b0b1404bd153eacb7d947f4ce5a1e5",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "3e70c4c829d84e003649f994d3f176ed865f9ff151d673dc71817d16a64ede28",
+      "values_digest": "09aa50ad21f4b62f03b0b6c8eea2fc78587447e7d5d743712187e69d3ab1a7ca",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "8e549ece8b5381170beb5fc8c4d74e74eb78a771998acca05a1ead3d233b6559",
+      "values_digest": "9b470491f7ffd1a43d0d7cf55c0152bdc20e378431acbee6f074552014c26f2b",
       "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
       "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
     },
     "sor": {
-      "values_digest": "de35ad67f75bad1a3e141ff9279b3b2653e32243ff3352cc80c252ea73844306",
+      "values_digest": "def710be1d5fa4e119814f604049dbbdeec4779c9a89c5a7247b1a476e83ee44",
       "rendered_digest": "c4c9903abea8bfd083ddc4f430e6c10fb3b7125b07103978b8d6c3d0dc08ce0e",
       "ast_digest": "1b9e122a90c416b521a93b317a7c85ba0423e788d66ce20b900d1b016a7dcc41"
     }
@@ -203,6 +203,20 @@
       "actor": "codex:/root",
       "reason": "Record closure of the final P1 by rejecting resident Shepherd profiles whose provider has no executable adapter in the current Runtime build.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented provider-backed resident Shepherds with executable-adapter validation, shared trusted-clock readiness, governed inference gating, automatic model preload recovery, and race-free Wuji restart acceptance.\",\"changes\":[\"Reject resident Shepherd provider profiles at configuration validation when the current Runtime build has no executable adapter for the declared provider.\",\"Route governed Shepherd requests to the configured resident identity and provider model.\",\"Require a successful provider preload and governed inference probe before advertising the resident Shepherd as ready.\",\"Compare Shepherd admission freshness with the same trusted Runtime clock that creates and refreshes admission evidence.\",\"Wait until both public and private Runtime listeners are released before acceptance restarts the permanent launchd service.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set\"],\"purpose\":\"Prove a provider profile without a compiled execution adapter is rejected before Runtime startup.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 focused configuration test passed at source 7c639ebb3.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove five nonzero focused configuration, multi-resident routing, canonical validation, model-health recovery, roster consistency, formatting, and diff-hygiene behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"shepherd_readiness_tests\",\"--lib\"],\"purpose\":\"Prove readiness uses the same trusted clock as admission and still fails closed after heartbeat loss.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 focused readiness tests passed.\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings on changed Runtime production targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"Strict Clippy exited zero after the provider-availability repair.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"purpose\":\"Prove the committed Wuji candidate restarts cleanly, preloads qwen3:8b, passes governed inference, and reports consistent readiness/feed truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace in current issue changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"No output at source 7c639ebb3.\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover the failed exact-head review assignment so the provider binding findings can be fixed and submitted for a fresh independent review.",
+      "operation": "recover_review"
     }
   ]
 }
