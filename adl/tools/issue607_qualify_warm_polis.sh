@@ -37,7 +37,8 @@ trap publish_failure EXIT
 for command in curl jq python3 sha256sum; do command -v "$command" >/dev/null; done
 python3 -c 'import boto3, botocore' >/dev/null
 jq -e '.schema=="adl.shepherd.portable_model_bundle.v2" and (.models|length)>=2' "$manifest" >/dev/null
-guardian_proof="$(find "$state_root/guardian-evidence" -type f -name issue-proof.json -print -quit)"
+guardian_evidence_root=${ADL_ISSUE607_GUARDIAN_EVIDENCE_ROOT:-$state_root/guardian-evidence}
+guardian_proof="$(find "$guardian_evidence_root" -type f -name issue-proof.json -print -quit)"
 jq -e '
   .status=="pass"
   and .assertions.guardian_launched==true

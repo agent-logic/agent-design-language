@@ -109,6 +109,7 @@ source /root/.cargo/env
 stage=runtime_build
 cd "$work/content/repo"
 export CARGO_TARGET_DIR="$work/content/target"
+export ADL_RUNTIME_SOURCE_REVISION='${source_commit}'
 cargo build --locked --manifest-path adl/Cargo.toml --bin adl --bin csm
 cargo build --locked --manifest-path adl-runtime-kernel/Cargo.toml --bin adl-runtime-kernel
 cargo build --locked --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-guardian --bin adl-runtime-lifecycle-soak

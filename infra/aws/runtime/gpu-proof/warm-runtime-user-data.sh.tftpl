@@ -3,6 +3,7 @@ set -Eeuo pipefail
 export HOME=/root
 start_uptime="$(cut -d' ' -f1 /proc/uptime)"
 state=/var/lib/adl/issue607-runtime
+repo_runtime="$state/repo"
 mkdir -p "$state" /mnt/adl-warm-runtime
 
 s3_get() {
@@ -48,6 +49,10 @@ done
 device="$(readlink -f "$device")"
 veritysetup open "$${device}p1" adl-warm-runtime "$${device}p2" '${root_hash}'
 mount -o ro,nosuid,nodev /dev/mapper/adl-warm-runtime /mnt/adl-warm-runtime
+mkdir -p "$repo_runtime" "$state/repo-upper" "$state/repo-work"
+mount -t overlay overlay \
+  -o "lowerdir=/mnt/adl-warm-runtime/repo,upperdir=$state/repo-upper,workdir=$state/repo-work" \
+  "$repo_runtime"
 manifest=/mnt/adl-warm-runtime/sealed-volume-manifest.json
 jq -e --arg volume '${volume_id}' --arg generation '${artifact_generation}' --arg commit '${source_commit}' \
   '.schema=="adl.issue607.sealed_volume_manifest.v1" and .node=="runtime" and .volume_id==$volume and .artifact_generation==$generation and .source_commit==$commit' "$manifest" >/dev/null
@@ -70,7 +75,7 @@ systemd-run --unit=adl-runtime-guardian \
   --property=StartLimitIntervalSec=0 \
   /bin/bash -c 'find "$1" -type f -name "*.lock" -delete; exec "$2" --init "$3"' \
   _ "$runtime_state" /mnt/adl-warm-runtime/target/debug/adl-runtime-guardian "$init"
-until python3 /mnt/adl-warm-runtime/repo/adl/tools/issue607_probe_runtime.py \
+until python3 "$repo_runtime/adl/tools/issue607_probe_runtime.py" \
   --init "$init" --state-root "$runtime_state" --output "$state/running-transport-proof.json" --timeout-seconds 15
 do
   sleep 1
@@ -92,19 +97,20 @@ do
   sleep 0.25
 done
 
-mkdir -p "$state/guardian-evidence"
-mount --bind "$state/guardian-evidence" /mnt/adl-warm-runtime/repo/.adl/issue607-qualification
+guardian_evidence="$repo_runtime/.adl/runtime-v3/qualification-issue607"
+mkdir -p "$guardian_evidence"
 export ADL_RUNTIME_USE_PREBUILT_BINARIES=1
 export ADL_RUNTIME_SOURCE_REVISION='${source_commit}'
-export ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT=/mnt/adl-warm-runtime/repo/.adl/issue607-qualification
+export ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT="$guardian_evidence"
 export ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/mnt/adl-warm-runtime
 export CARGO_TARGET_DIR=/mnt/adl-warm-runtime/target
 export ADL_RUNTIME_VECTOR_BIN=/mnt/adl-warm-runtime/vector/bin/vector
-bash /mnt/adl-warm-runtime/repo/adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x >"$state/guardian-validation.log" 2>&1
+bash "$repo_runtime/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" --suite preflight_1x >"$state/guardian-validation.log" 2>&1
 ADL_ISSUE607_AWS_REGION='${region}' \
 ADL_ISSUE607_ARTIFACT_BUCKET='${artifact_bucket}' \
 ADL_ISSUE607_QUALIFICATION_KEY='${qualification_key}' \
 ADL_ISSUE607_SOURCE_COMMIT='${source_commit}' \
 ADL_ISSUE607_GPU_PRIVATE_IP='${gpu_private_ip}' \
 ADL_ISSUE607_RUN_ID='${run_id}' \
-  bash /mnt/adl-warm-runtime/repo/adl/tools/issue607_qualify_warm_polis.sh
+ADL_ISSUE607_GUARDIAN_EVIDENCE_ROOT="$guardian_evidence" \
+  bash "$repo_runtime/adl/tools/issue607_qualify_warm_polis.sh"

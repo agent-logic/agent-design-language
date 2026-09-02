@@ -274,6 +274,10 @@ run_contracts() {
     "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl"
   rg -q 'ADL_RUNTIME_PREPARE_STATE_ONLY=1' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
+  rg -q 'export ADL_RUNTIME_SOURCE_REVISION=' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
+  rg -q 'mount -t overlay overlay' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'qualification-issue607' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  ! rg -q 'mount --bind.*guardian-evidence' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   ! rg -q 'apt-get install[^\n]*awscli|snap install|snapd' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
