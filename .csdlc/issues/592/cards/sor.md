@@ -127,11 +127,11 @@ Implemented the governed Polis Vertex AI configuration path without live paid GC
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
