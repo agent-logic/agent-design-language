@@ -4,13 +4,33 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "a5ca170382728161b27a923f802aea2cc963adbe5295f2dee51dd3fe6e0327be",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "1f73425dc4f21636d14b207ce4ce2ae76432f6d4af6322cb76be2b53759c30db",
   "branch": "codex/sprints-5-6-cutover-fixes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:d59da475fcc349c4c334bdc3ceb0bbd3e3be7c4d:66b12c6528862391f5a7577f1b59d8da3de996164ca76cc9e8a7dd0954f67482",
+    "scope": [
+      "."
+    ]
+  },
+  "review": {
+    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:d59da475fcc349c4c334bdc3ceb0bbd3e3be7c4d:66b12c6528862391f5a7577f1b59d8da3de996164ca76cc9e8a7dd0954f67482",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.",
+      "The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must update PR #615 with a closing keyword for #596 only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1659da690dbf397045d16027e38f236b12bf37f33657d3781ed6690899ec5bcc",
+      "values_digest": "20d80160156f710a4e8a80d3319fe42d310053689d2758010f6aaba4910b75bd",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "085ef220caec67212be91613ca45478689d335893d4a9cd3bd81d51e7438a491",
+      "values_digest": "c2ac7df4c94f6061440fdc22f6cb46e8c4f1ec21cb96abeb7784b2004debf2de",
       "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
       "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
     },
     "spp": {
-      "values_digest": "14810165eec908d97f9264584033e92e0bbc4d810a7f9869ae8af69f501d3a73",
+      "values_digest": "2dac70ae96e168a93de49c2432236b4f21e311f5d3601476cc9e704d4ac14830",
       "rendered_digest": "e24a19c3602aadf2b603b80220b548d9d3a7da22ced8bb66557d4962ea017d30",
       "ast_digest": "b3ea625a7cd080feb19e1687b9aaa1cd8f732fb2011b5a16f9c2b4d1d8c38c9b"
     },
     "vpp": {
-      "values_digest": "09bc9b0ead565be0f262b9502d018226528d93c9e2dfea37ed6036049932bbea",
+      "values_digest": "bfed1f94f6e1619c958d54bc93dc025593776b328e223d63e70fa844f3b9a50e",
       "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
       "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "a71eb232e287abdcb129703c5f23dda87318a0e9f30189eab03a62df6155a5f3",
-      "rendered_digest": "2c68b62032294cf243dd1df772afd0e5d451be2b996fd02f522bf6d1affa1884",
-      "ast_digest": "d2fae27f6ffd715d1ce79c78293674463911d5b45ba12568418e5892af3b77da"
+      "values_digest": "7dd6f85820377be5a4779911aaa2c854aa153a2aae84d8cc258bab996be7382b",
+      "rendered_digest": "e12602daaa7c3e0b7da471f96ea11b69153350c48c4dffe1166830e604937782",
+      "ast_digest": "9e119bdb56dac68d6eaab47f124b14f97d83886535b98b4723783836b5e352c7"
     },
     "sor": {
-      "values_digest": "39ed358f83eaedafec2b4d5f1800527de5eff609e006a1d6f8e2aaff721a7abc",
+      "values_digest": "70dafa345f2588f18a05f82d71c5c06f225f1a1742ad9d6bd912f86095b0030b",
       "rendered_digest": "a5dc0dff44f0fe339ba796fed31ae7c8349242d7425158c7f62a13b20333fcb4",
       "ast_digest": "d8adc037f1d14455a66253af55836f1ff6f8b3933953ce3a00eb21c94d0b14f2"
     }
@@ -111,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover review after merging origin/main so #596 can receive fresh exact-head review and publication truth."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -225,6 +252,20 @@
       "actor": "codex:worker-6",
       "reason": "Recover review after merging origin/main so #596 can receive fresh exact-head review and publication truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

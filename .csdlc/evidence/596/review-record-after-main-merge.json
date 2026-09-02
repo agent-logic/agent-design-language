@@ -1,0 +1,20 @@
+{
+  "issue": 596,
+  "expected_generation": 12,
+  "expected_digest": "e3a321b387ab3b15f65f5a196c2a188e3497ce0552c32be893553892fe9f9dc2",
+  "actor": "codex:worker-6",
+  "evidence": {
+    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:d59da475fcc349c4c334bdc3ceb0bbd3e3be7c4d:66b12c6528862391f5a7577f1b59d8da3de996164ca76cc9e8a7dd0954f67482",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.",
+      "The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must update PR #615 with a closing keyword for #596 only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
