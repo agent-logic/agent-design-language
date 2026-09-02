@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 508,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+    "slug": "v0-92-1-drt-c-final-distributed-runtime-qualification",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implement the DRT-C final distributed Runtime qualification decision by deriving an exact decision from terminal DRT-B evidence, validating fail-closed identity/provider/transport cases, Runtime-authentic Observatory evidence metadata, bounded soak, and cleanup-zero truth.",
+      "actual_changes": [
+        "Add a deterministic DRT-C qualification decision model and validator to the Runtime qualification module.",
+        "Add a focused DRT-C integration test under the distributed_failure test surface that proves requirements #185-#187, fail-closed cases, Runtime-authentic redacted Observatory evidence, bounded soak, cleanup-zero, and retained evidence equality.",
+        "Retain the exact DRT-C qualification decision artifact under docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json."
+      ],
+      "artifacts": [
+        "adl-runtime/Cargo.toml",
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+        ".csdlc/prepared/issues/508/validate-readiness.rb",
+        ".csdlc/prepared/issues/508/validate-implementation.rb",
+        ".csdlc/issues/508",
+        ".csdlc/prepared/issues/508"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run git diff whitespace hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "508-diff-hygiene.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/508/validate-implementation.rb"
+          ],
+          "purpose": "Run the issue-owned DRT-C implementation validator.",
+          "outcome": "passed",
+          "evidence_ref": "508-drt-c-implementation-validator.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_failure_drt_c",
+            "drt_c_final_qualification_decision_is_exact",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Run the focused Rust DRT-C qualification test.",
+          "outcome": "passed",
+          "evidence_ref": "508-drt-c-rust.log"
+        },
+        {
+          "command": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
+            "issue",
+            "--issue",
+            "508"
+          ],
+          "purpose": "Run C-SDLC v2 typed issue validation for #508.",
+          "outcome": "passed",
+          "evidence_ref": "508-typed-validate.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

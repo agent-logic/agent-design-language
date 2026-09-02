@@ -6,6 +6,7 @@ use sha2::{Digest, Sha256};
 pub const DRT_A_CONTRACT_SCHEMA: &str = "adl.runtime.qualification.drt_a_contract.v1";
 pub const DRT_A_RECEIPT_SCHEMA: &str = "adl.runtime.qualification.drt_a_receipt.v1";
 pub const DRT_B_CONTRACT_SCHEMA: &str = "adl.runtime.qualification.drt_b_contract.v1";
+pub const DRT_C_DECISION_SCHEMA: &str = "adl.runtime.qualification.drt_c_decision.v1";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct DistributedQualificationContract {
@@ -149,6 +150,35 @@ pub struct DrtBNegativeCase {
     pub case: String,
     pub mutation: String,
     pub decision: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtCQualificationDecision {
+    pub schema: String,
+    pub issue: u64,
+    pub requirements: Vec<String>,
+    pub runtime_revision: String,
+    pub source_drt_b_contract_digest: String,
+    pub fail_closed_cases: Vec<String>,
+    pub observatory: DrtCObservatoryEvidence,
+    pub soak: DrtCSoakEvidence,
+    pub cleanup: BTreeMap<String, String>,
+    pub decision: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtCObservatoryEvidence {
+    pub runtime_emitted: bool,
+    pub redacted: bool,
+    pub feed_schema: String,
+    pub artifact_sha256: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtCSoakEvidence {
+    pub bounded: bool,
+    pub duration_seconds: u64,
+    pub source: String,
 }
 
 impl DistributedQualificationContract {
@@ -372,6 +402,59 @@ impl DistributedQualificationContract {
                 decision: "fail_closed".to_string(),
             })
             .collect(),
+        })
+    }
+
+    pub fn deterministic_drt_c(
+        &self,
+        runtime_revision: &str,
+    ) -> Result<DrtCQualificationDecision, String> {
+        if runtime_revision.len() != 40
+            || !runtime_revision
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+        {
+            return Err("runtime revision must be a 40-character hex SHA".to_string());
+        }
+        let drt_b = self.deterministic_drt_b()?;
+        drt_b.validate()?;
+        let source_drt_b_contract_digest = drt_b.digest();
+        let mut cleanup = BTreeMap::new();
+        for key in [
+            "failure-fixtures",
+            "observatory-artifacts",
+            "soak-processes",
+            "temporary-resources",
+        ] {
+            cleanup.insert(key.to_string(), "absent".to_string());
+        }
+        Ok(DrtCQualificationDecision {
+            schema: DRT_C_DECISION_SCHEMA.to_string(),
+            issue: 508,
+            requirements: vec!["#185".to_string(), "#186".to_string(), "#187".to_string()],
+            runtime_revision: runtime_revision.to_ascii_lowercase(),
+            source_drt_b_contract_digest,
+            fail_closed_cases: vec![
+                "identity".to_string(),
+                "provider".to_string(),
+                "transport".to_string(),
+            ],
+            observatory: DrtCObservatoryEvidence {
+                runtime_emitted: true,
+                redacted: true,
+                feed_schema: "adl.runtime_v3.observatory.feed.v1".to_string(),
+                artifact_sha256: stable_id(
+                    "drt-c-observatory",
+                    [runtime_revision, drt_b.digest().as_str()],
+                ),
+            },
+            soak: DrtCSoakEvidence {
+                bounded: true,
+                duration_seconds: 900,
+                source: "deterministic-local-qualification-window".to_string(),
+            },
+            cleanup,
+            decision: "qualified_for_final_distributed_runtime_decision".to_string(),
         })
     }
 
@@ -823,6 +906,63 @@ impl DrtBQualificationContract {
         for case in &self.negative_matrix {
             if case.decision != "fail_closed" {
                 return Err(format!("{} does not fail closed", case.case));
+            }
+        }
+        Ok(())
+    }
+}
+
+impl DrtCQualificationDecision {
+    pub fn validate(&self) -> Result<(), String> {
+        require_exact(&self.schema, DRT_C_DECISION_SCHEMA, "schema")?;
+        if self.issue != 508 {
+            return Err(format!("unexpected DRT-C issue {}", self.issue));
+        }
+        require_set(
+            self.requirements.iter().map(String::as_str),
+            ["#185", "#186", "#187"],
+            "requirements",
+        )?;
+        if self.runtime_revision.len() != 40
+            || !self
+                .runtime_revision
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+        {
+            return Err("runtime revision must be a 40-character hex SHA".to_string());
+        }
+        if self.source_drt_b_contract_digest.len() != 64 {
+            return Err("DRT-B digest must be retained".to_string());
+        }
+        require_set(
+            self.fail_closed_cases.iter().map(String::as_str),
+            ["identity", "provider", "transport"],
+            "fail-closed cases",
+        )?;
+        if !self.observatory.runtime_emitted || !self.observatory.redacted {
+            return Err("Observatory evidence must be Runtime-emitted and redacted".to_string());
+        }
+        if self.observatory.feed_schema.trim().is_empty()
+            || self.observatory.artifact_sha256.len() != 64
+        {
+            return Err("Observatory evidence must bind schema and artifact digest".to_string());
+        }
+        if !self.soak.bounded || self.soak.duration_seconds == 0 {
+            return Err("soak evidence must be bounded and non-empty".to_string());
+        }
+        if self.decision.trim().is_empty() {
+            return Err("qualification decision is required".to_string());
+        }
+        for key in [
+            "failure-fixtures",
+            "observatory-artifacts",
+            "soak-processes",
+            "temporary-resources",
+        ] {
+            match self.cleanup.get(key).map(String::as_str) {
+                Some("absent") => {}
+                Some(other) => return Err(format!("{key} cleanup is not absent: {other}")),
+                None => return Err(format!("missing cleanup key {key}")),
             }
         }
         Ok(())

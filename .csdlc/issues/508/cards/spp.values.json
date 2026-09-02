@@ -1,0 +1,84 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 508,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+    "slug": "v0-92-1-drt-c-final-distributed-runtime-qualification",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bootstrap current #508 from main containing terminal #507, validate readiness, obtain fresh design review, bind a FastWork worktree, implement the smallest final DRT-C qualification decision and evidence packet, run focused proof, obtain exact-head review, publish with closing linkage, and finish when green.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify terminal #507 and map requirements 185 through 187.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Run or synthesize bounded failure, Runtime-authentic Observatory, and bounded-soak proof without unbounded or paid surprise work.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Prove cleanup-zero and synthesize the exact-revision qualification decision for exact-head review.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/tests/distributed_failure",
+        "demos/html-observatory",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c",
+        ".csdlc/prepared/issues/508/validate-readiness.rb",
+        ".csdlc/prepared/issues/508/validate-implementation.rb"
+      ],
+      "invariants": [
+        "DRT-C consumes terminal #507 and does not redefine DRT-B",
+        "Failure cases fail closed",
+        "Observatory evidence is Runtime-authentic and redacted",
+        "Soak is bounded and exact-revision bound",
+        "Cleanup proof shows no residual owned resources"
+      ],
+      "risks": [
+        "Synthetic Observatory evidence",
+        "Stale or non-ancestral #507 dependency truth",
+        "Residual resources after proof",
+        "Unbounded soak or paid proof widening",
+        "Scope drift into #509"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Residual cloud or local runtime resources remain",
+        "Evidence cannot be traced to Runtime output",
+        "#507 terminal cache or ancestry cannot be proven",
+        "A required proof would exceed the approved resource boundary"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/508/design.md",
+      "design_digest": "c026d7b487a5a1a18f2a9a5c3280e3670da70eedcff07b9bdfe9c3cae3d0ecc1",
+      "diagram_ref": ".csdlc/prepared/issues/508/diagram.mmd",
+      "diagram_digest": "f3d5356d4260195b695d12ba35a2e94decdc828c278d84ccd0c78d1c8bbf5f31"
+    }
+  }
+}

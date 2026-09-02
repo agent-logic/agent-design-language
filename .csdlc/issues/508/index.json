@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 508,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "cfacb01c100d1f8699ae21e7fe2c4e0178460ab0e6e27cee132722b2022f850a",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "7cd94ae838faccf1611f0d8e0734f7f4efe8f1da970682dde63e1b8e00cda926",
+  "branch": "codex/508-drt-c-final-qualification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/508/design.md",
+  "diagram_path": ".csdlc/prepared/issues/508/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:2ddde716-896e-4f67-9996-508d8dd0e0e1",
+      "revision": "c026d7b487a5a1a18f2a9a5c3280e3670da70eedcff07b9bdfe9c3cae3d0ecc1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "649ffbc67bf7f67d9c927edefce075a5061e7200cdf5e404e998dbd34248cda0",
+      "rendered_digest": "d2ac930dc2c4cfe6450a0585c40dfe3f9a42bca95a9c526d611dcad29993ad8a",
+      "ast_digest": "481f7cdad101abda9f1eabf908a5f5f36e6a004cefa7267fe9022a458985ea42"
+    },
+    "stp": {
+      "values_digest": "101b80880de8d6f48e9122e40bad412a315bdd4859a5a3d2e2dc708ed4817ebc",
+      "rendered_digest": "4b599c930e63aea9afd5626f13c4e14b3a92aa6c35744a3b75b0d00e16879847",
+      "ast_digest": "89f6d7fbd778850223d59e725ed4fd0a38dcd294e94e5c2847b21763f00616a8"
+    },
+    "spp": {
+      "values_digest": "33d053648b7180d84a3d1bf0b8f208657e8ce9de3828cf296c590fb81950bd5d",
+      "rendered_digest": "d4c14d53799977a4d0ef53073b9d37e738c6946e6f86890b409a5f06d34e7b8b",
+      "ast_digest": "4057e7214ef271f25984610da9d350200373e64573c417378780fb95bc43f215"
+    },
+    "vpp": {
+      "values_digest": "fd8d502d4c27173dc6d25b1ed779158a7989202cef510564a15582f7a3a29247",
+      "rendered_digest": "41909d7734f98c9b440979a1f63e7e94812581696a87f1cfaaf74d84b93ce99e",
+      "ast_digest": "3504504691e747421b0bf4d8b8fddc8baf5723ed3c348e216296a1bc51ec65c7"
+    },
+    "srp": {
+      "values_digest": "d816001bc63d0fdf3943856927db02490e2ff6e1c097969ded0eaf0d1029b156",
+      "rendered_digest": "800cebce55d1e50e9873368b9ee073cad3bcb1438748b26d06b398c44df36ff0",
+      "ast_digest": "d0af69856638c1688f7140e79d54f3d8fb4c5dff2ba665b96461769192434363"
+    },
+    "sor": {
+      "values_digest": "2061e868016b6a42d99c0accba9cb5cbb32935be45494c6075c3ff7f0e150ce2",
+      "rendered_digest": "7ab7fb2fb5f6e0a3189beb987a36651dd3df924eb15c8f4694e5d3f719388c59",
+      "ast_digest": "d8914aad42d1972cd10a5f13523938e006b2abe9c45d5d817fc05ca5003bd9d8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #508 to ready/unbound after current-main bootstrap from #507 terminal merge d022d6c198669bcbc10cd98bee4d7c8520f9c4d4, issue-local readiness proof PASS, fresh design review PASS, typed design approval, and doctor/validate readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:2ddde716-896e-4f67-9996-508d8dd0e0e1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"c026d7b487a5a1a18f2a9a5c3280e3670da70eedcff07b9bdfe9c3cae3d0ecc1\",\"design_ref\":\".csdlc/prepared/issues/508/design.md\",\"diagram_digest\":\"f3d5356d4260195b695d12ba35a2e94decdc828c278d84ccd0c78d1c8bbf5f31\",\"diagram_ref\":\".csdlc/prepared/issues/508/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance #508 to ready/unbound after current-main bootstrap from #507 terminal merge d022d6c198669bcbc10cd98bee4d7c8520f9c4d4, issue-local readiness proof PASS, fresh design review PASS, typed design approval, and doctor/validate readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
