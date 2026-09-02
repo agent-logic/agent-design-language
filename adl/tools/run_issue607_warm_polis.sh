@@ -758,7 +758,9 @@ verify_no_disposable_residue() {
     allowed="$(jq -c --arg arn "arn:aws:ec2:$REGION:$account:snapshot/$snapshot" '.+[$arn]' <<<"$allowed")"
   done
   live="$(aws_cli resourcegroupstaggingapi get-resources --tag-filters Key=adl:issue,Values=607 Key=adl:owner-token,Values="$owner" --query 'ResourceTagMappingList[].ResourceARN' --output json)"
-  unexpected="$(jq -c --argjson allowed "$allowed" '[.[]|select(($allowed|index(.))==null)]' <<<"$live")"
+  # The tagging index can retain deleted EC2 instance and volume ARNs. Their
+  # authoritative live state is checked by the targeted EC2 queries below.
+  unexpected="$(jq -c --argjson allowed "$allowed" '[.[]|select((contains(":instance/") or contains(":volume/"))|not)|select(($allowed|index(.))==null)]' <<<"$live")"
   instances="$(aws_cli ec2 describe-instances --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" Name=instance-state-name,Values=pending,running,stopping,stopped --query 'Reservations[].Instances[].InstanceId' --output json)"
   volumes="$(aws_cli ec2 describe-volumes --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" --query 'Volumes[].VolumeId' --output json)"
   unexpected_volumes="$(jq -c --argjson allowed "$allowed_ids" '[.[]|select(($allowed|index(.))==null)]' <<<"$volumes")"

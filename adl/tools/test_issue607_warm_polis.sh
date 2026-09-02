@@ -342,6 +342,7 @@ run_contracts() {
   rg -q 'recover-preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'aggregate_cost_ledger' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'zero_disposable_residue' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'authoritative live state is checked by the targeted EC2 queries' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'retention-status' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   ! rg -n 'aws s3api' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   ! rg -n 'IfNoneMatch=' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
