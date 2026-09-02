@@ -182,7 +182,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         }
     };
     let normalized = normalize(&intent, &remote)?;
-    csdlc_v2::publication::validate_remote(&intent, &normalized)?;
+    validate_publication_remote(&cli.root, &intent, &normalized)?;
     let record = record_publication(&store, &request, &intent, normalized.clone())?;
     let mut publication = normalized;
     if let Some(metadata_head) =
@@ -452,6 +452,21 @@ fn validate_metadata_followup_remote(
         metadata_head,
     )?;
     Ok(())
+}
+
+fn validate_publication_remote(
+    root: &Path,
+    intent: &PublicationIntent,
+    remote: &RemotePullRequest,
+) -> csdlc_v2::Result<()> {
+    match csdlc_v2::publication::validate_remote(intent, remote) {
+        Ok(()) => Ok(()),
+        Err(error) if remote.head_sha != intent.commit_sha => {
+            validate_metadata_followup_remote(root, intent, remote, &remote.head_sha)
+                .map_err(|_| error)
+        }
+        Err(error) => Err(error),
+    }
 }
 
 fn validate_ready_metadata_followup_remote(
