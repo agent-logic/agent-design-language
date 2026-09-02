@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-D] GCP portability qualification",
     "slug": "v0-92-1-drt-d-gcp-portability-qualification",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "DRT-D declared paths and optional GCP qualification only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

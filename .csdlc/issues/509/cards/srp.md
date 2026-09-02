@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-DRT-D declared paths and optional GCP qualification only.
+
 
 ## Prompts
 

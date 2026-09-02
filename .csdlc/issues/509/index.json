@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "dad594d2ee2c1ad4916ae26a279d4983fb0fe97632b820b5807f17fbb875d049",
+  "generation": 5,
+  "digest": "1ebe52271a93fa11985c86ec252a55838ac97bcd036f6c0f377d9167c90900ad",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3e50b7fce3979c3d131cdc70e431a0967f52149cf9ea8453a9f0234c5a169c67",
+      "values_digest": "9c1250801bdf0977b446c024186ec53061ff14ce21634cdaa5fe14caff8620a0",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "40f47cadd41f5ea8e2b128a63fdf1e52c483e37684dd6b9f390b0210a7fbe782",
+      "values_digest": "65eb05afc252b9b14d2551249a166647047a2e5eba53626d99a15cf09757a631",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "abd79c5f2647259cb22dfb3fdb999faffb59e4c171ce6a49f99b1309e12f0916",
+      "values_digest": "b791c12f6f6c3c7759c0991036d983fdf915bdc2313c04fea59f59ed7de2819b",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "74f585c93e14bdad60b2de40348823b29c021c1d90ff3a335ab3f52678ebbfd0",
+      "values_digest": "7157d130007339a6697fd62dcf9429a6dabbff717fed0ff76316bd73c09bb922",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "6dedd7a9652a60d7168998d13ce851607ae34ad90d1dfa38966425c82a931dd5",
-      "rendered_digest": "c403a29ece92c1443f07daf1fbd732f09377538110e388ea12d02e56e2d7b9b9",
-      "ast_digest": "6f209c1cd0d3a55f2244c69c5656de190f47aeb226d5c67b36de3feb949ee404"
+      "values_digest": "135fcef353ad9ee8860a68b03e116119e498950724f5e8f53552407a93e111af",
+      "rendered_digest": "dcdf4ee8ff229a906d36c1cb33afe3bd1f7a8ab1d233a85470863a2370c63c92",
+      "ast_digest": "e85613914db766ef65fdae1fdd2679d823f21ee29038e12abbd7c038f47a15f1"
     },
     "sor": {
-      "values_digest": "8b12e7e36d2891747a4d0127f6cbd478dfb59b5d2e3e024c0842e25ee998f2be",
-      "rendered_digest": "1493256239f58e0455850abb1b2f600a287d9e0c22cbfe18a951c7c51eaa374b",
-      "ast_digest": "a895186ffae5d55fbd095dcd323b3d9a931fbf91fa3c0d3b42168b7e21748edf"
+      "values_digest": "f45558a620f5766d95033b2c72ce9f3c3990379641b875c018da858dca87a9d1",
+      "rendered_digest": "c224fef8ecf3cb36b7aee1cba4d916c2799e323f7ead605976eaf1ad5edcb641",
+      "ast_digest": "f695ee9e0523dbd12eb33ca5a71b8e436ce058588566666c821818f6ea303f8b"
     }
   },
   "transitions": [
@@ -113,6 +113,27 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:3017e115-3632-418d-8730-efc02db941fd returned FAIL for unsupported exact cost_usd zero in retained paid GCP qualification proof; implementation will record bounded unavailable actual-cost truth instead.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record #509 review-remediation truth after replacing unsupported exact zero GCP cost with bounded unavailable actual-cost semantics.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Finalize #509 DRT-D GCP portability after a live two-node GCP qualification run using the stored GCS Runtime/Ollama artifact bundle, six resident agent receipts, clean teardown, and review-remediated bounded cost truth.\",\"changes\":[\"Added the GCP DRT-D two-node Terraform module/root and startup scripts for a private Runtime node talking to a private Ollama GPU node.\",\"Added the #509 GCP qualification runner and relay bundle builder so Runtime/Ollama binaries and model artifacts are built once, stored in GCS, and consumed by live runs without repeated rebuilds.\",\"Reused the #268 six-resident UTS cycle on GCP with private Ollama-backed Runtime execution and retained the successful qualification receipt.\",\"Recorded successful live GCP proof for run adl-509-drt-d-20260902183922 with Terraform cleanup destroying the ephemeral run resources.\",\"Remediated review finding P2 by replacing unsupported exact cost_usd=0 with structured bounded-budget cost truth: actual_cost_available=false, actual_cost_usd=null, max_budget_usd=20.\"],\"artifacts\":[\"adl/src/cli/csmctl_cmd.rs\",\"adl/tools/build_issue509_runtime_bundle_on_relay.sh\",\"adl/tools/run_issue268_six_resident_uts_cycle.py\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\".csdlc/prepared/issues/509/validate-implementation.rb\",\"infra/gcp/workloads/drt-d-six-resident/main.tf\",\"infra/gcp/workloads/drt-d-six-resident/outputs.tf\",\"infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh\",\"infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh\",\"infra/gcp/workloads/drt-d-six-resident/variables.tf\",\"infra/gcp/workloads/drt-d-six-resident/versions.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf\",\"infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification receipt and bounded cost semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-review-cost-truth-validator\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\"],\"purpose\":\"Reject shell syntax regressions in the remediated qualification runner.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-review-cost-truth-shell-syntax\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace/conflict-marker drift after remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-review-cost-truth-diff-check\"}]}"
     }
   ]
 }

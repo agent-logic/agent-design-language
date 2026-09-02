@@ -367,7 +367,7 @@ run_live() {
   cleanup_json="$(gcloud_cmd compute instances list --filter="$cleanup_selector" --format=json)"
   [[ "$(jq 'length' <<<"$cleanup_json")" == "0" ]] || { echo "cleanup residue remains for $run_id" >&2; exit 1; }
   printf '%s\n' "$cleanup_json" >"$run_dir/cleanup-readback.json"
-  cost_json="$(jq -n '{currency:"USD",amount:0,method:"bounded-below-budget-disposable-run",max_budget_usd:20}')"
+  cost_json="$(jq -n --argjson max_budget_usd "$MAX_BUDGET_USD" '{currency:"USD",actual_cost_usd:null,actual_cost_available:false,method:"bounded-budget-disposable-run; billing export is not read during qualification",max_budget_usd:$max_budget_usd}')"
 
   jq -n \
     --slurpfile preflight "$run_dir/preflight.json" \
@@ -396,7 +396,7 @@ run_live() {
       aws_qualification_authority:"unchanged",
       runtime_receipt:$runtime[0],
       ollama_receipt:$ollama[0],
-      cost_usd:$cost.amount,
+      cost:$cost,
       cleanup:{runtime_instance:"absent",ollama_instance:"absent",run_selector:"absent"}
     }' >"$QUALIFICATION_JSON"
   ruby "$ROOT/.csdlc/prepared/issues/509/validate-implementation.rb"

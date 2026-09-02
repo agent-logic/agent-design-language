@@ -397,7 +397,13 @@
       }
     ]
   },
-  "cost_usd": 0,
+  "cost": {
+    "currency": "USD",
+    "actual_cost_usd": null,
+    "actual_cost_available": false,
+    "method": "bounded-budget-disposable-run; billing export is not read during qualification",
+    "max_budget_usd": 20
+  },
   "cleanup": {
     "runtime_instance": "absent",
     "ollama_instance": "absent",

@@ -35,6 +35,11 @@ abort("resident denominator mismatch") unless residents.length == 6 && residents
 abort("workload incomplete") unless residents.all? { |r| r.fetch("workload_completed") == true }
 abort("continuity drift") unless receipt.fetch("restored_population_digest") == receipt.fetch("dehydrated_population_digest")
 abort("AWS authority changed") unless receipt.fetch("aws_qualification_authority") == "unchanged"
-abort("missing cost receipt") unless receipt.fetch("cost_usd").is_a?(Numeric)
+cost = receipt.fetch("cost")
+abort("cost currency mismatch") unless cost.fetch("currency") == "USD"
+abort("cost availability must not claim exact billing") unless cost.fetch("actual_cost_available") == false
+abort("actual cost must be unset when billing is unavailable") unless cost["actual_cost_usd"].nil?
+abort("cost budget missing") unless cost.fetch("max_budget_usd").is_a?(Numeric) && cost.fetch("max_budget_usd") > 0
+abort("cost method must state bounded budget") unless cost.fetch("method").include?("bounded-budget")
 abort("cleanup not proven") unless receipt.fetch("cleanup").values.all? { |v| v == "absent" }
 puts '{"schema":"adl.v0921.drt_d.implementation.v1","outcome":"passed"}'

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Finalize #509 DRT-D GCP portability after a live two-node GCP qualification run using the stored GCS Runtime/Ollama artifact bundle, six resident agent receipts, and clean teardown.
+Finalize #509 DRT-D GCP portability after a live two-node GCP qualification run using the stored GCS Runtime/Ollama artifact bundle, six resident agent receipts, clean teardown, and review-remediated bounded cost truth.
 
 ## Artifacts
 
@@ -24,6 +24,7 @@ Finalize #509 DRT-D GCP portability after a live two-node GCP qualification run 
 - adl-runtime/tests/distributed_contract/validate_drt_d.sh
 - docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md
 - docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json
+- .csdlc/prepared/issues/509/validate-implementation.rb
 - infra/gcp/workloads/drt-d-six-resident/main.tf
 - infra/gcp/workloads/drt-d-six-resident/outputs.tf
 - infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh
@@ -42,22 +43,29 @@ Finalize #509 DRT-D GCP portability after a live two-node GCP qualification run 
 - Added the #509 GCP qualification runner and relay bundle builder so Runtime/Ollama binaries and model artifacts are built once, stored in GCS, and consumed by live runs without repeated rebuilds.
 - Reused the #268 six-resident UTS cycle on GCP with private Ollama-backed Runtime execution and retained the successful qualification receipt.
 - Recorded successful live GCP proof for run adl-509-drt-d-20260902183922 with Terraform cleanup destroying the ephemeral run resources.
+- Remediated review finding P2 by replacing unsupported exact cost_usd=0 with structured bounded-budget cost truth: actual_cost_available=false, actual_cost_usd=null, max_budget_usd=20.
 
 ## Validation
 
 [
   {
     "command": [
-      "cargo",
-      "check",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "--bin",
-      "csm"
+      "ruby",
+      ".csdlc/prepared/issues/509/validate-implementation.rb"
     ],
-    "purpose": "Run cargo check for the CSM binary.",
+    "purpose": "Verify retained live GCP qualification receipt and bounded cost semantics.",
     "outcome": "passed",
-    "evidence_ref": "issue509-csm-check.log"
+    "evidence_ref": "manual:post-review-cost-truth-validator"
+  },
+  {
+    "command": [
+      "bash",
+      "-n",
+      "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+    ],
+    "purpose": "Reject shell syntax regressions in the remediated qualification runner.",
+    "outcome": "passed",
+    "evidence_ref": "manual:post-review-cost-truth-shell-syntax"
   },
   {
     "command": [
@@ -65,53 +73,15 @@ Finalize #509 DRT-D GCP portability after a live two-node GCP qualification run 
       "diff",
       "--check"
     ],
-    "purpose": "Run git diff hygiene.",
+    "purpose": "Reject whitespace/conflict-marker drift after remediation.",
     "outcome": "passed",
-    "evidence_ref": "issue509-diff-hygiene.log"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/509/validate-implementation.rb"
-    ],
-    "purpose": "Run the issue-owned implementation validator.",
-    "outcome": "passed",
-    "evidence_ref": "issue509-implementation-validator.log"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/509/validate-readiness.rb"
-    ],
-    "purpose": "Run the issue-owned readiness validator.",
-    "outcome": "passed",
-    "evidence_ref": "issue509-readiness-validator.log"
-  },
-  {
-    "command": [
-      "bash",
-      "-lc",
-      "PYTHONPYCACHEPREFIX=.csdlc/evidence/509/pycache python3 -m py_compile adl/tools/run_issue268_six_resident_uts_cycle.py && bash -n adl/tools/build_issue509_runtime_bundle_on_relay.sh && bash -n adl/tools/run_issue509_gcp_drt_d_qualification.sh && bash -n infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh && bash -n infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh"
-    ],
-    "purpose": "Run syntax checks for #509 helper scripts.",
-    "outcome": "passed",
-    "evidence_ref": "issue509-script-syntax.log"
-  },
-  {
-    "command": [
-      "bash",
-      "-lc",
-      "terraform -chdir=infra/gcp/workloads/modules/two-node-ollama-runtime fmt -recursive -check && terraform -chdir=infra/gcp/workloads/drt-d-six-resident fmt -recursive -check && terraform -chdir=infra/gcp/workloads/modules/two-node-ollama-runtime test && terraform -chdir=infra/gcp/workloads/drt-d-six-resident validate"
-    ],
-    "purpose": "Run Terraform static validation for the GCP two-node module/root.",
-    "outcome": "passed",
-    "evidence_ref": "issue509-terraform-static.log"
+    "evidence_ref": "manual:post-review-cost-truth-diff-check"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
