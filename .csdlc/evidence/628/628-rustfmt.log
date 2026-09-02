@@ -10,16 +10,16 @@ Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-e
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/src/repository/mod.rs
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/src/review/mod.rs
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/src/storage/mod.rs
-Spent 0.022 secs in the parsing phase, and 0.028 secs in the formatting phase
+Spent 0.007 secs in the parsing phase, and 0.017 secs in the formatting phase
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/src/main.rs
-Spent 0.001 secs in the parsing phase, and 0.004 secs in the formatting phase
+Spent 0.000 secs in the parsing phase, and 0.004 secs in the formatting phase
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/tests/command_manifest.rs
 Spent 0.000 secs in the parsing phase, and 0.001 secs in the formatting phase
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/tests/foundation.rs
-Spent 0.001 secs in the parsing phase, and 0.002 secs in the formatting phase
+Spent 0.000 secs in the parsing phase, and 0.002 secs in the formatting phase
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/tests/local_commands.rs
 Spent 0.001 secs in the parsing phase, and 0.003 secs in the formatting phase
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/tests/real_issue_canary.rs
-Spent 0.001 secs in the parsing phase, and 0.006 secs in the formatting phase
+Spent 0.000 secs in the parsing phase, and 0.002 secs in the formatting phase
 Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/tests/transactions.rs
-Spent 0.001 secs in the parsing phase, and 0.007 secs in the formatting phase
+Spent 0.001 secs in the parsing phase, and 0.004 secs in the formatting phase

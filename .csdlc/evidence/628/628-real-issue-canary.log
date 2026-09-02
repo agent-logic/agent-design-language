@@ -1,4 +1,5 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
      Running tests/real_issue_canary.rs (csdlc-v3/target/debug/deps/real_issue_canary-bf73b53ba1cfa6d0)
 
 running 5 tests

@@ -119,6 +119,16 @@ fn topology_bind_requires_exact_registered_worktree() {
     let findings = authorize_bind(&request(), &branch_only).expect_err("path mismatch blocks bind");
     assert_eq!(findings[0].status, PlanStatus::Blocked);
     assert_eq!(findings[0].code, "registered_topology_missing");
+
+    let primary_checkout = [WorktreeRegistration {
+        branch: request().branch,
+        worktree: request().worktree,
+        primary: true,
+    }];
+    let findings =
+        authorize_bind(&request(), &primary_checkout).expect_err("primary checkout blocks bind");
+    assert_eq!(findings[0].status, PlanStatus::Blocked);
+    assert_eq!(findings[0].code, "primary_worktree_denied");
 }
 
 #[test]

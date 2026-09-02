@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
     "slug": "v3-h2-local-lifecycle",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -19,7 +19,7 @@
         "Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied and any expected lifecycle digest is satisfied before writing.",
         "Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.",
         "Updated the v3 command manifest so #628 local routes are implemented but not live authority; GitHub, publication, finish, clean, and cutover routes remain fail-closed before #505.",
-        "Added focused tests for local route help/dispatch, eight-command contract coverage, issue-route construction-state writes, write-free stale/missing digest rejection, and missing lifecycle state diagnostics.",
+        "Added focused tests for local route help/dispatch, eight-command contract coverage, exact registered-worktree binding, unsafe-primary-checkout denial, issue-route construction-state writes, write-free stale/missing digest rejection, and missing lifecycle state diagnostics.",
         "Recorded #627 predecessor terminal evidence as a derived-terminal cache artifact under #628 evidence, because the tracked #627 issue projection remains published while live GitHub terminal truth is closed by merged PR #635.",
         "Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps."
       ],
