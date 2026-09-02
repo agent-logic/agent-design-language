@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue607.local_validation.v1",
   "issue": 607,
-  "tested_revision": "b7b1ebd95b35b4b3d20337b6b3e9fbf393a6d665",
+  "tested_revision": "7225c4d6f0a41f3ca2fc23df16f31c48690dc305",
   "status": "passed",
   "checks": [
     {"command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"], "outcome": "passed", "result": "issue607_all=pass"},
@@ -15,12 +15,13 @@
     "prepared AMIs and sealed snapshots are exactly reused by their bounded helpers",
     "an authorized older artifact generation is accepted only when it is an ancestor of the controller revision and both identities are emitted in the launch manifest",
     "the preparation result installs atomically and an active or completed ledger reconciles idempotently",
-    "destructive preparation recovery refuses a present terminal result",
-    "destructive recovery validates the exact authorization, ledger, owner, campaign, and artifact generation and rejects a tampered owner",
+    "unsafe destructive preparation recovery is disabled; consumed preparations resume and terminal storage uses separately authorized retirement",
+    "active and completed resume ledgers require exact campaign, owner, run, and storage identity",
     "a duplicate exact preparation cost entry is reused rather than duplicated",
     "duplicate, arithmetically inconsistent, or malformed preparation cost entries are rejected and initial ledger creation is atomic",
     "retained prepared AMIs and root snapshots are accepted by zero-disposable-residue proof",
-    "resume validates source, authorization, plan, Terraform, owner, campaign, and consumed-marker inputs"
+    "resume validates source, authorization, plan, Terraform, owner, campaign, and consumed-marker inputs",
+    "paid launches hold an exclusive cost-ledger lock from before authorization consumption through final accounting"
   ],
   "limitations": ["Live resume and repeated warm launches remain pending."]
 }
