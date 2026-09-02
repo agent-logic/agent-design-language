@@ -369,6 +369,7 @@ pub struct RuntimeInitConfig {
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub polis: PolisInitConfig,
+    pub resident_shepherd: ResidentShepherdInitConfig,
     pub kernel: RuntimeKernelInitConfig,
     #[serde(default)]
     pub continuity_control: Option<crate::ContinuityControlInitConfig>,
@@ -453,6 +454,7 @@ impl RuntimeInitConfig {
             });
         }
         self.polis.validate(public_host)?;
+        self.resident_shepherd.validate()?;
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
                 "api.bind_attempts must be between 1 and 100".to_owned(),
@@ -1109,6 +1111,27 @@ pub struct PolisInitConfig {
     pub display_name: String,
     pub public_domain: String,
     pub observatory_public_origin: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentShepherdInitConfig {
+    pub name: String,
+    pub display_name: String,
+    pub office: String,
+}
+
+impl ResidentShepherdInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if !crate::is_canonical_agent_name(&self.name) {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd.name must be a canonical two-part agent name".to_owned(),
+            ));
+        }
+        validate_non_empty_trimmed("resident_shepherd.display_name", &self.display_name)?;
+        validate_non_empty_trimmed("resident_shepherd.office", &self.office)?;
+        Ok(())
+    }
 }
 
 impl PolisInitConfig {

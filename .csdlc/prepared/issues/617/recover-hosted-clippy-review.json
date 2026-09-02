@@ -1,0 +1,7 @@
+{
+  "issue": 617,
+  "expected_generation": 14,
+  "expected_digest": "35f5940470952be034486bfe9a83ba0691a0b4979cea741cbe6af3fe1f4e7fa3",
+  "actor": "codex:/root/issue_617_finish",
+  "reason": "Recover published review truth after hosted Clippy identified two mechanical warnings in the issue-owned lifecycle path; re-review the exact corrected head before republishing."
+}

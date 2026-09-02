@@ -4,7 +4,7 @@ use adl_runtime_kernel::{
     build_production_operation_executors_with_recorder, AdapterKind, AgentPresence, AgentRoster,
     AgentRosterError, AgentRosterPolicy, AgentRosterQuery, AgentRuntimeEvidence, ClockAuthority,
     ComponentId, ControlAuthority, ControlService, KernelExit, LifecycleControl, OperationRequest,
-    RunningState, RuntimeRecorder, OPERATION_REQUEST_SCHEMA,
+    ResidentShepherdInitConfig, RunningState, RuntimeRecorder, OPERATION_REQUEST_SCHEMA,
 };
 
 struct NoopLifecycle;
@@ -19,6 +19,7 @@ impl LifecycleControl for NoopLifecycle {
 fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvidence {
     AgentRuntimeEvidence {
         agent_id: id.to_owned(),
+        name: format!("{id}.runtime"),
         display_name: label.to_owned(),
         public_role: "resident agent".to_owned(),
         presence,
@@ -33,6 +34,41 @@ fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvide
         source_revision: "runtime-revision-7".to_owned(),
         provenance: "runtime_component_state".to_owned(),
     }
+}
+
+#[test]
+fn canonical_name_is_projected_and_old_v1_entries_remain_readable() {
+    let roster = AgentRoster::new(
+        1,
+        false,
+        [evidence("shepherd", "Shepherd", AgentPresence::Ready)],
+        [1; 32],
+    )
+    .unwrap();
+    let entry = roster
+        .detail(&policy(&["shepherd"]), "shepherd", 1_500)
+        .unwrap();
+    assert_eq!(entry.name, "shepherd.runtime");
+    let mut old = serde_json::to_value(&entry).unwrap();
+    old.as_object_mut().unwrap().remove("name");
+    let decoded: adl_runtime_kernel::AgentRosterEntry = serde_json::from_value(old).unwrap();
+    assert_eq!(decoded.name, "");
+}
+
+#[test]
+fn production_shepherd_construction_uses_configured_canonical_name() {
+    let config = ResidentShepherdInitConfig {
+        name: "beacon.axioma".to_owned(),
+        display_name: "Beacon".to_owned(),
+        office: "resident shepherd".to_owned(),
+    };
+    let feed = adl_runtime_kernel::AgentPopulationFeed::resident_shepherd_from_config(&config);
+    let shepherd = &feed.sample[0];
+
+    assert_eq!(shepherd.id, "shepherd");
+    assert_eq!(shepherd.name, config.name);
+    assert_eq!(shepherd.label, config.display_name);
+    assert_eq!(shepherd.role, config.office);
 }
 
 fn policy(ids: &[&str]) -> AgentRosterPolicy {

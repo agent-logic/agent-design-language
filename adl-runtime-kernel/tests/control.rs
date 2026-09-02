@@ -1459,6 +1459,7 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
             sample: vec![
                 adl_runtime_kernel::AgentSample {
                     id: "agent-00001".to_owned(),
+                    name: "agent-00001.runtime".to_owned(),
                     label: "Runtime agent 1".to_owned(),
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),
@@ -1476,6 +1477,7 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                 },
                 adl_runtime_kernel::AgentSample {
                     id: "agent-00002".to_owned(),
+                    name: "agent-00002.runtime".to_owned(),
                     label: "Runtime agent 2".to_owned(),
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),

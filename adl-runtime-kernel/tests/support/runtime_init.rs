@@ -307,6 +307,11 @@ id = "polis-test"
 display_name = "Test Polis"
 public_domain = "localhost"
 observatory_public_origin = "https://localhost:8765"
+
+[resident_shepherd]
+name = "beacon.axioma"
+display_name = "Beacon"
+office = "resident shepherd"
 [observatory]
 allowed_origins = ["https://localhost:8765"]
 [observability_pipeline]
