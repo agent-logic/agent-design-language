@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/tests/configuration.rs\ninfra/runtime-v3/runtime-init.toml\ndocs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\n.csdlc/prepared/issues/592",
+      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/tests/configuration.rs\ninfra/runtime-v3/agents/ember.axioma.yaml\ninfra/runtime-v3/runtime-init.toml\ndocs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\n.csdlc/prepared/issues/592",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
