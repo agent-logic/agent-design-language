@@ -6,10 +6,22 @@
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
   "phase": "implemented",
   "generation": 14,
-  "digest": "d6f09c28ade6796a4dbceb4a93530606ab99a2c6ca164c06b919fa948b438648",
+  "digest": "b13900f6bd16a8be853fa0b69b6f6640d64ced140dfab591da308869da170865",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ebe4f64e-61d9-45ee-9815-79abee7d3ad0",
+    "assigned_by": "codex:/root:issue-515-implementation",
+    "revision": "git-blake3:c70828208e724c5f0130087ce3761026630fe49a:c9408385c426ead9f563f204eb16d7fbe351f25129169dd842640cd912004c39",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
+      ".csdlc/prepared/issues/515"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "dec498f379cb3b53d9f40d96e9a4cfeb020b22d360c7351f051a274708b20854",
-      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
-      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
+      "values_digest": "69f44cd0d25ee1d86953e346e739acae79860d7e9898d920132f2ebcfd7f1948",
+      "rendered_digest": "167d92ba1efcf0ba600b1cd1f5409d0f89f2d2b46b7040962aa97e823087a82a",
+      "ast_digest": "e94a0785a8bf592cc7f4cf3516a1f30b7925774a4c56348b2922849c11688f54"
     },
     "sor": {
       "values_digest": "43dd6f46b5c1cb7e6eb941189de0cabd0e4c5855acc96b15cbfc578677e140e0",
@@ -197,6 +209,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Refresh #515 SOR after fixing the independent review P1 shadow-panic finding and rerunning focused validation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, and emits redacted digest/class comparison evidence.\",\"changes\":[\"Added distinct provider shadow authority/shadow channel types and redacted comparison records in adl/src/provider/mod.rs.\",\"Added complete_with_local_model_shadow so authority executes first and shadow success, returned failure, or panic cannot replace or mask authoritative output.\",\"Kept authoritative and shadow channel markers constructor-controlled with read-only accessors so callers cannot construct shadow observations as authoritative results.\",\"Added issue-owned integration tests for shadow isolation, deterministic comparison, returned-error fallback, authoritative-first fallback, and panicking-shadow fallback behavior.\",\"Added redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/.\"],\"artifacts\":[\"adl/src/provider/mod.rs\",\"adl/tests/provider_shadow_isolation.rs\",\"adl/tests/provider_shadow_comparison.rs\",\"adl/tests/provider_shadow_fallback.rs\",\"docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"--test\",\"provider_shadow_isolation\"],\"purpose\":\"Prove authority and shadow paths are distinguishable and shadow output cannot mutate authoritative state.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:provider_shadow_isolation:1 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"--test\",\"provider_shadow_comparison\"],\"purpose\":\"Prove exact deterministic comparison inputs and rule set for authority-versus-shadow observations.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:provider_shadow_comparison:1 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"--test\",\"provider_shadow_fallback\"],\"purpose\":\"Prove shadow returned errors and panics preserve the authoritative result and do not convert shadow success into authority.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:provider_shadow_fallback:3 passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh\"],\"purpose\":\"Prove PROV-B evidence excludes common credential, private payload, prompt, and host-local path markers.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact branch diff hygiene before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:git diff --check\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting for the touched provider and test surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:cargo fmt --check\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
