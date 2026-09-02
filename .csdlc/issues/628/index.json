@@ -4,68 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
-  "phase": "published",
-  "generation": 9,
-  "digest": "c73fbce322b4bf05f650286078d3ac0ce6ab13a519726937e8733f445a3d1122",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "cac10bba8b7841a6281ee45987b5a345ee09f040d2c3ea3c12ff41d9bdcb933d",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_628_route_specifics_r6",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:fbc347ec5f0a4f210fc45397d3f9a99796f3ea6e:7e1810e9efa55b4ebc827fb1b1302f3a3d36067b3f9a60ec65a7079175e7950b",
-    "scope": [
-      "csdlc-v3/src/commands/local/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/628",
-      ".csdlc/evidence/628"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-reviewer:review_628_route_specifics_r6",
-    "scope": [
-      "csdlc-v3/src/commands/local/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/628",
-      ".csdlc/evidence/628"
-    ],
-    "reviewed_revision": "git-blake3:fbc347ec5f0a4f210fc45397d3f9a99796f3ea6e:7e1810e9efa55b4ebc827fb1b1302f3a3d36067b3f9a60ec65a7079175e7950b",
-    "findings": [],
-    "residual_risks": [
-      "Remote PR #639 remains stale until typed publication pushes this reviewed local candidate. Duplicate earlier PR #638 remains a typed-tooling cleanup residual."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:fbc347ec5f0a4f210fc45397d3f9a99796f3ea6e:7e1810e9efa55b4ebc827fb1b1302f3a3d36067b3f9a60ec65a7079175e7950b",
-      "to_revision": "git-blake3:c46692255552fb506336f755d156210697405215:3a98974b5c8728461f0ddfe079f042e1f27b99cd3bfcaf9cbae83f8af0e5c50d",
-      "from_commit": "fbc347ec5f0a4f210fc45397d3f9a99796f3ea6e",
-      "to_commit": "c46692255552fb506336f755d156210697405215",
-      "changed_paths": [
-        ".csdlc/issues/628/audit.jsonl",
-        ".csdlc/issues/628/index.json"
-      ]
-    }
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 628,
-    "pull_request": 639,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/639",
-    "base": "main",
-    "head": "codex/628-v3-h2-local-lifecycle-exec",
-    "revision": "git-blake3:c46692255552fb506336f755d156210697405215:3a98974b5c8728461f0ddfe079f042e1f27b99cd3bfcaf9cbae83f8af0e5c50d",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bd009fa98840a0e6d2067786187e3efe3ed0d6f7a77ca905208344febd13ae5c",
+      "values_digest": "75fd52578b49a4df3f2b09ac2870ad98b05548b7ea243cda510914bffa1ad3fd",
       "rendered_digest": "ec86154fbe8bea2e97c924434eeb9628c5ed7da45613790a6ac03fbb543a27a5",
       "ast_digest": "2acce6b1beca8f33b77c7b8cf371d468d8f199e4f56aa9dcfe4a298d3acd9593"
     },
     "stp": {
-      "values_digest": "17ed4d07dd4cb672bfaed0b9b69ddf809542c74d65934ff9f891ee29b2fecc91",
+      "values_digest": "066c0fe174c4977cb5c10ade28a2d4db9d797287b2595deaf824f96d6351a5b2",
       "rendered_digest": "bc3cd8bd8745a5adceb6c9595367ec1919f1797064fee91ee7eb896d4f155efd",
       "ast_digest": "57dfad5b0fe0bea239cfdf214b53671017845b79aff12963238f44d33d0c57db"
     },
     "spp": {
-      "values_digest": "db74f3bd12de3d82cd9a1a5785118d2adc170898684621e6964d7d263e0e3e21",
+      "values_digest": "9b24b5d2cc537222ed63e5933ccdb7255e377ff8306af8ee0f887b84e6fe3905",
       "rendered_digest": "d819514ecc09935b395491930a0d9d63e1b5046f4c83282c0e9c3ba0dc04689a",
       "ast_digest": "14bf84ef4d04a577ee0b6f619469d6cddc0148f5d840a78313ae0c6973a2d204"
     },
     "vpp": {
-      "values_digest": "368d2953db332ad1b1c9afce1109fc61d5c9dc248f175eb43e0b015501121b02",
+      "values_digest": "c5b4190dda9f1d9b332d32d776c69b4b5868df0737bd54c4deb82e8f37c0c040",
       "rendered_digest": "43d4653b64b0dd707774309d0824415e41d4fd92b04d28591b58488a8e59f8ed",
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "da04c4d1ed66b7826cd10e07b070287d2fe616dcdbb007000df568a766b0e4af",
-      "rendered_digest": "e545101e5bce51afd17a71bb02fd0c434678e201245d2ef098d90c2ec295e5f4",
-      "ast_digest": "49cf3039b4fbacfca248b876cf066e422167e84f14404ea4708fb67510b52230"
+      "values_digest": "d3c6e1d00724f623e08bd6c249058fd16a397a35b9eea34f89db99a6c5df909c",
+      "rendered_digest": "2e4b0d62c3ff55fa707a9f45db163c258a06e12d6cfbf36cc5d4b039375f34ad",
+      "ast_digest": "2f29a8922955564d3077596be9ce4658e0c95e4f10828b2471b7df1849299821"
     },
     "sor": {
-      "values_digest": "285e846b23e26a5d39041fd41886acb3d6b36a07b460d4082c575ce7da09e6c4",
-      "rendered_digest": "0f28303141f89cbd88a0eefc814a91a5b0748c21c51803684428b7e14a684e54",
-      "ast_digest": "5ce4adfc07135820b0f45f0ed45fcf49d04b7dc2a0919102993cc05e7f9e0cb2"
+      "values_digest": "d9a52b8fe753cb571e831730282e60af0bf115006bc253b20ebdaf311653e764",
+      "rendered_digest": "6813ba702916dcfdeb3f4e59c6963467b7e5fdbe121dc337f41979e12352173c",
+      "ast_digest": "34dd48dd5a08ac16c0d9757cfe376f066796e959c29f96a3a18628dc8be6e650"
     }
   },
   "transitions": [
@@ -165,6 +111,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review/publication truth after local route repair made bind/edit/validate/doctor/schedule/shepherd consume observed lifecycle state and reject stale digest or unsupported transitions."
     }
   ],
   "audit": [
@@ -286,6 +239,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "Recover review/publication truth after local route repair made bind/edit/validate/doctor/schedule/shepherd consume observed lifecycle state and reject stale digest or unsupported transitions.",
+      "operation": "recover_review"
     }
   ]
 }
