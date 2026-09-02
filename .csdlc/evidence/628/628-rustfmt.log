@@ -1,1 +1,1 @@
-rustfmt --check passed for PR #639 exact-head evidence
+rustfmt --check passed for stronger #628 route-result evidence

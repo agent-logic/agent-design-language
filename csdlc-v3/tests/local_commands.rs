@@ -183,6 +183,7 @@ fn local_preparation_cli_emits_machine_readable_non_authoritative_plan() {
     assert_eq!(value["operational_authority"], false);
     assert_eq!(value["result"]["issue"], 503);
     assert!(value["route_status"].is_null());
+    assert!(value["route_result"].is_null());
     assert_eq!(value["result"]["findings"][0]["code"], "doctor_ready");
     assert!(output.stderr.is_empty());
 }
@@ -233,7 +234,26 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
         assert_eq!(value["result"]["issue"], 503);
         assert_eq!(value["route_status"]["route"], route);
         assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
+        assert_eq!(value["route_result"]["issue"], 503);
+        assert_eq!(
+            value["route_result"]["kind"],
+            expected_route_result_kind(route)
+        );
         assert!(output.stderr.is_empty());
+    }
+}
+
+fn expected_route_result_kind(route: &str) -> &'static str {
+    match route {
+        "issue" => "issue_initialization",
+        "bind" => "bind_worktree",
+        "edit" => "card_edit",
+        "validate" => "validation_plan",
+        "doctor" => "doctor",
+        "schedule" => "schedule",
+        "shepherd" => "shepherd",
+        "eligibility" => "eligibility",
+        _ => panic!("unexpected route {route}"),
     }
 }
 

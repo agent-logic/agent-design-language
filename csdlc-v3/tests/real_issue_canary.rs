@@ -199,6 +199,9 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
     assert_eq!(value["operational_authority"], false);
     assert_eq!(value["route_status"]["code"], "ready_to_execute");
     assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
+    assert_eq!(value["route_result"]["kind"], "eligibility");
+    assert_eq!(value["route_result"]["ready_to_execute"], true);
+    assert_eq!(value["route_result"]["issue_start_minutes_max"], 3);
     assert_eq!(value["result"]["lifecycle_state"]["issue"], 5853);
     assert_eq!(value["result"]["lifecycle_state"]["ready_to_execute"], true);
 }

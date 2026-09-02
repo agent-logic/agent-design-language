@@ -3,8 +3,9 @@ use std::{env, fs, path::PathBuf};
 use csdlc_v3::{
     application::FoundationState,
     commands::local::{
-        inspect_local_lifecycle_state, local_route_command, local_route_status,
-        prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration, LOCAL_ROUTE_NAMES,
+        execute_local_route, inspect_local_lifecycle_state, local_route_command,
+        local_route_status, prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration,
+        LOCAL_ROUTE_NAMES,
     },
     repository::RepositoryContext,
 };
@@ -129,12 +130,27 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
         .as_ref()
         .map(|root| inspect_local_lifecycle_state(root, request.issue));
     let route_status = local_route_status(route, result.lifecycle_state.as_ref());
+    let route_result = if route == "local" {
+        None
+    } else {
+        Some(
+            execute_local_route(
+                route,
+                &request,
+                &registry,
+                &registrations,
+                result.lifecycle_state.clone(),
+            )
+            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?,
+        )
+    };
     let report = LocalCommandReport {
         schema: "csdlc.v3.local_preparation.v1",
         command: route.to_owned(),
         read_only: true,
         operational_authority: false,
         route_status,
+        route_result,
         result,
     };
     serde_json::to_string(&report).map_err(|error| error.to_string())
@@ -147,6 +163,7 @@ struct LocalCommandReport<T> {
     read_only: bool,
     operational_authority: bool,
     route_status: Option<csdlc_v3::commands::local::LocalRouteStatus>,
+    route_result: Option<csdlc_v3::commands::local::LocalRouteResult>,
     result: T,
 }
 

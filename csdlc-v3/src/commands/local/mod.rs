@@ -122,6 +122,59 @@ pub struct LocalRouteStatus {
     pub issue_start_minutes_max: u64,
 }
 
+/// Command-specific read-only result for one local lifecycle route.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+pub enum LocalRouteResult {
+    IssueInitialization {
+        issue: u64,
+        repository: String,
+        card_paths: Vec<String>,
+        template_registry_version: String,
+    },
+    BindWorktree {
+        issue: u64,
+        branch: String,
+        worktree: String,
+        primary_worktree_denied: bool,
+    },
+    CardEdit {
+        issue: u64,
+        editable_cards: Vec<String>,
+        values_first: bool,
+        render_required: bool,
+    },
+    ValidationPlan {
+        issue: u64,
+        required_cards: Vec<String>,
+        pvf_required: bool,
+        fail_closed: bool,
+    },
+    Doctor {
+        issue: u64,
+        findings: Vec<DoctorFinding>,
+        ready: bool,
+    },
+    Schedule {
+        issue: u64,
+        ordered_routes: Vec<String>,
+        next_route: String,
+    },
+    Shepherd {
+        issue: u64,
+        branch: String,
+        worktree: String,
+        execution_authority: bool,
+        bounded_by_spp: bool,
+    },
+    Eligibility {
+        issue: u64,
+        ready_to_execute: bool,
+        lifecycle_state: Option<LocalLifecycleStateObservation>,
+        issue_start_minutes_max: u64,
+    },
+}
+
 /// Non-authoritative local preparation result.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LocalPreparationPlan {
@@ -455,6 +508,92 @@ pub fn local_route_status(
         message: message.to_owned(),
         issue_start_minutes_max: 3,
     })
+}
+
+pub fn execute_local_route(
+    route: &str,
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    registrations: &[WorktreeRegistration],
+    lifecycle_state: Option<LocalLifecycleStateObservation>,
+) -> Result<LocalRouteResult, Vec<DoctorFinding>> {
+    match local_route_command(route) {
+        Some(LocalCommand::PrepareIssue) => Ok(LocalRouteResult::IssueInitialization {
+            issue: request.issue,
+            repository: request.repository.clone(),
+            card_paths: REQUIRED_CARD_KINDS
+                .into_iter()
+                .map(|card| format!(".csdlc/issues/{}/cards/{card}.md", request.issue))
+                .collect(),
+            template_registry_version: registry.version.clone(),
+        }),
+        Some(LocalCommand::BindWorktree) => {
+            let bind = authorize_bind(request, registrations)?;
+            Ok(LocalRouteResult::BindWorktree {
+                issue: bind.issue,
+                branch: bind.branch,
+                worktree: bind.worktree,
+                primary_worktree_denied: true,
+            })
+        }
+        Some(LocalCommand::EditCards) => Ok(LocalRouteResult::CardEdit {
+            issue: request.issue,
+            editable_cards: REQUIRED_CARD_KINDS
+                .into_iter()
+                .map(str::to_string)
+                .collect(),
+            values_first: true,
+            render_required: true,
+        }),
+        Some(LocalCommand::PlanPvf) => Ok(LocalRouteResult::ValidationPlan {
+            issue: request.issue,
+            required_cards: REQUIRED_CARD_KINDS
+                .into_iter()
+                .map(str::to_string)
+                .collect(),
+            pvf_required: true,
+            fail_closed: true,
+        }),
+        Some(LocalCommand::Doctor) => {
+            let plan = prepare_local_workflow(request, registry, registrations)?;
+            Ok(LocalRouteResult::Doctor {
+                issue: request.issue,
+                findings: plan.findings,
+                ready: true,
+            })
+        }
+        Some(LocalCommand::Schedule) => Ok(LocalRouteResult::Schedule {
+            issue: request.issue,
+            ordered_routes: LOCAL_ROUTE_NAMES.into_iter().map(str::to_string).collect(),
+            next_route: "issue".into(),
+        }),
+        Some(LocalCommand::Shepherd) => {
+            let bind = authorize_bind(request, registrations)?;
+            Ok(LocalRouteResult::Shepherd {
+                issue: request.issue,
+                branch: bind.branch,
+                worktree: bind.worktree,
+                execution_authority: false,
+                bounded_by_spp: true,
+            })
+        }
+        Some(LocalCommand::Eligibility) => {
+            let ready_to_execute = lifecycle_state
+                .as_ref()
+                .is_some_and(|state| state.ready_to_execute);
+            Ok(LocalRouteResult::Eligibility {
+                issue: request.issue,
+                ready_to_execute,
+                lifecycle_state,
+                issue_start_minutes_max: 3,
+            })
+        }
+        None => Err(vec![finding(
+            PlanStatus::Failed,
+            "unknown_local_route",
+            "local route is not owned by #628",
+        )]),
+    }
 }
 
 pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleStateObservation {
