@@ -1,0 +1,60 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 617,
+  "expected_generation": 8,
+  "expected_digest": "1aad5d944afe64a61cf7d6edbf76fb27f28e70d5cfe902d6aab6476c12fb2164",
+  "actor": "codex:/root/issue_617_finish",
+  "summary": "Runtime roster and detail projections now expose authoritative canonical agent names while preserving operational IDs, display names, offices, legacy persisted reads, and checkpoint digest semantics.",
+  "changes": [
+    "Carry dynamic AgentAdmissionRequest.name unchanged through AgentSample, AgentRuntimeEvidence, roster, and detail projections.",
+    "Require and validate resident_shepherd.name in Runtime init configuration and pass it into the production Shepherd population feed.",
+    "Add the required outbound name field to AgentRosterEntry and OpenAPI while retaining deserialization compatibility for previously persisted v1 entries.",
+    "Keep checkpoint samples on a distinct compatibility schema so roster naming does not alter checkpoint or freeze-dried digest semantics."
+  ],
+  "artifacts": [
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/control/feeds.rs",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "infra/runtime-v3/runtime-init.toml"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "canonical-agent-name",
+          "proof_role": "Prove authoritative dynamic and Shepherd canonical names, field distinction, roster/detail parity, legacy reads, and OpenAPI agreement.",
+          "purpose": "Issue #617 focused canonical-agent-name implementation validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 4, "memory_mib": 8192, "tokens": 1000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "runtime-api",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1200,
+          "executable": "/bin/bash",
+          "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-617-runtime-api-canonical-agent-names/.csdlc/prepared/issues/617/validate-canonical-agent-name.sh"],
+          "evidence": {
+            "max_log_bytes": 131072,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["canonical-agent-name"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 1, "cpu_units": 4, "memory_mib": 8192, "tokens": 1000},
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/617",
+    "cancellation_file": null
+  }
+}
