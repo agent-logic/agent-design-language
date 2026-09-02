@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Exact #594 Runtime observability, Vector, Terraform archive, focused tests, and issue-local evidence paths only.
+.csdlc/evidence/594
+.csdlc/prepared/issues/594
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/observability/vector.rs
+adl-runtime-kernel/tests/configuration.rs
+adl-runtime-kernel/tests/observability.rs
+infra/aws/runtime/log-archive
 
 ## Prompts
 

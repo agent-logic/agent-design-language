@@ -335,6 +335,18 @@ fn vector_config_s3_archive_uses_identity_partitioned_bounded_redacted_delivery(
             .unwrap()
             .contains("\"service_continues\": true")
     );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"failure_telemetry\": \"vector_sink_errors\"")
+    );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"drop_telemetry\": \"vector_disk_buffer_drop_newest\"")
+    );
     assert!(!rendered_text.contains("aws_secret_access_key"));
     assert!(!rendered_text.contains("aws_access_key_id"));
     assert!(!rendered_text.contains("password123"));
@@ -373,6 +385,75 @@ fn pinned_vector_validates_generated_s3_archive_config() {
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_s3_archive_outage_does_not_block_master_log_progress() {
+    let root = test_root("s3-archive-outage-survival");
+    let mut config = vector_config(root, None);
+    let vector_config_path = config.vector_config_path.clone();
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+
+    let mut pipeline = RuntimeVectorPipeline::start_without_subscriber_for_test(config).unwrap();
+    pipeline.poll_health().unwrap();
+
+    let snapshot = pipeline.snapshot();
+    assert_eq!(
+        serde_json::to_value(&snapshot.health).unwrap()["status"],
+        "ready"
+    );
+    assert_eq!(snapshot.last_failure, None);
+    assert!(snapshot.vector_pid.is_some());
+
+    let master_log_path = pipeline.master_log_path_for_test().to_path_buf();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    loop {
+        if master_log_path.is_file() && !read_records(&master_log_path).is_empty() {
+            break;
+        }
+        if Instant::now() >= deadline {
+            panic!("master log did not progress with s3 archive outage contract enabled");
+        }
+        sleep(Duration::from_millis(25));
+        pipeline.poll_health().unwrap();
+    }
+
+    let records = read_records(&master_log_path);
+    assert!(records.iter().any(|record| {
+        record["operation"] == "vector_pipeline_started"
+            && record["severity"] == "INFO"
+            && record["fields"]["startup_attempt"] == 1
+    }));
+
+    let rendered = serde_json::from_slice::<Value>(&fs::read(vector_config_path).unwrap()).unwrap();
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_s3_archive"]["healthcheck"]["enabled"],
+        false
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_s3_archive"]["buffer"]["when_full"],
+        "drop_newest"
+    );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"failure_telemetry\": \"vector_sink_errors\"")
+    );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"drop_telemetry\": \"vector_disk_buffer_drop_newest\"")
+    );
+
+    pipeline.shutdown().await.unwrap();
 }
 
 #[test]

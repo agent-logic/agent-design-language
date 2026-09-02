@@ -7,13 +7,13 @@
     "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
     "slug": "runtime-v3-bounded-s3-log-archive",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #594 Runtime observability, Vector, Terraform archive, focused tests, and issue-local evidence paths only.",
+      "review_scope": ".csdlc/evidence/594\n.csdlc/prepared/issues/594\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/observability/vector.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/observability.rs\ninfra/aws/runtime/log-archive",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

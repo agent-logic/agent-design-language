@@ -1,10 +1,12 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.57s
 ────────────
- Nextest run ID dfa8c142-375c-4b28-920d-912c482529fd with nextest profile: default
-    Starting 4 tests across 3 binaries (65 tests skipped)
-        PASS [   0.010s] (1/4) adl-runtime-kernel::configuration runtime_init_rejects_unsafe_s3_archive_identity_segments
-        PASS [   0.011s] (2/4) adl-runtime-kernel::configuration runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity
-        PASS [   0.019s] (3/4) adl-runtime-kernel::observability vector_config_s3_archive_uses_identity_partitioned_bounded_redacted_delivery
-        PASS [   0.028s] (4/4) adl-runtime-kernel::observability pinned_vector_validates_generated_s3_archive_config
+ Nextest run ID 09ee1817-5c30-42ad-8ae6-965f83a914a6 with nextest profile: default
+    Starting 5 tests across 3 binaries (65 tests skipped)
+        PASS [   0.013s] (1/5) adl-runtime-kernel::configuration runtime_init_rejects_unsafe_s3_archive_identity_segments
+        PASS [   0.014s] (2/5) adl-runtime-kernel::configuration runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity
+        PASS [   0.022s] (3/5) adl-runtime-kernel::observability vector_config_s3_archive_uses_identity_partitioned_bounded_redacted_delivery
+        PASS [   0.042s] (4/5) adl-runtime-kernel::observability pinned_vector_validates_generated_s3_archive_config
+        PASS [   3.895s] (5/5) adl-runtime-kernel::observability runtime_vector_pipeline_s3_archive_outage_does_not_block_master_log_progress
 ────────────
-     Summary [   0.029s] 4 tests run: 4 passed, 65 skipped
+     Summary [   3.895s] 5 tests run: 5 passed, 65 skipped

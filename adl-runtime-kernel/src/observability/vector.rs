@@ -217,6 +217,8 @@ pub fn render_vector_config(config: &RuntimeVectorConfig) -> Value {
                     "  \"sink\": \"runtime_v3_s3_archive\",\n",
                     "  \"delivery_class\": \"best_effort_bounded\",\n",
                     "  \"buffer_when_full\": \"drop_newest\",\n",
+                    "  \"failure_telemetry\": \"vector_sink_errors\",\n",
+                    "  \"drop_telemetry\": \"vector_disk_buffer_drop_newest\",\n",
                     "  \"service_continues\": true\n",
                     "}"
                 )
