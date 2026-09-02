@@ -26,6 +26,19 @@ fn canonical_name_is_required_by_agent_roster_openapi_contract() {
         .unwrap()
         .iter()
         .any(|v| v == "name"));
+    let checkpoint = &observatory["components"]["schemas"]["AgentCheckpoint"];
+    assert_eq!(
+        checkpoint["properties"]["roster_state"]["$ref"],
+        "#/components/schemas/CheckpointAgentSample"
+    );
+    let checkpoint_sample =
+        &observatory["components"]["schemas"]["CheckpointAgentSample"];
+    assert!(!checkpoint_sample["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v == "name"));
+    assert!(checkpoint_sample["properties"].get("name").is_none());
 }
 
 #[test]
