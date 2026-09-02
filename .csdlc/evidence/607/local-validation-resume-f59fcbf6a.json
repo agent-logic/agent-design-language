@@ -1,0 +1,31 @@
+{
+  "schema": "adl.issue607.local_validation.v1",
+  "issue": 607,
+  "tested_revision": "f59fcbf6ae17a64326f6c90d049fb7dd203bc60a",
+  "status": "passed",
+  "checks": [
+    {
+      "command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"],
+      "outcome": "passed",
+      "result": "issue607_all=pass"
+    },
+    {
+      "command": ["git", "diff", "--check"],
+      "outcome": "passed"
+    },
+    {
+      "command": ["bash", "-n", "adl/tools/run_issue607_warm_polis.sh", "adl/tools/test_issue607_warm_polis.sh"],
+      "outcome": "passed"
+    }
+  ],
+  "coverage": [
+    "healthy AWS transitional states wait without a deadline",
+    "permanent AWS command failures terminate",
+    "prepared AMI creation reuses one exact existing image",
+    "sealed snapshot creation reuses one exact existing snapshot",
+    "resume binds the source archive, plans, preflight, action manifest, Terraform state, owner token, campaign, and consumed S3 authorization marker"
+  ],
+  "limitations": [
+    "Live resume and repeated warm launches remain pending."
+  ]
+}

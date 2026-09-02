@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 35,
-  "digest": "5c99232e76268712a26d4153afc440bd81527e75d768f66182ce5e9f55d89089",
+  "generation": 36,
+  "digest": "1df4a0a18117f5517eae8bf33e3c56cead2a92b7d0254bf79e5999adb476f188",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": {
@@ -98,34 +98,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0d318f40d7cca90f519da712bb70f54caf96a75586a42a11bdec9d9a20afe68a",
+      "values_digest": "c77a4b7dea41b1c7f442f8ad8f8a423444581a6905a6c3f0f980ad300574f32f",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "3a496779dab9a305b8bcecc96e4a07f7f5d8f2e6542ddf38d0186256d5b677db",
+      "values_digest": "0f318dee95c86c92797a70f87ba4973362f1c96bf6e404bac19cbf774f6d2b9e",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "021190ee95236fa2e29fb066019a4f5dd3c2cabcd03c5eabac601bd7c040e08d",
+      "values_digest": "b418d818bf52f5f6736f6bbba105215a1daac6bca021680d380c876f116d7c95",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "6dfcf1eaf79e5d90cadf8c30b32c0643f1a1a2e1e7db28abe73a356a62ced909",
+      "values_digest": "ae93de201ccbb9b78417bb0254886de90a6cb7ceef0e2a641a6dcfd07cb0b778",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "cc36d2edbf01f806c1e615b5a2fc9a8c1685ea771244621dbb2f4d8915d85451",
+      "values_digest": "def8ac792a46d911b36343eedbfa1f86fa2032219e3c38380ccc47a3fe5cdede",
       "rendered_digest": "dd49a0b9cc0e920eaf2538dde3f42dd04c4fec4929f49971025828d262bc2233",
       "ast_digest": "8b8c53dfeff46a9f273c98b21368596a03b2b6e3d1781a46ab4c9a91139a4f33"
     },
     "sor": {
-      "values_digest": "116cd31b4c302e4b3a225f2a060eb5995ff5ad2860ec9beba932a17c26b2afa9",
-      "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
-      "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
+      "values_digest": "cb85e42a434a8bc602822326b1af45b07bb28c436171f6368fd8352107b79467",
+      "rendered_digest": "4d7f34cb58e9b209b3cb1bbfff7226baf3ff66ae381932515f148cf881294a0a",
+      "ast_digest": "f7bcfe5714389ac0c2391bc60debb851c981ba5b8dbe859860d3119096418a63"
     }
   },
   "transitions": [
@@ -529,6 +529,13 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 36,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace stale implementation and validation truth after the exact restart-safety remediation and focused local proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the warm two-node AWS path through restart-safe controller revision f59fcbf6a; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.\",\"Made AMI and sealed-snapshot creation exact-state and idempotent across controller interruption.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, and ledger identity validation before resume.\",\"Added executable regressions for permanent AWS errors and exact reuse of existing images and snapshots.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, and exact image and snapshot reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue after restart-safety remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and its regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"}]}"
     }
   ]
 }
