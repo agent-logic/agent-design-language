@@ -10,7 +10,7 @@ These tracks support CodeFriend Beta 1 without being folded into one oversized p
 | PLAT-MLX | One bounded MLX/Apple Metal adapter | Canonical provider definitions consumed; supported-platform and failure proof |
 | PLAT-UTS | Canonical supported UTS package and migration note | Named consumers pass conformance; no universal-standard claim |
 | PLAT-RUST | One behavior-preserving Rust reduction slice | Focused parity and measured size or complexity reduction |
-| OPS-AWS | Current sanitized SCR, S3, model, and ownership inventory | Agent Logic business account verified; read-only operation |
+| OPS-AWS | Current sanitized SCR, S3, model, and staleness delta from #484 | Agent Logic business account verified; read-only operation; #484 baseline not repeated |
 | PUB-MEDIUM | One reviewable Medium article packet | Grounded claims and citations; no publication |
 | PUB-CSDLC | One reviewable C-SDLC paper packet | Grounded claims and citations; no submission |
 | PLAT-MEMORY | One production Memory Palace consumer | Real caller, deterministic retrieval, privacy failure tests |

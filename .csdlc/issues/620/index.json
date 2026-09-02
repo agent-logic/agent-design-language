@@ -4,13 +4,75 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "27daaf822151ec5c7c21a683ef36b956dfbdea03f327bda3d70143df0eafaae5",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "27cec46fbdcc562b9af41835ad3adb2aee4487f21493dd914f68f9fe49f8f1d6",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "02a296115453db5369bad6a9ec827d8ab0cfbf6a25336f6fc47bb6fa3e30a6e0",
   "branch": "codex/620-v0922-first-pass-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:620-docs-2d912c9b2",
+    "assigned_by": "codex:620-execution",
+    "revision": "git-blake3:2d912c9b27387af763b6e30e608b38abb55c9a1c:c36904ec879aa3087b0b2bf9d1a1ada4bc95b936f48a50ef06c9a96edb50a511",
+    "scope": [
+      "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:620-docs-2d912c9b2",
+    "scope": [
+      "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh"
+    ],
+    "reviewed_revision": "git-blake3:2d912c9b27387af763b6e30e608b38abb55c9a1c:c36904ec879aa3087b0b2bf9d1a1ada4bc95b936f48a50ef06c9a96edb50a511",
+    "findings": [
+      {
+        "id": "620-R1",
+        "severity": "p1",
+        "summary": "MLX admission lacked a recorded operator decision.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "620-R2",
+        "severity": "p1",
+        "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "620-R3",
+        "severity": "p1",
+        "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "620-R4",
+        "severity": "p2",
+        "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The candidate is behind origin/main; live publication must recheck base mergeability and CI."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,34 +87,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6467b52b8fccabfc7338741ccf68833eb9f7354f0dfc33a25fcd91bf363e5428",
+      "values_digest": "236a3819ab3ec134e62add0d0a383bb4b28ed8aac85d4bf8a29a72f5a82196a2",
       "rendered_digest": "ff6c09a07b5783513d3f6aa5e379b535fffbb29c0f0b18ad148f6f4866fcc8a3",
       "ast_digest": "c19b45b77eea4cf049f1a7008cbb0c9a812b05c8b67b08aefc03a55703e1b6b6"
     },
     "stp": {
-      "values_digest": "22f6c1189817f8bd69e45a766dc48b098c38f8c1fdd935cbd474c9b9df2ff65b",
+      "values_digest": "9f96a7871bf93db295b3dd2884342fe95fa1162d0825dc952c8535a717418aaa",
       "rendered_digest": "47ce6d4c296578e64a794b00ddf1df6670ef9d722cfd0c78e643e464502e6d6d",
       "ast_digest": "e776234549aed48f895ce9ab02cb6b0ac1b0706af7339ac240c0228a5d7fb19b"
     },
     "spp": {
-      "values_digest": "25f27e188345e9a3488dc15db7eb69387c8eb09b13137d279f932fd23fd2854c",
+      "values_digest": "61c0bf4499e0bead318a35d2844848909ec9063bbf5e45e332aed02127812c8c",
       "rendered_digest": "83d1ed7b635567c1e5da20c16408cfa2735cf6812943daa8af163e13f92a9b9c",
       "ast_digest": "72444acd007b81b32dcee29422aae02f89aac6cc23155f3b09b900842509d3e5"
     },
     "vpp": {
-      "values_digest": "893992a2d9ae612c688ba4fee6603d2cc7d88968b947d990ec72b7c62a4647c8",
+      "values_digest": "b7d9a4dba2bb9f14c5f31e03db08ccfd2e2f47fbd9e73260b761c49be2796be7",
       "rendered_digest": "a3c6a9eacf872eeacbe942d91c65ee40a50eb5baa3cf62a93cdbf773de707b76",
       "ast_digest": "bf715ffcb46f3967e861dde61bdffb56cc7550ef009f0c3736e67744c176f24c"
     },
     "srp": {
-      "values_digest": "277fe7fc641ea81d7c522d4c2be5a147cf5506c3c922979e0e8bba6a7f3df912",
-      "rendered_digest": "39fb0d27a12a8be36bbc0c73346726ea1ba13ed4eab5beeb33ecbca79cf7f4da",
-      "ast_digest": "a41bb0e471a38c857c81c4f92308ada9c0876573beb9156311b1653f214456b3"
+      "values_digest": "0e677c40ceb30cab213cacf070fab84692098c49ac9c93f0e0188ae7f77a86bf",
+      "rendered_digest": "46c0df200935f938a76c8496196ccbfa0436a4c15ce843edeacf78a7f0aece15",
+      "ast_digest": "b093b4afc8bbf62f6c07b1d76c8b9c7295c9c95aa477646a000fc577648f389c"
     },
     "sor": {
-      "values_digest": "2d40b53df2372e8e2757c13d6782294b19ad1936996f03436b8388ff1fd56311",
-      "rendered_digest": "bb8367989fc92adafd52a866b624124656b43ffc36e0fb94f45d9e7f4601e2c7",
-      "ast_digest": "8e03d24edf70227d81fcc73d0eb5336b4954c5a771a89a8e96cea60d83dc4b39"
+      "values_digest": "2c505d58301ad81d6e37d53812d0163c9cab85ff5a2957b719416d2693239b94",
+      "rendered_digest": "910677c70eb78bc03809a1c04606800ed073e8727a3d148cc8cbd81acf54dd04",
+      "ast_digest": "bbffd1c40722ce0005fc81310e797665aee8f9e2da66367a462699e907a0ba33"
     }
   },
   "transitions": [
@@ -69,6 +131,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:620-execution",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -85,6 +154,27 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:620-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:620-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:620-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

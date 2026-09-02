@@ -19,13 +19,13 @@ Status: number-free planning catalog. This file does not create or authorize Git
 | 13 | PLAT-MLX | Bounded MLX and Apple Metal provider adapter | After PLAT-PROVIDER |
 | 14 | PLAT-UTS | UTS standardization and productization | After WP-01 |
 | 15 | PLAT-RUST | Milestone Rust reduction slice | After WP-01 |
-| 16 | OPS-AWS | Refresh AWS SCR, S3, model, and ownership inventory | After WP-01 |
+| 16 | OPS-AWS | Refresh AWS SCR, S3, and model inventory from completed #484 baseline | After WP-01 |
 | 17 | PUB-MEDIUM | Prepare one Medium article packet | After WP-01 |
 | 18 | PUB-CSDLC | Advance one C-SDLC paper packet | After WP-01 |
 | 19 | PLAT-MEMORY | Bounded Memory Palace production integration | After CF-EVIDENCE and CF-MEMORY |
 | 20 | SPEC-RETEST | Speculative-decoding requalification | After WP-01 |
 | 21 | TAIL-01 | Quality gate | After CF-INTEGRATE and all admitted supporting tracks |
-| 22 | TAIL-02 | Docs and release-truth pass | After TAIL-01 |
+| 22 | TAIL-02 | Documentation review and external-review handoff | After TAIL-01 |
 | 23 | TAIL-03 | Publication finalization | After TAIL-02 |
 | 24 | TAIL-04 | Internal milestone review | After TAIL-03 |
 | 25 | TAIL-05 | External or third-party review | After TAIL-04 |
@@ -35,7 +35,7 @@ Status: number-free planning catalog. This file does not create or authorize Git
 | 29 | TAIL-09 | Next-milestone planning review | After TAIL-08 |
 | 30 | TAIL-10 | Release ceremony and milestone close | After TAIL-09 |
 
-WP-01 may responsibly combine tightly coupled implementation slices, but must preserve ownership, acceptance criteria, proof, and dependencies. No implementation issue is to be created before the prior milestone is closed and the operator authorizes issue creation.
+WP-01 creates exactly one bounded issue for each catalog row. Dependencies may permit parallel execution, but unrelated or merely adjacent results must not be combined. No implementation issue is to be created before the prior milestone is closed and the operator authorizes issue creation.
 
 ## Deferred, Not Missing
 

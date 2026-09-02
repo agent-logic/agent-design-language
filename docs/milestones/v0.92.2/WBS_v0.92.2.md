@@ -19,7 +19,7 @@ Status: planned. IDs are number-free planning identifiers; no GitHub issues are 
 | PLAT-MLX | MLX/Metal provider | Add one bounded Apple MLX/Metal adapter over the canonical provider-definition contract | PLAT-PROVIDER |
 | PLAT-UTS | UTS productization | Standardize and package the UTS contract for supported consumers | WP-01 |
 | PLAT-RUST | Rust reduction | One measured behavior-preserving refactoring slice | WP-01 |
-| OPS-AWS | AWS inventory maintenance | Refresh the business-account SCR, S3, model, ownership, and staleness inventory | WP-01 |
+| OPS-AWS | AWS inventory maintenance | Refresh SCR, S3, model, and staleness deltas from completed #484 ownership-inventory authority | WP-01; completed #484 baseline |
 | PUB-MEDIUM | Medium preparation | Prepare one v0.92.2 Medium article packet without publishing | WP-01 |
 | PUB-CSDLC | C-SDLC paper preparation | Advance one C-SDLC paper packet without submission | WP-01 |
 | PLAT-MEMORY | Memory Palace integration | Deliver the next bounded production Runtime/CodeFriend Memory Palace slice | CF-EVIDENCE, CF-MEMORY |
@@ -32,4 +32,4 @@ CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and S
 
 ## Work-Package Rule
 
-WP-01 may create fewer implementation issues than one per row when ownership and proof remain coherent, but it must not create a junkyard issue spanning unrelated product boundaries.
+WP-01 creates exactly one bounded issue per row. Each issue owns one concrete result and its proof; rows are never combined merely to reduce issue count.

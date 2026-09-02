@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-The v0.92.2 planning package, relevant TBD scheduling dispositions, existing-issue reconciliation, planned issue granularity, release-tail consistency, and milestone-opening boundary only.
+docs/milestones/v0.92.2/**
+.csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh
 
 ## Prompts
 
@@ -24,7 +25,48 @@ The v0.92.2 planning package, relevant TBD scheduling dispositions, existing-iss
 
 ## Findings
 
-[]
+[
+  {
+    "id": "620-R1",
+    "severity": "p1",
+    "summary": "MLX admission lacked a recorded operator decision.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "620-R2",
+    "severity": "p1",
+    "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "620-R3",
+    "severity": "p1",
+    "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "620-R4",
+    "severity": "p2",
+    "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -32,12 +74,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The candidate is behind origin/main; live publication must recheck base mergeability and CI.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:2d912c9b27387af763b6e30e608b38abb55c9a1c:c36904ec879aa3087b0b2bf9d1a1ada4bc95b936f48a50ef06c9a96edb50a511")
 
-Reviewer: None
+Reviewer: Some("fresh-session:620-docs-2d912c9b2")
 
-Result: pre_review
+Result: changes_required

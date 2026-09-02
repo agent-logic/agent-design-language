@@ -112,11 +112,12 @@ work_packages:
     proof: [behavior_parity, focused_tests, size_or_complexity_reduction]
   - id: OPS-AWS
     lane: aws_inventory
-    title: Refresh AWS SCR S3 model and ownership inventory
+    title: Refresh AWS SCR, S3, and model inventory from the #484 ownership baseline
     issue: null
     depends_on: [WP-01]
-    deliverables: [sanitized_business_account_inventory, staleness_register, maintenance_runbook]
-    proof: [readonly_readbacks, account_identity_check, redaction_check]
+    external_dependencies: [completed-issue-484-baseline]
+    deliverables: [inventory_delta_from_484, staleness_register, maintenance_runbook]
+    proof: [readonly_readbacks, baseline_comparison, account_identity_check, redaction_check]
   - id: PUB-MEDIUM
     lane: publication_preparation
     title: Prepare one v0.92.2 Medium article packet
@@ -152,7 +153,7 @@ work_packages:
     depends_on: [CF-INTEGRATE]
   - id: TAIL-02
     lane: release_tail
-    title: Docs and release-truth pass
+    title: Documentation review and external-review handoff
     issue: null
     depends_on: [TAIL-01]
   - id: TAIL-03

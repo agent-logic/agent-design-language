@@ -74,7 +74,13 @@ structure() {
     catalog_ids = catalog.lines.map { |line| line[/^\|\s*\d+\s*\|\s*([A-Z][A-Z0-9-]+)\s*\|/, 1] }.compact
     abort "catalog identity or order mismatch" unless catalog_ids == wave_ids
     issue_refs = catalog.scan(/#\d+/).uniq
-    abort "unexpected concrete issue number in catalog: #{issue_refs.join(", ")}" unless issue_refs == ["#622"]
+    abort "unexpected concrete issue number in catalog: #{issue_refs.join(", ")}" unless issue_refs == ["#622", "#484"]
+    ops = wave.fetch("work_packages").find { |row| row.fetch("id") == "OPS-AWS" }
+    abort "AWS #484 baseline mismatch" unless ops.fetch("external_dependencies", []) == ["completed-issue-484-baseline"]
+    tail2 = wave.fetch("work_packages").find { |row| row.fetch("id") == "TAIL-02" }
+    abort "TAIL-02 semantic drift" unless tail2.fetch("title") == "Documentation review and external-review handoff"
+    tail2_spec = specs.fetch("specifications").find { |row| row.fetch("id") == "TAIL-02" }
+    abort "TAIL-02 handoff acceptance missing" unless tail2_spec.fetch("acceptance").include?("external_review_handoff_complete")
   ' docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml \
     docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml \
     docs/milestones/v0.92.2/PLANNED_ISSUE_CATALOG_v0.92.2.md
@@ -96,7 +102,7 @@ structure() {
     required = {
       "PLAT-PROVIDER" => ["WP-01", "#622"], "PLAT-MLX" => ["PLAT-PROVIDER"],
       "PLAT-MEMORY" => ["CF-EVIDENCE", "CF-MEMORY"], "CF-EVIDENCE" => ["CF-ADAPTER"],
-      "CF-UX" => ["CF-SHELL", "CF-EVIDENCE"]
+      "CF-UX" => ["CF-SHELL", "CF-EVIDENCE"], "OPS-AWS" => ["WP-01", "#484"]
     }
     required.each { |id, deps| deps.each { |dep| abort "WBS dependency drift #{id} -> #{dep}" unless rows.fetch(id).include?(dep) } }
     sprint = File.read(ARGV[2]); readiness = File.read(ARGV[3])
@@ -105,10 +111,17 @@ structure() {
       abort "missing MLX serial gate" unless text.include?("PLAT-MLX") && text.include?("PLAT-PROVIDER")
     end
     abort "sprint omits exact release-tail order" unless sprint.include?("TAIL-01 through TAIL-10 in exact order")
+    decisions = File.read(ARGV[4]); catalog = File.read(ARGV[5])
+    abort "MLX operator admission decision missing" unless decisions.include?("CF-D11") && decisions.include?("explicitly admitted") && decisions.include?("PLAT-MLX")
+    abort "#484 baseline decision missing" unless decisions.include?("CF-D12") && decisions.include?("#484") && decisions.include?("not work to repeat")
+    abort "one-result issue rule missing" unless wbs.include?("exactly one bounded issue per row") && catalog.include?("exactly one bounded issue for each catalog row")
+    abort "issue-combination escape hatch present" if wbs.match?(/create fewer|may (?:responsibly )?combine/i) || catalog.match?(/create fewer|may (?:responsibly )?combine/i)
   ' docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml \
     docs/milestones/v0.92.2/WBS_v0.92.2.md \
     docs/milestones/v0.92.2/SPRINT_v0.92.2.md \
-    docs/milestones/v0.92.2/WP_EXECUTION_READINESS_v0.92.2.md
+    docs/milestones/v0.92.2/WP_EXECUTION_READINESS_v0.92.2.md \
+    docs/milestones/v0.92.2/DECISIONS_v0.92.2.md \
+    docs/milestones/v0.92.2/PLANNED_ISSUE_CATALOG_v0.92.2.md
 
   ruby -e '
     require "pathname"
@@ -132,6 +145,7 @@ scheduling() {
   reconciliation=docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md
   manifest=docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt
   rg -q '^\| Source' "$reconciliation"
+  rg -q '#484.*OPS-AWS\|OPS-AWS.*#484' "$reconciliation"
   for source in \
     TBD_DOC_STATUS_INVENTORY.md LOCAL_BACKLOG.md NEW_FEATURE_MILESTONE_ASSIGNMENT_PLAN.md \
     PROVIDER_INFERENCE_PROFILES_PLAN_v0.92.1.md MLX_APPLE_METAL_PROVIDER_PLAN.md OCI_MODEL_PACKAGING_METHOD_PLAN.md \

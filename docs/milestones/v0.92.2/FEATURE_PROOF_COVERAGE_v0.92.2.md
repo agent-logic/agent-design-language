@@ -26,7 +26,7 @@ Status: planned ownership map.
 | MLX/Metal adapter | PLAT-MLX | Bounded platform smoke and unsupported-platform failure |
 | UTS productization | PLAT-UTS | Schema conformance and supported-consumer fixture |
 | Recurring Rust reduction | PLAT-RUST | Behavior parity and before/after measurement |
-| AWS inventory maintenance | OPS-AWS | Business-account readbacks and redaction validation |
+| AWS inventory maintenance | OPS-AWS | #484 baseline comparison, business-account readbacks, and redaction validation |
 | Medium article preparation | PUB-MEDIUM | Source/citation traceability and non-publication check |
 | C-SDLC paper preparation | PUB-CSDLC | Source/citation traceability and non-submission check |
 | Memory Palace production slice | PLAT-MEMORY | Production caller, deterministic retrieval, redaction negatives |

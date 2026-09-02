@@ -108,10 +108,10 @@ specifications:
     stop_conditions: [scope_sprawl, behavior_redesign]
     non_goals: [repo_wide_rewrite]
   - id: OPS-AWS
-    outcome: The Agent Logic business AWS inventory is current, sanitized, and repeatable.
-    owned_surfaces: [scr_inventory, s3_inventory, model_inventory, ownership_register, maintenance_runbook]
-    acceptance: [business_account_verified, readonly_inventory_current, staleness_explicit, secrets_absent]
-    pvf: [account_readback, inventory_validator, redaction_scan]
+    outcome: The Agent Logic business AWS inventory is refreshed incrementally from completed issue #484 and becomes repeatable.
+    owned_surfaces: [scr_inventory_delta, s3_inventory_delta, model_inventory_delta, staleness_register, maintenance_runbook]
+    acceptance: [issue_484_baseline_preserved, business_account_verified, readonly_inventory_current, staleness_explicit, secrets_absent]
+    pvf: [baseline_comparison, account_readback, inventory_validator, redaction_scan]
     stop_conditions: [personal_account, mutation_required, credential_exposure]
     non_goals: [resource_migration, deployment]
   - id: PUB-MEDIUM
@@ -147,9 +147,9 @@ specifications:
     acceptance: [quality_gate_evaluated, no_unresolved_p1]
     pvf: [release_evidence_audit]
   - id: TAIL-02
-    outcome: Canonical documentation and release claims match merged evidence.
-    acceptance: [docs_truth_current, feature_coverage_reconciled]
-    pvf: [docs_contract, link_integrity]
+    outcome: Canonical documentation matches merged evidence and a context-free external-review handoff is ready.
+    acceptance: [docs_truth_current, feature_coverage_reconciled, external_review_handoff_complete]
+    pvf: [docs_contract, link_integrity, handoff_validation]
   - id: TAIL-03
     outcome: Governed release artifacts and manifests are finalized without releasing them silently.
     acceptance: [artifacts_versioned, manifests_complete, approval_pending_or_explicit]
