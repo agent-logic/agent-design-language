@@ -179,11 +179,11 @@ Implemented a local-only, non-authoritative provider shadow execution path that 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -4,14 +4,57 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
-  "phase": "implemented",
-  "generation": 28,
-  "digest": "81714fb05139bed4f8ee7d4942aa93ad4c17b4c21dc6c1d0bec3dda58f813be6",
+  "phase": "published",
+  "generation": 30,
+  "digest": "88f848db4a25a626b96d76c14897c7196bfa1cacc6b73c9c06da36b06a4d284c",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:4e8a6026-e6db-4245-90ad-a8e334534494",
+    "assigned_by": "codex:/root:issue-515-implementation",
+    "revision": "git-blake3:9cb2a07564e1e73dd5089a08230745be69f56099:0960f1cb8183cfe62065c5dc029ead21a23a4f3e34867eaeac8904e98b43092d",
+    "scope": [
+      ".csdlc/prepared/issues/515/publish-after-production-shadow-wiring.json",
+      ".csdlc/prepared/issues/515/review-record-production-shadow-wiring-pass.json",
+      ".csdlc/prepared/issues/515/review-recover-after-production-shadow-review-record.json",
+      "adl/src/provider/mod.rs",
+      "adl/src/execute/tests.rs",
+      "adl/tests/provider_shadow_open_pr_review.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:4e8a6026-e6db-4245-90ad-a8e334534494",
+    "scope": [
+      ".csdlc/prepared/issues/515/publish-after-production-shadow-wiring.json",
+      ".csdlc/prepared/issues/515/review-record-production-shadow-wiring-pass.json",
+      ".csdlc/prepared/issues/515/review-recover-after-production-shadow-review-record.json",
+      "adl/src/provider/mod.rs",
+      "adl/src/execute/tests.rs",
+      "adl/tests/provider_shadow_open_pr_review.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json"
+    ],
+    "reviewed_revision": "git-blake3:9cb2a07564e1e73dd5089a08230745be69f56099:0960f1cb8183cfe62065c5dc029ead21a23a4f3e34867eaeac8904e98b43092d",
+    "findings": [],
+    "residual_risks": [
+      "The local Ollama smoke test uses hard-coded real PR review prompts for PR #618 and #614 rather than dynamically fetching live PR body or diff material at test runtime.",
+      "The metadata-head reviewer did not rerun tests or mutate GitHub; validation truth relies on the previously captured passing local commands and substantive exact-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 515,
+    "pull_request": 621,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/621",
+    "base": "main",
+    "head": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
+    "revision": "git-blake3:9cb2a07564e1e73dd5089a08230745be69f56099:0960f1cb8183cfe62065c5dc029ead21a23a4f3e34867eaeac8904e98b43092d",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ec72b3bab553a5ee16d72a79714476c6966f8552aea4c525fc3fc5da8ffb0cc",
+      "values_digest": "a8fa0dea29ad239bdff1d0964d5a7bf35d493084ed8d05b7444284eb0c1d68dc",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "54db28cc5f7bda0ec0c3095c1ac38595b7628a0693bff2605ab04317556204ba",
+      "values_digest": "8dc595cba228c435297316013aeccb13c0a548095a881502d6b9ac07fdcd711f",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "f67812c8600e5189d1c152f046e5aec500a495453f1efa7258936a5fc19b0ab9",
+      "values_digest": "5822be844569003ddb045e37494d5dc273eb22be8187f76eb1e5eca2779b7f7e",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "61a06c612e8847d7697a8432b607c42c8d58d918c60057754cdd3d6161994140",
+      "values_digest": "d76a9f4bf90bb4e69dfa2e78091586ab2e9f926939568eec2edf4f56da0b4ba9",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "7c28e04576c404f502f41563748bfe44d5e0e28207c2c7e9b6c4a8abd8c8c76e",
-      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
-      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
+      "values_digest": "7d15808b47fd0e6cb5f1b51be11002bb7a64cdddfc86eebd24331a1da5f1e493",
+      "rendered_digest": "f9b1ed967bdbe26282135ad38328a85222df9467a9713162eb4a4de76cf69643",
+      "ast_digest": "db55dbea4b2405c0adf327f5316bbc12cadd7b2006a1625ab7ab192b0f63fb37"
     },
     "sor": {
-      "values_digest": "4d73a6566e9c08ec1cd4affb23481cabe27185d193a484c486a2d515b1ddf051",
-      "rendered_digest": "ce30d7eb1f29083b1e9f89e5206c5b9300993a2dce6a653bbdec4677c1ec6be6",
-      "ast_digest": "32912e50b64215d41949ab50572911db58f937f086d5060f7d8503d8a103f5c4"
+      "values_digest": "677756fc580658817e22b1cc0514a1f4fdae76101a731850ae2627ded2416e94",
+      "rendered_digest": "5091cee74a227af0e378a62727d9c77c8d141b986680ef89f3d6a93387a24537",
+      "ast_digest": "bcd00cdec29c7e6567d9561a68953e5c8bc0779bc6e8e6a40a75018ab07f4482"
     }
   },
   "transitions": [
@@ -125,6 +168,20 @@
       "to": "implemented",
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Recover #515 review truth after committing the production-shadow exact-head review record so a metadata-head review can cover the current branch head before publication."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:4e8a6026-e6db-4245-90ad-a8e334534494",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -386,6 +443,27 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Recover #515 review truth after committing the production-shadow exact-head review record so a metadata-head review can cover the current branch head before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "fresh-session:4e8a6026-e6db-4245-90ad-a8e334534494",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
