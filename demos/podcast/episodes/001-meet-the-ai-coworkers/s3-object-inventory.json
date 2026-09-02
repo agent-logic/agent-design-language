@@ -1,527 +1,527 @@
 {
     "bucket": "agent-logic-podcast-archive-agentlogic",
-    "prefix": "archive/cognitive-spacetime/",
+    "prefix": "archive/the-cognitive-stack/",
     "object_count": 87,
     "total_bytes": 191910866,
     "objects": [
         {
-            "key": "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.mp3",
+            "key": "archive/the-cognitive-stack/episodes/001/media/meet-the-ai-coworkers.mp3",
             "size": 22804249,
             "etag": "\"a31bcda49dfd3ff10b03e46664e7dda1-3\"",
             "last_modified": "2026-08-08T19:39:54+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/media/meet-the-ai-coworkers.wav",
             "size": 53371758,
             "etag": "\"9c63d6301b5643e54fe51a65664765f8-7\"",
             "last_modified": "2026-08-08T19:25:26+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/CREATOR_WORKFLOW.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/CREATOR_WORKFLOW.md",
             "size": 3368,
             "etag": "\"c7199575003ffe7a4fc5321f6e730a7d\"",
             "last_modified": "2026-08-08T19:39:54+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/artwork-source.png",
+            "key": "archive/the-cognitive-stack/episodes/001/package/artwork-source.png",
             "size": 1218797,
             "etag": "\"e68b13950224d8a6dfc9942ae8a57191\"",
             "last_modified": "2026-08-08T19:41:02+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/artwork.png",
+            "key": "archive/the-cognitive-stack/episodes/001/package/artwork.png",
             "size": 4126190,
             "etag": "\"094fe3249e2c975c97ea4f2f81628199\"",
             "last_modified": "2026-08-08T19:39:54+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/audio-manifest.json",
+            "key": "archive/the-cognitive-stack/episodes/001/package/audio-manifest.json",
             "size": 2259,
             "etag": "\"363cd736e87171f0f6f936b9ab907c13\"",
             "last_modified": "2026-08-09T02:46:43+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/episode.json",
+            "key": "archive/the-cognitive-stack/episodes/001/package/episode.json",
             "size": 3158,
             "etag": "\"54a4b13d5ae82fe2bcbdc57b9056cde5\"",
             "last_modified": "2026-08-09T02:46:41+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/guest-metadata.json",
+            "key": "archive/the-cognitive-stack/episodes/001/package/guest-metadata.json",
             "size": 909,
             "etag": "\"9ad4ac83c06da7628e687ef530148924\"",
             "last_modified": "2026-08-09T02:46:44+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/qa-report.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/qa-report.md",
             "size": 1474,
             "etag": "\"b50efbe6f89cb3c0af161ea395130ef4\"",
             "last_modified": "2026-08-09T02:46:44+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/redaction-report.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/redaction-report.md",
             "size": 729,
             "etag": "\"e871c8cdf08b070f8f6ac46a55bf6321\"",
             "last_modified": "2026-08-09T02:46:45+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/review.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/review.md",
             "size": 1122,
             "etag": "\"1d6d5abdb805adb17149bcb4d32f976e\"",
             "last_modified": "2026-08-09T02:48:48+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/rss-enclosure.json",
+            "key": "archive/the-cognitive-stack/episodes/001/package/rss-enclosure.json",
             "size": 440,
             "etag": "\"636237a41dce98c9b5ff575ec7c70450\"",
             "last_modified": "2026-08-09T02:46:45+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/script.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/script.md",
             "size": 18147,
             "etag": "\"57b11565d70100e7e7939680c90e9294\"",
             "last_modified": "2026-08-09T02:46:42+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/show-notes.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/show-notes.md",
             "size": 1759,
             "etag": "\"aba92da7041dc2bf0eebdf732bdd961f\"",
             "last_modified": "2026-08-09T02:46:43+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/source-packet.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/source-packet.md",
             "size": 1590,
             "etag": "\"49bbd722f5d01aabc529bba994a7d5d6\"",
             "last_modified": "2026-08-09T02:46:41+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/storage-manifest.json",
+            "key": "archive/the-cognitive-stack/episodes/001/package/storage-manifest.json",
             "size": 6400,
             "etag": "\"e79e1dc9c1c01f8d483009cc6e26fb29\"",
             "last_modified": "2026-08-09T02:51:14+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/package/transcript.md",
+            "key": "archive/the-cognitive-stack/episodes/001/package/transcript.md",
             "size": 17573,
             "etag": "\"6627390ae21cc7f16733478fb2258981\"",
             "last_modified": "2026-08-08T19:39:54+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-01/out/podcast/01-chatgpt-opening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-01/out/podcast/01-chatgpt-opening.md",
             "size": 672,
             "etag": "\"ace144f8924ebe3f21d8b4ad138abfe4\"",
             "last_modified": "2026-08-08T19:25:26+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-01/out/podcast/02-gemini-challenge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-01/out/podcast/02-gemini-challenge.md",
             "size": 802,
             "etag": "\"d5d1cd585b91d5685ad1d8ec516faff7\"",
             "last_modified": "2026-08-08T19:25:26+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-01/out/podcast/03-claude-reframe.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-01/out/podcast/03-claude-reframe.md",
             "size": 737,
             "etag": "\"04f007b319bc7c1269816ebbe44ccdab\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-01/out/podcast/04-chatgpt-bridge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-01/out/podcast/04-chatgpt-bridge.md",
             "size": 745,
             "etag": "\"be1e8012fe2d3e8b36fc7cfe6a2449c6\"",
             "last_modified": "2026-08-08T19:25:27+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-01/out/podcast/05-gemini-deepening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-01/out/podcast/05-gemini-deepening.md",
             "size": 683,
             "etag": "\"afad66d359c6e99b46a9eda237e48d7f\"",
             "last_modified": "2026-08-08T19:25:27+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-01/out/podcast/06-claude-closure.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-01/out/podcast/06-claude-closure.md",
             "size": 717,
             "etag": "\"4a7152492cc7a35c5bd9295fdb894459\"",
             "last_modified": "2026-08-08T19:25:29+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-01/transcript.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-01/transcript.md",
             "size": 4453,
             "etag": "\"3c45183d4bc74cce5570ecd19763a862\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-02/out/podcast/01-chatgpt-opening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-02/out/podcast/01-chatgpt-opening.md",
             "size": 700,
             "etag": "\"236b0d0a1aacd5ec54acc128c638b0ca\"",
             "last_modified": "2026-08-08T19:25:27+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-02/out/podcast/02-gemini-challenge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-02/out/podcast/02-gemini-challenge.md",
             "size": 841,
             "etag": "\"5ac75e5c9e38c9d889313e800e24c636\"",
             "last_modified": "2026-08-08T19:25:29+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-02/out/podcast/03-claude-reframe.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-02/out/podcast/03-claude-reframe.md",
             "size": 732,
             "etag": "\"ec6ef934e3e00fc9b426f4c4790f1ded\"",
             "last_modified": "2026-08-08T19:25:26+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-02/out/podcast/04-chatgpt-bridge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-02/out/podcast/04-chatgpt-bridge.md",
             "size": 731,
             "etag": "\"fb6c969b4c95f9c9f670e16550491cef\"",
             "last_modified": "2026-08-08T19:25:27+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-02/out/podcast/05-gemini-deepening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-02/out/podcast/05-gemini-deepening.md",
             "size": 693,
             "etag": "\"cd8d70437ded1a1cfb064a94a3d93945\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-02/out/podcast/06-claude-closure.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-02/out/podcast/06-claude-closure.md",
             "size": 711,
             "etag": "\"fd2ee1ce9c58112fd955337a4226639c\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-02/transcript.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-02/transcript.md",
             "size": 4508,
             "etag": "\"be70f8f0ea8c320169fff4464077c322\"",
             "last_modified": "2026-08-08T19:25:29+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-03/out/podcast/01-chatgpt-opening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-03/out/podcast/01-chatgpt-opening.md",
             "size": 723,
             "etag": "\"1f69bee14e7f9670fa3c970b3811584a\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-03/out/podcast/02-gemini-challenge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-03/out/podcast/02-gemini-challenge.md",
             "size": 512,
             "etag": "\"cc050a31e98fe0230e70d54b6422d8db\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-03/out/podcast/03-claude-reframe.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-03/out/podcast/03-claude-reframe.md",
             "size": 737,
             "etag": "\"4f57111186fca5e4301d3324ead60a75\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-03/out/podcast/04-chatgpt-bridge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-03/out/podcast/04-chatgpt-bridge.md",
             "size": 741,
             "etag": "\"08346a9ddccf9684a5f5d49c10f1573d\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-03/out/podcast/05-gemini-deepening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-03/out/podcast/05-gemini-deepening.md",
             "size": 787,
             "etag": "\"5222d10e559b5219ec1d7b3f23d3caf2\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-03/out/podcast/06-claude-closure.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-03/out/podcast/06-claude-closure.md",
             "size": 623,
             "etag": "\"ff34190bac6679a590adb999ad1cec15\"",
             "last_modified": "2026-08-08T19:25:29+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-03/transcript.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-03/transcript.md",
             "size": 4233,
             "etag": "\"702c42c6432a8aa1741fa479ac94b1df\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-04/out/podcast/01-chatgpt-opening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-04/out/podcast/01-chatgpt-opening.md",
             "size": 613,
             "etag": "\"713e63a635e6d639ed0feb3442329177\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-04/out/podcast/02-gemini-challenge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-04/out/podcast/02-gemini-challenge.md",
             "size": 814,
             "etag": "\"1756487d7cd58263063da041b1eba8ff\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-04/out/podcast/03-claude-reframe.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-04/out/podcast/03-claude-reframe.md",
             "size": 736,
             "etag": "\"02f83a71f8c994d0f0fb7a5da13e4375\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-04/out/podcast/04-chatgpt-bridge.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-04/out/podcast/04-chatgpt-bridge.md",
             "size": 624,
             "etag": "\"3072874f2fa951c0fef3809ec1b14d92\"",
             "last_modified": "2026-08-08T19:25:31+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-04/out/podcast/05-gemini-deepening.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-04/out/podcast/05-gemini-deepening.md",
             "size": 699,
             "etag": "\"f0e33fc754f63fff1218d855c3d14438\"",
             "last_modified": "2026-08-08T19:25:31+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-04/out/podcast/06-claude-closure.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-04/out/podcast/06-claude-closure.md",
             "size": 697,
             "etag": "\"fce8e0cc6c6d94461a3d191df02f9671\"",
             "last_modified": "2026-08-08T19:25:31+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/dialogue-source/act-04/transcript.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/dialogue-source/act-04/transcript.md",
             "size": 4288,
             "etag": "\"6103a4881419df7e33b0682d14c299eb\"",
             "last_modified": "2026-08-08T19:25:31+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio/segments/01-chatgpt-opening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio/segments/01-chatgpt-opening.wav",
             "size": 1963244,
             "etag": "\"eb3ba3e889d497ad9d63917f28a1a43d\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio/segments/02-gemini-challenge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio/segments/02-gemini-challenge.wav",
             "size": 2392844,
             "etag": "\"6ef0eed0e77b638ca964663fb716c9ad\"",
             "last_modified": "2026-08-08T19:25:29+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio/segments/03-claude-reframe.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio/segments/03-claude-reframe.wav",
             "size": 2332844,
             "etag": "\"91f8d403cb0a784b81d751f6e9dc6acd\"",
             "last_modified": "2026-08-08T19:25:27+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio/segments/04-chatgpt-bridge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio/segments/04-chatgpt-bridge.wav",
             "size": 2371244,
             "etag": "\"206bf10a553d02b3f04b57c4c6a40d5d\"",
             "last_modified": "2026-08-08T19:25:29+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio/segments/05-gemini-deepening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio/segments/05-gemini-deepening.wav",
             "size": 2032844,
             "etag": "\"6ebbd2c8474d4c0c1fc688f1484ff45b\"",
             "last_modified": "2026-08-08T19:25:30+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio/segments/06-claude-closure.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio/segments/06-claude-closure.wav",
             "size": 2152364,
             "etag": "\"658f4940450f253b46aedbc351c011e1\"",
             "last_modified": "2026-08-08T19:25:26+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio_manifest.json",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio_manifest.json",
             "size": 5078,
             "etag": "\"a31baaaf76627d8f7448cf3eb7d280fb\"",
             "last_modified": "2026-08-08T19:25:27+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/audio_packet.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/audio_packet.md",
             "size": 1240,
             "etag": "\"77c16c475cd104a7e319cba105048716\"",
             "last_modified": "2026-08-08T19:25:31+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-01/episode.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-01/episode.wav",
             "size": 13317164,
             "etag": "\"53c87b95fdf9c6a176b1fe19577412c1-2\"",
             "last_modified": "2026-08-08T19:25:28+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio/segments/01-chatgpt-opening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio/segments/01-chatgpt-opening.wav",
             "size": 2289644,
             "etag": "\"c7df98b255039d7759e24477ba06d242\"",
             "last_modified": "2026-08-08T19:26:41+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio/segments/02-gemini-challenge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio/segments/02-gemini-challenge.wav",
             "size": 2714444,
             "etag": "\"fc24743b1b45674fb77dccff88b50cdc\"",
             "last_modified": "2026-08-08T19:28:38+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio/segments/03-claude-reframe.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio/segments/03-claude-reframe.wav",
             "size": 2353964,
             "etag": "\"60cdde2fe4d100a607149cef78b5fa07\"",
             "last_modified": "2026-08-08T19:28:49+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio/segments/04-chatgpt-bridge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio/segments/04-chatgpt-bridge.wav",
             "size": 2244044,
             "etag": "\"ce6ce89312ae9fcf61525b497c745c5c\"",
             "last_modified": "2026-08-08T19:30:51+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio/segments/05-gemini-deepening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio/segments/05-gemini-deepening.wav",
             "size": 2037644,
             "etag": "\"3ed329372ec4c9b16e5855724f133d88\"",
             "last_modified": "2026-08-08T19:31:00+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio/segments/06-claude-closure.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio/segments/06-claude-closure.wav",
             "size": 2087084,
             "etag": "\"ba71e41d142de353b5445a429245c347\"",
             "last_modified": "2026-08-08T19:31:03+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio_manifest.json",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio_manifest.json",
             "size": 5078,
             "etag": "\"60fb56d7549de3e29e8d36d75b36b733\"",
             "last_modified": "2026-08-08T19:31:33+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/audio_packet.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/audio_packet.md",
             "size": 1240,
             "etag": "\"77c16c475cd104a7e319cba105048716\"",
             "last_modified": "2026-08-08T19:31:35+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-02/episode.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-02/episode.wav",
             "size": 13798604,
             "etag": "\"66ca5f87fbc0eaaac3c7032efd70c4f5-2\"",
             "last_modified": "2026-08-08T19:31:37+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio/segments/01-chatgpt-opening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio/segments/01-chatgpt-opening.wav",
             "size": 2256044,
             "etag": "\"d722f8d5b67bd69e23683e71ca26e3ef\"",
             "last_modified": "2026-08-08T19:32:17+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio/segments/02-gemini-challenge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio/segments/02-gemini-challenge.wav",
             "size": 1641644,
             "etag": "\"ce18615ea1b95acd77cc63ca9e919374\"",
             "last_modified": "2026-08-08T19:32:26+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio/segments/03-claude-reframe.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio/segments/03-claude-reframe.wav",
             "size": 2215724,
             "etag": "\"29781523bfba6937e7eba31ec74894e6\"",
             "last_modified": "2026-08-08T19:32:43+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio/segments/04-chatgpt-bridge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio/segments/04-chatgpt-bridge.wav",
             "size": 2361644,
             "etag": "\"e8b3fc76f5249318db5cc8cd44eced44\"",
             "last_modified": "2026-08-08T19:33:06+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio/segments/05-gemini-deepening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio/segments/05-gemini-deepening.wav",
             "size": 2272844,
             "etag": "\"acb72f42f7837a3b864b65c221905e68\"",
             "last_modified": "2026-08-08T19:33:24+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio/segments/06-claude-closure.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio/segments/06-claude-closure.wav",
             "size": 1787564,
             "etag": "\"ebd03133672b2540f9f5422968573fb2\"",
             "last_modified": "2026-08-08T19:33:32+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio_manifest.json",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio_manifest.json",
             "size": 5078,
             "etag": "\"d8127a7bc6e34af1f939bda30bf8aa5a\"",
             "last_modified": "2026-08-08T19:33:47+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/audio_packet.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/audio_packet.md",
             "size": 1240,
             "etag": "\"77c16c475cd104a7e319cba105048716\"",
             "last_modified": "2026-08-08T19:33:49+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-03/episode.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-03/episode.wav",
             "size": 12607244,
             "etag": "\"d0eb2fb3da1f9621573a29a9ea1cbf8c-2\"",
             "last_modified": "2026-08-08T19:33:51+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio/segments/01-chatgpt-opening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio/segments/01-chatgpt-opening.wav",
             "size": 2304044,
             "etag": "\"6153b3451a31fe56597b6f71b25c7f71\"",
             "last_modified": "2026-08-08T19:34:50+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio/segments/02-gemini-challenge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio/segments/02-gemini-challenge.wav",
             "size": 2623244,
             "etag": "\"a18a5f4f8cc26c8fc4f5fc0b60f44762\"",
             "last_modified": "2026-08-08T19:34:51+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio/segments/03-claude-reframe.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio/segments/03-claude-reframe.wav",
             "size": 2229164,
             "etag": "\"62dc61058b16ce83d74a1a86129cc547\"",
             "last_modified": "2026-08-08T19:35:01+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio/segments/04-chatgpt-bridge.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio/segments/04-chatgpt-bridge.wav",
             "size": 2073644,
             "etag": "\"559f3049c5562fb9978a0b8807520fcd\"",
             "last_modified": "2026-08-08T19:35:45+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio/segments/05-gemini-deepening.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio/segments/05-gemini-deepening.wav",
             "size": 2037644,
             "etag": "\"27ebb91cbd58a08767bff9772fe39870\"",
             "last_modified": "2026-08-08T19:35:52+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio/segments/06-claude-closure.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio/segments/06-claude-closure.wav",
             "size": 2129324,
             "etag": "\"75375d40eb144663a0141601d3d8eb8b\"",
             "last_modified": "2026-08-08T19:36:18+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio_manifest.json",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio_manifest.json",
             "size": 5078,
             "etag": "\"f1b8a4b869f1b5738c0f60fe3dc0336f\"",
             "last_modified": "2026-08-08T19:36:33+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/audio_packet.md",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/audio_packet.md",
             "size": 1240,
             "etag": "\"77c16c475cd104a7e319cba105048716\"",
             "last_modified": "2026-08-08T19:36:35+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/production/rendered-segments/act-04/episode.wav",
+            "key": "archive/the-cognitive-stack/episodes/001/production/rendered-segments/act-04/episode.wav",
             "size": 13468844,
             "etag": "\"a2cb28a97f5463781cf5ac3e103bdaa4-2\"",
             "last_modified": "2026-08-08T19:36:37+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/episodes/001/superseded/previous-artwork-source.html",
+            "key": "archive/the-cognitive-stack/episodes/001/superseded/previous-artwork-source.html",
             "size": 7505,
             "etag": "\"8ad129027a42bba5dac851f11081f8fb\"",
             "last_modified": "2026-08-08T19:43:01+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/show-candidate/LAUNCH_READINESS.md",
+            "key": "archive/the-cognitive-stack/show-candidate/LAUNCH_READINESS.md",
             "size": 2883,
             "etag": "\"f1878ff3ae72cba9976302b6cc319daf\"",
             "last_modified": "2026-08-08T19:39:55+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/show-candidate/S3_CLOUDFRONT_RUNBOOK.md",
+            "key": "archive/the-cognitive-stack/show-candidate/S3_CLOUDFRONT_RUNBOOK.md",
             "size": 6008,
             "etag": "\"9cb09c4cdc8ad242775da4bd4e950822\"",
             "last_modified": "2026-08-08T19:47:16+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/show-candidate/artwork.png",
+            "key": "archive/the-cognitive-stack/show-candidate/artwork.png",
             "size": 4126190,
             "etag": "\"094fe3249e2c975c97ea4f2f81628199\"",
             "last_modified": "2026-08-08T19:39:55+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/show-candidate/feed.xml",
+            "key": "archive/the-cognitive-stack/show-candidate/feed.xml",
             "size": 2558,
             "etag": "\"159f5c7bf863f3ffc118495e13bdbfb8\"",
             "last_modified": "2026-08-08T19:39:55+00:00"
         },
         {
-            "key": "archive/cognitive-spacetime/show-candidate/index.html",
+            "key": "archive/the-cognitive-stack/show-candidate/index.html",
             "size": 29384,
             "etag": "\"ea529b4250c7bbed486aaba6ee91e791\"",
             "last_modified": "2026-08-08T19:39:55+00:00"

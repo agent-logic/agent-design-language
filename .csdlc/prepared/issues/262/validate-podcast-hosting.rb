@@ -13,6 +13,11 @@ PREVIEW_PAGE = File.join(ROOT, "demos/_preview/podcast/index.html")
 EPISODE_PAGE = File.join(ROOT, "demos/podcast/episodes/meet-the-ai-coworkers/index.html")
 EPISODE_JSON = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json")
 ENCLOSURE_JSON = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json")
+SOURCE_PACKET = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md")
+RUNBOOK = File.join(ROOT, "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md")
+CREATOR_WORKFLOW = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md")
+STORAGE_MANIFEST = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json")
+S3_OBJECT_INVENTORY = File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json")
 IDENTITY = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/show-identity.json")
 RIGHTS = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json")
 MAILBOX = File.join(ROOT, "docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json")
@@ -30,7 +35,13 @@ SOURCE_MANIFEST_FILES = [
   ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
   "adl/tools/record_podcast_native_playback.sh",
   "adl/tools/record_podcast_browser_playback.mjs",
-  "adl/tools/record_podcast_ios_safari_playback.sh"
+  "adl/tools/record_podcast_ios_safari_playback.sh",
+  "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json"
 ].freeze
 
 def fail!(reason)
@@ -157,6 +168,24 @@ qa_report = read(QA_REPORT)
 fail!("QA report audio hash mismatch") unless qa_report.include?(enclosure["sha256"])
 fail!("QA report still names Cognitive Spacetime metadata") if qa_report.include?("Artist: Cognitive Spacetime") || qa_report.include?("Album: Cognitive Spacetime")
 fail!("QA report missing The Cognitive Stack metadata") unless qa_report.include?("Artist: The Cognitive Stack") && qa_report.include?("Album: The Cognitive Stack")
+
+source_packet = read(SOURCE_PACKET)
+fail!("source packet canonical GUID mismatch") unless source_packet.include?("Canonical GUID: `#{expected_guid}`")
+fail!("source packet still names old canonical GUID") if source_packet.include?("agent-logic-cognitive-spacetime-episode-001")
+
+{
+  "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md" => RUNBOOK,
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md" => CREATOR_WORKFLOW,
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json" => EPISODE_JSON,
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md" => SOURCE_PACKET,
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json" => STORAGE_MANIFEST,
+  "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json" => S3_OBJECT_INVENTORY
+}.each do |label, path|
+  text = read(path)
+  fail!("#{label} still contains stale production token CognitiveSpacetime") if text.include?("CognitiveSpacetime")
+  fail!("#{label} still contains stale production token cognitive-spacetime") if text.include?("cognitive-spacetime")
+  fail!("#{label} contains prohibited local temp path") if text.match?(%r{/private/tmp|/var/folders})
+end
 
 fail!("HTTP playback proof schema mismatch") unless http_playback_proof["schema"] == "agent_logic.podcast.http_playback_proof.v1"
 fail!("HTTP playback proof did not pass") unless http_playback_proof["status"] == "passed"

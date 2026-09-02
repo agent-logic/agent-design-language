@@ -1,7 +1,7 @@
 {
   "schema": "agent_logic.podcast.http_playback_proof.v1",
   "status": "passed",
-  "generated_at": "2026-09-02T00:55:02Z",
+  "generated_at": "2026-09-02T01:04:19Z",
   "candidate": {
     "feed": "demos/podcast/feed.xml",
     "podcast_page": "demos/podcast/index.html",
@@ -40,13 +40,13 @@
       },
       {
         "path": ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
-        "bytes": 12464,
-        "sha256": "63c0836727d02821f1307c2843c217fe4aafe58496b8527767bb9f50da4c814b"
+        "bytes": 13113,
+        "sha256": "f8f3187abd5ef2c082dbc6e84f18ce69a73f3f1ccf0077b65a3292b87361a987"
       },
       {
         "path": ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
-        "bytes": 16270,
-        "sha256": "55fd15087ac587e83aea4cadbeacf75950995065715e4c0778c5e716bec01f9f"
+        "bytes": 18364,
+        "sha256": "e82bd6c2f6a5835090087decfda7a8d32250876e6ce488da340fe878d4aaba84"
       },
       {
         "path": "adl/tools/record_podcast_native_playback.sh",
@@ -62,13 +62,43 @@
         "path": "adl/tools/record_podcast_ios_safari_playback.sh",
         "bytes": 206,
         "sha256": "3d9a57c2161380ae477f94b1026129c674997ae87ebeb2a4fb0d2cccc6df2def"
+      },
+      {
+        "path": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+        "bytes": 6007,
+        "sha256": "4db49db7543b114376e3f4c65ab6be29a0103a012d70c5fb901f38397ce13da2"
+      },
+      {
+        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+        "bytes": 3372,
+        "sha256": "35b19944091def17872e765ff66df8d183ebf741ed3ebc90c886810e0f0fb2c6"
+      },
+      {
+        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+        "bytes": 3133,
+        "sha256": "def015222ea94a71a6f718b067e61554735d79846bcc36551ce5543e83f2e090"
+      },
+      {
+        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+        "bytes": 1728,
+        "sha256": "df6055ec3c96dcc6f14513e24ab76ab092b4048306dbcc2a1af34bbbf0dcf042"
+      },
+      {
+        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+        "bytes": 6400,
+        "sha256": "b5fd2fd6d5aa565d385d47ab41bb89b11628b7aebedde8e48578d24fc8610b9a"
+      },
+      {
+        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+        "bytes": 24794,
+        "sha256": "8eae1becaf73c5e3a737bd16ebc79f89f59b33f6832cb82504f8fd004166ecde"
       }
     ],
-    "digest": "bb0a1c1e36e00e793facd1c5090f64a75028a31eca5c68889f5513e26638cfdc"
+    "digest": "a219c8f80fb528631d96d7012dedf20d10b84d573edd36c4dcbdecec7ceefbb2"
   },
   "proof_binding": {
     "producer": "codex:root/podcast-262",
-    "source_manifest_digest": "bb0a1c1e36e00e793facd1c5090f64a75028a31eca5c68889f5513e26638cfdc"
+    "source_manifest_digest": "a219c8f80fb528631d96d7012dedf20d10b84d573edd36c4dcbdecec7ceefbb2"
   },
   "profiles": {
     "desktop-safari": {

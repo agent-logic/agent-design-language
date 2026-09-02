@@ -29,7 +29,7 @@ The bucket is private and uses:
 - versioning
 - no public ACLs or public bucket policy
 - incomplete multipart uploads automatically aborted after seven days
-- `Project=CognitiveSpacetime`, `Purpose`, and `ManagedBy=WP-24A` resource tags
+- `Project=TheCognitiveStack`, `Purpose`, and `ManagedBy=WP-24A` resource tags
 
 The bucket policy grants the dedicated CloudFront distribution `s3:GetObject`
 only for `public/*`. CloudFront cannot read `archive/*`.
@@ -37,10 +37,10 @@ only for `public/*`. CloudFront cannot read `archive/*`.
 ## Prefix Contract
 
 ```text
-archive/cognitive-spacetime/episodes/<number>/package/
-archive/cognitive-spacetime/episodes/<number>/media/
-archive/cognitive-spacetime/episodes/<number>/production/dialogue-source/
-archive/cognitive-spacetime/episodes/<number>/production/rendered-segments/
+archive/the-cognitive-stack/episodes/<number>/package/
+archive/the-cognitive-stack/episodes/<number>/media/
+archive/the-cognitive-stack/episodes/<number>/production/dialogue-source/
+archive/the-cognitive-stack/episodes/<number>/production/rendered-segments/
 public/index.html
 public/feed.xml
 public/artwork.png

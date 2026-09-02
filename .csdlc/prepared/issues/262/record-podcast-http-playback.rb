@@ -25,6 +25,12 @@ VALIDATOR_REL = ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
 NATIVE_WRAPPER_REL = "adl/tools/record_podcast_native_playback.sh"
 BROWSER_WRAPPER_REL = "adl/tools/record_podcast_browser_playback.mjs"
 IOS_SAFARI_WRAPPER_REL = "adl/tools/record_podcast_ios_safari_playback.sh"
+RUNBOOK_REL = "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md"
+CREATOR_WORKFLOW_REL = "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md"
+EPISODE_JSON_REL = "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json"
+SOURCE_PACKET_REL = "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md"
+STORAGE_MANIFEST_REL = "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json"
+S3_OBJECT_INVENTORY_REL = "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json"
 
 SOURCE_MANIFEST_FILES = [
   FEED_REL,
@@ -35,7 +41,13 @@ SOURCE_MANIFEST_FILES = [
   VALIDATOR_REL,
   NATIVE_WRAPPER_REL,
   BROWSER_WRAPPER_REL,
-  IOS_SAFARI_WRAPPER_REL
+  IOS_SAFARI_WRAPPER_REL,
+  RUNBOOK_REL,
+  CREATOR_WORKFLOW_REL,
+  EPISODE_JSON_REL,
+  SOURCE_PACKET_REL,
+  STORAGE_MANIFEST_REL,
+  S3_OBJECT_INVENTORY_REL
 ].freeze
 
 PROFILES = {

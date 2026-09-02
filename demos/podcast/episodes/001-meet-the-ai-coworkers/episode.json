@@ -42,7 +42,7 @@
   "rss_enclosure": "rss-enclosure.json",
   "redaction_report": "redaction-report.md",
   "review": "review.md",
-  "archive_s3_prefix": "s3://agent-logic-podcast-archive-agentlogic/archive/cognitive-spacetime/episodes/001/",
+  "archive_s3_prefix": "s3://agent-logic-podcast-archive-agentlogic/archive/the-cognitive-stack/episodes/001/",
   "chapters": [
     {"start": "00:00", "title": "The First Day"},
     {"start": "04:39", "title": "The Messy Middle"},

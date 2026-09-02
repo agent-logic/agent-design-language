@@ -56,7 +56,7 @@ records each turn's script provenance, and produces the combined WAV and audio
 manifest. Provider credentials remain outside the repository.
 
 ```bash
-export ADL_PODCAST_OUTPUT_DIR="${ADL_PODCAST_OUTPUT_DIR:-/Volumes/FastWork/cognitive-spacetime-production}"
+export ADL_PODCAST_OUTPUT_DIR="${ADL_PODCAST_OUTPUT_DIR:-/Volumes/FastWork/the-cognitive-stack-production}"
 ADL_PODCAST_AUDIO_SOURCE_DIR="$PWD/demos/podcast/episodes/001-meet-the-ai-coworkers" \
 ADL_PODCAST_GEMINI_AUDIO_PROVIDER=openai \
 bash adl/tools/demo_v0911_multiagent_podcast_audio.sh "$ADL_PODCAST_OUTPUT_DIR"
