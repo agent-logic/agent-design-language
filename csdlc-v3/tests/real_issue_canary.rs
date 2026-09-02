@@ -1,5 +1,5 @@
-use std::fs;
 use std::path::{Path, PathBuf};
+use std::{fs, process::Command};
 
 use csdlc_v3::adapters::{
     ChildCredentialInjector, CommandInvocation, FakeGitAdapter, FakeProcessAdapter, GitAdapter,
@@ -9,6 +9,12 @@ use csdlc_v3::application::{FoundationState, IssueProjection};
 use csdlc_v3::commands::local::{
     authorize_bind, grants_operational_authority, plan_cards, prepare_local_workflow,
     validate_contract, LocalCommand, LocalPreparationRequest, PromptRegistry, WorktreeRegistration,
+};
+use csdlc_v3::commands::remote::{
+    github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
+    prepare_remote_publication_route_with_receipts, typed_review_receipt_payload_digest,
+    GithubAdapterReceipt, GithubReadbackReceipt, RemotePublicationMode, RemoteReadbackSource,
+    RemoteRouteReceipts, RemoteRouteRequest, RemoteRouteStatus, TypedReviewReceipt,
 };
 use csdlc_v3::lifecycle::{
     Capability, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
@@ -273,6 +279,114 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
             reason: csdlc_v3::lifecycle::RejectReason::InvalidState
         }
     ));
+}
+
+#[test]
+fn v3_h3_real_issue_canary_reaches_open_pr_publication_readiness_without_v3_authority() {
+    let root = repo_root();
+    let index = read_issue_index(&root, 629);
+    assert_eq!(index["phase"], "published");
+
+    let revision = index["branch"]
+        .as_str()
+        .expect("real #629 branch is recorded");
+    assert_eq!(revision, "codex/629-v3-h3-github-publication-exec");
+    let head = Command::new("git")
+        .arg("-C")
+        .arg(&root)
+        .arg("rev-parse")
+        .arg("HEAD")
+        .output()
+        .expect("git rev-parse runs for real issue canary");
+    assert!(head.status.success(), "git rev-parse failed: {head:?}");
+    let head = String::from_utf8(head.stdout)
+        .expect("git head is utf8")
+        .trim()
+        .to_owned();
+
+    let mut request = RemoteRouteRequest {
+        repository: index["repository"]
+            .as_str()
+            .expect("real #629 repository")
+            .to_owned(),
+        issue: 629,
+        pull_request: Some(641),
+        actor: Some("worker-6".into()),
+        implementer: Some("worker-6".into()),
+        reviewer: Some("reviewer-629".into()),
+        review_revision: Some(head.clone()),
+        expected_head_sha: Some(head.clone()),
+        head_sha: Some(head),
+        mode: Some(RemotePublicationMode::Closing),
+        body: Some("Closes #629\n\nPart of #625".into()),
+        review_present: true,
+        typed_review_receipt_path: None,
+        typed_review_receipt_digest: None,
+        readback_source: Some(RemoteReadbackSource::Github),
+        readback_receipt_path: None,
+        readback_receipt_digest: None,
+        adapter_receipt_path: None,
+        adapter_receipt_digest: None,
+        closes_issue: Some(629),
+        part_of_issue: None,
+        credential_names: vec!["GITHUB_TOKEN".into()],
+    };
+    let readback = GithubReadbackReceipt {
+        schema: "csdlc.v3.github_readback_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request: request.pull_request.expect("pull request"),
+        head_sha: request.head_sha.clone().expect("head sha"),
+        closes_issue: request.closes_issue,
+        part_of_issue: request.part_of_issue,
+        source: RemoteReadbackSource::Github,
+        observed_by: "real-issue-canary-v3-github-adapter".into(),
+    };
+    let adapter = GithubAdapterReceipt {
+        schema: "csdlc.v3.github_adapter_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request: request.pull_request.expect("pull request"),
+        head_sha: request.head_sha.clone().expect("head sha"),
+        readback_receipt_digest: github_readback_receipt_payload_digest(&readback),
+        credential_names: request.credential_names.clone(),
+        adapter: "github".into(),
+        authenticated: true,
+    };
+    let receipts = RemoteRouteReceipts {
+        typed_review: Some(TypedReviewReceipt {
+            schema: "csdlc.v3.typed_review_receipt.v1".into(),
+            repository: request.repository.clone(),
+            issue: request.issue,
+            implementer: request.implementer.clone().expect("implementer"),
+            reviewer: request.reviewer.clone().expect("reviewer"),
+            reviewed_revision: request.review_revision.clone().expect("review revision"),
+            expected_head_sha: request.expected_head_sha.clone().expect("expected head"),
+            evidence_digest: "real-issue-canary-typed-review".into(),
+        }),
+        github_readback: Some(readback),
+        adapter: Some(adapter),
+    };
+    request.typed_review_receipt_digest = receipts
+        .typed_review
+        .as_ref()
+        .map(typed_review_receipt_payload_digest);
+    request.readback_receipt_digest = receipts
+        .github_readback
+        .as_ref()
+        .map(github_readback_receipt_payload_digest);
+    request.adapter_receipt_digest = receipts
+        .adapter
+        .as_ref()
+        .map(github_adapter_receipt_payload_digest);
+
+    for route in ["publish", "pr-state", "github-pr"] {
+        let plan = prepare_remote_publication_route_with_receipts(route, &request, &receipts)
+            .unwrap_or_else(|finding| panic!("{route} unexpected finding: {finding:?}"));
+        assert_eq!(plan.status, RemoteRouteStatus::Ready);
+        assert_eq!(plan.issue, 629);
+        assert_eq!(plan.repository, "agent-logic/agent-design-language");
+    }
 }
 
 #[derive(Default)]

@@ -4,7 +4,8 @@ use csdlc_v3::{
     application::FoundationState,
     commands::local::{prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration},
     commands::remote::{
-        prepare_remote_publication_route, RemoteRouteRequest, REMOTE_PUBLICATION_ROUTE_NAMES,
+        load_remote_route_receipts, prepare_remote_publication_route_with_receipts,
+        RemoteRouteRequest, REMOTE_PUBLICATION_ROUTE_NAMES,
     },
     repository::RepositoryContext,
 };
@@ -122,7 +123,11 @@ fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
         fs::read(&args.request).map_err(|error| format!("failed to read request: {error}"))?;
     let request: RemoteRouteRequest = serde_json::from_slice(&request_bytes)
         .map_err(|error| format!("typed_remote_request_invalid_json: {error}"))?;
-    let result = prepare_remote_publication_route(command, &request)
+    let repo_root = discover_repo_root(env::current_dir().map_err(|error| error.to_string())?)
+        .ok_or_else(|| "repository_root_unavailable: could not find containing .git".to_string())?;
+    let receipts = load_remote_route_receipts(&repo_root, &request)
+        .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
+    let result = prepare_remote_publication_route_with_receipts(command, &request, &receipts)
         .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
     let report = RemoteCommandReport {
         schema: "csdlc.v3.remote_publication.v1",
@@ -133,6 +138,15 @@ fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
         result,
     };
     serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
+fn discover_repo_root(start: PathBuf) -> Option<PathBuf> {
+    for candidate in start.ancestors() {
+        if candidate.join(".git").exists() {
+            return Some(candidate.to_path_buf());
+        }
+    }
+    None
 }
 
 fn remote_usage(command: &str) -> String {
