@@ -40,12 +40,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Cargo and typed validators were not rerun by the read-only review subagent; retained local evidence records the passing validation runs.
+- Publication still depends on the typed publication route and preserving #505 pre-cutover authority boundaries.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:089a8d3f3729f7e85fbe935c7c991c57cfa9ebe6:a8af1cda3e8b3f64b1a0db094849b894746714cd49c5c637e1e9304fa9ede134")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_628_post627_restack_r6")
 
-Result: pre_review
+Result: pass
