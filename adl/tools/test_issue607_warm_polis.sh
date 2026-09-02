@@ -252,7 +252,7 @@ run_contracts() {
   rg -q 'Operator SSH recovery from exact public IPv4 /32' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
   ! rg -n 'from_port[[:space:]]*=[[:space:]]*(443|11434|20997|20998)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
   rg -q 'retire-storage' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
-  rg -q 'stop_instance_before_detaching[[:space:]]*=[[:space:]]*true' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
+  [[ "$(rg -c 'stop_instance_before_detaching[[:space:]]*=[[:space:]]*false' "$ROOT/infra/aws/runtime/gpu-proof/main.tf")" -eq 2 ]]
   ! rg -n 'apt-get|dnf |yum |cargo build|rustup|git clone|ollama pull|snap install' \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage" --glob '*.tf'
   ! rg -n 'apt-get|apt |dnf |yum |cargo (build|install|test)|rustup|git (clone|fetch|pull)|ollama pull|snap install|pip(3)? install' \

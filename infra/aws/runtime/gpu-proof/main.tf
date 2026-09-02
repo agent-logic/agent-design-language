@@ -349,7 +349,7 @@ resource "aws_volume_attachment" "runtime_warm" {
   volume_id                      = var.runtime_warm_volume_id
   instance_id                    = aws_instance.runtime.id
   force_detach                   = false
-  stop_instance_before_detaching = true
+  stop_instance_before_detaching = false
 }
 
 resource "aws_volume_attachment" "gpu_warm" {
@@ -359,5 +359,5 @@ resource "aws_volume_attachment" "gpu_warm" {
   volume_id                      = var.gpu_warm_volume_id
   instance_id                    = aws_instance.gpu.id
   force_detach                   = false
-  stop_instance_before_detaching = true
+  stop_instance_before_detaching = false
 }
