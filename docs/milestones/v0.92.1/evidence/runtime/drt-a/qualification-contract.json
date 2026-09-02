@@ -1,0 +1,97 @@
+{
+  "schema": "adl.runtime.qualification.drt_a_evidence.v1",
+  "issue": 506,
+  "requirements": ["#181", "#182"],
+  "lanes": [
+    "qualification-contract",
+    "acip-authority",
+    "replay-conformance",
+    "negative-matrix"
+  ],
+  "scenario_denominator": [
+    "election",
+    "quorum-loss",
+    "stale-lease-fence-denial",
+    "restart",
+    "snapshot",
+    "partition",
+    "healing",
+    "replay",
+    "cleanup",
+    "duplicate-denial",
+    "acip-mutation"
+  ],
+  "acip_vector_denominator": [
+    "positive-roundtrip",
+    "byte-stable-reencode",
+    "duplicate",
+    "reordered",
+    "stale",
+    "malformed",
+    "unsigned",
+    "wrong-domain",
+    "cross-polis",
+    "authority-mutation",
+    "credential-binding",
+    "permit-binding",
+    "correlation-binding",
+    "causation-binding"
+  ],
+  "receipt_schema": {
+    "schema": "adl.runtime.qualification.drt_a_receipt.v1",
+    "required_fields": [
+      "schema",
+      "lane",
+      "scenario",
+      "contract_digest",
+      "authority_digest",
+      "decision",
+      "cleanup",
+      "mutation"
+    ]
+  },
+  "contract_digest": "f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
+  "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
+  "contract_digest_source": "DistributedQualificationContract::digest() over the deterministic DRT-A contract fixture",
+  "exact_receipts": [
+    {
+      "schema": "adl.runtime.qualification.drt_a_receipt.v1",
+      "lane": "qualification-contract",
+      "scenario": "duplicate-denial",
+      "contract_digest": "f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
+      "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
+      "decision": "denied",
+      "cleanup": "remove duplicate-denial fixture state",
+      "mutation": "none"
+    },
+    {
+      "schema": "adl.runtime.qualification.drt_a_receipt.v1",
+      "lane": "acip-vector",
+      "scenario": "duplicate",
+      "contract_digest": "f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
+      "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
+      "decision": "denied",
+      "cleanup": "remove duplicate fixture state",
+      "mutation": "message-id-repeat"
+    }
+  ],
+  "validation_output": [
+    "qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out; printed DRT_A_CONTRACT_DIGEST=f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
+    "acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out",
+    "replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out; printed DRT_A_DUPLICATE_VECTOR_RECEIPT with decision denied and mutation message-id-repeat",
+    "negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out; repaired negative probes fail instead of label-denying when their invalid condition is removed",
+    "git diff --check origin/main...HEAD produced no output and exited 0"
+  ],
+  "non_claims": [
+    "no paid AWS execution",
+    "no paid GCP execution",
+    "no Observatory redesign",
+    "no DRT-B six-resident qualification",
+    "no DRT-C final distributed Runtime qualification",
+    "no DRT-D GCP portability qualification",
+    "no provider credential proof",
+    "no public cloud exposure"
+  ],
+  "contract_source": "adl-runtime/src/qualification/mod.rs",
+  "validation_harness": "adl-runtime/tests/distributed_contract/validate_drt_a.sh"
+}

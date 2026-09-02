@@ -1,0 +1,65 @@
+{
+  "issue": 506,
+  "expected_generation": 12,
+  "expected_digest": "d3aa7f1b41d5b737b3df72ace47b84c3d092ad0f28dca6592a2520186c89d6b1",
+  "actor": "fresh-session:cf340bb8-f76b-4401-97bf-4e85b570f3a8",
+  "evidence": {
+    "reviewer": "fresh-session:cf340bb8-f76b-4401-97bf-4e85b570f3a8",
+    "scope": [
+      ".csdlc/prepared/issues/506/design.md",
+      ".csdlc/prepared/issues/506/diagram.mmd",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ],
+    "reviewed_revision": "git-blake3:cd72e414c71b98a11b061c904546d4b44fa4317f:d830acf82a3fb9c07fc9d84693c34d1870601ff7d06fe2602122bd84bacaaa31",
+    "findings": [
+      {
+        "id": "F-506-CF340BB8-1",
+        "severity": "p1",
+        "summary": "Replay and duplicate denial are represented by aggregate counts/table labels rather than exact per-scenario receipt surfaces.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-506-CF340BB8-2",
+        "severity": "p1",
+        "summary": "Negative matrix mostly verifies declared labels instead of exercising stale, duplicate, reordered, unsigned, wrong-domain, cross-Polis, authority-mutation, and credential-binding inputs as fail-closed behavior.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-506-CF340BB8-3",
+        "severity": "p2",
+        "summary": "Retained evidence packet omits the exact scenario denominator, ACIP vector denominator, receipt schema, contract digest, fixture digest, and validation output promised by the design.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-506-CF340BB8-4",
+        "severity": "p2",
+        "summary": "The qualification module is not exported from the adl_runtime crate and the test bypasses the public crate boundary with a path include.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Review was read-only and did not run live cloud/provider proof; #506 does not claim live cloud/provider execution."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "issue": 506,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root:sprint-7-drt-a",
+  "design_path": ".csdlc/prepared/issues/506/design.md",
+  "diagram_path": ".csdlc/prepared/issues/506/diagram.mmd",
+  "design_reviewer": "required-before-execution",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+    "slug": "v0-92-1-drt-a-distributed-qualification-contract",
+    "version": "v0.92.1",
+    "goal": "Produce one deterministic distributed-qualification and ACIP replay contract for requirements 181 and 182.",
+    "required_outcome": "Identity, authority, duplicate-denial, and replay-conformance tests pass with exact receipts for requirements 181 and 182.",
+    "review_scope": "Design and readiness for #506 DRT-A deterministic distributed qualification contract only.",
+    "declared_scope": [
+      "deterministic distributed qualification contract",
+      "ACIP authority and replay conformance contract",
+      "duplicate-denial and negative-matrix proof",
+      "DRT-A evidence packet"
+    ],
+    "authority_boundary": [
+      "owns adl-runtime qualification contract surfaces only",
+      "consumes #181 and #182 requirement designs as predecessor inputs",
+      "does not own paid AWS execution",
+      "does not own Observatory redesign"
+    ],
+    "operator_constraints": [
+      "no paid AWS execution under #506",
+      "no Observatory redesign under #506",
+      "work in a bound FastWork issue worktree after readiness approval"
+    ],
+    "task_boundary": "Issue completion is exactly acceptance of one distributed-qualification contract; conformance checks are evidence inputs.",
+    "deliverables": [
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Requirements 181 and 182 are mapped to the DRT-A contract denominator.",
+      "AC-2: Identity and authority behavior are deterministic and non-synthetic.",
+      "AC-3: Duplicate denial and replay receipts are exact and cannot change authority.",
+      "AC-4: Negative scenarios fail closed for stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation inputs."
+    ],
+    "dependencies": [
+      "#181",
+      "#182"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/181/design.md",
+      "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/182/design.md",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_lease.rs"
+    ],
+    "non_goals": [
+      "Paid AWS execution",
+      "Observatory redesign",
+      "DRT-B six-resident qualification",
+      "DRT-C final distributed Runtime qualification",
+      "DRT-D GCP portability qualification",
+      "provider credential proof",
+      "public cloud exposure",
+      "paid GCP execution"
+    ],
+    "plan_summary": "Implement the smallest deterministic DRT-A contract, prove ACIP identity/authority/replay behavior, and retain exact evidence without cloud or UI scope.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Map requirements 181 and 182 into a committed DRT-A qualification denominator.",
+        "acceptance_ids": [
+          "AC-1"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement deterministic identity and authority checks without synthetic provenance.",
+        "acceptance_ids": [
+          "AC-2"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement replay and duplicate-denial receipts that cannot mutate authority.",
+        "acceptance_ids": [
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Exercise the fail-closed negative matrix for stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation inputs.",
+        "acceptance_ids": [
+          "AC-4"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ],
+    "invariants": [
+      "Identity provenance is not synthetic.",
+      "Replay cannot change authority.",
+      "Duplicate denial is receipt-exact rather than string-only.",
+      "The issue remains independent from paid AWS execution and Observatory redesign."
+    ],
+    "risks": [
+      "Replay behavior could mutate authority if the contract boundary is weak.",
+      "Synthetic identity provenance could make qualification evidence non-proving.",
+      "Duplicate-denial evidence could become string-based instead of receipt-exact.",
+      "Negative coverage could miss a recipient or authority variant."
+    ],
+    "planning_profile": "medium",
+    "failure_policy": "Fail closed if identity provenance is synthetic, replay can change authority, duplicate-denial receipts are not exact, or negative authority inputs pass.",
+    "stop_conditions": [
+      "Identity provenance is synthetic.",
+      "Replay can change authority.",
+      "Duplicate-denial receipts are not exact.",
+      "Paid AWS execution is requested without explicit operator authorization."
+    ],
+    "validation_lanes": [
+      {
+        "lane": "qualification-contract",
+        "proof_role": "Prove requirements 181 and 182 are mapped into one deterministic distributed qualification contract.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "bash",
+          "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+          "qualification-contract"
+        ],
+        "parallel_group": "drt-a",
+        "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+      },
+      {
+        "lane": "acip-authority",
+        "proof_role": "Prove ACIP identity, authority, permit, causation, correlation, sequence, term, Polis, payload, and credential-binding behavior.",
+        "acceptance_ids": [
+          "AC-2"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "bash",
+          "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+          "acip-authority"
+        ],
+        "parallel_group": "drt-a",
+        "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+      },
+      {
+        "lane": "replay-conformance",
+        "proof_role": "Prove byte-stable encode, decode, re-encode, duplicate-denial, and replay receipts from committed fixtures.",
+        "acceptance_ids": [
+          "AC-3"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "bash",
+          "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+          "replay-conformance"
+        ],
+        "parallel_group": "drt-a",
+        "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+      },
+      {
+        "lane": "negative-matrix",
+        "proof_role": "Prove stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation attempts fail closed.",
+        "acceptance_ids": [
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "bash",
+          "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+          "negative-matrix"
+        ],
+        "parallel_group": "drt-a",
+        "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+      }
+    ],
+    "review_prompts": [
+      "Verify that #506 owns exactly DRT-A and does not absorb paid AWS/GCP execution, Observatory redesign, DRT-B, DRT-C, DRT-D, provider credentials, or public cloud exposure.",
+      "Verify that the design maps requirements 181 and 182 and includes all four WP-specified PVF lanes.",
+      "Verify that the planned proof denominator includes identity, authority, duplicate-denial, replay, and negative-matrix behavior."
+    ]
+  }
+}

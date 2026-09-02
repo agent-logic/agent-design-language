@@ -1,0 +1,13 @@
+{
+  "actor": "codex:/root",
+  "card": "spp",
+  "expected_digest": "9e241934eaf7e0e37b189a24984a8f017b18261469385d65992abcbffa2791ad",
+  "expected_generation": 4,
+  "issue": 506,
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "completed"
+  },
+  "reason": "The fail-closed negative matrix is implemented and covered by the focused negative-matrix proof lane."
+}

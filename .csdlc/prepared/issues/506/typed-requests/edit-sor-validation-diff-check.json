@@ -1,0 +1,22 @@
+{
+  "actor": "codex:/root",
+  "card": "sor",
+  "expected_digest": "84d34a261301fd360f44d6e07cbe2d811a182f28a856e41af058ad6c319d41b5",
+  "expected_generation": 10,
+  "issue": 506,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "origin/main...HEAD"
+      ],
+      "purpose": "Verify exact-range diff hygiene before implementation review.",
+      "outcome": "passed",
+      "evidence_ref": "local command produced no output and exited 0"
+    }
+  },
+  "reason": "Record #506 exact-range diff hygiene proof."
+}

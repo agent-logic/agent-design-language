@@ -1,0 +1,24 @@
+{
+  "actor": "codex:/root",
+  "card": "sor",
+  "expected_digest": "6c1e43027efa024f96990f653b392f4101bbb0b84d823c80bedbb30224172b42",
+  "expected_generation": 5,
+  "issue": 506,
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented DRT-A distributed qualification contract surfaces for deterministic topology requirements, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.",
+    "changes": [
+      "Added adl-runtime qualification contract types and deterministic validation helpers for DRT-A.",
+      "Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, replay receipt stability, and fail-closed invalid vectors.",
+      "Added the DRT-A qualification contract evidence packet under the v0.92.1 runtime evidence tree.",
+      "Added the issue-owned validation script for the four DRT-A proof lanes."
+    ],
+    "artifacts": [
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ]
+  },
+  "reason": "Record the #506 implementation scope before adding focused validation results."
+}

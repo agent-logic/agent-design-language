@@ -1,0 +1,13 @@
+{
+  "actor": "codex:/root",
+  "card": "spp",
+  "expected_digest": "0b82bd73655dd0ce55e60332c19da9b6ca5a6e312b6bcae2f9f93ee3128c3b58",
+  "expected_generation": 2,
+  "issue": 506,
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  },
+  "reason": "Deterministic identity and authority checks are implemented and covered by the focused acip-authority proof lane."
+}
