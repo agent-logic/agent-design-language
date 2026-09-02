@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cfacb01c100d1f8699ae21e7fe2c4e0178460ab0e6e27cee132722b2022f850a",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "b61ffe4bc13c75fe15182dba36922795bb9eab07c294c9220cfa326ce388c58e",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "7118af44f572014b910ff13d55b98caf31be89fb5be23623f76ccbd277f6500a",
   "branch": "codex/508-drt-c-final-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
   "review_assignment": {
@@ -22,7 +22,25 @@
       "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:0ba5fda7-e4a6-4153-8c75-180a9bcf0d25",
+    "scope": [
+      ".csdlc/evidence/508",
+      ".csdlc/prepared/issues/508",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+    ],
+    "reviewed_revision": "git-blake3:1fcb977bc1460a44d52729bddd07a79301b6c275:ceaef1688ac82651f3aa2e0b341ce50c94962df73af928fcb37dbcd94de58210",
+    "findings": [],
+    "residual_risks": [
+      "No broad workspace validation was run; proof was limited to the focused DRT-C lanes selected for #508.",
+      "No live paid distributed Runtime soak was run by the reviewer; #508 retains deterministic final qualification evidence only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eea10274ec6c4b84f77f01ee5ed1318ac29e171273859f16c8bf9471b2814c6d",
+      "values_digest": "99b1bba1a45fa136053eaaac93cfd97e8ba241aa86cdec2cd3c834589b41c178",
       "rendered_digest": "d2ac930dc2c4cfe6450a0585c40dfe3f9a42bca95a9c526d611dcad29993ad8a",
       "ast_digest": "481f7cdad101abda9f1eabf908a5f5f36e6a004cefa7267fe9022a458985ea42"
     },
     "stp": {
-      "values_digest": "9fd85640bbba13ee04f07b14cfd61fe1d333cbdffa6a021d6bf3ba0bfc013f90",
+      "values_digest": "e13d5dfcc577db51989e9500ef698aebe52b7cefd2c9e94a87b4b05a0145bfd5",
       "rendered_digest": "4b599c930e63aea9afd5626f13c4e14b3a92aa6c35744a3b75b0d00e16879847",
       "ast_digest": "89f6d7fbd778850223d59e725ed4fd0a38dcd294e94e5c2847b21763f00616a8"
     },
     "spp": {
-      "values_digest": "4798c99aff5a7ef5336bdd1e10d7a788d9e5fd0119ac9ff7945f1f503fee34d9",
+      "values_digest": "402caa095188248b210164f273321370f03aed2d177a90b4394dc58c315a0b4c",
       "rendered_digest": "d4c14d53799977a4d0ef53073b9d37e738c6946e6f86890b409a5f06d34e7b8b",
       "ast_digest": "4057e7214ef271f25984610da9d350200373e64573c417378780fb95bc43f215"
     },
     "vpp": {
-      "values_digest": "666084f413b03d6dcb9d5c4177e921e3e411048a8b0a950194a6a5abbce25c8f",
+      "values_digest": "96bd070c2a91f13e005917bc4aab16a3a587bd58971f1415fbdd768f44a86658",
       "rendered_digest": "41909d7734f98c9b440979a1f63e7e94812581696a87f1cfaaf74d84b93ce99e",
       "ast_digest": "3504504691e747421b0bf4d8b8fddc8baf5723ed3c348e216296a1bc51ec65c7"
     },
     "srp": {
-      "values_digest": "a9b9c6d94b9708d6de7330e8740b59b26d968f0f0e6115ace2a7ea25ae698a29",
-      "rendered_digest": "7f24cd66884cfab023b9b9e599da858886563f68c2c6d60eb03d8f789bfeb28f",
-      "ast_digest": "4a893597f739b3916576310dc14644f78edd6bef5519c9a3404d96cef386a229"
+      "values_digest": "c08272668e33475db6960bf69b62164e6166d50fa6ea001d4a89a19bebef6bf7",
+      "rendered_digest": "47528e3be392eae34360347c8b1358a2772c676b549251b47b3851bc238011f2",
+      "ast_digest": "61ea0913c6685a5256911a05741437e9a5250840c3f76454256be6229d62b721"
     },
     "sor": {
-      "values_digest": "bf0d798a14474507c8593190d5c93b5faa39ab1a538030770e42f82df2524f34",
+      "values_digest": "aa5450ef3a294f45ef2f26113bc709d763f86cbd73b046ad17d7bc8fa8ea76ee",
       "rendered_digest": "3664f3173b70d5b679eeeb8ca6faeb6bbb103960433cc631a7ea2759f76cd59e",
       "ast_digest": "291ff41adc02fa1c36f8585a36e1b811a32b4363e6bd7f928ed43a28f3da3576"
     }
@@ -88,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -160,6 +185,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
