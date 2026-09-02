@@ -76,6 +76,9 @@ fn remote_publication_routes_are_typed_and_non_authoritative() {
             value["result"]["redacted_credentials"][0],
             "GITHUB_TOKEN=<redacted>"
         );
+        if ["publish", "pr-state", "github-pr"].contains(&route) {
+            assert_eq!(value["result"]["status"], "blocked");
+        }
         assert!(!String::from_utf8_lossy(&output.stdout).contains("secret"));
     }
 }
@@ -90,6 +93,10 @@ fn publish_route_requires_current_review_and_closing_relation() {
         .findings
         .iter()
         .any(|finding| finding.code == "missing_review_truth"));
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "authenticated_review_receipt_missing"));
 
     let mut stale = request();
     stale.head_sha = Some("different".into());
@@ -122,6 +129,15 @@ fn publish_route_requires_current_review_and_closing_relation() {
 
 #[test]
 fn pr_state_route_rejects_caller_forged_readback() {
+    let self_consistent_forgery = request();
+    let plan = prepare_remote_publication_route("pr-state", &self_consistent_forgery)
+        .expect("plan rejects self-consistent caller forgery");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "authenticated_github_adapter_missing"));
+
     let mut forged = request();
     forged.readback_source = Some(RemoteReadbackSource::Caller);
     let plan = prepare_remote_publication_route("pr-state", &forged).expect("plan");
@@ -130,15 +146,6 @@ fn pr_state_route_rejects_caller_forged_readback() {
         .findings
         .iter()
         .any(|finding| finding.code == "caller_forged_readback"));
-
-    let mut missing_receipt = request();
-    missing_receipt.readback_receipt_digest = None;
-    let plan = prepare_remote_publication_route("pr-state", &missing_receipt).expect("plan");
-    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
-    assert!(plan
-        .findings
-        .iter()
-        .any(|finding| finding.code == "missing_github_readback_receipt"));
 
     let mut missing_linkage = request();
     missing_linkage.closes_issue = None;

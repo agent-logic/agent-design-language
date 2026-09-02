@@ -138,6 +138,10 @@ fn publication_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding>
             "publication requires current typed review truth",
         ));
     }
+    findings.push(remote_finding(
+        "authenticated_review_receipt_missing",
+        "public publication route cannot accept caller-attested review truth without a verified typed review receipt",
+    ));
     let expected = request
         .expected_head_sha
         .as_deref()
@@ -190,13 +194,10 @@ fn pr_state_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
             "PR state must come from authenticated GitHub readback",
         ));
     }
-    let expected_receipt = remote_readback_receipt_digest(request);
-    if request.readback_receipt_digest.as_deref() != Some(expected_receipt.as_str()) {
-        findings.push(remote_finding(
-            "missing_github_readback_receipt",
-            "PR state requires a receipt bound to the observed GitHub readback subject",
-        ));
-    }
+    findings.push(remote_finding(
+        "authenticated_github_adapter_missing",
+        "public PR-state route cannot accept caller-supplied GitHub readback without an authenticated adapter receipt",
+    ));
     match request.mode {
         Some(RemotePublicationMode::Closing) if request.closes_issue != Some(request.issue) => {
             findings.push(remote_finding(
