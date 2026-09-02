@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
   "phase": "published",
-  "generation": 18,
-  "digest": "28e1700479c1979d66ab13d5310270b2901b0419062782c2bc2f481c51ec3d92",
+  "generation": 19,
+  "digest": "f41f7073ea828151c8122e040e2e734a16b3e512a6b3381ce821a5fb8403e42a",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
   "review_assignment": {
@@ -54,9 +54,9 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/614",
     "base": "main",
     "head": "codex/602-runtime-csmctl-agent-add",
-    "revision": "git-blake3:0052eee21f443381c9dfa965a9972b6a991b5dee:a88cbb3d2d7061d85305714494f3ec7dce1df190500b149939b04668305455fd",
+    "revision": "git-blake3:7eda3297b8eabf37a5fea6462a0d82461e242ad1:cb0b7c669282b4a77aabe1bfe821e0eac556965cc85ba8329279fc1d98d4949d",
     "linkage_mode": "closing",
-    "draft": true,
+    "draft": false,
     "observed_state": "open"
   },
   "readiness": null,
@@ -72,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d1097bd2090334f499adab93116695aba8a2df76fec6912a0f807058df33ebb6",
+      "values_digest": "0f72c155f383a2e7177844850f5f9a4c23e4e6616c71a20531ab3da1138fd915",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "5353053ddb9412ce01d9ce30d10e439ced7e9bfd87cc19c95718473fc2d37466",
+      "values_digest": "b267b0b2fad69f9c095eb8ff006a39641bb33cb913ded03699c3bc820f2e5cd8",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "90ae4b3d064a534b25c6748a97be7c336f017a4e85ffc92ef8ca170eae5d9fb4",
+      "values_digest": "7d516f4f299e346420d0d93e9809840d0c353959fa93776b98e3d6bd657fe10a",
       "rendered_digest": "ccb37dbef2530ba00930b9e5f1ddf66361372ad181f115ffc2ffa0c97c77a054",
       "ast_digest": "ce6b07721349077126c03c4dd2513a3e3fc408c9c6f6d445ec0e281575ac2f30"
     },
     "vpp": {
-      "values_digest": "c15277854740aa64786ab26a4762c8011692d64cb5dc4440cb1e5857d5aa0ecd",
+      "values_digest": "7dc1bddb8cacd8184b534acb40a3c32f101ee14502da23dea07db7dc5f3329e0",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "95702fc37435567b3de45af71e9e9e6b294021ad1d3f6c99292ee8beca727b29",
+      "values_digest": "4ea8dd659ea2fdf0bafdf69a08d3f9912935d74d1eeaf32c74bbe3437cca13bd",
       "rendered_digest": "69c2c500458356dcf12ab9c4353b3c7c78be361bc7f9bf2ae5c863a841b34e75",
       "ast_digest": "67c48fba1c111342453871d51fcb7994b4c1a010d763a64caf72d58dc5bf346f"
     },
     "sor": {
-      "values_digest": "95b0d8e35e3611cec5104a8c677f04656fa0fdee81ae6bfc40044670248412d0",
-      "rendered_digest": "f3ad4c1ebb58eb55acc295c47480152b49ca9e229fe8f2a3fc898a3c80aad959",
-      "ast_digest": "8478e40fa5f214eb3caea98e1eb29b9eb3b4a4c68695ee6b2131d26d27e2fdad"
+      "values_digest": "7c4610fd15f947325d5ccff842726b9919b9d4bb08a7efd982563dc3cf2803bf",
+      "rendered_digest": "08ae7e93a36259669b7766dbce78f8e73b35bdc1d5fa5491975a545c5cae02e3",
+      "ast_digest": "baa4e5bc4d557b605823bd51a1d2b3c230faf6228594244007b9f5b7ca1f68bf"
     }
   },
   "transitions": [
@@ -332,6 +332,13 @@
     {
       "sequence": 23,
       "generation": 18,
+      "actor": "codex:602-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
       "actor": "codex:602-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
