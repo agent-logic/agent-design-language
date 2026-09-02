@@ -96,3 +96,54 @@
   review transcript did not justify the recorded reviewer identity.
 - Fix: the issue is recovered and republished with review evidence tied to the
   reviewer that actually returned a visible PASS in this session.
+
+## DEFECT-017: v3 canary coverage used modeled fixtures instead of real issue records
+
+- Status: fixed in #604.
+- Evidence: the v3 crate exposed only `foundation` and `local` CLI commands,
+  while its lifecycle/storage/adapter/remote-delivery coverage was mostly
+  exercised through synthetic fixture issues. That made it too easy to miss
+  field-shape and revision-normalization mismatches when testing against actual
+  v2 lifecycle records.
+- Impact: v3 readiness could look green without proving that the current
+  non-authoritative v3 surfaces can ingest real ADL issue records before
+  cutover.
+- Fix: added real-issue canaries for current #596 across foundation
+  projection, local preparation, adapter command construction, and
+  non-authoritative credential injection, plus terminal #4646 coverage for
+  lifecycle recovery and durable storage reopen. The canary records the
+  observed v2 distinction between active local preparation records and terminal
+  closeout records instead of treating one synthetic fixture as sufficient.
+
+## DEFECT-018: v3 replacement denominator was implicit and much larger than current coverage
+
+- Status: captured as a cutover blocker; implementation remains required under
+  #505/#596 before v3 can replace v2.
+- Evidence: the current v2 installation exposes 21 C-SDLC entrypoint binaries
+  under `.adl/bin/csdlc-v2/`, while the v3 single binary currently exposes only
+  `foundation` and `local`.
+- Impact: v3 could again be mistaken for cutover-ready even though most C-SDLC
+  issue, review, publication, finish, cleanup, GitHub, validation, proof,
+  scheduling, shadow, soak, install, and eligibility behavior is not yet
+  implemented in the replacement binary.
+- Fix: added `docs/csdlc-v3/full-replacement-denominator.json` and a v3 canary
+  assertion that the manifest enumerates all 21 v2 entrypoints and marks the
+  replacement incomplete until every required command has behavioral parity or
+  an explicit operator-approved removal.
+
+## DEFECT-019: v2 recovery-window card editing is brittle for late truth cleanup
+
+- Status: captured as a v3 replacement requirement; do not patch v2 in the
+  v3-separate cutover lane.
+- Evidence: after #596 publication was recovered to remove net `csdlc-v2/**`
+  source/test mutations, `csdlc-edit` accepted some recovery-specific STP/SPP
+  repairs but rejected later SPP summary and SRP prompt cleanup with
+  `implemented card truth repair requires current typed recovery provenance and
+  cleared review, publication, readiness, and terminal truth`.
+- Impact: a correct operator can get trapped replaying recovery/edit sequences
+  merely to repair stale card wording, which is exactly the kind of tooling
+  drag the v3 replacement must eliminate.
+- Required v3 behavior: one command should expose an explicit, deterministic
+  lifecycle-truth repair route for stale card text after recovery, preserving
+  digest/projection guards without forcing fragile operation ordering or v2
+  source changes.

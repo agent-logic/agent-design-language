@@ -1,0 +1,9 @@
+
+running 2 tests
+test lifecycle::fastwork_policy_tests::ready_unbound_current_worktree_can_be_adopted_without_base_checkout ... ok
+test lifecycle::fastwork_policy_tests::ready_unbound_adoption_rejects_topology_or_later_lifecycle_evidence ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 93 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.26s
+     Running unittests src/lib.rs (csdlc-v2/target/debug/deps/csdlc_v2-8d26e35be6aeb619)

@@ -1,0 +1,7 @@
+{
+  "issue": 596,
+  "base_branch": "main",
+  "branch": "codex/sprints-5-6-cutover-fixes",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
+  "code_repository": "agent-logic/agent-design-language"
+}

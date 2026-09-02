@@ -1,0 +1,20 @@
+{
+  "issue": 596,
+  "card": "stp",
+  "expected_generation": 19,
+  "expected_digest": "b58bff47b9c91dcb2db4c22255ee09b9167f59e533f7dd5092dbd82eaf5c6322",
+  "actor": "codex:worker-6",
+  "reason": "Correct #596 task truth after removing v2 source/test mutations from the v3 cutover remediation branch.",
+  "operation": {
+    "operation": "correct_stp_deliverables_after_recovery",
+    "values": [
+      "Typed six-card lifecycle state for #596",
+      "PR #615 body with visible Closes #596 and non-closing #505/#534 linkage",
+      "Issue-owned validator that proves PR linkage, six-card state, portable owner-lane sources, and no net csdlc-v2 source/test mutation",
+      "Single csdlc v3 binary and standalone locked CI coverage evidence",
+      "Behavior-backed v3 importer, durability, review, finish, and cleanup denominator evidence",
+      "Real issue canary evidence for #592, OBS-A/#511, and OBS-B/#512"
+    ]
+  },
+  "fail_after_backup": false
+}
