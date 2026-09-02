@@ -34,8 +34,10 @@ allowed_post_live = [
   /\A\.csdlc\/evidence\/509\//,
   /\A\.csdlc\/issues\/509\//,
   /\A\.csdlc\/prepared\/issues\/509\/validate-implementation\.rb\z/,
+  /\Aadl\/tools\/run_issue509_gcp_drt_d_qualification\.sh\z/,
   /\Aadl-runtime\/tests\/distributed_contract\/main\.rs\z/,
   /\Aadl-runtime\/tests\/distributed_contract\/validate_drt_d\.sh\z/,
+  /\Adocs\/milestones\/v0\.92\.1\/evidence\/runtime\/drt-d\/README\.md\z/,
   /\Adocs\/milestones\/v0\.92\.1\/evidence\/runtime\/drt-d\/qualification\.json\z/
 ]
 drift = post_live_paths.reject do |path|
