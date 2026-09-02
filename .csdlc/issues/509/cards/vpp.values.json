@@ -1,0 +1,65 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 509,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-D] GCP portability qualification",
+    "slug": "v0-92-1-drt-d-gcp-portability-qualification",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "drt-d-readiness",
+          "proof_role": "Prove dependency, provider-identity, and paid-run gates are explicit.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/509/validate-readiness.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "drt-d-focused",
+          "proof_role": "Prove GCP identity, six-resident workload, continuity, cost, and cleanup-zero without changing AWS authority.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 6000,
+          "budget_tokens": 8000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/509/validate-implementation.rb"
+          ],
+          "parallel_group": "paid-gcp",
+          "defer_reason": "Requires explicit paid-run authorization and retained live evidence."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing terminal dependency, ambiguous provider identity, absent spend authority, lineage drift, credential leakage, or residual resources.",
+      "design_ref": ".csdlc/prepared/issues/509/design.md",
+      "design_digest": "cda651f8784308d6344a9ff859fa58eb942d1387c0f07171cccfa9066e1ea8dc",
+      "diagram_ref": ".csdlc/prepared/issues/509/diagram.mmd",
+      "diagram_digest": "ae70c09da0f0276ff416d8f32cfdaf28e652ad4f1723c103f12a11ccfe078c64"
+    }
+  }
+}

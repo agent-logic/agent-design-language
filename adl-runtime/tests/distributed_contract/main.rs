@@ -219,6 +219,67 @@ fn drt_b_continuity_reclamation() {
         .all(|case| case.decision == "fail_closed"));
 }
 
+#[test]
+fn drt_d_gcp_portability() {
+    let retained_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json");
+    let retained: Value = serde_json::from_str(
+        &std::fs::read_to_string(&retained_path).expect("retained DRT-D qualification json"),
+    )
+    .expect("retained DRT-D qualification schema");
+
+    assert_eq!(
+        retained["schema"],
+        "adl.v0921.drt_d.gcp_portability_qualification.v1"
+    );
+    assert_eq!(retained["issue"], 509);
+    assert_eq!(retained["status"], "passed");
+    assert_eq!(retained["paid_authorization"], true);
+    assert_eq!(retained["reviewed_dependencies"]["494"], "terminal");
+    assert_eq!(retained["reviewed_dependencies"]["495"], "terminal");
+    assert_eq!(retained["reviewed_dependencies"]["508"], "terminal");
+    assert_eq!(retained["topology"]["node_count"], 2);
+    assert_eq!(retained["topology"]["ollama_public"], false);
+    assert_eq!(retained["provider"]["kind"], "ollama");
+    assert_eq!(
+        retained["provider"]["runtime_surface"],
+        "gcp_private_ollama_http"
+    );
+    assert_eq!(retained["provider"]["model_source"], "gcs_object_storage");
+    assert!(retained["provider"]["artifact_manifest_sha256"]
+        .as_str()
+        .is_some_and(|digest| {
+            digest.len() == 64 && digest.chars().all(|ch| ch.is_ascii_hexdigit())
+        }));
+    assert_eq!(
+        retained["provider"]["models"],
+        json!(["llama3.1:8b", "qwen3:8b", "phi4-mini:latest"])
+    );
+    assert_eq!(retained["aws_qualification_authority"], "unchanged");
+
+    let residents = retained["residents"].as_array().expect("resident array");
+    assert_eq!(residents.len(), 6);
+    let identities = residents
+        .iter()
+        .map(|resident| resident["identity"].as_str().expect("identity"))
+        .collect::<std::collections::BTreeSet<_>>();
+    assert_eq!(identities.len(), 6, "resident identities must be unique");
+    assert!(residents.iter().all(|resident| {
+        resident["workload_completed"] == true
+            && resident["receipt"]["decision"] == "executed"
+            && resident["model"].as_str().is_some()
+    }));
+
+    assert_eq!(
+        retained["dehydrated_population_digest"],
+        retained["restored_population_digest"]
+    );
+    assert!(retained["cost_usd"].is_number());
+    assert_eq!(retained["cleanup"]["runtime_instance"], "absent");
+    assert_eq!(retained["cleanup"]["ollama_instance"], "absent");
+    assert_eq!(retained["cleanup"]["run_selector"], "absent");
+}
+
 fn repair_negative_probe(
     contract: &DistributedQualificationContract,
     mut probe: AcipVectorProbe,
