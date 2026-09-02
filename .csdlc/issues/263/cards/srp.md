@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Review issue #263 design, implementation, focused proof, negative cases, ownership boundary, privacy, and terminal truth.
+docs/milestones/v0.92.1/review/podcast_directory_263
 
 ## Prompts
 
@@ -30,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Fresh reviewer could not execute the Ruby validator in read-only sandbox; implementation session retained executable validator proof at the same candidate head.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ee61ef40d7e7862b172e848a4f89eca52977715c:3f23bf6d51e42dac3f924c10086c5deb6cd457b3b30f0694977a0f99e8080ae0")
 
-Reviewer: None
+Reviewer: Some("fresh-session:94d2a427-ed77-45b0-8994-5cac9c0b2cb2")
 
-Result: pre_review
+Result: pass
