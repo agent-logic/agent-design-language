@@ -6,6 +6,7 @@ mod agent_cmd;
 mod artifact_cmd;
 mod commands;
 mod csm_cmd;
+mod csm_runtime_v3_cmd;
 mod csm_service_cmd;
 mod csmctl_cmd;
 mod demo_cmd;

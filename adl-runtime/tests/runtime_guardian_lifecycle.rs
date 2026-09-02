@@ -72,9 +72,15 @@ fn main() {
         })
         .expect("lease connection");
     lease.write_all(token.as_bytes()).expect("lease token write");
-    let mut acknowledgement = [0_u8; 2];
+    let mut acknowledgement = [0_u8; 6];
     lease.read_exact(&mut acknowledgement).expect("lease acknowledgement");
-    assert_eq!(&acknowledgement, b"ok");
+    assert_eq!(&acknowledgement[..2], b"ok");
+    assert!(u32::from_be_bytes([
+        acknowledgement[2],
+        acknowledgement[3],
+        acknowledgement[4],
+        acknowledgement[5],
+    ]) > 0);
 
     if generation == 1 {
         eprintln!("dependency_state=degraded reason=optional_provider_unavailable");

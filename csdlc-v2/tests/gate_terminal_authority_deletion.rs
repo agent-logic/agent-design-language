@@ -89,7 +89,6 @@ fn publication_and_store_expose_no_terminal_mutation_route() {
 
     for removed in [
         "ReconcileMerged",
-        "ReconcileReady",
         "record_readiness",
         "commit_terminal",
         "retain_terminal_receipt",
@@ -103,6 +102,10 @@ fn publication_and_store_expose_no_terminal_mutation_route() {
             "removed terminal writer remains reachable: {removed}"
         );
     }
+    assert!(
+        publish.contains("ReconcileReady"),
+        "publication-ready reconciliation remains a publication route, not terminal authority"
+    );
 }
 
 #[test]

@@ -32,7 +32,8 @@
   "license_identifier": "agent_logic_internal_artwork_rights_v1",
   "creator_or_source_owner": "agent_logic_inc",
   "operator_confirmation": "operator_confirmed_rights_basis",
-  "operator_confirmation_sha256": "b2c40071fc04982e04c2f2786f5dfc9ef1d03df723d93ea253ad0dd7b515b3cc",
+  "operator_confirmation_receipt": "docs/milestones/v0.92/review/podcast_identity_261/artwork-rights-receipt.json",
+  "operator_confirmation_sha256": "f7c50eb3930675e6c1255b932d6264fa915c0442c14f1d1ba88eb0435e26920f",
   "operator_confirmation_timestamp_utc": "2026-09-01T18:44:04Z",
   "publication_authorized": true,
   "note": "Repository history proves retained bytes and technical derivation, but does not independently prove creation ownership or publication license. Operator confirmation is required."

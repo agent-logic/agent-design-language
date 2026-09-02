@@ -1,7 +1,7 @@
 use std::{
     collections::BTreeMap,
     fs::{self, File, OpenOptions},
-    io::Write,
+    io::{self, Write},
     path::{Path, PathBuf},
     process::{Child, Command, Stdio},
     sync::{
@@ -164,6 +164,8 @@ impl RuntimeVectorPipeline {
             config.spool_retained_files,
         )
         .map_err(|_| "runtime_vector_spool_rotation_failed")?;
+        truncate_incomplete_jsonl_tail(&config.ingress_spool_path)
+            .map_err(|_| "runtime_vector_spool_tail_recovery_failed")?;
         let rendered = render_vector_config(&config);
         write_json_atomic(&config.vector_config_path, &rendered)
             .map_err(|_| "vector_config_write_failed")?;
@@ -517,6 +519,26 @@ impl RuntimeVectorPipeline {
     pub fn terminate_vector_for_test(&mut self) -> bool {
         self.terminate_vector()
     }
+}
+
+fn truncate_incomplete_jsonl_tail(path: &Path) -> io::Result<()> {
+    let bytes = match fs::read(path) {
+        Ok(bytes) => bytes,
+        Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(()),
+        Err(error) => return Err(error),
+    };
+    if bytes.is_empty() || bytes.last() == Some(&b'\n') {
+        return Ok(());
+    }
+    let retained_len = bytes
+        .iter()
+        .rposition(|byte| *byte == b'\n')
+        .map(|index| index + 1)
+        .unwrap_or(0);
+    OpenOptions::new()
+        .write(true)
+        .open(path)?
+        .set_len(retained_len as u64)
 }
 
 fn terminate_vector_child(child: &mut Child, drain_timeout: Duration) -> bool {
@@ -912,8 +934,20 @@ fn vector_retry_backoff(base: Duration, failed_attempt: u32, limit: Duration) ->
 
 #[cfg(test)]
 mod vector_retry_backoff_tests {
-    use super::{vector_retry_backoff, RecoveryRetry};
+    use super::{truncate_incomplete_jsonl_tail, vector_retry_backoff, RecoveryRetry};
+    use std::fs;
     use std::time::Duration;
+
+    #[test]
+    fn interrupted_jsonl_tail_is_removed_without_touching_complete_records() {
+        let root = tempfile::tempdir().unwrap();
+        let path = root.path().join("runtime-v3.current.jsonl");
+        fs::write(&path, b"{\"sequence\":1}\n{\"sequence\":2").unwrap();
+
+        truncate_incomplete_jsonl_tail(&path).unwrap();
+
+        assert_eq!(fs::read(&path).unwrap(), b"{\"sequence\":1}\n");
+    }
 
     #[test]
     fn backoff_is_exponential_and_bounded() {

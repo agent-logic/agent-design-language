@@ -1,0 +1,69 @@
+version: "0.3"
+
+providers:
+  vertex_gemini_2_5_flash:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "us-west1"
+      provider_model_id: "gemini-2.5-flash"
+      max_output_tokens: 256
+      timeout_secs: 90
+      thinking_budget: 512
+      auth:
+        type: "adc"
+  vertex_gemini_2_5_flash_lite:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "us-west1"
+      provider_model_id: "gemini-2.5-flash-lite"
+      max_output_tokens: 256
+      timeout_secs: 90
+      thinking_budget: 512
+      auth:
+        type: "adc"
+  vertex_gemini_2_5_pro:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "us-west1"
+      provider_model_id: "gemini-2.5-pro"
+      max_output_tokens: 256
+      timeout_secs: 120
+      thinking_budget: 512
+      auth:
+        type: "adc"
+
+agents:
+  gemini_2_5_flash:
+    provider: "vertex_gemini_2_5_flash"
+    model: "gemini-2.5-flash"
+  gemini_2_5_flash_lite:
+    provider: "vertex_gemini_2_5_flash_lite"
+    model: "gemini-2.5-flash-lite"
+  gemini_2_5_pro:
+    provider: "vertex_gemini_2_5_pro"
+    model: "gemini-2.5-pro"
+
+tasks:
+  compact_model_probe:
+    prompt:
+      user: |
+        Return exactly one short sentence that starts with "VERTEX_OK" and names your model family.
+
+run:
+  name: "vertex-live-2-5-native-endpoint-matrix"
+  workflow:
+    kind: "sequential"
+    steps:
+      - id: "gemini_2_5_flash"
+        agent: "gemini_2_5_flash"
+        task: "compact_model_probe"
+      - id: "gemini_2_5_flash_lite"
+        agent: "gemini_2_5_flash_lite"
+        task: "compact_model_probe"
+      - id: "gemini_2_5_pro"
+        agent: "gemini_2_5_pro"
+        task: "compact_model_probe"
+

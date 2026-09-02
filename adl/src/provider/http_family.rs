@@ -973,6 +973,7 @@ pub struct VertexAiGeminiProvider {
     max_output_tokens: u64,
     timeout_secs: Option<u64>,
     tools: Option<Value>,
+    thinking_config: Option<Value>,
 }
 
 impl VertexAiGeminiProvider {
@@ -994,6 +995,7 @@ impl VertexAiGeminiProvider {
             max_output_tokens: cfg_u64(&spec.config, "max_output_tokens").unwrap_or(1024),
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
             tools: vertex_ai_tools_from_config(&spec.config)?,
+            thinking_config: vertex_ai_thinking_config_from_config(&spec.config)?,
         })
     }
 
@@ -1024,6 +1026,7 @@ impl VertexAiGeminiProvider {
             .json(&vertex_ai_gemini_request_body(
                 prompt,
                 self.max_output_tokens,
+                self.thinking_config.as_ref(),
                 self.tools.as_ref(),
             ));
         let (output, http_status) = if streaming {
@@ -1213,8 +1216,13 @@ fn vertex_ai_metadata_workload_identity_token() -> Result<String> {
 }
 
 fn vertex_ai_gemini_endpoint(project: &str, location: &str, model: &str) -> String {
+    let host = if location == "global" {
+        "aiplatform.googleapis.com".to_string()
+    } else {
+        format!("{location}-aiplatform.googleapis.com")
+    };
     format!(
-        "https://{location}-aiplatform.googleapis.com/v1/projects/{project}/locations/{location}/publishers/google/models/{model}:generateContent"
+        "https://{host}/v1/projects/{project}/locations/{location}/publishers/google/models/{model}:generateContent"
     )
 }
 
@@ -1228,6 +1236,7 @@ fn vertex_ai_gemini_stream_endpoint(endpoint: &str) -> String {
 fn vertex_ai_gemini_request_body(
     prompt: &str,
     max_output_tokens: u64,
+    thinking_config: Option<&Value>,
     tools: Option<&Value>,
 ) -> Value {
     let mut body = serde_json::json!({
@@ -1236,6 +1245,9 @@ fn vertex_ai_gemini_request_body(
             "maxOutputTokens": max_output_tokens,
         },
     });
+    if let Some(thinking_config) = thinking_config {
+        body["generationConfig"]["thinkingConfig"] = thinking_config.clone();
+    }
     if let Some(tools) = tools {
         body["tools"] = tools.clone();
     }
@@ -1325,6 +1337,44 @@ fn vertex_ai_tools_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Va
     ))
 }
 
+fn vertex_ai_thinking_config_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Value>> {
+    let thinking_level = cfg_string(cfg, "thinking_level");
+    let thinking_budget = cfg_u64_strict(cfg, "thinking_budget", "vertex_ai_gemini")?;
+    let include_thoughts = cfg_bool_opt(cfg, "include_thoughts", "vertex_ai_gemini")?;
+
+    if thinking_level.is_some() && thinking_budget.is_some() {
+        return Err(invalid_config(
+            "vertex_ai_gemini",
+            "config.thinking_level and config.thinking_budget are mutually exclusive",
+        ));
+    }
+
+    if thinking_level.is_none() && thinking_budget.is_none() && include_thoughts.is_none() {
+        return Ok(None);
+    }
+
+    let mut thinking = serde_json::Map::new();
+    if let Some(level) = thinking_level {
+        let normalized = level.trim().to_ascii_uppercase();
+        let allowed = ["MINIMAL", "LOW", "MEDIUM", "HIGH"];
+        if !allowed.contains(&normalized.as_str()) {
+            return Err(invalid_config(
+                "vertex_ai_gemini",
+                "config.thinking_level must be one of MINIMAL, LOW, MEDIUM, or HIGH",
+            ));
+        }
+        thinking.insert("thinkingLevel".to_string(), Value::String(normalized));
+    }
+    if let Some(budget) = thinking_budget {
+        thinking.insert("thinkingBudget".to_string(), serde_json::json!(budget));
+    }
+    if let Some(include) = include_thoughts {
+        thinking.insert("includeThoughts".to_string(), Value::Bool(include));
+    }
+
+    Ok(Some(Value::Object(thinking)))
+}
+
 fn vertex_ai_function_declaration_from_uts(tool: &Value) -> Result<Value> {
     let name = tool.get("name").and_then(|v| v.as_str()).ok_or_else(|| {
         invalid_config(
@@ -1374,8 +1424,14 @@ fn validate_vertex_ai_endpoint(spec: &adl::ProviderSpec, endpoint: &str) -> Resu
             "endpoint must use https://; plaintext http:// is only allowed for localhost/loopback test endpoints",
         ));
     }
-    let trusted_vertex_endpoint =
-        endpoint_host(endpoint).is_some_and(|host| host.ends_with("-aiplatform.googleapis.com"));
+    let trusted_vertex_endpoint = match (
+        endpoint_host(endpoint),
+        required_cfg_string(&spec.config, "location", "vertex_ai_gemini"),
+    ) {
+        (Some(host), Ok(location)) if location == "global" => host == "aiplatform.googleapis.com",
+        (Some(host), Ok(location)) => host == format!("{location}-aiplatform.googleapis.com"),
+        _ => false,
+    };
     if is_loopback_endpoint(endpoint)
         || trusted_vertex_endpoint
         || cfg_bool_opt(&spec.config, "trust_custom_endpoint", "vertex_ai_gemini")?.unwrap_or(false)

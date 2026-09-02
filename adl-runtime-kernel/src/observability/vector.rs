@@ -3,8 +3,10 @@ use std::{
     time::Duration,
 };
 
-use adl_runtime_kernel::RuntimeObservabilityInitConfig;
+use adl_runtime_kernel::{RuntimeCloudWatchInitConfig, RuntimeObservabilityInitConfig};
 use serde_json::{json, Value};
+
+const VECTOR_DISK_BUFFER_MIN_BYTES: u64 = 256 * 1024 * 1024 + 32;
 
 use super::{
     master_log::{absolute_path, vector_path},
@@ -37,6 +39,7 @@ pub struct RuntimeVectorConfig {
     pub vector_data_dir: PathBuf,
     pub spool_max_bytes: u64,
     pub spool_retained_files: usize,
+    pub cloudwatch: Option<RuntimeCloudWatchInitConfig>,
 }
 
 impl RuntimeVectorConfig {
@@ -78,6 +81,7 @@ impl RuntimeVectorConfig {
             vector_data_dir: state_path(&init.vector_data_dir)?,
             spool_max_bytes: init.spool_max_bytes,
             spool_retained_files: init.spool_retained_files,
+            cloudwatch: init.cloudwatch.clone(),
         })
     }
 }
@@ -139,6 +143,55 @@ pub fn render_vector_config(config: &RuntimeVectorConfig) -> Value {
                 "acknowledgements": {"enabled": true},
                 "buffer": {"type": "memory", "max_events": buffer_events, "when_full": "block"},
                 "request": {"timeout_secs": config.otlp_timeout_millis.div_ceil(1_000).max(1)}
+            }),
+        );
+    }
+    if let Some(cloudwatch) = config.cloudwatch.as_ref() {
+        transforms.insert(
+            "runtime_v3_cloud_health".to_owned(),
+            json!({
+                "type": "remap",
+                "inputs": ["runtime_v3_redacted"],
+                "source": concat!(
+                    "if .fields.schema != \"adl.runtime_v3.cloud_health.v1\" || .fields.event != \"runtime_health_heartbeat\" { abort }\n",
+                    ". = {\n",
+                    "  \"schema\": .fields.schema,\n",
+                    "  \"event\": .fields.event,\n",
+                    "  \"polis_id\": .fields.polis_id,\n",
+                    "  \"runtime_instance_id\": .fields.runtime_instance_id,\n",
+                    "  \"topology_generation\": .fields.topology_generation,\n",
+                    "  \"continuity_generation\": .fields.continuity_generation,\n",
+                    "  \"config_hash\": .fields.config_hash,\n",
+                    "  \"ready\": .fields.ready,\n",
+                    "  \"live\": .fields.live,\n",
+                    "  \"ready_metric\": .fields.ready_metric,\n",
+                    "  \"live_metric\": .fields.live_metric,\n",
+                    "  \"degraded_components\": .fields.degraded_components,\n",
+                    "  \"failed_components\": .fields.failed_components,\n",
+                    "  \"restarting_components\": .fields.restarting_components,\n",
+                    "  \"saturated_queues\": .fields.saturated_queues\n",
+                    "}"
+                )
+            }),
+        );
+        sinks.insert(
+            "runtime_v3_cloudwatch".to_owned(),
+            json!({
+                "type": "aws_cloudwatch_logs",
+                "inputs": ["runtime_v3_cloud_health"],
+                "region": cloudwatch.region,
+                "group_name": cloudwatch.log_group,
+                "stream_name": cloudwatch.log_stream,
+                "create_missing_group": false,
+                "create_missing_stream": true,
+                "encoding": {"codec": "json"},
+                "healthcheck": {"enabled": true},
+                "acknowledgements": {"enabled": true},
+                "buffer": {
+                    "type": "disk",
+                    "max_size": config.spool_max_bytes.max(VECTOR_DISK_BUFFER_MIN_BYTES),
+                    "when_full": "block"
+                }
             }),
         );
     }

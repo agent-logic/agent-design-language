@@ -1,0 +1,576 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 604,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
+  "phase": "published",
+  "generation": 24,
+  "digest": "18a2819671c7580207fd1e33399a739df099a94d96d2217ce7743d17ac879f7b",
+  "branch": "codex/604-v2-publish-ready-reconciliation-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
+  "review_assignment": {
+    "reviewer": "/root/review_604_tiny_visible_final",
+    "assigned_by": "codex:/root/worker-6/issue-604",
+    "revision": "git-blake3:ed1f44d02db4ceecdf8e833ad33ffb205b3a3c5e:260fc607d2c80cb1c971171f745c5991389be872dd4284959c404eb08bc04f04",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/pr610-state-request.json",
+      ".csdlc/evidence/604/publish-after-terminal-prereq-refresh-request.json",
+      ".csdlc/evidence/604/publish-all-defects-closed-request.json",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/publish-final-ready-request.json",
+      ".csdlc/evidence/604/publish-ready-update-request.json",
+      ".csdlc/evidence/604/ready-request.json",
+      ".csdlc/evidence/604/recover-after-canary-defect-fixes.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
+      ".csdlc/evidence/604/recover-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/recover-after-unreturned-review-record.json",
+      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-assign-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-assign-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/review-assign-all-defects-closed.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-assign-visible-final.json",
+      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-record-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-record-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/review-record-all-defects-closed.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-github-pr.rs",
+      "csdlc-v2/src/bin/csdlc-pr-state.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_604_tiny_visible_final",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/pr610-state-request.json",
+      ".csdlc/evidence/604/publish-after-terminal-prereq-refresh-request.json",
+      ".csdlc/evidence/604/publish-all-defects-closed-request.json",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/publish-final-ready-request.json",
+      ".csdlc/evidence/604/publish-ready-update-request.json",
+      ".csdlc/evidence/604/ready-request.json",
+      ".csdlc/evidence/604/recover-after-canary-defect-fixes.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
+      ".csdlc/evidence/604/recover-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/recover-after-unreturned-review-record.json",
+      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-assign-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-assign-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/review-assign-all-defects-closed.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-assign-visible-final.json",
+      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-record-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-record-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/review-record-all-defects-closed.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-github-pr.rs",
+      "csdlc-v2/src/bin/csdlc-pr-state.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ],
+    "reviewed_revision": "git-blake3:ed1f44d02db4ceecdf8e833ad33ffb205b3a3c5e:260fc607d2c80cb1c971171f745c5991389be872dd4284959c404eb08bc04f04",
+    "findings": [],
+    "residual_risks": [
+      "PR #610 still requires final typed publication readback and GitHub CI confirmation at the republished head.",
+      "DEFECT-016 is a canary orchestration defect, not a product correctness finding; the issue records the recovery so the final review evidence is tied to a visible PASS transcript."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 604,
+    "pull_request": 610,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/610",
+    "base": "main",
+    "head": "codex/604-v2-publish-ready-reconciliation-exec",
+    "revision": "git-blake3:0dd0e88d34af9bf7819b400edd50054858275992:3432ded1a46e8739ac51945471d013135f077144b8dbb2e54320d073c9afd069",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/604/design.md",
+  "diagram_path": ".csdlc/prepared/issues/604/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:live-issue-604-20260901",
+      "revision": "b8848e01d7c9010be517c43cedc50c002d795dfcf4f48ebab7d4648c7615459b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "999209784df10d704de909dba1aab0b2c0e35cc68e358e35058aaba347dab2b8",
+      "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
+      "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
+    },
+    "stp": {
+      "values_digest": "1ec0b0c1bd3de4a998c6299d94f8a630b7ad8fb496a83d3cdafb89466a35ac73",
+      "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
+      "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
+    },
+    "spp": {
+      "values_digest": "4071f78884f7d6eaf71f17e31ad004a56937e069998b4ca9b414c6a9f6ab68ea",
+      "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
+      "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
+    },
+    "vpp": {
+      "values_digest": "c7eebb63907848bda6d104a02c02e8d8934613cfa80228833819e33ccbe94658",
+      "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
+      "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
+    },
+    "srp": {
+      "values_digest": "b56e1f7b327ea7da6af107da8e312290778f6956defc01bc57052f8816e068f5",
+      "rendered_digest": "29dbee4fd03d950c98a64f86f958947891d9b71e64996f0d9859235ae290529d",
+      "ast_digest": "13c78149e21c80bf4ece2167adba92802a53fbd3c385e158e1d0842dffaa9033"
+    },
+    "sor": {
+      "values_digest": "f2eeb7b5b4d07268d01940536fdf40153f162460d9d32bb2698e48327f79c6d2",
+      "rendered_digest": "d86efaaa93bb97399db817c06999237e4114cf3cc4d101e6ee0037adb9702133",
+      "ast_digest": "0d67b990ddc0c47dd5ebe5e2aff4ae6083574a88f91c3fa960ab0604b5d33aa5"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover stale review after publication preflight exposed that the prior review scope included lifecycle metadata mutated by the review record itself. A fresh review will be recorded after publication request preparation is part of the reviewed head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after live publication-resume testing exposed that csdlc-publish publish on an already-published issue did not push an advanced local evidence head before remote reobservation. The PR remains live and will be reconciled through the repaired typed publication path."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after final canary-defect fixes added retained PR-state envelope compatibility and a fail-closed self-staling review-scope guard. The PR remains live and will be reconciled through a fresh typed review and publication pass."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after the full standalone v2 suite exposed stale retained terminal prerequisite digest constants for #298 and #299. The live derived-terminal receipts remain internally consistent; the PR will be reviewed and republished from the refreshed exact head."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after the branch was reviewed and published with a reviewer identity whose final PASS was not visible to the orchestrating session. The final review will be re-recorded against the reviewer transcript that actually returned PASS."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Repair #604 validation-planning truth so the issue-owned focused integration-test target exists before execution binding.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-publish-ready-tests\",\"proof_role\":\"Prove typed ready and reconcile-ready publication behavior, rejection paths, and recovery semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_ready\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-github-route-tests\",\"proof_role\":\"Prove GitHub route owner boundaries and publication command inventory remain aligned.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Validate whitespace hygiene for tracked #604 changes.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Repair #604 ownership truth so doctor can bind the focused publication_ready test target to an exact issue-owned path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/publication_ready.rs\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills.json\",\".csdlc/prepared/issues/604/**\",\".csdlc/issues/604/**\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Repair #604 deliverable truth so the focused publication_ready test target is declared as an issue deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed csdlc-publish ready request/result command.\",\"Typed csdlc-publish reconcile-ready request/result command.\",\"Durable exact-identity lifecycle truth after successful remote readback.\",\"csdlc-v2/tests/publication_ready.rs focused tests for success, uncertainty/recovery, identity drift, stale CAS, pre-state rejection, and zero-write failure paths.\",\"Updated publication skill and operator inventory documentation.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover stale review after publication preflight exposed that the prior review scope included lifecycle metadata mutated by the review record itself. A fresh review will be recorded after publication request preparation is part of the reviewed head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after live publication-resume testing exposed that csdlc-publish publish on an already-published issue did not push an advanced local evidence head before remote reobservation. The PR remains live and will be reconciled through the repaired typed publication path.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after final canary-defect fixes added retained PR-state envelope compatibility and a fail-closed self-staling review-scope guard. The PR remains live and will be reconciled through a fresh typed review and publication pass.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after the full standalone v2 suite exposed stale retained terminal prerequisite digest constants for #298 and #299. The live derived-terminal receipts remain internally consistent; the PR will be reviewed and republished from the refreshed exact head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after the branch was reviewed and published with a reviewer identity whose final PASS was not visible to the orchestrating session. The final review will be re-recorded against the reviewer transcript that actually returned PASS.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

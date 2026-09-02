@@ -27,7 +27,10 @@ use crate::projection_recovery::{
     ProjectionClassification, ProjectionClassifyRequest, ProjectionRecoverRequest,
     ProjectionRecoveryResult,
 };
-use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
+use crate::publication::{
+    PublicationIntent, PublicationRequest, ReadyPublicationReconciliationRequest,
+    ReadyPublicationRequest, RemotePullRequest,
+};
 use crate::pvf::{
     ExecutionReport, ExecutionRequest, FinalizeRequest, PvfManifest, ScheduleReport, ShepherdReport,
 };
@@ -84,6 +87,8 @@ pub fn public_schema_bundle() -> Value {
         "review_recovery_request": schemars::schema_for!(ReviewRecoveryRequest),
         "publication_review_report": schemars::schema_for!(PublicationReviewReport),
         "publication_request": schemars::schema_for!(PublicationRequest),
+        "ready_publication_request": schemars::schema_for!(ReadyPublicationRequest),
+        "ready_publication_reconciliation_request": schemars::schema_for!(ReadyPublicationReconciliationRequest),
         "publication_intent": schemars::schema_for!(PublicationIntent),
         "remote_pull_request": schemars::schema_for!(RemotePullRequest),
         "readiness_request": schemars::schema_for!(ReadinessRequest),

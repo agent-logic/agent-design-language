@@ -1,0 +1,7 @@
+{
+  "issue": 604,
+  "expected_generation": 12,
+  "expected_digest": "bb5097433ed985a4d9d11f15c0f6f0cfa602c865880db040940142166c928ee4",
+  "actor": "codex:/root/worker-6/issue-604",
+  "reason": "Recover after live publication-resume testing exposed that csdlc-publish publish on an already-published issue did not push an advanced local evidence head before remote reobservation. The PR remains live and will be reconciled through the repaired typed publication path."
+}
