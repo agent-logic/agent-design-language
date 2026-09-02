@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-csdlc-v3 finish, clean, cutover routes; focused tests; issue-owned validation; no v2 source changes.
+csdlc-v3/src/commands/mod.rs
+csdlc-v3/src/commands/terminal.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/command_manifest.rs
+csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
+docs/csdlc-v3/v3-command-manifest.json
+.csdlc/prepared/issues/630
+.csdlc/evidence/630
 
 ## Prompts
 
