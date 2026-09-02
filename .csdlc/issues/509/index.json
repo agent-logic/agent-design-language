@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "3cea429c56c3a3671af0eaa713ffa1f408bd2bfb65e1254f70e8a6b0cdc65cd4",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "84de919bdc33e33194f9ae2987b381fe0aaab0c27181e24766f7720aa525529d",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
   "review_assignment": {
@@ -45,7 +45,49 @@
       "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:f75981c0-a7ad-44e2-b3d4-657e4e3bb7bb",
+    "scope": [
+      ".csdlc/prepared/issues/509/design.md",
+      ".csdlc/prepared/issues/509/diagram.mmd",
+      ".csdlc/prepared/issues/509/validate-implementation.rb",
+      ".csdlc/prepared/issues/509/validate-readiness.rb",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
+      "adl/src/cli/csmctl_cmd.rs",
+      "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+      "adl/tools/run_issue268_six_resident_uts_cycle.py",
+      "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json",
+      "infra/gcp/workloads/drt-d-six-resident/.gitignore",
+      "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
+      "infra/gcp/workloads/drt-d-six-resident/main.tf",
+      "infra/gcp/workloads/drt-d-six-resident/outputs.tf",
+      "infra/gcp/workloads/drt-d-six-resident/provider.tf",
+      "infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh",
+      "infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh",
+      "infra/gcp/workloads/drt-d-six-resident/terraform.tfvars.example",
+      "infra/gcp/workloads/drt-d-six-resident/variables.tf",
+      "infra/gcp/workloads/drt-d-six-resident/versions.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/.gitignore",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf"
+    ],
+    "reviewed_revision": "git-blake3:310ad9b65701bdc20e6aaa52056fb511dda2dfcc:b04348a9171d47e87cba27da7468a0218a228b4e9e23a5d2edf64f4b21574c7a",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not run paid/live GCP proof; live evidence is retained from run adl-509-drt-d-20260902192222.",
+      "Reviewer did not read credentials or rebuild Runtime/Ollama artifacts.",
+      "Retained artifact source remains the existing GCS bundle models/ollama/issue509/issue509-linux-runtime-9f6bae16-202609021814/portable-model-bundle.json with manifest SHA256 2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -60,32 +102,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f94370a79ff8ac28803f04b89911fde337cc699e8756e1c21a5e6b215fee7688",
+      "values_digest": "933098c22ca2a44dc5c91dda3681a05a50f8bed1d502f35397ba44bf53ac7b01",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "56634639380576e315a477fa4f56d7a5083fa3ea4e4fcef1367211049dad0f1d",
+      "values_digest": "38203f148bd4f4ddc2283b90cf2439dce29f682e1dfae26a9ed1ca70fb4e3558",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "8465c81c0585e2818147ee91408dc0345eef887066552a7f19d373d7d229f791",
+      "values_digest": "ba6992da019cbc347efdddca9d7283727cd9e3725a91c44a9270713c08c335fd",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "101026a444c5b63725a39ee1b1a40e247a609215d9ec6a5559011c0a34cad61f",
+      "values_digest": "c7020cc9d037b48c885f7c09a7ac2a2140e1164f03bdb264ed676461c8788871",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "4e210c7bac7d712748a9adc5c4e46335402c37524e015bc3ff35c7e7b1a782d0",
-      "rendered_digest": "e29e7b8c5b264b6e8536b23cc286cb2b61686fb67b36147036bdd3c6963d9631",
-      "ast_digest": "c88e44317f66ad887f8d8d457f51d7ef6d1e7273eb26aeaad501b139e997c0c1"
+      "values_digest": "fe2996835e049375f017efe6973f044bd7402f685daead6ddd194522afdb10f0",
+      "rendered_digest": "57d48f82ebea23088c095ce35e5f8efa435849e4c0d504c92479e6ec4dec89cc",
+      "ast_digest": "09b61b503797a64cf01ea915867c24ada494c9378703959ba4a4f503b2988f96"
     },
     "sor": {
-      "values_digest": "3718798ca478cc49352d9885e9c50da283f9dcd96cd855e0f9f4850ef6fc408f",
+      "values_digest": "2b10c958dfefec8d9de9fbcaf3b38c0636aae91706c93313d60fd35291606646",
       "rendered_digest": "b78ea3eb648abc611f87999112009311b2adf50f09bb507cf65cff97cfe1da5b",
       "ast_digest": "d5a33c9d578ed38a323d1ba535431efbb2a87a30f937eaa76fb0192e11f41b6b"
     }
@@ -125,6 +167,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover after origin/main advanced to 3e44cf33e via #592 and #509 merged it cleanly, then repaired the DRT-D validation guard to accept canonical mainline changes while still rejecting #509-owned post-live proof drift. Prior review PASS at c52cd4834b5f15e495d7ce64bf962b5daf3a3829 is stale for current immutable head 22a492ac7."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -330,6 +379,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -59,12 +59,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not run paid/live GCP proof; live evidence is retained from run adl-509-drt-d-20260902192222.
+- Reviewer did not read credentials or rebuild Runtime/Ollama artifacts.
+- Retained artifact source remains the existing GCS bundle models/ollama/issue509/issue509-linux-runtime-9f6bae16-202609021814/portable-model-bundle.json with manifest SHA256 2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:310ad9b65701bdc20e6aaa52056fb511dda2dfcc:b04348a9171d47e87cba27da7468a0218a228b4e9e23a5d2edf64f4b21574c7a")
 
-Reviewer: None
+Reviewer: Some("fresh-session:f75981c0-a7ad-44e2-b3d4-657e4e3bb7bb")
 
-Result: pre_review
+Result: pass
