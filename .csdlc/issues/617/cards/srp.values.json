@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
     "slug": "runtime-api-canonical-agent-names",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/617\n.csdlc/prepared/issues/617\nadl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/runtime-init.toml",
-      "review_revision": "git-blake3:ad1eb44991f7cd686f514b2aea6a77d348b73949:4d337a1b4c98622c87ca5b8d47ba4b46a0f6d821a56b0d020bc022f9962514fb",
-      "reviewer": "fresh-session:cf241732-769d-423f-ae39-0d40bc44a966",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every canonical name come from authoritative configuration or admitted state?",
         "Are operational ID, canonical name, display name, and office still distinct?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

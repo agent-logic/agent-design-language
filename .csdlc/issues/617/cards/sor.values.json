@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
     "slug": "runtime-api-canonical-agent-names",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
@@ -90,8 +90,8 @@
           "evidence_ref": "local-command:issue-617:diff-check-pass"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

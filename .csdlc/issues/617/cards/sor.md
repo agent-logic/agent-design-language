@@ -97,11 +97,11 @@ Runtime roster and detail projections expose authoritative canonical agent names
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

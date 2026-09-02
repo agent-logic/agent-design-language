@@ -4,70 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9d5f743e4d7fa11e73e41d07b8abdbf638dbf14695def74e2c46cc07eda70502",
-  "phase": "published",
-  "generation": 14,
-  "digest": "35f5940470952be034486bfe9a83ba0691a0b4979cea741cbe6af3fe1f4e7fa3",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "bd4fad4388e398130fc66a07e282243d19f8e583085bc3b6216a0a4ffcf46849",
   "branch": "codex/617-runtime-api-canonical-agent-names",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-617-runtime-api-canonical-agent-names",
-  "review_assignment": {
-    "reviewer": "fresh-session:cf241732-769d-423f-ae39-0d40bc44a966",
-    "assigned_by": "codex:/root/issue_617_finish",
-    "revision": "git-blake3:ad1eb44991f7cd686f514b2aea6a77d348b73949:4d337a1b4c98622c87ca5b8d47ba4b46a0f6d821a56b0d020bc022f9962514fb",
-    "scope": [
-      ".csdlc/evidence/617",
-      ".csdlc/prepared/issues/617",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/runtime-init.toml"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:cf241732-769d-423f-ae39-0d40bc44a966",
-    "scope": [
-      ".csdlc/evidence/617",
-      ".csdlc/prepared/issues/617",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/runtime-init.toml"
-    ],
-    "reviewed_revision": "git-blake3:ad1eb44991f7cd686f514b2aea6a77d348b73949:4d337a1b4c98622c87ca5b8d47ba4b46a0f6d821a56b0d020bc022f9962514fb",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 617,
-    "pull_request": 636,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/636",
-    "base": "main",
-    "head": "codex/617-runtime-api-canonical-agent-names",
-    "revision": "git-blake3:3b57fb7beef0ce8cc47fcce1a4be77d15397e681:b1fd93cd4b14c485ed62575c3ee08e887edbfc08bfe3ee2318d0f58dc1064b97",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -81,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "105b43c09b0083a8f18ab4ce00db6f630c27dc8fd61da6b88d18162265285bf5",
+      "values_digest": "9eff87db5c56cbb35926bc66a6d3b04a478f65172fb6d4b6677068c295812ad2",
       "rendered_digest": "b7dd70da419bf6f2f8ad137ff4ea27aa7445c400ec83abce12e6c7812480ab96",
       "ast_digest": "cc756df52b6a91d50dc4dfa895aa60144d6cb949dca25dfbc4d815ffe09951fe"
     },
     "stp": {
-      "values_digest": "fa89af7b8c4d40a3c49d6ba87471341708066be2cdcb7197321c3efe399136e5",
+      "values_digest": "735458d5bfcad44d273430fa5d7e66e1f43e84a97f1c9fbae4e85c7c8ac932ab",
       "rendered_digest": "e1335e10dd8a3da4137d9d6801be275394af05f162f486eaf3c8bab4e6392d76",
       "ast_digest": "224bcbe1deaf52a77d9c7213ac5448d29b84ba5fbb3c194824202719930fd395"
     },
     "spp": {
-      "values_digest": "7a3917cf7b9dbdeaa09348aac6a092992cd053bc0667cc79c79d4a39b40b9ac6",
+      "values_digest": "a7009adb0b5c9f47baa00bd7edef1b4006eaea87093ac82cc27c0656bd9c3e74",
       "rendered_digest": "0518b08bb0617265eca3a637c646f7d6a92ddcf9dc09ee994c14eb7857c45c03",
       "ast_digest": "738b09ffc255c875e4b4f02d8f9f9e218ce6fed4e6ec5675a81c6138b4cf316f"
     },
     "vpp": {
-      "values_digest": "f792cf83f62aac319a72c09c39d8d347fc6094c6c4e1363f61af6ff23cfbd531",
+      "values_digest": "4a973b55a569d94c815b4e63507706d05c50ddf919cf3517836b7ee7c1256195",
       "rendered_digest": "180d230f38b209328555804f6f040a8eeabf8bc5268d53270f59142ee6b7aaf1",
       "ast_digest": "f37aecd69c0d4f811571f7064130e6ffa796d5ab869f02610c1fe6a702685511"
     },
     "srp": {
-      "values_digest": "10fea090839665299a6bb0f846f9bb062b42c817e5568ce57a8694db0fb81ca9",
-      "rendered_digest": "dca4918038da789b724087beab1051e9921f56ff4b3263c95c14326c1ccc3e16",
-      "ast_digest": "c9b06e8526a3e8c0f0d7cf3a7fe0e28f0f69f211108cfacd84e2d78f4faa65e3"
+      "values_digest": "f38ea3d581420c6e241cebed7452f87858434e801cfa12feb47c8641e6bdf335",
+      "rendered_digest": "1c3acc08d5eb3f876b911981b2f9cd520a6c7081aeb825d545364845fbad1fa8",
+      "ast_digest": "9aca83e388862f9171cf2f3f521a5c31a59fd8e8af59ed1d92c94dd4e8858fb3"
     },
     "sor": {
-      "values_digest": "ea64add87de3c655502486dcec987ff9176396d4638fb1816a7936b8ead524de",
-      "rendered_digest": "a603552f5038834fd47c537e79d1a73a3cc82494d3ab5a74af2fcc5ed88216f9",
-      "ast_digest": "65a82734f90941ca4c90ea696053c018329f4eb438252a7433a68415612ed06a"
+      "values_digest": "4671909d0eed3edc48a420a63413f2adde4d798a44e1dd3aad6c3228e6c9f53f",
+      "rendered_digest": "b5909c46831baa9cbb071e4d362db92d447b96d3015f31a976b67758fc16e868",
+      "ast_digest": "fb978b7c1ed129888f2a7e67b9bab7f5eeecc6ffbedb1c647608b3fe780eb307"
     }
   },
   "transitions": [
@@ -146,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root/issue_617_finish",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue_617_finish",
+      "reason": "Recover published review truth after hosted Clippy identified two mechanical warnings in the issue-owned lifecycle path; re-review the exact corrected head before republishing."
     }
   ],
   "audit": [
@@ -274,6 +225,13 @@
       "actor": "codex:/root/issue_617_finish",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root/issue_617_finish",
+      "reason": "Recover published review truth after hosted Clippy identified two mechanical warnings in the issue-owned lifecycle path; re-review the exact corrected head before republishing.",
+      "operation": "recover_review"
     }
   ]
 }
