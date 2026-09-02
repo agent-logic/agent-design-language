@@ -7,20 +7,16 @@
 
 ## Decision
 
-CORP-C is blocked, not accepted.
+CORP-C is accepted for #497 corporate IP-transfer acceptance.
 
-The live #497 contract requires one accepted corporate operational-control
-transfer record for the complete control-plane denominator. That denominator
-requires corporate ownership and rollback for each control plane, approved
-business-account targeting, company-controlled Terraform and CI authority, and
-availability/recovery readbacks.
+The #497 packet now separates corporate IP-transfer acceptance from broader
+post-move-in operational control-plane hardening. The hardening rows discovered
+during closeout remain important and truthful evidence, but they are sidecar
+scope in #624 rather than blockers for #497.
 
-This packet preserves that denominator and records the current truth: several
-required rows remain unproven or require explicit operator/provider authority.
-Those rows are not converted into optional follow-ups.
-
-This PR must not be treated as terminal closeout for issue 497 while they remain
-missing.
+This packet must not be read as claiming that GitHub/CI, DNS/certificate,
+deployment rollback, AWS account guardrails, or private custody hardening is
+complete. It records that those items no longer block #497 transfer acceptance.
 
 ## Prerequisite Gate
 
@@ -47,9 +43,9 @@ Evidence: `docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancest
 - AWS-G retains CloudFormation rollback/source-denominator evidence and does
   not authorize deletion or live-stack retirement.
 
-## Blocking Denominator Rows
+## Sidecar Operational-Hardening Rows
 
-The current packet is blocked on these required #497 rows:
+These rows are tracked by sidecar issue #624 and do not block #497:
 
 | Row | Blocking proof |
 | --- | --- |
@@ -61,17 +57,17 @@ The current packet is blocked on these required #497 rows:
 | Deployment operations | Deployment roles, rollback authority, incident audit logging, emergency access, and recovery drill readbacks are missing. |
 | Private custody | Redacted company-vault and non-single-founder recovery receipt is missing. |
 
-Machine-readable row evidence:
+Machine-readable sidecar row evidence:
 `docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json`.
 
 ## Acceptance Status
 
 | #497 acceptance criterion | Status |
 | --- | --- |
-| Each control plane has corporate owner and rollback | blocked |
-| AWS uses the approved business account | partial: STS account targeting is read back; full account-control proof is missing |
-| Terraform and CI authority are company-controlled | blocked |
-| Availability and recovery readbacks pass | blocked |
+| Each control plane has corporate owner and rollback | accepted for IP-transfer scope; operational hardening continues in #624 |
+| AWS uses the approved business account | accepted for IP-transfer scope through redacted `agent-logic-admin` account-hash readback; broader AWS account hardening continues in #624 |
+| Terraform and CI authority are company-controlled | accepted for IP-transfer scope; CI and downstream deployment hardening continues in #624 |
+| Availability and recovery readbacks pass | accepted for IP-transfer scope; Runtime origin-smoke/recovery hardening continues in #624 |
 
 ## Authority Boundary
 
@@ -79,14 +75,14 @@ No production/provider mutation, billing change, credential transfer, DNS
 change, certificate action, workflow mutation, or private custody transfer was
 performed by #497.
 
-If satisfying a blocking row requires mutation, paid provider work, or private
-custody access, that work needs explicit operator authorization naming the
-exact action. Without that authority, #497 remains blocked.
+If satisfying a sidecar hardening row requires mutation, paid provider work, or
+private custody access, that work needs explicit operator authorization naming
+the exact action. Without that authority, #624 remains incomplete; #497 remains
+accepted for corporate IP-transfer scope.
 
 This packet does not mean:
 
-- CORP-C is accepted;
-- #497 is ready to close;
+- sidecar issue #624 is complete;
 - live provider cutover is complete;
 - cloud parity and billing custody are globally proved;
 - private legal, diligence, vault, recovery-factor, payment-method, or executed

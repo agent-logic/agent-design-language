@@ -113,11 +113,14 @@ classification = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/ex
 assert(classification["schema"] == "adl.corporate.corp_c.external_action_classification.v1", "unexpected classification schema")
 assert(classification["issue"] == 497, "classification issue mismatch")
 assert(classification["authorized_actions"] == ["corp-c-aws-c-terraform-bootstrap-apply"], "authorized actions must record only the Terraform bootstrap apply")
-assert(!classification.fetch("blocked_actions").empty?, "blocked actions must be explicit until live #497 denominator passes")
+assert(classification.fetch("blocked_actions").empty?, "blocked actions must be empty after sidecar split")
+assert(classification["sidecar_issue"] == 624, "classification must route hardening follow-ups to sidecar #624")
+assert(classification.fetch("sidecar_actions").size == 7, "classification must retain all seven sidecar hardening actions")
 mutating_rows = classification.fetch("rows").select { |row| row["mutation_performed_by_497"] == true }
 assert(mutating_rows.map { |row| row["id"] } == ["corp-c-aws-c-terraform-bootstrap-apply"], "only the authorized Terraform bootstrap mutation may be recorded for #497")
 assert(mutating_rows.all? { |row| row["classification"] == "completed_authorized_mutation" }, "authorized mutation must be classified explicitly")
-assert(classification.fetch("rows").any? { |row| row["classification"].to_s.start_with?("blocked_") }, "expected blocked external actions")
+assert(classification.fetch("rows").none? { |row| row["classification"].to_s.start_with?("blocked_") }, "external hardening rows must not block #497 after sidecar split")
+assert(classification.fetch("rows").any? { |row| row["classification"].to_s.start_with?("sidecar_") }, "expected sidecar external actions")
 
 live_probe = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json")
 assert(live_probe["schema"] == "adl.corporate.corp_c.live_control_plane_readonly_probe.v1", "unexpected live probe schema")
@@ -190,10 +193,13 @@ assert(aws_account_control["issue_ready_to_close"] == false, "AWS account-contro
 
 denominator = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json")
 assert(denominator["schema"] == "adl.corporate.corp_c.control_plane_denominator.v1", "unexpected denominator schema")
-assert(denominator["status"] == "blocked_missing_required_readbacks", "denominator must remain blocked until all required #497 rows pass")
+assert(denominator["status"] == "accepted_with_sidecar_operational_hardening", "denominator must record #497 acceptance with sidecar hardening")
 assert(denominator.fetch("live_issue_acceptance").size == 4, "denominator must preserve all four live #497 acceptance criteria")
-assert(denominator.fetch("rows").all? { |row| row["required_by_497"] == true }, "all denominator rows must be required by #497")
-assert(denominator.fetch("rows").any? { |row| row["classification"].to_s.start_with?("blocked_") }, "denominator must identify blocking rows")
+sidecar_rows = denominator.fetch("rows").select { |row| row["sidecar_issue"] == 624 }
+assert(sidecar_rows.size == 8, "denominator must route eight operational hardening rows to sidecar #624")
+assert(denominator.fetch("rows").any? { |row| row["id"] == "corp-c-terraform-authority" && row["required_by_497"] == true }, "Terraform backend authority must remain #497 evidence")
+assert(denominator.fetch("rows").none? { |row| row["classification"].to_s.start_with?("blocked_") }, "denominator hardening rows must not block #497 after sidecar split")
+assert(denominator.fetch("sidecar_gates").size == 7, "denominator must preserve seven sidecar gates")
 assert(denominator.dig("mutation_authority", "new_mutation_performed_by_497") == true, "#497 must record the authorized Terraform bootstrap mutation")
 assert(denominator.dig("mutation_authority", "new_mutation_authorized") == true, "#497 Terraform bootstrap mutation must be authorized")
 assert(denominator.dig("mutation_authority", "authorized_actions") == ["corp-c-aws-c-terraform-bootstrap-apply"], "#497 must not authorize unrelated mutation")
@@ -202,27 +208,26 @@ assert(denominator.dig("mutation_authority", "blocked_if_mutation_required") == 
 packet = read_json("docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json")
 assert(packet["schema"] == "adl.corporate.operational_control_transfer_acceptance.v1", "unexpected packet schema")
 assert(packet["issue"] == 497, "packet issue mismatch")
-assert(packet["status"] == "blocked_missing_required_readbacks", "packet must not accept CORP-C with missing required readbacks")
+assert(packet["status"] == "accepted_with_sidecar_operational_hardening", "packet must accept CORP-C for #497 with sidecar hardening")
 assert(packet.dig("prerequisite_gate", "status") == "pass", "packet prerequisite gate not pass")
 assert(packet["authorized_actions"] == ["corp-c-aws-c-terraform-bootstrap-apply"], "packet authorized actions must record only the Terraform bootstrap apply")
-assert(!packet.fetch("blocked_actions").empty?, "packet must record blocking actions")
+assert(packet.fetch("blocked_actions").empty?, "packet blocked actions must be empty after sidecar split")
+assert(packet["sidecar_issue"] == 624, "packet must route hardening follow-ups to sidecar #624")
+assert(packet.fetch("sidecar_actions").size == 7, "packet must retain all seven sidecar actions")
 assert(packet.dig("mutation_authority", "new_mutation_performed_by_497") == true, "packet must record the authorized Terraform bootstrap mutation")
 assert(packet.dig("mutation_authority", "new_mutation_authorized") == true, "packet must record mutation authorization")
 assert(packet.dig("mutation_authority", "blocked_if_mutation_required") == true, "packet must block if mutation authority is required")
 
 acceptance_statuses = packet.fetch("acceptance").to_h { |row| [row.fetch("id"), row.fetch("status")] }
-assert(acceptance_statuses["AC-1"] == "blocked", "AC-1 status must be blocked")
-assert(acceptance_statuses["AC-2"] == "partial", "AC-2 status must be partial")
-assert(acceptance_statuses["AC-3"] == "blocked", "AC-3 status must be blocked")
-assert(acceptance_statuses["AC-4"] == "blocked", "AC-4 status must be blocked")
+assert(acceptance_statuses.values.all? { |status| status == "accepted_sidecar_followup" }, "all acceptance rows must be accepted with sidecar follow-up")
 
 markdown = read_text("docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md")
 [
-  "CORP-C is blocked, not accepted.",
-  "This PR must not be treated as terminal closeout for issue 497 while they remain",
+  "CORP-C is accepted for #497 corporate IP-transfer acceptance.",
+  "scope in #624 rather than blockers for #497",
   "No production/provider mutation",
   "This packet does not mean:",
-  "#497 is ready to close",
+  "sidecar issue #624 is complete",
   "Sprint 7 #345 AWS GPU execution",
   "CORP-D #498 diligence acceptance"
 ].each do |needle|
@@ -254,7 +259,9 @@ puts JSON.pretty_generate({
   validated_files: required_files,
   prerequisite_issues: expected_prereqs.keys.sort,
   blocked_actions: packet.fetch("blocked_actions").size,
-  issue_ready_to_close: false,
+  sidecar_issue: packet.fetch("sidecar_issue"),
+  sidecar_actions: packet.fetch("sidecar_actions").size,
+  issue_ready_to_close: true,
   external_mutations_performed: true,
   authorized_external_mutations: ["corp-c-aws-c-terraform-bootstrap-apply"]
 })

@@ -1,0 +1,16 @@
+{
+  "action": "issue_create",
+  "repository": "agent-logic/agent-design-language",
+  "title": "[v0.92.1][corporate][sidecar] Finish post-move-in operational control-plane hardening",
+  "body": "## Summary\n\nTrack the corporate operational hardening gaps discovered during #497 / Sprint 4 closeout as a sidecar issue. These items are useful and important follow-up work from the AWS move-in / corporate control-plane transition, but they do not block the corporate IP-transfer acceptance for #497.\n\n## Background\n\nIssue #497 and PR #613 assembled the CORP-C evidence packet for corporate IP-transfer acceptance. Review found that several operational control-plane readbacks were being treated as #497 blockers: GitHub/CI authority, DNS and certificate ownership, AWS account guardrails, private custody receipt, and deployment rollback readback. The operator clarified on 2026-09-02 that these are sidecar operational hardening items, not blocking conditions for corporate IP-transfer acceptance.\n\n## Scope\n\n- Reconcile GitHub organization/repository/CI authority readbacks into an explicit corporate operational-control record.\n- Prove or repair DNS hosted-zone ownership, certificate renewal ownership, and deployment rollback readback for the public corporate surfaces.\n- Complete AWS business-account guardrail readbacks for auditability, including CloudTrail, AWS Config, IAM Access Analyzer, account recovery/break-glass posture, and billing/contact custody where appropriate.\n- Produce a redacted private-custody receipt proving corporate recovery is not controlled by one personal factor.\n- Preserve existing read-only observations from #497 as seed evidence, without treating missing hardening proof as #497 acceptance failure.\n\n## Acceptance Criteria\n\n- [ ] The sidecar issue records the full operational-control denominator separately from #497's IP-transfer acceptance denominator.\n- [ ] Each GitHub/CI, DNS/certificate, AWS guardrail, private custody, and rollback-readback item is either proven with retained readback evidence or explicitly decomposed into a narrower follow-on with owner/action.\n- [ ] The final evidence distinguishes corporate IP ownership acceptance from operational control-plane hardening.\n- [ ] No credentials, account IDs, secrets, private custody artifacts, or sensitive recovery details are printed, committed, or exposed.\n- [ ] Any live cloud or account mutation is separately authorized and recorded before execution.\n\n## Non-Goals\n\n- Do not reopen #497 solely for these hardening items.\n- Do not claim the hardening gaps are already fixed.\n- Do not mutate AWS, GitHub administration, DNS, certificate, billing, or custody settings without explicit scoped authorization.\n- Do not block Sprint 4 closeout on this sidecar unless a separate sprint policy explicitly makes it release-blocking.\n\n## Links\n\n- Split from #497.\n- Related to PR #613.\n- Related to Sprint 4 corporate acceptance closeout.",
+  "labels": [
+    "track:roadmap",
+    "type:task",
+    "area:corporate",
+    "version:v0.92.1"
+  ],
+  "assignees": [],
+  "require_review": false,
+  "required_checks": [],
+  "operation_key": "issue-497-corp-operational-hardening-sidecar-20260902"
+}
