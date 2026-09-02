@@ -16,14 +16,14 @@ Define the Terraform archive boundary, add bounded Vector delivery, prove failur
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Implement the private encrypted versioned S3 archive and exact-prefix publisher policy in Terraform.",
+    "action": "Implement and semantically test the private encrypted versioned S3 archive and exact-prefix publisher policy in Terraform.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
@@ -32,7 +32,7 @@ Revision 4
   },
   {
     "id": "S2",
-    "action": "Add bounded identity-partitioned Vector S3 delivery without changing Runtime readiness.",
+    "action": "Add bounded identity-partitioned Vector S3 delivery and prove outage, exhaustion, telemetry, redaction, and Runtime-survival behavior locally.",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -41,20 +41,8 @@ Revision 4
   },
   {
     "id": "S3",
-    "action": "Run focused configuration, redaction, retry, exhaustion, and Runtime-survival validation.",
+    "action": "After explicit authorization, verify the expected AWS account, exact bucket controls and publisher policy, then retrieve and inspect one encrypted archived object without mutating the deployment; retain typed lifecycle truth.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-3",
-      "AC-4"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S4",
-    "action": "After explicit authorization, run live AWS upload, control inspection, retrieval, and cleanup proof.",
-    "acceptance_ids": [
-      "AC-2",
-      "AC-3",
       "AC-5",
       "AC-6"
     ],
