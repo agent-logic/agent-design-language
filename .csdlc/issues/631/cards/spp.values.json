@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
     "slug": "v3-h5-proof-parity-soak-shadow-install",
     "version": "v0.92.1",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Add typed non-authoritative v3 proof, shadow, soak, and install behavior; prove positive and denial cases; keep install/cutover boundaries explicit.",
       "steps": [
         {
@@ -72,11 +72,14 @@
         }
       ],
       "affected_areas": [
-        "csdlc-v3/src",
-        "csdlc-v3/tests",
-        "docs/csdlc-v3",
-        ".csdlc/prepared/issues/631",
-        ".csdlc/evidence/631"
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/mod.rs",
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/tests/command_manifest.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh",
+        ".csdlc/evidence/631/"
       ],
       "invariants": [
         "v2 remains live authority",

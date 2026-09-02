@@ -16,7 +16,7 @@ Add typed non-authoritative v3 proof, shadow, soak, and install behavior; prove 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 

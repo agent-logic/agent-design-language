@@ -3,9 +3,9 @@
   "issue": 631,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "a3cfa6aede75a1a88875e5f4b5260823c064ce4339079d75a822fe5ff6ce076f",
+  "phase": "ready",
+  "generation": 2,
+  "digest": "dc015e05635164a7cbafb40db12c89d47af6cf464d731176aecb5ada62c2cb3b",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5194d3af4856981dc9eb7db951d4cd3fc158c08e5669f5382445aaf489cbc955",
+      "values_digest": "04134b40e23c07b6e64ba3241bd646d5a77be2f25bffc602103db5cbd2011a4d",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "4ae9d8a4fa5d6b693d15340d23911bcc31be50f2deace8461d43817a1db75cc3",
+      "values_digest": "61940a6fd36a7143239ec44a72488c3ca71f2fa7e1d236d1199670cdf1271dfc",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "db37bde923fe4b6a3e3974b49a212f104c86a49c933cb06d1c479b8c91e57d9c",
-      "rendered_digest": "a1c24bf6f4311ad396945d7f4c0520ac55a53828ac75864e842ca9ea3549e339",
-      "ast_digest": "2c1aa47c772b2e8d0893a8822e304932c8a47b5f6a2f383e396931b8b86eaa98"
+      "values_digest": "3cf82076e74525b8d1c22fcd0026d07129e1fdfd03a95a2847c58ad5269dafc7",
+      "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
+      "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "64436c5cb5708abf6991f07d1ebc0472ce09465472551621c3e26ab7d8252dc2",
+      "values_digest": "25b957795e959bf0d9c9e00f252029dcc330d4fdc6f59a1d0a21a0af67194870",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "12316fabfc8780755ccb5b9f81716507d71cda8bad93aaab20aa54cb74d8031a",
+      "values_digest": "5d0f1125db2303542d312d833dcf8c43d8159ae7d9903758989d213cc1961a72",
       "rendered_digest": "59990fa91d92a3669e2f0dbb1326c6ea811c0cdffa9460b03bd29b72b20d708e",
       "ast_digest": "c808892533127d7b5195c8c5ca335e7eb4b08603b781e60b8b9f6b2f08590dc3"
     },
     "sor": {
-      "values_digest": "c8348ab907491b0773103a3a69581c68374d7820826b7efd273d604e0c296500",
+      "values_digest": "c919510f495ddd58119c9d5c34deb6fe10ad18d70eedc7d293e4a67f2ccaeb07",
       "rendered_digest": "cb5a389c44d4a8bd1d9e7f49b4b2c085cc06d4a6e3c803d26f6e68151e49750b",
       "ast_digest": "ac395f6554bc223a6f21f503600825eb5bb753affa3695351e03c38f47c551c9"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "The #631 proof, parity, soak, shadow, and install route slice has an issue-specific validation lane and is ready for bounded implementation."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -62,6 +70,20 @@
       "actor": "codex:worker-6",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6-spp-editor",
+      "reason": "Make the #631 executable validation target and changed v3 command files explicit issue-owned affected areas for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\",\".csdlc/evidence/631/\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "The #631 proof, parity, soak, shadow, and install route slice has an issue-specific validation lane and is ready for bounded implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
