@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 594,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
+    "slug": "runtime-v3-bounded-s3-log-archive",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One bounded Runtime-to-Vector-to-S3 archival path and its Terraform, focused tests, and authorized live AWS proof.",
+      "deliverables": [
+        "Private encrypted versioned S3 archive with public access blocked and explicit retention",
+        "Bounded Vector S3 buffering and delivery configuration",
+        "Least-privilege identity-scoped publisher policy",
+        "Focused local failure and configuration proof",
+        "Separately authorized live AWS object delivery and retrieval receipt"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Redacted logs arrive on a documented bounded cadence under environment, Polis, Runtime instance, and UTC date prefixes",
+        "AC-2: The bucket blocks public access, encrypts and versions objects, and applies declared retention lifecycle controls",
+        "AC-3: Publisher IAM is restricted to required bucket metadata and exact-prefix object writes",
+        "AC-4: S3 denial or outage leaves Runtime readiness and operation intact while buffering, retry, and failure telemetry remain bounded",
+        "AC-5: A separately authorized live proof retrieves and validates one archived object without exposing sensitive content",
+        "AC-6: Lifecycle execution uses typed v2 authority unless and until explicit v3 cutover is recorded"
+      ],
+      "dependencies": [
+        "Issue #589 is related but not an implementation dependency",
+        "C-SDLC v3 exercise is gated by explicit operator-reviewed v3 cutover",
+        "Live AWS proof is gated by separate paid-cloud authorization"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#594",
+        "adl-runtime-kernel/src/observability/vector.rs",
+        "adl-runtime-kernel/src/observability.rs",
+        "infra/aws/csm-runtime-health"
+      ],
+      "non_goals": [
+        "Replacing CloudWatch heartbeat alarms or SSM recovery",
+        "Making archival synchronous or readiness-critical",
+        "Archiving unredacted secrets, credentials, or raw sensitive payloads",
+        "Using CloudFormation",
+        "Performing cloud mutation during preparation"
+      ]
+    }
+  }
+}

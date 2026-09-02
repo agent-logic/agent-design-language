@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 594,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
+    "slug": "runtime-v3-bounded-s3-log-archive",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #594 Runtime observability, Vector, Terraform archive, focused tests, and issue-local evidence paths only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any S3 or Vector failure block Runtime readiness, operation, or recovery?",
+        "Are buffer, retry, disk, and telemetry bounds explicit and tested?",
+        "Are object identity and payloads redacted and portable?",
+        "Are bucket and IAM controls least privilege and Terraform-owned?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

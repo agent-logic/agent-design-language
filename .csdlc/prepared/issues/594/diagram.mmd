@@ -1,0 +1,11 @@
+flowchart LR
+    R[Runtime v3\nredacted events] --> V[Vector\nbounded disk buffer]
+    V -->|bounded batch and retry| S[(Private S3 log archive)]
+    V --> T[Failure telemetry\nlocal and CloudWatch]
+    TF[Terraform] --> S
+    TF --> I[IAM publisher policy]
+    I --> V
+    S --> L[Encryption, versioning,\nretention lifecycle]
+    X[S3 unavailable] -. archival degrades only .-> V
+    R --> H[Runtime health and recovery]
+    X -. no readiness dependency .-> H
