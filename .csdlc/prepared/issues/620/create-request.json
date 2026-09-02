@@ -1,0 +1,145 @@
+{
+  "issue": 620,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:620-readiness",
+  "design_path": ".csdlc/prepared/issues/620/design.md",
+  "diagram_path": ".csdlc/prepared/issues/620/diagram.mmd",
+  "design_reviewer": "codex:620-readiness-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.2][planning] Audit and refresh first-pass milestone documentation",
+    "slug": "v0922-first-pass-planning",
+    "version": "v0.92.2",
+    "goal": "Produce a coherent, reviewed, number-free first-pass v0.92.2 planning package and explicitly disposition relevant unplanned or unscheduled TBD material.",
+    "required_outcome": "The canonical planning package, feature set, issue wave, execution specifications, sprint structure, release tail, and TBD scheduling reconciliation agree without opening the milestone or creating implementation issues.",
+    "declared_scope": [
+      "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/**",
+      ".csdlc/issues/620/**"
+    ],
+    "authority_boundary": [
+      "#620 prepares documentation but does not open v0.92.2",
+      "The existing v0.92.2 package is the baseline to audit rather than recreate",
+      ".adl/docs/TBD is read-only source evidence",
+      "Unresolved scheduling gaps require operator judgment and are not silently scheduled",
+      "Existing GitHub issue and completion truth prevents duplicate planning"
+    ],
+    "operator_constraints": [
+      "Do not create WP-01, sprint umbrellas, or child implementation issues",
+      "Do not create the milestone or version label",
+      "Do not implement product, Runtime, provider, cloud, or Unity features",
+      "Do not edit or delete TBD sources merely to clean the inventory",
+      "Do not broaden v0.92.2 with explicitly deferred work"
+    ],
+    "task_boundary": "Audit and reconcile the existing v0.92.2 planning documents and produce a complete disposition of relevant TBD inputs.",
+    "deliverables": [
+      "Refreshed canonical v0.92.2 planning package",
+      "Findings-first TBD scheduling reconciliation",
+      "Aligned machine-readable issue wave and execution specifications",
+      "Focused package validator",
+      "Review handoff with deferrals and operator decisions"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every canonical planning document exists and agrees on purpose, scope, dependencies, sequencing, and planned posture",
+      "AC-2: Every first-class work track has a feature document, work-package home, proof expectation, and readiness disposition",
+      "AC-3: Every planned issue is one bounded unit of work with a concrete deliverable and acceptance denominator",
+      "AC-4: The catalog, issue wave, execution specifications, readiness table, and sprint plan have exact work-package parity",
+      "AC-5: The ten-step release tail is consistent across every planning surface",
+      "AC-6: Every relevant active TBD source has a source path, status, proposed home, rationale, and unresolved-decision field",
+      "AC-7: Unplanned or unscheduled TBD material is explicit while backlog and later-milestone work remains deferred",
+      "AC-8: Existing issues and completed work are reconciled without duplicate or reopened scope",
+      "AC-9: Links resolve, YAML parses, machine-local paths and unresolved placeholders are rejected, and diff hygiene passes",
+      "AC-10: Bounded independent review has no unresolved actionable finding before publication"
+    ],
+    "dependencies": [
+      "v0.92.1 remains the active milestone",
+      "Operator authorization is required before v0.92.2 milestone opening or WP-01 creation"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#620",
+      "docs/milestones/v0.92.2/**",
+      ".adl/docs/TBD/TBD_DOC_STATUS_INVENTORY.md",
+      ".adl/docs/TBD/LOCAL_BACKLOG.md",
+      ".adl/docs/TBD/planning/NEW_FEATURE_MILESTONE_ASSIGNMENT_PLAN.md"
+    ],
+    "non_goals": [
+      "Open the v0.92.2 milestone or create its version label",
+      "Create WP-01 or child issues",
+      "Implement planned features",
+      "Silently schedule deferred or unresolved work",
+      "Run broad Rust or Runtime validation"
+    ],
+    "plan_summary": "Establish the canonical denominator, audit relevant TBD and issue truth, reconcile all planning surfaces, validate the package, and prepare a findings-first review handoff.",
+    "steps": [
+      {"id":"S1","action":"Build the canonical document, feature, work-package, sprint, and release-tail denominator.","acceptance_ids":["AC-1","AC-2","AC-4","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Audit relevant active TBD sources and existing issue truth into explicit scheduling dispositions.","acceptance_ids":["AC-6","AC-7","AC-8"],"status":"pending"},
+      {"id":"S3","action":"Reconcile the complete planning package so every issue is bounded and all machine and human surfaces agree.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S4","action":"Run focused structural, YAML, link, placeholder, scheduling-coverage, and diff-hygiene validation.","acceptance_ids":["AC-6","AC-7","AC-9"],"status":"pending"},
+      {"id":"S5","action":"Prepare the review handoff, resolve actionable findings, and leave the package planned and number-free.","acceptance_ids":["AC-8","AC-10"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+      ".csdlc/prepared/issues/620/**",
+      ".csdlc/issues/620/**"
+    ],
+    "invariants": [
+      "Milestone remains unopened",
+      "Package remains number-free",
+      "Complete and explicit TBD disposition denominator",
+      "No duplicate existing work",
+      "One concrete result per planned issue",
+      "Deferred scope remains deferred"
+    ],
+    "risks": [
+      "Treating a stale TBD inventory as complete",
+      "Silently dropping unscheduled material",
+      "Converting broad feature bundles into nominal single issues",
+      "Duplicating existing or completed issues",
+      "Opening the milestone through documentation overclaim"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The canonical package denominator cannot be established",
+      "A relevant TBD source lacks a truthful disposition",
+      "Machine-readable and human-readable work-package identities disagree",
+      "A proposed scope move requires operator judgment",
+      "An actionable review finding remains unresolved"
+    ],
+    "validation_lanes": [
+      {
+        "lane":"v0922-package-structure",
+        "proof_role":"Prove the canonical package and machine-readable planning surfaces are present and structurally readable.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],
+        "deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1600,
+        "argv":["bash",".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh","structure"],
+        "parallel_group":"planning-structure","defer_reason":null
+      },
+      {
+        "lane":"tbd-scheduling-reconciliation",
+        "proof_role":"Prove the relevant TBD denominator has explicit, non-silent scheduling dispositions.",
+        "acceptance_ids":["AC-6","AC-7","AC-8"],
+        "deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,
+        "argv":["bash",".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh","scheduling"],
+        "parallel_group":"tbd-audit","defer_reason":null
+      },
+      {
+        "lane":"v0922-package-consistency",
+        "proof_role":"Prove issue granularity, cross-file consistency, review handoff, and exact-range diff hygiene.",
+        "acceptance_ids":["AC-9","AC-10"],
+        "deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,
+        "argv":["bash",".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh","consistency"],
+        "parallel_group":"planning-consistency","defer_reason":null
+      }
+    ],
+    "failure_policy": "Fail closed on an incomplete package or TBD denominator, missing disposition, cross-file identity drift, unresolved placeholder, machine-local path, duplicate scope, silent scheduling decision, or unresolved actionable review finding.",
+    "review_prompts": [
+      "Does the package include every canonical document and first-class feature surface?",
+      "Does each planned issue describe one bounded unit with a concrete result?",
+      "Is every relevant TBD source explicitly scheduled, deferred, preserved as reference or provenance, or flagged for operator decision?",
+      "Does the plan avoid duplicating existing and completed issues?",
+      "Does the package remain number-free and refrain from opening the milestone?"
+    ],
+    "review_scope": "The v0.92.2 planning package, relevant TBD scheduling dispositions, existing-issue reconciliation, planned issue granularity, release-tail consistency, and milestone-opening boundary only."
+  }
+}

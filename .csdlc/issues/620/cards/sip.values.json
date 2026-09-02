@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 620,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][planning] Audit and refresh first-pass milestone documentation",
+    "slug": "v0922-first-pass-planning",
+    "version": "v0.92.2",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce a coherent, reviewed, number-free first-pass v0.92.2 planning package and explicitly disposition relevant unplanned or unscheduled TBD material.",
+      "required_outcome": "The canonical planning package, feature set, issue wave, execution specifications, sprint structure, release tail, and TBD scheduling reconciliation agree without opening the milestone or creating implementation issues.",
+      "declared_scope": [
+        "docs/milestones/v0.92.2/**",
+        ".csdlc/prepared/issues/620/**",
+        ".csdlc/issues/620/**"
+      ],
+      "authority_boundary": [
+        "#620 prepares documentation but does not open v0.92.2",
+        "The existing v0.92.2 package is the baseline to audit rather than recreate",
+        ".adl/docs/TBD is read-only source evidence",
+        "Unresolved scheduling gaps require operator judgment and are not silently scheduled",
+        "Existing GitHub issue and completion truth prevents duplicate planning"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not create WP-01, sprint umbrellas, or child implementation issues",
+        "Do not create the milestone or version label",
+        "Do not implement product, Runtime, provider, cloud, or Unity features",
+        "Do not edit or delete TBD sources merely to clean the inventory",
+        "Do not broaden v0.92.2 with explicitly deferred work"
+      ]
+    }
+  }
+}

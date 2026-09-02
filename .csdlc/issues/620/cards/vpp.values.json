@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 620,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][planning] Audit and refresh first-pass milestone documentation",
+    "slug": "v0922-first-pass-planning",
+    "version": "v0.92.2",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "v0922-package-structure",
+          "proof_role": "Prove the canonical package and machine-readable planning surfaces are present and structurally readable.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1600,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+            "structure"
+          ],
+          "parallel_group": "planning-structure",
+          "defer_reason": null
+        },
+        {
+          "lane": "tbd-scheduling-reconciliation",
+          "proof_role": "Prove the relevant TBD denominator has explicit, non-silent scheduling dispositions.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1800,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+            "scheduling"
+          ],
+          "parallel_group": "tbd-audit",
+          "defer_reason": null
+        },
+        {
+          "lane": "v0922-package-consistency",
+          "proof_role": "Prove issue granularity, cross-file consistency, review handoff, and exact-range diff hygiene.",
+          "acceptance_ids": [
+            "AC-9",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1800,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+            "consistency"
+          ],
+          "parallel_group": "planning-consistency",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on an incomplete package or TBD denominator, missing disposition, cross-file identity drift, unresolved placeholder, machine-local path, duplicate scope, silent scheduling decision, or unresolved actionable review finding.",
+      "design_ref": ".csdlc/prepared/issues/620/design.md",
+      "design_digest": "e84e2afd2d541ae719b55446dec8dedf1e211a03fa9dda36336480b0850d028c",
+      "diagram_ref": ".csdlc/prepared/issues/620/diagram.mmd",
+      "diagram_digest": "1c6aaf76f37d34a7f603593ea39e85e28ab5882d892b51ef538d06d8558e10c7"
+    }
+  }
+}

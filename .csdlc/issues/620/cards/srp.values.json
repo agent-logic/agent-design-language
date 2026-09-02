@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 620,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][planning] Audit and refresh first-pass milestone documentation",
+    "slug": "v0922-first-pass-planning",
+    "version": "v0.92.2",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The v0.92.2 planning package, relevant TBD scheduling dispositions, existing-issue reconciliation, planned issue granularity, release-tail consistency, and milestone-opening boundary only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the package include every canonical document and first-class feature surface?",
+        "Does each planned issue describe one bounded unit with a concrete result?",
+        "Is every relevant TBD source explicitly scheduled, deferred, preserved as reference or provenance, or flagged for operator decision?",
+        "Does the plan avoid duplicating existing and completed issues?",
+        "Does the package remain number-free and refrain from opening the milestone?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
