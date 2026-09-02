@@ -10,4 +10,11 @@ cargo nextest run \
   --test observatory \
   --test openapi_contract \
   --no-tests=fail \
-  -E 'test(canonical_name)'
+  -E 'test(canonical_name) | test(production_shepherd_construction_uses_configured_canonical_name)'
+
+cargo nextest run \
+  --locked \
+  --manifest-path adl-runtime-kernel/Cargo.toml \
+  --lib \
+  --no-tests=fail \
+  -E 'test(agent_lifecycle_is_idempotent_portable_and_restart_safe)'

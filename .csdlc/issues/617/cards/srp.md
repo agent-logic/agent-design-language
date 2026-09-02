@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #617 Runtime roster/detail projection, OpenAPI, focused tests, and issue-local evidence paths only.
+
 
 ## Prompts
 

@@ -610,11 +610,7 @@ async fn main() -> ExitCode {
                 authority,
                 init.kernel.control_history_capacity,
                 init.observatory_allowed_origins(),
-                AgentPopulationFeed::resident_shepherd_named(
-                    &init.resident_shepherd.name,
-                    &init.resident_shepherd.display_name,
-                    &init.resident_shepherd.office,
-                ),
+                AgentPopulationFeed::resident_shepherd_from_config(&init.resident_shepherd),
             )
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
     "slug": "runtime-api-canonical-agent-names",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #617 Runtime roster/detail projection, OpenAPI, focused tests, and issue-local evidence paths only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9d5f743e4d7fa11e73e41d07b8abdbf638dbf14695def74e2c46cc07eda70502",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "d5cceecdf80cbf7c07eaf4345967b294a5b5d5d9249133f1f2cb80db2bf47a13",
+  "generation": 12,
+  "digest": "d305eb059c57ce6ec4cb90446011917fcff19e59efd8491ec344bfc90be9717a",
   "branch": "codex/617-runtime-api-canonical-agent-names",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-617-runtime-api-canonical-agent-names",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "697f116f8dbf75e1779698d84dc38c28a830809e7ae96a7036c5906115470b96",
+      "values_digest": "f6365d18e7308150cdd4adb3b37a0ab09da21c502fb150de1d96dc25cdf2840c",
       "rendered_digest": "b7dd70da419bf6f2f8ad137ff4ea27aa7445c400ec83abce12e6c7812480ab96",
       "ast_digest": "cc756df52b6a91d50dc4dfa895aa60144d6cb949dca25dfbc4d815ffe09951fe"
     },
     "stp": {
-      "values_digest": "40f60db9873d15b6ad16d90cb09ed1cd310179335bf5477272e9e41b9b6acf3b",
+      "values_digest": "21fdd49a74e3595ada2baeb308f7cc1e533604315d8342db9b3cbedab6d6ecde",
       "rendered_digest": "e1335e10dd8a3da4137d9d6801be275394af05f162f486eaf3c8bab4e6392d76",
       "ast_digest": "224bcbe1deaf52a77d9c7213ac5448d29b84ba5fbb3c194824202719930fd395"
     },
     "spp": {
-      "values_digest": "fbca47dad5ed38e2e3c12f185cde7c897f796c716e8ff5d2f310b8b9e7e67a5d",
+      "values_digest": "15ac88cbc417073b74c219a19906de04c0ec1c60dd7d323dc0404ba85e359de3",
       "rendered_digest": "0518b08bb0617265eca3a637c646f7d6a92ddcf9dc09ee994c14eb7857c45c03",
       "ast_digest": "738b09ffc255c875e4b4f02d8f9f9e218ce6fed4e6ec5675a81c6138b4cf316f"
     },
     "vpp": {
-      "values_digest": "ff3fafc556a43d05479c2a5e606022a920d72d9999e0eab8945ac670c46473e2",
+      "values_digest": "4c6d7b23c730ca7d78c7f5d7ba3b559a4cc50dde58f42cbabf831b3c5b3712bf",
       "rendered_digest": "180d230f38b209328555804f6f040a8eeabf8bc5268d53270f59142ee6b7aaf1",
       "ast_digest": "f37aecd69c0d4f811571f7064130e6ffa796d5ab869f02610c1fe6a702685511"
     },
     "srp": {
-      "values_digest": "9f3470fe48bc436404f642e226dad4d8ff42477dd6103452f79331bb7c9160a8",
-      "rendered_digest": "bbac9b230667509093404a6a4253aa316aa916acd0f59fb3aaa06abfd39be40f",
-      "ast_digest": "26e80641bffc15097ac7092b6d1bc432f5dec059915a216b249f6bda84d6d252"
+      "values_digest": "de7998a42b7494c8ad9e5c75e14d239fa136afb28328f59a1410a1dfe4c952e1",
+      "rendered_digest": "1c3acc08d5eb3f876b911981b2f9cd520a6c7081aeb825d545364845fbad1fa8",
+      "ast_digest": "9aca83e388862f9171cf2f3f521a5c31a59fd8e8af59ed1d92c94dd4e8858fb3"
     },
     "sor": {
-      "values_digest": "871ca0bcd611f227e8cc6a6e666e9154abe93bc776fdbe7810082dde61ccfd4f",
-      "rendered_digest": "7b6c9bd0984f78e8c09928494036c7b5e11ab9a07af6c872b26d5f05865ac772",
-      "ast_digest": "b3cba689de22c99e2c327c5e857b867e6b9a3cd310086643e4130627c9d1a342"
+      "values_digest": "18fd8231e3300799392cba677d0f732b240dececf619442ee9cc7f6a08c5f212",
+      "rendered_digest": "b5909c46831baa9cbb071e4d362db92d447b96d3015f31a976b67758fc16e868",
+      "ast_digest": "fb978b7c1ed129888f2a7e67b9bab7f5eeecc6ffbedb1c647608b3fe780eb307"
     }
   },
   "transitions": [
@@ -155,6 +155,34 @@
       "actor": "codex:/root/issue_617_finish",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root/issue_617_finish",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root/issue_617_finish",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root/issue_617_finish",
+      "reason": "Recover the changes-required review so the validation denominator and production Shepherd construction proof can be repaired before a fresh assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root/issue_617_finish",
+      "reason": "Record the complete post-review canonical-name validation denominator and production Shepherd construction proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Runtime roster and detail projections expose authoritative canonical agent names, and the repaired retained proof now covers configured Shepherd construction plus the dynamic lifecycle, restart, persisted-state, checkpoint, and freeze-dried compatibility path.\",\"changes\":[\"Carry dynamic AgentAdmissionRequest.name unchanged through AgentSample, AgentRuntimeEvidence, roster, and detail projections.\",\"Require and validate resident_shepherd.name in Runtime init configuration and route production construction through a directly tested config-to-feed helper.\",\"Add the required outbound name field to AgentRosterEntry and OpenAPI while retaining deserialization compatibility for previously persisted v1 entries.\",\"Keep checkpoint samples on a distinct compatibility schema so roster naming does not alter checkpoint or freeze-dried digest semantics.\",\"Expand the issue validator to retain both the four canonical/configuration/OpenAPI cases and the complete dynamic lifecycle compatibility case.\"],\"artifacts\":[\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/evidence/617/remediation/canonical-agent-name-remediation.log\"],\"validation\":[{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/617/validate-canonical-agent-name.sh\"],\"purpose\":\"Prove canonical-name configuration/projection/OpenAPI behavior, production Shepherd construction, and the dynamic lifecycle compatibility path.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/617/remediation/canonical-agent-name-remediation.log\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--test\",\"agent_roster\",\"--test\",\"control\",\"--test\",\"observatory\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"purpose\":\"Prove the complete five-surface Runtime API regression denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-nextest:e0391facf18f6182155acb0833701c7eab2e42ba:94-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove Rust formatting after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:issue-617:fmt-pass\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove branch diff whitespace hygiene after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:issue-617:diff-check-pass\"}]}"
     }
   ]
 }
