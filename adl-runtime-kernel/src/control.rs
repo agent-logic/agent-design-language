@@ -53,6 +53,7 @@ pub const LEGACY_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_fee
 pub const PREVIOUS_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v2";
 pub const OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v3";
 pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
+const AGENT_PROVIDER_EXECUTION_TIMEOUT: Duration = Duration::from_secs(15 * 60);
 pub const API_DOCS_PATH: &str = "/v1/docs/";
 pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
 pub const RUNTIME_OPENAPI_PATH: &str = "/v1/openapi.json";
@@ -597,7 +598,12 @@ impl ConversationDispatchGate {
             == sequence
     }
 
-    async fn wait_turn(&self, sequence: u64, cancellation: &CancellationToken) -> bool {
+    async fn wait_turn(
+        &self,
+        sequence: u64,
+        cancellation: &CancellationToken,
+        deadline: tokio::time::Instant,
+    ) -> bool {
         loop {
             let changed = self.changed.notified();
             if self.ready(sequence) {
@@ -605,6 +611,7 @@ impl ConversationDispatchGate {
             }
             tokio::select! {
                 _ = cancellation.cancelled() => return false,
+                _ = tokio::time::sleep_until(deadline) => return false,
                 _ = changed => {},
             }
         }
@@ -1504,9 +1511,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         // Conversation execution is not an authentication handshake. Give local
         // models enough room for cold starts while preserving explicit operator
         // cancellation and bounded shutdown behavior.
+        // Queueing and provider execution have independent allowances. A turn
+        // may wait generously for earlier work, but cannot remain stuck behind
+        // a lost sequence forever. Once admitted, it receives a fresh provider
+        // execution window below.
+        let queue_deadline = tokio::time::Instant::now() + Duration::from_secs(600);
         let turn_ready = dispatch
             .dispatch_gate
-            .wait_turn(dispatch.sequence, &dispatch.cancellation)
+            .wait_turn(dispatch.sequence, &dispatch.cancellation, queue_deadline)
             .await;
         let result = if !turn_ready {
             if dispatch.cancellation.is_cancelled() {
@@ -1524,7 +1536,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 (Err(_), _) => outcome("refused", "invalid_conversation_intent"),
                 (_, None) => outcome("failed", "conversation_ingress_unavailable"),
                 (Ok(payload), Some(ingress)) => {
-                    let deadline = tokio::time::Instant::now() + Duration::from_secs(120);
+                    let deadline = tokio::time::Instant::now() + AGENT_PROVIDER_EXECUTION_TIMEOUT;
                     let submit = ingress.submit_with_cancellation(
                         DomainWork {
                             schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
@@ -5619,7 +5631,7 @@ pub(crate) async fn invoke_ollama_model(
     };
     tokio::select! {
         _ = cancellation.cancelled() => Err("operation cancelled"),
-        result = tokio::time::timeout(Duration::from_secs(120), operation) => {
+        result = tokio::time::timeout(AGENT_PROVIDER_EXECUTION_TIMEOUT, operation) => {
             result.map_err(|_| "agent_provider_timed_out")?
         }
     }
@@ -5905,8 +5917,15 @@ mod conversation_dispatch_gate_tests {
         let cancellation = CancellationToken::new();
         let later_gate = gate.clone();
         let later_cancellation = cancellation.clone();
-        let mut later =
-            tokio::spawn(async move { later_gate.wait_turn(2, &later_cancellation).await });
+        let mut later = tokio::spawn(async move {
+            later_gate
+                .wait_turn(
+                    2,
+                    &later_cancellation,
+                    tokio::time::Instant::now() + Duration::from_secs(60),
+                )
+                .await
+        });
 
         assert!(tokio::time::timeout(Duration::from_millis(20), &mut later)
             .await
@@ -5914,6 +5933,20 @@ mod conversation_dispatch_gate_tests {
         assert!(gate.ready(1));
         gate.complete(1);
         assert!(later.await.unwrap());
+    }
+
+    #[tokio::test]
+    async fn later_turn_queue_wait_expires_without_advancing_the_gate() {
+        let gate = ConversationDispatchGate::new();
+        let cancellation = CancellationToken::new();
+
+        assert!(
+            !gate
+                .wait_turn(2, &cancellation, tokio::time::Instant::now())
+                .await
+        );
+        assert!(gate.ready(1));
+        assert!(!cancellation.is_cancelled());
     }
 }
 
