@@ -11,3 +11,4 @@
 {"sequence":11,"generation":8,"actor":"codex:issue-602-runtime-agent-lifecycle","reason":"Refresh exact-head review after the review-evidence metadata commit changed files inside the assigned review scope.","operation":"recover_review"}
 {"sequence":12,"generation":8,"actor":"codex:issue-602-runtime-agent-lifecycle","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":9,"actor":"codex:issue-602-runtime-agent-lifecycle","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":14,"generation":10,"actor":"codex:issue-602-runtime-agent-lifecycle","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
