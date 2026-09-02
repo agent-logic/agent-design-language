@@ -1,9 +1,8 @@
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/adl-runtime-kernel)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.48s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
 ────────────
- Nextest run ID 8a57d780-6fe8-4309-9d61-f6574b327c6f with nextest profile: default
+ Nextest run ID c03669c8-e28a-47cc-89ab-9d5155ce5750 with nextest profile: default
     Starting 2 tests across 1 binary (25 tests skipped)
-        PASS [   0.011s] (1/2) adl-runtime-kernel::configuration runtime_init_rejects_unsafe_s3_archive_identity_segments
-        PASS [   0.011s] (2/2) adl-runtime-kernel::configuration runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity
+        PASS [   0.009s] (1/2) adl-runtime-kernel::configuration runtime_init_rejects_unsafe_s3_archive_identity_segments
+        PASS [   0.010s] (2/2) adl-runtime-kernel::configuration runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity
 ────────────
-     Summary [   0.012s] 2 tests run: 2 passed, 25 skipped
+     Summary [   0.010s] 2 tests run: 2 passed, 25 skipped

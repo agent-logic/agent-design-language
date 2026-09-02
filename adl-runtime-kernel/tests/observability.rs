@@ -457,6 +457,121 @@ async fn runtime_vector_pipeline_s3_archive_outage_does_not_block_master_log_pro
 }
 
 #[test]
+fn pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses() {
+    let root = test_root("s3-archive-vector-outage");
+    let mut config = vector_config(root.clone(), None);
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+
+    fs::create_dir_all(config.ingress_spool_path.parent().unwrap()).unwrap();
+    fs::create_dir_all(&config.vector_data_dir).unwrap();
+    write_records(
+        &config.ingress_spool_path,
+        &[record(
+            0,
+            "INFO",
+            "s3_archive_outage_probe",
+            "s3_endpoint_unreachable",
+            "wp-12",
+        )],
+    );
+
+    let mut rendered = render_vector_config(&config);
+    rendered["sinks"]["runtime_v3_s3_archive"]["endpoint"] = json!("http://127.0.0.1:9");
+    rendered["sinks"]["runtime_v3_s3_archive"]["force_path_style"] = json!(true);
+    rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["max_bytes"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["max_events"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["timeout_secs"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["request"]["retry_attempts"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["request"]["retry_max_duration_secs"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["request"]["timeout_secs"] = json!(1);
+
+    fs::create_dir_all(config.vector_config_path.parent().unwrap()).unwrap();
+    fs::write(
+        &config.vector_config_path,
+        serde_json::to_vec_pretty(&rendered).unwrap(),
+    )
+    .unwrap();
+    let stdout_path = root.join("vector-s3-outage.stdout.jsonl");
+    let stderr_path = root.join("vector-s3-outage.stderr.jsonl");
+    let stdout = fs::File::create(&stdout_path).unwrap();
+    let stderr = fs::File::create(&stderr_path).unwrap();
+
+    let mut child = Command::new(&config.vector_binary)
+        .arg("--config-json")
+        .arg(&config.vector_config_path)
+        .arg("--require-healthy")
+        .arg("false")
+        .arg("--log-format")
+        .arg("json")
+        .arg("--color")
+        .arg("never")
+        .arg("--graceful-shutdown-limit-secs")
+        .arg("1")
+        .env("AWS_ACCESS_KEY_ID", "issue-594-test-access-key")
+        .env("AWS_SECRET_ACCESS_KEY", "issue-594-test-secret-key")
+        .env("AWS_EC2_METADATA_DISABLED", "true")
+        .stdin(Stdio::null())
+        .stdout(Stdio::from(stdout))
+        .stderr(Stdio::from(stderr))
+        .spawn()
+        .unwrap();
+
+    let deadline = Instant::now() + Duration::from_secs(20);
+    let mut master_log_progressed = false;
+    let mut s3_failure_observed = false;
+    loop {
+        if !master_log_progressed && config.master_log_path.is_file() {
+            let records = read_records(&config.master_log_path);
+            master_log_progressed = records
+                .iter()
+                .any(|record| record["operation"] == "s3_archive_outage_probe");
+        }
+        if !s3_failure_observed {
+            let vector_logs = format!(
+                "{}\n{}",
+                fs::read_to_string(&stdout_path).unwrap_or_default(),
+                fs::read_to_string(&stderr_path).unwrap_or_default()
+            );
+            s3_failure_observed = vector_logs.contains("runtime_v3_s3_archive")
+                && vector_logs.contains("Retries exhausted; dropping the request.")
+                && vector_logs.contains("Service call failed. No retries or retries exhausted.")
+                && vector_logs.contains("Events dropped");
+        }
+        if master_log_progressed && s3_failure_observed {
+            break;
+        }
+        if Instant::now() >= deadline {
+            let _ = child.kill();
+            let _ = child.wait();
+            panic!(
+                "timed out waiting for master log progress ({master_log_progressed}) and s3 failure telemetry ({s3_failure_observed}); stdout: {}; stderr: {}",
+                fs::read_to_string(&stdout_path).unwrap_or_default(),
+                fs::read_to_string(&stderr_path).unwrap_or_default(),
+            );
+        }
+        if let Some(status) = child.try_wait().unwrap() {
+            panic!(
+                "vector exited before outage proof completed: {status}; stdout: {}; stderr: {}",
+                fs::read_to_string(&stdout_path).unwrap_or_default(),
+                fs::read_to_string(&stderr_path).unwrap_or_default(),
+            );
+        }
+        sleep(Duration::from_millis(100));
+    }
+
+    if child.try_wait().unwrap().is_none() {
+        let _ = child.kill();
+    }
+    let _ = child.wait();
+}
+
+#[test]
 fn vector_config_renders_windows_safe_forward_slashed_paths() {
     let root = PathBuf::from(r"\\?\C:\adl\runtime\state");
     let config = vector_config(root.clone(), None);
