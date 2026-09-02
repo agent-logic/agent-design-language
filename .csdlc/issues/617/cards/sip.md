@@ -20,14 +20,19 @@ AgentRosterEntry, roster/detail JSON, OpenAPI, and focused tests expose stable t
 
 ## Scope
 
+- adl-runtime-kernel/src/config.rs
 - adl-runtime-kernel/src/agent_roster.rs
 - adl-runtime-kernel/src/control.rs
 - adl-runtime-kernel/src/control/feeds.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/tests/configuration.rs
+- adl-runtime-kernel/tests/support/runtime_init.rs
 - adl-runtime-kernel/tests/agent_roster.rs
 - adl-runtime-kernel/tests/control.rs
 - adl-runtime-kernel/tests/observatory.rs
 - adl-runtime-kernel/tests/openapi_contract.rs
 - docs/api/runtime-v3/v1/observatory.openapi.json
+- infra/runtime-v3/runtime-init.toml
 - .csdlc/prepared/issues/617
 - .csdlc/evidence/617
 - .csdlc/issues/617

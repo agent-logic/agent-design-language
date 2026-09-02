@@ -1,6 +1,9 @@
 flowchart LR
-    C[Agent configuration\ncanonical name] --> A[Admission and active state]
-    A --> R[AgentRosterEntry]
+    D[Dynamic admission\nAgentAdmissionRequest.name] --> A[AgentSample.name]
+    S[Runtime init\nresident_shepherd.name] --> B[resident_shepherd(name)]
+    A --> E[AgentRuntimeEvidence.name]
+    B --> E
+    E --> R[AgentRosterEntry.name]
     R --> L[GET roster]
     R --> D[GET agent detail]
     R --> O[Observatory/OpenAPI]

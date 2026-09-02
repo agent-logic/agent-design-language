@@ -23,12 +23,12 @@ One additive canonical-name field carried from authoritative agent state through
 
 ## Acceptance
 
-1. AC-1: AgentRosterEntry and roster/detail JSON expose an explicit canonical two-part agent name
-2. AC-2: Operational ID, canonical name, display name, and public office remain distinct and truthful
-3. AC-3: Dynamic agents preserve their admitted canonical names across roster and detail responses
-4. AC-4: The startup Shepherd exposes a configured stable canonical name without inference
-5. AC-5: Observatory OpenAPI and checked API inventory require and describe the additive field
-6. AC-6: Focused serialization and compatibility tests prove existing field meanings and clients are not unexpectedly broken
+1. AC-1: AgentRosterEntry and roster/detail JSON always emit a nonempty canonical two-part agent name in the additive wire field name.
+2. AC-2: Operational id, canonical name, display label, and public role/office remain separate fields with unchanged existing meanings.
+3. AC-3: Dynamic agents carry the validated AgentAdmissionRequest.name unchanged through AgentSample, AgentRuntimeEvidence, roster, and detail responses.
+4. AC-4: Runtime init requires and validates resident_shepherd.name, and the production binary passes it to the Shepherd roster constructor without ID or label inference.
+5. AC-5: Observatory OpenAPI keeps adl.runtime_v3.agent_roster_entry.v1, adds required outbound name, and its checked inventory matches serialized output.
+6. AC-6: Focused tests prove current output always contains name, previously recorded v1 JSON without name remains readable through a deserialization-only default, existing fields retain exact serialization, and zero-test selection fails.
 
 ## Dependencies
 

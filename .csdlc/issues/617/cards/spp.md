@@ -16,7 +16,7 @@ Add the canonical field at the roster boundary, project authoritative dynamic an
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -96,13 +96,13 @@ Revision 3
 
 .csdlc/prepared/issues/617/design.md
 
-Digest: 6dd47a26973c16a5377579d14ceedf896a080674175d7511cb7a70ab6a954b04
+Digest: f79a6f8537ad39fc01f814610778fd941742fa33f6640f6beccad593892e1aa5
 
 ## Diagram
 
 .csdlc/prepared/issues/617/diagram.mmd
 
-Digest: 2467dad08204b00f40c94ce2402428e03212f8b5dc1d40e6d033ae927f0c8480
+Digest: 227e3cccc0f899d49f1b59d5a63ffad45d8373817cca94c1c9777b28d41c5264
 
 ## Stop Conditions
 

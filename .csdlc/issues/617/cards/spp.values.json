@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
     "slug": "runtime-api-canonical-agent-names",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Add the canonical field at the roster boundary, project authoritative dynamic and Shepherd names through both API paths, update OpenAPI, and prove additive compatibility with focused tests.",
       "steps": [
         {
@@ -63,14 +63,19 @@
         }
       ],
       "affected_areas": [
+        "adl-runtime-kernel/src/config.rs",
         "adl-runtime-kernel/src/agent_roster.rs",
         "adl-runtime-kernel/src/control.rs",
         "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/support/runtime_init.rs",
         "adl-runtime-kernel/tests/agent_roster.rs",
         "adl-runtime-kernel/tests/control.rs",
         "adl-runtime-kernel/tests/observatory.rs",
         "adl-runtime-kernel/tests/openapi_contract.rs",
         "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "infra/runtime-v3/runtime-init.toml",
         ".csdlc/prepared/issues/617/validate-canonical-agent-name.sh",
         ".csdlc/evidence/617"
       ],
@@ -102,9 +107,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/617/design.md",
-      "design_digest": "6dd47a26973c16a5377579d14ceedf896a080674175d7511cb7a70ab6a954b04",
+      "design_digest": "f79a6f8537ad39fc01f814610778fd941742fa33f6640f6beccad593892e1aa5",
       "diagram_ref": ".csdlc/prepared/issues/617/diagram.mmd",
-      "diagram_digest": "2467dad08204b00f40c94ce2402428e03212f8b5dc1d40e6d033ae927f0c8480"
+      "diagram_digest": "227e3cccc0f899d49f1b59d5a63ffad45d8373817cca94c1c9777b28d41c5264"
     }
   }
 }

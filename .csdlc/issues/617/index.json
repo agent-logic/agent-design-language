@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9d5f743e4d7fa11e73e41d07b8abdbf638dbf14695def74e2c46cc07eda70502",
   "phase": "initialized",
-  "generation": 3,
-  "digest": "79f0460956d6c5afa19c83dd21d732c416dcefb63c00cebc16c046c050712364",
+  "generation": 6,
+  "digest": "a5c9ed5a9099973c709f654c2ce6c57646ffd62ca98f8d70161344b5c1c12ecf",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "8bdcec175f83617827c0f9a95b3962185cc135d3fbcda2ba4818bc381af5ff94",
-      "rendered_digest": "96f1f31b59994550aa92417e630dca75040fbcf12a149dffddd017fa997d8908",
-      "ast_digest": "fa654f282625a338375f492ed69bbcb6debeb9c913c2d75e1e0edbca827f31f0"
+      "values_digest": "03a2a39583c6a462b17524b41ed8027b545b1395ccfb36dc5dec654cebcdf780",
+      "rendered_digest": "b7dd70da419bf6f2f8ad137ff4ea27aa7445c400ec83abce12e6c7812480ab96",
+      "ast_digest": "cc756df52b6a91d50dc4dfa895aa60144d6cb949dca25dfbc4d815ffe09951fe"
     },
     "stp": {
-      "values_digest": "2806be622352d5b139d9b373f88d3aa52d43dc6671b4dd392e64c5e1fd2448f0",
-      "rendered_digest": "d846715deee2cf2b3cddd01cafd3bba21322a45fa49dff6876c4e995f5a921a5",
-      "ast_digest": "c9a3b19de379b6c253dc5fdb9bd28e7dfdb3db283a32616b1ea33119f3ce99df"
+      "values_digest": "44ee136ad77a9aac932257f96c4f022e761a3dd77654a82fe4bf5ceb5d45bb5c",
+      "rendered_digest": "e1335e10dd8a3da4137d9d6801be275394af05f162f486eaf3c8bab4e6392d76",
+      "ast_digest": "224bcbe1deaf52a77d9c7213ac5448d29b84ba5fbb3c194824202719930fd395"
     },
     "spp": {
-      "values_digest": "8a4df846f90db01f7b8ce0ce6673e1e2791cfc2a3d5a66dbd9ed2ec3a3012a55",
-      "rendered_digest": "021754b1a2f4ad40a07bf756e081125a7cfabf3968958ca048a14a9152f19431",
-      "ast_digest": "07de916c657558463835dda77409dd4b098e4f37b818b920145828d8068afaff"
+      "values_digest": "dd7e7fe5194b82e55355f1a8987e04e2ef6e361b801c894941a0a77afee4ae27",
+      "rendered_digest": "179e1bc87c20b10a3914daec6fff52d4108cf1bf6782006189a7a0419996c7a9",
+      "ast_digest": "215c567c8725e96be1e2d7dff413280e09144f3aca1f15571e6c5fc8c0f627cf"
     },
     "vpp": {
-      "values_digest": "d52114645cd44f8ca5236100fffc4538c6cea536c8596f02228f40fc266145f4",
+      "values_digest": "e5f2340b572aaea6e06170b61ebccb7b0dea38f143d117e9975daba10d055ad5",
       "rendered_digest": "180d230f38b209328555804f6f040a8eeabf8bc5268d53270f59142ee6b7aaf1",
       "ast_digest": "f37aecd69c0d4f811571f7064130e6ffa796d5ab869f02610c1fe6a702685511"
     },
     "srp": {
-      "values_digest": "77f6b0914fcdac51271d1ae026ac9b00116079e69c9d77732444774bd5f1c299",
+      "values_digest": "18bf5c8951fef70d26563a03aeca3d01ce01823ba90ef2097e1decc922568728",
       "rendered_digest": "bbac9b230667509093404a6a4253aa316aa916acd0f59fb3aaa06abfd39be40f",
       "ast_digest": "26e80641bffc15097ac7092b6d1bc432f5dec059915a216b249f6bda84d6d252"
     },
     "sor": {
-      "values_digest": "8d9e1ff7d29c3cd956e45de07233180430e610978c97484acbd6dc617e04ed8d",
+      "values_digest": "c9ea514b86d7e75015c04fcf67b4f1113a47aedeb1601cbc1fd90cc45a8b350b",
       "rendered_digest": "02b17a0ff2569c63160654a9e71c7154398959202fe5a3c327a716d0d7efc2c6",
       "ast_digest": "27d7e8a4201b0584f56bfe03f5aec0c55fe3d0edd6db51ab5cea42932845df40"
     }
@@ -78,6 +78,27 @@
       "actor": "codex:/root",
       "reason": "Own the exact executable issue-local canonical-name validation target selected by VPP.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\".csdlc/prepared/issues/617/validate-canonical-agent-name.sh\",\".csdlc/evidence/617\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Resolve design review by defining the name wire field, Shepherd configuration authority, schema-version posture, and exact legacy-read/current-output compatibility proof.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/617/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/617/diagram.mmd\",\"new_design_digest\":\"f79a6f8537ad39fc01f814610778fd941742fa33f6640f6beccad593892e1aa5\",\"new_diagram_digest\":\"227e3cccc0f899d49f1b59d5a63ffad45d8373817cca94c1c9777b28d41c5264\",\"old_design_digest\":\"6dd47a26973c16a5377579d14ceedf896a080674175d7511cb7a70ab6a954b04\",\"old_diagram_digest\":\"2467dad08204b00f40c94ce2402428e03212f8b5dc1d40e6d033ae927f0c8480\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: AgentRosterEntry and roster/detail JSON always emit a nonempty canonical two-part agent name in the additive wire field name.\",\"AC-2: Operational id, canonical name, display label, and public role/office remain separate fields with unchanged existing meanings.\",\"AC-3: Dynamic agents carry the validated AgentAdmissionRequest.name unchanged through AgentSample, AgentRuntimeEvidence, roster, and detail responses.\",\"AC-4: Runtime init requires and validates resident_shepherd.name, and the production binary passes it to the Shepherd roster constructor without ID or label inference.\",\"AC-5: Observatory OpenAPI keeps adl.runtime_v3.agent_roster_entry.v1, adds required outbound name, and its checked inventory matches serialized output.\",\"AC-6: Focused tests prove current output always contains name, previously recorded v1 JSON without name remains readable through a deserialization-only default, existing fields retain exact serialization, and zero-test selection fails.\"]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Resolve design review by owning the exact Runtime init configuration and production construction path for the Shepherd canonical name.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/617\",\".csdlc/evidence/617\",\".csdlc/issues/617\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Align exact execution ownership with the configured Shepherd authority and compatibility proof required by independent review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/617/validate-canonical-agent-name.sh\",\".csdlc/evidence/617\"]}"
     }
   ]
 }
