@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The retained diligence index binds CORP-A #482, CORP-B #483, and CORP-C #497 to closed, merged, ancestral public GitHub receipts; sidecar #624 remains a nonblocking operational-hardening follow-up. The acceptance record binds the exact diligence-index digest and records no unresolved blockers.
+Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The retained diligence index binds CORP-A #482, CORP-B #483, and CORP-C #497 to closed, merged, ancestral public GitHub receipts using typed C-SDLC v2 GitHub read-owner readbacks; sidecar #624 remains an open, nonblocking operational-hardening follow-up. The acceptance record binds the recomputed exact diligence-index digest and records no unresolved blockers.
 
 ## Artifacts
 
@@ -25,6 +25,13 @@ Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The r
 - .csdlc/prepared/issues/498/validate-diligence-index.rb
 - .csdlc/prepared/issues/498/validate-counsel-boundary.rb
 - .csdlc/prepared/issues/498/validate-acceptance-readback.rb
+- .csdlc/prepared/issues/498/github-issue-482-read.json
+- .csdlc/prepared/issues/498/github-issue-483-read.json
+- .csdlc/prepared/issues/498/github-issue-497-read.json
+- .csdlc/prepared/issues/498/github-issue-624-read.json
+- .csdlc/prepared/issues/498/github-pr-545-state.json
+- .csdlc/prepared/issues/498/github-pr-562-state.json
+- .csdlc/prepared/issues/498/github-pr-613-state.json
 - .csdlc/evidence/498/issue498-readiness-preparation.log
 - .csdlc/evidence/498/issue498-prerequisite-census.log
 - .csdlc/evidence/498/issue498-diligence-index.log
@@ -38,9 +45,12 @@ Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The r
 - Bound #498 to `codex/498-corp-d-corporate-diligence-acceptance` in `/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance`.
 - Created the corporate diligence index covering CORP-A, CORP-B, and CORP-C prerequisite dispositions.
 - Recorded the prerequisite census showing #482, #483, and #497 closed with merged PRs ancestral to `origin/main`.
+- Replaced raw GitHub prerequisite observation with typed C-SDLC v2 GitHub issue-read and PR-state request packets for #482/#545, #483/#562, #497/#613, and sidecar #624.
+- Strengthened the diligence-index validator so the acceptance record must match the recomputed SHA-256 digest of `docs/operations/corporate/diligence/diligence-index.v1.json`.
+- Recorded sidecar #624 as an open nonblocking follow-up in the prerequisite census output and retained log.
 - Recorded counsel-boundary receipts using only public or redacted receipt references and no counsel-controlled judgment material.
 - Recorded CORP-D acceptance bound to the exact diligence-index SHA-256 digest with an empty unresolved-blocker list.
-- Finalized #498 through the typed PVF implementation route with all local lanes passing.
+- Regenerated diff-hygiene evidence as a non-empty machine-readable receipt for `git diff --check origin/main...HEAD`.
 
 ## Validation
 
@@ -59,7 +69,7 @@ Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The r
       "ruby",
       ".csdlc/prepared/issues/498/check-prerequisites.rb"
     ],
-    "purpose": "Validate #482, #483, and #497 closed/merged/ancestral prerequisite truth.",
+    "purpose": "Validate #482, #483, and #497 closed/merged/ancestral prerequisite truth through typed C-SDLC v2 GitHub read-owner requests, and record sidecar #624 as nonblocking.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/498/issue498-prerequisite-census.log"
   },
@@ -68,7 +78,7 @@ Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The r
       "ruby",
       ".csdlc/prepared/issues/498/validate-diligence-index.rb"
     ],
-    "purpose": "Validate the diligence index denominator and acceptance-record binding.",
+    "purpose": "Validate the diligence index denominator and recomputed acceptance-record digest binding.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/498/issue498-diligence-index.log"
   },
@@ -97,7 +107,7 @@ Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The r
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Validate patch whitespace hygiene.",
+    "purpose": "Validate patch whitespace hygiene and retain a non-empty machine-readable receipt.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/498/issue498-diff-hygiene.log"
   }

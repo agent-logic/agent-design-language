@@ -3,6 +3,7 @@
 
 require "json"
 require "pathname"
+require "digest"
 
 ROOT = Pathname.new(__dir__).join("../../../../").expand_path
 INDEX = ROOT.join("docs/operations/corporate/diligence/diligence-index.v1.json")
@@ -19,7 +20,8 @@ if failures.empty?
   rows = index.fetch("entries")
   ids = rows.map { |row| row.fetch("planned_id") }
   failures << "diligence index planned IDs mismatch" unless ids.sort == expected.sort
-  failures << "acceptance record does not bind exact diligence index digest" unless acceptance["diligence_index_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
+  actual_digest = Digest::SHA256.file(INDEX.to_s).hexdigest
+  failures << "acceptance record does not bind exact diligence index digest" unless acceptance["diligence_index_sha256"] == actual_digest
   failures << "acceptance status must be accepted or blocked" unless %w[accepted blocked].include?(acceptance["status"])
 end
 
