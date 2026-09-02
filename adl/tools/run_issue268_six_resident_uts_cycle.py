@@ -9,6 +9,7 @@ import json
 import os
 import pathlib
 import subprocess
+import time
 from typing import Any
 
 
@@ -168,14 +169,38 @@ def run_agent(runtime_bin: pathlib.Path, spec: pathlib.Path) -> int:
     return completed.returncode
 
 
-def run_daemon(csm_bin: pathlib.Path, spec: pathlib.Path) -> int:
-    completed = subprocess.run([
+def run_daemon(csm_bin: pathlib.Path, spec: pathlib.Path, agent_dir: pathlib.Path) -> int:
+    process = subprocess.Popen([
         str(csm_bin), "daemon", "--spec", str(spec),
         "--checkpoint-interval-secs", "1", "--interval-secs", "1",
         "--test-supervisor-failure-after-restarts", "1",
         "--api-bind", "127.0.0.1:0", "--no-sleep", "--json",
-    ], cwd=ROOT, check=False)
-    return completed.returncode
+    ], cwd=ROOT)
+    deadline = time.monotonic() + 90
+    cycles_root = agent_dir / "state" / "cycles"
+    try:
+        while time.monotonic() < deadline:
+            if process.poll() is not None:
+                return process.returncode
+            cycle_dirs = sorted(cycles_root.glob("cycle-*")) if cycles_root.exists() else []
+            if any((cycle_dir / "resident_tool_receipts.json").is_file() for cycle_dir in cycle_dirs):
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
+                return 0
+            time.sleep(1)
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait(timeout=5)
+    return process.returncode if process.returncode is not None else 1
 
 
 def normalize_and_validate_runtime_spec(runtime_bin: pathlib.Path, spec: pathlib.Path, agent_dir: pathlib.Path) -> None:
@@ -310,7 +335,7 @@ def main() -> int:
             if binding.get("authority_sha256") != retained.get("runtime_authority_sha256"):
                 raise SystemExit(f"{agent_id}: restored #414 tool authority mismatch")
         write_workflow(agent_dir / "workflow.adl.yaml", resident, args.phase, task)
-        runtime_exit_code = run_daemon(csm_bin, spec_path) if args.phase == "pre" else run_agent(args.runtime_bin, spec_path)
+        runtime_exit_code = run_daemon(csm_bin, spec_path, agent_dir) if args.phase == "pre" else run_agent(args.runtime_bin, spec_path)
         if args.phase == "pre":
             normalize_and_validate_runtime_spec(args.runtime_bin, spec_path, agent_dir)
         cycle_dirs = sorted((agent_dir / "state" / "cycles").glob("cycle-*"))
