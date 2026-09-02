@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5cba53deaba7c8e2a2a220194f4bb1433a12212ab512e95fdfe9591df5a470e5",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "dd06df0cc88b98f701478053188baef4ffb577b0172ee36ca87144881d63e785",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "7221a3823bc79d1b4ec232c06dcc9ea721c48f12b43a634d6a0a4ec0d68b2d0c",
   "branch": "codex/498-corp-d-corporate-diligence-acceptance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance",
   "review_assignment": {
-    "reviewer": "subagent:498-corp-d-exact-head-review-r3",
+    "reviewer": "subagent:498-corp-d-exact-head-review-r4",
     "assigned_by": "codex:/root/Worker-7",
-    "revision": "git-blake3:26770d2f52bf17ba8358af02f00af5215aae585b:8278550ce791c7d284746d47354b030eb6269e020090c7fce5832173495374eb",
+    "revision": "git-blake3:86a58181d2f6957f0e9a3726eeb3ca16ebb1d04b:24763d241d8b3fafaeecfedebfb652f2490a3e452917eeddb07154d5491007cb",
     "scope": [
       ".csdlc/evidence/498",
       ".csdlc/prepared/issues/498",
@@ -20,7 +20,20 @@
       "docs/operations/corporate/diligence"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:498-corp-d-exact-head-review-r4",
+    "scope": [
+      ".csdlc/evidence/498",
+      ".csdlc/prepared/issues/498",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+      "docs/operations/corporate/diligence"
+    ],
+    "reviewed_revision": "git-blake3:86a58181d2f6957f0e9a3726eeb3ca16ebb1d04b:24763d241d8b3fafaeecfedebfb652f2490a3e452917eeddb07154d5491007cb",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8973bf7fd510055b376380b034242658fa856444d938376fed8eb27529138848",
+      "values_digest": "96462941260cb6d7004bc68bfbd4aa0af5808f54a5db5bce046378c8f92f219d",
       "rendered_digest": "a7bc34d0c59c5807a8b0e7dbd9843c2c8a08f46ed987310125c3e4c2738a053f",
       "ast_digest": "2ffd5d6c88c83d6165aafcd1a3efecece8df8f58deae3d878e236ed57e59244e"
     },
     "stp": {
-      "values_digest": "a78d625387f15016927b171c4e496b70afe40c69074d42a8dacda84bff38028e",
+      "values_digest": "641078965f1a758dcb7f6a66ce27c30b25eb308685cf1258ffa40a4cdd6636ed",
       "rendered_digest": "f16ff75f0f09836e1eb72918926648a861e099333c14ddd7e3b744c637200764",
       "ast_digest": "c496d6b4fc27fd91dce500d28f83e9d45119e3b4d4077a7e41b1bc423793b9e5"
     },
     "spp": {
-      "values_digest": "85bc8786271619288d6d77c3e7036869232a1b1ef98ebbdb21feae5654ee29a8",
+      "values_digest": "b1680e7544dea67fb713b6964bf75f41ffa41001777fb6b97cf97edcb2138293",
       "rendered_digest": "5fbd461707f5029fc3d98c0f70fde837396f62087158fe0ef02215f24393f928",
       "ast_digest": "7ad3097d27e125aafe92401338140c8479afa92f7049dfe071ca688fda60d53d"
     },
     "vpp": {
-      "values_digest": "5ef9ff706932c68d2e96f117674dcab103df4d514c705d5fdb4b9fe07cbd8c32",
+      "values_digest": "6c6828d8de8e04b40e0baae440071186bf8ce00ea9efc1597e26104e0ec8957f",
       "rendered_digest": "a6344553e55fdcd20db1d1f93d65266163be07e90c0552a9c710833664612ff7",
       "ast_digest": "006752cce1dd6225e56cbfc29a886f4ad200618e1cd9bb3a4f69e2a03aa2acbb"
     },
     "srp": {
-      "values_digest": "dc283e36002dfe98db383e329ff52b5081dca511cf5d978dcfef7eb5d3d39892",
-      "rendered_digest": "75ce975494b600414b65b3e6a7e35b9fb96210f3fda4299c8ad54a1f9c1c2d12",
-      "ast_digest": "9734f9463c0a9a2ba66b8bc7dae012aea22dff9d30a644e1a0092804ec964dbd"
+      "values_digest": "a14752d1d5491e6e1e988e960de86035b90df84c42550fc806bbe8d47ca00686",
+      "rendered_digest": "ae9f483e949a3c1e5be0af99b46966c5d0c845dd06c783aa9dc1a1bfa1376346",
+      "ast_digest": "4cea46dc66efc6896f9ca4ae58d43945cebcce539bc5646abaeffc066be9939c"
     },
     "sor": {
-      "values_digest": "d17d0f317ff2eb4eb972b0fc4fbf89c8bd77fffe31f6f7e10235ebd8e23f4d88",
+      "values_digest": "354b0a89b22e4860fc14d81ec979f88d4132776473e6ad1add94c0ece8933296",
       "rendered_digest": "b0eaa6e0894a7ec2fb21c42d6f76f7c8d2eef96be35ea4eb7aae11d519981c55",
       "ast_digest": "71836c4e326653ca019911ee6d0613a22d87f0382d176036d3a44adfa4873985"
     }
@@ -86,6 +99,13 @@
       "to": "implemented",
       "actor": "codex:/root/Worker-7",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/Worker-7",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -186,6 +206,20 @@
       "actor": "codex:/root/Worker-7",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
