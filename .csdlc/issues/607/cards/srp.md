@@ -13,6 +13,7 @@ Status: draft
 ## Scope
 
 .csdlc/issues/607
+.csdlc/evidence/607/local-validation-resume-f59fcbf6a.json
 adl/tools/run_issue607_warm_polis.sh
 adl/tools/test_issue607_warm_polis.sh
 

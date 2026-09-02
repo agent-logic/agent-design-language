@@ -5,85 +5,21 @@
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
   "generation": 36,
-  "digest": "1df4a0a18117f5517eae8bf33e3c56cead2a92b7d0254bf79e5999adb476f188",
+  "digest": "664b4de245eb223e48e9942ef93b04399b8a35426c600d781e9a31e3ed3fb3ad",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": {
-    "reviewer": "subagent:issue_607_resume_review",
+    "reviewer": "subagent:issue_607_resume_r2_review",
     "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:b5debc6abc77eef40361abde362ea0458ef52668:f22cd6960bde70585c3737a7879c8c775610002b350a75f6fb3b77b9d956c945",
+    "revision": "git-blake3:1a74892479c1b00549a800bbd0ef748d9f09ee13:0f153cf003c03275bdb913f962b52911f3084e73a30f89acc4bffbeb22b8f215",
     "scope": [
       ".csdlc/issues/607",
+      ".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json",
       "adl/tools/run_issue607_warm_polis.sh",
       "adl/tools/test_issue607_warm_polis.sh"
     ]
   },
-  "review": {
-    "reviewer": "subagent:issue_607_resume_review",
-    "scope": [
-      ".csdlc/issues/607",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh"
-    ],
-    "reviewed_revision": "git-blake3:b5debc6abc77eef40361abde362ea0458ef52668:f22cd6960bde70585c3737a7879c8c775610002b350a75f6fb3b77b9d956c945",
-    "findings": [
-      {
-        "id": "607-resume-f1-idempotence",
-        "severity": "p1",
-        "summary": "Interrupted completion can create duplicate retained sealed snapshots and an unreferenced temporary restore while understating cost.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "607-resume-f2-identity",
-        "severity": "p1",
-        "summary": "Resume does not fully bind checkout, state, plans, artifacts, ledger, and consumed authorization to the original exact campaign.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "607-resume-f3-api-errors",
-        "severity": "p1",
-        "summary": "Permanent AWS API errors are retried forever instead of failing while only healthy transitional resource states wait indefinitely.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "607-resume-f4-image-window",
-        "severity": "p2",
-        "summary": "Preservation starts after both create-image calls, leaving an interruption window that destroys a partially created image and makes the consumed run non-resumable.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "607-resume-f5-tests-proof",
-        "severity": "p2",
-        "summary": "Tests do not execute resume rejection, idempotence, permanent API failure, preservation, and cost accuracy, and retained SOR validation is stale.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "The available prepared AMIs and completed root snapshots remain preserved while remediation and fresh review proceed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -118,9 +54,9 @@
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "def8ac792a46d911b36343eedbfa1f86fa2032219e3c38380ccc47a3fe5cdede",
-      "rendered_digest": "dd49a0b9cc0e920eaf2538dde3f42dd04c4fec4929f49971025828d262bc2233",
-      "ast_digest": "8b8c53dfeff46a9f273c98b21368596a03b2b6e3d1781a46ab4c9a91139a4f33"
+      "values_digest": "9e239fe8e388144351af6764864e370ed23d3e637ce0cf1497a8fd4a86985e4a",
+      "rendered_digest": "128a4bbe63fa725f62b8e831e116bf903f2d30d409f6cfd2e1060ab6b810eb69",
+      "ast_digest": "776b8a5ca6720de4f79481b932d87da5fa76a64014f4379f6468a4172becba5b"
     },
     "sor": {
       "values_digest": "cb85e42a434a8bc602822326b1af45b07bb28c436171f6368fd8352107b79467",
@@ -536,6 +472,13 @@
       "actor": "codex-primary-issue607",
       "reason": "Replace stale implementation and validation truth after the exact restart-safety remediation and focused local proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the warm two-node AWS path through restart-safe controller revision f59fcbf6a; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.\",\"Made AMI and sealed-snapshot creation exact-state and idempotent across controller interruption.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, and ledger identity validation before resume.\",\"Added executable regressions for permanent AWS errors and exact reuse of existing images and snapshots.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, and exact image and snapshot reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue after restart-safety remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and its regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"}]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 36,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

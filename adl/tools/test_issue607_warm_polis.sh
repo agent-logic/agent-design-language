@@ -211,6 +211,8 @@ run_contracts() {
   rg -q 'start_prepared_image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'resume-preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'PRESERVE_PREPARATION_ON_EXIT=true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -Fq 'arn:aws:ec2:$REGION:$account:image/$image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -Fq 'arn:aws:ec2:$REGION:$account:snapshot/$snapshot' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   ! rg -q 'CONTROL_PLANE_WAIT_SECONDS|ec2 wait (image-available|snapshot-completed|instance-stopped)' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq "'[{\"DeviceName\":\"/dev/sdf\",\"NoDevice\":\"\"}]'" "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'retire-snapshots' "$ROOT/adl/tools/run_issue607_warm_polis.sh"

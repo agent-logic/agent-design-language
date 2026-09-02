@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/607\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh",
+      "review_scope": ".csdlc/issues/607\n.csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh",
       "review_revision": "git-blake3:b5debc6abc77eef40361abde362ea0458ef52668:f22cd6960bde70585c3737a7879c8c775610002b350a75f6fb3b77b9d956c945",
       "reviewer": "subagent:issue_607_resume_review",
       "review_prompts": [

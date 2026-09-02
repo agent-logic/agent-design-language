@@ -706,6 +706,14 @@ verify_no_disposable_residue() {
     allowed_ids="$(jq -c --arg id "$1" '.+[$id]' <<<"$allowed_ids")"
     shift
   done
+  for image in "$PREP_RUNTIME_AMI_ID" "$PREP_GPU_AMI_ID"; do
+    [[ -n "$image" ]] || continue
+    allowed="$(jq -c --arg arn "arn:aws:ec2:$REGION:$account:image/$image" '.+[$arn]' <<<"$allowed")"
+  done
+  for snapshot in "$PREP_RUNTIME_ROOT_SNAPSHOT_ID" "$PREP_GPU_ROOT_SNAPSHOT_ID"; do
+    [[ -n "$snapshot" ]] || continue
+    allowed="$(jq -c --arg arn "arn:aws:ec2:$REGION:$account:snapshot/$snapshot" '.+[$arn]' <<<"$allowed")"
+  done
   live="$(aws_cli resourcegroupstaggingapi get-resources --tag-filters Key=adl:issue,Values=607 Key=adl:owner-token,Values="$owner" --query 'ResourceTagMappingList[].ResourceARN' --output json)"
   unexpected="$(jq -c --argjson allowed "$allowed" '[.[]|select(($allowed|index(.))==null)]' <<<"$live")"
   instances="$(aws_cli ec2 describe-instances --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" Name=instance-state-name,Values=pending,running,stopping,stopped --query 'Reservations[].Instances[].InstanceId' --output json)"
