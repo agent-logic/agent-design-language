@@ -4,48 +4,25 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
-  "phase": "published",
-  "generation": 5,
-  "digest": "47b52fb3b83943fbfc6880c4a6da0a718972db3f9c415947d48b44659dac78de",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "89c2676ed8779227445b5f1f1db1af4abdf2898ab859b0d367e46d3580c50046",
   "branch": "codex/627-v3-h1-command-denominator-r2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
   "review_assignment": {
-    "reviewer": "codex-reviewer:review_627_r2_assigned",
+    "reviewer": "codex-reviewer:review_627_r3_evidence",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:94845ff62d39326096f90de50f0342b534cb2380:6a2fa2665585c8f74bfdee2ec5090373c23a184887543679ddec31680f5c6a88",
+    "revision": "git-blake3:b9ad9881d81171625267d00e0921190437534420:3e6fa8662d07984b7428f33ccb1eb72d86f9a4af507de58a119b051b0e191d6b",
     "scope": [
       "csdlc-v3/src/main.rs",
       "csdlc-v3/tests/command_manifest.rs",
       "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/627"
+      ".csdlc/prepared/issues/627",
+      ".csdlc/evidence/627"
     ]
   },
-  "review": {
-    "reviewer": "codex-reviewer:review_627_r2_assigned",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/627"
-    ],
-    "reviewed_revision": "git-blake3:94845ff62d39326096f90de50f0342b534cb2380:6a2fa2665585c8f74bfdee2ec5090373c23a184887543679ddec31680f5c6a88",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 627,
-    "pull_request": 635,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/635",
-    "base": "main",
-    "head": "codex/627-v3-h1-command-denominator-r2",
-    "revision": "git-blake3:94845ff62d39326096f90de50f0342b534cb2380:6a2fa2665585c8f74bfdee2ec5090373c23a184887543679ddec31680f5c6a88",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -59,34 +36,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "69f347799937e81059bf4f194f9467ccb5cdab802721ff4e8414afd1e184ed25",
+      "values_digest": "09d948cda70a00ba43cfd775e4eecde7cc242ac179d70d2d8d9c9bd89163717f",
       "rendered_digest": "855325a14477c7ce2e1b90f0e6d9ba912151de93354db72604eabd9fbad12879",
       "ast_digest": "544e4a1cf30b8a35ebf34e687ba209a9cce107857d5c68eaa83b22298762dcfd"
     },
     "stp": {
-      "values_digest": "a65547a0d79680bd6ca44ed0f2aaa37e650272b037e11516a9b17847f21cbcbd",
+      "values_digest": "393328e72972a63a4edefcea751aa7e068bae9cb2135a6bbb61e8c03204acdbe",
       "rendered_digest": "334cf29cd98a42918bca8ba4052870d45b62144849805c43ad5cee1b0c6b4bca",
       "ast_digest": "70bdafa0bcf9400aa34200a029f4a1c1f3c876b3356549201f24269e27c7261a"
     },
     "spp": {
-      "values_digest": "42c5ff4387ee9543b40d4c5f814c30dfc7bfd145d69581d6a677b94c181f1d9e",
+      "values_digest": "98791483490c0cc2a3e7cdf7e78b4f79a3b568aa8672e8f11b5af74d2d905415",
       "rendered_digest": "d4720e149b43a7035dc0d3694c00ef1cd7663f600111662bf6eeec08e8802777",
       "ast_digest": "cd92e40f601f49a0add5d60697832e17f20cbb3712482367e38d55f253a66c78"
     },
     "vpp": {
-      "values_digest": "aecb8664d2fed1e16860cab0a51d8c95743e9f75cef7cbd816ba489ff43e6e03",
+      "values_digest": "fff1802d4de095c6a2a425e81c7992dca404c11f2c2bbc06d914c73fa70b0aa2",
       "rendered_digest": "fd2f7ae0bb0ffee7657ed885c898fb788e9f93c6eb12e2c2ce88aea7a7ba6f80",
       "ast_digest": "afeb335bdfb40004b4fec5a919bf5065dfc8a9bc4aa2ed73e5343f2fbb68b159"
     },
     "srp": {
-      "values_digest": "c36d1226d057e84cac9eca96c0d0308711ba359ad021d343cff3e2c78651ca26",
-      "rendered_digest": "d3f38fc66c485d4cbd7bab3df2448bd57e7a9f514da4d6bb1c165a64582d51d6",
-      "ast_digest": "d327570c2611ded4ec87a85c2f263268d3921592d8cb08cfb29dece88babf42b"
+      "values_digest": "cd149a25c4fbab28b4df860f7df4cf970ece2b58e3e0f5cba61685412fa94dfe",
+      "rendered_digest": "038aa6bdd46db4fbfcd2df369d521d45f655689704ce4203c296170ec34deff5",
+      "ast_digest": "c697563833c2e626ce5dd8fb3bfe852d05ea4ca25a802bea9507d110ece92756"
     },
     "sor": {
-      "values_digest": "bd90715ae494a84d8c136a3b043cbd084e79004cd7b79570ba39082b24224fd8",
-      "rendered_digest": "082b480077d1254e36ef50a27a06f009afbc4fa1385394c3cc4026af9eb2f443",
-      "ast_digest": "a6eaa5c75d6bf0ca205bfb6b11789408e45a00830332ee6b551878c563b190c6"
+      "values_digest": "0c4747ca3767029b56bada29508e42bdd03d354233f70afaf7d0cfeb57494b85",
+      "rendered_digest": "19e2e3b6ad660b1460cebd0c0dd0323b1839794a928a86a58510b44e6110ca93",
+      "ast_digest": "b5750dc9e8ea1b7b78f06254c5ea11ee89791cf14d5692331380a9307b95f0dd"
     }
   },
   "transitions": [
@@ -124,6 +101,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after exact-head evidence refresh: previous review/publication pointed at 94845ff while current PR head includes refreshed non-empty validation receipts."
     }
   ],
   "audit": [
@@ -182,6 +166,20 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after exact-head evidence refresh: previous review/publication pointed at 94845ff while current PR head includes refreshed non-empty validation receipts.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

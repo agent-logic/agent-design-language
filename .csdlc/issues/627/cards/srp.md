@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -16,6 +16,7 @@ csdlc-v3/src/main.rs
 csdlc-v3/tests/command_manifest.rs
 docs/csdlc-v3/v3-command-manifest.json
 .csdlc/prepared/issues/627
+.csdlc/evidence/627
 
 ## Prompts
 
@@ -39,8 +40,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:94845ff62d39326096f90de50f0342b534cb2380:6a2fa2665585c8f74bfdee2ec5090373c23a184887543679ddec31680f5c6a88")
+Revision: None
 
-Reviewer: Some("codex-reviewer:review_627_r2_assigned")
+Reviewer: None
 
-Result: pass
+Result: pre_review
