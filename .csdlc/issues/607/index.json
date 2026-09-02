@@ -4,58 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 44,
-  "digest": "5bec5eb3d6f874151bcbcaf0fe1c2b6d77a9ff0ea8f7f5f5f1c5a7b4ad6d2d77",
+  "generation": 46,
+  "digest": "1b971155b266ae8858c9df424d942b2b186026fe2bb4f7e683f152ebd76b6f08",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": {
-    "reviewer": "subagent:issue_607_resume_r5_review",
-    "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:88c3fe568fb1f3ce5047dc7f7878ce3eac39e3e7:1eb17bb323dc664e7cbaa05b3a273d3b379a0e0e4dc5757ecb9fa0a2e765e258",
-    "scope": [
-      ".csdlc/issues/607",
-      ".csdlc/evidence/607/local-validation-resume-375ae8f88.json",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue_607_resume_r5_review",
-    "scope": [
-      ".csdlc/issues/607",
-      ".csdlc/evidence/607/local-validation-resume-375ae8f88.json",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh"
-    ],
-    "reviewed_revision": "git-blake3:88c3fe568fb1f3ce5047dc7f7878ce3eac39e3e7:1eb17bb323dc664e7cbaa05b3a273d3b379a0e0e4dc5757ecb9fa0a2e765e258",
-    "findings": [
-      {
-        "id": "607-resume-r5-f1-recovery-owner",
-        "severity": "p1",
-        "summary": "Destructive preparation recovery is not exactly bound to ledger, owner, campaign, and artifact generation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "607-resume-r5-f2-cost-reuse",
-        "severity": "p2",
-        "summary": "Preparation cost reconciliation accepts a weakly validated duplicate and initializes the cost ledger non-atomically.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "No compute is running; retained warm artifacts remain preserved while recovery and cost fail-closed checks are repaired."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -70,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8d60a5f12ad97804a490940c3f9680491f3fb58c15ad6770173f427481f8dcdd",
+      "values_digest": "35fb14e3ec7d5c334419dd97aba0ebb422adc588b2c4801ba169d2511b8553f1",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "783096830a2c22de4a2bd2b73867519a7b0a65ee88e4868df64005c12b733774",
+      "values_digest": "60d2ad1c419f50fad35335a021eb6087ad3d13c4e8d40e43eeb059b6049c847c",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "76a5543d2242bcedf39b3f933ccfac818cceb9980509af3914b0191be9196f30",
+      "values_digest": "1a957f2e615da55b6c4804c80aadbce262abee33a4795ce222d4dee430993ea0",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "3d84924d9832cd0d8c99b45074b91f3c5da313fadaddc0fd33643b4953238341",
+      "values_digest": "ab7a521af58e6bf13492a35419250a17112b9979a9197a1ed34c86082b05a0f8",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "126a6874fb1e87495840f5a34803adea0a08c4c51c7226045b2d800e88497506",
-      "rendered_digest": "9b96459412a70122a3683f4ce98cc2f96bc28d1e7df6a8f8a152429ecd19ba49",
-      "ast_digest": "e98ec3e27be1aa50273eb0791daacc1d6ae6bf57b21c405d5f91ea4819fdf12d"
+      "values_digest": "08aa87bfd4db7e085b238335c22d75885cce638c348ed979dc8a79c27702b4aa",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "0764c1b791369525ae086fbcd4b08a6ba8b5bdc37fab5465d2a107324aa271c6",
-      "rendered_digest": "508cd677daabacacaac449f522acf1e53a12f01497232369d8ff4fb405950cfa",
-      "ast_digest": "b9761cf75daae6aac5e1a4159533bcda06cc5823769daaeb2afbea68f0170486"
+      "values_digest": "66f2dfb74c8f873303e4b01c2b91e77861b9b9044dae6facffd9079a3c3173d9",
+      "rendered_digest": "0763855f7b161275c54a788f8e6ea053f0fd03546970dc77320f576161b21c73",
+      "ast_digest": "27121339cc89a14847483eb59aea96a0a4f7d51cc0ce9a0260cf4237f69f50ec"
     }
   },
   "transitions": [
@@ -592,6 +546,20 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 45,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover failed review after binding destructive recovery to exact authorization, ledger, owner, campaign, and generation and strictly validating atomic cost-ledger reuse.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 46,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh exact execution truth after fail-closing destructive recovery and cost-ledger reconciliation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the restart-safe warm two-node AWS controller through revision b7b1ebd95; live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Loaded exact preparation output keys and made zero, one, and two existing AMI continuation create only missing images.\",\"Made sealed snapshots and terminal preparation completion idempotent at their bounded seams.\",\"Allowed an artifact generation to continue only under a clean descendant controller and recorded both identities in launch evidence.\",\"Waited indefinitely for healthy AWS transitions while failing immediately on API and terminal-state errors.\",\"Bound resume to consumed authorization, source, plans, Terraform state, owner, images, ledger, campaign, and terminal checkpoint.\",\"Bound destructive recovery to exact authorization, ledger, owner, campaign, generation, and owner-filtered AWS discovery.\",\"Made cost-ledger initialization atomic and rejected duplicate, malformed, arithmetically inconsistent, or wrong-input preparation entries.\",\"Prevented destructive recovery when a terminal preparation result exists and allowed only exact retained artifacts in residue proof.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove bounded no-paid resume, exact destructive recovery identity, strict atomic cost reconciliation, controller ancestry, checkpoint reconciliation, and artifact reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject diff hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"}]}"
     }
   ]
 }
