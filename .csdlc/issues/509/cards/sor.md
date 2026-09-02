@@ -12,25 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Reconciled #509 DRT-D GCP portability with current origin/main after #592. The already-built GCS artifact bundle remains the live proof source; the validators now subtract canonical mainline changes and still reject #509-owned post-live proof drift.
+Remediated the R5 review finding while preserving the existing GCS artifact bundle and retained live GCP proof. Canonical mainline changes after the live source revision are accepted only when the reviewed HEAD blob exactly matches origin/main for that path; #509-owned post-live drift remains rejected.
 
 ## Artifacts
 
 - .csdlc/prepared/issues/509/validate-implementation.rb
 - adl-runtime/tests/distributed_contract/validate_drt_d.sh
 - docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json
-- .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json
-- .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json
-- .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log
-- .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-destroy.log
-- .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/cleanup-readback.json
 
 ## Execution
 
-- Merged current origin/main 3e44cf33e into the #509 FastWork worktree with no #509 path conflicts.
-- Preserved the existing GCS artifact manifest and live GCP qualification run adl-509-drt-d-20260902192222 instead of rebuilding runtime artifacts.
-- Made the #509 implementation validator mainline-aware by subtracting canonical origin/main paths from the post-live drift check before enforcing the #509-owned allowed drift set.
-- Simplified the DRT-D shell proof wrapper to delegate retained-proof source binding to the issue-owned Ruby implementation validator before running the exact Rust contract test.
+- Recovered the stale R5 review assignment after reviewer fresh-session:17be44d4-b4c6-4b46-bb9e-0f4a1bc4a27f found the path-name-only mainline exemption.
+- Updated the issue-owned implementation validator to compare per-path Git object IDs for HEAD and origin/main before exempting any mainline-touched path.
+- Kept the DRT-D shell proof wrapper delegated to the issue-owned Ruby validator plus the focused Rust retained-proof test.
+- Did not rebuild Runtime/Ollama artifacts or rerun the paid GCP qualification; the retained GCS-backed live run remains adl-509-drt-d-20260902192222.
 
 ## Validation
 
@@ -38,20 +33,11 @@ Reconciled #509 DRT-D GCP portability with current origin/main after #592. The a
   {
     "command": [
       "ruby",
-      ".csdlc/prepared/issues/509/validate-readiness.rb"
-    ],
-    "purpose": "Verify #509 dependency gates remain terminal and ancestral after current origin/main movement.",
-    "outcome": "passed",
-    "evidence_ref": "manual:post-592-readiness"
-  },
-  {
-    "command": [
-      "ruby",
       ".csdlc/prepared/issues/509/validate-implementation.rb"
     ],
-    "purpose": "Verify retained live GCP qualification, bounded cost, cleanup, source ancestry, and mainline-aware #509-owned drift policy.",
+    "purpose": "Verify retained live GCP qualification and blob-equivalent canonical mainline exemption policy.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-592-implementation"
+    "evidence_ref": "manual:r5-mainline-blob-implementation"
   },
   {
     "command": [
@@ -59,22 +45,9 @@ Reconciled #509 DRT-D GCP portability with current origin/main after #592. The a
       "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
       "gcp-portability"
     ],
-    "purpose": "Verify the DRT-D retained proof denominator with the existing GCS artifact bundle.",
+    "purpose": "Verify the DRT-D retained proof denominator with the blob-equivalent mainline guard.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-592-drt-d-contract"
-  },
-  {
-    "command": [
-      "cargo",
-      "check",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "--bin",
-      "csm"
-    ],
-    "purpose": "Verify the merged CSM command surface still compiles.",
-    "outcome": "passed",
-    "evidence_ref": "manual:post-592-cargo-check"
+    "evidence_ref": "manual:r5-mainline-blob-drt-d-contract"
   },
   {
     "command": [
@@ -82,9 +55,9 @@ Reconciled #509 DRT-D GCP portability with current origin/main after #592. The a
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and conflict-marker drift after mainline-aware validator repair.",
+    "purpose": "Reject whitespace and conflict-marker drift after R5 remediation.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-592-diff-check"
+    "evidence_ref": "manual:r5-mainline-blob-diff-check"
   }
 ]
 

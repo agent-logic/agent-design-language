@@ -1,7 +1,12 @@
 #!/usr/bin/env ruby
 require "json"
+require "open3"
 require "shellwords"
 root = File.expand_path("../../../..", __dir__)
+def git_object(root, rev, path)
+  stdout, _stderr, status = Open3.capture3("git", "-C", root, "rev-parse", "--verify", "#{rev}:#{path}")
+  status.success? ? stdout.strip : nil
+end
 receipt_path = File.join(root, "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json")
 unless File.file?(receipt_path)
   puts JSON.pretty_generate({
@@ -24,7 +29,7 @@ if system("git", "-C", root, "rev-parse", "--verify", "--quiet", "origin/main", 
     mainline_base.match?(/\A[0-9a-f]{40}\z/)
   mainline_paths = `git -C #{Shellwords.escape(root)} diff --name-only #{Shellwords.escape(mainline_base)}..origin/main`.lines.map(&:strip).reject(&:empty?)
 end
-post_live_paths -= mainline_paths
+mainline_path_set = mainline_paths.to_h { |path| [path, true] }
 allowed_post_live = [
   /\A\.csdlc\/evidence\/509\//,
   /\A\.csdlc\/issues\/509\//,
@@ -33,7 +38,10 @@ allowed_post_live = [
   /\Aadl-runtime\/tests\/distributed_contract\/validate_drt_d\.sh\z/,
   /\Adocs\/milestones\/v0\.92\.1\/evidence\/runtime\/drt-d\/qualification\.json\z/
 ]
-drift = post_live_paths.reject { |path| allowed_post_live.any? { |pattern| path.match?(pattern) } }
+drift = post_live_paths.reject do |path|
+  allowed_post_live.any? { |pattern| path.match?(pattern) } ||
+    (mainline_path_set[path] && git_object(root, "HEAD", path) == git_object(root, "origin/main", path))
+end
 abort("product or infrastructure drift after live source revision: #{drift.join(", ")}") unless drift.empty?
 abort("schema mismatch") unless receipt.fetch("schema") == "adl.v0921.drt_d.gcp_portability_qualification.v1"
 abort("issue mismatch") unless receipt.fetch("issue") == 509

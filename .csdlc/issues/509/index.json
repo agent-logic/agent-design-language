@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "34c2a67af00b2478d093d5100b8e30aa38348d671a1bdb305ac93eee33948bf9",
+  "generation": 15,
+  "digest": "b8c955327eea050bf8b1719bc43f6c1683299c4977626ca03cd00fbe04e4d65a",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6e01522e9ebca977a7fd71d3582e1435b1dfaa7f63505aede4cc9d42c9c17165",
+      "values_digest": "f49defdd357228146e2af4b4b93b1617c83573da850719aa51f34c06f4896e66",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "ac5c499ba686574c86fe11096f676d0d5ef99315bd681687b3d3abccdd8fc672",
+      "values_digest": "e16f3415f6b091fe290de70bcf5b3d4df3732e7d22b6dda24eee7860d2659e2f",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "bcf5ecd6778ad7db02aab7ea50e2d3c25b65026196282ed80844a5a0f4dc852f",
+      "values_digest": "53fafaabf878105ace8951798ab3e8b38af40c0a5d670dba5e36639266c2ecdc",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "5a2821b254e07d44e1405d7278b65c53d267ca1d898fe1ba4444b2e077e3bb19",
+      "values_digest": "cc1d7eb26e40cb2170f64fb30e9a5dee3ba5f10f0278c545a26221502a908b4b",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "e7c4919a5f6d42f42ea223e941a4d819f27639cb471156a1d8d21e747e22451c",
+      "values_digest": "9c68cd5e6adbfac63525cb904a2437f17383d28f55f0147a0d13c64de981896d",
       "rendered_digest": "dcdf4ee8ff229a906d36c1cb33afe3bd1f7a8ab1d233a85470863a2370c63c92",
       "ast_digest": "e85613914db766ef65fdae1fdd2679d823f21ee29038e12abbd7c038f47a15f1"
     },
     "sor": {
-      "values_digest": "bafc4c800b9e5147dc49dd5c28d5cd26ecf492cb330539fd571759be06bd5360",
-      "rendered_digest": "734e28491b216bdf086255ea4ddf692b69c80bf82dfd6cf0a43929f356639772",
-      "ast_digest": "750f8625c71191fa11dd0a74eabd05a3e43deb49da4197f2e5266aaea81270b8"
+      "values_digest": "80353110943aecf177c0002ca78721f053f451d8a37423e0ed7f32269d20576f",
+      "rendered_digest": "f3a204d2f5465c86b9b7d3bed085d8011ff744f17fabc1ee9d313276a6205067",
+      "ast_digest": "b2398752b0db18b408a6dc06229dec2867647c09cdfbc7f569c3fa346ebc9975"
     }
   },
   "transitions": [
@@ -225,6 +225,27 @@
       "actor": "codex:/root",
       "reason": "Record #509 post-#592 mainline reconciliation without rebuilding the GCS Runtime/Ollama artifact bundle.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled #509 DRT-D GCP portability with current origin/main after #592. The already-built GCS artifact bundle remains the live proof source; the validators now subtract canonical mainline changes and still reject #509-owned post-live proof drift.\",\"changes\":[\"Merged current origin/main 3e44cf33e into the #509 FastWork worktree with no #509 path conflicts.\",\"Preserved the existing GCS artifact manifest and live GCP qualification run adl-509-drt-d-20260902192222 instead of rebuilding runtime artifacts.\",\"Made the #509 implementation validator mainline-aware by subtracting canonical origin/main paths from the post-live drift check before enforcing the #509-owned allowed drift set.\",\"Simplified the DRT-D shell proof wrapper to delegate retained-proof source binding to the issue-owned Ruby implementation validator before running the exact Rust contract test.\"],\"artifacts\":[\".csdlc/prepared/issues/509/validate-implementation.rb\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-destroy.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/cleanup-readback.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-readiness.rb\"],\"purpose\":\"Verify #509 dependency gates remain terminal and ancestral after current origin/main movement.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-readiness\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification, bounded cost, cleanup, source ancestry, and mainline-aware #509-owned drift policy.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify the DRT-D retained proof denominator with the existing GCS artifact bundle.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-drt-d-contract\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"csm\"],\"purpose\":\"Verify the merged CSM command surface still compiles.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-cargo-check\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after mainline-aware validator repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-diff-check\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:17be44d4-b4c6-4b46-bb9e-0f4a1bc4a27f returned FAIL: the post-live drift validator exempted canonical mainline changes by path name only instead of verifying the reviewed HEAD blob matches origin/main for each exempted path. Implementation will require blob equality for mainline exemptions and re-review the new exact head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record R5 remediation: mainline exemptions now require exact blob equivalence with origin/main.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the R5 review finding while preserving the existing GCS artifact bundle and retained live GCP proof. Canonical mainline changes after the live source revision are accepted only when the reviewed HEAD blob exactly matches origin/main for that path; #509-owned post-live drift remains rejected.\",\"changes\":[\"Recovered the stale R5 review assignment after reviewer fresh-session:17be44d4-b4c6-4b46-bb9e-0f4a1bc4a27f found the path-name-only mainline exemption.\",\"Updated the issue-owned implementation validator to compare per-path Git object IDs for HEAD and origin/main before exempting any mainline-touched path.\",\"Kept the DRT-D shell proof wrapper delegated to the issue-owned Ruby validator plus the focused Rust retained-proof test.\",\"Did not rebuild Runtime/Ollama artifacts or rerun the paid GCP qualification; the retained GCS-backed live run remains adl-509-drt-d-20260902192222.\"],\"artifacts\":[\".csdlc/prepared/issues/509/validate-implementation.rb\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification and blob-equivalent canonical mainline exemption policy.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r5-mainline-blob-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify the DRT-D retained proof denominator with the blob-equivalent mainline guard.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r5-mainline-blob-drt-d-contract\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after R5 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:r5-mainline-blob-diff-check\"}]}"
     }
   ]
 }
