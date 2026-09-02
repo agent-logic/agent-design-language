@@ -6,10 +6,22 @@
   "initialization_digest": "cfacb01c100d1f8699ae21e7fe2c4e0178460ab0e6e27cee132722b2022f850a",
   "phase": "implemented",
   "generation": 6,
-  "digest": "16fcb4941c31b2e18f99d7493d0514e83f9e61f515274da153bb7af8e199de55",
+  "digest": "b61ffe4bc13c75fe15182dba36922795bb9eab07c294c9220cfa326ce388c58e",
   "branch": "codex/508-drt-c-final-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:0ba5fda7-e4a6-4153-8c75-180a9bcf0d25",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1fcb977bc1460a44d52729bddd07a79301b6c275:ceaef1688ac82651f3aa2e0b341ce50c94962df73af928fcb37dbcd94de58210",
+    "scope": [
+      ".csdlc/evidence/508",
+      ".csdlc/prepared/issues/508",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "3504504691e747421b0bf4d8b8fddc8baf5723ed3c348e216296a1bc51ec65c7"
     },
     "srp": {
-      "values_digest": "5b5252cfceb2a2ecb093daa48cfb6cc0ed6acbdc650a63ed713ccf8a351e1c90",
-      "rendered_digest": "d3cec81b5763b248a3a1484faadeda59a6f1fb4dbf60ea385d2134d9d5370b8c",
-      "ast_digest": "5f1a9ea28e188b445b323938f9f96734c7176ad0a429239fbea5898e1fb5876c"
+      "values_digest": "a9b9c6d94b9708d6de7330e8740b59b26d968f0f0e6115ace2a7ea25ae698a29",
+      "rendered_digest": "7f24cd66884cfab023b9b9e599da858886563f68c2c6d60eb03d8f789bfeb28f",
+      "ast_digest": "4a893597f739b3916576310dc14644f78edd6bef5519c9a3404d96cef386a229"
     },
     "sor": {
       "values_digest": "bf0d798a14474507c8593190d5c93b5faa39ab1a538030770e42f82df2524f34",
@@ -141,6 +153,13 @@
       "actor": "codex:/root",
       "reason": "Record #508 remediation after R1 exact review found stale runtime_revision evidence and incomplete #187 soak denominator.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated the DRT-C final distributed Runtime qualification decision. The retained qualification evidence now binds to the immutable Runtime qualification source revision, models both required #187 soak windows with exact command/model/receipt digests, independent replay, clock bounds, and cleanup readback, and keeps the decision within #508 without absorbing #509/GCP or Observatory product redesign scope.\",\"changes\":[\"Added a deterministic DRT-C qualification decision model and validator to the Runtime qualification module.\",\"Added a focused DRT-C integration test under the distributed_failure surface that proves requirements #185-#187, fail-closed identity/provider/transport cases, Runtime-authentic redacted Observatory evidence, bounded soak, cleanup-zero, and retained evidence equality.\",\"Removed the stale hardcoded parent #507 SHA from the focused test; the test now derives the qualification subject from retained evidence.\",\"Strengthened #187 soak evidence from a single positive duration into two required windows with source revision, command digest, model digest, clock bounds, receipt digest, independent replay, and cleanup readback.\",\"Strengthened the issue-owned implementation validator so retained evidence fails closed unless runtime_revision equals the latest Runtime qualification source commit and the full soak denominator is present.\",\"Retained the exact DRT-C qualification decision artifact under docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json.\"],\"artifacts\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_failure/drt_c_qualification.rs\",\"docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json\",\".csdlc/prepared/issues/508/validate-readiness.rb\",\".csdlc/prepared/issues/508/validate-implementation.rb\",\".csdlc/evidence/508/drt-c-rust-fmt-r2.log\",\".csdlc/evidence/508/drt-c-focused-r2.log\",\".csdlc/evidence/508/drt-c-implementation-validator-r2.log\",\".csdlc/evidence/508/drt-c-diff-check-r2.log\",\".csdlc/issues/508\",\".csdlc/prepared/issues/508\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for the DRT-C Runtime qualification model and focused test.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-rust-fmt-r2.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_failure_drt_c\",\"drt_c_final_qualification_decision_is_exact\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the deterministic DRT-C Runtime qualification decision validates and matches retained evidence exactly, including the Runtime source revision and #187 soak denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-focused-r2.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/508/validate-implementation.rb\"],\"purpose\":\"Prove retained DRT-C qualification JSON binds exact Runtime source revision, fail-closed cases, Runtime-authentic Observatory evidence, two-window bounded soak denominator, synthesis, and cleanup-zero.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-implementation-validator-r2.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the #508 remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-diff-check-r2.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
