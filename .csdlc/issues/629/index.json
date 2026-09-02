@@ -6,13 +6,13 @@
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
   "phase": "implemented",
   "generation": 3,
-  "digest": "7c65ad13b914d7169ab4aa56939e9cc0bed3e60c34884127b12a3ac8da9439ec",
+  "digest": "2d5abc8086fa7036e4447ead3e79510571e51247d8750e4efb74513f8e5e0eea",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
   "review_assignment": {
-    "reviewer": "codex-reviewer:review_629_r2_exact_head",
+    "reviewer": "codex-reviewer:review_629_r3_exact_head",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:9bd624b2863715ca67ca06e91fd9cfcde5b633b4:041e3ccaff54d6143c84f7223d1ee6721b4fe947ac27241ae776b56f97dab1f7",
+    "revision": "git-blake3:eb51488dee5c491653f24c8f521b8033b12e4e12:74c1b2417ca959edb117d37d30029845ee76511ac4723db1814ef25ce820a44f",
     "scope": [
       "csdlc-v3/src/commands/remote/mod.rs",
       "csdlc-v3/src/main.rs",
@@ -135,6 +135,13 @@
     },
     {
       "sequence": 7,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
       "generation": 3,
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
