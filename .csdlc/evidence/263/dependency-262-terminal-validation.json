@@ -1,0 +1,23 @@
+{
+  "canonical_match": true,
+  "schema": "csdlc.derived_terminal_validation.v1",
+  "terminal": {
+    "approved_reason": null,
+    "canonical_digest": "7a9659ff5742fce814c08d4ed0a28dec11406462c809c35f4f7f0553c855fb45",
+    "canonical_generation": 49,
+    "digest": "c149d40f9ade35933bb95fbca2643898b193ec16f8ad5a1193380fff08352366",
+    "disposition": "merged",
+    "head_sha": "842b7d57d09b66a6f9ea9a43a4e5d02be43aa3bb",
+    "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
+    "issue": 262,
+    "issue_state": "closed_by_merged_pr",
+    "merge_sha": "6e01e2bbe40915e814e43e54f84dfb61c84601e3",
+    "mutable_fresh_until_unix_seconds": null,
+    "observed_unix_seconds": 1788329778,
+    "pr_state": "closed",
+    "pull_request": 618,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.derived_terminal.v1",
+    "source": "live_github"
+  }
+}
