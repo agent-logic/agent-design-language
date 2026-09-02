@@ -88,11 +88,11 @@ Repaired the Sprint 5/6 cutover remediation branch so PR #615 visibly closes #59
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

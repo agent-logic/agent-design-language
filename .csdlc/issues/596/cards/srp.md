@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/596/correct-sor-v3-separate-output.json
+.csdlc/prepared/issues/596/validate-remediation-regression.sh
+csdlc-v3/tests/real_issue_canary.rs
 
 ## Prompts
 
@@ -32,12 +34,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The review subagent's only remaining blocker was lifecycle-state absence before this record/publication sequence; publication still must be recorded through typed C-SDLC v2 before PR #615 is merge-ready for #596 closeout.
+- C-SDLC v3 remains non-authoritative until explicit #505 cutover; #615 only repairs #596 sprint-remediation proof and does not retire v2.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c2ef9e14fb3e00c7f23395892065df1d4162ed8c:7e88c4789fc7ab1d4960826d1e09f17b88385c7d5cb975641a3e34721e93afbd")
 
-Reviewer: None
+Reviewer: Some("/root/review_615_c2ef9e14")
 
-Result: pre_review
+Result: pass
