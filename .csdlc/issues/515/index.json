@@ -4,40 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
-  "phase": "reviewed",
-  "generation": 17,
-  "digest": "1308f0413070edd0ce6347c24be04d16bd26ecdf4cacba703410e73a5f23cfb3",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "9ea54c9607f50c734a4002814662375c9835d05c1754c1b574d96292c8b62051",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": {
-    "reviewer": "fresh-session:69bf210c-1411-46e9-8112-5fbc02347111",
-    "assigned_by": "codex:/root:issue-515-implementation",
-    "revision": "git-blake3:4067b285234faa3352f907f28dc4fc869a468657:45ddef9534761220fc598b6ef56dbe0d2985e033139715cd09cdb141e6b72f5f",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      ".csdlc/prepared/issues/515"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:69bf210c-1411-46e9-8112-5fbc02347111",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      ".csdlc/prepared/issues/515"
-    ],
-    "reviewed_revision": "git-blake3:4067b285234faa3352f907f28dc4fc869a468657:45ddef9534761220fc598b6ef56dbe0d2985e033139715cd09cdb141e6b72f5f",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aa1f25589c1995c202fe0b4e1910597837ece22499c722c17856d58d9b911f65",
+      "values_digest": "f9e5dcd175726d985172b14550ed38cbf759f01c2fbd933487e4f3a376c13deb",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "25f858d7334a22a95c9e9f96629c409b30670ae30deb16a9768abf8cadffc533",
+      "values_digest": "cfb2dc3d08ddbe89f32175b2f063702beadb9225293f2d48928b9b32b92417df",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "bfe82ec6a780140f447b2e037a6c2fc05842987e247a5025034e5571c741fff8",
+      "values_digest": "b02299f6348d100db942b2a7461f489775892e7aba4da73d8a1bd8c7984df5cc",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "80f4366472c8180a7234229c4d0c137d956531b7a15623e8552215162ac8a6ee",
+      "values_digest": "42f39f06c8ad477fb6e4dfb62008361c3bdd8ca391a97962fe5080d299d82ad5",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "2b852ea738b1fbcb3abd60849d1882a09a3babe2751a8e97e855d7526f80dcbb",
-      "rendered_digest": "8f3f2c6cacfcdf456e4711975195f7e6d8af430e11328b776fcee1b92f989c79",
-      "ast_digest": "3bbef8545cce2c2585cbf9314ba2198c022bfa23a1b9cebc1c66c6b1e49ff2d5"
+      "values_digest": "eeaa43ec123963a97696fe208898770fb7d848966774b82c0b265529dd9aefd5",
+      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
+      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
     },
     "sor": {
-      "values_digest": "b1ed51d81fc64486e505d22cf6ed52ba7f7efd65cab68da506e5a212c68094bc",
+      "values_digest": "04b812dc7dea513d3acfc993a86ff5e6f2d46b59957bb702c399f1a4e445bab4",
       "rendered_digest": "e0a82b98b2bbcbe96c3f260515eca7af52120d8fc131cfde769295cfa0bcf7d0",
       "ast_digest": "e8909c6f75d306227e57c85ac16de2a385058efa52319b532cf04b5a7889448a"
     }
@@ -110,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root:issue-515-implementation",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 review truth so the final exact-head review can include the current branch history after removing an accidental non-governed one-shot review request copy."
     }
   ],
   "audit": [
@@ -266,6 +246,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 review truth so the final exact-head review can include the current branch history after removing an accidental non-governed one-shot review request copy.",
+      "operation": "recover_review"
     }
   ]
 }
