@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "9826f74eaca810af4a65b5c2cc0e9b6412a2f2534b29839b1159d85b6a109aac",
+  "generation": 24,
+  "digest": "b19526cb1ace8850306c5112688c61644812f53825afa383fd92f2e917ca9a92",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c0b2c3c122bd88d1ebb89b464d87815be3c3f0bcd5fde9b494ceb26b46b42c97",
+      "values_digest": "cdfba72116f1079740a2e12b053f221e607ac937d832536b54553c7f2819f312",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "5e363d69ee2886edaea13e1d702ddcd20847dff7e9eadcf50bbd112171083146",
+      "values_digest": "34de0bece4d697c6568ab7e90dcc1459559357c6a30929d5cc04498c726df14e",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "79467fe054897acb025d22307c26d0958b52be2aa24ad0605a566fd51fe408bc",
+      "values_digest": "d6ef9ee660b44d566739dd1baaead416f9a78b52ebeafae3215cda3ccbc542ee",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "4e4898816017698147d8008f6c95eb85bbc16a52dd9d921babf5f6b8ea3d32cf",
+      "values_digest": "fd00f98d5e91e6e7343dbc2823a87e4a96cbe761027d5835901cbd69da3ec833",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "26b4ccc9617c0a5709848fe72c1d06af54b80c32964f4fb9245a1d5f0a44a20d",
+      "values_digest": "beb80f375729aec3a29df366a988af7ecf56698fcbf07cd48a4c8891024d65ae",
       "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
       "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
     },
     "sor": {
-      "values_digest": "81246f9adb94f7953d5b1220807799b26630c7b1bddb6e1e40060dccc32a21e6",
-      "rendered_digest": "c49851016a3f7eb649430f053ea3c1becaefbf7131d86063fde90189eadfa055",
-      "ast_digest": "d120fae72fc6673bc27098b1667566279cee03587341ef7cea24f8e2c612c8d8"
+      "values_digest": "2ccaaae44c4f4fa45c1a9868c599337e33b949b16b8a830b5c3cfcd0b3f62158",
+      "rendered_digest": "02ee9ab1c86b0cc0959b4a395aafb7210d56a5088e9532934dfb9bd5e3354347",
+      "ast_digest": "fa6f2ee6c0d2e64e9a38f8a05331a522ae161a4e9dd9ed7cdd44ad82da79f845"
     }
   },
   "transitions": [
@@ -267,6 +267,27 @@
       "actor": "codex:root/podcast-262",
       "reason": "Recover after assigned #262 R4 review found stale source-packet GUID and production/archive path truth; prepare a remediated exact-head candidate.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R4 source-manifest-bound playback proof after launch identity and archive path truth remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain source-manifest-bound HTTP playback proof after source-packet GUID and The Cognitive Stack archive path corrections.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R4 focused validation after launch identity and archive path truth remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack GUID consistency, archive path truth, stale production-name guards, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 launch identity and archive path truth remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 launch identity and archive path truth remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
     }
   ]
 }
