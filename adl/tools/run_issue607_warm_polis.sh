@@ -253,6 +253,9 @@ validate_authorization() {
   AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
   AUTH_CAMPAIGN_ID="$(jq -r .campaign.id "$AUTHORIZATION_FILE")"
   AUTH_ACTION="$expected_action"
+  if [[ "$RUN_ID" =~ -retry-([1-9][0-9]*)$ ]]; then
+    AUTH_ACTION="$expected_action-retry-${BASH_REMATCH[1]}"
+  fi
 }
 
 write_authorization_request() {
@@ -276,7 +279,7 @@ assert_remote_run_unused() {
 
 consume_authorization() {
   if [[ -n "$AUTH_CAMPAIGN_ID" ]]; then
-    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-1|launch-2)$ ]] \
+    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12](-retry-[1-9][0-9]*)?)$ ]] \
       || { echo "authorization campaign slot is invalid" >&2; exit 2; }
     marker="${PREFIX}campaigns/$AUTH_CAMPAIGN_ID/actions/$AUTH_ACTION.json"
   elif [[ "$AUTH_ACTION" == retire-snapshots ]]; then
