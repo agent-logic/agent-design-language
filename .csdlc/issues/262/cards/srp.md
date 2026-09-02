@@ -46,7 +46,18 @@ demos/podcast/studio/podcast-studio.html
 
 ## Findings
 
-[]
+[
+  {
+    "id": "262-review-r5-p1-storage-manifest-checksums-stale",
+    "severity": "p1",
+    "summary": "Archive inventory/checksum truth is stale after launch-identity remediation. storage-manifest.json still records old byte counts and SHA-256 values for changed package files including CREATOR_WORKFLOW.md, episode.json, source-packet.md, script.md, transcript.md, show-notes.md, audio-manifest.json, qa-report.md, and rss-enclosure.json. The validator binds the storage manifest file but does not recompute archive object byte/hash entries against current local package files.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -58,8 +69,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3ee7d25e9aed1ebbc07eee59ba64e7d891b62a65:4f6051ba627f827e1863b3d222111c41954dbf5ca82458ae7bc1946e5316c094")
 
-Reviewer: None
+Reviewer: Some("fresh-session:39c407bb-11b7-4fb0-93e9-2b35c059f03c")
 
-Result: pre_review
+Result: changes_required
