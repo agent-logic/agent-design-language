@@ -124,11 +124,11 @@ Implemented the V3-H.1 command denominator and one-binary C-SDLC v3 CLI shell as
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
