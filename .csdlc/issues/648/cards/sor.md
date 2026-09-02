@@ -89,11 +89,11 @@ Implemented the corrective provider reload ownership repair after PR #646 merged
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

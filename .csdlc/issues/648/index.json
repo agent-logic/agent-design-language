@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e474bee8b7ea0cf78980cbfa31d64187c08d8d66120a0a13e935836019bdd680",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "bdab5c059ae947023807aa45f8dc70eeb9e20d151b64f72b821b8cb85851ad18",
+  "phase": "published",
+  "generation": 9,
+  "digest": "567a25cabaf9ed899223651dc04f101013a93172e8a3dfc55d718586a9a6d1e3",
   "branch": "codex/648-provider-reload-ownership-corrective-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-648-provider-reload-ownership-corrective-bound",
   "review_assignment": {
     "reviewer": "codex-subagent:/root/review_648_provider_reload_corrective_exact_head",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:885c9e3b58637be8ee3e2b13fbfe56839b284879:7df793a6456b634fb3e995a965105715e4e519fbcb31466af561c3cf6b9cc2bd",
+    "revision": "git-blake3:2437e24b13f4553715ef8189df3e5f5c963505e8:2c72fd9d0593ba95a48b98de6d6bd7107f7fb49bfe9da2148bfda215c06b25bd",
     "scope": [
       "adl/src/provider/reload.rs",
       "adl/src/execute/mod.rs",
@@ -34,7 +34,7 @@
       ".csdlc/prepared/issues/648",
       ".csdlc/evidence/648"
     ],
-    "reviewed_revision": "git-blake3:885c9e3b58637be8ee3e2b13fbfe56839b284879:7df793a6456b634fb3e995a965105715e4e519fbcb31466af561c3cf6b9cc2bd",
+    "reviewed_revision": "git-blake3:2437e24b13f4553715ef8189df3e5f5c963505e8:2c72fd9d0593ba95a48b98de6d6bd7107f7fb49bfe9da2148bfda215c06b25bd",
     "findings": [],
     "residual_risks": [
       "Review did not run live provider, AWS, paid/cloud, Runtime restart, cutover, or CI checks.",
@@ -43,7 +43,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 648,
+    "pull_request": 651,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/651",
+    "base": "main",
+    "head": "codex/648-provider-reload-ownership-corrective-bound",
+    "revision": "git-blake3:2437e24b13f4553715ef8189df3e5f5c963505e8:2c72fd9d0593ba95a48b98de6d6bd7107f7fb49bfe9da2148bfda215c06b25bd",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -57,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4156e332d76db328845de12af812da4361971f5c1bf06d2319b7085c465bf27b",
+      "values_digest": "d09b77731a61d86627f9b382ccb08775d770caee0869364a7694d7c22648a845",
       "rendered_digest": "d76ac9c988495e8bc6dfdb47d07e1ff8347056507a338d2af9dcc2904a7b0b92",
       "ast_digest": "731b22b5572f8e65901e8bdf7e6d2281c1b83478291d756a92b37f113e1b250a"
     },
     "stp": {
-      "values_digest": "2e413aa42b229a667bd357fbf98a4c5a78f23cd8b40fa3ee3bfd57d16c495b31",
+      "values_digest": "0acd714bbe7be03430bb0b431895fa03835531fe1d0e87b1f7655f610ee47882",
       "rendered_digest": "74ebbaefb0938e0c011d2905584f8e9ba32c7ebaa305cbcee11461846e3ed733",
       "ast_digest": "3864e33451386d117a0f46ce9449363fdf14891e6a0526b271931eb45eb219ee"
     },
     "spp": {
-      "values_digest": "c64e4e3c82bfcf386187cae732af36fc3e05841dff9214a829066dd3cb4fa2f4",
+      "values_digest": "b22d9fe6f23544aaab92d0a84970b738d750e08c886646489a19a8ec2c955a04",
       "rendered_digest": "64f66a0bde2ee42890cc22f6571b079be34f8abf12fa242377a22d2b2ebaa394",
       "ast_digest": "8179ff2ca28a6d452f0bfb13326b0da5c4f1591b852558616ec88ca93e5eebd1"
     },
     "vpp": {
-      "values_digest": "37d78b80f1a9deb9837924164301225415362753513bcaf7739cd406c6dc04a7",
+      "values_digest": "b0c8f1d447c9d12590a0da16ec5d43a09d24164b2aef584d3f718b5bd21e9a61",
       "rendered_digest": "3ac7551c1214e4ca7cbd3c66fc292c98946816ef9c3ffc23faf02b7e1eb046ca",
       "ast_digest": "e32a5a7d0c798695350428512aa5fbb5802854a8e927476e20c22637ee90fa55"
     },
     "srp": {
-      "values_digest": "b7dc9fce0c23f475c9f0d4ed958a9cf70e0f736c738422b81a7550650f3cb2e1",
-      "rendered_digest": "b8d70976d5f927ec1e82092fd69ddfb0e8955b138a729462931f36dc3aa3c782",
-      "ast_digest": "d57dd88499ddecbd85e7a2ac5d4454944c54b53a08948633c042830d99a1e5bb"
+      "values_digest": "c9639aa51b34e2dd749a76d442b7e3ee0fc4753edad3c79a8a05ba2c6cccdbf4",
+      "rendered_digest": "878e2c3b5b9d60b37e11b3fe12563c74d2f2cd248945f103c6a535f687b4ba13",
+      "ast_digest": "509655d2c5608b9a13039133d44963264b79fed0894e1a4d9804739d6c7887a7"
     },
     "sor": {
-      "values_digest": "9eaf625e5916b2c729cf801325232f0828433367f815b878064c40e89b449103",
-      "rendered_digest": "f591facfa90197bcd284e399b2b13c30cd6e00042a96110ded7ec5d96127f65d",
-      "ast_digest": "24f769647b58390370ab211c3e8308b6dfa368c10e5ad5849280f23564b9f002"
+      "values_digest": "0d3e65ceee02d098354478aaca17c6a6f08cef7a2a4817d24f9b80a7fe76e15e",
+      "rendered_digest": "c76209c06e929a70225b7073432079277f1010dd4613bf67fb3a79a5cd16add4",
+      "ast_digest": "ad0ab12e1b425f83f3e4022b1a2dfdd5b26c9f4f8bf18f2ae8b8853877d2a5ff"
     }
   },
   "transitions": [
@@ -115,6 +126,27 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review after committing review metadata so publication can rely on current clean commit authority."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -180,6 +212,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review after committing review metadata so publication can rely on current clean commit authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][PROV-C][corrective] Repair provider reload ownership after #646",
     "slug": "provider-reload-ownership-corrective",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
@@ -82,8 +82,8 @@
           "evidence_ref": "provider-reload-corrective-safety.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
