@@ -91,11 +91,11 @@ Implemented V3-H.3 GitHub, PR-state, review, and publication routes under the si
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

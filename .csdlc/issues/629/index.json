@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "2d5abc8086fa7036e4447ead3e79510571e51247d8750e4efb74513f8e5e0eea",
+  "phase": "published",
+  "generation": 5,
+  "digest": "128dce8e62c0f88f454d278333b8fabbeb120bbaf0e41c6a367d8f1a29d601d8",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
   "review_assignment": {
@@ -22,8 +22,46 @@
       ".csdlc/prepared/issues/629"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "codex-reviewer:review_629_r3_exact_head",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/629"
+    ],
+    "reviewed_revision": "git-blake3:eb51488dee5c491653f24c8f521b8033b12e4e12:74c1b2417ca959edb117d37d30029845ee76511ac4723db1814ef25ce820a44f",
+    "findings": [],
+    "residual_risks": [
+      "Public remote route planning intentionally fails closed until authenticated GitHub adapter and typed review receipt ingestion are implemented."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:eb51488dee5c491653f24c8f521b8033b12e4e12:74c1b2417ca959edb117d37d30029845ee76511ac4723db1814ef25ce820a44f",
+      "to_revision": "git-blake3:ae3e6cb046254b3d06ee5af21d2cecfcc85527d2:d36a380ca06b911afe018b6e3431f1e81f7a2b4d8ddf3b0c9abf169f49cc8844",
+      "from_commit": "eb51488dee5c491653f24c8f521b8033b12e4e12",
+      "to_commit": "ae3e6cb046254b3d06ee5af21d2cecfcc85527d2",
+      "changed_paths": [
+        ".csdlc/issues/629/audit.jsonl",
+        ".csdlc/issues/629/index.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 629,
+    "pull_request": 641,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/641",
+    "base": "main",
+    "head": "codex/629-v3-h3-github-publication-exec",
+    "revision": "git-blake3:ae3e6cb046254b3d06ee5af21d2cecfcc85527d2:d36a380ca06b911afe018b6e3431f1e81f7a2b4d8ddf3b0c9abf169f49cc8844",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -37,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a572e75b152ba91052f2fbf8e3617f1d88db7275905c2351cd4d5325a2a5a585",
+      "values_digest": "98080d939cd8ac46f83f62a770dc893a7e068927d6a742ab444a4c3bac8c6cdb",
       "rendered_digest": "e446948ed0ad2268373108f73463028bfa4db9d89c070b19f3efbb817893e249",
       "ast_digest": "4441dd096f6c525cb946e18a6fc6a31f4b07b3be9a00752bfc4c2d67c4f0c2a3"
     },
     "stp": {
-      "values_digest": "d98de3f4b7c31bcbf9088ca264fe1ce9970ffe1021416d85d9671f5fccde275c",
+      "values_digest": "df86e22696d6aeb5c58ce222ab9610ee433d11e128f8312ada8cd5bcb9783bf0",
       "rendered_digest": "27d53576f399af4a88d9a3a47d4928fc3d600c625480612e442939edc5cd1f4b",
       "ast_digest": "8dda543d0b0c799e3467b5ce616ba72f9b6a7d8ae2cbb9373fe69eca07952409"
     },
     "spp": {
-      "values_digest": "ebf0dd6577d19affea6db3427f2929b59a1b3c9d1d8907b79619dd168add6c1b",
+      "values_digest": "54f7ce1e6f0b7709bda962868c20c7bfcda1c9d4f4510c27436b43b0bccb0bab",
       "rendered_digest": "556e13e7c158af8c80538c151cc2fc12041ac4e470df6ff04129b2c2b4150680",
       "ast_digest": "776112b5558f285d4e428c4f3e40e4e18c4fd06dbdb09c9b2952b17e3737f34b"
     },
     "vpp": {
-      "values_digest": "0322cc2a0bf4417841f998d1a6c1fd3483e1ed4716cec4dc70e58b451e162352",
+      "values_digest": "d0862d4714cafa9c66e43c8b686f21c3ac31942bd9835f19fa31908b9cff421c",
       "rendered_digest": "344816c3eaa375d6ef4366492e688f885d2536b905e94af4617b596b7fe11eb3",
       "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
     },
     "srp": {
-      "values_digest": "68291155d60d2b976e1a5f78f4f4618288263d26c6d32165d5987964c68a7808",
-      "rendered_digest": "edd36e98b00350210642d665f6411d88d96a4f82746d1cdd4053113e4cabf0aa",
-      "ast_digest": "0bd37e11520467bebe541418b057e8205cc49eb6f1687bb82496963826924ec9"
+      "values_digest": "9bf39d6a2975c743143493b2edd86700940f976a5cf424b4f487c028790c07eb",
+      "rendered_digest": "becf8f54ea0a82c2c85cea9cb9aacfc1a1153e62edff8f31b413f4577b0e2cee",
+      "ast_digest": "98aaf3f9f50e2ba74ff6175f19cb4d400b08ea385a9738185b371fb954ef5d6f"
     },
     "sor": {
-      "values_digest": "f7626b5a6de774a4bcf98ddb0a7764afb63326f2c024bc2469bab93ac75516aa",
-      "rendered_digest": "a8115c906cc657bad72c7ca371478f4e4328ea20d08a1edcb84a2308cf74459a",
-      "ast_digest": "7012c24577cca6089abe412b1f59362543ed9cb95dab01bf91b4ac7a15a54a6a"
+      "values_digest": "fd60bc6848343d1cd327fead378dcfafb0e25dc3df06ce64f1e1be12cd1b6605",
+      "rendered_digest": "5f967e81427e64408b0c7cb724db284d69f418ca4ff1c110b9bdc1c35181976e",
+      "ast_digest": "88bdc59034d60513ed1789ab553263b94020a318dda0be5b598fccaadd7a74d8"
     }
   },
   "transitions": [
@@ -88,6 +126,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -146,6 +198,20 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

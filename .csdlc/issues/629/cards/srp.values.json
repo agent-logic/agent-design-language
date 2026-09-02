@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
     "slug": "v3-h3-github-publication",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/629",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:eb51488dee5c491653f24c8f521b8033b12e4e12:74c1b2417ca959edb117d37d30029845ee76511ac4723db1814ef25ce820a44f",
+      "reviewer": "codex-reviewer:review_629_r3_exact_head",
       "review_prompts": [
         "Verify remote authority is not caller-forgeable.",
         "Verify publication refuses stale or missing review truth.",
@@ -23,8 +23,10 @@
         "Verify credentials are redacted and no raw gh lifecycle writes are used."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Public remote route planning intentionally fails closed until authenticated GitHub adapter and typed review receipt ingestion are implemented."
+      ],
+      "review_result": "pass"
     }
   }
 }
