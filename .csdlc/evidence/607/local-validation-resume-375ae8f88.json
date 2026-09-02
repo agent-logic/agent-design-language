@@ -1,0 +1,24 @@
+{
+  "schema": "adl.issue607.local_validation.v1",
+  "issue": 607,
+  "tested_revision": "375ae8f883b0bf14c4e3e2ec1a821df439d4717b",
+  "status": "passed",
+  "checks": [
+    {"command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"], "outcome": "passed", "result": "issue607_all=pass"},
+    {"command": ["git", "diff", "--check"], "outcome": "passed"},
+    {"command": ["bash", "-n", "adl/tools/run_issue607_warm_polis.sh", "adl/tools/test_issue607_warm_polis.sh"], "outcome": "passed"}
+  ],
+  "coverage": [
+    "healthy AWS transitional states wait without a deadline while API and terminal-state errors fail",
+    "the resume input loader accepts only the real preparation instance output keys",
+    "zero, one, and two existing prepared AMI states create exactly the missing images",
+    "prepared AMIs and sealed snapshots are exactly reused by their bounded helpers",
+    "an authorized older artifact generation is accepted only when it is an ancestor of the controller revision and both identities are emitted in the launch manifest",
+    "the preparation result installs atomically and an active or completed ledger reconciles idempotently",
+    "destructive preparation recovery refuses a present terminal result",
+    "a duplicate exact preparation cost entry is reused rather than duplicated",
+    "retained prepared AMIs and root snapshots are accepted by zero-disposable-residue proof",
+    "resume validates source, authorization, plan, Terraform, owner, campaign, and consumed-marker inputs"
+  ],
+  "limitations": ["Live resume and repeated warm launches remain pending."]
+}

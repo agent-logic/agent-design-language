@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 41
+    "generation": 43
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/607\n.csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh",
-      "review_revision": "git-blake3:08921defa2fe9f973da4b7ff090432e007084fd4:b52e63cc4dfc92522ed0c449170f607f31bb2d231085432b1887454bcc90beec",
-      "reviewer": "subagent:issue_607_resume_r4_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -23,32 +23,9 @@
         "Can stale or cross-AZ volume content activate?",
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
-      "findings": [
-        {
-          "id": "607-resume-r4-f1-output-keys",
-          "severity": "p1",
-          "summary": "Resume reads launch instance output keys rather than preparation instance output keys and therefore rejects every non-terminal interrupted preparation.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "607-resume-r4-f2-proof-denominator",
-          "severity": "p2",
-          "summary": "Focused helper tests do not yet execute the integrated resume, controller propagation, checkpoint reconciliation, and terminal recovery-refusal paths claimed by retained proof.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "Prepared artifacts remain retained and no compute is running while the integrated no-paid resume harness is corrected."
-      ],
-      "review_result": "changes_required"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

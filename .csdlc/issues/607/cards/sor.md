@@ -12,7 +12,7 @@ Status: draft
 
 ## Summary
 
-Implemented and locally proved the restart-safe warm two-node AWS controller through revision b1ca07fb2; live resume and two warm launches remain pending.
+Implemented and locally proved the restart-safe warm two-node AWS controller through revision 375ae8f88; live resume and two warm launches remain pending.
 
 ## Artifacts
 
@@ -23,19 +23,19 @@ Implemented and locally proved the restart-safe warm two-node AWS controller thr
 - adl/tools/test_issue607_warm_polis.sh
 - infra/aws/runtime/gpu-proof
 - docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-- .csdlc/evidence/607/local-validation-resume-b1ca07fb2.json
+- .csdlc/evidence/607/local-validation-resume-375ae8f88.json
 
 ## Execution
 
 - Separated retained warm storage, disposable preparation, and disposable compute ownership.
-- Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.
-- Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.
-- Made partial AMI creation, sealed snapshots, cost recording, and terminal preparation completion idempotent across controller interruption.
-- Allowed a prepared artifact generation to continue only under a clean descendant controller while recording both identities separately.
+- Loaded the exact preparation instance output keys and covered their rejection boundary.
+- Made zero, one, and two existing AMI continuation create exactly the missing prepared images.
+- Made sealed snapshots, preparation cost recording, and terminal preparation completion idempotent at their bounded seams.
+- Allowed a prepared artifact generation to continue only under a clean descendant controller while recording both identities in launch authorization evidence.
 - Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.
 - Added consumed-authorization, source, plan, Terraform state, owner, image, ledger, and terminal-checkpoint validation before resume.
-- Allowed only the exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.
-- Added executable regressions for partial-image recovery, controller-generation ancestry, checkpoint reconciliation, permanent AWS errors, and exact image, snapshot, and cost reuse.
+- Prevented destructive recovery when a terminal preparation result exists.
+- Allowed only exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.
 
 ## Validation
 
@@ -46,9 +46,9 @@ Implemented and locally proved the restart-safe warm two-node AWS controller thr
       "adl/tools/test_issue607_warm_polis.sh",
       "all"
     ],
-    "purpose": "Prove the complete bounded no-paid contract including partial-image recovery, generation ancestry, terminal checkpoint reconciliation, indefinite healthy waits, and exact artifact reuse.",
+    "purpose": "Prove the bounded no-paid continuation seams including real preparation outputs, zero, one, and two AMI states, controller ancestry and manifest identity, checkpoint reconciliation, recovery refusal, and cost reuse.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-375ae8f88.json"
   },
   {
     "command": [
@@ -56,9 +56,9 @@ Implemented and locally proved the restart-safe warm two-node AWS controller thr
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and conflict-marker residue after restart-safety remediation.",
+    "purpose": "Reject whitespace and conflict-marker residue.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-375ae8f88.json"
   },
   {
     "command": [
@@ -67,9 +67,9 @@ Implemented and locally proved the restart-safe warm two-node AWS controller thr
       "adl/tools/run_issue607_warm_polis.sh",
       "adl/tools/test_issue607_warm_polis.sh"
     ],
-    "purpose": "Prove shell parse validity for the controller and its regression suite.",
+    "purpose": "Prove shell parse validity for the controller and regression suite.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-375ae8f88.json"
   }
 ]
 
