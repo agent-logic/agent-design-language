@@ -12,7 +12,7 @@ Status: draft
 
 ## Summary
 
-Implemented the warm two-node AWS path through restart-safe controller revision 5fbd22933; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.
+Implemented and locally proved the restart-safe warm two-node AWS controller through revision b1ca07fb2; live resume and two warm launches remain pending.
 
 ## Artifacts
 
@@ -23,18 +23,19 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
 - adl/tools/test_issue607_warm_polis.sh
 - infra/aws/runtime/gpu-proof
 - docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-- .csdlc/evidence/607/local-validation-resume-5fbd22933.json
+- .csdlc/evidence/607/local-validation-resume-b1ca07fb2.json
 
 ## Execution
 
 - Separated retained warm storage, disposable preparation, and disposable compute ownership.
 - Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.
 - Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.
-- Made AMI and sealed-snapshot creation exact-state and idempotent across controller interruption.
+- Made partial AMI creation, sealed snapshots, cost recording, and terminal preparation completion idempotent across controller interruption.
+- Allowed a prepared artifact generation to continue only under a clean descendant controller while recording both identities separately.
 - Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.
-- Added consumed-authorization, source, plan, Terraform state, owner, image, and ledger identity validation before resume.
+- Added consumed-authorization, source, plan, Terraform state, owner, image, ledger, and terminal-checkpoint validation before resume.
 - Allowed only the exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.
-- Added executable regressions for permanent AWS errors and exact reuse of existing images and snapshots.
+- Added executable regressions for partial-image recovery, controller-generation ancestry, checkpoint reconciliation, permanent AWS errors, and exact image, snapshot, and cost reuse.
 
 ## Validation
 
@@ -45,9 +46,9 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
       "adl/tools/test_issue607_warm_polis.sh",
       "all"
     ],
-    "purpose": "Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, exact image and snapshot reuse, and retained-artifact residue classification.",
+    "purpose": "Prove the complete bounded no-paid contract including partial-image recovery, generation ancestry, terminal checkpoint reconciliation, indefinite healthy waits, and exact artifact reuse.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-5fbd22933.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json"
   },
   {
     "command": [
@@ -57,7 +58,7 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
     ],
     "purpose": "Reject whitespace and conflict-marker residue after restart-safety remediation.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-5fbd22933.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json"
   },
   {
     "command": [
@@ -68,7 +69,7 @@ Implemented the warm two-node AWS path through restart-safe controller revision 
     ],
     "purpose": "Prove shell parse validity for the controller and its regression suite.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-5fbd22933.json"
+    "evidence_ref": ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json"
   }
 ]
 

@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue607.local_validation.v1",
   "issue": 607,
-  "tested_revision": "5fbd229330dda2ed6f080ebb54684e57c08e17e6",
+  "tested_revision": "b1ca07fb29c9484d3736c1eac48e5b01c0df340a",
   "status": "passed",
   "checks": [
     {
@@ -19,11 +19,13 @@
     }
   ],
   "coverage": [
-    "healthy AWS transitional states wait without a deadline",
-    "permanent AWS command failures terminate",
-    "prepared AMI creation reuses one exact existing image",
-    "sealed snapshot creation reuses one exact existing snapshot",
-    "retained prepared AMIs and their exact root snapshots are accepted by zero-disposable-residue proof",
+    "healthy AWS transitional states wait without a deadline while API and terminal-state errors fail",
+    "resume reuses one existing prepared AMI and creates only the missing peer",
+    "prepared AMIs and sealed snapshots are exactly reused after interruption",
+    "an authorized older artifact generation may be continued only by a descendant controller revision",
+    "the preparation result is atomically installed and an active ledger reconciles idempotently to completed",
+    "a duplicate exact preparation cost entry is reused rather than duplicated",
+    "retained prepared AMIs and root snapshots are accepted by zero-disposable-residue proof",
     "resume binds the source archive, plans, preflight, action manifest, Terraform state, owner token, campaign, and consumed S3 authorization marker"
   ],
   "limitations": [
