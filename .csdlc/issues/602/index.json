@@ -3,13 +3,81 @@
   "issue": 602,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "af4c35cf4801cad5de49b04fa4204b6964eb35fee41aa0c2703f07f35e4dd4af",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "4742c22255f7862ab6f5a64683c08f7f92561016c1b30877ddb4e6cc0a7c98fb",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:issue_602_review",
+    "assigned_by": "codex:issue-602-runtime-agent-lifecycle",
+    "revision": "git-blake3:d34fa0eff9e3f8e3086c4e16b5e3c09d2738db46:072cbdd32707a7e4f5f505684eda18fc9679945675c926ce70ce82200f9b0e3e",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/agents/ember.axioma.yaml",
+      ".csdlc/issues/602",
+      ".csdlc/prepared/issues/602"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:issue_602_review",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/agents/ember.axioma.yaml",
+      ".csdlc/issues/602",
+      ".csdlc/prepared/issues/602"
+    ],
+    "reviewed_revision": "git-blake3:d34fa0eff9e3f8e3086c4e16b5e3c09d2738db46:072cbdd32707a7e4f5f505684eda18fc9679945675c926ce70ce82200f9b0e3e",
+    "findings": [
+      {
+        "id": "602-review-name-authority",
+        "severity": "p1",
+        "summary": "Canonical agent naming was not originally enforced at Runtime admission and rehydration authority.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d34fa0eff9e3f8e3086c4e16b5e3c09d2738db46:072cbdd32707a7e4f5f505684eda18fc9679945675c926ce70ce82200f9b0e3e",
+        "route": null
+      },
+      {
+        "id": "602-review-office-compatibility",
+        "severity": "p2",
+        "summary": "Office needed first-class persistence with an explicit non-conflicting legacy role compatibility boundary.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d34fa0eff9e3f8e3086c4e16b5e3c09d2738db46:072cbdd32707a7e4f5f505684eda18fc9679945675c926ce70ce82200f9b0e3e",
+        "route": null
+      },
+      {
+        "id": "602-review-portable-live-config",
+        "severity": "p2",
+        "summary": "The live validator originally generated a machine-local retained config with textual substitution.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d34fa0eff9e3f8e3086c4e16b5e3c09d2738db46:072cbdd32707a7e4f5f505684eda18fc9679945675c926ce70ce82200f9b0e3e",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Live Wuji deployment is deferred until after PR publication; the reviewed focused local proof is complete."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +92,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9a63c63e2ef6a0a6b4e411a3fb93fed05772d6ab2a8f6431a41cd20b8a45f690",
+      "values_digest": "951170e23aca114537099a29a20c6f2bfb3e78416646a5dffa8559c72df51e33",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "99019a9cdd73a4a9580ec2c3ef4e796bf4259db52ec2afb30662c8f835c7cfa6",
+      "values_digest": "de2c573157d18d2ba6f5bc78ea5b930ec171836f286219062184dbc94ddcf097",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "41826ad6a260f24a1c4d1dfcfb244904aa185d91a2a26cfc1ca0b604eedae322",
+      "values_digest": "699f70938c2b1297ed4471e0a68c2f1f109a37e917e47b1104b4e747b521ac48",
       "rendered_digest": "c8af228a4cdde45398c6926e3e379354a9bf3b87c465d938c42463d5e75b8e67",
       "ast_digest": "5eb02c31ceef753b624e256d5907c886c1b52da461470ab13f96acbfcc93e62b"
     },
     "vpp": {
-      "values_digest": "2ebad972ef767941b7c1146726781d45ea5bcc98fe72952b93a8256e4e3587ba",
+      "values_digest": "70f681f07d33749021058371a48ecc18308bc69e02d4cc2af0d2b07a06acd35d",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "2c64ebebf4649d01a6cd37e2fe97be46fae96bfd4b413c7677fb7b2c448c4a7c",
-      "rendered_digest": "37d971c962699545428f906b641375d3de97b22bba7d8122dc8bfe92e42d8bfe",
-      "ast_digest": "0b4e72ef66d80e9436c36fb66f9adffbb7221a27b9ebb6bf1ebedfd4a56b3217"
+      "values_digest": "e5549058afc5e17239f7ab4a438bd3ac7f7d19bb3c62ce5470adf3bee42f56b1",
+      "rendered_digest": "a66b0086e39c72cd89d871d394b33efe2c944a74704037ced3fd9ab98dc6efef",
+      "ast_digest": "586c8347384c573d2a1a02659c41db31d7b9d274a77ac6b18b8e28163930a31d"
     },
     "sor": {
-      "values_digest": "297287402ae49a16ac26f7ef0e8318ec394d803a6e0c884357185c450fdba15a",
+      "values_digest": "226e260c9dc991cd3a6f83487be3fc654810721785ba202028405a751ed21b7f",
       "rendered_digest": "ccb1da2b8f9fd7ef6688e6ac14ff96a050239d3e8808212dc5fd882228dd169d",
       "ast_digest": "14e3754d2d4a9412fda0cf4f707d3eeb2a1fd045b82c79957db3ecb936e585e1"
     }
@@ -75,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:issue-602-runtime-agent-lifecycle",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -133,6 +208,20 @@
       "actor": "codex:issue-602-runtime-agent-lifecycle",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
