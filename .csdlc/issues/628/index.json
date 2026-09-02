@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
   "phase": "published",
-  "generation": 5,
-  "digest": "eea33dcedb2a7996a850f8ec0755f0e12958109b764db69d752eb6ce06f89984",
+  "generation": 6,
+  "digest": "2cbf433a511db445416756045a9c362cbcfbd02ce994fca7dadec0c10a451745",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
   "review_assignment": {
@@ -45,11 +45,11 @@
   "publication": {
     "repository": "agent-logic/agent-design-language",
     "issue": 628,
-    "pull_request": 638,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/638",
-    "base": "codex/627-v3-h1-command-denominator-r2",
+    "pull_request": 639,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/639",
+    "base": "main",
     "head": "codex/628-v3-h2-local-lifecycle-exec",
-    "revision": "git-blake3:ba9b9e6321228207490d8c8ef30d1ebdf6440a39:81458bee7e2d83b932a2656bd81ed06d451dbe1ff460bd05b06ec6621f6aca11",
+    "revision": "git-blake3:361ed6c5f29a392866ebdccffae9d6753cbbaad7:565fed6f498ebe95c964e42f4059fd7018c59be04c2079bdc0f85be9f9e6189f",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -67,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0a8eccf772f3aa78f2654ac19925942a23622aaf4fbbecd2065c823e72d72fcc",
+      "values_digest": "42638012ac6df309ccae0d766c59b7dca1159890022322f162483513842e2d42",
       "rendered_digest": "ec86154fbe8bea2e97c924434eeb9628c5ed7da45613790a6ac03fbb543a27a5",
       "ast_digest": "2acce6b1beca8f33b77c7b8cf371d468d8f199e4f56aa9dcfe4a298d3acd9593"
     },
     "stp": {
-      "values_digest": "215b14cba37d87ca92cefc871dcc03bcf2685105e9da9a5521668f03cf925d77",
+      "values_digest": "0ace80bff085cfe04a7c947c496db3ad5a529aed052007727056d13a6f571818",
       "rendered_digest": "bc3cd8bd8745a5adceb6c9595367ec1919f1797064fee91ee7eb896d4f155efd",
       "ast_digest": "57dfad5b0fe0bea239cfdf214b53671017845b79aff12963238f44d33d0c57db"
     },
     "spp": {
-      "values_digest": "428cba2a034ac846093cdf4c0ab14c132f741d1e7eab395f5f3a44c5c7986026",
+      "values_digest": "f0503e4710449b4a6530c40eff6eaf5981fc940488fbef55e449b269ae4de17f",
       "rendered_digest": "d819514ecc09935b395491930a0d9d63e1b5046f4c83282c0e9c3ba0dc04689a",
       "ast_digest": "14bf84ef4d04a577ee0b6f619469d6cddc0148f5d840a78313ae0c6973a2d204"
     },
     "vpp": {
-      "values_digest": "5c62b19f24f8c9406a3a13da30f8584be2679635ae70fb11e699c2c1cb4aff81",
+      "values_digest": "48ea8f91ed0c1cd204b9974f1d06c921587102ca2b5b85c4625ab284e98cb5a5",
       "rendered_digest": "43d4653b64b0dd707774309d0824415e41d4fd92b04d28591b58488a8e59f8ed",
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "b25b7f5f6bd0836a10dd550260ebd8262faf2f540a9a4ce4720fa31aa7dec7df",
+      "values_digest": "8a253d1c2110777a91bb8ed95499f0242831a273bd81daf590091acf7f4da85c",
       "rendered_digest": "ce0fb14465cd545443181fb05c9f10c567ad2d87090315f0d3fd58a18904ae68",
       "ast_digest": "0259eb2aaece7fa092ce267ad076c09934fff490f0a9bc4e96caaf2b1824a001"
     },
     "sor": {
-      "values_digest": "fe2b97097ffd70ccf570e0604f6b3d9506ecec3b4ef154d61c12f893641b9d21",
+      "values_digest": "3ab67c144240f344c8af6c188354b4cee1d1d11403d2709ba0b29c3bdaf37153",
       "rendered_digest": "0f28303141f89cbd88a0eefc814a91a5b0748c21c51803684428b7e14a684e54",
       "ast_digest": "5ce4adfc07135820b0f45f0ed45fcf49d04b7dc2a0919102993cc05e7f9e0cb2"
     }
@@ -194,6 +194,13 @@
     {
       "sequence": 9,
       "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
