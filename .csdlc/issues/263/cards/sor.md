@@ -89,11 +89,11 @@ Prepared The Cognitive Stack directory-submission runbooks and operator prefligh
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
