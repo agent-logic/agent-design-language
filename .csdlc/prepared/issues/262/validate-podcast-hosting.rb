@@ -198,6 +198,13 @@ fail!("source packet still names old canonical GUID") if source_packet.include?(
   fail!("#{label} contains prohibited local temp path") if text.match?(%r{/private/tmp|/var/folders})
 end
 
+inventory_objects = s3_object_inventory.fetch("objects")
+inventory_size_sum = inventory_objects.sum { |object| object.fetch("size") }
+fail!("S3 object inventory object count mismatch") unless s3_object_inventory["object_count"] == inventory_objects.length
+fail!("S3 object inventory total byte sum mismatch") unless s3_object_inventory["total_bytes"] == inventory_size_sum
+fail!("storage manifest archive object count mismatch") unless storage_manifest["archive_object_count"] == s3_object_inventory["object_count"]
+fail!("storage manifest archive total bytes mismatch") unless storage_manifest["archive_total_bytes"] == s3_object_inventory["total_bytes"]
+
 storage_manifest.fetch("critical_objects").each do |object|
   key = object.fetch("key")
   local_path = local_archive_path_for_key(key)
@@ -212,7 +219,7 @@ storage_manifest.fetch("critical_objects").each do |object|
   fail!("storage manifest #{label} checksum mismatch") unless object["s3_checksum_sha256"] == expected_s3_checksum
 end
 
-s3_object_inventory.fetch("objects").each do |object|
+inventory_objects.each do |object|
   key = object.fetch("key")
   local_path = local_archive_path_for_key(key)
   next unless local_path && File.file?(local_path)

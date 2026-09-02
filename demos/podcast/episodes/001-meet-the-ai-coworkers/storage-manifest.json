@@ -6,7 +6,7 @@
   "bucket": "agent-logic-podcast-archive-agentlogic",
   "archive_prefix": "archive/the-cognitive-stack/",
   "archive_object_count": 87,
-  "archive_total_bytes": 191911392,
+  "archive_total_bytes": 191911388,
   "inventory": "s3-object-inventory.json",
   "publication_status": "held_for_human_review",
   "bucket_controls": {
