@@ -37,7 +37,7 @@ failure() {
 }
 trap failure EXIT
 
-for command in curl jq mount openssl python3 readlink systemctl veritysetup; do command -v "$command" >/dev/null; done
+for command in curl jq mount openssl python3 readlink socat systemctl veritysetup; do command -v "$command" >/dev/null; done
 python3 -c 'import boto3, botocore' >/dev/null
 compact='${volume_id}'
 compact="$${compact//-/}"
@@ -97,6 +97,13 @@ do
   sleep 0.25
 done
 
+systemd-run --unit=adl-issue607-ollama-tunnel \
+  --property=Restart=always \
+  --property=RestartSec=1s \
+  --property=StartLimitIntervalSec=0 \
+  /usr/bin/socat TCP-LISTEN:11434,bind=127.0.0.1,reuseaddr,fork TCP:${gpu_private_ip}:11434
+until curl -fsS http://127.0.0.1:11434/api/tags >/dev/null; do sleep 0.25; done
+
 guardian_evidence="$repo_runtime/.adl/runtime-v3/qualification-issue607"
 mkdir -p "$guardian_evidence"
 export ADL_RUNTIME_USE_PREBUILT_BINARIES=1
@@ -110,7 +117,7 @@ ADL_ISSUE607_AWS_REGION='${region}' \
 ADL_ISSUE607_ARTIFACT_BUCKET='${artifact_bucket}' \
 ADL_ISSUE607_QUALIFICATION_KEY='${qualification_key}' \
 ADL_ISSUE607_SOURCE_COMMIT='${source_commit}' \
-ADL_ISSUE607_GPU_PRIVATE_IP='${gpu_private_ip}' \
+ADL_ISSUE607_GPU_PRIVATE_IP=127.0.0.1 \
 ADL_ISSUE607_RUN_ID='${run_id}' \
 ADL_ISSUE607_GUARDIAN_EVIDENCE_ROOT="$guardian_evidence" \
   bash "$repo_runtime/adl/tools/issue607_qualify_warm_polis.sh"
