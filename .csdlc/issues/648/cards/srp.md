@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Provider reload ownership isolation, production CSM handle propagation, compatibility global guard clearing, overlap/shutdown regression coverage, and offline validation evidence only.
+adl/src/provider/reload.rs
+adl/src/execute/mod.rs
+adl/src/execute/runner.rs
+adl/src/execute/tests.rs
+adl/src/long_lived_agent.rs
+.csdlc/prepared/issues/648
+.csdlc/evidence/648
 
 ## Prompts
 
@@ -32,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review did not run live provider, AWS, paid/cloud, Runtime restart, cutover, or CI checks.
+- Publication/PR/CI readiness remains unproven until typed publication creates a PR and GitHub checks complete.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:885c9e3b58637be8ee3e2b13fbfe56839b284879:7df793a6456b634fb3e995a965105715e4e519fbcb31466af561c3cf6b9cc2bd")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_648_provider_reload_corrective_exact_head")
 
-Result: pre_review
+Result: pass
