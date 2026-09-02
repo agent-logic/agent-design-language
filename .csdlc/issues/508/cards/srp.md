@@ -8,16 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/evidence/508
-.csdlc/prepared/issues/508
-adl-runtime/Cargo.toml
-adl-runtime/src/qualification/mod.rs
-adl-runtime/tests/distributed_failure/drt_c_qualification.rs
-docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json
+
 
 ## Prompts
 

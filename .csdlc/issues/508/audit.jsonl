@@ -4,3 +4,5 @@
 {"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":5,"generation":3,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":6,"generation":3,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":7,"generation":4,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":8,"generation":5,"actor":"codex:/root","reason":"Recover #508 after fresh-session:2f0bb473-4c5c-4779-a0b0-4f0f33333d508 exact implementation review found P1 stale runtime_revision evidence and P1 incomplete #187 soak denominator; bounded in-scope remediation requires a new substantive commit and fresh exact-head review.","operation":"recover_review"}

@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cfacb01c100d1f8699ae21e7fe2c4e0178460ab0e6e27cee132722b2022f850a",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "3536383357f7e8e91c76b06bef3ab1d94e46b321348ebed7c2cfbd7bad35bfcd",
+  "generation": 5,
+  "digest": "2c11211b3a64d9cc77486547db0b06767a6fb0d0835da172d5ffc078a6ab2dd3",
   "branch": "codex/508-drt-c-final-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
-  "review_assignment": {
-    "reviewer": "fresh-session:2f0bb473-4c5c-4779-a0b0-4f0f33333d508",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:9470a0620458fa5adefad01c612ca8a95ae6d561:2da45449d534772f4acfe8923ef14efb003b753db76637b677377946d08202ca",
-    "scope": [
-      ".csdlc/evidence/508",
-      ".csdlc/prepared/issues/508",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/src/qualification/mod.rs",
-      "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
-      "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "649ffbc67bf7f67d9c927edefce075a5061e7200cdf5e404e998dbd34248cda0",
+      "values_digest": "36c9e28145f97ee76ac8a228590e65accbab9cb07091e28857de6e67008df216",
       "rendered_digest": "d2ac930dc2c4cfe6450a0585c40dfe3f9a42bca95a9c526d611dcad29993ad8a",
       "ast_digest": "481f7cdad101abda9f1eabf908a5f5f36e6a004cefa7267fe9022a458985ea42"
     },
     "stp": {
-      "values_digest": "101b80880de8d6f48e9122e40bad412a315bdd4859a5a3d2e2dc708ed4817ebc",
+      "values_digest": "319e6687e3318541a4845f182c65ce99647fec0f3558ae1101179a0e7948c7eb",
       "rendered_digest": "4b599c930e63aea9afd5626f13c4e14b3a92aa6c35744a3b75b0d00e16879847",
       "ast_digest": "89f6d7fbd778850223d59e725ed4fd0a38dcd294e94e5c2847b21763f00616a8"
     },
     "spp": {
-      "values_digest": "33d053648b7180d84a3d1bf0b8f208657e8ce9de3828cf296c590fb81950bd5d",
+      "values_digest": "f894fe24a4483865a00dcda78ed700802c9d056e70c60bc268f0b68dee88640d",
       "rendered_digest": "d4c14d53799977a4d0ef53073b9d37e738c6946e6f86890b409a5f06d34e7b8b",
       "ast_digest": "4057e7214ef271f25984610da9d350200373e64573c417378780fb95bc43f215"
     },
     "vpp": {
-      "values_digest": "fd8d502d4c27173dc6d25b1ed779158a7989202cef510564a15582f7a3a29247",
+      "values_digest": "2638740e99e02acbb34552d0a1ad2269c809d84c6d98bb580bcb24225bf95839",
       "rendered_digest": "41909d7734f98c9b440979a1f63e7e94812581696a87f1cfaaf74d84b93ce99e",
       "ast_digest": "3504504691e747421b0bf4d8b8fddc8baf5723ed3c348e216296a1bc51ec65c7"
     },
     "srp": {
-      "values_digest": "d1807e779c22fa808adf8ba45195ba34c8f41ab4eb812817297abd16152f5230",
-      "rendered_digest": "a9ad7b3310ccbb6c3427862287807d6bd840f1042166f0b9df05c874b58fe5d3",
-      "ast_digest": "87b0c745b4b9bd094d674e679da108989b48a7f4d9b5af85603560859d51c4b8"
+      "values_digest": "c7e9b9ecc6e065575118b2bf07d243051b6b1d3d9b27acabccc6759a91fbbd2e",
+      "rendered_digest": "d3cec81b5763b248a3a1484faadeda59a6f1fb4dbf60ea385d2134d9d5370b8c",
+      "ast_digest": "5f1a9ea28e188b445b323938f9f96734c7176ad0a429239fbea5898e1fb5876c"
     },
     "sor": {
-      "values_digest": "2061e868016b6a42d99c0accba9cb5cbb32935be45494c6075c3ff7f0e150ce2",
-      "rendered_digest": "7ab7fb2fb5f6e0a3189beb987a36651dd3df924eb15c8f4694e5d3f719388c59",
-      "ast_digest": "d8914aad42d1972cd10a5f13523938e006b2abe9c45d5d817fc05ca5003bd9d8"
+      "values_digest": "8557cb3b4f590106d0a08ea26ee9d37fa4c8dbb27f99a55980dbd9f77e8ea385",
+      "rendered_digest": "9ffd2e9b31d61dacb5a0f2794d1e894c447f7c4184f551e66ae30adb3c59f705",
+      "ast_digest": "faf2436a03b935391d3d9b2b6dcd8841db488464c25f066725498cb8b5272b10"
     }
   },
   "transitions": [
@@ -132,6 +120,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover #508 after fresh-session:2f0bb473-4c5c-4779-a0b0-4f0f33333d508 exact implementation review found P1 stale runtime_revision evidence and P1 incomplete #187 soak denominator; bounded in-scope remediation requires a new substantive commit and fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

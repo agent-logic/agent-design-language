@@ -7,13 +7,13 @@
     "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
     "slug": "v0-92-1-drt-c-final-distributed-runtime-qualification",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/508\n.csdlc/prepared/issues/508\nadl-runtime/Cargo.toml\nadl-runtime/src/qualification/mod.rs\nadl-runtime/tests/distributed_failure/drt_c_qualification.rs\ndocs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

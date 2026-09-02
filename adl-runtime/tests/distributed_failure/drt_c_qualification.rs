@@ -1,11 +1,14 @@
 use adl_runtime::qualification::{DistributedQualificationContract, DrtCQualificationDecision};
 
-const RUNTIME_REVISION: &str = "d022d6c198669bcbc10cd98bee4d7c8520f9c4d4";
-
 #[test]
 fn drt_c_final_qualification_decision_is_exact() {
+    let retained: DrtCQualificationDecision = serde_json::from_str(include_str!(
+        "../../../docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+    ))
+    .expect("retained DRT-C qualification json");
+
     let decision = DistributedQualificationContract::deterministic_drt_a()
-        .deterministic_drt_c(RUNTIME_REVISION)
+        .deterministic_drt_c(&retained.runtime_revision)
         .expect("DRT-C decision");
     decision.validate().expect("DRT-C validates");
 
@@ -18,6 +21,17 @@ fn drt_c_final_qualification_decision_is_exact() {
     assert!(decision.observatory.runtime_emitted);
     assert!(decision.observatory.redacted);
     assert!(decision.soak.bounded);
+    assert_eq!(decision.soak.required_windows.len(), 2);
+    assert_eq!(decision.soak.total_duration_seconds, 1_800);
+    assert!(decision
+        .soak
+        .attempts
+        .iter()
+        .all(
+            |attempt| attempt.source_revision == decision.runtime_revision
+                && attempt.independent_replay
+                && attempt.cleanup_readback == "absent"
+        ));
     assert_eq!(
         decision
             .cleanup
@@ -32,10 +46,6 @@ fn drt_c_final_qualification_decision_is_exact() {
         serde_json::to_string_pretty(&decision).expect("DRT-C JSON")
     );
 
-    let retained: DrtCQualificationDecision = serde_json::from_str(include_str!(
-        "../../../docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
-    ))
-    .expect("retained DRT-C qualification json");
     assert_eq!(
         retained, decision,
         "retained DRT-C evidence must match the deterministic Runtime decision"

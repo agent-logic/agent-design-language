@@ -86,7 +86,7 @@ Implement the DRT-C final distributed Runtime qualification decision by deriving
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
