@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root",
+  "card": "sor",
+  "expected_digest": "6e5191b1dd6d82cbffaf4159979347cf703a3956989c5354dce5c496baa46d95",
+  "expected_generation": 7,
+  "issue": 506,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+        "acip-authority"
+      ],
+      "purpose": "Prove ACIP authority envelope binding for qualified participants.",
+      "outcome": "passed",
+      "evidence_ref": "acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out"
+    }
+  },
+  "reason": "Record focused #506 ACIP authority proof lane."
+}

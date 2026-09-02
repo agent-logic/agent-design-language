@@ -1,0 +1,13 @@
+{
+  "actor": "codex:/root",
+  "card": "spp",
+  "expected_digest": "e6cf4b21abfba525b50c4478442eeadef780e6061916b6f720bf5687145397a4",
+  "expected_generation": 1,
+  "issue": 506,
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  },
+  "reason": "DRT-A requirement mapping is implemented and covered by the focused qualification-contract proof lane."
+}

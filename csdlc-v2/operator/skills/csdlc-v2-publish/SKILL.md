@@ -6,7 +6,7 @@ C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
 cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
 evidence and must not publish PRs, mutate GitHub, finish issues, or retire v2.
 
-Invoke `csdlc-publish publish` with `draft: false` for the routine path; it creates and records one exact ready PR directly. Existing governed draft publications may still use the bounded ready reconciliation commands, but new routine work must not create a draft first. Keep the one-shot request at the Git-common path `.git/csdlc-v2/requests/<issue>.json` and overwrite it. Do not publish on missing/stale review, ambiguous remote state, or prose-only approval.
+Invoke `csdlc-publish publish` with `draft: false` for the routine path; it creates and records one exact ready PR directly. Existing governed draft publications may use `csdlc-publish ready --request <json>` to mark the exact observed draft PR ready, or `csdlc-publish reconcile-ready --request <json>` after an uncertain ready mutation when live readback already proves the exact open non-draft PR at the expected head. New routine work must not create a draft first unless the issue explicitly tests draft reconciliation. Keep the one-shot request at the Git-common path `.git/csdlc-v2/requests/<issue>.json` and overwrite it. Do not publish on missing/stale review, ambiguous remote state, or prose-only approval.
 
 `repository` is always the issue-tracker repository recorded by the issue. Set
 the optional `code_repository` only when the PR belongs to a different

@@ -1,0 +1,7 @@
+{
+  "issue": 506,
+  "expected_generation": 19,
+  "expected_digest": "44cb6bbd7368997be99a8f35a214784fe3f00b33a123e36ad3e7fa5a21cd649f",
+  "actor": "codex:/root",
+  "reason": "Recover #506 reviewed state because committing typed review metadata moved the clean current HEAD from the reviewed substantive revision to a metadata-only lifecycle revision; preserve PASS evidence and request a fresh exact-head review of the current immutable head before publication."
+}

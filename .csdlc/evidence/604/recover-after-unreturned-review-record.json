@@ -1,0 +1,7 @@
+{
+  "issue": 604,
+  "expected_generation": 21,
+  "expected_digest": "d921e0824b6038494fe3a63b17c9bce80ede3ef11fd00dabc40c51912fe1118e",
+  "actor": "codex:/root/worker-6/issue-604",
+  "reason": "Recover after the branch was reviewed and published with a reviewer identity whose final PASS was not visible to the orchestrating session. The final review will be re-recorded against the reviewer transcript that actually returned PASS."
+}

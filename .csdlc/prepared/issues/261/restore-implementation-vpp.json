@@ -1,0 +1,61 @@
+{
+  "issue": 261,
+  "card": "vpp",
+  "expected_generation": 5,
+  "expected_digest": "826c37163a6cf2161754bc6a206010e34fb0b38b97273cdf1ccbb3fe0f19b389",
+  "actor": "codex:issue-261-implementation",
+  "reason": "Restore executable candidate, redaction, release-gate, and diff proof after bound implementation created the exact packet validator; keep release proof deferred until external gates are supplied.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "identity-candidate",
+        "proof_role": "Prove schema, metadata parity, exact artwork/source bytes and properties, ownership allocation, and truthful pending external-gate states without claiming release readiness.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 3500,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py"],
+        "parallel_group": "261-serial-01",
+        "defer_reason": null
+      },
+      {
+        "lane": "secret-redaction",
+        "proof_role": "Reject retained credentials, tokens, recovery or verification codes, private mailbox content, and private-key material from the exact packet.",
+        "acceptance_ids": ["AC-3", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 2000,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py", "--redaction-only"],
+        "parallel_group": "261-serial-02",
+        "defer_reason": null
+      },
+      {
+        "lane": "external-release-gates",
+        "proof_role": "Fail closed unless operator identity approval, artwork-rights confirmation, and redacted company-mailbox receive proof are all durably present and consistent.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 3000,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py", "--release"],
+        "parallel_group": "261-serial-03",
+        "defer_reason": "Deferred and expected to fail while operator title, rights confirmation, or mailbox receive proof remains pending; publication is prohibited until this exact lane passes."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove exact #261 path ownership and patch hygiene against immutable current-main preparation base.",
+        "acceptance_ids": ["AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1500,
+        "argv": ["git", "diff", "--check", "c46b7cd8265a7e81566cdf82153c387595a6cccf...HEAD"],
+        "parallel_group": "261-serial-04",
+        "defer_reason": "Deferred until immutable implementation revision exists."
+      }
+    ]
+  }
+}

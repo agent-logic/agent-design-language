@@ -111,8 +111,10 @@ pub use projection_recovery::{
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
-    prepare_publication, reconcile_action, record_publication, PublicationAction,
-    PublicationIntent, PublicationLinkageMode, PublicationRequest, RemotePullRequest,
+    prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
+    record_publication, record_ready_publication, record_ready_reconciliation, PublicationAction,
+    PublicationIntent, PublicationLinkageMode, PublicationRequest,
+    ReadyPublicationReconciliationRequest, ReadyPublicationRequest, RemotePullRequest,
 };
 pub use pvf::{
     classify_schedule, classify_shepherd, execute, finalize, select, ExecutionRequest,

@@ -1,0 +1,7 @@
+{
+  "issue": 604,
+  "expected_generation": 15,
+  "expected_digest": "5318f9be9db465fcc1ce8f4a046349e33c448645754a1ebfd0480497c8b37bf4",
+  "actor": "codex:/root/worker-6/issue-604",
+  "reason": "Recover after final canary-defect fixes added retained PR-state envelope compatibility and a fail-closed self-staling review-scope guard. The PR remains live and will be reconciled through a fresh typed review and publication pass."
+}

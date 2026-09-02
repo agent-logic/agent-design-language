@@ -1,0 +1,205 @@
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-528-vertex-ai-gemini-provider-transport/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.01s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-256c61f4eb85d87b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1821 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (adl/target/debug/deps/adl-da67d418642fac40)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 223 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_aws_remote_validation.rs (adl/target/debug/deps/adl_aws_remote_validation-19afcd684db6f2a4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 52 filtered out; finished in 0.00s
+
+     Running unittests src/bin/demo_adl_gws_context_mirror.rs (adl/target/debug/deps/adl_gws_context_mirror-a84da49c10a5ea14)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_process.rs (adl/target/debug/deps/adl_process-e92d3efea7053412)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running unittests tools/adl_provider_adapter.rs (adl/target/debug/deps/adl_provider_adapter-c04c98e1f28a3a8d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_remote.rs (adl/target/debug/deps/adl_remote-5cb72ca17dbcffc5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_review.rs (adl/target/debug/deps/adl_review-c221c7704e5daf0c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_runtime.rs (adl/target/debug/deps/adl_runtime-39d83ed9e8b42b11)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_resident_shepherd_continuity.rs (adl/target/debug/deps/adl_resident_shepherd_continuity-8a43527ee18aef55)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/csm.rs (adl/target/debug/deps/csm-09f4ad5a2c18bbb1)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/csmctl.rs (adl/target/debug/deps/csmctl-5f24fc638b0d17b9)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/demo_adl_gws_native_drive_sync.rs (adl/target/debug/deps/demo_adl_gws_native_drive_sync-e38e7f6a6b835892)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running unittests src/bin/run_wp08_acip_sns_live_proof.rs (adl/target/debug/deps/run_wp08_acip_sns_live_proof-e769ade1f245aa70)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adl_tests.rs (adl/target/debug/deps/adl_tests-fb2afa65eff71019)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 30 filtered out; finished in 0.00s
+
+     Running tests/cli_smoke.rs (adl/target/debug/deps/cli_smoke-f87fae49c95ca682)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 108 filtered out; finished in 0.00s
+
+     Running tests/demo_tests.rs (adl/target/debug/deps/demo_tests-7d7329bf0143ea65)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+     Running tests/execute_tests.rs (adl/target/debug/deps/execute_tests-d08c0fd8203e2148)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 77 filtered out; finished in 0.00s
+
+     Running tests/file_inputs.rs (adl/target/debug/deps/file_inputs-ff4d5febb722c69b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/helpers.rs (adl/target/debug/deps/helpers-33ee58e9072feab6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/instrument_tests.rs (adl/target/debug/deps/instrument_tests-75741cb621e5a417)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests/issue_327_removed_tooling.rs (adl/target/debug/deps/issue_327_removed_tooling-a0386e1a2fab5bdf)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/local_ollama_provider_tests.rs (adl/target/debug/deps/local_ollama_provider_tests-892325c56c76d96d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/memory_palace_tests.rs (adl/target/debug/deps/memory_palace_tests-f92ee28b89245688)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/mock_provider_tests.rs (adl/target/debug/deps/mock_provider_tests-703fa094d0d1a489)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/obsmem_validation_tests.rs (adl/target/debug/deps/obsmem_validation_tests-e48e02f51e9cbbae)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/production_birthday_runtime.rs (adl/target/debug/deps/production_birthday_runtime-f03e76ed22ed2e89)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/provider_tests.rs (adl/target/debug/deps/provider_tests-1bb4506632e221d5)
+
+running 6 tests
+test http_family::vertex_ai_gemini_provider_builds_regional_endpoint_without_network ... ok
+test http_family::vertex_ai_gemini_provider_rejects_untrusted_custom_endpoint ... ok
+test http_family::vertex_ai_gemini_provider_preserves_uts_tool_declarations_and_call_arguments ... ok
+test http_family::vertex_ai_gemini_provider_streams_via_vertex_stream_endpoint_and_callback ... ok
+test http_family::vertex_ai_gemini_provider_translates_native_response_and_records_family ... ok
+test http_family::vertex_ai_gemini_provider_acquires_adc_token_with_gcloud_when_env_missing ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 67 filtered out; finished in 0.50s
+
+     Running tests/remote_ollama_provider_tests.rs (adl/target/debug/deps/remote_ollama_provider_tests-b4b406d8f1c7f04d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/resolve_tests.rs (adl/target/debug/deps/resolve_tests-7c06d03e1c85cb3f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+     Running tests/schema_tests.rs (adl/target/debug/deps/schema_tests-f786204974db1cf3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+     Running tests/signing_tests.rs (adl/target/debug/deps/signing_tests-1b36b51a561d1eb2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/trace_tests.rs (adl/target/debug/deps/trace_tests-5a074b1049172e96)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s

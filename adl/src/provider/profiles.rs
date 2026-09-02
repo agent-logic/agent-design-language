@@ -79,6 +79,7 @@ fn profile_vendor(profile: &str) -> Option<&'static str> {
         Some("deepseek") => Some("deepseek"),
         Some("z_ai" | "zai" | "zhipu") => Some("z_ai"),
         Some("gemini") => Some("google"),
+        Some("vertex" | "vertex_ai" | "vertex_ai_gemini") => Some("google_vertex_ai"),
         Some("chatgpt") => Some("openai"),
         Some("claude") => Some("anthropic"),
         Some("deepgram") => Some("deepgram"),
@@ -644,6 +645,15 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             },
         );
     }
+    m.insert(
+        "vertex_ai:gemini-2.5-flash",
+        ProviderProfilePreset {
+            kind: "vertex_ai_gemini",
+            default_model: Some("hosted:google-vertex-ai:gemini-2.5-flash"),
+            provider_model_id: Some("gemini-2.5-flash"),
+            endpoint: None,
+        },
+    );
     m.insert(
         "z_ai:glm-5",
         ProviderProfilePreset {

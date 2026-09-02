@@ -55,6 +55,28 @@ pub struct PublicationRequest {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReadyPublicationRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub repository: String,
+    #[serde(default)]
+    pub code_repository: Option<String>,
+    pub pull_request: u64,
+    pub expected_head_sha: String,
+    pub remote: String,
+    pub token_file: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReadyPublicationReconciliationRequest {
+    pub schema: String,
+    pub ready: ReadyPublicationRequest,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct PublicationIntent {
     pub schema: String,
     pub issue: u64,
@@ -389,6 +411,196 @@ pub fn resume_recorded_publication_intent(
     }))
 }
 
+pub fn prepare_ready_publication(
+    store: &Store,
+    request: &ReadyPublicationRequest,
+) -> Result<PublicationEvidence> {
+    if request.schema != "csdlc.ready_publication_request.v1"
+        || request.actor.trim().is_empty()
+        || request.repository.split_once('/').is_none()
+        || request
+            .code_repository
+            .as_deref()
+            .is_some_and(|repository| repository.split_once('/').is_none())
+        || request.pull_request == 0
+        || !valid_remote_name(&request.remote)
+        || !valid_head_sha(&request.expected_head_sha)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "ready publication request identity is invalid",
+        ));
+    }
+    let record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation || record.digest != request.expected_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "ready publication request does not match canonical record",
+        ));
+    }
+    if record.phase != LifecyclePhase::Published {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "mark-ready requires published phase",
+        ));
+    }
+    let record_code_repository = record
+        .code_repository
+        .as_deref()
+        .unwrap_or(&record.repository);
+    let request_code_repository = request
+        .code_repository
+        .as_deref()
+        .unwrap_or(&request.repository);
+    if record.issue != request.issue
+        || record.repository != request.repository
+        || !record_code_repository.eq_ignore_ascii_case(request_code_repository)
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "ready publication request does not match canonical issue or code repository identity",
+        ));
+    }
+    let mut publication = record.publication.clone().ok_or_else(|| {
+        V2Error::new(ErrorCode::InvalidTransition, "publication evidence missing")
+    })?;
+    if publication.repository != request_code_repository
+        || publication.issue != request.issue
+        || publication.pull_request != request.pull_request
+        || publication.observed_state != "open"
+        || !publication.draft
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "mark-ready request differs from exact governed draft",
+        ));
+    }
+    let current_head = current_head_sha(store.root())?;
+    if current_head != request.expected_head_sha {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "ready publication requires the expected PR head to match the current checkout",
+        ));
+    }
+    let observed_revision = crate::git::clean_commit_revision(&request.expected_head_sha);
+    if publication.revision != observed_revision {
+        let Some(from_commit) = parse_publication_clean_commit(&publication.revision) else {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "governed publication revision is not a clean commit identity",
+            ));
+        };
+        let changed = crate::git::metadata_only_changed_paths(
+            store.root(),
+            &from_commit,
+            &request.expected_head_sha,
+        )
+        .map_err(|_| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "ready head is not a forward metadata-only publication revision",
+            )
+        })?;
+        if changed.is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "ready head changed without typed publication metadata",
+            ));
+        }
+        publication.revision = observed_revision;
+    }
+    let review = evaluate_publication_review_in_repo(
+        store.root(),
+        record.review.as_ref(),
+        &publication.revision,
+    );
+    if !review.ready {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            format!(
+                "mark-ready review guard failed: {}",
+                review.blocker_codes.join(",")
+            ),
+        ));
+    }
+    Ok(publication)
+}
+
+pub fn prepare_ready_reconciliation(
+    store: &Store,
+    request: &ReadyPublicationReconciliationRequest,
+) -> Result<PublicationEvidence> {
+    if request.schema != "csdlc.ready_publication_reconciliation_request.v1" {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "ready publication reconciliation request identity is invalid",
+        ));
+    }
+    prepare_ready_publication(store, &request.ready)
+}
+
+pub fn validate_ready_remote(
+    governed: &PublicationEvidence,
+    request: &ReadyPublicationRequest,
+    remote: &RemotePullRequest,
+    expected_draft: bool,
+) -> Result<()> {
+    let split_authority = request
+        .code_repository
+        .as_deref()
+        .is_some_and(|repository| repository != request.repository);
+    let linkage_mode = governed.linkage_mode.unwrap_or_default();
+    if governed.issue != request.issue
+        || remote.repository != governed.repository
+        || remote.number != request.pull_request
+        || remote.base != governed.base
+        || remote.head != governed.head
+        || remote.head_sha != request.expected_head_sha
+        || remote.draft != expected_draft
+        || remote.state != "open"
+        || !body_has_exact_publication_linkage(
+            &remote.body,
+            request.issue,
+            &request.repository,
+            split_authority,
+            linkage_mode,
+        )
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "ready PR observation differs from exact governed publication",
+        ));
+    }
+    Ok(())
+}
+
+pub fn record_ready_publication(
+    store: &Store,
+    request: &ReadyPublicationRequest,
+    governed: &PublicationEvidence,
+    observed: RemotePullRequest,
+) -> Result<IssueRecord> {
+    validate_ready_remote(governed, request, &observed, false)?;
+    let mut evidence = publication_evidence(request.issue, governed, observed);
+    evidence.draft = false;
+    store.commit_publication(
+        request.issue,
+        &request.expected_digest,
+        request.actor.clone(),
+        evidence,
+    )
+}
+
+pub fn record_ready_reconciliation(
+    store: &Store,
+    request: &ReadyPublicationReconciliationRequest,
+    governed: &PublicationEvidence,
+    observed: RemotePullRequest,
+) -> Result<IssueRecord> {
+    record_ready_publication(store, &request.ready, governed, observed)
+}
+
 fn parse_publication_clean_commit(revision: &str) -> Option<String> {
     let commit = revision
         .strip_prefix("git-blake3:")
@@ -629,7 +841,7 @@ pub fn record_publication(
 
 fn publication_evidence(
     issue: u64,
-    intent: &PublicationIntent,
+    intent: &impl PublicationEvidenceSource,
     remote: RemotePullRequest,
 ) -> PublicationEvidence {
     PublicationEvidence {
@@ -639,10 +851,35 @@ fn publication_evidence(
         url: remote.url,
         base: remote.base,
         head: remote.head,
-        revision: intent.revision.clone(),
-        linkage_mode: Some(intent.linkage_mode),
+        revision: intent.revision().to_owned(),
+        linkage_mode: Some(intent.linkage_mode()),
         draft: remote.draft,
         observed_state: remote.state,
+    }
+}
+
+trait PublicationEvidenceSource {
+    fn revision(&self) -> &str;
+    fn linkage_mode(&self) -> PublicationLinkageMode;
+}
+
+impl PublicationEvidenceSource for PublicationIntent {
+    fn revision(&self) -> &str {
+        &self.revision
+    }
+
+    fn linkage_mode(&self) -> PublicationLinkageMode {
+        self.linkage_mode
+    }
+}
+
+impl PublicationEvidenceSource for PublicationEvidence {
+    fn revision(&self) -> &str {
+        &self.revision
+    }
+
+    fn linkage_mode(&self) -> PublicationLinkageMode {
+        self.linkage_mode.unwrap_or_default()
     }
 }
 
@@ -653,4 +890,8 @@ fn valid_ref_name(value: &str) -> bool {
         && value
             .bytes()
             .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-' | b'/'))
+}
+
+fn valid_head_sha(value: &str) -> bool {
+    value.len() == 40 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
 }

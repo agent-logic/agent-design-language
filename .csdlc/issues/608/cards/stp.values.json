@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 608,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
+    "slug": "vertex-global-gemini-thinking-config",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Patch the existing Vertex provider to support global endpoint derivation and thinking config, then prove it locally and live.",
+      "deliverables": [
+        "Provider endpoint/trust/thinking-config implementation",
+        "Focused provider unit tests",
+        "Live Vertex provider proof packet",
+        "Fresh exact-head review and PR with Closes #608"
+      ],
+      "acceptance_criteria": [
+        "AC-1: location global derives the aiplatform.googleapis.com global Vertex generateContent endpoint",
+        "AC-2: regional locations continue to derive <region>-aiplatform.googleapis.com endpoints",
+        "AC-3: global and regional first-party Vertex hosts are trusted without trust_custom_endpoint",
+        "AC-4: thinking_level renders generationConfig.thinkingConfig.thinkingLevel",
+        "AC-5: thinking_budget renders generationConfig.thinkingConfig.thinkingBudget",
+        "AC-6: include_thoughts renders generationConfig.thinkingConfig.includeThoughts",
+        "AC-7: simultaneous thinking_level and thinking_budget are rejected",
+        "AC-8: focused provider tests pass",
+        "AC-9: live regional Gemini 2.5 provider proof passes in us-west1",
+        "AC-10: live global Gemini 3.x provider proof passes with native location global and no endpoint override"
+      ],
+      "dependencies": [
+        "#528 native Vertex AI Gemini provider transport"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#608",
+        "adl/src/provider/http_family.rs",
+        "adl/src/provider/http_family/tests.rs"
+      ],
+      "non_goals": [
+        "#592 Polis integration",
+        "Broad provider architecture redesign",
+        "New provider dependencies",
+        "Credential material in repository artifacts"
+      ]
+    }
+  }
+}

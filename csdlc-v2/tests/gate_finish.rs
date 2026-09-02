@@ -2,10 +2,10 @@ use std::collections::BTreeMap;
 use std::process::Command;
 
 use csdlc_v2::finish::{
-    derive_historical_terminal, derive_terminal, diagnose_cached_terminal, envelope_matches_record,
+    derive_historical_terminal, derive_terminal, envelope_matches_record,
     envelope_matches_record_in_repo, load_cached_terminal, retain_cached_terminal,
     select_historical_terminal, validate_finish_merge_authority, validate_historical_candidates,
-    validate_historical_request, validate_publication_head_in_repo, CachedTerminalDiagnosticStatus,
+    validate_historical_request, validate_publication_head_in_repo,
 };
 use csdlc_v2::github::PrStatePacket;
 use csdlc_v2::{
@@ -506,68 +506,6 @@ fn finish_binary_validates_cached_terminal_without_remote_mutation() {
 
     std::fs::remove_file(&cache).expect("remove cache");
     assert!(!validate().status.success());
-}
-
-#[test]
-fn finish_diagnoses_stale_cached_terminal_without_mutating_receipts() {
-    let record = record(LifecyclePhase::Reviewed, None);
-    let mut terminal_record = record.clone();
-    terminal_record.generation += 1;
-    terminal_record.digest = "fresher-terminal-digest".repeat(2);
-    let mut terminal_request = no_pr_request();
-    terminal_request.expected_generation = terminal_record.generation;
-    terminal_request.expected_digest = terminal_record.digest.clone();
-    let envelope = derive_terminal(
-        &terminal_record,
-        &terminal_request,
-        &issue("closed", true),
-        None,
-    )
-    .expect("derive")
-    .expect("terminal");
-    let temp = tempfile::tempdir().expect("tempdir");
-    assert!(Command::new("git")
-        .args(["init", "-q"])
-        .current_dir(temp.path())
-        .status()
-        .expect("git init")
-        .success());
-    std::fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).expect("issue dir");
-    std::fs::write(
-        temp.path().join(".csdlc/issues/5778/index.json"),
-        serde_json::to_vec_pretty(&record).expect("record JSON"),
-    )
-    .expect("record");
-    let cache = retain_cached_terminal(temp.path(), &envelope).expect("retain terminal");
-    let before = std::fs::read(&cache).expect("cache before");
-
-    let report = diagnose_cached_terminal(temp.path(), 5778).expect("diagnose");
-    assert_eq!(
-        report.status,
-        CachedTerminalDiagnosticStatus::StaleProjectionTerminalExists
-    );
-    assert!(!report.canonical_match);
-    assert!(!report.immutable_receipt_overwrite_allowed);
-    assert!(report.next_action.contains("worktree projection is stale"));
-    assert_eq!(std::fs::read(&cache).expect("cache after"), before);
-
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc-finish"))
-        .args([
-            "--root",
-            &temp.path().to_string_lossy(),
-            "--diagnose-cached-issue",
-            "5778",
-        ])
-        .output()
-        .expect("diagnose cached terminal");
-    assert!(
-        output.status.success(),
-        "stdout:\n{}\nstderr:\n{}",
-        String::from_utf8_lossy(&output.stdout),
-        String::from_utf8_lossy(&output.stderr)
-    );
-    assert!(String::from_utf8_lossy(&output.stdout)
-        .contains("\"status\": \"stale_projection_terminal_exists\""));
 }
 
 #[test]

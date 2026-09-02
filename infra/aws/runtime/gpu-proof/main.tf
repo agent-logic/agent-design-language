@@ -1,0 +1,322 @@
+locals {
+  scheduler_name      = substr("${var.run_id}-terminate", 0, 64)
+  termination_at_utc  = trimsuffix(var.termination_at, "Z")
+  artifact_read_arns  = [for key in var.artifact_read_keys : "arn:aws:s3:::${var.artifact_bucket}/${key}"]
+  gpu_receipt_arn     = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
+  runtime_receipt_arn = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/runtime-final.json"
+
+  run_tags = {
+    "adl:issue"            = "345"
+    "adl:run-id"           = var.run_id
+    "adl:owner-token"      = var.owner_token
+    "adl:managed-deadline" = "true"
+    "adl:termination-at"   = var.termination_at
+    "adl:max-hourly-usd"   = tostring(var.authorized_max_hourly_usd)
+    "adl:max-total-usd"    = tostring(var.authorized_max_total_usd)
+  }
+}
+
+resource "aws_security_group" "runtime" {
+  name_prefix = "${substr(var.run_id, 0, 28)}-runtime-"
+  description = "SSH-only public ingress for the ADL issue 345 Runtime node"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Operator SSH recovery from the authorized public IPv4 address"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.ssh_ingress_cidr]
+  }
+
+  egress {
+    description = "Runtime bootstrap, artifacts, and private Ollama calls"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(local.run_tags, { Name = "${var.run_id}-runtime" })
+}
+
+resource "aws_security_group" "gpu" {
+  name_prefix = "${substr(var.run_id, 0, 32)}-gpu-"
+  description = "SSH recovery plus private Runtime-to-Ollama ingress for ADL issue 345"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "Operator SSH recovery from the authorized public IPv4 address"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.ssh_ingress_cidr]
+  }
+
+  ingress {
+    description     = "Ollama only from the Runtime security group"
+    from_port       = 11434
+    to_port         = 11434
+    protocol        = "tcp"
+    security_groups = [aws_security_group.runtime.id]
+  }
+
+  egress {
+    description = "GPU bootstrap and artifact egress"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(local.run_tags, { Name = "${var.run_id}-gpu" })
+}
+
+resource "aws_key_pair" "operator" {
+  key_name_prefix = "adl-i345-"
+  public_key      = trimspace(var.ssh_public_key)
+  tags            = merge(local.run_tags, { Name = "${var.run_id}-operator" })
+}
+
+resource "aws_iam_role" "runtime" {
+  name_prefix = "adl-i345-runtime-"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "ec2.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+  tags = merge(local.run_tags, { Name = "${var.run_id}-runtime" })
+}
+
+resource "aws_iam_role" "gpu" {
+  name_prefix = "adl-i345-gpu-"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "ec2.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+  tags = merge(local.run_tags, { Name = "${var.run_id}-gpu" })
+}
+
+resource "aws_iam_role_policy" "runtime_artifacts" {
+  name   = "issue345-exact-artifacts-and-runtime-receipt"
+  role   = aws_iam_role.runtime.id
+  policy = local.runtime_artifact_policy
+
+  lifecycle {
+    precondition {
+      condition     = alltrue([for key in var.artifact_read_keys : startswith(key, var.artifact_prefix) && !strcontains(key, "/locks/")])
+      error_message = "artifact_read_keys must stay inside the issue artifact prefix and exclude controller lock objects."
+    }
+  }
+}
+
+resource "aws_iam_role_policy" "gpu_artifacts" {
+  name   = "issue345-exact-artifacts-and-gpu-receipt"
+  role   = aws_iam_role.gpu.id
+  policy = local.gpu_artifact_policy
+
+
+  lifecycle {
+    precondition {
+      condition     = alltrue([for key in var.artifact_read_keys : startswith(key, var.artifact_prefix) && !strcontains(key, "/locks/")])
+      error_message = "artifact_read_keys must stay inside the issue artifact prefix and exclude controller lock objects."
+    }
+  }
+}
+
+locals {
+  artifact_read_statement = {
+    Sid    = "ReadIssue345Artifacts"
+    Effect = "Allow"
+    Action = [
+      "s3:GetObject",
+      "s3:GetObjectVersion"
+    ]
+    Resource = local.artifact_read_arns
+  }
+
+  runtime_artifact_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [local.artifact_read_statement, {
+      Sid      = "WriteOnlyRuntimeFinalReceipt"
+      Effect   = "Allow"
+      Action   = "s3:PutObject"
+      Resource = local.runtime_receipt_arn
+    }]
+  })
+
+  gpu_artifact_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [local.artifact_read_statement, {
+      Sid      = "WriteOnlyGpuReadyReceipt"
+      Effect   = "Allow"
+      Action   = "s3:PutObject"
+      Resource = local.gpu_receipt_arn
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "runtime_ssm_recovery" {
+  role       = aws_iam_role.runtime.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "gpu_ssm_recovery" {
+  role       = aws_iam_role.gpu.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_instance_profile" "runtime" {
+  name_prefix = "adl-i345-runtime-"
+  role        = aws_iam_role.runtime.name
+  tags        = merge(local.run_tags, { Name = "${var.run_id}-runtime" })
+  depends_on  = [aws_iam_role_policy.runtime_artifacts, aws_iam_role_policy_attachment.runtime_ssm_recovery]
+}
+
+resource "aws_iam_instance_profile" "gpu" {
+  name_prefix = "adl-i345-gpu-"
+  role        = aws_iam_role.gpu.name
+  tags        = merge(local.run_tags, { Name = "${var.run_id}-gpu" })
+  depends_on  = [aws_iam_role_policy.gpu_artifacts, aws_iam_role_policy_attachment.gpu_ssm_recovery]
+}
+
+resource "aws_instance" "gpu" {
+  ami                         = var.gpu_ami_id
+  instance_type               = var.gpu_instance_type
+  subnet_id                   = var.subnet_id
+  associate_public_ip_address = true
+  monitoring                  = var.detailed_monitoring
+  iam_instance_profile        = aws_iam_instance_profile.gpu.name
+  key_name                    = aws_key_pair.operator.key_name
+  vpc_security_group_ids      = [aws_security_group.gpu.id]
+
+  instance_initiated_shutdown_behavior = "terminate"
+  user_data                            = var.gpu_user_data
+  user_data_replace_on_change          = true
+
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    instance_metadata_tags      = "enabled"
+  }
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = true
+    volume_type           = "gp3"
+    volume_size           = var.gpu_root_volume_size_gib
+    iops                  = var.gpu_root_volume_iops
+    throughput            = var.gpu_root_volume_throughput_mibps
+    tags                  = merge(local.run_tags, { Name = "${var.run_id}-gpu-root" })
+  }
+
+  tags = merge(local.run_tags, {
+    Name          = "${var.run_id}-gpu"
+    "adl:node"    = "gpu"
+    "adl:service" = "ollama"
+  })
+
+}
+
+resource "aws_instance" "runtime" {
+  ami                         = var.runtime_ami_id
+  instance_type               = var.runtime_instance_type
+  subnet_id                   = var.subnet_id
+  associate_public_ip_address = true
+  monitoring                  = var.detailed_monitoring
+  iam_instance_profile        = aws_iam_instance_profile.runtime.name
+  key_name                    = aws_key_pair.operator.key_name
+  vpc_security_group_ids      = [aws_security_group.runtime.id]
+
+  instance_initiated_shutdown_behavior = "terminate"
+  user_data                            = replace(var.runtime_user_data, "__GPU_PRIVATE_IP__", aws_instance.gpu.private_ip)
+  user_data_replace_on_change          = true
+
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    instance_metadata_tags      = "enabled"
+  }
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = true
+    volume_type           = "gp3"
+    volume_size           = var.runtime_root_volume_size_gib
+    iops                  = var.runtime_root_volume_iops
+    throughput            = var.runtime_root_volume_throughput_mibps
+    tags                  = merge(local.run_tags, { Name = "${var.run_id}-runtime-root" })
+  }
+
+  tags = merge(local.run_tags, {
+    Name          = "${var.run_id}-runtime"
+    "adl:node"    = "runtime"
+    "adl:service" = "guardian-runtime-agents"
+  })
+}
+
+resource "aws_iam_role" "scheduler" {
+  name_prefix = "adl-i345-reaper-"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "scheduler.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+  tags = local.run_tags
+}
+
+resource "aws_iam_role_policy" "scheduler_terminate" {
+  name = "terminate-only-owned-issue345-instances"
+  role = aws_iam_role.scheduler.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid      = "TerminateOnlyOwnedIssue345Instances"
+      Effect   = "Allow"
+      Action   = "ec2:TerminateInstances"
+      Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:instance/*"
+      Condition = {
+        StringEquals = {
+          "ec2:ResourceTag/adl:issue"       = "345"
+          "ec2:ResourceTag/adl:run-id"      = var.run_id
+          "ec2:ResourceTag/adl:owner-token" = var.owner_token
+        }
+      }
+    }]
+  })
+}
+
+resource "aws_scheduler_schedule" "terminate" {
+  name                         = local.scheduler_name
+  schedule_expression          = "at(${local.termination_at_utc})"
+  schedule_expression_timezone = "UTC"
+  state                        = "ENABLED"
+  action_after_completion      = "DELETE"
+
+  flexible_time_window { mode = "OFF" }
+
+  target {
+    arn      = "arn:aws:scheduler:::aws-sdk:ec2:terminateInstances"
+    role_arn = aws_iam_role.scheduler.arn
+    input    = jsonencode({ InstanceIds = [aws_instance.runtime.id, aws_instance.gpu.id] })
+
+    retry_policy {
+      maximum_event_age_in_seconds = 300
+      maximum_retry_attempts       = 3
+    }
+  }
+
+  depends_on = [aws_iam_role_policy.scheduler_terminate]
+}

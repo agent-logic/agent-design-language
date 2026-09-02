@@ -1,0 +1,120 @@
+version: "0.3"
+
+providers:
+  vertex_gemini_3_7_flash:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "global"
+      provider_model_id: "gemini-3.7-flash"
+      max_output_tokens: 256
+      timeout_secs: 90
+      thinking_level: "LOW"
+      auth:
+        type: "adc"
+  vertex_gemini_3_6_flash:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "global"
+      provider_model_id: "gemini-3.6-flash"
+      max_output_tokens: 256
+      timeout_secs: 90
+      thinking_level: "LOW"
+      auth:
+        type: "adc"
+  vertex_gemini_3_5_flash:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "global"
+      provider_model_id: "gemini-3.5-flash"
+      max_output_tokens: 256
+      timeout_secs: 90
+      thinking_level: "LOW"
+      auth:
+        type: "adc"
+  vertex_gemini_3_5_flash_lite:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "global"
+      provider_model_id: "gemini-3.5-flash-lite"
+      max_output_tokens: 256
+      timeout_secs: 90
+      thinking_level: "MINIMAL"
+      auth:
+        type: "adc"
+  vertex_gemini_3_1_pro_preview:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "global"
+      provider_model_id: "gemini-3.1-pro-preview"
+      max_output_tokens: 256
+      timeout_secs: 120
+      thinking_level: "LOW"
+      auth:
+        type: "adc"
+  vertex_gemini_3_flash_preview:
+    type: "vertex_ai_gemini"
+    config:
+      project: "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+      location: "global"
+      provider_model_id: "gemini-3-flash-preview"
+      max_output_tokens: 256
+      timeout_secs: 120
+      thinking_level: "LOW"
+      auth:
+        type: "adc"
+
+agents:
+  gemini_3_7_flash:
+    provider: "vertex_gemini_3_7_flash"
+    model: "gemini-3.7-flash"
+  gemini_3_6_flash:
+    provider: "vertex_gemini_3_6_flash"
+    model: "gemini-3.6-flash"
+  gemini_3_5_flash:
+    provider: "vertex_gemini_3_5_flash"
+    model: "gemini-3.5-flash"
+  gemini_3_5_flash_lite:
+    provider: "vertex_gemini_3_5_flash_lite"
+    model: "gemini-3.5-flash-lite"
+  gemini_3_1_pro_preview:
+    provider: "vertex_gemini_3_1_pro_preview"
+    model: "gemini-3.1-pro-preview"
+  gemini_3_flash_preview:
+    provider: "vertex_gemini_3_flash_preview"
+    model: "gemini-3-flash-preview"
+
+tasks:
+  compact_model_probe:
+    prompt:
+      user: |
+        Return exactly one short sentence that starts with "VERTEX_OK" and names your model family.
+
+run:
+  name: "vertex-live-global-3x-native-endpoint-matrix"
+  workflow:
+    kind: "sequential"
+    steps:
+      - id: "gemini_3_7_flash"
+        agent: "gemini_3_7_flash"
+        task: "compact_model_probe"
+      - id: "gemini_3_6_flash"
+        agent: "gemini_3_6_flash"
+        task: "compact_model_probe"
+      - id: "gemini_3_5_flash"
+        agent: "gemini_3_5_flash"
+        task: "compact_model_probe"
+      - id: "gemini_3_5_flash_lite"
+        agent: "gemini_3_5_flash_lite"
+        task: "compact_model_probe"
+      - id: "gemini_3_1_pro_preview"
+        agent: "gemini_3_1_pro_preview"
+        task: "compact_model_probe"
+      - id: "gemini_3_flash_preview"
+        agent: "gemini_3_flash_preview"
+        task: "compact_model_probe"
+

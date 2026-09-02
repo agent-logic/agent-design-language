@@ -1,0 +1,318 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 608,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "441fec45d4e996219640d1b85b1189f3252bc7d8040c26828fea256a77e10f3f",
+  "phase": "published",
+  "generation": 13,
+  "digest": "9e7b7724ecc827c9458cecd562733650c1ef3f3c30239b74c08da9474ab649b5",
+  "branch": "codex/608-vertex-global-thinking-provider-config",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec",
+  "review_assignment": {
+    "reviewer": "fresh-session:32e6d0e1-5d2e-42eb-8763-8daf3f799f35",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
+    "scope": [
+      ".csdlc/issues/608",
+      ".csdlc/prepared/issues/608",
+      ".git/csdlc-v2/requests/issue608-publish-reviewed.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:32e6d0e1-5d2e-42eb-8763-8daf3f799f35",
+    "scope": [
+      ".csdlc/issues/608",
+      ".csdlc/prepared/issues/608",
+      ".git/csdlc-v2/requests/issue608-publish-reviewed.json"
+    ],
+    "reviewed_revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "The post-publication metadata review did not rerun provider or live cloud proof; it verified no product changes since the reviewed implementation head."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+      "to_revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
+      "from_commit": "d46604ada170f7cef9bbf8d971e56005c13a52f6",
+      "to_commit": "d781fbe6f4ab63dafd9b4d0174728090d69526e1",
+      "changed_paths": [
+        ".csdlc/issues/608/audit.jsonl",
+        ".csdlc/issues/608/cards/sip.values.json",
+        ".csdlc/issues/608/cards/sor.md",
+        ".csdlc/issues/608/cards/sor.values.json",
+        ".csdlc/issues/608/cards/spp.values.json",
+        ".csdlc/issues/608/cards/srp.md",
+        ".csdlc/issues/608/cards/srp.values.json",
+        ".csdlc/issues/608/cards/stp.values.json",
+        ".csdlc/issues/608/cards/vpp.values.json",
+        ".csdlc/issues/608/index.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 608,
+    "pull_request": 609,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/609",
+    "base": "main",
+    "head": "codex/608-vertex-global-thinking-provider-config",
+    "revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/608/design.md",
+  "diagram_path": ".csdlc/prepared/issues/608/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:608-design-prep",
+      "revision": "5a64409f42f933caa94256a02d1495f4efb154dee5c2c08e31da64751dbb6843"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "db42ec9c9cd2da57a05c866440e8440a478594727f60054728854a850e917a8d",
+      "rendered_digest": "be65d9203b2c74102ac352c28e6eb4e153548faf50a048d45fb39d08b52cec66",
+      "ast_digest": "eeeafa3d11967bd3f7444e3c7950803293f5826bd5805879f07b1670e112456d"
+    },
+    "stp": {
+      "values_digest": "d955b42baba3c7dbf8909f25cdd91e265d602338d4b26321c5354e47a887e602",
+      "rendered_digest": "f06942e46e39f6caf1928c7d0792e65207ba57fb47776a069f6c2132e49a040b",
+      "ast_digest": "37ea2512965f1546c37985239dcd410357f1931e15e778b00e270b0bd0648760"
+    },
+    "spp": {
+      "values_digest": "b09a7310991ac3457b92c6a9e8a71e84f2c2bbbc4af2919921386864a7d0ba1b",
+      "rendered_digest": "9d7711434fe23e9a15155afd851dc054f249ada1ac11e7e0ebf3079b241142d2",
+      "ast_digest": "a56b2b8380fccba17f20cf2ea6df9981c81a17da8142127009b39d5a93044b46"
+    },
+    "vpp": {
+      "values_digest": "7732b764d583ccc2245cc4b99b3246d40f8411024922fedd116cab94be738075",
+      "rendered_digest": "377592f996d1118147690f84da042fd2b9a65f4c5a28ae9f84dc1d53ff2d932a",
+      "ast_digest": "ad5f5cca32856fefb6c07c6b3bc5d2080da179d05bdc928d938e50ecc2ff6381"
+    },
+    "srp": {
+      "values_digest": "747a831270a5122f51e5b6af8272ca5dded762a6b91d2bba70148180e3ea428e",
+      "rendered_digest": "d1df6287edb4484c0a48cacb73832ed6a02f4815de5896930eb79419e987421e",
+      "ast_digest": "848f3c5c5d276c51fe2a12e53f6093e70723b1407323333e29b9662a6184771c"
+    },
+    "sor": {
+      "values_digest": "b4ae48d64937f4d2cea1b35e05c5c096ff02adf7681bf918b1c37a273441d661",
+      "rendered_digest": "6cb129b3f2f3172cd04017ab84e306290660fc0a0ecd4c7d2dc7ecb0fa7e5e6d",
+      "ast_digest": "a0360db8c0fa1bf050175c35a9a9473e751b79749fc099005485535a895541bf"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:608-vertex-provider",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover reviewed state after committing review metadata changed the clean current head without changing product files; route a metadata-only exact-head review before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover reviewed/publication truth after typed publication created a metadata commit that made the prior metadata review stale against the clean current published head."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:608-vertex-provider",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:608-vertex-provider",
+      "reason": "Add issue-owned validator as the design-readiness denominator before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\",\".csdlc/prepared/issues/608/validate-provider.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:608-vertex-provider",
+      "reason": "Use the issue-owned provider validator as the executable local proof denominator and keep live Vertex proof as a governed post-build command.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"vertex-provider-focused\",\"proof_role\":\"Prove endpoint derivation, request body rendering, trust policy, invalid config behavior, formatting, diff hygiene, and package compile through the issue-owned validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/608/validate-provider.sh\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"vertex-provider-live\",\"proof_role\":\"Prove the native provider against approved company GCP Vertex endpoints without endpoint overrides after the provider binary is built.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\"],\"parallel_group\":\"live\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:608-vertex-provider",
+      "reason": "Declare the live Vertex proof runner as an issue-owned governed validation target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\",\".csdlc/prepared/issues/608/validate-provider.sh\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:608-vertex-provider",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover the failed exact-head review so the bounded Vertex trust, thinking-budget validation, and credential-adjacent evidence findings can be remediated before a fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record the exact post-review remediation for Vertex endpoint trust, strict thinking-budget validation, and redacted live-proof evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Vertex AI Gemini provider support for native global endpoints and configurable thinking parameters, then remediated exact review findings by tying trusted Vertex hosts to the configured location, failing closed on invalid thinking_budget values, and redacting credential-adjacent proof details.\",\"changes\":[\"Generated regional Vertex endpoints as <location>-aiplatform.googleapis.com and global Vertex endpoints as aiplatform.googleapis.com without endpoint overrides.\",\"Accepted only the configured regional host or the global host for credential-bearing Vertex calls unless an explicit custom endpoint trust override is set.\",\"Rendered thinkingLevel, thinkingBudget, and includeThoughts into generationConfig.thinkingConfig while rejecting mutually exclusive or invalid thinking settings.\",\"Added focused regressions for global endpoint derivation, global trust, configured regional trust, arbitrary aiplatform-looking host refusal, thinking config rendering, mutual exclusion, and invalid thinking_budget values.\",\"Preserved live Vertex proof through approved key-path routing while redacting local key path and service-account identity from committed evidence.\"],\"artifacts\":[\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\",\".csdlc/prepared/issues/608/validate-provider.sh\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\",\".csdlc/evidence/608/live-vertex/proof-summary.md\",\".csdlc/evidence/608/vertex-provider-focused.log\",\".csdlc/evidence/608/vertex-provider-live.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/608/validate-provider.sh\"],\"purpose\":\"Prove endpoint derivation, request body rendering, strict trust policy, invalid config behavior, formatting, diff hygiene, and package compile.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/608/vertex-provider-focused.log; 6/6 focused Vertex tests passed and cargo check passed.\"},{\"command\":[\"bash\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\"],\"purpose\":\"Prove native provider calls against approved company Vertex endpoints without endpoint overrides for regional Gemini 2.5 and global Gemini 3.x models.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/608/vertex-provider-live.log; regional 2.5 matrix 3/3 and global 3.x matrix 6/6 succeeded.\"},{\"command\":[\"rg\",\"-n\",\"ya29\\\\.|private_key|BEGIN PRIVATE|refresh_token|client_secret|/Users/daniel/keys|tf-bootstrap@\",\".csdlc/evidence/608\",\".csdlc/prepared/issues/608\",\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\"],\"purpose\":\"Prove committed #608 source, proof scripts, and evidence do not expose provider tokens, key material, local key paths, or service-account identity.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local scan returned no matches after proof redaction.\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover reviewed state after committing review metadata changed the clean current head without changing product files; route a metadata-only exact-head review before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover reviewed/publication truth after typed publication created a metadata commit that made the prior metadata review stale against the clean current published head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "issue": 608,
+  "expected_generation": 6,
+  "expected_digest": "fa99705dcf964a5465b5241fd9020b2506ef14ba2d88e869bd6114e5a54ecf19",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:46bb64c7-f7cb-4e58-9591-d0e4ad8af0ed",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/tests.rs",
+      ".csdlc/prepared/issues/608",
+      ".csdlc/evidence/608",
+      ".csdlc/issues/608"
+    ],
+    "reviewed_revision": "git-blake3:01c1e3abe635850261db1b3062535230e986a202:ed6b585597baf5bcc7eec8ed5c1bc47d0832d840c5c95b7d514f93a4162116f4",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Live Vertex proof used the approved company service-account key path in the implementation session; committed evidence redacts local key path, token material, and service-account identity.",
+      "#592 Polis integration remains a follow-on and is intentionally not implemented by #608."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

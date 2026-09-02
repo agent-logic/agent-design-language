@@ -1,0 +1,75 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 608,
+  "expected_generation": 3,
+  "expected_digest": "86c6b1e9607d6ae2aaf7abc6f68d23e75a21415e5109e1744c17eb2bb545bf27",
+  "actor": "codex:608-vertex-provider",
+  "summary": "Implemented native Vertex Gemini global endpoint routing, first-party global endpoint trust, and config-backed thinking controls for #608.",
+  "changes": [
+    "Added global endpoint derivation so location global uses aiplatform.googleapis.com while regional locations keep <region>-aiplatform.googleapis.com.",
+    "Accepted aiplatform.googleapis.com as a trusted first-party Vertex endpoint for credentialed calls.",
+    "Added config-backed thinking_level, thinking_budget, and include_thoughts request-body rendering.",
+    "Rejected simultaneous thinking_level and thinking_budget to avoid mixing model-family contracts.",
+    "Added focused unit tests for endpoint derivation and thinking config behavior.",
+    "Added issue-owned focused and live Vertex proof scripts."
+  ],
+  "artifacts": [
+    "adl/src/provider/http_family.rs",
+    "adl/src/provider/http_family/tests.rs",
+    ".csdlc/prepared/issues/608/validate-provider.sh",
+    ".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh",
+    ".csdlc/evidence/608/live-vertex/vertex_2_5_model_matrix_native_endpoint.adl.yaml",
+    ".csdlc/evidence/608/live-vertex/vertex_global_3x_model_matrix_native_endpoint.adl.yaml",
+    ".csdlc/evidence/608/live-vertex/proof-summary.md"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "vertex-provider-focused",
+          "proof_role": "Focused provider implementation proof for endpoint derivation, request body rendering, trust policy, invalid config behavior, formatting, diff hygiene, and package compile.",
+          "purpose": "Run the issue-owned #608 local validator.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 5000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "focused",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1200,
+          "executable": "bash",
+          "argv": [".csdlc/prepared/issues/608/validate-provider.sh"],
+          "evidence": {"max_log_bytes": 200000, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "vertex-provider-live",
+          "proof_role": "Live regional Gemini 2.5 and global Gemini 3.x provider proof using approved GCP key routing without endpoint overrides.",
+          "purpose": "Run the issue-owned #608 live Vertex provider proof.",
+          "determinism": "live",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 5000},
+          "credentials": ["ADL_VERTEX_GCP_KEY"],
+          "network": "external",
+          "dependencies": ["vertex-provider-focused"],
+          "parallel_group": "live",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1200,
+          "executable": "bash",
+          "argv": [".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh"],
+          "evidence": {"max_log_bytes": 200000, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["vertex-provider-focused", "vertex-provider-live"],
+      "allow_network": true,
+      "available_credentials": ["ADL_VERTEX_GCP_KEY"]
+    },
+    "budget": {"max_parallel": 1, "cpu_units": 2, "memory_mib": 4096, "tokens": 12000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec/.csdlc/evidence/608",
+    "cancellation_file": null
+  }
+}

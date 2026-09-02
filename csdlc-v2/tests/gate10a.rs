@@ -8,6 +8,9 @@ use csdlc_v2::{
 use std::fs;
 use std::path::Path;
 use std::process::Command;
+use std::sync::Mutex;
+
+static REPO_FORBIDDEN_PATH_TEST_LOCK: Mutex<()> = Mutex::new(());
 
 #[test]
 fn eleven_skills_are_typed_and_bind_the_generation_selector() {
@@ -277,6 +280,7 @@ fn coexistence_fails_closed_when_v1_or_v2_is_missing() {
 }
 #[test]
 fn installer_records_provenance_without_replacing_other_files() {
+    let _repo_forbidden_path_guard = REPO_FORBIDDEN_PATH_TEST_LOCK.lock().unwrap();
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let destination_parent = tempfile::tempdir().unwrap();
     let destination = destination_parent.path().join("csdlc-v2");
@@ -303,9 +307,14 @@ fn installer_records_provenance_without_replacing_other_files() {
             .unwrap()
             .pass
     );
-    assert!(inventory
-        .forbidden_v1_paths
+    fs::create_dir_all(repo.join("adl/tools")).unwrap();
+    fs::write(repo.join("adl/tools/pr.sh"), b"legacy").unwrap();
+    let forbidden = verify_coexistence(&repo, &destination, &inventory).unwrap();
+    assert!(!forbidden.pass);
+    assert!(forbidden
+        .present_forbidden_v1_paths
         .contains(&"adl/tools/pr.sh".into()));
+    fs::remove_file(repo.join("adl/tools/pr.sh")).unwrap();
     fs::write(destination.join("csdlc-init"), b"tampered").unwrap();
     let tampered = verify_coexistence(&repo, &destination, &inventory).unwrap();
     assert!(!tampered.pass);
@@ -859,6 +868,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
 
 #[test]
 fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
+    let _repo_forbidden_path_guard = REPO_FORBIDDEN_PATH_TEST_LOCK.lock().unwrap();
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let destination = parent.path().join("csdlc-v2");
@@ -894,10 +904,7 @@ fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
     );
     let coexistence =
         verify_coexistence(&repo, &destination, &CoexistenceInventory::load().unwrap()).unwrap();
-    assert!(
-        coexistence.pass,
-        "freshly installed generation failed coexistence: {coexistence:?}"
-    );
+    assert!(coexistence.pass, "{coexistence:#?}");
     assert!(coexistence.missing_v2_binaries.is_empty());
     assert!(coexistence.present_forbidden_v1_paths.is_empty());
     assert!(!destination.join("csdlc-migrate").exists());

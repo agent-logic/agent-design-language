@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 608,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
+    "slug": "vertex-global-gemini-thinking-config",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Make a narrow provider patch, prove endpoint/body rendering with unit tests, then run live provider workflows for regional 2.5 and global 3.x Gemini models.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Implement global endpoint/trust behavior and config-backed thinking body rendering.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Add focused provider tests for endpoint derivation, trusted host policy, thinking rendering, and invalid config rejection.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run live provider proof using approved company GCP key routing without exposing credentials.",
+          "acceptance_ids": [
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run final validation, fresh exact-head review, publish, CI, and finish.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/src/provider/http_family.rs",
+        "adl/src/provider/http_family/tests.rs",
+        ".csdlc/prepared/issues/608/validate-provider.sh",
+        ".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh"
+      ],
+      "invariants": [
+        "Existing regional Vertex behavior is preserved",
+        "No credential contents are exposed",
+        "No provider dependencies are added",
+        "Polis integration remains outside #608"
+      ],
+      "risks": [
+        "Model catalog availability can drift",
+        "Thinking config differs by Gemini model family",
+        "Live proof may incur small Vertex API cost"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Credential material would need to be printed or committed",
+        "GCP project/model authority becomes ambiguous",
+        "Fix would require #592 Polis integration or provider redesign"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/608/design.md",
+      "design_digest": "5a64409f42f933caa94256a02d1495f4efb154dee5c2c08e31da64751dbb6843",
+      "diagram_ref": ".csdlc/prepared/issues/608/diagram.mmd",
+      "diagram_digest": "f4f07e12be754dca44423d89d24bd9d2f286cf80168b581742a4008d99d405e9"
+    }
+  }
+}

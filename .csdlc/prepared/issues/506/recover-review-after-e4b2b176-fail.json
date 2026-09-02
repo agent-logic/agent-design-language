@@ -1,0 +1,7 @@
+{
+  "issue": 506,
+  "expected_generation": 16,
+  "expected_digest": "0f146840d5ce3f1188423cc7dddc2456823193a8242845f5a9444c490b349ce2",
+  "actor": "codex:/root",
+  "reason": "Recover #506 after replacement review found remaining in-scope receipt-schema, duplicate-input, and retained-evidence defects; preserve findings and remediate before a new exact-head review."
+}

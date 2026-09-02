@@ -1,0 +1,14 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-e85d1fe6d1c46706)
+
+running 6 tests
+test provider::http_family::tests::vertex_ai_global_location_uses_global_aiplatform_host ... ok
+test provider::http_family::tests::vertex_ai_thinking_level_and_budget_are_mutually_exclusive ... ok
+test provider::http_family::tests::vertex_ai_global_endpoint_is_trusted_without_custom_override ... ok
+test provider::http_family::tests::vertex_ai_generation_config_supports_thinking_parameters ... ok
+test provider::http_family::tests::vertex_ai_thinking_budget_fails_closed_on_invalid_values ... ok
+test provider::http_family::tests::vertex_ai_regional_endpoint_must_match_configured_location ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 1821 filtered out; finished in 0.00s
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.29s

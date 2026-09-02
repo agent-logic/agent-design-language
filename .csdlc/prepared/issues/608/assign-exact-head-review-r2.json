@@ -1,0 +1,14 @@
+{
+  "issue": 608,
+  "expected_generation": 6,
+  "expected_digest": "9ece151805fedd9409784828c671d9849b757088164055eb0e9992932a0be8c9",
+  "reviewer": "fresh-session:46bb64c7-f7cb-4e58-9591-d0e4ad8af0ed",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "adl/src/provider/http_family.rs",
+    "adl/src/provider/http_family/tests.rs",
+    ".csdlc/prepared/issues/608",
+    ".csdlc/evidence/608",
+    ".csdlc/issues/608"
+  ]
+}
