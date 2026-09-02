@@ -7,13 +7,13 @@
     "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
     "slug": "runtime-gcp-polis-vertex-ai",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #592 bootstrap, dependency gate, provider configuration boundary, validation plan, and canary evidence only.",
+      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/tests/configuration.rs\ninfra/runtime-v3/runtime-init.toml\ndocs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\n.csdlc/prepared/issues/592",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

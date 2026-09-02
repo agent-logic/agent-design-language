@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue #592 bootstrap, dependency gate, provider configuration boundary, validation plan, and canary evidence only.
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/tests/configuration.rs
+infra/runtime-v3/runtime-init.toml
+docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md
+.csdlc/prepared/issues/592
 
 ## Prompts
 

@@ -4,12 +4,23 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "eb634f362b943f978e69a24cbc0a476e531099b999d4accfc9f0b7f342b488d9",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "dbc2793a3d00fdce1c70008d5f2a64f46d882d4fc11280c7ec9b8ffa43ca1699",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "b654f69e5bddd6d2569ddd30f5f9d8f22a6cc549764e6c08df3b51c950d7ccf0",
   "branch": "codex/592-runtime-gcp-polis-vertex-ai",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-592-runtime-gcp-polis-vertex-ai",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_592_prepr_r1",
+    "assigned_by": "codex:/root/Worker-7",
+    "revision": "git-blake3:1b87d6abb62d4a332723b041e463d401bca90f98:d355d566ea128835b434d647b85ba1e026a7e049bcdb3a41d8b5404967c710db",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+      ".csdlc/prepared/issues/592"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -25,32 +36,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16b3fa7ba49c47ba39eb54c0795c57fe6c32eb40e6bdfefcb75fa78c5ed3d01b",
+      "values_digest": "9a1ca38627a3bbe44418f918676b852e1fcd8da1cd84f7f2820ce31b587d7abf",
       "rendered_digest": "1d53415e49346c4e47a3b934ca8c7832a4709d687c6180f2b99dc9f481ce6629",
       "ast_digest": "de4c7590bb85b0d56760b99af03a970ea61886f271e910f4c6891456a3b4c41e"
     },
     "stp": {
-      "values_digest": "bbc1efda67215fefbc37db5972d3ef8c081b2c084f9fa866ea2b3eca4dcb5ddf",
+      "values_digest": "6c646421af00d39f367ff51238c9769f0ceb5340ea0233947833e4cbd98a999c",
       "rendered_digest": "e1d030d29521c07a78be6a6fa6f648f8113ca829ea20a03a97dc2c47f4c9030b",
       "ast_digest": "6a2509ebbbc587a2b0947a30ddf0424021fedcfb44ed7c70476e07c4ffdca58d"
     },
     "spp": {
-      "values_digest": "f1f9df79cc1a36ff80450930c0ca64901734dbe01cc4f43f5a5c78fc88b20161",
+      "values_digest": "f4be21582ca9fefbb8b1b51f02bd9adff4d6c7cf1367b793f2da3bf5c6e2ca47",
       "rendered_digest": "a5331a69c68db32c51e5ab0e5c4ea35b7fcc6e42899b84abffa219420064b99c",
       "ast_digest": "e58b089e9ba960812d99ab8a44b0bb6dea8e38cc632f96bc477551b5f839e3fe"
     },
     "vpp": {
-      "values_digest": "b25d4a4b201edf77bc2a1147eef2dfa47890e8e2676312e29a576db5f1081c58",
+      "values_digest": "0853ee4772e2c0ee2e69a474ad627212a63afcfe78bc95cc7c6a182b8c7cc422",
       "rendered_digest": "cbf3f12a9fd64b17756cc336b932e11c4e4678548c69ec687a30d067fbd0d59d",
       "ast_digest": "ebf73ec3b512efaf43ca0bea42b25573e2ec3752e7daffc70baa45950b5bbd8c"
     },
     "srp": {
-      "values_digest": "a564b516022697a4a4094082d7c6a1cd81fa539e7fc7f9fa3a03234c7cbb4bc2",
-      "rendered_digest": "d0ac51c1e4b9cd65ce4aadcfb9ae385ad48a125575baaae13d744c90c97275b1",
-      "ast_digest": "e690fcdacc87154d8b419e5413423250818fceb6edbc212b4ccdadd84475637f"
+      "values_digest": "6940ccb242d0ce8d692c7da25b06857b2edb448c0b1f13866f451127352e6990",
+      "rendered_digest": "7bc82235694a595bd37320e89050de1e8c4085bb40c26eb1fa06155b80e14107",
+      "ast_digest": "91e5ee6956f940886b2889dd4b7f9d89087d518a07b582cd9f74dae5e92cf4b0"
     },
     "sor": {
-      "values_digest": "ffda01610271915f431e4d1912a25023aec0046838e31f8a4201e9ad2294c157",
+      "values_digest": "e71b10c2831bdeca2fac57df2fde39f12914870002cd075f98c08d0b32a29f35",
       "rendered_digest": "91531b616bca2d30c76f17061821c229a7c0311a1967f251763afa0e4bcc31ce",
       "ast_digest": "4eb6b6d65c49c95999b8c6725bd9570144608e37eb862692c7608710cf06ddd2"
     }
@@ -69,6 +80,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/Worker-7",
+      "reason": "Implementation and focused local validation are complete; enter implemented phase for independent exact-head review."
     }
   ],
   "audit": [
@@ -127,6 +145,20 @@
       "actor": "codex:/root/Worker-7",
       "reason": "Record the completed #592 governed Polis Vertex AI configuration implementation and focused local proof before exact-head review.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the governed Polis Vertex AI configuration path without live paid GCP calls. Runtime init now supports an explicit `polis.vertex_ai` block with provider, GCP project, Vertex location, model, and redacted credential-source selection; the deployed runtime init file names the Vertex AI route explicitly; operator documentation records credential boundaries and failure classifications; focused tests prove parsing, rejection of ambient/unsafe shapes, and deterministic failure buckets.\",\"changes\":[\"Added typed Runtime init support for `polis.vertex_ai` with explicit `vertex_ai` provider selection, GCP project, Vertex location, model, and credential-source fields.\",\"Added validation that rejects missing ambient GCP project selection, non-Vertex provider selection, unsafe labels, and relative service-account credential paths.\",\"Added deterministic Vertex AI provider failure classification for missing credentials, disabled Vertex APIs, project/location mismatch, quota/auth, model/request, and transport failures.\",\"Configured `infra/runtime-v3/runtime-init.toml` to select Vertex AI for the Agent Logic development Polis using Application Default Credentials without storing secret material.\",\"Added `docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md` documenting the GCP project/location/model, credential boundary, redaction rules, failure buckets, and deferred paid-call boundary.\",\"Strengthened the issue-owned validators so they check the implemented runtime config, docs, failure classifier, retained bind request, and secret-marker hygiene.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"infra/runtime-v3/runtime-init.toml\",\"docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\",\".csdlc/prepared/issues/592/bind-request.json\",\".csdlc/prepared/issues/592/validate-528-merge.sh\",\".csdlc/prepared/issues/592/validate-vertex-config-docs.sh\",\".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh\",\".csdlc/prepared/issues/592/validate-tooling-canary.sh\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Implementation and focused local validation are complete; enter implemented phase for independent exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
