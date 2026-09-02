@@ -17,12 +17,17 @@ RUNTIME_AMI_PARAMETER="${ADL_ISSUE607_RUNTIME_AMI_PARAMETER:-/aws/service/canoni
 GPU_AMI_PARAMETER="${ADL_ISSUE607_GPU_AMI_PARAMETER:-/aws/service/deeplearning/ami/x86_64/base-oss-nvidia-driver-gpu-ubuntu-24.04/latest/ami-id}"
 RUNTIME_PREPARATION_TYPE="${ADL_ISSUE607_RUNTIME_PREPARATION_TYPE:-m7i.2xlarge}"
 RUNTIME_TYPE="${ADL_ISSUE607_RUNTIME_TYPE:-r7i.2xlarge}"
-GPU_TYPE="${ADL_ISSUE607_GPU_TYPE:-g6.xlarge}"
+GPU_TYPE="${ADL_ISSUE607_GPU_TYPE:-g6.4xlarge}"
 STATE_ROOT="$ROOT/.adl/local/issue607"
+ISSUE_COST_AUDIT="$ROOT/.csdlc/evidence/607/aws-paid-action-cost-audit.json"
+ISSUE_COST_LEDGER="$STATE_ROOT/aggregate-cost-ledger.json"
 STORAGE_ROOT="$ROOT/infra/aws/runtime/gpu-proof/warm-storage"
 PREPARATION_ROOT="$STORAGE_ROOT/preparation"
 COMPUTE_ROOT="$ROOT/infra/aws/runtime/gpu-proof"
 MAX_TOTAL_USD=20
+GPU_LOCAL_READY_MAX_SECONDS=30
+RUNTIME_LOCAL_READY_MAX_SECONDS=30
+SERVICE_READY_MAX_SECONDS=120
 PREPARATION_SECONDS=2700
 LAUNCH_SECONDS=600
 PREPARATION_ROOT_GIB=80
@@ -69,6 +74,7 @@ Usage:
   run_issue607_warm_polis.sh preflight
   run_issue607_warm_polis.sh prepare --commit <sha> --run-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh launch --commit <sha> --run-id <id> --storage-id <id> --ordinal 1|2 --authorization-file <json> --execute
+  run_issue607_warm_polis.sh qualification-remediation --commit <artifact-sha> --run-id <id> --storage-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh retention-status --storage-id <id>
   run_issue607_warm_polis.sh extend-retention --storage-id <id> --retention-until <UTC> --authorization-file <json> --execute
   run_issue607_warm_polis.sh retire-storage --storage-id <id> --authorization-file <json> --execute
@@ -125,6 +131,7 @@ fixed_deadline() {
 validate_identity() {
   [[ "$COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "exact source commit is required" >&2; exit 2; }
   [[ "$RUN_ID" =~ ^adl-issue607-[A-Za-z0-9._-]+$ ]] || { echo "run ID must begin adl-issue607-" >&2; exit 2; }
+  [[ ! "$RUN_ID" =~ -retry-[1-9][0-9]*$ ]] || { echo "retry run IDs are prohibited; every paid action must use a distinct authorization slot" >&2; exit 2; }
   [[ "$STORAGE_ID" =~ ^adl-issue607-[A-Za-z0-9._-]+$ ]] || { echo "invalid storage ID" >&2; exit 2; }
   [[ "$(git -C "$ROOT" rev-parse HEAD)" == "$COMMIT" ]] || { echo "source commit is not checkout HEAD" >&2; exit 2; }
   [[ -z "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]] || { echo "tracked checkout must be clean" >&2; exit 2; }
@@ -139,6 +146,7 @@ validate_controller_revision_relationship() {
 validate_generation_controller() {
   [[ "$COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "exact artifact generation is required" >&2; exit 2; }
   [[ "$RUN_ID" =~ ^adl-issue607-[A-Za-z0-9._-]+$ ]] || { echo "run ID must begin adl-issue607-" >&2; exit 2; }
+  [[ ! "$RUN_ID" =~ -retry-[1-9][0-9]*$ ]] || { echo "retry run IDs are prohibited; every paid action must use a distinct authorization slot" >&2; exit 2; }
   [[ "$STORAGE_ID" =~ ^adl-issue607-[A-Za-z0-9._-]+$ ]] || { echo "invalid storage ID" >&2; exit 2; }
   validate_controller_revision_relationship
   [[ -z "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]] || { echo "tracked checkout must be clean" >&2; exit 2; }
@@ -254,9 +262,6 @@ validate_authorization() {
   AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
   AUTH_CAMPAIGN_ID="$(jq -r .campaign.id "$AUTHORIZATION_FILE")"
   AUTH_ACTION="$expected_action"
-  if [[ "$RUN_ID" =~ -retry-([1-9][0-9]*)$ ]]; then
-    AUTH_ACTION="$expected_action-retry-${BASH_REMATCH[1]}"
-  fi
 }
 
 write_authorization_request() {
@@ -264,6 +269,32 @@ write_authorization_request() {
   jq -n --arg action "$action" --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
     --arg plan "$plan_sha" --arg preflight "$preflight_sha" --arg manifest "$manifest_sha" --argjson total "$total" --argjson campaign "$campaign" \
     '{schema:"adl.issue607.authorization_request.v3",action:$action,source_commit:$commit,run_id:$run,storage_id:$storage,saved_plan_sha256:$plan,preflight_sha256:$preflight,action_manifest_sha256:$manifest,campaign:$campaign}' >"$output"
+}
+
+write_remediation_authorization_request() {
+  local output="$1" plan_sha="$2" preflight_sha="$3" manifest_sha="$4" campaign_id="$5" projected_total="$6" reservation="$7"
+  jq -n --arg commit "$COMMIT" --arg controller "$(git -C "$ROOT" rev-parse HEAD)" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
+    --arg plan "$plan_sha" --arg preflight "$preflight_sha" --arg manifest "$manifest_sha" --arg campaign "$campaign_id" \
+    --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$reservation" --argjson projected "$projected_total" \
+    '{schema:"adl.issue607.remediation_authorization_request.v1",action:"qualification-remediation",source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:$storage,saved_plan_sha256:$plan,preflight_sha256:$preflight,action_manifest_sha256:$manifest,campaign_id:$campaign,issue_cost_audit_sha256:$audit_sha,reserved_cost_usd:$reservation,projected_issue_total_usd:$projected,authorized_ceiling_usd:20}' >"$output"
+}
+
+validate_remediation_authorization() {
+  local expected_plan="$1" expected_preflight="$2" expected_manifest="$3" expected_campaign="$4" expected_total="$5" expected_reservation="$6"
+  [[ -f "$AUTHORIZATION_FILE" ]] || { echo "remediation authorization file is required; review the emitted authorization-request.json" >&2; exit 3; }
+  jq -e --arg commit "$COMMIT" --arg controller "$(git -C "$ROOT" rev-parse HEAD)" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
+    --arg plan "$expected_plan" --arg preflight "$expected_preflight" --arg manifest "$expected_manifest" --arg campaign "$expected_campaign" \
+    --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$expected_reservation" --argjson projected "$expected_total" '
+    .schema=="adl.issue607.remediation_authorization.v1" and .authorized==true and .single_use==true
+    and .action=="qualification-remediation" and .source_commit==$commit and .controller_revision==$controller
+    and .run_id==$run and .storage_id==$storage and .saved_plan_sha256==$plan and .preflight_sha256==$preflight
+    and .action_manifest_sha256==$manifest and .campaign_id==$campaign and .issue_cost_audit_sha256==$audit_sha
+    and .reserved_cost_usd==$reservation and .projected_issue_total_usd==$projected and .authorized_ceiling_usd==20
+    and (.action_id|type=="string" and length>=16) and (.expires_at|fromdateiso8601>now)
+  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "remediation authorization does not bind the exact plan, controller, global cost audit, and USD 20 reservation" >&2; exit 2; }
+  AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
+  AUTH_CAMPAIGN_ID="$expected_campaign"
+  AUTH_ACTION=qualification-remediation
 }
 
 assert_campaign_action_unused() {
@@ -280,7 +311,7 @@ assert_remote_run_unused() {
 
 consume_authorization() {
   if [[ -n "$AUTH_CAMPAIGN_ID" ]]; then
-    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12](-retry-[1-9][0-9]*)?)$ ]] \
+    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12]|qualification-remediation)$ ]] \
       || { echo "authorization campaign slot is invalid" >&2; exit 2; }
     marker="${PREFIX}campaigns/$AUTH_CAMPAIGN_ID/actions/$AUTH_ACTION.json"
   elif [[ "$AUTH_ACTION" == retire-snapshots ]]; then
@@ -580,6 +611,111 @@ release_cost_ledger_lock() {
   [[ -n "$COST_LEDGER_LOCK" ]] || return 0
   rmdir "$COST_LEDGER_LOCK"
   COST_LEDGER_LOCK=""
+}
+
+validate_issue_cost_audit() {
+  local audit="$1"
+  [[ -f "$audit" ]] || { echo "issue-wide paid-action cost audit is missing" >&2; return 2; }
+  jq -e --argjson ceiling "$MAX_TOTAL_USD" '
+    .schema=="adl.issue607.paid_action_cost_audit.v1" and .status=="pass"
+    and .authorized_ceiling_usd==$ceiling
+    and (.historical_paid_attempts|length)==15
+    and (.audited_remote_action_markers|length)==15
+    and ((.audited_remote_action_markers|length)==(.audited_remote_action_markers|unique|length))
+    and ((.historical_compute_upper_bound_usd-([.historical_paid_attempts[].compute_upper_bound_usd]|add))|fabs)<0.00001
+    and ((.fixed_allowances.total_usd+.historical_compute_upper_bound_usd+.historical_disposable_ebs_ipv4_allowance_usd-.historical_total_upper_bound_usd)|fabs)<0.00001
+    and .historical_total_upper_bound_usd<=.authorized_ceiling_usd
+    and ((.authorized_ceiling_usd-.historical_total_upper_bound_usd-.remaining_before_remediation_usd)|fabs)<0.00001
+  ' "$audit" >/dev/null || { echo "issue-wide paid-action cost audit is invalid" >&2; return 2; }
+}
+
+verify_remote_cost_audit() {
+  local audit="$1" remote_markers audited_markers
+  validate_issue_cost_audit "$audit"
+  remote_markers="$(aws_cli s3api list-objects-v2 --bucket "$BUCKET" --prefix "${PREFIX}campaigns/" --query 'Contents[].Key' --output json | jq -c '(. // [])|sort')"
+  audited_markers="$(jq -c '.audited_remote_action_markers|sort' "$audit")"
+  [[ "$remote_markers" == "$audited_markers" ]] \
+    || { echo "remote paid-action markers differ from the issue-wide cost audit" >&2; return 2; }
+}
+
+validate_issue_cost_ledger() {
+  local ledger="$1" audit="$2" audit_sha
+  audit_sha="$(sha256_file "$audit")"
+  jq -e --arg audit_sha "$audit_sha" --argjson ceiling "$MAX_TOTAL_USD" '
+    . as $ledger
+    | $ledger.schema=="adl.issue607.aggregate_cost_ledger.v2"
+    and $ledger.authorized_ceiling_usd==$ceiling and $ledger.baseline_audit_sha256==$audit_sha
+    and ($ledger.baseline_upper_bound_usd|type=="number" and $ledger.baseline_upper_bound_usd>=0)
+    and ($ledger.reservations|type=="array")
+    and (($ledger.reservations|map(.run_id)|length)==($ledger.reservations|map(.run_id)|unique|length))
+    and all($ledger.reservations[]; . as $reservation
+      | ($reservation.action=="prepare" or $reservation.action=="launch-1" or $reservation.action=="launch-2" or $reservation.action=="qualification-remediation")
+      and (($reservation.run_id|type)=="string" and ($reservation.run_id|contains("-retry-")|not))
+      and $reservation.status=="reserved"
+      and (($reservation.reserved_seconds|type)=="number" and $reservation.reserved_seconds>0)
+      and (($reservation.reserved_cost_usd|type)=="number" and $reservation.reserved_cost_usd>0))
+    and ($ledger.cumulative_reserved_usd as $cumulative
+      | $ledger.baseline_upper_bound_usd as $baseline
+      | ([$ledger.reservations[].reserved_cost_usd]|add // 0) as $reserved
+      | (($cumulative-$baseline-$reserved)|fabs)<0.00001)
+    and $ledger.cumulative_reserved_usd<=$ledger.authorized_ceiling_usd
+  ' "$ledger" >/dev/null || { echo "issue-wide aggregate cost ledger is invalid" >&2; return 2; }
+}
+
+initialize_issue_cost_ledger() {
+  local audit="$1" ledger="$2" audit_sha baseline
+  validate_issue_cost_audit "$audit"
+  if [[ ! -f "$ledger" ]]; then
+    audit_sha="$(sha256_file "$audit")"
+    baseline="$(jq -r .historical_total_upper_bound_usd "$audit")"
+    jq -n --arg audit_sha "$audit_sha" --argjson ceiling "$MAX_TOTAL_USD" --argjson baseline "$baseline" \
+      '{schema:"adl.issue607.aggregate_cost_ledger.v2",authorized_ceiling_usd:$ceiling,baseline_audit_sha256:$audit_sha,baseline_upper_bound_usd:$baseline,reservations:[],cumulative_reserved_usd:$baseline}' >"$ledger.next"
+    mv "$ledger.next" "$ledger"
+  fi
+  validate_issue_cost_ledger "$ledger" "$audit"
+}
+
+calculate_issue_action_reservation() {
+  local action="$1" audit="$2" runtime_type seconds runtime_rate gpu_rate
+  case "$action" in
+    prepare) runtime_type="$RUNTIME_PREPARATION_TYPE"; seconds="$PREPARATION_SECONDS" ;;
+    launch-1|launch-2|qualification-remediation) runtime_type="$RUNTIME_TYPE"; seconds="$LAUNCH_SECONDS" ;;
+    *) echo "unsupported issue-wide cost action: $action" >&2; return 2 ;;
+  esac
+  runtime_rate="$(jq -er --arg type "$runtime_type" '.rates_usd_per_hour[$type]' "$audit")"
+  gpu_rate="$(jq -er --arg type "$GPU_TYPE" '.rates_usd_per_hour[$type]' "$audit")"
+  # The fixed baseline already includes retained storage and snapshots. This
+  # reservation adds a full action window plus conservative disposable EBS,
+  # public IPv4, and request overhead, and is never refunded after consumption.
+  awk -v r="$runtime_rate" -v g="$gpu_rate" -v s="$seconds" 'BEGIN {printf "%.6f",((r+g)*s/3600)+0.020000}'
+}
+
+reserve_issue_action_cost() {
+  local action="$1" run_id="$2" audit="$3" ledger="$4" reservation seconds cumulative
+  [[ ! "$run_id" =~ -retry-[1-9][0-9]*$ ]] || { echo "retry run IDs cannot reserve issue budget" >&2; return 2; }
+  initialize_issue_cost_ledger "$audit" "$ledger"
+  jq -e --arg run "$run_id" 'all(.reservations[];.run_id!=$run)' "$ledger" >/dev/null \
+    || { echo "issue-wide budget already reserved for run: $run_id" >&2; return 2; }
+  reservation="$(calculate_issue_action_reservation "$action" "$audit")"
+  seconds="$LAUNCH_SECONDS"; [[ "$action" == prepare ]] && seconds="$PREPARATION_SECONDS"
+  jq --arg action "$action" --arg run "$run_id" --argjson seconds "$seconds" --argjson reservation "$reservation" \
+    '.reservations += [{action:$action,run_id:$run,reserved_seconds:$seconds,reserved_cost_usd:$reservation,status:"reserved"}]
+     | .cumulative_reserved_usd=(.baseline_upper_bound_usd+([.reservations[].reserved_cost_usd]|add))' "$ledger" >"$ledger.next"
+  validate_issue_cost_ledger "$ledger.next" "$audit" || { rm -f "$ledger.next"; return 2; }
+  cumulative="$(jq -r .cumulative_reserved_usd "$ledger.next")"
+  awk -v total="$cumulative" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' \
+    || { rm -f "$ledger.next"; echo "issue-wide reserved cost exceeds USD 20: $cumulative" >&2; return 2; }
+  mv "$ledger.next" "$ledger"
+}
+
+assert_readiness_deadlines() {
+  local gpu_receipt="$1" runtime_receipt="$2" controller_elapsed="$3"
+  jq -e --argjson limit "$GPU_LOCAL_READY_MAX_SECONDS" '.status=="ready" and (.local_ready_seconds|type)=="number" and .local_ready_seconds>=0 and .local_ready_seconds<=$limit' "$gpu_receipt" >/dev/null \
+    || { echo "GPU local-ready receipt exceeded ${GPU_LOCAL_READY_MAX_SECONDS}s or was invalid" >&2; return 1; }
+  jq -e --argjson limit "$RUNTIME_LOCAL_READY_MAX_SECONDS" '.status=="ready" and (.local_ready_seconds|type)=="number" and .local_ready_seconds>=0 and .local_ready_seconds<=$limit' "$runtime_receipt" >/dev/null \
+    || { echo "Runtime local-ready receipt exceeded ${RUNTIME_LOCAL_READY_MAX_SECONDS}s or was invalid" >&2; return 1; }
+  [[ "$controller_elapsed" =~ ^[0-9]+$ ]] && ((controller_elapsed <= SERVICE_READY_MAX_SECONDS)) \
+    || { echo "controller service-ready exceeded ${SERVICE_READY_MAX_SECONDS}s or was invalid: ${controller_elapsed}s" >&2; return 1; }
 }
 
 wait_images_available() {
@@ -1147,6 +1283,10 @@ prepare() {
   validate_authorization prepare "$storage_plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$campaign"
   assert_remote_run_unused
   assert_campaign_action_unused prepare "$storage_dir/cost-ledger.json"
+  acquire_cost_ledger_lock "$ISSUE_COST_LEDGER"
+  trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
+  verify_remote_cost_audit "$ISSUE_COST_AUDIT"
+  reserve_issue_action_cost prepare "$RUN_ID" "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
   PREP_RESOURCE_LEDGER="$run_dir/preparation-resources.json"
   jq -n --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg campaign "$campaign_id" --arg owner "$(sha256_text "$owner")" \
     '{schema:"adl.issue607.preparation_resource_ledger.v1",status:"active",run_id:$run,storage_id:$storage,campaign_id:$campaign,owner_token_sha256:$owner,resources:[]}' >"$PREP_RESOURCE_LEDGER"
@@ -1183,10 +1323,13 @@ prepare() {
   PREP_GPU_AMI_ID="$(start_prepared_image gpu "$gpu_preparation_instance" "$retention_until")"
   wait_images_available "$PREP_RUNTIME_AMI_ID" "$PREP_GPU_AMI_ID"
   complete_preparation "$run_dir" "$storage_dir" "$runtime_volume" "$gpu_volume" "$generation" "$storage_plan_sha" "$prep_plan_sha" "$campaign" "$owner" "$preparation_compute_elapsed"
+  release_cost_ledger_lock
 }
 
 launch() {
-  [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 ) ]] || { echo "launch requires --ordinal 1|2 and --execute" >&2; exit 2; }
+  [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 || "$ORDINAL" == remediation ) ]] || { echo "launch requires --ordinal 1|2|remediation and --execute" >&2; exit 2; }
+  launch_action="launch-$ORDINAL"
+  [[ "$ORDINAL" == remediation ]] && launch_action=qualification-remediation
   validate_generation_controller
   run_dir="$STATE_ROOT/runs/$RUN_ID"; storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
   [[ -f "$storage_dir/preparation-result.json" && ! -e "$run_dir/paid-started" ]] || { echo "prepared storage missing or launch already started" >&2; exit 2; }
@@ -1214,33 +1357,45 @@ launch() {
     || { echo "prepared launch result identity mismatch" >&2; exit 2; }
   runtime_volume="$(jq -r .runtime.volume_id "$storage_dir/preparation-result.json")"; gpu_volume="$(jq -r .gpu.volume_id "$storage_dir/preparation-result.json")"
   runtime_root="$(jq -r .runtime.root_hash "$storage_dir/preparation-result.json")"; gpu_root="$(jq -r .gpu.root_hash "$storage_dir/preparation-result.json")"
-  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:launch-$ORDINAL" | cut -c1-32)"
+  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:$launch_action" | cut -c1-32)"
   gpu_key="${PREFIX}runs/$RUN_ID/gpu-ready.json"; runtime_key="${PREFIX}runs/$RUN_ID/runtime-local-ready.json"; qualification_key="${PREFIX}runs/$RUN_ID/qualification-complete.json"; service_key="${PREFIX}runs/$RUN_ID/service-ready.json"
   read_keys="$(jq -c --arg manifest "$MANIFEST_KEY" --arg gpu "$gpu_key" '([.artifacts[].key]+[$manifest,$gpu])|unique' "$STATE_ROOT/preflight-model-manifest.json")"
   jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg runtime_ami "$runtime_launch_ami" --arg gpu_ami "$gpu_launch_ami" --arg vpc "$VPC_ID" --arg subnet "$SUBNET_ID" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg bucket "$BUCKET" --arg prefix "$PREFIX" --arg az "$AZ" --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg generation "$generation" --arg commit "$COMMIT" --argjson read_keys "$read_keys" \
     --arg kms "$(jq -r .kms_key_arn "$run_dir/preflight.json")" \
     --arg runtime_type "$RUNTIME_TYPE" --arg gpu_type "$GPU_TYPE" --argjson runtime_root_gib "$RUNTIME_ROOT_GIB" --argjson gpu_root_gib "$GPU_ROOT_GIB" \
-    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,authorized_max_hourly_usd:1.55,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
+    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,authorized_max_hourly_usd:1.86,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
   plan_sha="$(saved_plan compute "$COMPUTE_ROOT" "$run_dir/tfdata-compute" "$run_dir/compute.tfstate" "$run_dir/compute.tfvars.json" "$run_dir/compute.tfplan" "$run_dir/compute-plan.json")"
   preflight_sha="$(sha256_file "$run_dir/preflight.json")"
   action_manifest="$run_dir/launch-action-manifest.json"
-  write_launch_action_manifest "$action_manifest" "launch-$ORDINAL" "$controller_revision" "$plan_sha" "$preflight_sha" "$runtime_volume" "$gpu_volume" "$runtime_root" "$gpu_root" "$(sha256_text "$owner")"
+  write_launch_action_manifest "$action_manifest" "$launch_action" "$controller_revision" "$plan_sha" "$preflight_sha" "$runtime_volume" "$gpu_volume" "$runtime_root" "$gpu_root" "$(sha256_text "$owner")"
   action_manifest_sha="$(sha256_file "$action_manifest")"
   estimated_total="$(jq -r .cost.aggregate_maximum_usd "$run_dir/preflight.json")"
   campaign="$(jq -c .campaign "$storage_dir/preparation-result.json")"
-  expected_run="$(jq -r --arg action "launch-$ORDINAL" '.actions[]|select(.action==$action)|.run_id' <<<"$campaign")"
-  [[ "$RUN_ID" == "$expected_run" || "$RUN_ID" =~ ^${expected_run}-retry-[1-9][0-9]*$ ]] \
-    || { echo "launch run ID must match the prepared campaign or a numbered retry: $expected_run" >&2; exit 2; }
-  write_authorization_request "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$run_dir/authorization-request.json" "$estimated_total" "$campaign"
-  validate_authorization "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$campaign"
-  acquire_cost_ledger_lock "$storage_dir/cost-ledger.json"
+  campaign_id="$(jq -r .id <<<"$campaign")"
+  if [[ "$ORDINAL" == remediation ]]; then
+    expected_run="adl-issue607-${campaign_id:0:12}-qualification-remediation"
+    [[ "$RUN_ID" == "$expected_run" ]] || { echo "remediation run ID must be exactly: $expected_run" >&2; exit 2; }
+    initialize_issue_cost_ledger "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
+    reservation="$(calculate_issue_action_reservation "$launch_action" "$ISSUE_COST_AUDIT")"
+    projected_total="$(awk -v baseline="$(jq -r .baseline_upper_bound_usd "$ISSUE_COST_LEDGER")" -v reservation="$reservation" 'BEGIN {printf "%.6f",baseline+reservation}')"
+    write_remediation_authorization_request "$run_dir/authorization-request.json" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$campaign_id" "$projected_total" "$reservation"
+    validate_remediation_authorization "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$campaign_id" "$projected_total" "$reservation"
+  else
+    expected_run="$(jq -r --arg action "$launch_action" '.actions[]|select(.action==$action)|.run_id' <<<"$campaign")"
+    [[ "$RUN_ID" == "$expected_run" ]] || { echo "launch run ID must match the prepared campaign exactly: $expected_run" >&2; exit 2; }
+    write_authorization_request "$launch_action" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$run_dir/authorization-request.json" "$estimated_total" "$campaign"
+    validate_authorization "$launch_action" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$campaign"
+  fi
+  acquire_cost_ledger_lock "$ISSUE_COST_LEDGER"
   trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
   [[ -f "$storage_dir/cost-ledger.json" ]] || { echo "preparation cost ledger is missing" >&2; exit 2; }
   preparation_source_bytes="$(jq -r '.entries[]|select(.action=="prepare")|.s3_new_artifact_bytes' "$storage_dir/cost-ledger.json")"
   [[ "$preparation_source_bytes" =~ ^[1-9][0-9]*$ ]] || { echo "preparation source-byte cost evidence is missing" >&2; exit 2; }
   validate_existing_prepare_cost_entry "$storage_dir/cost-ledger.json" "$run_dir/preflight.json" "$(jq -r '.campaign.actions[]|select(.action=="prepare")|.run_id' "$storage_dir/preparation-result.json")" "$preparation_source_bytes"
   assert_remote_run_unused
-  assert_campaign_action_unused "launch-$ORDINAL" "$storage_dir/cost-ledger.json"
+  [[ "$ORDINAL" == remediation ]] || assert_campaign_action_unused "$launch_action" "$storage_dir/cost-ledger.json"
+  verify_remote_cost_audit "$ISSUE_COST_AUDIT"
+  reserve_issue_action_cost "$launch_action" "$RUN_ID" "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
   consume_authorization; touch "$run_dir/paid-started"; apply_start="$SECONDS"
   CLEANUP_KIND=compute; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute.tfplan" >/dev/null
@@ -1251,8 +1406,9 @@ launch() {
   wait_object "$gpu_key" "$run_dir/gpu-ready.json"
   wait_object "$runtime_key" "$run_dir/runtime-local-ready.json"
   elapsed=$((SECONDS-apply_start))
-  jq -e --arg run "$RUN_ID" --arg instance "$gpu_instance" --arg volume "$gpu_volume" --arg generation "$generation" --arg root "$gpu_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds>=0 and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
-  jq -e --arg run "$RUN_ID" --arg instance "$runtime_instance" --arg volume "$runtime_volume" --arg generation "$generation" --arg root "$runtime_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds>=0 and .guardian_supervised==true and .runtime_ready==true and .authenticated_https==true and .authenticated_wss==true' "$run_dir/runtime-local-ready.json" >/dev/null
+  assert_readiness_deadlines "$run_dir/gpu-ready.json" "$run_dir/runtime-local-ready.json" "$elapsed"
+  jq -e --arg run "$RUN_ID" --arg instance "$gpu_instance" --arg volume "$gpu_volume" --arg generation "$generation" --arg root "$gpu_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
+  jq -e --arg run "$RUN_ID" --arg instance "$runtime_instance" --arg volume "$runtime_volume" --arg generation "$generation" --arg root "$runtime_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .guardian_supervised==true and .runtime_ready==true and .authenticated_https==true and .authenticated_wss==true' "$run_dir/runtime-local-ready.json" >/dev/null
   jq -n --arg run_id "$RUN_ID" --arg runtime_instance_id "$runtime_instance" --arg gpu_instance_id "$gpu_instance" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --argjson elapsed "$elapsed" --arg generation "$generation" --arg gpu_sha "$(sha256_file "$run_dir/gpu-ready.json")" --arg runtime_sha "$(sha256_file "$run_dir/runtime-local-ready.json")" \
     '{schema:"adl.issue607.service_ready.v2",status:"ready",run_id:$run_id,runtime_instance_id:$runtime_instance_id,gpu_instance_id:$gpu_instance_id,runtime_volume_id:$runtime_volume_id,gpu_volume_id:$gpu_volume_id,runtime_root_hash:$runtime_root_hash,gpu_root_hash:$gpu_root_hash,clock_source:"controller_bash_SECONDS_monotonic",apply_to_observed_seconds:$elapsed,artifact_generation:$generation,gpu_local_ready_sha256:$gpu_sha,runtime_local_ready_sha256:$runtime_sha}' >"$run_dir/service-ready.json"
   aws_cli s3api put-object --bucket "$BUCKET" --key "$service_key" --body "$run_dir/service-ready.json" --if-none-match '*' >/dev/null
@@ -1270,10 +1426,11 @@ launch() {
   verify_no_disposable_residue "$owner" "$run_dir/compute-zero-residue.json"
   for volume in "$runtime_volume" "$gpu_volume"; do aws_cli ec2 describe-volumes --volume-ids "$volume" --query 'Volumes[0].State' --output text | grep -qx available; done
   action_elapsed=$((SECONDS-apply_start))
-  record_cost_ledger "launch-$ORDINAL" "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID"
+  [[ "$ORDINAL" == remediation ]] || record_cost_ledger "$launch_action" "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID"
   release_cost_ledger_lock
-  jq -n --argjson ordinal "$ORDINAL" --arg run_id "$RUN_ID" --arg generation "$generation" --arg controller "$controller_revision" --arg plan_sha256 "$plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/compute-zero-residue.json")" --argjson elapsed "$elapsed" --arg service_ready_sha256 "$(sha256_file "$run_dir/service-ready.json")" --arg qualification_sha256 "$(sha256_file "$run_dir/qualification-complete.json")" \
-    '{schema:"adl.issue607.warm_launch_result.v3",status:"passed",ordinal:$ordinal,run_id:$run_id,artifact_generation:$generation,controller_revision:$controller,plan_sha256:$plan_sha256,authorization_sha256:$authorization_sha256,apply_to_service_ready_seconds:$elapsed,service_ready_sha256:$service_ready_sha256,qualification_complete_sha256:$qualification_sha256,zero_disposable_residue_sha256:$residue_sha256,compute_residue:0,warm_volumes_retained:2}' | tee "$run_dir/summary.json"
+  ordinal_json="$ORDINAL"; [[ "$ORDINAL" == remediation ]] && ordinal_json=null
+  jq -n --arg action "$launch_action" --argjson ordinal "$ordinal_json" --arg run_id "$RUN_ID" --arg generation "$generation" --arg controller "$controller_revision" --arg plan_sha256 "$plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/compute-zero-residue.json")" --argjson elapsed "$elapsed" --arg service_ready_sha256 "$(sha256_file "$run_dir/service-ready.json")" --arg qualification_sha256 "$(sha256_file "$run_dir/qualification-complete.json")" \
+    '{schema:"adl.issue607.warm_launch_result.v4",status:"passed",action:$action,ordinal:$ordinal,run_id:$run_id,artifact_generation:$generation,controller_revision:$controller,plan_sha256:$plan_sha256,authorization_sha256:$authorization_sha256,apply_to_service_ready_seconds:$elapsed,service_ready_sha256:$service_ready_sha256,qualification_complete_sha256:$qualification_sha256,zero_disposable_residue_sha256:$residue_sha256,compute_residue:0,warm_volumes_retained:2}' | tee "$run_dir/summary.json"
   trap - EXIT INT TERM
 }
 
@@ -1289,6 +1446,7 @@ case "$ACTION" in
   preflight) preflight ;;
   prepare) require aws; require terraform; prepare ;;
   launch) require aws; require terraform; launch ;;
+  qualification-remediation) require aws; require terraform; ORDINAL=remediation; launch ;;
   retention-status) require aws; require terraform; retention_status ;;
   extend-retention) require aws; require terraform; extend_retention ;;
   retire-storage) require aws; require terraform; retire_storage ;;
@@ -1366,6 +1524,18 @@ case "$ACTION" in
     [[ $# -eq 1 ]] || { echo "test-cost-lock requires ledger path" >&2; exit 2; }
     acquire_cost_ledger_lock "$1"
     release_cost_ledger_lock
+    ;;
+  test-validate-issue-cost-audit)
+    [[ $# -eq 1 ]] || { echo "test-validate-issue-cost-audit requires an audit file" >&2; exit 2; }
+    validate_issue_cost_audit "$1"
+    ;;
+  test-reserve-issue-cost)
+    [[ $# -eq 4 ]] || { echo "test-reserve-issue-cost requires action, run ID, audit, and ledger" >&2; exit 2; }
+    reserve_issue_action_cost "$1" "$2" "$3" "$4"
+    ;;
+  test-readiness-deadlines)
+    [[ $# -eq 3 ]] || { echo "test-readiness-deadlines requires GPU receipt, Runtime receipt, and controller elapsed seconds" >&2; exit 2; }
+    assert_readiness_deadlines "$1" "$2" "$3"
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;

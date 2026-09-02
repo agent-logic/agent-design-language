@@ -252,7 +252,12 @@ Successful preparation leaves two sealed 200 GiB volumes, completed immutable
 snapshots of both volumes, two prepared launch AMIs and their root snapshots,
 their storage state, and the exact AMI/facility/seal
 receipts, a GPU snapshot-to-volume availability timing receipt, and an aggregate
-cost ledger. Unused volume extents are not zero-filled, preserving sparse
+campaign cost ledger. The controller also validates the issue-wide historical
+paid-action audit against every create-only S3 campaign marker and reserves a
+full action window in `.adl/local/issue607/aggregate-cost-ledger.json` before
+consuming any further authorization. Reservations are never refunded after
+consumption, so failed attempts remain charged against the USD 20 ceiling.
+Retry-suffixed run IDs are rejected. Unused volume extents are not zero-filled, preserving sparse
 snapshot economics. The temporary restored timing volume is deleted. The
 preparation instances, ENIs, security group, IAM resources, scheduler, shared
 key pair, and root volumes must be absent according to both Terraform and live
@@ -302,9 +307,25 @@ and performs no mutation. Add `--authorization-file` to the identical command
 only after authorization. Repeat with ordinal `2` and another unique run ID and
 authorization.
 
+If an exact-head review requires one additional live proof after both campaign
+launch slots have been consumed, use the controller-emitted, single-use
+`qualification-remediation` request. It binds the existing prepared generation,
+current controller revision, saved compute plan, historical cost-audit digest,
+and the final projected issue total. It is accepted only while the issue-wide
+ledger remains at or below USD 20:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh qualification-remediation \
+  --commit PREPARED_ARTIFACT_SHA \
+  --run-id adl-issue607-CAMPAIGNPREFIX-qualification-remediation \
+  --storage-id adl-issue607-warm-v1 --execute
+```
+
 Each guest boots the exact prepared launch AMI and verifies its facility inventory, volume ID,
 generation, manifest, and dm-verity root. GPU readiness requires all configured
-models resident with nonzero VRAM. Runtime readiness requires the persistent
+models resident with nonzero VRAM. The default GPU node is `g6.4xlarge`, whose
+EBS bandwidth can consume the existing 500 MiB/s warm volume; both configured
+model warmups start concurrently and remain loaded. Runtime readiness requires the persistent
 Guardian process to pass authenticated HTTPS and WSS probes. Each guest must
 reach local readiness in 30 seconds; controller apply-to-observed readiness
 must remain within 120 seconds. The later qualification receipt separately

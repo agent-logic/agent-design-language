@@ -61,13 +61,20 @@ systemd-run --unit=adl-ollama \
   --setenv=OLLAMA_MAX_LOADED_MODELS="$model_count" \
   /mnt/adl-warm-gpu/install/bin/ollama serve
 until curl -fsS http://127.0.0.1:11434/api/version >/dev/null; do sleep 0.25; done
-while read -r model; do
+warm_model() {
+  local model="$1"
   until jq -n --arg model "$model" '{model:$model,prompt:"Reply OK.",stream:false,keep_alive:-1,options:{num_predict:1}}' \
     | curl --max-time 300 -fsS http://127.0.0.1:11434/api/generate -d @- >/dev/null
   do
     sleep 1
   done
+}
+warm_pids=()
+while read -r model; do
+  warm_model "$model" &
+  warm_pids+=("$!")
 done < <(jq -r '.models[].model_identity' "$manifest")
+for pid in "$${warm_pids[@]}"; do wait "$pid"; done
 models="$(curl -fsS http://127.0.0.1:11434/api/ps | jq -ce --argjson expected "$(jq -c '.models|sort_by(.model_identity)' "$manifest")" '
   [.models[]|{model_identity:.name,model_digest_sha256:(.digest|sub("^sha256:";"")),size_vram:.size_vram}]|sort_by(.model_identity)
   |select(length==($expected|length))|select(all(.[];.size_vram>0))

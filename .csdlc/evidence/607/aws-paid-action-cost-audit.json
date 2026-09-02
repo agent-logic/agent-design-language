@@ -1,0 +1,64 @@
+{
+  "schema": "adl.issue607.paid_action_cost_audit.v1",
+  "status": "pass",
+  "as_of": "2026-09-02T12:00:00Z",
+  "authorized_ceiling_usd": 20,
+  "method": {
+    "instance_start": "AWS CloudTrail RunInstances event time",
+    "launch_instance_end": "AWS CloudTrail first TerminateInstances event time",
+    "preparation_instance_end": "AWS CloudWatch final CPUUtilization bucket end plus 300 seconds",
+    "preparation_end_posture": "The five-minute addition bounds the one-minute basic-monitoring bucket and delayed shutdown after the final datapoint.",
+    "pricing": "AWS Price List On-Demand Linux shared-tenancy rates in us-west-2 read on 2026-09-02",
+    "tag_billing_limitation": "The adl:issue cost-allocation tag was not active in Cost Explorer; this audit therefore uses conservative resource-event reconstruction."
+  },
+  "rates_usd_per_hour": {
+    "m7i.2xlarge": 0.4032,
+    "r7i.2xlarge": 0.5292,
+    "g6.xlarge": 0.8048,
+    "g6.4xlarge": 1.3232
+  },
+  "fixed_allowances": {
+    "warm_storage_seven_day_usd": 12.133333,
+    "snapshot_seven_day_allowance_usd": 3.033333,
+    "s3_requests_allowance_usd": 0.2,
+    "total_usd": 15.366666
+  },
+  "historical_paid_attempts": [
+    {"run_id":"adl-issue607-prepare-20260901-201130","action":"prepare","runtime_seconds":432,"gpu_seconds":132,"compute_upper_bound_usd":0.077893},
+    {"run_id":"adl-issue607-prepare-20260901-210009","action":"prepare","runtime_seconds":549,"gpu_seconds":518,"compute_upper_bound_usd":0.177290},
+    {"run_id":"adl-issue607-prepare-20260901-214500","action":"prepare","runtime_seconds":1594,"gpu_seconds":1294,"compute_upper_bound_usd":0.467809},
+    {"run_id":"adl-issue607-prepare-20260901-223306","action":"prepare","runtime_seconds":1606,"gpu_seconds":1288,"compute_upper_bound_usd":0.467812},
+    {"run_id":"adl-issue607-prepare-20260902-031304","action":"prepare","runtime_seconds":1630,"gpu_seconds":1330,"compute_upper_bound_usd":0.479889},
+    {"run_id":"adl-issue607-prepare-20260902-075913","action":"prepare","runtime_seconds":1783,"gpu_seconds":1482,"compute_upper_bound_usd":0.531005},
+    {"run_id":"adl-issue607-bdbbb74f76ab-launch-1","action":"launch-1","runtime_seconds":252,"gpu_seconds":575,"compute_upper_bound_usd":0.165588},
+    {"run_id":"adl-issue607-bdbbb74f76ab-launch-1-retry-1","action":"historical-retry","runtime_seconds":192,"gpu_seconds":228,"compute_upper_bound_usd":0.079195},
+    {"run_id":"adl-issue607-bdbbb74f76ab-launch-1-retry-2","action":"historical-retry","runtime_seconds":139,"gpu_seconds":153,"compute_upper_bound_usd":0.054637},
+    {"run_id":"adl-issue607-bdbbb74f76ab-launch-1-retry-3","action":"historical-retry","runtime_seconds":440,"gpu_seconds":685,"compute_upper_bound_usd":0.217816},
+    {"run_id":"adl-issue607-bdbbb74f76ab-launch-1-retry-4","action":"historical-retry","runtime_seconds":1202,"gpu_seconds":1307,"compute_upper_bound_usd":0.468881},
+    {"run_id":"adl-issue607-99199a713555-launch-1","action":"launch-1","runtime_seconds":1260,"gpu_seconds":1278,"compute_upper_bound_usd":0.470924},
+    {"run_id":"adl-issue607-e8925c1dc8b0-launch-1","action":"launch-1","runtime_seconds":299,"gpu_seconds":641,"compute_upper_bound_usd":0.187252},
+    {"run_id":"adl-issue607-e8925c1dc8b0-launch-1-retry-1","action":"historical-retry","runtime_seconds":363,"gpu_seconds":579,"compute_upper_bound_usd":0.182800},
+    {"run_id":"adl-issue607-e8925c1dc8b0-launch-2","action":"launch-2","runtime_seconds":363,"gpu_seconds":435,"compute_upper_bound_usd":0.150608}
+  ],
+  "historical_compute_upper_bound_usd": 4.179398,
+  "historical_disposable_ebs_ipv4_allowance_usd": 0.053936,
+  "historical_total_upper_bound_usd": 19.6,
+  "remaining_before_remediation_usd": 0.4,
+  "audited_remote_action_markers": [
+    "shepherd/issue-607/campaigns/2d797ce5b618081a753ab1261d0305820781388e0f52d52f4677fffc332d07c3/actions/prepare.json",
+    "shepherd/issue-607/campaigns/307c600bfee46788583c8f06b65f642c0e6d0d6c4e66e77e21d9cd0a05acff0e/actions/prepare.json",
+    "shepherd/issue-607/campaigns/67004a8e9998d669a6f1682663ddce88ca3862ba7cbd24a1da573feebe18046d/actions/prepare.json",
+    "shepherd/issue-607/campaigns/99199a713555a0499ef8776dcc8f30396ce7f1961d5a670c56c4a60b28982cce/actions/launch-1.json",
+    "shepherd/issue-607/campaigns/99199a713555a0499ef8776dcc8f30396ce7f1961d5a670c56c4a60b28982cce/actions/prepare.json",
+    "shepherd/issue-607/campaigns/bdbbb74f76abd146d694635000abdf40b139b370c2fb02decbc8cdc9cd218c37/actions/launch-1-retry-1.json",
+    "shepherd/issue-607/campaigns/bdbbb74f76abd146d694635000abdf40b139b370c2fb02decbc8cdc9cd218c37/actions/launch-1-retry-2.json",
+    "shepherd/issue-607/campaigns/bdbbb74f76abd146d694635000abdf40b139b370c2fb02decbc8cdc9cd218c37/actions/launch-1-retry-3.json",
+    "shepherd/issue-607/campaigns/bdbbb74f76abd146d694635000abdf40b139b370c2fb02decbc8cdc9cd218c37/actions/launch-1-retry-4.json",
+    "shepherd/issue-607/campaigns/bdbbb74f76abd146d694635000abdf40b139b370c2fb02decbc8cdc9cd218c37/actions/launch-1.json",
+    "shepherd/issue-607/campaigns/bdbbb74f76abd146d694635000abdf40b139b370c2fb02decbc8cdc9cd218c37/actions/prepare.json",
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/launch-1-retry-1.json",
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/launch-1.json",
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/launch-2.json",
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/prepare.json"
+  ]
+}

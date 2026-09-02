@@ -212,6 +212,23 @@ run_contracts() {
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-cost-lock "$cost_ledger" >/dev/null 2>&1
   rmdir "$cost_ledger.lock"
 
+  issue_cost_audit="$ROOT/.csdlc/evidence/607/aws-paid-action-cost-audit.json"
+  issue_cost_ledger="$CASE_ROOT/issue-cost-ledger.json"
+  rm -f "$issue_cost_ledger" "$issue_cost_ledger.next"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$issue_cost_audit"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation "$issue_cost_audit" "$issue_cost_ledger"
+  jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and .cumulative_reserved_usd==19.928733' "$issue_cost_ledger" >/dev/null
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation-2 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-retry-1 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
+
+  gpu_ready="$CASE_ROOT/gpu-ready-deadline.json"; runtime_ready="$CASE_ROOT/runtime-ready-deadline.json"
+  jq -n '{status:"ready",local_ready_seconds:30}' >"$gpu_ready"
+  jq -n '{status:"ready",local_ready_seconds:30}' >"$runtime_ready"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready" "$runtime_ready" 120
+  jq '.local_ready_seconds=30.001' "$gpu_ready" >"$gpu_ready.late"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready.late" "$runtime_ready" 120 >/dev/null 2>&1
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-readiness-deadlines "$gpu_ready" "$runtime_ready" 121 >/dev/null 2>&1
+
   for template in \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"; do
@@ -307,6 +324,11 @@ run_contracts() {
   rg -q 'adl.issue607.snapshot_restore_test.v1' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'wait_volume_absent' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'adl.issue607.authorization.v3' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'adl.issue607.aggregate_cost_ledger.v2' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'retry run IDs are prohibited' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'SERVICE_READY_MAX_SECONDS=120' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'default[[:space:]]*=[[:space:]]*"g6.4xlarge"' "$ROOT/infra/aws/runtime/gpu-proof/variables.tf"
+  rg -Fq 'warm_pids+=("$!")' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl"
   rg -q 'start_prepared_image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'resume-preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'PRESERVE_PREPARATION_ON_EXIT=true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
