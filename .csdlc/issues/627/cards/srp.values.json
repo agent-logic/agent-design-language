@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.1] Define v3 command denominator and one-binary CLI shell",
     "slug": "v3-h1-command-denominator-one-binary-cli-shell",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/627\n.csdlc/evidence/627",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a",
+      "reviewer": "codex-reviewer:review_627_r5_exact_head",
       "review_prompts": [
         "Does the manifest reconcile exactly with the installed v2 binary denominator and the operator-confirmed 19-route sprint target?",
         "Does the single `csdlc` binary expose a stable command surface without separate v3 helper binaries?",
@@ -24,8 +24,10 @@
         "Did the issue avoid all C-SDLC v2 source changes?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Remote PR #635 branch remains stale until typed publication pushes this reviewed local candidate."
+      ],
+      "review_result": "pass"
     }
   }
 }

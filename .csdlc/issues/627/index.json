@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "065eb0ab446d751178e7ba095027d004aa0385bdfdd64db1e9bb5cb1995c58e1",
+  "phase": "published",
+  "generation": 10,
+  "digest": "8ef434c73dfffbb3059700aa552f08c50a4fba97586f37ec82210153073e5b07",
   "branch": "codex/627-v3-h1-command-denominator-r2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
   "review_assignment": {
@@ -21,8 +21,45 @@
       ".csdlc/evidence/627"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "codex-reviewer:review_627_r5_exact_head",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/627",
+      ".csdlc/evidence/627"
+    ],
+    "reviewed_revision": "git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a",
+    "findings": [],
+    "residual_risks": [
+      "Remote PR #635 branch remains stale until typed publication pushes this reviewed local candidate."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a",
+      "to_revision": "git-blake3:80b4821e4198c66f8635192bff0f5044d94392de:63f655250d129f3e795d2c60c67997fb4d676c2b3652abd36ed74717166600d9",
+      "from_commit": "295c2319b95622c82360d3f4c794efed44fc5d3c",
+      "to_commit": "80b4821e4198c66f8635192bff0f5044d94392de",
+      "changed_paths": [
+        ".csdlc/issues/627/audit.jsonl",
+        ".csdlc/issues/627/index.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 627,
+    "pull_request": 635,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/635",
+    "base": "main",
+    "head": "codex/627-v3-h1-command-denominator-r2",
+    "revision": "git-blake3:80b4821e4198c66f8635192bff0f5044d94392de:63f655250d129f3e795d2c60c67997fb4d676c2b3652abd36ed74717166600d9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -36,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b304d664f5106801ebb049f3ec44a967e3ee6972df0e8fa59c95e99166c72a81",
+      "values_digest": "2b574837b6449418af193db26cffa544cb7042be454a8a241012e5c36a09971e",
       "rendered_digest": "855325a14477c7ce2e1b90f0e6d9ba912151de93354db72604eabd9fbad12879",
       "ast_digest": "544e4a1cf30b8a35ebf34e687ba209a9cce107857d5c68eaa83b22298762dcfd"
     },
     "stp": {
-      "values_digest": "5068c3a128f935c61dd22c608f5ce6ba44a9239a5858ffcf98451656fc49a186",
+      "values_digest": "6aa657811487b4aa3370a3f7692782a2cc09bb13298cdc6f1b6a135d11f2568e",
       "rendered_digest": "334cf29cd98a42918bca8ba4052870d45b62144849805c43ad5cee1b0c6b4bca",
       "ast_digest": "70bdafa0bcf9400aa34200a029f4a1c1f3c876b3356549201f24269e27c7261a"
     },
     "spp": {
-      "values_digest": "ceede03dfef609152f8d479a68093103d3573ea10f532821a4f192a72ae5973f",
+      "values_digest": "b23aab59d882100c24b25678690e269af53814329ba9532722764357020de046",
       "rendered_digest": "d4720e149b43a7035dc0d3694c00ef1cd7663f600111662bf6eeec08e8802777",
       "ast_digest": "cd92e40f601f49a0add5d60697832e17f20cbb3712482367e38d55f253a66c78"
     },
     "vpp": {
-      "values_digest": "bc478ca9c4725de4c3e4593f78f4965b3a3f7d8490220552ebcf1f3720c29467",
+      "values_digest": "079275cb19fc23da3ccea2da4483d68b3b63be975e10b1b7329248a2c27b0e03",
       "rendered_digest": "fd2f7ae0bb0ffee7657ed885c898fb788e9f93c6eb12e2c2ce88aea7a7ba6f80",
       "ast_digest": "afeb335bdfb40004b4fec5a919bf5065dfc8a9bc4aa2ed73e5343f2fbb68b159"
     },
     "srp": {
-      "values_digest": "4030fc0939a3080b23ee62c1e7bbb41f3ba14b2193df9a060dc3c85b48af2b67",
-      "rendered_digest": "038aa6bdd46db4fbfcd2df369d521d45f655689704ce4203c296170ec34deff5",
-      "ast_digest": "c697563833c2e626ce5dd8fb3bfe852d05ea4ca25a802bea9507d110ece92756"
+      "values_digest": "7ce6c25fce87a19c75c423edc53c3e5c86bfd364da73f2d0011f50acf9cba21e",
+      "rendered_digest": "0976167d78f3c68f707b808389ad70c86cbd3d74e89eae4b6f46ff475404afff",
+      "ast_digest": "1b8b87ebf249ee96722775696232b1537b2873a343c653b020ed805e08a1de19"
     },
     "sor": {
-      "values_digest": "b4a788d16b2d6d7a94f6f41bbd95cd8c949c0f2e9209efdf1ad0575b64e26bc8",
-      "rendered_digest": "19e2e3b6ad660b1460cebd0c0dd0323b1839794a928a86a58510b44e6110ca93",
-      "ast_digest": "b5750dc9e8ea1b7b78f06254c5ea11ee89791cf14d5692331380a9307b95f0dd"
+      "values_digest": "15da2bedf2530c09df1dd53b1d9e82aef246ac8612e214dae18addb24d579cd6",
+      "rendered_digest": "082b480077d1254e36ef50a27a06f009afbc4fa1385394c3cc4026af9eb2f443",
+      "ast_digest": "a6eaa5c75d6bf0ca205bfb6b11789408e45a00830332ee6b551878c563b190c6"
     }
   },
   "transitions": [
@@ -122,6 +159,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #627 after publication guard found review_stale because review metadata was committed after the previously reviewed substantive evidence head."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -222,6 +273,20 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
