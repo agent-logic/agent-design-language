@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 648,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e474bee8b7ea0cf78980cbfa31d64187c08d8d66120a0a13e935836019bdd680",
-  "phase": "initialized",
-  "generation": 1,
-  "digest": "aad9a2552f6deb4fdc4b5afbd66c2749917a0ff68d165f9a06d42c85b797412d",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "f7f31e0a700615354be25b947f9be4a1ff32dcadcfa59e2f286422370ad5a527",
+  "branch": "codex/648-provider-reload-ownership-corrective-bound",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-648-provider-reload-ownership-corrective-bound",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +25,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c78d5e01cf96892c4f15ee05175e5aae745413529d2fe502d1175019b3a47fbd",
+      "values_digest": "76b30bd9e9f55fd0d06bf6f146b59510549a08eec89d59a71030e291a594f9d7",
       "rendered_digest": "d76ac9c988495e8bc6dfdb47d07e1ff8347056507a338d2af9dcc2904a7b0b92",
       "ast_digest": "731b22b5572f8e65901e8bdf7e6d2281c1b83478291d756a92b37f113e1b250a"
     },
     "stp": {
-      "values_digest": "951652e9f5895bbb559d23fba8eb89fb7c30792ef8e7a62e5060858e1317e56f",
+      "values_digest": "fa88fcfff44dacea20322825354d18d4534fa931830afd0a186f1e64dad8395b",
       "rendered_digest": "74ebbaefb0938e0c011d2905584f8e9ba32c7ebaa305cbcee11461846e3ed733",
       "ast_digest": "3864e33451386d117a0f46ce9449363fdf14891e6a0526b271931eb45eb219ee"
     },
     "spp": {
-      "values_digest": "e5dc4c7da26e7771189b48f7612bbaf9795189b5b57af827008bb38e4fdd9c9c",
+      "values_digest": "9b476978c6789b846d46d29648705ec4dd6648964a85db53cf20d8577e9ad219",
       "rendered_digest": "64f66a0bde2ee42890cc22f6571b079be34f8abf12fa242377a22d2b2ebaa394",
       "ast_digest": "8179ff2ca28a6d452f0bfb13326b0da5c4f1591b852558616ec88ca93e5eebd1"
     },
     "vpp": {
-      "values_digest": "f93ec6d30a4536eae0ff76b72fa968797650be3760b9037bceb273ec14170466",
+      "values_digest": "ba9517712fcd7384711d15c3f7c173d1b5fa02eba40baa0714273d420a572534",
       "rendered_digest": "3ac7551c1214e4ca7cbd3c66fc292c98946816ef9c3ffc23faf02b7e1eb046ca",
       "ast_digest": "e32a5a7d0c798695350428512aa5fbb5802854a8e927476e20c22637ee90fa55"
     },
     "srp": {
-      "values_digest": "9babc3915156dab42d9d7dad737c8e67f3ceac02c890b7195e6e3ed0d8346666",
+      "values_digest": "237da58a9153a3a51a2c20a4e3a32f16017aa00efccc9538cd9146c2ee20efd0",
       "rendered_digest": "25aeb88e4be502b4575d6022fe8dfd7d96a7a41a92db2caf3e39e1b1f07f1609",
       "ast_digest": "c323b853959afc3b91fec5dcc0e2e2c0691aecd12b72fa544c84a4337de67cbd"
     },
     "sor": {
-      "values_digest": "3c71b698fc2a348008d227df67e4b8ffdbf5874038fd9dd6d635288caa29a85e",
-      "rendered_digest": "04132ff7e9781806fb3c8196e40caef46c5251e63d8692b25631fafec43cc9e2",
-      "ast_digest": "4e33cd1bc8b31a8eb12c69e943512fb0cb4d29c3e81a35f2c6742eddf161a387"
+      "values_digest": "24b0a0ad489408a97dd42aca94530414e755ac776e531c629e3f0d13b1fd807e",
+      "rendered_digest": "f591facfa90197bcd284e399b2b13c30cd6e00042a96110ded7ec5d96127f65d",
+      "ast_digest": "24f769647b58390370ab211c3e8308b6dfa368c10e5ad5849280f23564b9f002"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -69,6 +92,41 @@
       "actor": "codex:/root",
       "reason": "Repair #648 readiness so the issue-owned validation script is an exact governed affected area rather than only covered by a non-proving glob.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/reload.rs\",\"adl/src/execute/mod.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl/src/long_lived_agent.rs\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\",\".csdlc/prepared/issues/648/**\",\".csdlc/issues/648/**\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Record the bound #648 corrective implementation replayed from the reviewed #622 repair branch.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replayed the provider reload ownership repair through corrective issue #648 after PR #646 merged with stale review evidence.\",\"changes\":[\"Added run-scoped ProviderReloadHandle propagation through sequential, concurrent, retry, and called-workflow execution paths.\",\"Changed production CSM adl_workflow hotload ownership to retain and pass an explicit run-scoped provider reload handle instead of depending on process-global registration.\",\"Retained compatibility global registration with identity-aware guard clearing so older guards cannot clear newer registrations.\",\"Added overlap, shutdown-order, in-flight snapshot, and direct global guard regression coverage.\",\"Kept validation local and offline; no live provider, AWS, paid runner, Runtime restart, cutover, or merge action was performed.\"],\"artifacts\":[\"adl/src/provider/reload.rs\",\"adl/src/execute/mod.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl/src/long_lived_agent.rs\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Record passed #648 production validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\",\"production\"],\"purpose\":\"Prove production provider profile, provider reload, in-flight snapshot, and CSM hotload-owner behavior after the run-scoped reload handle repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:2026-09-02:#648-production-validation:14-provider-profile-7-provider-reload-1-inflight-1-csm-passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Record passed #648 safety validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\",\"safety\"],\"purpose\":\"Prove config reload safety, provider reload ownership regressions, fmt, clippy, and diff hygiene without live provider, AWS, paid runner, Runtime restart, cutover, or merge action.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:2026-09-02:#648-safety-validation:2-config-14-profile-7-reload-1-inflight-1-csm-fmt-clippy-diffcheck-passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
