@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 594,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aec65d9b1f0c389ca94aed48172f24f6c2e3d19f3a62ec5779adc6a59b3420e7",
-  "phase": "initialized",
-  "generation": 8,
-  "digest": "7906147416887b8e8adf8fac35bae1c20b5f9e96c40ce67b2b729c22f0102b71",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "dbee203fe6760fca82decc423f62b157a3164034a0937eb84d0a0b57c12594fc",
+  "branch": "codex/594-runtime-logs-s3-archive",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +25,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0b535421212edbf06c897eb38054fd704c12bd40746b36ee1da386e212199b17",
+      "values_digest": "4b74fa68f8aa93dc0bac377e8ef17cbd2d7c5019c140b5be9558d08472ec4137",
       "rendered_digest": "781db80b317128aafed48e76faebccd16212f69908747ee91f7aa62cf1ba2501",
       "ast_digest": "b195a921b5a51a4f668b7f142e7088207a930bce127852141a9a3fb6003a9d83"
     },
     "stp": {
-      "values_digest": "074df6718b15b4f87bdf3d05a5885f91f3216fac4949123b3a4a1181e33c478e",
+      "values_digest": "e592762d9d745b90853fca0fbd3293b21c2c7d721627ff4e42f94f74fad5cf31",
       "rendered_digest": "3cfbf1a5c0bd56ef4b277f6803a796ac618f2c452b9f01c5c1143d6beb618e69",
       "ast_digest": "5c9ab05c717b7b5e4e20e2a02436be4fa027121c83f158fcb7cef2f805e3c039"
     },
     "spp": {
-      "values_digest": "080faa1baa2586c6dd01ad7f5e9ff0e8758c6cad494060ae75d7766bad35f8c7",
+      "values_digest": "bf33d043e9fbfd32fe18ac597c402e4cf6218089888ed32b0e4e274ad3229f01",
       "rendered_digest": "feddbdafde8bd4a035c902bbc499312f4c43d27e943a83b7e55f533df8fe04f4",
       "ast_digest": "2162613fba3d0812fd23818a317b75ab9d7cd90ec92f9442d78b507758039562"
     },
     "vpp": {
-      "values_digest": "e28be6c67f4145cc888192625b21d382cf6355abc0d1b02bd2cec4a3f11dec4a",
+      "values_digest": "cdeecdf1b11c2a6f31e3d39039ebab493c4393a64658af24612ab8b9511eada0",
       "rendered_digest": "662b6f9f0676e396feb0d8047caedec71977a6733323e201cc43d6ae6a212437",
       "ast_digest": "201a859011a718e42ac9cebf9f9c43740d126e3f309fe8c3e7c3a376f6442300"
     },
     "srp": {
-      "values_digest": "2bdb180b94e2f5074e408f31ccb4d3de07a41b484468604e0ea32604e1a7e7c0",
+      "values_digest": "ddf598945d638fb6aaf020f2bdf622411e7e2a4ed2a7da867bec5bb7cc74f71e",
       "rendered_digest": "6d5289c530bf46a16978c97d32d478b7d4bdc57e17f1258097f785751ec6f69f",
       "ast_digest": "945fa2a6b28eb2a511afcec5b7b3faff3648a3075183943fdf415064209ce139"
     },
     "sor": {
-      "values_digest": "f27dbb2f390a044b2f7043bd0b051483677537f54919820c15b63723224f17f1",
-      "rendered_digest": "fb79540362117fe10db8bfe22bfb64746ab9917bdd5210c2f7e48548e45b1421",
-      "ast_digest": "115292e30ed5f1576ace42c2460f65e688033b963025e0500189ccfda469389a"
+      "values_digest": "0906034fcfab685158bb3433fbcc7a295c5d64d94e989316584f16e8196912fb",
+      "rendered_digest": "f30afad45b6f9e81f96b1cfa92f39b379354d5a7d8384aed1f672bb9a735962c",
+      "ast_digest": "f6f25bee3e4464fdd44cf1b67b0228a5592d45b843f81c9e29b33a1208265b85"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -118,6 +141,27 @@
       "actor": "fresh-session:ddde8a9d-ba19-4487-b55e-ed054bc170c5",
       "reason": "approve completed issue design",
       "operation": "{\"design_digest\":\"d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de\",\"design_ref\":\".csdlc/prepared/issues/594/design.md\",\"diagram_digest\":\"b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b\",\"diagram_ref\":\".csdlc/prepared/issues/594/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Refresh SOR execution truth after tightening the issue-owned runtime validation wrapper to include S3 archive configuration tests and excluding Terraform provider cache artifacts from the branch.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded Runtime redacted-log archival to S3 with optional Runtime init configuration, rendered Vector S3 delivery, focused tests, issue-owned validation wrappers, and an isolated Terraform archive module.\",\"changes\":[\"Added optional observability_pipeline.s3_archive runtime init configuration with lowercase AWS region, DNS-compatible bucket, and DNS-safe environment, Polis, and Runtime identity validation.\",\"Rendered runtime_v3_s3_archive from runtime_v3_redacted through a bounded delivery transform with identity-partitioned keys, SSE-S3, gzip JSON, disabled S3 health checks, 5 MiB or 60 second batching, 512 MiB drop-newest disk buffering, and bounded retry settings.\",\"Added focused Runtime configuration and observability tests, including a pinned Vector validate check for the generated archive config.\",\"Tightened the issue-owned Runtime validation wrapper so it runs both S3 archive configuration tests and Vector rendering/validation tests.\",\"Added infra/aws/runtime/log-archive Terraform for private S3 bucket controls, versioning, lifecycle retention, SSE-S3, bucket-owner-enforced ownership, and exact-prefix publisher IAM policy with terraform test assertions.\",\"Added a module-local Terraform ignore rule so generated provider cache files are not tracked.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/observability/vector.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/observability.rs\",\".csdlc/prepared/issues/594/validate-runtime-log-archive.sh\",\".csdlc/prepared/issues/594/validate-terraform-log-archive.sh\",\".csdlc/prepared/issues/594/validate-live-aws.sh\",\".csdlc/evidence/594/runtime-log-archive.log\",\".csdlc/evidence/594/runtime-log-archive-config.log\",\".csdlc/evidence/594/terraform-log-archive.log\",\".csdlc/evidence/594/diff-hygiene.log\",\"infra/aws/runtime/log-archive/.gitignore\",\"infra/aws/runtime/log-archive/.terraform.lock.hcl\",\"infra/aws/runtime/log-archive/versions.tf\",\"infra/aws/runtime/log-archive/variables.tf\",\"infra/aws/runtime/log-archive/locals.tf\",\"infra/aws/runtime/log-archive/main.tf\",\"infra/aws/runtime/log-archive/outputs.tf\",\"infra/aws/runtime/log-archive/archive_contract.tftest.hcl\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Issue 594 diff hygiene validation\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"/bin/bash\",\"/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/.csdlc/prepared/issues/594/validate-runtime-log-archive.sh\"],\"purpose\":\"Issue 594 Runtime S3 archive validation covering configuration parsing, unsafe identity rejection, Vector S3 sink rendering, and pinned Vector config validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-log-archive.log\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--no-tests=fail\",\"-E\",\"test(s3_archive)\"],\"purpose\":\"Issue 594 Runtime init S3 archive configuration validation\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-log-archive-config.log\"},{\"command\":[\"/bin/bash\",\"/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive/.csdlc/prepared/issues/594/validate-terraform-log-archive.sh\"],\"purpose\":\"Issue 594 Terraform S3 archive validation\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-log-archive.log\"}]}"
     }
   ]
 }

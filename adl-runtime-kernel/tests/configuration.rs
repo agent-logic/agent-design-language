@@ -735,6 +735,77 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
 }
 
 #[test]
+fn runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity() {
+    let root = config_test_root();
+    let toml = valid_runtime_init_toml(root.path()).replace(
+        "\n[weather]\n",
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-dev"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+
+[weather]
+"#,
+    );
+    let config = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&toml).unwrap();
+    assert_eq!(
+        config
+            .observability_pipeline
+            .s3_archive
+            .as_ref()
+            .unwrap()
+            .bucket,
+        "agent-logic-runtime-log-archive-dev"
+    );
+
+    let without_archive =
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
+            .unwrap();
+    assert_ne!(
+        config.continuity_identity_projection().unwrap(),
+        without_archive.continuity_identity_projection().unwrap()
+    );
+}
+
+#[test]
+fn runtime_init_rejects_unsafe_s3_archive_identity_segments() {
+    for fragment in [
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-dev"
+environment = "../dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+"#,
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "AgentLogic"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+"#,
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-dev"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji/runtime"
+"#,
+    ] {
+        assert!(
+            adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&runtime_init_toml(fragment))
+                .is_err()
+        );
+    }
+}
+
+#[test]
 fn runtime_init_rejects_config_manufactured_agent_population() {
     let toml = runtime_init_toml(
         r#"

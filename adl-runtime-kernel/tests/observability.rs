@@ -13,7 +13,8 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    RuntimeCloudWatchInitConfig, RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
+    RuntimeCloudWatchInitConfig, RuntimeS3LogArchiveInitConfig, RUNTIME_MASTER_LOG_AUDIT_SCHEMA,
+    RUNTIME_MASTER_LOG_RECORD_SCHEMA,
 };
 use runtime_observability::{
     audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
@@ -288,6 +289,90 @@ fn vector_config_routes_redacted_runtime_health_to_cloudwatch_without_credential
     assert!(!rendered_text.contains(". = .fields"));
     assert!(!rendered_text.contains("aws_secret_access_key"));
     assert!(!rendered_text.contains("aws_access_key_id"));
+}
+
+#[test]
+fn vector_config_s3_archive_uses_identity_partitioned_bounded_redacted_delivery() {
+    let root = test_root("s3-archive-config-shape");
+    let mut config = vector_config(root, None);
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+
+    let rendered = render_vector_config(&config);
+    let sink = &rendered["sinks"]["runtime_v3_s3_archive"];
+
+    assert_eq!(sink["type"], "aws_s3");
+    assert_eq!(sink["inputs"], json!(["runtime_v3_s3_archive_delivery"]));
+    assert_eq!(sink["healthcheck"]["enabled"], false);
+    assert_eq!(sink["buffer"]["type"], "disk");
+    assert_eq!(sink["buffer"]["max_size"], 536_870_912_u64);
+    assert_eq!(sink["buffer"]["when_full"], "drop_newest");
+    assert_eq!(sink["batch"]["max_bytes"], 5_242_880_u64);
+    assert_eq!(sink["batch"]["timeout_secs"], 60);
+    assert_eq!(sink["request"]["retry_attempts"], 5);
+    assert_eq!(sink["request"]["retry_max_duration_secs"], 30);
+    assert_eq!(
+        sink["key_prefix"],
+        "logs/env=dev/polis=konishi/runtime=wuji/year=%Y/month=%m/day=%d/hour=%H/"
+    );
+    assert_eq!(sink["filename_time_format"], "");
+    assert_eq!(sink["filename_append_uuid"], true);
+    assert_eq!(sink["filename_extension"], "json.gz");
+    assert_eq!(sink["compression"], "gzip");
+    assert_eq!(sink["server_side_encryption"], "AES256");
+
+    let rendered_text = serde_json::to_string(&rendered).unwrap();
+    assert!(rendered_text.contains("runtime_v3_redacted"));
+    assert!(rendered_text.contains("adl.runtime_v3.archive_delivery.v1"));
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"service_continues\": true")
+    );
+    assert!(!rendered_text.contains("aws_secret_access_key"));
+    assert!(!rendered_text.contains("aws_access_key_id"));
+    assert!(!rendered_text.contains("password123"));
+    assert!(!sink["key_prefix"].as_str().unwrap().contains("/Users/"));
+    assert!(!sink["key_prefix"].as_str().unwrap().contains("/Volumes/"));
+    assert!(!sink["key_prefix"].as_str().unwrap().contains(".."));
+}
+
+#[test]
+fn pinned_vector_validates_generated_s3_archive_config() {
+    let root = test_root("s3-archive-vector-validate");
+    let mut config = vector_config(root.clone(), None);
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+    let rendered = render_vector_config(&config);
+    let config_path = root.join("runtime-v3-s3-archive-vector.json");
+    fs::write(&config_path, serde_json::to_vec_pretty(&rendered).unwrap()).unwrap();
+
+    let output = Command::new(&config.vector_binary)
+        .arg("validate")
+        .arg("--no-environment")
+        .arg("--skip-healthchecks")
+        .arg("--deny-warnings")
+        .arg("--config-json")
+        .arg(&config_path)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
 }
 
 #[test]
@@ -699,6 +784,7 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         spool_max_bytes: 8 * 1024 * 1024,
         spool_retained_files: 4,
         cloudwatch: None,
+        s3_archive: None,
     }
 }
 

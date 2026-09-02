@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID 57b4a2ae-d3be-4518-bd35-e1a41ce37b32 with nextest profile: default
+    Starting 2 tests across 1 binary (25 tests skipped)
+        PASS [   0.010s] (1/2) adl-runtime-kernel::configuration runtime_init_rejects_unsafe_s3_archive_identity_segments
+        PASS [   0.011s] (2/2) adl-runtime-kernel::configuration runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity
+────────────
+     Summary [   0.011s] 2 tests run: 2 passed, 25 skipped

@@ -3,10 +3,14 @@ use std::{
     time::Duration,
 };
 
-use adl_runtime_kernel::{RuntimeCloudWatchInitConfig, RuntimeObservabilityInitConfig};
+use adl_runtime_kernel::{
+    RuntimeCloudWatchInitConfig, RuntimeObservabilityInitConfig, RuntimeS3LogArchiveInitConfig,
+};
 use serde_json::{json, Value};
 
 const VECTOR_DISK_BUFFER_MIN_BYTES: u64 = 256 * 1024 * 1024 + 32;
+const S3_ARCHIVE_BUFFER_BYTES: u64 = 512 * 1024 * 1024;
+const S3_ARCHIVE_BATCH_MAX_BYTES: u64 = 5 * 1024 * 1024;
 
 use super::{
     master_log::{absolute_path, vector_path},
@@ -40,6 +44,7 @@ pub struct RuntimeVectorConfig {
     pub spool_max_bytes: u64,
     pub spool_retained_files: usize,
     pub cloudwatch: Option<RuntimeCloudWatchInitConfig>,
+    pub s3_archive: Option<RuntimeS3LogArchiveInitConfig>,
 }
 
 impl RuntimeVectorConfig {
@@ -82,6 +87,7 @@ impl RuntimeVectorConfig {
             spool_max_bytes: init.spool_max_bytes,
             spool_retained_files: init.spool_retained_files,
             cloudwatch: init.cloudwatch.clone(),
+            s3_archive: init.s3_archive.clone(),
         })
     }
 }
@@ -191,6 +197,58 @@ pub fn render_vector_config(config: &RuntimeVectorConfig) -> Value {
                     "type": "disk",
                     "max_size": config.spool_max_bytes.max(VECTOR_DISK_BUFFER_MIN_BYTES),
                     "when_full": "block"
+                }
+            }),
+        );
+    }
+    if let Some(archive) = config.s3_archive.as_ref() {
+        let key_prefix = format!(
+            "logs/env={}/polis={}/runtime={}/year=%Y/month=%m/day=%d/hour=%H/",
+            archive.environment, archive.polis_id, archive.runtime_id
+        );
+        transforms.insert(
+            "runtime_v3_s3_archive_delivery".to_owned(),
+            json!({
+                "type": "remap",
+                "inputs": ["runtime_v3_redacted"],
+                "source": concat!(
+                    ".archive_delivery = {\n",
+                    "  \"schema\": \"adl.runtime_v3.archive_delivery.v1\",\n",
+                    "  \"sink\": \"runtime_v3_s3_archive\",\n",
+                    "  \"delivery_class\": \"best_effort_bounded\",\n",
+                    "  \"buffer_when_full\": \"drop_newest\",\n",
+                    "  \"service_continues\": true\n",
+                    "}"
+                )
+            }),
+        );
+        sinks.insert(
+            "runtime_v3_s3_archive".to_owned(),
+            json!({
+                "type": "aws_s3",
+                "inputs": ["runtime_v3_s3_archive_delivery"],
+                "region": archive.region,
+                "bucket": archive.bucket,
+                "key_prefix": key_prefix,
+                "filename_time_format": "",
+                "filename_append_uuid": true,
+                "filename_extension": "json.gz",
+                "compression": "gzip",
+                "server_side_encryption": "AES256",
+                "encoding": {"codec": "json"},
+                "healthcheck": {"enabled": false},
+                "batch": {
+                    "max_bytes": S3_ARCHIVE_BATCH_MAX_BYTES,
+                    "timeout_secs": 60
+                },
+                "request": {
+                    "retry_attempts": 5,
+                    "retry_max_duration_secs": 30
+                },
+                "buffer": {
+                    "type": "disk",
+                    "max_size": S3_ARCHIVE_BUFFER_BYTES,
+                    "when_full": "drop_newest"
                 }
             }),
         );
