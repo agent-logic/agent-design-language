@@ -8,4 +8,3 @@ test implemented_local_routes_expose_non_authoritative_help ... ok
 test fail_closed_routes_do_not_claim_live_authority ... ok
 
 test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
-

@@ -22,4 +22,3 @@ test issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it ... o
 test implemented_local_routes_have_distinct_typed_non_authoritative_statuses ... ok
 
 test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
-

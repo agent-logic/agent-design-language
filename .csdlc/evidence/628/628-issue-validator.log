@@ -36,4 +36,3 @@ test foundation_and_local_commands_accept_real_issue_596_without_v3_authority ..
 test lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4646 ... ok
 
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
-
