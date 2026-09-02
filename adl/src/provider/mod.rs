@@ -246,6 +246,14 @@ pub fn complete_with_local_model_shadow(
     input: ProviderShadowInput,
 ) -> Result<ProviderShadowExecution> {
     let authority_output = authoritative_provider.complete(input.prompt())?;
+    complete_with_authority_output_and_local_shadow(authority_output, shadow_provider, input)
+}
+
+fn complete_with_authority_output_and_local_shadow(
+    authority_output: String,
+    shadow_provider: Option<&dyn Provider>,
+    input: ProviderShadowInput,
+) -> Result<ProviderShadowExecution> {
     let authority_input_digest = sha256_text(input.prompt());
 
     let shadow = match shadow_provider {
@@ -270,6 +278,143 @@ pub fn complete_with_local_model_shadow(
         shadow,
         comparison,
     })
+}
+
+struct ProviderShadowWrapper {
+    authoritative_provider: Box<dyn Provider>,
+    shadow_provider: Box<dyn Provider>,
+    comparison_rule_set: String,
+    evidence_path: Option<PathBuf>,
+}
+
+impl ProviderShadowWrapper {
+    fn observe_with_authority_output(
+        &self,
+        prompt: &str,
+        authority_output: String,
+    ) -> Result<ProviderShadowExecution> {
+        let input = ProviderShadowInput::new(prompt, self.comparison_rule_set.clone())?;
+        let execution = complete_with_authority_output_and_local_shadow(
+            authority_output,
+            Some(self.shadow_provider.as_ref()),
+            input,
+        )?;
+        self.write_redacted_evidence(&execution);
+        Ok(execution)
+    }
+
+    fn write_redacted_evidence(&self, execution: &ProviderShadowExecution) {
+        let Some(path) = &self.evidence_path else {
+            return;
+        };
+        if let Err(err) = append_provider_shadow_evidence(path, execution) {
+            eprintln!(
+                "adl_event provider_shadow_evidence_write_failed failure_kind=schema_error detail={}",
+                err
+            );
+        }
+    }
+}
+
+impl Provider for ProviderShadowWrapper {
+    fn complete(&self, prompt: &str) -> Result<String> {
+        let authority_output = self.authoritative_provider.complete(prompt)?;
+        let execution = self.observe_with_authority_output(prompt, authority_output)?;
+        Ok(execution.authoritative.output)
+    }
+
+    fn complete_stream(&self, prompt: &str, on_chunk: &mut dyn FnMut(&str)) -> Result<String> {
+        let authority_output = self
+            .authoritative_provider
+            .complete_stream(prompt, on_chunk)?;
+        let execution = self.observe_with_authority_output(prompt, authority_output)?;
+        Ok(execution.authoritative.output)
+    }
+}
+
+fn append_provider_shadow_evidence(path: &Path, execution: &ProviderShadowExecution) -> Result<()> {
+    let evidence = execution.redacted_evidence()?;
+    if let Some(parent) = path
+        .parent()
+        .filter(|parent| !parent.as_os_str().is_empty())
+    {
+        fs::create_dir_all(parent).with_context(|| {
+            format!("create provider shadow evidence dir '{}'", parent.display())
+        })?;
+    }
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)
+        .with_context(|| format!("open provider shadow evidence log '{}'", path.display()))?;
+    serde_json::to_writer(&mut file, &evidence)
+        .with_context(|| format!("write provider shadow evidence '{}'", path.display()))?;
+    file.write_all(b"\n")
+        .with_context(|| format!("finish provider shadow evidence '{}'", path.display()))?;
+    Ok(())
+}
+
+fn provider_shadow_config(
+    provider_id: &str,
+    spec: &adl::ProviderSpec,
+) -> Result<Option<(adl::ProviderSpec, String, Option<PathBuf>)>> {
+    let Some(shadow_model) = config_string(&spec.config, "local_shadow_model") else {
+        return Ok(None);
+    };
+    let shadow_kind = config_string(&spec.config, "local_shadow_provider_kind")
+        .unwrap_or_else(|| "local_ollama".to_string());
+    if !matches!(shadow_kind.as_str(), "local_ollama" | "ollama" | "mock") {
+        return Err(invalid_config(
+            provider_id,
+            "config.local_shadow_provider_kind must be local_ollama, ollama, or mock",
+        ));
+    }
+    let comparison_rule_set = config_string(&spec.config, "local_shadow_rule_set")
+        .unwrap_or_else(|| format!("{provider_id}.local_shadow.v1"));
+    let evidence_path = config_string(&spec.config, "local_shadow_evidence_path")
+        .map(|raw| relative_provider_shadow_evidence_path(provider_id, &raw))
+        .transpose()?;
+
+    let mut shadow_config = HashMap::new();
+    if let Some(temperature) = spec.config.get("local_shadow_temperature") {
+        shadow_config.insert("temperature".to_string(), temperature.clone());
+    }
+
+    Ok(Some((
+        adl::ProviderSpec {
+            id: Some(format!("{provider_id}.local_shadow")),
+            profile: None,
+            kind: shadow_kind,
+            base_url: None,
+            default_model: Some(shadow_model),
+            config: shadow_config,
+        },
+        comparison_rule_set,
+        evidence_path,
+    )))
+}
+
+fn config_string(cfg: &HashMap<String, Value>, key: &str) -> Option<String> {
+    cfg.get(key)
+        .and_then(Value::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .map(ToString::to_string)
+}
+
+fn relative_provider_shadow_evidence_path(provider_id: &str, raw: &str) -> Result<PathBuf> {
+    let path = PathBuf::from(raw);
+    if path.is_absolute()
+        || path
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+    {
+        return Err(invalid_config(
+            provider_id,
+            "config.local_shadow_evidence_path must be a relative path without '..'",
+        ));
+    }
+    Ok(path)
 }
 
 fn sha256_text(value: &str) -> String {
@@ -519,31 +664,49 @@ pub fn build_provider_for_id(
     let target =
         provider_substrate::provider_invocation_target_v1(provider_id, spec, model_override)
             .with_context(|| format!("normalize provider substrate for '{provider_id}'"))?;
-    match target.transport {
+    let provider = match target.transport {
         provider_substrate::ProviderTransportV1::Http => match target.provider_kind.as_str() {
-            "http" | "http_remote" => Ok(Box::new(HttpProvider::from_target(spec, &target)?)),
-            "ollama" => Ok(Box::new(OllamaHttpProvider::from_target(spec, &target)?)),
-            "openai" => Ok(Box::new(OpenAiProvider::from_target(spec, &target)?)),
-            "anthropic" => Ok(Box::new(AnthropicProvider::from_target(spec, &target)?)),
-            "deepseek" => Ok(Box::new(DeepSeekProvider::from_target(spec, &target)?)),
-            "openrouter" => Ok(Box::new(OpenRouterProvider::from_target(spec, &target)?)),
-            "bedrock" | "aws_bedrock" => {
-                Ok(Box::new(AwsBedrockProvider::from_target(spec, &target)?))
+            "http" | "http_remote" => {
+                Box::new(HttpProvider::from_target(spec, &target)?) as Box<dyn Provider>
             }
-            "z_ai" | "zai" | "zhipu" => Ok(Box::new(ZAiProvider::from_target(spec, &target)?)),
-            "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(Box::new(
-                VertexAiGeminiProvider::from_target(spec, &target)?,
-            )),
-            other => Err(unknown_kind(other)),
+            "ollama" => Box::new(OllamaHttpProvider::from_target(spec, &target)?),
+            "openai" => Box::new(OpenAiProvider::from_target(spec, &target)?),
+            "anthropic" => Box::new(AnthropicProvider::from_target(spec, &target)?),
+            "deepseek" => Box::new(DeepSeekProvider::from_target(spec, &target)?),
+            "openrouter" => Box::new(OpenRouterProvider::from_target(spec, &target)?),
+            "bedrock" | "aws_bedrock" => Box::new(AwsBedrockProvider::from_target(spec, &target)?),
+            "z_ai" | "zai" | "zhipu" => Box::new(ZAiProvider::from_target(spec, &target)?),
+            "vertex_ai_gemini" | "vertex_ai" | "vertex" => {
+                Box::new(VertexAiGeminiProvider::from_target(spec, &target)?)
+            }
+            other => return Err(unknown_kind(other)),
         },
         provider_substrate::ProviderTransportV1::LocalCli
         | provider_substrate::ProviderTransportV1::InProcess => match target.provider_kind.as_str()
         {
-            "ollama" | "local_ollama" => Ok(Box::new(OllamaProvider::from_target(spec, &target)?)),
-            "mock" => Ok(Box::new(MockProvider::from_target(&target))),
-            other => Err(unknown_kind(other)),
+            "ollama" | "local_ollama" => {
+                Box::new(OllamaProvider::from_target(spec, &target)?) as Box<dyn Provider>
+            }
+            "mock" => Box::new(MockProvider::from_target(&target)),
+            other => return Err(unknown_kind(other)),
         },
+    };
+
+    if let Some((shadow_spec, comparison_rule_set, evidence_path)) =
+        provider_shadow_config(provider_id, spec)?
+    {
+        let shadow_provider =
+            build_provider_for_id(&format!("{provider_id}.local_shadow"), &shadow_spec, None)
+                .with_context(|| format!("build local shadow provider for '{provider_id}'"))?;
+        return Ok(Box::new(ProviderShadowWrapper {
+            authoritative_provider: provider,
+            shadow_provider,
+            comparison_rule_set,
+            evidence_path,
+        }));
     }
+
+    Ok(provider)
 }
 
 #[cfg(test)]
@@ -606,6 +769,76 @@ mod tests {
 
         assert_eq!(output, "hello mock");
         assert_eq!(chunks, vec!["hello mock".to_string()]);
+    }
+
+    #[test]
+    fn provider_mod_build_provider_wires_configured_local_shadow_without_authority() {
+        let evidence_path = PathBuf::from(format!(
+            ".adl/test-artifacts/provider-shadow-wiring-{}.jsonl",
+            std::process::id()
+        ));
+        let _ = fs::remove_file(&evidence_path);
+
+        let mut spec = provider_spec("mock", Some("authority-model"));
+        spec.config.insert(
+            "local_shadow_model".to_string(),
+            serde_json::json!("shadow-model"),
+        );
+        spec.config.insert(
+            "local_shadow_provider_kind".to_string(),
+            serde_json::json!("mock"),
+        );
+        spec.config.insert(
+            "local_shadow_rule_set".to_string(),
+            serde_json::json!("provider_mod_shadow_wiring_v1"),
+        );
+        spec.config.insert(
+            "local_shadow_evidence_path".to_string(),
+            serde_json::json!(evidence_path.to_string_lossy()),
+        );
+
+        let provider = build_provider_for_id("mock_with_shadow", &spec, None)
+            .expect("shadow-wrapped provider");
+        let output = provider
+            .complete("production provider prompt")
+            .expect("authority output should succeed");
+
+        assert_eq!(output, "production provider prompt");
+        let evidence = fs::read_to_string(&evidence_path).expect("shadow evidence log");
+        assert!(evidence.contains("\"authority_channel\":\"authoritative\""));
+        assert!(evidence.contains("\"shadow_channel\":\"shadow\""));
+        assert!(evidence.contains("\"shadow_observation_class\":\"completed\""));
+        assert!(evidence.contains("\"comparison_rule_set\":\"provider_mod_shadow_wiring_v1\""));
+        assert!(
+            !evidence.contains("production provider prompt"),
+            "redacted evidence must not retain prompt text"
+        );
+
+        let _ = fs::remove_file(&evidence_path);
+        if let Some(parent) = evidence_path.parent() {
+            let _ = fs::remove_dir(parent);
+        }
+    }
+
+    #[test]
+    fn provider_mod_shadow_evidence_path_must_be_relative() {
+        let mut spec = provider_spec("mock", Some("authority-model"));
+        spec.config.insert(
+            "local_shadow_model".to_string(),
+            serde_json::json!("shadow-model"),
+        );
+        spec.config.insert(
+            "local_shadow_evidence_path".to_string(),
+            serde_json::json!("/absolute/shadow.jsonl"),
+        );
+
+        let err = match build_provider_for_id("mock_with_shadow", &spec, None) {
+            Ok(_) => panic!("absolute shadow evidence path should fail"),
+            Err(err) => err,
+        };
+        assert!(err
+            .to_string()
+            .contains("config.local_shadow_evidence_path must be a relative path"));
     }
 
     #[test]

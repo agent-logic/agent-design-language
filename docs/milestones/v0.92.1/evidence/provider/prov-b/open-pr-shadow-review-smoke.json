@@ -51,7 +51,7 @@
     }
   ],
   "validation": {
-    "command": "ADL_TIMEOUT_SECS=120 ADL_PROVIDER_SHADOW_OPEN_PR_MODEL=phi4-mini:latest CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/515-provider-shadow-target cargo test --manifest-path adl/Cargo.toml -p adl --test provider_shadow_open_pr_review -- --ignored --nocapture",
+    "command": "ADL_TIMEOUT_SECS=120 ADL_PROVIDER_SHADOW_OPEN_PR_MODEL=phi4-mini:latest CARGO_TARGET_DIR=.adl/target/515-provider-shadow-smoke cargo test --manifest-path adl/Cargo.toml -p adl --test provider_shadow_open_pr_review -- --ignored --nocapture",
     "outcome": "passed",
     "tests": 1,
     "open_prs_exercised": [
