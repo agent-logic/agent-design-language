@@ -62,11 +62,11 @@ Implemented config-driven dynamic Ollama agent admission and lifecycle managemen
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
