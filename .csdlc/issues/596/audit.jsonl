@@ -12,3 +12,4 @@
 {"sequence":12,"generation":9,"actor":"codex:worker-6","reason":"Recover review so the current clean head can be reviewed and published without a committed prepared-file metadata tail.","operation":"recover_review"}
 {"sequence":13,"generation":9,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":14,"generation":10,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":15,"generation":11,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
