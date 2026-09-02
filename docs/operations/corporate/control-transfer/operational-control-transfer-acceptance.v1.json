@@ -28,6 +28,7 @@
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json"
@@ -44,6 +45,7 @@
     "corp-c-live-route53-zone-inventory",
     "corp-c-live-acm-certificate-inventory",
     "corp-c-live-codebuild-and-iam-role-inventory",
+    "corp-c-live-aws-account-control-posture-readback",
     "corp-c-github-default-branch-ruleset-readback",
     "corp-c-public-web-https-availability-readback"
   ],
@@ -70,7 +72,7 @@
       "id": "AC-2",
       "status": "partial",
       "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
-      "reason": "The agent-logic-admin profile resolves to a retained Agent Logic AWS account hash, but billing, root/contact, IAM/MFA, audit, recovery, and break-glass account-control readbacks remain unproven."
+      "reason": "The agent-logic-admin profile resolves to a retained Agent Logic AWS account hash, and the current AWS account-control readback shows account-level MFA enabled with no root access keys or signing certificates. Billing, root/contact, IAM Identity Center, audit/recovery/break-glass account-control readbacks remain incomplete, and the current readback shows no CloudTrail trails, AWS Config recorder, or Access Analyzer."
     },
     {
       "id": "AC-3",

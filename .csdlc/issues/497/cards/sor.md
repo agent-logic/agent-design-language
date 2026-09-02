@@ -12,13 +12,14 @@ Status: pre_phase
 
 ## Summary
 
-Continued #497 CORP-C live-control-plane repair after PR #613 review. Worker #7 diagnosed that AWS-C Terraform had produced code and runbooks but had not created the live remote-state backend, then performed the bounded operator-authorized AWS-C Terraform bootstrap apply and state migration under the Agent Logic business AWS profile. The packet now retains sanitized live readbacks for Terraform backend resources, GitHub/CI policy, DNS/certificate/public availability, and explicit remaining blockers. #497 remains non-terminal because several required live control-plane owner, recovery, rollback, private-custody, and Runtime origin-smoke readbacks are still missing or partial.
+Continued #497 CORP-C live-control-plane repair after PR #613 review. Worker #7 diagnosed that AWS-C Terraform had produced code and runbooks but had not created the live remote-state backend, then performed the bounded operator-authorized AWS-C Terraform bootstrap apply and state migration under the Agent Logic business AWS profile. The packet now retains sanitized live readbacks for Terraform backend resources, GitHub/CI policy, DNS/certificate/public availability, AWS account-control posture, and explicit remaining blockers. #497 remains non-terminal because several required live control-plane owner, recovery, rollback, private-custody, and Runtime origin-smoke readbacks are still missing or partial.
 
 ## Artifacts
 
 - docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json
 - docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json
 - docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json
+- docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json
 - docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json
 - docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json
 - docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json
@@ -42,6 +43,7 @@ Continued #497 CORP-C live-control-plane repair after PR #613 review. Worker #7 
 - Added sanitized Terraform readback evidence using bucket/table/role hashes and shape-only identifiers rather than raw AWS account identifiers or ARNs.
 - Added GitHub organization, repository, ruleset, branch-protection, Actions, variables, environment, workflow, and collaborator readback evidence without retaining secret values.
 - Added Route53, ACM, and HTTPS availability readback evidence, including the observed failure of origin-smoke Runtime DNS resolution.
+- Added a fresh sanitized AWS account-control posture readback showing the approved profile resolves, account-level MFA is enabled, no root access keys/signing certs are present, and CloudTrail/AWS Config/Access Analyzer/account-contact readbacks remain incomplete or absent.
 - Updated the control-plane denominator, external-action classifier, and operational-control-transfer acceptance record so the one authorized external mutation is explicit and #497 remains blocked on the still-missing required live readbacks.
 - Updated AWS Terraform bootstrap documentation and backend examples so future operators use the live foundation backend naming contract instead of the stale unsuffixed placeholder names.
 - Updated AWS runtime backend examples to use the live foundation backend name shape and removed misleading raw-looking account-id placeholders from runtime tfvars examples.
@@ -128,12 +130,40 @@ Continued #497 CORP-C live-control-plane repair after PR #613 review. Worker #7 
   },
   {
     "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "ruby",
+      "-rjson",
+      "-rdigest",
+      "-ropen3",
+      "-rtime",
+      "-e",
+      "<redacted-account-control-readback-probe>"
+    ],
+    "purpose": "Refresh non-mutating AWS account-control posture for CORP-C without retaining raw account ids, ARNs, contact values, payment data, or credentials.",
+    "outcome": "passed",
+    "evidence_ref": "Tracked aws-account-control-readback.v1.json records account hash, IAM summary counts, account-level MFA enabled, root access keys/signing certs absent, and CloudTrail/AWS Config/Access Analyzer/account-contact gaps."
+  },
+  {
+    "command": [
       "ruby",
       ".csdlc/evidence/497/validate-readiness.rb"
     ],
     "purpose": "Validate the #497 evidence denominator, live readback files, authorization classification, and credential-marker hygiene.",
     "outcome": "passed",
     "evidence_ref": "Local command exited zero with result pass, issue_ready_to_close false, external_mutations_performed true, and authorized_external_mutations containing only corp-c-aws-c-terraform-bootstrap-apply."
+  },
+  {
+    "command": [
+      "ruby",
+      "-rjson",
+      "-e",
+      "ARGV.each { |path| JSON.parse(File.read(path)) }",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/*.json",
+      "docs/operations/corporate/control-transfer/*.json"
+    ],
+    "purpose": "Prove the updated machine-readable CORP-C evidence files parse as JSON before the typed SOR edit.",
+    "outcome": "passed",
+    "evidence_ref": "Local JSON parse loop exited zero after adding aws-account-control-readback.v1.json."
   },
   {
     "command": [
@@ -159,20 +189,6 @@ Continued #497 CORP-C live-control-plane repair after PR #613 review. Worker #7 
     "purpose": "Prove the typed #497 issue package validates after live-control-plane evidence repair.",
     "outcome": "passed",
     "evidence_ref": "status pass, phase implemented, ready false."
-  },
-  {
-    "command": [
-      "ruby",
-      "-rjson",
-      "-e",
-      "ARGV.each { |path| JSON.parse(File.read(path)) }",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-c/*.json",
-      "docs/operations/corporate/control-transfer/*.json",
-      ".csdlc/prepared/issues/497/*.json"
-    ],
-    "purpose": "Prove the updated machine-readable CORP-C evidence and prepared request files parse as JSON after the typed SOR edit.",
-    "outcome": "passed",
-    "evidence_ref": "Local JSON parse loop exited zero after the typed SOR edit."
   },
   {
     "command": [

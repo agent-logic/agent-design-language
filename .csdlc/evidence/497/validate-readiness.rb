@@ -50,6 +50,7 @@ required_files = [
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
+  "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
   "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
@@ -167,6 +168,25 @@ assert(dns_cert.dig("acm", "dns_validation_success_observed") == true, "ACM DNS 
 assert(dns_cert.dig("https_availability", "endpoints").any? { |row| row["url"] == "https://agent-logic.ai/" && row["result"] == "pass" }, "agent-logic.ai HTTPS availability must pass")
 assert(dns_cert.dig("https_availability", "endpoints").any? { |row| row["url"].include?("origin-smoke") && row["result"] == "fail" }, "Runtime origin-smoke availability failure must be retained")
 assert(dns_cert["issue_ready_to_close"] == false, "DNS/cert readback must not claim issue readiness")
+
+aws_account_control = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json")
+assert(aws_account_control["schema"] == "adl.corporate.corp_c.aws_account_control_readback.v1", "unexpected AWS account-control readback schema")
+assert(aws_account_control["issue"] == 497, "AWS account-control issue mismatch")
+assert(aws_account_control["profile"] == "agent-logic-admin", "AWS account-control profile mismatch")
+assert(aws_account_control["mutation"] == false, "AWS account-control readback must be non-mutating")
+assert(aws_account_control["credential_material_captured"] == false, "AWS account-control readback must not capture credential material")
+assert(aws_account_control["private_contact_material_captured"] == false, "AWS account-control readback must not capture private contact material")
+assert(aws_account_control.dig("classification", "aws_account_control") == "blocked_partial_readback", "AWS account-control must remain blocked/partial until recovery, audit, billing, and break-glass pass")
+assert(aws_account_control.dig("readbacks", "sts", "status") == "pass", "AWS account-control must include passing STS readback")
+assert(aws_account_control.dig("readbacks", "sts", "account_hash").to_s.start_with?("sha256:"), "AWS account-control must retain account hash")
+assert(aws_account_control.dig("readbacks", "iam_account_summary", "account_mfa_enabled") == true, "AWS account-control must retain account-level MFA state")
+assert(aws_account_control.dig("readbacks", "iam_account_summary", "root_access_keys_present") == false, "AWS account-control must retain root access key absence")
+assert(aws_account_control.dig("readbacks", "iam_account_summary", "root_signing_certificates_present") == false, "AWS account-control must retain root signing certificate absence")
+assert(aws_account_control.dig("readbacks", "cloudtrail", "trail_count") == 0, "AWS account-control must retain current CloudTrail absence")
+assert(aws_account_control.dig("readbacks", "aws_config", "configuration_recorder_count") == 0, "AWS account-control must retain current AWS Config absence")
+assert(aws_account_control.dig("readbacks", "access_analyzer", "active_account_analyzer_count") == 0, "AWS account-control must retain current Access Analyzer absence")
+assert(!aws_account_control.fetch("remaining_blockers").empty?, "AWS account-control remaining blockers must be explicit")
+assert(aws_account_control["issue_ready_to_close"] == false, "AWS account-control readback must not claim issue readiness")
 
 denominator = read_json("docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json")
 assert(denominator["schema"] == "adl.corporate.corp_c.control_plane_denominator.v1", "unexpected denominator schema")
