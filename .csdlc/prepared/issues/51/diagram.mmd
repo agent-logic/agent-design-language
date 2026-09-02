@@ -1,0 +1,8 @@
+flowchart TD
+  A["#261 identity closed"] --> E["#51 parent reconciliation"]
+  B["#262 hosting closed"] --> E
+  C["#263 runbooks closed"] --> E
+  D["#264 PR #649 merged"] --> F["Operator accepts blocked external-action disposition?"]
+  F -->|yes| E
+  F -->|no| G["Leave #51 open with submission gate"]
+  E --> H["Integrated review before parent closeout"]

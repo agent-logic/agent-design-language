@@ -1,0 +1,44 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 51
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Prepare #51 parent coordination closeout so it can execute immediately after #264 PR #649 is merged and the operator accepts or rejects #264's blocked external-action disposition.
+
+## Required Outcome
+
+A current #51 readiness packet exists for The Cognitive Stack that names child truth, preserves the explicit provider-submission gate, and prevents parent closeout before #264 merge plus operator disposition acceptance.
+
+## Scope
+
+- docs/milestones/v0.92.1/review/podcast_parent_51
+- .csdlc/prepared/issues/51
+- .csdlc/evidence/51
+
+## Authority
+
+- Issue #51 is a parent coordination surface and must not perform child implementation.
+- Issue #51 must not claim provider submission, provider acceptance, public directory launch, or website destination-link activation unless live child/provider evidence exists.
+- Issue #51 remains blocked until #264 is terminally reconciled and the operator explicitly accepts #264's blocked external-action disposition for parent routing, unless provider submissions are later authorized and completed.
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use typed C-SDLC v2 lifecycle only.
+- Use a dedicated FastWork worktree.
+- Do not submit to Apple Podcasts, Spotify, Amazon Music, YouTube, or any other directory.
+- Do not access or mutate provider accounts.
+- Do not close #51 until child truth permits.
+- Do not retain credentials, verification codes, mailbox content, private screenshots, or provider session state.

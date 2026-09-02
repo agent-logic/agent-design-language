@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 51,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast parent closeout readiness after #264",
+    "slug": "podcast-parent-closeout-after-264",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review issue #51 parent closeout readiness packet, child truth gate, #264 PR #649 blocker, operator acceptance gate, and no-submission boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet prepare the next #51 closeout lane without prematurely closing #51?",
+        "Does it preserve the #264 blocked external-action disposition and operator acceptance gate?",
+        "Does it avoid stale #51 mini-sprint instructions that would send the next worker back to #261?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "agent_logic.podcast.parent_51_readiness.v1",
+  "issue": 51,
+  "show": "The Cognitive Stack",
+  "prepared_from_pr": 649,
+  "prepared_from_head": "a285a690b86f95f6fc3ea3dd150ded76b32c469b",
+  "child_state": {
+    "261": "closed_on_github_retained_evidence_present",
+    "262": "closed_on_github_retained_evidence_present",
+    "263": "closed_on_github_retained_evidence_present",
+    "264": "published_green_mergeable_not_yet_merged"
+  },
+  "operator_acceptance_required_for_parent_closeout": true,
+  "provider_submission_performed": false,
+  "public_launch_claimed": false,
+  "destination_links_activated_by_51": false,
+  "next_issue_prepared": true
+}

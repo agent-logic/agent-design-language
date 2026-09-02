@@ -1,0 +1,18 @@
+{
+  "issue": 51,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "2cb071b95ded6730587f49ed80e3a7008a61d0e1b8d4e5ef272bc0427498bb39",
+  "actor": "codex:/root",
+  "reason": "Declare the executable #51 readiness validator as an exact owned target required by the typed issue-specific denominator gate.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/milestones/v0.92.1/review/podcast_parent_51",
+      ".csdlc/prepared/issues/51",
+      ".csdlc/evidence/51",
+      ".csdlc/prepared/issues/51/validate-parent-closeout-readiness.rb"
+    ]
+  }
+}

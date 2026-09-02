@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 51,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast parent closeout readiness after #264",
+    "slug": "podcast-parent-closeout-after-264",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-51-parent-readiness",
+          "proof_role": "Validate current parent closeout readiness, child state snapshot, #264 merge/acceptance blocker, and no-submission truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/51/validate-parent-closeout-readiness.rb"
+          ],
+          "parallel_group": "sprint8-issue-51",
+          "defer_reason": "Run after the current #51 parent readiness packet exists."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on child truth mismatch, missing #264 merge/acceptance gate, provider-action ambiguity, secret retention, unsupported public claim, or parent-child truth mismatch.",
+      "design_ref": ".csdlc/prepared/issues/51/design.md",
+      "design_digest": "14d609bdd21908122c1a77b5c7dd08ac8ae8fd0cf6c855d1612fed3bf12efe87",
+      "diagram_ref": ".csdlc/prepared/issues/51/diagram.mmd",
+      "diagram_digest": "3364e9a1fa09d4f9d927ecb263c286c1e083cd5845e3ce13da471cc3a89b948b"
+    }
+  }
+}

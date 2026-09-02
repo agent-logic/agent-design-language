@@ -1,0 +1,12 @@
+{
+  "issue": 51,
+  "card": "sip",
+  "expected_generation": 2,
+  "expected_digest": "a4d92409df6f414cda11090eaf8aa8c67cfc091b4d7d1390c4db7050efce7fd0",
+  "actor": "codex:/root",
+  "reason": "Advance #51 to ready after current parent closeout packet, validator denominator, and design approval are in place.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

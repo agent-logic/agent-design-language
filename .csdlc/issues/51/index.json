@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 51,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "515604f73328f424f03b8c97c2069dca4cdead55e9107762e0c8f640dd8e8a33",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "32b8492fe0113a04cdbdc0198e78a91139792dd6971e01aaca2725fecd4463e9",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/51/design.md",
+  "diagram_path": ".csdlc/prepared/issues/51/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:e5ea9acf-7c9a-47a2-bca2-001be9f41f48",
+      "revision": "14d609bdd21908122c1a77b5c7dd08ac8ae8fd0cf6c855d1612fed3bf12efe87"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "316838946d51359c3ddd834074d3edb2fdfb5ddac845496381203ac1860678e3",
+      "rendered_digest": "2b243fb7620ac99656ef211706f0e28d46a82d046483391347472dec488bf196",
+      "ast_digest": "d3e500902253e651fdc2bbb1ccf76616e71ab35c7f61f512acf6b2b6fccd308c"
+    },
+    "stp": {
+      "values_digest": "c95e354dd6f42a4a35d77c8c28bc1c7cb63d0f93e3306e65c19406b031dfce01",
+      "rendered_digest": "6c9b1a826c1fb73d75854ed4065d0203fcf752d3a95439a291e353d66281ff9c",
+      "ast_digest": "2881b4dbf54b00c3c1db77c5a45db9e438bf96b51c76b2cae1eb3aabc1d082c6"
+    },
+    "spp": {
+      "values_digest": "cbad98942f0806f74f0a7c53a9a23ae3cc9eab723e91266c171df0bf51db6543",
+      "rendered_digest": "e082a627aab8a08c0a1045488e813aa7b9119b9fb45952a1410c253349d2bb3d",
+      "ast_digest": "912c70104420fecae3b1a86a7fbd513f7ee643b833d64f6d2bc3db458d1cf976"
+    },
+    "vpp": {
+      "values_digest": "8a8abd94078b426387ffbdd9b241293155a2dcc45e43845f62480cb296bce28e",
+      "rendered_digest": "17f97e40666485eed01fcb4691493c1ccf734da9bfd53bbaa543f5edfad7e3e7",
+      "ast_digest": "fe6116f09e4af57cc648419f121a63694b26c839b018bbc93e278629f3806162"
+    },
+    "srp": {
+      "values_digest": "44b50c25d240302a7f77aae202dd939864db9739e0f25be1329bf504600726f0",
+      "rendered_digest": "98d566bf4d3ec892f5b980847d5e9382ea46a2ac684d5aea3c4bc41d2baffd20",
+      "ast_digest": "f1286b882baf2493f14f5f988029036b1edb5595514ec84052d525f530d7bd0f"
+    },
+    "sor": {
+      "values_digest": "393ef5b7578e5ac4ac1d126a12348a94e6867b2d194c8047fe930a4a3fb3b3a4",
+      "rendered_digest": "fbc5d67f802b4d85b474f686f0147d533b0982399ccc05615c6bfb6d897b41a9",
+      "ast_digest": "493ade25e4ef61e15a13aa3657b21e63cf0de4429257e3a5630869f262e73b89"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #51 to ready after current parent closeout packet, validator denominator, and design approval are in place."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Declare the executable #51 readiness validator as an exact owned target required by the typed issue-specific denominator gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/review/podcast_parent_51\",\".csdlc/prepared/issues/51\",\".csdlc/evidence/51\",\".csdlc/prepared/issues/51/validate-parent-closeout-readiness.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:e5ea9acf-7c9a-47a2-bca2-001be9f41f48",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"14d609bdd21908122c1a77b5c7dd08ac8ae8fd0cf6c855d1612fed3bf12efe87\",\"design_ref\":\".csdlc/prepared/issues/51/design.md\",\"diagram_digest\":\"3364e9a1fa09d4f9d927ecb263c286c1e083cd5845e3ce13da471cc3a89b948b\",\"diagram_ref\":\".csdlc/prepared/issues/51/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Advance #51 to ready after current parent closeout packet, validator denominator, and design approval are in place.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
