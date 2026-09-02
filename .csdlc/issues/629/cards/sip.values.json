@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 629,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
+    "slug": "v3-h3-github-publication",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement the v3 GitHub, PR-state, review, and publication command routes under the single csdlc binary.",
+      "required_outcome": "The v3 one-binary GitHub/publication routes expose typed, authenticated, redacted, non-authoritative behavior and prove closing-linkage readback without v2 operational fallback.",
+      "declared_scope": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/remote",
+        "csdlc-v3/src/publication",
+        "csdlc-v3/src/review",
+        "csdlc-v3/tests/command_manifest.rs",
+        "csdlc-v3/tests/real_issue_canary.rs",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        ".csdlc/prepared/issues/629/**",
+        ".csdlc/issues/629/**"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains live operational authority until explicit #505 cutover.",
+        "Issue #629 may implement v3 GitHub/publication route behavior only.",
+        "Issue #629 must not merge, finish, clean, install, retire v2, or close #505.",
+        "No raw gh lifecycle writes and no hidden v2 operational fallback are allowed."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not use raw gh.",
+        "Do not use /private/tmp; keep temporary and durable artifacts inside the repo or FastWork worktrees.",
+        "Keep #505 open.",
+        "Capture every defect for #632/cutover readiness."
+      ]
+    }
+  }
+}

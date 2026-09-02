@@ -1,0 +1,186 @@
+{
+  "schema": "csdlc.v3.command_manifest.v1",
+  "authority_issue": 505,
+  "sprint_issue": 625,
+  "source_issue": 627,
+  "status": "pre_cutover_construction",
+  "operational_authority": false,
+  "one_binary": "csdlc",
+  "denominator": {
+    "v2_entrypoints": 21,
+    "already_present_v3_construction_surfaces": [
+      "foundation",
+      "local"
+    ],
+    "remaining_replacement_routes": 19
+  },
+  "commands": [
+    {
+      "command": "foundation",
+      "replaces": [],
+      "owner_issue": 501,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_construction"
+    },
+    {
+      "command": "local",
+      "replaces": [],
+      "owner_issue": 503,
+      "implementation_status": "partial",
+      "authority_status": "read_only_construction"
+    },
+    {
+      "command": "bind",
+      "replaces": ["csdlc-bind"],
+      "owner_issue": 628,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "clean",
+      "replaces": ["csdlc-clean"],
+      "owner_issue": 630,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "cutover",
+      "replaces": ["csdlc-cutover"],
+      "owner_issue": 630,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "doctor",
+      "replaces": ["csdlc-doctor"],
+      "owner_issue": 628,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "edit",
+      "replaces": ["csdlc-edit"],
+      "owner_issue": 628,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "eligibility",
+      "replaces": ["csdlc-eligibility"],
+      "owner_issue": 628,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "finish",
+      "replaces": ["csdlc-finish"],
+      "owner_issue": 630,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "github",
+      "replaces": ["csdlc-github"],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "github-issue",
+      "replaces": ["csdlc-github-issue"],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "github-pr",
+      "replaces": ["csdlc-github-pr"],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "install",
+      "replaces": ["csdlc-install"],
+      "owner_issue": 631,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "issue",
+      "replaces": ["csdlc-issue"],
+      "owner_issue": 628,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "pr-state",
+      "replaces": ["csdlc-pr-state"],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "proof",
+      "replaces": ["csdlc-proof"],
+      "owner_issue": 631,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "publish",
+      "replaces": ["csdlc-publish"],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "review",
+      "replaces": ["csdlc-review"],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "schedule",
+      "replaces": ["csdlc-schedule"],
+      "owner_issue": 628,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "shadow",
+      "replaces": ["csdlc-shadow"],
+      "owner_issue": 631,
+      "implementation_status": "partial",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "shepherd",
+      "replaces": ["csdlc-shepherd"],
+      "owner_issue": 628,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "soak",
+      "replaces": ["csdlc-soak"],
+      "owner_issue": 631,
+      "implementation_status": "fail_closed",
+      "authority_status": "not_live"
+    },
+    {
+      "command": "validate",
+      "replaces": ["csdlc-validate"],
+      "owner_issue": 628,
+      "implementation_status": "partial",
+      "authority_status": "not_live"
+    }
+  ],
+  "invariants": [
+    "C-SDLC v2 remains live operational authority until #505 cutover is explicitly approved.",
+    "The v3 replacement target is one csdlc binary.",
+    "Not-yet-implemented live-authority routes fail closed and do not invoke v2 binaries, raw gh, v1 wrappers, or shell commands.",
+    "Each command route has one owning V3-H child issue."
+  ]
+}

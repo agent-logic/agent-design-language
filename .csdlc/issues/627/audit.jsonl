@@ -1,0 +1,8 @@
+{"sequence":1,"generation":0,"actor":"codex:worker-6","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:worker-6","reason":"repair pre-bind readiness by making issue-owned validator and test targets explicit owned paths","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands\",\"csdlc-v3/tests/command_manifest.rs\",\".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh\",\".csdlc/prepared/issues/627\",\".csdlc/issues/627\"]}"}
+{"sequence":3,"generation":2,"actor":"codex:worker-6","reason":"Advance clean #627 r2 prep to ready/unbound after typed validation and doctor passed for the no-blank-EOF design packet.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
+{"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":5,"generation":3,"actor":"codex:worker-6","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":6,"generation":3,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":7,"generation":4,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":8,"generation":5,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

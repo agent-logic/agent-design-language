@@ -3,15 +3,20 @@ use std::{env, fs, path::PathBuf};
 use csdlc_v3::{
     application::FoundationState,
     commands::local::{prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration},
+    commands::remote::{
+        prepare_remote_publication_route, RemoteRouteRequest, REMOTE_PUBLICATION_ROUTE_NAMES,
+    },
     repository::RepositoryContext,
 };
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --help\n  clean --help\n  cutover --help\n  doctor --help\n  edit --help\n  eligibility --help\n  finish --help\n  github --request <path>\n  github-issue --request <path>\n  github-pr --request <path>\n  install --help\n  issue --help\n  pr-state --request <path>\n  proof --help\n  publish --request <path>\n  review --request <path>\n  schedule --help\n  shadow --help\n  shepherd --help\n  soak --help\n  validate --help";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
+const REMOTE_USAGE: &str =
+    "usage: csdlc <github|github-issue|github-pr|pr-state|publish|review> --request <path>";
 
 fn main() {
     match run(env::args().skip(1).collect()) {
@@ -35,8 +40,32 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "--help" | "-h" => Ok(ROOT_USAGE.into()),
         "foundation" => run_foundation(rest),
         "local" => run_local(rest),
+        route if REMOTE_PUBLICATION_ROUTE_NAMES.contains(&route) => run_remote(route, rest),
+        "bind" | "clean" | "cutover" | "doctor" | "edit" | "eligibility" | "finish" | "install"
+        | "issue" | "proof" | "schedule" | "shepherd" | "soak" => {
+            if rest == ["--help"] || rest == ["-h"] {
+                return Ok(reserved_usage(command, "fail_closed"));
+            }
+            Err(format!(
+                "fail_closed: csdlc {command} is reserved for C-SDLC v3 replacement work and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
+            ))
+        }
+        "shadow" | "validate" => {
+            if rest == ["--help"] || rest == ["-h"] {
+                return Ok(reserved_usage(command, "partial"));
+            }
+            Err(format!(
+                "partial: csdlc {command} has construction evidence only and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
+            ))
+        }
         _ => Err(format!("{ROOT_USAGE}; unexpected command {command}")),
     }
+}
+
+fn reserved_usage(command: &str, status: &str) -> String {
+    format!(
+        "usage: csdlc {command} [--help]\n\nstatus: {status}\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+    )
 }
 
 fn run_foundation(args: &[String]) -> Result<String, String> {
@@ -84,6 +113,34 @@ fn run_local(args: &[String]) -> Result<String, String> {
     serde_json::to_string(&report).map_err(|error| error.to_string())
 }
 
+fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(remote_usage(command));
+    }
+    let args = RemoteArgs::parse(command, args)?;
+    let request_bytes =
+        fs::read(&args.request).map_err(|error| format!("failed to read request: {error}"))?;
+    let request: RemoteRouteRequest = serde_json::from_slice(&request_bytes)
+        .map_err(|error| format!("typed_remote_request_invalid_json: {error}"))?;
+    let result = prepare_remote_publication_route(command, &request)
+        .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
+    let report = RemoteCommandReport {
+        schema: "csdlc.v3.remote_publication.v1",
+        command: command.to_owned(),
+        read_only: true,
+        operational_authority: false,
+        cutover_issue: 505,
+        result,
+    };
+    serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
+fn remote_usage(command: &str) -> String {
+    format!(
+        "usage: csdlc {command} --request <path>\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+    )
+}
+
 #[derive(Debug, Serialize)]
 struct LocalCommandReport<T> {
     schema: &'static str,
@@ -92,11 +149,54 @@ struct LocalCommandReport<T> {
     result: T,
 }
 
+#[derive(Debug, Serialize)]
+struct RemoteCommandReport<T> {
+    schema: &'static str,
+    command: String,
+    read_only: bool,
+    operational_authority: bool,
+    cutover_issue: u64,
+    result: T,
+}
+
 #[derive(Debug)]
 struct LocalArgs {
     request: PathBuf,
     registry: PathBuf,
     registrations: PathBuf,
+}
+
+#[derive(Debug)]
+struct RemoteArgs {
+    request: PathBuf,
+}
+
+impl RemoteArgs {
+    fn parse(command: &str, args: &[String]) -> Result<Self, String> {
+        let mut request = None;
+        let mut iter = args.iter();
+        while let Some(arg) = iter.next() {
+            match arg.as_str() {
+                "--request" => {
+                    if request.is_some() {
+                        return Err("duplicate argument --request".into());
+                    }
+                    request = Some(PathBuf::from(iter.next().ok_or_else(|| {
+                        format!("{}; missing value for --request", remote_usage(command))
+                    })?));
+                }
+                _ => {
+                    return Err(format!(
+                        "{}; unexpected argument {arg}",
+                        remote_usage(command)
+                    ))
+                }
+            }
+        }
+        Ok(Self {
+            request: request.ok_or_else(|| REMOTE_USAGE.to_string())?,
+        })
+    }
 }
 
 impl LocalArgs {
