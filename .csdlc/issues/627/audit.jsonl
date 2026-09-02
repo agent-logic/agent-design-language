@@ -8,3 +8,4 @@
 {"sequence":8,"generation":5,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":9,"generation":6,"actor":"codex:worker-6","reason":"Recover #627 after exact-head evidence refresh: previous review/publication pointed at 94845ff while current PR head includes refreshed non-empty validation receipts.","operation":"recover_review"}
 {"sequence":10,"generation":6,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":7,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
