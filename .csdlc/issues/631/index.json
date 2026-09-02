@@ -3,11 +3,11 @@
   "issue": 631,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
-  "phase": "ready",
-  "generation": 2,
-  "digest": "dc015e05635164a7cbafb40db12c89d47af6cf464d731176aecb5ada62c2cb3b",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "c6f926e6317c7b8798e099e6f2b13a1c2a53955602fc2d19ccdf14429066a2f1",
+  "branch": "codex/631-v3-h5-proof-parity-install-impl",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "04134b40e23c07b6e64ba3241bd646d5a77be2f25bffc602103db5cbd2011a4d",
+      "values_digest": "3230c4cf52c002a15bd70d2aa431f93bdf921ff9909cffd42ed70f4d4042d9dd",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "61940a6fd36a7143239ec44a72488c3ca71f2fa7e1d236d1199670cdf1271dfc",
+      "values_digest": "daa70bca1598385e237c3700bc6e4392d6d068d8bb01fe3a7b286995b5098d96",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "3cf82076e74525b8d1c22fcd0026d07129e1fdfd03a95a2847c58ad5269dafc7",
+      "values_digest": "53f2bf18f0161791b7a7333cc6eccddb5ddfd15dc83c2bc0aed75dad50d89856",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "25b957795e959bf0d9c9e00f252029dcc330d4fdc6f59a1d0a21a0af67194870",
+      "values_digest": "e74192dd2c71ae58166b52fb3fd0ca0ef126df1b040344a664125f89e8d33506",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "5d0f1125db2303542d312d833dcf8c43d8159ae7d9903758989d213cc1961a72",
+      "values_digest": "3f889fcf5647e2e07e15555c8c202d6c4afa2cff8598b392ab16e237f327fb90",
       "rendered_digest": "59990fa91d92a3669e2f0dbb1326c6ea811c0cdffa9460b03bd29b72b20d708e",
       "ast_digest": "c808892533127d7b5195c8c5ca335e7eb4b08603b781e60b8b9f6b2f08590dc3"
     },
     "sor": {
-      "values_digest": "c919510f495ddd58119c9d5c34deb6fe10ad18d70eedc7d293e4a67f2ccaeb07",
-      "rendered_digest": "cb5a389c44d4a8bd1d9e7f49b4b2c085cc06d4a6e3c803d26f6e68151e49750b",
-      "ast_digest": "ac395f6554bc223a6f21f503600825eb5bb753affa3695351e03c38f47c551c9"
+      "values_digest": "6cff65e00575f9773848f0ba735bfa28e2a36dc7f89fcad93b8f4da18f076c56",
+      "rendered_digest": "71ba55e5c35e9902247c61d11792a59cf8ff2993df8868b83c3b94febcd105a0",
+      "ast_digest": "5f1c5592fe49d60d2fa0149d155f9cf5b7e0cc650b53f452aff5942dae66b137"
     }
   },
   "transitions": [
@@ -61,6 +61,20 @@
       "to": "ready",
       "actor": "codex:worker-6",
       "reason": "The #631 proof, parity, soak, shadow, and install route slice has an issue-specific validation lane and is ready for bounded implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -84,6 +98,20 @@
       "actor": "codex:worker-6",
       "reason": "The #631 proof, parity, soak, shadow, and install route slice has an issue-specific validation lane and is ready for bounded implementation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

@@ -1,0 +1,12 @@
+
+running 4 tests
+test proof_route_accepts_fresh_deterministic_manifest_only ... ok
+test shadow_route_requires_bounded_matching_observations ... ok
+test soak_route_refuses_hidden_state_and_provider_side_effects ... ok
+test install_route_is_one_binary_plan_gated_by_505 ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+validate-v3-h5-proof-parity-install: passed
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running tests/proof_parity_install_commands.rs (csdlc-v3/target/debug/deps/proof_parity_install_commands-69df216ef9da0c20)

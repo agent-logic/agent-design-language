@@ -11,18 +11,17 @@ const REMAINING_REPLACEMENT_COMMANDS: &[&str] = &[
     "github",
     "github-issue",
     "github-pr",
-    "install",
     "issue",
     "pr-state",
-    "proof",
     "publish",
     "review",
     "schedule",
     "shepherd",
-    "soak",
 ];
 
-const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow", "validate"];
+const IMPLEMENTED_CONSTRUCTION_COMMANDS: &[&str] = &["install", "proof", "shadow", "soak"];
+
+const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["validate"];
 
 #[test]
 fn help_exposes_one_binary_command_surface() {
@@ -115,6 +114,29 @@ fn partial_routes_remain_non_authoritative() {
         assert!(
             stderr.contains("C-SDLC v3 is not live authority before #505 cutover"),
             "{command} stderr should preserve authority boundary: {stderr}"
+        );
+    }
+}
+
+#[test]
+fn issue_631_routes_are_implemented_construction_not_live_authority() {
+    for command in IMPLEMENTED_CONSTRUCTION_COMMANDS {
+        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
+        assert!(
+            help.status.success(),
+            "{command} --help should describe implemented construction route"
+        );
+        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
+        assert!(
+            help_stdout.contains("status: implemented_construction"),
+            "{command} help should be truthful: {help_stdout}"
+        );
+        assert!(
+            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+            "{command} help should preserve authority boundary: {help_stdout}"
         );
     }
 }

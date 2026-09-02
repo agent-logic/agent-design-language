@@ -1,0 +1,339 @@
+//! Non-authoritative proof, shadow, soak, and install route models.
+//!
+//! These routes are construction evidence for the one-binary v3 command
+//! surface. They classify typed request packets and intentionally do not
+//! execute lifecycle authority, provider calls, selector mutation, binary
+//! installation, GitHub mutation, finish, cleanup, or #505 cutover.
+
+use serde::{Deserialize, Serialize};
+
+pub const PROOF_ROUTE_NAMES: [&str; 4] = ["proof", "shadow", "soak", "install"];
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+pub struct ProofRouteRequest {
+    pub issue: u64,
+    pub repository: String,
+    pub cutover_issue: Option<u64>,
+    pub proof: Option<ProofManifest>,
+    pub shadow: Option<ShadowComparison>,
+    pub soak: Option<SoakEvidence>,
+    pub install: Option<InstallPlanInput>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+pub struct ProofManifest {
+    pub manifest_id: String,
+    pub lane: String,
+    pub deterministic: bool,
+    pub evidence_ref: String,
+    pub evidence_digest: String,
+    pub observed_digest: String,
+    pub stale: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+pub struct ShadowComparison {
+    pub v2_observation_ref: String,
+    pub v2_digest: String,
+    pub v3_observation_ref: String,
+    pub v3_digest: String,
+    pub bounded_v2: bool,
+    pub bounded_v3: bool,
+    pub broad_equivalence_claim: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+pub struct SoakEvidence {
+    pub evidence_ref: String,
+    pub duration_minutes: u64,
+    pub sample_count: u64,
+    pub hidden_state: bool,
+    pub provider_side_effects: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+pub struct InstallPlanInput {
+    pub artifact_name: String,
+    pub source_provenance: String,
+    pub selected_binary_digest: String,
+    pub observed_binary_digest: String,
+    pub selector_metadata_digest: String,
+    pub destination: String,
+    pub stable_destination: bool,
+    pub executes_install: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ProofRouteReport {
+    pub schema: &'static str,
+    pub route: String,
+    pub issue: u64,
+    pub repository: String,
+    pub read_only: bool,
+    pub operational_authority: bool,
+    pub status: ProofRouteStatus,
+    pub findings: Vec<ProofRouteFinding>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ProofRouteStatus {
+    Ready,
+    Blocked,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ProofRouteFinding {
+    pub code: &'static str,
+    pub message: &'static str,
+}
+
+pub fn classify_route(route: &str, request: ProofRouteRequest) -> ProofRouteReport {
+    let mut findings = common_findings(&request);
+    match route {
+        "proof" => match request.proof.as_ref() {
+            Some(manifest) => validate_proof_manifest(manifest, &mut findings),
+            None => findings.push(finding(
+                "proof_manifest_missing",
+                "proof route requires proof manifest evidence",
+            )),
+        },
+        "shadow" => match request.shadow.as_ref() {
+            Some(shadow) => validate_shadow(shadow, &mut findings),
+            None => findings.push(finding(
+                "shadow_comparison_missing",
+                "shadow route requires paired v2/v3 observations",
+            )),
+        },
+        "soak" => match request.soak.as_ref() {
+            Some(soak) => validate_soak(soak, &mut findings),
+            None => findings.push(finding(
+                "soak_evidence_missing",
+                "soak route requires bounded soak evidence",
+            )),
+        },
+        "install" => match request.install.as_ref() {
+            Some(install) => validate_install(request.cutover_issue, install, &mut findings),
+            None => findings.push(finding(
+                "install_plan_missing",
+                "install route requires a typed install plan input",
+            )),
+        },
+        _ => findings.push(finding("route_unknown", "unsupported proof route")),
+    }
+    ProofRouteReport {
+        schema: "csdlc.v3.proof_route.v1",
+        route: route.to_owned(),
+        issue: request.issue,
+        repository: request.repository,
+        read_only: true,
+        operational_authority: false,
+        status: if findings.is_empty() {
+            ProofRouteStatus::Ready
+        } else {
+            ProofRouteStatus::Blocked
+        },
+        findings,
+    }
+}
+
+fn common_findings(request: &ProofRouteRequest) -> Vec<ProofRouteFinding> {
+    let mut findings = Vec::new();
+    if request.issue == 0 {
+        findings.push(finding("issue_missing", "issue identity must be non-zero"));
+    }
+    if request.repository.trim().is_empty() {
+        findings.push(finding(
+            "repository_missing",
+            "repository identity is required",
+        ));
+    }
+    findings
+}
+
+fn validate_proof_manifest(manifest: &ProofManifest, findings: &mut Vec<ProofRouteFinding>) {
+    require_nonempty(
+        &manifest.manifest_id,
+        "proof_manifest_id_missing",
+        "proof manifest id is required",
+        findings,
+    );
+    require_nonempty(
+        &manifest.lane,
+        "proof_lane_missing",
+        "proof lane is required",
+        findings,
+    );
+    require_nonempty(
+        &manifest.evidence_ref,
+        "proof_evidence_ref_missing",
+        "proof evidence ref is required",
+        findings,
+    );
+    require_nonempty(
+        &manifest.evidence_digest,
+        "proof_evidence_digest_missing",
+        "proof evidence digest is required",
+        findings,
+    );
+    if !manifest.deterministic {
+        findings.push(finding(
+            "proof_lane_not_deterministic",
+            "proof lane must declare deterministic behavior",
+        ));
+    }
+    if manifest.stale {
+        findings.push(finding(
+            "proof_evidence_stale",
+            "stale proof evidence cannot authorize readiness",
+        ));
+    }
+    if manifest.evidence_digest != manifest.observed_digest {
+        findings.push(finding(
+            "proof_digest_mismatch",
+            "proof evidence digest must match the observed digest",
+        ));
+    }
+}
+
+fn validate_shadow(shadow: &ShadowComparison, findings: &mut Vec<ProofRouteFinding>) {
+    require_nonempty(
+        &shadow.v2_observation_ref,
+        "shadow_v2_ref_missing",
+        "v2 shadow observation ref is required",
+        findings,
+    );
+    require_nonempty(
+        &shadow.v3_observation_ref,
+        "shadow_v3_ref_missing",
+        "v3 shadow observation ref is required",
+        findings,
+    );
+    require_nonempty(
+        &shadow.v2_digest,
+        "shadow_v2_digest_missing",
+        "v2 shadow digest is required",
+        findings,
+    );
+    require_nonempty(
+        &shadow.v3_digest,
+        "shadow_v3_digest_missing",
+        "v3 shadow digest is required",
+        findings,
+    );
+    if !shadow.bounded_v2 || !shadow.bounded_v3 {
+        findings.push(finding(
+            "shadow_observation_unbounded",
+            "shadow comparison requires bounded v2 and v3 observations",
+        ));
+    }
+    if shadow.broad_equivalence_claim {
+        findings.push(finding(
+            "shadow_broad_equivalence_claim",
+            "shadow route refuses broad equivalence claims",
+        ));
+    }
+    if shadow.v2_digest != shadow.v3_digest {
+        findings.push(finding(
+            "shadow_digest_mismatch",
+            "v2 and v3 shadow digests must match",
+        ));
+    }
+}
+
+fn validate_soak(soak: &SoakEvidence, findings: &mut Vec<ProofRouteFinding>) {
+    require_nonempty(
+        &soak.evidence_ref,
+        "soak_evidence_ref_missing",
+        "soak evidence ref is required",
+        findings,
+    );
+    if soak.duration_minutes == 0 || soak.sample_count == 0 {
+        findings.push(finding(
+            "soak_sample_missing",
+            "soak evidence requires non-zero duration and sample count",
+        ));
+    }
+    if soak.hidden_state {
+        findings.push(finding(
+            "soak_hidden_state",
+            "soak route refuses hidden state",
+        ));
+    }
+    if soak.provider_side_effects {
+        findings.push(finding(
+            "soak_provider_side_effects",
+            "soak route cannot perform provider side effects before cutover",
+        ));
+    }
+}
+
+fn validate_install(
+    cutover_issue: Option<u64>,
+    install: &InstallPlanInput,
+    findings: &mut Vec<ProofRouteFinding>,
+) {
+    if cutover_issue != Some(505) {
+        findings.push(finding(
+            "install_cutover_issue_missing",
+            "install route must be gated by #505 cutover",
+        ));
+    }
+    if install.artifact_name != "csdlc" {
+        findings.push(finding(
+            "install_artifact_not_one_binary",
+            "install route only plans the single csdlc binary",
+        ));
+    }
+    require_nonempty(
+        &install.source_provenance,
+        "install_source_provenance_missing",
+        "install source provenance is required",
+        findings,
+    );
+    require_nonempty(
+        &install.selector_metadata_digest,
+        "install_selector_metadata_missing",
+        "selector metadata digest is required",
+        findings,
+    );
+    require_nonempty(
+        &install.selected_binary_digest,
+        "install_selected_digest_missing",
+        "selected binary digest is required",
+        findings,
+    );
+    if install.selected_binary_digest != install.observed_binary_digest {
+        findings.push(finding(
+            "install_digest_mismatch",
+            "selected binary digest must match observed binary digest",
+        ));
+    }
+    if !install.stable_destination || install.destination.contains("/target/") {
+        findings.push(finding(
+            "install_destination_not_stable",
+            "install destination must be stable and outside Cargo target output",
+        ));
+    }
+    if install.executes_install {
+        findings.push(finding(
+            "install_attempts_mutation",
+            "install route is plan-only before #505 cutover",
+        ));
+    }
+}
+
+fn require_nonempty(
+    value: &str,
+    code: &'static str,
+    message: &'static str,
+    findings: &mut Vec<ProofRouteFinding>,
+) {
+    if value.trim().is_empty() {
+        findings.push(finding(code, message));
+    }
+}
+
+fn finding(code: &'static str, message: &'static str) -> ProofRouteFinding {
+    ProofRouteFinding { code, message }
+}

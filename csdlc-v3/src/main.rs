@@ -3,6 +3,7 @@ use std::{env, fs, path::PathBuf};
 use csdlc_v3::{
     application::FoundationState,
     commands::local::{prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration},
+    commands::proof::{classify_route, ProofRouteRequest, PROOF_ROUTE_NAMES},
     repository::RepositoryContext,
 };
 use serde::Serialize;
@@ -35,9 +36,10 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "--help" | "-h" => Ok(ROOT_USAGE.into()),
         "foundation" => run_foundation(rest),
         "local" => run_local(rest),
+        "proof" | "shadow" | "soak" | "install" => run_proof_route(command, rest),
         "bind" | "clean" | "cutover" | "doctor" | "edit" | "eligibility" | "finish" | "github"
-        | "github-issue" | "github-pr" | "install" | "issue" | "pr-state" | "proof" | "publish"
-        | "review" | "schedule" | "shepherd" | "soak" => {
+        | "github-issue" | "github-pr" | "issue" | "pr-state" | "publish" | "review"
+        | "schedule" | "shepherd" => {
             if rest == ["--help"] || rest == ["-h"] {
                 return Ok(reserved_usage(command, "fail_closed"));
             }
@@ -45,7 +47,7 @@ fn run(args: Vec<String>) -> Result<String, String> {
                 "fail_closed: csdlc {command} is reserved for C-SDLC v3 replacement work and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
             ))
         }
-        "shadow" | "validate" => {
+        "validate" => {
             if rest == ["--help"] || rest == ["-h"] {
                 return Ok(reserved_usage(command, "partial"));
             }
@@ -108,6 +110,24 @@ fn run_local(args: &[String]) -> Result<String, String> {
     serde_json::to_string(&report).map_err(|error| error.to_string())
 }
 
+fn run_proof_route(command: &str, args: &[String]) -> Result<String, String> {
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(format!(
+            "usage: csdlc {command} --request <path>\n\nstatus: implemented_construction\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+        ));
+    }
+    if !PROOF_ROUTE_NAMES.contains(&command) {
+        return Err(format!("unexpected proof route {command}"));
+    }
+    let request_path = RequestOnlyArgs::parse(command, args)?.request;
+    let request_bytes =
+        fs::read(&request_path).map_err(|error| format!("failed to read request: {error}"))?;
+    let request: ProofRouteRequest = serde_json::from_slice(&request_bytes)
+        .map_err(|error| format!("invalid request json: {error}"))?;
+    let report = classify_route(command, request);
+    serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
 #[derive(Debug, Serialize)]
 struct LocalCommandReport<T> {
     schema: &'static str,
@@ -121,6 +141,26 @@ struct LocalArgs {
     request: PathBuf,
     registry: PathBuf,
     registrations: PathBuf,
+}
+
+#[derive(Debug)]
+struct RequestOnlyArgs {
+    request: PathBuf,
+}
+
+impl RequestOnlyArgs {
+    fn parse(command: &str, args: &[String]) -> Result<Self, String> {
+        let usage = format!("usage: csdlc {command} --request <path>");
+        let [flag, path] = args else {
+            return Err(usage);
+        };
+        if flag != "--request" {
+            return Err(format!("{usage}; unexpected argument {flag}"));
+        }
+        Ok(Self {
+            request: PathBuf::from(path),
+        })
+    }
 }
 
 impl LocalArgs {
