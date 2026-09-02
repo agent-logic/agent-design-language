@@ -6,10 +6,24 @@
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
   "phase": "implemented",
   "generation": 24,
-  "digest": "f3fc130e797cf876d2de14abbbf6cbd0a9999bcddb84e17543c46d4061013c7a",
+  "digest": "99ca928a39105388228cc5eb975190b37d9d07fb8a57bf26f15418749b7e5578",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a8e01802-46bf-444a-8289-abf37675f1a0",
+    "assigned_by": "codex:/root:issue-515-implementation",
+    "revision": "git-blake3:0ea7d3b0fc7fd90e527205be874ba76b00cfd841:12bd049d506240505793fe209ef9c5f605a56dbe6b3acd75b0dbec9145881023",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "adl/tests/provider_shadow_open_pr_review.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json",
+      ".csdlc/prepared/issues/515"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "6e5750d59589ec69b4e591e72f8b6139cd6bc083fc2c582189ea2d8d0dd0a29e",
-      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
-      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
+      "values_digest": "0a2d52ca12a7399640a7c5719d6d96fae179636ab5d0857de842fa341aa44b68",
+      "rendered_digest": "e6c20d411705d30b22b896c8bde56eb1bf42645ba96fad2d1f33432b25657b19",
+      "ast_digest": "e02a7539dd05b0c7e57bdfee65d6445d7159cfec1abf4d166e1d65906799c321"
     },
     "sor": {
       "values_digest": "41bf45b253b0bec8f06e2dcd95907ec64ab28499baed7bfb6765b5265cbdea72",
@@ -330,6 +344,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Refresh #515 SOR after adding and running the requested local Ollama open-PR shadow-review smoke proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, suppresses raw shadow panic-hook payload leakage only on the active shadow thread, preserves unrelated panic-hook observability on other threads, emits redacted digest/class comparison evidence, and now includes an explicit local Ollama smoke test that runs the shadow path over real open-PR review prompts without treating the local model output as authority.\",\"changes\":[\"Added distinct provider shadow authority/shadow channel types and redacted comparison records in adl/src/provider/mod.rs.\",\"Added complete_with_local_model_shadow so authority executes first and shadow success, returned failure, or panic cannot replace or mask authoritative output.\",\"Kept authoritative and shadow channel markers constructor-controlled with read-only accessors so callers cannot construct shadow observations as authoritative results.\",\"Added a scoped shadow panic-hook guard so raw shadow panic payloads do not leak through stderr/log hooks on the active shadow thread before redacted observation handling restores the previous hook.\",\"Delegated panic-hook handling for unrelated threads while a shadow provider runs so shadow redaction does not suppress non-shadow authoritative/runtime panic observability.\",\"Added issue-owned integration tests for shadow isolation, deterministic comparison, returned-error fallback, authoritative-first fallback, panicking-shadow fallback behavior, panic-hook payload suppression, and unrelated-thread panic-hook preservation.\",\"Added an ignored local-Ollama open-PR smoke test that exercises PR #618 and PR #614 review prompts through the shadow provider while preserving fixture-controlled authoritative review output.\",\"Added redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/.\"],\"artifacts\":[\"adl/src/provider/mod.rs\",\"adl/tests/provider_shadow_isolation.rs\",\"adl/tests/provider_shadow_comparison.rs\",\"adl/tests/provider_shadow_fallback.rs\",\"adl/tests/provider_shadow_open_pr_review.rs\",\"docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\",\"docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"--test\",\"provider_shadow_isolation\"],\"purpose\":\"Prove authority and shadow paths are distinguishable and shadow output cannot mutate authoritative state.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:provider_shadow_isolation:1 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"--test\",\"provider_shadow_comparison\"],\"purpose\":\"Prove exact deterministic comparison inputs and rule set for authority-versus-shadow observations.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:provider_shadow_comparison:1 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"--test\",\"provider_shadow_fallback\"],\"purpose\":\"Prove shadow returned errors, panics, suppressed shadow-thread panic-hook payloads, and unrelated-thread panic-hook preservation while maintaining authoritative result isolation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:provider_shadow_fallback:4 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"--test\",\"provider_shadow_open_pr_review\",\"--\",\"--ignored\",\"--nocapture\"],\"purpose\":\"Use local Ollama phi4-mini as a non-authoritative shadow reviewer over current open PR prompts #618 and #614 while retaining only authoritative fixture output and redacted shadow evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh\"],\"purpose\":\"Prove the issue-owned provider shadow readiness surfaces are present.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:validate-provider-shadow-readiness\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh\"],\"purpose\":\"Prove PROV-B evidence excludes common credential, private payload, prompt, and host-local path markers.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact branch diff hygiene before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:git diff --check\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting for the touched provider and test surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:cargo fmt --check\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
