@@ -12,15 +12,13 @@ Status: pre_phase
 
 ## Summary
 
-Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundle, refreshed live GCP qualification, and executable source-binding validators. The live receipt source revision is required to be ancestral to review HEAD, and post-live diffs must be limited to metadata, evidence, and test-denominator surfaces.
+Reconciled #509 DRT-D GCP portability with current origin/main after #592. The already-built GCS artifact bundle remains the live proof source; the validators now subtract canonical mainline changes and still reject #509-owned post-live proof drift.
 
 ## Artifacts
 
 - .csdlc/prepared/issues/509/validate-implementation.rb
-- adl-runtime/tests/distributed_contract/main.rs
 - adl-runtime/tests/distributed_contract/validate_drt_d.sh
 - docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json
-- .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/preflight.json
 - .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json
 - .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json
 - .csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log
@@ -29,10 +27,10 @@ Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundl
 
 ## Execution
 
-- Kept the Runtime/Ollama artifact source as the existing GCS bundle; no local runtime rebuild was performed during the live refresh.
-- Retained successful live GCP run adl-509-drt-d-20260902192222 with two private VMs, existing regional NAT, runtime-to-Ollama HTTP 200 generation, local receipt copies, and zero residue after teardown.
-- Changed the implementation validator and DRT-D shell wrapper to enforce that the retained live source_revision is an ancestor of HEAD and that no product or infrastructure files changed after the live proof revision.
-- Kept post-live allowed drift bounded to lifecycle/evidence/qualification/test-denominator surfaces so exact-head review can verify both the live proof and the metadata commit that records it.
+- Merged current origin/main 3e44cf33e into the #509 FastWork worktree with no #509 path conflicts.
+- Preserved the existing GCS artifact manifest and live GCP qualification run adl-509-drt-d-20260902192222 instead of rebuilding runtime artifacts.
+- Made the #509 implementation validator mainline-aware by subtracting canonical origin/main paths from the post-live drift check before enforcing the #509-owned allowed drift set.
+- Simplified the DRT-D shell proof wrapper to delegate retained-proof source binding to the issue-owned Ruby implementation validator before running the exact Rust contract test.
 
 ## Validation
 
@@ -40,11 +38,20 @@ Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundl
   {
     "command": [
       "ruby",
+      ".csdlc/prepared/issues/509/validate-readiness.rb"
+    ],
+    "purpose": "Verify #509 dependency gates remain terminal and ancestral after current origin/main movement.",
+    "outcome": "passed",
+    "evidence_ref": "manual:post-592-readiness"
+  },
+  {
+    "command": [
+      "ruby",
       ".csdlc/prepared/issues/509/validate-implementation.rb"
     ],
-    "purpose": "Verify retained live GCP qualification, bounded-cost semantics, cleanup, ancestral source_revision, and no product/infra drift after live proof.",
+    "purpose": "Verify retained live GCP qualification, bounded cost, cleanup, source ancestry, and mainline-aware #509-owned drift policy.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-live-source-denominator-implementation"
+    "evidence_ref": "manual:post-592-implementation"
   },
   {
     "command": [
@@ -52,9 +59,22 @@ Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundl
       "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
       "gcp-portability"
     ],
-    "purpose": "Verify DRT-D retained proof denominator after enforcing ancestral source_revision and no product/infra drift after live proof.",
+    "purpose": "Verify the DRT-D retained proof denominator with the existing GCS artifact bundle.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-live-source-denominator-drt-d-contract"
+    "evidence_ref": "manual:post-592-drt-d-contract"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "csm"
+    ],
+    "purpose": "Verify the merged CSM command surface still compiles.",
+    "outcome": "passed",
+    "evidence_ref": "manual:post-592-cargo-check"
   },
   {
     "command": [
@@ -62,9 +82,9 @@ Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundl
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and conflict-marker drift after final denominator repair.",
+    "purpose": "Reject whitespace and conflict-marker drift after mainline-aware validator repair.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-live-source-denominator-diff-check"
+    "evidence_ref": "manual:post-592-diff-check"
   }
 ]
 

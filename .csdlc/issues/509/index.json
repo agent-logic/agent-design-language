@@ -4,89 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "9c4257701f120ba6149a8e422b7be7db63e15efd86872f038dd2f6dc8b399d6a",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "34c2a67af00b2478d093d5100b8e30aa38348d671a1bdb305ac93eee33948bf9",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
-  "review_assignment": {
-    "reviewer": "fresh-session:210376aa-8441-4b7a-a378-6888278e7a42",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:c52cd4834b5f15e495d7ce64bf962b5daf3a3829:b77de19ded115ac1a6f4f6b52950a07952b9d511b0418660c93fc17506e36f02",
-    "scope": [
-      ".csdlc/prepared/issues/509/design.md",
-      ".csdlc/prepared/issues/509/diagram.mmd",
-      ".csdlc/prepared/issues/509/validate-implementation.rb",
-      ".csdlc/prepared/issues/509/validate-readiness.rb",
-      "adl-runtime/tests/distributed_contract/main.rs",
-      "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
-      "adl/src/cli/csmctl_cmd.rs",
-      "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
-      "adl/tools/run_issue268_six_resident_uts_cycle.py",
-      "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
-      "docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md",
-      "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json",
-      "infra/gcp/workloads/drt-d-six-resident/.gitignore",
-      "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
-      "infra/gcp/workloads/drt-d-six-resident/main.tf",
-      "infra/gcp/workloads/drt-d-six-resident/outputs.tf",
-      "infra/gcp/workloads/drt-d-six-resident/provider.tf",
-      "infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh",
-      "infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh",
-      "infra/gcp/workloads/drt-d-six-resident/terraform.tfvars.example",
-      "infra/gcp/workloads/drt-d-six-resident/variables.tf",
-      "infra/gcp/workloads/drt-d-six-resident/versions.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/.gitignore",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:210376aa-8441-4b7a-a378-6888278e7a42",
-    "scope": [
-      ".csdlc/prepared/issues/509/design.md",
-      ".csdlc/prepared/issues/509/diagram.mmd",
-      ".csdlc/prepared/issues/509/validate-implementation.rb",
-      ".csdlc/prepared/issues/509/validate-readiness.rb",
-      "adl-runtime/tests/distributed_contract/main.rs",
-      "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
-      "adl/src/cli/csmctl_cmd.rs",
-      "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
-      "adl/tools/run_issue268_six_resident_uts_cycle.py",
-      "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
-      "docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md",
-      "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json",
-      "infra/gcp/workloads/drt-d-six-resident/.gitignore",
-      "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
-      "infra/gcp/workloads/drt-d-six-resident/main.tf",
-      "infra/gcp/workloads/drt-d-six-resident/outputs.tf",
-      "infra/gcp/workloads/drt-d-six-resident/provider.tf",
-      "infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh",
-      "infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh",
-      "infra/gcp/workloads/drt-d-six-resident/terraform.tfvars.example",
-      "infra/gcp/workloads/drt-d-six-resident/variables.tf",
-      "infra/gcp/workloads/drt-d-six-resident/versions.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/.gitignore",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf"
-    ],
-    "reviewed_revision": "git-blake3:c52cd4834b5f15e495d7ce64bf962b5daf3a3829:b77de19ded115ac1a6f4f6b52950a07952b9d511b0418660c93fc17506e36f02",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not run paid/live GCP proof; live evidence is retained from run adl-509-drt-d-20260902192222.",
-      "Cost evidence remains bounded-budget only: billing export was not read during qualification."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -101,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0394d24a512822ddb0bb5d38dd07df464e50c8a0fdb8c7b55ce52973fec7cf2d",
+      "values_digest": "6e01522e9ebca977a7fd71d3582e1435b1dfaa7f63505aede4cc9d42c9c17165",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "c707e8e6cc4415b32d0e91ef65105d275e89bb27020bf5fa7ba9a59bbe16cacc",
+      "values_digest": "ac5c499ba686574c86fe11096f676d0d5ef99315bd681687b3d3abccdd8fc672",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "501df48fc1b26db03e76a6ae275186b15961e74b51a5e2777d0e72dca6c67be7",
+      "values_digest": "bcf5ecd6778ad7db02aab7ea50e2d3c25b65026196282ed80844a5a0f4dc852f",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "35399e9b7729dc6f685fac2776c5092cbd2e0f60cf7e2e8016408fa9472463b9",
+      "values_digest": "5a2821b254e07d44e1405d7278b65c53d267ca1d898fe1ba4444b2e077e3bb19",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "43583b46c4fbaac14c4f750cce711592572894cc3f3a05644e5628ccd61b619f",
-      "rendered_digest": "63950afe0a52ce8a19a9ccbcd4719cb4328b1ba2682684844c5e9f76ec9e060d",
-      "ast_digest": "e84df88efda1c2e10ab50217350a3f320147675255d01fb20ad0a8548f011cf9"
+      "values_digest": "e7c4919a5f6d42f42ea223e941a4d819f27639cb471156a1d8d21e747e22451c",
+      "rendered_digest": "dcdf4ee8ff229a906d36c1cb33afe3bd1f7a8ab1d233a85470863a2370c63c92",
+      "ast_digest": "e85613914db766ef65fdae1fdd2679d823f21ee29038e12abbd7c038f47a15f1"
     },
     "sor": {
-      "values_digest": "a2f762c4d4e67179a315d69a8fdc5a1958589f706720bb1047cb561973a8be21",
-      "rendered_digest": "e92d9eb81417bc44c93f5b2de25cb09d0d9f9a1e50c1ef452e98aee05e88485f",
-      "ast_digest": "c4cf0471ca8564a7c2607086066d29be770f778137c368a9995b787e4749e11e"
+      "values_digest": "bafc4c800b9e5147dc49dd5c28d5cd26ecf492cb330539fd571759be06bd5360",
+      "rendered_digest": "734e28491b216bdf086255ea4ddf692b69c80bf82dfd6cf0a43929f356639772",
+      "ast_digest": "750f8625c71191fa11dd0a74eabd05a3e43deb49da4197f2e5266aaea81270b8"
     }
   },
   "transitions": [
@@ -159,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover after origin/main advanced to 3e44cf33e via #592 and #509 merged it cleanly, then repaired the DRT-D validation guard to accept canonical mainline changes while still rejecting #509-owned post-live proof drift. Prior review PASS at c52cd4834b5f15e495d7ce64bf962b5daf3a3829 is stale for current immutable head 22a492ac7."
     }
   ],
   "audit": [
@@ -280,6 +211,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover after origin/main advanced to 3e44cf33e via #592 and #509 merged it cleanly, then repaired the DRT-D validation guard to accept canonical mainline changes while still rejecting #509-owned post-live proof drift. Prior review PASS at c52cd4834b5f15e495d7ce64bf962b5daf3a3829 is stale for current immutable head 22a492ac7.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record #509 post-#592 mainline reconciliation without rebuilding the GCS Runtime/Ollama artifact bundle.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled #509 DRT-D GCP portability with current origin/main after #592. The already-built GCS artifact bundle remains the live proof source; the validators now subtract canonical mainline changes and still reject #509-owned post-live proof drift.\",\"changes\":[\"Merged current origin/main 3e44cf33e into the #509 FastWork worktree with no #509 path conflicts.\",\"Preserved the existing GCS artifact manifest and live GCP qualification run adl-509-drt-d-20260902192222 instead of rebuilding runtime artifacts.\",\"Made the #509 implementation validator mainline-aware by subtracting canonical origin/main paths from the post-live drift check before enforcing the #509-owned allowed drift set.\",\"Simplified the DRT-D shell proof wrapper to delegate retained-proof source binding to the issue-owned Ruby implementation validator before running the exact Rust contract test.\"],\"artifacts\":[\".csdlc/prepared/issues/509/validate-implementation.rb\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-destroy.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/cleanup-readback.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-readiness.rb\"],\"purpose\":\"Verify #509 dependency gates remain terminal and ancestral after current origin/main movement.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-readiness\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification, bounded cost, cleanup, source ancestry, and mainline-aware #509-owned drift policy.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify the DRT-D retained proof denominator with the existing GCS artifact bundle.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-drt-d-contract\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"csm\"],\"purpose\":\"Verify the merged CSM command surface still compiles.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-cargo-check\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after mainline-aware validator repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-592-diff-check\"}]}"
     }
   ]
 }
