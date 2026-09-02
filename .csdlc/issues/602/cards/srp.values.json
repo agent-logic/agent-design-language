@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
     "slug": "runtime-csmctl-dynamic-agent-admission",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 21
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl/src/cli/csmctl_cmd.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/agents/ember.axioma.yaml\n.csdlc/evidence/602/live-wuji-acceptance.md\n.csdlc/prepared/issues/602",
-      "review_revision": "git-blake3:9522142c2ae8a6ce7a29ea39a57d67373b2d4a74:0f9640cc81b5cd0c63d9a3c1ce543548689f8604d01c3dc09a447a2acda01c72",
-      "reviewer": "codex-subagent:issue_602_review",
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl/src/cli/csmctl_cmd.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/agents/ember.axioma.yaml\n.csdlc/evidence/602/live-wuji-acceptance.md\n.csdlc/prepared/issues/602",
+      "review_revision": "git-blake3:3a913d9e6e7fa49bebf812ddf67351efe8683263:e86974db08898d509906c99bf5eda9cd40c3890580bedb8b862c2bc6df80d60e",
+      "reviewer": "codex-subagent:issue_602_timeout_review",
       "review_prompts": [
         "Can any unauthorized or conflicting request mutate durable or live roster state?",
         "Can persistence and in-memory roster truth split after any modeled failure?",
@@ -25,6 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [
+        "The exact-head review reran focused conversation semantics and relied on committed live Wuji lifecycle and inference evidence for the remaining acceptance surface.",
         "Guardian shutdown logged master_log_drain_incomplete during isolated acceptance; clean checkpointed shutdown and agent restoration succeeded, and observability drain behavior is outside issue 602."
       ],
       "review_result": "pass"

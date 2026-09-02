@@ -3,20 +3,21 @@
   "issue": 602,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
-  "phase": "published",
-  "generation": 19,
-  "digest": "f41f7073ea828151c8122e040e2e734a16b3e512a6b3381ce821a5fb8403e42a",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "6931fd6e0d12921c4526e898de3094ec0c3220a448e25ca6604aed766a29aa90",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
   "review_assignment": {
-    "reviewer": "codex-subagent:issue_602_review",
-    "assigned_by": "codex:602-remediation",
-    "revision": "git-blake3:9522142c2ae8a6ce7a29ea39a57d67373b2d4a74:0f9640cc81b5cd0c63d9a3c1ce543548689f8604d01c3dc09a447a2acda01c72",
+    "reviewer": "codex-subagent:issue_602_timeout_review",
+    "assigned_by": "codex:602-ci-remediation",
+    "revision": "git-blake3:3a913d9e6e7fa49bebf812ddf67351efe8683263:e86974db08898d509906c99bf5eda9cd40c3890580bedb8b862c2bc6df80d60e",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
       "adl/src/cli/csmctl_cmd.rs",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
@@ -26,12 +27,13 @@
     ]
   },
   "review": {
-    "reviewer": "codex-subagent:issue_602_review",
+    "reviewer": "codex-subagent:issue_602_timeout_review",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
       "adl/src/cli/csmctl_cmd.rs",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
@@ -39,26 +41,16 @@
       ".csdlc/evidence/602/live-wuji-acceptance.md",
       ".csdlc/prepared/issues/602"
     ],
-    "reviewed_revision": "git-blake3:9522142c2ae8a6ce7a29ea39a57d67373b2d4a74:0f9640cc81b5cd0c63d9a3c1ce543548689f8604d01c3dc09a447a2acda01c72",
+    "reviewed_revision": "git-blake3:3a913d9e6e7fa49bebf812ddf67351efe8683263:e86974db08898d509906c99bf5eda9cd40c3890580bedb8b862c2bc6df80d60e",
     "findings": [],
     "residual_risks": [
+      "The exact-head review reran focused conversation semantics and relied on committed live Wuji lifecycle and inference evidence for the remaining acceptance surface.",
       "Guardian shutdown logged master_log_drain_incomplete during isolated acceptance; clean checkpointed shutdown and agent restoration succeeded, and observability drain behavior is outside issue 602."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 602,
-    "pull_request": 614,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/614",
-    "base": "main",
-    "head": "codex/602-runtime-csmctl-agent-add",
-    "revision": "git-blake3:7eda3297b8eabf37a5fea6462a0d82461e242ad1:cb0b7c669282b4a77aabe1bfe821e0eac556965cc85ba8329279fc1d98d4949d",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -72,34 +64,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0f72c155f383a2e7177844850f5f9a4c23e4e6616c71a20531ab3da1138fd915",
+      "values_digest": "9a7d4b866117dae8140edd7606933cc407d20fc71717ba1be0706f6e019310ce",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "b267b0b2fad69f9c095eb8ff006a39641bb33cb913ded03699c3bc820f2e5cd8",
+      "values_digest": "0c044af589bf26ba9cb5941b5879666ff1d82e505bb172c1bb8401b8f860383a",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "7d516f4f299e346420d0d93e9809840d0c353959fa93776b98e3d6bd657fe10a",
+      "values_digest": "8904a9bf9ac52bc1b4e47ce9dcca113f95dba265c0051f9f0969d137559f81e5",
       "rendered_digest": "ccb37dbef2530ba00930b9e5f1ddf66361372ad181f115ffc2ffa0c97c77a054",
       "ast_digest": "ce6b07721349077126c03c4dd2513a3e3fc408c9c6f6d445ec0e281575ac2f30"
     },
     "vpp": {
-      "values_digest": "7dc1bddb8cacd8184b534acb40a3c32f101ee14502da23dea07db7dc5f3329e0",
+      "values_digest": "6b52d38d474cd6e372c235759725752c63a42d1a6133ae5ac1e1309777f58346",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "4ea8dd659ea2fdf0bafdf69a08d3f9912935d74d1eeaf32c74bbe3437cca13bd",
-      "rendered_digest": "69c2c500458356dcf12ab9c4353b3c7c78be361bc7f9bf2ae5c863a841b34e75",
-      "ast_digest": "67c48fba1c111342453871d51fcb7994b4c1a010d763a64caf72d58dc5bf346f"
+      "values_digest": "f3f73beb207a2614cb7fe4693351cc2a5168501130f8279ce40d89a2630d77a6",
+      "rendered_digest": "5b95f24bc03e2d4377a3e9e16708ebb27c33a1e7ff5cdafabb118d2bc59376ea",
+      "ast_digest": "01f04fe0d49fe7fc0634fb86c009b5f062f4b4bb3ac7cbff7b6e94b37c5f12c7"
     },
     "sor": {
-      "values_digest": "7c4610fd15f947325d5ccff842726b9919b9d4bb08a7efd982563dc3cf2803bf",
-      "rendered_digest": "08ae7e93a36259669b7766dbce78f8e73b35bdc1d5fa5491975a545c5cae02e3",
-      "ast_digest": "baa4e5bc4d557b605823bd51a1d2b3c230faf6228594244007b9f5b7ca1f68bf"
+      "values_digest": "14230205cdbcd373f7fd7930130fa6d425cc89e5b50d2204c6bbd5dc0a3a4768",
+      "rendered_digest": "8b5be9551a4d646b4692782700ddbef2722f276698285d4183640c658b4e0372",
+      "ast_digest": "c9ee1ade3394e28c0b58811ceac3b81e007bf3aecf4e43d38b23e3a665e63a18"
     }
   },
   "transitions": [
@@ -172,6 +164,20 @@
       "to": "published",
       "actor": "codex:602-remediation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:602-ci-remediation",
+      "reason": "Substantive conversation timeout correction after published-head CI failure; return to implemented for fresh exact-head review."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:602-ci-remediation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -342,6 +348,27 @@
       "actor": "codex:602-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:602-ci-remediation",
+      "reason": "Substantive conversation timeout correction after published-head CI failure; return to implemented for fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -16,6 +16,7 @@ adl-runtime-kernel/src/assembly.rs
 adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 adl-runtime-kernel/src/control.rs
 adl-runtime-kernel/src/control/feeds.rs
+adl-runtime-kernel/src/conversation_sessions_tests.rs
 adl-runtime-kernel/tests/openapi_contract.rs
 adl/src/cli/csmctl_cmd.rs
 docs/api/runtime-v3/v1/observatory.openapi.json
@@ -41,12 +42,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
+- The exact-head review reran focused conversation semantics and relied on committed live Wuji lifecycle and inference evidence for the remaining acceptance surface.
 - Guardian shutdown logged master_log_drain_incomplete during isolated acceptance; clean checkpointed shutdown and agent restoration succeeded, and observability drain behavior is outside issue 602.
 
 ## Review Result
 
-Revision: Some("git-blake3:9522142c2ae8a6ce7a29ea39a57d67373b2d4a74:0f9640cc81b5cd0c63d9a3c1ce543548689f8604d01c3dc09a447a2acda01c72")
+Revision: Some("git-blake3:3a913d9e6e7fa49bebf812ddf67351efe8683263:e86974db08898d509906c99bf5eda9cd40c3890580bedb8b862c2bc6df80d60e")
 
-Reviewer: Some("codex-subagent:issue_602_review")
+Reviewer: Some("codex-subagent:issue_602_timeout_review")
 
 Result: pass
