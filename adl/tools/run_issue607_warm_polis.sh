@@ -552,11 +552,8 @@ cleanup_on_exit() {
 
 wait_images_available() {
   while true; do
-    if ! states="$(aws_cli ec2 describe-images --image-ids "$@" --query 'Images[].{image_id:ImageId,state:State}' --output json)"; then
-      echo "AWS image state query failed; retaining progress and retrying" >&2
-      sleep "$CONTROL_PLANE_POLL_SECONDS"
-      continue
-    fi
+    states="$(aws_cli ec2 describe-images --image-ids "$@" --query 'Images[].{image_id:ImageId,state:State}' --output json)" \
+      || { echo "AWS image state query failed" >&2; return 2; }
     jq -e --argjson expected "$#" 'length==$expected and all(.[];.state=="available")' <<<"$states" >/dev/null && return 0
     jq -e --argjson expected "$#" 'length==$expected and all(.[];.state=="pending" or .state=="available")' <<<"$states" >/dev/null \
       || { echo "prepared image entered a failed, missing, or malformed state" >&2; return 1; }
@@ -566,11 +563,8 @@ wait_images_available() {
 
 wait_snapshots_completed() {
   while true; do
-    if ! states="$(aws_cli ec2 describe-snapshots --snapshot-ids "$@" --query 'Snapshots[].State' --output json)"; then
-      echo "AWS snapshot state query failed; retaining progress and retrying" >&2
-      sleep "$CONTROL_PLANE_POLL_SECONDS"
-      continue
-    fi
+    states="$(aws_cli ec2 describe-snapshots --snapshot-ids "$@" --query 'Snapshots[].State' --output json)" \
+      || { echo "AWS snapshot state query failed" >&2; return 2; }
     jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="completed")' <<<"$states" >/dev/null && return 0
     jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="pending" or .=="completed")' <<<"$states" >/dev/null \
       || { echo "prepared snapshot entered a failed or incomplete state" >&2; return 1; }
@@ -580,11 +574,8 @@ wait_snapshots_completed() {
 
 wait_instances_stopped() {
   while true; do
-    if ! states="$(aws_cli ec2 describe-instances --instance-ids "$@" --query 'Reservations[].Instances[].State.Name' --output json)"; then
-      echo "AWS instance state query failed; retrying" >&2
-      sleep "$CONTROL_PLANE_POLL_SECONDS"
-      continue
-    fi
+    states="$(aws_cli ec2 describe-instances --instance-ids "$@" --query 'Reservations[].Instances[].State.Name' --output json)" \
+      || { echo "AWS instance state query failed" >&2; return 2; }
     jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="stopped")' <<<"$states" >/dev/null && return 0
     jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="pending" or .=="running" or .=="stopping" or .=="stopped")' <<<"$states" >/dev/null \
       || { echo "preparation instance entered a failed, missing, or malformed state" >&2; return 1; }
@@ -592,11 +583,42 @@ wait_instances_stopped() {
   done
 }
 
+wait_volume_available() {
+  volume_id="$1"
+  while true; do
+    state="$(aws_cli ec2 describe-volumes --volume-ids "$volume_id" --query 'Volumes[0].State' --output text)" \
+      || { echo "AWS volume state query failed" >&2; return 2; }
+    case "$state" in
+      available) return 0 ;;
+      creating) sleep "$CONTROL_PLANE_POLL_SECONDS" ;;
+      *) echo "temporary restore volume entered terminal or malformed state: $state" >&2; return 1 ;;
+    esac
+  done
+}
+
+wait_volume_absent() {
+  volume_id="$1"
+  while true; do
+    if resource_exists volume "$volume_id"; then
+      sleep "$CONTROL_PLANE_POLL_SECONDS"
+    else
+      rc=$?
+      [[ "$rc" -eq 1 ]] && return 0
+      return "$rc"
+    fi
+  done
+}
+
 start_prepared_image() {
   node="$1" instance_id="$2" retention_until="$3"
   name="$STORAGE_ID-$node-${COMMIT:0:12}"
-  existing="$(aws_cli ec2 describe-images --owners self --filters "Name=name,Values=$name" --query 'Images[].ImageId' --output text)"
-  [[ -z "$existing" ]] || { echo "prepared image name already exists: $name ($existing)" >&2; return 1; }
+  existing="$(aws_cli ec2 describe-images --owners self --filters "Name=name,Values=$name" "Name=tag:adl:run-id,Values=$RUN_ID" "Name=tag:adl:storage-id,Values=$STORAGE_ID" "Name=tag:adl:artifact-generation,Values=$COMMIT" "Name=tag:adl:node,Values=$node" --query 'Images[].ImageId' --output text)"
+  if [[ "$existing" =~ ^ami-[0-9a-f]+$ ]]; then
+    record_preparation_resource image "$existing" active
+    printf '%s\n' "$existing"
+    return 0
+  fi
+  [[ -z "$existing" ]] || { echo "prepared image identity is not unique: $name ($existing)" >&2; return 1; }
   image_id="$(aws_cli ec2 create-image --instance-id "$instance_id" --name "$name" --description "ADL issue 607 prepared $node root for $COMMIT" --no-reboot --block-device-mappings '[{"DeviceName":"/dev/sdf","NoDevice":""}]' \
     --tag-specifications "ResourceType=image,Tags=[{Key=Name,Value=$name},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:owner-token,Value=$owner},{Key=adl:node,Value=$node},{Key=adl:artifact-generation,Value=$COMMIT},{Key=adl:retention-until,Value=$retention_until},{Key=adl:retained,Value=true}]" \
     --query ImageId --output text)"
@@ -619,38 +641,55 @@ finalize_prepared_image() {
   done
 }
 
+ensure_sealed_snapshot() {
+  node="$1" volume="$2" generation="$3" root_hash="$4" retention_until="$5" snapshot_owner="$6"
+  existing="$(aws_cli ec2 describe-snapshots --owner-ids self --filters "Name=volume-id,Values=$volume" "Name=tag:adl:issue,Values=607" "Name=tag:adl:run-id,Values=$RUN_ID" "Name=tag:adl:storage-id,Values=$STORAGE_ID" "Name=tag:adl:node,Values=$node" "Name=tag:adl:artifact-generation,Values=$generation" "Name=tag:adl:seal-sha256,Values=$root_hash" --query 'Snapshots[].SnapshotId' --output text)"
+  if [[ "$existing" =~ ^snap-[0-9a-f]+$ ]]; then
+    record_preparation_resource snapshot "$existing" active
+    printf '%s\n' "$existing"
+    return 0
+  fi
+  [[ -z "$existing" ]] || { echo "sealed $node snapshot identity is not unique: $existing" >&2; return 1; }
+  snapshot="$(aws_cli ec2 create-snapshot --volume-id "$volume" --description "ADL issue 607 sealed $node generation $generation" \
+    --tag-specifications "ResourceType=snapshot,Tags=[{Key=Name,Value=$STORAGE_ID-$node},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:node,Value=$node},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:seal-sha256,Value=$root_hash},{Key=adl:retention-until,Value=$retention_until},{Key=adl:retained,Value=true}]" \
+    --query SnapshotId --output text)"
+  [[ "$snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "$node snapshot creation did not return an exact ID" >&2; return 1; }
+  record_preparation_resource snapshot "$snapshot" active
+  printf '%s\n' "$snapshot"
+}
+
 snapshot_prepared_generation() {
   run_dir="$1" storage_dir="$2" runtime_volume="$3" gpu_volume="$4" runtime_root="$5" gpu_root="$6" generation="$7"
   snapshot_owner="$(sha256_text "$COMMIT:$STORAGE_ID:snapshots" | cut -c1-32)"
   snapshot_started="$(date +%s)"
   retention_until="$(jq -r .retention_until "$storage_dir/terraform.tfvars.json")"
-  runtime_snapshot="$(aws_cli ec2 create-snapshot --volume-id "$runtime_volume" --description "ADL issue 607 sealed Runtime generation $generation" \
-    --tag-specifications "ResourceType=snapshot,Tags=[{Key=Name,Value=$STORAGE_ID-runtime},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:node,Value=runtime},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:seal-sha256,Value=$runtime_root},{Key=adl:retention-until,Value=$retention_until},{Key=adl:retained,Value=true}]" \
-    --query SnapshotId --output text)"
-  [[ "$runtime_snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "Runtime snapshot creation did not return an exact ID" >&2; return 1; }
-  record_preparation_resource snapshot "$runtime_snapshot" active
-  gpu_snapshot="$(aws_cli ec2 create-snapshot --volume-id "$gpu_volume" --description "ADL issue 607 sealed GPU generation $generation" \
-    --tag-specifications "ResourceType=snapshot,Tags=[{Key=Name,Value=$STORAGE_ID-gpu},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:node,Value=gpu},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:seal-sha256,Value=$gpu_root},{Key=adl:retention-until,Value=$retention_until},{Key=adl:retained,Value=true}]" \
-    --query SnapshotId --output text)"
-  [[ "$gpu_snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "GPU snapshot creation did not return an exact ID" >&2; return 1; }
-  record_preparation_resource snapshot "$gpu_snapshot" active
+  runtime_snapshot="$(ensure_sealed_snapshot runtime "$runtime_volume" "$generation" "$runtime_root" "$retention_until" "$snapshot_owner")"
+  gpu_snapshot="$(ensure_sealed_snapshot gpu "$gpu_volume" "$generation" "$gpu_root" "$retention_until" "$snapshot_owner")"
+  jq -n --arg runtime "$runtime_snapshot" --arg gpu "$gpu_snapshot" \
+    '{schema:"adl.issue607.snapshot_progress.v1",runtime_snapshot_id:$runtime,gpu_snapshot_id:$gpu}' >"$storage_dir/snapshot-progress.json"
   wait_snapshots_completed "$runtime_snapshot" "$gpu_snapshot"
   snapshot_elapsed=$(( $(date +%s) - snapshot_started ))
   snapshot_state="$(aws_cli ec2 describe-snapshots --snapshot-ids "$runtime_snapshot" "$gpu_snapshot" --query 'Snapshots[].{snapshot_id:SnapshotId,source_volume_id:VolumeId,state:State,progress:Progress,volume_size_gib:VolumeSize,started_at:StartTime,tags:Tags}' --output json | jq -c 'sort_by(.snapshot_id)')"
   jq -e --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" 'length==2 and all(.[];.state=="completed" and .progress=="100%") and ([.[].source_volume_id]|sort)==([$runtime,$gpu]|sort)' <<<"$snapshot_state" >/dev/null
 
   restore_started="$(date +%s)"
-  RESTORE_TEST_VOLUME_ID="$(aws_cli ec2 create-volume --snapshot-id "$gpu_snapshot" --availability-zone "$AZ" --volume-type gp3 --iops 3000 --throughput 500 \
-    --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=$RUN_ID-snapshot-restore-test},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:snapshot-restore-test,Value=true},{Key=adl:cleanup-required,Value=true}]" \
-    --query VolumeId --output text)"
+  existing_restore="$(aws_cli ec2 describe-volumes --filters "Name=tag:adl:issue,Values=607" "Name=tag:adl:run-id,Values=$RUN_ID" "Name=tag:adl:storage-id,Values=$STORAGE_ID" "Name=tag:adl:snapshot-restore-test,Values=true" "Name=snapshot-id,Values=$gpu_snapshot" --query 'Volumes[].VolumeId' --output text)"
+  if [[ "$existing_restore" =~ ^vol-[0-9a-f]+$ ]]; then
+    RESTORE_TEST_VOLUME_ID="$existing_restore"
+  else
+    [[ -z "$existing_restore" ]] || { echo "temporary restore volume identity is not unique: $existing_restore" >&2; return 1; }
+    RESTORE_TEST_VOLUME_ID="$(aws_cli ec2 create-volume --snapshot-id "$gpu_snapshot" --availability-zone "$AZ" --volume-type gp3 --iops 3000 --throughput 500 \
+      --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=$RUN_ID-snapshot-restore-test},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:snapshot-restore-test,Value=true},{Key=adl:cleanup-required,Value=true}]" \
+      --query VolumeId --output text)"
+  fi
   [[ "$RESTORE_TEST_VOLUME_ID" =~ ^vol-[0-9a-f]+$ ]] || { echo "snapshot restore did not return an exact volume ID" >&2; return 1; }
   record_preparation_resource volume "$RESTORE_TEST_VOLUME_ID" active
-  aws_cli ec2 wait volume-available --volume-ids "$RESTORE_TEST_VOLUME_ID"
+  wait_volume_available "$RESTORE_TEST_VOLUME_ID"
   restore_available_elapsed=$(( $(date +%s) - restore_started ))
   restore_state="$(aws_cli ec2 describe-volumes --volume-ids "$RESTORE_TEST_VOLUME_ID" --query 'Volumes[0].{volume_id:VolumeId,snapshot_id:SnapshotId,state:State,availability_zone:AvailabilityZone,size_gib:Size,iops:Iops,throughput:Throughput,encrypted:Encrypted,kms_key_id:KmsKeyId}' --output json)"
   jq -e --arg snapshot "$gpu_snapshot" --arg az "$AZ" '.snapshot_id==$snapshot and .state=="available" and .availability_zone==$az and .encrypted==true' <<<"$restore_state" >/dev/null
   aws_cli ec2 delete-volume --volume-id "$RESTORE_TEST_VOLUME_ID"
-  aws_cli ec2 wait volume-deleted --volume-ids "$RESTORE_TEST_VOLUME_ID"
+  wait_volume_absent "$RESTORE_TEST_VOLUME_ID"
   restored_volume="$RESTORE_TEST_VOLUME_ID"; RESTORE_TEST_VOLUME_ID=""
   record_preparation_resource volume "$restored_volume" deleted
   jq -n --arg storage_id "$STORAGE_ID" --arg generation "$generation" --arg runtime_snapshot_id "$runtime_snapshot" --arg gpu_snapshot_id "$gpu_snapshot" \
@@ -847,13 +886,49 @@ complete_preparation() {
   storage_tag_plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$run_dir/tfdata-storage" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.json" "$run_dir/storage-seal-tags.tfplan" "$run_dir/storage-seal-tags-plan.json")"
   tf "$run_dir/tfdata-storage" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$run_dir/storage-seal-tags.tfplan" >/dev/null
   record_cost_ledger prepare "$preparation_compute_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID" "$(wc -c <"$run_dir/source.tar" | tr -d '[:space:]')"
-  jq -n --arg storage_id "$STORAGE_ID" --arg generation "$generation" --argjson campaign "$campaign" --arg base_runtime_ami "$(jq -r .runtime_ami_id "$run_dir/preflight.json")" --arg base_gpu_ami "$(jq -r .gpu_ami_id "$run_dir/preflight.json")" --arg runtime_ami "$PREP_RUNTIME_AMI_ID" --arg gpu_ami "$PREP_GPU_AMI_ID" --arg runtime_root_snapshot "$PREP_RUNTIME_ROOT_SNAPSHOT_ID" --arg gpu_root_snapshot "$PREP_GPU_ROOT_SNAPSHOT_ID" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_snapshot_id "$runtime_snapshot" --arg gpu_snapshot_id "$gpu_snapshot" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --arg storage_plan_sha256 "$storage_plan_sha" --arg preparation_plan_sha256 "$prep_plan_sha" --arg storage_tag_plan_sha256 "$storage_tag_plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/preparation-zero-residue.json")" --arg snapshot_restore_sha256 "$(sha256_file "$storage_dir/snapshot-restore-test.json")" --arg snapshot_receipt_key "$snapshot_receipt_key" --arg snapshot_receipt_version "$snapshot_receipt_version" \
-    '{schema:"adl.issue607.preparation_result.v5",status:"prepared",storage_id:$storage_id,artifact_generation:$generation,campaign:$campaign,base_images:{runtime_ami_id:$base_runtime_ami,gpu_ami_id:$base_gpu_ami},prepared_images:{runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime_root_snapshot_id:$runtime_root_snapshot,gpu_root_snapshot_id:$gpu_root_snapshot},runtime:{volume_id:$runtime_volume_id,snapshot_id:$runtime_snapshot_id,root_hash:$runtime_root_hash},gpu:{volume_id:$gpu_volume_id,snapshot_id:$gpu_snapshot_id,root_hash:$gpu_root_hash},plans:{storage_create:$storage_plan_sha256,preparation:$preparation_plan_sha256,storage_seal_tags:$storage_tag_plan_sha256},authorization_sha256:$authorization_sha256,zero_disposable_residue_sha256:$residue_sha256,snapshot_restore_test:{sha256:$snapshot_restore_sha256,s3_key:$snapshot_receipt_key,s3_version_id:$snapshot_receipt_version},disposable_residue:0}' | tee "$storage_dir/preparation-result.json"
+  jq -n --arg storage_id "$STORAGE_ID" --arg generation "$generation" --arg controller_revision "$(git -C "$ROOT" rev-parse HEAD)" --argjson campaign "$campaign" --arg base_runtime_ami "$(jq -r .runtime_ami_id "$run_dir/preflight.json")" --arg base_gpu_ami "$(jq -r .gpu_ami_id "$run_dir/preflight.json")" --arg runtime_ami "$PREP_RUNTIME_AMI_ID" --arg gpu_ami "$PREP_GPU_AMI_ID" --arg runtime_root_snapshot "$PREP_RUNTIME_ROOT_SNAPSHOT_ID" --arg gpu_root_snapshot "$PREP_GPU_ROOT_SNAPSHOT_ID" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_snapshot_id "$runtime_snapshot" --arg gpu_snapshot_id "$gpu_snapshot" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --arg storage_plan_sha256 "$storage_plan_sha" --arg preparation_plan_sha256 "$prep_plan_sha" --arg storage_tag_plan_sha256 "$storage_tag_plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/preparation-zero-residue.json")" --arg snapshot_restore_sha256 "$(sha256_file "$storage_dir/snapshot-restore-test.json")" --arg snapshot_receipt_key "$snapshot_receipt_key" --arg snapshot_receipt_version "$snapshot_receipt_version" \
+    '{schema:"adl.issue607.preparation_result.v5",status:"prepared",storage_id:$storage_id,artifact_generation:$generation,controller_revision:$controller_revision,campaign:$campaign,base_images:{runtime_ami_id:$base_runtime_ami,gpu_ami_id:$base_gpu_ami},prepared_images:{runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime_root_snapshot_id:$runtime_root_snapshot,gpu_root_snapshot_id:$gpu_root_snapshot},runtime:{volume_id:$runtime_volume_id,snapshot_id:$runtime_snapshot_id,root_hash:$runtime_root_hash},gpu:{volume_id:$gpu_volume_id,snapshot_id:$gpu_snapshot_id,root_hash:$gpu_root_hash},plans:{storage_create:$storage_plan_sha256,preparation:$preparation_plan_sha256,storage_seal_tags:$storage_tag_plan_sha256},authorization_sha256:$authorization_sha256,zero_disposable_residue_sha256:$residue_sha256,snapshot_restore_test:{sha256:$snapshot_restore_sha256,s3_key:$snapshot_receipt_key,s3_version_id:$snapshot_receipt_version},disposable_residue:0}' | tee "$storage_dir/preparation-result.json"
   jq '.status="completed"|.resources|=map(if .state=="active" then .state="retained" else . end)' "$PREP_RESOURCE_LEDGER" >"$PREP_RESOURCE_LEDGER.next"
   mv "$PREP_RESOURCE_LEDGER.next" "$PREP_RESOURCE_LEDGER"
   CLEANUP_STORAGE_ON_FAILURE=false; PRESERVE_PREPARATION_ON_EXIT=false
   PREP_RUNTIME_AMI_ID=""; PREP_GPU_AMI_ID=""
   trap - EXIT INT TERM
+}
+
+validate_consumed_preparation() {
+  run_dir="$1" storage_dir="$2"
+  [[ -z "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]] || { echo "tracked checkout must be clean to resume" >&2; return 2; }
+  git -C "$ROOT" cat-file -e "$COMMIT^{commit}" 2>/dev/null && git -C "$ROOT" merge-base --is-ancestor "$COMMIT" HEAD \
+    || { echo "prepared source commit is not an ancestor of the resume controller" >&2; return 2; }
+  campaign="$(jq -c .campaign "$run_dir/authorization-request.json")"
+  storage_plan_sha="$(sha256_file "$run_dir/storage-create.tfplan")"; prep_plan_sha="$(sha256_file "$run_dir/preparation.tfplan")"
+  preflight_sha="$(sha256_file "$run_dir/preflight.json")"; action_manifest_sha="$(sha256_file "$run_dir/prepare-action-manifest.json")"
+  source_sha="$(sha256_file "$run_dir/source.tar")"; authorization_sha="$(jq -S -c . "$run_dir/authorization.json" | shasum -a 256 | awk '{print $1}')"
+  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:prepare" | cut -c1-32)"
+  jq -e --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$storage_plan_sha" --arg preflight "$preflight_sha" --arg manifest "$action_manifest_sha" --arg source "$source_sha" --arg owner_sha "$(sha256_text "$owner")" \
+    '.schema=="adl.issue607.action_manifest.v4" and .action=="prepare" and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .storage_create_plan_sha256==$plan and .preflight_sha256==$preflight and .source_archive_sha256==$source and .owner_token_sha256==$owner_sha' "$run_dir/prepare-action-manifest.json" >/dev/null \
+    || { echo "resume action manifest identity mismatch" >&2; return 2; }
+  jq -e --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$storage_plan_sha" --arg preflight "$preflight_sha" --arg manifest "$action_manifest_sha" --argjson campaign "$campaign" \
+    '.schema=="adl.issue607.authorization.v3" and .authorized==true and .single_use==true and .action=="prepare" and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .saved_plan_sha256==$plan and .preflight_sha256==$preflight and .action_manifest_sha256==$manifest and .campaign==$campaign and (.action_id|type=="string" and length>=16)' "$run_dir/authorization.json" >/dev/null \
+    || { echo "stored preparation authorization identity mismatch" >&2; return 2; }
+  jq -e --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$storage_plan_sha" --arg preflight "$preflight_sha" --arg manifest "$action_manifest_sha" --argjson campaign "$campaign" \
+    '.schema=="adl.issue607.authorization_request.v3" and .action=="prepare" and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .saved_plan_sha256==$plan and .preflight_sha256==$preflight and .action_manifest_sha256==$manifest and .campaign==$campaign' "$run_dir/authorization-request.json" >/dev/null \
+    || { echo "stored authorization request identity mismatch" >&2; return 2; }
+  marker="${PREFIX}campaigns/$(jq -r .id <<<"$campaign")/actions/prepare.json"
+  aws_cli s3api get-object --bucket "$BUCKET" --key "$marker" "$run_dir/consumed-authorization-marker.json" >/dev/null \
+    || { echo "consumed preparation authorization marker is missing" >&2; return 2; }
+  [[ "$(jq -S -c . "$run_dir/consumed-authorization-marker.json" | shasum -a 256 | awk '{print $1}')" == "$authorization_sha" ]] \
+    || { echo "consumed preparation authorization marker mismatch" >&2; return 2; }
+  runtime_volume="$(jq -r .runtime_volume_id.value "$storage_dir/outputs.json")"; gpu_volume="$(jq -r .gpu_volume_id.value "$storage_dir/outputs.json")"
+  state_runtime="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="runtime")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"
+  state_gpu="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="gpu")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"
+  [[ "$runtime_volume" == "$state_runtime" && "$gpu_volume" == "$state_gpu" \
+    && "$COMMIT" == "$(jq -r .artifact_generation "$storage_dir/terraform.tfvars.json")" \
+    && "$owner" == "$(jq -r .owner_token "$run_dir/preparation.tfvars.json")" \
+    && "$runtime_volume" == "$(jq -r .runtime_volume_id "$run_dir/preparation.tfvars.json")" \
+    && "$gpu_volume" == "$(jq -r .gpu_volume_id "$run_dir/preparation.tfvars.json")" ]] \
+    || { echo "resume Terraform state, outputs, or owner identity mismatch" >&2; return 2; }
+  AUTHORIZATION_SHA256="$authorization_sha"
 }
 
 resume_preparation() {
@@ -862,25 +937,23 @@ resume_preparation() {
     || { echo "resume-preparation requires exact commit, run ID, and storage ID" >&2; exit 2; }
   run_dir="$STATE_ROOT/runs/$RUN_ID"; storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
   [[ -f "$run_dir/paid-started" && ! -e "$storage_dir/preparation-result.json" ]] || { echo "preparation is not resumable" >&2; exit 2; }
-  for required in authorization.json authorization-request.json preflight.json preparation.tfstate preparation.tfvars.json runtime-preparation.json gpu-preparation.json preparation-resources.json source.tar storage-create.tfplan preparation.tfplan; do
+  for required in authorization.json authorization-request.json preflight.json prepare-action-manifest.json preparation.tfstate preparation.tfvars.json runtime-preparation.json gpu-preparation.json preparation-resources.json source.tar storage-create.tfplan preparation.tfplan; do
     [[ -f "$run_dir/$required" ]] || { echo "resume input missing: $required" >&2; exit 2; }
   done
   [[ -f "$storage_dir/terraform.tfstate" && -f "$storage_dir/terraform.tfvars.json" && -f "$storage_dir/outputs.json" ]] || { echo "prepared storage state is incomplete" >&2; exit 2; }
   jq -e '.status=="prepared" and .fully_initialized==true' "$run_dir/runtime-preparation.json" "$run_dir/gpu-preparation.json" >/dev/null
-  [[ "$(jq -r .campaign.source_commit "$run_dir/authorization-request.json")" == "$COMMIT" \
-    && "$(jq -r .campaign.storage_id "$run_dir/authorization-request.json")" == "$STORAGE_ID" \
-    && "$(jq -r '.campaign.actions[]|select(.action=="prepare")|.run_id' "$run_dir/authorization-request.json")" == "$RUN_ID" ]] \
-    || { echo "resume identity does not match the consumed campaign" >&2; exit 2; }
   business_account >/dev/null
+  validate_consumed_preparation "$run_dir" "$storage_dir"
   PREP_RESOURCE_LEDGER="$run_dir/preparation-resources.json"
-  owner="$(jq -r .owner_token "$run_dir/preparation.tfvars.json")"; generation="$COMMIT"
-  runtime_volume="$(jq -r .runtime_volume_id.value "$storage_dir/outputs.json")"; gpu_volume="$(jq -r .gpu_volume_id.value "$storage_dir/outputs.json")"
-  campaign="$(jq -c .campaign "$run_dir/authorization-request.json")"
-  storage_plan_sha="$(sha256_file "$run_dir/storage-create.tfplan")"; prep_plan_sha="$(sha256_file "$run_dir/preparation.tfplan")"
-  AUTHORIZATION_SHA256="$(jq -S -c . "$run_dir/authorization.json" | shasum -a 256 | awk '{print $1}')"
-  image_state="$(aws_cli ec2 describe-images --owners self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:artifact-generation,Values="$COMMIT" --query 'Images[].{id:ImageId,node:Tags[?Key==`adl:node`]|[0].Value,state:State}' --output json)"
+  generation="$COMMIT"
+  image_state="$(aws_cli ec2 describe-images --owners self --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:storage-id,Values="$STORAGE_ID" Name=tag:adl:artifact-generation,Values="$COMMIT" --query 'Images[].{id:ImageId,node:Tags[?Key==`adl:node`]|[0].Value,owner:Tags[?Key==`adl:owner-token`]|[0].Value,state:State}' --output json)"
+  jq -e --arg owner "$owner" 'length==2 and all(.[];.owner==$owner and (.state=="pending" or .state=="available"))' <<<"$image_state" >/dev/null \
+    || { echo "prepared image owner or state identity mismatch" >&2; exit 2; }
   PREP_RUNTIME_AMI_ID="$(jq -er '[.[]|select(.node=="runtime")]|if length==1 then .[0].id else error("runtime image identity is not unique") end' <<<"$image_state")"
   PREP_GPU_AMI_ID="$(jq -er '[.[]|select(.node=="gpu")]|if length==1 then .[0].id else error("gpu image identity is not unique") end' <<<"$image_state")"
+  jq -e --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg owner_sha "$(sha256_text "$owner")" --arg runtime "$PREP_RUNTIME_AMI_ID" --arg gpu "$PREP_GPU_AMI_ID" \
+    '.schema=="adl.issue607.preparation_resource_ledger.v1" and .status=="active" and .run_id==$run and .storage_id==$storage and .owner_token_sha256==$owner_sha and ([.resources[]|select(.kind=="image")|.id]|unique|sort)==([$runtime,$gpu]|sort)' "$PREP_RESOURCE_LEDGER" >/dev/null \
+    || { echo "preparation resource ledger identity mismatch" >&2; exit 2; }
   record_preparation_resource image "$PREP_RUNTIME_AMI_ID" active; record_preparation_resource image "$PREP_GPU_AMI_ID" active
   CLEANUP_KIND=preparation; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false; CLEANUP_STORAGE_ON_FAILURE=true; PRESERVE_PREPARATION_ON_EXIT=true
   trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
@@ -954,9 +1027,9 @@ prepare() {
   jq -e '.status=="prepared" and .fully_initialized==true' "$run_dir/runtime-preparation.json" "$run_dir/gpu-preparation.json" >/dev/null
   wait_instances_stopped "$runtime_preparation_instance" "$gpu_preparation_instance"
   preparation_compute_elapsed=$((SECONDS-action_start))
+  PRESERVE_PREPARATION_ON_EXIT=true
   PREP_RUNTIME_AMI_ID="$(start_prepared_image runtime "$runtime_preparation_instance" "$retention_until")"
   PREP_GPU_AMI_ID="$(start_prepared_image gpu "$gpu_preparation_instance" "$retention_until")"
-  PRESERVE_PREPARATION_ON_EXIT=true
   wait_images_available "$PREP_RUNTIME_AMI_ID" "$PREP_GPU_AMI_ID"
   complete_preparation "$run_dir" "$storage_dir" "$runtime_volume" "$gpu_volume" "$generation" "$storage_plan_sha" "$prep_plan_sha" "$campaign" "$owner" "$preparation_compute_elapsed"
 }
@@ -1072,6 +1145,16 @@ case "$ACTION" in
       snapshots) wait_snapshots_completed "$@" ;;
       *) exit 2 ;;
     esac
+    ;;
+  test-start-prepared-image)
+    require aws
+    [[ $# -eq 3 ]] || { echo "test-start-prepared-image requires node, instance ID, and retention" >&2; exit 2; }
+    start_prepared_image "$1" "$2" "$3"
+    ;;
+  test-ensure-sealed-snapshot)
+    require aws
+    [[ $# -eq 6 ]] || { echo "test-ensure-sealed-snapshot requires node, volume, generation, root, retention, and owner" >&2; exit 2; }
+    ensure_sealed_snapshot "$@"
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;

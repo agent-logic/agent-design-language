@@ -40,3 +40,5 @@
 {"sequence":40,"generation":32,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":41,"generation":33,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":42,"generation":34,"actor":"codex-primary-issue607","reason":"Recover reviewed state after live AWS preparation showed that healthy image and snapshot work must wait without a deadline, start both images before waiting, and survive controller interruption through exact-state resume.","operation":"recover_review"}
+{"sequence":43,"generation":34,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":44,"generation":35,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

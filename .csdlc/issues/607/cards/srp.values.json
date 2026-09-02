@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 34
+    "generation": 35
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/607\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh",
+      "review_revision": "git-blake3:b5debc6abc77eef40361abde362ea0458ef52668:f22cd6960bde70585c3737a7879c8c775610002b350a75f6fb3b77b9d956c945",
+      "reviewer": "subagent:issue_607_resume_review",
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -23,9 +23,62 @@
         "Can stale or cross-AZ volume content activate?",
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "607-resume-f1-idempotence",
+          "severity": "p1",
+          "summary": "Interrupted completion can create duplicate retained sealed snapshots and an unreferenced temporary restore while understating cost.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "607-resume-f2-identity",
+          "severity": "p1",
+          "summary": "Resume does not fully bind checkout, state, plans, artifacts, ledger, and consumed authorization to the original exact campaign.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "607-resume-f3-api-errors",
+          "severity": "p1",
+          "summary": "Permanent AWS API errors are retried forever instead of failing while only healthy transitional resource states wait indefinitely.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "607-resume-f4-image-window",
+          "severity": "p2",
+          "summary": "Preservation starts after both create-image calls, leaving an interruption window that destroys a partially created image and makes the consumed run non-resumable.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "607-resume-f5-tests-proof",
+          "severity": "p2",
+          "summary": "Tests do not execute resume rejection, idempotence, permanent API failure, preservation, and cost accuracy, and retained SOR validation is stale.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "The available prepared AMIs and completed root snapshots remain preserved while remediation and fresh review proceed."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

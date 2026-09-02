@@ -112,6 +112,25 @@ run_contracts() {
   ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
     bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait snapshots snap-0123456789abcdef0 snap-abcdef01234567890
 
+  aws() { printf 'AccessDenied\n' >&2; return 255; }
+  export -f aws
+  ! ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
+    bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait image ami-0123456789abcdef0 >/dev/null 2>&1
+  ! ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
+    bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait snapshots snap-0123456789abcdef0 >/dev/null 2>&1
+
+  rm -f "$CASE_ROOT/unexpected-create"
+  aws() {
+    if [[ "$*" == *" describe-images "* ]]; then printf 'ami-0123456789abcdef0\n'; return 0; fi
+    if [[ "$*" == *" describe-snapshots "* ]]; then printf 'snap-0123456789abcdef0\n'; return 0; fi
+    : >"$CASE_ROOT/unexpected-create"
+    return 2
+  }
+  export -f aws
+  [[ "$(bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-start-prepared-image runtime i-runtime 2099-01-01T00:00:00Z)" == ami-0123456789abcdef0 ]]
+  [[ "$(bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-ensure-sealed-snapshot runtime vol-0123456789abcdef0 deadbeef root-hash 2099-01-01T00:00:00Z owner)" == snap-0123456789abcdef0 ]]
+  [[ ! -e "$CASE_ROOT/unexpected-create" ]]
+
   for template in \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"; do
@@ -187,7 +206,7 @@ run_contracts() {
   ! rg -q 'dd if=/dev/zero' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q 'snapshot_prepared_generation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'adl.issue607.snapshot_restore_test.v1' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
-  rg -q 'aws_cli ec2 wait volume-deleted' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'wait_volume_absent' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'adl.issue607.authorization.v3' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'start_prepared_image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'resume-preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
