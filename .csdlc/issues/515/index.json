@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "6d2c32cdb1b245b3187011e186f6aed6d829875d5ac4d0f42496b40c6ca53bdf",
+  "generation": 19,
+  "digest": "6622d5a7c18a52bdfe419319c24a6581157d424dfa9976d3c8790a5bee7ce432",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": {
-    "reviewer": "fresh-session:8838ea5e-f236-464a-a208-f688f738c1d0",
-    "assigned_by": "codex:/root:issue-515-implementation",
-    "revision": "git-blake3:5f2a0c2886b5c2d1b32bcb0a6c362a7a7f2df40f:6b94df861d27ad13e9e24f16177e3f61def833bc28335e222553af0dc2973ec6",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      ".csdlc/prepared/issues/515"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f9e5dcd175726d985172b14550ed38cbf759f01c2fbd933487e4f3a376c13deb",
+      "values_digest": "98a4aac05499fe11cb1cac2e3ee42f2a645ef771e326c58c1fe60feaa1c70b0b",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "cfb2dc3d08ddbe89f32175b2f063702beadb9225293f2d48928b9b32b92417df",
+      "values_digest": "d33464cd7b52e9495403d6857d66fad5a93c0c613fec87b4e3241e9e1b5f99ee",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "b02299f6348d100db942b2a7461f489775892e7aba4da73d8a1bd8c7984df5cc",
+      "values_digest": "69a0c46f73c67adb9c584040d879944a33301a6bc7530bf832537496cada650a",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "42f39f06c8ad477fb6e4dfb62008361c3bdd8ca391a97962fe5080d299d82ad5",
+      "values_digest": "34e7af6845e20cbc8506dafc46442ea8d55e00eb5b1a3d58f5c9dd2a972910e8",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "b800defab2e8f15134658f565d0e0d794b817d5210cf39d8077ce41a57c3c9f6",
-      "rendered_digest": "167d92ba1efcf0ba600b1cd1f5409d0f89f2d2b46b7040962aa97e823087a82a",
-      "ast_digest": "e94a0785a8bf592cc7f4cf3516a1f30b7925774a4c56348b2922849c11688f54"
+      "values_digest": "8f38bfec6119afd25e6b1185a304b89f9faf7006f76356575115e3ed8c828d76",
+      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
+      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
     },
     "sor": {
-      "values_digest": "04b812dc7dea513d3acfc993a86ff5e6f2d46b59957bb702c399f1a4e445bab4",
+      "values_digest": "4db46cc06d75484fb0b497435ced441fd6eb9f1b30589c47ded2a5c4c55f8106",
       "rendered_digest": "e0a82b98b2bbcbe96c3f260515eca7af52120d8fc131cfde769295cfa0bcf7d0",
       "ast_digest": "e8909c6f75d306227e57c85ac16de2a385058efa52319b532cf04b5a7889448a"
     }
@@ -272,6 +260,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 review truth after fixing the independent reviewer P2 finding that shadow panic-hook suppression was process-global and could suppress unrelated authoritative/runtime panic observability.",
+      "operation": "recover_review"
     }
   ]
 }
