@@ -46,7 +46,18 @@ demos/podcast/studio/podcast-studio.html
 
 ## Findings
 
-[]
+[
+  {
+    "id": "262-review-r6-p1-archive-aggregate-bytes-mismatch",
+    "severity": "p1",
+    "summary": "Archive aggregate byte truth is internally inconsistent: storage-manifest.json records archive_total_bytes 191911392 while s3-object-inventory.json records total_bytes 191911388, and summing all 87 inventory object sizes also yields 191911388. The validator checks local critical-object byte/hash truth but does not compare aggregate totals.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -58,8 +69,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e9f603706ec75f018605863e409e4431699d9f95:53b86d1aefa20b9d2dfcb2b51e731bcb63299897a01288034a2bcc6afb509891")
 
-Reviewer: None
+Reviewer: Some("fresh-session:6915b91a-64a0-40b2-83ce-12e8ab77314f")
 
-Result: pre_review
+Result: changes_required
