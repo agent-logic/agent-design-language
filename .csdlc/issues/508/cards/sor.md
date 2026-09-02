@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implement the DRT-C final distributed Runtime qualification decision by deriving an exact decision from terminal DRT-B evidence, validating fail-closed identity/provider/transport cases, Runtime-authentic Observatory evidence metadata, bounded soak, and cleanup-zero truth.
+Implemented and remediated the DRT-C final distributed Runtime qualification decision. The retained qualification evidence now binds to the immutable Runtime qualification source revision, models both required #187 soak windows with exact command/model/receipt digests, independent replay, clock bounds, and cleanup readback, and keeps the decision within #508 without absorbing #509/GCP or Observatory product redesign scope.
 
 ## Artifacts
 
@@ -22,36 +22,36 @@ Implement the DRT-C final distributed Runtime qualification decision by deriving
 - docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json
 - .csdlc/prepared/issues/508/validate-readiness.rb
 - .csdlc/prepared/issues/508/validate-implementation.rb
+- .csdlc/evidence/508/drt-c-rust-fmt-r2.log
+- .csdlc/evidence/508/drt-c-focused-r2.log
+- .csdlc/evidence/508/drt-c-implementation-validator-r2.log
+- .csdlc/evidence/508/drt-c-diff-check-r2.log
 - .csdlc/issues/508
 - .csdlc/prepared/issues/508
 
 ## Execution
 
-- Add a deterministic DRT-C qualification decision model and validator to the Runtime qualification module.
-- Add a focused DRT-C integration test under the distributed_failure test surface that proves requirements #185-#187, fail-closed cases, Runtime-authentic redacted Observatory evidence, bounded soak, cleanup-zero, and retained evidence equality.
-- Retain the exact DRT-C qualification decision artifact under docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json.
+- Added a deterministic DRT-C qualification decision model and validator to the Runtime qualification module.
+- Added a focused DRT-C integration test under the distributed_failure surface that proves requirements #185-#187, fail-closed identity/provider/transport cases, Runtime-authentic redacted Observatory evidence, bounded soak, cleanup-zero, and retained evidence equality.
+- Removed the stale hardcoded parent #507 SHA from the focused test; the test now derives the qualification subject from retained evidence.
+- Strengthened #187 soak evidence from a single positive duration into two required windows with source revision, command digest, model digest, clock bounds, receipt digest, independent replay, and cleanup readback.
+- Strengthened the issue-owned implementation validator so retained evidence fails closed unless runtime_revision equals the latest Runtime qualification source commit and the full soak denominator is present.
+- Retained the exact DRT-C qualification decision artifact under docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json.
 
 ## Validation
 
 [
   {
     "command": [
-      "git",
-      "diff",
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
       "--check"
     ],
-    "purpose": "Run git diff whitespace hygiene.",
+    "purpose": "Rust formatting check for the DRT-C Runtime qualification model and focused test.",
     "outcome": "passed",
-    "evidence_ref": "508-diff-hygiene.log"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/508/validate-implementation.rb"
-    ],
-    "purpose": "Run the issue-owned DRT-C implementation validator.",
-    "outcome": "passed",
-    "evidence_ref": "508-drt-c-implementation-validator.log"
+    "evidence_ref": ".csdlc/evidence/508/drt-c-rust-fmt-r2.log"
   },
   {
     "command": [
@@ -65,22 +65,28 @@ Implement the DRT-C final distributed Runtime qualification decision by deriving
       "--",
       "--nocapture"
     ],
-    "purpose": "Run the focused Rust DRT-C qualification test.",
+    "purpose": "Prove the deterministic DRT-C Runtime qualification decision validates and matches retained evidence exactly, including the Runtime source revision and #187 soak denominator.",
     "outcome": "passed",
-    "evidence_ref": "508-drt-c-rust.log"
+    "evidence_ref": ".csdlc/evidence/508/drt-c-focused-r2.log"
   },
   {
     "command": [
-      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
-      "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
-      "issue",
-      "--issue",
-      "508"
+      "ruby",
+      ".csdlc/prepared/issues/508/validate-implementation.rb"
     ],
-    "purpose": "Run C-SDLC v2 typed issue validation for #508.",
+    "purpose": "Prove retained DRT-C qualification JSON binds exact Runtime source revision, fail-closed cases, Runtime-authentic Observatory evidence, two-window bounded soak denominator, synthesis, and cleanup-zero.",
     "outcome": "passed",
-    "evidence_ref": "508-typed-validate.log"
+    "evidence_ref": ".csdlc/evidence/508/drt-c-implementation-validator-r2.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the #508 remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/508/drt-c-diff-check-r2.log"
   }
 ]
 
