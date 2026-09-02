@@ -1,0 +1,181 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 506,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "318259b231fb7c80a9bcb6569b4efd06c19f1bd3e8e261c38d0f1c9a7c5e1dcd",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "ede128dc71255c0876fcf0d0b6224e946696bd07f64768c097616ffbdf84f611",
+  "branch": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/506/design.md",
+  "diagram_path": ".csdlc/prepared/issues/506/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:40e87ce7-9c1f-42de-98b9-ef83ebf1a9c1",
+      "revision": "88120bc83fdbe01e9af1298bb6dd178c8639b6a041c2b0a2f7239b2ecd8bd744"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8432e1fcba314cc119b7090239140f49ed9720991d7fc680d17f9c971fd52275",
+      "rendered_digest": "b5e991dbdf41c13e51045af2418c02855d6e7f2a73b2fe2129cbf12b8b8be54e",
+      "ast_digest": "db8a583fc4cb6c375b601ea09825f7f7373d79f1b530a2e82307f6121e62fb02"
+    },
+    "stp": {
+      "values_digest": "f6fcea2129553c1f243f6a445d62d7f0916b3c3476f7a150b0297f42bd2d39cf",
+      "rendered_digest": "49d01c25700c08151a200ab30ba4e4e1e195d5b7e51055560e8c69a5761343be",
+      "ast_digest": "9c2a10f6aaddb72c1ef32e68399027dcc6e91a153af398163acc9f9a1fffa775"
+    },
+    "spp": {
+      "values_digest": "1781a67d8ecaff6b7556e06ece803cbce174f3eee3246075c6803aa3057cf7df",
+      "rendered_digest": "0e8296c6a288858d2723d418c9a4449a43dd76c3f1e1b44ef238322290f31821",
+      "ast_digest": "bcd9ece2793e94d00617e46ad3da4738bc19f0dc5934fa3941e8e37ea3b77e19"
+    },
+    "vpp": {
+      "values_digest": "cb2176927cfd472febf72d2599f3785131cfdad12ae6f30c9d88016a09385279",
+      "rendered_digest": "7ed31f7abb8e5799f3e8a174cabab822e88be3952d3435becef99b02f79f718f",
+      "ast_digest": "dc2194a768d365dd310c08b11142284e4fd43fa9c83ceea3357de9eb6cd73ec7"
+    },
+    "srp": {
+      "values_digest": "c4cf33cfa63f3eae941f20e6d041286d4b135f3d877002f895b20c4df5ff5085",
+      "rendered_digest": "f2a504dee86bea9669ba837203cc67effad2d441765e63aa5e8adb51d05b3a16",
+      "ast_digest": "275b6d957be3273ab09c2237a70a7a24d377092d11a977922f9a891a97cb069d"
+    },
+    "sor": {
+      "values_digest": "c137bd7baed69964d29b677b6391e234a25f4ca27df998d7fb3512d9d8fd335f",
+      "rendered_digest": "60fbdf13f2d93cddfb4b527ddf9abc9782afd0f33bb6dbdb039a1508b6d4cd2a",
+      "ast_digest": "5e683808fb99c60038fbb2cc9479478b9f4091079cf10158a6d31da51a78e140"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #506 to implemented after recording scoped execution and passing focused validation evidence."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:sprint-7-drt-a",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:40e87ce7-9c1f-42de-98b9-ef83ebf1a9c1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"88120bc83fdbe01e9af1298bb6dd178c8639b6a041c2b0a2f7239b2ecd8bd744\",\"design_ref\":\".csdlc/prepared/issues/506/design.md\",\"diagram_digest\":\"37f9fb27c6cc7258c306155f658c74be781bdcbdd4a141ab6d4fc65e0e3f780d\",\"diagram_ref\":\".csdlc/prepared/issues/506/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "DRT-A requirement mapping is implemented and covered by the focused qualification-contract proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Deterministic identity and authority checks are implemented and covered by the focused acip-authority proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Replay and duplicate-denial receipts are implemented and covered by the focused replay-conformance proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "The fail-closed negative matrix is implemented and covered by the focused negative-matrix proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record the #506 implementation scope before adding focused validation results.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented DRT-A distributed qualification contract surfaces for deterministic topology requirements, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.\",\"changes\":[\"Added adl-runtime qualification contract types and deterministic validation helpers for DRT-A.\",\"Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, replay receipt stability, and fail-closed invalid vectors.\",\"Added the DRT-A qualification contract evidence packet under the v0.92.1 runtime evidence tree.\",\"Added the issue-owned validation script for the four DRT-A proof lanes.\"],\"artifacts\":[\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 qualification-contract proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"qualification-contract\"],\"purpose\":\"Prove deterministic DRT-A requirement mapping and topology qualification.\",\"outcome\":\"passed\",\"evidence_ref\":\"qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 ACIP authority proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"acip-authority\"],\"purpose\":\"Prove ACIP authority envelope binding for qualified participants.\",\"outcome\":\"passed\",\"evidence_ref\":\"acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 replay conformance proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"replay-conformance\"],\"purpose\":\"Prove replay receipt stability and duplicate/reordered delivery classification.\",\"outcome\":\"passed\",\"evidence_ref\":\"replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 negative matrix proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"negative-matrix\"],\"purpose\":\"Prove fail-closed stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record #506 exact-range diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range diff hygiene before implementation review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no output and exited 0\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Advance #506 to implemented after recording scoped execution and passing focused validation evidence.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

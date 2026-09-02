@@ -1,0 +1,12 @@
+{
+  "actor": "codex:/root",
+  "card": "sor",
+  "expected_digest": "11e80f1ba9f1585f324da4ed39b1862823d8aff82549134121267c247617e8b2",
+  "expected_generation": 11,
+  "issue": 506,
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "reason": "Advance #506 to implemented after recording scoped execution and passing focused validation evidence."
+}

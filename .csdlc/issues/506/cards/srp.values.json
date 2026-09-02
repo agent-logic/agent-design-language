@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 506,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+    "slug": "v0-92-1-drt-a-distributed-qualification-contract",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Design and readiness for #506 DRT-A deterministic distributed qualification contract only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify that #506 owns exactly DRT-A and does not absorb paid AWS/GCP execution, Observatory redesign, DRT-B, DRT-C, DRT-D, provider credentials, or public cloud exposure.",
+        "Verify that the design maps requirements 181 and 182 and includes all four WP-specified PVF lanes.",
+        "Verify that the planned proof denominator includes identity, authority, duplicate-denial, replay, and negative-matrix behavior."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

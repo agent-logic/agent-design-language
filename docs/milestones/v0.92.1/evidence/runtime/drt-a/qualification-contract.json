@@ -1,0 +1,23 @@
+{
+  "schema": "adl.runtime.qualification.drt_a_evidence.v1",
+  "issue": 506,
+  "requirements": ["#181", "#182"],
+  "lanes": [
+    "qualification-contract",
+    "acip-authority",
+    "replay-conformance",
+    "negative-matrix"
+  ],
+  "non_claims": [
+    "no paid AWS execution",
+    "no paid GCP execution",
+    "no Observatory redesign",
+    "no DRT-B six-resident qualification",
+    "no DRT-C final distributed Runtime qualification",
+    "no DRT-D GCP portability qualification",
+    "no provider credential proof",
+    "no public cloud exposure"
+  ],
+  "contract_source": "adl-runtime/src/qualification/mod.rs",
+  "validation_harness": "adl-runtime/tests/distributed_contract/validate_drt_a.sh"
+}
