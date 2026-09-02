@@ -10,11 +10,11 @@ use adl_runtime_kernel::{
     build_production_operation_executors_with_recorder, run_resident_shepherd_recovery,
     AdapterKind, AdapterPolicy, AuthorityMode, ExecutionPermit, ExecutorError, LocalShepherdConfig,
     LocalShepherdExecutor, OperationError, OperationExecutor, OperationRequest, OperationalAdapter,
-    ResidentShepherdExecutor, ResidentShepherdInitConfig, ResidentShepherdReadiness,
-    ResidentShepherdRecoveryPolicy, ResidentShepherdRecoveryState, ShepherdError,
-    ShepherdExecutionClass, ShepherdFailureResponse, ShepherdModelIdentity, ShepherdProvenance,
-    ShepherdResponse, OPERATION_REQUEST_SCHEMA, SHEPHERD_FAILURE_SCHEMA, SHEPHERD_REQUEST_SCHEMA,
-    SHEPHERD_RESPONSE_SCHEMA, SHEPHERD_RUNNER_RESPONSE_SCHEMA,
+    ResidentShepherdExecutor, ResidentShepherdInitConfig, ResidentShepherdProbeExecutor,
+    ResidentShepherdReadiness, ResidentShepherdRecoveryPolicy, ResidentShepherdRecoveryState,
+    ShepherdError, ShepherdExecutionClass, ShepherdFailureResponse, ShepherdModelIdentity,
+    ShepherdProvenance, ShepherdResponse, OPERATION_REQUEST_SCHEMA, SHEPHERD_FAILURE_SCHEMA,
+    SHEPHERD_REQUEST_SCHEMA, SHEPHERD_RESPONSE_SCHEMA, SHEPHERD_RUNNER_RESPONSE_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 use serde_json::{json, Value};
@@ -920,7 +920,7 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
     .unwrap()
     .remove(&AdapterKind::Shepherd)
     .unwrap();
-    let executor = ResidentShepherdExecutor::new(
+    let executor = Arc::new(ResidentShepherdExecutor::new(
         "runtime-test",
         [
             ResidentShepherdInitConfig {
@@ -943,7 +943,7 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
             },
         ],
         native,
-    );
+    ));
     executor.readiness().mark_ready("lumen.axioma");
     let request = OperationRequest {
         schema: OPERATION_REQUEST_SCHEMA.to_owned(),
@@ -1024,7 +1024,7 @@ async fn shepherd_provider_routes_through_private_openai_compatible_gateway() {
     .unwrap()
     .remove(&AdapterKind::Shepherd)
     .unwrap();
-    let executor = ResidentShepherdExecutor::new(
+    let executor = Arc::new(ResidentShepherdExecutor::new(
         "runtime-test",
         [ResidentShepherdInitConfig {
             name: "meridian.axioma".to_owned(),
@@ -1036,8 +1036,7 @@ async fn shepherd_provider_routes_through_private_openai_compatible_gateway() {
             preload: Default::default(),
         }],
         native,
-    );
-    executor.readiness().mark_ready("meridian.axioma");
+    ));
     let request = OperationRequest {
         schema: OPERATION_REQUEST_SCHEMA.to_owned(),
         request_id: "gateway-provider-request".to_owned(),
@@ -1053,9 +1052,19 @@ async fn shepherd_provider_routes_through_private_openai_compatible_gateway() {
         .unwrap(),
         permit: None,
     };
+    assert_eq!(
+        executor.execute(&request).await.unwrap_err().message,
+        "shepherd_model_not_ready"
+    );
+    let probe = ResidentShepherdProbeExecutor::new(executor.clone());
     let response: ShepherdResponse =
-        serde_json::from_slice(&executor.execute(&request).await.unwrap()).unwrap();
+        serde_json::from_slice(&probe.execute(&request).await.unwrap()).unwrap();
     assert_eq!(response.response, "gateway-backed answer");
+    assert!(!executor.readiness().is_ready("meridian.axioma"));
+    assert_eq!(
+        executor.execute(&request).await.unwrap_err().message,
+        "shepherd_model_not_ready"
+    );
     server.await.unwrap();
 }
 

@@ -58,7 +58,7 @@ fn canonical_name_is_projected_and_old_v1_entries_remain_readable() {
 }
 
 #[test]
-fn production_shepherd_construction_uses_configured_canonical_name() {
+fn resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts() {
     let config = ResidentShepherdInitConfig {
         name: "beacon.axioma".to_owned(),
         display_name: "Beacon".to_owned(),
@@ -75,6 +75,10 @@ fn production_shepherd_construction_uses_configured_canonical_name() {
     assert_eq!(shepherd.name, config.name);
     assert_eq!(shepherd.label, config.display_name);
     assert_eq!(shepherd.role, config.office);
+    assert_eq!(feed.total_count, 1);
+    assert_eq!(feed.rendered_sample_count, 1);
+    assert!(feed.population_complete);
+    assert!(!feed.has_more);
 }
 
 #[test]

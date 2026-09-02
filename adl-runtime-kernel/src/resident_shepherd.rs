@@ -32,6 +32,13 @@ pub struct ResidentShepherdExecutor {
     admission: Arc<dyn OperationExecutor>,
 }
 
+/// Internal-only executor used by the Runtime's governed bootstrap probe. It
+/// shares the production provider path but deliberately bypasses only the
+/// public readiness gate; it never mutates that gate itself.
+pub struct ResidentShepherdProbeExecutor {
+    inner: Arc<ResidentShepherdExecutor>,
+}
+
 #[derive(Clone, Default)]
 pub struct ResidentShepherdReadiness(Arc<RwLock<BTreeSet<String>>>);
 
@@ -168,6 +175,84 @@ impl ResidentShepherdExecutor {
             message: message.to_owned(),
         }
     }
+
+    async fn execute_provider_request(
+        &self,
+        request: &OperationRequest,
+        cancellation: &CancellationToken,
+        require_ready: bool,
+    ) -> Result<Vec<u8>, ExecutorError> {
+        let parsed = serde_json::from_slice::<ShepherdRequest>(&request.payload);
+        if parsed.is_err() {
+            return self
+                .admission
+                .execute_with_cancellation(request, cancellation)
+                .await;
+        }
+        let shepherd_request = decode_request(request, 16 * 1024)
+            .map_err(|_| Self::invalid("shepherd_invalid_request"))?;
+        if shepherd_request.runtime_id != self.runtime_id {
+            return Err(Self::invalid("shepherd_invalid_request"));
+        }
+        let shepherd_name = shepherd_request
+            .shepherd_name
+            .as_deref()
+            .unwrap_or(&self.primary_name);
+        let config = self
+            .configs
+            .get(shepherd_name)
+            .ok_or_else(|| Self::invalid("shepherd_unknown_resident"))?;
+        if require_ready && !self.ready.is_ready(shepherd_name) {
+            return Err(ExecutorError {
+                class: FailureClass::Retryable,
+                message: "shepherd_model_not_ready".to_owned(),
+            });
+        }
+        let started = Instant::now();
+        let response = invoke_resident_shepherd_provider(
+            &config.provider,
+            &config.endpoint,
+            &config.model,
+            &shepherd_request.prompt,
+            cancellation,
+        )
+        .await
+        .map_err(|message| ExecutorError {
+            class: if message == "operation cancelled" {
+                FailureClass::Degraded
+            } else {
+                FailureClass::Retryable
+            },
+            message: message.to_owned(),
+        })?;
+        let response_sha256 = sha256(response.as_bytes());
+        serde_json::to_vec(&ShepherdResponse {
+            schema: SHEPHERD_RESPONSE_SCHEMA.to_owned(),
+            correlation_id: shepherd_request.correlation_id,
+            runtime_id: self.runtime_id.clone(),
+            execution_class: ShepherdExecutionClass::RealLocalModel,
+            provenance: ShepherdProvenance::LiveExecution,
+            retained: false,
+            backend_identity_sha256: Some(sha256(config.provider.as_bytes())),
+            model_identity_sha256: sha256(config.model.as_bytes()),
+            model_artifact_sha256: None,
+            runner_program_sha256: sha256(config.endpoint.as_bytes()),
+            runner_launch_sha256: sha256(
+                format!("{}:{}", config.provider, config.model).as_bytes(),
+            ),
+            runner_nonce_sha256: None,
+            elapsed_millis: started.elapsed().as_millis().try_into().unwrap_or(u64::MAX),
+            response: response.clone(),
+            response_sha256,
+        })
+        .map_err(|_| Self::invalid("shepherd_response_encoding_failed"))
+    }
+}
+
+impl ResidentShepherdProbeExecutor {
+    pub fn new(inner: Arc<ResidentShepherdExecutor>) -> Self {
+        Self { inner }
+    }
 }
 
 impl OperationExecutor for ResidentShepherdExecutor {
@@ -197,72 +282,7 @@ impl OperationExecutor for ResidentShepherdExecutor {
         'life2: 'async_trait,
         Self: 'async_trait,
     {
-        Box::pin(async move {
-            let parsed = serde_json::from_slice::<ShepherdRequest>(&request.payload);
-            if parsed.is_err() {
-                return self
-                    .admission
-                    .execute_with_cancellation(request, cancellation)
-                    .await;
-            }
-            let shepherd_request = decode_request(request, 16 * 1024)
-                .map_err(|_| Self::invalid("shepherd_invalid_request"))?;
-            if shepherd_request.runtime_id != self.runtime_id {
-                return Err(Self::invalid("shepherd_invalid_request"));
-            }
-            let shepherd_name = shepherd_request
-                .shepherd_name
-                .as_deref()
-                .unwrap_or(&self.primary_name);
-            let config = self
-                .configs
-                .get(shepherd_name)
-                .ok_or_else(|| Self::invalid("shepherd_unknown_resident"))?;
-            if !self.ready.is_ready(shepherd_name) {
-                return Err(ExecutorError {
-                    class: FailureClass::Retryable,
-                    message: "shepherd_model_not_ready".to_owned(),
-                });
-            }
-            let started = Instant::now();
-            let response = invoke_resident_shepherd_provider(
-                &config.provider,
-                &config.endpoint,
-                &config.model,
-                &shepherd_request.prompt,
-                cancellation,
-            )
-            .await
-            .map_err(|message| ExecutorError {
-                class: if message == "operation cancelled" {
-                    FailureClass::Degraded
-                } else {
-                    FailureClass::Retryable
-                },
-                message: message.to_owned(),
-            })?;
-            let response_sha256 = sha256(response.as_bytes());
-            serde_json::to_vec(&ShepherdResponse {
-                schema: SHEPHERD_RESPONSE_SCHEMA.to_owned(),
-                correlation_id: shepherd_request.correlation_id,
-                runtime_id: self.runtime_id.clone(),
-                execution_class: ShepherdExecutionClass::RealLocalModel,
-                provenance: ShepherdProvenance::LiveExecution,
-                retained: false,
-                backend_identity_sha256: Some(sha256(config.provider.as_bytes())),
-                model_identity_sha256: sha256(config.model.as_bytes()),
-                model_artifact_sha256: None,
-                runner_program_sha256: sha256(config.endpoint.as_bytes()),
-                runner_launch_sha256: sha256(
-                    format!("{}:{}", config.provider, config.model).as_bytes(),
-                ),
-                runner_nonce_sha256: None,
-                elapsed_millis: started.elapsed().as_millis().try_into().unwrap_or(u64::MAX),
-                response: response.clone(),
-                response_sha256,
-            })
-            .map_err(|_| Self::invalid("shepherd_response_encoding_failed"))
-        })
+        Box::pin(self.execute_provider_request(request, cancellation, true))
     }
 
     fn replay_payload(&self, payload: &[u8]) -> Result<Vec<u8>, ExecutorError> {
@@ -272,6 +292,46 @@ impl OperationExecutor for ResidentShepherdExecutor {
         response.retained = true;
         serde_json::to_vec(&response)
             .map_err(|_| Self::invalid("shepherd_response_encoding_failed"))
+    }
+}
+
+impl OperationExecutor for ResidentShepherdProbeExecutor {
+    fn execute<'life0, 'life1, 'async_trait>(
+        &'life0 self,
+        request: &'life1 OperationRequest,
+    ) -> Pin<Box<dyn Future<Output = Result<Vec<u8>, ExecutorError>> + Send + 'async_trait>>
+    where
+        'life0: 'async_trait,
+        'life1: 'async_trait,
+        Self: 'async_trait,
+    {
+        Box::pin(async move {
+            let cancellation = CancellationToken::new();
+            self.inner
+                .execute_provider_request(request, &cancellation, false)
+                .await
+        })
+    }
+
+    fn execute_with_cancellation<'life0, 'life1, 'life2, 'async_trait>(
+        &'life0 self,
+        request: &'life1 OperationRequest,
+        cancellation: &'life2 CancellationToken,
+    ) -> Pin<Box<dyn Future<Output = Result<Vec<u8>, ExecutorError>> + Send + 'async_trait>>
+    where
+        'life0: 'async_trait,
+        'life1: 'async_trait,
+        'life2: 'async_trait,
+        Self: 'async_trait,
+    {
+        Box::pin(
+            self.inner
+                .execute_provider_request(request, cancellation, false),
+        )
+    }
+
+    fn replay_payload(&self, payload: &[u8]) -> Result<Vec<u8>, ExecutorError> {
+        self.inner.replay_payload(payload)
     }
 }
 

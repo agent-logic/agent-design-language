@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "7be8e1d4e54b4c8cb26b580b8bce59fbff9faa86491b14728c4dd424706177cc",
+  "generation": 19,
+  "digest": "937c1c131a72e2a38b08a746a1fc76386dac629f0555df78e60ce42dfecf2a89",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2b17188420bc12c3f43a6c50d6952fb6db7c186f4535c8c179a9184fe6668b78",
+      "values_digest": "bbd4977a3ffb911b5326c184e2df4f67f7a20b5b89a670ff1c74239c8f15cab7",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "6f2cb4444c880b2a6df5494bd43f864321b18545edc283e1dc0b3dff123058e6",
+      "values_digest": "6db0ba5731e7ecb180cdea0e0fb1529ab65400e3a23e82ef33fa00c0e1afea01",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "85f8a53c107f1db515e9b69665225087edbb3cee0a6e4f4008fa213b3111bf43",
+      "values_digest": "5c934d6797dfc895ae8956ef9248d0c4863ae2074d05698cf3243464f3e1e842",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "fcde6f8941be413043e2e9c059fcb3044da99868eea0f36274ee469c6a1ebdd7",
+      "values_digest": "759f9c1382fe5e340b1ee23ae4b721fd8c840f5a668b41bfa4a467e7a5084dc8",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "41e90316830867c3cac8597f60753f3b3fe5c676c39d7287cc85d3b0a4e677ab",
+      "values_digest": "c3ac149cc67ac0ca77f2e31a5af6b7c928a556cc0d95e8a7344be86111884151",
       "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
       "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
     },
     "sor": {
-      "values_digest": "64d595ca87ad0ce894b7b8eaa1c6c506b3066b2c2335787641fd4e10be63f3dc",
+      "values_digest": "837980849fc8c818ab06c377463637cd4d75810f07594fc3ed0d4fe3e61cf825",
       "rendered_digest": "3c3790275cdc4ff4621de39280337bf463c1fa7549a034771f13c43e105cf29d",
       "ast_digest": "2c6f981cf604cfb7eaaba97f524d43e9d0b5c536f416a26e51c6afdf013707aa"
     }
@@ -245,6 +245,27 @@
       "actor": "codex-640-owner",
       "reason": "Record final review remediations, exact focused proof, and exact-binary Wuji Guardian recovery acceptance before independent review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented provider-backed resident Shepherds with provider-neutral private gateway support, tested lifetime recovery, presentation-safe continuity identity, shared readiness truth, and exact-binary Wuji restart proof.\",\"changes\":[\"Support compiled Ollama and private OpenAI-compatible provider adapters without serializing provider credentials into Runtime configuration or API output.\",\"Run provider preload plus governed inference through one reusable lifetime recovery controller that retries transient failure without terminating or globally blocking the Runtime.\",\"Exclude resident Shepherd presentation labels from continuity identity for both single and multi-Shepherd configurations while retaining canonical stateful bindings.\",\"Bind Wuji acceptance to the exact checked-out release build and installed canonical kernel SHA-256, then prove Guardian child recovery to a new Runtime PID.\",\"Retain one canonical deployed Runtime kernel binary and report Beacon Axioma backed by qwen3:8b with consistent readiness and Observatory truth.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove seven nonzero focused configuration, provider dispatch, governed inference, lifetime recovery, canonical identity, readiness consistency, formatting, and diff-hygiene behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across changed Runtime production and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\",\"--observe-existing-guardian-restart\"],\"purpose\":\"Prove exact commit 078dba11445cdd9affdd86e3133871bacc0e7144 and installed kernel digest e997c3a329994737724f58182d1f0863e71d678ef5fed46f315afc0d4f9a6c59 recover under Guardian to a new PID, preload qwen3:8b, pass governed inference, and report consistent local and AWS readiness.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover the changes-required exact-head review before repairing public probe gating, live executable and Guardian provenance, and resident roster counts.",
+      "operation": "recover_review"
     }
   ]
 }

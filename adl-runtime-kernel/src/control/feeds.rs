@@ -145,6 +145,9 @@ impl AgentPopulationFeed {
                 .visible_agent_ids
                 .insert(id);
         }
+        feed.total_count = feed.sample.len() as u64;
+        feed.rendered_sample_count = feed.total_count;
+        feed.population_complete = true;
         feed
     }
 

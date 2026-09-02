@@ -28,11 +28,11 @@ use adl_runtime_kernel::{
     ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
     DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot,
     ObservabilityDegradation, ObservabilityHealth, OperationRequest, OperationalAdapter,
-    RecorderTrustedTime, ResidentShepherdExecutor, ResidentShepherdRecoveryPolicy,
-    RsntpTimeSampleSource, RunningState, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
-    TlsIdentityPaths, TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
-    OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
+    RecorderTrustedTime, ResidentShepherdExecutor, ResidentShepherdProbeExecutor,
+    ResidentShepherdRecoveryPolicy, RsntpTimeSampleSource, RunningState, RuntimeInitConfig,
+    RuntimeRecorder, SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds,
+    TimeSampleSource, TlsIdentityPaths, TrustedControlKey, TrustedTime,
+    AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -272,7 +272,9 @@ async fn main() -> ExitCode {
                         idempotency_entries: 16,
                         authority: AuthorityMode::Internal,
                     },
-                    resident_shepherd.clone(),
+                    Arc::new(ResidentShepherdProbeExecutor::new(
+                        resident_shepherd.clone(),
+                    )),
                 )
                 .expect("resident Shepherd probe policy is valid"),
             );
@@ -735,7 +737,6 @@ async fn main() -> ExitCode {
                     };
                     let attempt_shutdown = shutdown.clone();
                     let attempt_shepherd = shepherd.clone();
-                    let attempt_readiness = readiness.clone();
                     let health_name = name.clone();
                     let sequence = Arc::new(std::sync::atomic::AtomicU64::new(0));
                     run_resident_shepherd_recovery(
@@ -749,13 +750,8 @@ async fn main() -> ExitCode {
                             let adapter = probe_adapter.clone();
                             let runtime_id = probe_runtime_id.clone();
                             let sequence = sequence.clone();
-                            let readiness = attempt_readiness.clone();
                             async move {
                                 preload_resident_shepherd_model(&shepherd, &shutdown).await?;
-                                // Permit the internal governed self-probe through the
-                                // executor gate. Public health remains model_loading
-                                // until the controller observes the successful result.
-                                readiness.mark_ready(&shepherd.name);
                                 let probe_sequence = sequence.fetch_add(
                                     1,
                                     std::sync::atomic::Ordering::Relaxed,

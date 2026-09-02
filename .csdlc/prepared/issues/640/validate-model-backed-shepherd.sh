@@ -5,10 +5,7 @@ repo_root="$(git rev-parse --show-toplevel)"
 cd "$repo_root"
 
 if [[ "${1:-}" == "--live-wuji" ]]; then
-  observe_existing_restart=false
-  if [[ "${2:-}" == "--observe-existing-guardian-restart" ]]; then
-    observe_existing_restart=true
-  elif [[ -n "${2:-}" ]]; then
+  if [[ -n "${2:-}" ]]; then
     echo "unsupported live Wuji acceptance option: $2" >&2
     exit 64
   fi
@@ -21,45 +18,40 @@ if [[ "${1:-}" == "--live-wuji" ]]; then
   feed="$evidence_dir/wuji-observatory-feed.json"
   ready="$evidence_dir/wuji-readiness.json"
   before="$evidence_dir/wuji-service-before-restart.json"
-  receipt="$evidence_dir/wuji-restart-receipt.json"
   source_kernel="$repo_root/adl-runtime-kernel/target/release/adl-runtime-kernel"
-  installed_kernel="$primary_root/.adl/runtime-v3/current/bin/adl-runtime-kernel"
+  installed_kernel="$(python3 -c 'import sys,tomllib; print(tomllib.load(open(sys.argv[1], "rb"))["binaries"]["kernel_path"])' "$init")"
+  installed_kernel_realpath="$(realpath "$installed_kernel")"
   cargo build --locked --release --manifest-path adl-runtime-kernel/Cargo.toml --bin adl-runtime-kernel
   source_kernel_sha256="$(shasum -a 256 "$source_kernel" | awk '{print $1}')"
-  installed_kernel_sha256="$(shasum -a 256 "$installed_kernel" | awk '{print $1}')"
+  installed_kernel_sha256="$(shasum -a 256 "$installed_kernel_realpath" | awk '{print $1}')"
   if [[ "$source_kernel_sha256" != "$installed_kernel_sha256" ]]; then
     echo "installed Runtime kernel does not match the exact checked-out source build" >&2
     exit 1
   fi
-  if [[ "$observe_existing_restart" == false ]]; then
-    "$csm" runtime-v3 status --init "$init" --json >"$before" || true
-    "$csm" runtime-v3 stop --init "$init" --json >/dev/null
-    for _ in $(seq 1 120); do
-      if python3 - <<'PY'
-import socket
-listeners = []
-try:
-    for port in (20997, 20998):
-        listener = socket.socket()
-        listener.bind(("127.0.0.1", port))
-        listeners.append(listener)
-except OSError:
-    raise SystemExit(1)
-finally:
-    for listener in listeners:
-        listener.close()
-PY
-      then
-        break
-      fi
-      sleep 1
-    done
-    "$csm" runtime-v3 start --init "$init" --json >/dev/null
-  elif [[ ! -s "$before" ]]; then
-    echo "existing Guardian restart observation requires a captured before status" >&2
+  deployed_kernel_count="$(find "$primary_root/.adl/runtime-v3/releases" -type f -perm -111 -name 'adl-runtime-kernel*' | wc -l | tr -d ' ')"
+  if [[ "$deployed_kernel_count" != "1" ]]; then
+    echo "expected exactly one deployed Runtime kernel executable, found $deployed_kernel_count" >&2
     exit 1
   fi
-  "$csm" runtime-v3 status --init "$init" --json >"$status"
+  "$csm" runtime-v3 status --init "$init" --json >"$before"
+  before_runtime_pid="$(jq -er '.runtime_process_id' "$before")"
+  before_guardian_pid="$(jq -er '.guardian_process_id' "$before")"
+  kill -TERM "$before_runtime_pid"
+  for _ in $(seq 1 120); do
+    if "$csm" runtime-v3 status --init "$init" --json >"$status" 2>/dev/null \
+      && jq -e --argjson before "$before_runtime_pid" '.listener_ready == true and .runtime_process_id != $before' "$status" >/dev/null; then
+      break
+    fi
+    sleep 1
+  done
+  after_runtime_pid="$(jq -er '.runtime_process_id' "$status")"
+  process_kernel="$(lsof -a -p "$after_runtime_pid" -d txt -Fn | awk '/^n/ {print substr($0, 2); exit}')"
+  process_kernel_realpath="$(realpath "$process_kernel")"
+  process_kernel_sha256="$(shasum -a 256 "$process_kernel_realpath" | awk '{print $1}')"
+  if [[ "$process_kernel_realpath" != "$installed_kernel_realpath" || "$process_kernel_sha256" != "$installed_kernel_sha256" ]]; then
+    echo "running Runtime process is not executing the configured exact-build kernel" >&2
+    exit 1
+  fi
   public_base_url="$(python3 -c 'import sys,tomllib; print(tomllib.load(open(sys.argv[1], "rb"))["api"]["public_base_url"])' "$init")"
   for _ in $(seq 1 180); do
     curl -fsSk "$public_base_url:20997/v1/observatory" >"$feed"
@@ -69,14 +61,19 @@ PY
     sleep 5
   done
   curl -fsSk "$public_base_url:20997/v1/ready" >"$ready"
-  python3 - "$status" "$feed" "$ready" "$source_kernel_sha256" "$observe_existing_restart" <<'PY'
+  python3 - "$status" "$feed" "$ready" "$source_kernel_sha256" "$installed_kernel" "$installed_kernel_realpath" "$process_kernel_realpath" "$before_guardian_pid" "$deployed_kernel_count" <<'PY'
 import json, os, socket, subprocess, sys
 status = json.load(open(sys.argv[1]))
 feed = json.load(open(sys.argv[2]))
 ready = json.load(open(sys.argv[3]))
 installed_kernel_sha256 = sys.argv[4]
-observed_existing_restart = sys.argv[5] == "true"
+configured_kernel_path = sys.argv[5]
+configured_kernel_realpath = sys.argv[6]
+process_kernel_realpath = sys.argv[7]
+before_guardian_pid = int(sys.argv[8])
+deployed_kernel_count = int(sys.argv[9])
 assert status["service_loaded"] and status["listener_ready"] and status["observability_ready"]
+assert status["guardian_process_id"] == before_guardian_pid
 shepherd = next(agent for agent in feed["agents"]["sample"] if agent["id"] == "shepherd")
 assert shepherd["name"] == "beacon.axioma"
 assert shepherd["provider"] == "ollama" and shepherd["model"] == "qwen3:8b"
@@ -87,14 +84,21 @@ assert ready["ready"] is True and ready["observability_ready"] is True
 assert ready["runtime_process_id"] == status["runtime_process_id"] == feed["runtime_process_id"]
 before = json.load(open(os.path.join(os.path.dirname(sys.argv[1]), "wuji-service-before-restart.json")))
 assert before["runtime_process_id"] != status["runtime_process_id"]
+assert before["guardian_process_id"] == status["guardian_process_id"]
 receipt = {
   "schema":"adl.issue_640.wuji_acceptance.v2",
   "status":"pass",
   "candidate_revision":subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
   "host":socket.gethostname(),
-  "command":["bash", ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh", "--live-wuji"] + (["--observe-existing-guardian-restart"] if observed_existing_restart else []),
-  "restart_mechanism":"guardian_child_recovery" if observed_existing_restart else "csm_service_restart",
+  "command":["bash", ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh", "--live-wuji"],
+  "restart_mechanism":"validator_sigterm_then_guardian_child_recovery",
+  "guardian_process_id":status["guardian_process_id"],
+  "configured_kernel_path":configured_kernel_path,
+  "configured_kernel_realpath":configured_kernel_realpath,
+  "process_kernel_realpath":process_kernel_realpath,
   "installed_kernel_sha256":installed_kernel_sha256,
+  "process_kernel_sha256":installed_kernel_sha256,
+  "deployed_kernel_executable_count":deployed_kernel_count,
   "runtime_process_before":before["runtime_process_id"],
   "runtime_process_after":status["runtime_process_id"],
   "restart_proved":True,
