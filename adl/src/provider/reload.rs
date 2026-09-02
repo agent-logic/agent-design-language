@@ -397,6 +397,7 @@ pub fn current_provider_reload_document() -> Option<Arc<adl::AdlDoc>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::time::UNIX_EPOCH;
 
     fn provider(kind: &str) -> adl::ProviderSpec {
         adl::ProviderSpec {
@@ -407,6 +408,70 @@ mod tests {
             default_model: Some("mock-model".to_string()),
             config: HashMap::new(),
         }
+    }
+
+    fn provider_doc(default_model: &str) -> adl::AdlDoc {
+        let mut providers = HashMap::new();
+        let mut provider = provider("mock");
+        provider.default_model = Some(default_model.to_string());
+        providers.insert("primary".to_string(), provider);
+
+        adl::AdlDoc {
+            version: "0.5".to_string(),
+            providers,
+            tools: HashMap::new(),
+            agents: HashMap::new(),
+            tasks: HashMap::new(),
+            workflows: HashMap::new(),
+            patterns: vec![],
+            signature: None,
+            run: adl::RunSpec {
+                id: None,
+                name: None,
+                created_at: None,
+                defaults: adl::RunDefaults::default(),
+                workflow_ref: None,
+                workflow: Some(adl::WorkflowSpec {
+                    id: None,
+                    kind: adl::WorkflowKind::Sequential,
+                    max_concurrency: None,
+                    steps: vec![],
+                }),
+                pattern_ref: None,
+                inputs: HashMap::new(),
+                placement: None,
+                remote: None,
+                delegation_policy: None,
+            },
+        }
+    }
+
+    fn provider_reload_sidecar(default_model: &str) -> String {
+        format!(
+            r#"schema: adl.provider_reload_sidecar.v1
+version: "0.5"
+providers:
+  primary:
+    type: mock
+    default_model: {default_model}
+"#
+        )
+    }
+
+    fn unique_temp_path(prefix: &str) -> PathBuf {
+        let nanos = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock after epoch")
+            .as_nanos();
+        std::env::temp_dir().join(format!("{prefix}-{}-{nanos}", std::process::id()))
+    }
+
+    fn current_global_provider_model() -> Option<String> {
+        current_provider_reload_document().and_then(|doc| {
+            doc.providers
+                .get("primary")
+                .and_then(|provider| provider.default_model.clone())
+        })
     }
 
     #[test]
@@ -463,5 +528,60 @@ mod tests {
         let first = redacted_provider_digest(&providers).expect("digest");
         let second = redacted_provider_digest(&providers).expect("digest");
         assert_eq!(first, second);
+    }
+
+    #[test]
+    fn global_provider_reload_guard_only_clears_owned_registration() {
+        let base = unique_temp_path("adl-provider-reload-global-guard");
+        std::fs::create_dir_all(&base).expect("create base");
+        let sidecar_a = base.join("providers-a.yaml");
+        let sidecar_b = base.join("providers-b.yaml");
+        std::fs::write(&sidecar_a, provider_reload_sidecar("workflow-a-model"))
+            .expect("write sidecar a");
+        std::fs::write(&sidecar_b, provider_reload_sidecar("workflow-b-model"))
+            .expect("write sidecar b");
+
+        let runtime = tokio::runtime::Runtime::new().expect("runtime");
+        let owner_a = runtime
+            .block_on(ProviderReloadOwner::start(
+                sidecar_a,
+                provider_doc("base-a-model"),
+                ConfigReloadOptions::default(),
+            ))
+            .expect("start owner a");
+        let owner_b = runtime
+            .block_on(ProviderReloadOwner::start(
+                sidecar_b,
+                provider_doc("base-b-model"),
+                ConfigReloadOptions::default(),
+            ))
+            .expect("start owner b");
+
+        let guard_a = set_global_provider_reload_handle(owner_a.handle());
+        assert_eq!(
+            current_global_provider_model().as_deref(),
+            Some("workflow-a-model")
+        );
+
+        let guard_b = set_global_provider_reload_handle(owner_b.handle());
+        assert_eq!(
+            current_global_provider_model().as_deref(),
+            Some("workflow-b-model")
+        );
+
+        drop(guard_a);
+        assert_eq!(
+            current_global_provider_model().as_deref(),
+            Some("workflow-b-model"),
+            "dropping an older guard must not clear a newer global registration"
+        );
+
+        drop(guard_b);
+        assert_eq!(current_global_provider_model(), None);
+
+        let outcome_b = runtime.block_on(owner_b.shutdown()).expect("shutdown b");
+        assert!(outcome_b.shutdown_requested);
+        let outcome_a = runtime.block_on(owner_a.shutdown()).expect("shutdown a");
+        assert!(outcome_a.shutdown_requested);
     }
 }

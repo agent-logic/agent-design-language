@@ -139,6 +139,15 @@ Addressed PR #646 exact-head review blockers by making provider/profile reload s
     "purpose": "Prove formatting and clippy cleanliness for the #622 process-global reload repair before fresh exact-head review.",
     "outcome": "passed",
     "evidence_ref": "terminal:issue-622-process-global-repair-local-fmt-clippy: cargo fmt --manifest-path adl/Cargo.toml --all -- --check passed; cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings finished successfully"
+  },
+  {
+    "command": [
+      "cargo",
+      "test --locked --manifest-path adl/Cargo.toml --lib global_provider_reload_guard_only_clears_owned_registration -- --nocapture"
+    ],
+    "purpose": "Prove the compatibility process-global provider reload guard is identity-aware: registering handle B after handle A must remain on B when guard A is dropped, and guard B must clear only its own registration.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:issue-622-global-guard-regression: global_provider_reload_guard_only_clears_owned_registration 1 passed; production and safety lanes subsequently included provider_reload 7 passed; fmt and clippy passed"
   }
 ]
 

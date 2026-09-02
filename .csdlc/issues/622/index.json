@@ -5,11 +5,18 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "6f869288b219ef0057ffdb4f60b767ab6872763d69a86e5f6e7c1e58236aaaaf",
+  "generation": 23,
+  "digest": "524141c3eb185308ba11a391c8f65f52af3b96dbee614928588c2dd1ca042af3",
   "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_622_process_global_handle_exact_head",
+    "assigned_by": "codex:/root:issue-622-review-repair",
+    "revision": "git-blake3:309de1037c7b604455691332de51044ebfca16ae:6c0cfbe10d2e818d8e30ba6e8e93842ccd460607860cfac758bc5569c2e28964",
+    "scope": [
+      "."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -25,34 +32,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8d2a849951505712380b36307db9f5c5e4bad25bd6a9c73637cd0723895c7c3b",
+      "values_digest": "319798eb585a45b26466619c920fdac7a662551aff566d0590dc56abef0d99b0",
       "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
       "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
     },
     "stp": {
-      "values_digest": "56ef5bf9d3d184cdac59f23a8ccb981ed165b78d3bfad0f51dc35126fc94f227",
+      "values_digest": "11de44ae1fc6b2581fef6434a3e0cf64d47ad6c04df4442cd3a74d02724f4380",
       "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
       "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
     },
     "spp": {
-      "values_digest": "cbb66e24539a1b7f696968d24d30243adf2de9e4051c3027c91f26b8f42dd818",
+      "values_digest": "a83dbee7b69cb5d9c494b6c1ad49fbad43a8421114f5dc442751db6b7f8c9c94",
       "rendered_digest": "cbd5bc3401a6967f6fb383c01b6d927f7d8b22356e20a53da1239f5a8b942b8a",
       "ast_digest": "f50038f904ded4622355bb9aa2e01c666aaef02f27a757a0779a5425aad9f191"
     },
     "vpp": {
-      "values_digest": "847abe1a3f737d456b2d31e53897dd2ccd479acd5ca97f846f89848c59b8e3a4",
+      "values_digest": "13393ff17bc1ef4e8e5abe741ee44b28ffbadd4320a6fafc96dcd1f7926ddb6a",
       "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
       "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
     },
     "srp": {
-      "values_digest": "caa43e4a7fcd1842f4f8fbce98342ab4085df731456788c00e7ea0d9fbd58292",
-      "rendered_digest": "7d5f81f9ea849204b89285ff66ae2df3380812717ddd66a17954d3b93574740e",
-      "ast_digest": "c874784ae80d00f7917c5b9bc1e91c5874aac5aa2383e0c85f847a09c5276dfa"
+      "values_digest": "9745cfef5bcd0e15fd7b251ed8112132761232bc65c0f8b9a605da8584249284",
+      "rendered_digest": "4b1e62abd1504e0f3588372dcd5e07366359f880aa3070875eae8a85902bc1ee",
+      "ast_digest": "e024ae14922fd07ccf1deb49505a74b54f7d7436929551eeab4ed249e1b8b38f"
     },
     "sor": {
-      "values_digest": "7448c3f7f8913aad742a701a46dda331d38b9993e7e05ba8d6363eadc33436b2",
-      "rendered_digest": "48db2abc742bbc61aac5e7bae2d0735dae16f23501eee331825e7bfee43d66ed",
-      "ast_digest": "eba659e59ccc6f1f37992d9457cdbe735d4721a3db881d052e64579a6aa94afc"
+      "values_digest": "dd52b6c465d8ef98d16762bba8334ecf08b69cd5f53f417b6523f23597025887",
+      "rendered_digest": "8553ed48266cee6856fd3bf5795e57ac5881766a9b71d1f730b65d0dd6b358a5",
+      "ast_digest": "bc915faae9e3df278b0959e03364922adeab704268bdf945a13686dc02d00a57"
     }
   },
   "transitions": [
@@ -309,6 +316,20 @@
       "actor": "codex:/root:issue-622-review-repair",
       "reason": "Record passing local fmt/clippy validation after process-global reload state repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt --manifest-path adl/Cargo.toml --all -- --check && cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Prove formatting and clippy cleanliness for the #622 process-global reload repair before fresh exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-process-global-repair-local-fmt-clippy: cargo fmt --manifest-path adl/Cargo.toml --all -- --check passed; cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings finished successfully\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "Record direct compatibility global-guard regression coverage added after exact-head review identified the gap.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test --locked --manifest-path adl/Cargo.toml --lib global_provider_reload_guard_only_clears_owned_registration -- --nocapture\"],\"purpose\":\"Prove the compatibility process-global provider reload guard is identity-aware: registering handle B after handle A must remain on B when guard A is dropped, and guard B must clear only its own registration.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-global-guard-regression: global_provider_reload_guard_only_clears_owned_registration 1 passed; production and safety lanes subsequently included provider_reload 7 passed; fmt and clippy passed\"}}"
     }
   ]
 }

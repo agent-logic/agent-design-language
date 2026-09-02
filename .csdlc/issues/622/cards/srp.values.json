@@ -7,13 +7,13 @@
     "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
     "slug": "provider-profile-hotload",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
