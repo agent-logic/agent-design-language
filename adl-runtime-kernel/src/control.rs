@@ -109,6 +109,11 @@ pub struct AgentAdmissionRequest {
     pub schema: String,
     pub id: String,
     pub name: String,
+    #[serde(default)]
+    pub display_name: String,
+    #[serde(default)]
+    pub office: String,
+    #[serde(default)]
     pub role: String,
     pub provider: String,
     pub model: String,
@@ -1763,7 +1768,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .write()
             .expect("agent population state poisoned");
         for agent in &agents {
-            validate_agent_admission(&agent)?;
+            validate_persisted_agent_admission(&agent)?;
             if !seen.insert(agent.id.clone()) {
                 return Err(ControlError::InvalidIdentifier);
             }
@@ -5069,9 +5074,40 @@ mod agent_lifecycle {
                 let Ok((mut socket, _)) = listener.accept().await else {
                     return;
                 };
-                let mut request = [0_u8; 4096];
-                let request_len = socket.read(&mut request).await.unwrap_or_default();
-                let is_generate = request[..request_len].starts_with(b"POST /api/generate ");
+                let mut request = Vec::with_capacity(4096);
+                while request.len() < 4096
+                    && !request.windows(4).any(|window| window == b"\r\n\r\n")
+                {
+                    let mut chunk = [0_u8; 1024];
+                    let read = socket.read(&mut chunk).await.unwrap_or_default();
+                    if read == 0 {
+                        break;
+                    }
+                    request.extend_from_slice(&chunk[..read]);
+                }
+                let header_end = request
+                    .windows(4)
+                    .position(|window| window == b"\r\n\r\n")
+                    .map(|index| index + 4)
+                    .unwrap_or(request.len());
+                let content_length = String::from_utf8_lossy(&request[..header_end])
+                    .lines()
+                    .find_map(|line| {
+                        let (name, value) = line.split_once(':')?;
+                        name.eq_ignore_ascii_case("content-length")
+                            .then(|| value.trim().parse::<usize>().ok())
+                            .flatten()
+                    })
+                    .unwrap_or_default();
+                while request.len() < header_end.saturating_add(content_length) {
+                    let mut chunk = [0_u8; 1024];
+                    let read = socket.read(&mut chunk).await.unwrap_or_default();
+                    if read == 0 {
+                        break;
+                    }
+                    request.extend_from_slice(&chunk[..read]);
+                }
+                let is_generate = request.starts_with(b"POST /api/generate ");
                 let body: &[u8] = if is_generate {
                     br#"{"response":"model reply"}"#
                 } else {
@@ -5093,8 +5129,10 @@ mod agent_lifecycle {
         AgentAdmissionRequest {
             schema: AGENT_ADMISSION_SCHEMA.to_owned(),
             id: "gemma-e4b".to_owned(),
-            name: "Gemma E4B".to_owned(),
-            role: "local assistant".to_owned(),
+            name: "ember.axioma".to_owned(),
+            display_name: "Ember Axioma".to_owned(),
+            office: "local assistant".to_owned(),
+            role: String::new(),
             provider: "ollama".to_owned(),
             model: "gemma4:e4b-mlx".to_owned(),
             endpoint,
@@ -5111,8 +5149,52 @@ mod agent_lifecycle {
             .path()
             .join("destination/dynamic-agent-admissions.json");
         let (endpoint, ollama_task) = ollama().await;
+        let legacy_path = root.path().join("legacy/dynamic-agent-admissions.json");
+        fs::create_dir_all(legacy_path.parent().unwrap()).unwrap();
+        fs::write(
+            &legacy_path,
+            serde_json::to_vec(&serde_json::json!({
+                "schema": DYNAMIC_AGENT_STORE_SCHEMA,
+                "agents": [{
+                    "schema": AGENT_ADMISSION_SCHEMA,
+                    "id": "legacy-gemma",
+                    "name": "Gemma",
+                    "role": "legacy persisted assistant",
+                    "provider": "ollama",
+                    "model": "gemma4:e4b-mlx",
+                    "endpoint": endpoint.clone(),
+                }]
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let legacy_service = service(legacy_path);
+        let legacy_sample = legacy_service
+            .agent_population
+            .read()
+            .unwrap()
+            .sample
+            .iter()
+            .find(|sample| sample.id == "legacy-gemma")
+            .cloned()
+            .unwrap();
+        assert_eq!(legacy_sample.label, "Gemma");
+        assert_eq!(legacy_sample.role, "legacy persisted assistant");
         let source = service(source_path.clone());
         let request = declaration(endpoint);
+
+        for invalid_name in ["ember.axioma.local", "ember.axioma-", "Gemma.local"] {
+            let mut invalid = request.clone();
+            invalid.name = invalid_name.to_owned();
+            assert!(source.admit_agent(invalid).await.is_err(), "{invalid_name}");
+        }
+        let mut legacy = request.clone();
+        legacy.name = "Gemma".to_owned();
+        legacy.display_name.clear();
+        legacy.office.clear();
+        legacy.role = "legacy persisted assistant".to_owned();
+        assert!(validate_persisted_agent_admission(&legacy).is_ok());
+        assert!(validate_agent_admission(&legacy).is_err());
 
         assert_eq!(
             source.admit_agent(request.clone()).await.unwrap().status,
@@ -5161,6 +5243,9 @@ mod agent_lifecycle {
                 },
             );
         let checkpoint = source.checkpoint_agent("gemma-e4b").unwrap();
+        assert_eq!(checkpoint.declaration.name, "ember.axioma");
+        assert_eq!(checkpoint.declaration.display_name, "Ember Axioma");
+        assert_eq!(checkpoint.declaration.office, "local assistant");
         assert_eq!(
             agent_checkpoint_digest(&checkpoint).unwrap(),
             checkpoint.checkpoint_digest
@@ -5200,6 +5285,9 @@ mod agent_lifecycle {
             .any(|agent| agent.id == "gemma-e4b"));
 
         let bundle = source.dehydrate_agent("gemma-e4b").unwrap();
+        assert_eq!(bundle.declaration.name, "ember.axioma");
+        assert_eq!(bundle.declaration.display_name, "Ember Axioma");
+        assert_eq!(bundle.declaration.office, "local assistant");
         assert_eq!(source.dehydrate_agent("gemma-e4b").unwrap(), bundle);
         assert_eq!(
             freeze_dried_agent_digest(&bundle).unwrap(),
@@ -5229,7 +5317,11 @@ mod agent_lifecycle {
             .sessions
             .contains_key("conversation-1"));
         let mut tampered = bundle;
-        tampered.declaration.role = "tampered".to_owned();
+        tampered.declaration.name = "ember.axioma.local".to_owned();
+        tampered.checkpoint.declaration = tampered.declaration.clone();
+        tampered.checkpoint.checkpoint_digest =
+            agent_checkpoint_digest(&tampered.checkpoint).unwrap();
+        tampered.bundle_digest = freeze_dried_agent_digest(&tampered).unwrap();
         assert!(destination.rehydrate_agent(tampered).await.is_err());
         assert!(destination.remove_agent("shepherd").is_err());
         ollama_task.abort();
@@ -5243,7 +5335,23 @@ enum AgentAdmissionFailure {
     Unavailable(&'static str),
 }
 
-fn validate_agent_admission(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
+pub fn is_canonical_agent_name(name: &str) -> bool {
+    let segments = name.split('.').collect::<Vec<_>>();
+    segments.len() == 2
+        && segments.iter().all(|segment| {
+            let bytes = segment.as_bytes();
+            !segment.is_empty()
+                && segment.len() <= 32
+                && bytes[0].is_ascii_lowercase()
+                && (bytes[bytes.len() - 1].is_ascii_lowercase()
+                    || bytes[bytes.len() - 1].is_ascii_digit())
+                && bytes
+                    .iter()
+                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || *byte == b'-')
+        })
+}
+
+fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
     if request.schema != AGENT_ADMISSION_SCHEMA
         || request.id == "shepherd"
         || !is_safe_identifier(&request.id)
@@ -5251,11 +5359,14 @@ fn validate_agent_admission(request: &AgentAdmissionRequest) -> Result<(), Contr
         || !is_safe_identifier(&request.model)
         || request.name.is_empty()
         || request.name.len() > 128
-        || request.role.is_empty()
+        || request.display_name.len() > 128
+        || request.office.len() > 128
         || request.role.len() > 128
         || request
             .name
             .chars()
+            .chain(request.display_name.chars())
+            .chain(request.office.chars())
             .chain(request.role.chars())
             .any(char::is_control)
     {
@@ -5272,6 +5383,26 @@ fn validate_agent_admission(request: &AgentAdmissionRequest) -> Result<(), Contr
                 std::net::IpAddr::V6(address) => address.is_loopback() || address.is_unique_local(),
             });
     if !private {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    Ok(())
+}
+
+fn validate_agent_admission(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
+    validate_agent_admission_base(request)?;
+    if !is_canonical_agent_name(&request.name)
+        || request.display_name.is_empty()
+        || request.office.is_empty()
+        || !request.role.is_empty()
+    {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    Ok(())
+}
+
+fn validate_persisted_agent_admission(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
+    validate_agent_admission_base(request)?;
+    if request.office.is_empty() && request.role.is_empty() {
         return Err(ControlError::InvalidIdentifier);
     }
     Ok(())
@@ -5399,8 +5530,10 @@ pub(crate) async fn invoke_ollama_model(
     let request = AgentAdmissionRequest {
         schema: AGENT_ADMISSION_SCHEMA.to_owned(),
         id: "execution-probe".to_owned(),
-        name: "Execution probe".to_owned(),
-        role: "provider execution".to_owned(),
+        name: "execution.probe".to_owned(),
+        display_name: "Execution Probe".to_owned(),
+        office: "provider execution".to_owned(),
+        role: String::new(),
         provider: "ollama".to_owned(),
         model: model.to_owned(),
         endpoint: endpoint.to_owned(),
@@ -5513,8 +5646,16 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
     let now = now_unix_millis();
     AgentSample {
         id: request.id.clone(),
-        label: request.name.clone(),
-        role: request.role.clone(),
+        label: if request.display_name.is_empty() {
+            request.name.clone()
+        } else {
+            request.display_name.clone()
+        },
+        role: if request.office.is_empty() {
+            request.role.clone()
+        } else {
+            request.office.clone()
+        },
         state: "ready".to_owned(),
         detail: format!("{} model {}", request.provider, request.model),
         health: "healthy".to_owned(),

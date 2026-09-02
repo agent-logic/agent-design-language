@@ -12,19 +12,35 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented config-driven dynamic Ollama agent admission, lifecycle management, checkpointing, freeze-dried migration and rehydration through csmctl and Runtime v3.
 
 ## Artifacts
 
-- none
+- .csdlc/prepared/issues/602/design.md
+- .csdlc/prepared/issues/602/diagram.mmd
+- .csdlc/prepared/issues/602/validate-focused.sh
+- infra/runtime-v3/agents/ember.axioma.yaml
 
 ## Execution
 
-- none
+- Added authenticated csmctl agent add --config plus list, get, checkpoint, dehydrate, migrate, rehydrate, and remove commands.
+- Separated canonical two-part agent identity and display name from provider, model, endpoint, and first-class office configuration.
+- Added durable Runtime dynamic-agent state, real Ollama execution, concurrent health, checkpoints with conversation continuity, two-phase migration, and legacy persisted-store compatibility.
+- Updated the Runtime route inventory, Observatory OpenAPI contract, portable example configuration, and focused tests.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "/bin/bash",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add/.csdlc/prepared/issues/602/validate-focused.sh"
+    ],
+    "purpose": "Issue 602 focused implementation validation",
+    "outcome": "passed",
+    "evidence_ref": "focused-agent-lifecycle.log"
+  }
+]
 
 ## Integration
 

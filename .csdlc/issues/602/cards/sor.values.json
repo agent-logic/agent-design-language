@@ -7,16 +7,36 @@
     "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
     "slug": "runtime-csmctl-dynamic-agent-admission",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Implemented config-driven dynamic Ollama agent admission, lifecycle management, checkpointing, freeze-dried migration and rehydration through csmctl and Runtime v3.",
+      "actual_changes": [
+        "Added authenticated csmctl agent add --config plus list, get, checkpoint, dehydrate, migrate, rehydrate, and remove commands.",
+        "Separated canonical two-part agent identity and display name from provider, model, endpoint, and first-class office configuration.",
+        "Added durable Runtime dynamic-agent state, real Ollama execution, concurrent health, checkpoints with conversation continuity, two-phase migration, and legacy persisted-store compatibility.",
+        "Updated the Runtime route inventory, Observatory OpenAPI contract, portable example configuration, and focused tests."
+      ],
+      "artifacts": [
+        ".csdlc/prepared/issues/602/design.md",
+        ".csdlc/prepared/issues/602/diagram.mmd",
+        ".csdlc/prepared/issues/602/validate-focused.sh",
+        "infra/runtime-v3/agents/ember.axioma.yaml"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "/bin/bash",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add/.csdlc/prepared/issues/602/validate-focused.sh"
+          ],
+          "purpose": "Issue 602 focused implementation validation",
+          "outcome": "passed",
+          "evidence_ref": "focused-agent-lifecycle.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

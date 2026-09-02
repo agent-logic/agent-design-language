@@ -6,16 +6,50 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Duration;
 
 use anyhow::{anyhow, Context, Result};
+use serde::Deserialize;
 use serde_json::json;
 
 use super::csm_cmd::real_csm_standalone;
 use super::process_cmd::real_process;
 use adl::long_lived_agent::load_spec;
 use adl_runtime::runtime_api_auth::RuntimeApiCredentialStore;
-use adl_runtime_kernel::control::AGENT_ADMISSION_SCHEMA;
+use adl_runtime_kernel::control::{is_canonical_agent_name, AGENT_ADMISSION_SCHEMA};
 use adl_runtime_kernel::RuntimeInitConfig;
 
 static AGENT_ARTIFACT_TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);
+const AGENT_CONFIG_SCHEMA: &str = "adl.csm.agent_config.v1";
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AgentAddConfig {
+    schema: String,
+    runtime: AgentRuntimeConfig,
+    identity: AgentIdentityConfig,
+    office: String,
+    provider: AgentProviderConfig,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AgentRuntimeConfig {
+    init: PathBuf,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AgentIdentityConfig {
+    id: String,
+    name: String,
+    display_name: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AgentProviderConfig {
+    kind: String,
+    model: String,
+    endpoint: String,
+}
 
 pub(crate) fn real_csmctl(args: &[String]) -> Result<()> {
     match args.first().map(String::as_str) {
@@ -45,7 +79,7 @@ Usage:\n\
   csmctl runtime backpressure prove ...\n\
   csmctl runtime storage prove-s3 ...\n\
   csmctl runtime observatory --packet <visibility-packet.json> ...\n\
-  csmctl agent add --init <runtime-init.toml> --id <id> --name <name> --role <role> --provider ollama --model <model> --endpoint <url>\n\
+  csmctl agent add --config <agent.yaml>\n\
   csmctl api get --spec <agent-spec.yaml> [--path /status] [--bind 127.0.0.1:19997]\n\
   csmctl api credential <status|rotate|revoke> --spec <agent-spec.yaml>\n\
   csmctl status [--pid <pid>|--pid-file <path>|--port <port> [--host 127.0.0.1]] [--json]\n\
@@ -91,7 +125,7 @@ fn real_agent(args: &[String]) -> Result<()> {
 fn csmctl_agent_usage() -> &'static str {
     "csmctl agent - manage the Runtime v3 agent lifecycle\n\n\
 Usage:\n\
-  csmctl agent add --init <init> --id <id> --name <name> --role <role> --provider ollama --model <model> --endpoint <private-http-url>\n\
+  csmctl agent add --config <agent.yaml>\n\
   csmctl agent list --init <init>\n\
   csmctl agent get --init <init> --id <id>\n\
   csmctl agent checkpoint --init <init> --id <id> [--out <checkpoint.json>]\n\
@@ -111,6 +145,10 @@ struct RuntimeAgentClient {
 impl RuntimeAgentClient {
     fn from_args(args: &[String]) -> Result<Self> {
         let init_path = required_path_arg(args, "--init")?;
+        Self::from_init_path(init_path)
+    }
+
+    fn from_init_path(init_path: PathBuf) -> Result<Self> {
         let init = RuntimeInitConfig::from_path(init_path.clone())
             .with_context(|| format!("load Runtime v3 init {}", init_path.display()))?;
         let address: SocketAddr = init
@@ -185,39 +223,67 @@ impl RuntimeAgentClient {
 }
 
 fn csmctl_agent_add(args: &[String]) -> Result<()> {
-    let allowed = [
-        "--init",
-        "--id",
-        "--name",
-        "--role",
-        "--provider",
-        "--model",
-        "--endpoint",
-    ];
-    if args.len() != allowed.len() * 2
-        || args
-            .chunks_exact(2)
-            .any(|pair| !allowed.contains(&pair[0].as_str()))
-        || allowed
-            .iter()
-            .any(|flag| args.iter().filter(|value| value.as_str() == *flag).count() != 1)
-    {
-        return Err(anyhow!("csmctl agent add requires each of --init, --id, --name, --role, --provider, --model, and --endpoint exactly once"));
+    if args.len() != 2 || args.first().map(String::as_str) != Some("--config") {
+        return Err(anyhow!(
+            "csmctl agent add requires exactly --config <agent.yaml>"
+        ));
     }
-    let value = RuntimeAgentClient::from_args(args)?.call(
+    let config_path = PathBuf::from(&args[1]);
+    let config = load_agent_add_config(&config_path)?;
+    let value = RuntimeAgentClient::from_init_path(config.runtime.init)?.call(
         reqwest::Method::POST,
         "/v1/agents",
         Some(&json!({
             "schema": AGENT_ADMISSION_SCHEMA,
-            "id": required_arg(args, "--id")?,
-            "name": required_arg(args, "--name")?,
-            "role": required_arg(args, "--role")?,
-            "provider": required_arg(args, "--provider")?,
-            "model": required_arg(args, "--model")?,
-            "endpoint": required_arg(args, "--endpoint")?
+            "id": config.identity.id,
+            "name": config.identity.name,
+            "display_name": config.identity.display_name,
+            "office": config.office,
+            "provider": config.provider.kind,
+            "model": config.provider.model,
+            "endpoint": config.provider.endpoint
         })),
     )?;
     println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
+}
+
+fn load_agent_add_config(path: &std::path::Path) -> Result<AgentAddConfig> {
+    let bytes = fs::read(path).with_context(|| format!("read agent config {}", path.display()))?;
+    let mut config: AgentAddConfig = serde_yaml::from_slice(&bytes)
+        .with_context(|| format!("parse agent config {}", path.display()))?;
+    if config.schema != AGENT_CONFIG_SCHEMA {
+        return Err(anyhow!("agent config schema must be {AGENT_CONFIG_SCHEMA}"));
+    }
+    validate_canonical_agent_name(&config.identity.name)?;
+    for (field, value) in [
+        ("identity.id", config.identity.id.as_str()),
+        (
+            "identity.display_name",
+            config.identity.display_name.as_str(),
+        ),
+        ("office", config.office.as_str()),
+        ("provider.kind", config.provider.kind.as_str()),
+        ("provider.model", config.provider.model.as_str()),
+        ("provider.endpoint", config.provider.endpoint.as_str()),
+    ] {
+        if value.trim().is_empty() || value.chars().any(char::is_control) {
+            return Err(anyhow!("agent config {field} is invalid"));
+        }
+    }
+    if config.runtime.init.is_relative() {
+        let parent = path.parent().unwrap_or_else(|| std::path::Path::new("."));
+        config.runtime.init = parent.join(&config.runtime.init);
+    }
+    Ok(config)
+}
+
+fn validate_canonical_agent_name(name: &str) -> Result<()> {
+    if !is_canonical_agent_name(name) {
+        return Err(anyhow!(
+            "agent identity.name must contain exactly two lowercase dot-separated neutral name segments"
+        ));
+    }
     Ok(())
 }
 
@@ -636,7 +702,8 @@ mod tests {
     use super::{
         csmctl_agent_usage, csmctl_api_get, csmctl_api_usage, csmctl_cloud_usage,
         csmctl_diagnostics_usage, csmctl_runtime_usage, csmctl_status_usage, csmctl_usage,
-        real_csmctl, runtime_service_args, safe_agent_id, write_json_atomically,
+        load_agent_add_config, real_csmctl, runtime_service_args, safe_agent_id,
+        validate_canonical_agent_name, write_json_atomically,
     };
     use adl::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
     use adl_runtime::runtime_api_auth::RuntimeApiCredentialStore;
@@ -887,7 +954,7 @@ safety:
         assert!(usage.contains("fsynced") || usage.contains("written atomically"));
         assert_err_contains(
             real_csmctl(&args(&["agent", "add", "--id", "incomplete"])),
-            "requires each of",
+            "requires exactly --config",
         );
         assert!(safe_agent_id("gemma-e4b").is_ok());
         assert!(safe_agent_id("../shepherd").is_err());
@@ -909,6 +976,62 @@ safety:
             .file_name()
             .to_string_lossy()
             .ends_with(".tmp")));
+    }
+
+    #[test]
+    fn csmctl_agent_add_config_separates_identity_from_runtime_binding() {
+        let root = temp_root("agent-config");
+        let config_path = root.join("ember.axioma.yaml");
+        fs::write(
+            &config_path,
+            r#"schema: adl.csm.agent_config.v1
+runtime:
+  init: runtime-init.toml
+identity:
+  id: ember-axioma
+  name: ember.axioma
+  display_name: Ember Axioma
+office: shepherd
+provider:
+  kind: ollama
+  model: gemma4:e4b-mlx
+  endpoint: http://nessus.local:11434
+"#,
+        )
+        .expect("write agent config");
+        let config = load_agent_add_config(&config_path).expect("load agent config");
+        assert_eq!(config.identity.name, "ember.axioma");
+        assert_eq!(config.identity.display_name, "Ember Axioma");
+        assert_eq!(config.office, "shepherd");
+        assert_eq!(config.provider.kind, "ollama");
+        assert_eq!(config.provider.model, "gemma4:e4b-mlx");
+        assert_eq!(config.runtime.init, root.join("runtime-init.toml"));
+
+        fs::write(
+            &config_path,
+            r#"schema: adl.csm.agent_config.v1
+runtime: { init: runtime-init.toml }
+identity: { id: gemma-e4b, name: Gemma, display_name: Gemma }
+office: assistant
+provider: { kind: ollama, model: gemma4:e4b-mlx, endpoint: http://localhost:11434 }
+"#,
+        )
+        .expect("replace invalid config");
+        assert!(load_agent_add_config(&config_path)
+            .expect_err("single model-bound name rejected")
+            .to_string()
+            .contains("exactly two lowercase dot-separated"));
+        for invalid_name in [
+            "ember.axioma.local",
+            "ember.",
+            "ember.-axioma",
+            "ember.axioma-",
+        ] {
+            assert!(
+                validate_canonical_agent_name(invalid_name).is_err(),
+                "{invalid_name}"
+            );
+        }
     }
 
     #[test]

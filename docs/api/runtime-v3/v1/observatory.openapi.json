@@ -725,12 +725,14 @@
       "AgentAdmissionRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["schema", "id", "name", "role", "provider", "model", "endpoint"],
+        "required": ["schema", "id", "name", "display_name", "office", "provider", "model", "endpoint"],
         "properties": {
           "schema": {"const": "adl.runtime_v3.agent_admission.v1"},
           "id": {"type": "string", "minLength": 1, "maxLength": 128},
-          "name": {"type": "string", "minLength": 1, "maxLength": 128},
-          "role": {"type": "string", "minLength": 1, "maxLength": 128},
+          "name": {"type": "string", "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$", "description": "Canonical two-part neutral agent name; segments may not end in a hyphen."},
+          "display_name": {"type": "string", "minLength": 1, "maxLength": 128},
+          "office": {"type": "string", "minLength": 1, "maxLength": 128},
+          "role": {"type": "string", "maxLength": 128, "deprecated": true, "description": "Legacy persisted declaration field; new admissions use office."},
           "provider": {"const": "ollama"},
           "model": {"type": "string", "minLength": 1, "maxLength": 128},
           "endpoint": {"type": "string", "format": "uri", "description": "Credential-free private HTTP Ollama endpoint."}

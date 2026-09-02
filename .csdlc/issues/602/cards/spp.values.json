@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
     "slug": "runtime-csmctl-dynamic-agent-admission",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Add a small authenticated admission contract, atomic store, synchronized roster update, direct csmctl client, focused tests, then deploy and demonstrate on Wuji.",
       "steps": [
         {
@@ -31,11 +31,12 @@
         },
         {
           "id": "S2",
-          "action": "Implement csmctl agent add, list, get, remove, dehydrate, migrate, and rehydrate with exact TLS, bearer handling, atomic artifact writes, and secret-free output.",
+          "action": "Implement csmctl agent add --config with a strict runtime-loaded declaration containing stable multi-part name, display name, office, provider, model, endpoint, and Runtime connection reference; keep lifecycle artifacts identity-preserving.",
           "acceptance_ids": [
             "AC-1",
             "AC-3",
             "AC-4",
+            "AC-5",
             "AC-6",
             "AC-7"
           ],
@@ -43,7 +44,7 @@
         },
         {
           "id": "S3",
-          "action": "Update API contracts and run focused lifecycle, persistence, artifact-tamper, roster, formatting, and lint proof.",
+          "action": "Update API contracts and run focused config parsing, identity separation, lifecycle, persistence, artifact-tamper, roster, formatting, and lint proof.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -58,7 +59,7 @@
         },
         {
           "id": "S4",
-          "action": "Deploy the exact candidate on Wuji and prove add, duplicate, freeze-dry migration, rehydration, roster health, Shepherd preservation, and restart recovery with gemma4:e4b-mlx.",
+          "action": "Deploy the exact candidate on Wuji and prove config-driven add, duplicate handling, freeze-dry migration, rehydration, roster identity, Shepherd preservation, and restart recovery with gemma4:e4b-mlx.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
