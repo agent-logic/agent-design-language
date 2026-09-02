@@ -4684,6 +4684,111 @@ fn implemented_plan_summary_recovery_survives_allowed_intervening_repairs() {
 }
 
 #[test]
+fn implemented_spp_risk_repair_requires_review_recovery_epoch() {
+    let risk_operation = || SemanticOperation::ReplacePlanningCollection {
+        field: csdlc_v2::cards::PlanningCollectionField::Risks,
+        values: vec!["review-corrected risk".into()],
+    };
+
+    let (_temp, store, implemented) = implemented_fixture();
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject risk repair without recovery".into(),
+            operation: risk_operation(),
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("implemented risk repair without review recovery must fail");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
+
+    let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+        .expect("review revision");
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair reviewed SPP risk".into(),
+        },
+    )
+    .expect("recover review");
+    let repaired = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "apply reviewed SPP risk correction".into(),
+            operation: risk_operation(),
+            fail_after_backup: false,
+        },
+    )
+    .expect("valid review recovery must authorize SPP risk repair");
+    let cards = store.load_cards(7).expect("cards after risk repair");
+    let csdlc_v2::cards::CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP")
+    };
+    assert_eq!(spp.risks, vec!["review-corrected risk"]);
+
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: repaired.generation,
+            expected_digest: repaired.digest,
+            reviewer: "later-reviewer".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .expect("assign later review");
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "reject risk repair with uncleared review truth".into(),
+            operation: risk_operation(),
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("uncleared review truth must block another SPP risk repair");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
+}
+
+#[test]
 fn recovered_issue_can_correct_only_the_sip_required_outcome() {
     let (_temp, store, implemented) = implemented_fixture();
     let operation = SemanticOperation::CorrectRequiredOutcomeAfterRecovery {

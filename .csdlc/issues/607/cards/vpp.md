@@ -104,8 +104,9 @@ Diagram: .csdlc/prepared/issues/607/diagram.mmd
       "--locked",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
-      "--lib",
-      "implemented_review_remediation_authorizes_only_bounded_operations"
+      "--test",
+      "gate5",
+      "implemented_spp_risk_repair_requires_review_recovery_epoch"
     ],
     "parallel_group": "local",
     "defer_reason": null
@@ -144,7 +145,7 @@ Tokens: 50000
 
 - `bash adl/tools/test_issue607_warm_polis.sh all`
 - `bash adl/tools/run_issue607_warm_polis.sh qualification-quota-recovery --commit 7be87dd22260d30a7966d1b129123e84bb761074 --run-id adl-issue607-e8925c1dc8b0-quota-recovery --storage-id adl-issue607-warm-v6 --authorization-file .adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json --execute`
-- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --lib implemented_review_remediation_authorizes_only_bounded_operations`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate5 implemented_spp_risk_repair_requires_review_recovery_epoch`
 - `git diff --check`
 
 ## Failure Semantics

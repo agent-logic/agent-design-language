@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 79
+    "generation": 83
   },
   "status": "ready",
   "content": {
@@ -96,8 +96,9 @@
             "--locked",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
-            "--lib",
-            "implemented_review_remediation_authorizes_only_bounded_operations"
+            "--test",
+            "gate5",
+            "implemented_spp_risk_repair_requires_review_recovery_epoch"
           ],
           "parallel_group": "local",
           "defer_reason": null
