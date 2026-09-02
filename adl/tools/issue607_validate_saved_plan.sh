@@ -25,6 +25,19 @@ jq -e '
 if [[ "$MODE" == compute ]]; then
   jq -e '
     [.resource_changes[]?
+      | select(.mode == "managed" and .type == "aws_instance")
+      | {address, instance_type:(.change.after.instance_type // .change.before.instance_type)}]
+    | sort_by(.address)
+    == [
+      {"address":"aws_instance.gpu","instance_type":"g6.xlarge"},
+      {"address":"aws_instance.runtime","instance_type":"r7i.2xlarge"}
+    ]
+  ' "$PLAN_JSON" >/dev/null || {
+    echo "compute plan must bind exactly r7i.2xlarge Runtime and g6.xlarge GPU instances" >&2
+    exit 1
+  }
+  jq -e '
+    [.resource_changes[]?
       | select(.mode == "managed")
       | select(.type == "aws_ebs_volume" or .type == "aws_kms_key" or .type == "aws_ebs_snapshot")
       | select(.change.actions != ["no-op"])]

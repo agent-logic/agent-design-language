@@ -15,6 +15,7 @@ run_contracts() {
   local guard="$ROOT/adl/tools/issue607_validate_saved_plan.sh"
   local good_compute="$CASE_ROOT/good-compute.json"
   local bad_compute="$CASE_ROOT/bad-compute.json"
+  local bad_compute_shape="$CASE_ROOT/bad-compute-shape.json"
   local good_storage="$CASE_ROOT/good-storage.json"
   local bad_storage="$CASE_ROOT/bad-storage.json"
   local good_preparation="$CASE_ROOT/good-preparation.json"
@@ -26,8 +27,9 @@ run_contracts() {
   local empty_recovery_retirement="$CASE_ROOT/empty-recovery-retirement.json"
   local malformed_empty_recovery="$CASE_ROOT/malformed-empty-recovery.json"
 
-  write_plan "$good_compute" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}},{"mode":"managed","type":"aws_volume_attachment","change":{"actions":["create"]}},{"mode":"data","type":"aws_ebs_volume","change":{"actions":["read"]}}]'
+  write_plan "$good_compute" '[{"address":"aws_instance.runtime","mode":"managed","type":"aws_instance","change":{"actions":["create"],"after":{"instance_type":"r7i.2xlarge"}}},{"address":"aws_instance.gpu","mode":"managed","type":"aws_instance","change":{"actions":["create"],"after":{"instance_type":"g6.xlarge"}}},{"mode":"managed","type":"aws_volume_attachment","change":{"actions":["create"]}},{"mode":"data","type":"aws_ebs_volume","change":{"actions":["read"]}}]'
   write_plan "$bad_compute" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["delete"]}}]'
+  write_plan "$bad_compute_shape" '[{"address":"aws_instance.runtime","mode":"managed","type":"aws_instance","change":{"actions":["create"],"after":{"instance_type":"r7i.2xlarge"}}},{"address":"aws_instance.gpu","mode":"managed","type":"aws_instance","change":{"actions":["create"],"after":{"instance_type":"g6.4xlarge"}}}]'
   write_plan "$good_storage" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["create"]}}]'
   write_plan "$bad_storage" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}}]'
   write_plan "$good_preparation" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}},{"mode":"managed","type":"aws_volume_attachment","change":{"actions":["create"]}},{"mode":"data","type":"aws_ebs_volume","change":{"actions":["read"]}}]'
@@ -41,6 +43,7 @@ run_contracts() {
 
   "$guard" compute "$good_compute" >/dev/null
   ! "$guard" compute "$bad_compute" >/dev/null 2>&1
+  ! "$guard" compute "$bad_compute_shape" >/dev/null 2>&1
   "$guard" warm-storage "$good_storage" >/dev/null
   ! "$guard" warm-storage "$bad_storage" >/dev/null 2>&1
   "$guard" preparation "$good_preparation" >/dev/null

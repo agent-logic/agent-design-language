@@ -16,7 +16,7 @@ Separate slow preparation from fast launch, seal two persistent AZ-local data vo
 
 ## Plan
 
-Revision 8
+Revision 10
 
 ## Steps
 
@@ -102,7 +102,7 @@ Revision 8
 
 - Base AMI lacks a required facility and tempts launch-time package repair
 - EBS attachment or filesystem checks consume the startup budget
-- GPU model page-in exceeds the 30-second guest target
+- GPU model page-in exceeds the current-quota 120-second local_ready gate
 - Terraform destroy deletes or strands a warm volume
 - Timing receipts omit EC2 provisioning or use incomparable clocks
 - Preparation artifact identity drifts from reviewed source

@@ -24,6 +24,7 @@ One preparation path plus one warm two-node Terraform launch path and truthful s
 - Minimal no-install guest activation scripts
 - Machine-readable startup timing receipts
 - Executable no-paid negative tests
+- Review-gated typed SPP risk correction support in csdlc-v2/src/store.rs
 - One repeated live warm-launch proof under USD 20
 - Updated operator runbook with explicit retention extension and retirement
 

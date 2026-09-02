@@ -81,9 +81,33 @@ Diagram: .csdlc/prepared/issues/607/diagram.mmd
       "adl-issue607-e8925c1dc8b0-quota-recovery",
       "--storage-id",
       "adl-issue607-warm-v6",
+      "--authorization-file",
+      ".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json",
       "--execute"
     ],
     "parallel_group": "aws-paid-serial",
+    "defer_reason": null
+  },
+  {
+    "lane": "issue607-typed-spp-risk-repair",
+    "proof_role": "Prove that implemented-phase SPP risk correction is authorized only as a review-recovery truth repair and remains covered by the bounded editor authorization test.",
+    "acceptance_ids": [
+      "AC-12"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib",
+      "implemented_review_remediation_authorizes_only_bounded_operations"
+    ],
+    "parallel_group": "local",
     "defer_reason": null
   },
   {
@@ -119,7 +143,8 @@ Tokens: 50000
 ## Commands
 
 - `bash adl/tools/test_issue607_warm_polis.sh all`
-- `bash adl/tools/run_issue607_warm_polis.sh qualification-quota-recovery --commit 7be87dd22260d30a7966d1b129123e84bb761074 --run-id adl-issue607-e8925c1dc8b0-quota-recovery --storage-id adl-issue607-warm-v6 --execute`
+- `bash adl/tools/run_issue607_warm_polis.sh qualification-quota-recovery --commit 7be87dd22260d30a7966d1b129123e84bb761074 --run-id adl-issue607-e8925c1dc8b0-quota-recovery --storage-id adl-issue607-warm-v6 --authorization-file .adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json --execute`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --lib implemented_review_remediation_authorizes_only_bounded_operations`
 - `git diff --check`
 
 ## Failure Semantics
