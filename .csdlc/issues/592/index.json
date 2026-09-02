@@ -2,54 +2,141 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 592,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "eb634f362b943f978e69a24cbc0a476e531099b999d4accfc9f0b7f342b488d9",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "1eb86b2b9173174bfe515c6d45d26467e4791ae62d93fd2a1226a8cf9645dec5",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 10,
+  "digest": "3f91f77dfc23d5fcac0f077a349b06247e1697e02680e37e4566712aa264dae9",
+  "branch": "codex/592-runtime-gcp-polis-vertex-ai",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-592-runtime-gcp-polis-vertex-ai",
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_592_prepr_r1",
+    "assigned_by": "codex:/root/Worker-7",
+    "revision": "git-blake3:afacbb13006ff2bfcb53a3ad7187e14147a667a6:38da938feceb7d2991c8cfc1314ca9b48f376646223ff0391830b4bc7b25e0f7",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "infra/runtime-v3/agents/ember.axioma.yaml",
+      "infra/runtime-v3/runtime-init.toml",
+      "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+      ".csdlc/prepared/issues/592"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_592_prepr_r1",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "infra/runtime-v3/agents/ember.axioma.yaml",
+      "infra/runtime-v3/runtime-init.toml",
+      "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+      ".csdlc/prepared/issues/592"
+    ],
+    "reviewed_revision": "git-blake3:afacbb13006ff2bfcb53a3ad7187e14147a667a6:38da938feceb7d2991c8cfc1314ca9b48f376646223ff0391830b4bc7b25e0f7",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Live or billable Vertex AI generation remains intentionally deferred until separately authorized credentials, project, API enablement, quota, and runtime execution are in scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 592,
+    "pull_request": 650,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/650",
+    "base": "main",
+    "head": "codex/592-runtime-gcp-polis-vertex-ai",
+    "revision": "git-blake3:90ca9b5227ee337ccb64a87e7838560eaa540b32:f82c391e2c865da4f3a0bd80da0c9d18a7c81774b1efb9e4451a1cc3dc76d8a5",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
   "design_path": ".csdlc/prepared/issues/592/design.md",
   "diagram_path": ".csdlc/prepared/issues/592/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-399e-76c3-97df-bc1b1d8c6358",
+      "revision": "8893dad30ac140b733c64ad5c0854a2172a166a61507788033b78e4ae8345b9f"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "6a037753aea02a3908061f1b63d6d2a04c41b123fd5d5b7bcb7dbbfad1928b5a",
+      "values_digest": "c48111d1816086ea9479ba063a499c37ae89576f16aed8e7dc070de44b0c3bac",
       "rendered_digest": "1d53415e49346c4e47a3b934ca8c7832a4709d687c6180f2b99dc9f481ce6629",
       "ast_digest": "de4c7590bb85b0d56760b99af03a970ea61886f271e910f4c6891456a3b4c41e"
     },
     "stp": {
-      "values_digest": "f79557c273404d0660015baf593880f628d75e5b46f6a093f65e8e3847a95ffb",
+      "values_digest": "62f7f73d853191a4b127f52aec11c1f1a5307d6b4cd305a6852e9504e0be4854",
       "rendered_digest": "e1d030d29521c07a78be6a6fa6f648f8113ca829ea20a03a97dc2c47f4c9030b",
       "ast_digest": "6a2509ebbbc587a2b0947a30ddf0424021fedcfb44ed7c70476e07c4ffdca58d"
     },
     "spp": {
-      "values_digest": "26efe5816516cb6f34eaffde3cc01f657a2db1d692e958eceecdaee73d323786",
-      "rendered_digest": "b9264c6141f71340fe87853a556d17704b4e98f3e5268a16a400aab498795bf5",
-      "ast_digest": "106d155331bb285b4f943982b048d7ebd5cd47b5b71818b6d37961c1804da92a"
+      "values_digest": "d29c933235684a4ed72c7f08dbebce548b8f5ffa82196bc6e4dc6f5e7965b94a",
+      "rendered_digest": "a5331a69c68db32c51e5ab0e5c4ea35b7fcc6e42899b84abffa219420064b99c",
+      "ast_digest": "e58b089e9ba960812d99ab8a44b0bb6dea8e38cc632f96bc477551b5f839e3fe"
     },
     "vpp": {
-      "values_digest": "2aa9a06657f3066b53c3ea05bf2a463ca1382b082299e7aed635567f0ede59fe",
-      "rendered_digest": "ae337b793d2e02fda2fd192b30e74afc742191a802bbc72afb662e4744d9e1dd",
-      "ast_digest": "97ecae0e20b1830b3b0e427c5964a49da2b27641cb98e71179d5457a917af53c"
+      "values_digest": "fcaadc76f84e0790f7ef0b479f4ac22beac34b66c7f338747031c854e7c85b5b",
+      "rendered_digest": "cbf3f12a9fd64b17756cc336b932e11c4e4678548c69ec687a30d067fbd0d59d",
+      "ast_digest": "ebf73ec3b512efaf43ca0bea42b25573e2ec3752e7daffc70baa45950b5bbd8c"
     },
     "srp": {
-      "values_digest": "fd12086478d1ac75216b7cf0f2a3a2f050773ce57d07c961b114aec585da5aa9",
-      "rendered_digest": "d0ac51c1e4b9cd65ce4aadcfb9ae385ad48a125575baaae13d744c90c97275b1",
-      "ast_digest": "e690fcdacc87154d8b419e5413423250818fceb6edbc212b4ccdadd84475637f"
+      "values_digest": "093b2dfb0999c06675ceaf527d73fa3e033ee6d2d739ac824d9c83ba2cdd7d85",
+      "rendered_digest": "2545ed237f341d41b561b2a2da713876cd983dfcb17eec100450d0e622d6f686",
+      "ast_digest": "50e58544341b116d7d0eebde66da374a27908c97d55e26eebe0c908e4651e4d7"
     },
     "sor": {
-      "values_digest": "e401f884909b881a848ed3f763f00b177c947760e70d53d1ceea5ffebf5302c6",
-      "rendered_digest": "94064a7bbb8249ca150a9671c5a1acc94315e260e17310c556b7c4f06bae43f7",
-      "ast_digest": "2f1b2eee13c9062faee8dc4552eee55f9a9aa266ae20eeb7834ded81727d5682"
+      "values_digest": "dfa9aefb94f384af51f47c7188ab7470f39ed8fd03d82a4277020ce976604a3e",
+      "rendered_digest": "94f3ee551a4a9b009deb8b414f5195d7dedf39cefd468067362a6f5053369b20",
+      "ast_digest": "5c92fc7cdaaef8539633d948d6d22beb3ba0a4aa96c4b4325d7a38e61bcc162d"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "The approved design, exact merge dependency, issue-owned validators, and six-card bundle pass typed readiness doctor."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/Worker-7",
+      "reason": "Implementation and focused local validation are complete; enter implemented phase for independent exact-head review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/Worker-7",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/Worker-7",
+      "reason": "observed exact PR after current review"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -57,6 +144,104 @@
       "actor": "codex:worker-6:real-issue-canary",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:019ff3cb-399e-76c3-97df-bc1b1d8c6358",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"8893dad30ac140b733c64ad5c0854a2172a166a61507788033b78e4ae8345b9f\",\"design_ref\":\".csdlc/prepared/issues/592/design.md\",\"diagram_digest\":\"418858da707f792c5780b301838db1ccc57093c57c0f0b2fb586dcceeaa39e2a\",\"diagram_ref\":\".csdlc/prepared/issues/592/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Replace descriptive areas with exact issue-owned preparation and future implementation surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/592/design.md\",\".csdlc/prepared/issues/592/diagram.mmd\",\".csdlc/prepared/issues/592/validate-vertex-config-docs.sh\",\".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh\",\".csdlc/prepared/issues/592/validate-tooling-canary.sh\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Use repository-owned executable validators and treat the merged prerequisite as the execution gate rather than asynchronous closeout paperwork.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"dependency-merge-readback\",\"proof_role\":\"Prove the exact PR #603 merge for #528 is present in the selected base revision before execution binding.\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":300,\"argv\":[\"bash\",\".csdlc/prepared/issues/592/validate-528-merge.sh\"],\"parallel_group\":\"preflight\",\"defer_reason\":null},{\"lane\":\"vertex-config-docs\",\"proof_role\":\"Verify provider, project, location, model, credential sourcing, redaction, and paid-call boundaries are explicit.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1600,\"argv\":[\"bash\",\".csdlc/prepared/issues/592/validate-vertex-config-docs.sh\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"runtime-provider-proof\",\"proof_role\":\"Prove the explicit production provider-selection contract and reject mock fallback or credential leakage; implementation-time tests extend this lane.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"tooling-canary\",\"proof_role\":\"Prove the six-card bundle, design, diagram, dependency request, and exact dependency merge remain retained.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"bash\",\".csdlc/prepared/issues/592/validate-tooling-canary.sh\"],\"parallel_group\":\"tooling\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Declare the exact dependency-merge validator as an issue-owned proof entrypoint.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/592/design.md\",\".csdlc/prepared/issues/592/diagram.mmd\",\".csdlc/prepared/issues/592/validate-528-merge.sh\",\".csdlc/prepared/issues/592/validate-vertex-config-docs.sh\",\".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh\",\".csdlc/prepared/issues/592/validate-tooling-canary.sh\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "The approved design, exact merge dependency, issue-owned validators, and six-card bundle pass typed readiness doctor.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Record the completed #592 governed Polis Vertex AI configuration implementation and focused local proof before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the governed Polis Vertex AI configuration path without live paid GCP calls. Runtime init now supports an explicit `polis.vertex_ai` block with provider, GCP project, Vertex location, model, and redacted credential-source selection; the deployed runtime init file names the Vertex AI route explicitly; operator documentation records credential boundaries and failure classifications; focused tests prove parsing, rejection of ambient/unsafe shapes, and deterministic failure buckets.\",\"changes\":[\"Added typed Runtime init support for `polis.vertex_ai` with explicit `vertex_ai` provider selection, GCP project, Vertex location, model, and credential-source fields.\",\"Added validation that rejects missing ambient GCP project selection, non-Vertex provider selection, unsafe labels, and relative service-account credential paths.\",\"Added deterministic Vertex AI provider failure classification for missing credentials, disabled Vertex APIs, project/location mismatch, quota/auth, model/request, and transport failures.\",\"Configured `infra/runtime-v3/runtime-init.toml` to select Vertex AI for the Agent Logic development Polis using Application Default Credentials without storing secret material.\",\"Added `docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md` documenting the GCP project/location/model, credential boundary, redaction rules, failure buckets, and deferred paid-call boundary.\",\"Strengthened the issue-owned validators so they check the implemented runtime config, docs, failure classifier, retained bind request, and secret-marker hygiene.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"infra/runtime-v3/runtime-init.toml\",\"docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\",\".csdlc/prepared/issues/592/bind-request.json\",\".csdlc/prepared/issues/592/validate-528-merge.sh\",\".csdlc/prepared/issues/592/validate-vertex-config-docs.sh\",\".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh\",\".csdlc/prepared/issues/592/validate-tooling-canary.sh\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Implementation and focused local validation are complete; enter implemented phase for independent exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Normalize #592 SOR after pre-PR review fixes so provider-selection wiring and local validation truth are retained before rereview.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the governed Polis Vertex AI configuration path without live paid GCP calls. Runtime init now supports an explicit `polis.vertex_ai` block with provider, GCP project, Vertex location, model, and redacted credential-source selection; the checked-in Polis agent config selects the Vertex AI route; runtime admission and provider invocation validate Vertex AI endpoints without falling back to Ollama or mocks; actual live Vertex generation fails closed as deferred until separately authorized.\",\"changes\":[\"Added typed Runtime init support for `polis.vertex_ai` with explicit `vertex_ai` provider selection, GCP project, Vertex location, model, and credential-source fields.\",\"Added validation that rejects missing ambient GCP project selection, non-Vertex provider selection, unsafe labels, and relative service-account credential paths.\",\"Added deterministic Vertex AI provider failure classification for missing credentials, disabled Vertex APIs, project/location mismatch, quota/auth, model/request, and transport failures.\",\"Configured `infra/runtime-v3/runtime-init.toml` to select Vertex AI for the Agent Logic development Polis using Application Default Credentials without storing secret material.\",\"Changed the checked-in `ember.axioma` Polis agent config from Ollama to the explicit Vertex AI model endpoint.\",\"Wired runtime agent admission and provider invocation through a provider selector so Vertex AI routes are validated explicitly and live paid calls fail closed with `agent_provider_live_call_deferred`.\",\"Added `docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md` documenting the GCP project/location/model, credential boundary, redaction rules, failure buckets, and deferred paid-call boundary.\",\"Strengthened the issue-owned validators so they check the implemented runtime config, agent config, provider selector, failure classifier, retained bind request, and secret-marker hygiene.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"infra/runtime-v3/runtime-init.toml\",\"infra/runtime-v3/agents/ember.axioma.yaml\",\"docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\",\".csdlc/prepared/issues/592/bind-request.json\",\".csdlc/prepared/issues/592/validate-528-merge.sh\",\".csdlc/prepared/issues/592/validate-vertex-config-docs.sh\",\".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh\",\".csdlc/prepared/issues/592/validate-tooling-canary.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/592/validate-528-merge.sh\"],\"purpose\":\"Prove PR #603 / issue #528 merge commit remains ancestral to the #592 execution branch before implementation acceptance.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero and printed the exact #603 merge commit edbc3ebc9b4e7c0862595345eebff8e04c9d5260.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/592/validate-vertex-config-docs.sh\"],\"purpose\":\"Validate explicit Vertex AI provider, GCP project, Vertex location, ADC credential source, agent config, redaction wording, paid-call deferral, and project/location mismatch documentation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero with `issue 592 Vertex configuration documentation contract: pass`.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh\"],\"purpose\":\"Validate runtime Vertex AI config support, provider selector wiring, failure classifier coverage, mock-fallback rejection wording, and credential-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero with `issue 592 Runtime Vertex AI execution contract: pass`.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/592/validate-tooling-canary.sh\"],\"purpose\":\"Validate retained six-card bundle, design, diagram, dependency read request, bind request, and #528 merge ancestry canary evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero with `issue 592 retained tooling canary: pass`.\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--\",\"--nocapture\"],\"purpose\":\"Run the full Runtime configuration integration test file including the new Polis Vertex AI config and failure-classification tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"29 passed, 0 failed.\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"control::agent_lifecycle::vertex_ai\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Vertex AI agent admission uses an explicit provider route and provider invocation fails closed before a live paid call.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 passed, 0 failed for the Vertex AI control tests.\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\",\"--\",\"--nocapture\"],\"purpose\":\"Verify the assembly provider invocation call site remains green after replacing the Ollama-only branch with provider selection.\",\"outcome\":\"passed\",\"evidence_ref\":\"10 passed, 0 failed.\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
