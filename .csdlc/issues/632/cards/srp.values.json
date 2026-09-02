@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 632,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
+    "slug": "v3-h6-real-canaries-docs-readiness",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review #632 canary evidence, defect dispositions, docs/skills/AGENTS changes, and sprint review packet readiness for #505 cutover gating.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the coverage matrix account for every v3 command-equivalent route without hidden v2 fallback?",
+        "Do docs and skills warn operators before cutover while avoiding premature v3 authority claims?",
+        "Are canary defects fixed or clearly owned as cutover blockers/follow-ons?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
