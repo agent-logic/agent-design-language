@@ -12,7 +12,27 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/262
+.csdlc/prepared/issues/262
+demos/_preview/podcast/index.html
+demos/podcast/LAUNCH_READINESS.md
+demos/podcast/S3_CLOUDFRONT_RUNBOOK.md
+demos/podcast/audio/meet-the-ai-coworkers.mp3
+demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md
+demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json
+demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json
+demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md
+demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json
+demos/podcast/episodes/001-meet-the-ai-coworkers/script.md
+demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md
+demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md
+demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json
+demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md
+demos/podcast/episodes/meet-the-ai-coworkers/index.html
+demos/podcast/feed.xml
+demos/podcast/index.html
+demos/podcast/studio-reference/podcast-studio.html
+demos/podcast/studio/podcast-studio.html
 
 ## Prompts
 

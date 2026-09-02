@@ -6,10 +6,37 @@
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
   "generation": 9,
-  "digest": "655fc337e3a342c818efcea5f061525fbf770bfa26164011e27dcc7db723dc7f",
+  "digest": "747d0569459e958f94a12dc7aad672cdbb3c43f2e342694cfb2ae55c7a347d0f",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:76b336fc-50e4-4bdb-8dfb-c1432cda544e",
+    "assigned_by": "codex:root/podcast-262",
+    "revision": "git-blake3:dde20f7105f6f58230c49e4f272ed1c4b03396e4:e213583611353e78a43e8fb6345b5dfbcec0ce21317bc57e068422c39179aae3",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/podcast-studio.html"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +72,9 @@
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "d6149f70c012e12d492bec188494c98e7a40d7e7153d5e352e4068e73712d468",
-      "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
-      "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
+      "values_digest": "d77feab5c02e1e33cb69122aeb4952bd02e55c0686b0cd3834d8e35609db95d3",
+      "rendered_digest": "7d432e306b5616236582f720b74de728aada5b5ad4c82902fdd06c0fd9ae29ee",
+      "ast_digest": "8748df4df38995a163f71c7a887477b57d8d665ee6f0742387ba1f7bb938fb28"
     },
     "sor": {
       "values_digest": "18b7d4ee12fca11a991fadea6a0822f5e108b9e56db1960a7e1e9f1f9e436b18",
@@ -162,6 +189,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "Record exact-range diff hygiene after #262 review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 post-remediation reviewable diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
