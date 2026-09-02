@@ -1,0 +1,24 @@
+{
+  "issue": 515,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "728c130f61f0c6dde77c2e8e0e0c3b56b9401532d5eee0ce45df412e285af068",
+  "actor": "codex:/root:issue-515-readiness",
+  "reason": "Declare the owned implementation validators and PROV-B evidence directory as #515 deliverables so deferred validation targets have a typed denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Bounded local-model shadow-execution path",
+      "Deterministic authority-versus-shadow comparison input and rule set",
+      "Fallback behavior that preserves authoritative results on shadow failure",
+      "Redacted evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      ".csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh",
+      ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b"
+    ]
+  }
+}

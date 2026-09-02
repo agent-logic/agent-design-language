@@ -1946,6 +1946,98 @@ fn runner_sequential_runtime_resilience_records_admitted_and_success() {
 }
 
 #[test]
+fn runner_local_provider_invokes_configured_shadow_without_authority() {
+    let evidence_path = std::path::PathBuf::from(format!(
+        ".adl/test-artifacts/runner-provider-shadow-{}.jsonl",
+        std::process::id()
+    ));
+    let _ = std::fs::remove_file(&evidence_path);
+
+    let mut provider_spec = mock_provider_spec();
+    provider_spec.config.insert(
+        "local_shadow_model".to_string(),
+        serde_json::json!("shadow-echo-v1"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_provider_kind".to_string(),
+        serde_json::json!("mock"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_rule_set".to_string(),
+        serde_json::json!("runner_provider_shadow_v1"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_evidence_path".to_string(),
+        serde_json::json!(evidence_path.to_string_lossy()),
+    );
+
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), provider_spec);
+    resolved.doc.run.workflow.as_mut().expect("workflow").kind = WorkflowKind::Sequential;
+    resolved.steps = vec![crate::resolve::ResolvedStep {
+        id: "seq.shadow".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("hello shadow runner".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "seq.shadow".to_string(),
+            depends_on: vec![],
+            save_as: None,
+            delegation: None,
+        }],
+    };
+
+    let base = std::path::PathBuf::from(format!(
+        ".adl/test-artifacts/runner-provider-shadow-run-{}",
+        std::process::id()
+    ));
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("sequential shadow-configured provider should succeed");
+
+    assert_eq!(result.outputs.len(), 1);
+    assert_eq!(result.outputs[0].model_output, "USER:\nhello shadow runner");
+    let evidence = std::fs::read_to_string(&evidence_path).expect("shadow evidence log");
+    assert!(evidence.contains("\"authority_channel\":\"authoritative\""));
+    assert!(evidence.contains("\"shadow_channel\":\"shadow\""));
+    assert!(evidence.contains("\"comparison_rule_set\":\"runner_provider_shadow_v1\""));
+    assert!(
+        !evidence.contains("hello shadow runner"),
+        "runtime shadow evidence must not retain prompt text"
+    );
+
+    let _ = std::fs::remove_file(&evidence_path);
+    if let Some(parent) = evidence_path.parent() {
+        let _ = std::fs::remove_dir(parent);
+    }
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
 fn runner_sequential_runtime_resilience_records_degraded_continue_and_terminal_failure() {
     let mut resolved = minimal_resolved();
     resolved
