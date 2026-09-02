@@ -410,13 +410,13 @@ fn classify_cleanup_from_git(
                 "cleanup removal requires a preview receipt for the same Git registration",
             ));
         }
-        return Ok(CleanupDecision::RemovalDeniedPreCutover {
+        Ok(CleanupDecision::RemovalDeniedPreCutover {
             path: candidate,
             receipt_digest,
             reason:
                 "v3 clean is non-authoritative before #505 cutover and must not remove worktrees"
                     .into(),
-        });
+        })
     } else {
         Ok(CleanupDecision::Removable {
             path: candidate,

@@ -293,7 +293,7 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
     });
     let ready = prepare_terminal_route("cutover", &request).expect("cutover plan");
     assert_eq!(ready.status, TerminalRouteStatus::Ready);
-    assert_eq!(ready.cutover.unwrap().executes_cutover, false);
+    assert!(!ready.cutover.unwrap().executes_cutover);
 }
 
 fn cleanup_plan(
