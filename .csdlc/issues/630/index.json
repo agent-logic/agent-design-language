@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 630,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
-  "phase": "initialized",
-  "generation": 2,
-  "digest": "06adbad0fa36c300dbb652ec80353c1cd5a6ec09fe03cd6cd0ce977ede0799e7",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "c8994c67be90972199dea3f85971ded73f9e5266e2171c8076ad21ea82e3f571",
+  "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +25,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "20b5aad2bcac2cff2b18dbce1a3bf245547d21adc03a69232da95e8b8d7ab204",
+      "values_digest": "888df4fef2afee89152131370d22997ab41813e12cb5e166114b22dcb54f829e",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "2bd09865d48eb541c71ce5e6877c5bc916dc64d7593ec3560fc06092ecc2d4b9",
+      "values_digest": "0fe17f504206e868c374a88e58ea1fe9c85bca87e831f90dd40182280fd4a103",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "4c1b022e611f23befcfeb70307224d2d7588922351c6a4d5daeb2fbcb1ceff7e",
+      "values_digest": "75aec75d574b3524cfd416ae83737142e18e751cc4d7a09149eeaf5678363501",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "a7bb1587f96bda60462c610242d32f48a936bb3ef1342b38c9c828571154bb5b",
+      "values_digest": "b2c6d7bcaa1aab4cb01615f26c644a09163284506e22d456cd768209408fa55c",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "88d9ec911e72dda04750e140c68b074f77cdf8bd9e945b7c7b6bf47c03434f93",
+      "values_digest": "f7ddf9c566fc5fc4656068c77d9f9f67e026cfef942771721fb350df94366aa8",
       "rendered_digest": "ec38cd2276996fd79d39633a2c37f0b03a06001bffed9d9bf5ba9bc09d982a48",
       "ast_digest": "e68200fd5ab278b3e8d183f9d6b1daf27fabefb612dda0ed948392862ca8f07a"
     },
     "sor": {
-      "values_digest": "e3b87d25027286451d770b075c0875afd31ce61c94e74c0d0e8f50e4f51ea455",
-      "rendered_digest": "0ef5f8552f485a7bbd91443c1de8842bc479dbe7a54666a0ee88b7d7241db085",
-      "ast_digest": "075a80cd8320e3551e8c42a4895b8a716448904e52bb9ad23540bf0074422d3c"
+      "values_digest": "129f6abcf1c11bc77edd117dd8fc83fc834728cb110faa0683ce6d33840c83bb",
+      "rendered_digest": "24372e2cdf9f7e583d2f0b5a24cc1d0ac1480d77c46437df95e826a8ccba26aa",
+      "ast_digest": "117cf392d7b10604bb32a7f2da9e5534ad7ede1c8e5ee62cab05de52fe656263"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6-issue-630",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +99,20 @@
       "actor": "codex:worker-6-spp-editor",
       "reason": "Make the #630 executable validation target and changed v3 command files explicit issue-owned affected areas for readiness.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh\",\".csdlc/evidence/630/\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6-issue-630",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
