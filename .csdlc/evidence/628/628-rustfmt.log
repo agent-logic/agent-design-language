@@ -1,1 +1,1 @@
-rustfmt --check passed for stronger #628 route-result evidence
+rustfmt --check passed for #628 v3-local transition evidence

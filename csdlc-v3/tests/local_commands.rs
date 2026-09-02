@@ -305,6 +305,77 @@ fn eligibility_route_consumes_lifecycle_observation() {
 }
 
 #[test]
+fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
+    let dir = fixture_dir("v3-local-state");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    let state_root = dir.join("state");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request()).expect("request json"),
+    )
+    .expect("write request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let issue_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("issue")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--v3-state-root")
+        .arg(&state_root)
+        .output()
+        .expect("run v3 issue initialization route");
+    assert!(issue_output.status.success(), "{issue_output:?}");
+    let issue_value: serde_json::Value =
+        serde_json::from_slice(&issue_output.stdout).expect("issue route JSON");
+    assert_eq!(issue_value["route_result"]["kind"], "issue_initialization");
+    assert_eq!(
+        issue_value["route_result"]["initialized_state"]["code"],
+        "local_lifecycle_state_ready"
+    );
+
+    let eligibility_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("eligibility")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--v3-state-root")
+        .arg(&state_root)
+        .output()
+        .expect("run v3 eligibility route");
+    assert!(
+        eligibility_output.status.success(),
+        "{eligibility_output:?}"
+    );
+    let eligibility_value: serde_json::Value =
+        serde_json::from_slice(&eligibility_output.stdout).expect("eligibility route JSON");
+    assert_eq!(
+        eligibility_value["route_status"]["code"],
+        "ready_to_execute"
+    );
+    assert_eq!(eligibility_value["route_result"]["kind"], "eligibility");
+    assert_eq!(eligibility_value["route_result"]["ready_to_execute"], true);
+    assert_eq!(
+        eligibility_value["route_result"]["lifecycle_state"]["cards_present"]
+            .as_array()
+            .expect("cards_present is an array")
+            .len(),
+        6
+    );
+}
+
+#[test]
 fn missing_local_lifecycle_state_is_explicit_and_repairable() {
     let dir = fixture_dir("missing-state");
     let observation = inspect_local_lifecycle_state(&dir, 628);

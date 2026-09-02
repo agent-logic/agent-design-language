@@ -1,17 +1,18 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
      Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-286e111367ea102a)
-running 13 tests
-test card_roundtrip_uses_active_registry_denominator ... ok
-test doctor_plan_preserves_distinct_outcome_states ... ok
-test contract_commands_are_typed_and_non_authoritative ... ok
-test local_route_status_codes_are_route_specific ... ok
+running 14 tests
 test topology_bind_requires_exact_registered_worktree ... ok
+test doctor_plan_preserves_distinct_outcome_states ... ok
+test local_route_status_codes_are_route_specific ... ok
+test contract_commands_are_typed_and_non_authoritative ... ok
 test missing_local_lifecycle_state_is_explicit_and_repairable ... ok
+test card_roundtrip_uses_active_registry_denominator ... ok
 test local_lifecycle_readiness_rejects_malformed_index ... ok
 test eligibility_route_consumes_lifecycle_observation ... ok
 test local_lifecycle_readiness_rejects_post_execution_phase ... ok
 test local_lifecycle_readiness_requires_supported_phase_and_all_cards ... ok
-test local_preparation_cli_emits_machine_readable_non_authoritative_plan ... ok
 test local_preparation_cli_rejects_malformed_typed_request ... ok
+test local_preparation_cli_emits_machine_readable_non_authoritative_plan ... ok
+test issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it ... ok
 test implemented_local_routes_have_distinct_typed_non_authoritative_statuses ... ok
-test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s

@@ -3,9 +3,9 @@ use std::{env, fs, path::PathBuf};
 use csdlc_v3::{
     application::FoundationState,
     commands::local::{
-        execute_local_route, inspect_local_lifecycle_state, local_route_command,
-        local_route_status, prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration,
-        LOCAL_ROUTE_NAMES,
+        execute_local_route, initialize_v3_local_state, inspect_local_lifecycle_state,
+        inspect_v3_local_state, local_route_command, local_route_status, prepare_local_workflow,
+        LocalPreparationRequest, WorktreeRegistration, LOCAL_ROUTE_NAMES,
     },
     repository::RepositoryContext,
 };
@@ -125,10 +125,16 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
     }
     let mut result = prepare_local_workflow(&request, &registry, &registrations)
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
-    result.lifecycle_state = args
-        .repo_root
-        .as_ref()
-        .map(|root| inspect_local_lifecycle_state(root, request.issue));
+    result.lifecycle_state = match (route, args.v3_state_root.as_ref(), args.repo_root.as_ref()) {
+        ("issue", Some(root), _) => Some(
+            initialize_v3_local_state(root, &request, &registry).map_err(|findings| {
+                serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
+            })?,
+        ),
+        ("eligibility", Some(root), _) => Some(inspect_v3_local_state(root, request.issue)),
+        (_, _, Some(root)) => Some(inspect_local_lifecycle_state(root, request.issue)),
+        _ => None,
+    };
     let route_status = local_route_status(route, result.lifecycle_state.as_ref());
     let route_result = if route == "local" {
         None
@@ -173,6 +179,7 @@ struct LocalArgs {
     registry: PathBuf,
     registrations: PathBuf,
     repo_root: Option<PathBuf>,
+    v3_state_root: Option<PathBuf>,
 }
 
 impl LocalArgs {
@@ -184,6 +191,7 @@ impl LocalArgs {
         let mut registry = None;
         let mut registrations = None;
         let mut repo_root = None;
+        let mut v3_state_root = None;
         let mut iter = args.iter();
         while let Some(arg) = iter.next() {
             let target = match arg.as_str() {
@@ -191,6 +199,7 @@ impl LocalArgs {
                 "--registry" => &mut registry,
                 "--registrations" => &mut registrations,
                 "--repo-root" => &mut repo_root,
+                "--v3-state-root" => &mut v3_state_root,
                 _ => return Err(format!("{usage}; unexpected argument {arg}")),
             };
             if target.is_some() {
@@ -206,6 +215,7 @@ impl LocalArgs {
             registry: registry.ok_or_else(|| usage.clone())?,
             registrations: registrations.ok_or(usage)?,
             repo_root,
+            v3_state_root,
         })
     }
 }

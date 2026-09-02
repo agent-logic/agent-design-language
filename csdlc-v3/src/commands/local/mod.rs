@@ -131,6 +131,7 @@ pub enum LocalRouteResult {
         repository: String,
         card_paths: Vec<String>,
         template_registry_version: String,
+        initialized_state: Option<LocalLifecycleStateObservation>,
     },
     BindWorktree {
         issue: u64,
@@ -526,6 +527,7 @@ pub fn execute_local_route(
                 .map(|card| format!(".csdlc/issues/{}/cards/{card}.md", request.issue))
                 .collect(),
             template_registry_version: registry.version.clone(),
+            initialized_state: lifecycle_state,
         }),
         Some(LocalCommand::BindWorktree) => {
             let bind = authorize_bind(request, registrations)?;
@@ -598,13 +600,80 @@ pub fn execute_local_route(
 
 pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleStateObservation {
     let issue_root = root.join(format!(".csdlc/issues/{issue}"));
+    inspect_lifecycle_issue_root(&issue_root, issue, "local")
+}
+
+pub fn inspect_v3_local_state(root: &Path, issue: u64) -> LocalLifecycleStateObservation {
+    let issue_root = root.join(format!("issues/{issue}"));
+    inspect_lifecycle_issue_root(&issue_root, issue, "v3-local")
+}
+
+pub fn initialize_v3_local_state(
+    root: &Path,
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+) -> Result<LocalLifecycleStateObservation, Vec<DoctorFinding>> {
+    let cards = plan_cards(request.issue, &request.registry_version, registry)?;
+    let issue_root = root.join(format!("issues/{}", request.issue));
+    let cards_root = issue_root.join("cards");
+    fs::create_dir_all(&cards_root).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "v3_local_state_create_failed",
+            &format!("could not create v3 local state directory: {error}"),
+        )]
+    })?;
+    let index = serde_json::json!({
+        "schema": "csdlc.v3.local_state.v1",
+        "issue": request.issue,
+        "phase": "ready",
+        "repository": request.repository,
+        "branch": request.branch,
+        "worktree": request.worktree,
+        "template_registry_version": registry.version,
+        "operational_authority": false
+    });
+    write_json(&issue_root.join("index.json"), &index)?;
+    for card in cards.card_kinds {
+        write_json(
+            &cards_root.join(format!("{card}.values.json")),
+            &serde_json::json!({
+                "schema": "csdlc.v3.local_card_values.v1",
+                "issue": request.issue,
+                "card": card,
+                "operational_authority": false
+            }),
+        )?;
+        fs::write(
+            cards_root.join(format!("{card}.md")),
+            format!(
+                "# {card}\n\nNon-authoritative v3 local preparation fixture for issue #{}.\n",
+                request.issue
+            ),
+        )
+        .map_err(|error| {
+            vec![finding(
+                PlanStatus::Failed,
+                "v3_local_card_write_failed",
+                &format!("could not write v3 local card fixture: {error}"),
+            )]
+        })?;
+    }
+    Ok(inspect_v3_local_state(root, request.issue))
+}
+
+fn inspect_lifecycle_issue_root(
+    issue_root: &Path,
+    issue: u64,
+    source: &str,
+) -> LocalLifecycleStateObservation {
     let index_path = issue_root.join("index.json");
     if !index_path.is_file() {
         return LocalLifecycleStateObservation {
             issue,
             status: PlanStatus::Blocked,
             code: "missing_local_lifecycle_state".into(),
-            message: "local lifecycle state is missing; initialize or repair the issue record before executing local routes".into(),
+            message: format!("{source} lifecycle state is missing; initialize or repair the issue record before executing local routes"),
             cards_present: Vec::new(),
             missing_cards: REQUIRED_CARD_KINDS.into_iter().map(str::to_string).collect(),
             ready_to_execute: false,
@@ -680,6 +749,23 @@ pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleS
             ready_to_execute: false,
         }
     }
+}
+
+fn write_json(path: &Path, value: &Value) -> Result<(), Vec<DoctorFinding>> {
+    let bytes = serde_json::to_vec_pretty(value).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "v3_local_state_serialize_failed",
+            &error.to_string(),
+        )]
+    })?;
+    fs::write(path, bytes).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "v3_local_state_write_failed",
+            &format!("could not write v3 local state: {error}"),
+        )]
+    })
 }
 
 fn read_local_lifecycle_phase(index_path: &Path) -> Result<String, String> {
