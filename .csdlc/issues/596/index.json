@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 596,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 4,
-  "digest": "92330cef99fd5787c83898a9b6f4cf185e2f9f508355a9a1327aae46f9e3cd27",
-  "branch": null,
-  "worktree": null,
+  "digest": "aea8e40b773af7ca28bd39c07c4189d969160c23770b52f1af8c6866f65c32d2",
+  "branch": "codex/sprints-5-6-cutover-fixes",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "worker-6",
       "reason": "Advance #596 to ready after design approval and issue-local validation lane repair, before binding the existing remediation branch/worktree."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -98,6 +106,13 @@
       "actor": "fresh-session:1f512732-f7b6-497b-8262-afd10cccc4ab",
       "reason": "reapprove repaired ready issue design",
       "operation": "{\"design_digest\":\"52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966\",\"design_ref\":\".csdlc/prepared/issues/596/design.md\",\"diagram_digest\":\"3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070\",\"diagram_ref\":\".csdlc/prepared/issues/596/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
