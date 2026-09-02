@@ -17,6 +17,26 @@ if [[ "${1:-}" == "--live-wuji" ]]; then
   receipt="$evidence_dir/wuji-restart-receipt.json"
   "$csm" runtime-v3 status --init "$init" --json >"$before" || true
   "$csm" runtime-v3 stop --init "$init" --json >/dev/null
+  for _ in $(seq 1 120); do
+    if python3 - <<'PY'
+import socket
+listeners = []
+try:
+    for port in (20997, 20998):
+        listener = socket.socket()
+        listener.bind(("127.0.0.1", port))
+        listeners.append(listener)
+except OSError:
+    raise SystemExit(1)
+finally:
+    for listener in listeners:
+        listener.close()
+PY
+    then
+      break
+    fi
+    sleep 1
+  done
   "$csm" runtime-v3 start --init "$init" --json >/dev/null
   "$csm" runtime-v3 status --init "$init" --json >"$status"
   public_base_url="$(python3 -c 'import sys,tomllib; print(tomllib.load(open(sys.argv[1], "rb"))["api"]["public_base_url"])' "$init")"
