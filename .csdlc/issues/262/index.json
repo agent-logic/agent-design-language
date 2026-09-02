@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "747d0569459e958f94a12dc7aad672cdbb3c43f2e342694cfb2ae55c7a347d0f",
+  "generation": 10,
+  "digest": "cc10297487b22f4713e059577ebe3e3f9189fbfd78d3a1eb754f1d27cb92a5d0",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": {
@@ -37,7 +37,48 @@
       "demos/podcast/studio/podcast-studio.html"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:76b336fc-50e4-4bdb-8dfb-c1432cda544e",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/podcast-studio.html"
+    ],
+    "reviewed_revision": "git-blake3:dde20f7105f6f58230c49e4f272ed1c4b03396e4:e213583611353e78a43e8fb6345b5dfbcec0ce21317bc57e068422c39179aae3",
+    "findings": [
+      {
+        "id": "262-review-r2-p1-http-range-playback-proof-missing",
+        "severity": "p1",
+        "summary": "AC-3 remains unproven at exact review head 211304f480c51de83da31e140528f50e0d47613a: the STP and design require HEAD, GET, 206 byte-range behavior and representative desktop/mobile playback proof, but retained evidence only contains static hosting validation and diff hygiene. The QA report still says cross-platform playback receipts are not claimed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +93,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "909281a14da8c0c59c6ac4ff02c544c73b94f930110a701fa55484a7323eeae6",
+      "values_digest": "144cfc93c2a4fef44977e718dd662da256a886f06fdd9cda904a5552970b0e77",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "eae64ce5c2a990bcfd74b59263cee26258d21c0ee55df9245f692a9b7178c347",
+      "values_digest": "47115ec4a781bd6519f6a09c30e30c3790cb58ba7e503f9298ed919f86a839df",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "5a4fd4ce077dd30aa478bf95c3561d410f40866816bbc539bdbc148fa9769d6a",
+      "values_digest": "22091c5e7b90d5308d36a396a1d86b82d8dd9161f58787c1a43df2ff26eee78e",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "b8240ae62e02811a1aa7aac6b87d5047d4e0f082aa2adcd8c0d67a544b185feb",
+      "values_digest": "2e4d2f569c01beca1f34ba8ee3607e99b5129e077cad92e82ebee849d68ca629",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "d77feab5c02e1e33cb69122aeb4952bd02e55c0686b0cd3834d8e35609db95d3",
-      "rendered_digest": "7d432e306b5616236582f720b74de728aada5b5ad4c82902fdd06c0fd9ae29ee",
-      "ast_digest": "8748df4df38995a163f71c7a887477b57d8d665ee6f0742387ba1f7bb938fb28"
+      "values_digest": "4911bc1558a29103a528e628884eb879f045215b2ab61b82ad3dce832862a03c",
+      "rendered_digest": "35eaf005e0fb985f6bcbf931a6c2a326d71a756588d34e9b611eb1ccaddb806f",
+      "ast_digest": "82645db36ee1e9ad2bea08881f91c284f6af3e46abd4bff7fdd56a2f4a62a8b3"
     },
     "sor": {
-      "values_digest": "18b7d4ee12fca11a991fadea6a0822f5e108b9e56db1960a7e1e9f1f9e436b18",
+      "values_digest": "8a4b291254cefea4017f4b1b7e966e56369126d363f006f344e7f536ee381fb3",
       "rendered_digest": "937856595802571a34aa1e5835a28abd7c406efc21f3f1519745daeab3cbd914",
       "ast_digest": "4b641c986c1d5d317885357547f2bf46fb7bfd991ceb33fc43815ec5f99a2f23"
     }
@@ -196,6 +237,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "fresh-session:76b336fc-50e4-4bdb-8dfb-c1432cda544e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

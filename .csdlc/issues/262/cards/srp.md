@@ -42,7 +42,18 @@ demos/podcast/studio/podcast-studio.html
 
 ## Findings
 
-[]
+[
+  {
+    "id": "262-review-r2-p1-http-range-playback-proof-missing",
+    "severity": "p1",
+    "summary": "AC-3 remains unproven at exact review head 211304f480c51de83da31e140528f50e0d47613a: the STP and design require HEAD, GET, 206 byte-range behavior and representative desktop/mobile playback proof, but retained evidence only contains static hosting validation and diff hygiene. The QA report still says cross-platform playback receipts are not claimed.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -54,8 +65,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:dde20f7105f6f58230c49e4f272ed1c4b03396e4:e213583611353e78a43e8fb6345b5dfbcec0ce21317bc57e068422c39179aae3")
 
-Reviewer: None
+Reviewer: Some("fresh-session:76b336fc-50e4-4bdb-8dfb-c1432cda544e")
 
-Result: pre_review
+Result: changes_required

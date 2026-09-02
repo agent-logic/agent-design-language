@@ -7,23 +7,34 @@
     "title": "Podcast production hosting, RSS, enclosures, and playback",
     "slug": "podcast-production-hosting",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/evidence/262\n.csdlc/prepared/issues/262\ndemos/_preview/podcast/index.html\ndemos/podcast/LAUNCH_READINESS.md\ndemos/podcast/S3_CLOUDFRONT_RUNBOOK.md\ndemos/podcast/audio/meet-the-ai-coworkers.mp3\ndemos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/episode.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/script.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md\ndemos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json\ndemos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md\ndemos/podcast/episodes/meet-the-ai-coworkers/index.html\ndemos/podcast/feed.xml\ndemos/podcast/index.html\ndemos/podcast/studio-reference/podcast-studio.html\ndemos/podcast/studio/podcast-studio.html",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:dde20f7105f6f58230c49e4f272ed1c4b03396e4:e213583611353e78a43e8fb6345b5dfbcec0ce21317bc57e068422c39179aae3",
+      "reviewer": "fresh-session:76b336fc-50e4-4bdb-8dfb-c1432cda544e",
       "review_prompts": [
         "Does the candidate satisfy every acceptance criterion on its real owned path?",
         "Does it preserve sibling ownership, operator authority, privacy, and rollback?",
         "Are all proof claims exact-revision and non-overstated?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "262-review-r2-p1-http-range-playback-proof-missing",
+          "severity": "p1",
+          "summary": "AC-3 remains unproven at exact review head 211304f480c51de83da31e140528f50e0d47613a: the STP and design require HEAD, GET, 206 byte-range behavior and representative desktop/mobile playback proof, but retained evidence only contains static hosting validation and diff hygiene. The QA report still says cross-platform playback receipts are not claimed.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
