@@ -1,5 +1,5 @@
-use std::fs;
 use std::path::{Path, PathBuf};
+use std::{fs, process::Command};
 
 use csdlc_v3::adapters::{
     ChildCredentialInjector, CommandInvocation, FakeGitAdapter, FakeProcessAdapter, GitAdapter,
@@ -8,7 +8,8 @@ use csdlc_v3::adapters::{
 use csdlc_v3::application::{FoundationState, IssueProjection};
 use csdlc_v3::commands::local::{
     authorize_bind, grants_operational_authority, plan_cards, prepare_local_workflow,
-    validate_contract, LocalCommand, LocalPreparationRequest, PromptRegistry, WorktreeRegistration,
+    required_local_commands, validate_contract, LocalPreparationRequest, PromptRegistry,
+    WorktreeRegistration,
 };
 use csdlc_v3::lifecycle::{
     Capability, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
@@ -98,12 +99,8 @@ fn real_issue_request(
             .expect("real issue worktree")
             .to_owned(),
         registry_version: registry.version.clone(),
-        commands: vec![
-            LocalCommand::PrepareIssue,
-            LocalCommand::BindWorktree,
-            LocalCommand::PlanPvf,
-            LocalCommand::Doctor,
-        ],
+        expected_lifecycle_digest: index["digest"].as_str().map(str::to_owned),
+        commands: required_local_commands().to_vec(),
     }
 }
 
@@ -155,6 +152,59 @@ fn foundation_and_local_commands_accept_real_issue_596_without_v3_authority() {
         .commands
         .iter()
         .all(|command| !grants_operational_authority(*command)));
+}
+
+#[test]
+fn eligibility_cli_consumes_real_bound_issue_state() {
+    let root = repo_root();
+    let registry = prompt_registry(&root);
+    let request = real_issue_request(&root, 5853, &registry);
+    let dir = root.join("csdlc-v3/target/real-issue-canary-5853");
+    let _ = fs::remove_dir_all(&dir);
+    fs::create_dir_all(&dir).expect("real issue canary fixture dir");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request).expect("real request serializes"),
+    )
+    .expect("write real request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&[WorktreeRegistration {
+            branch: request.branch.clone(),
+            worktree: request.worktree.clone(),
+            primary: false,
+        }])
+        .expect("real registration serializes"),
+    )
+    .expect("write real registration fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("eligibility")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(root.join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--repo-root")
+        .arg(&root)
+        .output()
+        .expect("run eligibility canary against real bound issue");
+    assert!(output.status.success(), "{output:?}");
+    assert!(output.stderr.is_empty(), "{output:?}");
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("eligibility emits machine JSON");
+    assert_eq!(value["command"], "eligibility");
+    assert_eq!(value["operational_authority"], false);
+    assert_eq!(value["route_status"]["code"], "ready_to_execute");
+    assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
+    assert_eq!(value["route_result"]["kind"], "eligibility");
+    assert_eq!(value["route_result"]["ready_to_execute"], true);
+    assert_eq!(value["route_result"]["issue_start_minutes_max"], 3);
+    assert_eq!(value["result"]["lifecycle_state"]["issue"], 5853);
+    assert_eq!(value["result"]["lifecycle_state"]["ready_to_execute"], true);
 }
 
 #[test]
