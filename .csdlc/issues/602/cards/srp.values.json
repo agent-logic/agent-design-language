@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
     "slug": "runtime-csmctl-dynamic-agent-admission",
     "version": "v0.92.1",
-    "generation": 25
+    "generation": 27
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "CSMctl\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\nadl/src/cli/csmctl_cmd.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/runtime-init.toml\ninfra/runtime-v3/agents/ember.axioma.yaml\n.csdlc/evidence/602/live-wuji-acceptance.md\n.csdlc/prepared/issues/602",
-      "review_revision": "git-blake3:54ab39b1212bd6cbfc501e13b39eb9c9892ec514:784aa1bd7ea6f06ac57b84ae980c1e2199f806266e00e0b26c20a45cc6311386",
-      "reviewer": "codex-subagent:issue_602_production_lease_review",
+      "review_scope": "adl/src/cli/csmctl_cmd.rs",
+      "review_revision": "git-blake3:c8f158252efd1ac536db5e966ad6d421daf85f7b:4ca47bc45e0e8f16f59a0271781f896e84e8ae07abcf45e0d3e3e7a0aa2d679c",
+      "reviewer": "codex-subagent:issue_602_timeout_review",
       "review_prompts": [
         "Can any unauthorized or conflicting request mutate durable or live roster state?",
         "Can persistence and in-memory roster truth split after any modeled failure?",
@@ -25,8 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [
-        "The final review relied on committed live Wuji acceptance for the live model lane; local focused Runtime, Guardian, API, and lifecycle proof passed.",
-        "Broader Guardian startup simplification is intentionally outside issue 602 and must be handled separately."
+        "Authoritative GitHub workspace coverage rerun remains pending publication of this reviewed revision."
       ],
       "review_result": "pass"
     }

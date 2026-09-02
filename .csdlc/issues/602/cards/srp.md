@@ -12,22 +12,7 @@ Status: draft
 
 ## Scope
 
-CSMctl
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/control/feeds.rs
-adl-runtime-kernel/src/conversation_sessions_tests.rs
-adl-runtime-kernel/tests/guardian_soak.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-adl-runtime-kernel/tests/production_acip_wss.rs
-adl-runtime-kernel/tests/support/runtime_init.rs
 adl/src/cli/csmctl_cmd.rs
-docs/api/runtime-v3/v1/observatory.openapi.json
-infra/runtime-v3/runtime-init.toml
-infra/runtime-v3/agents/ember.axioma.yaml
-.csdlc/evidence/602/live-wuji-acceptance.md
-.csdlc/prepared/issues/602
 
 ## Prompts
 
@@ -47,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The final review relied on committed live Wuji acceptance for the live model lane; local focused Runtime, Guardian, API, and lifecycle proof passed.
-- Broader Guardian startup simplification is intentionally outside issue 602 and must be handled separately.
+- Authoritative GitHub workspace coverage rerun remains pending publication of this reviewed revision.
 
 ## Review Result
 
-Revision: Some("git-blake3:54ab39b1212bd6cbfc501e13b39eb9c9892ec514:784aa1bd7ea6f06ac57b84ae980c1e2199f806266e00e0b26c20a45cc6311386")
+Revision: Some("git-blake3:c8f158252efd1ac536db5e966ad6d421daf85f7b:4ca47bc45e0e8f16f59a0271781f896e84e8ae07abcf45e0d3e3e7a0aa2d679c")
 
-Reviewer: Some("codex-subagent:issue_602_production_lease_review")
+Reviewer: Some("codex-subagent:issue_602_timeout_review")
 
 Result: pass
