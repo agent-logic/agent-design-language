@@ -320,11 +320,11 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
