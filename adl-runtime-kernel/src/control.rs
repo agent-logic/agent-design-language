@@ -151,10 +151,54 @@ pub struct AgentCheckpoint {
     pub schema: String,
     pub runtime_instance_id: String,
     pub declaration: AgentAdmissionRequest,
-    pub roster_state: AgentSample,
+    pub roster_state: CheckpointAgentSample,
     pub conversation_history: Vec<AgentConversationCheckpoint>,
     pub created_at_unix_millis: u64,
     pub checkpoint_digest: String,
+}
+
+/// Stable v1 checkpoint representation. Keep this separate from the live
+/// Observatory projection so additive API fields cannot change checkpoint
+/// bytes or integrity digests.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CheckpointAgentSample {
+    pub id: String,
+    pub label: String,
+    pub role: String,
+    pub state: String,
+    pub detail: String,
+    pub health: String,
+    pub availability: String,
+    pub activity: Option<String>,
+    pub capabilities: Vec<String>,
+    pub location: Option<String>,
+    pub communication_eligible: bool,
+    pub observed_at_unix_millis: u64,
+    pub freshness_deadline_unix_millis: u64,
+    pub source_revision: String,
+    pub provenance: String,
+}
+
+impl From<AgentSample> for CheckpointAgentSample {
+    fn from(sample: AgentSample) -> Self {
+        Self {
+            id: sample.id,
+            label: sample.label,
+            role: sample.role,
+            state: sample.state,
+            detail: sample.detail,
+            health: sample.health,
+            availability: sample.availability,
+            activity: sample.activity,
+            capabilities: sample.capabilities,
+            location: sample.location,
+            communication_eligible: sample.communication_eligible,
+            observed_at_unix_millis: sample.observed_at_unix_millis,
+            freshness_deadline_unix_millis: sample.freshness_deadline_unix_millis,
+            source_revision: sample.source_revision,
+            provenance: sample.provenance,
+        }
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1777,7 +1821,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             if !seen.insert(agent.id.clone()) {
                 return Err(ControlError::InvalidIdentifier);
             }
-            population.admit_dynamic(agent_sample(&agent));
+            let mut sample = agent_sample(agent);
+            sample.name = persisted_agent_canonical_name(agent);
+            population.admit_dynamic(sample);
         }
         *self
             .dynamic_agents
@@ -2053,7 +2099,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             schema: AGENT_CHECKPOINT_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
             declaration,
-            roster_state,
+            roster_state: roster_state.into(),
             conversation_history,
             created_at_unix_millis: now_unix_millis(),
             checkpoint_digest: String::new(),
@@ -5043,6 +5089,7 @@ pub fn write_payload(
 #[cfg(test)]
 mod agent_lifecycle {
     use super::*;
+    use crate::{ComponentId, RunningState};
 
     struct FakeLifecycle;
 
@@ -5186,6 +5233,25 @@ mod agent_lifecycle {
             .unwrap();
         assert_eq!(legacy_sample.label, "Gemma");
         assert_eq!(legacy_sample.role, "legacy persisted assistant");
+        assert_eq!(legacy_sample.name, "legacy-gemma.legacy");
+        let observed_at = now_unix_millis();
+        legacy_service
+            .recorder
+            .set_component_state(ComponentId::new("legacy-gemma"), RunningState::Running);
+        assert!(legacy_service.recorder.record_agent_admission(
+            "legacy-gemma",
+            observed_at,
+            observed_at.saturating_add(30_000),
+            "1111111111111111111111111111111111111111",
+        ));
+        let legacy_page = legacy_service
+            .agent_roster_page(10, None, None, None)
+            .expect("legacy agent remains listable");
+        assert_eq!(legacy_page.sample[0].name, "legacy-gemma.legacy");
+        let legacy_detail = legacy_service
+            .agent_roster_detail("legacy-gemma")
+            .expect("legacy agent remains addressable");
+        assert_eq!(legacy_detail.name, "legacy-gemma.legacy");
         let source = service(source_path.clone());
         let request = declaration(endpoint);
 
@@ -5264,6 +5330,14 @@ mod agent_lifecycle {
             checkpoint.checkpoint_digest
         );
         assert_eq!(checkpoint.conversation_history.len(), 1);
+        let checkpoint_json = serde_json::to_value(&checkpoint).unwrap();
+        assert!(checkpoint_json["roster_state"].get("name").is_none());
+        let decoded_checkpoint: AgentCheckpoint =
+            serde_json::from_value(checkpoint_json).expect("v1 checkpoint remains readable");
+        assert_eq!(
+            decoded_checkpoint.checkpoint_digest,
+            checkpoint.checkpoint_digest
+        );
         source.refresh_dynamic_agent_health().await;
         assert_eq!(
             source
@@ -5407,6 +5481,21 @@ fn validate_persisted_agent_admission(request: &AgentAdmissionRequest) -> Result
             Ok(())
         }
         _ => Err(ControlError::InvalidIdentifier),
+    }
+}
+
+fn persisted_agent_canonical_name(request: &AgentAdmissionRequest) -> String {
+    if is_canonical_agent_name(&request.name) {
+        return request.name.clone();
+    }
+    let candidate = format!("{}.legacy", request.id);
+    if is_canonical_agent_name(&candidate) {
+        candidate
+    } else {
+        format!(
+            "legacy.{}",
+            &blake3::hash(request.id.as_bytes()).to_hex()[..16]
+        )
     }
 }
 

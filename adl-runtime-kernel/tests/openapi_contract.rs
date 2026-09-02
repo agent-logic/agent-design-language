@@ -18,7 +18,7 @@ fn canonical_name_is_required_by_agent_roster_openapi_contract() {
         .any(|v| v == "name"));
     assert_eq!(
         entry["properties"]["name"]["pattern"],
-        "^[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,31}$"
+        "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
     );
     let sample = &observatory["components"]["schemas"]["AgentSample"];
     assert!(sample["required"]

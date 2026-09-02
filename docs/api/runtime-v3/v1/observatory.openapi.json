@@ -805,7 +805,7 @@
         "properties": {
           "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
           "id": {"type": "string"},
-          "name": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,31}$"},
+          "name": {"type": "string", "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"},
           "label": {"type": "string"},
           "role": {"type": "string"},
           "presence": {"type": "string", "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]},
@@ -847,7 +847,7 @@
           },
           "name": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,31}$"
+            "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
           },
           "label": {
             "type": "string"
