@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state only after stale/missing lifecycle-digest checks pass.
+Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state only after stale/missing/existing-state lifecycle-digest checks pass.
 
 ## Artifacts
 
@@ -31,10 +31,10 @@ Implemented the V3-H.2 local lifecycle routes under the single operationally non
 ## Execution
 
 - Implemented the #628-owned local routes issue, bind, edit, validate, doctor, schedule, shepherd, and eligibility as one-binary v3 commands.
-- Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied and any expected lifecycle digest is satisfied before writing.
+- Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied, genuinely missing state is being initialized, or existing state is protected by an expected lifecycle digest.
 - Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.
 - Updated the v3 command manifest so #628 local routes are implemented but not live authority; GitHub, publication, finish, clean, and cutover routes remain fail-closed before #505.
-- Added focused tests for local route help/dispatch, eight-command contract coverage, exact registered-worktree binding, unsafe-primary-checkout denial, issue-route construction-state writes, write-free stale/missing digest rejection, and missing lifecycle state diagnostics.
+- Added focused tests for local route help/dispatch, eight-command contract coverage, exact registered-worktree binding, unsafe-primary-checkout denial, issue-route construction-state writes, write-free stale/missing digest rejection, existing-state no-digest rejection, and missing lifecycle state diagnostics.
 - Recorded #627 predecessor terminal evidence as a derived-terminal cache artifact under #628 evidence, because the tracked #627 issue projection remains published while live GitHub terminal truth is closed by merged PR #635.
 - Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps.
 

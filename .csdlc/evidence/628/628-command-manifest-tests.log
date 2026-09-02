@@ -1,5 +1,5 @@
     Blocking waiting for file lock on build directory
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.45s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
      Running tests/command_manifest.rs (csdlc-v3/target/debug/deps/command_manifest-efb203926538b5e4)
 
 running 4 tests

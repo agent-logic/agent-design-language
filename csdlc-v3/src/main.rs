@@ -3,9 +3,9 @@ use std::{env, fs, path::PathBuf};
 use csdlc_v3::{
     application::FoundationState,
     commands::local::{
-        execute_local_route, initialize_v3_local_state, inspect_local_lifecycle_state,
+        execute_local_route, finding, initialize_v3_local_state, inspect_local_lifecycle_state,
         inspect_v3_local_state, local_route_command, local_route_status, prepare_local_workflow,
-        LocalPreparationRequest, WorktreeRegistration, LOCAL_ROUTE_NAMES,
+        LocalPreparationRequest, PlanStatus, WorktreeRegistration, LOCAL_ROUTE_NAMES,
     },
     repository::RepositoryContext,
 };
@@ -125,22 +125,39 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
     }
     let mut result = prepare_local_workflow(&request, &registry, &registrations)
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
-    let prechecked_issue_route_result = match (
-        route,
-        args.v3_state_root.as_ref(),
-        request.expected_lifecycle_digest.as_ref(),
-    ) {
-        ("issue", Some(root), Some(_)) => Some(
+    let observed_v3_issue_state = match (route, args.v3_state_root.as_ref()) {
+        ("issue", Some(root)) => Some(inspect_v3_local_state(root, request.issue)),
+        _ => None,
+    };
+    if let Some(observed) = observed_v3_issue_state.as_ref() {
+        if request.expected_lifecycle_digest.is_none()
+            && observed.code != "missing_local_lifecycle_state"
+        {
+            return Err(
+                serde_json::to_string(&vec![finding(
+                    PlanStatus::Blocked,
+                    "v3_local_state_digest_required",
+                    "existing v3 local state requires an expected lifecycle digest before the issue route may write",
+                )])
+                .unwrap_or_else(|_| "[]".into()),
+            );
+        }
+    }
+    let prechecked_issue_route_result = if route == "issue"
+        && request.expected_lifecycle_digest.is_some()
+    {
+        Some(
             execute_local_route(
                 route,
                 &request,
                 &registry,
                 &registrations,
-                Some(inspect_v3_local_state(root, request.issue)),
+                observed_v3_issue_state.clone(),
             )
             .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?,
-        ),
-        _ => None,
+        )
+    } else {
+        None
     };
     result.lifecycle_state = match (route, args.v3_state_root.as_ref(), args.repo_root.as_ref()) {
         ("issue", Some(root), _) => Some(

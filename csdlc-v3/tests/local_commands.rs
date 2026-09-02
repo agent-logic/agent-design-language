@@ -511,6 +511,47 @@ fn issue_route_rejects_expected_digest_before_writing_v3_state() {
 }
 
 #[test]
+fn issue_route_requires_expected_digest_before_overwriting_existing_v3_state() {
+    let dir = fixture_dir("issue-existing-state-requires-digest");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    let state_root = dir.join("state");
+    let issue_root = state_root.join("issues/503");
+    fs::create_dir_all(&issue_root).expect("existing issue dir");
+    fs::write(
+        issue_root.join("index.json"),
+        br#"{"phase":"ready","generation":7,"digest":"actual-digest"}"#,
+    )
+    .expect("write existing v3 index");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request()).expect("request json"),
+    )
+    .expect("write request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("issue")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--v3-state-root")
+        .arg(&state_root)
+        .output()
+        .expect("run v3 issue route with existing state and no digest");
+    assert!(!output.status.success(), "{output:?}");
+    assert!(String::from_utf8_lossy(&output.stderr).contains("v3_local_state_digest_required"));
+    assert!(!issue_root.join("cards").exists());
+}
+
+#[test]
 fn missing_local_lifecycle_state_is_explicit_and_repairable() {
     let dir = fixture_dir("missing-state");
     let observation = inspect_local_lifecycle_state(&dir, 628);

@@ -1,24 +1,26 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
      Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-286e111367ea102a)
 
-running 18 tests
-test doctor_plan_preserves_distinct_outcome_states ... ok
+running 19 tests
 test contract_commands_are_typed_and_non_authoritative ... ok
+test doctor_plan_preserves_distinct_outcome_states ... ok
 test card_roundtrip_uses_active_registry_denominator ... ok
+test local_lifecycle_readiness_rejects_malformed_index ... ok
 test missing_local_lifecycle_state_is_explicit_and_repairable ... ok
 test topology_bind_requires_exact_registered_worktree ... ok
-test local_lifecycle_readiness_rejects_malformed_index ... ok
-test local_preparation_cli_emits_machine_readable_non_authoritative_plan ... ok
-test local_preparation_cli_rejects_malformed_typed_request ... ok
-test local_routes_fail_closed_without_observed_lifecycle_state ... ok
-test local_lifecycle_readiness_requires_supported_phase_and_all_cards ... ok
-test eligibility_route_consumes_lifecycle_observation ... ok
 test local_lifecycle_readiness_rejects_post_execution_phase ... ok
+test local_routes_fail_closed_without_observed_lifecycle_state ... ok
+test local_preparation_cli_rejects_malformed_typed_request ... ok
+test local_preparation_cli_emits_machine_readable_non_authoritative_plan ... ok
+test issue_route_requires_expected_digest_before_overwriting_existing_v3_state ... ok
+test eligibility_route_consumes_lifecycle_observation ... ok
+test local_lifecycle_readiness_requires_supported_phase_and_all_cards ... ok
 test issue_route_rejects_expected_digest_before_writing_v3_state ... ok
-test local_routes_reject_stale_lifecycle_digest ... ok
 test local_route_status_codes_are_route_specific ... ok
 test local_routes_reject_unsupported_transitions_from_observed_phase ... ok
+test local_routes_reject_stale_lifecycle_digest ... ok
 test issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it ... ok
 test implemented_local_routes_have_distinct_typed_non_authoritative_statuses ... ok
 
-test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
