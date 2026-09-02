@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "266ce0518832e2fc2b9bbb6e4769294b57962d14c1e3661e0882fb06fe9c764f",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "2f61ebf97d9cf4d8f51a6ace1ba48c798b263eaba96bcdeb9495c46528adad1f",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
   "review_assignment": {
@@ -39,7 +39,41 @@
       ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_630_common_dir_final",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/create-request.json",
+      ".csdlc/prepared/issues/630/design.md",
+      ".csdlc/prepared/issues/630/diagram.mmd",
+      ".csdlc/prepared/issues/630/finalize-request.json",
+      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
+      ".csdlc/prepared/issues/630/recover-review-after-sealed-readback.json",
+      ".csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json",
+      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
+      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+      ".csdlc/evidence/630/630-diff-hygiene.log",
+      ".csdlc/evidence/630/630-full-v3-regression.log",
+      ".csdlc/evidence/630/630-issue-validator.log",
+      ".csdlc/evidence/630/630-rustfmt.log",
+      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
+      ".csdlc/evidence/630/630-typed-issue-validation.log",
+      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
+    ],
+    "reviewed_revision": "git-blake3:8933a5e2f4012f5e8b4568c39124ab927bc092be:20408bc08e7d250e23a82d640579495f04be25efa380cdc0c450c8d74b78bc45",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,32 +88,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "243c06ffa750788ecb068e7f9ba925962e25f34a63ae8158bac277871204367a",
+      "values_digest": "06707dd166ff7d1193f2006a94a3fb5b763787b412d76869a3df0301d4b626e2",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "2456a6d0a8005d848562711cc78f11f81c9a4fdce515f4b5f63aed9c9e762078",
+      "values_digest": "b3410fa4381691fb8265b50be2e9f31d9c55712a687c1e39e421350fe52cc42b",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "ce59677863141d468e6a1d8dd3e02f3f671325b6b63844378ea4c571cc42a489",
+      "values_digest": "9602314c239d9c77139b4ae581a566f8207cbe8ca8aad7d6d6482922d0df6469",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "7cd21275aabe7619524a2bc258a55a1a2bf49768dc4ab38c092581b017f2bbea",
+      "values_digest": "76cebd86d03214bb0c350550ef466576ab1ae83f7cd2f7242f153a0669f74c6d",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "4a03fdc23ed5b3c8c50d3a1f18fa7f2c266c6dc5ea005a1b886883115d6dfcc3",
-      "rendered_digest": "667e1696254ebbb58aa0efafd9d26a74c04c2068fd703619f538e174e735a7f4",
-      "ast_digest": "45e85fbe561137e4424f1fca4cbe23d6864d74afc0d53682d8689a40d0984c43"
+      "values_digest": "6ff101c8db9c55f2f47306582ecad16f995a406539a7947c8411c72ab664dfad",
+      "rendered_digest": "929e433633209229438f610fc58b6ea1beae5f371408789f3c25f7f549e8efcc",
+      "ast_digest": "b17700c8e3608b4d4e7d6fa5de0c1039e80df6e7c22353ab1b10b7ddf1704b3a"
     },
     "sor": {
-      "values_digest": "eb1a54c22e35a38c441561a870ee5d864a0880f58d557ff77e9acd924af87b13",
+      "values_digest": "b58bc887f3086cc221f0ed7718bc28d86cda2f535ec4b9170a7f6cd5851472a5",
       "rendered_digest": "ee57911d5890498fa99996f24f0028189ea748fbd7ddf2b9f6298d5d15ed4468",
       "ast_digest": "a88e352e1de52995dc2437cc731c6ceee2a4d460c1d35866a7eb8d822e945f14"
     }
@@ -119,6 +153,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover reviewed state because tracked review request artifacts polluted the metadata-only publication range; subsequent review requests are kept under git common-dir request storage."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -226,6 +267,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

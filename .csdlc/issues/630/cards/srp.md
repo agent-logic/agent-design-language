@@ -53,12 +53,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8933a5e2f4012f5e8b4568c39124ab927bc092be:20408bc08e7d250e23a82d640579495f04be25efa380cdc0c450c8d74b78bc45")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_630_common_dir_final")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
     "slug": "v3-h4-finish-clean-cutover-routes",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/630/create-request.json\n.csdlc/prepared/issues/630/design.md\n.csdlc/prepared/issues/630/diagram.mmd\n.csdlc/prepared/issues/630/finalize-request.json\n.csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json\n.csdlc/prepared/issues/630/recover-review-after-sealed-readback.json\n.csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json\n.csdlc/prepared/issues/630/repair-spp-affected-areas.json\n.csdlc/prepared/issues/630/repair-vpp-lanes.json\n.csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh\n.csdlc/evidence/630/630-diff-hygiene.log\n.csdlc/evidence/630/630-full-v3-regression.log\n.csdlc/evidence/630/630-issue-validator.log\n.csdlc/evidence/630/630-rustfmt.log\n.csdlc/evidence/630/630-terminal-clean-cutover-tests.log\n.csdlc/evidence/630/630-typed-issue-validation.log\n.csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:8933a5e2f4012f5e8b4568c39124ab927bc092be:20408bc08e7d250e23a82d640579495f04be25efa380cdc0c450c8d74b78bc45",
+      "reviewer": "subagent:/root/review_630_common_dir_final",
       "review_prompts": [
         "Can any caller manufacture terminal, cleanup, or cutover authority without authenticated evidence?",
         "Does cleanup actually consult Git worktree registration and preserve distinct outcomes?",
@@ -23,8 +23,10 @@
         "Are all tests and validators exercising behavior instead of strings?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue."
+      ],
+      "review_result": "pass"
     }
   }
 }
