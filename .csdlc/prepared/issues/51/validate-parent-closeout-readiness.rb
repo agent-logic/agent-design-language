@@ -24,14 +24,17 @@ fail!("provider submission must not be performed") unless state["provider_submis
 fail!("public launch must not be claimed") unless state["public_launch_claimed"] == false
 fail!("destination links must not be activated by #51") unless state["destination_links_activated_by_51"] == false
 
-fail!("#264 must be published in the stacked preparation base") unless issue264["issue"] == 264 && issue264["phase"] == "published"
+fail!("#264 must be the retained submission-gate issue") unless issue264["issue"] == 264 && issue264["phase"] == "published"
 fail!("#264 PR mismatch") unless issue264.dig("publication", "pull_request") == 649
+fail!("#264 merge snapshot mismatch") unless state["prepared_from_merge"] == "bdbf8aa32620da0e277bf3e2ed5f272354021744"
+fail!("#264 merge timestamp mismatch") unless state["prepared_from_merged_at_utc"] == "2026-09-02T19:47:12Z"
+fail!("#264 close timestamp mismatch") unless state["issue_264_closed_at_utc"] == "2026-09-02T19:47:13Z"
 
 children = state.fetch("child_state")
 %w[261 262 263].each do |child|
   fail!("child #{child} is not marked retained/closed") unless children[child] == "closed_on_github_retained_evidence_present"
 end
-fail!("#264 state must remain not-yet-merged") unless children["264"] == "published_green_mergeable_not_yet_merged"
+fail!("#264 state must record merged PR while preserving operator block") unless children["264"] == "closed_by_merged_pr_operator_action_still_blocked"
 
 entries = ledger.fetch("entries")
 fail!("expected four provider ledger entries") unless entries.length == 4
@@ -60,6 +63,7 @@ puts JSON.dump(
   issue: 51,
   show: "The Cognitive Stack",
   prepared_from_pr: 649,
+  prepared_from_merge: state["prepared_from_merge"],
   child_state: children,
   operator_acceptance_required_for_parent_closeout: true,
   provider_submission_performed: false
