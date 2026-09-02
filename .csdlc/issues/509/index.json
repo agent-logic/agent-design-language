@@ -4,13 +4,89 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "0531733e24bd52af0e09069cd9832aff53eeb44d47f84a267578d42351a1592e",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "9c4257701f120ba6149a8e422b7be7db63e15efd86872f038dd2f6dc8b399d6a",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:210376aa-8441-4b7a-a378-6888278e7a42",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:c52cd4834b5f15e495d7ce64bf962b5daf3a3829:b77de19ded115ac1a6f4f6b52950a07952b9d511b0418660c93fc17506e36f02",
+    "scope": [
+      ".csdlc/prepared/issues/509/design.md",
+      ".csdlc/prepared/issues/509/diagram.mmd",
+      ".csdlc/prepared/issues/509/validate-implementation.rb",
+      ".csdlc/prepared/issues/509/validate-readiness.rb",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
+      "adl/src/cli/csmctl_cmd.rs",
+      "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+      "adl/tools/run_issue268_six_resident_uts_cycle.py",
+      "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json",
+      "infra/gcp/workloads/drt-d-six-resident/.gitignore",
+      "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
+      "infra/gcp/workloads/drt-d-six-resident/main.tf",
+      "infra/gcp/workloads/drt-d-six-resident/outputs.tf",
+      "infra/gcp/workloads/drt-d-six-resident/provider.tf",
+      "infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh",
+      "infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh",
+      "infra/gcp/workloads/drt-d-six-resident/terraform.tfvars.example",
+      "infra/gcp/workloads/drt-d-six-resident/variables.tf",
+      "infra/gcp/workloads/drt-d-six-resident/versions.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/.gitignore",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:210376aa-8441-4b7a-a378-6888278e7a42",
+    "scope": [
+      ".csdlc/prepared/issues/509/design.md",
+      ".csdlc/prepared/issues/509/diagram.mmd",
+      ".csdlc/prepared/issues/509/validate-implementation.rb",
+      ".csdlc/prepared/issues/509/validate-readiness.rb",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
+      "adl/src/cli/csmctl_cmd.rs",
+      "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+      "adl/tools/run_issue268_six_resident_uts_cycle.py",
+      "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json",
+      "infra/gcp/workloads/drt-d-six-resident/.gitignore",
+      "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
+      "infra/gcp/workloads/drt-d-six-resident/main.tf",
+      "infra/gcp/workloads/drt-d-six-resident/outputs.tf",
+      "infra/gcp/workloads/drt-d-six-resident/provider.tf",
+      "infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh",
+      "infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh",
+      "infra/gcp/workloads/drt-d-six-resident/terraform.tfvars.example",
+      "infra/gcp/workloads/drt-d-six-resident/variables.tf",
+      "infra/gcp/workloads/drt-d-six-resident/versions.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/.gitignore",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf"
+    ],
+    "reviewed_revision": "git-blake3:c52cd4834b5f15e495d7ce64bf962b5daf3a3829:b77de19ded115ac1a6f4f6b52950a07952b9d511b0418660c93fc17506e36f02",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not run paid/live GCP proof; live evidence is retained from run adl-509-drt-d-20260902192222.",
+      "Cost evidence remains bounded-budget only: billing export was not read during qualification."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +101,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "292d65060697f5c176359f47a933561ba60cfbf306ee7f0ec0787af1a76d3383",
+      "values_digest": "0394d24a512822ddb0bb5d38dd07df464e50c8a0fdb8c7b55ce52973fec7cf2d",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "f85c314a2db88f3a2321bb9d1b98a4fe5583cfeb30fe7752c7852a31000647a1",
+      "values_digest": "c707e8e6cc4415b32d0e91ef65105d275e89bb27020bf5fa7ba9a59bbe16cacc",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "a978e002f151411db2d2ff5e3dab920250411fe10ede9e48202b3c409adf6552",
+      "values_digest": "501df48fc1b26db03e76a6ae275186b15961e74b51a5e2777d0e72dca6c67be7",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "8774bf738070b3f1152663bc07790c99be701d6e2b6b2e38b627984440eea3de",
+      "values_digest": "35399e9b7729dc6f685fac2776c5092cbd2e0f60cf7e2e8016408fa9472463b9",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "21068752fd01ffa1ac480325094b8528bbca99461383050e90a5d1b0ec2fb922",
-      "rendered_digest": "dcdf4ee8ff229a906d36c1cb33afe3bd1f7a8ab1d233a85470863a2370c63c92",
-      "ast_digest": "e85613914db766ef65fdae1fdd2679d823f21ee29038e12abbd7c038f47a15f1"
+      "values_digest": "43583b46c4fbaac14c4f750cce711592572894cc3f3a05644e5628ccd61b619f",
+      "rendered_digest": "63950afe0a52ce8a19a9ccbcd4719cb4328b1ba2682684844c5e9f76ec9e060d",
+      "ast_digest": "e84df88efda1c2e10ab50217350a3f320147675255d01fb20ad0a8548f011cf9"
     },
     "sor": {
-      "values_digest": "24f73c602cbc42f9fb73bf37c83c789e6f0c5c085c8e9d606a864169aea0aba5",
+      "values_digest": "a2f762c4d4e67179a315d69a8fdc5a1958589f706720bb1047cb561973a8be21",
       "rendered_digest": "e92d9eb81417bc44c93f5b2de25cb09d0d9f9a1e50c1ef452e98aee05e88485f",
       "ast_digest": "c4cf0471ca8564a7c2607086066d29be770f778137c368a9995b787e4749e11e"
     }
@@ -76,6 +152,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -183,6 +266,20 @@
       "actor": "codex:/root",
       "reason": "Record final #509 live-source denominator policy after recognizing the qualification receipt cannot self-reference the commit that contains it.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundle, refreshed live GCP qualification, and executable source-binding validators. The live receipt source revision is required to be ancestral to review HEAD, and post-live diffs must be limited to metadata, evidence, and test-denominator surfaces.\",\"changes\":[\"Kept the Runtime/Ollama artifact source as the existing GCS bundle; no local runtime rebuild was performed during the live refresh.\",\"Retained successful live GCP run adl-509-drt-d-20260902192222 with two private VMs, existing regional NAT, runtime-to-Ollama HTTP 200 generation, local receipt copies, and zero residue after teardown.\",\"Changed the implementation validator and DRT-D shell wrapper to enforce that the retained live source_revision is an ancestor of HEAD and that no product or infrastructure files changed after the live proof revision.\",\"Kept post-live allowed drift bounded to lifecycle/evidence/qualification/test-denominator surfaces so exact-head review can verify both the live proof and the metadata commit that records it.\"],\"artifacts\":[\".csdlc/prepared/issues/509/validate-implementation.rb\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/preflight.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-destroy.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/cleanup-readback.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification, bounded-cost semantics, cleanup, ancestral source_revision, and no product/infra drift after live proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-source-denominator-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify DRT-D retained proof denominator after enforcing ancestral source_revision and no product/infra drift after live proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-source-denominator-drt-d-contract\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after final denominator repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-source-denominator-diff-check\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

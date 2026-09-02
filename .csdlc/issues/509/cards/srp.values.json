@@ -7,15 +7,15 @@
     "title": "[v0.92.1][DRT-D] GCP portability qualification",
     "slug": "v0-92-1-drt-d-gcp-portability-qualification",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/509/design.md\n.csdlc/prepared/issues/509/diagram.mmd\n.csdlc/prepared/issues/509/validate-implementation.rb\n.csdlc/prepared/issues/509/validate-readiness.rb\nadl-runtime/tests/distributed_contract/main.rs\nadl-runtime/tests/distributed_contract/validate_drt_d.sh\nadl/src/cli/csmctl_cmd.rs\nadl/tools/build_issue509_runtime_bundle_on_relay.sh\nadl/tools/run_issue268_six_resident_uts_cycle.py\nadl/tools/run_issue509_gcp_drt_d_qualification.sh\ndocs/milestones/v0.92.1/evidence/runtime/drt-d/README.md\ndocs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\ninfra/gcp/workloads/drt-d-six-resident/.gitignore\ninfra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl\ninfra/gcp/workloads/drt-d-six-resident/main.tf\ninfra/gcp/workloads/drt-d-six-resident/outputs.tf\ninfra/gcp/workloads/drt-d-six-resident/provider.tf\ninfra/gcp/workloads/drt-d-six-resident/startup-ollama.sh\ninfra/gcp/workloads/drt-d-six-resident/startup-runtime.sh\ninfra/gcp/workloads/drt-d-six-resident/terraform.tfvars.example\ninfra/gcp/workloads/drt-d-six-resident/variables.tf\ninfra/gcp/workloads/drt-d-six-resident/versions.tf\ninfra/gcp/workloads/modules/two-node-ollama-runtime/.gitignore\ninfra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl\ninfra/gcp/workloads/modules/two-node-ollama-runtime/main.tf\ninfra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf\ninfra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl\ninfra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf\ninfra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf",
+      "review_revision": "git-blake3:c52cd4834b5f15e495d7ce64bf962b5daf3a3829:b77de19ded115ac1a6f4f6b52950a07952b9d511b0418660c93fc17506e36f02",
+      "reviewer": "fresh-session:210376aa-8441-4b7a-a378-6888278e7a42",
       "review_prompts": [
         "Are GCP account, project, billing, and credentials exact without exposing secrets?",
         "Does the packet preserve AWS authority?",
@@ -23,8 +23,11 @@
         "Does the design stop before paid live launch unless authorized?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not run paid/live GCP proof; live evidence is retained from run adl-509-drt-d-20260902192222.",
+        "Cost evidence remains bounded-budget only: billing export was not read during qualification."
+      ],
+      "review_result": "pass"
     }
   }
 }
