@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, suppresses raw shadow panic-hook payload leakage only on the active shadow thread, preserves unrelated panic-hook observability on other threads, and emits redacted digest/class comparison evidence.
+Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, suppresses raw shadow panic-hook payload leakage only on the active shadow thread, preserves unrelated panic-hook observability on other threads, emits redacted digest/class comparison evidence, and now includes an explicit local Ollama smoke test that runs the shadow path over real open-PR review prompts without treating the local model output as authority.
 
 ## Artifacts
 
@@ -20,7 +20,9 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
 - adl/tests/provider_shadow_isolation.rs
 - adl/tests/provider_shadow_comparison.rs
 - adl/tests/provider_shadow_fallback.rs
+- adl/tests/provider_shadow_open_pr_review.rs
 - docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json
+- docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json
 
 ## Execution
 
@@ -30,6 +32,7 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
 - Added a scoped shadow panic-hook guard so raw shadow panic payloads do not leak through stderr/log hooks on the active shadow thread before redacted observation handling restores the previous hook.
 - Delegated panic-hook handling for unrelated threads while a shadow provider runs so shadow redaction does not suppress non-shadow authoritative/runtime panic observability.
 - Added issue-owned integration tests for shadow isolation, deterministic comparison, returned-error fallback, authoritative-first fallback, panicking-shadow fallback behavior, panic-hook payload suppression, and unrelated-thread panic-hook preservation.
+- Added an ignored local-Ollama open-PR smoke test that exercises PR #618 and PR #614 review prompts through the shadow provider while preserving fixture-controlled authoritative review output.
 - Added redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/.
 
 ## Validation
@@ -79,6 +82,33 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
     "purpose": "Prove shadow returned errors, panics, suppressed shadow-thread panic-hook payloads, and unrelated-thread panic-hook preservation while maintaining authoritative result isolation.",
     "outcome": "passed",
     "evidence_ref": "terminal:provider_shadow_fallback:4 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "--test",
+      "provider_shadow_open_pr_review",
+      "--",
+      "--ignored",
+      "--nocapture"
+    ],
+    "purpose": "Use local Ollama phi4-mini as a non-authoritative shadow reviewer over current open PR prompts #618 and #614 while retaining only authoritative fixture output and redacted shadow evidence.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh"
+    ],
+    "purpose": "Prove the issue-owned provider shadow readiness surfaces are present.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:validate-provider-shadow-readiness"
   },
   {
     "command": [
