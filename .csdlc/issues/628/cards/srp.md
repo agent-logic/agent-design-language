@@ -38,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Duplicate PR #639 remains open because no typed v2 route in scope exposes duplicate PR close; retain stacked #638 as canonical until #635 settles.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:453ec5973d048ed18df374b3a944e51fad42e783:a89b5cbbb4945b5e461a2139acd122c2cf68ce4b89681f64dd77a586fff72625")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_628_local_route_state")
 
-Result: pre_review
+Result: pass

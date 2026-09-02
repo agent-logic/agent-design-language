@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "b0814a50a27cec8753a9793652a15040a31400e8e868f20a118e240e7a1e3d25",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "3739bd061e5586c84658246811ff6ec977dded518ffba942248fe0d1d9cfb93d",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
   "review_assignment": {
@@ -24,7 +24,26 @@
       ".csdlc/evidence/628"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_628_local_route_state",
+    "scope": [
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/628",
+      ".csdlc/evidence/628"
+    ],
+    "reviewed_revision": "git-blake3:453ec5973d048ed18df374b3a944e51fad42e783:a89b5cbbb4945b5e461a2139acd122c2cf68ce4b89681f64dd77a586fff72625",
+    "findings": [],
+    "residual_risks": [
+      "Duplicate PR #639 remains open because no typed v2 route in scope exposes duplicate PR close; retain stacked #638 as canonical until #635 settles."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "75fd52578b49a4df3f2b09ac2870ad98b05548b7ea243cda510914bffa1ad3fd",
+      "values_digest": "93efbdd39f3aaced2d117039246a7543ec10f8f6fdd5924c5125d08f9b180eb2",
       "rendered_digest": "ec86154fbe8bea2e97c924434eeb9628c5ed7da45613790a6ac03fbb543a27a5",
       "ast_digest": "2acce6b1beca8f33b77c7b8cf371d468d8f199e4f56aa9dcfe4a298d3acd9593"
     },
     "stp": {
-      "values_digest": "066c0fe174c4977cb5c10ade28a2d4db9d797287b2595deaf824f96d6351a5b2",
+      "values_digest": "25737cb57d6dfb9516d163e628e8053b5884191b5213c534d8879969f1b487b3",
       "rendered_digest": "bc3cd8bd8745a5adceb6c9595367ec1919f1797064fee91ee7eb896d4f155efd",
       "ast_digest": "57dfad5b0fe0bea239cfdf214b53671017845b79aff12963238f44d33d0c57db"
     },
     "spp": {
-      "values_digest": "9b24b5d2cc537222ed63e5933ccdb7255e377ff8306af8ee0f887b84e6fe3905",
+      "values_digest": "9247313985f51ec8ce037b04396f0ecf54425d62eecdcd635dc035de30fd2748",
       "rendered_digest": "d819514ecc09935b395491930a0d9d63e1b5046f4c83282c0e9c3ba0dc04689a",
       "ast_digest": "14bf84ef4d04a577ee0b6f619469d6cddc0148f5d840a78313ae0c6973a2d204"
     },
     "vpp": {
-      "values_digest": "c5b4190dda9f1d9b332d32d776c69b4b5868df0737bd54c4deb82e8f37c0c040",
+      "values_digest": "e52fceaaf499add4f91b24e5a9f59afa756da9dbb39d04fe4968c3cd6a36187b",
       "rendered_digest": "43d4653b64b0dd707774309d0824415e41d4fd92b04d28591b58488a8e59f8ed",
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "ba4d29e3ed99f1339b74706c6822beb3a926518fa753dd446198767ba47c46b1",
-      "rendered_digest": "2f9d62a288ff0646dcefbad93dbcb7d99645432e62ec5334020623ab34258429",
-      "ast_digest": "b48db5a5ad518283d7231bde43059fce503a57bae1e97754866ee248b9bd11c0"
+      "values_digest": "b97841cd6c6e4a8c9b46fa2827e58c0da459bcf6ee878ab0e558bb378dad0d9d",
+      "rendered_digest": "ad1142de47c44c8f682a4525a43fc9cd56ca06c9aa11c57bb17704e92007c45a",
+      "ast_digest": "5471710520755eb8275e40071be7defcee2e97be11050cb9567175110826d1e9"
     },
     "sor": {
-      "values_digest": "d9a52b8fe753cb571e831730282e60af0bf115006bc253b20ebdaf311653e764",
+      "values_digest": "7c71ac078ef1177096f28e6a197c0ee31bb83c9dd0e586cced78285a4740ba99",
       "rendered_digest": "6813ba702916dcfdeb3f4e59c6963467b7e5fdbe121dc337f41979e12352173c",
       "ast_digest": "34dd48dd5a08ac16c0d9757cfe376f066796e959c29f96a3a18628dc8be6e650"
     }
@@ -132,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover review/publication truth after local route repair made bind/edit/validate/doctor/schedule/shepherd consume observed lifecycle state and reject stale digest or unsupported transitions."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/fix_628_v3_h2_pr_topology",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -267,6 +293,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 11,
+      "actor": "subagent:/root/fix_628_v3_h2_pr_topology",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

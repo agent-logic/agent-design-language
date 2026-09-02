@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
     "slug": "v3-h2-local-lifecycle",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v3/src/commands/local/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/local_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/628\n.csdlc/evidence/628",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:453ec5973d048ed18df374b3a944e51fad42e783:a89b5cbbb4945b5e461a2139acd122c2cf68ce4b89681f64dd77a586fff72625",
+      "reviewer": "subagent:/root/review_628_local_route_state",
       "review_prompts": [
         "Verify the eight local routes are implemented or explicitly fail closed according to #628 scope.",
         "Verify no v3 local route delegates operational authority to v2 before #505.",
@@ -23,8 +23,10 @@
         "Verify no csdlc-v2 source changes are present."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Duplicate PR #639 remains open because no typed v2 route in scope exposes duplicate PR close; retain stacked #638 as canonical until #635 settles."
+      ],
+      "review_result": "pass"
     }
   }
 }
