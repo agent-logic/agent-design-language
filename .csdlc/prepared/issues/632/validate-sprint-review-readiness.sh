@@ -7,6 +7,8 @@ sprint_dir="$git_common_dir/csdlc-v2/requests/v0921-v3-full-command-sprint"
 
 test -f "$sprint_dir/SPRINT_EXECUTION_PACKET.md"
 test -f "$sprint_dir/DEFECTS.md"
+test -f "$repo_root/.csdlc/prepared/issues/632/command-route-coverage.json"
+test -f "$repo_root/.csdlc/prepared/issues/632/canary-evidence-index.md"
 
 python3 - "$sprint_dir/SPRINT_EXECUTION_PACKET.md" "$sprint_dir/DEFECTS.md" <<'PY'
 from pathlib import Path

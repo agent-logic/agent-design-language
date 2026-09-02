@@ -1,0 +1,38 @@
+{
+  "schema": "csdlc.v3.command_route_coverage.v1",
+  "issue": 632,
+  "umbrella_issue": 625,
+  "authority_cutover_issue": 505,
+  "cutover_ready": false,
+  "current_authority": "C-SDLC v2 remains live authority until #505 is explicitly reviewed, approved, merged, and terminally reconciled.",
+  "single_binary_target": "csdlc",
+  "route_count": 21,
+  "routes": [
+    {"v2_entrypoint": "csdlc-bind", "v3_route": "csdlc local bind", "owner_issue": 628, "evidence": "PR #639 green/readiness evidence; real terminal cutover not claimed", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-clean", "v3_route": "csdlc cleanup", "owner_issue": 630, "evidence": "PR #642 green/readiness evidence; cleanup terminal canary requires authorized merge", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-cutover", "v3_route": "csdlc cutover", "owner_issue": 630, "evidence": "PR #642 green/readiness evidence; #505 remains final authority gate", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-doctor", "v3_route": "csdlc local doctor", "owner_issue": 628, "evidence": "PR #639 green/readiness evidence; local route proof remains non-authoritative", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-edit", "v3_route": "csdlc local edit", "owner_issue": 628, "evidence": "PR #639 green/readiness evidence; no live v3 mutation authority before #505", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-eligibility", "v3_route": "csdlc proof eligibility", "owner_issue": 631, "evidence": "PR #644 green but stacked; linked issue closeout readback fails until topology is repaired", "status": "blocked_by_stacked_publication"},
+    {"v2_entrypoint": "csdlc-finish", "v3_route": "csdlc finish", "owner_issue": 630, "evidence": "PR #642 green/readiness evidence; terminal canary requires authorized merge", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-github", "v3_route": "csdlc github", "owner_issue": 629, "evidence": "PR #641 green/readiness evidence; no raw gh fallback allowed", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-github-issue", "v3_route": "csdlc github issue", "owner_issue": 629, "evidence": "PR #641 green/readiness evidence; #632 also used typed issue read/comment canaries", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-github-pr", "v3_route": "csdlc github pr", "owner_issue": 629, "evidence": "PR #641 green/readiness evidence; #631 exposed stacked closing-linkage gap", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-install", "v3_route": "csdlc install", "owner_issue": 631, "evidence": "PR #644 green but stacked; #632 fresh-worktree install exposed broader install ergonomics defects", "status": "blocked_by_defects"},
+    {"v2_entrypoint": "csdlc-issue", "v3_route": "csdlc issue", "owner_issue": 628, "evidence": "#632 used typed v2 issue create as current authority; v3 issue-init canary still required before #505", "status": "real_canary_pending"},
+    {"v2_entrypoint": "csdlc-pr-state", "v3_route": "csdlc github pr state", "owner_issue": 629, "evidence": "typed v2 PR-state canaries passed for #627-#630 and failed correctly for #631 linked closing relation", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-proof", "v3_route": "csdlc proof", "owner_issue": 631, "evidence": "PR #644 green but stacked; terminal closeout proof blocked by linked issue topology", "status": "blocked_by_stacked_publication"},
+    {"v2_entrypoint": "csdlc-publish", "v3_route": "csdlc publish", "owner_issue": 629, "evidence": "PR #641 green/readiness evidence; stacked PR retarget/supersede defect remains open", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-review", "v3_route": "csdlc review", "owner_issue": 630, "evidence": "PR #642 green/readiness evidence; exact-head review remains required before publication", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-schedule", "v3_route": "csdlc local schedule", "owner_issue": 628, "evidence": "PR #639 green/readiness evidence; prior local-route concerns must stay visible until #505 review", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-shadow", "v3_route": "csdlc shadow", "owner_issue": 631, "evidence": "PR #644 green but stacked; closeout blocked by linked issue topology", "status": "blocked_by_stacked_publication"},
+    {"v2_entrypoint": "csdlc-shepherd", "v3_route": "csdlc local shepherd", "owner_issue": 628, "evidence": "PR #639 green/readiness evidence; no live v3 routing authority before #505", "status": "construction_ready_not_cutover"},
+    {"v2_entrypoint": "csdlc-soak", "v3_route": "csdlc soak", "owner_issue": 631, "evidence": "PR #644 green but stacked; closeout blocked by linked issue topology", "status": "blocked_by_stacked_publication"},
+    {"v2_entrypoint": "csdlc-validate", "v3_route": "csdlc local validate", "owner_issue": 628, "evidence": "#632 typed v2 validation passes; v3 validation remains construction-only before #505", "status": "construction_ready_not_cutover"}
+  ],
+  "blocking_findings": [
+    "DEFECT-019: typed publication cannot safely retarget an existing stacked PR while preserving GitHub closing-linkage proof.",
+    "DEFECT-020: fresh-worktree owner-binary setup can be blocked by unrelated current-main compile drift and still needs a one-command startup story.",
+    "Terminal finish and cleanup canary proof requires an authorized canary merge; #505 must remain open until this is proven or explicitly waived."
+  ]
+}

@@ -71,3 +71,7 @@ For docs and cutover-readiness work, use the issue-owned validators declared by
 the active issue, such as the #570 stale-route and skill-guidance scans. Passing
 v3 construction checks is evidence for the v3 package only; live lifecycle work
 still routes through typed C-SDLC v2 until V3-F/#505.
+
+Operators preparing for the one-binary replacement should read
+`docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md`. That notice is advance guidance,
+not authority cutover.
