@@ -2,12 +2,9 @@ use std::{process::Command, str};
 
 const REMAINING_REPLACEMENT_COMMANDS: &[&str] = &[
     "bind",
-    "clean",
-    "cutover",
     "doctor",
     "edit",
     "eligibility",
-    "finish",
     "install",
     "issue",
     "proof",
@@ -24,6 +21,8 @@ const IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS: &[&str] = &[
     "publish",
     "review",
 ];
+
+const IMPLEMENTED_TERMINAL_COMMANDS: &[&str] = &["clean", "cutover", "finish"];
 
 const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow", "validate"];
 
@@ -50,10 +49,39 @@ fn help_exposes_one_binary_command_surface() {
             "help should expose implemented remote/publication route {command}"
         );
     }
+    for command in IMPLEMENTED_TERMINAL_COMMANDS {
+        assert!(
+            stdout.contains(&format!("{command} --request <path>")),
+            "help should expose implemented terminal route {command}"
+        );
+    }
     for command in PARTIAL_CONSTRUCTION_COMMANDS {
         assert!(
             stdout.contains(&format!("{command} --help")),
             "help should expose partial construction route {command}"
+        );
+    }
+}
+
+#[test]
+fn implemented_terminal_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_TERMINAL_COMMANDS {
+        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
+        assert!(
+            help.status.success(),
+            "{command} --help should describe implemented terminal route"
+        );
+        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
+        assert!(
+            help_stdout.contains("status: implemented"),
+            "{command} help should be truthful: {help_stdout}"
+        );
+        assert!(
+            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+            "{command} help should preserve authority boundary: {help_stdout}"
         );
     }
 }

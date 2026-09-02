@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 630,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "06adbad0fa36c300dbb652ec80353c1cd5a6ec09fe03cd6cd0ce977ede0799e7",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/630/design.md",
+  "diagram_path": ".csdlc/prepared/issues/630/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:worker-6-design-readiness",
+      "revision": "952ae80c35f499b7d0fc883a143c05f09f155f816ffed49508b423d9e540e301"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "20b5aad2bcac2cff2b18dbce1a3bf245547d21adc03a69232da95e8b8d7ab204",
+      "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
+      "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
+    },
+    "stp": {
+      "values_digest": "2bd09865d48eb541c71ce5e6877c5bc916dc64d7593ec3560fc06092ecc2d4b9",
+      "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
+      "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
+    },
+    "spp": {
+      "values_digest": "4c1b022e611f23befcfeb70307224d2d7588922351c6a4d5daeb2fbcb1ceff7e",
+      "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
+      "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
+    },
+    "vpp": {
+      "values_digest": "a7bb1587f96bda60462c610242d32f48a936bb3ef1342b38c9c828571154bb5b",
+      "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
+      "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
+    },
+    "srp": {
+      "values_digest": "88d9ec911e72dda04750e140c68b074f77cdf8bd9e945b7c7b6bf47c03434f93",
+      "rendered_digest": "ec38cd2276996fd79d39633a2c37f0b03a06001bffed9d9bf5ba9bc09d982a48",
+      "ast_digest": "e68200fd5ab278b3e8d183f9d6b1daf27fabefb612dda0ed948392862ca8f07a"
+    },
+    "sor": {
+      "values_digest": "e3b87d25027286451d770b075c0875afd31ce61c94e74c0d0e8f50e4f51ea455",
+      "rendered_digest": "0ef5f8552f485a7bbd91443c1de8842bc479dbe7a54666a0ee88b7d7241db085",
+      "ast_digest": "075a80cd8320e3551e8c42a4895b8a716448904e52bb9ad23540bf0074422d3c"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6-vpp-editor",
+      "reason": "Make the executable issue-owned Rust target the #630 validation denominator and keep the shell validator as retained execution evidence rather than readiness authority.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v3-terminal-clean-cutover-tests\",\"proof_role\":\"Run focused Rust tests for v3 finish, clean, and cutover positive and denial behavior, including caller-forged finish denial, sealed typed terminal closeout, part_of terminal denial, Git-registration-derived cleanup states, and cutover rollback refusal.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2400,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"terminal_cleanup_cutover_commands\"],\"parallel_group\":\"rust-focused\",\"defer_reason\":null},{\"lane\":\"v3-full-regression\",\"proof_role\":\"Run the complete v3 test suite after route implementation to prove the command manifest, foundation, local, remote, terminal, and transaction suites remain coherent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"parallel_group\":\"rust-full\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6-spp-editor",
+      "reason": "Make the #630 executable validation target and changed v3 command files explicit issue-owned affected areas for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh\",\".csdlc/evidence/630/\"]}"
+    }
+  ]
+}

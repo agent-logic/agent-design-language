@@ -1,0 +1,13 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running tests/terminal_cleanup_cutover_commands.rs (csdlc-v3/target/debug/deps/terminal_cleanup_cutover_commands-8460d7afc2678949)
+
+running 5 tests
+test part_of_publication_cannot_terminally_close ... ok
+test public_finish_fails_closed_without_authenticated_adapter ... ok
+test cutover_requires_operator_approval_rollback_and_fail_closed_undo ... ok
+test sealed_typed_readback_can_derive_terminal_closeout ... ok
+test cleanup_uses_git_registration_and_preserves_distinct_outcomes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+validate-v3-h4-terminal-clean-cutover: passed

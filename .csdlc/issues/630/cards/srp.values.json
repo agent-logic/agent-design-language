@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 630,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
+    "slug": "v3-h4-finish-clean-cutover-routes",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v3 finish, clean, cutover routes; focused tests; issue-owned validation; no v2 source changes.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller manufacture terminal, cleanup, or cutover authority without authenticated evidence?",
+        "Does cleanup actually consult Git worktree registration and preserve distinct outcomes?",
+        "Does cutover remain a non-authoritative decision packet before #505?",
+        "Are all tests and validators exercising behavior instead of strings?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

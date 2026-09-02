@@ -40,15 +40,15 @@
       "command": "clean",
       "replaces": ["csdlc-clean"],
       "owner_issue": 630,
-      "implementation_status": "fail_closed",
-      "authority_status": "not_live"
+      "implementation_status": "implemented",
+      "authority_status": "non_authoritative_construction"
     },
     {
       "command": "cutover",
       "replaces": ["csdlc-cutover"],
       "owner_issue": 630,
-      "implementation_status": "fail_closed",
-      "authority_status": "not_live"
+      "implementation_status": "implemented",
+      "authority_status": "non_authoritative_construction"
     },
     {
       "command": "doctor",
@@ -75,8 +75,8 @@
       "command": "finish",
       "replaces": ["csdlc-finish"],
       "owner_issue": 630,
-      "implementation_status": "fail_closed",
-      "authority_status": "not_live"
+      "implementation_status": "implemented",
+      "authority_status": "non_authoritative_construction"
     },
     {
       "command": "github",

@@ -1,0 +1,116 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 630,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
+    "slug": "v3-h4-finish-clean-cutover-routes",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Add route-specific v3 finish, clean, and cutover behavior; make every authority boundary explicit; prove positive and denial cases with focused tests and issue-owned validation.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Inspect current v3 command routing and route modules from the #629 dependency head.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement finish route as non-authoritative typed terminal derivation with fail-closed denial cases.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement clean route as Git-registration-derived classification/removal planning with distinct outcomes.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Implement cutover route as approval/provenance/rollback decision packet that cannot execute cutover.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Run focused tests, issue-owned validator, typed validation, diff hygiene, and pre-PR review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/mod.rs",
+        "csdlc-v3/src/commands/terminal.rs",
+        "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+        ".csdlc/evidence/630/"
+      ],
+      "invariants": [
+        "v2 remains live authority",
+        "v3 is fail-closed before cutover",
+        "Terminal authority must be derived, not caller-forged",
+        "Cleanup authority must come from Git worktree registration",
+        "Cutover requires explicit operator approval and rollback evidence",
+        "No v2 source changes"
+      ],
+      "risks": [
+        "Accidentally modeling caller-provided terminal truth as authority",
+        "Treating filesystem existence as worktree registration",
+        "Collapsing cleanup outcomes into a vague blocked state",
+        "Letting cutover route imply live authority before #505",
+        "Changing v2 source while wiring v3 tests"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "A required predecessor branch cannot be represented without conflicts",
+        "v3 route implementation would require live GitHub mutation",
+        "v3 route implementation would require operational cleanup before cutover",
+        "Any proposed change touches csdlc-v2 source"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/630/design.md",
+      "design_digest": "952ae80c35f499b7d0fc883a143c05f09f155f816ffed49508b423d9e540e301",
+      "diagram_ref": ".csdlc/prepared/issues/630/diagram.mmd",
+      "diagram_digest": "61b71889349ac761f54724c973a1b1e2e48b55771f75043116f692da985c20a8"
+    }
+  }
+}
