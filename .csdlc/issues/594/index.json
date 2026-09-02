@@ -4,44 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aec65d9b1f0c389ca94aed48172f24f6c2e3d19f3a62ec5779adc6a59b3420e7",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "ed6464c4a17886bdeba3f03357daebd9c32ae639c5b7d15795aa6b81f31811b8",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "8b18866e2dc89ab998c7c7780371e1c6e666677a720e4cbbc29da53bba5a57b7",
   "branch": "codex/594-runtime-logs-s3-archive",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive",
-  "review_assignment": {
-    "reviewer": "codex:/root/review_594_prepr_r2",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:0697fe5af94f8b3fcda9b9a93009fae774e4c410:a14bf855caafbf7a38e5026bd64e09b474f6217e01f3f0c42fd64dae6d2f809e",
-    "scope": [
-      ".csdlc/evidence/594",
-      ".csdlc/prepared/issues/594",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/observability/vector.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/observability.rs",
-      "infra/aws/runtime/log-archive"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/review_594_prepr_r2",
-    "scope": [
-      ".csdlc/evidence/594",
-      ".csdlc/prepared/issues/594",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/observability/vector.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/observability.rs",
-      "infra/aws/runtime/log-archive"
-    ],
-    "reviewed_revision": "git-blake3:0697fe5af94f8b3fcda9b9a93009fae774e4c410:a14bf855caafbf7a38e5026bd64e09b474f6217e01f3f0c42fd64dae6d2f809e",
-    "findings": [],
-    "residual_risks": [
-      "Live AWS delivery/readback remains separately authorization-gated and was not executed by this local implementation review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -56,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3f70c0ba09c373a52c7922d6ebd6f48f837363c77b281145ac09fa9371903cef",
+      "values_digest": "758c9d300c139fc0bc87ee9821ed16e564fecd496e761366d6eefc7f2d994b98",
       "rendered_digest": "781db80b317128aafed48e76faebccd16212f69908747ee91f7aa62cf1ba2501",
       "ast_digest": "b195a921b5a51a4f668b7f142e7088207a930bce127852141a9a3fb6003a9d83"
     },
     "stp": {
-      "values_digest": "a040bfb1e4fd915a9b16df92a1643420551237b8369f08f7c0affde22868748f",
+      "values_digest": "17abf8b46a74030cb2c24fd7593766b87e66a1a4d20f0e44c02c3895b3f64d52",
       "rendered_digest": "3cfbf1a5c0bd56ef4b277f6803a796ac618f2c452b9f01c5c1143d6beb618e69",
       "ast_digest": "5c9ab05c717b7b5e4e20e2a02436be4fa027121c83f158fcb7cef2f805e3c039"
     },
     "spp": {
-      "values_digest": "4f574ccd9a4b3cb17faf29324d2400fce17c9198ff9ebd751f1a6a93b8a24819",
+      "values_digest": "a2750dadded4cc3586b13b98c3a8f4b3dce1381d540538413a08e71b844441b9",
       "rendered_digest": "feddbdafde8bd4a035c902bbc499312f4c43d27e943a83b7e55f533df8fe04f4",
       "ast_digest": "2162613fba3d0812fd23818a317b75ab9d7cd90ec92f9442d78b507758039562"
     },
     "vpp": {
-      "values_digest": "024a40c70d19e28c69370f08a45b000d0904d68e8dbdc61d19cedd1ba856cbff",
+      "values_digest": "afa894fdd6fe8ab1559dbc2f04ba57d77e4d19bfab459e97b6fdbbebfecfd9f0",
       "rendered_digest": "662b6f9f0676e396feb0d8047caedec71977a6733323e201cc43d6ae6a212437",
       "ast_digest": "201a859011a718e42ac9cebf9f9c43740d126e3f309fe8c3e7c3a376f6442300"
     },
     "srp": {
-      "values_digest": "68f7e81c770723ff756e726908cc595397da10ff51436d4cce9f89a268a22541",
-      "rendered_digest": "408c728dd1d2143ee9b068c8585da85ff95f76dec25111e406a1dc6f90cefc10",
-      "ast_digest": "c292551fc4c73f7f13e52d68a12bceac1cc2081bb4e679c04c7e579546055546"
+      "values_digest": "4ea958907b49fff9a7c55c598958f92de1d1984346e64b2d3fb9fc3693afb127",
+      "rendered_digest": "b31d9c0134c36ff6c4fe658951307f19c94f773fe42afec994c6857c36c53768",
+      "ast_digest": "04757a8d2fef8152cd0920715e538546f22fc916f653e8e54ce7a11d22abd512"
     },
     "sor": {
-      "values_digest": "f9261196fa40914e3303f370276dc03f63e9e851c642904fb07eed8e8ede2e86",
-      "rendered_digest": "09b18c61ff79d3537d37e1c4c36137a191ad997beee2ae15f2370f944da5d301",
-      "ast_digest": "9af9e75f5d3669e040b93fce155b885b1e78c5d7dabb1f7a0d1abb7aee078681"
+      "values_digest": "7cd86df0f193b509e3d4142869d625f2564650eb3ad0760104a37236df0daeea",
+      "rendered_digest": "0450e8be953014c532757f6761f1beb49b79a47594b9665d1bddeb15b87874f7",
+      "ast_digest": "05185d8a1318ecbf6e60de2f363ca72bb7626fcda10081923d1a1f71320d4a08"
     }
   },
   "transitions": [
@@ -114,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review truth after the recorded review metadata commit included prepared request files that are not metadata-safe for publication review reconciliation."
     }
   ],
   "audit": [
@@ -249,6 +225,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover review truth after the recorded review metadata commit included prepared request files that are not metadata-safe for publication review reconciliation.",
+      "operation": "recover_review"
     }
   ]
 }

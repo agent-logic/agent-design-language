@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 594,
+  "expected_generation": 14,
+  "expected_digest": "ed6464c4a17886bdeba3f03357daebd9c32ae639c5b7d15795aa6b81f31811b8",
+  "claim_id": "claim-594-review-metadata-path-recovery",
+  "actor": "codex:/root",
+  "reason": "Recover review truth after the recorded review metadata commit included prepared request files that are not metadata-safe for publication review reconciliation."
+}

@@ -99,7 +99,7 @@ Implemented bounded Runtime redacted-log archival to S3 with optional Runtime in
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

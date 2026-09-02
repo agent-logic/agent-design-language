@@ -7,15 +7,15 @@
     "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
     "slug": "runtime-v3-bounded-s3-log-archive",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/594\n.csdlc/prepared/issues/594\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/observability/vector.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/observability.rs\ninfra/aws/runtime/log-archive",
-      "review_revision": "git-blake3:0697fe5af94f8b3fcda9b9a93009fae774e4c410:a14bf855caafbf7a38e5026bd64e09b474f6217e01f3f0c42fd64dae6d2f809e",
-      "reviewer": "codex:/root/review_594_prepr_r2",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any S3 or Vector failure block Runtime readiness, operation, or recovery?",
         "Are buffer, retry, disk, and telemetry bounds explicit and tested?",
@@ -23,10 +23,8 @@
         "Are bucket and IAM controls least privilege and Terraform-owned?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live AWS delivery/readback remains separately authorization-gated and was not executed by this local implementation review."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
