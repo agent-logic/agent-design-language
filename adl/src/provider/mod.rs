@@ -3,7 +3,9 @@
 //! This module selects among mock/HTTP/CLI provider implementations and exposes
 //! the minimal abstraction layer used by scheduler and remote-exec paths.
 use anyhow::{anyhow, Context, Result};
+use serde::Serialize;
 use serde_json::Value;
+use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, HashMap};
 use std::env;
 use std::error::Error as StdError;
@@ -60,6 +62,219 @@ pub trait Provider: Send + Sync {
         on_chunk(&out);
         Ok(out)
     }
+}
+
+/// Execution channel for provider results that must not be conflated.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ProviderExecutionChannel {
+    Authoritative,
+    Shadow,
+}
+
+/// Exact local-model shadow input shared by authority and shadow paths.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ProviderShadowInput {
+    prompt: String,
+    comparison_rule_set: String,
+}
+
+impl ProviderShadowInput {
+    /// Build a shadow input from one exact prompt and a deterministic rule-set id.
+    pub fn new(prompt: impl Into<String>, comparison_rule_set: impl Into<String>) -> Result<Self> {
+        let comparison_rule_set = comparison_rule_set.into();
+        if comparison_rule_set.trim().is_empty() {
+            return Err(anyhow!(
+                "provider shadow comparison rule set must be non-empty"
+            ));
+        }
+        Ok(Self {
+            prompt: prompt.into(),
+            comparison_rule_set,
+        })
+    }
+
+    /// The exact prompt used for both authoritative and shadow observation paths.
+    pub fn prompt(&self) -> &str {
+        &self.prompt
+    }
+
+    /// Stable rule-set id recorded in redacted comparison evidence.
+    pub fn comparison_rule_set(&self) -> &str {
+        &self.comparison_rule_set
+    }
+}
+
+/// Authoritative provider output. This is the only output channel callers may accept.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AuthoritativeProviderCompletion {
+    channel: ProviderExecutionChannel,
+    pub output: String,
+}
+
+impl AuthoritativeProviderCompletion {
+    /// Constructor for the authority-only completion channel.
+    fn new(output: String) -> Self {
+        Self {
+            channel: ProviderExecutionChannel::Authoritative,
+            output,
+        }
+    }
+
+    /// Read-only execution channel marker.
+    pub fn channel(&self) -> ProviderExecutionChannel {
+        self.channel
+    }
+}
+
+/// Redacted shadow observation class.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ProviderShadowObservationClass {
+    Completed,
+    Failed,
+    NotConfigured,
+}
+
+/// Non-authoritative shadow observation. Raw shadow output is intentionally omitted.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ProviderShadowObservation {
+    channel: ProviderExecutionChannel,
+    pub observation_class: ProviderShadowObservationClass,
+    pub output_digest: Option<String>,
+    pub failure_kind: Option<String>,
+}
+
+impl ProviderShadowObservation {
+    fn completed(output: &str) -> Self {
+        Self {
+            channel: ProviderExecutionChannel::Shadow,
+            observation_class: ProviderShadowObservationClass::Completed,
+            output_digest: Some(sha256_text(output)),
+            failure_kind: None,
+        }
+    }
+
+    fn failed(err: &anyhow::Error) -> Self {
+        Self {
+            channel: ProviderExecutionChannel::Shadow,
+            observation_class: ProviderShadowObservationClass::Failed,
+            output_digest: None,
+            failure_kind: Some(
+                stable_failure_kind(err)
+                    .unwrap_or("provider_error")
+                    .to_string(),
+            ),
+        }
+    }
+
+    fn not_configured() -> Self {
+        Self {
+            channel: ProviderExecutionChannel::Shadow,
+            observation_class: ProviderShadowObservationClass::NotConfigured,
+            output_digest: None,
+            failure_kind: None,
+        }
+    }
+
+    /// Read-only execution channel marker.
+    pub fn channel(&self) -> ProviderExecutionChannel {
+        self.channel
+    }
+}
+
+/// Redaction facts for the comparison record.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ProviderShadowRedaction {
+    pub policy: String,
+    pub prompt_redacted: bool,
+    pub output_redacted: bool,
+    pub credential_material_redacted: bool,
+    pub host_paths_redacted: bool,
+}
+
+impl Default for ProviderShadowRedaction {
+    fn default() -> Self {
+        Self {
+            policy: "provider_shadow_redaction_v1".to_string(),
+            prompt_redacted: true,
+            output_redacted: true,
+            credential_material_redacted: true,
+            host_paths_redacted: true,
+        }
+    }
+}
+
+/// Redacted comparison evidence. It records digests/classes, never prompts or output payloads.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ProviderShadowComparisonRecord {
+    pub schema: String,
+    pub authority_input_digest: String,
+    pub shadow_input_digest: String,
+    pub comparison_rule_set: String,
+    pub authority_channel: ProviderExecutionChannel,
+    pub shadow_channel: ProviderExecutionChannel,
+    pub authority_outcome_class: String,
+    pub shadow_observation_class: ProviderShadowObservationClass,
+    pub redaction: ProviderShadowRedaction,
+}
+
+/// Result for one authority execution plus optional non-authoritative local-model shadow.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ProviderShadowExecution {
+    pub authoritative: AuthoritativeProviderCompletion,
+    pub shadow: ProviderShadowObservation,
+    pub comparison: ProviderShadowComparisonRecord,
+}
+
+impl ProviderShadowExecution {
+    /// Redacted, reviewable evidence projection for PROV-B receipts.
+    pub fn redacted_evidence(&self) -> Result<Value> {
+        serde_json::to_value(&self.comparison).context("serialize provider shadow evidence")
+    }
+}
+
+/// Run the authoritative provider first, then observe an optional local shadow provider.
+///
+/// Shadow output never replaces the authoritative output, and shadow failures are
+/// captured only as redacted observation metadata.
+pub fn complete_with_local_model_shadow(
+    authoritative_provider: &dyn Provider,
+    shadow_provider: Option<&dyn Provider>,
+    input: ProviderShadowInput,
+) -> Result<ProviderShadowExecution> {
+    let authority_output = authoritative_provider.complete(input.prompt())?;
+    let authority_input_digest = sha256_text(input.prompt());
+
+    let shadow = match shadow_provider {
+        Some(provider) => match provider.complete(input.prompt()) {
+            Ok(output) => ProviderShadowObservation::completed(&output),
+            Err(err) => ProviderShadowObservation::failed(&err),
+        },
+        None => ProviderShadowObservation::not_configured(),
+    };
+
+    let comparison = ProviderShadowComparisonRecord {
+        schema: "adl.provider.local_model_shadow_comparison.v1".to_string(),
+        authority_input_digest: authority_input_digest.clone(),
+        shadow_input_digest: authority_input_digest,
+        comparison_rule_set: input.comparison_rule_set().to_string(),
+        authority_channel: ProviderExecutionChannel::Authoritative,
+        shadow_channel: ProviderExecutionChannel::Shadow,
+        authority_outcome_class: "completed".to_string(),
+        shadow_observation_class: shadow.observation_class,
+        redaction: ProviderShadowRedaction::default(),
+    };
+
+    Ok(ProviderShadowExecution {
+        authoritative: AuthoritativeProviderCompletion::new(authority_output),
+        shadow,
+        comparison,
+    })
+}
+
+fn sha256_text(value: &str) -> String {
+    format!("sha256:{:x}", Sha256::digest(value.as_bytes()))
 }
 
 #[derive(Debug, Clone, Copy)]

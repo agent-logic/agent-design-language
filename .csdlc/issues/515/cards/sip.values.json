@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 515,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+    "slug": "prov-b-local-model-shadow-execution",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one bounded local-model shadow-execution path that cannot acquire authority.",
+      "required_outcome": "One bounded local-model shadow-execution and comparison path that cannot acquire authority.",
+      "declared_scope": [
+        "adl/src/provider/**",
+        "docs/milestones/v0.92.1/evidence/provider/prov-b/**",
+        ".csdlc/prepared/issues/515/**",
+        ".csdlc/issues/515/**"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#515",
+        "The only hard execution dependency named by #515 is PROV-A/#514",
+        "Shadow execution is non-authoritative and must not mutate authority state, lifecycle state, provider profiles, or production routing",
+        "C-SDLC v2 remains the live lifecycle authority until explicit V3-F/#505 cutover"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Do not write to /private/tmp",
+        "Do not use AWS, paid runners, or live cloud/provider calls without explicit authorization",
+        "Do not claim production cutover or provider benchmark results"
+      ]
+    }
+  }
+}

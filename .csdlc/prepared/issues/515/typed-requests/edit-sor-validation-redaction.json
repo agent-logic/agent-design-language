@@ -1,0 +1,20 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "sor",
+  "expected_digest": "9584f625c8a556fd56b98b1a40e08bb6a9f0151a60c5ab171a52c83af455591e",
+  "expected_generation": 8,
+  "issue": 515,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove PROV-B evidence excludes common credential, private payload, prompt, and host-local path markers.",
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json"
+    }
+  },
+  "reason": "Record #515 redaction validation lane result."
+}

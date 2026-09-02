@@ -1,0 +1,23 @@
+{
+  "issue": 515,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "28eb1e73c0897c438f0b9c2cf432761e141b460f52f8140c628f28d6414899b0",
+  "actor": "codex:/root:issue-515-readiness",
+  "reason": "Replace wildcard affected areas with concrete issue-owned provider, test, harness, and PROV-B evidence paths required for typed execution readiness.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      ".csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh",
+      ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b"
+    ]
+  }
+}

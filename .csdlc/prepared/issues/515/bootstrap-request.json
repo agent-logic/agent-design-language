@@ -1,0 +1,249 @@
+{
+  "issue": 515,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root:issue-515-readiness",
+  "design_path": ".csdlc/prepared/issues/515/design.md",
+  "diagram_path": ".csdlc/prepared/issues/515/diagram.mmd",
+  "design_reviewer": "pending",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+    "slug": "prov-b-local-model-shadow-execution",
+    "version": "v0.92.1",
+    "goal": "Produce one bounded local-model shadow-execution path that cannot acquire authority.",
+    "required_outcome": "One bounded local-model shadow-execution and comparison path that cannot acquire authority.",
+    "declared_scope": [
+      "adl/src/provider/**",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/**",
+      ".csdlc/prepared/issues/515/**",
+      ".csdlc/issues/515/**"
+    ],
+    "authority_boundary": [
+      "Issue authority is agent-logic/agent-design-language#515",
+      "The only hard execution dependency named by #515 is PROV-A/#514",
+      "Shadow execution is non-authoritative and must not mutate authority state, lifecycle state, provider profiles, or production routing",
+      "C-SDLC v2 remains the live lifecycle authority until explicit V3-F/#505 cutover"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Do not write to /private/tmp",
+      "Do not use AWS, paid runners, or live cloud/provider calls without explicit authorization",
+      "Do not claim production cutover or provider benchmark results"
+    ],
+    "task_boundary": "Issue completion is exactly one non-authoritative shadow-execution path; comparison cases are proof inputs.",
+    "deliverables": [
+      "Bounded local-model shadow-execution path",
+      "Deterministic authority-versus-shadow comparison input and rule set",
+      "Fallback behavior that preserves authoritative results on shadow failure",
+      "Redacted evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Shadow and authority paths are distinguishable",
+      "AC-2: Inputs and comparison rules are exact",
+      "AC-3: Failures preserve the authoritative result",
+      "AC-4: Evidence is redacted"
+    ],
+    "dependencies": [
+      "PROV-A/#514 closed and merged before execution"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#515",
+      "agent-logic/agent-design-language#514",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#PROV-B",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#PROV-B",
+      "adl/src/provider/**"
+    ],
+    "non_goals": [
+      "Provider benchmark marketing claims",
+      "Production cutover",
+      "Authority-path replacement",
+      "Live paid cloud or provider execution"
+    ],
+    "plan_summary": "After confirming #514 terminal truth, add a local-only non-authoritative provider shadow path with deterministic comparison inputs, fail-closed fallback semantics, and redacted evidence.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Verify PROV-A/#514 terminal dependency truth and preserve the explicit non-authoritative authority boundary before binding execution.",
+        "acceptance_ids": [
+          "AC-1"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement the local-model shadow path so authority and shadow execution are represented by distinct types, state, and result channels.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Define exact deterministic comparison inputs and rules for authority-versus-shadow observations.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Prove shadow failures preserve authoritative results and retain only redacted evidence.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "Provider execution boundary",
+      "Provider comparison evidence",
+      "Local-model shadow proof fixtures",
+      "C-SDLC v0.92.1 PROV-B evidence"
+    ],
+    "invariants": [
+      "Shadow output cannot acquire authority",
+      "Authoritative results remain the returned source of truth",
+      "Comparison inputs and rules are exact and deterministic",
+      "Shadow failures do not alter authoritative result, lifecycle state, provider profile state, or production routing",
+      "Evidence excludes credentials, private payloads, prompts, and unredacted local paths"
+    ],
+    "risks": [
+      "Shadow-result data could accidentally flow into authority result handling",
+      "Comparison fixtures could drift from declared inputs",
+      "Fallback could mask authoritative failures or overwrite authoritative success",
+      "Evidence could leak provider prompts, payloads, credentials, or local machine paths"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Shadow output can mutate authority",
+      "Comparison inputs drift",
+      "A live paid provider or cloud call is required without explicit authorization",
+      "Evidence cannot be redacted"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "shadow-isolation",
+        "proof_role": "Prove authority and shadow paths are distinguishable and shadow output cannot mutate authoritative state.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-3"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 3000,
+        "argv": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "-p",
+          "adl",
+          "--test",
+          "provider_shadow_isolation"
+        ],
+        "parallel_group": "provider-shadow",
+        "defer_reason": "The named integration test is a #515 implementation deliverable."
+      },
+      {
+        "lane": "deterministic-comparison",
+        "proof_role": "Prove exact deterministic comparison inputs and rules for authority-versus-shadow observations.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 3000,
+        "argv": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "-p",
+          "adl",
+          "--test",
+          "provider_shadow_comparison"
+        ],
+        "parallel_group": "provider-shadow",
+        "defer_reason": "The named integration test is a #515 implementation deliverable."
+      },
+      {
+        "lane": "fallback",
+        "proof_role": "Prove shadow failures preserve the authoritative result and do not alter authority state.",
+        "acceptance_ids": [
+          "AC-3"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 3000,
+        "argv": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "-p",
+          "adl",
+          "--test",
+          "provider_shadow_fallback"
+        ],
+        "parallel_group": "provider-shadow",
+        "defer_reason": "The named integration test is a #515 implementation deliverable."
+      },
+      {
+        "lane": "redaction",
+        "proof_role": "Prove shadow comparison evidence is redacted and does not expose credentials, private payloads, prompts, or host-local paths.",
+        "acceptance_ids": [
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 240,
+        "budget_tokens": 1500,
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh"
+        ],
+        "parallel_group": "evidence",
+        "defer_reason": "The issue-owned redaction wrapper is a #515 implementation deliverable."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove exact branch diff hygiene before review.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on authority mutation, drifted comparison inputs, shadow-output promotion, unredacted evidence, production cutover, or unauthorized paid/live-provider use.",
+    "review_prompts": [
+      "Can any shadow result mutate or replace the authoritative result?",
+      "Are authority and shadow paths represented distinctly enough for reviewers and validators?",
+      "Are comparison inputs and rules exact and deterministic?",
+      "Do shadow failures preserve authoritative outputs and state?",
+      "Does evidence redact credentials, private payloads, prompts, and host-local paths?"
+    ],
+    "review_scope": "Exact #515 provider shadow-execution path, deterministic comparison fixtures, fallback handling, redacted PROV-B evidence, and lifecycle cards only."
+  }
+}

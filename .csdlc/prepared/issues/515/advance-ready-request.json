@@ -1,0 +1,12 @@
+{
+  "issue": 515,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "d30a189d7166a5015809800cf22b7b69ec0782fe41181d9f65cd5a4a09660bf2",
+  "actor": "codex:/root:issue-515-readiness",
+  "reason": "Advance #515 to ready after PROV-A/#514 live dependency closure was verified, concrete issue-owned paths were recorded, design was approved, and csdlc-doctor reported pass with advance_ready.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}
