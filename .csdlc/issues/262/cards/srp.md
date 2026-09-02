@@ -60,12 +60,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live S3 or CloudFront mutation/probe was performed during the read-only exact-head review; retained local hosting and launch-packet proof remain the review denominator.
+- ffprobe was unavailable in the reviewer environment, so ID3 behavior was verified through the repository validator's ID3 frame checks rather than an external ffprobe invocation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:78caa6853c3113737701a69e6ec9d9023a8b5fcb:797cd0b6a8acf2f502252d2a9c18004eec192f679ce7bddb47b532ebe9948813")
 
-Reviewer: None
+Reviewer: Some("fresh-session:627ccf54-c965-42b7-8ce9-084791bad23b")
 
-Result: pre_review
+Result: pass
