@@ -21,3 +21,4 @@
 {"sequence":21,"generation":16,"actor":"codex:/root:issue-515-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":22,"generation":17,"actor":"codex:/root:issue-515-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":23,"generation":18,"actor":"codex:/root:issue-515-implementation","reason":"Recover #515 review truth so the final exact-head review can include the current branch history after removing an accidental non-governed one-shot review request copy.","operation":"recover_review"}
+{"sequence":24,"generation":18,"actor":"codex:/root:issue-515-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}

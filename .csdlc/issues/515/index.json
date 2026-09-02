@@ -6,10 +6,22 @@
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
   "phase": "implemented",
   "generation": 18,
-  "digest": "9ea54c9607f50c734a4002814662375c9835d05c1754c1b574d96292c8b62051",
+  "digest": "6d2c32cdb1b245b3187011e186f6aed6d829875d5ac4d0f42496b40c6ca53bdf",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:8838ea5e-f236-464a-a208-f688f738c1d0",
+    "assigned_by": "codex:/root:issue-515-implementation",
+    "revision": "git-blake3:5f2a0c2886b5c2d1b32bcb0a6c362a7a7f2df40f:6b94df861d27ad13e9e24f16177e3f61def833bc28335e222553af0dc2973ec6",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
+      ".csdlc/prepared/issues/515"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "eeaa43ec123963a97696fe208898770fb7d848966774b82c0b265529dd9aefd5",
-      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
-      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
+      "values_digest": "b800defab2e8f15134658f565d0e0d794b817d5210cf39d8077ce41a57c3c9f6",
+      "rendered_digest": "167d92ba1efcf0ba600b1cd1f5409d0f89f2d2b46b7040962aa97e823087a82a",
+      "ast_digest": "e94a0785a8bf592cc7f4cf3516a1f30b7925774a4c56348b2922849c11688f54"
     },
     "sor": {
       "values_digest": "04b812dc7dea513d3acfc993a86ff5e6f2d46b59957bb702c399f1a4e445bab4",
@@ -253,6 +265,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Recover #515 review truth so the final exact-head review can include the current branch history after removing an accidental non-governed one-shot review request copy.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
