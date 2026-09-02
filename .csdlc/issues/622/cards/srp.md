@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Provider-only configuration parsing, existing watcher reuse, candidate activation, immutable snapshot ownership, production execution-runner consumption, concurrency, redaction, shutdown, and focused documentation only.
+
 
 ## Prompts
 

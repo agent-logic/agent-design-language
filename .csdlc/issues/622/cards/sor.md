@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented production provider/profile hot loading through a provider reload owner, sidecar validation, immutable per-step runner snapshots, last-known-good preservation on invalid updates, credential-value rejection, and focused production/safety proof lanes.
+Addressed exact-head review blockers by adding production CSM adl_workflow reload startup, broadening credential-value rejection, preserving provider-level generation truth, and adding production entrypoint proof.
 
 ## Artifacts
 
@@ -24,6 +24,12 @@ Implemented production provider/profile hot loading through a provider reload ow
 - adl-runtime-kernel/src/config_reload.rs
 - .csdlc/prepared/issues/622/validate-provider-profile-hotload.sh
 - docs/providers/provider-profile-hot-loading.md
+- adl/src/long_lived_agent.rs
+- adl/src/long_lived_agent/tests.rs
+- adl/src/provider/reload.rs
+- adl/src/execute/tests.rs
+- .csdlc/prepared/issues/622/validate-provider-profile-hotload.sh
+- docs/providers/provider-profile-hot-loading.md
 
 ## Execution
 
@@ -33,6 +39,11 @@ Implemented production provider/profile hot loading through a provider reload ow
 - Added focused provider reload, production runner, and runtime-kernel watcher tests covering valid reloads, invalid reload retention, credential-value rejection, duplicate debounce, shutdown, and in-flight snapshot isolation.
 - Updated the #622 validation script to run focused production and safety lanes that avoid unrelated binary compile surfaces.
 - Documented provider profile hot-loading behavior, accepted sidecar shape, credential boundary, snapshot semantics, validation evidence, and non-goals.
+- Added workflow.run_args.provider_reload_sidecar_path support to the CSM adl_workflow production cycle so it starts ProviderReloadOwner, installs the global handle for the execution lifetime, records reload status, and shuts the owner down after execution.
+- Extended provider sidecar credential rejection to cover password, client_secret, private_key, access/refresh tokens, and credential-shaped raw scalar values under neutral containers such as auth.value while retaining env-reference fields.
+- Tracked provider-level reload generations in ProviderReloadSnapshot and diagnostics instead of hard-coding zero.
+- Added a long-lived-agent production tick test proving the real CSM ADL workflow entrypoint consumes sidecar provider output through the reload owner.
+- Updated #622 validation lanes and documentation to name the production config knob and stronger credential boundary.
 
 ## Validation
 
@@ -56,12 +67,32 @@ Implemented production provider/profile hot loading through a provider reload ow
     "purpose": "Prove the safety lane for reload debounce, shutdown, invalid-update last-known-good retention, credential boundary, focused production invariants, and whitespace/diff hygiene.",
     "outcome": "passed",
     "evidence_ref": "terminal:issue-622-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 4 passed; in-flight snapshot 1 passed; git diff --check passed"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "production"
+    ],
+    "purpose": "Prove the refreshed production lane after exact-head review fixes, including real CSM adl_workflow reload startup through workflow.run_args.provider_reload_sidecar_path.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:issue-622-post-review-production-lane:provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "safety"
+    ],
+    "purpose": "Prove the refreshed safety lane after exact-head review fixes, including runtime-kernel debounce/shutdown, stronger credential rejection, generation truth, production tick proof, and diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:issue-622-post-review-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed; git diff --check passed"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

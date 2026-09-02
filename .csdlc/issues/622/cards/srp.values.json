@@ -7,13 +7,13 @@
     "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
     "slug": "provider-profile-hotload",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Provider-only configuration parsing, existing watcher reuse, candidate activation, immutable snapshot ownership, production execution-runner consumption, concurrency, redaction, shutdown, and focused documentation only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

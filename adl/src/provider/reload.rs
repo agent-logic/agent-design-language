@@ -8,6 +8,7 @@
 
 use std::collections::{BTreeMap, HashMap};
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
 use std::time::SystemTime;
 
@@ -86,11 +87,19 @@ impl ProviderReloadOwner {
         let provider_config_path = provider_config_path.into();
         let active_document = Arc::new(Mutex::new(base_document));
         let diagnostic = Arc::new(Mutex::new(None));
+        let generation = Arc::new(AtomicU64::new(0));
         let parser_source = provider_config_path.clone();
         let parser_active = Arc::clone(&active_document);
         let parser_diagnostic = Arc::clone(&diagnostic);
+        let parser_generation = Arc::clone(&generation);
         let parser = Arc::new(move |raw: &str| {
-            parse_provider_reload_snapshot(&parser_source, raw, &parser_active, &parser_diagnostic)
+            parse_provider_reload_snapshot(
+                &parser_source,
+                raw,
+                &parser_active,
+                &parser_diagnostic,
+                &parser_generation,
+            )
         });
         let controller = start_config_reload(provider_config_path, parser, options).await?;
         Ok(Self {
@@ -129,17 +138,27 @@ fn parse_provider_reload_snapshot(
     raw: &str,
     active_document: &Arc<Mutex<adl::AdlDoc>>,
     diagnostic: &Arc<Mutex<Option<ProviderReloadDiagnostic>>>,
+    generation: &Arc<AtomicU64>,
 ) -> std::result::Result<ProviderReloadSnapshot, ConfigReloadError> {
     let sidecar: ProviderReloadSidecar = serde_yaml::from_str(raw).map_err(|error| {
-        record_diagnostic(diagnostic, "parse_error", error.to_string());
+        record_diagnostic(
+            diagnostic,
+            generation.load(Ordering::SeqCst),
+            "parse_error",
+            error.to_string(),
+        );
         ConfigReloadError::parse(error.to_string())
     })?;
-    materialize_provider_reload_snapshot(source, sidecar, active_document, diagnostic).map_err(
-        |error| {
-            record_diagnostic(diagnostic, "validation_error", error.to_string());
+    materialize_provider_reload_snapshot(source, sidecar, active_document, diagnostic, generation)
+        .map_err(|error| {
+            record_diagnostic(
+                diagnostic,
+                generation.load(Ordering::SeqCst),
+                "validation_error",
+                error.to_string(),
+            );
             ConfigReloadError::validation(error.to_string())
-        },
-    )
+        })
 }
 
 fn materialize_provider_reload_snapshot(
@@ -147,6 +166,7 @@ fn materialize_provider_reload_snapshot(
     sidecar: ProviderReloadSidecar,
     active_document: &Arc<Mutex<adl::AdlDoc>>,
     diagnostic: &Arc<Mutex<Option<ProviderReloadDiagnostic>>>,
+    generation: &Arc<AtomicU64>,
 ) -> Result<ProviderReloadSnapshot> {
     if let Some(schema) = sidecar.schema.as_deref() {
         if schema != PROVIDER_RELOAD_SIDECAR_SCHEMA {
@@ -184,9 +204,10 @@ fn materialize_provider_reload_snapshot(
         *slot = None;
     }
     let digest = redacted_provider_digest(&active.providers)?;
+    let snapshot_generation = generation.fetch_add(1, Ordering::SeqCst);
     Ok(ProviderReloadSnapshot {
         schema: "adl.provider_reload_snapshot.v1".to_string(),
-        generation: 0,
+        generation: snapshot_generation,
         source: source.to_path_buf(),
         digest,
         document: Arc::new(active.clone()),
@@ -216,6 +237,9 @@ fn reject_credential_value_at(path: &str, value: &Value) -> Result<()> {
                         "provider reload sidecar contains credential value at {next}"
                     ));
                 }
+                if credential_value_container_key(key) {
+                    reject_raw_credential_scalar(&next, value)?;
+                }
                 reject_credential_value_at(&next, value)?;
             }
         }
@@ -233,8 +257,51 @@ fn credential_value_key(key: &str) -> bool {
     let normalized = key.to_ascii_lowercase();
     matches!(
         normalized.as_str(),
-        "api_key" | "apikey" | "token" | "secret" | "credential" | "credentials"
+        "api_key"
+            | "apikey"
+            | "token"
+            | "secret"
+            | "credential"
+            | "credentials"
+            | "password"
+            | "client_secret"
+            | "private_key"
+            | "access_token"
+            | "refresh_token"
     )
+}
+
+fn credential_value_container_key(key: &str) -> bool {
+    let normalized = key.to_ascii_lowercase();
+    matches!(
+        normalized.as_str(),
+        "value" | "raw" | "header" | "authorization" | "bearer"
+    )
+}
+
+fn reject_raw_credential_scalar(path: &str, value: &Value) -> Result<()> {
+    if let Some(raw) = value.as_str() {
+        if looks_like_raw_credential(raw) {
+            return Err(anyhow!(
+                "provider reload sidecar contains credential value at {path}"
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn looks_like_raw_credential(raw: &str) -> bool {
+    let trimmed = raw.trim();
+    let lower = trimmed.to_ascii_lowercase();
+    trimmed.starts_with("sk-")
+        || lower.starts_with("bearer ")
+        || lower.contains("-----begin private key-----")
+        || lower.contains("-----begin rsa private key-----")
+        || lower.contains("-----begin ec private key-----")
+        || (trimmed.len() >= 32
+            && trimmed
+                .chars()
+                .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '_' | '-' | '.')))
 }
 
 fn redacted_provider_digest(providers: &HashMap<String, adl::ProviderSpec>) -> Result<String> {
@@ -248,12 +315,13 @@ fn redacted_provider_digest(providers: &HashMap<String, adl::ProviderSpec>) -> R
 
 fn record_diagnostic(
     diagnostic: &Arc<Mutex<Option<ProviderReloadDiagnostic>>>,
+    generation: u64,
     code: impl Into<String>,
     message: impl Into<String>,
 ) {
     if let Ok(mut slot) = diagnostic.lock() {
         *slot = Some(ProviderReloadDiagnostic {
-            generation: 0,
+            generation,
             code: code.into(),
             redacted_message: redact_diagnostic(message.into()),
             observed_at: SystemTime::now(),
@@ -336,6 +404,23 @@ mod tests {
         providers.insert("primary".to_string(), provider);
 
         let err = reject_credential_values(&providers).expect_err("credential value rejected");
+        assert!(err.to_string().contains("credential value"));
+    }
+
+    #[test]
+    fn provider_reload_sidecar_rejects_raw_credential_values_under_neutral_keys() {
+        let mut provider = provider("mock");
+        provider.config.insert(
+            "auth".to_string(),
+            serde_json::json!({
+                "type": "bearer",
+                "value": "sk-test-012345678901234567890123456789"
+            }),
+        );
+        let mut providers = HashMap::new();
+        providers.insert("primary".to_string(), provider);
+
+        let err = reject_credential_values(&providers).expect_err("raw credential rejected");
         assert!(err.to_string().contains("credential value"));
     }
 

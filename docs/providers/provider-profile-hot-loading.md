@@ -1,8 +1,11 @@
 # Provider and profile hot loading
 
 ADL can run a production provider reload owner against an explicit
-provider-only sidecar. The owner reuses the runtime kernel config reload watcher
-instead of adding a second watcher or registry.
+provider-only sidecar. The CSM `adl_workflow` production cycle starts the owner
+when `workflow.run_args.provider_reload_sidecar_path` is set. Relative sidecar
+paths resolve against the ADL workflow file's parent directory. The owner reuses
+the runtime kernel config reload watcher instead of adding a second watcher or
+registry.
 
 The sidecar accepts only:
 
@@ -13,13 +16,16 @@ The sidecar accepts only:
 Workflow, task, tool, authority, executable-step, and credential-value surfaces
 are intentionally outside the sidecar boundary. Provider credentials must remain
 stable references such as environment-variable names or governed provider auth
-objects; raw token, secret, API key, or credential values are rejected before a
-candidate can become active.
+objects. Raw token, secret, password, API key, client-secret, private-key,
+bearer-token, or credential-shaped values are rejected before a candidate can
+become active, including suspicious values under neutral containers such as
+`auth.value`.
 
 On each accepted edit, the owner validates and materializes a complete candidate
 document, including provider profile expansion and last-known-good promotion,
-then publishes one immutable provider snapshot. Invalid edits retain the prior
-complete snapshot and record only a bounded redacted diagnostic.
+then publishes one immutable provider snapshot with a provider-level generation.
+Invalid edits retain the prior complete snapshot and record only a bounded
+redacted diagnostic tied to the current provider-level generation.
 
 The execution runner consults the current provider reload snapshot immediately
 before building the provider for a local step. That means:

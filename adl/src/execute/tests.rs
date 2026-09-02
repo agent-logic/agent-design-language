@@ -288,15 +288,17 @@ fn execute_sequential_consumes_provider_reload_snapshots_without_restart() {
     let mut handle = owner.handle();
     let _guard = crate::provider::set_global_provider_reload_handle(owner.handle());
 
+    assert_eq!(handle.current_snapshot().generation, 0);
     assert_eq!(execute_reload_once(&resolved, &base), "old-output");
 
     std::fs::write(&sidecar, provider_reload_sidecar("new-output", 0)).expect("rewrite sidecar");
-    runtime
+    let changed = runtime
         .block_on(async {
             tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
         })
         .expect("provider reload should publish changed snapshot")
         .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
 
     assert_eq!(execute_reload_once(&resolved, &base), "new-output");
 
@@ -319,6 +321,7 @@ providers:
     let diagnostic = handle
         .last_diagnostic()
         .expect("invalid candidate should leave redacted diagnostic");
+    assert!(diagnostic.generation >= 1);
     assert_eq!(diagnostic.code, "validation_error");
     assert!(diagnostic.redacted_message.contains("<redacted>"));
 
@@ -351,6 +354,7 @@ fn execute_sequential_retains_starting_provider_snapshot_for_in_flight_step() {
     let mut handle = owner.handle();
     let _guard = crate::provider::set_global_provider_reload_handle(owner.handle());
 
+    assert_eq!(handle.current_snapshot().generation, 0);
     let thread_resolved = resolved.clone();
     let thread_base = base.clone();
     let running = std::thread::spawn(move || execute_reload_once(&thread_resolved, &thread_base));
@@ -358,12 +362,13 @@ fn execute_sequential_retains_starting_provider_snapshot_for_in_flight_step() {
     std::thread::sleep(std::time::Duration::from_millis(30));
     std::fs::write(&sidecar, provider_reload_sidecar("fast-new-output", 0))
         .expect("rewrite sidecar");
-    runtime
+    let changed = runtime
         .block_on(async {
             tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
         })
         .expect("provider reload should publish changed snapshot")
         .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
 
     assert_eq!(
         running.join().expect("join in-flight run"),
