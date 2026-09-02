@@ -6,10 +6,18 @@
   "initialization_digest": "9d5f743e4d7fa11e73e41d07b8abdbf638dbf14695def74e2c46cc07eda70502",
   "phase": "implemented",
   "generation": 15,
-  "digest": "bd4fad4388e398130fc66a07e282243d19f8e583085bc3b6216a0a4ffcf46849",
+  "digest": "59c5918f870161818a799993d6c2a6a5670560aadacfe20ac9ad88b74d7bc470",
   "branch": "codex/617-runtime-api-canonical-agent-names",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-617-runtime-api-canonical-agent-names",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:cd23d270-c41f-4421-a05f-05a77bd00428",
+    "assigned_by": "codex:/root/issue_617_finish",
+    "revision": "git-blake3:0f8fec10d388ed5c8c1c0afa401edffe8ded9269:1bed52fc6c0efa86afd3b57311a0657617a83e5feacd29e6c4e18f89bd524e41",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/evidence/617/hosted-ci-retry.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +53,9 @@
       "ast_digest": "f37aecd69c0d4f811571f7064130e6ffa796d5ab869f02610c1fe6a702685511"
     },
     "srp": {
-      "values_digest": "f38ea3d581420c6e241cebed7452f87858434e801cfa12feb47c8641e6bdf335",
-      "rendered_digest": "1c3acc08d5eb3f876b911981b2f9cd520a6c7081aeb825d545364845fbad1fa8",
-      "ast_digest": "9aca83e388862f9171cf2f3f521a5c31a59fd8e8af59ed1d92c94dd4e8858fb3"
+      "values_digest": "d9edd039485c0cad314adb5c226489e0ef1fa29979b154539170ea4534b86d90",
+      "rendered_digest": "acba9547577c5920a582698d88f7016a1afcf32c674fb6294bebeed3c53a652a",
+      "ast_digest": "9f818768652c8f918a6ea6058dfb54a7142b3cef0e765113d2791b23f7536806"
     },
     "sor": {
       "values_digest": "4671909d0eed3edc48a420a63413f2adde4d798a44e1dd3aad6c3228e6c9f53f",
@@ -232,6 +240,13 @@
       "actor": "codex:/root/issue_617_finish",
       "reason": "Recover published review truth after hosted Clippy identified two mechanical warnings in the issue-owned lifecycle path; re-review the exact corrected head before republishing.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root/issue_617_finish",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

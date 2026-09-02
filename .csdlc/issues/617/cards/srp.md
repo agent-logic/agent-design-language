@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/control.rs
+.csdlc/evidence/617/hosted-ci-retry.md
 
 ## Prompts
 
