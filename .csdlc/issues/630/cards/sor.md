@@ -55,7 +55,7 @@ Implemented non-authoritative C-SDLC v3 finish, clean, and cutover command route
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

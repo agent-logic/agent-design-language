@@ -8,18 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v3/src/commands/mod.rs
-csdlc-v3/src/commands/terminal.rs
-csdlc-v3/src/main.rs
-csdlc-v3/tests/command_manifest.rs
-csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
-docs/csdlc-v3/v3-command-manifest.json
-.csdlc/prepared/issues/630
-.csdlc/evidence/630
+
 
 ## Prompts
 

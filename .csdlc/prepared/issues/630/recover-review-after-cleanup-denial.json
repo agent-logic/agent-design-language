@@ -1,0 +1,7 @@
+{
+  "issue": 630,
+  "expected_generation": 3,
+  "expected_digest": "07c3d9880d5f469adeed43c6329b4120150ce7fff65d23bf4538281b9a15fd35",
+  "actor": "codex:worker-6",
+  "reason": "Recover stale exact-review assignment after the pre-publication review found that v3 clean could remove worktrees before #505 cutover and denial tests were incomplete."
+}

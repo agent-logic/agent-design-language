@@ -5,25 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "07c3d9880d5f469adeed43c6329b4120150ce7fff65d23bf4538281b9a15fd35",
+  "generation": 4,
+  "digest": "dd5b76cc9703119f999d079f03654863dd265ce92068e921abe13b000cc2d697",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_630_terminal_cleanup_cutover",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:7f05568e026cb258c2664f5e19212156308a70a3:a40f8b4cdd20129c3f5567fe8f452fc5e306165b169487ece14b15993a8c0efb",
-    "scope": [
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/630",
-      ".csdlc/evidence/630"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "888df4fef2afee89152131370d22997ab41813e12cb5e166114b22dcb54f829e",
+      "values_digest": "70099033c6993381359ad9af0ff27c96f0470d39517aac2fec2e8c80c1856420",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "0fe17f504206e868c374a88e58ea1fe9c85bca87e831f90dd40182280fd4a103",
+      "values_digest": "2acaf6dc4ec6304649d0bbcecce102a84b46aa1644908da252943677dad713a8",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "75aec75d574b3524cfd416ae83737142e18e751cc4d7a09149eeaf5678363501",
+      "values_digest": "db31e628481b6ca43088e97bb6f30ea6b2e18313cf2deccb6cea5fc5335909fd",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "b2c6d7bcaa1aab4cb01615f26c644a09163284506e22d456cd768209408fa55c",
+      "values_digest": "6180b11b74a8e05cfae97b08dd8745c15e650edce02b691b99a1a514e69e7ab0",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "9b924019ec238dfa77caf1a0be72bd61dafaee9c3bf88fd917fd783f7b3df429",
-      "rendered_digest": "40df150773ad379f65fc13f30d9f8f1fb594abbabbff9b5e0ec6203d7009e91d",
-      "ast_digest": "0ca9c7c6f27e492cf972f712c2e65c3d5c505bb61baa544d7cc35e8fcf8d64f8"
+      "values_digest": "eba8bb0801417d3d87dd5ca1daaeec9ea2c5b2f0c2a226460a8f6c2fd1083444",
+      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
+      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
     },
     "sor": {
-      "values_digest": "129f6abcf1c11bc77edd117dd8fc83fc834728cb110faa0683ce6d33840c83bb",
-      "rendered_digest": "24372e2cdf9f7e583d2f0b5a24cc1d0ac1480d77c46437df95e826a8ccba26aa",
-      "ast_digest": "117cf392d7b10604bb32a7f2da9e5534ad7ede1c8e5ee62cab05de52fe656263"
+      "values_digest": "bc3590b6f213c626937b23c12c773c311dfdd2ff2d81d1bbce8d900acb5149f2",
+      "rendered_digest": "ee57911d5890498fa99996f24f0028189ea748fbd7ddf2b9f6298d5d15ed4468",
+      "ast_digest": "a88e352e1de52995dc2437cc731c6ceee2a4d460c1d35866a7eb8d822e945f14"
     }
   },
   "transitions": [
@@ -134,6 +120,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale exact-review assignment after the pre-publication review found that v3 clean could remove worktrees before #505 cutover and denial tests were incomplete.",
+      "operation": "recover_review"
     }
   ]
 }
