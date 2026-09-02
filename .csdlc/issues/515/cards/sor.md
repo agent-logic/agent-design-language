@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, and emits redacted digest/class comparison evidence.
+Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, suppresses raw shadow panic-hook payload leakage, and emits redacted digest/class comparison evidence.
 
 ## Artifacts
 
@@ -27,7 +27,8 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
 - Added distinct provider shadow authority/shadow channel types and redacted comparison records in adl/src/provider/mod.rs.
 - Added complete_with_local_model_shadow so authority executes first and shadow success, returned failure, or panic cannot replace or mask authoritative output.
 - Kept authoritative and shadow channel markers constructor-controlled with read-only accessors so callers cannot construct shadow observations as authoritative results.
-- Added issue-owned integration tests for shadow isolation, deterministic comparison, returned-error fallback, authoritative-first fallback, and panicking-shadow fallback behavior.
+- Added a scoped shadow panic-hook guard so raw shadow panic payloads do not leak through stderr/log hooks before redacted observation handling restores the previous hook.
+- Added issue-owned integration tests for shadow isolation, deterministic comparison, returned-error fallback, authoritative-first fallback, panicking-shadow fallback behavior, and panic-hook payload suppression.
 - Added redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/.
 
 ## Validation
@@ -74,7 +75,7 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
       "--test",
       "provider_shadow_fallback"
     ],
-    "purpose": "Prove shadow returned errors and panics preserve the authoritative result and do not convert shadow success into authority.",
+    "purpose": "Prove shadow returned errors, panics, and suppressed panic-hook payloads preserve the authoritative result and do not convert shadow success into authority.",
     "outcome": "passed",
     "evidence_ref": "terminal:provider_shadow_fallback:3 passed"
   },
