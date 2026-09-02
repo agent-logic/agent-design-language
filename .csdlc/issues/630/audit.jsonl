@@ -5,3 +5,4 @@
 {"sequence":5,"generation":3,"actor":"codex:worker-6-issue-630","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":6,"generation":3,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":7,"generation":4,"actor":"codex:worker-6","reason":"Recover stale exact-review assignment after the pre-publication review found that v3 clean could remove worktrees before #505 cutover and denial tests were incomplete.","operation":"recover_review"}
+{"sequence":8,"generation":4,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}

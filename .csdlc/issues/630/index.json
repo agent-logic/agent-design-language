@@ -6,10 +6,37 @@
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
   "phase": "implemented",
   "generation": 4,
-  "digest": "dd5b76cc9703119f999d079f03654863dd265ce92068e921abe13b000cc2d697",
+  "digest": "ed09ca7016215d86ffcd274a987fe301803e22f526257457ba1a4e92a31e6995",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_630_post_fix",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:604d8e582be8d0c9871ebf78206dca42087d1682:6d7791ed7a55f1a021bf24cdc71fe8e027cd7227a187de3e359332d3903ebb9d",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/create-request.json",
+      ".csdlc/prepared/issues/630/design.md",
+      ".csdlc/prepared/issues/630/diagram.mmd",
+      ".csdlc/prepared/issues/630/finalize-request.json",
+      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
+      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
+      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+      ".csdlc/evidence/630/630-diff-hygiene.log",
+      ".csdlc/evidence/630/630-full-v3-regression.log",
+      ".csdlc/evidence/630/630-issue-validator.log",
+      ".csdlc/evidence/630/630-rustfmt.log",
+      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
+      ".csdlc/evidence/630/630-typed-issue-validation.log",
+      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +72,9 @@
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "eba8bb0801417d3d87dd5ca1daaeec9ea2c5b2f0c2a226460a8f6c2fd1083444",
-      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
-      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
+      "values_digest": "3434156022efd48ff7ab328ba79d0ce0d50249f39646d57ac8e75208627dde02",
+      "rendered_digest": "7eccb3036c36b802c8a04611354270760950a644b5b9f9b058c1ef03930d0052",
+      "ast_digest": "a88a13612711f0dd05c9556838b145bd21568da9f5c8f516d9a6bc04f00973af"
     },
     "sor": {
       "values_digest": "bc3590b6f213c626937b23c12c773c311dfdd2ff2d81d1bbce8d900acb5149f2",
@@ -127,6 +154,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover stale exact-review assignment after the pre-publication review found that v3 clean could remove worktrees before #505 cutover and denial tests were incomplete.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
