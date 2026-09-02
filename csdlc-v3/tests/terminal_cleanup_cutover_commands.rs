@@ -93,6 +93,70 @@ fn part_of_publication_cannot_terminally_close() {
 }
 
 #[test]
+fn finish_denies_stale_nonmerged_and_open_issue_readbacks() {
+    let request = base_request();
+    let stale_head = VerifiedTerminalReadback::from_typed_adapter_receipt(
+        "csdlc-github-pr-state",
+        request.repository.clone(),
+        request.issue,
+        request.pull_request.unwrap(),
+        "fedcba9876543210012345678901234567890123".into(),
+        TerminalPublicationMode::Closing,
+        true,
+        false,
+        Some(request.issue),
+        None,
+    )
+    .expect("typed receipt");
+    assert_eq!(
+        derive_finish_from_verified(&request, stale_head)
+            .unwrap_err()
+            .code,
+        "head_mismatch"
+    );
+
+    let nonmerged = VerifiedTerminalReadback::from_typed_adapter_receipt(
+        "csdlc-github-pr-state",
+        request.repository.clone(),
+        request.issue,
+        request.pull_request.unwrap(),
+        request.expected_head_sha.clone().unwrap(),
+        TerminalPublicationMode::Closing,
+        false,
+        false,
+        Some(request.issue),
+        None,
+    )
+    .expect("typed receipt");
+    assert_eq!(
+        derive_finish_from_verified(&request, nonmerged)
+            .unwrap_err()
+            .code,
+        "pull_request_not_merged"
+    );
+
+    let open_issue = VerifiedTerminalReadback::from_typed_adapter_receipt(
+        "csdlc-github-pr-state",
+        request.repository.clone(),
+        request.issue,
+        request.pull_request.unwrap(),
+        request.expected_head_sha.clone().unwrap(),
+        TerminalPublicationMode::Closing,
+        true,
+        true,
+        Some(request.issue),
+        None,
+    )
+    .expect("typed receipt");
+    assert_eq!(
+        derive_finish_from_verified(&request, open_issue)
+            .unwrap_err()
+            .code,
+        "closing_issue_still_open"
+    );
+}
+
+#[test]
 fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
     let fixture = fixture_root("cleanup_distinct");
     let primary = fixture.join("primary");
@@ -134,12 +198,30 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
         .iter()
         .any(|finding| finding.code == "preview_receipt_mismatch"));
 
-    let remove = cleanup_plan(&fixture, &primary, &registered, true, Some(receipt_digest));
+    let remove = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        true,
+        Some(receipt_digest.clone()),
+    );
     assert!(matches!(
         prepare_terminal_route("clean", &remove).unwrap().cleanup,
-        Some(CleanupDecision::Removed { .. })
+        Some(CleanupDecision::RemovalDeniedPreCutover { .. })
     ));
-    assert!(!registered.exists());
+    assert!(registered.exists());
+    let post_denial_preview = cleanup_plan(&fixture, &primary, &registered, false, None);
+    assert!(matches!(
+        prepare_terminal_route("clean", &post_denial_preview)
+            .unwrap()
+            .cleanup,
+        Some(CleanupDecision::Removable {
+            receipt_digest: digest,
+            ..
+        }) if digest == receipt_digest
+    ));
+
+    fs::remove_dir_all(&registered).expect("simulate external already-removed state");
 
     let already_removed = cleanup_plan(&fixture, &primary, &registered, false, None);
     assert!(matches!(
@@ -168,6 +250,28 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
             .cleanup,
         Some(CleanupDecision::Unregistered { .. })
     ));
+}
+
+#[test]
+fn cleanup_denies_symlink_escape_from_approved_parent() {
+    let fixture = fixture_root("cleanup_symlink_escape");
+    let approved = fixture.join("approved");
+    let primary = fixture.join("primary");
+    let outside = fixture.join("outside");
+    let escape = approved.join("escape-link");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    fs::create_dir_all(&approved).expect("approved parent");
+    fs::create_dir_all(&outside).expect("outside target");
+    init_repo(&primary);
+    create_symlink(&outside, &escape);
+
+    let plan = cleanup_plan(&approved, &primary, &escape, false, None);
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "path_outside_approved_parent"));
 }
 
 #[test]
@@ -261,4 +365,14 @@ fn git(path: &Path, args: &[&str]) {
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+#[cfg(unix)]
+fn create_symlink(target: &Path, link: &Path) {
+    std::os::unix::fs::symlink(target, link).expect("symlink");
+}
+
+#[cfg(windows)]
+fn create_symlink(target: &Path, link: &Path) {
+    std::os::windows::fs::symlink_dir(target, link).expect("symlink");
 }

@@ -1,31 +1,32 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.44s
      Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-ae7ae4773a2e7817)
 
 running 22 tests
 test commands::remote::tests::accepted_review_requires_typed_evidence_digest_and_scope ... ok
 test commands::remote::tests::already_removed_cleanup_still_requires_terminal_and_preview_gates ... ok
 test commands::remote::tests::part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority ... ok
-test commands::remote::tests::finish_derives_terminal_truth_from_remote_readback_not_local_claims ... ok
-test commands::remote::tests::publication_modes_require_exact_relation ... ok
 test commands::remote::tests::v3e_denominator_is_exact ... ok
+test commands::remote::tests::finish_derives_terminal_truth_from_remote_readback_not_local_claims ... ok
 test commands::remote::tests::same_principal_cannot_self_authorize_publication ... ok
+test commands::remote::tests::publication_modes_require_exact_relation ... ok
 test commands::remote::tests::review_binds_exact_scope_revision_reviewer_and_findings ... ok
-test commands::remote::tests::verified_receipt_must_match_the_exact_subject_value ... ok
 test commands::remote::tests::whitespace_variant_principal_cannot_self_authorize_publication ... ok
-test tests::contract_schema ... ok
+test commands::remote::tests::verified_receipt_must_match_the_exact_subject_value ... ok
 test tests::architecture_boundary ... ok
+test tests::proportional_lifecycle ... ok
+test tests::contract_schema ... ok
 test commands::remote::tests::cleanup_constructor_rejects_self_made_git_directory_registration ... ok
+test tests::predecessor_coverage ... ok
 test commands::remote::tests::cleanup_requires_committed_closed_out_state_and_receipt ... ok
 test commands::remote::tests::part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup ... ok
-test tests::proportional_lifecycle ... ok
-test commands::remote::tests::remote_delivery_rejects_unverified_or_wrong_source_observations ... ok
-test commands::remote::tests::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
-test tests::predecessor_coverage ... ok
-test commands::remote::tests::remote_workflow_refuses_missing_pvf_and_revision_mismatch ... ok
 test commands::remote::tests::cleanup_removal_executes_and_distinguishes_removed_states ... ok
+test commands::remote::tests::remote_delivery_rejects_unverified_or_wrong_source_observations ... ok
+test commands::remote::tests::remote_workflow_refuses_missing_pvf_and_revision_mismatch ... ok
+test commands::remote::tests::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
 test commands::remote::tests::cleanup_is_separate_preview_first_and_path_exact ... ok
 
-test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 
      Running unittests src/main.rs (csdlc-v3/target/debug/deps/csdlc-319d76563c029dcd)
 
@@ -49,9 +50,9 @@ test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 running 13 tests
 test application_context_reports_typed_missing_root_errors ... ok
 test repository_context_is_explicit ... ok
-test retained_requirements_164_through_167_are_bound ... ok
 test retained_requirement_behaviors_are_source_grounded ... ok
 test issue_start_projection_preserves_three_minute_budget_without_authority_cutover ... ok
+test retained_requirements_164_through_167_are_bound ... ok
 test projection_replay_is_deterministic ... ok
 test single_binary_foundation_command_is_read_only_and_explicit ... ok
 test repository_context_rejects_symlink_escape_for_issue_records ... ok
@@ -66,8 +67,8 @@ test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fin
      Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-286e111367ea102a)
 
 running 6 tests
-test doctor_plan_preserves_distinct_outcome_states ... ok
 test topology_bind_requires_exact_registered_worktree ... ok
+test doctor_plan_preserves_distinct_outcome_states ... ok
 test contract_commands_are_typed_and_non_authoritative ... ok
 test card_roundtrip_uses_active_registry_denominator ... ok
 test local_preparation_cli_rejects_malformed_typed_request ... ok
@@ -83,58 +84,60 @@ test adapters_canary_builds_real_issue_observation_commands_without_secret_leaka
 test foundation_and_local_commands_accept_real_issue_596_without_v3_authority ... ok
 test lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4646 ... ok
 
-test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
 
      Running tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-746550c1fcb9f742)
 
 running 4 tests
 test review_route_rejects_self_review_even_with_whitespace ... ok
-test pr_state_route_rejects_caller_forged_readback ... ok
 test publish_route_requires_current_review_and_closing_relation ... ok
+test pr_state_route_rejects_caller_forged_readback ... ok
 test remote_publication_routes_are_typed_and_non_authoritative ... ok
 
 test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 
      Running tests/terminal_cleanup_cutover_commands.rs (csdlc-v3/target/debug/deps/terminal_cleanup_cutover_commands-8460d7afc2678949)
 
-running 5 tests
-test part_of_publication_cannot_terminally_close ... ok
-test sealed_typed_readback_can_derive_terminal_closeout ... ok
+running 7 tests
+test finish_denies_stale_nonmerged_and_open_issue_readbacks ... ok
 test cutover_requires_operator_approval_rollback_and_fail_closed_undo ... ok
+test part_of_publication_cannot_terminally_close ... ok
 test public_finish_fails_closed_without_authenticated_adapter ... ok
+test sealed_typed_readback_can_derive_terminal_closeout ... ok
+test cleanup_denies_symlink_escape_from_approved_parent ... ok
 test cleanup_uses_git_registration_and_preserves_distinct_outcomes ... ok
 
-test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
 
      Running tests/transactions.rs (csdlc-v3/target/debug/deps/transactions-66d26690cee5e131)
 
 running 24 tests
-test adapter_branch_observation_never_authorizes_lifecycle_work ... ok
-test adapter_invocations_are_argv_based_and_shell_strings_are_rejected ... ok
-test adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction ... ok
 test review_recovery_requires_structured_stale_truth_provenance ... ok
-test recovery_classifies_interrupted_writes_without_losing_provenance ... ok
+test adapter_branch_observation_never_authorizes_lifecycle_work ... ok
 test recovery_rejects_no_commit_records_with_invalid_integrity ... ok
+test adapter_invocations_are_argv_based_and_shell_strings_are_rejected ... ok
+test recovery_classifies_interrupted_writes_without_losing_provenance ... ok
 test recovery_rejects_committed_state_intent_mismatches ... ok
 test transaction_commit_rechecks_cas_and_digest_binds_contents ... ok
+test recovery_honors_projection_repair_flag_from_committed_state ... ok
+test adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction ... ok
 test transaction_commits_preserve_projection_invalidations ... ok
-test transaction_store_rejects_tampered_record_digest_on_ingress ... ok
 test transaction_stale_writer_fails_before_commit ... ok
+test transaction_state_commit_is_atomic_and_projection_failure_requires_repair ... ok
+test transaction_store_rejects_tampered_record_digest_on_ingress ... ok
 test transition_branch_observation_alone_does_not_authorize_bind ... ok
 test transition_finish_requires_live_terminal_evidence_not_existing_receipt ... ok
-test transaction_state_commit_is_atomic_and_projection_failure_requires_repair ... ok
-test recovery_honors_projection_repair_flag_from_committed_state ... ok
-test transition_merge_ready_requires_current_readiness_evidence ... ok
 test transition_matrix_explicitly_classifies_every_state_command_pair ... ok
+test transition_merge_ready_requires_current_readiness_evidence ... ok
 test transition_review_recovery_matches_retained_v2_behavior ... ok
-test durable_failed_state_replacement_does_not_advance_live_memory ... ok
 test durable_open_fails_closed_on_interrupted_intent ... ok
+test durable_failed_state_replacement_does_not_advance_live_memory ... ok
 test durable_transaction_store_rejects_stale_intent_before_journal_append ... ok
-test durable_transaction_store_persists_intent_before_atomic_state_replacement ... ok
 test durable_projection_failure_after_state_commit_is_repair_authority ... ok
+test durable_transaction_store_persists_intent_before_atomic_state_replacement ... ok
 test durable_projection_success_is_repair_required_until_projection_is_written ... ok
 
-test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
 
    Doc-tests csdlc_v3
 

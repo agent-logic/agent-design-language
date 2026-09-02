@@ -123,9 +123,10 @@ pub enum CleanupDecision {
         path: PathBuf,
         receipt_digest: String,
     },
-    Removed {
+    RemovalDeniedPreCutover {
         path: PathBuf,
         receipt_digest: String,
+        reason: String,
     },
 }
 
@@ -393,16 +394,13 @@ fn classify_cleanup_from_git(
                 "cleanup removal requires a preview receipt for the same Git registration",
             ));
         }
-        fs::remove_dir_all(&candidate).map_err(|error| {
-            finding(
-                "cleanup_remove_failed",
-                &format!("failed to remove registered worktree: {error}"),
-            )
-        })?;
-        Ok(CleanupDecision::Removed {
+        return Ok(CleanupDecision::RemovalDeniedPreCutover {
             path: candidate,
             receipt_digest,
-        })
+            reason:
+                "v3 clean is non-authoritative before #505 cutover and must not remove worktrees"
+                    .into(),
+        });
     } else {
         Ok(CleanupDecision::Removable {
             path: candidate,

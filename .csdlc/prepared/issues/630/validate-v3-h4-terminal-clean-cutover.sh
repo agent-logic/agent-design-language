@@ -26,8 +26,14 @@ grep -Fq 'Unregistered' csdlc-v3/src/commands/terminal.rs || fail "cleanup unreg
 grep -Fq 'Dirty' csdlc-v3/src/commands/terminal.rs || fail "cleanup dirty state missing"
 grep -Fq 'Live' csdlc-v3/src/commands/terminal.rs || fail "cleanup live state missing"
 grep -Fq 'Absent' csdlc-v3/src/commands/terminal.rs || fail "cleanup absent state missing"
+grep -Fq 'RemovalDeniedPreCutover' csdlc-v3/src/commands/terminal.rs || fail "cleanup removal must be denied before cutover"
+if grep -Fq 'remove_dir_all(&candidate)' csdlc-v3/src/commands/terminal.rs; then
+  fail "v3 clean must not remove registered worktrees before #505 cutover"
+fi
 grep -Fq 'executes_cutover: false' csdlc-v3/src/commands/terminal.rs || fail "cutover route must not execute cutover"
 grep -Fq '#505' csdlc-v3/src/commands/terminal.rs || fail "cutover approval must cite #505"
+grep -Fq 'finish_denies_stale_nonmerged_and_open_issue_readbacks' csdlc-v3/tests/terminal_cleanup_cutover_commands.rs || fail "missing stale/nonmerged/open issue finish denial tests"
+grep -Fq 'cleanup_denies_symlink_escape_from_approved_parent' csdlc-v3/tests/terminal_cleanup_cutover_commands.rs || fail "missing symlink escape cleanup denial test"
 
 cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands
 
