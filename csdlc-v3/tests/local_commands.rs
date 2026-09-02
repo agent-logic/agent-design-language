@@ -439,6 +439,68 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
 }
 
 #[test]
+fn issue_route_rejects_expected_digest_before_writing_v3_state() {
+    let dir = fixture_dir("issue-stale-digest-write-free");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    let missing_state_root = dir.join("missing-state");
+    let stale_state_root = dir.join("stale-state");
+    let mut stale = request();
+    stale.expected_lifecycle_digest = Some("expected-digest".into());
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&stale).expect("request json"),
+    )
+    .expect("write request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let missing_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("issue")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--v3-state-root")
+        .arg(&missing_state_root)
+        .output()
+        .expect("run v3 issue route with missing state");
+    assert!(!missing_output.status.success(), "{missing_output:?}");
+    assert!(
+        String::from_utf8_lossy(&missing_output.stderr).contains("local_lifecycle_digest_missing")
+    );
+    assert!(!missing_state_root.join("issues/503").exists());
+
+    let stale_issue_root = stale_state_root.join("issues/503");
+    fs::create_dir_all(&stale_issue_root).expect("stale issue dir");
+    fs::write(
+        stale_issue_root.join("index.json"),
+        br#"{"phase":"ready","generation":7,"digest":"actual-digest"}"#,
+    )
+    .expect("write stale v3 index");
+    let stale_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("issue")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--v3-state-root")
+        .arg(&stale_state_root)
+        .output()
+        .expect("run v3 issue route with stale digest");
+    assert!(!stale_output.status.success(), "{stale_output:?}");
+    assert!(String::from_utf8_lossy(&stale_output.stderr).contains("stale_local_lifecycle_digest"));
+    assert!(!stale_issue_root.join("cards").exists());
+}
+
+#[test]
 fn missing_local_lifecycle_state_is_explicit_and_repairable() {
     let dir = fixture_dir("missing-state");
     let observation = inspect_local_lifecycle_state(&dir, 628);

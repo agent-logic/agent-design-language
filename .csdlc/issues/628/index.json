@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "97234601bd736ef7c2290fb2e993ace113755651c7c80bd65bacc4bdd6d4c075",
+  "generation": 15,
+  "digest": "a9d4a41d0f7c71260e31f5d2e033d05066efdf6f82d0902e7595a682f474d38d",
   "branch": "codex/628-v3-h2-local-lifecycle-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_628_post627_restack",
+    "reviewer": "subagent:/root/review_628_post627_restack_r2",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:70991794f3a0bb9737c7c000ba94da5af6d22b8c:f0bfa307a1d85a0d967878fc69e76f4a19ba69bb7f9c0990afc92fa8d008d28f",
+    "revision": "git-blake3:7c30a7c55e2d8babe0426c67188204ebe9d690eb:e6d1da13e6d498a6e8512b6d15a387a3b97aa985aaf808747d2bf94529f445a7",
     "scope": [
       "csdlc-v3/src/commands/local/mod.rs",
       "csdlc-v3/src/main.rs",
@@ -41,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "faea2f27663372175eee8ba912090c2b0832d7ca13b83cdf37e3f0b64b794094",
+      "values_digest": "14cb67e19689dcae531e65104a7e1369329cee9aea1dab1f5d5db3384730f0f6",
       "rendered_digest": "ec86154fbe8bea2e97c924434eeb9628c5ed7da45613790a6ac03fbb543a27a5",
       "ast_digest": "2acce6b1beca8f33b77c7b8cf371d468d8f199e4f56aa9dcfe4a298d3acd9593"
     },
     "stp": {
-      "values_digest": "bb3491b8935537497753b1f41d5d1d0300ee0e08d2603454868a55ad7d008cb1",
+      "values_digest": "20ae7839e897b3a2258833891a7f06592b3285627918859153ffe91d59e5db64",
       "rendered_digest": "bc3cd8bd8745a5adceb6c9595367ec1919f1797064fee91ee7eb896d4f155efd",
       "ast_digest": "57dfad5b0fe0bea239cfdf214b53671017845b79aff12963238f44d33d0c57db"
     },
     "spp": {
-      "values_digest": "d9fbd212b8ed99ee8fb5dcd31b2f3b51fe1524fa649bab26b9e1da9ec2aca942",
+      "values_digest": "3c9ee5285678ed3b2879a9e72700488706dc281ca32a868ea908eecc87280c1a",
       "rendered_digest": "d819514ecc09935b395491930a0d9d63e1b5046f4c83282c0e9c3ba0dc04689a",
       "ast_digest": "14bf84ef4d04a577ee0b6f619469d6cddc0148f5d840a78313ae0c6973a2d204"
     },
     "vpp": {
-      "values_digest": "250610c170e75999da087b1cc5b632b312be20d5740a234ce5b1a90599e9e43e",
+      "values_digest": "93dbd07b77ab498eeb7ff1801c2ec6f0dee6ef1ef368af817b173b9a131e4311",
       "rendered_digest": "43d4653b64b0dd707774309d0824415e41d4fd92b04d28591b58488a8e59f8ed",
       "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
     },
     "srp": {
-      "values_digest": "0114ddbf37c778fe21f74d4577ed04d14816e41d36e465ac95db90a15ab87142",
+      "values_digest": "5c89d7ffea684c3f5dafec4383c244fe34eee80d141c22bc3c156bdcd3e96293",
       "rendered_digest": "3ba37952c0c51c361dec1973fab578f01e6ea436ca7843cc055cd4fea5ecf1ce",
       "ast_digest": "a4172b8a132eee33d72cc7efefb8930c12f7f05fe65419003ee99659695f0fb4"
     },
     "sor": {
-      "values_digest": "2217d3eb30e491d66bed3b7704ab42caf5f5770592b5ed3ffd7a18333c58fe6f",
-      "rendered_digest": "5d34af06134eebc23c0330e62c33d73bf4d0cb9695c13e2069e8480d967c482a",
-      "ast_digest": "9ab03151caa4910418a3949f9b5e6d281de51433bfe454ca8dd7519759e8590e"
+      "values_digest": "ddbb74556603ce4bce5a60027956897947457890fb518b565ea007382c96f0d6",
+      "rendered_digest": "74ac8d078c3ab27af8e5611bec82f0c6c94f3ba3dbf6ba8887a3437b0448114a",
+      "ast_digest": "d6b8b5836e826318dd52ef2fa93c42afb2c22c87a58481fb0077542f05f943f0"
     }
   },
   "transitions": [
@@ -325,6 +325,20 @@
       "actor": "codex:/root",
       "reason": "Correct exact-review P2 SOR truth drift: local routes are operationally non-authoritative before #505 cutover, but the issue route intentionally writes explicit v3 construction state when --v3-state-root is supplied.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state.\",\"changes\":[\"Implemented the #628-owned local routes issue, bind, edit, validate, doctor, schedule, shepherd, and eligibility as one-binary v3 commands.\",\"Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied.\",\"Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.\",\"Updated the v3 command manifest so #628 local routes are implemented but not live authority.\",\"Added focused tests for local route help/dispatch, eight-command contract coverage, issue-route construction-state writes, and missing lifecycle state diagnostics.\",\"Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps.\"],\"artifacts\":[\"csdlc-v3/src/commands/local/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/local_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/628/design.md\",\".csdlc/prepared/issues/628/diagram.mmd\",\".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh\",\".csdlc/issues/628\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy across csdlc-v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"purpose\":\"Run exact-range diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-diff-hygiene.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run all C-SDLC v3 tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-full-v3-regression.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh\",\"all\"],\"purpose\":\"Run the #628 issue-owned validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-issue-validator.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"local_commands\"],\"purpose\":\"Run focused local command tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-local-route-tests.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Run real issue canary tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-real-issue-canary.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify rustfmt.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-rustfmt.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec\",\"issue\",\"--issue\",\"628\"],\"purpose\":\"Verify #628 C-SDLC issue state.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-typed-issue-validation.log\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record repairs for fresh exact-review findings: add explicit #627 derived-terminal evidence, make issue-route stale/missing digest failures write-free before v3 state initialization, and refresh #628 validation evidence at the current generation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state only after stale/missing lifecycle-digest checks pass.\",\"changes\":[\"Implemented the #628-owned local routes issue, bind, edit, validate, doctor, schedule, shepherd, and eligibility as one-binary v3 commands.\",\"Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied and any expected lifecycle digest is satisfied before writing.\",\"Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.\",\"Updated the v3 command manifest so #628 local routes are implemented but not live authority; GitHub, publication, finish, clean, and cutover routes remain fail-closed before #505.\",\"Added focused tests for local route help/dispatch, eight-command contract coverage, issue-route construction-state writes, write-free stale/missing digest rejection, and missing lifecycle state diagnostics.\",\"Recorded #627 predecessor terminal evidence as a derived-terminal cache artifact under #628 evidence, because the tracked #627 issue projection remains published while live GitHub terminal truth is closed by merged PR #635.\",\"Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps.\"],\"artifacts\":[\"csdlc-v3/src/commands/local/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/local_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/628/design.md\",\".csdlc/prepared/issues/628/diagram.mmd\",\".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh\",\".csdlc/evidence/628/627-derived-terminal.json\",\".csdlc/issues/628\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy across csdlc-v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"purpose\":\"Run exact-range diff hygiene; success is represented by exit code 0 and quiet output.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-diff-hygiene.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run all C-SDLC v3 tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-full-v3-regression.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh\",\"all\"],\"purpose\":\"Run the #628 issue-owned validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-issue-validator.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"local_commands\"],\"purpose\":\"Run focused local command tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-local-route-tests.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Run focused v3 command manifest tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-command-manifest-tests.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Run real issue canary tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-real-issue-canary.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\",\"--\",\"--verbose\"],\"purpose\":\"Verify rustfmt and retain non-empty formatter evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-rustfmt.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec\",\"issue\",\"--issue\",\"628\"],\"purpose\":\"Verify #628 C-SDLC issue state at current generation.\",\"outcome\":\"passed\",\"evidence_ref\":\"628-typed-issue-validation.log\"}]}"
     }
   ]
 }

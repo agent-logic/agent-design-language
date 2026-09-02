@@ -125,6 +125,23 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
     }
     let mut result = prepare_local_workflow(&request, &registry, &registrations)
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
+    let prechecked_issue_route_result = match (
+        route,
+        args.v3_state_root.as_ref(),
+        request.expected_lifecycle_digest.as_ref(),
+    ) {
+        ("issue", Some(root), Some(_)) => Some(
+            execute_local_route(
+                route,
+                &request,
+                &registry,
+                &registrations,
+                Some(inspect_v3_local_state(root, request.issue)),
+            )
+            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?,
+        ),
+        _ => None,
+    };
     result.lifecycle_state = match (route, args.v3_state_root.as_ref(), args.repo_root.as_ref()) {
         ("issue", Some(root), _) => Some(
             initialize_v3_local_state(root, &request, &registry).map_err(|findings| {
@@ -139,6 +156,8 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
     let writes_v3_state = route == "issue" && args.v3_state_root.is_some();
     let route_result = if route == "local" {
         None
+    } else if let Some(route_result) = prechecked_issue_route_result {
+        Some(route_result)
     } else {
         Some(
             execute_local_route(

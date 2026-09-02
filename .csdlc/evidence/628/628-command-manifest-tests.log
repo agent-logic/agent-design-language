@@ -1,0 +1,11 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running tests/command_manifest.rs (csdlc-v3/target/debug/deps/command_manifest-efb203926538b5e4)
+
+running 4 tests
+test help_exposes_one_binary_command_surface ... ok
+test partial_routes_remain_non_authoritative ... ok
+test implemented_local_routes_expose_non_authoritative_help ... ok
+test fail_closed_routes_do_not_claim_live_authority ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+

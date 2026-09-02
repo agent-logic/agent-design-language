@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state.
+Implemented the V3-H.2 local lifecycle routes under the single operationally non-authoritative csdlc v3 binary, preserving #505 as the cutover authority while allowing the issue route to write explicit v3 construction state only after stale/missing lifecycle-digest checks pass.
 
 ## Artifacts
 
@@ -25,15 +25,17 @@ Implemented the V3-H.2 local lifecycle routes under the single operationally non
 - .csdlc/prepared/issues/628/design.md
 - .csdlc/prepared/issues/628/diagram.mmd
 - .csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh
+- .csdlc/evidence/628/627-derived-terminal.json
 - .csdlc/issues/628
 
 ## Execution
 
 - Implemented the #628-owned local routes issue, bind, edit, validate, doctor, schedule, shepherd, and eligibility as one-binary v3 commands.
-- Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied.
+- Kept all local routes operationally non-authoritative before #505 cutover; the issue route is the bounded exception that writes explicit v3 construction state only when --v3-state-root is supplied and any expected lifecycle digest is satisfied before writing.
 - Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.
-- Updated the v3 command manifest so #628 local routes are implemented but not live authority.
-- Added focused tests for local route help/dispatch, eight-command contract coverage, issue-route construction-state writes, and missing lifecycle state diagnostics.
+- Updated the v3 command manifest so #628 local routes are implemented but not live authority; GitHub, publication, finish, clean, and cutover routes remain fail-closed before #505.
+- Added focused tests for local route help/dispatch, eight-command contract coverage, issue-route construction-state writes, write-free stale/missing digest rejection, and missing lifecycle state diagnostics.
+- Recorded #627 predecessor terminal evidence as a derived-terminal cache artifact under #628 evidence, because the tracked #627 issue projection remains published while live GitHub terminal truth is closed by merged PR #635.
 - Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps.
 
 ## Validation
@@ -61,7 +63,7 @@ Implemented the V3-H.2 local lifecycle routes under the single operationally non
       "--check",
       "origin/main..HEAD"
     ],
-    "purpose": "Run exact-range diff hygiene.",
+    "purpose": "Run exact-range diff hygiene; success is represented by exit code 0 and quiet output.",
     "outcome": "passed",
     "evidence_ref": "628-diff-hygiene.log"
   },
@@ -106,6 +108,19 @@ Implemented the V3-H.2 local lifecycle routes under the single operationally non
       "--manifest-path",
       "csdlc-v3/Cargo.toml",
       "--test",
+      "command_manifest"
+    ],
+    "purpose": "Run focused v3 command manifest tests.",
+    "outcome": "passed",
+    "evidence_ref": "628-command-manifest-tests.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
       "real_issue_canary"
     ],
     "purpose": "Run real issue canary tests.",
@@ -118,9 +133,11 @@ Implemented the V3-H.2 local lifecycle routes under the single operationally non
       "fmt",
       "--manifest-path",
       "csdlc-v3/Cargo.toml",
-      "--check"
+      "--check",
+      "--",
+      "--verbose"
     ],
-    "purpose": "Verify rustfmt.",
+    "purpose": "Verify rustfmt and retain non-empty formatter evidence.",
     "outcome": "passed",
     "evidence_ref": "628-rustfmt.log"
   },
@@ -133,7 +150,7 @@ Implemented the V3-H.2 local lifecycle routes under the single operationally non
       "--issue",
       "628"
     ],
-    "purpose": "Verify #628 C-SDLC issue state.",
+    "purpose": "Verify #628 C-SDLC issue state at current generation.",
     "outcome": "passed",
     "evidence_ref": "628-typed-issue-validation.log"
   }
