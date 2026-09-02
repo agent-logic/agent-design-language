@@ -6,10 +6,47 @@
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
   "generation": 47,
-  "digest": "12af52dc888de28dbda97471ddef51b8f25220290e17f82a8f2e1a16dda2fdc7",
+  "digest": "608831accde6e38508a5aa08d38cc37a9b48136c20b43b6f6f8f329995b13da5",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+    "assigned_by": "codex:root/podcast-262",
+    "revision": "git-blake3:572fe15253b5c91d36bbfd24c63a2f4692451c8e:1e3defcb84466723601d517579a9d1584e7a642732b280ef7c65d79e03387922",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      "adl/tools/test_podcast_launch_packet.sh",
+      "adl/tools/validate_podcast_launch_packet.py",
+      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio/reference.sha256",
+      "demos/podcast/studio/podcast-studio.html"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +82,9 @@
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "21ca04139d638cf57ed3e25e5b940a298b4fe2ad901d151826dd4ae86d3476fa",
-      "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
-      "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
+      "values_digest": "3f4b7b9a2b53b2854d8efd1b3047690ec7e7f18054b92a4260717e38e21ecdcb",
+      "rendered_digest": "090a633bd56261c7900d32d9f9d565055270f32fefdbb365afb4c8fb1c4be138",
+      "ast_digest": "c4c15cb8fe051b5ea4cdabfc25bdf9edfd11ae8ec7d402045283cf6461b5b66f"
     },
     "sor": {
       "values_digest": "6ca2665ffa1e21633ab44c9b63daf4c7019817a2b86d185dc570c8fe5066e876",
@@ -519,6 +556,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "Record diff hygiene validation for the #262 live production proof remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify whitespace and diff hygiene for the live production podcast hosting proof remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 58,
+      "generation": 47,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
