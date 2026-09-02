@@ -1,0 +1,24 @@
+{
+  "issue": 592,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "94d36f606eb8d26fc8e28282389bf5a5c32758266cb64cc6182b15664a8da55b",
+  "actor": "codex:/root",
+  "reason": "Replace descriptive areas with exact issue-owned preparation and future implementation surfaces.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/prepared/issues/592/design.md",
+      ".csdlc/prepared/issues/592/diagram.mmd",
+      ".csdlc/prepared/issues/592/validate-vertex-config-docs.sh",
+      ".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh",
+      ".csdlc/prepared/issues/592/validate-tooling-canary.sh",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md"
+    ]
+  }
+}

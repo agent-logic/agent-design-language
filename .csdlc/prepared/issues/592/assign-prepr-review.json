@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 592,
+  "expected_generation": 8,
+  "expected_digest": "ed361c738935170128a7a6030760d92163e64f35d95c8473b83c82178f6f3434",
+  "reviewer": "codex-subagent:/root/review_592_prepr_r1",
+  "assigned_by": "codex:/root/Worker-7",
+  "scope": [
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/tests/configuration.rs",
+    "infra/runtime-v3/agents/ember.axioma.yaml",
+    "infra/runtime-v3/runtime-init.toml",
+    "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+    ".csdlc/prepared/issues/592"
+  ]
+}

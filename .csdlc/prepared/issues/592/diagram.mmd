@@ -1,8 +1,15 @@
 flowchart TD
-  I592["#592 Polis GCP Vertex AI"]
-  I528["#528 Vertex AI Gemini provider transport"]
-  CONFIG["Explicit GCP project/location/model/credential config"]
-  RUNTIME["Governed Runtime/provider route"]
-  EVIDENCE["Redacted validation evidence"]
-  I528 --> I592
-  I592 --> CONFIG --> RUNTIME --> EVIDENCE
+  MERGE["#528 / PR #603 merged provider transport"]
+  CONFIG["Tracked Polis config: provider, project, location, model"]
+  CREDS["External credential reference / ADC identity"]
+  VALIDATE["Fail-closed config validation"]
+  RUNTIME["Polis production provider selection"]
+  VERTEX["Vertex AI transport"]
+  ERRORS["Classified, redacted failures"]
+  PROOF["Focused local proof; live paid call separately authorized"]
+  MERGE --> CONFIG
+  CREDS --> VALIDATE
+  CONFIG --> VALIDATE --> RUNTIME --> VERTEX
+  VALIDATE --> ERRORS
+  VERTEX --> ERRORS
+  RUNTIME --> PROOF
