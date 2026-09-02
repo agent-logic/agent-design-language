@@ -102,7 +102,7 @@ Digest: f79a6f8537ad39fc01f814610778fd941742fa33f6640f6beccad593892e1aa5
 
 .csdlc/prepared/issues/617/diagram.mmd
 
-Digest: 227e3cccc0f899d49f1b59d5a63ffad45d8373817cca94c1c9777b28d41c5264
+Digest: ff871895fd0aa780322753d20dadce1ca2e36497b7ba1b48ba4f97723f05a2d4
 
 ## Stop Conditions
 

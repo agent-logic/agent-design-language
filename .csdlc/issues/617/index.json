@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9d5f743e4d7fa11e73e41d07b8abdbf638dbf14695def74e2c46cc07eda70502",
   "phase": "initialized",
-  "generation": 6,
-  "digest": "a5c9ed5a9099973c709f654c2ce6c57646ffd62ca98f8d70161344b5c1c12ecf",
+  "generation": 7,
+  "digest": "c3226d659d3753f7da39002ff10380c70bc3a37a39cefa0325cf835b58c895c6",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "03a2a39583c6a462b17524b41ed8027b545b1395ccfb36dc5dec654cebcdf780",
+      "values_digest": "1762974b22ef86435b9d0c0ec8e799d74bd9dc814c5abf722d95d70dbb4eadc4",
       "rendered_digest": "b7dd70da419bf6f2f8ad137ff4ea27aa7445c400ec83abce12e6c7812480ab96",
       "ast_digest": "cc756df52b6a91d50dc4dfa895aa60144d6cb949dca25dfbc4d815ffe09951fe"
     },
     "stp": {
-      "values_digest": "44ee136ad77a9aac932257f96c4f022e761a3dd77654a82fe4bf5ceb5d45bb5c",
+      "values_digest": "5c4bb6ffa1d90610aaea29f71f3e3e4f6530b69d394bea7fda0662f867947ccc",
       "rendered_digest": "e1335e10dd8a3da4137d9d6801be275394af05f162f486eaf3c8bab4e6392d76",
       "ast_digest": "224bcbe1deaf52a77d9c7213ac5448d29b84ba5fbb3c194824202719930fd395"
     },
     "spp": {
-      "values_digest": "dd7e7fe5194b82e55355f1a8987e04e2ef6e361b801c894941a0a77afee4ae27",
-      "rendered_digest": "179e1bc87c20b10a3914daec6fff52d4108cf1bf6782006189a7a0419996c7a9",
-      "ast_digest": "215c567c8725e96be1e2d7dff413280e09144f3aca1f15571e6c5fc8c0f627cf"
+      "values_digest": "98a0ea4af317f43daf098892fc9522d919c87034da81d0fe43f93e471c3ececa",
+      "rendered_digest": "0518b08bb0617265eca3a637c646f7d6a92ddcf9dc09ee994c14eb7857c45c03",
+      "ast_digest": "738b09ffc255c875e4b4f02d8f9f9e218ce6fed4e6ec5675a81c6138b4cf316f"
     },
     "vpp": {
-      "values_digest": "e5f2340b572aaea6e06170b61ebccb7b0dea38f143d117e9975daba10d055ad5",
+      "values_digest": "6ece9677d95b3fd899fbdafe7dfd7aca314e81d1311adabc0bf0aa42917414f8",
       "rendered_digest": "180d230f38b209328555804f6f040a8eeabf8bc5268d53270f59142ee6b7aaf1",
       "ast_digest": "f37aecd69c0d4f811571f7064130e6ffa796d5ab869f02610c1fe6a702685511"
     },
     "srp": {
-      "values_digest": "18bf5c8951fef70d26563a03aeca3d01ce01823ba90ef2097e1decc922568728",
+      "values_digest": "de20dcdc2a622875f15135b6aee723751368dea8eba13038b43171e322b67c30",
       "rendered_digest": "bbac9b230667509093404a6a4253aa316aa916acd0f59fb3aaa06abfd39be40f",
       "ast_digest": "26e80641bffc15097ac7092b6d1bc432f5dec059915a216b249f6bda84d6d252"
     },
     "sor": {
-      "values_digest": "c9ea514b86d7e75015c04fcf67b4f1113a47aedeb1601cbc1fd90cc45a8b350b",
+      "values_digest": "e0e03d3e8b0cf5e530512efde88ee9fe54ca257a29adf2f063e2c80f9c0556d6",
       "rendered_digest": "02b17a0ff2569c63160654a9e71c7154398959202fe5a3c327a716d0d7efc2c6",
       "ast_digest": "27d7e8a4201b0584f56bfe03f5aec0c55fe3d0edd6db51ab5cea42932845df40"
     }
@@ -99,6 +99,13 @@
       "actor": "codex:/root",
       "reason": "Align exact execution ownership with the configured Shepherd authority and compatibility proof required by independent review.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/617/validate-canonical-agent-name.sh\",\".csdlc/evidence/617\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Refresh the authored diagram digest after resolving the independent review node-identifier collision without changing acceptance semantics.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/617/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/617/diagram.mmd\",\"new_design_digest\":\"f79a6f8537ad39fc01f814610778fd941742fa33f6640f6beccad593892e1aa5\",\"new_diagram_digest\":\"ff871895fd0aa780322753d20dadce1ca2e36497b7ba1b48ba4f97723f05a2d4\",\"old_design_digest\":\"f79a6f8537ad39fc01f814610778fd941742fa33f6640f6beccad593892e1aa5\",\"old_diagram_digest\":\"227e3cccc0f899d49f1b59d5a63ffad45d8373817cca94c1c9777b28d41c5264\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: AgentRosterEntry and roster/detail JSON always emit a nonempty canonical two-part agent name in the additive wire field name.\",\"AC-2: Operational id, canonical name, display label, and public role/office remain separate fields with unchanged existing meanings.\",\"AC-3: Dynamic agents carry the validated AgentAdmissionRequest.name unchanged through AgentSample, AgentRuntimeEvidence, roster, and detail responses.\",\"AC-4: Runtime init requires and validates resident_shepherd.name, and the production binary passes it to the Shepherd roster constructor without ID or label inference.\",\"AC-5: Observatory OpenAPI keeps adl.runtime_v3.agent_roster_entry.v1, adds required outbound name, and its checked inventory matches serialized output.\",\"AC-6: Focused tests prove current output always contains name, previously recorded v1 JSON without name remains readable through a deserialization-only default, existing fields retain exact serialization, and zero-test selection fails.\"]}}"
     }
   ]
 }
