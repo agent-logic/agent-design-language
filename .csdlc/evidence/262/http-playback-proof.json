@@ -1,7 +1,7 @@
 {
   "schema": "agent_logic.podcast.http_playback_proof.v1",
   "status": "passed",
-  "generated_at": "2026-09-02T01:26:09Z",
+  "generated_at": "2026-09-02T05:31:23Z",
   "candidate": {
     "feed": "demos/podcast/feed.xml",
     "podcast_page": "demos/podcast/index.html",
@@ -40,13 +40,18 @@
       },
       {
         "path": ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
-        "bytes": 13113,
-        "sha256": "f8f3187abd5ef2c082dbc6e84f18ce69a73f3f1ccf0077b65a3292b87361a987"
+        "bytes": 13229,
+        "sha256": "44ae40aad7b6ceabdbc62fefcd83043087f21d210778707302909ca6f04a5392"
       },
       {
         "path": ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
-        "bytes": 20689,
-        "sha256": "3e47f40629314b43ce362fc1cb4450d67ce98531313ded1bad679c0446582666"
+        "bytes": 26747,
+        "sha256": "109e1abe949efe32a93d880c95f25e451eb13d221f05e05d12d0ede9227d0a05"
+      },
+      {
+        "path": ".csdlc/prepared/issues/262/record-live-production-proof.rb",
+        "bytes": 9405,
+        "sha256": "c6215812beaa7304251fc722f08bfb9956834d6d02e1f09c3f7dd9cef0e656c9"
       },
       {
         "path": "adl/tools/record_podcast_native_playback.sh",
@@ -65,8 +70,8 @@
       },
       {
         "path": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
-        "bytes": 6007,
-        "sha256": "4db49db7543b114376e3f4c65ab6be29a0103a012d70c5fb901f38397ce13da2"
+        "bytes": 6671,
+        "sha256": "a78c2ebcebbfbaf43b7a1ffd075174f69a919bb916b649d0537b95cb6181f16b"
       },
       {
         "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
@@ -94,11 +99,11 @@
         "sha256": "7b13f6adaec23b2236c3790f2608c031331a15f2fb0c03fdc0cf8c3c0ea0acfb"
       }
     ],
-    "digest": "21aab29df2e8df527793e322bea3f542d70b394c968c1dbf0cb3dc4c2efb6431"
+    "digest": "f51cf4bf0ab19b60d922ee81539c0aa84515f910766c65ae5d739224e9b50182"
   },
   "proof_binding": {
     "producer": "codex:root/podcast-262",
-    "source_manifest_digest": "21aab29df2e8df527793e322bea3f542d70b394c968c1dbf0cb3dc4c2efb6431"
+    "source_manifest_digest": "f51cf4bf0ab19b60d922ee81539c0aa84515f910766c65ae5d739224e9b50182"
   },
   "profiles": {
     "desktop-safari": {

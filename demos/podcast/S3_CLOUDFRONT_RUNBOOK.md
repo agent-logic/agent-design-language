@@ -14,6 +14,9 @@ storing a candidate never publishes it.
 - Initial CloudFront domain: `dqyy7yagafimc.cloudfront.net`
 - CloudFront origin path: `/public`
 - Custom podcast hostname: not configured
+- Canonical public website distribution: `E3C29FMX32KDDU`
+- Canonical public website bucket: `agent-logic-ai-origin-agentlogic`
+- Canonical public route: `https://agent-logic.ai/podcast/`
 
 Before any mutation, verify that `agent-logic-admin` resolves to the approved
 Agent Logic business AWS account. Never fall back to the default or a personal
@@ -62,6 +65,12 @@ source during promotion.
 files. No WAV master, raw dialogue source, provider response, credential, or
 intermediate render belongs under `public/`.
 
+The branded production route named by the RSS feed is served from the existing
+`agent-logic.ai` public website distribution and bucket. Promotion to
+`https://agent-logic.ai/podcast/` copies only the approved public artifacts to
+the `podcast/` prefix in `agent-logic-ai-origin-agentlogic`; it does not expose
+the private archive bucket or make `archive/*` readable.
+
 ## Archive A Candidate
 
 Archive from the issue worktree using the approved business profile. Preserve
@@ -84,22 +93,22 @@ Promotion requires explicit human approval of audio, metadata, artwork, and
 publication. It is a separate operation from archival storage.
 
 1. Copy the approved show page, feed, artwork, episode page, and MP3 into their
-   exact `public/` keys.
+   exact branded website `podcast/` keys.
 2. Set the correct `Content-Type` for HTML, XML, PNG, and MP3 objects.
 3. Use a short cache lifetime for `feed.xml`; use longer cache lifetimes for
    immutable episode media.
 4. Verify HTTPS retrieval through CloudFront, including range requests for the
    MP3.
 5. Recompute the live enclosure byte count and compare it with the feed.
-6. Invalidate only changed mutable keys such as `/feed.xml`, `/index.html`, or
-   `/artwork.png`.
+6. Invalidate only changed mutable keys such as `/podcast/feed.xml`,
+   `/podcast/`, `/podcast/index.html`, `/podcast/artwork.png`, or the episode
+   page.
 7. Submit the feed to directories only after the public URL and mailbox checks
    pass.
 
-The initial CloudFront hostname is suitable for infrastructure verification.
-A stable branded hostname and matching ACM certificate must be configured
-before podcast-directory registration. Do not publish the CloudFront-generated
-hostname as the permanent RSS identity.
+The archive CloudFront hostname is suitable for infrastructure verification.
+The permanent RSS identity is the branded `agent-logic.ai` route; do not
+publish the CloudFront-generated hostname as the permanent RSS identity.
 
 ## Verification
 
@@ -112,6 +121,7 @@ AWS_PROFILE=agent-logic-admin aws s3api get-bucket-versioning --bucket agent-log
 AWS_PROFILE=agent-logic-admin aws s3api get-bucket-encryption --bucket agent-logic-podcast-archive-agentlogic
 AWS_PROFILE=agent-logic-admin aws s3api get-bucket-ownership-controls --bucket agent-logic-podcast-archive-agentlogic
 AWS_PROFILE=agent-logic-admin aws cloudfront get-distribution --id E34IBPFTBM0242
+AWS_PROFILE=agent-logic-admin aws cloudfront get-distribution --id E3C29FMX32KDDU
 ```
 
 The direct S3 object URL must remain inaccessible. Before promotion, the

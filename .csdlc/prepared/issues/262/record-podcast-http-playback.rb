@@ -22,6 +22,7 @@ EPISODE_PAGE_REL = "demos/podcast/episodes/meet-the-ai-coworkers/index.html"
 EPISODE_PAGE_PATH = File.join(ROOT, EPISODE_PAGE_REL)
 GENERATOR_REL = ".csdlc/prepared/issues/262/record-podcast-http-playback.rb"
 VALIDATOR_REL = ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+LIVE_PROOF_GENERATOR_REL = ".csdlc/prepared/issues/262/record-live-production-proof.rb"
 NATIVE_WRAPPER_REL = "adl/tools/record_podcast_native_playback.sh"
 BROWSER_WRAPPER_REL = "adl/tools/record_podcast_browser_playback.mjs"
 IOS_SAFARI_WRAPPER_REL = "adl/tools/record_podcast_ios_safari_playback.sh"
@@ -39,6 +40,7 @@ SOURCE_MANIFEST_FILES = [
   AUDIO_REL,
   GENERATOR_REL,
   VALIDATOR_REL,
+  LIVE_PROOF_GENERATOR_REL,
   NATIVE_WRAPPER_REL,
   BROWSER_WRAPPER_REL,
   IOS_SAFARI_WRAPPER_REL,

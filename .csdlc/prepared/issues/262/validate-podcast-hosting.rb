@@ -27,6 +27,7 @@ HTTP_PLAYBACK_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-proof.j
 HTTP_PLAYBACK_NATIVE_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-native-proof.json")
 HTTP_PLAYBACK_BROWSER_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-browser-proof.json")
 HTTP_PLAYBACK_IOS_SAFARI_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-ios-safari-proof.json")
+LIVE_PRODUCTION_PROOF = File.join(ROOT, ".csdlc/evidence/262/live-production/public-production-proof.json")
 SOURCE_MANIFEST_FILES = [
   "demos/podcast/feed.xml",
   "demos/podcast/index.html",
@@ -34,6 +35,7 @@ SOURCE_MANIFEST_FILES = [
   "demos/podcast/audio/meet-the-ai-coworkers.mp3",
   ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
   ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
+  ".csdlc/prepared/issues/262/record-live-production-proof.rb",
   "adl/tools/record_podcast_native_playback.sh",
   "adl/tools/record_podcast_browser_playback.mjs",
   "adl/tools/record_podcast_ios_safari_playback.sh",
@@ -108,6 +110,7 @@ enclosure = load_json(ENCLOSURE_JSON)
 storage_manifest = load_json(STORAGE_MANIFEST)
 s3_object_inventory = load_json(S3_OBJECT_INVENTORY)
 http_playback_proof = load_json(HTTP_PLAYBACK_PROOF)
+live_production_proof = load_json(LIVE_PRODUCTION_PROOF)
 wrapper_playback_proofs = {
   HTTP_PLAYBACK_NATIVE_PROOF => %w[desktop-safari desktop-chrome],
   HTTP_PLAYBACK_BROWSER_PROOF => %w[desktop-safari desktop-chrome mobile-safari android-chrome],
@@ -331,6 +334,83 @@ wrapper_playback_proofs.each do |relative_proof_path, expected_wrapper_profiles|
   fail!("#{relative_proof_path} profiles mismatch") unless wrapper_profiles.keys.sort == expected_wrapper_profiles.sort
 end
 
+fail!("live production proof schema mismatch") unless live_production_proof["schema"] == "agent_logic.podcast.live_production_proof.v1"
+fail!("live production proof did not pass") unless live_production_proof["status"] == "passed"
+fail!("live production proof does not claim publication") unless live_production_proof["publication_claimed"] == true
+fail!("live production proof base URL mismatch") unless live_production_proof["public_base_url"] == "https://agent-logic.ai/podcast/"
+fail!("live production proof bucket mismatch") unless live_production_proof["bucket"] == "agent-logic-ai-origin-agentlogic"
+fail!("live production proof CloudFront distribution mismatch") unless live_production_proof["cloudfront_distribution_id"] == "E3C29FMX32KDDU"
+fail!("live production proof source manifest mismatch") unless live_production_proof["source_manifest"] == expected_source_manifest
+fail!("live production proof binding digest mismatch") unless live_production_proof.dig("proof_binding", "source_manifest_digest") == expected_source_manifest.fetch("digest")
+fail!("live production proof producer missing") unless live_production_proof.dig("proof_binding", "producer").to_s.start_with?("codex:")
+begin
+  live_generated_at = Time.parse(live_production_proof["generated_at"])
+  fail!("live production proof timestamp missing") unless live_generated_at
+  fail!("live production proof timestamp is not UTC") unless live_production_proof["generated_at"].end_with?("Z")
+rescue ArgumentError, TypeError
+  fail!("live production proof timestamp invalid")
+end
+
+expected_live_artifacts = {
+  "podcast/" => [SHOW_PAGE, "text/html; charset=utf-8"],
+  "podcast/index.html" => [SHOW_PAGE, "text/html; charset=utf-8"],
+  "podcast/feed.xml" => [FEED, "application/rss+xml; charset=utf-8"],
+  "podcast/artwork.png" => [artwork_path, "image/png"],
+  "podcast/audio/meet-the-ai-coworkers.mp3" => [audio_path, "audio/mpeg"],
+  "podcast/episodes/meet-the-ai-coworkers/" => [EPISODE_PAGE, "text/html; charset=utf-8"],
+  "podcast/episodes/meet-the-ai-coworkers/index.html" => [EPISODE_PAGE, "text/html; charset=utf-8"]
+}
+live_artifacts = live_production_proof["artifacts"]
+fail!("live production proof artifacts missing") unless live_artifacts.is_a?(Hash)
+expected_live_artifacts.each do |key, (path, content_type)|
+  artifact = live_artifacts[key] || fail!("live production proof artifact missing #{key}")
+  fail!("live production proof #{key} byte count mismatch") unless artifact["bytes"] == File.size(path)
+  fail!("live production proof #{key} SHA mismatch") unless artifact["sha256"] == Digest::SHA256.file(path).hexdigest
+  fail!("live production proof #{key} content type mismatch") unless artifact["content_type"] == content_type
+  fail!("live production proof #{key} version id missing") unless artifact["s3_version_id"].to_s.length >= 8
+end
+
+live_profiles = live_production_proof["profiles"]
+fail!("live production proof profiles missing") unless live_profiles.is_a?(Hash)
+fail!("live production proof profiles mismatch") unless live_profiles.keys.sort == expected_profiles.sort
+expected_profiles.each do |profile|
+  checks = live_profiles.dig(profile, "checks")
+  fail!("live production proof #{profile} checks missing") unless checks.is_a?(Array)
+
+  feed_get = checks.find { |check| check["method"] == "GET" && check["url"] == "https://agent-logic.ai/podcast/feed.xml" && check["status"] == 200 }
+  fail!("live production proof #{profile} missing public feed GET") unless feed_get
+  fail!("live production proof #{profile} public feed SHA mismatch") unless feed_get["body_sha256"] == Digest::SHA256.file(FEED).hexdigest
+
+  page_get = checks.find { |check| check["method"] == "GET" && check["url"] == "https://agent-logic.ai/podcast/" && check["status"] == 200 }
+  fail!("live production proof #{profile} missing public page GET") unless page_get
+  fail!("live production proof #{profile} public page SHA mismatch") unless page_get["body_sha256"] == Digest::SHA256.file(SHOW_PAGE).hexdigest
+
+  audio_head = checks.find { |check| check["method"] == "HEAD" && check["url"] == "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3" }
+  fail!("live production proof #{profile} missing public audio HEAD") unless audio_head
+  fail!("live production proof #{profile} public audio HEAD status mismatch") unless audio_head["status"] == 200
+  fail!("live production proof #{profile} public audio HEAD type mismatch") unless audio_head["content_type"] == "audio/mpeg"
+  fail!("live production proof #{profile} public audio HEAD length mismatch") unless audio_head["content_length_header"] == enclosure["bytes"].to_s
+  fail!("live production proof #{profile} public audio range support mismatch") unless audio_head["accept_ranges"] == "bytes"
+
+  first_range = checks.find do |check|
+    check["method"] == "GET" &&
+      check["url"] == "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3" &&
+      check["status"] == 206 &&
+      check["content_range"] == "bytes 0-1023/#{enclosure["bytes"]}"
+  end
+  fail!("live production proof #{profile} missing public first-byte range") unless first_range
+  fail!("live production proof #{profile} first range SHA mismatch") unless first_range["body_sha256"] == expected_first_range_sha
+
+  tail_range = checks.find do |check|
+    check["method"] == "GET" &&
+      check["url"] == "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3" &&
+      check["status"] == 206 &&
+      check["content_range"] == "bytes #{expected_tail_start}-#{enclosure["bytes"] - 1}/#{enclosure["bytes"]}"
+  end
+  fail!("live production proof #{profile} missing public tail-byte range") unless tail_range
+  fail!("live production proof #{profile} tail range SHA mismatch") unless tail_range["body_sha256"] == expected_tail_range_sha
+end
+
 puts JSON.generate(
   schema: "agent_logic.podcast.hosting_validation.v1",
   status: "passed",
@@ -341,5 +421,6 @@ puts JSON.generate(
   enclosure_bytes: enclosure["bytes"],
   audio_sha256: enclosure["sha256"],
   artwork_sha256: identity.dig("artwork", "sha256"),
-  publication_claimed: false
+  publication_claimed: true,
+  public_production_proof: LIVE_PRODUCTION_PROOF.sub(ROOT + "/", "")
 )
