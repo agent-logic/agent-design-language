@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Sprint 5/6 remediation branch, #596 lifecycle state, PR #597 linkage, typed PR transport, and v3 durable projection recovery only.
+.
 
 ## Prompts
 
@@ -31,12 +31,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains non-authoritative and incomplete for #505 cutover; the full replacement denominator still lists missing v2 entrypoint replacements.
+- Issue #596 terminal closeout remains pending until the new remediation PR is published, merged, reconciled, finished, and cleaned through typed lifecycle routes.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f4a6429f7ee98b76a4eeb08467e6939e3c02ea15:f166f960f86444bf4273e09a68ae35255ac45085a8e5f66312bd93c238a023d4")
 
-Reviewer: None
+Reviewer: Some("Codex independent review subagent /root/review_596_sprint_remediation_delta")
 
-Result: pre_review
+Result: pass

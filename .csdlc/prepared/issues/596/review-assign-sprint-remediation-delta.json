@@ -1,0 +1,10 @@
+{
+  "issue": 596,
+  "expected_generation": 7,
+  "expected_digest": "15fa50b9e56bfc47201be0d3725e1ac5cab92e4560ac07b2bfc65e4aff7453a5",
+  "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+  "assigned_by": "codex:worker-6",
+  "scope": [
+    "."
+  ]
+}

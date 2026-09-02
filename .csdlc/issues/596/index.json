@@ -4,13 +4,33 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "15fa50b9e56bfc47201be0d3725e1ac5cab92e4560ac07b2bfc65e4aff7453a5",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "c7db6103aa74daddca84310ef3a2573b23340cf644d85e28a61677c48ee04969",
   "branch": "codex/sprints-5-6-cutover-fixes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:f4a6429f7ee98b76a4eeb08467e6939e3c02ea15:f166f960f86444bf4273e09a68ae35255ac45085a8e5f66312bd93c238a023d4",
+    "scope": [
+      "."
+    ]
+  },
+  "review": {
+    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:f4a6429f7ee98b76a4eeb08467e6939e3c02ea15:f166f960f86444bf4273e09a68ae35255ac45085a8e5f66312bd93c238a023d4",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains non-authoritative and incomplete for #505 cutover; the full replacement denominator still lists missing v2 entrypoint replacements.",
+      "Issue #596 terminal closeout remains pending until the new remediation PR is published, merged, reconciled, finished, and cleaned through typed lifecycle routes."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e8f0dc0fd5d11edc650953a9eb2d6a97f1ea5d92d43d8b41217a7ebe7e87933e",
+      "values_digest": "4dd92c88c9b1ee653d8f8ae51460c6308b2652b958b6dcaab28428893cc997a0",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "7df6a19848934b1b0837be641d01460b44ffe04de413cd7ffcc63400d07748fc",
+      "values_digest": "e9248203a88bf4eaee9337712964cbf73b072201af85da948355b6e368171ebd",
       "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
       "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
     },
     "spp": {
-      "values_digest": "70871b1c8f8cc77826869c8c57f2dc597ceaee02e032746a7b369e701a44b204",
+      "values_digest": "b9689ebbe90a5792eb95931a04d12b0756c9387e4f50427320475bbfa841ddf9",
       "rendered_digest": "e24a19c3602aadf2b603b80220b548d9d3a7da22ced8bb66557d4962ea017d30",
       "ast_digest": "b3ea625a7cd080feb19e1687b9aaa1cd8f732fb2011b5a16f9c2b4d1d8c38c9b"
     },
     "vpp": {
-      "values_digest": "bc0d0512a3a3f33c89226b0fcfed650272f14cd7a2b46ef8714a65a0565788d9",
+      "values_digest": "331764425b28c7a7ec1e0829c0a6de5d7f601aec251cf8de6b3c4b74d9f2e119",
       "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
       "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "49cd3e42a580115bcc3aa79328ee8bda55841d1197b7af201e71e666f971a97b",
-      "rendered_digest": "5e73e5925328b092789181e36f16c36501741c98ff71962279354b445ecc3a5b",
-      "ast_digest": "8e806d3673620d233597703b4598a0e42454a07c18d589a82ff8eed11b20b954"
+      "values_digest": "27a36f2537696d44223b1cf17eb75d25585429d65697d9b9166fc9e59fbe0979",
+      "rendered_digest": "0be6a445b3a2cd0321567a35bbb93e38b5de4a6da096d3e863b83b21a44166b6",
+      "ast_digest": "c3c843c46573b745d9c715dfbb7cd632f9aeedbd930db4a41916ecdc9bea8d9a"
     },
     "sor": {
-      "values_digest": "26d45abffd8b78e50228daa0a3f77565f53f736c354c19873e52646a7e734d5a",
+      "values_digest": "e159f2c65b84940acdfd0626dc95a3a7d03e071043038c5829e84cdf6e6ad68b",
       "rendered_digest": "d7519e9921172084e8fc99f3151ad1c001188bb80578c76dc411778d57caf6c8",
       "ast_digest": "4a0baef5dc72cc27956d9b4ce17a8407a6a2a5e768cad0cd9ac6d9b8d62d1866"
     }
@@ -76,6 +96,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -141,6 +168,20 @@
       "actor": "codex:worker-6",
       "reason": "Remove self-invalidating current-generation validation claim from SOR after the SOR repair advanced the issue generation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left issue #596 open, then corrected the issue-owned validator and PR request so the next remediation PR visibly closes #596 while keeping #505/#534 non-closing.\",\"changes\":[\"Updated the issue-owned validator and prepared PR create request to require visible Closes #596 and non-closing Part-Of #505/#534 linkage, and removed the stale PR update request for already-merged PR #597.\",\"Added a safe typed C-SDLC v2 path to reapprove ready design references only when the SPP and VPP authored design and diagram refs match the canonical record paths and only the content digests changed.\",\"Added a safe typed bind-adoption path for an already-advanced ready issue running in its exact current FastWork remediation branch/worktree, rejecting topology mismatch and later lifecycle evidence.\",\"Retained and revalidated terminal materialization regression coverage for the duplicate-publication case while leaving terminal closeout pending for #596 until its new remediation PR is merged.\",\"Brought the v3 full replacement denominator and real-issue canaries onto the remediation branch, proving v3 remains incomplete for #505 cutover while exercising current #596 and terminal #4646 records.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\".csdlc/evidence/604/full-cycle-defects-tail.md\",\".csdlc/issues/596\",\".csdlc/prepared/issues/596\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\"],\"purpose\":\"Prove the issue-owned remediation validator now requires Closes #596 and non-closing #505/#534 linkage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/issue-596-remediation-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"terminal_materialization_policy_tests\",\"--lib\"],\"purpose\":\"Run focused C-SDLC v2 terminal materialization regression tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v2-terminal-materialization-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"ready_unbound\",\"--lib\"],\"purpose\":\"Run focused C-SDLC v2 ready and bind adoption regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v2-ready-bind-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"prebind_contract_repair_is_exact_atomic_and_fail_closed\",\"--test\",\"gate2\"],\"purpose\":\"Run the focused gate2 prebind repair regression.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v2-prebind-contract-regression.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Run C-SDLC v3 real issue canaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/v3-real-issue-canaries.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run branch diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/596/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
