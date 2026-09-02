@@ -145,7 +145,10 @@ scheduling() {
   reconciliation=docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md
   manifest=docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt
   rg -q '^\| Source' "$reconciliation"
-  rg -q '#484.*OPS-AWS\|OPS-AWS.*#484' "$reconciliation"
+  if ! rg -q -e '#484.*OPS-AWS' -e 'OPS-AWS.*#484' "$reconciliation"; then
+    echo "missing #484 to OPS-AWS reconciliation" >&2
+    return 1
+  fi
   for source in \
     TBD_DOC_STATUS_INVENTORY.md LOCAL_BACKLOG.md NEW_FEATURE_MILESTONE_ASSIGNMENT_PLAN.md \
     PROVIDER_INFERENCE_PROFILES_PLAN_v0.92.1.md MLX_APPLE_METAL_PROVIDER_PLAN.md OCI_MODEL_PACKAGING_METHOD_PLAN.md \

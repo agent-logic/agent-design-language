@@ -5,61 +5,33 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "27daaf822151ec5c7c21a683ef36b956dfbdea03f327bda3d70143df0eafaae5",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "02a296115453db5369bad6a9ec827d8ab0cfbf6a25336f6fc47bb6fa3e30a6e0",
+  "generation": 3,
+  "digest": "2f93d621e93956d7b5cf3c37dcaa86e3323388789b2dd45d1d2e01984f1367e6",
   "branch": "codex/620-v0922-first-pass-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
   "review_assignment": {
-    "reviewer": "fresh-session:620-docs-2d912c9b2",
+    "reviewer": "fresh-session:620-docs-f51c25c52",
     "assigned_by": "codex:620-execution",
-    "revision": "git-blake3:2d912c9b27387af763b6e30e608b38abb55c9a1c:c36904ec879aa3087b0b2bf9d1a1ada4bc95b936f48a50ef06c9a96edb50a511",
+    "revision": "git-blake3:f51c25c52df05a98209ef65a3b732a01ae501f99:47db3bf536685aa0f264a1f9bb4f194e3a91b034dc52407313759fa8e1b25d63",
     "scope": [
       "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/design.md",
       ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:620-docs-2d912c9b2",
+    "reviewer": "fresh-session:620-docs-f51c25c52",
     "scope": [
       "docs/milestones/v0.92.2/**",
+      ".csdlc/prepared/issues/620/design.md",
       ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh"
     ],
-    "reviewed_revision": "git-blake3:2d912c9b27387af763b6e30e608b38abb55c9a1c:c36904ec879aa3087b0b2bf9d1a1ada4bc95b936f48a50ef06c9a96edb50a511",
+    "reviewed_revision": "git-blake3:f51c25c52df05a98209ef65a3b732a01ae501f99:47db3bf536685aa0f264a1f9bb4f194e3a91b034dc52407313759fa8e1b25d63",
     "findings": [
       {
-        "id": "620-R1",
+        "id": "620-R5",
         "severity": "p1",
-        "summary": "MLX admission lacked a recorded operator decision.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "620-R2",
-        "severity": "p1",
-        "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "620-R3",
-        "severity": "p1",
-        "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "620-R4",
-        "severity": "p2",
-        "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+        "summary": "The #484/OPS-AWS reconciliation guard uses a literal pipe and makes scheduling validation fail without diagnostics.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -68,7 +40,7 @@
       }
     ],
     "residual_risks": [
-      "The candidate is behind origin/main; live publication must recheck base mergeability and CI."
+      "Live PR mergeability and CI remain publication-time checks."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -87,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "236a3819ab3ec134e62add0d0a383bb4b28ed8aac85d4bf8a29a72f5a82196a2",
+      "values_digest": "6b48c22c4feb328b4d74c7811cc4cef652efb01455784d287815195dc4596587",
       "rendered_digest": "ff6c09a07b5783513d3f6aa5e379b535fffbb29c0f0b18ad148f6f4866fcc8a3",
       "ast_digest": "c19b45b77eea4cf049f1a7008cbb0c9a812b05c8b67b08aefc03a55703e1b6b6"
     },
     "stp": {
-      "values_digest": "9f96a7871bf93db295b3dd2884342fe95fa1162d0825dc952c8535a717418aaa",
+      "values_digest": "6e0b89c20e698b5c8c26c04a4654f03494f597b39bc47ebd3bb6e103b3ba7bdb",
       "rendered_digest": "47ce6d4c296578e64a794b00ddf1df6670ef9d722cfd0c78e643e464502e6d6d",
       "ast_digest": "e776234549aed48f895ce9ab02cb6b0ac1b0706af7339ac240c0228a5d7fb19b"
     },
     "spp": {
-      "values_digest": "61c0bf4499e0bead318a35d2844848909ec9063bbf5e45e332aed02127812c8c",
+      "values_digest": "e6a3f49b040cfb1f62de34082457ebc504cff0382193a9991987f7d40202851b",
       "rendered_digest": "83d1ed7b635567c1e5da20c16408cfa2735cf6812943daa8af163e13f92a9b9c",
       "ast_digest": "72444acd007b81b32dcee29422aae02f89aac6cc23155f3b09b900842509d3e5"
     },
     "vpp": {
-      "values_digest": "b7d9a4dba2bb9f14c5f31e03db08ccfd2e2f47fbd9e73260b761c49be2796be7",
+      "values_digest": "1ed5b42b49c17cd2ab12bf581dd6a5fa831eb588fa9bb928143a66d1a54c7c73",
       "rendered_digest": "a3c6a9eacf872eeacbe942d91c65ee40a50eb5baa3cf62a93cdbf773de707b76",
       "ast_digest": "bf715ffcb46f3967e861dde61bdffb56cc7550ef009f0c3736e67744c176f24c"
     },
     "srp": {
-      "values_digest": "0e677c40ceb30cab213cacf070fab84692098c49ac9c93f0e0188ae7f77a86bf",
-      "rendered_digest": "46c0df200935f938a76c8496196ccbfa0436a4c15ce843edeacf78a7f0aece15",
-      "ast_digest": "b093b4afc8bbf62f6c07b1d76c8b9c7295c9c95aa477646a000fc577648f389c"
+      "values_digest": "ab12bfae7dba0fe70dbb289e70cf19d32589318a8c4fc0aa7dab0b4ac6635e7f",
+      "rendered_digest": "1f41e236a94c40d96f1acae69e7120cc1e7f4b2d85213ccd80e777572230471d",
+      "ast_digest": "4af2e248696b0a9e8691ad7ad57d1269ab525cf87e425816d81bf5aa9d12dd89"
     },
     "sor": {
-      "values_digest": "2c505d58301ad81d6e37d53812d0163c9cab85ff5a2957b719416d2693239b94",
+      "values_digest": "bced8a42209e8ea07b8a9b6b920194b35c707e8940c8d9cd0fa5db8bbf69b75e",
       "rendered_digest": "910677c70eb78bc03809a1c04606800ed073e8727a3d148cc8cbd81acf54dd04",
       "ast_digest": "bbffd1c40722ce0005fc81310e797665aee8f9e2da66367a462699e907a0ba33"
     }
@@ -172,6 +144,20 @@
     {
       "sequence": 5,
       "generation": 2,
+      "actor": "codex:620-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:620-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
       "actor": "codex:620-execution",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

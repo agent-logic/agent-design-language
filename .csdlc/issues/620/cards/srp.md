@@ -13,6 +13,7 @@ Status: pre_phase
 ## Scope
 
 docs/milestones/v0.92.2/**
+.csdlc/prepared/issues/620/design.md
 .csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh
 
 ## Prompts
@@ -27,39 +28,9 @@ docs/milestones/v0.92.2/**
 
 [
   {
-    "id": "620-R1",
+    "id": "620-R5",
     "severity": "p1",
-    "summary": "MLX admission lacked a recorded operator decision.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "620-R2",
-    "severity": "p1",
-    "summary": "TAIL-02 lost canonical documentation-review and external-review-handoff semantics.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "620-R3",
-    "severity": "p1",
-    "summary": "OPS-AWS did not reconcile completed issue #484 and risked duplicate inventory scope.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "620-R4",
-    "severity": "p2",
-    "summary": "Issue-combination language contradicted the one-result-per-issue contract.",
+    "summary": "The #484/OPS-AWS reconciliation guard uses a literal pipe and makes scheduling validation fail without diagnostics.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -74,12 +45,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The candidate is behind origin/main; live publication must recheck base mergeability and CI.
+- Live PR mergeability and CI remain publication-time checks.
 
 ## Review Result
 
-Revision: Some("git-blake3:2d912c9b27387af763b6e30e608b38abb55c9a1c:c36904ec879aa3087b0b2bf9d1a1ada4bc95b936f48a50ef06c9a96edb50a511")
+Revision: Some("git-blake3:f51c25c52df05a98209ef65a3b732a01ae501f99:47db3bf536685aa0f264a1f9bb4f194e3a91b034dc52407313759fa8e1b25d63")
 
-Reviewer: Some("fresh-session:620-docs-2d912c9b2")
+Reviewer: Some("fresh-session:620-docs-f51c25c52")
 
 Result: changes_required
