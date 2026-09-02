@@ -12,15 +12,18 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, suppresses raw shadow panic-hook payload leakage only on the active shadow thread, preserves unrelated panic-hook observability on other threads, emits redacted digest/class comparison evidence, and now includes an explicit local Ollama smoke test that runs the shadow path over real open-PR review prompts without treating the local model output as authority.
+Implemented a local-only, non-authoritative provider shadow execution path that is opt-in through provider config, wraps the real provider factory used by local and remote execution routes, preserves authoritative provider output as the only accepted result, records shadow observations separately, keeps authority/shadow channels constructor-controlled, converts returned shadow errors and shadow panics into redacted observation metadata, suppresses raw shadow panic-hook payload leakage only on the active shadow thread, preserves unrelated panic-hook observability on other threads, emits redacted digest/class comparison evidence, and includes a local Ollama smoke test that runs the shadow path over real open-PR review prompts without treating local model output as authority.
 
 ## Artifacts
 
 - adl/src/provider/mod.rs
+- adl/src/execute/tests.rs
 - adl/tests/provider_shadow_isolation.rs
 - adl/tests/provider_shadow_comparison.rs
 - adl/tests/provider_shadow_fallback.rs
 - adl/tests/provider_shadow_open_pr_review.rs
+- .csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh
+- .csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh
 - docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json
 - docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json
 
@@ -28,12 +31,15 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
 
 - Added distinct provider shadow authority/shadow channel types and redacted comparison records in adl/src/provider/mod.rs.
 - Added complete_with_local_model_shadow so authority executes first and shadow success, returned failure, or panic cannot replace or mask authoritative output.
+- Added an opt-in ProviderShadowWrapper wired through build_provider_for_id using providers.<id>.config.local_shadow_model, so existing local execute and remote-exec provider paths can actually invoke the shadow path when configured.
+- Added optional relative local_shadow_evidence_path JSONL emission for redacted shadow evidence and reject absolute or parent-traversing evidence paths.
 - Kept authoritative and shadow channel markers constructor-controlled with read-only accessors so callers cannot construct shadow observations as authoritative results.
 - Added a scoped shadow panic-hook guard so raw shadow panic payloads do not leak through stderr/log hooks on the active shadow thread before redacted observation handling restores the previous hook.
 - Delegated panic-hook handling for unrelated threads while a shadow provider runs so shadow redaction does not suppress non-shadow authoritative/runtime panic observability.
-- Added issue-owned integration tests for shadow isolation, deterministic comparison, returned-error fallback, authoritative-first fallback, panicking-shadow fallback behavior, panic-hook payload suppression, and unrelated-thread panic-hook preservation.
+- Added issue-owned integration tests for shadow isolation, deterministic comparison, returned-error fallback, authoritative-first fallback, panicking-shadow fallback behavior, panic-hook payload suppression, unrelated-thread panic-hook preservation, provider-factory shadow wiring, and execute-runner shadow wiring.
 - Added an ignored local-Ollama open-PR smoke test that exercises PR #618 and PR #614 review prompts through the shadow provider while preserving fixture-controlled authoritative review output.
-- Added redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/.
+- Tightened PROV-B redaction validation to reject host-local /Volumes paths and absolute CARGO_TARGET_DIR evidence.
+- Updated redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/.
 
 ## Validation
 
@@ -46,12 +52,48 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
       "adl/Cargo.toml",
       "-p",
       "adl",
-      "--test",
-      "provider_shadow_isolation"
+      "provider_mod_build_provider_wires_configured_local_shadow_without_authority",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
     ],
-    "purpose": "Prove authority and shadow paths are distinguishable and shadow output cannot mutate authoritative state.",
+    "purpose": "Prove build_provider_for_id wraps a configured provider with shadow execution while returning only authoritative output and writing redacted evidence.",
     "outcome": "passed",
-    "evidence_ref": "terminal:provider_shadow_isolation:1 passed"
+    "evidence_ref": "terminal:provider_mod_build_provider_wires_configured_local_shadow_without_authority:1 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "provider_mod_shadow",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "purpose": "Prove configured shadow evidence path validation rejects absolute host paths.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:provider_mod_shadow_evidence_path_must_be_relative:1 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "runner_local_provider_invokes_configured_shadow_without_authority",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "purpose": "Prove the real execute_sequential local provider path invokes configured shadow execution and still returns only authoritative output.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:runner_local_provider_invokes_configured_shadow_without_authority:1 passed"
   },
   {
     "command": [
@@ -62,26 +104,18 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
       "-p",
       "adl",
       "--test",
-      "provider_shadow_comparison"
-    ],
-    "purpose": "Prove exact deterministic comparison inputs and rule set for authority-versus-shadow observations.",
-    "outcome": "passed",
-    "evidence_ref": "terminal:provider_shadow_comparison:1 passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "-p",
-      "adl",
+      "provider_shadow_isolation",
       "--test",
-      "provider_shadow_fallback"
+      "provider_shadow_comparison",
+      "--test",
+      "provider_shadow_fallback",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
     ],
-    "purpose": "Prove shadow returned errors, panics, suppressed shadow-thread panic-hook payloads, and unrelated-thread panic-hook preservation while maintaining authoritative result isolation.",
+    "purpose": "Prove authority/shadow isolation, deterministic comparison, fallback, panic, and panic-hook behaviors remain intact.",
     "outcome": "passed",
-    "evidence_ref": "terminal:provider_shadow_fallback:4 passed"
+    "evidence_ref": "terminal:provider_shadow_isolation/comparison/fallback:6 passed"
   },
   {
     "command": [
@@ -115,9 +149,9 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
       "bash",
       ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh"
     ],
-    "purpose": "Prove PROV-B evidence excludes common credential, private payload, prompt, and host-local path markers.",
+    "purpose": "Prove PROV-B evidence excludes credential markers, private payload markers, prompts, host-local paths, and absolute Cargo target paths.",
     "outcome": "passed",
-    "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json"
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json"
   },
   {
     "command": [
@@ -137,7 +171,7 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
       "adl/Cargo.toml",
       "--check"
     ],
-    "purpose": "Prove Rust formatting for the touched provider and test surfaces.",
+    "purpose": "Prove Rust formatting for the touched provider and execute-test surfaces.",
     "outcome": "passed",
     "evidence_ref": "terminal:cargo fmt --check"
   }
