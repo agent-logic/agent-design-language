@@ -4,57 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
-  "phase": "reviewed",
-  "generation": 27,
-  "digest": "b30cdfb332e2db4ad5cb4c60734684900161c5a0fb70d2944e9486f9cda8fba3",
+  "phase": "implemented",
+  "generation": 28,
+  "digest": "81714fb05139bed4f8ee7d4942aa93ad4c17b4c21dc6c1d0bec3dda58f813be6",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": {
-    "reviewer": "fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822",
-    "assigned_by": "codex:/root:issue-515-implementation",
-    "revision": "git-blake3:b41443094d38109cd9d87c4462ad95b0bd992c79:df29f83e8b6abe1e57136c16872e28348f7370d81288e7c107d7d88f497d9442",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/src/execute/tests.rs",
-      "adl/src/execute/runner.rs",
-      "adl/src/remote_exec.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "adl/tests/provider_shadow_open_pr_review.rs",
-      ".csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh",
-      ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json",
-      ".csdlc/prepared/issues/515"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/src/execute/tests.rs",
-      "adl/src/execute/runner.rs",
-      "adl/src/remote_exec.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "adl/tests/provider_shadow_open_pr_review.rs",
-      ".csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh",
-      ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json",
-      ".csdlc/prepared/issues/515"
-    ],
-    "reviewed_revision": "git-blake3:b41443094d38109cd9d87c4462ad95b0bd992c79:df29f83e8b6abe1e57136c16872e28348f7370d81288e7c107d7d88f497d9442",
-    "findings": [],
-    "residual_risks": [
-      "The local Ollama smoke test uses hard-coded real PR review prompts for open PR #618 and #614 rather than fetching live PR body or diff material at test runtime.",
-      "The reviewer did not rerun Cargo or local Ollama because the exact-head review was read-only; the record relies on the already captured passing validation and redacted smoke evidence."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -69,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f4dcbca7414fdd392d25c078a79153263df8083d5d1baa7bd58a9ffa851c1244",
+      "values_digest": "3ec72b3bab553a5ee16d72a79714476c6966f8552aea4c525fc3fc5da8ffb0cc",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "d5e533d4e3c776391acb17309147f1958aa21b54411ca43ccf099abc7b9e1633",
+      "values_digest": "54db28cc5f7bda0ec0c3095c1ac38595b7628a0693bff2605ab04317556204ba",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "f79c928ee66ac52e1943a28032f5fa3cb2f2a054c8bd1d5f8f6f1a681623e876",
+      "values_digest": "f67812c8600e5189d1c152f046e5aec500a495453f1efa7258936a5fc19b0ab9",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "252caa193fa635c1f0aa305d248ab4637ab1965a2e1b4e988a43ba46b35e211c",
+      "values_digest": "61a06c612e8847d7697a8432b607c42c8d58d918c60057754cdd3d6161994140",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "429c65dd995487203b2da796c5990223cc89b233d11f7babc7a10691602d5c86",
-      "rendered_digest": "b48b068b6f0733a4b4537fa6e7d104e3fcfaa9cdf86755f7689747fde0cc27de",
-      "ast_digest": "d150c01763b4ddd22e55cf40368bffa66177d6bac44c29f4625dbfd2b7da9865"
+      "values_digest": "7c28e04576c404f502f41563748bfe44d5e0e28207c2c7e9b6c4a8abd8c8c76e",
+      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
+      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
     },
     "sor": {
-      "values_digest": "c4a6336012004bc1348039c74a45d154476ef90ec699eda7cbf9aca2b36a06b9",
+      "values_digest": "4d73a6566e9c08ec1cd4affb23481cabe27185d193a484c486a2d515b1ddf051",
       "rendered_digest": "ce30d7eb1f29083b1e9f89e5206c5b9300993a2dce6a653bbdec4677c1ec6be6",
       "ast_digest": "32912e50b64215d41949ab50572911db58f937f086d5060f7d8503d8a103f5c4"
     }
@@ -162,6 +118,13 @@
       "to": "reviewed",
       "actor": "fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 review truth after committing the production-shadow exact-head review record so a metadata-head review can cover the current branch head before publication."
     }
   ],
   "audit": [
@@ -416,6 +379,13 @@
       "actor": "fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 28,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 review truth after committing the production-shadow exact-head review record so a metadata-head review can cover the current branch head before publication.",
+      "operation": "recover_review"
     }
   ]
 }

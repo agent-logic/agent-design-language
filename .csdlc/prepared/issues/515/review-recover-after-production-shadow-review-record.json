@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "expected_generation": 27,
+  "expected_digest": "b30cdfb332e2db4ad5cb4c60734684900161c5a0fb70d2944e9486f9cda8fba3",
+  "actor": "codex:/root:issue-515-implementation",
+  "reason": "Recover #515 review truth after committing the production-shadow exact-head review record so a metadata-head review can cover the current branch head before publication."
+}
