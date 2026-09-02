@@ -12,6 +12,7 @@ if [[ "${1:-}" == "--live-wuji" ]]; then
   mkdir -p "$evidence_dir"
   status="$evidence_dir/wuji-service-status.json"
   feed="$evidence_dir/wuji-observatory-feed.json"
+  ready="$evidence_dir/wuji-readiness.json"
   before="$evidence_dir/wuji-service-before-restart.json"
   receipt="$evidence_dir/wuji-restart-receipt.json"
   "$csm" runtime-v3 status --init "$init" --json >"$before" || true
@@ -26,10 +27,12 @@ if [[ "${1:-}" == "--live-wuji" ]]; then
     fi
     sleep 5
   done
-  python3 - "$status" "$feed" <<'PY'
+  curl -fsSk "$public_base_url:20997/v1/ready" >"$ready"
+  python3 - "$status" "$feed" "$ready" <<'PY'
 import json, os, socket, subprocess, sys
 status = json.load(open(sys.argv[1]))
 feed = json.load(open(sys.argv[2]))
+ready = json.load(open(sys.argv[3]))
 assert status["service_loaded"] and status["listener_ready"] and status["observability_ready"]
 shepherd = next(agent for agent in feed["agents"]["sample"] if agent["id"] == "shepherd")
 assert shepherd["name"] == "beacon.axioma"
@@ -37,6 +40,8 @@ assert shepherd["provider"] == "ollama" and shepherd["model"] == "qwen3:8b"
 assert shepherd["state"] == "ready" and shepherd["communication_eligible"] is True
 assert "governed inference probe passed" in shepherd["detail"]
 assert feed["health"]["observability_ready"] is True
+assert ready["ready"] is True and ready["observability_ready"] is True
+assert ready["runtime_process_id"] == status["runtime_process_id"] == feed["runtime_process_id"]
 before = json.load(open(os.path.join(os.path.dirname(sys.argv[1]), "wuji-service-before-restart.json")))
 assert before["runtime_process_id"] != status["runtime_process_id"]
 receipt = {
@@ -49,6 +54,7 @@ receipt = {
   "runtime_process_after":status["runtime_process_id"],
   "restart_proved":True,
   "governed_inference_proved":True,
+  "readiness_feed_consistent":True,
   "shepherd":shepherd,
 }
 print(json.dumps(receipt, indent=2))
