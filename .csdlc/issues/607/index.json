@@ -4,12 +4,58 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 40,
-  "digest": "7bbe5e802839d0dbacd690eff270f6e6767f15c2dda34eb487c0c42306c36484",
+  "generation": 41,
+  "digest": "312d474372c6c37ae4eb973e5823800e7638ed237f52b349e0acdfa28403be32",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue_607_resume_r4_review",
+    "assigned_by": "codex-primary-issue607",
+    "revision": "git-blake3:08921defa2fe9f973da4b7ff090432e007084fd4:b52e63cc4dfc92522ed0c449170f607f31bb2d231085432b1887454bcc90beec",
+    "scope": [
+      ".csdlc/issues/607",
+      ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_607_resume_r4_review",
+    "scope": [
+      ".csdlc/issues/607",
+      ".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh"
+    ],
+    "reviewed_revision": "git-blake3:08921defa2fe9f973da4b7ff090432e007084fd4:b52e63cc4dfc92522ed0c449170f607f31bb2d231085432b1887454bcc90beec",
+    "findings": [
+      {
+        "id": "607-resume-r4-f1-output-keys",
+        "severity": "p1",
+        "summary": "Resume reads launch instance output keys rather than preparation instance output keys and therefore rejects every non-terminal interrupted preparation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "607-resume-r4-f2-proof-denominator",
+        "severity": "p2",
+        "summary": "Focused helper tests do not yet execute the integrated resume, controller propagation, checkpoint reconciliation, and terminal recovery-refusal paths claimed by retained proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Prepared artifacts remain retained and no compute is running while the integrated no-paid resume harness is corrected."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b780f6499687fce9eee52aa9c933a32ce27449e94c0dc64d90133022fb2263c7",
+      "values_digest": "133f0da2f6c92517caad6960bf2f370b382bb10ff849f47f2cf6bb35dbc9b17c",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "7f7c12d4672ddef8b4d883aae347a2836d9972e0abef2d7b565cfee07d78f7e0",
+      "values_digest": "ff10818bf379764b5ed219dbef4203d572aa665ab1e70223bb9804169a6df9ea",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "d0ebd5178b32c6a334687c197b16e9a5f7c8150c70e04fc8e4da0b55e04ded89",
+      "values_digest": "1782c019985ee0a2d1c3154df5911a9d388a4456f9b38152ab7de19ba7d89132",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "fad733988c629d4ed6121cf6bb90edc885f80d37ce5b0382d82ba8f26b26ed5f",
+      "values_digest": "998c61feb7fa5e77f7f70ca44fab1bd0fce830b7a04c50cc32ae0b5f4a5f0950",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "81afe0c9232664db459cca2dc4e9412e926035ffcb6f54f1c2f1342adc12f655",
-      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
-      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
+      "values_digest": "c21b1511e76746e40bb329a1e6f5838ceeeb8a3169df7e8880813481b137ba7e",
+      "rendered_digest": "be97df52358824bb082233f4bade7189df2b92ab4ce576b29b0d1071f1e1774b",
+      "ast_digest": "63ca1cd26752c3cab6daf7b9060d555d4adf6c81954afccf3848b2316255adfd"
     },
     "sor": {
-      "values_digest": "0a785b0b0140d4e11ef1c89892df124cc654a610c3014e752a7ef2da556dbdc1",
+      "values_digest": "7f0b9b67c9bb452f0572a41c484d026658cf9e421a3048ea4f9290f5802dd9d0",
       "rendered_digest": "45b924e16d27b2fd1cb8706797ca96ef498b07520455b7ed6f086c10e69ce9df",
       "ast_digest": "729f12178def8012159c5b54b245646d1553e220fb2fc68b9e8fec793b8b3fa0"
     }
@@ -504,6 +550,20 @@
       "actor": "codex-primary-issue607",
       "reason": "Replace the failed-review claims with exact proof after all partial-image, generation-skew, and terminal-checkpoint findings were remediated.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the restart-safe warm two-node AWS controller through revision b1ca07fb2; live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.\",\"Made partial AMI creation, sealed snapshots, cost recording, and terminal preparation completion idempotent across controller interruption.\",\"Allowed a prepared artifact generation to continue only under a clean descendant controller while recording both identities separately.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, ledger, and terminal-checkpoint validation before resume.\",\"Allowed only the exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.\",\"Added executable regressions for partial-image recovery, controller-generation ancestry, checkpoint reconciliation, permanent AWS errors, and exact image, snapshot, and cost reuse.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the complete bounded no-paid contract including partial-image recovery, generation ancestry, terminal checkpoint reconciliation, indefinite healthy waits, and exact artifact reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue after restart-safety remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and its regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"}]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 40,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 41,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

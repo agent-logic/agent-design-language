@@ -878,8 +878,7 @@ recover_preparation() {
   validate_identity
   run_dir="$STATE_ROOT/runs/$RUN_ID"; ledger="$run_dir/preparation-resources.json"
   [[ -f "$ledger" ]] || { echo "preparation resource ledger is missing" >&2; exit 2; }
-  [[ ! -e "$STATE_ROOT/storage/$STORAGE_ID/preparation-result.json" ]] \
-    || { echo "preparation result exists; use resume-preparation to reconcile it" >&2; exit 2; }
+  require_no_terminal_checkpoint_for_recovery "$STATE_ROOT/storage/$STORAGE_ID"
   [[ "$(jq -r .status "$ledger")" != completed ]] || { echo "completed preparation has no recovery cleanup to perform" >&2; exit 2; }
   business_account >/dev/null
   PREP_RESOURCE_LEDGER="$ledger"
@@ -896,6 +895,20 @@ recover_preparation() {
   mv "$ledger.next" "$ledger"
   jq -n --arg run_id "$RUN_ID" --arg storage_id "$STORAGE_ID" --arg ledger_sha256 "$(sha256_file "$ledger")" \
     '{schema:"adl.issue607.preparation_recovery.v1",status:"recovered",run_id:$run_id,storage_id:$storage_id,resource_ledger_sha256:$ledger_sha256}'
+}
+
+require_no_terminal_checkpoint_for_recovery() {
+  storage_dir="$1"
+  [[ ! -e "$storage_dir/preparation-result.json" ]] \
+    || { echo "preparation result exists; use resume-preparation to reconcile it" >&2; return 2; }
+}
+
+load_preparation_instance_ids() {
+  preparation_outputs="$1"
+  runtime_preparation_instance="$(jq -r .runtime_preparation_instance_id.value "$preparation_outputs")"
+  gpu_preparation_instance="$(jq -r .gpu_preparation_instance_id.value "$preparation_outputs")"
+  [[ "$runtime_preparation_instance" =~ ^i-[0-9a-f]+$ && "$gpu_preparation_instance" =~ ^i-[0-9a-f]+$ ]] \
+    || { echo "preparation instance identity is missing" >&2; return 2; }
 }
 
 mark_preparation_checkpoint_completed() {
@@ -1054,10 +1067,7 @@ resume_preparation() {
     reconcile_completed_preparation "$run_dir" "$storage_dir" "$generation" "$campaign" "$owner"
     return
   fi
-  runtime_preparation_instance="$(jq -r .runtime_instance_id.value "$run_dir/preparation-outputs.json")"
-  gpu_preparation_instance="$(jq -r .gpu_instance_id.value "$run_dir/preparation-outputs.json")"
-  [[ "$runtime_preparation_instance" =~ ^i-[0-9a-f]+$ && "$gpu_preparation_instance" =~ ^i-[0-9a-f]+$ ]] \
-    || { echo "preparation instance identity is missing" >&2; exit 2; }
+  load_preparation_instance_ids "$run_dir/preparation-outputs.json"
   retention_until="$(jq -r .retention_until "$storage_dir/terraform.tfvars.json")"
   ensure_prepared_images "$runtime_preparation_instance" "$gpu_preparation_instance" "$retention_until"
   jq -e --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg owner_sha "$(sha256_text "$owner")" --arg runtime "$PREP_RUNTIME_AMI_ID" --arg gpu "$PREP_GPU_AMI_ID" \
@@ -1178,9 +1188,7 @@ launch() {
   plan_sha="$(saved_plan compute "$COMPUTE_ROOT" "$run_dir/tfdata-compute" "$run_dir/compute.tfstate" "$run_dir/compute.tfvars.json" "$run_dir/compute.tfplan" "$run_dir/compute-plan.json")"
   preflight_sha="$(sha256_file "$run_dir/preflight.json")"
   action_manifest="$run_dir/launch-action-manifest.json"
-  jq -n --arg action "launch-$ORDINAL" --arg commit "$COMMIT" --arg controller "$controller_revision" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$plan_sha" --arg preflight "$preflight_sha" \
-    --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg owner_sha "$(sha256_text "$owner")" \
-    '{schema:"adl.issue607.action_manifest.v3",action:$action,source_commit:$commit,artifact_generation:$commit,controller_revision:$controller,run_id:$run,storage_id:$storage,compute_plan_sha256:$plan,preflight_sha256:$preflight,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,runtime_root_hash:$runtime_root,gpu_root_hash:$gpu_root,owner_token_sha256:$owner_sha}' >"$action_manifest"
+  write_launch_action_manifest "$action_manifest" "launch-$ORDINAL" "$controller_revision" "$plan_sha" "$preflight_sha" "$runtime_volume" "$gpu_volume" "$runtime_root" "$gpu_root" "$(sha256_text "$owner")"
   action_manifest_sha="$(sha256_file "$action_manifest")"
   estimated_total="$(jq -r .cost.aggregate_maximum_usd "$run_dir/preflight.json")"
   campaign="$(jq -c .campaign "$storage_dir/preparation-result.json")"
@@ -1222,6 +1230,13 @@ launch() {
   record_cost_ledger "launch-$ORDINAL" "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID"
   jq -n --argjson ordinal "$ORDINAL" --arg run_id "$RUN_ID" --arg generation "$generation" --arg controller "$controller_revision" --arg plan_sha256 "$plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/compute-zero-residue.json")" --argjson elapsed "$elapsed" --arg service_ready_sha256 "$(sha256_file "$run_dir/service-ready.json")" --arg qualification_sha256 "$(sha256_file "$run_dir/qualification-complete.json")" \
     '{schema:"adl.issue607.warm_launch_result.v3",status:"passed",ordinal:$ordinal,run_id:$run_id,artifact_generation:$generation,controller_revision:$controller,plan_sha256:$plan_sha256,authorization_sha256:$authorization_sha256,apply_to_service_ready_seconds:$elapsed,service_ready_sha256:$service_ready_sha256,qualification_complete_sha256:$qualification_sha256,zero_disposable_residue_sha256:$residue_sha256,compute_residue:0,warm_volumes_retained:2}' | tee "$run_dir/summary.json"
+}
+
+write_launch_action_manifest() {
+  output="$1" action="$2" controller="$3" plan="$4" preflight_sha="$5" runtime_volume="$6" gpu_volume="$7" runtime_root="$8" gpu_root="$9" owner_sha="${10}"
+  jq -n --arg action "$action" --arg commit "$COMMIT" --arg controller "$controller" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$plan" --arg preflight "$preflight_sha" \
+    --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg owner_sha "$owner_sha" \
+    '{schema:"adl.issue607.action_manifest.v3",action:$action,source_commit:$commit,artifact_generation:$commit,controller_revision:$controller,run_id:$run,storage_id:$storage,compute_plan_sha256:$plan,preflight_sha256:$preflight,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,runtime_root_hash:$runtime_root,gpu_root_hash:$gpu_root,owner_token_sha256:$owner_sha}' >"$output"
 }
 
 require jq; require shasum
@@ -1284,6 +1299,19 @@ case "$ACTION" in
   test-record-cost-ledger)
     [[ $# -eq 5 ]] || { echo "test-record-cost-ledger requires action, elapsed, preflight, ledger, and run ID" >&2; exit 2; }
     record_cost_ledger "$1" "$2" "$3" "$4" "$5"
+    ;;
+  test-load-preparation-instance-ids)
+    [[ $# -eq 1 ]] || { echo "test-load-preparation-instance-ids requires outputs JSON" >&2; exit 2; }
+    load_preparation_instance_ids "$1"
+    printf '%s %s\n' "$runtime_preparation_instance" "$gpu_preparation_instance"
+    ;;
+  test-recovery-checkpoint-guard)
+    [[ $# -eq 1 ]] || { echo "test-recovery-checkpoint-guard requires storage directory" >&2; exit 2; }
+    require_no_terminal_checkpoint_for_recovery "$1"
+    ;;
+  test-write-launch-action-manifest)
+    [[ $# -eq 10 ]] || { echo "test-write-launch-action-manifest requires output and nine manifest values" >&2; exit 2; }
+    write_launch_action_manifest "$@"
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;
