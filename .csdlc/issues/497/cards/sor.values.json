@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
     "slug": "v0-92-1-corp-c-corporate-operational-control-transfer",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
@@ -22,7 +22,8 @@
         "Updated the external-action classifier and acceptance packet so CORP-C is not accepted and #497 is not ready to close.",
         "Updated the issue-local validator so a pass means truthful blocked-denominator evidence, not acceptance readiness.",
         "Updated PR #613 through typed csdlc-github-pr pr_update so the body uses Part-Of #497, carries no GitHub closing linkage, and avoids stale generation-specific validation wording.",
-        "Retained typed PR-state readback evidence showing PR #613 body/linkage reconciliation with linkage_source null and linked_issue null.",
+        "Removed the tracked PR-state readback JSON from the exact-head artifact set because any committed PR-state file that embeds head_sha necessarily becomes stale when the commit containing it is pushed.",
+        "Preserved exact PR-body/linkage proof as live typed PR-state observation during review and final verification rather than as a self-staling tracked artifact.",
         "Removed review-hostile close-keyword phrasing from the CORP-C acceptance Markdown and corresponding validator expectation."
       ],
       "artifacts": [
@@ -35,8 +36,7 @@
         "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json",
         ".csdlc/evidence/497/validate-readiness.rb",
         ".csdlc/prepared/issues/497/pr-update-blocked-body-no-closing-keywords-20260902.json",
-        ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.request.json",
-        ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.json"
+        ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.request.json"
       ],
       "actual_validation": [
         {
@@ -58,7 +58,7 @@
             "docs/operations/corporate/control-transfer/*.json",
             ".csdlc/prepared/issues/497/*.json"
           ],
-          "purpose": "Prove CORP-C machine-readable evidence files and PR reconciliation records parse as JSON.",
+          "purpose": "Prove CORP-C machine-readable evidence files and PR request records parse as JSON.",
           "outcome": "passed",
           "evidence_ref": "Local JSON parse loop exited zero."
         },
@@ -66,15 +66,15 @@
           "command": [
             "rg",
             "-n",
-            "\\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\\s+#497\\b|generation 12",
+            "\\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)\\s+#497\\b",
             ".csdlc/issues/497",
             "docs/operations/corporate/control-transfer",
             "docs/milestones/v0.92.1/evidence/corporate/corp-c",
             ".csdlc/prepared/issues/497"
           ],
-          "purpose": "Prove scoped #497 card, evidence, and PR reconciliation surfaces no longer contain GitHub closing-keyword syntax for #497 or stale generation-12 validation wording.",
+          "purpose": "Prove scoped #497 card, evidence, and PR request surfaces no longer contain GitHub closing-keyword syntax for #497.",
           "outcome": "passed",
-          "evidence_ref": "Local command returned no matches after this SOR update."
+          "evidence_ref": "Local command returned no matches."
         },
         {
           "command": [
@@ -94,9 +94,9 @@
             "--request",
             ".csdlc/prepared/issues/497/pr-state-readback-after-body-correction-20260902.request.json"
           ],
-          "purpose": "Retain live PR #613 body/linkage readback after typed metadata correction.",
+          "purpose": "Observe live PR #613 body/linkage at review/final-verification time without committing a self-staling head_sha-bearing readback file.",
           "outcome": "passed",
-          "evidence_ref": "Retained PR-state readback records linkage_source null and linked_issue null."
+          "evidence_ref": "Live typed PR-state observation reported linkage_source null and linked_issue null."
         },
         {
           "command": [
