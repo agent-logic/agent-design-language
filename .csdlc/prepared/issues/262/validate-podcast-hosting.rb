@@ -21,6 +21,17 @@ HTTP_PLAYBACK_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-proof.j
 HTTP_PLAYBACK_NATIVE_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-native-proof.json")
 HTTP_PLAYBACK_BROWSER_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-browser-proof.json")
 HTTP_PLAYBACK_IOS_SAFARI_PROOF = File.join(ROOT, ".csdlc/evidence/262/http-playback-ios-safari-proof.json")
+SOURCE_MANIFEST_FILES = [
+  "demos/podcast/feed.xml",
+  "demos/podcast/index.html",
+  "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+  "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+  ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+  ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
+  "adl/tools/record_podcast_native_playback.sh",
+  "adl/tools/record_podcast_browser_playback.mjs",
+  "adl/tools/record_podcast_ios_safari_playback.sh"
+].freeze
 
 def fail!(reason)
   warn JSON.generate(schema: "agent_logic.podcast.hosting_validation.v1", status: "failed", reason: reason)
@@ -37,6 +48,36 @@ def load_json(path)
   JSON.parse(read(path))
 rescue JSON::ParserError => e
   fail!("invalid JSON #{path.sub(ROOT + "/", "")}: #{e.message}")
+end
+
+def canonical_json(value)
+  case value
+  when Hash
+    "{" + value.keys.sort.map { |key| JSON.generate(key.to_s) + ":" + canonical_json(value[key]) }.join(",") + "}"
+  when Array
+    "[" + value.map { |entry| canonical_json(entry) }.join(",") + "]"
+  else
+    JSON.generate(value)
+  end
+end
+
+def source_manifest
+  files = SOURCE_MANIFEST_FILES.map do |rel|
+    full = File.join(ROOT, rel)
+    fail!("source manifest file missing: #{rel}") unless File.file?(full)
+    {
+      "path" => rel,
+      "bytes" => File.size(full),
+      "sha256" => Digest::SHA256.file(full).hexdigest
+    }
+  end
+  payload = {
+    "schema" => "agent_logic.podcast.source_manifest.v1",
+    "digest_algorithm" => "sha256(canonical-json)",
+    "files" => files
+  }
+  payload["digest"] = Digest::SHA256.hexdigest(canonical_json(payload))
+  payload
 end
 
 identity = load_json(IDENTITY)
@@ -128,6 +169,11 @@ fail!("HTTP playback proof audio SHA mismatch") unless http_playback_proof.dig("
 fail!("HTTP playback proof server binding mismatch") unless http_playback_proof.dig("server", "bind") == "127.0.0.1"
 fail!("HTTP playback proof range support mismatch") unless http_playback_proof.dig("server", "range_support") == "single-range bytes"
 
+expected_source_manifest = source_manifest
+fail!("HTTP playback proof source manifest mismatch") unless http_playback_proof["source_manifest"] == expected_source_manifest
+fail!("HTTP playback proof binding digest mismatch") unless http_playback_proof.dig("proof_binding", "source_manifest_digest") == expected_source_manifest.fetch("digest")
+fail!("HTTP playback proof producer missing") unless http_playback_proof.dig("proof_binding", "producer").to_s.start_with?("codex:")
+
 begin
   proof_generated_at = Time.parse(http_playback_proof["generated_at"])
   fail!("HTTP playback proof timestamp missing") unless proof_generated_at
@@ -204,6 +250,8 @@ wrapper_playback_proofs.each do |relative_proof_path, expected_wrapper_profiles|
   fail!("#{relative_proof_path} did not pass") unless wrapper_proof["status"] == "passed"
   fail!("#{relative_proof_path} audio path mismatch") unless wrapper_proof.dig("candidate", "audio") == "demos/podcast/audio/meet-the-ai-coworkers.mp3"
   fail!("#{relative_proof_path} audio SHA mismatch") unless wrapper_proof.dig("candidate", "audio_sha256") == enclosure["sha256"]
+  fail!("#{relative_proof_path} source manifest mismatch") unless wrapper_proof["source_manifest"] == expected_source_manifest
+  fail!("#{relative_proof_path} binding digest mismatch") unless wrapper_proof.dig("proof_binding", "source_manifest_digest") == expected_source_manifest.fetch("digest")
   wrapper_profiles = wrapper_proof["profiles"]
   fail!("#{relative_proof_path} profiles missing") unless wrapper_profiles.is_a?(Hash)
   fail!("#{relative_proof_path} profiles mismatch") unless wrapper_profiles.keys.sort == expected_wrapper_profiles.sort

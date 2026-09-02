@@ -20,6 +20,23 @@ PODCAST_PAGE_REL = "demos/podcast/index.html"
 PODCAST_PAGE_PATH = File.join(ROOT, PODCAST_PAGE_REL)
 EPISODE_PAGE_REL = "demos/podcast/episodes/meet-the-ai-coworkers/index.html"
 EPISODE_PAGE_PATH = File.join(ROOT, EPISODE_PAGE_REL)
+GENERATOR_REL = ".csdlc/prepared/issues/262/record-podcast-http-playback.rb"
+VALIDATOR_REL = ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+NATIVE_WRAPPER_REL = "adl/tools/record_podcast_native_playback.sh"
+BROWSER_WRAPPER_REL = "adl/tools/record_podcast_browser_playback.mjs"
+IOS_SAFARI_WRAPPER_REL = "adl/tools/record_podcast_ios_safari_playback.sh"
+
+SOURCE_MANIFEST_FILES = [
+  FEED_REL,
+  PODCAST_PAGE_REL,
+  EPISODE_PAGE_REL,
+  AUDIO_REL,
+  GENERATOR_REL,
+  VALIDATOR_REL,
+  NATIVE_WRAPPER_REL,
+  BROWSER_WRAPPER_REL,
+  IOS_SAFARI_WRAPPER_REL
+].freeze
 
 PROFILES = {
   "desktop-safari" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
@@ -53,6 +70,36 @@ end
 
 def required_file(path)
   fail!("missing required file: #{relative_path(path)}") unless File.file?(path)
+end
+
+def canonical_json(value)
+  case value
+  when Hash
+    "{" + value.keys.sort.map { |key| JSON.generate(key.to_s) + ":" + canonical_json(value[key]) }.join(",") + "}"
+  when Array
+    "[" + value.map { |entry| canonical_json(entry) }.join(",") + "]"
+  else
+    JSON.generate(value)
+  end
+end
+
+def source_manifest
+  files = SOURCE_MANIFEST_FILES.map do |rel|
+    full = File.join(ROOT, rel)
+    required_file(full)
+    {
+      "path" => rel,
+      "bytes" => File.size(full),
+      "sha256" => Digest::SHA256.file(full).hexdigest
+    }
+  end
+  payload = {
+    "schema" => "agent_logic.podcast.source_manifest.v1",
+    "digest_algorithm" => "sha256(canonical-json)",
+    "files" => files
+  }
+  payload["digest"] = Digest::SHA256.hexdigest(canonical_json(payload))
+  payload
 end
 
 def http_status_line(code, reason)
@@ -219,6 +266,7 @@ unknown = profiles.reject { |profile| PROFILES.key?(profile) }
 fail!("unknown profile(s): #{unknown.join(", ")}") unless unknown.empty?
 
 [AUDIO_PATH, FEED_PATH, PODCAST_PAGE_PATH, EPISODE_PAGE_PATH].each { |path| required_file(path) }
+manifest = source_manifest
 
 audio = File.binread(AUDIO_PATH)
 audio_sha256 = Digest::SHA256.hexdigest(audio)
@@ -311,6 +359,11 @@ receipt = {
   server: {
     bind: "127.0.0.1",
     range_support: "single-range bytes"
+  },
+  source_manifest: manifest,
+  proof_binding: {
+    producer: ENV.fetch("ADL_PODCAST_PROOF_ACTOR", "codex:root/podcast-262"),
+    source_manifest_digest: manifest.fetch("digest")
   },
   profiles: profile_receipts
 }

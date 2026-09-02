@@ -1,7 +1,7 @@
 {
   "schema": "agent_logic.podcast.http_playback_proof.v1",
   "status": "passed",
-  "generated_at": "2026-09-02T00:47:40Z",
+  "generated_at": "2026-09-02T00:55:02Z",
   "candidate": {
     "feed": "demos/podcast/feed.xml",
     "podcast_page": "demos/podcast/index.html",
@@ -13,6 +13,62 @@
   "server": {
     "bind": "127.0.0.1",
     "range_support": "single-range bytes"
+  },
+  "source_manifest": {
+    "schema": "agent_logic.podcast.source_manifest.v1",
+    "digest_algorithm": "sha256(canonical-json)",
+    "files": [
+      {
+        "path": "demos/podcast/feed.xml",
+        "bytes": 2550,
+        "sha256": "4315538d1833e01793e8cedbfe6ef364805f478985f1a1a9c8c5fb2cee8d23c7"
+      },
+      {
+        "path": "demos/podcast/index.html",
+        "bytes": 29388,
+        "sha256": "95c2de880aae8d8c2a0a437095eb3fa6c711e3a573bc9090e752bcc9aaef2bfb"
+      },
+      {
+        "path": "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+        "bytes": 20244,
+        "sha256": "fb5c33d0202dde7a9b446a01e89cd4668f0283847bc811975bf0252b19e544d3"
+      },
+      {
+        "path": "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+        "bytes": 22804249,
+        "sha256": "ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c"
+      },
+      {
+        "path": ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+        "bytes": 12464,
+        "sha256": "63c0836727d02821f1307c2843c217fe4aafe58496b8527767bb9f50da4c814b"
+      },
+      {
+        "path": ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
+        "bytes": 16270,
+        "sha256": "55fd15087ac587e83aea4cadbeacf75950995065715e4c0778c5e716bec01f9f"
+      },
+      {
+        "path": "adl/tools/record_podcast_native_playback.sh",
+        "bytes": 202,
+        "sha256": "262380364f5401f0d821f0db517b2aa91ec357cf8d944bed38cde21c3cd3db73"
+      },
+      {
+        "path": "adl/tools/record_podcast_browser_playback.mjs",
+        "bytes": 499,
+        "sha256": "90b75510918cd321f37c1889b65d8ce5b12d3e15af8ce5506f255f9809acd422"
+      },
+      {
+        "path": "adl/tools/record_podcast_ios_safari_playback.sh",
+        "bytes": 206,
+        "sha256": "3d9a57c2161380ae477f94b1026129c674997ae87ebeb2a4fb0d2cccc6df2def"
+      }
+    ],
+    "digest": "bb0a1c1e36e00e793facd1c5090f64a75028a31eca5c68889f5513e26638cfdc"
+  },
+  "proof_binding": {
+    "producer": "codex:root/podcast-262",
+    "source_manifest_digest": "bb0a1c1e36e00e793facd1c5090f64a75028a31eca5c68889f5513e26638cfdc"
   },
   "profiles": {
     "desktop-safari": {
