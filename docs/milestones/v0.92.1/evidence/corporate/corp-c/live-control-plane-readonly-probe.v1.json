@@ -1,0 +1,323 @@
+{
+  "schema": "adl.corporate.corp_c.live_control_plane_readonly_probe.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-02",
+  "profile": "agent-logic-admin",
+  "mutation": false,
+  "credential_material_captured": false,
+  "authority_boundary": "Read-only live control-plane inventory only. Account ids, ARNs, hosted-zone ids, role ARNs, user ids, and credential material are not retained; stable hashes are retained where identity binding is useful.",
+  "probes": {
+    "aws_sts_identity": {
+      "status": "pass",
+      "account_hash": "sha256:b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+      "arn_hash": "sha256:272868f4c01d7120d436554d4bc3e45a9951cd70114a5e39ab66375d29e0de62",
+      "user_id_hash": "sha256:f51eca20d9c0df8567d47828dbd5f5cc9305822517decf930708b406c61df3c1",
+      "readback": "The approved local profile resolved successfully without capturing the raw account id, ARN, user id, or credentials."
+    },
+    "terraform_backend": {
+      "status": "pass_after_authorized_bootstrap_apply_and_state_migration",
+      "source_examples": [
+        "infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example",
+        "infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example"
+      ],
+      "legacy_bucket": "agent-logic-terraform-state",
+      "legacy_lock_table": "agent-logic-terraform-locks",
+      "actual_bucket_shape": "agent-logic-foundation-terraform-state-<account-id>-us-west-2",
+      "actual_bucket_sha256": "sha256:2cc24315922424697546435faa295c10ef93d11ee812786856f6b747ab3d3d62",
+      "actual_lock_table": "agent-logic-foundation-terraform-locks",
+      "actual_lock_table_sha256": "sha256:a093006a927468e60639f2a0327276b7630b57c337e613520adc40d509597acf",
+      "deployment_role_arn_sha256": "sha256:287483cf2b8a2fea9c430772ee57e5bf36a1e0d10e5e75b4414c75b74b2301da",
+      "bucket_versioning": {
+        "status": "Enabled"
+      },
+      "bucket_encryption": {
+        "algorithms": [
+          "AES256"
+        ]
+      },
+      "bucket_public_access_block": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+      },
+      "lock_table": {
+        "table_status": "ACTIVE",
+        "billing_mode": "PAY_PER_REQUEST",
+        "point_in_time_recovery_status": "ENABLED",
+        "table_arn_sha256": "sha256:923876a8c13c638ef987bb467c7706e29aeed88bd9fbe44acf842990acd6e8c9"
+      },
+      "authorized_mutation": {
+        "performed": true,
+        "scope": "AWS-C Terraform bootstrap apply plus migration of bootstrap local state into the newly created S3/DynamoDB backend.",
+        "plan_resource_change_count": 11,
+        "private_log_directory": "git-worktree-private:corp-c-497"
+      },
+      "readback": "The apparent Terraform break was caused by a merged but unapplied AWS-C bootstrap plus stale downstream AWS-F backend examples. The bootstrap was applied under the approved business profile, the bootstrap state was migrated to the new backend, post-apply readbacks passed, and downstream examples now use the bootstrap-derived redacted bucket/table shape."
+    },
+    "route53": {
+      "status": "partial",
+      "matching_public_zones": [
+        {
+          "name": "csm.agent-logic.ai.",
+          "hosted_zone_id_hash": "sha256:2fa85cd782cb6d3d67038f80fe93663cefb1d9b6ad4af0c4e2295d9f060b926b",
+          "private_zone": false,
+          "record_count": 10
+        }
+      ],
+      "readback": "A matching public Route53 hosted zone is visible. Delegation correctness, registrar ownership, change-freeze, rollback, and DNS recovery were not exercised."
+    },
+    "acm": {
+      "status": "partial",
+      "regions": {
+        "us-west-2": [
+          {
+            "domain": "origin-smoke.wuji.dev.csm.agent-logic.ai",
+            "status": "ISSUED",
+            "type": "AMAZON_ISSUED",
+            "certificate_arn_hash": "sha256:8ad51c4e6d057e8490339b44ddcc7cafb91b0749727be6c0774694744b02642c"
+          }
+        ],
+        "us-east-1": [
+          {
+            "domain": "codefriend.ai",
+            "status": "ISSUED",
+            "type": "AMAZON_ISSUED",
+            "certificate_arn_hash": "sha256:b8f8b8a89bf04d8eeb2f2bfb33bca450114fcbf95e027156c777980d4e560afa"
+          },
+          {
+            "domain": "agent-logic.ai",
+            "status": "ISSUED",
+            "type": "AMAZON_ISSUED",
+            "certificate_arn_hash": "sha256:73591b5cff6bde4a114073f1a33b8baa5846bc0ab28ef46bdf5c3d3ef3dcffcc"
+          },
+          {
+            "domain": "agent-logic.ai",
+            "status": "ISSUED",
+            "type": "AMAZON_ISSUED",
+            "certificate_arn_hash": "sha256:2a385c4487e22927d603abec9b25d7fa328a1028cb52aa02c9275ed2779e21d0"
+          },
+          {
+            "domain": "agent-logic.ai",
+            "status": "ISSUED",
+            "type": "AMAZON_ISSUED",
+            "certificate_arn_hash": "sha256:90c1e0c2192d44c4c42130e3748d47382cad4644f6de8b120f8c344af2736f61"
+          },
+          {
+            "domain": "*.wuji.dev.csm.agent-logic.ai",
+            "status": "ISSUED",
+            "type": "AMAZON_ISSUED",
+            "certificate_arn_hash": "sha256:ee71846f1ecd53b0de33b02c49e994fc2dab528368bfec28e2ff0ad47e12fe3b"
+          }
+        ]
+      },
+      "readback": "Matching issued ACM certificates are visible in the expected regions. Renewal ownership, DNS validation control, revocation/reissue, and rollback recovery were not exercised."
+    },
+    "codebuild": {
+      "status": "partial",
+      "matching_projects": [
+        "adl-builder-image-build",
+        "adl-codefriend-build",
+        "adl-builder-image-import"
+      ],
+      "readback": "Relevant CodeBuild projects are visible. Project configuration, artifact custody, GitHub trust policy, and emergency rollback/disable were not fully proven."
+    },
+    "iam_roles": {
+      "status": "partial",
+      "matching_role_names": [
+        "adl-codefriend-codebuild-service-role",
+        "adl-codefriend-github-actions-build-role",
+        "adl-spot-remote-validation-github-actions-role",
+        "ADLIssue345GpuDeadlineReaperRole",
+        "ADLIssue345GpuProofRole",
+        "ADLRemoteValidationPermanentRole",
+        "agent-logic-ai-github-deploy",
+        "codefriend-ai-github-deploy"
+      ],
+      "additional_matching_role_count": 31,
+      "readback": "Relevant deployment, validation, GitHub Actions, and issue-specific AWS roles are visible. Trust policies, least-privilege boundaries, break-glass, MFA/recovery, and rollback authority were not fully proven."
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "aws",
+        "sts",
+        "get-caller-identity",
+        "--profile",
+        "agent-logic-admin",
+        "--output",
+        "json"
+      ],
+      "result": "pass_redacted"
+    },
+    {
+      "argv": [
+        "aws",
+        "s3api",
+        "get-bucket-versioning",
+        "--bucket",
+        "agent-logic-terraform-state",
+        "--profile",
+        "agent-logic-admin",
+        "--output",
+        "json"
+      ],
+      "result": "initial_fail_closed_no_such_bucket_before_bootstrap_apply"
+    },
+    {
+      "argv": [
+        "aws",
+        "dynamodb",
+        "describe-table",
+        "--table-name",
+        "agent-logic-terraform-locks",
+        "--profile",
+        "agent-logic-admin",
+        "--region",
+        "us-west-2",
+        "--output",
+        "json"
+      ],
+      "result": "initial_fail_closed_table_not_found_before_bootstrap_apply"
+    },
+    {
+      "argv": [
+        "terraform",
+        "-chdir=infra/aws/bootstrap",
+        "plan",
+        "-input=false",
+        "-out=<git-worktree-private>/issue497-aws-c-bootstrap.tfplan",
+        "-no-color"
+      ],
+      "result": "pass_private_log_redacted_summary",
+      "resource_change_count": 11
+    },
+    {
+      "argv": [
+        "terraform",
+        "-chdir=infra/aws/bootstrap",
+        "apply",
+        "-input=false",
+        "-auto-approve",
+        "-no-color",
+        "<git-worktree-private>/issue497-aws-c-bootstrap.tfplan"
+      ],
+      "result": "pass_private_log"
+    },
+    {
+      "argv": [
+        "bash",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh",
+        "--lane",
+        "aws-readback"
+      ],
+      "result": "pass_private_log"
+    },
+    {
+      "argv": [
+        "terraform",
+        "-chdir=infra/aws/bootstrap",
+        "init",
+        "-migrate-state",
+        "-backend-config=<git-worktree-private>/aws-c-bootstrap.backend.hcl",
+        "-input=false",
+        "-no-color"
+      ],
+      "result": "pass_private_log"
+    },
+    {
+      "argv": [
+        "aws",
+        "route53",
+        "list-hosted-zones",
+        "--profile",
+        "agent-logic-admin",
+        "--output",
+        "json"
+      ],
+      "result": "pass_redacted_filtered"
+    },
+    {
+      "argv": [
+        "aws",
+        "acm",
+        "list-certificates",
+        "--profile",
+        "agent-logic-admin",
+        "--region",
+        "us-west-2",
+        "--certificate-statuses",
+        "ISSUED",
+        "PENDING_VALIDATION",
+        "EXPIRED",
+        "INACTIVE",
+        "FAILED",
+        "VALIDATION_TIMED_OUT",
+        "REVOKED",
+        "--output",
+        "json"
+      ],
+      "result": "pass_redacted_filtered"
+    },
+    {
+      "argv": [
+        "aws",
+        "acm",
+        "list-certificates",
+        "--profile",
+        "agent-logic-admin",
+        "--region",
+        "us-east-1",
+        "--certificate-statuses",
+        "ISSUED",
+        "PENDING_VALIDATION",
+        "EXPIRED",
+        "INACTIVE",
+        "FAILED",
+        "VALIDATION_TIMED_OUT",
+        "REVOKED",
+        "--output",
+        "json"
+      ],
+      "result": "pass_redacted_filtered"
+    },
+    {
+      "argv": [
+        "aws",
+        "codebuild",
+        "list-projects",
+        "--profile",
+        "agent-logic-admin",
+        "--region",
+        "us-west-2",
+        "--output",
+        "json"
+      ],
+      "result": "pass_filtered"
+    },
+    {
+      "argv": [
+        "aws",
+        "iam",
+        "list-roles",
+        "--profile",
+        "agent-logic-admin",
+        "--output",
+        "json"
+      ],
+      "result": "pass_redacted_filtered"
+    }
+  ],
+  "remaining_blockers": [
+    "GitHub organization/repository ownership, billing, MFA, required reviewer, environment, runner, and emergency-disable readbacks.",
+    "Terraform backend authority now has a passing AWS-C bootstrap readback, but downstream Terraform roots still require reviewed backend config substitution, plan review, and apply/destroy or rollback evidence before deployment acceptance.",
+    "Route53 delegation, registrar ownership, DNS rollback, and DNS recovery were not exercised.",
+    "Certificate renewal ownership, DNS validation control, revocation/reissue, and certificate recovery were not exercised.",
+    "AWS billing/root/contact/IAM Identity Center/MFA/audit/break-glass/recovery controls remain unproven beyond profile visibility.",
+    "Deployment availability, recovery, incident audit logging, emergency access, and rollback drill remain unproven.",
+    "Private custody redacted receipt proving company-controlled vault/payment/legal/recovery-factor control remains missing."
+  ],
+  "issue_ready_to_close": false
+}

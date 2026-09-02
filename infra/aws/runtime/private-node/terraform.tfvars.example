@@ -2,7 +2,7 @@ environment = "dev"
 csm_name    = "wuji"
 vpc_id      = "vpc-REPLACE"
 
-expected_aws_account_id      = "123456789012"
+expected_aws_account_id      = "<agent-logic-aws-account-id>"
 expected_terraform_workspace = "aws-f-runtime-private-node-dev"
 
 # Use a private subnet. This module never associates a public IPv4 address.

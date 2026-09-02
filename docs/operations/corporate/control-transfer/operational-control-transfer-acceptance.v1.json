@@ -25,6 +25,9 @@
     "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
     "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json"
@@ -36,7 +39,13 @@
   "partial_evidence": [
     "corp-c-repository-custody-evidence",
     "corp-c-terraform-source-custody",
-    "corp-c-production-domain-registration-custody"
+    "corp-c-production-domain-registration-custody",
+    "corp-c-terraform-bootstrap-live-readback",
+    "corp-c-live-route53-zone-inventory",
+    "corp-c-live-acm-certificate-inventory",
+    "corp-c-live-codebuild-and-iam-role-inventory",
+    "corp-c-github-default-branch-ruleset-readback",
+    "corp-c-public-web-https-availability-readback"
   ],
   "blocked_actions": [
     "corp-c-source-control-live-readback",
@@ -47,13 +56,15 @@
     "corp-c-private-custody",
     "corp-c-deployment-rollback-readback"
   ],
-  "authorized_actions": [],
+  "authorized_actions": [
+    "corp-c-aws-c-terraform-bootstrap-apply"
+  ],
   "acceptance": [
     {
       "id": "AC-1",
       "status": "blocked",
       "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
-      "reason": "Several control planes lack required corporate-owner and rollback readbacks."
+      "reason": "Several control planes still lack complete corporate-owner and rollback readbacks. Current live evidence now proves partial GitHub ruleset, Route53, ACM, Terraform backend, CodeBuild/IAM, and public web availability truth, but does not prove corporate recovery/admin continuity, DNS/cert rollback, Runtime deployment availability, private custody, or emergency authority."
     },
     {
       "id": "AC-2",
@@ -65,18 +76,21 @@
       "id": "AC-3",
       "status": "blocked",
       "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
-      "reason": "Repository IaC custody is present, but live Terraform backend/provider authority and GitHub Actions authority are not proven company-controlled."
+      "reason": "Repository IaC custody and the AWS-C Terraform backend now have live readback evidence, and default-branch CI requirements are visible. GitHub Actions policy, environment protection, disabled AWS live workflows, downstream runtime backend substitution, and deployment rollback remain incomplete."
     },
     {
       "id": "AC-4",
       "status": "blocked",
       "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
-      "reason": "Availability, recovery, and rollback readbacks do not pass for the complete control-plane denominator."
+      "reason": "Public web HTTPS availability passes for agent-logic.ai and codefriend.ai, but Runtime origin-smoke health is not resolvable and recovery/rollback readbacks do not pass for the complete control-plane denominator."
     }
   ],
   "mutation_authority": {
-    "new_mutation_performed_by_497": false,
-    "new_mutation_authorized": false,
+    "new_mutation_performed_by_497": true,
+    "new_mutation_authorized": true,
+    "authorized_actions": [
+      "corp-c-aws-c-terraform-bootstrap-apply"
+    ],
     "blocked_if_mutation_required": true
   },
   "non_claims": [

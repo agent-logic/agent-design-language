@@ -3,7 +3,9 @@
   "issue": 497,
   "repository": "agent-logic/agent-design-language",
   "created_at": "2026-09-01",
-  "authorized_actions": [],
+  "authorized_actions": [
+    "corp-c-aws-c-terraform-bootstrap-apply"
+  ],
   "blocked_actions": [
     "corp-c-source-control-live-readback",
     "corp-c-ci-cd-live-readback",
@@ -37,6 +39,24 @@
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": false,
       "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json"
+    },
+    {
+      "id": "corp-c-live-control-plane-readonly-probe",
+      "surface": "Non-mutating AWS control-plane inventory for STS, Terraform backend names, Route53, ACM, CodeBuild, and IAM role visibility",
+      "classification": "partial_evidence",
+      "mutation_performed_by_497": false,
+      "rollback_required_before_mutation": false,
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json"
+    },
+    {
+      "id": "corp-c-aws-c-terraform-bootstrap-apply",
+      "surface": "Authorized AWS-C Terraform bootstrap apply for the persistent backend foundation consumed by downstream Terraform roots",
+      "classification": "completed_authorized_mutation",
+      "mutation_performed_by_497": true,
+      "rollback_required_before_mutation": true,
+      "rollback_evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json#terraform_backend",
+      "authorization_ref": "Operator directed Worker #7 to proceed and get the sprint done after Terraform backend absence was diagnosed.",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json"
     },
     {
       "id": "corp-c-gcp-foundation-prerequisite",
