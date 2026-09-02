@@ -5,38 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "ed09ca7016215d86ffcd274a987fe301803e22f526257457ba1a4e92a31e6995",
+  "generation": 5,
+  "digest": "f591303499b53b86bf5a17920b0077dd2a8654bc1a45ace176225d876547055a",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_630_post_fix",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:604d8e582be8d0c9871ebf78206dca42087d1682:6d7791ed7a55f1a021bf24cdc71fe8e027cd7227a187de3e359332d3903ebb9d",
-    "scope": [
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/630/create-request.json",
-      ".csdlc/prepared/issues/630/design.md",
-      ".csdlc/prepared/issues/630/diagram.mmd",
-      ".csdlc/prepared/issues/630/finalize-request.json",
-      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
-      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
-      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
-      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
-      ".csdlc/evidence/630/630-diff-hygiene.log",
-      ".csdlc/evidence/630/630-full-v3-regression.log",
-      ".csdlc/evidence/630/630-issue-validator.log",
-      ".csdlc/evidence/630/630-rustfmt.log",
-      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
-      ".csdlc/evidence/630/630-typed-issue-validation.log",
-      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -52,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "70099033c6993381359ad9af0ff27c96f0470d39517aac2fec2e8c80c1856420",
+      "values_digest": "e9d7914d1ac599954596825cd7f3c733c80c0954329fcb387725913e5561296d",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "2acaf6dc4ec6304649d0bbcecce102a84b46aa1644908da252943677dad713a8",
+      "values_digest": "2b56566a9ef573800fcd029dcfbe602139275cab3d0f384efe6126926f8de703",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "db31e628481b6ca43088e97bb6f30ea6b2e18313cf2deccb6cea5fc5335909fd",
+      "values_digest": "a4a840b1c7660a5283542adea26a2483d8010c40d6df3873f5680afdcc14fa80",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "6180b11b74a8e05cfae97b08dd8745c15e650edce02b691b99a1a514e69e7ab0",
+      "values_digest": "44ca12203d1ed3e5d4285df9a4386a48c08831260323652be895ac97f740ddef",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "3434156022efd48ff7ab328ba79d0ce0d50249f39646d57ac8e75208627dde02",
-      "rendered_digest": "7eccb3036c36b802c8a04611354270760950a644b5b9f9b058c1ef03930d0052",
-      "ast_digest": "a88a13612711f0dd05c9556838b145bd21568da9f5c8f516d9a6bc04f00973af"
+      "values_digest": "7c3039c3a1c5509dfe7ef86aad23c538da7c356f6fd38ca2b3987ff0594f06cd",
+      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
+      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
     },
     "sor": {
-      "values_digest": "bc3590b6f213c626937b23c12c773c311dfdd2ff2d81d1bbce8d900acb5149f2",
+      "values_digest": "011e572d57848228b00f2831d891154d908756c327ecbb868a5c06c7b2c230c1",
       "rendered_digest": "ee57911d5890498fa99996f24f0028189ea748fbd7ddf2b9f6298d5d15ed4468",
       "ast_digest": "a88e352e1de52995dc2437cc731c6ceee2a4d460c1d35866a7eb8d822e945f14"
     }
@@ -161,6 +134,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale exact-review assignment after the post-fix review found that verified terminal readback construction was still caller-forgeable and nonexistent cleanup traversal was not denied.",
+      "operation": "recover_review"
     }
   ]
 }
