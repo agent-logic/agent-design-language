@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "68a1399122ff18e8775a6f1e1b8cbc6b48d7fddca1fbb60d7d90ff69da1838c4",
+  "generation": 29,
+  "digest": "d6fb3ede34353517ea949b68715fb95553364523011a7adcce09708148ad2eff",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e3b66a8198dc107d6880f364e9f8f86979f59b96cdf6812264cd4a61e101aa46",
+      "values_digest": "302bd7be2767f153cb1eb6db81b0577b39250b549588300f06283147de2c96d6",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "bf348ad552edb0181d3c1d9e878d541cf80f544f675786c409ea408f4396de9e",
+      "values_digest": "6f72fb02a2477c3e8861cfdb63db311c74338bafd8aad6172ff78fc71a38339b",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "731c3442f276b3add819d69ef3be01c3b6b0a127d7c617900323c66cbd00fe18",
+      "values_digest": "e50435380f667f8219ff309b5fa71f4b53a8f88f0b29a8ec1b42d4af21bf5194",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "b6972399c32545fb48b92ddcd5d36fe17c656a778850a2910918db9c47d9449e",
+      "values_digest": "bc700710c32179379c9b70b5b5a378e05adb8f14a76876c664bb5ef4372736a1",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "f57d5a93ffe988c5714c2d0492897be4b3c77576fb691bc4c4f1ee4d2922775b",
+      "values_digest": "350a187d000c74bf06b52e1ecf6767644dd4be5b8a2ec074e254cd9d48bfb334",
       "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
       "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
     },
     "sor": {
-      "values_digest": "93cecf5bf78248517944258648a523906844667903ecd7d8050df59642432324",
-      "rendered_digest": "02ee9ab1c86b0cc0959b4a395aafb7210d56a5088e9532934dfb9bd5e3354347",
-      "ast_digest": "fa6f2ee6c0d2e64e9a38f8a05331a522ae161a4e9dd9ed7cdd44ad82da79f845"
+      "values_digest": "89ea537ad8f700f3ab28fea8e8d5f8cc21ca28bb5ce5eca767b936d78806a467",
+      "rendered_digest": "c4248728454d35987ec0e798021db2713f3eab7ebcc60afcfff74d71b3cb6268",
+      "ast_digest": "93cf7cfe8436d0c0c8d7aef5bb339d2f3c810a498493f59376c9c6fff8aa20d0"
     }
   },
   "transitions": [
@@ -309,6 +309,27 @@
       "actor": "codex:root/podcast-262",
       "reason": "Recover after assigned #262 R5 review found stale archive storage-manifest byte and checksum entries; prepare a remediated exact-head candidate.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R5 source-manifest-bound playback proof after archive manifest checksum repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain source-manifest-bound HTTP playback proof after storage-manifest and S3 object inventory checksum repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R5 focused validation after archive manifest checksum repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate archive manifest critical-object byte/SHA/checksum truth, S3 inventory size/etag truth, The Cognitive Stack identity, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 29,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 archive manifest checksum repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 archive manifest checksum remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
     }
   ]
 }

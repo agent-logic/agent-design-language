@@ -175,6 +175,39 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
     "purpose": "Reject whitespace and conflict-marker residue across the exact #262 launch identity and archive path truth remediation diff.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "--profile",
+      "all",
+      "--output",
+      ".csdlc/evidence/262/http-playback-proof.json"
+    ],
+    "purpose": "Retain source-manifest-bound HTTP playback proof after storage-manifest and S3 object inventory checksum repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/http-playback-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate archive manifest critical-object byte/SHA/checksum truth, S3 inventory size/etag truth, The Cognitive Stack identity, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 archive manifest checksum remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
   }
 ]
 
