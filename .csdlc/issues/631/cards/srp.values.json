@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
     "slug": "v3-h5-proof-parity-soak-shadow-install",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\n.csdlc/prepared/issues/631/finalize-implementation.json\n.csdlc/evidence/631",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\n.csdlc/prepared/issues/631/finalize-implementation.json\n.csdlc/evidence/631/v3-h5-issue-validator.log\n.csdlc/evidence/631/v3-h5-full-v3-regression.log\n.csdlc/evidence/631/v3-h5-rustfmt.log\n.csdlc/evidence/631/v3-h5-diff-hygiene.log",
+      "review_revision": "git-blake3:a257ab2da611803775850d73a0e893236e4b91af:59fc2d56201d649192e78727f397ccdd0e82d4364fe63924d85a068241818b47",
+      "reviewer": "codex:exec-review-01a0632a",
       "review_prompts": [
         "Can any route claim proof, parity, soak, or install success without durable bounded evidence?",
         "Does shadow refuse broad equivalence and report exact mismatches?",
@@ -23,8 +23,10 @@
         "Are all tests and validators exercising behavior instead of strings?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was limited to P1/P2 pre-publication risks for the #631 proof, shadow, soak, and install construction slice; #505 cutover and live operational authority remain out of scope."
+      ],
+      "review_result": "pass"
     }
   }
 }
