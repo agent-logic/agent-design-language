@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "310bed020d2d7cf8562632c720514a23f6869faf35f91cfd2c76cb371c014b0a",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "7dba7e9ddfaf1b2706be076669e3a33dc693fd3f990916e9a9311c6c206c536d",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "2360f1c43330b5fcbda2eacda52794655186cc7c5e64f21826ad861d80c94249",
   "branch": "codex/497-corp-c-sprint4-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
   "review_assignment": {
@@ -20,7 +20,22 @@
       "docs/operations/corporate/control-transfer"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:review-497-corp-c-final",
+    "scope": [
+      ".csdlc/evidence/497",
+      ".csdlc/prepared/issues/497",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c",
+      "docs/operations/corporate/control-transfer"
+    ],
+    "reviewed_revision": "git-blake3:631724dbd58a7567bfdcb9bdf9500d8ac645f889:0ee7f9593c1d904c61e4eefcb57aee017f21ac36ba2a1f5b52a7d7ae387b0e1a",
+    "findings": [],
+    "residual_risks": [
+      "Live external corporate transfer actions remain intentionally deferred by #497 and must be handled under explicit operator authority in later work."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a437f6811c42d48c0e4df3111d0fb9bdc2d5d67251454fe5558d25dd1b22934",
+      "values_digest": "4ad8df4bf73d0da7a7e7e0b098a8cf033776757dd35e672f8c5c581e5fc5d083",
       "rendered_digest": "827f7ced73029442d52b51476266da516a2d44b0a599aa255f430c2f6fc12f09",
       "ast_digest": "8c718c00b376ec069717bb11e1bd37e5e003c7cddbcc65236acf11871e235535"
     },
     "stp": {
-      "values_digest": "a127218c492baeadc970423796210e0ae84a12c73bf628969cec82f185dff54b",
+      "values_digest": "89abbcbff101cfeb6ad1d033e7d1a049d71cb41134a767bb7fdc3dcd1c44dee2",
       "rendered_digest": "c7adcc018351d8406f634e15ff8481a00d8f80d26d8edff6faa8c0d209485b04",
       "ast_digest": "401e84fd9cdce741773ed18077b057bc12dde07d92909b4bea9371743d6dc805"
     },
     "spp": {
-      "values_digest": "71412a8c00985515357273663f5faf4c39ba6e1cef45d639dc9cc5030600e297",
+      "values_digest": "4e7287c45df429bbf739a7759de49ff08dcc7717806d23b4496165d70e675f05",
       "rendered_digest": "ce108ef6737abe6ef127ececbf21f4775706788fa64e92aa9efc8297ec441008",
       "ast_digest": "c4bfbbc695fee4636c74151b76e06cf74f62d9596646d14ba4b225de9e4dae48"
     },
     "vpp": {
-      "values_digest": "567a4ef6ba4ec0e875155d912543511909960ca0486741535f914c242ae8ba8f",
+      "values_digest": "630f9437755ba51c6f7b245c6452a4b1c7bac9b4100f526a48a2588847ba7025",
       "rendered_digest": "7cdb84aaf6cfa37a96efffb576846fb56b5b9c61bc3d1ddfed6984d5d6f12522",
       "ast_digest": "840260204bab8f6551b69557ff06f0c8a159ee502aa2245228bedcfaec9a0b95"
     },
     "srp": {
-      "values_digest": "ba267813c464778e3c90c5b18f8772f1182787b90ee4d18edb89af168945027e",
-      "rendered_digest": "b422d106d661383055313bc5fa4f6a309461e36fb9d08662ea746eb9ede8a5a2",
-      "ast_digest": "5645854f90ef502fa1cff2332e8d0f0121ecc9f3a40710ab7465af1e25afaa51"
+      "values_digest": "9740449ded36c695643dffe5a02c760e0d59ee6f2834956a3db92fbd6b156006",
+      "rendered_digest": "ef6a3e881075d3a7d7256240ae757f99c1c529ae5cd1bed03e4f064627ff2c32",
+      "ast_digest": "3819b1839b3445d6badf21c4edf515726cc6dbc046226866ee5a60b65eee6598"
     },
     "sor": {
-      "values_digest": "81d0aba8374a52f7852eee4709e599bfd2040f2397c5b67859bc902a460445d3",
+      "values_digest": "91c07fa722d945f410aa89c5798685ac303d741fc0e93bc1b3e6aa03ae5c9f93",
       "rendered_digest": "b0f1c7b6b990a1c1f5f0bfb431ac3a54a46152ef043faf341559a4907eda0efa",
       "ast_digest": "079f06d2c2c99262fc8edf3b5a4b6ae6e04f3f55f357ad34c9166fcab420d520"
     }
@@ -86,6 +101,13 @@
       "to": "implemented",
       "actor": "codex:worker-7",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "worker-7",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -151,6 +173,13 @@
       "actor": "worker-7",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "worker-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
