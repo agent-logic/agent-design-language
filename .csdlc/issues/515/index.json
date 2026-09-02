@@ -5,25 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "99ca928a39105388228cc5eb975190b37d9d07fb8a57bf26f15418749b7e5578",
+  "generation": 25,
+  "digest": "ae0f9d923f3427a4112f6713bb9ba3c28405d2b4cdf2d0f1abbe75df23ff234a",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
-  "review_assignment": {
-    "reviewer": "fresh-session:a8e01802-46bf-444a-8289-abf37675f1a0",
-    "assigned_by": "codex:/root:issue-515-implementation",
-    "revision": "git-blake3:0ea7d3b0fc7fd90e527205be874ba76b00cfd841:12bd049d506240505793fe209ef9c5f605a56dbe6b3acd75b0dbec9145881023",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/tests/provider_shadow_isolation.rs",
-      "adl/tests/provider_shadow_comparison.rs",
-      "adl/tests/provider_shadow_fallback.rs",
-      "adl/tests/provider_shadow_open_pr_review.rs",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
-      "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json",
-      ".csdlc/prepared/issues/515"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cc31c83a98bb6cbcd32f0c874585caa51bd37eea38871cde2889f29ec6958ea5",
+      "values_digest": "546c416ab0457364e9818af246117991a6b8f3e0f8eb5073c09a5629819648d3",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "3b8394bffaba757aed98a24f1d15c545f2f187cfef0efd77933eee12ca6c71a8",
+      "values_digest": "bed5f50f0ab107198a97847b2f38b05f4062cc650646fbb95c1957b89bc30320",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "0308a52acd6f8528d7b0be314db4df449b7e010f76356f47a88032b35fa9f1dd",
+      "values_digest": "852e9b433da7148a82eae1cafc3cc20f2c00cf8df375407a85b9485a705a512d",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "0520f054fcca2fd086980cfb555559f24e41f3295aa51361ef93ed4147af1f49",
+      "values_digest": "094bf1d2ee1c813d1a095285dc2d8d0cd3457049e1a091df0749e7e7feb56398",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "0a2d52ca12a7399640a7c5719d6d96fae179636ab5d0857de842fa341aa44b68",
-      "rendered_digest": "e6c20d411705d30b22b896c8bde56eb1bf42645ba96fad2d1f33432b25657b19",
-      "ast_digest": "e02a7539dd05b0c7e57bdfee65d6445d7159cfec1abf4d166e1d65906799c321"
+      "values_digest": "5878a5ee8fd5d30263772133350af04955d8a25b81bbcb09f7236c0f507f37ec",
+      "rendered_digest": "0e278abfb03208c2d0f8a8a475ff2175bec075768efa40f3389ccd7b3502553a",
+      "ast_digest": "d99a9797ea6e35a448d85d718246a9d723ef0b3a75da73e449d4507e0d722d80"
     },
     "sor": {
-      "values_digest": "41bf45b253b0bec8f06e2dcd95907ec64ab28499baed7bfb6765b5265cbdea72",
+      "values_digest": "d2d96448c5bc8ff477eb2c0cc7322d1815502cae21e6cf1290fd0857df432d2d",
       "rendered_digest": "e514abcb879be9495c747f0fcf515be0a87b8c9639971e1b2dd96de5b6dc2c36",
       "ast_digest": "2b453fad40a473fb05f4ba498186f1e747e08bd85915f3fabefa14deb9449a74"
     }
@@ -351,6 +337,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "Recover #515 review truth after independent review found the provider shadow helper was not wired into a real provider execution path; remediation now adds opt-in provider-factory/runtime wiring and stricter host-path redaction evidence.",
+      "operation": "recover_review"
     }
   ]
 }
