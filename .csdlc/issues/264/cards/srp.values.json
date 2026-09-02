@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 264,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast directory submission gate packet and blocked disposition",
+    "slug": "podcast-directory-submission-gate",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review issue #264 non-submission gate packet, validation evidence, operator authorization boundary, #51 parent handoff truth, and exact terminal dependency proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the candidate complete all repo-side #264 deliverables without submitting to any provider?",
+        "Does it make the future operator authorization gate unmistakable and per-provider?",
+        "Does the #51 handoff truth avoid closing or overclaiming parent completion?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

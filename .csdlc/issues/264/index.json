@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 264,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "84e1450497552128fe6fcb39a6160b028d303f3ca97fae8355b4750443422f55",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "048c1333826299976dc82ccad98621c680f5e1edca002f47e971911707371bcd",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/264/design.md",
+  "diagram_path": ".csdlc/prepared/issues/264/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:ec73fd86-0781-46c0-beb6-8edec77e630c",
+      "revision": "1dca3f7e0d976a470f5932e16c41c5848f8339b275c5fe44db2442e5dc688a64"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2817add086b27e8c85ef0537c6e30795e52a416546da48ed99ca76f6004bfbb0",
+      "rendered_digest": "754fcf41f9e6ea1c54f03e9e078a8d80de26b018de956e34fb4780f2a3cf788d",
+      "ast_digest": "8971878c268bd1cac1541a26afa87522a4cae0b4b16a42406a63132c43b0bec3"
+    },
+    "stp": {
+      "values_digest": "f01c81a02c8defbdfd8e0635c571db5243206cd0649575497282a84c843a258d",
+      "rendered_digest": "23f1f6deaa32203880369afb07c813e40d0b3b7dde6622ac9ed9f8c147defedd",
+      "ast_digest": "37b2e6b1244e1e4c267f3032d5283501c3af6f7dabd517e3ead64c071173755e"
+    },
+    "spp": {
+      "values_digest": "4f64995634f82db782c50edce2af87147b039d16726a22e15ae134a66c28d99d",
+      "rendered_digest": "dae0b9b0b85204ca28524358ad7af55f991f0bc6443c4355b40553acff3e49ba",
+      "ast_digest": "243c3d6fee4cbc8e0510782b083dec4c72589771be9522eb9148bfe685909fce"
+    },
+    "vpp": {
+      "values_digest": "89897bf5f3c3dc0956e6c112aecda266418ffa78d669dbc2150154940819b9b7",
+      "rendered_digest": "b508958c9ce6009394735abab05618d03f8caf6667d24ef132ba1087b7bc7c18",
+      "ast_digest": "c79397aca18190196da7c84d62de09b295e8fbf16745c591b1475011c0f923f0"
+    },
+    "srp": {
+      "values_digest": "a8200aaa6593bd7b7fa0c7e0d56190bf11ca82c17fd1710552ce280cc3d15bbc",
+      "rendered_digest": "7240160bdc8304b0aa6bbfbfb538af7f7e9986af16a7c935f454249550f800ea",
+      "ast_digest": "f6db7352b5ad78cda37a5329151fa11a69173fa53acf134a9df68a5f40c45199"
+    },
+    "sor": {
+      "values_digest": "a324a24dbdfeda8d96d4b60061b160d2be3d6b4ef5ac6a32f2a1d3098e7de237",
+      "rendered_digest": "60ceb07eb9bec5f74b65f33aa571cb5bf82e3d5de4df7e4bff135dbec79732e4",
+      "ast_digest": "3864d3f8ecd00af2cc217ef32398af587ffc1407a466e9509c3d4551038a4852"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #264 to ready after non-submission gate design approval and governed validation lanes."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Use governed interpreter argv for all #264 issue-owned validation targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-264-focused\",\"proof_role\":\"Validate non-submission gate packet, initialized ledger, redaction boundary, provider census, and #51 parent handoff truth.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/264/validate-submission-gate.rb\"],\"parallel_group\":\"sprint8-issue-264\",\"defer_reason\":\"Run after the non-submission gate packet exists; any retained submission, secret-like material, or destination-link activation claim blocks publication.\"},{\"lane\":\"issue-264-terminal-dependencies\",\"proof_role\":\"Validate #261, #262, and #263 terminal caches before publication.\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/264/validate-terminal-dependencies.rb\"],\"parallel_group\":\"sprint8-issue-264\",\"defer_reason\":\"Run after bind and before publication; any noncanonical dependency blocks #264.\"},{\"lane\":\"issue-264-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"sprint8-hygiene\",\"defer_reason\":\"Run after the issue has a bounded candidate diff.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:ec73fd86-0781-46c0-beb6-8edec77e630c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1dca3f7e0d976a470f5932e16c41c5848f8339b275c5fe44db2442e5dc688a64\",\"design_ref\":\".csdlc/prepared/issues/264/design.md\",\"diagram_digest\":\"7cff9f020a0de84494367ffda2d2ac744d6c8fd94a45db18c676f37bc7c436be\",\"diagram_ref\":\".csdlc/prepared/issues/264/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Advance #264 to ready after non-submission gate design approval and governed validation lanes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
