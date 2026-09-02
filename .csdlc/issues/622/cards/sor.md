@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Addressed exact-head review blockers by adding production CSM adl_workflow reload startup, broadening credential-value rejection, preserving provider-level generation truth, and adding production entrypoint proof.
+Applied bounded CI janitor fixes after PR #646 reported an adl-rust-fmt-clippy failure.
 
 ## Artifacts
 
@@ -30,6 +30,8 @@ Addressed exact-head review blockers by adding production CSM adl_workflow reloa
 - adl/src/execute/tests.rs
 - .csdlc/prepared/issues/622/validate-provider-profile-hotload.sh
 - docs/providers/provider-profile-hot-loading.md
+- adl-runtime-kernel/src/control.rs
+- adl/src/cli/csmctl_cmd.rs
 
 ## Execution
 
@@ -44,6 +46,8 @@ Addressed exact-head review blockers by adding production CSM adl_workflow reloa
 - Tracked provider-level reload generations in ProviderReloadSnapshot and diagnostics instead of hard-coding zero.
 - Added a long-lived-agent production tick test proving the real CSM ADL workflow entrypoint consumes sidecar provider output through the reload owner.
 - Updated #622 validation lanes and documentation to name the production config knob and stronger credential boundary.
+- Ran rustfmt across the ADL workspace and accepted the single formatting change in adl-runtime-kernel/src/control.rs required by the hosted fmt check.
+- Fixed the csmctl command import to use the public adl_runtime_kernel::agent_roster::is_canonical_agent_name path instead of the private control re-export surface.
 
 ## Validation
 
@@ -87,16 +91,25 @@ Addressed exact-head review blockers by adding production CSM adl_workflow reloa
     "purpose": "Prove the refreshed safety lane after exact-head review fixes, including runtime-kernel debounce/shutdown, stronger credential rejection, generation truth, production tick proof, and diff hygiene.",
     "outcome": "passed",
     "evidence_ref": "terminal:issue-622-post-review-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed; git diff --check passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt --all -- --check && cargo clippy --all-targets -- -D warnings"
+    ],
+    "purpose": "Prove the local equivalent of the failed hosted adl-rust-fmt-clippy lane after bounded CI janitor fixes.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:issue-622-ci-janitor-local-fmt-clippy: cargo fmt --all -- --check passed; cargo clippy --all-targets -- -D warnings finished successfully in adl/"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

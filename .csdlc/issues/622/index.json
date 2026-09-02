@@ -4,65 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
-  "phase": "published",
-  "generation": 12,
-  "digest": "c58040fc947be7d4cb01beab6c8716c87b5c61ba1ca5220f81f0bf4dea232198",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "ec7285faa9ca970fd21c4983421c8ec0488a895fb7870da6170eb6258e3b8b65",
   "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/review_622_exact_head_2",
-    "assigned_by": "codex:/root:issue-622-implementation",
-    "revision": "git-blake3:76d588b0e6ca3446794d7487ce46facfb3d06cde:2c2a710e8f40160c503b340ef5170052ac06aefb5dbc69f8d24ebc22baf450a3",
-    "scope": [
-      "adl/src/provider/reload.rs",
-      "adl/src/provider/mod.rs",
-      "adl/src/provider/local.rs",
-      "adl/src/execute/runner.rs",
-      "adl/src/execute/tests.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/long_lived_agent/tests.rs",
-      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
-      "docs/providers/provider-profile-hot-loading.md",
-      "post-review fixes for production startup, credential-value rejection, provider reload generation, validation truth, and PR-readiness"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:/root/review_622_exact_head_2",
-    "scope": [
-      "adl/src/provider/reload.rs",
-      "adl/src/provider/mod.rs",
-      "adl/src/provider/local.rs",
-      "adl/src/execute/runner.rs",
-      "adl/src/execute/tests.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/long_lived_agent/tests.rs",
-      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
-      "docs/providers/provider-profile-hot-loading.md",
-      "post-review fixes for production startup, credential-value rejection, provider reload generation, validation truth, and PR-readiness"
-    ],
-    "reviewed_revision": "git-blake3:76d588b0e6ca3446794d7487ce46facfb3d06cde:2c2a710e8f40160c503b340ef5170052ac06aefb5dbc69f8d24ebc22baf450a3",
-    "findings": [],
-    "residual_risks": [
-      "Focused local validation passed for the #622 production and safety lanes; broader unrelated binary compile surfaces remain outside this issue's proof claim.",
-      "Review was anchored to immutable commit 76d588b0e6ca3446794d7487ce46facfb3d06cde; later lifecycle metadata must remain metadata-only before publication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 622,
-    "pull_request": 646,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/646",
-    "base": "main",
-    "head": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
-    "revision": "git-blake3:ed80fa4044b24e549b77226f5be253260012de34:854329cbc49bde70d2b34d784f481dd9d5d81252e79b0cff6597b886c8a195dc",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -76,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c78555107b344f1f078b197a7229cda30741bf69e8e81148f04ef8a6796d6e05",
+      "values_digest": "13df716456aef4932c111beeb9d436e5760dea6c9c959f78c2ca5928746ef0d1",
       "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
       "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
     },
     "stp": {
-      "values_digest": "18fc318330625ab5420927dd395a92c03c5577cb623295b9b848d2da29900e82",
+      "values_digest": "15a53473dc3af7fc0429cd9eb4725c2f32b39a2fc90d5b0eed5ddf7e18741549",
       "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
       "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
     },
     "spp": {
-      "values_digest": "b8bc34699cc5537bc95fec13f53b2c1db82c3cc254451f24cbc430dbeb2c65d4",
+      "values_digest": "2e2bb7ac35312c6f4ce7e3beba25515880b67838129c767bd7e1a921f0f2a17c",
       "rendered_digest": "cbd5bc3401a6967f6fb383c01b6d927f7d8b22356e20a53da1239f5a8b942b8a",
       "ast_digest": "f50038f904ded4622355bb9aa2e01c666aaef02f27a757a0779a5425aad9f191"
     },
     "vpp": {
-      "values_digest": "c9da9b59283f6517c743e0b819fc34e954bd89838b4ea048029ddc0461e9b635",
+      "values_digest": "4838b93b4f949ccde2a17da20833ddedd340e77cb3dfd93bb00b6a5cb32157f1",
       "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
       "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
     },
     "srp": {
-      "values_digest": "3dfcfd874177d9005d284dbd7318a3f3e947bbf9a2870c6c8277b9aedecee118",
-      "rendered_digest": "7b3f7bc90fad1816f896e294cf405def0ab9776fb5cad2193ea6236637f7256d",
-      "ast_digest": "30555f27c882a0b71a07b70fb94db544b00db9984b531ba456dbca988b9f082a"
+      "values_digest": "47922b4e3d75304a5c799fe369f407feae0d5f7f3203761e5137e59fc98ea9f9",
+      "rendered_digest": "7d5f81f9ea849204b89285ff66ae2df3380812717ddd66a17954d3b93574740e",
+      "ast_digest": "c874784ae80d00f7917c5b9bc1e91c5874aac5aa2383e0c85f847a09c5276dfa"
     },
     "sor": {
-      "values_digest": "97d38bb6767075bb26f95c383eb7ed926754eaa3f13a4282672335090ba2d7f8",
-      "rendered_digest": "d0cc726d983c5136ac0843f3cf77b4e2b2ed61960637816c60fc643222e4b1ca",
-      "ast_digest": "77287179e47ed5e097d037009eea278f74c37dc86fa8aca894afe951d648da1d"
+      "values_digest": "3a0d4fc0457e82a165c6b28f8f182283b79116980387fd6c85a6b95559969799",
+      "rendered_digest": "fa64bb7fed07063084f47e15678fded175515911561fc6e4bad1e8de3a2f8e68",
+      "ast_digest": "d95f4b28b2cacbefb9b004963821e19675336aa5bffc1d7cc081ba3a9ae0106b"
     }
   },
   "transitions": [
@@ -141,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root:issue-622-implementation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Recover #622 from published phase so bounded CI janitor fixes for the blocking fmt/clippy lane can be committed, validated, re-reviewed, and republished truthfully."
     }
   ],
   "audit": [
@@ -255,6 +211,27 @@
       "actor": "codex:/root:issue-622-implementation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Recover #622 from published phase so bounded CI janitor fixes for the blocking fmt/clippy lane can be committed, validated, re-reviewed, and republished truthfully.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Record bounded PR #646 CI janitor fixes before refreshed validation and review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Applied bounded CI janitor fixes after PR #646 reported an adl-rust-fmt-clippy failure.\",\"changes\":[\"Ran rustfmt across the ADL workspace and accepted the single formatting change in adl-runtime-kernel/src/control.rs required by the hosted fmt check.\",\"Fixed the csmctl command import to use the public adl_runtime_kernel::agent_roster::is_canonical_agent_name path instead of the private control re-export surface.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl/src/cli/csmctl_cmd.rs\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Record passing local fmt/clippy proof for PR #646 CI janitor fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt --all -- --check && cargo clippy --all-targets -- -D warnings\"],\"purpose\":\"Prove the local equivalent of the failed hosted adl-rust-fmt-clippy lane after bounded CI janitor fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-ci-janitor-local-fmt-clippy: cargo fmt --all -- --check passed; cargo clippy --all-targets -- -D warnings finished successfully in adl/\"}}"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
     "slug": "provider-profile-hotload",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/reload.rs\nadl/src/provider/mod.rs\nadl/src/provider/local.rs\nadl/src/execute/runner.rs\nadl/src/execute/tests.rs\nadl-runtime-kernel/src/config_reload.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/tests.rs\n.csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\ndocs/providers/provider-profile-hot-loading.md\npost-review fixes for production startup, credential-value rejection, provider reload generation, validation truth, and PR-readiness",
-      "review_revision": "git-blake3:76d588b0e6ca3446794d7487ce46facfb3d06cde:2c2a710e8f40160c503b340ef5170052ac06aefb5dbc69f8d24ebc22baf450a3",
-      "reviewer": "codex-subagent:/root/review_622_exact_head_2",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does a real production execution path consume the reload owner rather than only helper tests?",
         "Does every inference call retain exactly one immutable starting snapshot?",
@@ -24,11 +24,8 @@
         "Are accepted and rejected diagnostics bounded and redacted?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Focused local validation passed for the #622 production and safety lanes; broader unrelated binary compile surfaces remain outside this issue's proof claim.",
-        "Review was anchored to immutable commit 76d588b0e6ca3446794d7487ce46facfb3d06cde; later lifecycle metadata must remain metadata-only before publication."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
