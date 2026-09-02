@@ -47,7 +47,31 @@
       "mutation"
     ]
   },
+  "contract_digest": "b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599",
+  "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
   "contract_digest_source": "DistributedQualificationContract::digest() over the deterministic DRT-A contract fixture",
+  "exact_receipts": [
+    {
+      "schema": "adl.runtime.qualification.drt_a_receipt.v1",
+      "lane": "qualification-contract",
+      "scenario": "duplicate-denial",
+      "contract_digest": "b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599",
+      "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
+      "decision": "denied",
+      "cleanup": "remove duplicate-denial fixture state",
+      "mutation": "none"
+    },
+    {
+      "schema": "adl.runtime.qualification.drt_a_receipt.v1",
+      "lane": "acip-vector",
+      "scenario": "duplicate",
+      "contract_digest": "b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599",
+      "authority_digest": "b4bf89a226fbd80e3cc7997ae8313b4ba8498a0af9419cb4fcdb2ce4bdb14b06",
+      "decision": "denied",
+      "cleanup": "remove duplicate fixture state",
+      "mutation": "message-id-repeat"
+    }
+  ],
   "validation_output": [
     "qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out",
     "acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out",

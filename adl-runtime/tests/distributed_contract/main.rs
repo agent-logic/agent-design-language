@@ -36,6 +36,11 @@ fn qualification_contract() {
             ReceiptDecision::Denied,
         )
         .expect("exact scenario receipt");
+    println!("DRT_A_CONTRACT_DIGEST={}", contract.digest());
+    println!(
+        "DRT_A_DUPLICATE_DENIAL_RECEIPT={}",
+        serde_json::to_string(&exact).expect("receipt json")
+    );
     assert_eq!(exact.schema, "adl.runtime.qualification.drt_a_receipt.v1");
     assert_eq!(exact.scenario, "duplicate-denial");
     assert_eq!(exact.authority_digest, baseline);
@@ -74,12 +79,19 @@ fn replay_conformance() {
     let parsed: Value = serde_json::from_str(&projected).expect("projection json");
     assert_eq!(parsed["monotonic_sequence"], "42");
     let duplicate = contract
-        .evaluate_acip_probe(
-            &contract
-                .acip_probe_for("duplicate")
-                .expect("duplicate probe"),
-        )
+        .acip_probe_for("duplicate")
+        .expect("duplicate probe");
+    assert!(
+        duplicate.seen_message_ids.contains(&duplicate.message_id),
+        "duplicate probe must carry prior message state"
+    );
+    let duplicate = contract
+        .evaluate_acip_probe(&duplicate)
         .expect("duplicate-denial receipt");
+    println!(
+        "DRT_A_DUPLICATE_VECTOR_RECEIPT={}",
+        serde_json::to_string(&duplicate).expect("duplicate vector receipt")
+    );
     assert_eq!(duplicate.decision, ReceiptDecision::Denied);
     assert_eq!(duplicate.scenario, "duplicate");
     assert_eq!(duplicate.mutation, "message-id-repeat");

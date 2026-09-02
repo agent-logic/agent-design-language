@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.
+Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts with mutation fields, stateful duplicate rejection, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.
 
 ## Artifacts
 
@@ -26,8 +26,10 @@ Implemented and remediated DRT-A distributed qualification contract surfaces for
 
 - Added and exported adl_runtime::qualification for downstream DRT consumers.
 - Added deterministic DRT-A contract types, exact qualification receipt types, per-scenario receipt construction, and per-vector ACIP probe evaluation.
+- Updated scenario receipt denominators to require mutation and exact receipt fields.
+- Changed duplicate-vector proof to use explicit seen-message state before denial rather than expected-outcome labeling.
 - Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, exact replay/duplicate receipts, and fail-closed invalid vector behavior.
-- Expanded retained evidence with scenario and ACIP denominators, receipt schema, digest source, and validation output.
+- Expanded retained evidence with scenario and ACIP denominators, receipt schema, computed contract digest, authority digest, exact receipt outputs, and validation output.
 - Preserved #507/#508/#509 and live cloud/provider execution as non-goals.
 
 ## Validation
@@ -43,6 +45,38 @@ Implemented and remediated DRT-A distributed qualification contract surfaces for
     "purpose": "Format the touched adl-runtime Rust sources and tests.",
     "outcome": "passed",
     "evidence_ref": "local command completed with exit 0 in /Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_contract",
+      "qualification_contract",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Extract and prove computed DRT-A contract digest and exact duplicate-denial receipt output.",
+    "outcome": "passed",
+    "evidence_ref": "DRT_A_CONTRACT_DIGEST=b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599 and exact duplicate-denial receipt printed; test passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_contract",
+      "replay_conformance",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Extract and prove exact duplicate vector receipt output.",
+    "outcome": "passed",
+    "evidence_ref": "DRT_A_DUPLICATE_VECTOR_RECEIPT printed with decision denied and mutation message-id-repeat; test passed"
   },
   {
     "command": [

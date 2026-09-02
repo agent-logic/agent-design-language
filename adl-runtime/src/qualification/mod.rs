@@ -101,6 +101,8 @@ pub struct ExactQualificationReceipt {
 pub struct AcipVectorProbe {
     pub id: String,
     pub mutation: String,
+    pub message_id: String,
+    pub seen_message_ids: Vec<String>,
     pub authority_digest: String,
     pub credential: String,
     pub signed: bool,
@@ -332,6 +334,7 @@ impl DistributedQualificationContract {
             "authority_digest",
             "decision",
             "cleanup",
+            "mutation",
         ];
         for scenario in &self.scenarios {
             for field in [
@@ -463,6 +466,8 @@ impl DistributedQualificationContract {
         let mut probe = AcipVectorProbe {
             id: vector.id.clone(),
             mutation: vector.mutation.clone(),
+            message_id: "drt-a-message-42".to_string(),
+            seen_message_ids: Vec::new(),
             authority_digest: vector.authority_digest.clone(),
             credential: "credential:adl:runtime:agent-alpha:v1".to_string(),
             signed: true,
@@ -473,7 +478,7 @@ impl DistributedQualificationContract {
         };
         match id {
             "positive-roundtrip" | "byte-stable-reencode" => {}
-            "duplicate" => probe.monotonic_sequence = 42,
+            "duplicate" => probe.seen_message_ids.push(probe.message_id.clone()),
             "reordered" => probe.monotonic_sequence = 41,
             "stale" => probe.monotonic_sequence = 0,
             "malformed" => probe.payload_well_formed = false,
@@ -509,7 +514,12 @@ impl DistributedQualificationContract {
             ));
         }
         let baseline = self.baseline_authority_digest()?;
-        let decision = if probe.authority_digest == baseline
+        let duplicate_message = probe
+            .seen_message_ids
+            .iter()
+            .any(|seen| seen == &probe.message_id);
+        let decision = if !duplicate_message
+            && probe.authority_digest == baseline
             && probe.credential == "credential:adl:runtime:agent-alpha:v1"
             && probe.signed
             && probe.domain == "runtime-api-authenticated"
@@ -590,6 +600,7 @@ fn scenario(id: &str) -> QualificationScenario {
             "authority_digest".to_string(),
             "decision".to_string(),
             "cleanup".to_string(),
+            "mutation".to_string(),
         ],
         cleanup: format!("remove {id} fixture state"),
         fail_closed: format!("{id} invalid authority is denied before side effects"),
