@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #640 resident Shepherd configuration, provider execution, preload/lifetime recovery, readiness and Observatory health consistency, focused proof, and bounded Wuji acceptance only.
+
 
 ## Prompts
 
@@ -33,7 +33,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live Wuji acceptance remains deferred until deterministic proof passes and the host is coordinated.
+- none
 
 ## Review Result
 

@@ -1217,11 +1217,15 @@ impl ResidentShepherdInitConfig {
         validate_non_empty_trimmed("resident_shepherd.provider", &self.provider)?;
         validate_non_empty_trimmed("resident_shepherd.model", &self.model)?;
         validate_non_empty_trimmed("resident_shepherd.endpoint", &self.endpoint)?;
-        if self.provider != "ollama" {
-            return Err(RuntimeInitError::Policy(format!(
-                "unsupported resident_shepherd.provider: {}",
-                self.provider
-            )));
+        if self.provider.len() > 64
+            || !self
+                .provider
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+        {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd.provider must be a lowercase provider identifier".to_owned(),
+            ));
         }
         if !self.endpoint.starts_with("http://") {
             return Err(RuntimeInitError::Policy(

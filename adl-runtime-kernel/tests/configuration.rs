@@ -1226,8 +1226,10 @@ fn canonical_name_is_required_for_resident_shepherd_configuration() {
 fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set() {
     let root = tempfile::tempdir().unwrap();
     let valid = valid_runtime_init_toml(root.path());
-    let unsupported = valid.replace("provider = \"ollama\"", "provider = \"placeholder\"");
-    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&unsupported).is_err());
+    let provider_neutral = valid.replace("provider = \"ollama\"", "provider = \"vertex-ai\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&provider_neutral).is_ok());
+    let invalid_provider = valid.replace("provider = \"ollama\"", "provider = \"Vertex AI\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
 
     let duplicate = valid
         .replace("[resident_shepherd]", "[[resident_shepherd]]")
@@ -1236,4 +1238,13 @@ fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_s
             "[[resident_shepherd]]\nname = \"beacon.axioma\"\ndisplay_name = \"Duplicate\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"qwen3:8b\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
         );
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&duplicate).is_err());
+
+    let two = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"lumen.axioma\"\ndisplay_name = \"Lumen\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"gemma4:e4b-mlx\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&two).unwrap();
+    assert_eq!(parsed.resident_shepherd.iter().count(), 2);
 }

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
     "slug": "runtime-model-backed-resident-shepherd",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #640 resident Shepherd configuration, provider execution, preload/lifetime recovery, readiness and Observatory health consistency, focused proof, and bounded Wuji acceptance only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
@@ -25,9 +25,7 @@
         "Does the branch start from merged #617 rather than carrying an accidental PR stack?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live Wuji acceptance remains deferred until deterministic proof passes and the host is coordinated."
-      ],
+      "residual_risk": [],
       "review_result": "pre_review"
     }
   }

@@ -902,7 +902,7 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
         }
         let request = String::from_utf8_lossy(&request);
         assert!(request.contains("POST /api/generate"));
-        assert!(request.contains("qwen3:8b"));
+        assert!(request.contains("gemma4:e4b-mlx"));
         assert!(request.contains("\"keep_alive\":-1"));
         let body = br#"{"response":"provider-backed answer"}"#;
         stream.write_all(format!(
@@ -921,17 +921,29 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
     .unwrap();
     let executor = ResidentShepherdExecutor::new(
         "runtime-test",
-        ResidentShepherdInitConfig {
-            name: "beacon.axioma".to_owned(),
-            display_name: "Beacon".to_owned(),
-            office: "resident shepherd".to_owned(),
-            provider: "ollama".to_owned(),
-            model: "qwen3:8b".to_owned(),
-            endpoint: format!("http://{address}"),
-            preload: Default::default(),
-        },
+        [
+            ResidentShepherdInitConfig {
+                name: "beacon.axioma".to_owned(),
+                display_name: "Beacon".to_owned(),
+                office: "resident shepherd".to_owned(),
+                provider: "ollama".to_owned(),
+                model: "qwen3:8b".to_owned(),
+                endpoint: format!("http://{address}"),
+                preload: Default::default(),
+            },
+            ResidentShepherdInitConfig {
+                name: "lumen.axioma".to_owned(),
+                display_name: "Lumen".to_owned(),
+                office: "resident shepherd".to_owned(),
+                provider: "ollama".to_owned(),
+                model: "gemma4:e4b-mlx".to_owned(),
+                endpoint: format!("http://{address}"),
+                preload: Default::default(),
+            },
+        ],
         native,
     );
+    executor.readiness().mark_ready("lumen.axioma");
     let request = OperationRequest {
         schema: OPERATION_REQUEST_SCHEMA.to_owned(),
         request_id: "provider-request".to_owned(),
@@ -941,6 +953,7 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
             "schema": SHEPHERD_REQUEST_SCHEMA,
             "correlation_id": "provider-correlation",
             "runtime_id": "runtime-test",
+            "shepherd_name": "lumen.axioma",
             "prompt": "hello"
         }))
         .unwrap(),
@@ -954,4 +967,85 @@ async fn shepherd_provider_routes_governed_reasoning_to_configured_model() {
     );
     assert_eq!(response.response, "provider-backed answer");
     server.await.unwrap();
+}
+
+#[tokio::test]
+async fn resident_shepherd_model_health_gates_inference_and_recovers() {
+    let temp = tempfile::tempdir().unwrap();
+    let native = build_production_operation_executors_with_recorder(
+        temp.path().to_path_buf(),
+        adl_runtime_kernel::RuntimeRecorder::new(16),
+    )
+    .unwrap()
+    .remove(&AdapterKind::Shepherd)
+    .unwrap();
+    let executor = ResidentShepherdExecutor::new(
+        "runtime-test",
+        [ResidentShepherdInitConfig {
+            name: "beacon.axioma".to_owned(),
+            display_name: "Beacon".to_owned(),
+            office: "resident shepherd".to_owned(),
+            provider: "ollama".to_owned(),
+            model: "qwen3:8b".to_owned(),
+            endpoint: "http://127.0.0.1:9".to_owned(),
+            preload: Default::default(),
+        }],
+        native,
+    );
+    let readiness = executor.readiness();
+    let mut request = OperationRequest {
+        schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+        request_id: "health-request".to_owned(),
+        idempotency_key: "health-request".to_owned(),
+        principal: "runtime".to_owned(),
+        payload: serde_json::to_vec(&json!({
+            "schema": SHEPHERD_REQUEST_SCHEMA,
+            "correlation_id": "health-correlation",
+            "runtime_id": "runtime-test",
+            "prompt": "hello"
+        }))
+        .unwrap(),
+        permit: None,
+    };
+    request.payload = serde_json::to_vec(&json!({
+        "schema": SHEPHERD_REQUEST_SCHEMA,
+        "correlation_id": "invalid correlation",
+        "runtime_id": "runtime-test",
+        "prompt": "hello"
+    }))
+    .unwrap();
+    assert_eq!(
+        executor.execute(&request).await.unwrap_err().message,
+        "shepherd_invalid_request"
+    );
+    request.payload = serde_json::to_vec(&json!({
+        "schema": SHEPHERD_REQUEST_SCHEMA,
+        "correlation_id": "health-correlation",
+        "runtime_id": "runtime-test",
+        "prompt": "x".repeat(16 * 1024 + 1)
+    }))
+    .unwrap();
+    assert_eq!(
+        executor.execute(&request).await.unwrap_err().message,
+        "shepherd_invalid_request"
+    );
+    request.payload = serde_json::to_vec(&json!({
+        "schema": SHEPHERD_REQUEST_SCHEMA,
+        "correlation_id": "health-correlation",
+        "runtime_id": "runtime-test",
+        "prompt": "hello"
+    }))
+    .unwrap();
+    assert_eq!(
+        executor.execute(&request).await.unwrap_err().message,
+        "shepherd_model_not_ready"
+    );
+    readiness.mark_ready("beacon.axioma");
+    assert!(readiness.is_ready("beacon.axioma"));
+    readiness.mark_unready("beacon.axioma");
+    assert!(!readiness.is_ready("beacon.axioma"));
+    assert_eq!(
+        executor.execute(&request).await.unwrap_err().message,
+        "shepherd_model_not_ready"
+    );
 }

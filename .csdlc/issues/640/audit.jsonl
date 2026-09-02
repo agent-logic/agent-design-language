@@ -6,3 +6,6 @@
 {"sequence":6,"generation":5,"actor":"fresh-session:015a7785-e86b-4607-803c-84a8f221de18","reason":"approve completed issue design","operation":"{\"design_digest\":\"f73bbe055c9d064099191075b3e9c1e38eb3dee8693df8ed48569325290f1959\",\"design_ref\":\".csdlc/prepared/issues/640/design.md\",\"diagram_digest\":\"81aeb9544c88940ec0fcef0ed2963e68ee37fd481c16f1199bd28c5f6ef0efaa\",\"diagram_ref\":\".csdlc/prepared/issues/640/diagram.mmd\",\"operation\":\"approve_design\"}"}
 {"sequence":7,"generation":5,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":8,"generation":6,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":9,"generation":6,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":7,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":11,"generation":8,"actor":"codex:/root","reason":"Recover the recorded changes-required review so all five actionable findings can be repaired and receive fresh exact-head validation and independent review.","operation":"recover_review"}

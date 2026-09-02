@@ -58,7 +58,7 @@ Runtime v3 now creates a configured model-backed resident Shepherd, preloads and
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -1,11 +1,17 @@
-use std::{future::Future, pin::Pin, sync::Arc, time::Instant};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    future::Future,
+    pin::Pin,
+    sync::{Arc, RwLock},
+    time::Instant,
+};
 
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    invoke_ollama_model, ExecutorError, FailureClass, OperationExecutor, OperationRequest,
-    ResidentShepherdInitConfig, ShepherdExecutionClass, ShepherdProvenance, ShepherdRequest,
-    ShepherdResponse, SHEPHERD_REQUEST_SCHEMA, SHEPHERD_RESPONSE_SCHEMA,
+    invoke_ollama_model, shepherd::decode_request, ExecutorError, FailureClass, OperationExecutor,
+    OperationRequest, ResidentShepherdInitConfig, ShepherdExecutionClass, ShepherdProvenance,
+    ShepherdRequest, ShepherdResponse, SHEPHERD_RESPONSE_SCHEMA,
 };
 
 /// Provider-backed production Shepherd executor. The native executor remains
@@ -13,21 +19,65 @@ use crate::{
 /// the configured provider without granting it lifecycle authority.
 pub struct ResidentShepherdExecutor {
     runtime_id: String,
-    config: ResidentShepherdInitConfig,
+    primary_name: String,
+    configs: BTreeMap<String, ResidentShepherdInitConfig>,
+    ready: ResidentShepherdReadiness,
     admission: Arc<dyn OperationExecutor>,
+}
+
+#[derive(Clone, Default)]
+pub struct ResidentShepherdReadiness(Arc<RwLock<BTreeSet<String>>>);
+
+impl ResidentShepherdReadiness {
+    pub fn mark_ready(&self, name: &str) {
+        self.0
+            .write()
+            .expect("resident Shepherd readiness lock poisoned")
+            .insert(name.to_owned());
+    }
+
+    pub fn mark_unready(&self, name: &str) {
+        self.0
+            .write()
+            .expect("resident Shepherd readiness lock poisoned")
+            .remove(name);
+    }
+
+    pub fn is_ready(&self, name: &str) -> bool {
+        self.0
+            .read()
+            .expect("resident Shepherd readiness lock poisoned")
+            .contains(name)
+    }
 }
 
 impl ResidentShepherdExecutor {
     pub fn new(
         runtime_id: impl Into<String>,
-        config: ResidentShepherdInitConfig,
+        configs: impl IntoIterator<Item = ResidentShepherdInitConfig>,
         admission: Arc<dyn OperationExecutor>,
     ) -> Self {
+        let configs = configs.into_iter().collect::<Vec<_>>();
+        let primary_name = configs
+            .first()
+            .expect("validated Shepherd set is non-empty")
+            .name
+            .clone();
+        let configs = configs
+            .into_iter()
+            .map(|config| (config.name.clone(), config))
+            .collect::<BTreeMap<_, _>>();
         Self {
             runtime_id: runtime_id.into(),
-            config,
+            primary_name,
+            configs,
+            ready: ResidentShepherdReadiness::default(),
             admission,
         }
+    }
+
+    pub fn readiness(&self) -> ResidentShepherdReadiness {
+        self.ready.clone()
     }
 
     fn invalid(message: &'static str) -> ExecutorError {
@@ -67,22 +117,41 @@ impl OperationExecutor for ResidentShepherdExecutor {
     {
         Box::pin(async move {
             let parsed = serde_json::from_slice::<ShepherdRequest>(&request.payload);
-            let Ok(shepherd_request) = parsed else {
+            if parsed.is_err() {
                 return self
                     .admission
                     .execute_with_cancellation(request, cancellation)
                     .await;
-            };
-            if shepherd_request.schema != SHEPHERD_REQUEST_SCHEMA
-                || shepherd_request.runtime_id != self.runtime_id
-                || shepherd_request.prompt.trim().is_empty()
-            {
+            }
+            let shepherd_request = decode_request(request, 16 * 1024)
+                .map_err(|_| Self::invalid("shepherd_invalid_request"))?;
+            if shepherd_request.runtime_id != self.runtime_id {
                 return Err(Self::invalid("shepherd_invalid_request"));
+            }
+            let shepherd_name = shepherd_request
+                .shepherd_name
+                .as_deref()
+                .unwrap_or(&self.primary_name);
+            let config = self
+                .configs
+                .get(shepherd_name)
+                .ok_or_else(|| Self::invalid("shepherd_unknown_resident"))?;
+            if !self.ready.is_ready(shepherd_name) {
+                return Err(ExecutorError {
+                    class: FailureClass::Retryable,
+                    message: "shepherd_model_not_ready".to_owned(),
+                });
+            }
+            if config.provider != "ollama" {
+                return Err(ExecutorError {
+                    class: FailureClass::Retryable,
+                    message: "resident_shepherd_provider_unsupported".to_owned(),
+                });
             }
             let started = Instant::now();
             let response = invoke_ollama_model(
-                &self.config.endpoint,
-                &self.config.model,
+                &config.endpoint,
+                &config.model,
                 &shepherd_request.prompt,
                 cancellation,
             )
@@ -103,12 +172,12 @@ impl OperationExecutor for ResidentShepherdExecutor {
                 execution_class: ShepherdExecutionClass::RealLocalModel,
                 provenance: ShepherdProvenance::LiveExecution,
                 retained: false,
-                backend_identity_sha256: Some(sha256(self.config.provider.as_bytes())),
-                model_identity_sha256: sha256(self.config.model.as_bytes()),
+                backend_identity_sha256: Some(sha256(config.provider.as_bytes())),
+                model_identity_sha256: sha256(config.model.as_bytes()),
                 model_artifact_sha256: None,
-                runner_program_sha256: sha256(self.config.endpoint.as_bytes()),
+                runner_program_sha256: sha256(config.endpoint.as_bytes()),
                 runner_launch_sha256: sha256(
-                    format!("{}:{}", self.config.provider, self.config.model).as_bytes(),
+                    format!("{}:{}", config.provider, config.model).as_bytes(),
                 ),
                 runner_nonce_sha256: None,
                 elapsed_millis: started.elapsed().as_millis().try_into().unwrap_or(u64::MAX),

@@ -5595,6 +5595,9 @@ pub async fn preload_resident_shepherd_model(
     config: &ResidentShepherdInitConfig,
     cancellation: &CancellationToken,
 ) -> Result<(), &'static str> {
+    if config.provider != "ollama" {
+        return Err("resident_shepherd_provider_unsupported");
+    }
     let request = AgentAdmissionRequest {
         schema: AGENT_ADMISSION_SCHEMA.to_owned(),
         id: "resident-shepherd-preload".to_owned(),
