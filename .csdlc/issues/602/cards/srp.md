@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/control.rs
+.csdlc/evidence/602/live-wuji-acceptance.md
 
 ## Prompts
 
@@ -32,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live Wuji proves exact-candidate lifecycle, inference, clean shutdown, and restart; the 10-minute queue-expiry branch is proven deterministically rather than by an unnecessary live wait.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a6c5bd5cf3156a7efdc64d0c5a651fde32642a30:08d0247414fbd3f0d15d3e01cc404bc4862bd0935b6a80903d68b5c31747ab0c")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:issue_602_queue_review")
 
-Result: pre_review
+Result: pass

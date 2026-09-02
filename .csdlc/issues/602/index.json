@@ -3,13 +3,34 @@
   "issue": 602,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
-  "phase": "implemented",
-  "generation": 29,
-  "digest": "677cbb0f1096677d6e7837e64f3392c16f403b8ec65f837778b34d67ec45dc50",
+  "phase": "reviewed",
+  "generation": 30,
+  "digest": "361a3bbb0da949a93a4e422148aa8f6acbbf9ec80c3ccfbb8b952aadda714311",
   "branch": "codex/602-runtime-csmctl-agent-add",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:issue_602_queue_review",
+    "assigned_by": "codex:issue-602-completion",
+    "revision": "git-blake3:a6c5bd5cf3156a7efdc64d0c5a651fde32642a30:08d0247414fbd3f0d15d3e01cc404bc4862bd0935b6a80903d68b5c31747ab0c",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/evidence/602/live-wuji-acceptance.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:issue_602_queue_review",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/evidence/602/live-wuji-acceptance.md"
+    ],
+    "reviewed_revision": "git-blake3:a6c5bd5cf3156a7efdc64d0c5a651fde32642a30:08d0247414fbd3f0d15d3e01cc404bc4862bd0935b6a80903d68b5c31747ab0c",
+    "findings": [],
+    "residual_risks": [
+      "Live Wuji proves exact-candidate lifecycle, inference, clean shutdown, and restart; the 10-minute queue-expiry branch is proven deterministically rather than by an unnecessary live wait."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1d3fbba1f2f3bcaa527f5b8bbfa29866631d47b4e1dd384ddfce733e98f91311",
+      "values_digest": "d5a5b1d0ac7b370f1b61116fed6eae5bd20e7a4b7ec7602cdce82a7f6afa7b12",
       "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
       "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
     },
     "stp": {
-      "values_digest": "ca6f05ac4f964bf6418cf3b55ea1bcec0feedfda52d17a58f9ef7b04fc857691",
+      "values_digest": "ecc36244ce7a785ab3d10b5f7d88500ec1ef0ac8b590a3e9ffbb440e9d21c4c9",
       "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
       "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
     },
     "spp": {
-      "values_digest": "a4d1baf5e45ab852c5b2f1933bfe9b234f40da86b27af8d816d9d49afa7d6777",
+      "values_digest": "49ac276071be75f61db034aeecc395f2518f31a69a8b9c1d19b06f1a6b1d1ea2",
       "rendered_digest": "ccb37dbef2530ba00930b9e5f1ddf66361372ad181f115ffc2ffa0c97c77a054",
       "ast_digest": "ce6b07721349077126c03c4dd2513a3e3fc408c9c6f6d445ec0e281575ac2f30"
     },
     "vpp": {
-      "values_digest": "a703e9f3b221239e1da26fce1a23b6995a3532e9171f838c32d54bef3dacf4f8",
+      "values_digest": "a30afeb70d9b11f0571968115f95bd7e4d7fc5ac527c285d53a07e5f9976a86c",
       "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
       "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
     },
     "srp": {
-      "values_digest": "fdad20f99f15841f82caf1f7f8e2d7a4727cf9c6009e75e110ba366a1ee40a1e",
-      "rendered_digest": "8c81a1f384103fc85c77447ef28e2fdfb72044350e278290921e0afced2a73bf",
-      "ast_digest": "dc81c7f36f32c92e5f51d585a328d1e7bf522b488f81684982557012fb1aad87"
+      "values_digest": "5f4cff0711bff661ac400cc937b92fd390e2e55bad82326d1b21cd507d08725e",
+      "rendered_digest": "b7960686a782379df4cc604d56b2b6b2a3a1d563ea5fd0c273af863bf4b14307",
+      "ast_digest": "8f6e08be89ecc37fda685e9b0fa2e840444181afbf674a503e5318ad30e32203"
     },
     "sor": {
-      "values_digest": "d282d4ee3644387ae2721a56809083f72ae64549ebb351dd28b1b75575e02734",
+      "values_digest": "27e53af11c04c108a2e779865b859d74b7040c7fe5d2ccfe0bbcf5b15efa6631",
       "rendered_digest": "8b5be9551a4d646b4692782700ddbef2722f276698285d4183640c658b4e0372",
       "ast_digest": "c9ee1ade3394e28c0b58811ceac3b81e007bf3aecf4e43d38b23e3a665e63a18"
     }
@@ -194,6 +215,13 @@
       "to": "implemented",
       "actor": "codex:issue-602-completion",
       "reason": "Runtime queue and provider timeout correction plus refreshed exact-candidate Wuji acceptance require current review and publication truth."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-602-completion",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -469,6 +497,20 @@
       "actor": "codex:issue-602-completion",
       "reason": "Runtime queue and provider timeout correction plus refreshed exact-candidate Wuji acceptance require current review and publication truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 29,
+      "actor": "codex:issue-602-completion",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "codex:issue-602-completion",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
