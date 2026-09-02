@@ -4,12 +4,86 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 54,
-  "digest": "df2c4ca40d7a560fd6e8112ae01e68994696276d648266be1dcf6fd37d913c22",
+  "generation": 55,
+  "digest": "9cc95af4aab18063bf04f7c2a793c76bea0104d2d6ac60148b02ba81c89960bf",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:9bf1aebb-3fcb-45fd-90dd-b1087f6feb00",
+    "assigned_by": "codex-session:issue-607",
+    "revision": "git-blake3:7a622c99bd54d99fe0c28349e5ccbf7d683b6838:46acff62ac090a8731675357c71b9b0531c397f03bc7139ad532312948e7eb7a",
+    "scope": [
+      ".csdlc/evidence/607",
+      ".csdlc/prepared/issues/607/design.md",
+      ".csdlc/prepared/issues/607/diagram.mmd",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      "infra/aws/runtime/gpu-proof"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:9bf1aebb-3fcb-45fd-90dd-b1087f6feb00",
+    "scope": [
+      ".csdlc/evidence/607",
+      ".csdlc/prepared/issues/607/design.md",
+      ".csdlc/prepared/issues/607/diagram.mmd",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      "infra/aws/runtime/gpu-proof"
+    ],
+    "reviewed_revision": "git-blake3:7a622c99bd54d99fe0c28349e5ccbf7d683b6838:46acff62ac090a8731675357c71b9b0531c397f03bc7139ad532312948e7eb7a",
+    "findings": [
+      {
+        "id": "F-607-1",
+        "severity": "p1",
+        "summary": "The qualification path reports PASS even when the GPU guest exceeds the 30-second local-ready limit and controller-observed service readiness exceeds 120 seconds.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-607-2",
+        "severity": "p1",
+        "summary": "The paid-action controller accounts per storage generation and only records successful attempts, so retries and earlier campaigns are not proven to remain inside one issue-wide 20 USD envelope.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-607-3",
+        "severity": "p2",
+        "summary": "The corrected warm-volume teardown behavior has focused static proof but has not been exercised by a successful live AWS qualification run.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +98,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "54133da75f9fcf00e51f6f5b74767e5f083c788fb86971572a4907fcd1333f6a",
+      "values_digest": "20e2c33d917b883fb1a2b50026c48631302831949207011f25954c7630df884c",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "12b31b87669c589e54f59ba76cd570bdfea6d721d79b9ba3111ffee53dd13029",
+      "values_digest": "85dffa6df4b43fd990ea849c13207d5848b1ab568d6600137a0866972a3a90ff",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "0edee83cc680bc918458c1e8119a13cd972aa4d2f124fec73df9957484e04818",
+      "values_digest": "96af73c6ee5f6760b4d8e83f9ac2f6ab4faa276936f030034211b56f42d2c57b",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "e845244b63e6562d95b2e73fd10e07b220c3a42d85c7632d32ea5a2cf3a846ae",
+      "values_digest": "06154b6c0cba5f0371240882c88c3ea92314a886c2361e6a1d5c6bba443c5f18",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "902750aebc77f31b9d4d084cf8a2870984a35f6e8a4d93008ccf348921adc090",
-      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
-      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
+      "values_digest": "950c6cc08ba1008d885e54dd519316d338f3f2784926810b9c46a23af6525bdb",
+      "rendered_digest": "e9386761137309ea36c98c77f476035b2320c8a4630111597834a8f7e7af1c24",
+      "ast_digest": "40229aee1be8d406122739e212e59a873ea47f246760035901d6f761556af7c3"
     },
     "sor": {
-      "values_digest": "a4b7bc386afdb5648e3662ac44034b01188b79ca3fae04e13e8d6625d2a9bc49",
+      "values_digest": "78989b16c82e457a7adfc4a61b0652a9d1ae1fb49e641d610cc0b7f7f5083493",
       "rendered_digest": "20c3f58b1f97c0923ee3811af7af7657dd7e754006979177bf99445b737b2a59",
       "ast_digest": "b40cdfba8252c11bdec5b09f08d58722b773182452e6acc20eb991796d3963d3"
     }
@@ -630,6 +704,20 @@
       "actor": "codex-primary-issue607",
       "reason": "Record the focused Guardian library validation actually run for the Runtime liveness remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"guardian\",\"--lib\"],\"purpose\":\"Prove the Guardian retry and supervision behavior changed by this issue; 22 focused tests passed with zero failures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"}}"
+    },
+    {
+      "sequence": 70,
+      "generation": 54,
+      "actor": "codex-session:issue-607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 55,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

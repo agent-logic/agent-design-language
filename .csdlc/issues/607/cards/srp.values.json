@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 54
+    "generation": 55
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/607\n.csdlc/prepared/issues/607/design.md\n.csdlc/prepared/issues/607/diagram.mmd\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime/src/guardian.rs\nadl/tools/issue607_probe_runtime.py\nadl/tools/issue607_qualify_warm_polis.sh\nadl/tools/issue607_validate_saved_plan.sh\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\ndocs/operations/cloud/aws/shepherd-gpu-proof/README.md\ninfra/aws/runtime/gpu-proof",
+      "review_revision": "git-blake3:7a622c99bd54d99fe0c28349e5ccbf7d683b6838:46acff62ac090a8731675357c71b9b0531c397f03bc7139ad532312948e7eb7a",
+      "reviewer": "fresh-session:9bf1aebb-3fcb-45fd-90dd-b1087f6feb00",
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -23,9 +23,40 @@
         "Can stale or cross-AZ volume content activate?",
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "F-607-1",
+          "severity": "p1",
+          "summary": "The qualification path reports PASS even when the GPU guest exceeds the 30-second local-ready limit and controller-observed service readiness exceeds 120 seconds.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-607-2",
+          "severity": "p1",
+          "summary": "The paid-action controller accounts per storage generation and only records successful attempts, so retries and earlier campaigns are not proven to remain inside one issue-wide 20 USD envelope.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-607-3",
+          "severity": "p2",
+          "summary": "The corrected warm-volume teardown behavior has focused static proof but has not been exercised by a successful live AWS qualification run.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
