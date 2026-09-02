@@ -9,7 +9,7 @@ use csdlc_v3::commands::local::{
 };
 use csdlc_v3::{is_v3d_local_preparation_predecessor, LOCAL_PREPARATION_PREDECESSORS};
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -35,6 +35,7 @@ fn request() -> LocalPreparationRequest {
         branch: "codex/503-v3-d-local-preparation-workflow-exec".into(),
         worktree: "adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec".into(),
         registry_version: "1.0.3".into(),
+        expected_lifecycle_digest: None,
         commands: required_local_commands().to_vec(),
     }
 }
@@ -55,6 +56,28 @@ fn registrations() -> Vec<WorktreeRegistration> {
         worktree: "adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec".into(),
         primary: false,
     }]
+}
+
+fn write_lifecycle_state(root: &Path, issue: u64, phase: &str, digest: &str) {
+    let issue_root = root.join(format!(".csdlc/issues/{issue}"));
+    fs::create_dir_all(issue_root.join("cards")).expect("issue cards dir");
+    fs::write(
+        issue_root.join("index.json"),
+        format!("{{\"phase\":\"{phase}\",\"generation\":7,\"digest\":\"{digest}\"}}"),
+    )
+    .expect("write index");
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.values.json")),
+            b"{}",
+        )
+        .expect("write values");
+        fs::write(
+            issue_root.join("cards").join(format!("{card}.md")),
+            format!("# {card}\n"),
+        )
+        .expect("write card");
+    }
 }
 
 #[test]
@@ -195,6 +218,11 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
     let dir = fixture_dir("routes");
     let request_path = dir.join("request.json");
     let registrations_path = dir.join("registrations.json");
+    let ready_root = dir.join("ready-root");
+    let bound_root = dir.join("bound-root");
+    let state_root = dir.join("state-root");
+    write_lifecycle_state(&ready_root, 503, "ready", "digest-ready");
+    write_lifecycle_state(&bound_root, 503, "bound", "digest-bound");
     fs::write(
         &request_path,
         serde_json::to_vec(&request()).expect("request json"),
@@ -217,24 +245,35 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
         assert!(help_stdout.contains("status: implemented"));
         assert!(help_stdout.contains("#505 cutover"));
 
-        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        let mut output = Command::new(env!("CARGO_BIN_EXE_csdlc"));
+        output
             .arg(route)
             .arg("--request")
             .arg(&request_path)
             .arg("--registry")
             .arg(repo_root().join("docs/templates/prompts/current.json"))
             .arg("--registrations")
-            .arg(&registrations_path)
-            .output()
-            .expect("run local route");
+            .arg(&registrations_path);
+        match route {
+            "issue" => {
+                output.arg("--v3-state-root").arg(&state_root);
+            }
+            "shepherd" => {
+                output.arg("--repo-root").arg(&bound_root);
+            }
+            _ => {
+                output.arg("--repo-root").arg(&ready_root);
+            }
+        }
+        let output = output.output().expect("run local route");
         assert!(output.status.success(), "{route} failed: {output:?}");
         let value: serde_json::Value =
             serde_json::from_slice(&output.stdout).expect("machine-readable json");
         assert_eq!(value["command"], route);
-        assert_eq!(value["read_only"], true);
+        assert_eq!(value["read_only"], route != "issue");
         assert_eq!(value["operational_read_only"], true);
         assert_eq!(value["operational_authority"], false);
-        assert_eq!(value["writes_v3_state"], false);
+        assert_eq!(value["writes_v3_state"], route == "issue");
         assert_eq!(value["result"]["issue"], 503);
         assert_eq!(value["route_status"]["route"], route);
         assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
@@ -263,9 +302,22 @@ fn expected_route_result_kind(route: &str) -> &'static str {
 
 #[test]
 fn local_route_status_codes_are_route_specific() {
+    let dir = fixture_dir("status-codes");
+    let ready_root = dir.join("ready");
+    let bound_root = dir.join("bound");
+    write_lifecycle_state(&ready_root, 503, "ready", "digest-ready");
+    write_lifecycle_state(&bound_root, 503, "bound", "digest-bound");
+    let missing = inspect_local_lifecycle_state(&dir, 503);
+    let ready = inspect_local_lifecycle_state(&ready_root, 503);
+    let bound = inspect_local_lifecycle_state(&bound_root, 503);
     let mut codes = BTreeSet::new();
     for route in LOCAL_ROUTE_NAMES {
-        let status = local_route_status(route, None).expect("known local route");
+        let observation = match route {
+            "issue" => &missing,
+            "shepherd" => &bound,
+            _ => &ready,
+        };
+        let status = local_route_status(route, Some(observation)).expect("known local route");
         assert!(
             codes.insert(status.code.clone()),
             "route {route} reused status code {}",
@@ -280,7 +332,7 @@ fn local_route_status_codes_are_route_specific() {
     assert!(codes.contains("doctor_ready"));
     assert!(codes.contains("schedule_plan_ready"));
     assert!(codes.contains("shepherd_plan_ready"));
-    assert!(codes.contains("lifecycle_observation_missing"));
+    assert!(!codes.contains("lifecycle_observation_missing"));
 }
 
 #[test]
@@ -450,6 +502,109 @@ fn local_lifecycle_readiness_rejects_post_execution_phase() {
     assert_eq!(observation.code, "unsupported_local_lifecycle_phase");
     assert!(!observation.ready_to_execute);
     assert!(observation.message.contains("implemented"));
+}
+
+#[test]
+fn local_routes_fail_closed_without_observed_lifecycle_state() {
+    let dir = fixture_dir("route-missing-observation");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request()).expect("request json"),
+    )
+    .expect("write request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("bind")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .output()
+        .expect("run local bind route");
+    assert!(!output.status.success(), "{output:?}");
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("lifecycle_observation_missing"));
+}
+
+#[test]
+fn local_routes_reject_unsupported_transitions_from_observed_phase() {
+    let dir = fixture_dir("route-unsupported-transition");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    let ready_root = dir.join("ready-root");
+    write_lifecycle_state(&ready_root, 503, "ready", "digest-ready");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request()).expect("request json"),
+    )
+    .expect("write request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("shepherd")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--repo-root")
+        .arg(&ready_root)
+        .output()
+        .expect("run local shepherd route");
+    assert!(!output.status.success(), "{output:?}");
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("unsupported_local_route_transition"));
+}
+
+#[test]
+fn local_routes_reject_stale_lifecycle_digest() {
+    let dir = fixture_dir("route-stale-digest");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    let ready_root = dir.join("ready-root");
+    write_lifecycle_state(&ready_root, 503, "ready", "actual-digest");
+    let mut stale = request();
+    stale.expected_lifecycle_digest = Some("stale-digest".into());
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&stale).expect("request json"),
+    )
+    .expect("write request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("bind")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .arg("--repo-root")
+        .arg(&ready_root)
+        .output()
+        .expect("run local bind route");
+    assert!(!output.status.success(), "{output:?}");
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("stale_local_lifecycle_digest"));
 }
 
 #[test]

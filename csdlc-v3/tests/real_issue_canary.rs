@@ -99,6 +99,7 @@ fn real_issue_request(
             .expect("real issue worktree")
             .to_owned(),
         registry_version: registry.version.clone(),
+        expected_lifecycle_digest: index["digest"].as_str().map(str::to_owned),
         commands: required_local_commands().to_vec(),
     }
 }

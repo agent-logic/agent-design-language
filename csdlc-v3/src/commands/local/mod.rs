@@ -45,6 +45,8 @@ pub struct LocalPreparationRequest {
     pub branch: String,
     pub worktree: String,
     pub registry_version: String,
+    #[serde(default)]
+    pub expected_lifecycle_digest: Option<String>,
     pub commands: Vec<LocalCommand>,
 }
 
@@ -103,6 +105,9 @@ pub struct DoctorFinding {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LocalLifecycleStateObservation {
     pub issue: u64,
+    pub phase: Option<String>,
+    pub generation: Option<u64>,
+    pub digest: Option<String>,
     pub status: PlanStatus,
     pub code: String,
     pub message: String,
@@ -448,40 +453,63 @@ pub fn local_route_status(
 ) -> Option<LocalRouteStatus> {
     let command = local_route_command(route)?;
     let (status, code, message) = match command {
-        LocalCommand::PrepareIssue => (
-            PlanStatus::Ready,
-            "issue_preparation_ready",
-            "issue route has typed request, prompt registry, and card denominator inputs",
-        ),
-        LocalCommand::BindWorktree => (
-            PlanStatus::Ready,
+        LocalCommand::PrepareIssue => match lifecycle_state {
+            Some(state) if state.code == "missing_local_lifecycle_state" => (
+                PlanStatus::Ready,
+                "issue_preparation_ready",
+                "issue route observed no existing local lifecycle state and can prepare one",
+            ),
+            Some(state) if state.code == "local_lifecycle_state_ready" => (
+                PlanStatus::Ready,
+                "issue_preparation_ready",
+                "issue route initialized non-authoritative v3 local lifecycle state",
+            ),
+            Some(state) => (
+                PlanStatus::Blocked,
+                "issue_already_initialized",
+                state.message.as_str(),
+            ),
+            None => (
+                PlanStatus::Blocked,
+                "lifecycle_observation_missing",
+                "issue route requires --repo-root or --v3-state-root lifecycle-state observation",
+            ),
+        },
+        LocalCommand::BindWorktree => route_state_status(
+            lifecycle_state,
+            &["ready"],
             "bind_topology_authorized",
-            "bind route has exact non-primary worktree registration evidence",
+            "bind route observed ready lifecycle state and exact non-primary worktree registration evidence",
         ),
-        LocalCommand::EditCards => (
-            PlanStatus::Ready,
+        LocalCommand::EditCards => route_state_status(
+            lifecycle_state,
+            &["ready", "bound"],
             "edit_plan_ready",
-            "edit route has typed six-card input suitable for renderer/editor planning",
+            "edit route observed editable ready/bound lifecycle state and six-card denominator",
         ),
-        LocalCommand::PlanPvf => (
-            PlanStatus::Ready,
+        LocalCommand::PlanPvf => route_state_status(
+            lifecycle_state,
+            &["ready", "bound"],
             "pvf_plan_ready",
-            "validate route has the required VPP/PVF planning denominator",
+            "validate route observed ready/bound lifecycle state with VPP/PVF denominator",
         ),
-        LocalCommand::Doctor => (
-            PlanStatus::Ready,
+        LocalCommand::Doctor => route_state_status(
+            lifecycle_state,
+            &["ready", "bound"],
             "doctor_ready",
-            "doctor route can evaluate typed local readiness without granting authority",
+            "doctor route observed local lifecycle state suitable for readiness evaluation",
         ),
-        LocalCommand::Schedule => (
-            PlanStatus::Ready,
+        LocalCommand::Schedule => route_state_status(
+            lifecycle_state,
+            &["ready", "bound"],
             "schedule_plan_ready",
-            "schedule route has a non-authoritative local work plan and PVF denominator",
+            "schedule route observed local lifecycle state suitable for ordered route planning",
         ),
-        LocalCommand::Shepherd => (
-            PlanStatus::Ready,
+        LocalCommand::Shepherd => route_state_status(
+            lifecycle_state,
+            &["bound"],
             "shepherd_plan_ready",
-            "shepherd route has issue-local plan inputs for bounded execution guidance",
+            "shepherd route observed bound lifecycle state for bounded execution guidance",
         ),
         LocalCommand::Eligibility => match lifecycle_state {
             Some(state) if state.ready_to_execute => (
@@ -511,6 +539,36 @@ pub fn local_route_status(
     })
 }
 
+fn route_state_status<'a>(
+    lifecycle_state: Option<&'a LocalLifecycleStateObservation>,
+    allowed_phases: &[&str],
+    ready_code: &'static str,
+    ready_message: &'static str,
+) -> (PlanStatus, &'a str, &'a str) {
+    match lifecycle_state {
+        Some(state)
+            if state.ready_to_execute
+                && state
+                    .phase
+                    .as_deref()
+                    .is_some_and(|phase| allowed_phases.contains(&phase)) =>
+        {
+            (PlanStatus::Ready, ready_code, ready_message)
+        }
+        Some(state) if state.ready_to_execute => (
+            PlanStatus::Blocked,
+            "unsupported_local_route_transition",
+            "route is not valid for the observed local lifecycle phase",
+        ),
+        Some(state) => (state.status, state.code.as_str(), state.message.as_str()),
+        None => (
+            PlanStatus::Blocked,
+            "lifecycle_observation_missing",
+            "local route requires --repo-root or --v3-state-root lifecycle-state observation",
+        ),
+    }
+}
+
 pub fn execute_local_route(
     route: &str,
     request: &LocalPreparationRequest,
@@ -518,6 +576,8 @@ pub fn execute_local_route(
     registrations: &[WorktreeRegistration],
     lifecycle_state: Option<LocalLifecycleStateObservation>,
 ) -> Result<LocalRouteResult, Vec<DoctorFinding>> {
+    require_lifecycle_digest(request, lifecycle_state.as_ref())?;
+    require_route_state(route, lifecycle_state.as_ref())?;
     match local_route_command(route) {
         Some(LocalCommand::PrepareIssue) => Ok(LocalRouteResult::IssueInitialization {
             issue: request.issue,
@@ -598,6 +658,48 @@ pub fn execute_local_route(
     }
 }
 
+fn require_lifecycle_digest(
+    request: &LocalPreparationRequest,
+    lifecycle_state: Option<&LocalLifecycleStateObservation>,
+) -> Result<(), Vec<DoctorFinding>> {
+    let Some(expected) = request.expected_lifecycle_digest.as_deref() else {
+        return Ok(());
+    };
+    let Some(actual) = lifecycle_state.and_then(|state| state.digest.as_deref()) else {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_lifecycle_digest_missing",
+            "expected lifecycle digest requires observed local lifecycle state digest",
+        )]);
+    };
+    if actual != expected {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "stale_local_lifecycle_digest",
+            "observed local lifecycle digest does not match the typed request",
+        )]);
+    }
+    Ok(())
+}
+
+fn require_route_state(
+    route: &str,
+    lifecycle_state: Option<&LocalLifecycleStateObservation>,
+) -> Result<(), Vec<DoctorFinding>> {
+    let Some(status) = local_route_status(route, lifecycle_state) else {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "unknown_local_route",
+            "local route is not owned by #628",
+        )]);
+    };
+    if status.status == PlanStatus::Ready {
+        Ok(())
+    } else {
+        Err(vec![finding(status.status, &status.code, &status.message)])
+    }
+}
+
 pub fn inspect_local_lifecycle_state(root: &Path, issue: u64) -> LocalLifecycleStateObservation {
     let issue_root = root.join(format!(".csdlc/issues/{issue}"));
     inspect_lifecycle_issue_root(&issue_root, issue, "local")
@@ -671,6 +773,9 @@ fn inspect_lifecycle_issue_root(
     if !index_path.is_file() {
         return LocalLifecycleStateObservation {
             issue,
+            phase: None,
+            generation: None,
+            digest: None,
             status: PlanStatus::Blocked,
             code: "missing_local_lifecycle_state".into(),
             message: format!("{source} lifecycle state is missing; initialize or repair the issue record before executing local routes"),
@@ -679,11 +784,14 @@ fn inspect_lifecycle_issue_root(
             ready_to_execute: false,
         };
     }
-    let phase = match read_local_lifecycle_phase(&index_path) {
-        Ok(phase) => phase,
+    let index = match read_local_lifecycle_index(&index_path) {
+        Ok(index) => index,
         Err(message) => {
             return LocalLifecycleStateObservation {
                 issue,
+                phase: None,
+                generation: None,
+                digest: None,
                 status: PlanStatus::Blocked,
                 code: "invalid_local_lifecycle_state".into(),
                 message,
@@ -696,6 +804,7 @@ fn inspect_lifecycle_issue_root(
             };
         }
     };
+    let phase = index.phase;
     let mut cards_present = Vec::new();
     let mut missing_cards = Vec::new();
     for card in REQUIRED_CARD_KINDS {
@@ -716,6 +825,9 @@ fn inspect_lifecycle_issue_root(
     if !matches!(phase.as_str(), "ready" | "bound") {
         LocalLifecycleStateObservation {
             issue,
+            phase: Some(phase.clone()),
+            generation: index.generation,
+            digest: index.digest,
             status: PlanStatus::Blocked,
             code: "unsupported_local_lifecycle_phase".into(),
             message: format!(
@@ -728,6 +840,9 @@ fn inspect_lifecycle_issue_root(
     } else if missing_cards.is_empty() {
         LocalLifecycleStateObservation {
             issue,
+            phase: Some(phase.clone()),
+            generation: index.generation,
+            digest: index.digest,
             status: PlanStatus::Ready,
             code: "local_lifecycle_state_ready".into(),
             message: format!(
@@ -740,6 +855,9 @@ fn inspect_lifecycle_issue_root(
     } else {
         LocalLifecycleStateObservation {
             issue,
+            phase: Some(phase),
+            generation: index.generation,
+            digest: index.digest,
             status: PlanStatus::Blocked,
             code: "missing_lifecycle_cards".into(),
             message: "local lifecycle state exists but one or more lifecycle cards are missing"
@@ -768,17 +886,32 @@ fn write_json(path: &Path, value: &Value) -> Result<(), Vec<DoctorFinding>> {
     })
 }
 
-fn read_local_lifecycle_phase(index_path: &Path) -> Result<String, String> {
+struct LocalLifecycleIndex {
+    phase: String,
+    generation: Option<u64>,
+    digest: Option<String>,
+}
+
+fn read_local_lifecycle_index(index_path: &Path) -> Result<LocalLifecycleIndex, String> {
     let bytes = fs::read(index_path)
         .map_err(|err| format!("local lifecycle index could not be read: {err}"))?;
     let value: Value = serde_json::from_slice(&bytes)
         .map_err(|err| format!("local lifecycle index is not valid JSON: {err}"))?;
-    value
+    let phase = value
         .get("phase")
         .and_then(Value::as_str)
         .filter(|phase| !phase.trim().is_empty())
         .map(str::to_string)
-        .ok_or_else(|| "local lifecycle index is missing nonempty phase".into())
+        .ok_or_else(|| "local lifecycle index is missing nonempty phase".to_string())?;
+    Ok(LocalLifecycleIndex {
+        phase,
+        generation: value.get("generation").and_then(Value::as_u64),
+        digest: value
+            .get("digest")
+            .and_then(Value::as_str)
+            .filter(|digest| !digest.trim().is_empty())
+            .map(str::to_string),
+    })
 }
 
 pub fn finding(status: PlanStatus, code: &str, message: &str) -> DoctorFinding {
