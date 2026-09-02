@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 627,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "7339874cca660c5902ef078873e2e5d0c85bdc36cc7f2910816ac32fae15a80c",
+  "branch": "codex/627-v3-h1-command-denominator-r2",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/627/design.md",
+  "diagram_path": ".csdlc/prepared/issues/627/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:sprint-625-setup",
+      "revision": "dca1208e4d4b73d2e1848dca19978f06b5e2c377fea89576f8e8c0e95d2610dd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ccdbbc5f4f9615c369e9651e15c140750ba3d669a69d6cce105e31e48ad19d47",
+      "rendered_digest": "855325a14477c7ce2e1b90f0e6d9ba912151de93354db72604eabd9fbad12879",
+      "ast_digest": "544e4a1cf30b8a35ebf34e687ba209a9cce107857d5c68eaa83b22298762dcfd"
+    },
+    "stp": {
+      "values_digest": "77488ad0c38fde76e698ecc063d2627d9399266858d6e6942d6884be87a5ef8d",
+      "rendered_digest": "334cf29cd98a42918bca8ba4052870d45b62144849805c43ad5cee1b0c6b4bca",
+      "ast_digest": "70bdafa0bcf9400aa34200a029f4a1c1f3c876b3356549201f24269e27c7261a"
+    },
+    "spp": {
+      "values_digest": "5bce6491059ced47c1ed53d9816303f720453935d4fc7a1cd37d5455795e4984",
+      "rendered_digest": "d4720e149b43a7035dc0d3694c00ef1cd7663f600111662bf6eeec08e8802777",
+      "ast_digest": "cd92e40f601f49a0add5d60697832e17f20cbb3712482367e38d55f253a66c78"
+    },
+    "vpp": {
+      "values_digest": "6f7c607a14a1c9c72896f07dc2d2a4a97fe402afe76b9329072399fb8aeec26e",
+      "rendered_digest": "fd2f7ae0bb0ffee7657ed885c898fb788e9f93c6eb12e2c2ce88aea7a7ba6f80",
+      "ast_digest": "afeb335bdfb40004b4fec5a919bf5065dfc8a9bc4aa2ed73e5343f2fbb68b159"
+    },
+    "srp": {
+      "values_digest": "ffe5a7bee2c0acc5c40640563dae78dbc660b4952fed543f09e648c53d21fef1",
+      "rendered_digest": "a2c83a5c57a01a56aec8c0db54f6e6781b57efb19e3990c9258ba139283764d0",
+      "ast_digest": "db57ddf40c2a9c017665dc20d173e5d00be1e1c70e8c064668da91fbd1fe75ab"
+    },
+    "sor": {
+      "values_digest": "510d67ce82c8afa0da993384ca1f3f0bed604521bf94bea7446442e82bee9925",
+      "rendered_digest": "9e0b8da79440aa5de0af8797808bd2cde39f8d9f8c283c30ecf68778c5b74c92",
+      "ast_digest": "f6892ffe037f1aa8b621315a55812c4b78f5ff0422ff84bba22e1e6bca2bf54b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance clean #627 r2 prep to ready/unbound after typed validation and doctor passed for the no-blank-EOF design packet."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "repair pre-bind readiness by making issue-owned validator and test targets explicit owned paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands\",\"csdlc-v3/tests/command_manifest.rs\",\".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh\",\".csdlc/prepared/issues/627\",\".csdlc/issues/627\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Advance clean #627 r2 prep to ready/unbound after typed validation and doctor passed for the no-blank-EOF design packet.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
