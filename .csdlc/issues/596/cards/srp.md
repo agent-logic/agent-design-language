@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 remains non-authoritative and incomplete for #505 cutover; the full replacement denominator still lists missing v2 entrypoint replacements.
-- Issue #596 terminal closeout remains pending until the new remediation PR is published, merged, reconciled, finished, and cleaned through typed lifecycle routes.
+- C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.
+- The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must create or update the current remediation PR with a closing keyword for #596 only.
 
 ## Review Result
 
-Revision: Some("git-blake3:f4a6429f7ee98b76a4eeb08467e6939e3c02ea15:f166f960f86444bf4273e09a68ae35255ac45085a8e5f66312bd93c238a023d4")
+Revision: Some("git-blake3:230f8c815057036321e92bef09bd85a80d9b7ffe:0ce6a0c7330927db60b6f549be338b59c43c3c0bc1b16bc4fb4c4f0f36fda3cd")
 
 Reviewer: Some("Codex independent review subagent /root/review_596_sprint_remediation_delta")
 

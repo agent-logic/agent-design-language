@@ -116,7 +116,7 @@ Repaired the Sprint 5/6 cutover remediation branch after merged PR #597 left iss
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

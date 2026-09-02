@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
   "phase": "reviewed",
-  "generation": 8,
-  "digest": "c7db6103aa74daddca84310ef3a2573b23340cf644d85e28a61677c48ee04969",
+  "generation": 10,
+  "digest": "4a75b5cb8b0974fc801a2813057639fbeff839bf5e35c704910cab01fbd9c190",
   "branch": "codex/sprints-5-6-cutover-fixes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes",
   "review_assignment": {
     "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:f4a6429f7ee98b76a4eeb08467e6939e3c02ea15:f166f960f86444bf4273e09a68ae35255ac45085a8e5f66312bd93c238a023d4",
+    "revision": "git-blake3:230f8c815057036321e92bef09bd85a80d9b7ffe:0ce6a0c7330927db60b6f549be338b59c43c3c0bc1b16bc4fb4c4f0f36fda3cd",
     "scope": [
       "."
     ]
@@ -22,11 +22,11 @@
     "scope": [
       "."
     ],
-    "reviewed_revision": "git-blake3:f4a6429f7ee98b76a4eeb08467e6939e3c02ea15:f166f960f86444bf4273e09a68ae35255ac45085a8e5f66312bd93c238a023d4",
+    "reviewed_revision": "git-blake3:230f8c815057036321e92bef09bd85a80d9b7ffe:0ce6a0c7330927db60b6f549be338b59c43c3c0bc1b16bc4fb4c4f0f36fda3cd",
     "findings": [],
     "residual_risks": [
-      "C-SDLC v3 remains non-authoritative and incomplete for #505 cutover; the full replacement denominator still lists missing v2 entrypoint replacements.",
-      "Issue #596 terminal closeout remains pending until the new remediation PR is published, merged, reconciled, finished, and cleaned through typed lifecycle routes."
+      "C-SDLC v3 remains non-authoritative until the explicit #505 cutover; this branch only repairs sprint 5/6 remediation and canary evidence while preserving v2 authority.",
+      "The duplicate historical #604 publication PR remains a captured tooling defect; #596 publication must create or update the current remediation PR with a closing keyword for #596 only."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -45,34 +45,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4dd92c88c9b1ee653d8f8ae51460c6308b2652b958b6dcaab28428893cc997a0",
+      "values_digest": "a4bcfbad8951fd9e0cc62e7ed022f9680d9d9c9c1c24bf85cfd76f7b42d53f01",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "e9248203a88bf4eaee9337712964cbf73b072201af85da948355b6e368171ebd",
+      "values_digest": "020bca9244487b8cd631638065ca4ce8a3bcb44120385cfc48c4dbe6e35884be",
       "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
       "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
     },
     "spp": {
-      "values_digest": "b9689ebbe90a5792eb95931a04d12b0756c9387e4f50427320475bbfa841ddf9",
+      "values_digest": "d9c56bb7a31654b2ad96ad6e40e3305e1570daca3a0094ece65a93a9cd1f607c",
       "rendered_digest": "e24a19c3602aadf2b603b80220b548d9d3a7da22ced8bb66557d4962ea017d30",
       "ast_digest": "b3ea625a7cd080feb19e1687b9aaa1cd8f732fb2011b5a16f9c2b4d1d8c38c9b"
     },
     "vpp": {
-      "values_digest": "331764425b28c7a7ec1e0829c0a6de5d7f601aec251cf8de6b3c4b74d9f2e119",
+      "values_digest": "314d2fb680d30f396ecc35c5f659fa7d16bb6baef21d0d28348446d7de13dc32",
       "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
       "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "27a36f2537696d44223b1cf17eb75d25585429d65697d9b9166fc9e59fbe0979",
-      "rendered_digest": "0be6a445b3a2cd0321567a35bbb93e38b5de4a6da096d3e863b83b21a44166b6",
-      "ast_digest": "c3c843c46573b745d9c715dfbb7cd632f9aeedbd930db4a41916ecdc9bea8d9a"
+      "values_digest": "18ff631ffad4783d9434f441f7242a480eef818ba01731f1fb08611a09eb3c31",
+      "rendered_digest": "35f72b47e31bbe5d4e01f0ac4c5b84254abd20961e42e1770ea0d092b967184e",
+      "ast_digest": "35cb526f4874b98d02f2703f3e40f9f2a56d2033347c3e06f96ed44aaadfb054"
     },
     "sor": {
-      "values_digest": "e159f2c65b84940acdfd0626dc95a3a7d03e071043038c5829e84cdf6e6ad68b",
-      "rendered_digest": "d7519e9921172084e8fc99f3151ad1c001188bb80578c76dc411778d57caf6c8",
-      "ast_digest": "4a0baef5dc72cc27956d9b4ce17a8407a6a2a5e768cad0cd9ac6d9b8d62d1866"
+      "values_digest": "aacbcedd9e4ed647d9d6daa4f638b1da57aacdd24f1ef463a3814be3f838693e",
+      "rendered_digest": "a5dc0dff44f0fe339ba796fed31ae7c8349242d7425158c7f62a13b20333fcb4",
+      "ast_digest": "d8adc037f1d14455a66253af55836f1ff6f8b3933953ce3a00eb21c94d0b14f2"
     }
   },
   "transitions": [
@@ -99,6 +99,20 @@
     },
     {
       "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review so the current clean head can be reviewed and published without a committed prepared-file metadata tail."
+    },
+    {
+      "sequence": 6,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:worker-6",
@@ -179,6 +193,27 @@
     {
       "sequence": 11,
       "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "Recover review so the current clean head can be reviewed and published without a committed prepared-file metadata tail.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
