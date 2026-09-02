@@ -14,12 +14,18 @@ if [[ "${1:-}" == "--live-wuji" ]]; then
   feed="$evidence_dir/wuji-observatory-feed.json"
   before="$evidence_dir/wuji-service-before-restart.json"
   receipt="$evidence_dir/wuji-restart-receipt.json"
-  "$csm" runtime-v3 status --init "$init" --json >"$before"
+  "$csm" runtime-v3 status --init "$init" --json >"$before" || true
   "$csm" runtime-v3 stop --init "$init" --json >/dev/null
   "$csm" runtime-v3 start --init "$init" --json >/dev/null
   "$csm" runtime-v3 status --init "$init" --json >"$status"
   public_base_url="$(python3 -c 'import sys,tomllib; print(tomllib.load(open(sys.argv[1], "rb"))["api"]["public_base_url"])' "$init")"
-  curl -fsSk "$public_base_url:20997/v1/observatory" >"$feed"
+  for _ in $(seq 1 180); do
+    curl -fsSk "$public_base_url:20997/v1/observatory" >"$feed"
+    if jq -e '.agents.sample[] | select(.id == "shepherd" and .state == "ready" and .communication_eligible == true)' "$feed" >/dev/null; then
+      break
+    fi
+    sleep 5
+  done
   python3 - "$status" "$feed" <<'PY'
 import json, os, socket, subprocess, sys
 status = json.load(open(sys.argv[1]))
