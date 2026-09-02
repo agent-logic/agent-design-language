@@ -1,0 +1,360 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 589
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: ready
+
+## Summary
+
+Implemented, locally validated, independently reviewed, and live-deployed ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, thirty-second Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.
+
+## Artifacts
+
+- adl/src/cli/csm_runtime_v3_cmd.rs
+- adl/Cargo.toml
+- adl/Cargo.lock
+- adl-runtime/src/guardian.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/config.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/control/feeds.rs
+- adl-runtime-kernel/tests/configuration.rs
+- adl-runtime-kernel/tests/control.rs
+- infra/aws/csm-runtime-health
+- adl-runtime-kernel/src/telemetry.rs
+- adl-runtime-kernel/tests/assembly.rs
+- adl-runtime-kernel/src/control.rs
+- AWS SSM command 60136b40-8e73-4a7c-bb45-46a60780641f
+- Wuji /v1/ready and /v1/agents live responses
+
+## Execution
+
+- Current Runtime generation stops and its owned HTTPS endpoint disappears before a candidate generation starts.
+- Interrupted reload commits a ready candidate only when the service-manager Guardian PID and active init BLAKE3 hash match Runtime readiness; otherwise CSM stops the service before restoring the backup.
+- Guardian startup no longer creates a separate continuity client and the lease acknowledgement carries the Guardian process identity into Runtime readiness.
+- CSM start, status, reload, and recovery require the responding Runtime to report the service-manager-owned Guardian PID and exact active init hash.
+- Continuity identity preserves stateful Runtime bindings and primary HTTPS origins while normalizing the designated additional development-origin list, allowing an approved localhost CORS addition without invalidating durable checkpoints.
+- Readiness requires a fresh Shepherd admission lease.
+- Health export is allowlisted and CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.
+- Focused tests cover candidate commit, rollback ordering, owner/hash mismatch rejection, exact service PID parsing, lease identity propagation, continuity projection compatibility, and transaction cleanup.
+- Widened the Shepherd admission freshness lease from five seconds to thirty seconds while retaining the one-second heartbeat cadence, providing bounded scheduling headroom without weakening freshness gating.
+- Made the readiness decision use one explicit Shepherd-admission freshness predicate and added deterministic deadline, expiry, heartbeat-renewal, and renewed-expiry coverage without wall-clock sleeps.
+- Deployed the reviewed thirty-second freshness repair through governed CSM reload under Wuji's service owner and verified the live Runtime roster reports the exact reviewed source revision and lease duration.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "csm_runtime_v3"
+    ],
+    "purpose": "CSM lifecycle, interrupted-reload, ownership, hash, and transaction regression proof",
+    "outcome": "passed",
+    "evidence_ref": "focused run: 26 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "llvm-cov",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "--json",
+      "--summary-only",
+      "--",
+      "csm_runtime_v3"
+    ],
+    "purpose": "Focused changed-source line coverage proof",
+    "outcome": "passed",
+    "evidence_ref": "csm_runtime_v3_cmd.rs: 869/1081 lines, 80.39 percent"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "configuration",
+      "continuity_identity_excludes_non_stateful_runtime_policy"
+    ],
+    "purpose": "Backward-compatible continuity identity and additional-origin hot-reload proof",
+    "outcome": "passed",
+    "evidence_ref": "focused run: 1 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "guardian"
+    ],
+    "purpose": "Guardian lease identity and single-child startup proof",
+    "outcome": "passed",
+    "evidence_ref": "focused run: 22 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--bin",
+      "adl-runtime-kernel"
+    ],
+    "purpose": "Kernel Guardian identity and active-init hash propagation proof",
+    "outcome": "passed",
+    "evidence_ref": "focused run: 12 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "control"
+    ],
+    "purpose": "Shepherd-gated readiness and ownership fields proof",
+    "outcome": "passed",
+    "evidence_ref": "focused run: 28 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Issue-owned ADL target lint proof",
+    "outcome": "passed",
+    "evidence_ref": "completed without warnings"
+  },
+  {
+    "command": [
+      "aws",
+      "ssm",
+      "get-command-invocation",
+      "--command-id",
+      "a7587de0-c5b2-41b2-af6b-7de99b26db12",
+      "--instance-id",
+      "mi-0dd41a2b1cad222a0",
+      "--profile",
+      "agent-logic-admin"
+    ],
+    "purpose": "Governed candidate hot reload and committed active-config identity proof",
+    "outcome": "passed",
+    "evidence_ref": "reload and status succeeded; Guardian 96837, Runtime 96840, active init c33ed167...612d44"
+  },
+  {
+    "command": [
+      "curl",
+      "-ksS",
+      "-X",
+      "OPTIONS",
+      "https://127.0.0.1:20997/v1/health",
+      "-H",
+      "Origin: http://localhost:8000"
+    ],
+    "purpose": "Effective live CORS proof after hot reload",
+    "outcome": "passed",
+    "evidence_ref": "HTTP 204 and access-control-allow-origin http://localhost:8000"
+  },
+  {
+    "command": [
+      "aws",
+      "cloudwatch",
+      "describe-alarms",
+      "--alarm-names",
+      "adl-axioma-wuji-dev-runtime-health-missing",
+      "--profile",
+      "agent-logic-admin"
+    ],
+    "purpose": "Periodic health alarm state proof",
+    "outcome": "passed",
+    "evidence_ref": "alarm OK with fresh HealthyHeartbeat datapoints"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "assembly"
+    ],
+    "purpose": "Prove the production Shepherd admission receives an exact thirty-second freshness lease and preserve writer and adapter behavior.",
+    "outcome": "passed",
+    "evidence_ref": "10 passed; local_production_adapters_execute_real_bounded_behavior asserts deadline minus observation equals 30000 milliseconds."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "shepherd_readiness_tests::readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss"
+    ],
+    "purpose": "Prove readiness remains valid at the exact lease deadline, fails closed one millisecond later, renews on a production recorder heartbeat, and expires after the renewed deadline without wall-clock timing.",
+    "outcome": "passed",
+    "evidence_ref": "1 focused readiness-boundary test passed; assembly 10 passed; all-target kernel Clippy and rustfmt passed."
+  },
+  {
+    "command": [
+      "aws",
+      "ssm",
+      "get-command-invocation",
+      "--command-id",
+      "60136b40-8e73-4a7c-bb45-46a60780641f",
+      "--instance-id",
+      "mi-0dd41a2b1cad222a0",
+      "--profile",
+      "agent-logic-admin"
+    ],
+    "purpose": "Prove governed service-owner reload and owned Runtime readiness on Wuji.",
+    "outcome": "passed",
+    "evidence_ref": "SSM invocation succeeded with response code 0; Guardian 35914, Runtime 35917, listener_ready true, and observability_ready true."
+  },
+  {
+    "command": [
+      "curl",
+      "-ksS",
+      "https://127.0.0.1:20997/v1/agents"
+    ],
+    "purpose": "Prove the live reviewed Shepherd source identity and thirty-second freshness window independently of the SSM deployment receipt.",
+    "outcome": "passed",
+    "evidence_ref": "Live roster reported healthy Shepherd source revision 1addbc0f2d2238c372a06f0d90cab4b1cd039881 and freshness_deadline_unix_millis minus observed_at_unix_millis equal to 30000."
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "purpose": "Prove the issue-owned coverage-impact routing contract and failure-path behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Focused contract script completed with PASS test_check_coverage_impact."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "cli::csm_runtime_v3_cmd::tests::missing_service_is_unloaded_and_has_no_owned_process",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "purpose": "Prove absent service stop remains idempotent without attempting a privileged service-manager stop; hosted Linux CI remains the proving denominator for the Linux cfg branch.",
+    "outcome": "passed",
+    "evidence_ref": "Focused test passed 1/1 locally and cargo fmt --check passed; exact-head hosted Linux CI is required to prove the repaired systemd branch."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "cli::csm_runtime_v3_cmd::tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove CSM lifecycle behavior and deterministic systemd state classification, including inactive, active, activating, deactivating, failed, and malformed state surfaces.",
+    "outcome": "passed",
+    "evidence_ref": "27 focused CSM tests passed; cargo fmt --check and git diff --check passed. The systemd command path remains deferred to exact-head hosted Linux CI."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "cli::csm_runtime_v3_cmd::tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove interrupted-reload rollback and all focused CSM lifecycle behavior after replacing the final lossy loaded-state gate.",
+    "outcome": "passed",
+    "evidence_ref": "27 focused CSM tests passed after the rollback-gate fix; cargo fmt --check and git diff --check passed. Hosted Linux CI remains the systemd command-path denominator."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "cli::csm_runtime_v3_cmd::tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove fail-closed launchctl stopped-state classification, real missing-service handling, listener disappearance without a captured owner PID, and the complete focused CSM lifecycle surface.",
+    "outcome": "passed",
+    "evidence_ref": "28 focused CSM tests passed on Wuji/macOS; real launchctl print for a missing label returned the accepted service-not-found exit 113; cargo fmt --check and git diff --check passed."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the exact hosted lint failure is resolved without weakening warning policy.",
+    "outcome": "passed",
+    "evidence_ref": "ADL binary Clippy completed successfully with -D warnings; all 28 focused CSM tests also passed after the lint-only assertion rewrite."
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: draft
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

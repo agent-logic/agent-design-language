@@ -19,7 +19,7 @@
   "audio_bytes": 22804249,
   "audio_duration_seconds": 1111.968,
   "audio_duration": "00:18:32",
-  "audio_sha256": "2ce56a2a4e3f74315f844978b9a9c344e377227cd92d4ddd0e05f338a4338cbc",
+  "audio_sha256": "ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c",
   "archive_audio": "../../audio/meet-the-ai-coworkers.wav",
   "archive_audio_bytes": 53371758,
   "archive_audio_sha256": "78e1c5edac6f96bddba7faa5e35523f5dda894a4426f6f54b178ceb0bbed5572",
@@ -42,7 +42,7 @@
   "rss_enclosure": "rss-enclosure.json",
   "redaction_report": "redaction-report.md",
   "review": "review.md",
-  "archive_s3_prefix": "s3://agent-logic-podcast-archive-agentlogic/archive/cognitive-spacetime/episodes/001/",
+  "archive_s3_prefix": "s3://agent-logic-podcast-archive-agentlogic/archive/the-cognitive-stack/episodes/001/",
   "chapters": [
     {"start": "00:00", "title": "The First Day"},
     {"start": "04:39", "title": "The Messy Middle"},

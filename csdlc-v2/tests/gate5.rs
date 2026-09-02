@@ -2989,6 +2989,28 @@ fn dirty_substantive_tree_is_rejected_before_review_assignment() {
 }
 
 #[test]
+fn review_assignment_rejects_self_staling_lifecycle_scope() {
+    let (_temp, store, record) = implemented_fixture();
+    let error = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            reviewer: "subagent".into(),
+            assigned_by: "agent".into(),
+            scope: vec![".csdlc/issues/7/**".into()],
+        },
+    )
+    .expect_err("generated issue lifecycle scope would stale itself");
+    assert!(matches!(error.code, ErrorCode::InvalidInput));
+
+    let after = store.load_record(7).expect("record remains readable");
+    assert_eq!(after.digest, record.digest);
+    assert!(after.review_assignment.is_none());
+}
+
+#[test]
 fn metadata_only_changes_do_not_stale_a_clean_review() {
     let (_temp, store, record) = implemented_fixture();
     let assigned = assign_review(

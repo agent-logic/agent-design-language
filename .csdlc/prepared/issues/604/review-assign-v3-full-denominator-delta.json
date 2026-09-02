@@ -1,0 +1,14 @@
+{
+  "issue": 604,
+  "expected_generation": 25,
+  "expected_digest": "d8268647e80babe5a4be9fee4e41e90a9eb3ff402618d298c68d23494d6eaa71",
+  "reviewer": "/root/review_604_v3_full_delta",
+  "assigned_by": "codex:/root/worker-6/issue-604",
+  "scope": [
+    ".csdlc/evidence/604/full-cycle-defects-tail.md",
+    ".csdlc/prepared/issues/604/validate-implementation.sh",
+    "csdlc-v3/src/commands/remote/tests.rs",
+    "csdlc-v3/tests/real_issue_canary.rs",
+    "docs/csdlc-v3/full-replacement-denominator.json"
+  ]
+}

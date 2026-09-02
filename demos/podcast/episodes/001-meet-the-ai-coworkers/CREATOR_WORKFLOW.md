@@ -1,4 +1,4 @@
-# Cognitive Spacetime Episode Workflow
+# The Cognitive Stack Episode Workflow
 
 This is the working handoff for Darlicia and Codex. Darlicia does not need to
 run production commands, manage provider credentials, edit metadata files, or
@@ -56,7 +56,7 @@ records each turn's script provenance, and produces the combined WAV and audio
 manifest. Provider credentials remain outside the repository.
 
 ```bash
-export ADL_PODCAST_OUTPUT_DIR="${ADL_PODCAST_OUTPUT_DIR:-/Volumes/FastWork/cognitive-spacetime-production}"
+export ADL_PODCAST_OUTPUT_DIR="${ADL_PODCAST_OUTPUT_DIR:-/Volumes/FastWork/the-cognitive-stack-production}"
 ADL_PODCAST_AUDIO_SOURCE_DIR="$PWD/demos/podcast/episodes/001-meet-the-ai-coworkers" \
 ADL_PODCAST_GEMINI_AUDIO_PROVIDER=openai \
 bash adl/tools/demo_v0911_multiagent_podcast_audio.sh "$ADL_PODCAST_OUTPUT_DIR"
@@ -69,7 +69,7 @@ the editorial inputs and approvals above.
 
 ## Prompt To Start A Future Episode
 
-> Create a Cognitive Spacetime episode about [topic]. The listener should leave
+> Create an episode of The Cognitive Stack about [topic]. The listener should leave
 > understanding [outcome]. Cover [points]. Avoid [constraints]. Aim for [length]
 > minutes with [hosts or guests] in a [tone] conversation. Prepare the complete
 > brief and script for my approval before generating final audio or changing

@@ -1,0 +1,7 @@
+{
+  "issue": 596,
+  "expected_generation": 8,
+  "expected_digest": "c7db6103aa74daddca84310ef3a2573b23340cf644d85e28a61677c48ee04969",
+  "actor": "codex:worker-6",
+  "reason": "Recover review so the current clean head can be reviewed and published without a committed prepared-file metadata tail."
+}

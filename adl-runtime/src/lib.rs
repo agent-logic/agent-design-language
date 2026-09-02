@@ -22,6 +22,7 @@ mod kernel_continuity_client;
 pub mod memory_palace;
 pub mod networking;
 pub mod observability;
+pub mod qualification;
 pub mod reasoning_runtime;
 pub mod resident_agent;
 pub mod runtime_api;

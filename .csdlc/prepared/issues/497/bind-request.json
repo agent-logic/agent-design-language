@@ -1,0 +1,7 @@
+{
+  "issue": 497,
+  "base_branch": "main",
+  "branch": "codex/497-corp-c-sprint4-readiness",
+  "worktree": ".",
+  "code_repository": "agent-logic/agent-design-language"
+}

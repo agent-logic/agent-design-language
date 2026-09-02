@@ -1,0 +1,378 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 506,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "318259b231fb7c80a9bcb6569b4efd06c19f1bd3e8e261c38d0f1c9a7c5e1dcd",
+  "phase": "published",
+  "generation": 24,
+  "digest": "8ef7b0dca1658277c1b988c74abad07d0aa803e785c9cf7f054a3a8c0eabf0c9",
+  "branch": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3",
+  "review_assignment": {
+    "reviewer": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:dfa63786b98246d9eb0e919e03aa6508646d87bd:16d0be8f61a078adbcc6f80ae58cf69024a2a47fa34b80d6add75956a25da5ee",
+    "scope": [
+      ".csdlc/prepared/issues/506/design.md",
+      ".csdlc/prepared/issues/506/diagram.mmd",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
+    "scope": [
+      ".csdlc/prepared/issues/506/design.md",
+      ".csdlc/prepared/issues/506/diagram.mmd",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ],
+    "reviewed_revision": "git-blake3:dfa63786b98246d9eb0e919e03aa6508646d87bd:16d0be8f61a078adbcc6f80ae58cf69024a2a47fa34b80d6add75956a25da5ee",
+    "findings": [],
+    "residual_risks": [
+      "Read-only exact-head review only; no broad, paid, cloud, or live distributed tests were run or claimed.",
+      "Post-assignment generated review metadata dirt was outside the assigned product scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 506,
+    "pull_request": 616,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/616",
+    "base": "main",
+    "head": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
+    "revision": "git-blake3:dfa63786b98246d9eb0e919e03aa6508646d87bd:16d0be8f61a078adbcc6f80ae58cf69024a2a47fa34b80d6add75956a25da5ee",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/506/design.md",
+  "diagram_path": ".csdlc/prepared/issues/506/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:40e87ce7-9c1f-42de-98b9-ef83ebf1a9c1",
+      "revision": "88120bc83fdbe01e9af1298bb6dd178c8639b6a041c2b0a2f7239b2ecd8bd744"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0adcca7bc6afd6455f1e3aec2766e8f0bd0d78acd6e75bac16df49318c24cf9b",
+      "rendered_digest": "b5e991dbdf41c13e51045af2418c02855d6e7f2a73b2fe2129cbf12b8b8be54e",
+      "ast_digest": "db8a583fc4cb6c375b601ea09825f7f7373d79f1b530a2e82307f6121e62fb02"
+    },
+    "stp": {
+      "values_digest": "7639b0ec3fb401429786fd9a5653a8dd4b4f9ee340db8b096cc20fa4251b1358",
+      "rendered_digest": "49d01c25700c08151a200ab30ba4e4e1e195d5b7e51055560e8c69a5761343be",
+      "ast_digest": "9c2a10f6aaddb72c1ef32e68399027dcc6e91a153af398163acc9f9a1fffa775"
+    },
+    "spp": {
+      "values_digest": "bd9a5d6b990bfe89b93fc0e45381d606bae6f60fc9913d6fc0ef216858b25cf2",
+      "rendered_digest": "0e8296c6a288858d2723d418c9a4449a43dd76c3f1e1b44ef238322290f31821",
+      "ast_digest": "bcd9ece2793e94d00617e46ad3da4738bc19f0dc5934fa3941e8e37ea3b77e19"
+    },
+    "vpp": {
+      "values_digest": "f24e924fc473041f80a14a6e8bbed0197297d96549ece4a041f70333b4c45592",
+      "rendered_digest": "7ed31f7abb8e5799f3e8a174cabab822e88be3952d3435becef99b02f79f718f",
+      "ast_digest": "dc2194a768d365dd310c08b11142284e4fd43fa9c83ceea3357de9eb6cd73ec7"
+    },
+    "srp": {
+      "values_digest": "c183b592d82003346c50c2bb5b716db94185ce08390cc91e038961bbd5848815",
+      "rendered_digest": "24289dbd0a046ee888d683af02478eaa41468c71683f7df476e94004df126413",
+      "ast_digest": "de48b157986ddce2d1473f14e650a043c611bc64530d9a5fcd72b9378bd68ca1"
+    },
+    "sor": {
+      "values_digest": "dae6de811ec9ce3942d54509b76ff53fe7ea13a4d684f3bf643f56730605d4a0",
+      "rendered_digest": "85bdf6cbc3cc7fa8f027ebff72ec72e9f3429ca290687a7a5c4569a750c2297f",
+      "ast_digest": "0f3189377531a60adc31ef79df5eedf4b5acb90e2aa7bad77021d64a8dceed9b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #506 to implemented after recording scoped execution and passing focused validation evidence."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:459cc47f-ffff-4d3a-981e-6d2f329c8456",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #506 reviewed state because committing typed review metadata moved the clean current HEAD from the reviewed substantive revision to a metadata-only lifecycle revision; preserve PASS evidence and request a fresh exact-head review of the current immutable head before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:sprint-7-drt-a",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:40e87ce7-9c1f-42de-98b9-ef83ebf1a9c1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"88120bc83fdbe01e9af1298bb6dd178c8639b6a041c2b0a2f7239b2ecd8bd744\",\"design_ref\":\".csdlc/prepared/issues/506/design.md\",\"diagram_digest\":\"37f9fb27c6cc7258c306155f658c74be781bdcbdd4a141ab6d4fc65e0e3f780d\",\"diagram_ref\":\".csdlc/prepared/issues/506/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "DRT-A requirement mapping is implemented and covered by the focused qualification-contract proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Deterministic identity and authority checks are implemented and covered by the focused acip-authority proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Replay and duplicate-denial receipts are implemented and covered by the focused replay-conformance proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "The fail-closed negative matrix is implemented and covered by the focused negative-matrix proof lane.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record the #506 implementation scope before adding focused validation results.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented DRT-A distributed qualification contract surfaces for deterministic topology requirements, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.\",\"changes\":[\"Added adl-runtime qualification contract types and deterministic validation helpers for DRT-A.\",\"Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, replay receipt stability, and fail-closed invalid vectors.\",\"Added the DRT-A qualification contract evidence packet under the v0.92.1 runtime evidence tree.\",\"Added the issue-owned validation script for the four DRT-A proof lanes.\"],\"artifacts\":[\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 qualification-contract proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"qualification-contract\"],\"purpose\":\"Prove deterministic DRT-A requirement mapping and topology qualification.\",\"outcome\":\"passed\",\"evidence_ref\":\"qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 ACIP authority proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"acip-authority\"],\"purpose\":\"Prove ACIP authority envelope binding for qualified participants.\",\"outcome\":\"passed\",\"evidence_ref\":\"acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 replay conformance proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"replay-conformance\"],\"purpose\":\"Prove replay receipt stability and duplicate/reordered delivery classification.\",\"outcome\":\"passed\",\"evidence_ref\":\"replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record focused #506 negative matrix proof lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"negative-matrix\"],\"purpose\":\"Prove fail-closed stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record #506 exact-range diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range diff hygiene before implementation review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no output and exited 0\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Advance #506 to implemented after recording scoped execution and passing focused validation evidence.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "fresh-session:cf340bb8-f76b-4401-97bf-4e85b570f3a8",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover #506 after fresh exact-head review found actionable in-scope receipt/proof/evidence/export gaps; preserve the findings and return to implemented remediation before a new exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Normalize #506 SOR after addressing fresh review findings before assigning a new exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.\",\"changes\":[\"Added and exported adl_runtime::qualification for downstream DRT consumers.\",\"Added deterministic DRT-A contract types, exact qualification receipt types, per-scenario receipt construction, and per-vector ACIP probe evaluation.\",\"Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, exact replay/duplicate receipts, and fail-closed invalid vector behavior.\",\"Expanded retained evidence with scenario and ACIP denominators, receipt schema, digest source, and validation output.\",\"Preserved #507/#508/#509 and live cloud/provider execution as non-goals.\"],\"artifacts\":[\"adl-runtime/src/lib.rs\",\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Format the touched adl-runtime Rust sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command completed with exit 0 in /Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"qualification-contract\"],\"purpose\":\"Prove deterministic DRT-A requirement mapping and exact scenario receipt construction.\",\"outcome\":\"passed\",\"evidence_ref\":\"qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"acip-authority\"],\"purpose\":\"Prove ACIP authority envelope binding for qualified participants.\",\"outcome\":\"passed\",\"evidence_ref\":\"acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"replay-conformance\"],\"purpose\":\"Prove replay projection and exact duplicate-denial receipt behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"negative-matrix\"],\"purpose\":\"Prove fail-closed evaluation of stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, authority-mutation, and credential-binding probes.\",\"outcome\":\"passed\",\"evidence_ref\":\"negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range diff hygiene before replacement implementation review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no output and exited 0\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "fresh-session:e4b2b176-c5af-4a9a-b491-5bb19a21cf4e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover #506 after replacement review found remaining in-scope receipt-schema, duplicate-input, and retained-evidence defects; preserve findings and remediate before a new exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Normalize #506 SOR after final receipt-schema, duplicate-input, and retained-evidence remediation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts with mutation fields, stateful duplicate rejection, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.\",\"changes\":[\"Added and exported adl_runtime::qualification for downstream DRT consumers.\",\"Added deterministic DRT-A contract types, exact qualification receipt types, per-scenario receipt construction, and per-vector ACIP probe evaluation.\",\"Updated scenario receipt denominators to require mutation and exact receipt fields.\",\"Changed duplicate-vector proof to use explicit seen-message state before denial rather than expected-outcome labeling.\",\"Added focused integration tests that verify qualification denominator mapping, ACIP authority envelope binding, exact replay/duplicate receipts, and fail-closed invalid vector behavior.\",\"Expanded retained evidence with scenario and ACIP denominators, receipt schema, computed contract digest, authority digest, exact receipt outputs, and validation output.\",\"Preserved #507/#508/#509 and live cloud/provider execution as non-goals.\"],\"artifacts\":[\"adl-runtime/src/lib.rs\",\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Format the touched adl-runtime Rust sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command completed with exit 0 in /Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_contract\",\"qualification_contract\",\"--\",\"--nocapture\"],\"purpose\":\"Extract and prove computed DRT-A contract digest and exact duplicate-denial receipt output.\",\"outcome\":\"passed\",\"evidence_ref\":\"DRT_A_CONTRACT_DIGEST=b86d251af2f0c619d84daaddf764d2c91d526b3a119afe5b54a2a7ce52c19599 and exact duplicate-denial receipt printed; test passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_contract\",\"replay_conformance\",\"--\",\"--nocapture\"],\"purpose\":\"Extract and prove exact duplicate vector receipt output.\",\"outcome\":\"passed\",\"evidence_ref\":\"DRT_A_DUPLICATE_VECTOR_RECEIPT printed with decision denied and mutation message-id-repeat; test passed\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"qualification-contract\"],\"purpose\":\"Prove deterministic DRT-A requirement mapping and exact scenario receipt construction.\",\"outcome\":\"passed\",\"evidence_ref\":\"qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"acip-authority\"],\"purpose\":\"Prove ACIP authority envelope binding for qualified participants.\",\"outcome\":\"passed\",\"evidence_ref\":\"acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"replay-conformance\"],\"purpose\":\"Prove replay projection and exact duplicate-denial receipt behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"negative-matrix\"],\"purpose\":\"Prove fail-closed evaluation of stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, authority-mutation, and credential-binding probes.\",\"outcome\":\"passed\",\"evidence_ref\":\"negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range diff hygiene before replacement implementation review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no output and exited 0\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "fresh-session:459cc47f-ffff-4d3a-981e-6d2f329c8456",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover #506 reviewed state because committing typed review metadata moved the clean current HEAD from the reviewed substantive revision to a metadata-only lifecycle revision; preserve PASS evidence and request a fresh exact-head review of the current immutable head before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "fresh-session:57ba3dc2-e7d8-463b-8bcf-70963e12dcbb",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Normalize #506 SOR after causal negative-vector proof remediation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated DRT-A distributed qualification contract surfaces for deterministic topology requirements, public crate access, exact scenario/vector receipts with mutation fields, stateful duplicate rejection, causal invalid-vector denial, ACIP authority binding, replay/idempotency receipts, and fail-closed negative vectors without cloud/provider execution.\",\"changes\":[\"Added and exported adl_runtime::qualification for downstream DRT consumers.\",\"Added deterministic DRT-A contract types, exact qualification receipt types, per-scenario receipt construction, and per-vector ACIP probe evaluation.\",\"Updated scenario receipt denominators to require mutation and exact receipt fields.\",\"Changed duplicate-vector proof to use explicit seen-message state before denial rather than expected-outcome labeling.\",\"Changed ACIP vector evaluation so denial is computed from actual invalid probe state before it is compared to the declared vector denominator.\",\"Added permit, correlation, and causation binding fields to the ACIP probe denominator.\",\"Added negative-matrix regression proof that repairing a denied vector's invalid field no longer produces a label-driven denial.\",\"Expanded retained evidence with scenario and ACIP denominators, receipt schema, computed contract digest, authority digest, exact receipt outputs, and validation output.\",\"Preserved #507/#508/#509 and live cloud/provider execution as non-goals.\"],\"artifacts\":[\"adl-runtime/src/lib.rs\",\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Format the touched adl-runtime Rust sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command completed with exit 0 in /Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_contract\",\"qualification_contract\",\"--\",\"--nocapture\"],\"purpose\":\"Extract and prove computed DRT-A contract digest and exact duplicate-denial receipt output.\",\"outcome\":\"passed\",\"evidence_ref\":\"DRT_A_CONTRACT_DIGEST=f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074 and exact duplicate-denial receipt printed; test passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_contract\",\"replay_conformance\",\"--\",\"--nocapture\"],\"purpose\":\"Extract and prove exact duplicate vector receipt output.\",\"outcome\":\"passed\",\"evidence_ref\":\"DRT_A_DUPLICATE_VECTOR_RECEIPT printed with decision denied and mutation message-id-repeat; test passed\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"qualification-contract\"],\"purpose\":\"Prove deterministic DRT-A requirement mapping and exact scenario receipt construction.\",\"outcome\":\"passed\",\"evidence_ref\":\"qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"acip-authority\"],\"purpose\":\"Prove ACIP authority envelope binding for qualified participants.\",\"outcome\":\"passed\",\"evidence_ref\":\"acip_authority test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"replay-conformance\"],\"purpose\":\"Prove replay projection and exact duplicate-denial receipt behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_a.sh\",\"negative-matrix\"],\"purpose\":\"Prove fail-closed evaluation of stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, authority-mutation, credential-binding, permit-binding, correlation-binding, and causation-binding probes.\",\"outcome\":\"passed\",\"evidence_ref\":\"negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out; repaired negative probes fail instead of label-denying when their invalid condition is removed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range diff hygiene before replacement implementation review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no output and exited 0\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "fresh-session:7a339974-b89c-44cd-94d3-ff7d9320c4ae",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -106,6 +106,37 @@ def require_hex64(value: object, label: str) -> None:
         fail(f"{label} must be a lowercase SHA-256 digest")
 
 
+def load_bound_receipt(path_value: object, digest_value: object, expected_kind: str, label: str) -> dict:
+    require_bounded(path_value, f"{label} receipt path", 256)
+    require_hex64(digest_value, f"{label} receipt digest")
+    assert isinstance(path_value, str)
+    receipt_rel = pathlib.Path(path_value)
+    if receipt_rel.is_absolute() or ".." in receipt_rel.parts:
+        fail(f"{label} receipt path must be repo-relative and stay inside the identity packet")
+    receipt_path = ROOT / receipt_rel
+    try:
+        receipt_path.relative_to(PACKET)
+    except ValueError:
+        fail(f"{label} receipt must live in the #261 identity packet")
+    if not receipt_path.is_file() or receipt_path.suffix != ".json":
+        fail(f"{label} receipt is missing or is not JSON")
+    data = receipt_path.read_bytes()
+    observed = hashlib.sha256(data).hexdigest()
+    if observed != digest_value:
+        fail(f"{label} receipt digest mismatch: expected={digest_value} observed={observed}")
+    try:
+        receipt = json.loads(data)
+    except json.JSONDecodeError as exc:
+        fail(f"{label} receipt is not valid JSON: {exc}")
+    if not isinstance(receipt, dict):
+        fail(f"{label} receipt must contain one JSON object")
+    if receipt.get("schema") != "agent_logic.podcast.redacted_receipt.v1":
+        fail(f"{label} receipt schema mismatch")
+    if receipt.get("receipt_kind") != expected_kind:
+        fail(f"{label} receipt kind mismatch")
+    return receipt
+
+
 def require_git_path(commit: str, path: str, label: str) -> None:
     result = subprocess.run(
         ["git", "cat-file", "-e", f"{commit}:{path}"], cwd=ROOT,
@@ -174,12 +205,12 @@ exact_keys(identity["show"], {"title", "subtitle", "description", "author", "cat
 exact_keys(identity["artwork"], {"path", "bytes", "sha256", "format", "width", "height", "bit_depth", "color_space", "rights_record"}, "artwork")
 exact_keys(identity["decision_records"], {"operator_decision", "name_conflict_review", "mailbox_readiness"}, "decision records")
 exact_keys(identity["ownership"], {"issue_261", "issue_342", "issue_262"}, "ownership")
-exact_keys(rights, {"schema", "status", "distribution_artwork", "retained_source", "observed_provenance", "rights_basis", "license_identifier", "creator_or_source_owner", "operator_confirmation", "operator_confirmation_sha256", "operator_confirmation_timestamp_utc", "publication_authorized", "note"}, "artwork rights")
+exact_keys(rights, {"schema", "status", "distribution_artwork", "retained_source", "observed_provenance", "rights_basis", "license_identifier", "creator_or_source_owner", "operator_confirmation", "operator_confirmation_receipt", "operator_confirmation_sha256", "operator_confirmation_timestamp_utc", "publication_authorized", "note"}, "artwork rights")
 exact_keys(rights["distribution_artwork"], {"path", "bytes", "sha256", "format", "width", "height", "bit_depth", "color_space"}, "rights distribution artwork")
 exact_keys(rights["retained_source"], {"path", "bytes", "sha256", "format", "width", "height", "bit_depth", "color_space"}, "rights retained source")
 exact_keys(rights["observed_provenance"], {"repository_statement", "source_packet", "runbook", "first_distribution_commit", "first_source_commit"}, "observed provenance")
-exact_keys(mailbox, {"schema", "status", "mailbox", "control_class", "control_evidence_sha256", "test_timestamp_utc", "sender_class", "receive_outcome", "provider_class", "source_evidence_sha256", "redaction_statement", "operator_retention_approval", "publication_authorized"}, "mailbox readiness")
-exact_keys(name_decision, {"schema", "version", "status", "candidate_title", "decision", "approved_title", "decided_at_utc", "operator_confirmation_sha256", "research_record", "research_sha256"}, "name decision")
+exact_keys(mailbox, {"schema", "status", "mailbox", "control_class", "control_evidence_receipt", "control_evidence_sha256", "test_timestamp_utc", "sender_class", "receive_outcome", "provider_class", "source_evidence_receipt", "source_evidence_sha256", "redaction_statement", "operator_retention_approval", "publication_authorized"}, "mailbox readiness")
+exact_keys(name_decision, {"schema", "version", "status", "candidate_title", "decision", "approved_title", "decided_at_utc", "operator_confirmation_receipt", "operator_confirmation_sha256", "research_record", "research_sha256"}, "name decision")
 
 if identity["schema"] != "agent_logic.podcast.show_identity.v1" or identity["version"] != "v0.92.1-261-candidate.1":
     fail("show identity schema/version mismatch")
@@ -261,19 +292,19 @@ if identity["show"]["public_contact"] != "podcast@agent-logic.ai":
 actual_scope = validate_scope()
 
 if identity["approval_status"] == "pending_operator_decision":
-    for key in ("decision", "approved_title", "decided_at_utc", "operator_confirmation_sha256"):
+    for key in ("decision", "approved_title", "decided_at_utc", "operator_confirmation_receipt", "operator_confirmation_sha256"):
         if name_decision[key] is not None:
             fail(f"pending name decision must retain null {key}")
 if rights["status"] == "pending_operator_rights_confirmation":
     if rights["rights_basis"] != "pending_operator_confirmation" or rights["publication_authorized"] is not False:
         fail("pending rights classification/authority mismatch")
-    for key in ("license_identifier", "creator_or_source_owner", "operator_confirmation", "operator_confirmation_sha256", "operator_confirmation_timestamp_utc"):
+    for key in ("license_identifier", "creator_or_source_owner", "operator_confirmation", "operator_confirmation_receipt", "operator_confirmation_sha256", "operator_confirmation_timestamp_utc"):
         if rights[key] is not None:
             fail(f"pending rights must retain null {key}")
 if mailbox["status"] == "pending_external_verification":
     if mailbox["control_class"] != "company_controlled_claim_pending_receive_proof" or mailbox["publication_authorized"] is not False:
         fail("pending mailbox control/authority mismatch")
-    for key in ("control_evidence_sha256", "test_timestamp_utc", "sender_class", "receive_outcome", "provider_class", "source_evidence_sha256", "operator_retention_approval"):
+    for key in ("control_evidence_receipt", "control_evidence_sha256", "test_timestamp_utc", "sender_class", "receive_outcome", "provider_class", "source_evidence_receipt", "source_evidence_sha256", "operator_retention_approval"):
         if mailbox[key] is not None:
             fail(f"pending mailbox must retain null {key}")
 
@@ -351,7 +382,19 @@ if args.release:
     if name_decision["decision"] != "approved" or name_decision["approved_title"] != identity["show"]["title"]:
         fail("operator title decision does not approve the exact candidate title")
     title_time = utc_timestamp(name_decision["decided_at_utc"], "title decision timestamp")
-    require_hex64(name_decision["operator_confirmation_sha256"], "title confirmation digest")
+    title_receipt = load_bound_receipt(
+        name_decision["operator_confirmation_receipt"],
+        name_decision["operator_confirmation_sha256"],
+        "title_decision",
+        "title confirmation",
+    )
+    exact_keys(title_receipt, {"schema", "receipt_kind", "subject", "status", "decided_at_utc", "operator_authority_class", "redaction_statement"}, "title confirmation receipt")
+    if title_receipt["subject"] != identity["show"]["title"] or title_receipt["status"] != "approved":
+        fail("title confirmation receipt does not approve the exact candidate title")
+    if title_receipt["decided_at_utc"] != name_decision["decided_at_utc"]:
+        fail("title confirmation receipt timestamp mismatch")
+    if title_receipt["operator_authority_class"] != "operator_private_confirmation_retained":
+        fail("title confirmation receipt authority class mismatch")
     if rights["rights_basis"] not in {"owned_original", "licensed", "commissioned_work_for_hire"}:
         fail("rights basis remains pending")
     require_bounded(rights["license_identifier"], "license identifier", 120, r"[A-Za-z0-9][A-Za-z0-9._:/ -]{0,119}")
@@ -359,7 +402,28 @@ if args.release:
         fail("creator/source owner must use an allowed redacted classification")
     if rights["operator_confirmation"] != "operator_confirmed_rights_basis":
         fail("rights operator confirmation classification mismatch")
-    require_hex64(rights["operator_confirmation_sha256"], "rights confirmation digest")
+    rights_receipt = load_bound_receipt(
+        rights["operator_confirmation_receipt"],
+        rights["operator_confirmation_sha256"],
+        "artwork_rights",
+        "rights confirmation",
+    )
+    exact_keys(rights_receipt, {"schema", "receipt_kind", "subject", "status", "confirmed_at_utc", "rights_basis", "license_identifier", "creator_or_source_owner", "distribution_artwork_sha256", "retained_source_sha256", "operator_authority_class", "redaction_statement"}, "rights confirmation receipt")
+    if rights_receipt["subject"] != rights["distribution_artwork"]["path"]:
+        fail("rights confirmation receipt subject mismatch")
+    if rights_receipt["status"] != rights["operator_confirmation"]:
+        fail("rights confirmation receipt status mismatch")
+    if rights_receipt["confirmed_at_utc"] != rights["operator_confirmation_timestamp_utc"]:
+        fail("rights confirmation receipt timestamp mismatch")
+    for key in ("rights_basis", "license_identifier", "creator_or_source_owner"):
+        if rights_receipt[key] != rights[key]:
+            fail(f"rights confirmation receipt {key} mismatch")
+    if rights_receipt["distribution_artwork_sha256"] != rights["distribution_artwork"]["sha256"]:
+        fail("rights confirmation receipt distribution artwork digest mismatch")
+    if rights_receipt["retained_source_sha256"] != rights["retained_source"]["sha256"]:
+        fail("rights confirmation receipt retained source digest mismatch")
+    if rights_receipt["operator_authority_class"] != "operator_private_confirmation_retained":
+        fail("rights confirmation receipt authority class mismatch")
     rights_time = utc_timestamp(rights["operator_confirmation_timestamp_utc"], "rights confirmation timestamp")
     if rights["publication_authorized"] is not True:
         fail("rights publication authority missing")
@@ -367,7 +431,21 @@ if args.release:
         fail("mailbox proof does not bind the exact public contact")
     if mailbox["control_class"] != "company_controlled_verified":
         fail("mailbox control class is not verified")
-    require_hex64(mailbox["control_evidence_sha256"], "mailbox control evidence digest")
+    control_receipt = load_bound_receipt(
+        mailbox["control_evidence_receipt"],
+        mailbox["control_evidence_sha256"],
+        "mailbox_control",
+        "mailbox control evidence",
+    )
+    exact_keys(control_receipt, {"schema", "receipt_kind", "subject", "status", "verified_at_utc", "provider_class", "operator_authority_class", "redaction_statement"}, "mailbox control receipt")
+    if control_receipt["subject"] != mailbox["mailbox"] or control_receipt["status"] != mailbox["control_class"]:
+        fail("mailbox control receipt does not bind the exact mailbox/control class")
+    if control_receipt["verified_at_utc"] != mailbox["test_timestamp_utc"]:
+        fail("mailbox control receipt timestamp mismatch")
+    if control_receipt["provider_class"] != mailbox["provider_class"]:
+        fail("mailbox control receipt provider class mismatch")
+    if control_receipt["operator_authority_class"] != "operator_private_confirmation_retained":
+        fail("mailbox control receipt authority class mismatch")
     mailbox_time = utc_timestamp(mailbox["test_timestamp_utc"], "mailbox test timestamp")
     if mailbox["sender_class"] not in {"operator_external_account", "provider_verification_service"}:
         fail("mailbox sender class is not an allowed redacted classification")
@@ -375,7 +453,23 @@ if args.release:
         fail("mailbox receive outcome is not received")
     if mailbox["provider_class"] not in {"company_mail_provider", "domain_verification_provider"}:
         fail("mailbox provider class is not an allowed redacted classification")
-    require_hex64(mailbox["source_evidence_sha256"], "mailbox source evidence digest")
+    source_receipt = load_bound_receipt(
+        mailbox["source_evidence_receipt"],
+        mailbox["source_evidence_sha256"],
+        "mailbox_receive",
+        "mailbox source evidence",
+    )
+    exact_keys(source_receipt, {"schema", "receipt_kind", "subject", "status", "received_at_utc", "sender_class", "provider_class", "operator_retention_approval", "redaction_statement"}, "mailbox receive receipt")
+    if source_receipt["subject"] != mailbox["mailbox"] or source_receipt["status"] != mailbox["receive_outcome"]:
+        fail("mailbox receive receipt does not bind the exact mailbox/outcome")
+    if source_receipt["received_at_utc"] != mailbox["test_timestamp_utc"]:
+        fail("mailbox receive receipt timestamp mismatch")
+    if source_receipt["sender_class"] != mailbox["sender_class"] or source_receipt["provider_class"] != mailbox["provider_class"]:
+        fail("mailbox receive receipt sender/provider classification mismatch")
+    if source_receipt["operator_retention_approval"] != mailbox["operator_retention_approval"]:
+        fail("mailbox receive receipt retention approval mismatch")
+    if source_receipt["redaction_statement"] != mailbox["redaction_statement"]:
+        fail("mailbox receive receipt redaction statement mismatch")
     if mailbox["operator_retention_approval"] is not True or mailbox["publication_authorized"] is not True:
         fail("mailbox operator retention/publication authority missing")
     if rights_time < title_time or mailbox_time < title_time:

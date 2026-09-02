@@ -1,5 +1,5 @@
-bucket         = "agent-logic-terraform-state"
+bucket         = "agent-logic-foundation-terraform-state-<agent-logic-aws-account-id>-us-west-2"
 key            = "v0.92.1/aws-f/runtime/private-node/dev.tfstate"
 region         = "us-west-2"
-dynamodb_table = "agent-logic-terraform-locks"
+dynamodb_table = "agent-logic-foundation-terraform-locks"
 encrypt        = true

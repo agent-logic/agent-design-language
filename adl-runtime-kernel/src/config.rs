@@ -667,6 +667,15 @@ impl RuntimeInitConfig {
             observability.remove("lifecycle_run");
             observability.remove("lifecycle_cycle");
         }
+        if let Some(observatory) = value
+            .get_mut("observatory")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            observatory.insert(
+                "additional_allowed_origins".to_owned(),
+                serde_json::Value::Array(Vec::new()),
+            );
+        }
         Ok(value)
     }
 }
@@ -1159,6 +1168,16 @@ pub struct RuntimeObservabilityInitConfig {
     pub vector_data_dir: PathBuf,
     pub spool_max_bytes: u64,
     pub spool_retained_files: usize,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cloudwatch: Option<RuntimeCloudWatchInitConfig>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeCloudWatchInitConfig {
+    pub region: String,
+    pub log_group: String,
+    pub log_stream: String,
 }
 
 impl RuntimeObservabilityInitConfig {
@@ -1230,6 +1249,38 @@ impl RuntimeObservabilityInitConfig {
         }
         if let Some(endpoint) = self.otlp_endpoint.as_deref() {
             validate_observability_otlp_endpoint(endpoint)?;
+        }
+        if let Some(cloudwatch) = self.cloudwatch.as_ref() {
+            for (field, value) in [
+                (
+                    "observability_pipeline.cloudwatch.region",
+                    &cloudwatch.region,
+                ),
+                (
+                    "observability_pipeline.cloudwatch.log_group",
+                    &cloudwatch.log_group,
+                ),
+                (
+                    "observability_pipeline.cloudwatch.log_stream",
+                    &cloudwatch.log_stream,
+                ),
+            ] {
+                validate_non_empty_trimmed(field, value)?;
+            }
+            if !cloudwatch.log_group.starts_with('/')
+                || cloudwatch
+                    .log_group
+                    .bytes()
+                    .any(|byte| byte.is_ascii_control())
+                || cloudwatch
+                    .log_stream
+                    .bytes()
+                    .any(|byte| byte.is_ascii_control())
+            {
+                return Err(RuntimeInitError::Policy(
+                    "observability_pipeline.cloudwatch names are invalid".to_owned(),
+                ));
+            }
         }
         for (field, path) in [
             ("vector_config_path", &self.vector_config_path),

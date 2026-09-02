@@ -2,15 +2,107 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 262,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
-  "phase": "ready",
-  "generation": 4,
-  "digest": "5dbe5c731f23230bced5e8e04fc218fd97f82677b5b8d91dd92f83ac048d3688",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 49,
+  "digest": "7a9659ff5742fce814c08d4ed0a28dec11406462c809c35f4f7f0553c855fb45",
+  "branch": "codex/262-podcast-production-hosting",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
+  "review_assignment": {
+    "reviewer": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+    "assigned_by": "codex:root/podcast-262",
+    "revision": "git-blake3:572fe15253b5c91d36bbfd24c63a2f4692451c8e:1e3defcb84466723601d517579a9d1584e7a642732b280ef7c65d79e03387922",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      "adl/tools/test_podcast_launch_packet.sh",
+      "adl/tools/validate_podcast_launch_packet.py",
+      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio/reference.sha256",
+      "demos/podcast/studio/podcast-studio.html"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      "adl/tools/test_podcast_launch_packet.sh",
+      "adl/tools/validate_podcast_launch_packet.py",
+      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio/reference.sha256",
+      "demos/podcast/studio/podcast-studio.html"
+    ],
+    "reviewed_revision": "git-blake3:572fe15253b5c91d36bbfd24c63a2f4692451c8e:1e3defcb84466723601d517579a9d1584e7a642732b280ef7c65d79e03387922",
+    "findings": [],
+    "residual_risks": [
+      "PR head 2b39189ce8a6f2dcb6d848b9106f0852697e934a includes only review-assignment lifecycle metadata after the assigned substantive revision 572fe15253b5c91d36bbfd24c63a2f4692451c8e; production artifacts and live proof surfaces are unchanged.",
+      "Directory submission remains out of scope for #262 and is reserved for #264."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 262,
+    "pull_request": 618,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/618",
+    "base": "main",
+    "head": "codex/262-podcast-production-hosting",
+    "revision": "git-blake3:613f86db5cebf98b858860409b461fe2ab89caa6:256e245a70a00e2a2b393640eb096e051c11dbec70ae0d1fb43c417649f75533",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +116,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9f68cc7849906d773e26baa99ac0fadfbe103e9ef287525a29e8acd0ea4d1e74",
+      "values_digest": "966777b311010287cac031c1203fb4c56fb9c21f2e0eb5d94f5fc854ba783730",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "04914cfa4370d8c0834d3022efe583a77d8bcb02b1caa58e50c0ce3ceac5905d",
+      "values_digest": "6be5e342f4fa387086cff29ff8f98383911a385e4f21096e0ecd8aa6ae883569",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "dfd6b937131e3a6d5781e4821662b10ee78832028def6a13d60d6616e8cc560d",
+      "values_digest": "a6b6371756e850bffb93e8173cbb7bed0d51160a9e0e6d5919e8f3c42de31edd",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "10cb842ccff8c696eaeda29ff5d15d30107d2785951137711c844ec2da88c350",
+      "values_digest": "1071ef2f0526942f3b38b00978d3d69f785313c4d6ec1dde933d33c3752260d5",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "eb97dfc7c46037ba7eb0ca23ff3b72084c3be2d5b615c9358413ba64070b10c2",
-      "rendered_digest": "c9b41d47c14da6267ddcbcce440b838544cfc0ddebcaa091af0a44b1dca83e67",
-      "ast_digest": "058466a4cec1456ddfe31f45b6b71f86e098ecfdc2cca32bb8ee9392357c96e6"
+      "values_digest": "aa25b6d9608a6d2c3aeade930eb6c1e2a26bf6b8d6877a4c1daa0c7e2d2021c5",
+      "rendered_digest": "01944c77cafc39826f5ab4b6b10c49e3e4a8f8d9d8af389f85296d9e305957a6",
+      "ast_digest": "5c269fcb7828f5ccc6849b1b6aa9e8fb814d7e1f560e5734f25d056badc99417"
     },
     "sor": {
-      "values_digest": "656c6116e0d06b63a4302767d0879f57018b434e6ba2d534809b2b643aa32680",
-      "rendered_digest": "d4eddece9b3b1004facc1f6f0ec3e5e8e38a1c0f39f2a35c81232c03d958cb45",
-      "ast_digest": "f81477d6ba726430cf7f37d8370db19edff72decfb69910c355800a22d05e7c8"
+      "values_digest": "e07f951a27523be2fbfafe33526fab14dab06b9d15d3d4fae1cccc25a3c87fd1",
+      "rendered_digest": "fa42f8afcb76f5cdd8f4d4e641ec81aef3b300895791063f681a45b559fb674e",
+      "ast_digest": "ce244f40e929a65b048cff39bc231e7ddf96f12acfe5b0ac9cb98984ec232d0b"
     }
   },
   "transitions": [
@@ -61,6 +153,76 @@
       "to": "ready",
       "actor": "codex:podcast-issue-owner",
       "reason": "Advance the validated podcast production-hosting bundle to ready after #261 identity publication succeeded and The Cognitive Stack feed/page candidate validation passed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:root/podcast-262",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root/podcast-262",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after hosted adl-tooling-contracts failed the podcast launch packet contract because The Cognitive Stack studio HTML and launch schedule title changed but reference digests and validator/source title expectations were stale; prepare a remediated exact-head candidate."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:627ccf54-c965-42b7-8ce9-084791bad23b",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root/podcast-262",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after exact-head review found that the #262 PR closed the issue while retaining only loopback playback proof and publication_claimed=false; live production hosting was promoted to https://agent-logic.ai/podcast/ and public HTTPS playback proof was retained."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root/podcast-262",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -98,6 +260,391 @@
       "actor": "codex:podcast-issue-owner",
       "reason": "Own the exact #262 validation script path so doctor can bind the executable issue-specific denominator instead of relying on directory-prefix inference.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/feed.xml\",\"docs/milestones/v0.92.1/evidence/podcast/51-b\",\"adl/tools/record_podcast_native_playback.sh\",\"adl/tools/record_podcast_browser_playback.mjs\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:root/podcast-262",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:ec6fb5a9-f376-4e33-97c7-8ad14b12cd20",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after assigned #262 review found stale public transcript show name, stale MP3 ID3 metadata, and stale mailbox readiness text; prepare a remediated exact-head candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-review remediation validation for stale show-name and MP3 metadata findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate post-remediation The Cognitive Stack feed/page/enclosure consistency, MP3 ID3 metadata, QA metadata, and stale transcript-copy guard coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 post-remediation reviewable diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "fresh-session:76b336fc-50e4-4bdb-8dfb-c1432cda544e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after assigned #262 R2 review found AC-3 HTTP HEAD, GET, 206 byte-range, and representative playback proof was missing; prepare a remediated exact-head candidate with retained proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R2 retained HTTP playback proof for HEAD, GET, and 206 byte-range behavior across desktop and mobile user-agent profiles.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain source-SHA-bound local HTTP playback proof for The Cognitive Stack feed, pages, MP3 HEAD behavior, and first/tail 206 byte-range requests across desktop Safari, desktop Chrome, mobile Safari, and Android Chrome user-agent profiles.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R2 focused validation after binding HTTP playback proof into the issue validator denominator.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack feed, pages, enclosure metadata, MP3 ID3 metadata, mailbox/artwork dependency truth, retained HTTP playback proof, wrapper playback receipts, and stale-name/path hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 R2 playback-proof remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 post-R2 playback-proof remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "fresh-session:944f3936-2e43-4a7e-a4ac-d380cccf2ff4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after assigned #262 R3 review found the retained HTTP playback proof was not mechanically bound to a recomputable source/candidate digest; prepare a remediated exact-head candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R3 source-manifest-bound HTTP playback proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain HTTP HEAD, GET, first/tail 206 range, desktop/mobile profile playback proof bound to a recomputable source manifest digest over feed, pages, MP3, validator, generator, and wrapper scripts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R3 focused validation after source-manifest-bound playback proof repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack launch-feed artifacts, MP3 metadata, HTTP playback receipts, and wrapper receipts while recomputing the source manifest digest that binds the retained proof to current source artifacts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 source-manifest playback-proof repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 source-manifest playback-proof remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "fresh-session:01676b7c-d214-4993-bfda-c17dc3e696bf",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after assigned #262 R4 review found stale source-packet GUID and production/archive path truth; prepare a remediated exact-head candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R4 source-manifest-bound playback proof after launch identity and archive path truth remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain source-manifest-bound HTTP playback proof after source-packet GUID and The Cognitive Stack archive path corrections.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R4 focused validation after launch identity and archive path truth remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack GUID consistency, archive path truth, stale production-name guards, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 launch identity and archive path truth remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 launch identity and archive path truth remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "fresh-session:39c407bb-11b7-4fb0-93e9-2b35c059f03c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after assigned #262 R5 review found stale archive storage-manifest byte and checksum entries; prepare a remediated exact-head candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R5 source-manifest-bound playback proof after archive manifest checksum repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain source-manifest-bound HTTP playback proof after storage-manifest and S3 object inventory checksum repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R5 focused validation after archive manifest checksum repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate archive manifest critical-object byte/SHA/checksum truth, S3 inventory size/etag truth, The Cognitive Stack identity, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 29,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 archive manifest checksum repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 archive manifest checksum remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "fresh-session:6915b91a-64a0-40b2-83ce-12e8ab77314f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 31,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after assigned #262 R6 review found storage-manifest archive_total_bytes mismatched S3 inventory total and summed object sizes; prepare a remediated exact-head candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R6 source-manifest-bound playback proof after archive aggregate byte repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain source-manifest-bound HTTP playback proof after storage-manifest archive total and S3 inventory aggregate byte repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R6 focused validation after archive aggregate byte repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate archive aggregate object count and byte truth, critical-object byte/SHA/checksum truth, S3 inventory size/etag truth, The Cognitive Stack identity, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 42,
+      "generation": 34,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 archive aggregate byte repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 archive aggregate byte remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 43,
+      "generation": 34,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 35,
+      "actor": "fresh-session:d39f9711-fdf4-4c02-81d9-51b656199df9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 36,
+      "actor": "codex:root/podcast-262",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 46,
+      "generation": 37,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after hosted adl-tooling-contracts failed the podcast launch packet contract because The Cognitive Stack studio HTML and launch schedule title changed but reference digests and validator/source title expectations were stale; prepare a remediated exact-head candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 38,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record hosted adl-tooling-contracts reproducer after The Cognitive Stack title/digest remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_podcast_launch_packet.sh\"],\"purpose\":\"Prove the podcast launch packet contract accepts The Cognitive Stack schedule title, studio reference digest, production source packet boundary, generated packet, and current demo route.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-podcast-launch-packet.log\"}}"
+    },
+    {
+      "sequence": 48,
+      "generation": 39,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record focused validation after The Cognitive Stack launch packet title/digest remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack hosting packet remains consistent after launch schedule title, studio digest, and validator-boundary repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 49,
+      "generation": 40,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after The Cognitive Stack launch packet title/digest remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 post-publication CI remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 50,
+      "generation": 40,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 41,
+      "actor": "fresh-session:627ccf54-c965-42b7-8ce9-084791bad23b",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 42,
+      "actor": "codex:root/podcast-262",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 53,
+      "generation": 43,
+      "actor": "codex:root/podcast-262",
+      "reason": "Recover after exact-head review found that the #262 PR closed the issue while retaining only loopback playback proof and publication_claimed=false; live production hosting was promoted to https://agent-logic.ai/podcast/ and public HTTPS playback proof was retained.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 44,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record live production hosting promotion after exact-head review found loopback-only proof insufficient for #262 closure.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #262 podcast production-hosting candidate for The Cognitive Stack, including promotion of the approved public page, RSS feed, artwork, MP3 enclosure, and episode page to the production https://agent-logic.ai/podcast/ hosting surface.\",\"changes\":[\"Promoted the approved public podcast page, RSS feed, artwork, MP3 enclosure, and episode page to the branded production website bucket behind agent-logic.ai.\",\"Invalidated the changed CloudFront paths for the production podcast route.\",\"Added validator-enforced public HTTPS proof so #262 can no longer pass with only 127.0.0.1 loopback playback receipts.\",\"Updated launch-readiness and S3/CloudFront runbook truth to distinguish production hosting publication from #264 directory submission.\"],\"artifacts\":[\".csdlc/prepared/issues/262/record-live-production-proof.rb\",\".csdlc/evidence/262/live-production/public-production-proof.json\",\".csdlc/evidence/262/live-production/cloudfront-invalidation.json\",\".csdlc/evidence/262/live-production/put-feed.json\",\".csdlc/evidence/262/live-production/put-audio.json\",\".csdlc/evidence/262/live-production/put-artwork.json\",\".csdlc/evidence/262/live-production/put-podcast-root.json\",\".csdlc/evidence/262/live-production/put-podcast-index.json\",\".csdlc/evidence/262/live-production/put-episode-root.json\",\".csdlc/evidence/262/live-production/put-episode-index.json\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/S3_CLOUDFRONT_RUNBOOK.md\"]}"
+    },
+    {
+      "sequence": 55,
+      "generation": 45,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record retained live production HTTPS proof after promoting The Cognitive Stack podcast artifacts to the public agent-logic.ai hosting surface.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-live-production-proof.rb\"],\"purpose\":\"Retain source-manifest-bound public production proof for The Cognitive Stack feed, page, artwork, MP3 enclosure, S3 version receipts, CloudFront invalidation, public HTTPS HEAD/GET, and first/tail 206 byte-range playback behavior at https://agent-logic.ai/podcast/.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/live-production/public-production-proof.json\"}}"
+    },
+    {
+      "sequence": 56,
+      "generation": 46,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record focused podcast hosting validation after live production publication proof was added to the #262 release gate.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack hosting packet with source-bound local playback receipts, public production HTTPS proof, S3 version receipts, CloudFront invalidation evidence, and publication_claimed=true.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 57,
+      "generation": 47,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record diff hygiene validation for the #262 live production proof remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify whitespace and diff hygiene for the live production podcast hosting proof remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 58,
+      "generation": 47,
+      "actor": "codex:root/podcast-262",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 48,
+      "actor": "fresh-session:43005e33-811b-442f-8235-e6bd940e39eb",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 49,
+      "actor": "codex:root/podcast-262",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

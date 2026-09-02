@@ -8,14 +8,15 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-exact head f8c27d383 on branch codex/261-podcast-show-identity
-show identity packet for The Cognitive Stack
-rights, metadata, artwork, mailbox readiness, validation, and #262/#263 stack readiness implications
-verify no #264 or #51 submission/coordination work is implemented
+exact head 3067d90cc on branch codex/261-podcast-show-identity
+docs/milestones/v0.92/review/podcast_identity_261/**
+demos/podcast/artwork.png
+verify #261 release gates bind to retained redacted receipt files by digest
+verify no #264 or #51 submission/provider/directory work is implemented
 
 ## Prompts
 
@@ -35,13 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Directory submission and provider-account work remains intentionally deferred to #264.
-- The public podcast page/feed work remains stacked behind #262 and is not implemented by #261 alone.
+- Directory submission and provider-account work remains intentionally deferred to #264/#51.
+- Private external retained sources behind the redacted receipts were not inspected; the public proof validates retained redacted receipts, digest binding, and fail-closed validator behavior.
 
 ## Review Result
 
-Revision: Some("git-blake3:f8c27d3839a80eecbcf98ee77960376e9c6b46e9:e1555acf8e7cfb3d4f4c629e9806fcfe8b3c7b16441bd3573d6cef77f806edae")
+Revision: Some("git-blake3:3067d90cc54e94d40d6a988672b09314e9ab272b:a8f60fe1a3022c7c01d2283313677256736e5e8b7db38bdb2f508f9b8a50c90c")
 
-Reviewer: Some("fresh-session:78839b05-3163-4827-bb33-f759ecba6dff")
+Reviewer: Some("fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a")
 
 Result: pass

@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root",
+  "card": "sor",
+  "expected_digest": "bcfb0945100289bf6775bf08e3ed1c923f0d20d05a8df1843062152cc8e66566",
+  "expected_generation": 9,
+  "issue": 506,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+        "negative-matrix"
+      ],
+      "purpose": "Prove fail-closed stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation cases.",
+      "outcome": "passed",
+      "evidence_ref": "negative_matrix test passed locally: 1 passed, 0 failed, 3 filtered out"
+    }
+  },
+  "reason": "Record focused #506 negative matrix proof lane."
+}
