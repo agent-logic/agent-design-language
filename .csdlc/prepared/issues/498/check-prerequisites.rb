@@ -116,7 +116,7 @@ payload = {
   status: status,
   base: BASE,
   transport: "typed_csdlc_v2_github_read_owners",
-  csdlc_v2_bin_dir: BIN_DIR.to_s,
+  binary_resolution: "worktree .adl/bin/csdlc-v2 default, or explicit ADL_CSDLC_V2_BIN_DIR override",
   prerequisites: results,
   nonblocking_sidecars: sidecars,
   failures: failures,

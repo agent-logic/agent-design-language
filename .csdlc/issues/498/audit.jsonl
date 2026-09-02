@@ -16,3 +16,4 @@
 {"sequence":16,"generation":10,"actor":"codex:/root/Worker-7","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":17,"generation":11,"actor":"codex:/root/Worker-7","reason":"Recover after manually committing review metadata, which made the recorded review stale for publication; preserve audit history and re-review the current clean head.","operation":"recover_review"}
 {"sequence":18,"generation":11,"actor":"codex:/root/Worker-7","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":19,"generation":11,"actor":"codex:/root/Worker-7","reason":"assign bounded exact-revision review","operation":"assign_review"}

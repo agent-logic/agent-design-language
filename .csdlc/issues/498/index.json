@@ -6,13 +6,13 @@
   "initialization_digest": "5cba53deaba7c8e2a2a220194f4bb1433a12212ab512e95fdfe9591df5a470e5",
   "phase": "implemented",
   "generation": 11,
-  "digest": "37ef7944f5d77a340c220211dda408cabda15279684bc5ed853fef5b8b949d09",
+  "digest": "5b0a71d9649eccb782c9c9bcdc0db82a027ac68ae0a02e015386cf8453d83c03",
   "branch": "codex/498-corp-d-corporate-diligence-acceptance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance",
   "review_assignment": {
-    "reviewer": "subagent:498-corp-d-exact-head-review-r5",
+    "reviewer": "subagent:498-corp-d-exact-head-review-r6",
     "assigned_by": "codex:/root/Worker-7",
-    "revision": "git-blake3:b9cdd53b70220a7fe1c6fef61e74a4b8ae12b740:68daa21af3d3d8d7229e44da8cbcc4c8c1ebbaefe3ecd69f07df1a324c17c4f9",
+    "revision": "git-blake3:683a8c503994464e728806278d472b1ca351f090:cb09d34fb2b6200969390f9415d1b3a84eb75fc2a766a202989a43608e781af8",
     "scope": [
       ".csdlc/evidence/498",
       ".csdlc/prepared/issues/498",
@@ -224,6 +224,13 @@
     },
     {
       "sequence": 18,
+      "generation": 11,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
       "generation": 11,
       "actor": "codex:/root/Worker-7",
       "reason": "assign bounded exact-revision review",
