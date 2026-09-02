@@ -278,6 +278,8 @@ run_contracts() {
   rg -q 'mount -t overlay overlay' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'qualification-issue607' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   ! rg -q 'mount --bind.*guardian-evidence' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'PRESERVE_COMPUTE_ON_EXIT=true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'compute retained for live qualification diagnosis' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   ! rg -q 'apt-get install[^\n]*awscli|snap install|snapd' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
