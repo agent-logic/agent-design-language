@@ -346,36 +346,52 @@ fn redact_diagnostic(message: String) -> String {
     redacted.join(" ")
 }
 
-static GLOBAL_PROVIDER_RELOAD: OnceLock<Mutex<Option<ProviderReloadHandle>>> = OnceLock::new();
+#[derive(Clone)]
+struct GlobalProviderReloadRegistration {
+    token: u64,
+    handle: ProviderReloadHandle,
+}
 
-fn global_provider_reload() -> &'static Mutex<Option<ProviderReloadHandle>> {
+static GLOBAL_PROVIDER_RELOAD: OnceLock<Mutex<Option<GlobalProviderReloadRegistration>>> =
+    OnceLock::new();
+static NEXT_GLOBAL_PROVIDER_RELOAD_TOKEN: AtomicU64 = AtomicU64::new(1);
+
+fn global_provider_reload() -> &'static Mutex<Option<GlobalProviderReloadRegistration>> {
     GLOBAL_PROVIDER_RELOAD.get_or_init(|| Mutex::new(None))
 }
 
-pub struct ProviderReloadGlobalGuard;
+pub struct ProviderReloadGlobalGuard {
+    token: u64,
+}
 
 pub fn set_global_provider_reload_handle(
     handle: ProviderReloadHandle,
 ) -> ProviderReloadGlobalGuard {
+    let token = NEXT_GLOBAL_PROVIDER_RELOAD_TOKEN.fetch_add(1, Ordering::SeqCst);
     if let Ok(mut slot) = global_provider_reload().lock() {
-        *slot = Some(handle);
+        *slot = Some(GlobalProviderReloadRegistration { token, handle });
     }
-    ProviderReloadGlobalGuard
+    ProviderReloadGlobalGuard { token }
 }
 
 impl Drop for ProviderReloadGlobalGuard {
     fn drop(&mut self) {
         if let Ok(mut slot) = global_provider_reload().lock() {
-            *slot = None;
+            if slot
+                .as_ref()
+                .is_some_and(|registration| registration.token == self.token)
+            {
+                *slot = None;
+            }
         }
     }
 }
 
 pub fn current_provider_reload_document() -> Option<Arc<adl::AdlDoc>> {
-    global_provider_reload()
-        .lock()
-        .ok()
-        .and_then(|slot| slot.as_ref().map(ProviderReloadHandle::current_document))
+    global_provider_reload().lock().ok().and_then(|slot| {
+        slot.as_ref()
+            .map(|registration| registration.handle.current_document())
+    })
 }
 
 #[cfg(test)]

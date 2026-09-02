@@ -3158,13 +3158,12 @@ struct AdlWorkflowRunSummary {
 struct ActiveProviderReload {
     runtime: tokio::runtime::Runtime,
     owner: Option<provider::ProviderReloadOwner>,
-    guard: Option<provider::ProviderReloadGlobalGuard>,
+    handle: provider::ProviderReloadHandle,
     source: PathBuf,
 }
 
 impl ActiveProviderReload {
     fn shutdown(mut self) -> Result<Value> {
-        self.guard.take();
         let owner = self
             .owner
             .take()
@@ -3219,8 +3218,20 @@ fn run_adl_workflow_cycle(
         resolved.workflow_id.clone(),
         resolved.doc.version.clone(),
     );
-    let execution =
-        execute::execute_sequential(&resolved, &mut tr, false, false, adl_base_dir, &out_dir);
+    let execution = match provider_reload.as_ref() {
+        Some(active) => execute::execute_sequential_with_provider_reload_handle(
+            &resolved,
+            &mut tr,
+            false,
+            false,
+            adl_base_dir,
+            &out_dir,
+            &active.handle,
+        ),
+        None => {
+            execute::execute_sequential(&resolved, &mut tr, false, false, adl_base_dir, &out_dir)
+        }
+    };
     let provider_reload_status = shutdown_adl_workflow_provider_reload(provider_reload)?;
     let result =
         execution.with_context(|| format!("CSM ADL DAG execution failed for cycle {cycle_id}"))?;
@@ -3300,11 +3311,11 @@ fn start_adl_workflow_provider_reload(
             adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
         ))
         .map_err(|error| anyhow!("start provider reload owner: {error}"))?;
-    let guard = provider::set_global_provider_reload_handle(owner.handle());
+    let handle = owner.handle();
     Ok(Some(ActiveProviderReload {
         runtime,
         owner: Some(owner),
-        guard: Some(guard),
+        handle,
         source: path,
     }))
 }

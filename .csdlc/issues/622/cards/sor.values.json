@@ -7,13 +7,13 @@
     "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
     "slug": "provider-profile-hotload",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 22
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Applied bounded CI janitor fixes after PR #646 reported an adl-rust-fmt-clippy failure.",
+      "summary": "Addressed PR #646 exact-head review blockers by making provider/profile reload state run-scoped for execution and adding overlap/shutdown-order regression coverage.",
       "actual_changes": [
         "Added a provider reload owner and global handle in adl/src/provider/reload.rs for provider-only sidecar loading, validation, diagnostics, stable provider digests, shutdown, and last-known-good preservation.",
         "Wired the production execution runner to resolve provider specs from the current reload snapshot for each step while preserving the in-flight step's start snapshot.",
@@ -27,7 +27,12 @@
         "Added a long-lived-agent production tick test proving the real CSM ADL workflow entrypoint consumes sidecar provider output through the reload owner.",
         "Updated #622 validation lanes and documentation to name the production config knob and stronger credential boundary.",
         "Ran rustfmt across the ADL workspace and accepted the single formatting change in adl-runtime-kernel/src/control.rs required by the hosted fmt check.",
-        "Fixed the csmctl command import to use the public adl_runtime_kernel::agent_roster::is_canonical_agent_name path instead of the private control re-export surface."
+        "Fixed the csmctl command import to use the public adl_runtime_kernel::agent_roster::is_canonical_agent_name path instead of the private control re-export surface.",
+        "Added execute_sequential_with_provider_reload_handle so production execution can consume an explicit run-scoped ProviderReloadHandle instead of process-global reload state.",
+        "Threaded the run-scoped reload handle through sequential execution, concurrent execution, step retry execution, and called-workflow recursion while preserving the existing global fallback for compatibility callers.",
+        "Changed CSM adl_workflow production wiring to store the ProviderReloadOwner handle on ActiveProviderReload and pass it directly into execution, removing CSM reliance on global provider reload registration.",
+        "Made the compatibility global provider reload guard identity-aware so dropping an older guard cannot clear a newer registration.",
+        "Added a two-workflow overlap and shutdown-order regression test proving same-provider-id workflows keep separate reload snapshots and shutting down one workflow does not clear the other's handle."
       ],
       "artifacts": [
         "adl/src/provider/reload.rs",
@@ -45,7 +50,12 @@
         ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
         "docs/providers/provider-profile-hot-loading.md",
         "adl-runtime-kernel/src/control.rs",
-        "adl/src/cli/csmctl_cmd.rs"
+        "adl/src/cli/csmctl_cmd.rs",
+        "adl/src/execute/mod.rs",
+        "adl/src/execute/runner.rs",
+        "adl/src/execute/tests.rs",
+        "adl/src/long_lived_agent.rs",
+        "adl/src/provider/reload.rs"
       ],
       "actual_validation": [
         {
@@ -96,10 +106,39 @@
           "purpose": "Prove the local equivalent of the failed hosted adl-rust-fmt-clippy lane after bounded CI janitor fixes.",
           "outcome": "passed",
           "evidence_ref": "terminal:issue-622-ci-janitor-local-fmt-clippy: cargo fmt --all -- --check passed; cargo clippy --all-targets -- -D warnings finished successfully in adl/"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+            "production"
+          ],
+          "purpose": "Prove the #622 production provider/profile hot-loading lane after replacing process-global production wiring with a run-scoped reload handle.",
+          "outcome": "passed",
+          "evidence_ref": "terminal:issue-622-process-global-repair-production-lane:provider_mod_profile 14 passed; provider_reload 6 passed including overlap/shutdown regression; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+            "safety"
+          ],
+          "purpose": "Prove the #622 safety lane after run-scoped reload repair, including runtime-kernel reload safety, credential boundary, production tick proof, and whitespace/diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "terminal:issue-622-process-global-repair-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 6 passed including overlap/shutdown regression; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt --manifest-path adl/Cargo.toml --all -- --check && cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings"
+          ],
+          "purpose": "Prove formatting and clippy cleanliness for the #622 process-global reload repair before fresh exact-head review.",
+          "outcome": "passed",
+          "evidence_ref": "terminal:issue-622-process-global-repair-local-fmt-clippy: cargo fmt --manifest-path adl/Cargo.toml --all -- --check passed; cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings finished successfully"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

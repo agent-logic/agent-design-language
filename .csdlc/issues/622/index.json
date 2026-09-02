@@ -4,69 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
-  "phase": "published",
-  "generation": 17,
-  "digest": "2d2bc1fc0af64f9525db1fa27bfca4d6e0e027882f211a12321a0438d7f8825d",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "6f869288b219ef0057ffdb4f60b767ab6872763d69a86e5f6e7c1e58236aaaaf",
   "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/review_622_ci_janitor_exact_head",
-    "assigned_by": "codex:/root:issue-622-ci-janitor",
-    "revision": "git-blake3:92e8d07d7d6ab73159264a25e94f5bb44a0bbf04:96b78dcb8eb9a2dd269618910a6676a43c62dbbd763a18463b6b5138100115a5",
-    "scope": [
-      "adl/src/provider/reload.rs",
-      "adl/src/provider/mod.rs",
-      "adl/src/provider/local.rs",
-      "adl/src/execute/runner.rs",
-      "adl/src/execute/tests.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/long_lived_agent/tests.rs",
-      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
-      "docs/providers/provider-profile-hot-loading.md",
-      "adl-runtime-kernel/src/control.rs",
-      "adl/src/cli/csmctl_cmd.rs",
-      "bounded PR #646 CI janitor fixes for rustfmt and csmctl private import"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:/root/review_622_ci_janitor_exact_head",
-    "scope": [
-      "adl/src/provider/reload.rs",
-      "adl/src/provider/mod.rs",
-      "adl/src/provider/local.rs",
-      "adl/src/execute/runner.rs",
-      "adl/src/execute/tests.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/long_lived_agent/tests.rs",
-      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
-      "docs/providers/provider-profile-hot-loading.md",
-      "adl-runtime-kernel/src/control.rs",
-      "adl/src/cli/csmctl_cmd.rs",
-      "bounded PR #646 CI janitor fixes for rustfmt and csmctl private import"
-    ],
-    "reviewed_revision": "git-blake3:92e8d07d7d6ab73159264a25e94f5bb44a0bbf04:96b78dcb8eb9a2dd269618910a6676a43c62dbbd763a18463b6b5138100115a5",
-    "findings": [],
-    "residual_risks": [
-      "Review passed for local exact head 92e8d07d7d6ab73159264a25e94f5bb44a0bbf04; PR #646 must be republished/updated and CI must rerun before remote merge readiness can be claimed.",
-      "Reviewer did not rerun cargo tests or clippy; local fmt/clippy proof was run and recorded by the implementation session before review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 622,
-    "pull_request": 646,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/646",
-    "base": "main",
-    "head": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
-    "revision": "git-blake3:1bc7416fb7b3739723046fa16b19cb1653c88ca3:688738578fb4382ff12d7dfcdc5f52391579c196d47a53c3f0f3634964f0bdcd",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "806dd8e50bbea48ee77d0cbb0925766370669292de725927c1d6fcae35a70c36",
+      "values_digest": "8d2a849951505712380b36307db9f5c5e4bad25bd6a9c73637cd0723895c7c3b",
       "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
       "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
     },
     "stp": {
-      "values_digest": "481ecf0259530ae2f1fe2319692b08f528989a57134965ddb34e42856fbfa012",
+      "values_digest": "56ef5bf9d3d184cdac59f23a8ccb981ed165b78d3bfad0f51dc35126fc94f227",
       "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
       "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
     },
     "spp": {
-      "values_digest": "a15a3b3794a27942e1d2ae63e7919df379663d8699d0cffc1445c860526a7722",
+      "values_digest": "cbb66e24539a1b7f696968d24d30243adf2de9e4051c3027c91f26b8f42dd818",
       "rendered_digest": "cbd5bc3401a6967f6fb383c01b6d927f7d8b22356e20a53da1239f5a8b942b8a",
       "ast_digest": "f50038f904ded4622355bb9aa2e01c666aaef02f27a757a0779a5425aad9f191"
     },
     "vpp": {
-      "values_digest": "4a9bdbbf613420def0912d2749cb3d7aaccaf4cfaf90286f315c5671bba46135",
+      "values_digest": "847abe1a3f737d456b2d31e53897dd2ccd479acd5ca97f846f89848c59b8e3a4",
       "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
       "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
     },
     "srp": {
-      "values_digest": "58f53977687e271662d316555ee14f1e0ab4e31c8a0ea70b99a1ef180a2c9d34",
-      "rendered_digest": "3d879a9460f49cb8dd527e2bf6d879eab390d262cbecf94eaec01e4fb0c6ca83",
-      "ast_digest": "49fbbb544b2bccf0219ee07e700e2602064dd9bf64c8cf387f088ffbf77f4fbd"
+      "values_digest": "caa43e4a7fcd1842f4f8fbce98342ab4085df731456788c00e7ea0d9fbd58292",
+      "rendered_digest": "7d5f81f9ea849204b89285ff66ae2df3380812717ddd66a17954d3b93574740e",
+      "ast_digest": "c874784ae80d00f7917c5b9bc1e91c5874aac5aa2383e0c85f847a09c5276dfa"
     },
     "sor": {
-      "values_digest": "71b0968756127f7f7c4e8bbde552e2ccb010c4c60dbe02187a07b517de6edda6",
-      "rendered_digest": "e0f0d5a5e699a7245ba442a5c4564b2637f09162856253a7955d548512b372b9",
-      "ast_digest": "783dfa95f38bc6b388fe88c6eb0334e67ea5acd10f6f1a6e87b619d1bee6dda0"
+      "values_digest": "7448c3f7f8913aad742a701a46dda331d38b9993e7e05ba8d6363eadc33436b2",
+      "rendered_digest": "48db2abc742bbc61aac5e7bae2d0735dae16f23501eee331825e7bfee43d66ed",
+      "ast_digest": "eba659e59ccc6f1f37992d9457cdbe735d4721a3db881d052e64579a6aa94afc"
     }
   },
   "transitions": [
@@ -166,6 +111,13 @@
       "to": "published",
       "actor": "codex:/root:issue-622-ci-janitor",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "Recover #622 from published phase after PR #646 exact-head review failed on process-global provider reload state and stale retained review evidence; bounded repair, validation, fresh review, and re-publication are required."
     }
   ],
   "audit": [
@@ -322,6 +274,41 @@
       "actor": "codex:/root:issue-622-ci-janitor",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "Recover #622 from published phase after PR #646 exact-head review failed on process-global provider reload state and stale retained review evidence; bounded repair, validation, fresh review, and re-publication are required.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "Record bounded #622 repair for PR #646 process-global reload state review failure before fresh validation and exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Addressed PR #646 exact-head review blockers by making provider/profile reload state run-scoped for execution and adding overlap/shutdown-order regression coverage.\",\"changes\":[\"Added execute_sequential_with_provider_reload_handle so production execution can consume an explicit run-scoped ProviderReloadHandle instead of process-global reload state.\",\"Threaded the run-scoped reload handle through sequential execution, concurrent execution, step retry execution, and called-workflow recursion while preserving the existing global fallback for compatibility callers.\",\"Changed CSM adl_workflow production wiring to store the ProviderReloadOwner handle on ActiveProviderReload and pass it directly into execution, removing CSM reliance on global provider reload registration.\",\"Made the compatibility global provider reload guard identity-aware so dropping an older guard cannot clear a newer registration.\",\"Added a two-workflow overlap and shutdown-order regression test proving same-provider-id workflows keep separate reload snapshots and shutting down one workflow does not clear the other's handle.\"],\"artifacts\":[\"adl/src/execute/mod.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/provider/reload.rs\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "Record passing #622 production validation after process-global reload state repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"production\"],\"purpose\":\"Prove the #622 production provider/profile hot-loading lane after replacing process-global production wiring with a run-scoped reload handle.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-process-global-repair-production-lane:provider_mod_profile 14 passed; provider_reload 6 passed including overlap/shutdown regression; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "Record passing #622 safety validation after process-global reload state repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"safety\"],\"purpose\":\"Prove the #622 safety lane after run-scoped reload repair, including runtime-kernel reload safety, credential boundary, production tick proof, and whitespace/diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-process-global-repair-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 6 passed including overlap/shutdown regression; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root:issue-622-review-repair",
+      "reason": "Record passing local fmt/clippy validation after process-global reload state repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt --manifest-path adl/Cargo.toml --all -- --check && cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Prove formatting and clippy cleanliness for the #622 process-global reload repair before fresh exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-process-global-repair-local-fmt-clippy: cargo fmt --manifest-path adl/Cargo.toml --all -- --check passed; cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings finished successfully\"}}"
     }
   ]
 }

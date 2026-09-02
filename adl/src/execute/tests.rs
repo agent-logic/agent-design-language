@@ -257,12 +257,18 @@ providers:
     )
 }
 
-fn execute_reload_once(resolved: &AdlResolved, base: &std::path::Path) -> String {
+fn execute_reload_once_with_handle(
+    resolved: &AdlResolved,
+    base: &std::path::Path,
+    handle: &crate::provider::ProviderReloadHandle,
+) -> String {
     let out_dir = base.join("out");
     std::fs::create_dir_all(&out_dir).expect("create out dir");
     let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
-    let result = execute_sequential(resolved, &mut tr, false, false, base, &out_dir)
-        .expect("provider reload execution should succeed");
+    let result = execute_sequential_with_provider_reload_handle(
+        resolved, &mut tr, false, false, base, &out_dir, handle,
+    )
+    .expect("provider reload execution should succeed");
     result.outputs[0].model_output.clone()
 }
 
@@ -286,10 +292,12 @@ fn execute_sequential_consumes_provider_reload_snapshots_without_restart() {
         ))
         .expect("start provider reload owner");
     let mut handle = owner.handle();
-    let _guard = crate::provider::set_global_provider_reload_handle(owner.handle());
 
     assert_eq!(handle.current_snapshot().generation, 0);
-    assert_eq!(execute_reload_once(&resolved, &base), "old-output");
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "old-output"
+    );
 
     std::fs::write(&sidecar, provider_reload_sidecar("new-output", 0)).expect("rewrite sidecar");
     let changed = runtime
@@ -300,7 +308,10 @@ fn execute_sequential_consumes_provider_reload_snapshots_without_restart() {
         .expect("changed snapshot");
     assert_eq!(changed.generation, 1);
 
-    assert_eq!(execute_reload_once(&resolved, &base), "new-output");
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "new-output"
+    );
 
     std::fs::write(
         &sidecar,
@@ -317,7 +328,10 @@ providers:
     .expect("write invalid sidecar");
     std::thread::sleep(std::time::Duration::from_millis(80));
 
-    assert_eq!(execute_reload_once(&resolved, &base), "new-output");
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "new-output"
+    );
     let diagnostic = handle
         .last_diagnostic()
         .expect("invalid candidate should leave redacted diagnostic");
@@ -352,12 +366,14 @@ fn execute_sequential_retains_starting_provider_snapshot_for_in_flight_step() {
         ))
         .expect("start provider reload owner");
     let mut handle = owner.handle();
-    let _guard = crate::provider::set_global_provider_reload_handle(owner.handle());
 
     assert_eq!(handle.current_snapshot().generation, 0);
     let thread_resolved = resolved.clone();
     let thread_base = base.clone();
-    let running = std::thread::spawn(move || execute_reload_once(&thread_resolved, &thread_base));
+    let thread_handle = handle.clone();
+    let running = std::thread::spawn(move || {
+        execute_reload_once_with_handle(&thread_resolved, &thread_base, &thread_handle)
+    });
 
     std::thread::sleep(std::time::Duration::from_millis(30));
     std::fs::write(&sidecar, provider_reload_sidecar("fast-new-output", 0))
@@ -374,10 +390,68 @@ fn execute_sequential_retains_starting_provider_snapshot_for_in_flight_step() {
         running.join().expect("join in-flight run"),
         "slow-old-output"
     );
-    assert_eq!(execute_reload_once(&resolved, &base), "fast-new-output");
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "fast-new-output"
+    );
 
     let outcome = runtime.block_on(owner.shutdown()).expect("shutdown owner");
     assert!(outcome.shutdown_requested);
+}
+
+#[test]
+fn execute_sequential_provider_reload_handles_are_run_scoped_across_overlap_and_shutdown() {
+    let base_a = unique_temp_path("adl-provider-reload-overlap-a");
+    let base_b = unique_temp_path("adl-provider-reload-overlap-b");
+    std::fs::create_dir_all(&base_a).expect("create base a");
+    std::fs::create_dir_all(&base_b).expect("create base b");
+    let sidecar_a = base_a.join("providers.yaml");
+    let sidecar_b = base_b.join("providers.yaml");
+    std::fs::write(&sidecar_a, provider_reload_sidecar("workflow-a-output", 0))
+        .expect("write sidecar a");
+    std::fs::write(&sidecar_b, provider_reload_sidecar("workflow-b-output", 0))
+        .expect("write sidecar b");
+
+    let resolved_a = provider_reload_resolved("base-a-output", 0);
+    let resolved_b = provider_reload_resolved("base-b-output", 0);
+    let runtime_a = tokio::runtime::Runtime::new().expect("runtime a");
+    let runtime_b = tokio::runtime::Runtime::new().expect("runtime b");
+    let owner_a = runtime_a
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar_a,
+            resolved_a.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
+        ))
+        .expect("start provider reload owner a");
+    let owner_b = runtime_b
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar_b,
+            resolved_b.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
+        ))
+        .expect("start provider reload owner b");
+    let handle_a = owner_a.handle();
+    let handle_b = owner_b.handle();
+
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_a, &base_a, &handle_a),
+        "workflow-a-output"
+    );
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_b, &base_b, &handle_b),
+        "workflow-b-output"
+    );
+
+    let outcome_b = runtime_b.block_on(owner_b.shutdown()).expect("shutdown b");
+    assert!(outcome_b.shutdown_requested);
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_a, &base_a, &handle_a),
+        "workflow-a-output",
+        "shutting down workflow B must not clear workflow A's run-scoped provider reload handle"
+    );
+
+    let outcome_a = runtime_a.block_on(owner_a.shutdown()).expect("shutdown a");
+    assert!(outcome_a.shutdown_requested);
 }
 
 fn steering_patch() -> SteeringPatch {
@@ -805,6 +879,7 @@ fn execute_step_with_retry_does_not_retry_remote_schema_violation() {
         &HashMap::new(),
         std::path::Path::new("."),
         false,
+        None,
         |_| {},
     )
     .expect_err("remote schema violation should fail");
@@ -900,6 +975,7 @@ fn execute_step_with_retry_does_not_retry_missing_prompt_binding() {
         &HashMap::new(),
         std::path::Path::new("."),
         false,
+        None,
         |_| {},
     )
     .expect_err("missing prompt binding should fail");
@@ -925,6 +1001,7 @@ fn execute_step_with_retry_does_not_retry_unknown_provider_setup_failure() {
         &HashMap::new(),
         std::path::Path::new("."),
         false,
+        None,
         |_| {},
     )
     .expect_err("unknown provider should fail");
@@ -1264,6 +1341,7 @@ fn execute_called_workflow_rejects_unknown_workflow() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("unknown called workflow should fail");
     assert!(err.to_string().contains("call references unknown workflow"));
@@ -1299,6 +1377,7 @@ fn execute_called_workflow_rejects_missing_state_binding_in_call_with() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("missing call.with binding should fail");
     let text = err.to_string();
@@ -1339,6 +1418,7 @@ fn execute_called_workflow_rejects_write_to_without_save_as() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("write_to without save_as should fail in called workflow");
     assert!(err
@@ -1377,6 +1457,7 @@ fn execute_called_workflow_nested_call_failure_is_propagated() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("nested call to missing workflow should fail");
     assert!(err.to_string().contains("unknown workflow"));
