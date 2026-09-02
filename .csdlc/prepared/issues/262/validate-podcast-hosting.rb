@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "digest"
+require "base64"
 require "json"
 require "rexml/document"
 require "time"
@@ -91,11 +92,21 @@ def source_manifest
   payload
 end
 
+def local_archive_path_for_key(key)
+  if key.include?("/package/")
+    File.join(ROOT, "demos/podcast/episodes/001-meet-the-ai-coworkers", key.split("/package/", 2).last)
+  elsif key.include?("/media/")
+    File.join(ROOT, "demos/podcast/audio", key.split("/media/", 2).last)
+  end
+end
+
 identity = load_json(IDENTITY)
 rights = load_json(RIGHTS)
 mailbox = load_json(MAILBOX)
 episode = load_json(EPISODE_JSON)
 enclosure = load_json(ENCLOSURE_JSON)
+storage_manifest = load_json(STORAGE_MANIFEST)
+s3_object_inventory = load_json(S3_OBJECT_INVENTORY)
 http_playback_proof = load_json(HTTP_PLAYBACK_PROOF)
 wrapper_playback_proofs = {
   HTTP_PLAYBACK_NATIVE_PROOF => %w[desktop-safari desktop-chrome],
@@ -185,6 +196,33 @@ fail!("source packet still names old canonical GUID") if source_packet.include?(
   fail!("#{label} still contains stale production token CognitiveSpacetime") if text.include?("CognitiveSpacetime")
   fail!("#{label} still contains stale production token cognitive-spacetime") if text.include?("cognitive-spacetime")
   fail!("#{label} contains prohibited local temp path") if text.match?(%r{/private/tmp|/var/folders})
+end
+
+storage_manifest.fetch("critical_objects").each do |object|
+  key = object.fetch("key")
+  local_path = local_archive_path_for_key(key)
+  next unless local_path && File.file?(local_path)
+
+  label = key.sub("archive/the-cognitive-stack/episodes/001/", "")
+  local_bytes = File.size(local_path)
+  local_sha256 = Digest::SHA256.file(local_path).hexdigest
+  fail!("storage manifest #{label} byte count mismatch") unless object["bytes"] == local_bytes
+  fail!("storage manifest #{label} SHA-256 mismatch") unless object["sha256"] == local_sha256
+  expected_s3_checksum = Base64.strict_encode64([local_sha256].pack("H*"))
+  fail!("storage manifest #{label} checksum mismatch") unless object["s3_checksum_sha256"] == expected_s3_checksum
+end
+
+s3_object_inventory.fetch("objects").each do |object|
+  key = object.fetch("key")
+  local_path = local_archive_path_for_key(key)
+  next unless local_path && File.file?(local_path)
+
+  label = key.sub("archive/the-cognitive-stack/episodes/001/", "")
+  fail!("S3 object inventory #{label} size mismatch") unless object["size"] == File.size(local_path)
+  next if key.include?("/media/")
+
+  expected_etag = "\"#{Digest::MD5.file(local_path).hexdigest}\""
+  fail!("S3 object inventory #{label} etag mismatch") unless object["etag"] == expected_etag
 end
 
 fail!("HTTP playback proof schema mismatch") unless http_playback_proof["schema"] == "agent_logic.podcast.http_playback_proof.v1"
