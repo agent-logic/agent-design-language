@@ -92,11 +92,11 @@ Implemented and remediated the DRT-C final distributed Runtime qualification dec
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
