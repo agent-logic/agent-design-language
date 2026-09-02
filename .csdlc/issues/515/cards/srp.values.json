@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV-B] Local-model shadow execution",
     "slug": "prov-b-local-model-shadow-execution",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl/src/provider/mod.rs\nadl/tests/provider_shadow_isolation.rs\nadl/tests/provider_shadow_comparison.rs\nadl/tests/provider_shadow_fallback.rs\ndocs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\n.csdlc/prepared/issues/515",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:4067b285234faa3352f907f28dc4fc869a468657:45ddef9534761220fc598b6ef56dbe0d2985e033139715cd09cdb141e6b72f5f",
+      "reviewer": "fresh-session:69bf210c-1411-46e9-8112-5fbc02347111",
       "review_prompts": [
         "Can any shadow result mutate or replace the authoritative result?",
         "Are authority and shadow paths represented distinctly enough for reviewers and validators?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

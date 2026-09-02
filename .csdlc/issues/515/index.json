@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "16cb5a949c19e33333e99e448ce2b7d44c48ea6a850abf70d5fb2e7551f76278",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "1308f0413070edd0ce6347c24be04d16bd26ecdf4cacba703410e73a5f23cfb3",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
   "review_assignment": {
@@ -22,7 +22,22 @@
       ".csdlc/prepared/issues/515"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:69bf210c-1411-46e9-8112-5fbc02347111",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
+      ".csdlc/prepared/issues/515"
+    ],
+    "reviewed_revision": "git-blake3:4067b285234faa3352f907f28dc4fc869a468657:45ddef9534761220fc598b6ef56dbe0d2985e033139715cd09cdb141e6b72f5f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5fe3cf474115e82cf906178598f2af73a4b674766ca8756e16738b68e5b64eb8",
+      "values_digest": "aa1f25589c1995c202fe0b4e1910597837ece22499c722c17856d58d9b911f65",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "e0ddb6eb5f51a4cb0f1374c9f9ef917a13787e12d20b3e6d2ce8f110bd96e087",
+      "values_digest": "25f858d7334a22a95c9e9f96629c409b30670ae30deb16a9768abf8cadffc533",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "92a6d3e0f141088cfffa3da3ab4b584d03ebc6b0179f8ddda3065ae85101a3b7",
+      "values_digest": "bfe82ec6a780140f447b2e037a6c2fc05842987e247a5025034e5571c741fff8",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "26ff4743f8d9a1d39fc23149738605b991597640fe5d4f5f2b716878849c68a6",
+      "values_digest": "80f4366472c8180a7234229c4d0c137d956531b7a15623e8552215162ac8a6ee",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "7203c39bdf476f12bbd3b21e08080da2623e0d088679ddda624fa8e0b90b4d21",
-      "rendered_digest": "167d92ba1efcf0ba600b1cd1f5409d0f89f2d2b46b7040962aa97e823087a82a",
-      "ast_digest": "e94a0785a8bf592cc7f4cf3516a1f30b7925774a4c56348b2922849c11688f54"
+      "values_digest": "2b852ea738b1fbcb3abd60849d1882a09a3babe2751a8e97e855d7526f80dcbb",
+      "rendered_digest": "8f3f2c6cacfcdf456e4711975195f7e6d8af430e11328b776fcee1b92f989c79",
+      "ast_digest": "3bbef8545cce2c2585cbf9314ba2198c022bfa23a1b9cebc1c66c6b1e49ff2d5"
     },
     "sor": {
-      "values_digest": "c3fb00e11a8e1226fa70dd8e21e7fee114c63f2dfa485b2afd46ddc60fef82eb",
+      "values_digest": "b1ed51d81fc64486e505d22cf6ed52ba7f7efd65cab68da506e5a212c68094bc",
       "rendered_digest": "e0a82b98b2bbcbe96c3f260515eca7af52120d8fc131cfde769295cfa0bcf7d0",
       "ast_digest": "e8909c6f75d306227e57c85ac16de2a385058efa52319b532cf04b5a7889448a"
     }
@@ -88,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Advance #515 after implementing the provider shadow helper, issue-owned validators, redacted evidence, and passing all focused validation lanes."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -237,6 +259,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root:issue-515-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
