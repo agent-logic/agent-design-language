@@ -7,31 +7,27 @@
     "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
     "slug": "runtime-model-backed-resident-shepherd",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented a provider-backed resident Shepherd with fail-closed executable Ollama bindings, model preload recovery, shared-clock readiness, presentation-safe continuity identity, and exact-commit Wuji restart proof.",
+      "summary": "Implemented provider-backed resident Shepherds with provider-neutral private gateway support, tested lifetime recovery, presentation-safe continuity identity, shared readiness truth, and exact-binary Wuji restart proof.",
       "actual_changes": [
-        "Reject resident Shepherd provider profiles without an executable adapter and reject malformed models, incomplete endpoints, and non-private Ollama endpoints during startup validation.",
-        "Route governed Shepherd inference to the configured provider model and require successful preload and governed inference before advertising readiness.",
-        "Use one trusted Runtime clock for Shepherd admission freshness and Observatory/readiness projection.",
-        "Exclude only the resident Shepherd display label from continuity identity while retaining canonical name, provider, model, endpoint, and all stateful bindings.",
-        "Set the production Shepherd canonical identity to beacon.axioma with the presentation label Beacon Axioma."
+        "Support compiled Ollama and private OpenAI-compatible provider adapters without serializing provider credentials into Runtime configuration or API output.",
+        "Run provider preload plus governed inference through one reusable lifetime recovery controller that retries transient failure without terminating or globally blocking the Runtime.",
+        "Exclude resident Shepherd presentation labels from continuity identity for both single and multi-Shepherd configurations while retaining canonical stateful bindings.",
+        "Bind Wuji acceptance to the exact checked-out release build and installed canonical kernel SHA-256, then prove Guardian child recovery to a new Runtime PID.",
+        "Retain one canonical deployed Runtime kernel binary and report Beacon Axioma backed by qwen3:8b with consistent readiness and Observatory truth."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
         "adl-runtime-kernel/src/config.rs",
         "adl-runtime-kernel/src/control.rs",
         "adl-runtime-kernel/src/resident_shepherd.rs",
-        "adl-runtime-kernel/src/shepherd.rs",
-        "adl-runtime-kernel/tests/agent_roster.rs",
         "adl-runtime-kernel/tests/configuration.rs",
         "adl-runtime-kernel/tests/shepherd.rs",
-        "adl-runtime-kernel/tests/support/runtime_init.rs",
-        "infra/runtime-v3/runtime-init.toml",
         ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
         ".csdlc/evidence/640/model-backed-shepherd.log",
         ".csdlc/evidence/640/wuji-shepherd-acceptance.log"
@@ -39,26 +35,12 @@
       "actual_validation": [
         {
           "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "configuration"
-          ],
-          "purpose": "Prove all 27 Runtime configuration tests, including private provider binding and presentation-safe continuity identity.",
-          "outcome": "passed",
-          "evidence_ref": "local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:configuration:27-passed"
-        },
-        {
-          "command": [
             "bash",
             ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"
           ],
-          "purpose": "Prove the five nonzero provider execution, model-health, canonical identity, readiness, and roster behaviors.",
+          "purpose": "Prove seven nonzero focused configuration, provider dispatch, governed inference, lifetime recovery, canonical identity, readiness consistency, formatting, and diff-hygiene behaviors.",
           "outcome": "passed",
-          "evidence_ref": "local-nextest:75e851f630dab23d413b8dfcfa75226347dd7c65:5-passed"
+          "evidence_ref": ".csdlc/evidence/640/model-backed-shepherd.log"
         },
         {
           "command": [
@@ -74,29 +56,20 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Reject warnings across the affected Runtime production and test targets.",
+          "purpose": "Reject warnings across changed Runtime production and test targets.",
           "outcome": "passed",
-          "evidence_ref": "local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:clippy:passed"
+          "evidence_ref": ".csdlc/evidence/640/model-backed-shepherd.log"
         },
         {
           "command": [
             "bash",
             ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
-            "--live-wuji"
+            "--live-wuji",
+            "--observe-existing-guardian-restart"
           ],
-          "purpose": "Prove the installed exact-commit kernel restarts under Guardian, restores the corrected continuity generation, preloads qwen3:8b, completes governed inference, and reports Beacon Axioma with consistent readiness/feed truth.",
+          "purpose": "Prove exact commit 078dba11445cdd9affdd86e3133871bacc0e7144 and installed kernel digest e997c3a329994737724f58182d1f0863e71d678ef5fed46f315afc0d4f9a6c59 recover under Guardian to a new PID, preload qwen3:8b, pass governed inference, and report consistent local and AWS readiness.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/640/wuji-shepherd-acceptance.log"
-        },
-        {
-          "command": [
-            "git",
-            "diff",
-            "--check"
-          ],
-          "purpose": "Reject malformed whitespace and conflict markers.",
-          "outcome": "passed",
-          "evidence_ref": "local-command:75e851f630dab23d413b8dfcfa75226347dd7c65:diff-check:passed"
         }
       ],
       "integration_state": "worktree_only",

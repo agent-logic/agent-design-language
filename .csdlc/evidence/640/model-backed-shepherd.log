@@ -1,11 +1,17 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
-────────────
- Nextest run ID 4f0bfd2f-7544-4675-a717-e600c2244a25 with nextest profile: default
-    Starting 5 tests across 7 binaries (140 tests skipped)
-        PASS [   0.010s] (1/5) adl-runtime-kernel::agent_roster shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed
-        PASS [   0.029s] (2/5) adl-runtime-kernel::configuration canonical_name_is_required_for_resident_shepherd_configuration
-        PASS [   0.029s] (3/5) adl-runtime-kernel::configuration resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set
-        PASS [   0.124s] (4/5) adl-runtime-kernel::shepherd shepherd_provider_routes_governed_reasoning_to_configured_model
-        PASS [   0.127s] (5/5) adl-runtime-kernel::shepherd resident_shepherd_model_health_gates_inference_and_recovers
-────────────
-     Summary [   0.128s] 5 tests run: 5 passed, 140 skipped
+Exact source revision: 078dba11445cdd9affdd86e3133871bacc0e7144
+Command: bash .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh
+
+Nextest run ID ab86dbc9-035b-4471-a0c1-1fdd55fdc68a
+Starting 7 tests across 3 binaries (69 tests skipped)
+PASS adl-runtime-kernel::agent_roster shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed
+PASS adl-runtime-kernel::shepherd resident_shepherd_lifetime_recovery_retries_and_recovers
+PASS adl-runtime-kernel::configuration canonical_name_is_required_for_resident_shepherd_configuration
+PASS adl-runtime-kernel::configuration resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set
+PASS adl-runtime-kernel::shepherd resident_shepherd_model_health_gates_inference_and_recovers
+PASS adl-runtime-kernel::shepherd shepherd_provider_routes_governed_reasoning_to_configured_model
+PASS adl-runtime-kernel::shepherd shepherd_provider_routes_through_private_openai_compatible_gateway
+Summary: 7 tests run: 7 passed, 69 skipped
+
+cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check: passed
+git diff --check: passed
+cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --bins --tests -- -D warnings: passed

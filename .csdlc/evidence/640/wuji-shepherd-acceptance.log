@@ -1,19 +1,22 @@
 {
   "schema": "adl.issue_640.wuji_acceptance.v2",
   "status": "pass",
-  "candidate_revision": "75e851f630dab23d413b8dfcfa75226347dd7c65",
+  "candidate_revision": "078dba11445cdd9affdd86e3133871bacc0e7144",
   "host": "wuji.local",
   "command": [
     "bash",
     ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
-    "--live-wuji"
+    "--live-wuji",
+    "--observe-existing-guardian-restart"
   ],
-  "installed_kernel_sha256": "d84b41cf3ee68ade9876c5e4db5c06d7ad0c8093eda6d666c5bfff8888a8d651",
-  "runtime_process_before": 71774,
-  "runtime_process_after": 76691,
+  "restart_mechanism": "guardian_child_recovery",
+  "installed_kernel_sha256": "e997c3a329994737724f58182d1f0863e71d678ef5fed46f315afc0d4f9a6c59",
+  "runtime_process_before": 15588,
+  "runtime_process_after": 16727,
   "restart_proved": true,
   "governed_inference_proved": true,
   "readiness_feed_consistent": true,
+  "public_aws_readiness_http_status": 200,
   "shepherd": {
     "availability": "available",
     "communication_eligible": true,
@@ -29,4 +32,4 @@
     "state": "ready"
   }
 }
-qwen3:8b          500a1f067a9f    9.0 GB    100% GPU     40960      Forever
+qwen3:8b 500a1f067a9f 9.0 GB 100% GPU 40960 Forever
