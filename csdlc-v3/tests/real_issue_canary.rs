@@ -88,15 +88,15 @@ fn real_issue_request(
 }
 
 #[test]
-fn foundation_and_local_commands_accept_real_issue_604_without_v3_authority() {
+fn foundation_and_local_commands_accept_real_issue_596_without_v3_authority() {
     let root = repo_root();
     let context = RepositoryContext::discover(&root).expect("repository context");
     let foundation = FoundationState::load(&context).expect("foundation state loads");
     assert_eq!(foundation.operational_authority(), "csdlc-v2");
     assert_eq!(foundation.issue_start_minutes_max(), 3);
 
-    let projection = IssueProjection::load(&context, 604).expect("real issue projection loads");
-    assert_eq!(projection.issue, 604);
+    let projection = IssueProjection::load(&context, 596).expect("real issue projection loads");
+    assert_eq!(projection.issue, 596);
     assert_eq!(projection.schema, "csdlc.issue.index.v1");
     assert_eq!(projection.card_count, 6);
     assert!(
@@ -109,13 +109,13 @@ fn foundation_and_local_commands_accept_real_issue_604_without_v3_authority() {
         .any(|card| card.key == "vpp" && card.value.contains("kind=vpp")));
 
     let registry = prompt_registry(&root);
-    let request = real_issue_request(&root, 604, &registry);
+    let request = real_issue_request(&root, 596, &registry);
     let request_json = serde_json::to_vec(&request).expect("typed request serializes");
     let parsed =
         LocalPreparationRequest::from_json(&request_json).expect("typed real issue request parses");
     validate_contract(&parsed).expect("real issue local command contract validates");
 
-    let cards = plan_cards(604, &parsed.registry_version, &registry).expect("cards planned");
+    let cards = plan_cards(596, &parsed.registry_version, &registry).expect("cards planned");
     assert_eq!(cards.card_kinds, ["sip", "stp", "spp", "vpp", "srp", "sor"]);
 
     let registrations = [WorktreeRegistration {
@@ -124,13 +124,13 @@ fn foundation_and_local_commands_accept_real_issue_604_without_v3_authority() {
         primary: false,
     }];
     let bind = authorize_bind(&parsed, &registrations).expect("real issue topology binds");
-    assert_eq!(bind.issue, 604);
+    assert_eq!(bind.issue, 596);
     assert_eq!(bind.branch, parsed.branch);
     assert_eq!(bind.worktree, parsed.worktree);
 
     let plan = prepare_local_workflow(&parsed, &registry, &registrations)
         .expect("real issue reaches non-authoritative local plan");
-    assert_eq!(plan.issue, 604);
+    assert_eq!(plan.issue, 596);
     assert!(plan
         .commands
         .iter()
@@ -268,7 +268,7 @@ impl ChildCredentialInjector for CapturedCredential {
 fn adapters_canary_builds_real_issue_observation_commands_without_secret_leakage() {
     let root = repo_root();
     let registry = prompt_registry(&root);
-    let request = real_issue_request(&root, 604, &registry);
+    let request = real_issue_request(&root, 596, &registry);
     let invocation = CommandInvocation::new(
         "git",
         [
@@ -315,5 +315,5 @@ fn adapters_canary_builds_real_issue_observation_commands_without_secret_leakage
     let observed = git.observe_branch(invocation);
     assert_eq!(observed.branch, "HEAD");
     assert!(!observed.authorizes_lifecycle);
-    assert_eq!(request.issue, 604);
+    assert_eq!(request.issue, 596);
 }
