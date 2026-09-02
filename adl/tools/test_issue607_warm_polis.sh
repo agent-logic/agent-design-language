@@ -216,6 +216,16 @@ run_contracts() {
   issue_cost_ledger="$CASE_ROOT/issue-cost-ledger.json"
   rm -f "$issue_cost_ledger" "$issue_cost_ledger.next"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$issue_cost_audit"
+  jq '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")) |= del(.cloudtrail_response_instance_ids)' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-missing-cloudtrail-responses.json"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-missing-cloudtrail-responses.json" >/dev/null 2>&1
+  for field in instances volumes network_interfaces security_groups key_pairs; do
+    jq --arg field "$field" '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")|.post_cleanup_owner_inventory) |= del(.[$field])' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-missing-$field.json"
+    ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-missing-$field.json" >/dev/null 2>&1
+  done
+  jq '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")|.post_cleanup_owner_inventory.volumes) = {}' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-wrong-inventory-type.json"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-wrong-inventory-type.json" >/dev/null 2>&1
+  jq '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")|.post_cleanup_owner_inventory.observed_at) = "invalid"' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-invalid-observed-at.json"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-invalid-observed-at.json" >/dev/null 2>&1
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation "$issue_cost_audit" "$issue_cost_ledger"
   jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and .cumulative_reserved_usd==19.928733' "$issue_cost_ledger" >/dev/null
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation-2 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
