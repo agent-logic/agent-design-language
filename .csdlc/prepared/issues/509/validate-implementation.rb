@@ -14,7 +14,20 @@ unless File.file?(receipt_path)
 end
 receipt = JSON.parse(File.read(receipt_path))
 head = `git -C #{Shellwords.escape(root)} rev-parse HEAD`.strip
-abort("source revision mismatch") unless receipt.fetch("source_revision") == head
+source_revision = receipt.fetch("source_revision")
+abort("source revision format mismatch") unless source_revision.match?(/\A[0-9a-f]{40}\z/)
+system("git", "-C", root, "merge-base", "--is-ancestor", source_revision, head) or abort("source revision is not ancestral to HEAD")
+post_live_paths = `git -C #{Shellwords.escape(root)} diff --name-only #{Shellwords.escape(source_revision)}..HEAD`.lines.map(&:strip).reject(&:empty?)
+allowed_post_live = [
+  /\A\.csdlc\/evidence\/509\//,
+  /\A\.csdlc\/issues\/509\//,
+  /\A\.csdlc\/prepared\/issues\/509\/validate-implementation\.rb\z/,
+  /\Aadl-runtime\/tests\/distributed_contract\/main\.rs\z/,
+  /\Aadl-runtime\/tests\/distributed_contract\/validate_drt_d\.sh\z/,
+  /\Adocs\/milestones\/v0\.92\.1\/evidence\/runtime\/drt-d\/qualification\.json\z/
+]
+drift = post_live_paths.reject { |path| allowed_post_live.any? { |pattern| path.match?(pattern) } }
+abort("product or infrastructure drift after live source revision: #{drift.join(", ")}") unless drift.empty?
 abort("schema mismatch") unless receipt.fetch("schema") == "adl.v0921.drt_d.gcp_portability_qualification.v1"
 abort("issue mismatch") unless receipt.fetch("issue") == 509
 abort("status mismatch") unless receipt.fetch("status") == "passed"

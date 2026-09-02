@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c577ece72646f626d1f6573dfd087cdd6f7c7a1f1c8459041ea2e108dde3e6b",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "d813ea01970f9452c1a2270ce15c2b4b240a97bba5da4234a9a637ea21b3e834",
+  "generation": 10,
+  "digest": "0531733e24bd52af0e09069cd9832aff53eeb44d47f84a267578d42351a1592e",
   "branch": "codex/509-drt-d-gcp-portability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5cc35fe2282066bdef0e2ff07bb886969bc96c050655060c673e5cdbac2f8bd9",
+      "values_digest": "292d65060697f5c176359f47a933561ba60cfbf306ee7f0ec0787af1a76d3383",
       "rendered_digest": "193ba58904642b73e5f5ab6c682094d250bc0b8615ac51da6aee36502fac005d",
       "ast_digest": "bf1718278deec989c52a7cb0e01da48d1b437a989a23b57676af66b3ff673974"
     },
     "stp": {
-      "values_digest": "ec3a208b1e789745fde499bd06a7639dc23c7883e15cfd69008ebbdc05e240e8",
+      "values_digest": "f85c314a2db88f3a2321bb9d1b98a4fe5583cfeb30fe7752c7852a31000647a1",
       "rendered_digest": "79878fa75128ce77e44bbd1f2d9df83292e9fb86f184ca60683efa8a1e08e153",
       "ast_digest": "b0b54ebf756898b8910e4fa35834ff2244069a54e6d078a8e0ac09c5bc6ff78b"
     },
     "spp": {
-      "values_digest": "a1d1b05e351404b4f54762f925b13d12526c8af11d9bee2c3a762b3e056a697f",
+      "values_digest": "a978e002f151411db2d2ff5e3dab920250411fe10ede9e48202b3c409adf6552",
       "rendered_digest": "adfe2b6df05a2b4a9b13ead59dc7f68aac98d754c653ff9827cc51be1d827eda",
       "ast_digest": "e389f6375684c6ce6fa13563ceed3330554b6b01a79635680fcbf60cf497c6cb"
     },
     "vpp": {
-      "values_digest": "21a63148dac6a74ebc0afad1a0aa1d7e66394e4e31aca85082e02dfd8b0bf0d7",
+      "values_digest": "8774bf738070b3f1152663bc07790c99be701d6e2b6b2e38b627984440eea3de",
       "rendered_digest": "8697aafa37d7d170a2922c8cedc3381e054dbacf7b567349a317f26b90d11f4f",
       "ast_digest": "a9daeaf16633ef57f8d47e88cacbc124db932ccc9b020cc008f9ea2955ee1370"
     },
     "srp": {
-      "values_digest": "49e40c03e03e03cd2f8f2330c8cfebcb715d817353f8d879e2d0b84227e16183",
+      "values_digest": "21068752fd01ffa1ac480325094b8528bbca99461383050e90a5d1b0ec2fb922",
       "rendered_digest": "dcdf4ee8ff229a906d36c1cb33afe3bd1f7a8ab1d233a85470863a2370c63c92",
       "ast_digest": "e85613914db766ef65fdae1fdd2679d823f21ee29038e12abbd7c038f47a15f1"
     },
     "sor": {
-      "values_digest": "1a9ab4a196571f8e5aad6d9f04d890ed4c99743e4318c86263a77b6b9481a79c",
-      "rendered_digest": "630c0d6cc1c045c0e26a92fbca9b43fdd08a98c34b0988b11fe34907bfb4bad0",
-      "ast_digest": "2c4c7dff848f63f2d46f5c0d86931f411ebcb91bde83c9b139fe10264cb99d5e"
+      "values_digest": "24f73c602cbc42f9fb73bf37c83c789e6f0c5c085c8e9d606a864169aea0aba5",
+      "rendered_digest": "e92d9eb81417bc44c93f5b2de25cb09d0d9f9a1e50c1ef452e98aee05e88485f",
+      "ast_digest": "c4cf0471ca8564a7c2607086066d29be770f778137c368a9995b787e4749e11e"
     }
   },
   "transitions": [
@@ -176,6 +176,13 @@
       "actor": "codex:/root",
       "reason": "Record #509 fresh live GCP proof at current exact head after R3 review found stale retained source_revision and missing denominator checks.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Refreshed #509 DRT-D GCP portability proof at current exact head using the existing GCS runtime/model artifact bundle, with no local runtime rebuild. The disposable two-node GCP run passed, produced runtime and Ollama receipts, destroyed both nodes, and retained bounded-cost plus source-revision truth.\",\"changes\":[\"Reran the live GCP DRT-D qualification at current head using the already-stored GCS artifact manifest instead of rebuilding Runtime/Ollama binaries.\",\"Set Terraform provider auth to the approved service-account key and disabled per-run NAT creation because an existing regional ALL_SUBNETWORKS_ALL_IP_RANGES NAT was already present.\",\"Updated retained qualification evidence to run adl-509-drt-d-20260902192222 with source_revision f61de6ac171253db3d0afb47ec3e4c1838b47c54.\",\"Added executable stale-proof guards so the Ruby implementation validator and DRT-D retained-proof test reject qualification receipts whose source_revision does not match the current exact head.\"],\"artifacts\":[\".csdlc/prepared/issues/509/validate-implementation.rb\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/preflight.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-destroy.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/cleanup-readback.json\"],\"validation\":[{\"command\":[\"CLOUDSDK_CONFIG=.csdlc/evidence/509/gcloud-config\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json\",\"GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json\",\"ADL_ISSUE509_CREATE_CLOUD_NAT=false\",\"bash\",\"adl/tools/run_issue509_gcp_drt_d_qualification.sh\",\"run\",\"--execute\"],\"purpose\":\"Run live two-node GCP DRT-D qualification using existing GCS artifact bundle and destroy ephemeral resources.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification, bounded-cost semantics, cleanup, and current source_revision binding.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-refresh-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify DRT-D retained proof denominator including current source_revision binding.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-refresh-drt-d-contract\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after live refresh and stale-proof guard repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-refresh-diff-check\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record final #509 live-source denominator policy after recognizing the qualification receipt cannot self-reference the commit that contains it.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundle, refreshed live GCP qualification, and executable source-binding validators. The live receipt source revision is required to be ancestral to review HEAD, and post-live diffs must be limited to metadata, evidence, and test-denominator surfaces.\",\"changes\":[\"Kept the Runtime/Ollama artifact source as the existing GCS bundle; no local runtime rebuild was performed during the live refresh.\",\"Retained successful live GCP run adl-509-drt-d-20260902192222 with two private VMs, existing regional NAT, runtime-to-Ollama HTTP 200 generation, local receipt copies, and zero residue after teardown.\",\"Changed the implementation validator and DRT-D shell wrapper to enforce that the retained live source_revision is an ancestor of HEAD and that no product or infrastructure files changed after the live proof revision.\",\"Kept post-live allowed drift bounded to lifecycle/evidence/qualification/test-denominator surfaces so exact-head review can verify both the live proof and the metadata commit that records it.\"],\"artifacts\":[\".csdlc/prepared/issues/509/validate-implementation.rb\",\"adl-runtime/tests/distributed_contract/main.rs\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/preflight.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/runtime-final.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/ollama-ready.json\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-apply.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/terraform-destroy.log\",\".csdlc/evidence/509/live-adl-509-drt-d-20260902192222/cleanup-readback.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/509/validate-implementation.rb\"],\"purpose\":\"Verify retained live GCP qualification, bounded-cost semantics, cleanup, ancestral source_revision, and no product/infra drift after live proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-source-denominator-implementation\"},{\"command\":[\"bash\",\"adl-runtime/tests/distributed_contract/validate_drt_d.sh\",\"gcp-portability\"],\"purpose\":\"Verify DRT-D retained proof denominator after enforcing ancestral source_revision and no product/infra drift after live proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-source-denominator-drt-d-contract\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift after final denominator repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"manual:post-live-source-denominator-diff-check\"}]}"
     }
   ]
 }

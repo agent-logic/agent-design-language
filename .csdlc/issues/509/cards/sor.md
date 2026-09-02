@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Refreshed #509 DRT-D GCP portability proof at current exact head using the existing GCS runtime/model artifact bundle, with no local runtime rebuild. The disposable two-node GCP run passed, produced runtime and Ollama receipts, destroyed both nodes, and retained bounded-cost plus source-revision truth.
+Completed #509 DRT-D GCP portability proof using the existing GCS artifact bundle, refreshed live GCP qualification, and executable source-binding validators. The live receipt source revision is required to be ancestral to review HEAD, and post-live diffs must be limited to metadata, evidence, and test-denominator surfaces.
 
 ## Artifacts
 
@@ -29,37 +29,22 @@ Refreshed #509 DRT-D GCP portability proof at current exact head using the exist
 
 ## Execution
 
-- Reran the live GCP DRT-D qualification at current head using the already-stored GCS artifact manifest instead of rebuilding Runtime/Ollama binaries.
-- Set Terraform provider auth to the approved service-account key and disabled per-run NAT creation because an existing regional ALL_SUBNETWORKS_ALL_IP_RANGES NAT was already present.
-- Updated retained qualification evidence to run adl-509-drt-d-20260902192222 with source_revision f61de6ac171253db3d0afb47ec3e4c1838b47c54.
-- Added executable stale-proof guards so the Ruby implementation validator and DRT-D retained-proof test reject qualification receipts whose source_revision does not match the current exact head.
+- Kept the Runtime/Ollama artifact source as the existing GCS bundle; no local runtime rebuild was performed during the live refresh.
+- Retained successful live GCP run adl-509-drt-d-20260902192222 with two private VMs, existing regional NAT, runtime-to-Ollama HTTP 200 generation, local receipt copies, and zero residue after teardown.
+- Changed the implementation validator and DRT-D shell wrapper to enforce that the retained live source_revision is an ancestor of HEAD and that no product or infrastructure files changed after the live proof revision.
+- Kept post-live allowed drift bounded to lifecycle/evidence/qualification/test-denominator surfaces so exact-head review can verify both the live proof and the metadata commit that records it.
 
 ## Validation
 
 [
   {
     "command": [
-      "CLOUDSDK_CONFIG=.csdlc/evidence/509/gcloud-config",
-      "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json",
-      "GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json",
-      "ADL_ISSUE509_CREATE_CLOUD_NAT=false",
-      "bash",
-      "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
-      "run",
-      "--execute"
-    ],
-    "purpose": "Run live two-node GCP DRT-D qualification using existing GCS artifact bundle and destroy ephemeral resources.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/509/live-adl-509-drt-d-20260902192222"
-  },
-  {
-    "command": [
       "ruby",
       ".csdlc/prepared/issues/509/validate-implementation.rb"
     ],
-    "purpose": "Verify retained live GCP qualification, bounded-cost semantics, cleanup, and current source_revision binding.",
+    "purpose": "Verify retained live GCP qualification, bounded-cost semantics, cleanup, ancestral source_revision, and no product/infra drift after live proof.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-live-refresh-implementation"
+    "evidence_ref": "manual:post-live-source-denominator-implementation"
   },
   {
     "command": [
@@ -67,9 +52,9 @@ Refreshed #509 DRT-D GCP portability proof at current exact head using the exist
       "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
       "gcp-portability"
     ],
-    "purpose": "Verify DRT-D retained proof denominator including current source_revision binding.",
+    "purpose": "Verify DRT-D retained proof denominator after enforcing ancestral source_revision and no product/infra drift after live proof.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-live-refresh-drt-d-contract"
+    "evidence_ref": "manual:post-live-source-denominator-drt-d-contract"
   },
   {
     "command": [
@@ -77,9 +62,9 @@ Refreshed #509 DRT-D GCP portability proof at current exact head using the exist
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and conflict-marker drift after live refresh and stale-proof guard repair.",
+    "purpose": "Reject whitespace and conflict-marker drift after final denominator repair.",
     "outcome": "passed",
-    "evidence_ref": "manual:post-live-refresh-diff-check"
+    "evidence_ref": "manual:post-live-source-denominator-diff-check"
   }
 ]
 
