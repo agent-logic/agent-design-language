@@ -55,8 +55,11 @@ systemd-run --unit=adl-ollama --property=Restart=always \
   /mnt/adl-warm-gpu/install/bin/ollama serve
 until curl -fsS http://127.0.0.1:11434/api/version >/dev/null; do sleep 0.25; done
 while read -r model; do
-  jq -n --arg model "$model" '{model:$model,prompt:"Reply OK.",stream:false,keep_alive:-1,options:{num_predict:1}}' \
-    | curl -fsS http://127.0.0.1:11434/api/generate -d @- >/dev/null
+  until jq -n --arg model "$model" '{model:$model,prompt:"Reply OK.",stream:false,keep_alive:-1,options:{num_predict:1}}' \
+    | curl --max-time 300 -fsS http://127.0.0.1:11434/api/generate -d @- >/dev/null
+  do
+    sleep 1
+  done
 done < <(jq -r '.models[].model_identity' "$manifest")
 models="$(curl -fsS http://127.0.0.1:11434/api/ps | jq -ce --argjson expected "$(jq -c '.models|sort_by(.model_identity)' "$manifest")" '
   [.models[]|{model_identity:.name,model_digest_sha256:(.digest|sub("^sha256:";"")),size_vram:.size_vram}]|sort_by(.model_identity)
