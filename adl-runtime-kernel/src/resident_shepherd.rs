@@ -14,6 +14,13 @@ use crate::{
     ShepherdRequest, ShepherdResponse, SHEPHERD_RESPONSE_SCHEMA,
 };
 
+/// Provider adapters that are compiled into this Runtime build. Configuration
+/// remains provider-shaped, but startup must reject profiles that have no
+/// executable adapter instead of admitting a permanently degraded resident.
+pub fn resident_shepherd_provider_is_available(provider: &str) -> bool {
+    matches!(provider, "ollama")
+}
+
 /// Provider-backed production Shepherd executor. The native executor remains
 /// responsible for Runtime admission records; reasoning requests are routed to
 /// the configured provider without granting it lifecycle authority.

@@ -1227,6 +1227,12 @@ impl ResidentShepherdInitConfig {
                 "resident_shepherd.provider must be a lowercase provider identifier".to_owned(),
             ));
         }
+        if !crate::resident_shepherd_provider_is_available(&self.provider) {
+            return Err(RuntimeInitError::Policy(format!(
+                "resident_shepherd.provider '{}' has no executable adapter in this Runtime build",
+                self.provider
+            )));
+        }
         if !self.endpoint.starts_with("http://") {
             return Err(RuntimeInitError::Policy(
                 "resident_shepherd.endpoint must be a private HTTP provider endpoint".to_owned(),

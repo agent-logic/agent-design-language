@@ -1226,8 +1226,12 @@ fn canonical_name_is_required_for_resident_shepherd_configuration() {
 fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set() {
     let root = tempfile::tempdir().unwrap();
     let valid = valid_runtime_init_toml(root.path());
-    let provider_neutral = valid.replace("provider = \"ollama\"", "provider = \"vertex-ai\"");
-    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&provider_neutral).is_ok());
+    let unavailable_provider = valid.replace("provider = \"ollama\"", "provider = \"vertex-ai\"");
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&unavailable_provider)
+        .expect_err("a provider without a compiled execution adapter must fail at startup");
+    assert!(error
+        .to_string()
+        .contains("has no executable adapter in this Runtime build"));
     let invalid_provider = valid.replace("provider = \"ollama\"", "provider = \"Vertex AI\"");
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
 

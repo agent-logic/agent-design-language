@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "5c13640897e5bfd276658aa8405e61355a7e26e83cf26491ce431c1ba24a432d",
+  "generation": 12,
+  "digest": "a18435830a89a956c90d75a83b2b5d0a66c9ce9bbcaf690583fd36919fb2c532",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1826318c951cf0ba006525ebafddba78d2be681d37421e1ebad19dbe055c96e2",
+      "values_digest": "7135ca0fcd759af7c0a9066cc703192d895887d26b4a44ddbcf3d693e22d4ad6",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "70fe436e2faa8d21ecc165fcf5175a11aba9e9b5407655ba25e584bdba73681a",
+      "values_digest": "6c18d19f61d78ab723754920cb1dc2b24d5ca75349dda495479dc03eff3bd462",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "58ed57976728dc14a7bf2c401c00699c22d855e1528eebacbb5816075866bf69",
+      "values_digest": "c4c65a66f1a6cc5b54baa951c3a1e00ac6b5792cd8acdcdcc07a895224ddeeea",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "f3c55bb80e959ce84620036164d31e7b357de2163f81e93d15f08bea5471a9f6",
+      "values_digest": "58a6f597cd030b67c61fddb23e4c4ff98ef3401ed2280601debceba999304a52",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "569413f588172e99df3738c3d82e1ff65bef527b3576394842ef13f2a8505623",
+      "values_digest": "c4541fd4992594a35ae156b9b67a8284e7b966e70f415e1b61ed205a313fe62b",
       "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
       "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
     },
     "sor": {
-      "values_digest": "9e2297444577d292b4df390b3880990c8012516fa24224e9d17219ef7d8a0e9e",
+      "values_digest": "16f0af3b1f2a77f35ea0ffed9baf29870618cf27d8a0e18aed6d3fed75cca400",
       "rendered_digest": "31fda78684295d2299bf041a05113779ca941bf80fdff47621913e9b72684ad6",
       "ast_digest": "1e37445ceb1382430eb443cb2eb6e427a1c477c45f355b043a065bbf3b267c27"
     }
@@ -182,6 +182,20 @@
       "actor": "codex:/root",
       "reason": "Record the shared trusted-time readiness repair, listener-release restart guard, and fresh exact-candidate Wuji proof before final independent review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented provider-backed resident Shepherds with shared trusted-clock readiness, governed inference gating, automatic model preload recovery, and race-free Wuji restart acceptance.\",\"changes\":[\"Route governed Shepherd requests to the configured resident identity and provider model.\",\"Require a successful provider preload and governed inference probe before advertising the resident Shepherd as ready.\",\"Compare Shepherd admission freshness with the same trusted Runtime clock that creates and refreshes admission evidence.\",\"Wait until both public and private Runtime listeners are released before acceptance restarts the permanent launchd service.\",\"Preserve Runtime availability while provider failures leave only the affected Shepherd degraded.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove five nonzero focused configuration, multi-resident routing, canonical validation, model-health recovery, roster consistency, formatting, and diff-hygiene behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"shepherd_readiness_tests\",\"--lib\"],\"purpose\":\"Prove readiness uses the same trusted clock as admission and still fails closed after heartbeat loss.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 focused readiness tests passed at source 15cc7e9660ae84c9b85ed4aa528fc27fff154185\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings on changed Runtime production targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"Strict Clippy exited zero after the trusted-clock repair.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"purpose\":\"Prove exact candidate 843df6a967db3f91712be2280f4a602fd9b422b9 restarts cleanly on Wuji, preloads qwen3:8b, passes governed inference, and reports consistent readiness/feed truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace in current issue changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"No output at source 80918b5ea117250e7b7322f1264237ab094b1788.\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover the changes-required review to align resident Shepherd configuration validation with the production provider executor and remove the false unsupported-provider claim.",
+      "operation": "recover_review"
     }
   ]
 }
