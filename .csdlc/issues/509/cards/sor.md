@@ -75,11 +75,11 @@ Remediated the R7 proof-denominator finding without rebuilding artifacts or reru
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
