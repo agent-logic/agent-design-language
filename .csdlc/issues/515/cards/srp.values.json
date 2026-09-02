@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #515 provider shadow-execution path, deterministic comparison fixtures, fallback handling, redacted PROV-B evidence, and lifecycle cards only.",
+      "review_scope": "adl/src/provider/mod.rs\nadl/tests/provider_shadow_isolation.rs\nadl/tests/provider_shadow_comparison.rs\nadl/tests/provider_shadow_fallback.rs\ndocs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json\n.csdlc/prepared/issues/515",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
