@@ -6,10 +6,6 @@
   "reviewer": "codex:/root/review_594_prepr_r2",
   "assigned_by": "codex:/root",
   "scope": [
-    ".csdlc/issues/594/cards/stp.md",
-    ".csdlc/issues/594/cards/spp.md",
-    ".csdlc/issues/594/cards/vpp.md",
-    ".csdlc/issues/594/cards/sor.md",
     ".csdlc/evidence/594/diff-hygiene.log",
     ".csdlc/evidence/594/runtime-log-archive.log",
     ".csdlc/evidence/594/runtime-log-archive-config.log",
