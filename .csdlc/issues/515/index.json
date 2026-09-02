@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2fe6cdf8661e107c3da3c1b98142e50511a2a6c7ed79923b0d5f960f223e9b7",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "8be9b30827d9de9b045fcfc23652c19204825981bd810dc02b15f2cd621ddaa5",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "b30cdfb332e2db4ad5cb4c60734684900161c5a0fb70d2944e9486f9cda8fba3",
   "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
   "review_assignment": {
@@ -29,7 +29,32 @@
       ".csdlc/prepared/issues/515"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/remote_exec.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "adl/tests/provider_shadow_open_pr_review.rs",
+      ".csdlc/prepared/issues/515/validate-provider-shadow-readiness.sh",
+      ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/open-pr-shadow-review-smoke.json",
+      ".csdlc/prepared/issues/515"
+    ],
+    "reviewed_revision": "git-blake3:b41443094d38109cd9d87c4462ad95b0bd992c79:df29f83e8b6abe1e57136c16872e28348f7370d81288e7c107d7d88f497d9442",
+    "findings": [],
+    "residual_risks": [
+      "The local Ollama smoke test uses hard-coded real PR review prompts for open PR #618 and #614 rather than fetching live PR body or diff material at test runtime.",
+      "The reviewer did not rerun Cargo or local Ollama because the exact-head review was read-only; the record relies on the already captured passing validation and redacted smoke evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aa17cf279e87bc3323f15e830cb6dd011de4c9a2252a048e04e180dca1384e55",
+      "values_digest": "f4dcbca7414fdd392d25c078a79153263df8083d5d1baa7bd58a9ffa851c1244",
       "rendered_digest": "c89da655731c73631677b4f7ae514632e5272b1a823233d5c67b450ffe49c1be",
       "ast_digest": "baa40ae52ff8b27b46f2a58c2406270d085ecf31e0ab487bed55114ad2ee57d3"
     },
     "stp": {
-      "values_digest": "9e95bac4a4668a5f46ed4e2b1e46d9d4029346819bea11e02e7acd0bc5e85131",
+      "values_digest": "d5e533d4e3c776391acb17309147f1958aa21b54411ca43ccf099abc7b9e1633",
       "rendered_digest": "75939cfd6acfd5c1f6cd3745644fa32d94b7c697db54cd820fcaec3931e977b4",
       "ast_digest": "7324135d78870a9c5514334ecfbeb0373f48a68d07c96890119dffcd99dd9eee"
     },
     "spp": {
-      "values_digest": "006b03faa0fc9b10c2071aeb41694f0236a3d3e222808e677ab7616c6f3486f9",
+      "values_digest": "f79c928ee66ac52e1943a28032f5fa3cb2f2a054c8bd1d5f8f6f1a681623e876",
       "rendered_digest": "e4781761a811f947123d94b872a9ef5abb18a1b161039af646935dbb180f3c3e",
       "ast_digest": "511afe7e85ea22f40c90f2f44992866e7af01d94fc72e9468272321ed02feefc"
     },
     "vpp": {
-      "values_digest": "316ad9973f1c1a825bdc07a22dc05a14de649409f9e4c5623ca63adaf3c3d706",
+      "values_digest": "252caa193fa635c1f0aa305d248ab4637ab1965a2e1b4e988a43ba46b35e211c",
       "rendered_digest": "d74854fd85aa117153a901376ffe7610993108dc04c1744d9b2e3d09ec428380",
       "ast_digest": "1cb781fdd09b2d6753ba1c81a102465c85ac434da1d2bba7f6d03758b864ae86"
     },
     "srp": {
-      "values_digest": "5ce7d7a46c86b6d08061a096b71e87caf4fae6f37b7a6808f242ee7a9537029d",
-      "rendered_digest": "bbfdf339369468f6b2696028a3a73dd90cc9cb7633a1dddcf7ab3c1e40818acf",
-      "ast_digest": "5321343365ca3450ba287b9fe371e341d693d46fad7af9bf2f2a2de62722cdbd"
+      "values_digest": "429c65dd995487203b2da796c5990223cc89b233d11f7babc7a10691602d5c86",
+      "rendered_digest": "b48b068b6f0733a4b4537fa6e7d104e3fcfaa9cdf86755f7689747fde0cc27de",
+      "ast_digest": "d150c01763b4ddd22e55cf40368bffa66177d6bac44c29f4625dbfd2b7da9865"
     },
     "sor": {
-      "values_digest": "29dfe7208fc10e66a2605339e92fc3e2b43d5527c0d74f6810c1cafd94b43e7a",
+      "values_digest": "c4a6336012004bc1348039c74a45d154476ef90ec699eda7cbf9aca2b36a06b9",
       "rendered_digest": "ce30d7eb1f29083b1e9f89e5206c5b9300993a2dce6a653bbdec4677c1ec6be6",
       "ast_digest": "32912e50b64215d41949ab50572911db58f937f086d5060f7d8503d8a103f5c4"
     }
@@ -130,6 +155,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-515-implementation",
       "reason": "Recover #515 lifecycle truth after adding the requested local Ollama open-PR shadow-review smoke test and redacted evidence to the already-published PR branch."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -377,6 +409,13 @@
       "actor": "codex:/root:issue-515-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

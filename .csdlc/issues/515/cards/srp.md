@@ -44,12 +44,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The local Ollama smoke test uses hard-coded real PR review prompts for open PR #618 and #614 rather than fetching live PR body or diff material at test runtime.
+- The reviewer did not rerun Cargo or local Ollama because the exact-head review was read-only; the record relies on the already captured passing validation and redacted smoke evidence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b41443094d38109cd9d87c4462ad95b0bd992c79:df29f83e8b6abe1e57136c16872e28348f7370d81288e7c107d7d88f497d9442")
 
-Reviewer: None
+Reviewer: Some("fresh-session:4af50d8b-e397-4cab-a8fa-3aae6c92c822")
 
-Result: pre_review
+Result: pass
