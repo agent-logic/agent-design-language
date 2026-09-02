@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 622,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
+    "slug": "provider-profile-hotload",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Provider-only configuration parsing, existing watcher reuse, candidate activation, immutable snapshot ownership, production execution-runner consumption, concurrency, redaction, shutdown, and focused documentation only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does a real production execution path consume the reload owner rather than only helper tests?",
+        "Does every inference call retain exactly one immutable starting snapshot?",
+        "Can malformed unsupported or secret-bearing candidates ever replace last-known-good state?",
+        "Does the implementation reuse the existing watcher and provider registry?",
+        "Are accepted and rejected diagnostics bounded and redacted?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

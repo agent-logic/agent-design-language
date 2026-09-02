@@ -1,0 +1,82 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 622,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
+  "phase": "ready",
+  "generation": 1,
+  "digest": "7b546c37451643730131666789e954b39be3a53cb3c8698d08da5a9f12e444e2",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/622/design.md",
+  "diagram_path": ".csdlc/prepared/issues/622/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:622-readiness-design-review",
+      "revision": "ea275103456f784d54a414064086d2bd7e100815c04337cd95b857e3ee868966"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e68393d4ff55f3ab2c8afee55d0e1daa8794fd3a2f32afb5ea1dd00ed5020ea2",
+      "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
+      "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
+    },
+    "stp": {
+      "values_digest": "671967acc33a4336695f1917b67ddf9dd530f680b1efdccc6d24cf99963b44c9",
+      "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
+      "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
+    },
+    "spp": {
+      "values_digest": "99478faef10264ae78a7ba0b43d173e2c76a9ffeba9987dd6c196a06f99cd164",
+      "rendered_digest": "cbd5bc3401a6967f6fb383c01b6d927f7d8b22356e20a53da1239f5a8b942b8a",
+      "ast_digest": "f50038f904ded4622355bb9aa2e01c666aaef02f27a757a0779a5425aad9f191"
+    },
+    "vpp": {
+      "values_digest": "c5553a7adfd00ef7b33ef9fe43c51beb0aabd4fec72a8cf1a64e2e293e93a987",
+      "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
+      "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
+    },
+    "srp": {
+      "values_digest": "0810a378ecec0b87cd25e84df93be602a5880cd422b80acacdd3e2ad1cd3a51d",
+      "rendered_digest": "54ea680386ea3a14ac4dd7cf117a9d76bc7ddbb89976de69185f327fe8a1a34c",
+      "ast_digest": "be6e7ba1689eb85f0bef5fccf734fb2734ae5528cc815c66848b527cab172b81"
+    },
+    "sor": {
+      "values_digest": "68f4704c16118c4ecf812aaff55055513b531857881ce17c532a2fb41d756b70",
+      "rendered_digest": "d998a10d24fc46d6d37731c4440e95e6e8e2d46ea69abee16d77c076c0d77751",
+      "ast_digest": "6c462b3b16a628126636403cdd4d2182c5b9c8484451c616d70b6289dd8c1159"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:622-readiness",
+      "reason": "All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:622-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:622-readiness",
+      "reason": "All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

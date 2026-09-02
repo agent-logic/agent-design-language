@@ -1,0 +1,2 @@
+{"sequence":1,"generation":0,"actor":"codex:622-readiness","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:622-readiness","reason":"All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}

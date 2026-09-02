@@ -1,0 +1,8 @@
+flowchart LR
+  F[Provider-only config sidecar] --> W[Existing config watcher]
+  W --> P[Parse and validate]
+  P --> A[Profile candidate activation]
+  A -->|accepted| S[Atomic Arc snapshot]
+  A -->|rejected| L[Retain last-known-good]
+  S --> R[Next execution step]
+  R --> I[Inference retains starting snapshot]
