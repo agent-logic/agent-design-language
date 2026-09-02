@@ -8,7 +8,7 @@
     "origin/main...HEAD"
   ],
   "base": "origin/main",
-  "head": "c32bb8914f872d40d59ebde399f1b03d84d6d38c",
+  "revision_binding": "exact HEAD is supplied by the committed issue record, typed review assignment, and publication guard to avoid self-staling this retained receipt",
   "stdout": "",
   "stderr": ""
 }
