@@ -136,6 +136,7 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
         _ => None,
     };
     let route_status = local_route_status(route, result.lifecycle_state.as_ref());
+    let writes_v3_state = route == "issue" && args.v3_state_root.is_some();
     let route_result = if route == "local" {
         None
     } else {
@@ -153,8 +154,10 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
     let report = LocalCommandReport {
         schema: "csdlc.v3.local_preparation.v1",
         command: route.to_owned(),
-        read_only: true,
+        read_only: !writes_v3_state,
+        operational_read_only: true,
         operational_authority: false,
+        writes_v3_state,
         route_status,
         route_result,
         result,
@@ -167,7 +170,9 @@ struct LocalCommandReport<T> {
     schema: &'static str,
     command: String,
     read_only: bool,
+    operational_read_only: bool,
     operational_authority: bool,
+    writes_v3_state: bool,
     route_status: Option<csdlc_v3::commands::local::LocalRouteStatus>,
     route_result: Option<csdlc_v3::commands::local::LocalRouteResult>,
     result: T,

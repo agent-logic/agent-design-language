@@ -1,1 +1,1 @@
-rustfmt --check passed for #628 v3-local transition evidence
+rustfmt --check passed after #628 read-only output truth fix

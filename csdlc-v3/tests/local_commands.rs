@@ -180,7 +180,9 @@ fn local_preparation_cli_emits_machine_readable_non_authoritative_plan() {
     assert_eq!(value["schema"], "csdlc.v3.local_preparation.v1");
     assert_eq!(value["command"], "local");
     assert_eq!(value["read_only"], true);
+    assert_eq!(value["operational_read_only"], true);
     assert_eq!(value["operational_authority"], false);
+    assert_eq!(value["writes_v3_state"], false);
     assert_eq!(value["result"]["issue"], 503);
     assert!(value["route_status"].is_null());
     assert!(value["route_result"].is_null());
@@ -230,7 +232,9 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
             serde_json::from_slice(&output.stdout).expect("machine-readable json");
         assert_eq!(value["command"], route);
         assert_eq!(value["read_only"], true);
+        assert_eq!(value["operational_read_only"], true);
         assert_eq!(value["operational_authority"], false);
+        assert_eq!(value["writes_v3_state"], false);
         assert_eq!(value["result"]["issue"], 503);
         assert_eq!(value["route_status"]["route"], route);
         assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
@@ -337,6 +341,10 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
     let issue_value: serde_json::Value =
         serde_json::from_slice(&issue_output.stdout).expect("issue route JSON");
     assert_eq!(issue_value["route_result"]["kind"], "issue_initialization");
+    assert_eq!(issue_value["read_only"], false);
+    assert_eq!(issue_value["operational_read_only"], true);
+    assert_eq!(issue_value["operational_authority"], false);
+    assert_eq!(issue_value["writes_v3_state"], true);
     assert_eq!(
         issue_value["route_result"]["initialized_state"]["code"],
         "local_lifecycle_state_ready"
@@ -364,6 +372,9 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
         eligibility_value["route_status"]["code"],
         "ready_to_execute"
     );
+    assert_eq!(eligibility_value["read_only"], true);
+    assert_eq!(eligibility_value["operational_read_only"], true);
+    assert_eq!(eligibility_value["writes_v3_state"], false);
     assert_eq!(eligibility_value["route_result"]["kind"], "eligibility");
     assert_eq!(eligibility_value["route_result"]["ready_to_execute"], true);
     assert_eq!(

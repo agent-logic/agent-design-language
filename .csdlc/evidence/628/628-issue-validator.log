@@ -1,14 +1,13 @@
 manifest handoff ok
 no v2 source changes
-    Blocking waiting for file lock on build directory
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.64s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
      Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-286e111367ea102a)
 running 14 tests
-test topology_bind_requires_exact_registered_worktree ... ok
-test local_route_status_codes_are_route_specific ... ok
 test doctor_plan_preserves_distinct_outcome_states ... ok
 test contract_commands_are_typed_and_non_authoritative ... ok
 test card_roundtrip_uses_active_registry_denominator ... ok
+test local_route_status_codes_are_route_specific ... ok
+test topology_bind_requires_exact_registered_worktree ... ok
 test missing_local_lifecycle_state_is_explicit_and_repairable ... ok
 test local_lifecycle_readiness_rejects_malformed_index ... ok
 test eligibility_route_consumes_lifecycle_observation ... ok
@@ -24,7 +23,7 @@ test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fin
 running 5 tests
 test full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_replaced ... ok
 test adapters_canary_builds_real_issue_observation_commands_without_secret_leakage ... ok
-test foundation_and_local_commands_accept_real_issue_596_without_v3_authority ... ok
 test eligibility_cli_consumes_real_bound_issue_state ... ok
+test foundation_and_local_commands_accept_real_issue_596_without_v3_authority ... ok
 test lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4646 ... ok
-test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
