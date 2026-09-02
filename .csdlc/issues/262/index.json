@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "6b9db6663b8330b5626aa546e0121c3c80b76e4f73ba853ba77dddf441a855d2",
+  "generation": 6,
+  "digest": "bf810adf93286690b0164cd916f14a4c521c5f371b3860a7158f0025e8592f21",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": {
@@ -29,7 +29,60 @@
       "demos/podcast/studio/podcast-studio.html"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:ec6fb5a9-f376-4e33-97c7-8ad14b12cd20",
+    "scope": [
+      ".csdlc/evidence/262",
+      ".csdlc/prepared/issues/262",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio/podcast-studio.html"
+    ],
+    "reviewed_revision": "git-blake3:96b32aef02826b52270f224b444583fd560b4b9d:3e96ee6c810713dd967e5c0469bf50d2d791b37d54d97690d5e5c8ad2a1e5529",
+    "findings": [
+      {
+        "id": "262-review-r1-p1-public-transcript-stale-show-name",
+        "severity": "p1",
+        "summary": "Public episode page still exposes the old show name in publishable transcript copy at demos/podcast/episodes/meet-the-ai-coworkers/index.html lines 54, 82, and 104; the validator only checked title text and missed body transcript copy.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "262-review-r1-p1-audio-id3-stale-show-name",
+        "severity": "p1",
+        "summary": "Distribution MP3 embedded ID3 metadata still identifies TPE1/TALB as Cognitive Spacetime, and qa-report.md lines 16-22 confirms stale artist/album metadata.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "262-review-r1-p2-mailbox-readiness-stale",
+        "severity": "p2",
+        "summary": "Launch readiness still says mailbox verification is deferred even though the #261 identity dependency and validator require verified_received publication authorization.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +97,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "934ec76fe303be34ca79260cca6f873658c2ec8bfa69b1743fe14e3ac57a4dea",
+      "values_digest": "cf9f115b1d270dbe25efc37a4297a52a161c81d99122450892fd199e508725e1",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "993b359acf12e06ee460de094745856eefbd5f6bc263426495f3d8b789377a1f",
+      "values_digest": "a3f275a749530beb40d51d2a9244b4efd354f174d05576a8f775b199fe3eb4d2",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "3aec7ae692020174782c5bb1cb2557c937d75a07592fdfc3f87ede3fcf75acf9",
+      "values_digest": "b8afac92926d46e23fac50afb25e832d782ab21e0668bd5c37b62ad1987f9a8a",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "4055bc79d33badb0cee19f51ee0610e2e9448a9f255a306f0fa5531f5c78372d",
+      "values_digest": "1b2a0ed93646abd1e35442cfa8b9d9cfc25efb1a0787f4adef7936f72b4f5212",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "e18ab779adc82cd26c727c97d2f47bb358628803155c949bc7fbfb55e5f70ef7",
-      "rendered_digest": "7413774e33a5fff5aa9d0beed0c14f0d5ba4effbc647ebc4b20196632c607b5d",
-      "ast_digest": "f375432c58cdf15643a236bb918035cdc712747dbe2eb6c962e4c54a3e7fce3b"
+      "values_digest": "0ba489f10395f627becec0fad19c27dd015739f62f229f5d7ae4b678b1a3a67b",
+      "rendered_digest": "c530637913800a5c41e830f7729ca418db639f6dd0d67b18682f3a11388e9fda",
+      "ast_digest": "5fbe96420c8498343839788452450ae3264e29a73f442928cd5e9313919510c4"
     },
     "sor": {
-      "values_digest": "62c2693d716da054d5bc512efe3a56b300faf989e899e2fa089faa5da6329afc",
+      "values_digest": "5181b72998571e2b1d83f1a7e4524d0700b87ff01bf1fe9d47479bd588c88094",
       "rendered_digest": "1832b90b664e408c821b52a2767ac88c1750318ea174008f28c02c72589e95a1",
       "ast_digest": "a43369750b1ef90acbc403160748b300b3e377ad4499ef946488bc7150f06c86"
     }
@@ -153,6 +206,13 @@
       "actor": "codex:root/podcast-262",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:ec6fb5a9-f376-4e33-97c7-8ad14b12cd20",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
