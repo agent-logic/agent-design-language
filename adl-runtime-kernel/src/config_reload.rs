@@ -357,3 +357,103 @@ async fn read_config(path: &Path) -> Result<Vec<u8>, ConfigReloadError> {
             source,
         })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    fn test_path(name: &str) -> PathBuf {
+        let unique = SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .expect("time")
+            .as_nanos();
+        std::env::temp_dir().join(format!("{name}-{unique}-{}", std::process::id()))
+    }
+
+    #[tokio::test]
+    async fn config_reload_debounces_duplicate_same_content_and_shutdown() {
+        let path = test_path("config-reload-debounce");
+        fs::write(&path, "one").await.expect("write initial");
+        let parses = Arc::new(AtomicU64::new(0));
+        let parser_parses = Arc::clone(&parses);
+        let parser: ConfigParser<String> = Arc::new(move |raw| {
+            parser_parses.fetch_add(1, Ordering::SeqCst);
+            Ok(raw.to_string())
+        });
+
+        let controller = start_config_reload(
+            path.clone(),
+            parser,
+            ConfigReloadOptions {
+                poll_interval: Duration::from_millis(10),
+                debounce: Duration::from_millis(30),
+            },
+        )
+        .await
+        .expect("start reload");
+        let mut handle = controller.handle();
+        assert_eq!(handle.current().value(), "one");
+
+        fs::write(&path, "two").await.expect("write update");
+        fs::write(&path, "two").await.expect("write duplicate");
+        let changed = time::timeout(Duration::from_secs(1), handle.changed())
+            .await
+            .expect("changed")
+            .expect("snapshot");
+        assert_eq!(changed.value(), "two");
+
+        fs::write(&path, "two").await.expect("rewrite same content");
+        assert!(
+            time::timeout(Duration::from_millis(120), handle.changed())
+                .await
+                .is_err(),
+            "same-content rewrite must not publish another snapshot"
+        );
+
+        let outcome = controller.shutdown().await.expect("shutdown");
+        assert_eq!(outcome.reloads_applied, 1);
+        assert_eq!(outcome.invalid_updates_rejected, 0);
+        assert!(outcome.shutdown_requested);
+        assert!(parses.load(Ordering::SeqCst) >= 2);
+    }
+
+    #[tokio::test]
+    async fn config_reload_invalid_update_retains_last_known_good() {
+        let path = test_path("config-reload-invalid");
+        fs::write(&path, "good").await.expect("write initial");
+        let parser: ConfigParser<String> = Arc::new(move |raw| {
+            if raw == "bad" {
+                Err(ConfigReloadError::validation("redacted invalid candidate"))
+            } else {
+                Ok(raw.to_string())
+            }
+        });
+
+        let controller = start_config_reload(
+            path.clone(),
+            parser,
+            ConfigReloadOptions {
+                poll_interval: Duration::from_millis(10),
+                debounce: Duration::from_millis(30),
+            },
+        )
+        .await
+        .expect("start reload");
+        let mut handle = controller.handle();
+
+        fs::write(&path, "bad").await.expect("write invalid");
+        assert!(
+            time::timeout(Duration::from_millis(140), handle.changed())
+                .await
+                .is_err(),
+            "invalid candidate must not publish a new snapshot"
+        );
+        assert_eq!(handle.current().value(), "good");
+
+        let outcome = controller.shutdown().await.expect("shutdown");
+        assert_eq!(outcome.reloads_applied, 0);
+        assert_eq!(outcome.invalid_updates_rejected, 1);
+        assert!(outcome.shutdown_requested);
+    }
+}

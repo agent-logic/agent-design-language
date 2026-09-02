@@ -6,7 +6,9 @@ root="$(git rev-parse --show-toplevel)"
 cd "$root"
 
 production() {
-  cargo test --locked --manifest-path adl/Cargo.toml provider_mod_profile -- --nocapture
+  cargo test --locked --manifest-path adl/Cargo.toml --lib provider_mod_profile -- --nocapture
+  cargo test --locked --manifest-path adl/Cargo.toml --lib provider_reload -- --nocapture
+  cargo test --locked --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot_for_in_flight_step -- --nocapture
   if test -f adl/tests/provider_profile_hot_reload.rs; then
     cargo test --locked --manifest-path adl/Cargo.toml --test provider_profile_hot_reload -- --nocapture
   fi
@@ -14,7 +16,9 @@ production() {
 
 safety() {
   cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib config_reload -- --nocapture
-  cargo test --locked --manifest-path adl/Cargo.toml provider_mod_profile -- --nocapture
+  cargo test --locked --manifest-path adl/Cargo.toml --lib provider_mod_profile -- --nocapture
+  cargo test --locked --manifest-path adl/Cargo.toml --lib provider_reload -- --nocapture
+  cargo test --locked --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot_for_in_flight_step -- --nocapture
   if test -f adl/tests/provider_profile_hot_reload.rs; then
     cargo test --locked --manifest-path adl/Cargo.toml --test provider_profile_hot_reload -- --nocapture
   fi

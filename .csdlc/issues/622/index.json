@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 622,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
-  "phase": "ready",
-  "generation": 1,
-  "digest": "7b546c37451643730131666789e954b39be3a53cb3c8698d08da5a9f12e444e2",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "2b08a768b86912ed72d9db5c1ceaf66f5d8b7c44c08c97c44b1687653f86c2f9",
+  "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e68393d4ff55f3ab2c8afee55d0e1daa8794fd3a2f32afb5ea1dd00ed5020ea2",
+      "values_digest": "2cd7c12033ad1595ca004c4772795acb2c644b5f6bfb604a49c566b440e274e5",
       "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
       "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
     },
     "stp": {
-      "values_digest": "671967acc33a4336695f1917b67ddf9dd530f680b1efdccc6d24cf99963b44c9",
+      "values_digest": "41b9110a847fc0e2f204b88438bca408abaea4e21e6ee3317a663e2f495f3099",
       "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
       "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
     },
     "spp": {
-      "values_digest": "99478faef10264ae78a7ba0b43d173e2c76a9ffeba9987dd6c196a06f99cd164",
+      "values_digest": "1157bea6aec32e55f92688fd7dbf45a81ffc5254818ae9c2a6921275a8c06773",
       "rendered_digest": "cbd5bc3401a6967f6fb383c01b6d927f7d8b22356e20a53da1239f5a8b942b8a",
       "ast_digest": "f50038f904ded4622355bb9aa2e01c666aaef02f27a757a0779a5425aad9f191"
     },
     "vpp": {
-      "values_digest": "c5553a7adfd00ef7b33ef9fe43c51beb0aabd4fec72a8cf1a64e2e293e93a987",
+      "values_digest": "5bf72f171bd8703d20cdcaa8609187b69c7e7fcb91e2d5f031f39740c08e13fe",
       "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
       "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
     },
     "srp": {
-      "values_digest": "0810a378ecec0b87cd25e84df93be602a5880cd422b80acacdd3e2ad1cd3a51d",
+      "values_digest": "d5949b2731ba9c6f40f38d548af78cad36c680767c07b0b0119df2512250a32a",
       "rendered_digest": "54ea680386ea3a14ac4dd7cf117a9d76bc7ddbb89976de69185f327fe8a1a34c",
       "ast_digest": "be6e7ba1689eb85f0bef5fccf734fb2734ae5528cc815c66848b527cab172b81"
     },
     "sor": {
-      "values_digest": "68f4704c16118c4ecf812aaff55055513b531857881ce17c532a2fb41d756b70",
-      "rendered_digest": "d998a10d24fc46d6d37731c4440e95e6e8e2d46ea69abee16d77c076c0d77751",
-      "ast_digest": "6c462b3b16a628126636403cdd4d2182c5b9c8484451c616d70b6289dd8c1159"
+      "values_digest": "32e57aa792f6fdca768acf846d00a4a8f6dbc7fcce030ae172a456fb26af31fc",
+      "rendered_digest": "4f93acb4181ac79761648965f1cdc3a6a7a4f6c169300becd8741f7948d624c3",
+      "ast_digest": "913eef22aeeb7cea5e9d53a8a46ca3665f4db3706de95a07e6ec70bb57f191ef"
     }
   },
   "transitions": [
@@ -61,6 +62,20 @@
       "to": "ready",
       "actor": "codex:622-readiness",
       "reason": "All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Advance #622 after implementing production provider/profile hot loading, documenting behavior, and passing the declared focused production and safety validation lanes."
     }
   ],
   "audit": [
@@ -77,6 +92,41 @@
       "actor": "codex:622-readiness",
       "reason": "All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record #622 implementation evidence before validation and implemented-phase advancement.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented production provider/profile hot loading through a provider reload owner, sidecar validation, immutable per-step runner snapshots, last-known-good preservation on invalid updates, credential-value rejection, and focused production/safety proof lanes.\",\"changes\":[\"Added a provider reload owner and global handle in adl/src/provider/reload.rs for provider-only sidecar loading, validation, diagnostics, stable provider digests, shutdown, and last-known-good preservation.\",\"Wired the production execution runner to resolve provider specs from the current reload snapshot for each step while preserving the in-flight step's start snapshot.\",\"Added deterministic mock-provider configuration hooks for fixed output and bounded sleep to prove reload behavior without external provider calls.\",\"Added focused provider reload, production runner, and runtime-kernel watcher tests covering valid reloads, invalid reload retention, credential-value rejection, duplicate debounce, shutdown, and in-flight snapshot isolation.\",\"Updated the #622 validation script to run focused production and safety lanes that avoid unrelated binary compile surfaces.\",\"Documented provider profile hot-loading behavior, accepted sidecar shape, credential boundary, snapshot semantics, validation evidence, and non-goals.\"],\"artifacts\":[\"adl/src/provider/reload.rs\",\"adl/src/provider/mod.rs\",\"adl/src/provider/local.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl-runtime-kernel/src/config_reload.rs\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"docs/providers/provider-profile-hot-loading.md\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record the passing #622 production validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"production\"],\"purpose\":\"Prove the production provider/profile hot-loading lane, including existing provider profile invariants, accepted reloads without restart, invalid reload last-known-good retention, credential-value rejection, and in-flight step snapshot isolation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-production-lane:provider_mod_profile 14 passed; provider_reload 4 passed; in-flight snapshot 1 passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record the passing #622 safety validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"safety\"],\"purpose\":\"Prove the safety lane for reload debounce, shutdown, invalid-update last-known-good retention, credential boundary, focused production invariants, and whitespace/diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 4 passed; in-flight snapshot 1 passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Advance #622 after implementing production provider/profile hot loading, documenting behavior, and passing the declared focused production and safety validation lanes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
