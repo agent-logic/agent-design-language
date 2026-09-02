@@ -115,11 +115,11 @@ Implemented a local-only, non-authoritative provider shadow completion helper th
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
