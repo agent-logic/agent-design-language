@@ -1,0 +1,7 @@
+{
+  "schema": "adl.issue498.readiness.v1",
+  "status": "pass",
+  "issue": 498,
+  "ready_for_execution_binding": true,
+  "execution_gate": "CORP-C #497 must be live merged into main and ancestral before acceptance."
+}

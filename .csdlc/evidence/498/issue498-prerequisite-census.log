@@ -1,0 +1,38 @@
+{
+  "schema": "adl.issue498.prerequisite_census.v1",
+  "status": "pass",
+  "base": "origin/main",
+  "prerequisites": [
+    {
+      "issue": 482,
+      "planned_id": "CORP-A",
+      "state": "CLOSED",
+      "merged_pr": 545,
+      "merge_commit": "e2c1d1649b0c930a5a1254575a07ef2a4496d48d",
+      "ancestral_to": "origin/main",
+      "ancestral": true
+    },
+    {
+      "issue": 483,
+      "planned_id": "CORP-B",
+      "state": "CLOSED",
+      "merged_pr": 562,
+      "merge_commit": "4a0b49c0071bacdaab19d6d9eb8c44380beb51be",
+      "ancestral_to": "origin/main",
+      "ancestral": true
+    },
+    {
+      "issue": 497,
+      "planned_id": "CORP-C",
+      "state": "CLOSED",
+      "merged_pr": 613,
+      "merge_commit": "8fa5129f4184d415bdd613285a6801801e101a5a",
+      "ancestral_to": "origin/main",
+      "ancestral": true
+    }
+  ],
+  "failures": [
+
+  ],
+  "fail_closed_note": "CORP-D acceptance is prohibited until every prerequisite is closed, merged, and ancestral."
+}

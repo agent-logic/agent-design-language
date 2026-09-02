@@ -1,0 +1,170 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 498,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "5cba53deaba7c8e2a2a220194f4bb1433a12212ab512e95fdfe9591df5a470e5",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "e75d410531af6cbe9430ad729565bbd22a81f7496e94d2d96bc33a2cabbd3050",
+  "branch": "codex/498-corp-d-corporate-diligence-acceptance",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance",
+  "review_assignment": {
+    "reviewer": "subagent:498-corp-d-exact-head-review",
+    "assigned_by": "codex:/root/Worker-7",
+    "revision": "git-blake3:dab8def78427ef3ab1734c6ecf33c5242f2f36fa:237566b9e9c47f703d0ff83d22fe2e8899001be631d18b6d356865fa1d4afce1",
+    "scope": [
+      ".csdlc/evidence/498",
+      ".csdlc/prepared/issues/498",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+      "docs/operations/corporate/diligence"
+    ]
+  },
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/498/design.md",
+  "diagram_path": ".csdlc/prepared/issues/498/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "worker-7-live-issue-and-spec-review",
+      "revision": "262827283b5eed453b3521ceac115d26850434611433ea64a006c762c6bcce59"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c94e9b811f0eb9182f31e93542fdd7ad9d64b3757c60f426e68bc2d4e51b7f42",
+      "rendered_digest": "a7bc34d0c59c5807a8b0e7dbd9843c2c8a08f46ed987310125c3e4c2738a053f",
+      "ast_digest": "2ffd5d6c88c83d6165aafcd1a3efecece8df8f58deae3d878e236ed57e59244e"
+    },
+    "stp": {
+      "values_digest": "fa3a21fa5702e9910a320a53dfb7c6f0e51260336f7aae5d96a54ca472cf0e9e",
+      "rendered_digest": "f16ff75f0f09836e1eb72918926648a861e099333c14ddd7e3b744c637200764",
+      "ast_digest": "c496d6b4fc27fd91dce500d28f83e9d45119e3b4d4077a7e41b1bc423793b9e5"
+    },
+    "spp": {
+      "values_digest": "ca7ffe643b4cb1b8745bf7b761801fade2201817f8a00482efa6cd27bbe2abea",
+      "rendered_digest": "5fbd461707f5029fc3d98c0f70fde837396f62087158fe0ef02215f24393f928",
+      "ast_digest": "7ad3097d27e125aafe92401338140c8479afa92f7049dfe071ca688fda60d53d"
+    },
+    "vpp": {
+      "values_digest": "ad09f48fe921cc47e5d4607935ca3248665d6b28f93c6762cf1a235265cf34b8",
+      "rendered_digest": "a6344553e55fdcd20db1d1f93d65266163be07e90c0552a9c710833664612ff7",
+      "ast_digest": "006752cce1dd6225e56cbfc29a886f4ad200618e1cd9bb3a4f69e2a03aa2acbb"
+    },
+    "srp": {
+      "values_digest": "856d48de018dad60f620f4b11b15f094316f3c757c4c9fb047631547d1184965",
+      "rendered_digest": "75ce975494b600414b65b3e6a7e35b9fb96210f3fda4299c8ad54a1f9c1c2d12",
+      "ast_digest": "9734f9463c0a9a2ba66b8bc7dae012aea22dff9d30a644e1a0092804ec964dbd"
+    },
+    "sor": {
+      "values_digest": "431636e61db498dd61d3bfe77e64696c5a9fe62ed798f7f9a4c6bf9241ad9684",
+      "rendered_digest": "ab899b8232231bd302269fb923c844161e0e454cea056c0d1168b4fcef050574",
+      "ast_digest": "40cb5a39eaf2a1adacf9dbaef57c018b66d06e091c6d2e695ceb9a8b85506ba0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-7/issue498-readiness",
+      "reason": "Typed issue initialization and preparation validation pass for CORP-D, with CORP-C #497 preserved as the fail-closed execution dependency."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/Worker-7",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-7/issue498-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-7/issue498-readiness",
+      "reason": "Typed issue initialization and preparation validation pass for CORP-D, with CORP-C #497 preserved as the fail-closed execution dependency.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Repair #498 execution-readiness denominator by declaring exact issue-owned evidence validator targets in SPP affected areas.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/diligence\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d\",\".csdlc/prepared/issues/498\",\".csdlc/evidence/498\",\".csdlc/evidence/498/validate-readiness.rb\",\".csdlc/evidence/498/check-prerequisites.rb\",\".csdlc/evidence/498/validate-diligence-index.rb\",\".csdlc/evidence/498/validate-counsel-boundary.rb\",\".csdlc/evidence/498/validate-acceptance-readback.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Repair #498 VPP lanes so each Ruby validator selects an exact issue-owned evidence target instead of a prepared-only path.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"readiness-preparation\",\"proof_role\":\"Prove the #498 typed cards, design, diagram, dependency gates, scope, COTS-free posture, budgets, PVF lanes, and Sprint 4 umbrella update evidence are structurally ready.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/evidence/498/validate-readiness.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"prerequisite-census\",\"proof_role\":\"Fail closed unless CORP-A #482, CORP-B #483, and CORP-C #497 are live merged into main and ancestral to the #498 execution base.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/evidence/498/check-prerequisites.rb\"],\"parallel_group\":\"execution-gate\",\"defer_reason\":\"Run at execution start; it must fail closed while #497 is not live merged and ancestral.\"},{\"lane\":\"diligence-index\",\"proof_role\":\"Validate the exact diligence index denominator and one-to-one mapping into the acceptance record.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/evidence/498/validate-diligence-index.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Run after the diligence index and acceptance record exist.\"},{\"lane\":\"counsel-boundary\",\"proof_role\":\"Validate that counsel-controlled judgments are represented only by bounded public or redacted receipts and no private advice is committed.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/evidence/498/validate-counsel-boundary.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Run after receipt evidence exists.\"},{\"lane\":\"acceptance-readback\",\"proof_role\":\"Validate that corporate diligence acceptance binds the exact diligence index and refuses acceptance when prerequisites remain unresolved.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/evidence/498/validate-acceptance-readback.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Run after the acceptance record exists.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Verify whitespace and patch hygiene for #498 issue-owned changes.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Record #498 CORP-D corporate diligence acceptance execution after prerequisite, diligence-index, counsel-boundary, and acceptance-readback validation passed.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The retained diligence index binds CORP-A #482, CORP-B #483, and CORP-C #497 to closed, merged, ancestral public GitHub receipts; sidecar #624 remains a nonblocking operational-hardening follow-up. The acceptance record binds the exact diligence-index digest and records no unresolved blockers.\",\"changes\":[\"Repaired the #498 execution-readiness denominator by copying validators into `.csdlc/evidence/498/` and updating SPP affected areas plus VPP lanes through typed C-SDLC v2 edits.\",\"Bound #498 to `codex/498-corp-d-corporate-diligence-acceptance` in `/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance`.\",\"Created the corporate diligence index covering CORP-A, CORP-B, and CORP-C prerequisite dispositions.\",\"Recorded the prerequisite census showing #482, #483, and #497 closed with merged PRs ancestral to `origin/main`.\",\"Recorded counsel-boundary receipts using only public or redacted receipt references and no counsel-controlled judgment material.\",\"Recorded CORP-D acceptance bound to the exact diligence-index SHA-256 digest with an empty unresolved-blocker list.\"],\"artifacts\":[\"docs/operations/corporate/diligence/diligence-index.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/prerequisite-census.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/counsel-boundary-receipts.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json\",\".csdlc/evidence/498/validate-readiness.rb\",\".csdlc/evidence/498/check-prerequisites.rb\",\".csdlc/evidence/498/validate-diligence-index.rb\",\".csdlc/evidence/498/validate-counsel-boundary.rb\",\".csdlc/evidence/498/validate-acceptance-readback.rb\",\".csdlc/evidence/498/validation-summary.v1.json\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Keep #498 executable validator targets in prepared issue-owned paths so PVF finalize can own `.csdlc/evidence/498` for retained logs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/diligence\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d\",\".csdlc/prepared/issues/498\",\".csdlc/prepared/issues/498/validate-readiness.rb\",\".csdlc/prepared/issues/498/check-prerequisites.rb\",\".csdlc/prepared/issues/498/validate-diligence-index.rb\",\".csdlc/prepared/issues/498/validate-counsel-boundary.rb\",\".csdlc/prepared/issues/498/validate-acceptance-readback.rb\",\".csdlc/evidence/498\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Run #498 validators from stable prepared issue paths while `.csdlc/evidence/498` is reserved for PVF finalize logs.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"readiness-preparation\",\"proof_role\":\"Prove the #498 typed cards, design, diagram, dependency gates, scope, COTS-free posture, budgets, PVF lanes, and Sprint 4 umbrella update evidence are structurally ready.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/498/validate-readiness.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"prerequisite-census\",\"proof_role\":\"Fail closed unless CORP-A #482, CORP-B #483, and CORP-C #497 are live merged into main and ancestral to the #498 execution base.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/498/check-prerequisites.rb\"],\"parallel_group\":\"execution-gate\",\"defer_reason\":\"Run at execution start; it must fail closed while #497 is not live merged and ancestral.\"},{\"lane\":\"diligence-index\",\"proof_role\":\"Validate the exact diligence index denominator and one-to-one mapping into the acceptance record.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/498/validate-diligence-index.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Run after the diligence index and acceptance record exist.\"},{\"lane\":\"counsel-boundary\",\"proof_role\":\"Validate that counsel-controlled judgments are represented only by bounded public or redacted receipts and no private advice is committed.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/498/validate-counsel-boundary.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Run after receipt evidence exists.\"},{\"lane\":\"acceptance-readback\",\"proof_role\":\"Validate that corporate diligence acceptance binds the exact diligence index and refuses acceptance when prerequisites remain unresolved.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/498/validate-acceptance-readback.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Run after the acceptance record exists.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Verify whitespace and patch hygiene for #498 issue-owned changes.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Normalize #498 SOR after PVF finalize so artifact and validation references match retained files.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The retained diligence index binds CORP-A #482, CORP-B #483, and CORP-C #497 to closed, merged, ancestral public GitHub receipts; sidecar #624 remains a nonblocking operational-hardening follow-up. The acceptance record binds the exact diligence-index digest and records no unresolved blockers.\",\"changes\":[\"Repaired the #498 execution-readiness denominator by declaring exact prepared validator targets in SPP affected areas and VPP lanes through typed C-SDLC v2 edits.\",\"Bound #498 to `codex/498-corp-d-corporate-diligence-acceptance` in `/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance`.\",\"Created the corporate diligence index covering CORP-A, CORP-B, and CORP-C prerequisite dispositions.\",\"Recorded the prerequisite census showing #482, #483, and #497 closed with merged PRs ancestral to `origin/main`.\",\"Recorded counsel-boundary receipts using only public or redacted receipt references and no counsel-controlled judgment material.\",\"Recorded CORP-D acceptance bound to the exact diligence-index SHA-256 digest with an empty unresolved-blocker list.\",\"Finalized #498 through the typed PVF implementation route with all local lanes passing.\"],\"artifacts\":[\"docs/operations/corporate/diligence/diligence-index.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/prerequisite-census.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/counsel-boundary-receipts.v1.json\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json\",\".csdlc/prepared/issues/498/validate-readiness.rb\",\".csdlc/prepared/issues/498/check-prerequisites.rb\",\".csdlc/prepared/issues/498/validate-diligence-index.rb\",\".csdlc/prepared/issues/498/validate-counsel-boundary.rb\",\".csdlc/prepared/issues/498/validate-acceptance-readback.rb\",\".csdlc/evidence/498/issue498-readiness-preparation.log\",\".csdlc/evidence/498/issue498-prerequisite-census.log\",\".csdlc/evidence/498/issue498-diligence-index.log\",\".csdlc/evidence/498/issue498-counsel-boundary.log\",\".csdlc/evidence/498/issue498-acceptance-readback.log\",\".csdlc/evidence/498/issue498-diff-hygiene.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/498/validate-readiness.rb\"],\"purpose\":\"Validate #498 typed preparation, declared scope, validation lanes, and sensitive-token guardrails.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/498/issue498-readiness-preparation.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/498/check-prerequisites.rb\"],\"purpose\":\"Validate #482, #483, and #497 closed/merged/ancestral prerequisite truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/498/issue498-prerequisite-census.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/498/validate-diligence-index.rb\"],\"purpose\":\"Validate the diligence index denominator and acceptance-record binding.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/498/issue498-diligence-index.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/498/validate-counsel-boundary.rb\"],\"purpose\":\"Validate receipt-only counsel-boundary evidence and sensitive-pattern hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/498/issue498-counsel-boundary.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/498/validate-acceptance-readback.rb\"],\"purpose\":\"Validate CORP-D acceptance record binding and absence of unresolved blockers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/498/issue498-acceptance-readback.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Validate patch whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/498/issue498-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/Worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    }
+  ]
+}
