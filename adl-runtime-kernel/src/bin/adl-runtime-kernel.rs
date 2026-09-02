@@ -24,8 +24,8 @@ use adl_runtime_kernel::{
     verifying_key_from_hex, AdapterKind, AgentPopulationFeed, CatalogSigningAuthority,
     CheckpointShutdownRequest, CheckpointingControl, ConfigApplier, ConfigParser,
     ConfigReloadError, ConfigReloadOptions, ContinuityControlService, ControlApiPolicy,
-    ControlAuthority, ControlCapability, ControlService, DurableContinuityJournal, Kernel,
-    KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
+    ControlAuthority, ControlCapability, ControlService, DurableContinuityJournal, FailureClass,
+    Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
     ObservabilityHealth, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource,
     RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
     TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
@@ -776,16 +776,25 @@ async fn main() -> ExitCode {
                     .to_vec(),
                 permit: None,
             };
-            if let Err(error) = resident_shepherd_executor
-                .execute(&shepherd_admission)
-                .await
-            {
-                eprintln!("runtime resident Shepherd admission failed: {error}");
-                let _ = handle.shutdown(kernel_shutdown_grace).await;
-                if let Some(observability) = observability.as_mut() {
-                    let _ = observability.shutdown().await;
+            loop {
+                match resident_shepherd_executor
+                    .execute(&shepherd_admission)
+                    .await
+                {
+                    Ok(_) => break,
+                    Err(error) if error.class == FailureClass::Retryable => {
+                        eprintln!("runtime resident Shepherd admission pending: {error}");
+                        tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                    }
+                    Err(error) => {
+                        eprintln!("runtime resident Shepherd admission failed: {error}");
+                        let _ = handle.shutdown(kernel_shutdown_grace).await;
+                        if let Some(observability) = observability.as_mut() {
+                            let _ = observability.shutdown().await;
+                        }
+                        return ExitCode::from(70);
+                    }
                 }
-                return ExitCode::from(70);
             }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
                 private_listener,

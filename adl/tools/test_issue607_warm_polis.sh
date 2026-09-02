@@ -267,6 +267,8 @@ run_contracts() {
   rg -q 'Restart=always' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'StartLimitIntervalSec=0' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q '^until python3 .*issue607_probe_runtime.py' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'sntp_server = \"169.254.169.123\"' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'find .* -name \"\*\.lock\" -delete' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'StartLimitIntervalSec=0' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl"
   ! rg -q 'for _ in \$\(seq 1 120\)' \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl" \
@@ -333,6 +335,11 @@ run_contracts() {
   rg -q 'zero_disposable_residue' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'retention-status' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   ! rg -n 'aws s3api' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  ! rg -n 'IfNoneMatch=' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'before-sign.s3.PutObject' "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl"
+  rg -q 'before-sign.s3.PutObject' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'error.class == FailureClass::Retryable' "$ROOT/adl-runtime-kernel/src/bin/adl-runtime-kernel.rs"
+  rg -q 'runtime resident Shepherd admission pending' "$ROOT/adl-runtime-kernel/src/bin/adl-runtime-kernel.rs"
   rg -Fq 'if [[ "${ADL_RUNTIME_USE_PREBUILT_BINARIES:-0}" == 1 ]]; then' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
   bash -n \
     "$ROOT/adl/tools/run_issue607_warm_polis.sh" \

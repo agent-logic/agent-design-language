@@ -19,7 +19,12 @@ s3_put() {
   python3 - "$1" "$2" "$3" "$4" <<'PY'
 import pathlib, sys, boto3
 region, bucket, key, source = sys.argv[1:]
-boto3.client("s3", region_name=region).put_object(Bucket=bucket, Key=key, Body=pathlib.Path(source).read_bytes(), IfNoneMatch="*")
+client = boto3.client("s3", region_name=region)
+client.meta.events.register(
+    "before-sign.s3.PutObject",
+    lambda request, **kwargs: request.headers.__setitem__("If-None-Match", "*"),
+)
+client.put_object(Bucket=bucket, Key=key, Body=pathlib.Path(source).read_bytes())
 PY
 }
 
@@ -58,11 +63,13 @@ rm -rf "$runtime_state"
 mkdir -p "$runtime_state"
 cp -a /mnt/adl-warm-runtime/install/runtime-state/. "$runtime_state/"
 init="$runtime_state/runtime-init.toml"
+sed -i 's#^sntp_server = .*#sntp_server = "169.254.169.123"#' "$init"
 systemd-run --unit=adl-runtime-guardian \
   --property=Restart=always \
   --property=RestartSec=1s \
   --property=StartLimitIntervalSec=0 \
-  /mnt/adl-warm-runtime/target/debug/adl-runtime-guardian --init "$init"
+  /bin/bash -c 'find "$1" -type f -name "*.lock" -delete; exec "$2" --init "$3"' \
+  _ "$runtime_state" /mnt/adl-warm-runtime/target/debug/adl-runtime-guardian "$init"
 until python3 /mnt/adl-warm-runtime/repo/adl/tools/issue607_probe_runtime.py \
   --init "$init" --state-root "$runtime_state" --output "$state/running-transport-proof.json" --timeout-seconds 15
 do

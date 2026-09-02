@@ -9,7 +9,12 @@ s3_put() {
   python3 - "$1" "$2" "$3" "$4" <<'PY'
 import pathlib, sys, boto3
 region, bucket, key, source = sys.argv[1:]
-boto3.client("s3", region_name=region).put_object(Bucket=bucket, Key=key, Body=pathlib.Path(source).read_bytes(), IfNoneMatch="*")
+client = boto3.client("s3", region_name=region)
+client.meta.events.register(
+    "before-sign.s3.PutObject",
+    lambda request, **kwargs: request.headers.__setitem__("If-None-Match", "*"),
+)
+client.put_object(Bucket=bucket, Key=key, Body=pathlib.Path(source).read_bytes())
 PY
 }
 
