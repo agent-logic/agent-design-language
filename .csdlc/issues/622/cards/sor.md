@@ -105,11 +105,11 @@ Applied bounded CI janitor fixes after PR #646 reported an adl-rust-fmt-clippy f
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
