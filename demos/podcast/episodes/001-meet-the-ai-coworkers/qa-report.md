@@ -4,7 +4,7 @@ Status: complete candidate held for human review
 
 ## Audio
 
-- Distribution MP3 SHA-256: `2ce56a2a4e3f74315f844978b9a9c344e377227cd92d4ddd0e05f338a4338cbc`
+- Distribution MP3 SHA-256: `ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c`
 - Archive WAV SHA-256: `78e1c5edac6f96bddba7faa5e35523f5dda894a4426f6f54b178ceb0bbed5572`
 - Duration: 18:32
 - WAV: 24 kHz, mono, 16-bit PCM
@@ -17,8 +17,8 @@ Status: complete candidate held for human review
 
 - ID3 version: 2.3
 - Title: Meet the AI Coworkers
-- Artist: Cognitive Spacetime
-- Album: Cognitive Spacetime
+- Artist: The Cognitive Stack
+- Album: The Cognitive Stack
 - Album artist: Agent Logic
 - Track: 1
 - Year: 2026
@@ -34,5 +34,12 @@ Status: complete candidate held for human review
 - The exact media bytes received editorial/audio review at
   `fe6f4cae4602cda099c063c4b52633425b90fc2f`; remediation after that revision
   changes provenance and package truth, not the MP3 or WAV bytes.
-- Cross-platform source-SHA-bound playback receipts remain a parent WP-24A
-  integration requirement and are not claimed by this incremental checkpoint.
+- Source-SHA-bound local HTTP playback receipts are retained for desktop Safari,
+  desktop Chrome, mobile Safari, and Android Chrome user-agent profiles at
+  `.csdlc/evidence/262/http-playback-proof.json`.
+- The issue-owned playback wrappers also retained route-specific proofs at
+  `.csdlc/evidence/262/http-playback-native-proof.json`,
+  `.csdlc/evidence/262/http-playback-browser-proof.json`, and
+  `.csdlc/evidence/262/http-playback-ios-safari-proof.json`.
+- Live directory-client account-side receipts remain a later #264 submission
+  workflow requirement.

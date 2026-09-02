@@ -1,0 +1,22 @@
+{
+    "Invalidation": {
+        "Id": "I2UGZ7OV1LP5RMRFPKE7UJ7OO9",
+        "Status": "Completed",
+        "CreateTime": "2026-09-02T05:26:01.799000+00:00",
+        "InvalidationBatch": {
+            "Paths": {
+                "Quantity": 7,
+                "Items": [
+                    "/podcast/artwork.png",
+                    "/podcast/feed.xml",
+                    "/podcast/episodes/meet-the-ai-coworkers/index.html",
+                    "/podcast/",
+                    "/podcast/episodes/meet-the-ai-coworkers/",
+                    "/podcast/index.html",
+                    "/podcast/audio/meet-the-ai-coworkers.mp3"
+                ]
+            },
+            "CallerReference": "cli-1788326761-258395"
+        }
+    }
+}
