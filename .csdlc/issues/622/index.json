@@ -4,13 +4,53 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "06f73873b1fd970d3ec70a23beaa15001f6d98a6cb1b7fdedd75f5f64fad1a9b",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "143a9b9dc4821a62adf681bd2a0374b4be62cf3608c34e9c48e3717c0fd32272",
   "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_622_exact_head_2",
+    "assigned_by": "codex:/root:issue-622-implementation",
+    "revision": "git-blake3:76d588b0e6ca3446794d7487ce46facfb3d06cde:2c2a710e8f40160c503b340ef5170052ac06aefb5dbc69f8d24ebc22baf450a3",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md",
+      "post-review fixes for production startup, credential-value rejection, provider reload generation, validation truth, and PR-readiness"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_622_exact_head_2",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md",
+      "post-review fixes for production startup, credential-value rejection, provider reload generation, validation truth, and PR-readiness"
+    ],
+    "reviewed_revision": "git-blake3:76d588b0e6ca3446794d7487ce46facfb3d06cde:2c2a710e8f40160c503b340ef5170052ac06aefb5dbc69f8d24ebc22baf450a3",
+    "findings": [],
+    "residual_risks": [
+      "Focused local validation passed for the #622 production and safety lanes; broader unrelated binary compile surfaces remain outside this issue's proof claim.",
+      "Review was anchored to immutable commit 76d588b0e6ca3446794d7487ce46facfb3d06cde; later lifecycle metadata must remain metadata-only before publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f7813e784824821241595a15346e5615f3111b2b165c51220ed6a894611b142",
+      "values_digest": "38cf18f07c78126ecf8305771b07c1b292dcc64e3d005021160814c8e0cbb250",
       "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
       "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
     },
     "stp": {
-      "values_digest": "3d7ceefdc4c9f1da53b96e96cdf2d9cd713d6e87fedde1491ba3555411ddbcb5",
+      "values_digest": "c081236f1caf1a4d8d404d43a801a8c6eddce1c9d0512027bbac9e74536f1e4c",
       "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
       "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
     },
     "spp": {
-      "values_digest": "4e525f718fc098b4aea835806f3d0e0271aa43f44d68a0562d9503d9683119e0",
+      "values_digest": "c706bce85b5a8870d3a3a8755576434becacf9e66768dc37481ac0560a3ae6bc",
       "rendered_digest": "cbd5bc3401a6967f6fb383c01b6d927f7d8b22356e20a53da1239f5a8b942b8a",
       "ast_digest": "f50038f904ded4622355bb9aa2e01c666aaef02f27a757a0779a5425aad9f191"
     },
     "vpp": {
-      "values_digest": "1164cef0d16300a0075cf68f785336630ba2cdb3c4a37e83efd9b5d06895df99",
+      "values_digest": "cbe03872442a9d0b304621dd554fb15c8f7b381334639054cb8620eab33d0e50",
       "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
       "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
     },
     "srp": {
-      "values_digest": "25d33bd81da8eaf610159239eb14d37e8e210cf50d28a5c96d200cd959b4caf5",
-      "rendered_digest": "7d5f81f9ea849204b89285ff66ae2df3380812717ddd66a17954d3b93574740e",
-      "ast_digest": "c874784ae80d00f7917c5b9bc1e91c5874aac5aa2383e0c85f847a09c5276dfa"
+      "values_digest": "04bd3f377b926bd5aa3e12174045247641e28e8cb99b24e38ce0e854bf855669",
+      "rendered_digest": "7b3f7bc90fad1816f896e294cf405def0ab9776fb5cad2193ea6236637f7256d",
+      "ast_digest": "30555f27c882a0b71a07b70fb94db544b00db9984b531ba456dbca988b9f082a"
     },
     "sor": {
-      "values_digest": "8402025e6c7cbb6ce3ed6ca6c4d54f2770ee3d82ab910d0aebb55841d01d84a0",
+      "values_digest": "826a78019699d3ac640fdbd44c5d86584b2fdfe49cd652fe70f8dd29cd968ead",
       "rendered_digest": "d4e93354e679adb1cd97100c6166695e47fd4501282a2e53fd65136e6cb20e4f",
       "ast_digest": "40714f6836abde616038b25d870f77a31c8eb11d854655a49cd0b2a01c6c0b09"
     }
@@ -76,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-622-implementation",
       "reason": "Advance #622 after implementing production provider/profile hot loading, documenting behavior, and passing the declared focused production and safety validation lanes."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -169,6 +216,20 @@
       "actor": "codex:/root:issue-622-implementation",
       "reason": "Record refreshed #622 safety validation after exact-head review fixes.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"safety\"],\"purpose\":\"Prove the refreshed safety lane after exact-head review fixes, including runtime-kernel debounce/shutdown, stronger credential rejection, generation truth, production tick proof, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-post-review-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
