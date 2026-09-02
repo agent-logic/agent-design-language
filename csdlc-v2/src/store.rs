@@ -857,12 +857,10 @@ impl Store {
                     )
                 })?;
                 if Some(publication.pull_request) != envelope.pull_request {
-                    if !historical_merged_supersedes_stale_publication(publication, envelope) {
-                        return Err(V2Error::new(
-                            ErrorCode::ReconciliationRequired,
-                            "terminal materialization PR does not match publication evidence",
-                        ));
-                    }
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "terminal materialization PR does not match publication evidence",
+                    ));
                 }
             }
             crate::finish::FinishDisposition::ClosedNoPr => {
@@ -925,7 +923,6 @@ impl Store {
                 ),
             };
         if let Some(publication) = record.publication.as_mut() {
-            reconcile_historical_terminal_publication(publication, envelope);
             publication.observed_state = observed_state.into();
         }
 
@@ -3607,42 +3604,24 @@ fn approve_design_with_hook(
             record.design_review,
             DesignReview::Pending | DesignReview::ChangesRequired { .. }
         );
-    let stale_design_references =
-        [CardKind::Spp, CardKind::Vpp]
-            .iter()
-            .all(|kind| match &cards[kind].content {
-                CardContent::Spp(values) => {
-                    values.design_ref == record.design_path
-                        && values.diagram_ref == record.diagram_path
-                }
-                CardContent::Vpp(values) => {
-                    values.design_ref == record.design_path
-                        && values.diagram_ref == record.diagram_path
-                }
-                _ => unreachable!("design-bearing card"),
-            })
-            && [CardKind::Spp, CardKind::Vpp]
-                .iter()
-                .any(|kind| match &cards[kind].content {
-                    CardContent::Spp(values) => {
-                        values.design_digest != design_digest
-                            || values.diagram_digest != diagram_digest
-                    }
-                    CardContent::Vpp(values) => {
-                        values.design_digest != design_digest
-                            || values.diagram_digest != diagram_digest
-                    }
-                    _ => unreachable!("design-bearing card"),
-                });
     let initialized_reapproval = record.phase == LifecyclePhase::Initialized
         && matches!(record.design_review, DesignReview::Approved { .. })
-        && stale_design_references;
+        && [CardKind::Spp, CardKind::Vpp]
+            .iter()
+            .any(|kind| match &cards[kind].content {
+                CardContent::Spp(values) => {
+                    values.design_digest != design_digest || values.diagram_digest != diagram_digest
+                }
+                CardContent::Vpp(values) => {
+                    values.design_digest != design_digest || values.diagram_digest != diagram_digest
+                }
+                _ => unreachable!("design-bearing card"),
+            });
     let ready_reapproval = record.phase == LifecyclePhase::Ready
-        && (matches!(
+        && matches!(
             record.design_review,
             DesignReview::Pending | DesignReview::ChangesRequired { .. }
-        ) || (matches!(record.design_review, DesignReview::Approved { .. })
-            && stale_design_references))
+        )
         && record.branch.is_none()
         && record.worktree.is_none()
         && record.review_assignment.is_none()
@@ -6909,34 +6888,6 @@ fn terminal_cards_match_disposition(
     spp_complete && sor_complete
 }
 
-fn historical_merged_supersedes_stale_publication(
-    publication: &PublicationEvidence,
-    envelope: &crate::finish::DerivedTerminalEnvelope,
-) -> bool {
-    envelope.source == "live_github_historical_reconciliation"
-        && envelope.disposition == crate::finish::FinishDisposition::Merged
-        && envelope.issue_state == "closed_by_merged_pr"
-        && envelope.pull_request.is_some()
-        && publication.observed_state != "merged"
-}
-
-fn reconcile_historical_terminal_publication(
-    publication: &mut PublicationEvidence,
-    envelope: &crate::finish::DerivedTerminalEnvelope,
-) {
-    if let Some(pull_request) = envelope.pull_request {
-        if publication.pull_request != pull_request
-            && historical_merged_supersedes_stale_publication(publication, envelope)
-        {
-            publication.pull_request = pull_request;
-            publication.url = format!(
-                "https://github.com/{}/pull/{}",
-                publication.repository, pull_request
-            );
-        }
-    }
-}
-
 fn terminal_matches_derived(
     record: &IssueRecord,
     envelope: &crate::finish::DerivedTerminalEnvelope,
@@ -8088,125 +8039,6 @@ mod edit_authorization_tests {
         }
     }
 }
-#[cfg(test)]
-mod terminal_materialization_policy_tests {
-    use super::*;
-
-    fn publication(pull_request: u64, observed_state: &str) -> PublicationEvidence {
-        PublicationEvidence {
-            repository: "agent-logic/agent-design-language".into(),
-            issue: 604,
-            pull_request,
-            url: format!(
-                "https://github.com/agent-logic/agent-design-language/pull/{pull_request}"
-            ),
-            base: "main".into(),
-            head: "codex/604".into(),
-            revision: "git-blake3:published:metadata".into(),
-            linkage_mode: Some(crate::publication::PublicationLinkageMode::Closing),
-            draft: false,
-            observed_state: observed_state.into(),
-        }
-    }
-
-    fn envelope(
-        pull_request: Option<u64>,
-        disposition: crate::finish::FinishDisposition,
-        issue_state: &str,
-        source: &str,
-    ) -> crate::finish::DerivedTerminalEnvelope {
-        crate::finish::DerivedTerminalEnvelope {
-            schema: "csdlc.derived_terminal.v1".into(),
-            issue: 604,
-            repository: "agent-logic/agent-design-language".into(),
-            initialization_digest: "initialization".into(),
-            canonical_generation: 27,
-            canonical_digest: "published-digest".into(),
-            pull_request,
-            disposition,
-            head_sha: Some("505597ccb1199443caebb5ef92c2b3f63ff82420".into()),
-            merge_sha: Some("ecdcd2a37dc029f9dee8b5de24a25339b25e5f22".into()),
-            issue_state: issue_state.into(),
-            pr_state: Some("closed".into()),
-            approved_reason: None,
-            observed_unix_seconds: 1_788_305_464,
-            mutable_fresh_until_unix_seconds: None,
-            source: source.into(),
-            digest: "terminal-digest".into(),
-        }
-    }
-
-    #[test]
-    fn historical_merged_terminal_can_supersede_stale_open_publication_pr() {
-        let mut publication = publication(612, "open");
-        let envelope = envelope(
-            Some(610),
-            crate::finish::FinishDisposition::Merged,
-            "closed_by_merged_pr",
-            "live_github_historical_reconciliation",
-        );
-
-        assert!(historical_merged_supersedes_stale_publication(
-            &publication,
-            &envelope
-        ));
-
-        reconcile_historical_terminal_publication(&mut publication, &envelope);
-        assert_eq!(publication.pull_request, 610);
-        assert_eq!(
-            publication.url,
-            "https://github.com/agent-logic/agent-design-language/pull/610"
-        );
-    }
-
-    #[test]
-    fn terminal_publication_supersession_rejects_forgeable_or_terminal_inputs() {
-        let historical = envelope(
-            Some(610),
-            crate::finish::FinishDisposition::Merged,
-            "closed_by_merged_pr",
-            "live_github_historical_reconciliation",
-        );
-        assert!(!historical_merged_supersedes_stale_publication(
-            &publication(612, "merged"),
-            &historical
-        ));
-
-        let synthetic = envelope(
-            Some(610),
-            crate::finish::FinishDisposition::Merged,
-            "closed_by_merged_pr",
-            "caller_supplied",
-        );
-        assert!(!historical_merged_supersedes_stale_publication(
-            &publication(612, "open"),
-            &synthetic
-        ));
-
-        let closed_unmerged = envelope(
-            Some(610),
-            crate::finish::FinishDisposition::ClosedUnmerged,
-            "closed_by_merged_pr",
-            "live_github_historical_reconciliation",
-        );
-        assert!(!historical_merged_supersedes_stale_publication(
-            &publication(612, "open"),
-            &closed_unmerged
-        ));
-
-        let no_pr = envelope(
-            None,
-            crate::finish::FinishDisposition::Merged,
-            "closed_by_merged_pr",
-            "live_github_historical_reconciliation",
-        );
-        assert!(!historical_merged_supersedes_stale_publication(
-            &publication(612, "open"),
-            &no_pr
-        ));
-    }
-}
-
 #[cfg(test)]
 mod pre_field_compatibility_tests {
     use super::*;

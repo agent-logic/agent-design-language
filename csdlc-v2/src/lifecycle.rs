@@ -92,26 +92,6 @@ fn existing_bound_issue_local(
         && stored_worktree == Some(requested)
 }
 
-fn ready_unbound_issue_current_worktree_adoption(
-    record: &crate::IssueRecord,
-    requested: &Path,
-    current_root: &Path,
-    current_branch: &str,
-    requested_branch: &str,
-) -> bool {
-    requested == current_root
-        && current_branch == requested_branch
-        && record.phase == crate::LifecyclePhase::Ready
-        && record.branch.is_none()
-        && record.worktree.is_none()
-        && record.review_assignment.is_none()
-        && record.review.is_none()
-        && record.publication.is_none()
-        && record.readiness.is_none()
-        && record.migration.is_none()
-        && record.terminal.is_none()
-}
-
 fn clean_relative(value: &str) -> bool {
     !value.is_empty()
         && Path::new(value)
@@ -706,8 +686,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let wanted = requested_worktree(store.root(), &request.worktree)?;
     let wanted_text = wanted.to_string_lossy().into_owned();
     let current_root = store.root().canonicalize()?;
-    let prelock_record = store.load_record(request.issue)?;
-    let stored_worktree = prelock_record
+    let current_record = store.load_record(request.issue)?;
+    let stored_worktree = current_record
         .worktree
         .as_deref()
         .map(|value| requested_worktree(store.root(), value))
@@ -715,30 +695,21 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let issue_local = wanted.exists()
         && wanted.canonicalize().ok().as_ref() == Some(&current_root)
         && existing_bound_issue_local(
-            prelock_record.phase,
-            prelock_record.branch.as_deref(),
+            current_record.phase,
+            current_record.branch.as_deref(),
             &wanted,
             &current_root,
             &git::current_branch(store.root())?,
             &request.branch,
             stored_worktree.as_deref(),
         );
-    let policy_required = requires_worktree_policy(&prelock_record.repository);
+    let policy_required = requires_worktree_policy(&current_record.repository);
     if !issue_local {
         enforce_worktree_policy(store.root(), &wanted, policy_required)?;
     }
-    let current_branch = git::current_branch(store.root())?;
 
     let _lock = store.binding_lock()?;
     let _issue_lock = store.authority_projection_lock(request.issue)?;
-    let current_record = store.load_record(request.issue)?;
-    let ready_adoption = ready_unbound_issue_current_worktree_adoption(
-        &current_record,
-        &wanted,
-        &current_root,
-        &current_branch,
-        &request.branch,
-    );
     let source_diagnosis = crate::doctor::diagnose_with_code_repository(
         store,
         request.issue,
@@ -764,7 +735,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         ));
     }
 
-    if !issue_local && !ready_adoption && current_branch != request.base_branch {
+    if !issue_local && git::current_branch(store.root())? != request.base_branch {
         return Err(V2Error::new(
             ErrorCode::UnsafeCheckout,
             "binding must start from the declared base branch or the exact issue worktree",
@@ -964,11 +935,9 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 mod fastwork_policy_tests {
     use super::{
         canonical_topology_root, enforce_worktree_policy, existing_bound_issue_local,
-        ready_unbound_issue_current_worktree_adoption, reject_primary_checkout_bootstrap,
-        requires_worktree_policy,
+        reject_primary_checkout_bootstrap, requires_worktree_policy,
     };
-    use crate::{DesignReview, ErrorCode, IssueRecord, LifecyclePhase};
-    use std::collections::BTreeMap;
+    use crate::{ErrorCode, LifecyclePhase};
     use std::fs;
     use std::path::Path;
     use std::process::Command;
@@ -1050,82 +1019,6 @@ mod fastwork_policy_tests {
             "codex/5911",
             "codex/5911",
             Some(path),
-        ));
-    }
-
-    fn ready_unbound_record() -> IssueRecord {
-        IssueRecord {
-            schema: "csdlc.issue.index.v1".into(),
-            issue: 596,
-            repository: "agent-logic/agent-design-language".into(),
-            code_repository: None,
-            initialization_digest: "initialization".into(),
-            phase: LifecyclePhase::Ready,
-            generation: 4,
-            digest: "digest".into(),
-            branch: None,
-            worktree: None,
-            review_assignment: None,
-            review: None,
-            publication: None,
-            readiness: None,
-            terminal: None,
-            migration: None,
-            design_path: ".csdlc/prepared/issues/596/design.md".into(),
-            diagram_path: ".csdlc/prepared/issues/596/diagram.mmd".into(),
-            design_review: DesignReview::Approved {
-                reviewer: "fresh-session:11111111-1111-4111-8111-111111111111".into(),
-                revision: "design".into(),
-            },
-            cards: BTreeMap::new(),
-            transitions: Vec::new(),
-            audit: Vec::new(),
-        }
-    }
-
-    #[test]
-    fn ready_unbound_current_worktree_can_be_adopted_without_base_checkout() {
-        let record = ready_unbound_record();
-        let path = Path::new("/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes");
-        assert!(ready_unbound_issue_current_worktree_adoption(
-            &record,
-            path,
-            path,
-            "codex/sprints-5-6-cutover-fixes",
-            "codex/sprints-5-6-cutover-fixes",
-        ));
-    }
-
-    #[test]
-    fn ready_unbound_adoption_rejects_topology_or_later_lifecycle_evidence() {
-        let path = Path::new("/Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes");
-        let mut record = ready_unbound_record();
-        record.branch = Some("codex/sprints-5-6-cutover-fixes".into());
-        assert!(!ready_unbound_issue_current_worktree_adoption(
-            &record,
-            path,
-            path,
-            "codex/sprints-5-6-cutover-fixes",
-            "codex/sprints-5-6-cutover-fixes",
-        ));
-
-        let mut record = ready_unbound_record();
-        record.phase = LifecyclePhase::Reviewed;
-        assert!(!ready_unbound_issue_current_worktree_adoption(
-            &record,
-            path,
-            path,
-            "codex/sprints-5-6-cutover-fixes",
-            "codex/sprints-5-6-cutover-fixes",
-        ));
-
-        let record = ready_unbound_record();
-        assert!(!ready_unbound_issue_current_worktree_adoption(
-            &record,
-            path,
-            path,
-            "main",
-            "codex/sprints-5-6-cutover-fixes",
         ));
     }
 
