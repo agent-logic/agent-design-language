@@ -1,0 +1,28 @@
+{
+  "schema": "adl.issue498.counsel_boundary_receipts.v1",
+  "issue": 498,
+  "planned_id": "CORP-D",
+  "status": "receipt_only",
+  "receipts": [
+    {
+      "receipt_id": "corp-a-public-github-closure",
+      "planned_id": "CORP-A",
+      "visibility": "public",
+      "receipt_ref": "GitHub issue #482 and merged PR #545"
+    },
+    {
+      "receipt_id": "corp-b-public-github-closure",
+      "planned_id": "CORP-B",
+      "visibility": "public",
+      "receipt_ref": "GitHub issue #483 and merged PR #562"
+    },
+    {
+      "receipt_id": "corp-c-public-github-closure",
+      "planned_id": "CORP-C",
+      "visibility": "public",
+      "receipt_ref": "GitHub issue #497, merged PR #613, Sprint umbrella #532, and sidecar issue #624"
+    }
+  ],
+  "withheld_material_policy": "Counsel-controlled judgment material, non-public diligence material, credentials, recovery factors, and account identifiers are outside the retained repository evidence.",
+  "validated_by": ".csdlc/prepared/issues/498/validate-counsel-boundary.rb"
+}
