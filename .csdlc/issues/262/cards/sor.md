@@ -76,6 +76,39 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
     "purpose": "Reject whitespace and conflict-marker residue across the exact #262 post-remediation reviewable diff.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "--profile",
+      "all",
+      "--output",
+      ".csdlc/evidence/262/http-playback-proof.json"
+    ],
+    "purpose": "Retain source-SHA-bound local HTTP playback proof for The Cognitive Stack feed, pages, MP3 HEAD behavior, and first/tail 206 byte-range requests across desktop Safari, desktop Chrome, mobile Safari, and Android Chrome user-agent profiles.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/http-playback-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack feed, pages, enclosure metadata, MP3 ID3 metadata, mailbox/artwork dependency truth, retained HTTP playback proof, wrapper playback receipts, and stale-name/path hygiene.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 post-R2 playback-proof remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
   }
 ]
 

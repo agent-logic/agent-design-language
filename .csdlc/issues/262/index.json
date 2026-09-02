@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "d46a2696e8c37bbf1f9b71473d1faa6f2b688d737595f18c15b6ea872672ebe3",
+  "generation": 14,
+  "digest": "2ab7caa543e4b4a97eaf4c9879780780ee476a7cb5369b285a805ad20af75146",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ea8272f2d648b234e0fcbe65ee877b06798771e84b8ee65b41fc800e6ca02321",
+      "values_digest": "e7988dd49dd6ddc4e8d59d8c390df43ab1b54a952e04fc78a2adf19f5e2abe09",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "d78c1729c8d6a0072aee7a4dff12d6842ebb7b456404f0dcf1bba0ac10645e0f",
+      "values_digest": "5f2493fe862da6db5288504b3cf911bc60ba5048d8970861e435e8bb1edd9fdc",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "16fa6bfe4ce811f1a2fdb246e591c5ff2e53a4bbf9c1ddccff0c1b5af3646c03",
+      "values_digest": "2dea775f27a13dda9cb9a1f204b18e1283c379fb2a996f2620132144e7323a4b",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "2abada9faea96f9a016de976ed26cf766fc499d67bea15f23db0c942fe304660",
+      "values_digest": "cc022467eec89d534fe99ea5a1d5856688b34af4f85c65c4bc3051c9319d9944",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "2787c4e8ed586e5570a9e1dfe981f4dd372a8450d1e58b4020c17494b94fd33e",
+      "values_digest": "7808326f796b117dde2ef6f9122365ad329d28f51cbb41c2fed521d3ea39d40b",
       "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
       "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
     },
     "sor": {
-      "values_digest": "2c00b4c02ae12affaae15961fcac9030e40d83a969fd904a76d5f3c3ee3c28c1",
-      "rendered_digest": "937856595802571a34aa1e5835a28abd7c406efc21f3f1519745daeab3cbd914",
-      "ast_digest": "4b641c986c1d5d317885357547f2bf46fb7bfd991ceb33fc43815ec5f99a2f23"
+      "values_digest": "adb3860f6d6a6cb31909f318de85a15a232adecedb02fbeb0b38ed2818200634",
+      "rendered_digest": "843b048b59470d8286992c6ad0ddfbca18d8f0aef3aaa0971ea52d3a4c87c341",
+      "ast_digest": "9712c9af05379927a9deb0b59004fbd3349085807fee6fc3f959129546128ed7"
     }
   },
   "transitions": [
@@ -183,6 +183,27 @@
       "actor": "codex:root/podcast-262",
       "reason": "Recover after assigned #262 R2 review found AC-3 HTTP HEAD, GET, 206 byte-range, and representative playback proof was missing; prepare a remediated exact-head candidate with retained proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R2 retained HTTP playback proof for HEAD, GET, and 206 byte-range behavior across desktop and mobile user-agent profiles.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/record-podcast-http-playback.rb\",\"--profile\",\"all\",\"--output\",\".csdlc/evidence/262/http-playback-proof.json\"],\"purpose\":\"Retain source-SHA-bound local HTTP playback proof for The Cognitive Stack feed, pages, MP3 HEAD behavior, and first/tail 206 byte-range requests across desktop Safari, desktop Chrome, mobile Safari, and Android Chrome user-agent profiles.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/http-playback-proof.json\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-R2 focused validation after binding HTTP playback proof into the issue validator denominator.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate The Cognitive Stack feed, pages, enclosure metadata, MP3 ID3 metadata, mailbox/artwork dependency truth, retained HTTP playback proof, wrapper playback receipts, and stale-name/path hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 R2 playback-proof remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 post-R2 playback-proof remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
     }
   ]
 }
