@@ -7,6 +7,7 @@ issue_dir="$repo_root/.csdlc/issues/632"
 sprint_dir="$git_common_dir/csdlc-v2/requests/v0921-v3-full-command-sprint"
 coverage="$repo_root/.csdlc/prepared/issues/632/command-route-coverage.json"
 evidence="$repo_root/.csdlc/prepared/issues/632/canary-evidence-index.md"
+v3_help="$(cargo run --locked --manifest-path "$repo_root/csdlc-v3/Cargo.toml" --bin csdlc -- --help 2>&1)"
 
 test -f "$issue_dir/index.json"
 test -f "$sprint_dir/SPRINT_EXECUTION_PACKET.md"
@@ -14,15 +15,17 @@ test -f "$sprint_dir/DEFECTS.md"
 test -f "$coverage"
 test -f "$evidence"
 
-python3 - "$sprint_dir/SPRINT_EXECUTION_PACKET.md" "$sprint_dir/DEFECTS.md" "$coverage" "$evidence" <<'PY'
+V3_HELP="$v3_help" python3 - "$sprint_dir/SPRINT_EXECUTION_PACKET.md" "$sprint_dir/DEFECTS.md" "$coverage" "$evidence" <<'PY'
 from pathlib import Path
 import json
+import os
 import sys
 
 packet = Path(sys.argv[1]).read_text()
 defects = Path(sys.argv[2]).read_text()
 coverage = json.loads(Path(sys.argv[3]).read_text())
 evidence = Path(sys.argv[4]).read_text()
+v3_help = os.environ["V3_HELP"]
 
 required_routes = [
     "prepare/init",
@@ -49,6 +52,29 @@ if "#505" not in packet or "cutover" not in packet.lower():
 
 if coverage.get("cutover_ready") is not False:
     raise SystemExit("coverage matrix must not claim cutover readiness")
+
+advertised = set(coverage.get("current_v3_cli_advertised_commands", []))
+if advertised != {"foundation", "local"}:
+    raise SystemExit(f"coverage matrix has stale advertised v3 commands: {sorted(advertised)}")
+
+for command in advertised:
+    if f"  {command} " not in v3_help and f"  {command}\n" not in v3_help:
+        raise SystemExit(f"current v3 CLI help does not advertise {command}")
+
+for unavailable in [
+    "cleanup",
+    "cutover",
+    "finish",
+    "github",
+    "install",
+    "proof",
+    "publish",
+    "review",
+    "shadow",
+    "soak",
+]:
+    if f"  {unavailable} " in v3_help or f"  {unavailable}\n" in v3_help:
+        raise SystemExit(f"validator expectation is stale: v3 CLI now advertises {unavailable}")
 
 routes = coverage.get("routes", [])
 if coverage.get("route_count") != 21 or len(routes) != 21:
@@ -80,7 +106,24 @@ for entrypoint in [
     if not any(route.get("v2_entrypoint") == entrypoint for route in routes):
         raise SystemExit(f"coverage matrix missing {entrypoint}")
 
-for marker in ["#631 PR #644", "DEFECT-019", "DEFECT-020", "not cutover-ready"]:
+for route in routes:
+    if "v3_route" in route:
+        raise SystemExit(f"{route['v2_entrypoint']} uses legacy v3_route availability claim")
+    if not route.get("planned_v3_route"):
+        raise SystemExit(f"{route['v2_entrypoint']} lacks planned_v3_route")
+    current = route.get("current_v3_cli_command")
+    status = route.get("status", "")
+    if current is not None and current not in advertised:
+        raise SystemExit(f"{route['v2_entrypoint']} claims unadvertised current v3 command {current}")
+    if status == "planned_not_exposed" and current is not None:
+        raise SystemExit(f"{route['v2_entrypoint']} is planned_not_exposed but has current command")
+    if status == "current_cli_command_exposed_non_authoritative" and current is None:
+        raise SystemExit(f"{route['v2_entrypoint']} claims exposed command without naming it")
+
+if not any(route.get("current_v3_cli_command") is None for route in routes):
+    raise SystemExit("coverage matrix must retain planned-not-exposed routes before #505")
+
+for marker in ["#631 PR #644", "DEFECT-019", "DEFECT-020", "not cutover-ready", "foundation", "local"]:
     if marker not in evidence:
         raise SystemExit(f"canary evidence index missing {marker}")
 

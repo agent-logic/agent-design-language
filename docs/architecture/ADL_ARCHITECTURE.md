@@ -118,9 +118,9 @@ The task bundle lifecycle is:
 6. Typed C-SDLC v2 finish reconciles live GitHub closure, PR merge state, and
    terminal card truth.
 7. Typed C-SDLC v2 cleanup removes only the exact registered worktree after
+   terminal evidence permits it.
 
 The canonical card sequence is `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.
-   terminal evidence permits it.
 
 This split is important for ADL because many failures in prior milestones were
 not code failures. They were truth-model failures: closed GitHub issues with

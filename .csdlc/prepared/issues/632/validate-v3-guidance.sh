@@ -30,6 +30,8 @@ for terms in required_terms:
 architecture = (root / "docs/architecture/ADL_ARCHITECTURE.md").read_text()
 if "SIP -> STP -> SPP -> VPP -> SRP -> SOR" not in architecture:
     raise SystemExit("architecture doc does not preserve six-card lifecycle including VPP")
+if "cleanup removes only the exact registered worktree after\n   terminal evidence permits it" not in architecture:
+    raise SystemExit("architecture doc has malformed cleanup lifecycle guidance")
 
 onboarding = (root / "docs/onboarding.md").read_text()
 if "v3" not in onboarding.lower():
@@ -38,6 +40,7 @@ if "v3" not in onboarding.lower():
 for text in [
     "Status: advance notice only",
     "C-SDLC v3 is not the live authority yet",
+    "advertises only `foundation` and `local`",
     "Raw `gh` lifecycle writes remain prohibited",
     "Closes #<issue>",
 ]:

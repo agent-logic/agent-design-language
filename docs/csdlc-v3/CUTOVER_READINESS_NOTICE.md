@@ -26,6 +26,7 @@ one binary.
 
 The v3 replacement is not cutover-ready. The current #632 evidence records:
 
+- the current `csdlc-v3` CLI advertises only `foundation` and `local`;
 - green construction/readiness PRs for the current V3-H lanes;
 - a fail-closed #631 stacked PR closing-linkage defect;
 - a fresh-worktree install/startup defect that affects the three-minute issue

@@ -8,6 +8,12 @@ C-SDLC v2 remains the only live lifecycle authority until #505 is explicitly
 reviewed, approved, merged, and terminally reconciled. This packet is
 construction/canary readiness evidence for v3, not authority cutover.
 
+The current `csdlc-v3` CLI advertises only two commands: `foundation` and
+`local`. The one-binary routes in `command-route-coverage.json` are target
+surface names unless their `current_v3_cli_command` field names one of those
+advertised commands. Planned routes without an advertised command are
+cutover-blocking work, not usable operator routes.
+
 ## Live typed observations captured in this lane
 
 - #632 GitHub issue read through `csdlc-github-issue`: pass; issue is open.
@@ -38,6 +44,6 @@ construction/canary readiness evidence for v3, not authority cutover.
 
 Before #505 can close, every route in
 `.csdlc/prepared/issues/632/command-route-coverage.json` must be either
-behaviorally proven through a real issue canary, proven by an explicitly
-accepted deterministic fixture, or retained as a named cutover blocker with
-operator-approved disposition.
+exposed by the actual `csdlc` CLI and behaviorally proven through a real issue
+canary, proven by an explicitly accepted deterministic fixture, or retained as a
+named cutover blocker with operator-approved disposition.

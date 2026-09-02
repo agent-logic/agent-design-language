@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Prepared the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, repaired the six-card architecture invariant, and added a pre-cutover notice while preserving v2 as live authority.
+Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, corrected docs/architecture guidance, and strengthened the canary validator so it distinguishes planned v3 routes from the current CLI commands actually advertised before #505.
 
 ## Artifacts
 
@@ -24,6 +24,7 @@ Prepared the V3-H.6 real-canary and operator-readiness packet, captured stacked 
 - .csdlc/prepared/issues/632/validate-v3-canary-readiness.sh
 - .csdlc/prepared/issues/632/validate-v3-guidance.sh
 - .csdlc/prepared/issues/632/validate-sprint-review-readiness.sh
+- .csdlc/prepared/issues/632/replace-execution-after-review-fixes.json
 - docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md
 - csdlc-v3/README.md
 - docs/architecture/ADL_ARCHITECTURE.md
@@ -34,9 +35,11 @@ Prepared the V3-H.6 real-canary and operator-readiness packet, captured stacked 
 - Bootstrapped and bound #632 through typed C-SDLC v2 in FastWork prep and execution worktrees.
 - Captured DEFECT-019 for stacked PR closing-linkage and typed retarget gaps, and DEFECT-020 for fresh-worktree install/bootstrap fragility.
 - Added a 21-entry command-route coverage matrix that remains explicitly not cutover-ready.
-- Added a canary evidence index distinguishing real typed observations, non-claims, and remaining proof needs.
+- Repaired the route coverage matrix so planned one-binary routes are not treated as current CLI availability unless they name an advertised `foundation` or `local` command.
+- Strengthened the canary readiness validator to inspect current `csdlc-v3` help output and fail if the matrix claims unavailable commands.
+- Added a canary evidence index distinguishing real typed observations, non-claims, current CLI exposure, and remaining proof needs.
 - Added an operator-facing C-SDLC v3 cutover readiness notice and linked it from the v3 README.
-- Corrected the architecture invariant so the mandatory card lifecycle includes VPP.
+- Corrected the architecture invariant so the mandatory card lifecycle includes VPP and repaired the cleanup lifecycle sentence.
 
 ## Validation
 
@@ -46,9 +49,9 @@ Prepared the V3-H.6 real-canary and operator-readiness packet, captured stacked 
       "bash",
       ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh"
     ],
-    "purpose": "Prove the #632 route coverage matrix and retained canary defect packet account for the V3-H command replacement surface without claiming cutover readiness.",
+    "purpose": "Prove the #632 route coverage matrix and retained canary defect packet account for the V3-H command replacement surface without claiming cutover readiness, and verify claimed current v3 CLI commands against actual `csdlc-v3 --help` output.",
     "outcome": "passed",
-    "evidence_ref": "issue-632-canary-readiness.log"
+    "evidence_ref": "console: v3 canary readiness packet: pass"
   },
   {
     "command": [
@@ -57,7 +60,7 @@ Prepared the V3-H.6 real-canary and operator-readiness packet, captured stacked 
     ],
     "purpose": "Prove docs, AGENTS guidance, architecture lifecycle text, and the v3 readiness notice preserve the pre-cutover and post-cutover authority boundary.",
     "outcome": "passed",
-    "evidence_ref": "issue-632-guidance-scan.log"
+    "evidence_ref": "console: v3 guidance scan: pass"
   },
   {
     "command": [
@@ -66,7 +69,30 @@ Prepared the V3-H.6 real-canary and operator-readiness packet, captured stacked 
     ],
     "purpose": "Prove the sprint packet still names the six child issues, keeps review out of child issue count, and retains the latest #631 publication-topology defect.",
     "outcome": "passed",
-    "evidence_ref": "issue-632-sprint-review-readiness.log"
+    "evidence_ref": "console: sprint review readiness: pass"
+  },
+  {
+    "command": [
+      ".adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "632"
+    ],
+    "purpose": "Prove typed #632 lifecycle structure remains valid after review-fix documentation and canary packet repairs.",
+    "outcome": "passed",
+    "evidence_ref": "console: status pass, phase implemented"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Prove the exact current worktree diff has no whitespace hygiene failures.",
+    "outcome": "passed",
+    "evidence_ref": "console: no output"
   }
 ]
 
