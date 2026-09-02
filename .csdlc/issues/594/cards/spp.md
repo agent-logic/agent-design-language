@@ -16,7 +16,7 @@ Define the Terraform archive boundary, add bounded Vector delivery, prove failur
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -90,13 +90,13 @@ Revision 3
 
 .csdlc/prepared/issues/594/design.md
 
-Digest: 4ac3cc1666ee202af1481487b36a95cb723f2732eed7793c208fb4fd0dc7ef42
+Digest: d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de
 
 ## Diagram
 
 .csdlc/prepared/issues/594/diagram.mmd
 
-Digest: 66de3337b41d7f1d7c4138d327ac51bf31b082a76a7f31bf7f276b7d9b47291a
+Digest: b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b
 
 ## Stop Conditions
 

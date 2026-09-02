@@ -24,12 +24,12 @@ One bounded Runtime-to-Vector-to-S3 archival path and its Terraform, focused tes
 
 ## Acceptance
 
-1. AC-1: Redacted logs arrive on a documented bounded cadence under environment, Polis, Runtime instance, and UTC date prefixes
-2. AC-2: The bucket blocks public access, encrypts and versions objects, and applies declared retention lifecycle controls
-3. AC-3: Publisher IAM is restricted to required bucket metadata and exact-prefix object writes
-4. AC-4: S3 denial or outage leaves Runtime readiness and operation intact while buffering, retry, and failure telemetry remain bounded
-5. AC-5: A separately authorized live proof retrieves and validates one archived object without exposing sensitive content
-6. AC-6: Lifecycle execution uses typed v2 authority unless and until explicit v3 cutover is recorded
+1. AC-1: Only runtime_v3_redacted records enter keys matching logs/env=<env>/polis=<polis>/runtime=<runtime>/year=<YYYY>/month=<MM>/day=<DD>/hour=<HH>/<uuid>.json.gz, flushed by 5 MiB or 60 seconds.
+2. AC-2: The bucket blocks all public access, uses bucket-owner-enforced ownership and SSE-S3, enables versioning, retains current versions 30 days and noncurrent versions 7 days, and aborts incomplete multipart uploads after 1 day.
+3. AC-3: Publisher IAM permits only GetBucketLocation on the exact bucket and PutObject plus multipart completion/abort operations on the exact environment, Polis, and Runtime prefix.
+4. AC-4: The S3 sink disables startup health checks, uses an isolated 512 MiB disk buffer with drop-newest overflow, retries at most five times with backoff capped at 30 seconds, emits failure/drop telemetry, and cannot block Vector startup, Runtime readiness, master-log progress, or CloudWatch health.
+5. AC-5: A separately authorized live proof verifies the expected business account, bucket controls and encrypted object metadata, retrieves one nonempty archived object into issue evidence, and inspects redaction without printing sensitive content.
+6. AC-6: Lifecycle execution uses typed v2 authority unless and until explicit v3 cutover is recorded, and no live AWS action occurs without separate authorization.
 
 ## Dependencies
 

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
     "slug": "runtime-v3-bounded-s3-log-archive",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Define the Terraform archive boundary, add bounded Vector delivery, prove failure isolation locally, then run separately authorized live AWS delivery and retrieval proof.",
       "steps": [
         {
@@ -65,6 +65,7 @@
         "adl-runtime-kernel/tests/guardian_soak.rs",
         "infra/aws/runtime/log-archive",
         ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+        ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh",
         ".csdlc/prepared/issues/594/validate-live-aws.sh",
         ".csdlc/evidence/594"
       ],
@@ -97,9 +98,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/594/design.md",
-      "design_digest": "4ac3cc1666ee202af1481487b36a95cb723f2732eed7793c208fb4fd0dc7ef42",
+      "design_digest": "d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de",
       "diagram_ref": ".csdlc/prepared/issues/594/diagram.mmd",
-      "diagram_digest": "66de3337b41d7f1d7c4138d327ac51bf31b082a76a7f31bf7f276b7d9b47291a"
+      "diagram_digest": "b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b"
     }
   }
 }

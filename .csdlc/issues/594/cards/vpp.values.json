@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
     "slug": "runtime-v3-bounded-s3-log-archive",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "runtime-log-archive",
-          "proof_role": "Prove bounded Vector S3 configuration, redaction, failure telemetry, and Runtime survival with nonzero focused tests.",
+          "proof_role": "Prove redacted key/batch contract, disabled S3 startup health, isolated 512 MiB drop-newest buffering, bounded retry telemetry, and continued Runtime/master-log/CloudWatch progress under S3 outage.",
           "acceptance_ids": [
             "AC-1",
             "AC-4"
@@ -35,7 +35,7 @@
         },
         {
           "lane": "terraform-log-archive",
-          "proof_role": "Prove Terraform formatting and static validity for the isolated archive module.",
+          "proof_role": "Prove recursive Terraform formatting, backend-free initialization, static validity, lifecycle controls, and exact-prefix publisher policy.",
           "acceptance_ids": [
             "AC-2",
             "AC-3"
@@ -45,16 +45,15 @@
           "budget_seconds": 300,
           "budget_tokens": 2000,
           "argv": [
-            "terraform",
-            "-chdir=infra/aws/runtime/log-archive",
-            "validate"
+            "bash",
+            ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh"
           ],
           "parallel_group": "terraform",
-          "defer_reason": "The log-archive Terraform module is an issue #594 implementation deliverable."
+          "defer_reason": "The issue-owned wrapper exists; the log-archive Terraform module is an issue #594 implementation deliverable."
         },
         {
           "lane": "live-aws-archive",
-          "proof_role": "Under explicit authorization, prove business-account identity, delivery, controls, retrieval, redaction, and cleanup receipts.",
+          "proof_role": "Under explicit authorization, verify exact business account identity, bucket public block/versioning/encryption/lifecycle, encrypted proof-object metadata, retrieval into issue evidence, and bounded redaction inspection without printing content.",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
@@ -70,7 +69,7 @@
             ".csdlc/prepared/issues/594/validate-live-aws.sh"
           ],
           "parallel_group": "live-aws",
-          "defer_reason": "The issue-owned preflight exists; paid live AWS proof remains blocked until implementation and separate operator authorization."
+          "defer_reason": "The issue-owned validator exists; paid live AWS proof remains blocked until implementation and separate operator authorization."
         },
         {
           "lane": "diff-hygiene",
@@ -95,9 +94,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on readiness coupling, unbounded resource use, sensitive archive output, overbroad IAM, zero-test validation, stale review, or unauthorized cloud action.",
       "design_ref": ".csdlc/prepared/issues/594/design.md",
-      "design_digest": "4ac3cc1666ee202af1481487b36a95cb723f2732eed7793c208fb4fd0dc7ef42",
+      "design_digest": "d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de",
       "diagram_ref": ".csdlc/prepared/issues/594/diagram.mmd",
-      "diagram_digest": "66de3337b41d7f1d7c4138d327ac51bf31b082a76a7f31bf7f276b7d9b47291a"
+      "diagram_digest": "b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b"
     }
   }
 }

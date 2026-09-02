@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "aec65d9b1f0c389ca94aed48172f24f6c2e3d19f3a62ec5779adc6a59b3420e7",
   "phase": "initialized",
-  "generation": 3,
-  "digest": "b0f7333c54c53f022e9709092c8d467b49cc1421c96692e7ba9c1e0a76b916ad",
+  "generation": 6,
+  "digest": "0fe88880270256d0c137f52d05eb9ae8822026ea025ca7240a6d19ad19cbfcae",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "58ff7b873a3c125ff5fa53961b517c16efccf16804f58a4ae8ef23b098668234",
+      "values_digest": "523449f3b28908d91ed9aabd6aa96e7ac107771c2515444fba0fc21457102d49",
       "rendered_digest": "781db80b317128aafed48e76faebccd16212f69908747ee91f7aa62cf1ba2501",
       "ast_digest": "b195a921b5a51a4f668b7f142e7088207a930bce127852141a9a3fb6003a9d83"
     },
     "stp": {
-      "values_digest": "efe9128fa38d9edeb16cedb876135c177005e8e838f4267019bb8abec9699cc5",
-      "rendered_digest": "5d900767ee3ecb8ece917a1b22df93a46efd31b1742016e7269d6de86ff45263",
-      "ast_digest": "7410275f1639d3e7fb68db8a731ef8a1362e53a930e7c8b5db60d6fc4a7bb190"
+      "values_digest": "98a37707f16e71f9b658abe5bb0b9cf4562bb2c5b32ca0983d34fb730176e139",
+      "rendered_digest": "3cfbf1a5c0bd56ef4b277f6803a796ac618f2c452b9f01c5c1143d6beb618e69",
+      "ast_digest": "5c9ab05c717b7b5e4e20e2a02436be4fa027121c83f158fcb7cef2f805e3c039"
     },
     "spp": {
-      "values_digest": "0b743f954b56eb4aa453b4c64d4ff1aa07833b6883ac9c4151861dc6a5aa3484",
-      "rendered_digest": "3ef5193b064e09f3a278170cafcda6324af913904b73300b17017a1f7284e08e",
-      "ast_digest": "4d1d5deb2cad4f02c5f7af151aab5c1b6074f79d66ccce5cf985667c2b03bea3"
+      "values_digest": "14102d2b0274ed4ee061eced87bb56d3997bc933cc53c326e706ce382057bc5f",
+      "rendered_digest": "0d1575dc17351e6404a9d0c44aba853c7642858bc95dd23d19d0c54a6a4814fa",
+      "ast_digest": "cc871ba956633b196fdd29d02d596541fa63b68075afa248197024d328a384d8"
     },
     "vpp": {
-      "values_digest": "13220ab5d3ae45b50ee17b1fcccfd8d35094299f87edd96e8f6aac8f3a1c6d9c",
-      "rendered_digest": "0952d9c96545af2d7e87b5f97aa76a883a00ab250f3b732a5abbdb55c32a3fca",
-      "ast_digest": "d1fcf94e180b6735317d2b34f1f646aeea14b7f6ce5529de51d500b607e189ae"
+      "values_digest": "33213cf5af67194f38346bd20e55693eaac50c12a822aaad49f872b8579b5c86",
+      "rendered_digest": "662b6f9f0676e396feb0d8047caedec71977a6733323e201cc43d6ae6a212437",
+      "ast_digest": "201a859011a718e42ac9cebf9f9c43740d126e3f309fe8c3e7c3a376f6442300"
     },
     "srp": {
-      "values_digest": "366db245954b7fbce818b480ad8820619b72a0e06002e3c836a4df7a4cd7b988",
+      "values_digest": "9253a6acd3da6c427b30ed5d12308e1c145cbdd1510b409b3fbe1635834d4dae",
       "rendered_digest": "6d5289c530bf46a16978c97d32d478b7d4bdc57e17f1258097f785751ec6f69f",
       "ast_digest": "945fa2a6b28eb2a511afcec5b7b3faff3648a3075183943fdf415064209ce139"
     },
     "sor": {
-      "values_digest": "5a2c282e3715248ec8b95bd07fe7a9b1c8c254d7ac095b5ee1af64c005e72568",
+      "values_digest": "e34eda5a42d60f1685ce28dc2adc80f156446a736d67e92d55daba43e00fab1b",
       "rendered_digest": "fb79540362117fe10db8bfe22bfb64746ab9917bdd5210c2f7e48548e45b1421",
       "ast_digest": "115292e30ed5f1576ace42c2460f65e688033b963025e0500189ccfda469389a"
     }
@@ -78,6 +78,27 @@
       "actor": "codex:/root",
       "reason": "Own the exact executable issue-local Runtime and live AWS validation targets selected by VPP.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/observability/vector.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"infra/aws/runtime/log-archive\",\".csdlc/prepared/issues/594/validate-runtime-log-archive.sh\",\".csdlc/prepared/issues/594/validate-live-aws.sh\",\".csdlc/evidence/594\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Resolve design review by making cadence, buffer, retry, retention, key grammar, startup isolation, and live proof bounds deterministic.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/594/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/594/diagram.mmd\",\"new_design_digest\":\"d8887110de1cfff729cb28264f82820e57552124190801b300988843b29ab0de\",\"new_diagram_digest\":\"b40042b0fb5305c86b99813206a474fb94668924f55f691c77bc41739c78be4b\",\"old_design_digest\":\"4ac3cc1666ee202af1481487b36a95cb723f2732eed7793c208fb4fd0dc7ef42\",\"old_diagram_digest\":\"66de3337b41d7f1d7c4138d327ac51bf31b082a76a7f31bf7f276b7d9b47291a\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Only runtime_v3_redacted records enter keys matching logs/env=<env>/polis=<polis>/runtime=<runtime>/year=<YYYY>/month=<MM>/day=<DD>/hour=<HH>/<uuid>.json.gz, flushed by 5 MiB or 60 seconds.\",\"AC-2: The bucket blocks all public access, uses bucket-owner-enforced ownership and SSE-S3, enables versioning, retains current versions 30 days and noncurrent versions 7 days, and aborts incomplete multipart uploads after 1 day.\",\"AC-3: Publisher IAM permits only GetBucketLocation on the exact bucket and PutObject plus multipart completion/abort operations on the exact environment, Polis, and Runtime prefix.\",\"AC-4: The S3 sink disables startup health checks, uses an isolated 512 MiB disk buffer with drop-newest overflow, retries at most five times with backoff capped at 30 seconds, emits failure/drop telemetry, and cannot block Vector startup, Runtime readiness, master-log progress, or CloudWatch health.\",\"AC-5: A separately authorized live proof verifies the expected business account, bucket controls and encrypted object metadata, retrieves one nonempty archived object into issue evidence, and inspects redaction without printing sensitive content.\",\"AC-6: Lifecycle execution uses typed v2 authority unless and until explicit v3 cutover is recorded, and no live AWS action occurs without separate authorization.\"]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Own the exact Terraform format, initialization, and validation wrapper required by the design review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/observability/vector.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"infra/aws/runtime/log-archive\",\".csdlc/prepared/issues/594/validate-runtime-log-archive.sh\",\".csdlc/prepared/issues/594/validate-terraform-log-archive.sh\",\".csdlc/prepared/issues/594/validate-live-aws.sh\",\".csdlc/evidence/594\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Resolve design review by matching Runtime isolation, Terraform formatting/init/validate, and bounded live inspection claims to executable issue-owned validators.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-log-archive\",\"proof_role\":\"Prove redacted key/batch contract, disabled S3 startup health, isolated 512 MiB drop-newest buffering, bounded retry telemetry, and continued Runtime/master-log/CloudWatch progress under S3 outage.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/594/validate-runtime-log-archive.sh\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"The issue-owned wrapper exists; its named s3_archive cases are issue #594 implementation deliverables.\"},{\"lane\":\"terraform-log-archive\",\"proof_role\":\"Prove recursive Terraform formatting, backend-free initialization, static validity, lifecycle controls, and exact-prefix publisher policy.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/594/validate-terraform-log-archive.sh\"],\"parallel_group\":\"terraform\",\"defer_reason\":\"The issue-owned wrapper exists; the log-archive Terraform module is an issue #594 implementation deliverable.\"},{\"lane\":\"live-aws-archive\",\"proof_role\":\"Under explicit authorization, verify exact business account identity, bucket public block/versioning/encryption/lifecycle, encrypted proof-object metadata, retrieval into issue evidence, and bounded redaction inspection without printing content.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/594/validate-live-aws.sh\"],\"parallel_group\":\"live-aws\",\"defer_reason\":\"The issue-owned validator exists; paid live AWS proof remains blocked until implementation and separate operator authorization.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
     }
   ]
 }

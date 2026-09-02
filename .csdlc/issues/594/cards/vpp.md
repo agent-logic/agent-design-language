@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/594/diagram.mmd
 [
   {
     "lane": "runtime-log-archive",
-    "proof_role": "Prove bounded Vector S3 configuration, redaction, failure telemetry, and Runtime survival with nonzero focused tests.",
+    "proof_role": "Prove redacted key/batch contract, disabled S3 startup health, isolated 512 MiB drop-newest buffering, bounded retry telemetry, and continued Runtime/master-log/CloudWatch progress under S3 outage.",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -43,7 +43,7 @@ Diagram: .csdlc/prepared/issues/594/diagram.mmd
   },
   {
     "lane": "terraform-log-archive",
-    "proof_role": "Prove Terraform formatting and static validity for the isolated archive module.",
+    "proof_role": "Prove recursive Terraform formatting, backend-free initialization, static validity, lifecycle controls, and exact-prefix publisher policy.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
@@ -53,16 +53,15 @@ Diagram: .csdlc/prepared/issues/594/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 2000,
     "argv": [
-      "terraform",
-      "-chdir=infra/aws/runtime/log-archive",
-      "validate"
+      "bash",
+      ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh"
     ],
     "parallel_group": "terraform",
-    "defer_reason": "The log-archive Terraform module is an issue #594 implementation deliverable."
+    "defer_reason": "The issue-owned wrapper exists; the log-archive Terraform module is an issue #594 implementation deliverable."
   },
   {
     "lane": "live-aws-archive",
-    "proof_role": "Under explicit authorization, prove business-account identity, delivery, controls, retrieval, redaction, and cleanup receipts.",
+    "proof_role": "Under explicit authorization, verify exact business account identity, bucket public block/versioning/encryption/lifecycle, encrypted proof-object metadata, retrieval into issue evidence, and bounded redaction inspection without printing content.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -78,7 +77,7 @@ Diagram: .csdlc/prepared/issues/594/diagram.mmd
       ".csdlc/prepared/issues/594/validate-live-aws.sh"
     ],
     "parallel_group": "live-aws",
-    "defer_reason": "The issue-owned preflight exists; paid live AWS proof remains blocked until implementation and separate operator authorization."
+    "defer_reason": "The issue-owned validator exists; paid live AWS proof remains blocked until implementation and separate operator authorization."
   },
   {
     "lane": "diff-hygiene",
@@ -113,7 +112,7 @@ Tokens: 25000
 ## Commands
 
 - `bash .csdlc/prepared/issues/594/validate-runtime-log-archive.sh`
-- `terraform -chdir=infra/aws/runtime/log-archive validate`
+- `bash .csdlc/prepared/issues/594/validate-terraform-log-archive.sh`
 - `bash .csdlc/prepared/issues/594/validate-live-aws.sh`
 - `git diff --check`
 

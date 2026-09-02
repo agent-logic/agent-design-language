@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
     "slug": "runtime-v3-bounded-s3-log-archive",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 6
   },
   "status": "ready",
   "content": {
