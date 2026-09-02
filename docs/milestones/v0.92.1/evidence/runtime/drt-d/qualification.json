@@ -1,0 +1,406 @@
+{
+  "schema": "adl.v0921.drt_d.gcp_portability_qualification.v1",
+  "issue": 509,
+  "status": "passed",
+  "run_id": "adl-509-drt-d-20260902183922",
+  "reviewed_dependencies": {
+    "494": "terminal",
+    "495": "terminal",
+    "508": "terminal"
+  },
+  "gcp_identity": {
+    "project": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+    "region": "us-central1",
+    "zone": "us-central1-c",
+    "credential_source": "operator-approved-service-account-file",
+    "account": "15c4fc636a9fba0e7da0b299db21e93f68a9ceee3512f77907fce6a9920c0ab6",
+    "billing_account": "enabled"
+  },
+  "paid_authorization": true,
+  "source_revision": "9f6bae16fafbc085839ee6abca7a1067965c658e",
+  "topology": {
+    "node_count": 2,
+    "runtime_node": "gcp_compute_instance.runtime",
+    "ollama_node": "gcp_compute_instance.ollama",
+    "ollama_public": false
+  },
+  "provider": {
+    "kind": "ollama",
+    "runtime_surface": "gcp_private_ollama_http",
+    "model_source": "gcs_object_storage",
+    "artifact_manifest_sha256": "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc",
+    "models": [
+      "llama3.1:8b",
+      "qwen3:8b",
+      "phi4-mini:latest"
+    ]
+  },
+  "residents": [
+    {
+      "identity": "issue268-planner",
+      "role": "planner",
+      "model": "qwen3:8b",
+      "workload_completed": true,
+      "receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-planner.pre.planner_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-planner",
+        "authority_sha256": "8c6b20761fd0e0622f15b0ed9d6e00350c9287594319949ca07183b042227256",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:e69311f88ce4dc03314b46e3d717813064804eaf73c4c70ff8b0dc575392803d",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:fcf8b19ced7ca25710a0bbbfa20c376bb1a25aaae7726459f799721ee84595fb",
+        "proposal_sha256": "8d258dd516f2aa28603cfceaac12ca05278e476b5c2b427626c82d9262da0972",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-planner",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      }
+    },
+    {
+      "identity": "issue268-recovery-custodian",
+      "role": "recovery_custodian",
+      "model": "phi4-mini:latest",
+      "workload_completed": true,
+      "receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-recovery-custodian.pre.custodian_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-recovery-custodian",
+        "authority_sha256": "4b776441ab22064c3cc4842b61fa285e8708ef2723168dbd6defeef420af98cd",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:88904ac69f8564642099559bd483f7e9dd30332e77e41bd473096d981e9b0b00",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:689fb3234a1a328d13b691a25e613be57b11654e4db92cf82f7df841b1576293",
+        "proposal_sha256": "9d042ec14b2f6d941e580824bc9827c077af68edaae4646b3bc6c70a68d8feaa",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-recovery-custodian",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      }
+    },
+    {
+      "identity": "issue268-reviewer-escalation",
+      "role": "reviewer_escalation",
+      "model": "llama3.1:8b",
+      "workload_completed": true,
+      "receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-reviewer-escalation.pre.reviewer_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-reviewer-escalation",
+        "authority_sha256": "64c9fbcaea083419f4f97830db0c643e7d268ab5f30582e525d469944897c46e",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:c43fc44da4c5bf2275f5a1c536d1057399d2b89f4f2c0de517ea31d8e56100ea",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:ad4036738751938d6007c0cd272c800177e32ca592f4afad02ed0828bd061ac2",
+        "proposal_sha256": "140d98bdcd230ad1e0dfe3555e51763f3244695ec6d4e2dc3aa2e13509c7a0ec",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-reviewer-escalation",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      }
+    },
+    {
+      "identity": "issue268-runtime-observer",
+      "role": "runtime_observer",
+      "model": "phi4-mini:latest",
+      "workload_completed": true,
+      "receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-runtime-observer.pre.observer_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-runtime-observer",
+        "authority_sha256": "5bbfdfde8c2fb0b0e1eeac8002c46d15653cb52f09a54d6b2c83a7dcf1909876",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:4b8637c485de449bcbf8a2ed7d9702dc4bbd010e81da837ee7acb04231830e94",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:ada35fc052725a881a5acecef9166de68d8e650604450127569bbe305910c87b",
+        "proposal_sha256": "6b0eea7ed4b10499b02d8c61eb1081c94a53748977ee0be9fd706f94f023698e",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-runtime-observer",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      }
+    },
+    {
+      "identity": "issue268-shepherd-controller",
+      "role": "shepherd_controller",
+      "model": "llama3.1:8b",
+      "workload_completed": true,
+      "receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-shepherd-controller.pre.shepherd_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-shepherd-controller",
+        "authority_sha256": "baf081bbf31f344458a3e3da77fb3fedcfcfdb3ee7118246213ce23b6ea10fd1",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:b02ba24d1f6407c5c406f8e3a01f006a15ac49a1c8afb8273f651ed0f1678628",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:e03bdfe98174a51fd41832eed96857227441e4fd08c135057a013cc4578e80de",
+        "proposal_sha256": "f693b278e520c92be10fd2a0b7a1d21b6d37030471d41ce6ec5584abae4a7f66",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-shepherd-controller",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      }
+    },
+    {
+      "identity": "issue268-tool-executor",
+      "role": "tool_executor",
+      "model": "qwen3:8b",
+      "workload_completed": true,
+      "receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-tool-executor.pre.executor_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-tool-executor",
+        "authority_sha256": "0f670caf766dc868f1246cf9464c66b5bd800eed2d8c6458c848458db98a7b10",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:dffaddde95563aed6d36d4c73b3db8c2e43237ecbb2205d736009155f8ac26f4",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:5f04b9c024c9eb0ed5b95503ff9cbbf88d0366282c8c37c6cd0999b317128cd1",
+        "proposal_sha256": "8152d142852691552b95d3ac7319bc27734e0202981efdfe018a641f64163cd1",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-tool-executor",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      }
+    }
+  ],
+  "dehydrated_population_digest": "W3siYWdlbnRfaWQiOiJpc3N1ZTI2OC1wbGFubmVyIiwiYWdlbnRfdGVzdF9vdXRjb21lIjoiZXhlY3V0ZWQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsIm1vZGVsIjoicXdlbjM6OGIiLCJyb2xlIjoicGxhbm5lciIsInJ1bnRpbWVfZXhpdF9jb2RlIjowLCJydW50aW1lX3JlY2VpcHQiOnsiYWNjX2NvbnRyYWN0X2lkIjoiYWNjLmNvbXBpbGVyLmlzc3VlMjY4Lmlzc3VlMjY4LXBsYW5uZXIucHJlLnBsYW5uZXJfcHJlX29ic2VydmUiLCJhZGFwdGVyX2lkIjoiYWRhcHRlci5ydW50aW1lLm9ic2VydmUuZHJ5X3J1biIsImF1dGhvcml0eV9pZCI6ImF1dGhvcml0eS5pc3N1ZTI2OC1wbGFubmVyIiwiYXV0aG9yaXR5X3NoYTI1NiI6IjhjNmIyMDc2MWZkMGUwNjIyZjE1YjBlZDlkNmUwMDM1MGM5Mjg3NTk0MzE5OTQ5Y2EwNzE4M2IwNDIyMjcyNTYiLCJjaGVja3BvaW50X2xpbmVhZ2UiOiJjb250aW51aXR5X2NoZWNrcG9pbnQuanNvbiNzaGEyNTY6ZTY5MzExZjg4Y2U0ZGMwMzMxNGI0NmUzZDcxNzgxMzA2NDgwNGVhZjczYzRjNzBmZjhiMGRjNTc1MzkyODAzZCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwiZGVjaXNpb24iOiJleGVjdXRlZCIsImdhdGVfcmVhc29uX2NvZGUiOiJnYXRlX2FsbG93ZWQiLCJwcm9wb3NhbF9pZCI6InNoYTI1NjpmY2Y4YjE5Y2VkN2NhMjU3MTBhMGJiYmZhMjBjMzc2YmIxYTI1YWFhZTc3MjY0NTlmNzk5NzIxZWU4NDU5NWZiIiwicHJvcG9zYWxfc2hhMjU2IjoiOGQyNThkZDUxNmYyYWEyODYwM2NmY2VhYWMxMmNhMDUyNzhlNDc2YjVjMmI0Mjc2MjZjODJkOTI2MmRhMDk3MiIsInJlYXNvbl9jb2RlIjoiZ292ZXJuZWRfZXhlY3V0aW9uX2NvbXBsZXRlZCIsInJlc2lkZW50X2lkIjoiaXNzdWUyNjgtcGxhbm5lciIsInNjaGVtYSI6ImFkbC5ydW50aW1lLnJlc2lkZW50X3Rvb2xfcmVjZWlwdC52MSJ9LCJydW50aW1lX3JlY2VpcHRfc2hhMjU2IjoiNDM0YjgwZmQ5Y2QzNjU0NWE5Mzc3ZDQ5OWIzNzc0MGVmZDI0ZDYzMGQ3NWI5YTYzM2I3OGNiNmIxNGU1ODBkYSIsInNjaGVtYSI6ImFkbC5pc3N1ZTI2OC5ydW50aW1lX3Jlc2lkZW50X2N5Y2xlLnYxIiwidGFza19kZWZpbml0aW9uX3NoYTI1NiI6IjU3YTY1ZDE2OTAzNjdkNmFhNDQ2YzMxODcxZjMzMTE1MDIwZDQ1NzJjMjQ3MWVlZTM3NTJjMzhhNTUyZGY4N2MiLCJ0YXNrX2lkIjoicGxhbm5lcl9wcmVfb2JzZXJ2ZSJ9LHsiYWdlbnRfaWQiOiJpc3N1ZTI2OC1yZWNvdmVyeS1jdXN0b2RpYW4iLCJhZ2VudF90ZXN0X291dGNvbWUiOiJleGVjdXRlZCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwibW9kZWwiOiJwaGk0LW1pbmk6bGF0ZXN0Iiwicm9sZSI6InJlY292ZXJ5X2N1c3RvZGlhbiIsInJ1bnRpbWVfZXhpdF9jb2RlIjowLCJydW50aW1lX3JlY2VpcHQiOnsiYWNjX2NvbnRyYWN0X2lkIjoiYWNjLmNvbXBpbGVyLmlzc3VlMjY4Lmlzc3VlMjY4LXJlY292ZXJ5LWN1c3RvZGlhbi5wcmUuY3VzdG9kaWFuX3ByZV9vYnNlcnZlIiwiYWRhcHRlcl9pZCI6ImFkYXB0ZXIucnVudGltZS5vYnNlcnZlLmRyeV9ydW4iLCJhdXRob3JpdHlfaWQiOiJhdXRob3JpdHkuaXNzdWUyNjgtcmVjb3ZlcnktY3VzdG9kaWFuIiwiYXV0aG9yaXR5X3NoYTI1NiI6IjRiNzc2NDQxYWIyMjA2NGMzY2M0ODQyYjYxZmEyODVlODcwOGVmMjcyMzE2OGRiZDZkZWZlZWY0MjBhZjk4Y2QiLCJjaGVja3BvaW50X2xpbmVhZ2UiOiJjb250aW51aXR5X2NoZWNrcG9pbnQuanNvbiNzaGEyNTY6ODg5MDRhYzY5Zjg1NjQ2NDIwOTk1NTliZDQ4M2Y3ZTlkZDMwMzMyZTc3ZTQxYmQ0NzMwOTZkOTgxZTliMGIwMCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwiZGVjaXNpb24iOiJleGVjdXRlZCIsImdhdGVfcmVhc29uX2NvZGUiOiJnYXRlX2FsbG93ZWQiLCJwcm9wb3NhbF9pZCI6InNoYTI1Njo2ODlmYjMyMzRhMWEzMjhkMTNiNjkxYTI1ZTYxM2JlNTdiMTE2NTRlNGRiOTJjZjgyZjdkZjg0MWIxNTc2MjkzIiwicHJvcG9zYWxfc2hhMjU2IjoiOWQwNDJlYzE0YjJmNmQ5NDFlNTgwODI0YmM5ODI3YzA3N2FmNjhlZGFhZTQ2NDZiM2JjNmM3MGE2OGQ4ZmVhYSIsInJlYXNvbl9jb2RlIjoiZ292ZXJuZWRfZXhlY3V0aW9uX2NvbXBsZXRlZCIsInJlc2lkZW50X2lkIjoiaXNzdWUyNjgtcmVjb3ZlcnktY3VzdG9kaWFuIiwic2NoZW1hIjoiYWRsLnJ1bnRpbWUucmVzaWRlbnRfdG9vbF9yZWNlaXB0LnYxIn0sInJ1bnRpbWVfcmVjZWlwdF9zaGEyNTYiOiJmODI3NTRjMDIyN2ViYzhkMDQ2ZTdjMWMxYjEwY2M2ZjcwMTNmZTI3MmM0NThiZGY0NWY3ZTVlNzAzNTQzMGFjIiwic2NoZW1hIjoiYWRsLmlzc3VlMjY4LnJ1bnRpbWVfcmVzaWRlbnRfY3ljbGUudjEiLCJ0YXNrX2RlZmluaXRpb25fc2hhMjU2IjoiMzg0ZmU4OTE4MDY1NzEzYWI0MDdiYTE2ZmJmOTRkYjAyYTk3Njc2MWVjOWE1NDlmZGQ0YzY5YjdiYjc2MGMzMiIsInRhc2tfaWQiOiJjdXN0b2RpYW5fcHJlX29ic2VydmUifSx7ImFnZW50X2lkIjoiaXNzdWUyNjgtcmV2aWV3ZXItZXNjYWxhdGlvbiIsImFnZW50X3Rlc3Rfb3V0Y29tZSI6ImV4ZWN1dGVkIiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJtb2RlbCI6ImxsYW1hMy4xOjhiIiwicm9sZSI6InJldmlld2VyX2VzY2FsYXRpb24iLCJydW50aW1lX2V4aXRfY29kZSI6MCwicnVudGltZV9yZWNlaXB0Ijp7ImFjY19jb250cmFjdF9pZCI6ImFjYy5jb21waWxlci5pc3N1ZTI2OC5pc3N1ZTI2OC1yZXZpZXdlci1lc2NhbGF0aW9uLnByZS5yZXZpZXdlcl9wcmVfb2JzZXJ2ZSIsImFkYXB0ZXJfaWQiOiJhZGFwdGVyLnJ1bnRpbWUub2JzZXJ2ZS5kcnlfcnVuIiwiYXV0aG9yaXR5X2lkIjoiYXV0aG9yaXR5Lmlzc3VlMjY4LXJldmlld2VyLWVzY2FsYXRpb24iLCJhdXRob3JpdHlfc2hhMjU2IjoiNjRjOWZiY2FlYTA4MzQxOWY0Zjk3ODMwZGIwYzY0M2U3ZDI2OGFiNWYzMDU4MmU1MjVkNDY5OTQ0ODk3YzQ2ZSIsImNoZWNrcG9pbnRfbGluZWFnZSI6ImNvbnRpbnVpdHlfY2hlY2twb2ludC5qc29uI3NoYTI1NjpjNDNmYzQ0ZGE0YzViZjIyNzVmNWExYzUzNmQxMDU3Mzk5ZDJiODlmNGYyYzBkZTUxN2VhMzFkOGU1NjEwMGVhIiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJkZWNpc2lvbiI6ImV4ZWN1dGVkIiwiZ2F0ZV9yZWFzb25fY29kZSI6ImdhdGVfYWxsb3dlZCIsInByb3Bvc2FsX2lkIjoic2hhMjU2OmFkNDAzNjczODc1MTkzOGQ2MDA3YzBjZDI3MmM4MDAxNzdlMzJjYTU5MmY0YWZhZDAyZWQwODI4YmQwNjFhYzIiLCJwcm9wb3NhbF9zaGEyNTYiOiIxNDBkOThiZGNkMjMwYWQxZTBkZmUzNTU1ZTUxNzYzZjMyNDQ2OTVlYzZkNGUyZGMzYWEyZTEzNTA5YzdhMGVjIiwicmVhc29uX2NvZGUiOiJnb3Zlcm5lZF9leGVjdXRpb25fY29tcGxldGVkIiwicmVzaWRlbnRfaWQiOiJpc3N1ZTI2OC1yZXZpZXdlci1lc2NhbGF0aW9uIiwic2NoZW1hIjoiYWRsLnJ1bnRpbWUucmVzaWRlbnRfdG9vbF9yZWNlaXB0LnYxIn0sInJ1bnRpbWVfcmVjZWlwdF9zaGEyNTYiOiI2NzMyYmU0NmQwZTQ0ZDEwNzg1Y2UxNTZlNDNlZDIyMGU1MmQ1MjczMmIzYWIwOWI4OTQ2Y2VjMThmNTIwNzY1Iiwic2NoZW1hIjoiYWRsLmlzc3VlMjY4LnJ1bnRpbWVfcmVzaWRlbnRfY3ljbGUudjEiLCJ0YXNrX2RlZmluaXRpb25fc2hhMjU2IjoiZDEyODVjMzUzNjk5ZWVlOGJkYmM0N2I2YmFkMjFiOTI4Mzc0ZDgyOTdjYjdkZGIyZTM4Y2MxZThiODc1MDVjMCIsInRhc2tfaWQiOiJyZXZpZXdlcl9wcmVfb2JzZXJ2ZSJ9LHsiYWdlbnRfaWQiOiJpc3N1ZTI2OC1ydW50aW1lLW9ic2VydmVyIiwiYWdlbnRfdGVzdF9vdXRjb21lIjoiZXhlY3V0ZWQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsIm1vZGVsIjoicGhpNC1taW5pOmxhdGVzdCIsInJvbGUiOiJydW50aW1lX29ic2VydmVyIiwicnVudGltZV9leGl0X2NvZGUiOjAsInJ1bnRpbWVfcmVjZWlwdCI6eyJhY2NfY29udHJhY3RfaWQiOiJhY2MuY29tcGlsZXIuaXNzdWUyNjguaXNzdWUyNjgtcnVudGltZS1vYnNlcnZlci5wcmUub2JzZXJ2ZXJfcHJlX29ic2VydmUiLCJhZGFwdGVyX2lkIjoiYWRhcHRlci5ydW50aW1lLm9ic2VydmUuZHJ5X3J1biIsImF1dGhvcml0eV9pZCI6ImF1dGhvcml0eS5pc3N1ZTI2OC1ydW50aW1lLW9ic2VydmVyIiwiYXV0aG9yaXR5X3NoYTI1NiI6IjViYmZkZmRlOGMyZmIwYjBlMWVlYWM4MDAyYzQ2ZDE1NjUzY2I1MmYwOWE1NGQ2YjJjODNhN2RjZjE5MDk4NzYiLCJjaGVja3BvaW50X2xpbmVhZ2UiOiJjb250aW51aXR5X2NoZWNrcG9pbnQuanNvbiNzaGEyNTY6NGI4NjM3YzQ4NWRlNDQ5YmNiZjhhMmVkN2Q5NzAyZGM0YmJkMDEwZTgxZGE4MzdlZTdhY2IwNDIzMTgzMGU5NCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwiZGVjaXNpb24iOiJleGVjdXRlZCIsImdhdGVfcmVhc29uX2NvZGUiOiJnYXRlX2FsbG93ZWQiLCJwcm9wb3NhbF9pZCI6InNoYTI1NjphZGEzNWZjMDUyNzI1YTg4MWE1YWNlY2VmOTE2NmRlNjhkOGU2NTA2MDQ0NTAxMjc1NjliYmUzMDU5MTBjODdiIiwicHJvcG9zYWxfc2hhMjU2IjoiNmIwZWVhN2VkNGIxMDQ5OWIwMmQ4YzYxZWIxMDgxYzk0YTUzNzQ4OTc3ZWUwYmU5ZmQ3MDZmOTRmMDIzNjk4ZSIsInJlYXNvbl9jb2RlIjoiZ292ZXJuZWRfZXhlY3V0aW9uX2NvbXBsZXRlZCIsInJlc2lkZW50X2lkIjoiaXNzdWUyNjgtcnVudGltZS1vYnNlcnZlciIsInNjaGVtYSI6ImFkbC5ydW50aW1lLnJlc2lkZW50X3Rvb2xfcmVjZWlwdC52MSJ9LCJydW50aW1lX3JlY2VpcHRfc2hhMjU2IjoiNjFmYTBmOTJjNmNkNzI0NDcxOTYyNWQ2NjY1ZTIyYjIwZmM3OWU3MjFkNzIzMWJkN2VjMGQzMWQwZTMwY2VjMCIsInNjaGVtYSI6ImFkbC5pc3N1ZTI2OC5ydW50aW1lX3Jlc2lkZW50X2N5Y2xlLnYxIiwidGFza19kZWZpbml0aW9uX3NoYTI1NiI6Ijc0MzExYWYwZjgyZTBkNGI1MmMwOGZlZDMyZTAxMWE3OGQ5YzZlZmRlODQwYWM5NTY3YTNiYmJiYzc4YzJhMDciLCJ0YXNrX2lkIjoib2JzZXJ2ZXJfcHJlX29ic2VydmUifSx7ImFnZW50X2lkIjoiaXNzdWUyNjgtc2hlcGhlcmQtY29udHJvbGxlciIsImFnZW50X3Rlc3Rfb3V0Y29tZSI6ImV4ZWN1dGVkIiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJtb2RlbCI6ImxsYW1hMy4xOjhiIiwicm9sZSI6InNoZXBoZXJkX2NvbnRyb2xsZXIiLCJydW50aW1lX2V4aXRfY29kZSI6MCwicnVudGltZV9yZWNlaXB0Ijp7ImFjY19jb250cmFjdF9pZCI6ImFjYy5jb21waWxlci5pc3N1ZTI2OC5pc3N1ZTI2OC1zaGVwaGVyZC1jb250cm9sbGVyLnByZS5zaGVwaGVyZF9wcmVfb2JzZXJ2ZSIsImFkYXB0ZXJfaWQiOiJhZGFwdGVyLnJ1bnRpbWUub2JzZXJ2ZS5kcnlfcnVuIiwiYXV0aG9yaXR5X2lkIjoiYXV0aG9yaXR5Lmlzc3VlMjY4LXNoZXBoZXJkLWNvbnRyb2xsZXIiLCJhdXRob3JpdHlfc2hhMjU2IjoiYmFmMDgxYmJmMzFmMzQ0NDU4YTNlM2RhNzdmYjNmZWRjZmNmZGIzZWU3MTE4MjQ2MjEzY2UyM2I2ZWExMGZkMSIsImNoZWNrcG9pbnRfbGluZWFnZSI6ImNvbnRpbnVpdHlfY2hlY2twb2ludC5qc29uI3NoYTI1NjpiMDJiYTI0ZDFmNjQwN2M1YzQwNmY4ZTNhMDFmMDA2YTE1YWM0OWExYzhhZmI4MjczZjY1MWVkMGYxNjc4NjI4IiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJkZWNpc2lvbiI6ImV4ZWN1dGVkIiwiZ2F0ZV9yZWFzb25fY29kZSI6ImdhdGVfYWxsb3dlZCIsInByb3Bvc2FsX2lkIjoic2hhMjU2OmUwM2JkZmU5ODE3NGE1MWZkNDE4MzJlZWQ5Njg1NzIyNzQ0MWU0ZmQwOGMxMzUwNTdhMDEzY2M0NTc4ZTgwZGUiLCJwcm9wb3NhbF9zaGEyNTYiOiJmNjkzYjI3OGU1MjBjOTJiZTEwZmQyYTBiN2ExZDIxYjZkMzcwMzA0NzFkNDFjZTZlYzU1ODRhYmFlNGE3ZjY2IiwicmVhc29uX2NvZGUiOiJnb3Zlcm5lZF9leGVjdXRpb25fY29tcGxldGVkIiwicmVzaWRlbnRfaWQiOiJpc3N1ZTI2OC1zaGVwaGVyZC1jb250cm9sbGVyIiwic2NoZW1hIjoiYWRsLnJ1bnRpbWUucmVzaWRlbnRfdG9vbF9yZWNlaXB0LnYxIn0sInJ1bnRpbWVfcmVjZWlwdF9zaGEyNTYiOiI5YTczNmU5MmRhYmNhMmExNWQ3ZDc1NTM5OTdkZDc5MThhOTc0NjU3YTVmNDExZGZkZGI3Y2U2NTI3ZDQ1MGU0Iiwic2NoZW1hIjoiYWRsLmlzc3VlMjY4LnJ1bnRpbWVfcmVzaWRlbnRfY3ljbGUudjEiLCJ0YXNrX2RlZmluaXRpb25fc2hhMjU2IjoiMzRmOTYyYzUyNmY4NGRkMmQzMTNkZWZhOTVhNTdmMjA5YWIwMDNjMTY1YTMzZjkxMzc1MmJjMDU0ZjI1MTg4NSIsInRhc2tfaWQiOiJzaGVwaGVyZF9wcmVfb2JzZXJ2ZSJ9LHsiYWdlbnRfaWQiOiJpc3N1ZTI2OC10b29sLWV4ZWN1dG9yIiwiYWdlbnRfdGVzdF9vdXRjb21lIjoiZXhlY3V0ZWQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsIm1vZGVsIjoicXdlbjM6OGIiLCJyb2xlIjoidG9vbF9leGVjdXRvciIsInJ1bnRpbWVfZXhpdF9jb2RlIjowLCJydW50aW1lX3JlY2VpcHQiOnsiYWNjX2NvbnRyYWN0X2lkIjoiYWNjLmNvbXBpbGVyLmlzc3VlMjY4Lmlzc3VlMjY4LXRvb2wtZXhlY3V0b3IucHJlLmV4ZWN1dG9yX3ByZV9vYnNlcnZlIiwiYWRhcHRlcl9pZCI6ImFkYXB0ZXIucnVudGltZS5vYnNlcnZlLmRyeV9ydW4iLCJhdXRob3JpdHlfaWQiOiJhdXRob3JpdHkuaXNzdWUyNjgtdG9vbC1leGVjdXRvciIsImF1dGhvcml0eV9zaGEyNTYiOiIwZjY3MGNhZjc2NmRjODY4ZjEyNDZjZjk0NjRjNjZiNWJkODAwZWVkMmQ4YzY0NThjODQ4NDU4ZGI5OGE3YjEwIiwiY2hlY2twb2ludF9saW5lYWdlIjoiY29udGludWl0eV9jaGVja3BvaW50Lmpzb24jc2hhMjU2OmRmZmFkZGRlOTU1NjNhZWQ2ZDM2ZDRjNzNiM2RiOGMyZTQzMjM3ZWNiYjIyMDVkNzM2MDA5MTU1ZjhhYzI2ZjQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsImRlY2lzaW9uIjoiZXhlY3V0ZWQiLCJnYXRlX3JlYXNvbl9jb2RlIjoiZ2F0ZV9hbGxvd2VkIiwicHJvcG9zYWxfaWQiOiJzaGEyNTY6NWYwNGI5YzAyNGM5ZWIwZWQ1Yjk1NTAzZmY5Y2JiZjg4ZDAzNjYyODJjOGMzN2M2Y2QwOTk5YjMxNzEyOGNkMSIsInByb3Bvc2FsX3NoYTI1NiI6IjgxNTJkMTQyODUyNjkxNTUyYjk1ZDNhYzczMTliYzI3NzM0ZTAyMDI5ODFlZmRmZTAxOGE2NDFmNjQxNjNjZDEiLCJyZWFzb25fY29kZSI6ImdvdmVybmVkX2V4ZWN1dGlvbl9jb21wbGV0ZWQiLCJyZXNpZGVudF9pZCI6Imlzc3VlMjY4LXRvb2wtZXhlY3V0b3IiLCJzY2hlbWEiOiJhZGwucnVudGltZS5yZXNpZGVudF90b29sX3JlY2VpcHQudjEifSwicnVudGltZV9yZWNlaXB0X3NoYTI1NiI6ImUxZDE0ODM5NDEyYjViMDc2MzZhOTBmNGZkYzA4YjkzNjY5NGI1Njg2ZTNhZjk4NTRiYjdkOTQ1ZmFkN2MyNTkiLCJzY2hlbWEiOiJhZGwuaXNzdWUyNjgucnVudGltZV9yZXNpZGVudF9jeWNsZS52MSIsInRhc2tfZGVmaW5pdGlvbl9zaGEyNTYiOiI5NGNlMjhiZDUyNDYzYTAwNzhiNWU5MjJiMjNkMGU2YzAxOWY5NzM5YTVkNTgyOWUxODc0MGRkMmQ2Njc4MWYwIiwidGFza19pZCI6ImV4ZWN1dG9yX3ByZV9vYnNlcnZlIn1d",
+  "restored_population_digest": "W3siYWdlbnRfaWQiOiJpc3N1ZTI2OC1wbGFubmVyIiwiYWdlbnRfdGVzdF9vdXRjb21lIjoiZXhlY3V0ZWQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsIm1vZGVsIjoicXdlbjM6OGIiLCJyb2xlIjoicGxhbm5lciIsInJ1bnRpbWVfZXhpdF9jb2RlIjowLCJydW50aW1lX3JlY2VpcHQiOnsiYWNjX2NvbnRyYWN0X2lkIjoiYWNjLmNvbXBpbGVyLmlzc3VlMjY4Lmlzc3VlMjY4LXBsYW5uZXIucHJlLnBsYW5uZXJfcHJlX29ic2VydmUiLCJhZGFwdGVyX2lkIjoiYWRhcHRlci5ydW50aW1lLm9ic2VydmUuZHJ5X3J1biIsImF1dGhvcml0eV9pZCI6ImF1dGhvcml0eS5pc3N1ZTI2OC1wbGFubmVyIiwiYXV0aG9yaXR5X3NoYTI1NiI6IjhjNmIyMDc2MWZkMGUwNjIyZjE1YjBlZDlkNmUwMDM1MGM5Mjg3NTk0MzE5OTQ5Y2EwNzE4M2IwNDIyMjcyNTYiLCJjaGVja3BvaW50X2xpbmVhZ2UiOiJjb250aW51aXR5X2NoZWNrcG9pbnQuanNvbiNzaGEyNTY6ZTY5MzExZjg4Y2U0ZGMwMzMxNGI0NmUzZDcxNzgxMzA2NDgwNGVhZjczYzRjNzBmZjhiMGRjNTc1MzkyODAzZCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwiZGVjaXNpb24iOiJleGVjdXRlZCIsImdhdGVfcmVhc29uX2NvZGUiOiJnYXRlX2FsbG93ZWQiLCJwcm9wb3NhbF9pZCI6InNoYTI1NjpmY2Y4YjE5Y2VkN2NhMjU3MTBhMGJiYmZhMjBjMzc2YmIxYTI1YWFhZTc3MjY0NTlmNzk5NzIxZWU4NDU5NWZiIiwicHJvcG9zYWxfc2hhMjU2IjoiOGQyNThkZDUxNmYyYWEyODYwM2NmY2VhYWMxMmNhMDUyNzhlNDc2YjVjMmI0Mjc2MjZjODJkOTI2MmRhMDk3MiIsInJlYXNvbl9jb2RlIjoiZ292ZXJuZWRfZXhlY3V0aW9uX2NvbXBsZXRlZCIsInJlc2lkZW50X2lkIjoiaXNzdWUyNjgtcGxhbm5lciIsInNjaGVtYSI6ImFkbC5ydW50aW1lLnJlc2lkZW50X3Rvb2xfcmVjZWlwdC52MSJ9LCJydW50aW1lX3JlY2VpcHRfc2hhMjU2IjoiNDM0YjgwZmQ5Y2QzNjU0NWE5Mzc3ZDQ5OWIzNzc0MGVmZDI0ZDYzMGQ3NWI5YTYzM2I3OGNiNmIxNGU1ODBkYSIsInNjaGVtYSI6ImFkbC5pc3N1ZTI2OC5ydW50aW1lX3Jlc2lkZW50X2N5Y2xlLnYxIiwidGFza19kZWZpbml0aW9uX3NoYTI1NiI6IjU3YTY1ZDE2OTAzNjdkNmFhNDQ2YzMxODcxZjMzMTE1MDIwZDQ1NzJjMjQ3MWVlZTM3NTJjMzhhNTUyZGY4N2MiLCJ0YXNrX2lkIjoicGxhbm5lcl9wcmVfb2JzZXJ2ZSJ9LHsiYWdlbnRfaWQiOiJpc3N1ZTI2OC1yZWNvdmVyeS1jdXN0b2RpYW4iLCJhZ2VudF90ZXN0X291dGNvbWUiOiJleGVjdXRlZCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwibW9kZWwiOiJwaGk0LW1pbmk6bGF0ZXN0Iiwicm9sZSI6InJlY292ZXJ5X2N1c3RvZGlhbiIsInJ1bnRpbWVfZXhpdF9jb2RlIjowLCJydW50aW1lX3JlY2VpcHQiOnsiYWNjX2NvbnRyYWN0X2lkIjoiYWNjLmNvbXBpbGVyLmlzc3VlMjY4Lmlzc3VlMjY4LXJlY292ZXJ5LWN1c3RvZGlhbi5wcmUuY3VzdG9kaWFuX3ByZV9vYnNlcnZlIiwiYWRhcHRlcl9pZCI6ImFkYXB0ZXIucnVudGltZS5vYnNlcnZlLmRyeV9ydW4iLCJhdXRob3JpdHlfaWQiOiJhdXRob3JpdHkuaXNzdWUyNjgtcmVjb3ZlcnktY3VzdG9kaWFuIiwiYXV0aG9yaXR5X3NoYTI1NiI6IjRiNzc2NDQxYWIyMjA2NGMzY2M0ODQyYjYxZmEyODVlODcwOGVmMjcyMzE2OGRiZDZkZWZlZWY0MjBhZjk4Y2QiLCJjaGVja3BvaW50X2xpbmVhZ2UiOiJjb250aW51aXR5X2NoZWNrcG9pbnQuanNvbiNzaGEyNTY6ODg5MDRhYzY5Zjg1NjQ2NDIwOTk1NTliZDQ4M2Y3ZTlkZDMwMzMyZTc3ZTQxYmQ0NzMwOTZkOTgxZTliMGIwMCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwiZGVjaXNpb24iOiJleGVjdXRlZCIsImdhdGVfcmVhc29uX2NvZGUiOiJnYXRlX2FsbG93ZWQiLCJwcm9wb3NhbF9pZCI6InNoYTI1Njo2ODlmYjMyMzRhMWEzMjhkMTNiNjkxYTI1ZTYxM2JlNTdiMTE2NTRlNGRiOTJjZjgyZjdkZjg0MWIxNTc2MjkzIiwicHJvcG9zYWxfc2hhMjU2IjoiOWQwNDJlYzE0YjJmNmQ5NDFlNTgwODI0YmM5ODI3YzA3N2FmNjhlZGFhZTQ2NDZiM2JjNmM3MGE2OGQ4ZmVhYSIsInJlYXNvbl9jb2RlIjoiZ292ZXJuZWRfZXhlY3V0aW9uX2NvbXBsZXRlZCIsInJlc2lkZW50X2lkIjoiaXNzdWUyNjgtcmVjb3ZlcnktY3VzdG9kaWFuIiwic2NoZW1hIjoiYWRsLnJ1bnRpbWUucmVzaWRlbnRfdG9vbF9yZWNlaXB0LnYxIn0sInJ1bnRpbWVfcmVjZWlwdF9zaGEyNTYiOiJmODI3NTRjMDIyN2ViYzhkMDQ2ZTdjMWMxYjEwY2M2ZjcwMTNmZTI3MmM0NThiZGY0NWY3ZTVlNzAzNTQzMGFjIiwic2NoZW1hIjoiYWRsLmlzc3VlMjY4LnJ1bnRpbWVfcmVzaWRlbnRfY3ljbGUudjEiLCJ0YXNrX2RlZmluaXRpb25fc2hhMjU2IjoiMzg0ZmU4OTE4MDY1NzEzYWI0MDdiYTE2ZmJmOTRkYjAyYTk3Njc2MWVjOWE1NDlmZGQ0YzY5YjdiYjc2MGMzMiIsInRhc2tfaWQiOiJjdXN0b2RpYW5fcHJlX29ic2VydmUifSx7ImFnZW50X2lkIjoiaXNzdWUyNjgtcmV2aWV3ZXItZXNjYWxhdGlvbiIsImFnZW50X3Rlc3Rfb3V0Y29tZSI6ImV4ZWN1dGVkIiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJtb2RlbCI6ImxsYW1hMy4xOjhiIiwicm9sZSI6InJldmlld2VyX2VzY2FsYXRpb24iLCJydW50aW1lX2V4aXRfY29kZSI6MCwicnVudGltZV9yZWNlaXB0Ijp7ImFjY19jb250cmFjdF9pZCI6ImFjYy5jb21waWxlci5pc3N1ZTI2OC5pc3N1ZTI2OC1yZXZpZXdlci1lc2NhbGF0aW9uLnByZS5yZXZpZXdlcl9wcmVfb2JzZXJ2ZSIsImFkYXB0ZXJfaWQiOiJhZGFwdGVyLnJ1bnRpbWUub2JzZXJ2ZS5kcnlfcnVuIiwiYXV0aG9yaXR5X2lkIjoiYXV0aG9yaXR5Lmlzc3VlMjY4LXJldmlld2VyLWVzY2FsYXRpb24iLCJhdXRob3JpdHlfc2hhMjU2IjoiNjRjOWZiY2FlYTA4MzQxOWY0Zjk3ODMwZGIwYzY0M2U3ZDI2OGFiNWYzMDU4MmU1MjVkNDY5OTQ0ODk3YzQ2ZSIsImNoZWNrcG9pbnRfbGluZWFnZSI6ImNvbnRpbnVpdHlfY2hlY2twb2ludC5qc29uI3NoYTI1NjpjNDNmYzQ0ZGE0YzViZjIyNzVmNWExYzUzNmQxMDU3Mzk5ZDJiODlmNGYyYzBkZTUxN2VhMzFkOGU1NjEwMGVhIiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJkZWNpc2lvbiI6ImV4ZWN1dGVkIiwiZ2F0ZV9yZWFzb25fY29kZSI6ImdhdGVfYWxsb3dlZCIsInByb3Bvc2FsX2lkIjoic2hhMjU2OmFkNDAzNjczODc1MTkzOGQ2MDA3YzBjZDI3MmM4MDAxNzdlMzJjYTU5MmY0YWZhZDAyZWQwODI4YmQwNjFhYzIiLCJwcm9wb3NhbF9zaGEyNTYiOiIxNDBkOThiZGNkMjMwYWQxZTBkZmUzNTU1ZTUxNzYzZjMyNDQ2OTVlYzZkNGUyZGMzYWEyZTEzNTA5YzdhMGVjIiwicmVhc29uX2NvZGUiOiJnb3Zlcm5lZF9leGVjdXRpb25fY29tcGxldGVkIiwicmVzaWRlbnRfaWQiOiJpc3N1ZTI2OC1yZXZpZXdlci1lc2NhbGF0aW9uIiwic2NoZW1hIjoiYWRsLnJ1bnRpbWUucmVzaWRlbnRfdG9vbF9yZWNlaXB0LnYxIn0sInJ1bnRpbWVfcmVjZWlwdF9zaGEyNTYiOiI2NzMyYmU0NmQwZTQ0ZDEwNzg1Y2UxNTZlNDNlZDIyMGU1MmQ1MjczMmIzYWIwOWI4OTQ2Y2VjMThmNTIwNzY1Iiwic2NoZW1hIjoiYWRsLmlzc3VlMjY4LnJ1bnRpbWVfcmVzaWRlbnRfY3ljbGUudjEiLCJ0YXNrX2RlZmluaXRpb25fc2hhMjU2IjoiZDEyODVjMzUzNjk5ZWVlOGJkYmM0N2I2YmFkMjFiOTI4Mzc0ZDgyOTdjYjdkZGIyZTM4Y2MxZThiODc1MDVjMCIsInRhc2tfaWQiOiJyZXZpZXdlcl9wcmVfb2JzZXJ2ZSJ9LHsiYWdlbnRfaWQiOiJpc3N1ZTI2OC1ydW50aW1lLW9ic2VydmVyIiwiYWdlbnRfdGVzdF9vdXRjb21lIjoiZXhlY3V0ZWQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsIm1vZGVsIjoicGhpNC1taW5pOmxhdGVzdCIsInJvbGUiOiJydW50aW1lX29ic2VydmVyIiwicnVudGltZV9leGl0X2NvZGUiOjAsInJ1bnRpbWVfcmVjZWlwdCI6eyJhY2NfY29udHJhY3RfaWQiOiJhY2MuY29tcGlsZXIuaXNzdWUyNjguaXNzdWUyNjgtcnVudGltZS1vYnNlcnZlci5wcmUub2JzZXJ2ZXJfcHJlX29ic2VydmUiLCJhZGFwdGVyX2lkIjoiYWRhcHRlci5ydW50aW1lLm9ic2VydmUuZHJ5X3J1biIsImF1dGhvcml0eV9pZCI6ImF1dGhvcml0eS5pc3N1ZTI2OC1ydW50aW1lLW9ic2VydmVyIiwiYXV0aG9yaXR5X3NoYTI1NiI6IjViYmZkZmRlOGMyZmIwYjBlMWVlYWM4MDAyYzQ2ZDE1NjUzY2I1MmYwOWE1NGQ2YjJjODNhN2RjZjE5MDk4NzYiLCJjaGVja3BvaW50X2xpbmVhZ2UiOiJjb250aW51aXR5X2NoZWNrcG9pbnQuanNvbiNzaGEyNTY6NGI4NjM3YzQ4NWRlNDQ5YmNiZjhhMmVkN2Q5NzAyZGM0YmJkMDEwZTgxZGE4MzdlZTdhY2IwNDIzMTgzMGU5NCIsImN5Y2xlX2lkIjoiY3ljbGUtMDAwMDAxIiwiZGVjaXNpb24iOiJleGVjdXRlZCIsImdhdGVfcmVhc29uX2NvZGUiOiJnYXRlX2FsbG93ZWQiLCJwcm9wb3NhbF9pZCI6InNoYTI1NjphZGEzNWZjMDUyNzI1YTg4MWE1YWNlY2VmOTE2NmRlNjhkOGU2NTA2MDQ0NTAxMjc1NjliYmUzMDU5MTBjODdiIiwicHJvcG9zYWxfc2hhMjU2IjoiNmIwZWVhN2VkNGIxMDQ5OWIwMmQ4YzYxZWIxMDgxYzk0YTUzNzQ4OTc3ZWUwYmU5ZmQ3MDZmOTRmMDIzNjk4ZSIsInJlYXNvbl9jb2RlIjoiZ292ZXJuZWRfZXhlY3V0aW9uX2NvbXBsZXRlZCIsInJlc2lkZW50X2lkIjoiaXNzdWUyNjgtcnVudGltZS1vYnNlcnZlciIsInNjaGVtYSI6ImFkbC5ydW50aW1lLnJlc2lkZW50X3Rvb2xfcmVjZWlwdC52MSJ9LCJydW50aW1lX3JlY2VpcHRfc2hhMjU2IjoiNjFmYTBmOTJjNmNkNzI0NDcxOTYyNWQ2NjY1ZTIyYjIwZmM3OWU3MjFkNzIzMWJkN2VjMGQzMWQwZTMwY2VjMCIsInNjaGVtYSI6ImFkbC5pc3N1ZTI2OC5ydW50aW1lX3Jlc2lkZW50X2N5Y2xlLnYxIiwidGFza19kZWZpbml0aW9uX3NoYTI1NiI6Ijc0MzExYWYwZjgyZTBkNGI1MmMwOGZlZDMyZTAxMWE3OGQ5YzZlZmRlODQwYWM5NTY3YTNiYmJiYzc4YzJhMDciLCJ0YXNrX2lkIjoib2JzZXJ2ZXJfcHJlX29ic2VydmUifSx7ImFnZW50X2lkIjoiaXNzdWUyNjgtc2hlcGhlcmQtY29udHJvbGxlciIsImFnZW50X3Rlc3Rfb3V0Y29tZSI6ImV4ZWN1dGVkIiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJtb2RlbCI6ImxsYW1hMy4xOjhiIiwicm9sZSI6InNoZXBoZXJkX2NvbnRyb2xsZXIiLCJydW50aW1lX2V4aXRfY29kZSI6MCwicnVudGltZV9yZWNlaXB0Ijp7ImFjY19jb250cmFjdF9pZCI6ImFjYy5jb21waWxlci5pc3N1ZTI2OC5pc3N1ZTI2OC1zaGVwaGVyZC1jb250cm9sbGVyLnByZS5zaGVwaGVyZF9wcmVfb2JzZXJ2ZSIsImFkYXB0ZXJfaWQiOiJhZGFwdGVyLnJ1bnRpbWUub2JzZXJ2ZS5kcnlfcnVuIiwiYXV0aG9yaXR5X2lkIjoiYXV0aG9yaXR5Lmlzc3VlMjY4LXNoZXBoZXJkLWNvbnRyb2xsZXIiLCJhdXRob3JpdHlfc2hhMjU2IjoiYmFmMDgxYmJmMzFmMzQ0NDU4YTNlM2RhNzdmYjNmZWRjZmNmZGIzZWU3MTE4MjQ2MjEzY2UyM2I2ZWExMGZkMSIsImNoZWNrcG9pbnRfbGluZWFnZSI6ImNvbnRpbnVpdHlfY2hlY2twb2ludC5qc29uI3NoYTI1NjpiMDJiYTI0ZDFmNjQwN2M1YzQwNmY4ZTNhMDFmMDA2YTE1YWM0OWExYzhhZmI4MjczZjY1MWVkMGYxNjc4NjI4IiwiY3ljbGVfaWQiOiJjeWNsZS0wMDAwMDEiLCJkZWNpc2lvbiI6ImV4ZWN1dGVkIiwiZ2F0ZV9yZWFzb25fY29kZSI6ImdhdGVfYWxsb3dlZCIsInByb3Bvc2FsX2lkIjoic2hhMjU2OmUwM2JkZmU5ODE3NGE1MWZkNDE4MzJlZWQ5Njg1NzIyNzQ0MWU0ZmQwOGMxMzUwNTdhMDEzY2M0NTc4ZTgwZGUiLCJwcm9wb3NhbF9zaGEyNTYiOiJmNjkzYjI3OGU1MjBjOTJiZTEwZmQyYTBiN2ExZDIxYjZkMzcwMzA0NzFkNDFjZTZlYzU1ODRhYmFlNGE3ZjY2IiwicmVhc29uX2NvZGUiOiJnb3Zlcm5lZF9leGVjdXRpb25fY29tcGxldGVkIiwicmVzaWRlbnRfaWQiOiJpc3N1ZTI2OC1zaGVwaGVyZC1jb250cm9sbGVyIiwic2NoZW1hIjoiYWRsLnJ1bnRpbWUucmVzaWRlbnRfdG9vbF9yZWNlaXB0LnYxIn0sInJ1bnRpbWVfcmVjZWlwdF9zaGEyNTYiOiI5YTczNmU5MmRhYmNhMmExNWQ3ZDc1NTM5OTdkZDc5MThhOTc0NjU3YTVmNDExZGZkZGI3Y2U2NTI3ZDQ1MGU0Iiwic2NoZW1hIjoiYWRsLmlzc3VlMjY4LnJ1bnRpbWVfcmVzaWRlbnRfY3ljbGUudjEiLCJ0YXNrX2RlZmluaXRpb25fc2hhMjU2IjoiMzRmOTYyYzUyNmY4NGRkMmQzMTNkZWZhOTVhNTdmMjA5YWIwMDNjMTY1YTMzZjkxMzc1MmJjMDU0ZjI1MTg4NSIsInRhc2tfaWQiOiJzaGVwaGVyZF9wcmVfb2JzZXJ2ZSJ9LHsiYWdlbnRfaWQiOiJpc3N1ZTI2OC10b29sLWV4ZWN1dG9yIiwiYWdlbnRfdGVzdF9vdXRjb21lIjoiZXhlY3V0ZWQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsIm1vZGVsIjoicXdlbjM6OGIiLCJyb2xlIjoidG9vbF9leGVjdXRvciIsInJ1bnRpbWVfZXhpdF9jb2RlIjowLCJydW50aW1lX3JlY2VpcHQiOnsiYWNjX2NvbnRyYWN0X2lkIjoiYWNjLmNvbXBpbGVyLmlzc3VlMjY4Lmlzc3VlMjY4LXRvb2wtZXhlY3V0b3IucHJlLmV4ZWN1dG9yX3ByZV9vYnNlcnZlIiwiYWRhcHRlcl9pZCI6ImFkYXB0ZXIucnVudGltZS5vYnNlcnZlLmRyeV9ydW4iLCJhdXRob3JpdHlfaWQiOiJhdXRob3JpdHkuaXNzdWUyNjgtdG9vbC1leGVjdXRvciIsImF1dGhvcml0eV9zaGEyNTYiOiIwZjY3MGNhZjc2NmRjODY4ZjEyNDZjZjk0NjRjNjZiNWJkODAwZWVkMmQ4YzY0NThjODQ4NDU4ZGI5OGE3YjEwIiwiY2hlY2twb2ludF9saW5lYWdlIjoiY29udGludWl0eV9jaGVja3BvaW50Lmpzb24jc2hhMjU2OmRmZmFkZGRlOTU1NjNhZWQ2ZDM2ZDRjNzNiM2RiOGMyZTQzMjM3ZWNiYjIyMDVkNzM2MDA5MTU1ZjhhYzI2ZjQiLCJjeWNsZV9pZCI6ImN5Y2xlLTAwMDAwMSIsImRlY2lzaW9uIjoiZXhlY3V0ZWQiLCJnYXRlX3JlYXNvbl9jb2RlIjoiZ2F0ZV9hbGxvd2VkIiwicHJvcG9zYWxfaWQiOiJzaGEyNTY6NWYwNGI5YzAyNGM5ZWIwZWQ1Yjk1NTAzZmY5Y2JiZjg4ZDAzNjYyODJjOGMzN2M2Y2QwOTk5YjMxNzEyOGNkMSIsInByb3Bvc2FsX3NoYTI1NiI6IjgxNTJkMTQyODUyNjkxNTUyYjk1ZDNhYzczMTliYzI3NzM0ZTAyMDI5ODFlZmRmZTAxOGE2NDFmNjQxNjNjZDEiLCJyZWFzb25fY29kZSI6ImdvdmVybmVkX2V4ZWN1dGlvbl9jb21wbGV0ZWQiLCJyZXNpZGVudF9pZCI6Imlzc3VlMjY4LXRvb2wtZXhlY3V0b3IiLCJzY2hlbWEiOiJhZGwucnVudGltZS5yZXNpZGVudF90b29sX3JlY2VpcHQudjEifSwicnVudGltZV9yZWNlaXB0X3NoYTI1NiI6ImUxZDE0ODM5NDEyYjViMDc2MzZhOTBmNGZkYzA4YjkzNjY5NGI1Njg2ZTNhZjk4NTRiYjdkOTQ1ZmFkN2MyNTkiLCJzY2hlbWEiOiJhZGwuaXNzdWUyNjgucnVudGltZV9yZXNpZGVudF9jeWNsZS52MSIsInRhc2tfZGVmaW5pdGlvbl9zaGEyNTYiOiI5NGNlMjhiZDUyNDYzYTAwNzhiNWU5MjJiMjNkMGU2YzAxOWY5NzM5YTVkNTgyOWUxODc0MGRkMmQ2Njc4MWYwIiwidGFza19pZCI6ImV4ZWN1dG9yX3ByZV9vYnNlcnZlIn1d",
+  "aws_qualification_authority": "unchanged",
+  "runtime_receipt": {
+    "schema": "adl.issue509.gcp_drt_d_runtime_receipt.v1",
+    "status": "passed",
+    "source_revision": "9f6bae16fafbc085839ee6abca7a1067965c658e",
+    "topology": {
+      "node_count": 2,
+      "runtime_node": "gcp_compute_instance.runtime",
+      "ollama_node": "gcp_compute_instance.ollama",
+      "ollama_private_ip": "10.128.0.13",
+      "ollama_public": false
+    },
+    "provider": {
+      "kind": "ollama",
+      "runtime_surface": "gcp_private_ollama_http",
+      "model_source": "gcs_object_storage",
+      "artifact_manifest_sha256": "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc",
+      "model_count": 3,
+      "models": [
+        {
+          "model_identity": "llama3.1:8b",
+          "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+          "size_vram": 5271715839
+        },
+        {
+          "model_identity": "phi4-mini:latest",
+          "digest": "78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753",
+          "size_vram": 3087615917
+        },
+        {
+          "model_identity": "qwen3:8b",
+          "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+          "size_vram": 5578204118
+        }
+      ]
+    },
+    "residents": [
+      {
+        "agent_id": "issue268-planner",
+        "agent_test_outcome": "executed",
+        "cycle_id": "cycle-000001",
+        "model": "qwen3:8b",
+        "role": "planner",
+        "runtime_exit_code": 0,
+        "runtime_receipt": {
+          "acc_contract_id": "acc.compiler.issue268.issue268-planner.pre.planner_pre_observe",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "authority_id": "authority.issue268-planner",
+          "authority_sha256": "8c6b20761fd0e0622f15b0ed9d6e00350c9287594319949ca07183b042227256",
+          "checkpoint_lineage": "continuity_checkpoint.json#sha256:e69311f88ce4dc03314b46e3d717813064804eaf73c4c70ff8b0dc575392803d",
+          "cycle_id": "cycle-000001",
+          "decision": "executed",
+          "gate_reason_code": "gate_allowed",
+          "proposal_id": "sha256:fcf8b19ced7ca25710a0bbbfa20c376bb1a25aaae7726459f799721ee84595fb",
+          "proposal_sha256": "8d258dd516f2aa28603cfceaac12ca05278e476b5c2b427626c82d9262da0972",
+          "reason_code": "governed_execution_completed",
+          "resident_id": "issue268-planner",
+          "schema": "adl.runtime.resident_tool_receipt.v1"
+        },
+        "runtime_receipt_sha256": "434b80fd9cd36545a9377d499b37740efd24d630d75b9a633b78cb6b14e580da",
+        "schema": "adl.issue268.runtime_resident_cycle.v1",
+        "task_definition_sha256": "57a65d1690367d6aa446c31871f33115020d4572c2471eee3752c38a552df87c",
+        "task_id": "planner_pre_observe"
+      },
+      {
+        "agent_id": "issue268-recovery-custodian",
+        "agent_test_outcome": "executed",
+        "cycle_id": "cycle-000001",
+        "model": "phi4-mini:latest",
+        "role": "recovery_custodian",
+        "runtime_exit_code": 0,
+        "runtime_receipt": {
+          "acc_contract_id": "acc.compiler.issue268.issue268-recovery-custodian.pre.custodian_pre_observe",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "authority_id": "authority.issue268-recovery-custodian",
+          "authority_sha256": "4b776441ab22064c3cc4842b61fa285e8708ef2723168dbd6defeef420af98cd",
+          "checkpoint_lineage": "continuity_checkpoint.json#sha256:88904ac69f8564642099559bd483f7e9dd30332e77e41bd473096d981e9b0b00",
+          "cycle_id": "cycle-000001",
+          "decision": "executed",
+          "gate_reason_code": "gate_allowed",
+          "proposal_id": "sha256:689fb3234a1a328d13b691a25e613be57b11654e4db92cf82f7df841b1576293",
+          "proposal_sha256": "9d042ec14b2f6d941e580824bc9827c077af68edaae4646b3bc6c70a68d8feaa",
+          "reason_code": "governed_execution_completed",
+          "resident_id": "issue268-recovery-custodian",
+          "schema": "adl.runtime.resident_tool_receipt.v1"
+        },
+        "runtime_receipt_sha256": "f82754c0227ebc8d046e7c1c1b10cc6f7013fe272c458bdf45f7e5e7035430ac",
+        "schema": "adl.issue268.runtime_resident_cycle.v1",
+        "task_definition_sha256": "384fe8918065713ab407ba16fbf94db02a976761ec9a549fdd4c69b7bb760c32",
+        "task_id": "custodian_pre_observe"
+      },
+      {
+        "agent_id": "issue268-reviewer-escalation",
+        "agent_test_outcome": "executed",
+        "cycle_id": "cycle-000001",
+        "model": "llama3.1:8b",
+        "role": "reviewer_escalation",
+        "runtime_exit_code": 0,
+        "runtime_receipt": {
+          "acc_contract_id": "acc.compiler.issue268.issue268-reviewer-escalation.pre.reviewer_pre_observe",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "authority_id": "authority.issue268-reviewer-escalation",
+          "authority_sha256": "64c9fbcaea083419f4f97830db0c643e7d268ab5f30582e525d469944897c46e",
+          "checkpoint_lineage": "continuity_checkpoint.json#sha256:c43fc44da4c5bf2275f5a1c536d1057399d2b89f4f2c0de517ea31d8e56100ea",
+          "cycle_id": "cycle-000001",
+          "decision": "executed",
+          "gate_reason_code": "gate_allowed",
+          "proposal_id": "sha256:ad4036738751938d6007c0cd272c800177e32ca592f4afad02ed0828bd061ac2",
+          "proposal_sha256": "140d98bdcd230ad1e0dfe3555e51763f3244695ec6d4e2dc3aa2e13509c7a0ec",
+          "reason_code": "governed_execution_completed",
+          "resident_id": "issue268-reviewer-escalation",
+          "schema": "adl.runtime.resident_tool_receipt.v1"
+        },
+        "runtime_receipt_sha256": "6732be46d0e44d10785ce156e43ed220e52d52732b3ab09b8946cec18f520765",
+        "schema": "adl.issue268.runtime_resident_cycle.v1",
+        "task_definition_sha256": "d1285c353699eee8bdbc47b6bad21b928374d8297cb7ddb2e38cc1e8b87505c0",
+        "task_id": "reviewer_pre_observe"
+      },
+      {
+        "agent_id": "issue268-runtime-observer",
+        "agent_test_outcome": "executed",
+        "cycle_id": "cycle-000001",
+        "model": "phi4-mini:latest",
+        "role": "runtime_observer",
+        "runtime_exit_code": 0,
+        "runtime_receipt": {
+          "acc_contract_id": "acc.compiler.issue268.issue268-runtime-observer.pre.observer_pre_observe",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "authority_id": "authority.issue268-runtime-observer",
+          "authority_sha256": "5bbfdfde8c2fb0b0e1eeac8002c46d15653cb52f09a54d6b2c83a7dcf1909876",
+          "checkpoint_lineage": "continuity_checkpoint.json#sha256:4b8637c485de449bcbf8a2ed7d9702dc4bbd010e81da837ee7acb04231830e94",
+          "cycle_id": "cycle-000001",
+          "decision": "executed",
+          "gate_reason_code": "gate_allowed",
+          "proposal_id": "sha256:ada35fc052725a881a5acecef9166de68d8e650604450127569bbe305910c87b",
+          "proposal_sha256": "6b0eea7ed4b10499b02d8c61eb1081c94a53748977ee0be9fd706f94f023698e",
+          "reason_code": "governed_execution_completed",
+          "resident_id": "issue268-runtime-observer",
+          "schema": "adl.runtime.resident_tool_receipt.v1"
+        },
+        "runtime_receipt_sha256": "61fa0f92c6cd7244719625d6665e22b20fc79e721d7231bd7ec0d31d0e30cec0",
+        "schema": "adl.issue268.runtime_resident_cycle.v1",
+        "task_definition_sha256": "74311af0f82e0d4b52c08fed32e011a78d9c6efde840ac9567a3bbbbc78c2a07",
+        "task_id": "observer_pre_observe"
+      },
+      {
+        "agent_id": "issue268-shepherd-controller",
+        "agent_test_outcome": "executed",
+        "cycle_id": "cycle-000001",
+        "model": "llama3.1:8b",
+        "role": "shepherd_controller",
+        "runtime_exit_code": 0,
+        "runtime_receipt": {
+          "acc_contract_id": "acc.compiler.issue268.issue268-shepherd-controller.pre.shepherd_pre_observe",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "authority_id": "authority.issue268-shepherd-controller",
+          "authority_sha256": "baf081bbf31f344458a3e3da77fb3fedcfcfdb3ee7118246213ce23b6ea10fd1",
+          "checkpoint_lineage": "continuity_checkpoint.json#sha256:b02ba24d1f6407c5c406f8e3a01f006a15ac49a1c8afb8273f651ed0f1678628",
+          "cycle_id": "cycle-000001",
+          "decision": "executed",
+          "gate_reason_code": "gate_allowed",
+          "proposal_id": "sha256:e03bdfe98174a51fd41832eed96857227441e4fd08c135057a013cc4578e80de",
+          "proposal_sha256": "f693b278e520c92be10fd2a0b7a1d21b6d37030471d41ce6ec5584abae4a7f66",
+          "reason_code": "governed_execution_completed",
+          "resident_id": "issue268-shepherd-controller",
+          "schema": "adl.runtime.resident_tool_receipt.v1"
+        },
+        "runtime_receipt_sha256": "9a736e92dabca2a15d7d7553997dd7918a974657a5f411dfddb7ce6527d450e4",
+        "schema": "adl.issue268.runtime_resident_cycle.v1",
+        "task_definition_sha256": "34f962c526f84dd2d313defa95a57f209ab003c165a33f913752bc054f251885",
+        "task_id": "shepherd_pre_observe"
+      },
+      {
+        "agent_id": "issue268-tool-executor",
+        "agent_test_outcome": "executed",
+        "cycle_id": "cycle-000001",
+        "model": "qwen3:8b",
+        "role": "tool_executor",
+        "runtime_exit_code": 0,
+        "runtime_receipt": {
+          "acc_contract_id": "acc.compiler.issue268.issue268-tool-executor.pre.executor_pre_observe",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "authority_id": "authority.issue268-tool-executor",
+          "authority_sha256": "0f670caf766dc868f1246cf9464c66b5bd800eed2d8c6458c848458db98a7b10",
+          "checkpoint_lineage": "continuity_checkpoint.json#sha256:dffaddde95563aed6d36d4c73b3db8c2e43237ecbb2205d736009155f8ac26f4",
+          "cycle_id": "cycle-000001",
+          "decision": "executed",
+          "gate_reason_code": "gate_allowed",
+          "proposal_id": "sha256:5f04b9c024c9eb0ed5b95503ff9cbbf88d0366282c8c37c6cd0999b317128cd1",
+          "proposal_sha256": "8152d142852691552b95d3ac7319bc27734e0202981efdfe018a641f64163cd1",
+          "reason_code": "governed_execution_completed",
+          "resident_id": "issue268-tool-executor",
+          "schema": "adl.runtime.resident_tool_receipt.v1"
+        },
+        "runtime_receipt_sha256": "e1d14839412b5b07636a90f4fdc08b936694b5686e3af9854bb7d945fad7c259",
+        "schema": "adl.issue268.runtime_resident_cycle.v1",
+        "task_definition_sha256": "94ce28bd52463a0078b5e922b23d0e6c019f9739a5d5829e18740dd2d66781f0",
+        "task_id": "executor_pre_observe"
+      }
+    ],
+    "components_exercised": [
+      "gcp_compute_runtime_node",
+      "gcp_compute_ollama_gpu_node",
+      "six_resident_uts_runtime",
+      "private_ollama_http"
+    ]
+  },
+  "ollama_receipt": {
+    "schema": "adl.issue509.ollama_gpu_receipt.v1",
+    "status": "ready",
+    "ollama_public": false,
+    "model_source": "gcs_object_storage",
+    "artifact_manifest_sha256": "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc",
+    "model_count": 3,
+    "models": [
+      {
+        "model_identity": "llama3.1:8b",
+        "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+        "size_vram": 5271715839
+      },
+      {
+        "model_identity": "phi4-mini:latest",
+        "digest": "78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753",
+        "size_vram": 3087615917
+      },
+      {
+        "model_identity": "qwen3:8b",
+        "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+        "size_vram": 5578204118
+      }
+    ]
+  },
+  "cost_usd": 0,
+  "cleanup": {
+    "runtime_instance": "absent",
+    "ollama_instance": "absent",
+    "run_selector": "absent"
+  }
+}
