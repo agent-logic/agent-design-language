@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "fa982e12f2212b2d68c4a7bfcb6f8a0e52c1c440c37ce09e51ff2683d5fce677",
+  "generation": 9,
+  "digest": "655fc337e3a342c818efcea5f061525fbf770bfa26164011e27dcc7db723dc7f",
   "branch": "codex/262-podcast-production-hosting",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-262-podcast-production-hosting",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d89e69ffb0961741ca1e7b5d60a54f99398491b8fb6fc4a5ad058828f9f747ef",
+      "values_digest": "909281a14da8c0c59c6ac4ff02c544c73b94f930110a701fa55484a7323eeae6",
       "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
       "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
     },
     "stp": {
-      "values_digest": "e516479ecf6c3be09e632c9a621a4004a66dcc926137921396768ef49ccc6a39",
+      "values_digest": "eae64ce5c2a990bcfd74b59263cee26258d21c0ee55df9245f692a9b7178c347",
       "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
       "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
     },
     "spp": {
-      "values_digest": "447ca51eed2f1e233372043b396bc85661fb478c6706faa142a94f2caa787c31",
+      "values_digest": "5a4fd4ce077dd30aa478bf95c3561d410f40866816bbc539bdbc148fa9769d6a",
       "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
       "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
     },
     "vpp": {
-      "values_digest": "886d06a0f6b0f2c2a5fe59ab38895725f2374d134f3aaae52bb2fd85acb0d5c7",
+      "values_digest": "b8240ae62e02811a1aa7aac6b87d5047d4e0f082aa2adcd8c0d67a544b185feb",
       "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
       "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
     },
     "srp": {
-      "values_digest": "826007de53aa49dc656dc073ba251d030e1a50595ed77f2ad218b0c85576c9fb",
+      "values_digest": "d6149f70c012e12d492bec188494c98e7a40d7e7153d5e352e4068e73712d468",
       "rendered_digest": "2c288f0d5f0f67d7d56237edb501b8591281101f396af695639ee12d5bffa205",
       "ast_digest": "014bd03bef7fed760c2a5282efd42592a148c27bca6198914c7cbeb287706ff4"
     },
     "sor": {
-      "values_digest": "c50ff7db44a6a02e7adbbbce99b9d62362f9c930ff8b564354fa6c1de6ec11ee",
-      "rendered_digest": "5e8cb79e791b0b9a1ad5bfe48f009a403932cd3c771ee6e3bdb2fdd8dc126662",
-      "ast_digest": "dde4ac104903f69fdddb00b5c4416a9eb5071ec06aad873ee6dce5eb48b66e18"
+      "values_digest": "18b7d4ee12fca11a991fadea6a0822f5e108b9e56db1960a7e1e9f1f9e436b18",
+      "rendered_digest": "937856595802571a34aa1e5835a28abd7c406efc21f3f1519745daeab3cbd914",
+      "ast_digest": "4b641c986c1d5d317885357547f2bf46fb7bfd991ceb33fc43815ec5f99a2f23"
     }
   },
   "transitions": [
@@ -148,6 +148,20 @@
       "actor": "codex:root/podcast-262",
       "reason": "Recover after assigned #262 review found stale public transcript show name, stale MP3 ID3 metadata, and stale mailbox readiness text; prepare a remediated exact-head candidate.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record post-review remediation validation for stale show-name and MP3 metadata findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"purpose\":\"Validate post-remediation The Cognitive Stack feed/page/enclosure consistency, MP3 ID3 metadata, QA metadata, and stale transcript-copy guard coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-focused.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:root/podcast-262",
+      "reason": "Record exact-range diff hygiene after #262 review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the exact #262 post-remediation reviewable diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/262/issue-262-diff-hygiene.log\"}}"
     }
   ]
 }

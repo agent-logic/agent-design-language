@@ -56,6 +56,26 @@ Implemented the #262 podcast production-hosting candidate for The Cognitive Stac
     "purpose": "Validate The Cognitive Stack production-feed candidate, episode metadata, stable HTTPS enclosure, MIME type, byte length, audio/artwork digests, and public/preview page references without claiming external publication.",
     "outcome": "passed",
     "evidence_ref": "issue-262-focused.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate post-remediation The Cognitive Stack feed/page/enclosure consistency, MP3 ID3 metadata, QA metadata, and stale transcript-copy guard coverage.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 post-remediation reviewable diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
   }
 ]
 
