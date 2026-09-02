@@ -317,7 +317,7 @@ consume_authorization() {
   if [[ -n "$AUTH_CAMPAIGN_ID" ]]; then
     [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12]|qualification-remediation|qualification-quota-recovery)$ ]] \
       || { echo "authorization campaign slot is invalid" >&2; exit 2; }
-    marker="${PREFIX}campaigns/$AUTH_CAMPAIGN_ID/actions/$AUTH_ACTION.json"
+    marker="$(campaign_action_marker "$AUTH_CAMPAIGN_ID" "$AUTH_ACTION")"
   elif [[ "$AUTH_ACTION" == retire-snapshots ]]; then
     marker="${PREFIX}storage/$STORAGE_ID/actions/retire-snapshots.json"
   else
@@ -333,6 +333,13 @@ consume_authorization() {
     echo "authorization already consumed" >&2
     exit 2
   fi
+}
+
+campaign_action_marker() {
+  local campaign="$1" action="$2"
+  [[ "$campaign" =~ ^[0-9a-f]{64}$ && "$action" =~ ^(prepare|launch-[12]|qualification-remediation|qualification-quota-recovery)$ ]] \
+    || { echo "campaign action marker identity is invalid" >&2; return 2; }
+  printf '%scampaigns/%s/actions/%s.json\n' "$PREFIX" "$campaign" "$action"
 }
 
 saved_plan() {
@@ -675,7 +682,7 @@ validate_issue_cost_audit() {
     and ((.fixed_allowances.total_usd+.historical_compute_upper_bound_usd+.historical_disposable_ebs_ipv4_allowance_usd-.historical_total_upper_bound_usd)|fabs)<0.00001
     and .historical_total_upper_bound_usd<=.authorized_ceiling_usd
     and ((.authorized_ceiling_usd-.historical_total_upper_bound_usd-.remaining_before_remediation_usd)|fabs)<0.00001
-    and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .action=="qualification-remediation" and .outcome=="rejected_before_instance" and .runtime_seconds==0 and .gpu_seconds==0 and .compute_upper_bound_usd==0 and .error_code=="Client.VcpuLimitExceeded" and .quota_code=="L-DB2E81BA" and .observed_quota_vcpus==4 and .required_vcpus==16 and (.cloudtrail_event_ids|length)==3 and (.cloudtrail_response_instance_ids|length)==0)]|length)==1
+    and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .action=="qualification-remediation" and .outcome=="rejected_before_instance" and .runtime_seconds==0 and .gpu_seconds==0 and .compute_upper_bound_usd==0 and .error_code=="Client.VcpuLimitExceeded" and .quota_code=="L-DB2E81BA" and .observed_quota_vcpus==4 and .required_vcpus==16 and (.cloudtrail_event_ids|sort)==(["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"]|sort) and (.cloudtrail_response_instance_ids|length)==0 and .post_cleanup_owner_inventory.owner_token_sha256=="83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
   ' "$audit" >/dev/null || { echo "issue-wide paid-action cost audit is invalid" >&2; return 2; }
 }
 
@@ -766,6 +773,17 @@ assert_readiness_deadlines() {
     || { echo "Runtime local-ready receipt exceeded ${RUNTIME_LOCAL_READY_MAX_SECONDS}s or was invalid" >&2; return 1; }
   [[ "$controller_elapsed" =~ ^[0-9]+$ ]] && ((controller_elapsed <= SERVICE_READY_MAX_SECONDS)) \
     || { echo "controller service-ready exceeded ${SERVICE_READY_MAX_SECONDS}s or was invalid: ${controller_elapsed}s" >&2; return 1; }
+}
+
+configure_remediation_route() {
+  local ordinal="$1" campaign_id="$2" expected_run
+  remediation_like=true
+  case "$ordinal" in
+    remediation) launch_action=qualification-remediation; expected_run="adl-issue607-${campaign_id:0:12}-remediate" ;;
+    quota-recovery) launch_action=qualification-quota-recovery; expected_run="adl-issue607-${campaign_id:0:12}-quota-recovery" ;;
+    *) echo "invalid remediation route: $ordinal" >&2; return 2 ;;
+  esac
+  [[ "$RUN_ID" == "$expected_run" ]] || { echo "remediation run ID must be exactly: $expected_run" >&2; return 2; }
 }
 
 wait_images_available() {
@@ -1379,11 +1397,10 @@ prepare() {
 launch() {
   [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 || "$ORDINAL" == remediation || "$ORDINAL" == quota-recovery ) ]] || { echo "launch requires --ordinal 1|2|remediation|quota-recovery and --execute" >&2; exit 2; }
   launch_action="launch-$ORDINAL"; remediation_like=false
-  [[ "$ORDINAL" == remediation ]] && { launch_action=qualification-remediation; remediation_like=true; }
-  [[ "$ORDINAL" == quota-recovery ]] && { launch_action=qualification-quota-recovery; remediation_like=true; }
   validate_generation_controller
   run_dir="$STATE_ROOT/runs/$RUN_ID"; storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
   [[ -f "$storage_dir/preparation-result.json" && ! -e "$run_dir/paid-started" ]] || { echo "prepared storage missing or launch already started" >&2; exit 2; }
+  [[ "$ORDINAL" == 1 || "$ORDINAL" == 2 ]] || configure_remediation_route "$ORDINAL" "$(jq -r .campaign.id "$storage_dir/preparation-result.json")"
   mkdir -p "$run_dir" "$run_dir/tfdata-compute"
   [[ -f "$storage_dir/preflight.json" ]] || { echo "prepared preflight tuple is missing" >&2; exit 2; }
   cp "$storage_dir/preflight.json" "$run_dir/preflight.json"
@@ -1424,9 +1441,6 @@ launch() {
   campaign="$(jq -c .campaign "$storage_dir/preparation-result.json")"
   campaign_id="$(jq -r .id <<<"$campaign")"
   if [[ "$remediation_like" == true ]]; then
-    expected_run="adl-issue607-${campaign_id:0:12}-remediate"
-    [[ "$ORDINAL" == quota-recovery ]] && expected_run="adl-issue607-${campaign_id:0:12}-quota-recovery"
-    [[ "$RUN_ID" == "$expected_run" ]] || { echo "remediation run ID must be exactly: $expected_run" >&2; exit 2; }
     initialize_issue_cost_ledger "$ISSUE_COST_AUDIT" "$ISSUE_COST_LEDGER"
     reservation="$(calculate_issue_action_reservation "$launch_action" "$ISSUE_COST_AUDIT")"
     projected_total="$(awk -v baseline="$(jq -r .baseline_upper_bound_usd "$ISSUE_COST_LEDGER")" -v reservation="$reservation" 'BEGIN {printf "%.6f",baseline+reservation}')"
@@ -1603,6 +1617,19 @@ case "$ACTION" in
     require aws
     [[ $# -eq 0 ]] || { echo "test-gpu-on-demand-quota takes no arguments" >&2; exit 2; }
     verify_gpu_on_demand_quota
+    ;;
+  test-remediation-route)
+    [[ $# -eq 2 ]] || { echo "test-remediation-route requires ordinal and campaign ID" >&2; exit 2; }
+    configure_remediation_route "$1" "$2"
+    printf '%s\n' "$launch_action"
+    ;;
+  test-campaign-action-marker)
+    [[ $# -eq 2 ]] || { echo "test-campaign-action-marker requires campaign ID and action" >&2; exit 2; }
+    campaign_action_marker "$1" "$2"
+    ;;
+  test-validate-remediation-authorization)
+    [[ $# -eq 7 ]] || { echo "test-validate-remediation-authorization requires action, plan, preflight, manifest, campaign, total, and reservation" >&2; exit 2; }
+    validate_remediation_authorization "$@"
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;
