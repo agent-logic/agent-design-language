@@ -1,0 +1,106 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 628,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
+    "slug": "v3-h2-local-lifecycle",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Consume #627's command manifest, implement the local route dispatcher and construction-state flows, prove real issue startup and typed failure paths, then publish only after exact-head review.",
+      "steps": [
+        {
+          "id": "628-1",
+          "action": "Verify #627 command manifest availability and current non-authority boundary.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "628-2",
+          "action": "Implement local route request/response handling and construction-state persistence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "628-3",
+          "action": "Add real issue local canary and three-minute measurement proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "628-4",
+          "action": "Add focused positive and negative route tests plus issue-owned validator.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "628-5",
+          "action": "Run typed validation, exact-head review, and publication readiness without GitHub mutation beyond typed publish.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands",
+        "csdlc-v3/src/application",
+        "csdlc-v3/src/repository",
+        "csdlc-v3/tests/local_commands.rs",
+        "csdlc-v3/tests/real_issue_canary.rs",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        ".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh",
+        ".csdlc/prepared/issues/628",
+        ".csdlc/issues/628"
+      ],
+      "invariants": [
+        "One binary remains named csdlc.",
+        "C-SDLC v3 remains non-authoritative before #505.",
+        "No csdlc-v2 source changes.",
+        "Real issue canaries must not hide defects behind v2 fallbacks."
+      ],
+      "risks": [
+        "Local lifecycle scope can sprawl into GitHub/publication work owned by #629.",
+        "Construction-state convenience could accidentally claim live authority before #505.",
+        "Canary measurement can become non-reproducible if it depends on network or host-local state."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Need to edit csdlc-v2 source.",
+        "Need GitHub mutation before #629.",
+        "Need #505 cutover approval.",
+        "Cannot reproduce real issue canary locally."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/628/design.md",
+      "design_digest": "7231104c12cd8148c993281ec2ce0d62e5f6d5bedd081699073327de8dc0b289",
+      "diagram_ref": ".csdlc/prepared/issues/628/diagram.mmd",
+      "diagram_digest": "3d1bd2cd6f796c81e9af39e8bd4598975ff079cd04ff21b61c8d444eefe4c1de"
+    }
+  }
+}

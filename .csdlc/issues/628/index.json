@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 628,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e018a3a011aecec26127848956f81021050e040b1cc33a1832e3c501014aec33",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "aaa7a5de3a4e69b9a3ab97d6bf0244b6dd55d8af9c8970cd59aaeda84af9b9a5",
+  "branch": "codex/628-v3-h2-local-lifecycle-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/628/design.md",
+  "diagram_path": ".csdlc/prepared/issues/628/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:sprint-625-setup",
+      "revision": "7231104c12cd8148c993281ec2ce0d62e5f6d5bedd081699073327de8dc0b289"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "059e3cf70bae17905e2bcd0213c4181e68300d0391271e8dc29a0bc6c24f6381",
+      "rendered_digest": "ec86154fbe8bea2e97c924434eeb9628c5ed7da45613790a6ac03fbb543a27a5",
+      "ast_digest": "2acce6b1beca8f33b77c7b8cf371d468d8f199e4f56aa9dcfe4a298d3acd9593"
+    },
+    "stp": {
+      "values_digest": "b06e82ba5d09203a1ae57ad06929731693ef1193a9ac561fffb7c0c17408f4d8",
+      "rendered_digest": "bc3cd8bd8745a5adceb6c9595367ec1919f1797064fee91ee7eb896d4f155efd",
+      "ast_digest": "57dfad5b0fe0bea239cfdf214b53671017845b79aff12963238f44d33d0c57db"
+    },
+    "spp": {
+      "values_digest": "ae404f4f56ea762c170714790c8574339a85480583e624aa45d79e798e83feb0",
+      "rendered_digest": "d819514ecc09935b395491930a0d9d63e1b5046f4c83282c0e9c3ba0dc04689a",
+      "ast_digest": "14bf84ef4d04a577ee0b6f619469d6cddc0148f5d840a78313ae0c6973a2d204"
+    },
+    "vpp": {
+      "values_digest": "ba69fddb7c5a0163a612e4e5ca16765ad8a2fc5029a36bbb74875518b93830a3",
+      "rendered_digest": "43d4653b64b0dd707774309d0824415e41d4fd92b04d28591b58488a8e59f8ed",
+      "ast_digest": "307972fa8f14180b84ddc1bba65bd946c9ec42f924450df0c57ddb655684f02e"
+    },
+    "srp": {
+      "values_digest": "825df0527e7baf9bb2aabe4241e650a25a75a7020e4b88dc306e15256c9020c6",
+      "rendered_digest": "d3408e0406135933cb240a0dd37d58c00a8a2180bbd7091f36d8f8a25fb20c17",
+      "ast_digest": "be7e76da565049fe7839f508287ed2aa94ebadb1612d7cdf29a7f1b256afd868"
+    },
+    "sor": {
+      "values_digest": "807caf0e339fd887627a05ab8069cff18649fe8eae6629a40e021f5843d91e80",
+      "rendered_digest": "8dace0aec4593699da98bc39a746ea1aadd9a37094a3f6ee835e14bbbf2d3c93",
+      "ast_digest": "4fd3e6b1a14a6ce90f5132a3bf4eeb8b0fed24da0f7c097e607339094b65a35a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #628 to ready after typed validation, doctor, issue-owned validator, and diff hygiene passed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "repair pre-bind readiness by making the issue-owned validator script an exact governed affected path",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands\",\"csdlc-v3/src/application\",\"csdlc-v3/src/repository\",\"csdlc-v3/tests/local_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh\",\".csdlc/prepared/issues/628\",\".csdlc/issues/628\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Advance #628 to ready after typed validation, doctor, issue-owned validator, and diff hygiene passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 628,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
+    "slug": "v3-h2-local-lifecycle",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #628 only: local lifecycle command routes issue/bind/edit/validate/doctor/schedule/shepherd/eligibility, construction-state handling, focused tests, and issue-owned validation.",
+      "deliverables": [
+        "Implemented local lifecycle command routes under the single csdlc binary.",
+        "Typed local construction-state store and missing-state diagnostics.",
+        "Real issue canary proving ready-to-execute local lifecycle setup in three minutes or less.",
+        "Focused tests for positive and failure-path local lifecycle behavior.",
+        "Issue-owned validator for route coverage, non-authority, and no-v2-source-change."
+      ],
+      "acceptance_criteria": [
+        "A real issue canary reaches ready-to-execute through v3-local state without v2 operational fallback.",
+        "Six-card lifecycle order is enforced: SIP -> STP -> SPP -> VPP -> SRP -> SOR.",
+        "Missing local lifecycle state is initialized or repaired intentionally with typed errors and next actions.",
+        "Issue start target is measured and can be ready for first useful work in three minutes or less once dependencies are satisfied.",
+        "Focused tests cover positive, stale-digest, missing-card, unsafe-primary-worktree, and unsupported-transition cases.",
+        "No csdlc-v2 source changes."
+      ],
+      "dependencies": [
+        "#625 sprint umbrella exists.",
+        "#627 command manifest and one-binary denominator are published or locally available on the execution base."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#628",
+        "agent-logic/agent-design-language#625",
+        "agent-logic/agent-design-language#627",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/tests/local_commands.rs",
+        "root AGENTS.md"
+      ],
+      "non_goals": [
+        "No GitHub mutation.",
+        "No PR publication.",
+        "No finish or cleanup.",
+        "No #505 cutover or v2 retirement."
+      ]
+    }
+  }
+}

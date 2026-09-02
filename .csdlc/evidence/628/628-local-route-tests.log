@@ -1,0 +1,15 @@
+
+running 8 tests
+test doctor_plan_preserves_distinct_outcome_states ... ok
+test contract_commands_are_typed_and_non_authoritative ... ok
+test topology_bind_requires_exact_registered_worktree ... ok
+test card_roundtrip_uses_active_registry_denominator ... ok
+test missing_local_lifecycle_state_is_explicit_and_repairable ... ok
+test local_preparation_cli_rejects_malformed_typed_request ... ok
+test local_preparation_cli_emits_machine_readable_non_authoritative_plan ... ok
+test implemented_local_routes_share_the_typed_non_authoritative_contract ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-286e111367ea102a)

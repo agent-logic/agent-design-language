@@ -1,0 +1,42 @@
+# Structured Review Prompt
+
+Template: 1.0.0
+
+Issue: 628
+
+Repository: agent-logic/agent-design-language
+
+Card: srp
+
+Status: pre_phase
+
+## Scope
+
+Issue #628 local lifecycle routes, construction-state behavior, focused tests, validator, canary evidence, and issue-local lifecycle records only.
+
+## Prompts
+
+- Verify the eight local routes are implemented or explicitly fail closed according to #628 scope.
+- Verify no v3 local route delegates operational authority to v2 before #505.
+- Verify missing local lifecycle state has clear typed recovery semantics.
+- Verify no csdlc-v2 source changes are present.
+
+## Findings
+
+[]
+
+## Dispositions
+
+Every actionable finding requires a terminal disposition.
+
+## Residual Risk
+
+- none
+
+## Review Result
+
+Revision: None
+
+Reviewer: None
+
+Result: pre_review

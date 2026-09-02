@@ -8,7 +8,8 @@ use csdlc_v3::adapters::{
 use csdlc_v3::application::{FoundationState, IssueProjection};
 use csdlc_v3::commands::local::{
     authorize_bind, grants_operational_authority, plan_cards, prepare_local_workflow,
-    validate_contract, LocalCommand, LocalPreparationRequest, PromptRegistry, WorktreeRegistration,
+    required_local_commands, validate_contract, LocalPreparationRequest, PromptRegistry,
+    WorktreeRegistration,
 };
 use csdlc_v3::lifecycle::{
     Capability, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
@@ -98,12 +99,7 @@ fn real_issue_request(
             .expect("real issue worktree")
             .to_owned(),
         registry_version: registry.version.clone(),
-        commands: vec![
-            LocalCommand::PrepareIssue,
-            LocalCommand::BindWorktree,
-            LocalCommand::PlanPvf,
-            LocalCommand::Doctor,
-        ],
+        commands: required_local_commands().to_vec(),
     }
 }
 

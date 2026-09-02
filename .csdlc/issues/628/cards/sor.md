@@ -1,0 +1,158 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 628
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented the V3-H.2 local lifecycle routes under the single non-authoritative csdlc v3 binary.
+
+## Artifacts
+
+- csdlc-v3/src/commands/local/mod.rs
+- csdlc-v3/src/main.rs
+- csdlc-v3/tests/command_manifest.rs
+- csdlc-v3/tests/local_commands.rs
+- csdlc-v3/tests/real_issue_canary.rs
+- docs/csdlc-v3/v3-command-manifest.json
+- .csdlc/prepared/issues/628/design.md
+- .csdlc/prepared/issues/628/diagram.mmd
+- .csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh
+- .csdlc/issues/628
+
+## Execution
+
+- Implemented the #628-owned local routes issue, bind, edit, validate, doctor, schedule, shepherd, and eligibility as one-binary v3 commands.
+- Kept all local routes read-only and non-authoritative before #505 cutover.
+- Added explicit local lifecycle state inspection so missing local state reports missing_local_lifecycle_state with repair guidance.
+- Updated the v3 command manifest so #628 local routes are implemented but not live authority.
+- Added focused tests for local route help/dispatch, eight-command contract coverage, and missing lifecycle state diagnostics.
+- Recorded setup defects for #632, including bind prep/exec friction and prepared-validator projection gaps.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict Clippy across csdlc-v3 targets.",
+    "outcome": "passed",
+    "evidence_ref": "628-clippy.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main..HEAD"
+    ],
+    "purpose": "Run exact-range diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "628-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "Run all C-SDLC v3 tests.",
+    "outcome": "passed",
+    "evidence_ref": "628-full-v3-regression.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh",
+      "all"
+    ],
+    "purpose": "Run the #628 issue-owned validator.",
+    "outcome": "passed",
+    "evidence_ref": "628-issue-validator.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "local_commands"
+    ],
+    "purpose": "Run focused local command tests.",
+    "outcome": "passed",
+    "evidence_ref": "628-local-route-tests.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "real_issue_canary"
+    ],
+    "purpose": "Run real issue canary tests.",
+    "outcome": "passed",
+    "evidence_ref": "628-real-issue-canary.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Verify rustfmt.",
+    "outcome": "passed",
+    "evidence_ref": "628-rustfmt.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec",
+      "issue",
+      "--issue",
+      "628"
+    ],
+    "purpose": "Verify #628 C-SDLC issue state.",
+    "outcome": "passed",
+    "evidence_ref": "628-typed-issue-validation.log"
+  }
+]
+
+## Integration
+
+not_started
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none
