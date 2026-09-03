@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "4258b313be0222552ba516c07e44d1e4cc9abe41b55a412abadde7819c391a22",
+  "generation": 7,
+  "digest": "3ebcb52b016e75e6918caa9bb2f7862ad24e4196b33c43ee8113d05da3a48873",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "542c0976812df4fcf4089180b1bb705032940aa46670dff0a47fcaafd3ee8edd",
+      "values_digest": "8df3dc151aec6e46fe604b3f103a0f725a1e97d0267cb2613fc95af3cb1ab605",
       "rendered_digest": "e446948ed0ad2268373108f73463028bfa4db9d89c070b19f3efbb817893e249",
       "ast_digest": "4441dd096f6c525cb946e18a6fc6a31f4b07b3be9a00752bfc4c2d67c4f0c2a3"
     },
     "stp": {
-      "values_digest": "5b21f532dd15d4c3ca8a47177e3e9e9cdb4d9ca13f1c4cc0af76558a47582dd3",
+      "values_digest": "db267ab65b0b7286b5d10624d6d28378cf58e3416f88ed5340bd886e05a8f400",
       "rendered_digest": "27d53576f399af4a88d9a3a47d4928fc3d600c625480612e442939edc5cd1f4b",
       "ast_digest": "8dda543d0b0c799e3467b5ce616ba72f9b6a7d8ae2cbb9373fe69eca07952409"
     },
     "spp": {
-      "values_digest": "b43e3c1e9f1740b5d9f5b2e4e6fda46d55459dee5824b939ed6467ee3c332eb4",
+      "values_digest": "e84043535a185b4b01b34127f9646ef467a416c5c93acbe690a525764c157df5",
       "rendered_digest": "556e13e7c158af8c80538c151cc2fc12041ac4e470df6ff04129b2c2b4150680",
       "ast_digest": "776112b5558f285d4e428c4f3e40e4e18c4fd06dbdb09c9b2952b17e3737f34b"
     },
     "vpp": {
-      "values_digest": "37e4ff224dd4e89ac858bb634b3c198087cc7a8069ea585685c458d4701b03f6",
+      "values_digest": "1c5b227d93f2a616d7cfaaae1fd4ddd668610b32ab8623e9374ef15db31fb31b",
       "rendered_digest": "344816c3eaa375d6ef4366492e688f885d2536b905e94af4617b596b7fe11eb3",
       "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
     },
     "srp": {
-      "values_digest": "b6643bba3153998d83f9124a68eedaba3a529f0ed3f1ed2f1e0efae061ecff19",
+      "values_digest": "48108f63331c0469821ab33dbd2063442f7ebe63842cb31606aa036d43144820",
       "rendered_digest": "1775065929855381bd8ef25484ba4f687f40bf96eb3acf59fc8cfd24a6d80259",
       "ast_digest": "4ec2773367b73bbf4044cbc54b1022fca5e1cde871fb69261ea2ec40ed8e9385"
     },
     "sor": {
-      "values_digest": "8b78b26c47f3f51efff9c3583c3f2e0372fcc28f7c7bd682a034e89b0c4f71cd",
-      "rendered_digest": "70d6c5455de2d5c0f1d6dcd0c5f6df94a3f8735a2da3caeb96cffc3f3c2e39d8",
-      "ast_digest": "02ee2804fdfcf40285a95c85fecc09ffc977d21ca302b7d61206217f77c2fd6d"
+      "values_digest": "732be887d9d36f92937a7f5c32f2469886e8de86856bb1eaccae004896c73381",
+      "rendered_digest": "4c0293789ba9c00f0b6a592e3c95d8db5bff87ec0e298a501020bd959158e474",
+      "ast_digest": "2cff40b7a5925e5a2dfca9e6c9814de424b5d2a67a4b33f0a1346dbdd83a4e11"
     }
   },
   "transitions": [
@@ -176,6 +176,13 @@
       "actor": "codex:/root",
       "reason": "Recover #629 after post-publication local repairs to durable receipt path handling and authenticated remote readback route coverage. Existing PR #641 is now conflicting after #628 merged, and the current worktree has unreviewed source/test changes that must be committed, reviewed, republished, and reconciled before terminal finish.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #629 SOR truth after tightening remote/publication routes so caller-provided GitHub and review receipt fields remain fail-closed construction evidence before #505 cutover.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the V3-H.3 GitHub, PR-state, review, and publication command surfaces as non-authoritative v3 construction routes, with the GitHub/readback and publication-authority routes intentionally fail-closed until production typed review and authenticated GitHub adapter ingestion exists.\",\"changes\":[\"Implemented #629-owned route handlers for github, github-issue, github-pr, pr-state, publish, and review under the single v3 csdlc binary.\",\"Kept every #629 route non-authoritative before #505 cutover; GitHub/readback and publication routes return fail-closed findings when authority would depend on caller-provided receipts.\",\"Added fail-closed detection for caller-forged GitHub adapter readbacks and caller-attested typed review/publication receipts.\",\"Kept credential-name redaction in route reports.\",\"Preserved the v3 command manifest truth that #629 GitHub/publication routes are fail_closed/not_live construction routes, not operational authority.\",\"Added and updated focused command-manifest, remote-publication, and real-issue canary tests for the fail-closed boundary.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/remote_publication_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/629/design.md\",\".csdlc/prepared/issues/629/diagram.mmd\",\".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh\",\".csdlc/issues/629\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Prove the current v3 Rust source is formatted after the fail-closed remote/publication repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"remote_publication_commands\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Prove the #629 remote/publication command routes and real-issue canaries reject caller-forged authority while preserving non-authoritative planning output.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: 11 passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh\",\"all\"],\"purpose\":\"Run the #629 issue-owned validator for route surface, manifest, and fail-closed behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 h3 github/publication validator: pass\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy across csdlc-v3 targets after the fail-closed authority changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: Finished dev profile\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove local whitespace hygiene before committing the SOR truth repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"}]}"
     }
   ]
 }
