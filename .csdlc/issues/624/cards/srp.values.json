@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 624,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][corporate][sidecar] Finish post-move-in operational control-plane hardening",
+    "slug": "corporate-sidecar-operational-hardening",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The #624 redacted operational-control hardening register, machine-readable sidecar receipt, focused validator, validation evidence, and lifecycle cards only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the sidecar record define the full #624 hardening denominator separately from #497 acceptance?",
+        "Does every row have either retained proof or a concrete follow-on owner/action/authority gate/closeout condition?",
+        "Does the packet avoid exposing credentials, account IDs, private custody facts, billing identifiers, and recovery details?",
+        "Does the packet avoid live/admin mutation while truthfully preserving rows that remain unproven?",
+        "Is the focused validator meaningful for the sidecar contract?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

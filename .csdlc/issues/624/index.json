@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 624,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "33f09e135ded6ba0649988e2e920663c956ad509c5fb9ba949ca727df3ec94f1",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/624/design.md",
+  "diagram_path": ".csdlc/prepared/issues/624/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:624-preparation-design-review",
+      "revision": "6aa84e4c78bdd78f4717d3788df93bf40cddede933ca16ec19e60e5af915dd9b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f699f59e45163ba1f2427ef3cf63766c27e2dedd1397dab1e6ed16ebe73b8d44",
+      "rendered_digest": "178e833abe2b52ed51498bd1f33b08d4a5460f30cb659131d49394c626ace5fa",
+      "ast_digest": "3a011837c6252ffb523cb2b6496061b1c394e526a77fe253d90423b5b0d05519"
+    },
+    "stp": {
+      "values_digest": "10b66c54747851a21d2cb8f7d0c336ea8a464031cd796c4dccddf406fd86a6d4",
+      "rendered_digest": "da5de2cf9e9453239574fc79588f610493992f24eb528146b96dddd00cee4c08",
+      "ast_digest": "74abf5a4d0df01a61d1cc5e54f20891ce84ab02571fd67ae421214147909c69b"
+    },
+    "spp": {
+      "values_digest": "5a24eeadeb7381d402da8fd096cd9dd93fc45912394e87bdda311f3deb82696e",
+      "rendered_digest": "8f6ca65e54484bd8a9bb68ab43e899ca662ff90cfb9314696b915697393abb9d",
+      "ast_digest": "4e1e45af0baa369fe539558ec219732afe157d6e2b5f1765e72bed8d2c26f1fd"
+    },
+    "vpp": {
+      "values_digest": "e4209b302ebc386c86055baa03020c6c9fc84f340302e31247b72d33c2b0c179",
+      "rendered_digest": "4ad50171a537aeec464e3b84f923e5c1129309590ad88c6417dde02bebbdd6c9",
+      "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
+    },
+    "srp": {
+      "values_digest": "d02660597ca7e1c38eb7cda7cabf4f5bd38574d534b4f20e2ccd4a8e0dfdeca7",
+      "rendered_digest": "f858154751fb29f2d820a6e0f459764550feaa514ae39265d245c2067a2d5075",
+      "ast_digest": "965f822ec938b4f246c55a05a9fdf288f48b9c35bcb9a97842dc059661683f81"
+    },
+    "sor": {
+      "values_digest": "05f4e71341726f8f9b0f0a7daef2780644011f51eb5567dc50ef5785807546dd",
+      "rendered_digest": "60bdc6ec5dd5303a05c86022920c659de2418a6d09f2a2c28dc30e8c4d0bf532",
+      "ast_digest": "c3a615de772b444cb28c569200fd489e9e4e62273f6c303a857aa1ffc5b16ce1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:624-preparation",
+      "reason": "Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:624-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:624-preparation",
+      "reason": "Repair readiness by using only executable issue-owned validation lanes and covering review acceptance through the sidecar validator contract.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"corp-sidecar-hardening-register\",\"proof_role\":\"Prove #624 row denominator completeness, proof/follow-on disposition, evidence references, non-mutation posture, redaction hygiene, and review-ready boundary truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"python3\",\".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py\"],\"parallel_group\":\"corporate-sidecar-docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove the committed range has no whitespace errors.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":400,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"corporate-sidecar-docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:624-preparation",
+      "reason": "Declare exact issue-owned validator and output artifacts so doctor can prove the #624 denominator is executable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md\",\"docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json\",\".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py\",\".csdlc/prepared/issues/624/\",\".csdlc/issues/624/\",\".csdlc/evidence/624/\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:624-preparation",
+      "reason": "Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

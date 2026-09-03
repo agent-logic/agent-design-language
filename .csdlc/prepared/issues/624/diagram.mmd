@@ -1,0 +1,11 @@
+flowchart TD
+  I["Issue #624 sidecar contract"] --> D["Operational-control denominator"]
+  C["#497 / PR #613 acceptance"] --> D
+  S["PR #634 sidecar routing"] --> D
+  D --> R["Redacted hardening register"]
+  R --> P["Rows proven by retained readbacks"]
+  R --> F["Rows decomposed into follow-on owner/actions"]
+  P --> V["Focused validator"]
+  F --> V
+  V --> O["Reviewed #624 closeout packet"]
+  R -. "no live/admin/private mutation" .-> O
