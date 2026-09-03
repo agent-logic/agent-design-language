@@ -25,6 +25,13 @@ pub struct Store {
     root: PathBuf,
 }
 
+#[derive(Default)]
+struct CommitOptions<'a> {
+    authored_overrides: Option<&'a BTreeMap<String, String>>,
+    issue_files: Option<&'a BTreeMap<String, Vec<u8>>>,
+    verifier: Option<&'a mut dyn FnMut() -> Result<()>>,
+}
+
 #[derive(Debug, Clone)]
 pub(crate) struct ImplementationCommit {
     pub issue: u64,
@@ -381,7 +388,13 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
     ) -> Result<()> {
-        self.commit_with_authored(issue, record, cards, fail_after_backup, None, None, None)
+        self.commit_with_authored(
+            issue,
+            record,
+            cards,
+            fail_after_backup,
+            CommitOptions::default(),
+        )
     }
 
     fn commit_verified(
@@ -397,9 +410,10 @@ impl Store {
             record,
             cards,
             fail_after_backup,
-            None,
-            None,
-            Some(verifier),
+            CommitOptions {
+                verifier: Some(verifier),
+                ..CommitOptions::default()
+            },
         )
     }
 
@@ -409,9 +423,7 @@ impl Store {
         record: &IssueRecord,
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
-        authored_overrides: Option<&BTreeMap<String, String>>,
-        issue_files: Option<&BTreeMap<String, Vec<u8>>>,
-        mut verifier: Option<&mut dyn FnMut() -> Result<()>>,
+        mut options: CommitOptions<'_>,
     ) -> Result<()> {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
@@ -430,7 +442,7 @@ impl Store {
             fs::remove_dir_all(&backup)?;
         }
         write_complete(&staging, record, cards)?;
-        if let Some(issue_files) = issue_files {
+        if let Some(issue_files) = options.issue_files {
             for (relative, contents) in issue_files {
                 let relative_path = Path::new(relative);
                 if !crate::pvf::clean_relative(relative_path) {
@@ -463,8 +475,9 @@ impl Store {
                 if let Some(parent) = destination.parent() {
                     fs::create_dir_all(parent)?;
                 }
-                if let Some(contents) =
-                    authored_overrides.and_then(|overrides| overrides.get(authored_path))
+                if let Some(contents) = options
+                    .authored_overrides
+                    .and_then(|overrides| overrides.get(authored_path))
                 {
                     let mut file = File::create(&destination)?;
                     file.write_all(contents.as_bytes())?;
@@ -479,7 +492,7 @@ impl Store {
                 )?;
             }
         }
-        if let Some(overrides) = authored_overrides {
+        if let Some(overrides) = options.authored_overrides {
             for (authored_path, contents) in overrides {
                 if !crate::pvf::clean_relative(Path::new(authored_path)) {
                     return Err(V2Error::new(
@@ -515,7 +528,7 @@ impl Store {
         }
         fs::rename(&staging, &current)?;
         sync_dir(current.parent().expect("issue parent"))?;
-        if let Some(overrides) = authored_overrides {
+        if let Some(overrides) = options.authored_overrides {
             for (authored_path, contents) in overrides {
                 let destination = self.root.join(authored_path);
                 if destination.strip_prefix(&current).is_ok() {
@@ -532,7 +545,7 @@ impl Store {
                 )?;
             }
         }
-        if let Some(verify) = verifier.as_mut() {
+        if let Some(verify) = options.verifier.as_mut() {
             if let Err(error) = verify() {
                 preserve_failed_projection_and_restore(&current, &backup, &rollback_preserved)?;
                 return Err(error);
@@ -612,7 +625,16 @@ impl Store {
         verify_cards(self, &current, &cards)?;
         let mut issue_files = BTreeMap::new();
         issue_files.insert(issue_relative_path.to_owned(), contents.to_vec());
-        self.commit_with_authored(issue, record, &cards, false, None, Some(&issue_files), None)
+        self.commit_with_authored(
+            issue,
+            record,
+            &cards,
+            false,
+            CommitOptions {
+                issue_files: Some(&issue_files),
+                ..CommitOptions::default()
+            },
+        )
     }
 
     #[allow(dead_code)] // Retained compatibility wrapper; live recovery uses descriptor-read bytes.
