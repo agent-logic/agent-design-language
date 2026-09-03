@@ -1,0 +1,7 @@
+tests/issue663_snapshot_catalog.tftest.hcl... [37min progress[0m
+[0m  run "snapshots_and_restored_content_verifier"... [32mpass[0m[0m
+  run "retained_state_contains_snapshots_only"... [32mpass[0m[0m
+tests/issue663_snapshot_catalog.tftest.hcl... [37mtearing down[0m
+[0mtests/issue663_snapshot_catalog.tftest.hcl... [32mpass[0m[0m
+
+[32mSuccess![0m[0m 2 passed, 0 failed.
