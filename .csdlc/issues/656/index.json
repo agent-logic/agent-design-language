@@ -4,34 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
-  "phase": "reviewed",
-  "generation": 20,
-  "digest": "76f82f307fe26d85eadebdf6ec1be92686aed4bcc3e59426f58279b9530233bb",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "0cbde54c95cf717a8d857b506db357d8ea6e4adc72bc560b18950891a91033dc",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
-  "review_assignment": {
-    "reviewer": "fresh-session:86dd614c-c575-4753-9e64-1f7327404716",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:17f57b45d313cd1acd04c5081edb017d3f1e52c9:83033910e905d6f1f547ba455f94d730756615481c29a11ef175096e20cc4da8",
-    "scope": [
-      "adl/src/cli/csm_runtime_v3_cmd.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:86dd614c-c575-4753-9e64-1f7327404716",
-    "scope": [
-      "adl/src/cli/csm_runtime_v3_cmd.rs"
-    ],
-    "reviewed_revision": "git-blake3:17f57b45d313cd1acd04c5081edb017d3f1e52c9:83033910e905d6f1f547ba455f94d730756615481c29a11ef175096e20cc4da8",
-    "findings": [],
-    "residual_risks": [
-      "Review was bounded to the test-only changed-source coverage repair; the full #656 implementation retained its prior exact-head review.",
-      "Hosted aggregate coverage remains the publication integration gate.",
-      "No live Runtime or service-manager mutation was performed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -46,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1f7a5141feb5d63051219a7bccadc1f89d7a92f9ce52f1ab742f3541ff1bc052",
+      "values_digest": "5e859ef07e39c9e66ef46bfe79bf7ec9ba4aee1240ea1db199c898389de669cd",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "f2d46ee12280ae2bc4a35ac7652b1cb931002a7ede72295f3e94535d990fc01e",
+      "values_digest": "d5386d8802fc00c53325db2580bfbdd07a4084e946a0e18e53246656e9d05827",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "94140205033d6b32ee90b51f6e3d101d99681c5f0edf7d3313bb81b3f2f644bb",
+      "values_digest": "00afd1f301e5b7f8557607949dc6d48c922a63460c98a687350c704345041b75",
       "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
       "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "462266bb20a7abbf653e4e6c24607bc2745f5b73a404548603fe05dad773cdbf",
+      "values_digest": "dc52a62945a630cb406436dc7e1258a2f33f8bf3648ab417016833180370d696",
       "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "ff14c8e5c6953f1794e5ce91cc21fb14572fbd02afca338d863d5909d83bb14e",
-      "rendered_digest": "cf116ecba5040d1eaf8f5206479cc4c02b4798695ea8641f9ae577b6389cb2aa",
-      "ast_digest": "8d037747ef049f16149c81aabefa4eed82499ae2a0362ef5fba8f83d21d6e67c"
+      "values_digest": "5b6b165d510bdb7804b1a46b3b25d1ed56d2ee5f97e59760bf0c529754cf7db4",
+      "rendered_digest": "7e7b0289bf774e28b81f2e746033ba0124722612e957f00b2481d794f65c0a6b",
+      "ast_digest": "8be1dc728e321ecd9b7f6c435b59970e3840e558d8736e8b31e5dce48afc390e"
     },
     "sor": {
-      "values_digest": "eef7ce4f0adca243d83396e45fc7efc4369c9756d4a08f85c640ee9cc617bb63",
+      "values_digest": "a4dce620fb9886cf8ab71abdf08cddafc327023b0d6b9046672f11b514213a66",
       "rendered_digest": "6116e0f79c7af7d249dba1485d5dacb4bff0a774b2ed7922f3c6a9280f65b834",
       "ast_digest": "acdd27784b439f93a919191a0a598b833e84c54c15c07ecf6268cddf296eeca4"
     }
@@ -146,6 +125,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the stale review after its typed review record was committed; establish one final committed metadata head for exact review and atomic republication."
     }
   ],
   "audit": [
@@ -330,6 +316,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Recover the stale review after its typed review record was committed; establish one final committed metadata head for exact review and atomic republication.",
+      "operation": "recover_review"
     }
   ]
 }
