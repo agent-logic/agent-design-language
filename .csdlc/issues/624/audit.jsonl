@@ -12,3 +12,4 @@
 {"sequence":12,"generation":8,"actor":"codex:/root","reason":"Recover after exact review P2 found the #624 validator did not lock the exact seven-row denominator; remediate validator and refresh implementation evidence before fresh review.","operation":"recover_review"}
 {"sequence":13,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":14,"generation":9,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":15,"generation":10,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
