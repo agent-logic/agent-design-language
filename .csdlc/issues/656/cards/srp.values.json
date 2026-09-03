@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl/src/cli/csm_runtime_v3_cmd.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

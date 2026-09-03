@@ -6,10 +6,17 @@
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
   "phase": "implemented",
   "generation": 15,
-  "digest": "0be99814e9419b8d37909e47e5f2b0b1a8bdfbc105706d0d13dfe35e145977d7",
+  "digest": "77e0b5f25f7bf9c964b70e597603a493889b02fb750e9d877986dc1c8477b1ba",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:9caf501f-8875-4b66-b62a-4372e310e0d2",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:7414ea1edd7809644a7e566678adc996cde191c0:c91f426e8134c70cbc11a4e060269d93558c773a3e7902d6ae995478da541b0b",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +52,9 @@
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "9baf9c0b0d11227f69844df4727a24699acd9d68a08605053e2d7448f377180d",
-      "rendered_digest": "7e7b0289bf774e28b81f2e746033ba0124722612e957f00b2481d794f65c0a6b",
-      "ast_digest": "8be1dc728e321ecd9b7f6c435b59970e3840e558d8736e8b31e5dce48afc390e"
+      "values_digest": "b7895f7ef37025343f1e82addb58479cb0092173386357193ae013382a4e553d",
+      "rendered_digest": "c8a77e1c024604e413cfbe5422b187aa6990c94799c29c63affa4e2a97988aa6",
+      "ast_digest": "85f5c46ddce62b489c443885e6fcf222886e586981bb9b908ee6b14d555cc48b"
     },
     "sor": {
       "values_digest": "de4a1ba1a91edfe5fac60b8b7bd3d5cd93949c8fec8a0f8ddf343f6133bb24a3",
@@ -232,6 +239,13 @@
       "actor": "codex:/root",
       "reason": "Record focused preflight proof for the exact substantive CI-repair commit.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"preflight_\"],\"purpose\":\"Prove generation preflight behavior remains correct and the test fixture completes without coverage-only timeouts.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:235befd2e2f38378c01208a993add590a79de799; 6 passed in 0.01s; cargo fmt and git diff check passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
