@@ -5,34 +5,43 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
   "phase": "reviewed",
-  "generation": 17,
-  "digest": "a09a4d45426d77e64fbda197c5e9a3931f0efeaa9c6f16960471ecc8019347e8",
+  "generation": 19,
+  "digest": "f62d41956264240b5a0d95017980680e1d7031a2a60745e72377443523bb1ed0",
   "branch": "codex/662-agent-to-agent-initiation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
   "review_assignment": {
-    "reviewer": "codex:/root:issue-662-red-janitor-review",
+    "reviewer": "codex:/root:issue-662-red-janitor-metadata-head-review",
     "assigned_by": "codex:/root:issue-662-red-janitor",
-    "revision": "git-blake3:f2d09fa64efed868b043809387efe573eee54941:d1f55948f4b69d6a22f989c09f72116b4b3adce9aa0033985486f08ee2f57b9c",
+    "revision": "git-blake3:de44f0b4853d6cc3df33eacd86dc2520c7010234:51ad76c9aae6b0723ddc456503b54bf3b5db4104e616a661a42ae6a01d547135",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       ".csdlc/prepared/issues/662/validate-focused.sh",
-      ".csdlc/evidence/662"
+      ".csdlc/evidence/662",
+      ".csdlc/prepared/issues/662/review-assign-red-janitor-head.json",
+      ".csdlc/prepared/issues/662/review-recover-after-red-janitor-fix.json",
+      ".csdlc/prepared/issues/662/review-recover-after-red-janitor-self-review.json",
+      ".csdlc/prepared/issues/662/review-assign-red-janitor-self-review.json",
+      ".csdlc/prepared/issues/662/review-record-red-janitor-self-review-pass.json"
     ]
   },
   "review": {
-    "reviewer": "codex:/root:issue-662-red-janitor-review",
+    "reviewer": "codex:/root:issue-662-red-janitor-metadata-head-review",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       ".csdlc/prepared/issues/662/validate-focused.sh",
-      ".csdlc/evidence/662"
+      ".csdlc/evidence/662",
+      ".csdlc/prepared/issues/662/review-assign-red-janitor-head.json",
+      ".csdlc/prepared/issues/662/review-recover-after-red-janitor-fix.json",
+      ".csdlc/prepared/issues/662/review-recover-after-red-janitor-self-review.json",
+      ".csdlc/prepared/issues/662/review-assign-red-janitor-self-review.json",
+      ".csdlc/prepared/issues/662/review-record-red-janitor-self-review-pass.json"
     ],
-    "reviewed_revision": "git-blake3:f2d09fa64efed868b043809387efe573eee54941:d1f55948f4b69d6a22f989c09f72116b4b3adce9aa0033985486f08ee2f57b9c",
+    "reviewed_revision": "git-blake3:de44f0b4853d6cc3df33eacd86dc2520c7010234:51ad76c9aae6b0723ddc456503b54bf3b5db4104e616a661a42ae6a01d547135",
     "findings": [],
     "residual_risks": [
-      "Review scope was limited to the red-check janitor delta for PR #668 after CI failed adl-runtime-v3-fast on strict Clippy findings.",
-      "Local proof after the janitor patch: cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; .csdlc/prepared/issues/662/validate-focused.sh from the issue worktree passed 3/3 focused tests; git diff --check passed.",
-      "The initial absolute invocation of validate-focused.sh from the primary checkout produced running 0 tests and was rejected as non-proving; the accepted proof is the worktree-local invocation.",
-      "No live Runtime mutation, provider call, AWS action, paid runner, merge, finish, or cleanup was performed during red-check janitor review."
+      "Metadata-head review covers the committed red-check review request evidence at de44f0b4853d6cc3df33eacd86dc2520c7010234; subsequent record/publication commits are expected to be governed .csdlc/issues/662 metadata only.",
+      "No additional runtime source changes were introduced after the locally and hosted-green Clippy fix f2d09fa64efed868b043809387efe573eee54941.",
+      "No live Runtime mutation, provider call, AWS action, paid runner, merge, finish, or cleanup was performed during metadata-head review."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -51,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dde5d278ed4bf2f876217f4c39ede02fb6a16c37b8d79d8f533798b3eee5864b",
+      "values_digest": "e5153046768b3787cd4f41ca5c880c7fa1922816bb92cb25cdc5b7c8461dbaa4",
       "rendered_digest": "3f58782d50ee9b9fd73ee67152eba61d607fee4223098b680c5c0f3e1c1a69bb",
       "ast_digest": "8d1cd6432ea644f770fdad24fc2499103564ce02f0df3084cc2d649edc32bdf7"
     },
     "stp": {
-      "values_digest": "a53fed9da7ee24422c732a1f39ba4f7893beca75f6d171264675ca72e40b4f33",
+      "values_digest": "f85c973cb07cf4eff8a3ebab8bd1759b020dd545ddf6876605a1060c847ce59f",
       "rendered_digest": "c48bb7ad9ba7285a23a71f6ae97e54f49365fb1e558f30fb414cb0eedc75cb41",
       "ast_digest": "2f8254c052eca2a8e14f61e33bea7adba5af4aed5728fe93379ad093fdb34306"
     },
     "spp": {
-      "values_digest": "e51e61c4886878099a815c3c85ff2a96ee26f86e6dd46ae071e365d75f82e468",
+      "values_digest": "9fd1d0a073f1bd5855aeeaacddfefb183bedc83e10f8b9d430d17e44c71a94d4",
       "rendered_digest": "210f7d8779f8213a67be9e9f73822619acfe38dbf840213cd57fc23f0d4193fb",
       "ast_digest": "dc5f615ba1d839dd28fb6944f405aaa61cb83da600e9d55b6c9f96c0c2fa271a"
     },
     "vpp": {
-      "values_digest": "6f879041d5d9a51429b58f76b1813529d85cbea64a3ed9005752f8d7a5433f9c",
+      "values_digest": "bc2d7f30c2823f20f94880630e616f364825b91c8545878c085d20755f8d1907",
       "rendered_digest": "4adb27da2ca9169c959966cb14eda245bfdfd20a822b3dd6403b71e2de49c337",
       "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
     },
     "srp": {
-      "values_digest": "13d5e1f5d350571e46ddd6ffc4cac7247dec08ee5b204351adb06e80bba1c19b",
-      "rendered_digest": "cde985f5842e95bb59fd0633ad2f69d5a02e3f6eef00536a8dbab88d9e919f98",
-      "ast_digest": "c1198fbef92c53817988d021d1fe9c018acc18f61fd652aa6c0c7facda52e335"
+      "values_digest": "e0b19cf1806b93ded869845da91ae8af4bcb3c924cf8832299540c62a9275019",
+      "rendered_digest": "b6642fb6ea93ac83fce67578269f2f41fe9c72923c994a532c4ad757b0d0c2f3",
+      "ast_digest": "c49a1d205894215992ae44cd8d35b656f50db0e643c0756d5deb2625c6bd9c22"
     },
     "sor": {
-      "values_digest": "3f2f0abeabb5634529d794846417df980ebc842fe8a410b7b63bc3b47d2a2c2e",
+      "values_digest": "a7272320c78359088d758a0527d3e3269253164ebe61866b2dbcfbf5c4431d7d",
       "rendered_digest": "e93b20f25aa1ed872736e3312a20d603f7adf78828bb3a16f0bf9e7b869c7b8c",
       "ast_digest": "527c2f1df9e77538103eb040a273f7e1ca84982348a1c47aa9464d3dba10330e"
     }
@@ -171,6 +180,20 @@
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:/root:issue-662-red-janitor-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "Recover #662 review truth after committing red-check review request metadata so a current-head review can include the prepared request evidence before publication."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-662-red-janitor-metadata-head-review",
       "reason": "exact scoped review passed"
     }
   ],
@@ -354,6 +377,27 @@
       "sequence": 26,
       "generation": 17,
       "actor": "codex:/root:issue-662-red-janitor-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "Recover #662 review truth after committing red-check review request metadata so a current-head review can include the prepared request evidence before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 18,
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 19,
+      "actor": "codex:/root:issue-662-red-janitor-metadata-head-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
     }

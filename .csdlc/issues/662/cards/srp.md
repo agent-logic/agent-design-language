@@ -15,6 +15,11 @@ Status: draft
 adl-runtime-kernel/src/control.rs
 .csdlc/prepared/issues/662/validate-focused.sh
 .csdlc/evidence/662
+.csdlc/prepared/issues/662/review-assign-red-janitor-head.json
+.csdlc/prepared/issues/662/review-recover-after-red-janitor-fix.json
+.csdlc/prepared/issues/662/review-recover-after-red-janitor-self-review.json
+.csdlc/prepared/issues/662/review-assign-red-janitor-self-review.json
+.csdlc/prepared/issues/662/review-record-red-janitor-self-review-pass.json
 
 ## Prompts
 
@@ -34,15 +39,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review scope was limited to the red-check janitor delta for PR #668 after CI failed adl-runtime-v3-fast on strict Clippy findings.
-- Local proof after the janitor patch: cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; .csdlc/prepared/issues/662/validate-focused.sh from the issue worktree passed 3/3 focused tests; git diff --check passed.
-- The initial absolute invocation of validate-focused.sh from the primary checkout produced running 0 tests and was rejected as non-proving; the accepted proof is the worktree-local invocation.
-- No live Runtime mutation, provider call, AWS action, paid runner, merge, finish, or cleanup was performed during red-check janitor review.
+- Metadata-head review covers the committed red-check review request evidence at de44f0b4853d6cc3df33eacd86dc2520c7010234; subsequent record/publication commits are expected to be governed .csdlc/issues/662 metadata only.
+- No additional runtime source changes were introduced after the locally and hosted-green Clippy fix f2d09fa64efed868b043809387efe573eee54941.
+- No live Runtime mutation, provider call, AWS action, paid runner, merge, finish, or cleanup was performed during metadata-head review.
 
 ## Review Result
 
-Revision: Some("git-blake3:f2d09fa64efed868b043809387efe573eee54941:d1f55948f4b69d6a22f989c09f72116b4b3adce9aa0033985486f08ee2f57b9c")
+Revision: Some("git-blake3:de44f0b4853d6cc3df33eacd86dc2520c7010234:51ad76c9aae6b0723ddc456503b54bf3b5db4104e616a661a42ae6a01d547135")
 
-Reviewer: Some("codex:/root:issue-662-red-janitor-review")
+Reviewer: Some("codex:/root:issue-662-red-janitor-metadata-head-review")
 
 Result: pass
