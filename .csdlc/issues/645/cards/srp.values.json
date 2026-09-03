@@ -7,14 +7,14 @@
     "title": "[v0.92.1][C-SDLC v2][bug] Reject stacked closing publication without a GitHub closing relation",
     "slug": "stacked-closing-relation",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/publication_ready.rs",
-      "review_revision": "git-blake3:d9b1256fd5193264fab707e2d731a604916b32b0:814378cd23ca5bd8af3596545d358325ad37a2840636e4777c2449a50ff73960",
+      "review_scope": "csdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/publication_ready.rs\n.csdlc/prepared/issues/645",
+      "review_revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
       "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
       "review_prompts": [
         "Can csdlc-publish still record a terminal closing publication when GitHub closingIssuesReferences is absent?",
@@ -25,8 +25,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Re-review was read-only with bounded local tests; it did not perform live GitHub publication or readiness mutation.",
-        "Hosted CI for PR #654 restarted at corrective head d9b1256fd5193264fab707e2d731a604916b32b0 and must pass before merge consideration."
+        "Review confirmed eed8ff416b75bdc586a0ec47b3ded142a7db3355 is lifecycle/request metadata only relative to previously reviewed code head d9b1256fd5193264fab707e2d731a604916b32b0.",
+        "No live GitHub publication/readiness mutation was performed during review; typed publication must observe PR #654 before merge consideration."
       ],
       "review_result": "pass"
     }

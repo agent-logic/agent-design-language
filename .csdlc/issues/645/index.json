@@ -4,19 +4,20 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d5f72068a321dc273dccf54374fabb116b861a065688a5bb42d4cd9944486751",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "d6059c0696ced960d48ab3c177950fe2810dc6980d7b3087123af2d9d3d3187b",
+  "phase": "published",
+  "generation": 15,
+  "digest": "236d97f8545e2c87e771d8c4599f8b010b93e7748b0053351710b3be1f72e903",
   "branch": "codex/645-stacked-closing-relation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-645-stacked-closing-relation-exec",
   "review_assignment": {
     "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
     "assigned_by": "codex:/root:issue-645-janitor",
-    "revision": "git-blake3:d9b1256fd5193264fab707e2d731a604916b32b0:814378cd23ca5bd8af3596545d358325ad37a2840636e4777c2449a50ff73960",
+    "revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
     "scope": [
       "csdlc-v2/src/bin/csdlc-publish.rs",
       "csdlc-v2/src/publication.rs",
-      "csdlc-v2/tests/publication_ready.rs"
+      "csdlc-v2/tests/publication_ready.rs",
+      ".csdlc/prepared/issues/645"
     ]
   },
   "review": {
@@ -24,18 +25,30 @@
     "scope": [
       "csdlc-v2/src/bin/csdlc-publish.rs",
       "csdlc-v2/src/publication.rs",
-      "csdlc-v2/tests/publication_ready.rs"
+      "csdlc-v2/tests/publication_ready.rs",
+      ".csdlc/prepared/issues/645"
     ],
-    "reviewed_revision": "git-blake3:d9b1256fd5193264fab707e2d731a604916b32b0:814378cd23ca5bd8af3596545d358325ad37a2840636e4777c2449a50ff73960",
+    "reviewed_revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
     "findings": [],
     "residual_risks": [
-      "Re-review was read-only with bounded local tests; it did not perform live GitHub publication or readiness mutation.",
-      "Hosted CI for PR #654 restarted at corrective head d9b1256fd5193264fab707e2d731a604916b32b0 and must pass before merge consideration."
+      "Review confirmed eed8ff416b75bdc586a0ec47b3ded142a7db3355 is lifecycle/request metadata only relative to previously reviewed code head d9b1256fd5193264fab707e2d731a604916b32b0.",
+      "No live GitHub publication/readiness mutation was performed during review; typed publication must observe PR #654 before merge consideration."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 645,
+    "pull_request": 654,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/654",
+    "base": "main",
+    "head": "codex/645-stacked-closing-relation-exec",
+    "revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -49,34 +62,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b34ec4269c849a5cb42c1eb23cd5be060dc3be9199d88b759644360df9d413b7",
+      "values_digest": "62f8974fce354ecc34f96b66c429282a4e55f28d4a999d455347038d834dcae0",
       "rendered_digest": "ebc25ee7527daf2c4408c73b7c4cfdb9c3dbc855d063caaf11176755bb7086f3",
       "ast_digest": "518c72fd1f76a8bb76e78892c7fa294581a176c034f5603dd288ad6047c4a8f4"
     },
     "stp": {
-      "values_digest": "b17d06433d5d92c94d0ecd01996efdc7bf15741592cfd63b2453a51d0fd51967",
+      "values_digest": "65bfae4fdac6135ce934a977ca72a3675be86b8222933aa961076afada383f8c",
       "rendered_digest": "608f2a7a0fc3635e477a1d812a080c9569d823feb0c2af911c2ba81dc181600f",
       "ast_digest": "b3cdba9f0e4bec1105175ab97611484c2b7d530b78d0e04125b800728b964902"
     },
     "spp": {
-      "values_digest": "d60e56d9a4adef14c6cda49728880e92661e163fb8fe19541b177c0f5b603b98",
+      "values_digest": "de7d5620613e5d33647413cbd9ca392db9e1d17cbeaaba2e294dd128f8418b65",
       "rendered_digest": "1e5f44a7efd4efc8d406e4f39d4a926dd72f89d2795a2ada00958fa480b4d458",
       "ast_digest": "c4ed92e4d8139d709fde060d006323f64592c4014ae5d527c1e6621b9cae06e4"
     },
     "vpp": {
-      "values_digest": "626d5272ada4e992b190fb75f36070939cad8e537259c9955a74b45c4a7de439",
+      "values_digest": "6c9e5cccb61e33a24086d54c8d1c9b6f3de3011795bdb6740da99d51d9b3e104",
       "rendered_digest": "f68a059529aec384012115f231cef931f74142239471d6f3e4bbfebd7e16ad29",
       "ast_digest": "b92955d510933086f017513b8a34d9e026b70bdb234022b581025d82a7025c92"
     },
     "srp": {
-      "values_digest": "1d875a3d19dd43f29fff12a9ae830138ba69a9202376164849031de030744346",
-      "rendered_digest": "4ebd4e31de9a4a85f7463146837adce1928be078be454c698d49b9c717224d8a",
-      "ast_digest": "a455feb0d5c72d8bf16922f720238f5770396125204dcbcbd6a4eaf8de50a1b5"
+      "values_digest": "5ec685763442a81013918fbd1d518d21263fa2b07b38551dcf1847e139921237",
+      "rendered_digest": "c424a3e287bb2da05b46364b683dfade43a62de23bfc0d00dc92973bcb89aff2",
+      "ast_digest": "4c64bd6078473dc0fa3056d5629786954a54c23bbf890b22db1f5428256c1f4a"
     },
     "sor": {
-      "values_digest": "0a5d051d9622a174e358baf4fd748473ed5a90db1f62f2382a09762cc52c6784",
-      "rendered_digest": "ef713f51fb15944035d6fbc860d01ddead4061427bdfda860afbf0768d3e9c08",
-      "ast_digest": "ceb3a55300fa12188870611ff1f7f07b169daeb5f7c3eca5059cbb84651d16ef"
+      "values_digest": "c6c7570d1388de510867310457a048d91f2cdf46473722f15aada8eb944c46f4",
+      "rendered_digest": "c19081c0b236390429620800d4760c6c257bfd299a9703e15d5d8d34ff535001",
+      "ast_digest": "320c97c49863291bb5584ef6cf6fba8f619cf26f81568c688e3d82d8c787ffea"
     }
   },
   "transitions": [
@@ -142,6 +155,27 @@
       "to": "reviewed",
       "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "Recover #645 review truth after a local lifecycle metadata commit advanced HEAD past the exact corrective-code review; re-record exact-head review before using typed publication to own follow-up metadata."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -263,6 +297,34 @@
       "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "Recover #645 review truth after a local lifecycle metadata commit advanced HEAD past the exact corrective-code review; re-record exact-head review before using typed publication to own follow-up metadata.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
