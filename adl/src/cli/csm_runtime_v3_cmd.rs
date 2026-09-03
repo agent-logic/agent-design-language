@@ -1,5 +1,7 @@
 use std::fs::{self, OpenOptions};
 use std::io;
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::Duration;
@@ -278,12 +280,19 @@ fn validate_runtime_generation_with_service_binary(
             ));
         }
         let path = generation.join(&artifact.file);
-        if fs::symlink_metadata(&path)
-            .map(|metadata| !metadata.file_type().is_file())
-            .unwrap_or(true)
-        {
+        let metadata = fs::symlink_metadata(&path).with_context(|| {
+            format!("inspect Runtime v3 generation artifact {}", path.display())
+        })?;
+        if !metadata.file_type().is_file() {
             return Err(anyhow!(
                 "Runtime v3 generation artifact is missing: {}",
+                path.display()
+            ));
+        }
+        #[cfg(unix)]
+        if metadata.permissions().mode() & 0o111 == 0 {
+            return Err(anyhow!(
+                "Runtime v3 generation artifact is not executable: {}",
                 path.display()
             ));
         }
@@ -671,8 +680,6 @@ fn sync_parent(path: &Path) -> Result<()> {
 
 fn stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let init = validated_init(&args.init)?;
-    validate_runtime_generation(&init)?;
-    validate_runtime_service_definition(args, &init)?;
     let guardian_process_id = platform_process_id(args);
     platform_stop(args)?;
     wait_for_stopped(args, &init, guardian_process_id, Duration::from_secs(15))?;
@@ -1345,6 +1352,35 @@ mod tests {
         assert!(
             !service_mutated.get(),
             "preflight failure must precede service mutation"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_non_executable_artifacts_before_mutation() {
+        use std::cell::Cell;
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        let guardian = root.path().join("current/bin/adl-runtime-guardian");
+        let mut permissions = fs::metadata(&guardian).unwrap().permissions();
+        permissions.set_mode(0o644);
+        fs::set_permissions(&guardian, permissions).unwrap();
+
+        let service_mutated = Cell::new(false);
+        let error = run_after_preflight(
+            || validate_runtime_generation_with_service_binary(&init, &csm),
+            || {
+                service_mutated.set(true);
+                Ok(())
+            },
+        )
+        .unwrap_err();
+
+        assert!(error.to_string().contains("not executable"));
+        assert!(
+            !service_mutated.get(),
+            "executable preflight failure must precede service mutation"
         );
     }
 

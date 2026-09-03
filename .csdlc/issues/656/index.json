@@ -5,12 +5,71 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "893cf091545f60b6f8db36bc27d817fd9066ea3478d47f99c8a2d49a6341fb76",
+  "generation": 5,
+  "digest": "b5267bb2310f53285e6883bb887825a09554bdedfb1388bb26fd994536c4f5d9",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ab7be61c-d12e-4f81-8b72-596202f1c850",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d0327eb6f913efab2cacba8b12322c8fd183abee:e24a087e13afe0ac9d62f87fa1db59de4fdadd90efc1f97248658ba9f22d8f17",
+    "scope": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/runtime_v3_generation.py",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      "adl/tests/csm_runtime_v3_generation.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:ab7be61c-d12e-4f81-8b72-596202f1c850",
+    "scope": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/runtime_v3_generation.py",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      "adl/tests/csm_runtime_v3_generation.rs"
+    ],
+    "reviewed_revision": "git-blake3:d0327eb6f913efab2cacba8b12322c8fd183abee:e24a087e13afe0ac9d62f87fa1db59de4fdadd90efc1f97248658ba9f22d8f17",
+    "findings": [
+      {
+        "id": "F-656-1",
+        "severity": "p1",
+        "summary": "Rust preflight does not reject non-executable generation artifacts before service mutation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-656-2",
+        "severity": "p1",
+        "summary": "Authoritative SOR does not retain exact-final-SHA validation truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-656-3",
+        "severity": "p2",
+        "summary": "Generation corruption can prevent the governed stop path from stopping a running service.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Review ran on macOS; Linux systemd behavior was inspected but not executed.",
+      "No live Runtime or service-manager mutation was performed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b5b78f8703eeda7d907a109c0f1fbe61f3a584d901cccaa08ae2797b3a4cb3af",
+      "values_digest": "fbe91d25b1c7c6df5bfe267d92942b1723a8a9a77965dcfbcc02f0dc1e4483fd",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "b5166b7bfe708775b8d500d8b4b02653e364985db16b5d2e5adb86f29427904f",
+      "values_digest": "2cf8863280cad290eb6630230fdd1f40e4c6840552cedc5e799b4458c0a421be",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "d291de70ed6fb4c444b3deeb1ea5f8c3d930521ca9aba0553d04c4e27c03e2a5",
+      "values_digest": "badaacef3e5c945a29fb4d8c37287512e2a5a5e8bac6bf5ec3e8df1c09921771",
       "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
       "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "36ab8f83222ea25016c5b95b831a6b13a30d93927baa33049a7c7c680c7ed9fe",
+      "values_digest": "7da2ee447e3d1b4bb867c2ffc8d0208b300cfd8d7308c453fca01509ee1b9d5b",
       "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "7a914218d323190adae2f61b394915e8a15eb3e080a06ebcadcc4249da9cf9bc",
-      "rendered_digest": "6e0a7b210fe7c9574f00d9dc53d2794d3c1093f18107f72f8cff7e886f8154fa",
-      "ast_digest": "d46f5694b315496cb6622f6db4b57b5a05b712968c9fc1e11d1d87e4e5437ea6"
+      "values_digest": "6397406365b8325a00e04b1c8f671eb8509cf22a71662830a1a0973b9f9b0202",
+      "rendered_digest": "a1204e0cdf637cebdb556576d98a2afb0e1fca731cf4482af0cce029caec0119",
+      "ast_digest": "cbc14c9b6c26a307e4c44c2001869358e09b99902bd8c191c96333bfc8d6fbf5"
     },
     "sor": {
-      "values_digest": "49142fc29102930408b488267db502a80f33b739552f74a86ff82a4a7e1d6ae5",
+      "values_digest": "08645bae436a356b196c9ce943033d19c4f4d80f2135be745222745db7018213",
       "rendered_digest": "edaeb6d851b0a11a6144bd8028f841014c3b4b544bd8c8ece03e94fb14f14c60",
       "ast_digest": "6c7d3bffca910932043fca7356a6f6bed0a01bc6c9b71752078014f9868e7c8f"
     }
@@ -120,6 +179,20 @@
       "actor": "codex:656-implementation",
       "reason": "Atomic Runtime generation installation, pre-mutation generation verification, focused tests, formatting, build check, and diff hygiene are complete; bounded exact-head review is next.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
