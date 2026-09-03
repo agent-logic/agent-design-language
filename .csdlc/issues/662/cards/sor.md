@@ -79,7 +79,7 @@ Implemented governed agent-to-agent initiation for Runtime Observatory WSS so Be
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

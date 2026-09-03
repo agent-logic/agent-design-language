@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
     "slug": "runtime-agent-to-agent-initiation",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/telemetry.rs\n.csdlc/prepared/issues/662/design.md\n.csdlc/prepared/issues/662/diagram.mmd\n.csdlc/prepared/issues/662/bind.json\n.csdlc/prepared/issues/662/finalize-implementation.json\n.csdlc/prepared/issues/662/validate-focused.sh\n.csdlc/evidence/662",
-      "review_revision": "git-blake3:024afcd521b984f4b780ead4803507ea95a3938a:e46aa945374e4ccbb80ea3fe83d5a5d6866bd330b27ebe11e6ce7002048a4fa8",
-      "reviewer": "fresh-session:review-662-agent-to-agent-initiation-post-p1-fix",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is agent-to-agent initiation distinct from user-facing replies?",
         "Are Beacon sender and Ember recipient identities canonical and non-confusable?",
@@ -24,12 +24,8 @@
         "Does activity projection expose authoritative initiation truth without inventing delivery?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The review was performed by subagent /root/review_662_post_sender_fix for the assigned fresh-session review identity.",
-        "Branch head 5527c1beab1e31cbd3a320cc8ca3c2e58c7f3de1 contains one metadata-only review-assignment commit after the reviewed code revision; publication readiness must either retain this reviewed code revision or record a metadata-only bridge for the current head.",
-        "No live Runtime mutation, provider call, AWS action, paid runner, merge, finish, or cleanup was performed during this review."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
