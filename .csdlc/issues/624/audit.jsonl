@@ -9,3 +9,4 @@
 {"sequence":9,"generation":6,"actor":"codex:/root","reason":"Recover self-staling explicit non-substantive proof after review-record metadata advanced the branch head; preserve the PASS/no-findings reviewer result and re-record with the lifecycle-supported automatic metadata-only guard.","operation":"recover_review"}
 {"sequence":10,"generation":6,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":7,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":8,"actor":"codex:/root","reason":"Recover after exact review P2 found the #624 validator did not lock the exact seven-row denominator; remediate validator and refresh implementation evidence before fresh review.","operation":"recover_review"}

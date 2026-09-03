@@ -5,57 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "57eb35182a0202c4caf1b003179efcc9599cf45a49270582556b88d037845cee",
+  "generation": 8,
+  "digest": "cc064d77df3ec1d2c1da05920a9adbb43ef20e742036286778b57babb12287b2",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
-  "review_assignment": {
-    "reviewer": "fresh-session:413e61ea-5220-4eec-b579-40558dea36eb",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:311c76b4b627b5aae21986bf7c7b37dc489e27fe:32678b016d0bd92e764204602ca4f8191af016e42783eda78a81dbb810656302",
-    "scope": [
-      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
-      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
-      ".csdlc/prepared/issues/624/validate-diff-check.py",
-      ".csdlc/prepared/issues/624/finalize-implementation.json",
-      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
-      ".csdlc/evidence/624/issue624-json-parse.log",
-      ".csdlc/evidence/624/issue624-diff-hygiene.log"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:413e61ea-5220-4eec-b579-40558dea36eb",
-    "scope": [
-      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
-      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
-      ".csdlc/prepared/issues/624/validate-diff-check.py",
-      ".csdlc/prepared/issues/624/finalize-implementation.json",
-      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
-      ".csdlc/evidence/624/issue624-json-parse.log",
-      ".csdlc/evidence/624/issue624-diff-hygiene.log"
-    ],
-    "reviewed_revision": "git-blake3:311c76b4b627b5aae21986bf7c7b37dc489e27fe:32678b016d0bd92e764204602ca4f8191af016e42783eda78a81dbb810656302",
-    "findings": [
-      {
-        "id": "P2-validator-denominator-row-ids-not-locked",
-        "severity": "p2",
-        "summary": "The focused #624 validator enforces category coverage but not the exact seven-row denominator; omitting one duplicate-category row such as a GitHub/CI row could still pass.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Read-only review only; no live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations were performed.",
-      "The reviewer verified the bridge from assigned revision 311c76b4b627b5aae21986bf7c7b37dc489e27fe to current head 0f36b1988f0e6ab952089decd033bdaa7a74ac51 changed only typed lifecycle/review-assignment metadata and no reviewed artifact, validator, evidence log, receipt, or operational claim."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -70,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6512d5b5570e149943fcb100a6481949a705d552029c82278580794a407dfcb2",
+      "values_digest": "5b48692de8105caf0365816e5a6a1eac654b8be2778d011101c09aa0fcd0f9ea",
       "rendered_digest": "178e833abe2b52ed51498bd1f33b08d4a5460f30cb659131d49394c626ace5fa",
       "ast_digest": "3a011837c6252ffb523cb2b6496061b1c394e526a77fe253d90423b5b0d05519"
     },
     "stp": {
-      "values_digest": "2d9e03c20d335277f06fe6c8f33f7aecbb7f31ac0116a5f63d7ab83361ff2d67",
+      "values_digest": "cc5408bc31f86c0f1982a4eb7bfc298f26388890331a4382b5dca0a3587c16e5",
       "rendered_digest": "da5de2cf9e9453239574fc79588f610493992f24eb528146b96dddd00cee4c08",
       "ast_digest": "74abf5a4d0df01a61d1cc5e54f20891ce84ab02571fd67ae421214147909c69b"
     },
     "spp": {
-      "values_digest": "26b47b8422542d1ff838bfeb1c8c7f69014dd24fb991a9f57e0a536c45fe59b4",
+      "values_digest": "9dfa0536269382a00f4179f0d0020713beb93e968b46b764b9a20cb3997aa4f4",
       "rendered_digest": "8f6ca65e54484bd8a9bb68ab43e899ca662ff90cfb9314696b915697393abb9d",
       "ast_digest": "4e1e45af0baa369fe539558ec219732afe157d6e2b5f1765e72bed8d2c26f1fd"
     },
     "vpp": {
-      "values_digest": "5706955a80da1228a5727c2baaa9aa86ac8f0b225bb3b13c472ce42aa406125d",
+      "values_digest": "3be0fb7ce5491d683b764102dad61fe8261f10da7beb99d348a19eca556f7a05",
       "rendered_digest": "4ad50171a537aeec464e3b84f923e5c1129309590ad88c6417dde02bebbdd6c9",
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "2ede5a95c6ccdcf156497d55f356d8f78063e987dc99902c9931afb266b85d16",
-      "rendered_digest": "365ef2b4846cd14620b7619ab36fc269d33961edd1840a0d48ea5904318aaa29",
-      "ast_digest": "5dd8548b8672561815996e74f0896c020c13efa18d9d6f083cfbea1af50f485d"
+      "values_digest": "1389685111bbce400d4f1f5b8431e5c6ef687df017e4c62ba081c771582a009d",
+      "rendered_digest": "13a95bea05dd08e8585d66f11cdfad7dcce26957cb28e95e6b227ed958576417",
+      "ast_digest": "01bc6e4331e4a01f0f8dd239733909ae21a2eafa65fbf18f89a088979ac0f441"
     },
     "sor": {
-      "values_digest": "447a505c55e1a660edf1bb04f99547c1ce3e04957ec7f769fd895d2e84c64d8a",
+      "values_digest": "17447c5d7dca081badc518a91779b62df9a9a9f28e55c502274e14f861e53859",
       "rendered_digest": "0e6f478d5b457982d286d7aaee843554cfda9e19b1d463f5f5f5cc4f9e654d2c",
       "ast_digest": "951a71486b83f7703fe655105fb879f4492d8267700305db5ab1c57acb32b92a"
     }
@@ -214,6 +169,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover after exact review P2 found the #624 validator did not lock the exact seven-row denominator; remediate validator and refresh implementation evidence before fresh review.",
+      "operation": "recover_review"
     }
   ]
 }
