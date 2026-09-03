@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "8115fbbb54e5937d0e29239849f56da54e8f08b373035e044288f96d61c8a34e",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "72e4035d141b686c78a6bd6a0bb7bbacc9b58fe0a8ab9b88e98aafdba1ee4b21",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:42d16aeb-9cb2-4418-b7bf-5be4ef111e32",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:e6d78f58cb575529e84111b489a382038a2d8d27:2f23e8e1c732dea73eb18fd282bb4543700df4b87bc055490ce7bf545f6b53f1",
+    "scope": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/runtime_v3_generation.py",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      "adl/tests/csm_runtime_v3_generation.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:42d16aeb-9cb2-4418-b7bf-5be4ef111e32",
+    "scope": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/runtime_v3_generation.py",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      "adl/tests/csm_runtime_v3_generation.rs"
+    ],
+    "reviewed_revision": "git-blake3:e6d78f58cb575529e84111b489a382038a2d8d27:2f23e8e1c732dea73eb18fd282bb4543700df4b87bc055490ce7bf545f6b53f1",
+    "findings": [],
+    "residual_risks": [
+      "Linux systemd behavior was source and parser reviewed but not executed on the macOS review host.",
+      "Stop safety was verified without mutating the live Runtime or service manager."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "839e1d3c729b3609e3e8ad00ea04caafb7d652fa2d4f3f53bdafac53641d52ef",
+      "values_digest": "8c5159847dc06868b714f260e5e56b9fefe8a215205bdff9be4b431c22462964",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "fd7ad8cae88148540d5883630974bf10d818a3e86a35f47f859321e8af63ef5b",
+      "values_digest": "e378ed8976bf43ae802f4236eef0ff7c3a3144e1a2be485e573faeb225b153b3",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "57910fc67ee13d543c1fd4332cda74a561c2a95bec7671463106bb75aa60b7b5",
+      "values_digest": "6b0d04efbc659b21ec22c60f7e11ea7280ba88e573f0248a0195859afc004d3c",
       "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
       "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "f718fbd12e7962b394659263465b3286904f5685c24632904731b05a4a826bcc",
+      "values_digest": "f542a710b4acb3833ce35033153909c543d97c7d5db451a5924bf0d160adfac4",
       "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "5e441dc0a025d0879b9cfafd1809e37f12cd088a43670416e9de04bb05214795",
-      "rendered_digest": "7e7b0289bf774e28b81f2e746033ba0124722612e957f00b2481d794f65c0a6b",
-      "ast_digest": "8be1dc728e321ecd9b7f6c435b59970e3840e558d8736e8b31e5dce48afc390e"
+      "values_digest": "eca8b0d15fd62c93b059785378789b28aff5ace1ccc42a52b5f703e9baca3f63",
+      "rendered_digest": "b6589a6e7b067581845de7bc0f5b9a702a4b4a6a064250d0dd08959f4db20681",
+      "ast_digest": "a33980664f5cd78a2f47be2d2f7b44b74cea8179461ef43c7375d7d11f723276"
     },
     "sor": {
-      "values_digest": "77248e287de7e3b4a5adb130dfe350f44a16971e6b020616b0f7494a617ffc86",
+      "values_digest": "b3017b5a89febed58c00ef50dce20c017c69516c9dc9cc685e35ed4abf2ab2f4",
       "rendered_digest": "cfabc9a69ee6705e333e5380f0e4ab010b23186143cdcb3251d06c789186d050",
       "ast_digest": "5fc261f9bdbf83fffeddb390aa7e935d65b23c4d9ad3b09c01dd475d0133fa52"
     }
@@ -76,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:656-implementation",
       "reason": "Atomic Runtime generation installation, pre-mutation generation verification, focused tests, formatting, build check, and diff hygiene are complete; bounded exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -169,6 +204,20 @@
       "actor": "codex:/root",
       "reason": "Recover from changes-required review after fixing all three findings and retaining exact substantive-head validation truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
