@@ -227,6 +227,8 @@ run_contracts() {
   issue_cost_ledger="$CASE_ROOT/issue-cost-ledger.json"
   rm -f "$issue_cost_ledger" "$issue_cost_ledger.next"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$issue_cost_audit"
+  jq '.as_of="2026-09-03T08:28:00Z"' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-stale-as-of.json"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-stale-as-of.json" >/dev/null 2>&1
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-budget-extension "$budget_extension"
   jq '.run_id="wrong-run"' "$budget_extension" >"$CASE_ROOT/budget-extension-wrong-run.json"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-budget-extension "$CASE_ROOT/budget-extension-wrong-run.json" >/dev/null 2>&1

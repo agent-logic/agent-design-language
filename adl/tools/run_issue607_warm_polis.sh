@@ -734,6 +734,7 @@ validate_issue_cost_audit() {
   terminal_sha="$(sha256_file "$ISSUE_TERMINAL_OBSERVATION")"
   jq -e --argjson ceiling "$MAX_TOTAL_USD" --arg extension_sha "$extension_sha" --arg terminal_sha "$terminal_sha" '
     .schema=="adl.issue607.paid_action_cost_audit.v1" and .status=="pass"
+    and .as_of=="2026-09-03T09:05:38Z"
     and .authorized_ceiling_usd==$ceiling
     and .budget_extension_sha256==$extension_sha
     and (.historical_paid_attempts|length)==19

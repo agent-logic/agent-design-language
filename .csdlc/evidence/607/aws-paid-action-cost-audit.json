@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue607.paid_action_cost_audit.v1",
   "status": "pass",
-  "as_of": "2026-09-03T08:28:00Z",
+  "as_of": "2026-09-03T09:05:38Z",
   "authorized_ceiling_usd": 21,
   "budget_extension_sha256": "76495aca8c66ad065d55e3efda602cf1810b1b36f0d0986c830a254b13f02903",
   "method": {
