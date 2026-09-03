@@ -74,7 +74,7 @@ Revision 11
       "AC-11",
       "AC-12"
     ],
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "id": "S5",
@@ -82,7 +82,7 @@ Revision 11
     "acceptance_ids": [
       "AC-12"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 

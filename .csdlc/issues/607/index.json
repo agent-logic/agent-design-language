@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 83,
-  "digest": "2dd53997e838d113dd79038ec9b43b6bad8ef3d50a9829a8234bb08987a4b61b",
+  "generation": 86,
+  "digest": "483a1a97bc8e5d0bf58cb41776c3699ecdb98ac48ade65428ead8be91761bbf5",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b4711a07e537cfd5a1068d69aa159159ad776ef8fc0412a6e08834661e7480c3",
+      "values_digest": "1a581e808ff7f47fdd4240763da2417d2b655f9816f232ed3afd071951035002",
       "rendered_digest": "ded31cc85c56142a5ae18eefa707d17ecec138299449d069da584c1ef798629d",
       "ast_digest": "c01dfdb3c9af18b0edb33e96d8c969635d7b4f3eed374c91dd8a3329186fbe50"
     },
     "stp": {
-      "values_digest": "ba42668fc41b60c25f148ff305546d20142f4b8dd2f8e8db996044e954f10b83",
+      "values_digest": "913fc0c3065b5e36d03e457455ccb3ab956692bfec158e290facd65292458860",
       "rendered_digest": "a48d561fb39b2bfe4b434e3e081c5085f5b4de894db0b8e95d5a87b2b120c547",
       "ast_digest": "73f42b646b3a353379d71dff2c6d0cb3c9c6073b92bcb5bc9d13b189bcb3968b"
     },
     "spp": {
-      "values_digest": "4b7d4ed2f99255dc8f2debd1c6720114e66f14ad15ef8d43925f8d8e15c9c27d",
-      "rendered_digest": "7dfd4305bbee57daabddea2409ed1db36567f3f5753a8eb89aac9e0edfc3edf1",
-      "ast_digest": "0c47c4338e73719b7d7c26f2beff54b1c8b937c41808e36d5b9cc74bd2a32b53"
+      "values_digest": "678578a5f14b967874e29b54a1933f77b6594e5a26aae1e4d0d5352c186783bc",
+      "rendered_digest": "e7a000d8b5ad1134e79c51d619a16f3565d11a6dd1cedc75a81c06e9d883464b",
+      "ast_digest": "016d867f41730845d95873e8a2e0bfb70e5528590e6c5be84073cda6fed8e234"
     },
     "vpp": {
-      "values_digest": "8e58212908e7bc902de1698068a31cd9fb514a1b32c5b78d18fe0782f637a12c",
+      "values_digest": "b523c36a7d3885912532ba9c0a6805c7f875f85ff1ab58ab1a695bad1cca2311",
       "rendered_digest": "095656724a4b70e0eae12ea3fbfcf86aad3942240b6e9c262a6e6061ba8dd257",
       "ast_digest": "5ee3b887bcf46bb3c980f678c8ec9619a88e1e376230ecbe0c07f6d06eb40e10"
     },
     "srp": {
-      "values_digest": "577eeb2da54f14009ded3cbf181dc01d392f5f0d00c7e2c175d14eed721ef086",
+      "values_digest": "0171ea10178bd6550247ff997db97c7529acb5a0f164a05ce41a91b7c548ccc6",
       "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
       "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "d7750e7f99d6b710cfb2ececd20dadc978afae42a9e9a102d0b60ff36d66b253",
-      "rendered_digest": "bc7aaee0dc696cd6b53adf186f48463fa461851e60ed04d82ce1f9450c7b142e",
-      "ast_digest": "ad9bf101ceb1b06a089ca66de2dcbfba9caa7bf8c6122dad8b1d80a08ba93136"
+      "values_digest": "473c934f1a27c75f60d99d89887672b1e3ac90fea8a6865d8547eb220620418e",
+      "rendered_digest": "8e406ac0cb1d16a71603c824fe00916eaebdf090753849cc5fc8c0f7e0023e3c",
+      "ast_digest": "f2c9f1b371928c1fbbc58e517014791c5ab83006a301b3c21be74b4045ef354e"
     }
   },
   "transitions": [
@@ -861,6 +861,27 @@
       "actor": "codex-primary-issue607",
       "reason": "Include the actual issue-owned warm Polis controller used by the current-quota proving lane.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/build_or_prepare_issue607_warm_polis.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\"docs/operations/cloud/aws/shepherd-gpu-proof\",\".csdlc/prepared/issues/607/validate-preparation.sh\",\".csdlc/prepared/issues/607\",\".csdlc/evidence/607\",\".csdlc/issues/607\"]}"
+    },
+    {
+      "sequence": 103,
+      "generation": 84,
+      "actor": "codex-primary-issue607",
+      "reason": "The exact current-quota r7i.2xlarge plus g6.xlarge AWS qualification passed all local-ready, service-ready, behavior, cost, cleanup, and residue gates.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 104,
+      "generation": 85,
+      "actor": "codex-primary-issue607",
+      "reason": "The live qualification is complete; begin the remaining exact-head review, publication, merge, finish, and cleanup step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 105,
+      "generation": 86,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the pending pre-run SOR with exact current-quota AWS qualification truth while preserving worktree-only publication and merge state.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and live-qualified the restart-safe warm two-node AWS Polis on the current four-vCPU G-family quota using r7i.2xlarge plus one-L4 g6.xlarge; all local readiness, service readiness, two-model Shepherd, six-agent ACC, resilience, cleanup, and cost gates passed.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership under exact Terraform plans and single-use authorization.\",\"Prepared immutable Runtime and GPU AMIs plus integrity-bound persistent EBS volumes once, with no launch-time build, package installation, Git access, model download, or mutable dependency resolution.\",\"Kept Guardian and Runtime alive independently of qualification failures and kept Ollama private to the Runtime-to-GPU path.\",\"Changed the current-quota GPU default and saved-plan guard to g6.xlarge while retaining r7i.2xlarge for Runtime.\",\"Qualified Runtime local_ready in 4.640 seconds, GPU local_ready with two resident models in 96.090 seconds, and Terraform apply-to-service_ready in 235 seconds.\",\"Executed all six real Runtime agent ACC cycles and passed Guardian restart, state preservation, degradation recovery, Vector recovery, clean-log, and clean-shutdown assertions.\",\"Destroyed all disposable compute, network, security-group, key-pair, and attachment resources while retaining exactly the two prepared warm volumes.\",\"Reserved the final action at USD 0.242333 for a projected conservative issue ledger total of USD 19.842333 under the USD 20 ceiling.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/607/aws-current-quota-qualification-6a8dfdd80.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/607/validate-preparation.sh\"],\"purpose\":\"Prove the issue-specific acceptance, plan, validation, shape, and budget contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove Terraform topology, immutable activation, current-quota thresholds, authorization, cleanup, residue, and cost controls without another AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_spp_risk_repair_requires_review_recovery_epoch\"],\"purpose\":\"Prove implemented-phase SPP risk correction is permitted only within a current review-recovery epoch.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-quota-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-quota-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json\",\"--execute\"],\"purpose\":\"Live-qualify the exact r7i.2xlarge plus g6.xlarge warm Polis under current quota, including two models, six ACC agents, resilience, teardown, and zero residue.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-current-quota-qualification-6a8dfdd80.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject branch diff hygiene defects before exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"}]}"
     }
   ]
 }

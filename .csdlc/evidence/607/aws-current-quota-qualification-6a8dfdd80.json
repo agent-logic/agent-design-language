@@ -1,0 +1,62 @@
+{
+  "schema": "adl.issue607.aws_current_quota_qualification.v1",
+  "issue": 607,
+  "status": "passed",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "availability_zone": "us-west-2a",
+  "run_id": "adl-issue607-e8925c1dc8b0-quota-recovery",
+  "storage_id": "adl-issue607-warm-v6",
+  "artifact_generation": "7be87dd22260d30a7966d1b129123e84bb761074",
+  "controller_revision": "6a8dfdd80c4b4ce6216dc6990fdf7358d85a47b2",
+  "instances": {
+    "runtime_type": "r7i.2xlarge",
+    "gpu_type": "g6.xlarge"
+  },
+  "prepared_images": {
+    "runtime_ami_id": "ami-0ca2409ad7e2cd1d7",
+    "gpu_ami_id": "ami-0a87737abe6bc2535"
+  },
+  "timings_seconds": {
+    "runtime_local_ready": 4.640,
+    "gpu_local_ready": 96.090,
+    "apply_to_service_ready": 235
+  },
+  "thresholds_seconds": {
+    "runtime_local_ready_maximum": 30,
+    "gpu_local_ready_maximum": 120,
+    "apply_to_service_ready_maximum": 270
+  },
+  "qualification": {
+    "two_model_shepherd": true,
+    "six_agent_acc": true,
+    "guardian_restart": true,
+    "state_preserved": true,
+    "degradation_recovered": true,
+    "vector_recovered": true,
+    "clean_logs": true,
+    "clean_shutdown": true
+  },
+  "receipts": {
+    "runtime_local_ready_sha256": "d6e4bef229b9af99f6531b4b49128fbd92a794f97658e319fbc4ee182062dd3c",
+    "gpu_local_ready_sha256": "3e2fe085430ece9721318eadcc0b4b0f5465c6358df67896a9c79e88edc89fbb",
+    "service_ready_sha256": "02eecd0f192f440728110218876cf5fbef69aee78249ba3e4071911df0c0e535",
+    "qualification_complete_sha256": "1a6105528b6f1ce96460511af357608529bfad026431c1d00fe11fab1a88e08c",
+    "zero_disposable_residue_sha256": "60063aa55b74f73d7e07b1003b562395cd5fb8629a3a5bb62661cdaa0872e501",
+    "durable_prefix": "shepherd/issue-607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/"
+  },
+  "cleanup": {
+    "compute_residue": 0,
+    "warm_volumes_retained": 2
+  },
+  "cost": {
+    "authorized_ceiling_usd": 20,
+    "reserved_action_usd": 0.242333,
+    "projected_conservative_issue_total_usd": 19.842333,
+    "audit": ".csdlc/evidence/607/aws-paid-action-cost-audit.json"
+  },
+  "limitations": [
+    "The 235-second controller timing includes Terraform apply and AWS control-plane provisioning; it is not the guest-local runtime readiness time.",
+    "The conservative issue total includes fixed seven-day storage and snapshot allowances and is not an AWS Cost Explorer actual."
+  ]
+}
