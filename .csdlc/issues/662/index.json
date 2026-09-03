@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "d49a9ee69b411ed29cfd2133e6f564f739839cb400592b7c107e22ef42d6c0f8",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "9775d0d33649e259a01493f5f163c03ed52aac0786b58e25adc68bcfed934b62",
   "branch": "codex/662-agent-to-agent-initiation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
   "review_assignment": {
@@ -24,7 +24,40 @@
       ".csdlc/evidence/662"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/prepared/issues/662/design.md",
+      ".csdlc/prepared/issues/662/diagram.mmd",
+      ".csdlc/prepared/issues/662/bind.json",
+      ".csdlc/prepared/issues/662/finalize-implementation.json",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/evidence/662"
+    ],
+    "reviewed_revision": "git-blake3:32c472032f50c4e5283036dfde6e0130d8319e66:e9b91029b83a0b48606032c1301353e1aba3fa68812e983aa6ffbcc38f221d98",
+    "findings": [],
+    "residual_risks": [
+      "The metadata-head reviewer also inspected branch HEAD b3335a276a6a520f857afcca87f718d9ed37a3d4 and verified that changes after code commit 024afcd521b984f4b780ead4803507ea95a3938a are confined to typed C-SDLC metadata.",
+      "No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during metadata-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:32c472032f50c4e5283036dfde6e0130d8319e66:e9b91029b83a0b48606032c1301353e1aba3fa68812e983aa6ffbcc38f221d98",
+      "to_revision": "git-blake3:b3335a276a6a520f857afcca87f718d9ed37a3d4:99fb45e2afe8450404501665434d710fbf8337a5d05add6b6362077810f0e837",
+      "from_commit": "32c472032f50c4e5283036dfde6e0130d8319e66",
+      "to_commit": "b3335a276a6a520f857afcca87f718d9ed37a3d4",
+      "changed_paths": [
+        ".csdlc/issues/662/audit.jsonl",
+        ".csdlc/issues/662/cards/srp.md",
+        ".csdlc/issues/662/cards/srp.values.json",
+        ".csdlc/issues/662/index.json",
+        ".csdlc/prepared/issues/662/review-assign-pre-pr.json"
+      ]
+    }
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2549dc74e860ec29051a6d241c68713136b6864b0242a4927865aefe79dac8ba",
+      "values_digest": "36ad042ded99d5e383da2d4fb348e3e414ddd10ebcb652a9e2cd68d7b4177407",
       "rendered_digest": "3f58782d50ee9b9fd73ee67152eba61d607fee4223098b680c5c0f3e1c1a69bb",
       "ast_digest": "8d1cd6432ea644f770fdad24fc2499103564ce02f0df3084cc2d649edc32bdf7"
     },
     "stp": {
-      "values_digest": "7d2cd149ea6e5b344c2060d32f917fe3c829bbc243e91193f45c55ee653fa0c8",
+      "values_digest": "463f70c361434f40d8be2223af4342ee1f593da1ad3e3ebcc609ed4c4bc5de1e",
       "rendered_digest": "c48bb7ad9ba7285a23a71f6ae97e54f49365fb1e558f30fb414cb0eedc75cb41",
       "ast_digest": "2f8254c052eca2a8e14f61e33bea7adba5af4aed5728fe93379ad093fdb34306"
     },
     "spp": {
-      "values_digest": "f0671388a5d380872994aca68884164ff1b49a02c045ba44d09ca8481c375c87",
+      "values_digest": "868a7b6be4e513e8c7f00a4df9cc7804d394f418b1e09723f5e45d5304b0bb00",
       "rendered_digest": "210f7d8779f8213a67be9e9f73822619acfe38dbf840213cd57fc23f0d4193fb",
       "ast_digest": "dc5f615ba1d839dd28fb6944f405aaa61cb83da600e9d55b6c9f96c0c2fa271a"
     },
     "vpp": {
-      "values_digest": "1628fc4ea6428769638b772da3fd49eaa7e2c11cbe1608d371deb82a5d2a7440",
+      "values_digest": "09764b33eea697a10272aa648e1f6c24ab9a7aa1de34d8c19017611a3720f04e",
       "rendered_digest": "4adb27da2ca9169c959966cb14eda245bfdfd20a822b3dd6403b71e2de49c337",
       "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
     },
     "srp": {
-      "values_digest": "cf9192f9a67cbd537fb3c545a9e2b12bc76eab2a20accb9e496d232d130a1741",
-      "rendered_digest": "f914865a7367024b22b3f6b66dc4992d8b9da07b7355ef415a256e103345d094",
-      "ast_digest": "0871a2cec337dccf5dc78ef0c906ec7a30bc12369f6cbecf8937a87d7f055d4f"
+      "values_digest": "12127df91378f1062e3b50af15f2d8081c6187ab2882402995706a138180619b",
+      "rendered_digest": "fc76090c7ee53f721309f4ea331faaa9524ce0644220544e786188de0ae44408",
+      "ast_digest": "2955304f9f4851e9ce6f65351fcaa0aba55468abc8c5bf59c1f8eb156838e591"
     },
     "sor": {
-      "values_digest": "0fcb7993a399715eda281f8623a06d91b402f4c95c480f73cb129b6ce8b90031",
+      "values_digest": "eb39dfb916fd84d79326710d92d6be57f488b7957421a46198273986b86ea3b2",
       "rendered_digest": "e93b20f25aa1ed872736e3312a20d603f7adf78828bb3a16f0bf9e7b869c7b8c",
       "ast_digest": "527c2f1df9e77538103eb040a273f7e1ca84982348a1c47aa9464d3dba10330e"
     }
@@ -104,6 +137,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-662-exec",
       "reason": "Recover #662 review truth after recording the post-sender-fix PASS review so a metadata-head review can cover the current branch head before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -190,6 +230,13 @@
       "actor": "codex:/root:issue-662-exec",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
