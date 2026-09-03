@@ -92,8 +92,9 @@ fail_with("preview missing The Cognitive Stack title") unless preview.include?("
 fail_with("preview still references public podcast path") if preview.include?("../../podcast") || preview.include?("/podcast/feed.xml") || preview.include?("podcast/audio/")
 fail_with("preview still contains old show name") if preview.include?("Cognitive Spacetime") || preview.include?("Synthetic Minds")
 fail_with("preview logo must be local preview asset") unless preview.include?("./assets/agent-logic-logo.svg")
-fail_with("preview audio withholding notice missing") unless preview.include?("audio remains withheld until public launch approval")
+fail_with("preview audio must use local preview asset") unless preview.include?('<audio controls src="./audio/meet-the-ai-coworkers.mp3"')
 fail_with("preview logo asset missing") unless File.file?(logo_path)
+fail_with("preview audio asset missing") unless File.file?(File.join(root, "demos/_preview/podcast/audio/meet-the-ai-coworkers.mp3"))
 
 launch_readiness = File.read(launch_readiness_path)
 fail_with("launch readiness still claims production publication") if launch_readiness.include?("Published to production")

@@ -11,6 +11,10 @@ The current operator-visible page is:
 
 - `https://agent-logic.ai/_preview/podcast/`
 
+The preview player may use assets under `https://agent-logic.ai/_preview/podcast/`.
+That does not authorize copying or serving the same launch candidates under the
+public `/podcast/` route.
+
 The current public route is intentionally withheld:
 
 - `https://agent-logic.ai/podcast/`

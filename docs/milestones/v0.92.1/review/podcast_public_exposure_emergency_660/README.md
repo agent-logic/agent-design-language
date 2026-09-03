@@ -18,6 +18,8 @@ that the current show page for **The Cognitive Stack** remains hidden under
   with `noindex,nofollow`.
 - The hidden preview no longer links the public RSS feed or public MP3 path.
 - The preview logo is served from `/_preview/podcast/assets/`.
+- The preview player uses `/_preview/podcast/audio/meet-the-ai-coworkers.mp3`;
+  the public `/podcast/audio/` route remains withheld.
 
 ## Evidence
 

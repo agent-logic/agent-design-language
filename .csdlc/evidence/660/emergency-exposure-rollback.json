@@ -50,24 +50,30 @@
       }
     },
     "hidden_preview_update": {
-      "command_intent": "Serve the current The Cognitive Stack landing page only under the hidden preview route, with noindex and without public feed or public media links.",
+      "command_intent": "Serve the current The Cognitive Stack landing page only under the hidden preview route, with noindex and without public feed or public /podcast/ media links. The playable preview audio is served from the hidden _preview prefix.",
       "objects_written": [
         {
           "key": "_preview/podcast/",
-          "version_id": "vsqe3KD44Fb89gu9bq5JC5xFQNtdlW6F",
-          "etag": "29490322241803c1dcdf6dc7327ce556",
+          "version_id": "2vpkHjmtPfOPczb0Z8DxsT2gy2RdEPZz",
+          "etag": "5361b85b064f5670d0bce9002fb304db",
           "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
         },
         {
           "key": "_preview/podcast/index.html",
-          "version_id": "MB2qjiP87yW.eNEpUE7.TNxoZsOmwDfD",
-          "etag": "29490322241803c1dcdf6dc7327ce556",
+          "version_id": "otD6BtEAchu3JePCo1Fyeq3MefvvO9pT",
+          "etag": "5361b85b064f5670d0bce9002fb304db",
           "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
         },
         {
           "key": "_preview/podcast/assets/agent-logic-logo.svg",
           "version_id": "jhj8XHWDG0xZ4j72YPyK6H0SEsBIEZty",
           "etag": "296a8e630d4bceb8b26c88b72790e3dd",
+          "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
+        },
+        {
+          "key": "_preview/podcast/audio/meet-the-ai-coworkers.mp3",
+          "version_id": "ACMbDmF09.HFknFtBghGhhqE_iNRquj.",
+          "etag": "1bffe6761607c24f94be7701d2e4d73e",
           "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
         }
       ],
@@ -86,12 +92,18 @@
           "id": "I92QYR285C91VZDC5V17PWIUTY",
           "status": "Completed",
           "paths": ["/_preview/podcast/", "/_preview/podcast/index.html"]
+        },
+        {
+          "id": "ID39I13BIHITVK8CKFPRWVA435",
+          "status": "Completed",
+          "paths": ["/_preview/podcast/", "/_preview/podcast/index.html", "/_preview/podcast/audio/meet-the-ai-coworkers.mp3"]
         }
       ]
     }
   },
   "repository_durability": {
     "public_launch_readiness_truth": "demos/podcast/LAUNCH_READINESS.md no longer claims production publication and records the public route as withheld while preserving the RSS feed, media, artwork, and page files as ready-but-withheld launch candidates.",
+    "hidden_preview_playback_truth": "demos/_preview/podcast/index.html uses ./audio/meet-the-ai-coworkers.mp3 so the preview remains playable without referencing https://agent-logic.ai/podcast/audio/.",
     "publication_hold_marker": "demos/podcast/PUBLICATION_HOLD.md",
     "promotion_runbook_gate": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md records that, as of #660, the production launch candidate is intentionally withheld and the promotion steps require future explicit operator approval.",
     "preserved_launch_candidate_artifacts": [
@@ -129,10 +141,16 @@
         "robots": "noindex,nofollow",
         "contains_public_feed_link": false,
         "contains_public_audio_link": false,
+        "contains_preview_audio_link": true,
         "contains_old_show_name": false
       },
       {
         "url": "https://agent-logic.ai/_preview/podcast/assets/agent-logic-logo.svg",
+        "expected_status": 200,
+        "observed_status": 200
+      },
+      {
+        "url": "https://agent-logic.ai/_preview/podcast/audio/meet-the-ai-coworkers.mp3",
         "expected_status": 200,
         "observed_status": 200
       }

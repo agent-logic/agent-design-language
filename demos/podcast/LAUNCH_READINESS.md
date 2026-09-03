@@ -14,7 +14,7 @@ not been approved. The current show page belongs under the hidden preview route:
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Hidden preview URL | Ready | `https://agent-logic.ai/_preview/podcast/` returns The Cognitive Stack page with `noindex,nofollow` |
+| Hidden preview URL | Ready | `https://agent-logic.ai/_preview/podcast/` returns The Cognitive Stack page with `noindex,nofollow`; the preview player uses `_preview/podcast/audio/meet-the-ai-coworkers.mp3`, not the public `/podcast/audio/` route |
 | Public production route | Withheld | `https://agent-logic.ai/podcast/` returns a non-serving status after #660 rollback |
 | RSS feed launch candidate | Ready but withheld | `demos/podcast/feed.xml` is retained as candidate source and must not be deployed before approval |
 | Public episode media launch candidate | Ready but withheld | `demos/podcast/audio/meet-the-ai-coworkers.mp3` is retained as candidate source and must not be deployed before approval |
