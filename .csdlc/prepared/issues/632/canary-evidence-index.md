@@ -24,8 +24,9 @@ reviewed, approved, merged, and terminally reconciled.
   and must not be used as the active #631 publication route.
 - #631 PR #669 linked PR-state through `csdlc-github-pr`: pass for repaired
   topology; PR #669 targets `main` and exposes `Closes #631` as the live GitHub
-  closing relation. It remains a dependency gate until its hosted checks and
-  review decision are settled at the current exact head.
+  closing relation. It is ready/green at exact head
+  `308b489d9238732f056e9d671c5155d0f4f91d2e`; #505 must consume that dependency
+  through current review and publication before cutover.
 - #632 local typed bootstrap through `csdlc-issue create`: pass after VPP lane
   coverage repair.
 - #632 typed bind through `csdlc-bind`: pass; execution worktree is
