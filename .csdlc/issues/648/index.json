@@ -1,0 +1,245 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 648,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e474bee8b7ea0cf78980cbfa31d64187c08d8d66120a0a13e935836019bdd680",
+  "phase": "published",
+  "generation": 9,
+  "digest": "567a25cabaf9ed899223651dc04f101013a93172e8a3dfc55d718586a9a6d1e3",
+  "branch": "codex/648-provider-reload-ownership-corrective-bound",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-648-provider-reload-ownership-corrective-bound",
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_648_provider_reload_corrective_exact_head",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:2437e24b13f4553715ef8189df3e5f5c963505e8:2c72fd9d0593ba95a48b98de6d6bd7107f7fb49bfe9da2148bfda215c06b25bd",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs",
+      ".csdlc/prepared/issues/648",
+      ".csdlc/evidence/648"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_648_provider_reload_corrective_exact_head",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs",
+      ".csdlc/prepared/issues/648",
+      ".csdlc/evidence/648"
+    ],
+    "reviewed_revision": "git-blake3:2437e24b13f4553715ef8189df3e5f5c963505e8:2c72fd9d0593ba95a48b98de6d6bd7107f7fb49bfe9da2148bfda215c06b25bd",
+    "findings": [],
+    "residual_risks": [
+      "Review did not run live provider, AWS, paid/cloud, Runtime restart, cutover, or CI checks.",
+      "Publication/PR/CI readiness remains unproven until typed publication creates a PR and GitHub checks complete."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 648,
+    "pull_request": 651,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/651",
+    "base": "main",
+    "head": "codex/648-provider-reload-ownership-corrective-bound",
+    "revision": "git-blake3:2437e24b13f4553715ef8189df3e5f5c963505e8:2c72fd9d0593ba95a48b98de6d6bd7107f7fb49bfe9da2148bfda215c06b25bd",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/648/design.md",
+  "diagram_path": ".csdlc/prepared/issues/648/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root:issue-648-design-review",
+      "revision": "752accf4705a4e5c4559b72ff5051629a23d03975617874c43eb1b5d09081baf"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d09b77731a61d86627f9b382ccb08775d770caee0869364a7694d7c22648a845",
+      "rendered_digest": "d76ac9c988495e8bc6dfdb47d07e1ff8347056507a338d2af9dcc2904a7b0b92",
+      "ast_digest": "731b22b5572f8e65901e8bdf7e6d2281c1b83478291d756a92b37f113e1b250a"
+    },
+    "stp": {
+      "values_digest": "0acd714bbe7be03430bb0b431895fa03835531fe1d0e87b1f7655f610ee47882",
+      "rendered_digest": "74ebbaefb0938e0c011d2905584f8e9ba32c7ebaa305cbcee11461846e3ed733",
+      "ast_digest": "3864e33451386d117a0f46ce9449363fdf14891e6a0526b271931eb45eb219ee"
+    },
+    "spp": {
+      "values_digest": "b22d9fe6f23544aaab92d0a84970b738d750e08c886646489a19a8ec2c955a04",
+      "rendered_digest": "64f66a0bde2ee42890cc22f6571b079be34f8abf12fa242377a22d2b2ebaa394",
+      "ast_digest": "8179ff2ca28a6d452f0bfb13326b0da5c4f1591b852558616ec88ca93e5eebd1"
+    },
+    "vpp": {
+      "values_digest": "b0c8f1d447c9d12590a0da16ec5d43a09d24164b2aef584d3f718b5bd21e9a61",
+      "rendered_digest": "3ac7551c1214e4ca7cbd3c66fc292c98946816ef9c3ffc23faf02b7e1eb046ca",
+      "ast_digest": "e32a5a7d0c798695350428512aa5fbb5802854a8e927476e20c22637ee90fa55"
+    },
+    "srp": {
+      "values_digest": "c9639aa51b34e2dd749a76d442b7e3ee0fc4753edad3c79a8a05ba2c6cccdbf4",
+      "rendered_digest": "878e2c3b5b9d60b37e11b3fe12563c74d2f2cd248945f103c6a535f687b4ba13",
+      "ast_digest": "509655d2c5608b9a13039133d44963264b79fed0894e1a4d9804739d6c7887a7"
+    },
+    "sor": {
+      "values_digest": "0d3e65ceee02d098354478aaca17c6a6f08cef7a2a4817d24f9b80a7fe76e15e",
+      "rendered_digest": "c76209c06e929a70225b7073432079277f1010dd4613bf67fb3a79a5cd16add4",
+      "ast_digest": "ad0ab12e1b425f83f3e4022b1a2dfdd5b26c9f4f8bf18f2ae8b8853877d2a5ff"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review after committing review metadata so publication can rely on current clean commit authority."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:issue-648-corrective-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #648 readiness so the issue-owned validation script is an exact governed affected area rather than only covered by a non-proving glob.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/reload.rs\",\"adl/src/execute/mod.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl/src/long_lived_agent.rs\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\",\".csdlc/prepared/issues/648/**\",\".csdlc/issues/648/**\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Record the bound #648 corrective implementation replayed from the reviewed #622 repair branch.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replayed the provider reload ownership repair through corrective issue #648 after PR #646 merged with stale review evidence.\",\"changes\":[\"Added run-scoped ProviderReloadHandle propagation through sequential, concurrent, retry, and called-workflow execution paths.\",\"Changed production CSM adl_workflow hotload ownership to retain and pass an explicit run-scoped provider reload handle instead of depending on process-global registration.\",\"Retained compatibility global registration with identity-aware guard clearing so older guards cannot clear newer registrations.\",\"Added overlap, shutdown-order, in-flight snapshot, and direct global guard regression coverage.\",\"Kept validation local and offline; no live provider, AWS, paid runner, Runtime restart, cutover, or merge action was performed.\"],\"artifacts\":[\"adl/src/provider/reload.rs\",\"adl/src/execute/mod.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl/src/long_lived_agent.rs\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Record passed #648 production validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\",\"production\"],\"purpose\":\"Prove production provider profile, provider reload, in-flight snapshot, and CSM hotload-owner behavior after the run-scoped reload handle repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:2026-09-02:#648-production-validation:14-provider-profile-7-provider-reload-1-inflight-1-csm-passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Record passed #648 safety validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh\",\"safety\"],\"purpose\":\"Prove config reload safety, provider reload ownership regressions, fmt, clippy, and diff hygiene without live provider, AWS, paid runner, Runtime restart, cutover, or merge action.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:2026-09-02:#648-safety-validation:2-config-14-profile-7-reload-1-inflight-1-csm-fmt-clippy-diffcheck-passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review after committing review metadata so publication can rely on current clean commit authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

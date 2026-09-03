@@ -545,6 +545,7 @@ pub(super) fn build_remote_execute_request(
     })
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(super) fn execute_step_with_retry(
     step: &crate::resolve::ResolvedStep,
     doc: &crate::adl::AdlDoc,
@@ -553,6 +554,7 @@ pub(super) fn execute_step_with_retry(
     saved_state: &HashMap<String, String>,
     adl_base_dir: &Path,
     capture_stream_chunks: bool,
+    provider_reload_handle: Option<&provider::ProviderReloadHandle>,
 ) -> Result<StepRunSuccess> {
     match execute_step_with_retry_core(
         step,
@@ -562,6 +564,7 @@ pub(super) fn execute_step_with_retry(
         saved_state,
         adl_base_dir,
         capture_stream_chunks,
+        provider_reload_handle,
         |_| {},
     ) {
         Ok(success) => Ok(success),
@@ -578,6 +581,7 @@ pub(super) fn execute_step_with_retry_core<F>(
     saved_state: &HashMap<String, String>,
     adl_base_dir: &Path,
     capture_stream_chunks: bool,
+    provider_reload_handle: Option<&provider::ProviderReloadHandle>,
     mut on_prompt_hash: F,
 ) -> std::result::Result<StepRunSuccess, StepRunFailure>
 where
@@ -628,7 +632,12 @@ where
             let prompt_hash = prompt::hash_prompt(&prompt_text);
             on_prompt_hash(&prompt_hash);
 
-            let provider_doc_snapshot = provider::current_provider_reload_document();
+            let provider_doc_snapshot = if let Some(provider_reload_handle) = provider_reload_handle
+            {
+                Some(provider_reload_handle.current_document())
+            } else {
+                provider::current_provider_reload_document()
+            };
             let provider_doc = provider_doc_snapshot.as_deref().unwrap_or(doc);
             let spec = provider_doc.providers.get(provider_id).ok_or_else(|| {
                 deterministic_setup_error(format!(
@@ -732,6 +741,7 @@ where
     })
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(super) fn execute_concurrent_deterministic(
     resolved: &AdlResolved,
     tr: &mut Trace,
@@ -740,6 +750,7 @@ pub(super) fn execute_concurrent_deterministic(
     adl_base_dir: &Path,
     out_dir: &Path,
     resume: Option<&ResumeState>,
+    provider_reload_handle: Option<&provider::ProviderReloadHandle>,
 ) -> Result<ExecutionResult> {
     let (max_parallel, scheduler_source) = effective_max_concurrency_with_source(resolved)?;
     tr.scheduler_policy(max_parallel, scheduler_source.as_str());
@@ -894,6 +905,7 @@ pub(super) fn execute_concurrent_deterministic(
             let base_snapshot = base_snapshot.clone();
             let run_id_snapshot = run_id_snapshot.clone();
             let workflow_id_snapshot = workflow_id_snapshot.clone();
+            let provider_reload_snapshot = provider_reload_handle.cloned();
             jobs.push(Box::new(move || {
                 let run = execute_step_with_retry_core(
                     &step,
@@ -903,6 +915,7 @@ pub(super) fn execute_concurrent_deterministic(
                     &state_snapshot,
                     &base_snapshot,
                     true,
+                    provider_reload_snapshot.as_ref(),
                     |_| {},
                 );
                 (step_id_owned, run)
@@ -1085,6 +1098,7 @@ pub(super) fn execute_called_workflow(
     adl_base_dir: &Path,
     out_dir: &Path,
     caller_state: &HashMap<String, String>,
+    provider_reload_handle: Option<&provider::ProviderReloadHandle>,
 ) -> Result<(
     Vec<StepOutput>,
     Vec<PathBuf>,
@@ -1132,6 +1146,7 @@ pub(super) fn execute_called_workflow(
                 adl_base_dir,
                 out_dir,
                 &child_state,
+                provider_reload_handle,
             );
 
             let (sub_outs, sub_artifacts, sub_records, sub_state) = match nested_result {
@@ -1207,6 +1222,7 @@ pub(super) fn execute_called_workflow(
             &child_state,
             adl_base_dir,
             true,
+            provider_reload_handle,
         ) {
             Ok(success) => {
                 tr.prompt_assembled(&full_id, &success.prompt_hash);
