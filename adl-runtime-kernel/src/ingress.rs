@@ -416,6 +416,29 @@ fn project_public_output(
     work: &DomainWork,
     operation: &crate::OperationResult,
 ) -> Result<Option<serde_json::Value>, IngressError> {
+    if work.kind == crate::AdapterKind::Shepherd.service_name() {
+        let request: crate::ShepherdRequest =
+            serde_json::from_slice(&work.payload).map_err(|_| IngressError::ExecutionFailed)?;
+        let response: crate::ShepherdResponse = serde_json::from_slice(&operation.payload)
+            .map_err(|_| IngressError::ExecutionFailed)?;
+        let recipient_id = request
+            .conversation_recipient_id
+            .filter(|value| !value.is_empty() && value.len() <= 128)
+            .ok_or(IngressError::ExecutionFailed)?;
+        if response.schema != crate::SHEPHERD_RESPONSE_SCHEMA
+            || response.correlation_id != request.correlation_id
+            || response.runtime_id != request.runtime_id
+            || response.response.is_empty()
+            || response.response.len() > 4_096
+        {
+            return Err(IngressError::ExecutionFailed);
+        }
+        return Ok(Some(serde_json::json!({
+            "schema": "adl.runtime.conversation_reply.v1",
+            "recipient_id": recipient_id,
+            "message": response.response,
+        })));
+    }
     let Ok(command) = serde_json::from_slice::<serde_json::Value>(&work.payload) else {
         return Ok(None);
     };

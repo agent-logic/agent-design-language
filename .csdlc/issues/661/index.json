@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 661,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 4,
-  "digest": "5aa57f597e3f54e616c1487599aa46dfd9bcb5128f95f4b3a638a5d938bb61af",
-  "branch": null,
-  "worktree": null,
+  "digest": "b991cff0d82b6e6d5a29c83817ce4c9505a9540ae3de60c5212d53658fc5e924",
+  "branch": "codex/661-runtime-shepherd-provider-reply",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +55,22 @@
       "ast_digest": "5572858de7599ba7b7628e09b20cb93b43fd03bfd1b53027fbc4e77a3158d86c"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -90,6 +106,13 @@
       "actor": "codex:661-bootstrap",
       "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-shepherd-provider-reply\",\"proof_role\":\"Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"parallel_group\":\"runtime-shepherd\",\"defer_reason\":\"The exact focused test is an issue #661 implementation deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
