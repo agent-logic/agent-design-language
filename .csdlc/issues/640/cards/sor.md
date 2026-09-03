@@ -93,11 +93,11 @@ Implemented provider-backed resident Shepherds with provider-neutral private gat
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
