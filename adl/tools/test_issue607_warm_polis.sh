@@ -263,19 +263,26 @@ run_contracts() {
   lifecycle_report="$CASE_ROOT/guardian-lifecycle-report.json"
   guardian_proof="$CASE_ROOT/guardian-proof.json"
   recovery_proof="$CASE_ROOT/guardian-recovery-proof.json"
-  jq -n '{schema:"adl.runtime_v3.lifecycle_soak.v1",status:"pass",suite:"preflight_1x",acceptance_eligible:false,runtime_v3_soak:{status:"pass",claim:"short_local_linux_qualification_only",evidence:{evaluation:{status:"pass",violations:[]}},workload_observation:{observed_phases:[{name:"dependency-degradation",injected_unix_seconds:10,recovered_unix_seconds:12,recovery_seconds:2},{name:"vector-liveness",injected_unix_seconds:20,recovered_unix_seconds:23,recovery_seconds:3},{name:"log-stagnation",injected_unix_seconds:30,recovered_unix_seconds:31,recovery_seconds:1}]}}}' >"$lifecycle_report"
+  proof_revision=0123456789abcdef0123456789abcdef01234567
+  jq -n --arg revision "$proof_revision" '{schema:"adl.runtime_v3.lifecycle_soak.v1",status:"pass",suite:"preflight_1x",revision:$revision,acceptance_eligible:false,runtime_v3_soak:{status:"pass",claim:"short_local_linux_qualification_only",evidence:{evaluation:{status:"pass",violations:[]}},workload_observation:{observed_phases:[{name:"dependency-degradation",injected_unix_seconds:10,recovered_unix_seconds:12,recovery_seconds:2},{name:"vector-liveness",injected_unix_seconds:20,recovered_unix_seconds:23,recovery_seconds:3},{name:"log-stagnation",injected_unix_seconds:30,recovered_unix_seconds:31,recovery_seconds:1}]}}}' >"$lifecycle_report"
   lifecycle_sha="$(sha256sum "$lifecycle_report" | awk '{print $1}')"
-  jq -n --arg report "$lifecycle_report" --arg report_sha "$lifecycle_sha" '{schema:"adl.runtime_v3.guardian_lifecycle_proof.v1",status:"pass",lifecycle_component_suite:"preflight_1x",lifecycle_component_acceptance_eligible:false,lifecycle_report_path:$report,lifecycle_report_sha256:$report_sha}' >"$guardian_proof"
-  "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report" "$recovery_proof"
-  jq -e '.schema=="adl.issue607.guardian_recovery_proof.v1" and .status=="pass" and .issue607_acceptance_eligible==true and .source_lifecycle_acceptance_eligible==false and .assertions.degradation_recovered==true and .assertions.vector_recovered==true and (.observed_phases|length)==3' "$recovery_proof" >/dev/null
+  jq -n --arg report "$lifecycle_report" --arg report_sha "$lifecycle_sha" --arg revision "$proof_revision" '{schema:"adl.runtime_v3.guardian_lifecycle_proof.v1",status:"pass",source_revision:$revision,lifecycle_component_suite:"preflight_1x",lifecycle_component_acceptance_eligible:false,lifecycle_report_path:$report,lifecycle_report_sha256:$report_sha}' >"$guardian_proof"
+  "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report" "$proof_revision" "$recovery_proof"
+  jq -e --arg revision "$proof_revision" '.schema=="adl.issue607.guardian_recovery_proof.v1" and .status=="pass" and .issue607_acceptance_eligible==true and .source_revision==$revision and .source_lifecycle_acceptance_eligible==false and .assertions.degradation_recovered==true and .assertions.vector_recovered==true and (.observed_phases|length)==3' "$recovery_proof" >/dev/null
   jq 'del(.runtime_v3_soak.workload_observation.observed_phases[]|select(.name=="dependency-degradation"))' "$lifecycle_report" >"$lifecycle_report.missing-phase"
-  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report.missing-phase" "$recovery_proof.missing-phase" >/dev/null 2>&1
+  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report.missing-phase" "$proof_revision" "$recovery_proof.missing-phase" >/dev/null 2>&1
   jq '(.runtime_v3_soak.workload_observation.observed_phases[]|select(.name=="vector-liveness")) |= (.recovered_unix_seconds=19)' "$lifecycle_report" >"$lifecycle_report.reversed-time"
-  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report.reversed-time" "$recovery_proof.reversed-time" >/dev/null 2>&1
+  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report.reversed-time" "$proof_revision" "$recovery_proof.reversed-time" >/dev/null 2>&1
   jq '.runtime_v3_soak.evidence.evaluation.violations=["forced"]' "$lifecycle_report" >"$lifecycle_report.violation"
-  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report.violation" "$recovery_proof.violation" >/dev/null 2>&1
+  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof" "$lifecycle_report.violation" "$proof_revision" "$recovery_proof.violation" >/dev/null 2>&1
   jq '.lifecycle_report_sha256="tampered"' "$guardian_proof" >"$guardian_proof.bad-hash"
-  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof.bad-hash" "$lifecycle_report" "$recovery_proof.bad-hash" >/dev/null 2>&1
+  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof.bad-hash" "$lifecycle_report" "$proof_revision" "$recovery_proof.bad-hash" >/dev/null 2>&1
+  jq '.source_revision="fedcba9876543210fedcba9876543210fedcba98"' "$guardian_proof" >"$guardian_proof.bad-revision"
+  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof.bad-revision" "$lifecycle_report" "$proof_revision" "$recovery_proof.bad-guardian-revision" >/dev/null 2>&1
+  jq '.revision="fedcba9876543210fedcba9876543210fedcba98"' "$lifecycle_report" >"$lifecycle_report.bad-revision"
+  bad_revision_sha="$(sha256sum "$lifecycle_report.bad-revision" | awk '{print $1}')"
+  jq --arg report "$lifecycle_report.bad-revision" --arg sha "$bad_revision_sha" '.lifecycle_report_path=$report|.lifecycle_report_sha256=$sha' "$guardian_proof" >"$guardian_proof.bad-report-revision"
+  ! "$ROOT/adl/tools/issue607_guardian_recovery_proof.sh" "$guardian_proof.bad-report-revision" "$lifecycle_report.bad-revision" "$proof_revision" "$recovery_proof.bad-report-revision" >/dev/null 2>&1
 
   gpu_ready="$CASE_ROOT/gpu-ready-deadline.json"; runtime_ready="$CASE_ROOT/runtime-ready-deadline.json"
   jq -n '{status:"ready",local_ready_seconds:120}' >"$gpu_ready"

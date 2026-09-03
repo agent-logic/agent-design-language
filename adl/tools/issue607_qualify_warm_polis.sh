@@ -42,7 +42,7 @@ guardian_proof="$(find "$guardian_evidence_root" -type f -name issue-proof.json 
 guardian_report="$(jq -er .lifecycle_report_path "$guardian_proof")"
 recovery_helper=${ADL_ISSUE607_GUARDIAN_RECOVERY_PROOF_HELPER:-"$(dirname "$0")/issue607_guardian_recovery_proof.sh"}
 recovery_proof="$state_root/guardian-recovery-proof.json"
-"$recovery_helper" "$guardian_proof" "$guardian_report" "$recovery_proof"
+"$recovery_helper" "$guardian_proof" "$guardian_report" "$source_commit" "$recovery_proof"
 jq -e '
   .status=="pass"
   and .assertions.guardian_launched==true
@@ -54,7 +54,7 @@ jq -e '
   and .assertions.clean_shutdown==true
   and .assertions.clean_logs==true
 ' "$guardian_proof" >/dev/null
-jq -e '.status=="pass" and .issue607_acceptance_eligible==true and .assertions.degradation_recovered==true and .assertions.vector_recovered==true' "$recovery_proof" >/dev/null
+jq -e --arg revision "$source_commit" '.status=="pass" and .issue607_acceptance_eligible==true and .source_revision==$revision and .assertions.degradation_recovered==true and .assertions.vector_recovered==true' "$recovery_proof" >/dev/null
 
 stage=shepherd
 shepherd='[]'
