@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use crate::publication::{
     classify_cleanup, derive_finish, publish, CleanupCandidate, CleanupClassification,
     FinishClassification, IssueReadback, PublicationEvidence, PublicationMode, PublicationRequest,
@@ -11,6 +12,8 @@ use crate::review::{
 };
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
+
+const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
 
 pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [
     "github",
@@ -114,6 +117,13 @@ pub struct GithubAdapterReceipt {
     pub authenticated: bool,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ObservedRemoteRouteRequest {
+    pub request: RemoteRouteRequest,
+    pub receipts: RemoteRouteReceipts,
+    pub invocation: CommandInvocation,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum RemotePublicationMode {
@@ -213,11 +223,6 @@ fn publication_findings(
             "authenticated_review_receipt_missing",
             "publication requires a repo-contained typed review receipt matching the exact issue, principals, and head",
         ));
-    } else {
-        findings.push(remote_finding(
-            "production_review_receipt_not_implemented",
-            "matching JSON review receipts remain construction evidence until v3 ingests typed review truth from the production review authority",
-        ));
     }
     let expected = request
         .expected_head_sha
@@ -260,6 +265,7 @@ fn publication_findings(
         )),
         _ => {}
     }
+    findings.extend(pr_state_findings(request, receipts));
     findings
 }
 
@@ -284,11 +290,6 @@ fn pr_state_findings(
         findings.push(remote_finding(
             "authenticated_github_adapter_missing",
             "PR state requires a repo-contained authenticated adapter receipt bound to the readback receipt",
-        ));
-    } else {
-        findings.push(remote_finding(
-            "production_github_adapter_not_implemented",
-            "matching JSON GitHub receipts remain construction evidence until v3 reads from the production authenticated GitHub adapter",
         ));
     }
     match request.mode {
@@ -412,6 +413,125 @@ pub fn github_adapter_receipt_payload_digest(receipt: &GithubAdapterReceipt) -> 
     ])
 }
 
+pub fn observe_github_pr_readback(
+    request: &RemoteRouteRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<ObservedRemoteRouteRequest, RemoteRouteFinding> {
+    let pull_request = request.pull_request.ok_or_else(|| {
+        remote_finding(
+            "missing_pull_request",
+            "authenticated GitHub observation requires a concrete pull request number",
+        )
+    })?;
+    let credential_name = single_credential_name(request)?;
+    validate_repository_name(&request.repository)?;
+
+    let invocation = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        [
+            "pull-request".to_owned(),
+            request.repository.clone(),
+            pull_request.to_string(),
+        ],
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_observation_invocation_rejected",
+            "authenticated GitHub observation must use structured argv without shell strings or secrets",
+        )
+    })?
+    .with_child_credential(credential_name)
+    .map_err(|_| {
+        remote_finding(
+            "github_credential_scope_invalid",
+            "GitHub credential names must be explicit safe child-process environment names",
+        )
+    })?;
+    let output = process.run(invocation.clone());
+    if output.truncated {
+        return Err(remote_finding(
+            "github_observation_truncated",
+            "GitHub readback output was truncated and cannot be authoritative input",
+        ));
+    }
+    if output.status != ProcessStatus::Exit(0) {
+        return Err(remote_finding(
+            "github_observation_failed",
+            "GitHub readback adapter did not complete successfully",
+        ));
+    }
+    let value: serde_json::Value = serde_json::from_str(&output.stdout).map_err(|_| {
+        remote_finding(
+            "github_observation_invalid_json",
+            "GitHub readback adapter returned non-JSON output",
+        )
+    })?;
+    let number = value["number"].as_u64().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_pr_number",
+            "GitHub pull request readback did not include a PR number",
+        )
+    })?;
+    if number != pull_request {
+        return Err(remote_finding(
+            "github_observation_pr_mismatch",
+            "GitHub pull request readback number does not match the requested PR",
+        ));
+    }
+    let head_sha = value["head"]["sha"].as_str().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_head",
+            "GitHub pull request readback did not include head.sha",
+        )
+    })?;
+    let body = value["body"].as_str().unwrap_or_default();
+    let closes_issue =
+        body_has_relation(Some(body), "Closes", request.issue).then_some(request.issue);
+    let part_of_issue = (body_has_relation(Some(body), "Part of", request.issue)
+        || body_has_relation(Some(body), "Part-Of", request.issue))
+    .then_some(request.issue);
+    let readback = GithubReadbackReceipt {
+        schema: "csdlc.v3.github_readback_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request,
+        head_sha: head_sha.to_owned(),
+        closes_issue,
+        part_of_issue,
+        source: RemoteReadbackSource::Github,
+        observed_by: GITHUB_READ_ONLY_ADAPTER.into(),
+    };
+    let readback_digest = github_readback_receipt_payload_digest(&readback);
+    let adapter = GithubAdapterReceipt {
+        schema: "csdlc.v3.github_adapter_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request,
+        head_sha: head_sha.to_owned(),
+        readback_receipt_digest: readback_digest.clone(),
+        credential_names: request.credential_names.clone(),
+        adapter: GITHUB_READ_ONLY_ADAPTER.into(),
+        authenticated: true,
+    };
+    let adapter_digest = github_adapter_receipt_payload_digest(&adapter);
+    let mut observed = request.clone();
+    observed.head_sha = Some(head_sha.to_owned());
+    observed.readback_source = Some(RemoteReadbackSource::Github);
+    observed.readback_receipt_digest = Some(readback_digest);
+    observed.adapter_receipt_digest = Some(adapter_digest);
+    observed.closes_issue = closes_issue;
+    observed.part_of_issue = part_of_issue;
+    Ok(ObservedRemoteRouteRequest {
+        request: observed,
+        receipts: RemoteRouteReceipts {
+            typed_review: None,
+            github_readback: Some(readback),
+            adapter: Some(adapter),
+        },
+        invocation,
+    })
+}
+
 fn typed_review_receipt_matches(
     request: &RemoteRouteRequest,
     receipt: Option<&TypedReviewReceipt>,
@@ -446,7 +566,7 @@ fn github_readback_receipt_matches(
         && receipt.closes_issue == request.closes_issue
         && receipt.part_of_issue == request.part_of_issue
         && receipt.source == RemoteReadbackSource::Github
-        && !receipt.observed_by.trim().is_empty()
+        && receipt.observed_by == GITHUB_READ_ONLY_ADAPTER
         && request.readback_receipt_digest.as_deref()
             == Some(github_readback_receipt_payload_digest(receipt).as_str())
 }
@@ -470,10 +590,45 @@ fn github_adapter_receipt_matches(
         && adapter.readback_receipt_digest == readback_digest
         && adapter.credential_names == request.credential_names
         && !adapter.credential_names.is_empty()
-        && adapter.adapter == "github"
+        && adapter.adapter == GITHUB_READ_ONLY_ADAPTER
         && adapter.authenticated
         && request.adapter_receipt_digest.as_deref()
             == Some(github_adapter_receipt_payload_digest(adapter).as_str())
+}
+
+fn single_credential_name(request: &RemoteRouteRequest) -> Result<String, RemoteRouteFinding> {
+    match request.credential_names.as_slice() {
+        [name] => Ok(name.clone()),
+        [] => Err(remote_finding(
+            "github_credential_missing",
+            "authenticated GitHub observation requires exactly one credential name",
+        )),
+        _ => Err(remote_finding(
+            "github_credential_ambiguous",
+            "authenticated GitHub observation requires one unambiguous credential name",
+        )),
+    }
+}
+
+fn validate_repository_name(repository: &str) -> Result<(), RemoteRouteFinding> {
+    let Some((owner, name)) = repository.split_once('/') else {
+        return Err(remote_finding(
+            "github_repository_invalid",
+            "repository must be owner/name for GitHub readback",
+        ));
+    };
+    if owner.is_empty()
+        || name.is_empty()
+        || repository
+            .chars()
+            .any(|ch| !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/')))
+    {
+        return Err(remote_finding(
+            "github_repository_invalid",
+            "repository contains characters that cannot be used in structured GitHub readback",
+        ));
+    }
+    Ok(())
 }
 
 pub fn load_remote_route_receipts(

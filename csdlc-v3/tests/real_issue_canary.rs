@@ -13,9 +13,8 @@ use csdlc_v3::commands::local::{
 };
 use csdlc_v3::commands::remote::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
-    typed_review_receipt_payload_digest, GithubAdapterReceipt, GithubReadbackReceipt,
-    RemotePublicationMode, RemoteReadbackSource, RemoteRouteReceipts, RemoteRouteRequest,
-    TypedReviewReceipt,
+    observe_github_pr_readback, typed_review_receipt_payload_digest, RemotePublicationMode,
+    RemoteReadbackSource, RemoteRouteReceipts, RemoteRouteRequest, TypedReviewReceipt,
 };
 use csdlc_v3::lifecycle::{
     Capability, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
@@ -395,7 +394,7 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         .trim()
         .to_owned();
 
-    let mut request = RemoteRouteRequest {
+    let request = RemoteRouteRequest {
         repository: index["repository"]
             .as_str()
             .expect("real #629 repository")
@@ -407,7 +406,7 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         reviewer: Some("reviewer-629".into()),
         review_revision: Some(head.clone()),
         expected_head_sha: Some(head.clone()),
-        head_sha: Some(head),
+        head_sha: Some("caller-forged-head".into()),
         mode: Some(RemotePublicationMode::Closing),
         body: Some("Closes #629\n\nPart of #625".into()),
         review_present: true,
@@ -422,28 +421,21 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         part_of_issue: None,
         credential_names: vec!["GITHUB_TOKEN".into()],
     };
-    let readback = GithubReadbackReceipt {
-        schema: "csdlc.v3.github_readback_receipt.v1".into(),
-        repository: request.repository.clone(),
-        issue: request.issue,
-        pull_request: request.pull_request.expect("pull request"),
-        head_sha: request.head_sha.clone().expect("head sha"),
-        closes_issue: request.closes_issue,
-        part_of_issue: request.part_of_issue,
-        source: RemoteReadbackSource::Github,
-        observed_by: "real-issue-canary-v3-github-adapter".into(),
-    };
-    let adapter = GithubAdapterReceipt {
-        schema: "csdlc.v3.github_adapter_receipt.v1".into(),
-        repository: request.repository.clone(),
-        issue: request.issue,
-        pull_request: request.pull_request.expect("pull request"),
-        head_sha: request.head_sha.clone().expect("head sha"),
-        readback_receipt_digest: github_readback_receipt_payload_digest(&readback),
-        credential_names: request.credential_names.clone(),
-        adapter: "github".into(),
-        authenticated: true,
-    };
+    let mut process = FakeProcessAdapter::new(ProcessOutput {
+        status: ProcessStatus::Exit(0),
+        stdout: serde_json::json!({
+            "number": 641,
+            "head": {"sha": head},
+            "merged": false,
+            "body": "Closes #629\n\nPart of #625"
+        })
+        .to_string(),
+        stderr: String::new(),
+        truncated: false,
+    });
+    let observed =
+        observe_github_pr_readback(&request, &mut process).expect("real issue readback canary");
+    let mut request = observed.request;
     let receipts = RemoteRouteReceipts {
         typed_review: Some(TypedReviewReceipt {
             schema: "csdlc.v3.typed_review_receipt.v1".into(),
@@ -455,8 +447,8 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
             expected_head_sha: request.expected_head_sha.clone().expect("expected head"),
             evidence_digest: "real-issue-canary-typed-review".into(),
         }),
-        github_readback: Some(readback),
-        adapter: Some(adapter),
+        github_readback: observed.receipts.github_readback,
+        adapter: observed.receipts.adapter,
     };
     request.typed_review_receipt_digest = receipts
         .typed_review
@@ -522,7 +514,7 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         assert_eq!(value["read_only"], true);
         assert_eq!(value["operational_authority"], false);
         assert_eq!(value["cutover_issue"], 505);
-        assert_eq!(value["result"]["status"], "blocked");
+        assert_eq!(value["result"]["status"], "ready");
         assert_eq!(value["result"]["issue"], 629);
         assert_eq!(
             value["result"]["repository"],
@@ -531,16 +523,9 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         let findings = value["result"]["findings"]
             .as_array()
             .expect("findings array");
-        let expected_code = if route == "publish" {
-            "production_review_receipt_not_implemented"
-        } else {
-            "production_github_adapter_not_implemented"
-        };
         assert!(
-            findings
-                .iter()
-                .any(|finding| finding["code"] == expected_code),
-            "{route} must fail closed on synthetic receipts: {findings:?}"
+            findings.is_empty(),
+            "{route} should be ready after adapter-generated readback receipts: {findings:?}"
         );
     }
 }
