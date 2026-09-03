@@ -4,14 +4,58 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "54579732336b177b666388cd2e13a6c084232709c49d36d75d58361e9a6adfed",
+  "phase": "published",
+  "generation": 16,
+  "digest": "589fd8bd922f758c0330782f1f2fda85c46fcf8d16ffc3e187d0283dd4612d87",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_630_fast",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:05b17cc83f9e17b7adcfcf22f05498f579508f74:a39833aed2d177f872f73a92afd17c6c5495f594ffd0e6104f116cbbe11f14f6",
+    "scope": [
+      "csdlc-v3/src/commands/terminal/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/design.md",
+      ".csdlc/prepared/issues/630/diagram.mmd",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-reviewer:review_630_fast",
+    "scope": [
+      "csdlc-v3/src/commands/terminal/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/design.md",
+      ".csdlc/prepared/issues/630/diagram.mmd",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh"
+    ],
+    "reviewed_revision": "git-blake3:05b17cc83f9e17b7adcfcf22f05498f579508f74:a39833aed2d177f872f73a92afd17c6c5495f594ffd0e6104f116cbbe11f14f6",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 terminal, cleanup, and cutover routes remain construction-only and non-authoritative until explicit #505 cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 630,
+    "pull_request": 642,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/642",
+    "base": "main",
+    "head": "codex/630-v3-h4-finish-clean-cutover-impl",
+    "revision": "git-blake3:05b17cc83f9e17b7adcfcf22f05498f579508f74:a39833aed2d177f872f73a92afd17c6c5495f594ffd0e6104f116cbbe11f14f6",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +69,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4a3a7e390ad2ae3301951e6eb33085068521d2a243e73bcaadc6a5df9b5f612d",
+      "values_digest": "c82acc1c48e387cff4735c8593d47a0a16c2a9199d28ba731b9de461950a96f1",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "0b6980eb22603bcb733b73e88992884871b2b98d8ebec100adce6e8529a98e37",
+      "values_digest": "f8b5de6cec65150502836625a36f37def08d1eb55688780e461f8101a328d675",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "dbc6a917d2d3429652b19afb7db0545d9ab2dfbefabdeffad931fb054c12a7d1",
+      "values_digest": "9f4a9fcd431ab020e0b1363d36525c68e3d50a14dfa43663b6ac9c39a0e26c5e",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "ca89e1af391612b2be1361ec6825a6003b35f286f5c8fdcd5b06142af17e51ea",
+      "values_digest": "a0e861857928be38d48a024ec45e283bced265b97a1c5ade9eb8cfeff2d9b39d",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "bc1f3a088962ec91e359aa95051ddb0071206f726a956f01bac45eab8151456f",
-      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
-      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
+      "values_digest": "1efaf92e74feadb6d5492e619d188c4ea99e2dca6c980a915b8c66203c1df0bc",
+      "rendered_digest": "4d91f7b285ce0306ec614c2ce39b4100564c8e3202024213a7101097bb2fb9b1",
+      "ast_digest": "bea88f2d1b87aca5d5294f29c84d1eb6e4e20a50cd47ef8c9671b5248017571b"
     },
     "sor": {
-      "values_digest": "c924e7db173db40005479136103d20f37086ea1352581c67ab6787242b0c9f98",
-      "rendered_digest": "ee57911d5890498fa99996f24f0028189ea748fbd7ddf2b9f6298d5d15ed4468",
-      "ast_digest": "a88e352e1de52995dc2437cc731c6ceee2a4d460c1d35866a7eb8d822e945f14"
+      "values_digest": "4b0190b6754ecace064a9b13ddfcde787852ad132330e3752530845ccf3b4006",
+      "rendered_digest": "6198ace734451a605498278725ae6439fe08ad937e0940367d0a9b9198bf2769",
+      "ast_digest": "178628d2bcb319adf73f4325ea3a484d916c010ca16fe04347b78e5c9b162527"
     }
   },
   "transitions": [
@@ -132,6 +176,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover stale review/publication truth after replacing the conflicted PR branch with a current-main #630-only terminal/cutover implementation at 8481ade462a9084cf8159e077b63eff9ccdc10fe."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -288,6 +346,27 @@
       "actor": "codex:worker-6",
       "reason": "Recover stale review/publication truth after replacing the conflicted PR branch with a current-main #630-only terminal/cutover implementation at 8481ade462a9084cf8159e077b63eff9ccdc10fe.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
