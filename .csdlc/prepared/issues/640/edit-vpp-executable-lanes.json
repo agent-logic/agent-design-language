@@ -1,0 +1,37 @@
+{
+  "issue": 640,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "b4f8efac73f91838c5fce394b54c9d01db9e6a1a25fc97c802a9fe9f04fdb067",
+  "actor": "codex:/root",
+  "reason": "Route all model-backed Shepherd proof through one executable issue-owned nonzero validator while retaining the live Wuji acceptance as an explicit deferred mode.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "model-backed-shepherd",
+        "proof_role": "Prove provider-neutral configuration, exactly-one bootstrap, governed provider execution, preload state, degraded isolation, restart recovery, canonical identity, API health, formatting, and diff hygiene with nonzero focused tests.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 3900,
+        "budget_tokens": 20000,
+        "argv": ["bash", ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"],
+        "parallel_group": "runtime",
+        "defer_reason": "The issue-owned wrapper exists; its named resident_shepherd, shepherd_provider, and shepherd_model_health cases are issue #640 implementation deliverables."
+      },
+      {
+        "lane": "wuji-shepherd-acceptance",
+        "proof_role": "Prove the exact candidate restarts on Wuji, automatically preloads its configured local model, reports ready, and completes one governed Shepherd inference without manual Ollama loading.",
+        "acceptance_ids": ["AC-6", "AC-8"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 2400,
+        "budget_tokens": 5000,
+        "argv": ["bash", ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh", "--live-wuji"],
+        "parallel_group": "live-wuji",
+        "defer_reason": "The issue-owned live mode fails closed until implementation supplies the coordinated exact-candidate Wuji acceptance."
+      }
+    ]
+  }
+}

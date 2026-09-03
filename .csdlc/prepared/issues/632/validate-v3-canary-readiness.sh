@@ -53,28 +53,38 @@ if "#505" not in packet or "cutover" not in packet.lower():
 if coverage.get("cutover_ready") is not False:
     raise SystemExit("coverage matrix must not claim cutover readiness")
 
+expected_advertised = {
+    "foundation",
+    "local",
+    "bind",
+    "clean",
+    "cutover",
+    "doctor",
+    "edit",
+    "eligibility",
+    "finish",
+    "github",
+    "github-issue",
+    "github-pr",
+    "install",
+    "issue",
+    "pr-state",
+    "proof",
+    "publish",
+    "review",
+    "schedule",
+    "shadow",
+    "shepherd",
+    "soak",
+    "validate",
+}
 advertised = set(coverage.get("current_v3_cli_advertised_commands", []))
-if advertised != {"foundation", "local"}:
+if advertised != expected_advertised:
     raise SystemExit(f"coverage matrix has stale advertised v3 commands: {sorted(advertised)}")
 
 for command in advertised:
     if f"  {command} " not in v3_help and f"  {command}\n" not in v3_help:
         raise SystemExit(f"current v3 CLI help does not advertise {command}")
-
-for unavailable in [
-    "cleanup",
-    "cutover",
-    "finish",
-    "github",
-    "install",
-    "proof",
-    "publish",
-    "review",
-    "shadow",
-    "soak",
-]:
-    if f"  {unavailable} " in v3_help or f"  {unavailable}\n" in v3_help:
-        raise SystemExit(f"validator expectation is stale: v3 CLI now advertises {unavailable}")
 
 routes = coverage.get("routes", [])
 if coverage.get("route_count") != 21 or len(routes) != 21:
@@ -115,15 +125,15 @@ for route in routes:
     status = route.get("status", "")
     if current is not None and current not in advertised:
         raise SystemExit(f"{route['v2_entrypoint']} claims unadvertised current v3 command {current}")
-    if status == "planned_not_exposed" and current is not None:
-        raise SystemExit(f"{route['v2_entrypoint']} is planned_not_exposed but has current command")
+    if status == "planned_not_exposed":
+        raise SystemExit(f"{route['v2_entrypoint']} is still marked planned_not_exposed after CLI exposure")
     if status == "current_cli_command_exposed_non_authoritative" and current is None:
         raise SystemExit(f"{route['v2_entrypoint']} claims exposed command without naming it")
 
-if not any(route.get("current_v3_cli_command") is None for route in routes):
-    raise SystemExit("coverage matrix must retain planned-not-exposed routes before #505")
+if any(route.get("current_v3_cli_command") is None for route in routes):
+    raise SystemExit("coverage matrix must name the advertised v3 command for every v2 entrypoint")
 
-for marker in ["#631 PR #644", "DEFECT-019", "DEFECT-020", "not cutover-ready", "foundation", "local"]:
+for marker in ["#631 PR #644", "DEFECT-019", "DEFECT-020", "not cutover-ready", "foundation", "local", "all 21 v2 entrypoints"]:
     if marker not in evidence:
         raise SystemExit(f"canary evidence index missing {marker}")
 

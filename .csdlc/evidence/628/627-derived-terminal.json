@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.derived_terminal.v1",
+  "issue": 627,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
+  "canonical_generation": 10,
+  "canonical_digest": "8ef434c73dfffbb3059700aa552f08c50a4fba97586f37ec82210153073e5b07",
+  "pull_request": 635,
+  "disposition": "merged",
+  "head_sha": "83e5b39252070acf50b46360b6ae3d642776f43e",
+  "merge_sha": "16d04754b4760d2531003ecb9fc35f520da5936e",
+  "issue_state": "closed_by_merged_pr",
+  "pr_state": "closed",
+  "approved_reason": null,
+  "observed_unix_seconds": 1788376260,
+  "mutable_fresh_until_unix_seconds": null,
+  "source": "live_github",
+  "digest": "76b139f30e58bc83e8605dc400514aee343ac4e90d85a6c01a09c09dbbc9620b"
+}

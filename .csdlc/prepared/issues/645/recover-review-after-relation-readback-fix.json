@@ -1,0 +1,7 @@
+{
+  "issue": 645,
+  "expected_generation": 10,
+  "expected_digest": "135c7eb08eef5435fc6cdcadcff8dc98130b60423a821be145f93655d3ec67c5",
+  "actor": "codex:/root:issue-645-janitor",
+  "reason": "Recover stale #645 review truth after corrective commit d9b1256fd5193264fab707e2d731a604916b32b0 changed publication relation readback code and focused tests; the prior review metadata no longer covered the current substantive head."
+}

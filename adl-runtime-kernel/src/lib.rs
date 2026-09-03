@@ -41,6 +41,7 @@ pub mod proof;
 pub mod protocol_adapters;
 pub mod reasoning;
 pub mod resident_cycle;
+pub mod resident_shepherd;
 pub mod shepherd;
 pub mod supervisor;
 pub mod telemetry;
@@ -105,6 +106,7 @@ pub use protocol_adapters::{
 };
 pub use reasoning::*;
 pub use resident_cycle::*;
+pub use resident_shepherd::*;
 pub use shepherd::*;
 pub use supervisor::{Kernel, KernelControl, KernelError, KernelExit, KernelHandle};
 pub use telemetry::*;

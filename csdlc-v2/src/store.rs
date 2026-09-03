@@ -6177,6 +6177,7 @@ fn authorize_card_operation(
                 | SemanticOperation::ReplacePlanSteps { .. }
                 | SemanticOperation::ReplacePlanningCollection {
                     field: crate::cards::PlanningCollectionField::Invariants
+                        | crate::cards::PlanningCollectionField::Risks
                         | crate::cards::PlanningCollectionField::StopConditions,
                     ..
                 },
@@ -6329,7 +6330,11 @@ fn is_implemented_card_truth_repair(
             LifecyclePhase::Implemented,
             CardKind::Spp,
             SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
-                | SemanticOperation::CorrectPlanStepsAfterRecovery { .. },
+                | SemanticOperation::CorrectPlanStepsAfterRecovery { .. }
+                | SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::Risks,
+                    ..
+                },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Sip,
@@ -6644,7 +6649,7 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
             };
             matches!(
                 value.get("field").and_then(serde_json::Value::as_str),
-                Some("affected_areas" | "non_goals")
+                Some("affected_areas" | "non_goals" | "risks")
             )
         }
         "correct_plan_summary_after_recovery"
@@ -7878,7 +7883,7 @@ mod edit_authorization_tests {
                 .expect("implemented bounded SPP remediation");
         }
 
-        let error = authorize_card_operation(
+        authorize_card_operation(
             LifecyclePhase::Implemented,
             CardKind::Spp,
             &SemanticOperation::ReplacePlanningCollection {
@@ -7886,8 +7891,7 @@ mod edit_authorization_tests {
                 values: vec!["risk".into()],
             },
         )
-        .expect_err("unbounded SPP collection remains rejected");
-        assert_eq!(error.code, ErrorCode::InvalidTransition);
+        .expect("implemented SPP risk remediation is recovery-gated");
 
         authorize_card_operation(
             LifecyclePhase::Implemented,

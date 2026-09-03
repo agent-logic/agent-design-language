@@ -8,11 +8,11 @@ C-SDLC v2 remains the only live lifecycle authority until #505 is explicitly
 reviewed, approved, merged, and terminally reconciled. This packet is
 construction/canary readiness evidence for v3, not authority cutover.
 
-The current `csdlc-v3` CLI advertises only two commands: `foundation` and
-`local`. The one-binary routes in `command-route-coverage.json` are target
-surface names unless their `current_v3_cli_command` field names one of those
-advertised commands. Planned routes without an advertised command are
-cutover-blocking work, not usable operator routes.
+The current `csdlc-v3` CLI advertises the planned one-binary command surface
+for all 21 v2 entrypoints, plus `foundation` and the compatibility `local`
+aggregate. Advertisement is not operational authority: every v3 command remains
+read-only or fail-closed construction evidence until #505 is explicitly
+reviewed, approved, merged, and terminally reconciled.
 
 ## Live typed observations captured in this lane
 

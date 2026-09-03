@@ -40,7 +40,8 @@ if "v3" not in onboarding.lower():
 for text in [
     "Status: advance notice only",
     "C-SDLC v3 is not the live authority yet",
-    "advertises only `foundation` and `local`",
+    "advertises the planned one-binary surface",
+    "read-only or fail-closed",
     "Raw `gh` lifecycle writes remain prohibited",
     "Closes #<issue>",
 ]:

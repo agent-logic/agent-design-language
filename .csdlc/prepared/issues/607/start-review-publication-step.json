@@ -1,0 +1,13 @@
+{
+  "actor": "codex-primary-issue607",
+  "card": "spp",
+  "expected_digest": "68acaff13ad9e6fe3c06d73e96ce34df3b3b2cad190ff457155f701d55f1d4c8",
+  "expected_generation": 84,
+  "issue": 607,
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S5",
+    "status": "in_progress"
+  },
+  "reason": "The live qualification is complete; begin the remaining exact-head review, publication, merge, finish, and cleanup step."
+}

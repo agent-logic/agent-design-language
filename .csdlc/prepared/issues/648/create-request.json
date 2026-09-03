@@ -1,0 +1,217 @@
+{
+  "issue": 648,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root:issue-648-corrective-bootstrap",
+  "design_path": ".csdlc/prepared/issues/648/design.md",
+  "diagram_path": ".csdlc/prepared/issues/648/diagram.mmd",
+  "design_reviewer": "codex:/root:issue-648-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][PROV-C][corrective] Repair provider reload ownership after #646",
+    "slug": "provider-reload-ownership-corrective",
+    "version": "v0.92.1",
+    "goal": "Land the post-merge corrective repair for provider reload ownership so overlapping workflows cannot consume or clear each other's provider snapshot.",
+    "required_outcome": "Current main receives a reviewed corrective PR that replaces production process-global reload ownership with run-scoped ownership, retains identity-aware compatibility guard semantics, and proves overlap plus shutdown-order safety with focused offline tests.",
+    "declared_scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs",
+      ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+      ".csdlc/prepared/issues/648/**",
+      ".csdlc/issues/648/**"
+    ],
+    "authority_boundary": [
+      "Issue #648 is a corrective follow-up because #646 merged at stale head 4c442cef90b06c4a491860ce1e9d9053dfed26eb",
+      "Live Runtime/#640 ownership remains with Planning #4",
+      "All validation is offline and uses mock/local provider paths only",
+      "Provider credentials remain references and must not be loaded, printed, or executed",
+      "Typed C-SDLC v2 remains the lifecycle authority"
+    ],
+    "operator_constraints": [
+      "Do not restart, stop, replace, or mutate live Runtime or active Runtime config",
+      "Do not use AWS, paid provider APIs, big runners, or live provider inference",
+      "Do not write tracked issue work on main",
+      "Do not treat closed #622 as semantically complete until #648 lands and finishes",
+      "Do not merge without explicit operator authorization"
+    ],
+    "task_boundary": "Rebase or replay the local #622 repair packet onto a #648 issue-bound FastWork worktree and publish a corrective PR against current main.",
+    "deliverables": [
+      "Run-scoped provider reload handle wiring for production CSM execution",
+      "Identity-aware compatibility global reload guard",
+      "Overlapping two-workflow and shutdown-order regression tests",
+      "Direct global guard ownership regression test",
+      "Fresh exact-head review and corrective PR readiness evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Production CSM adl_workflow execution passes an explicit run-scoped ProviderReloadHandle into execution.",
+      "AC-2: Sequential, deterministic concurrent, retry, and called-workflow paths propagate the scoped handle before any compatibility global fallback.",
+      "AC-3: Dropping an older compatibility global guard cannot clear a newer global registration.",
+      "AC-4: Two overlapping workflows with the same provider id and distinct sidecars keep separate provider snapshots.",
+      "AC-5: Shutting down one workflow's provider reload owner does not clear or alter the other workflow's active reload handle.",
+      "AC-6: Focused production and safety validation lanes pass with nonzero tests and no live provider credentials.",
+      "AC-7: Formatting and clippy validation pass locally before review.",
+      "AC-8: Fresh exact-head independent review passes for the corrective PR head.",
+      "AC-9: Corrective PR is open against current main with issue-closing linkage for #648 and required CI/checks green before merge-ready."
+    ],
+    "dependencies": [
+      "#622 closed by PR #646 at stale head; retained as provenance and not semantic completion",
+      "PR #646 merge commit 290d5e9b9798bd90770b3c6b4b39f5075ada24e8",
+      "Planning #4 owns live Runtime/#640 cutover and live config"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#648",
+      "agent-logic/agent-design-language#622",
+      "agent-logic/agent-design-language#646",
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs"
+    ],
+    "non_goals": [
+      "Live Runtime/#640 cutover, restart, stop, replacement, or config mutation",
+      "Credential-backed provider inference or paid provider proof",
+      "Provider architecture redesign beyond scoped reload ownership",
+      "Rewriting unrelated #622 lifecycle history",
+      "Merging without explicit operator authorization"
+    ],
+    "plan_summary": "Use the existing reviewed local #622 repair as source evidence, replay it onto a #648 issue-bound correction path, prove ownership isolation offline, obtain fresh exact-head review, publish a corrective PR, and shepherd CI without touching live Runtime state.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind #648 to a FastWork worktree from current main and replay the run-scoped reload ownership repair.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Retain compatibility global registration only with identity-aware guard clearing.",
+        "acceptance_ids": [
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add or preserve overlap, shutdown-order, and direct global-guard regression tests.",
+        "acceptance_ids": [
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused offline production, safety, fmt, and clippy validation.",
+        "acceptance_ids": [
+          "AC-6",
+          "AC-7"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Run fresh exact-head review, publish corrective PR, and shepherd CI without live Runtime mutation.",
+        "acceptance_ids": [
+          "AC-8",
+          "AC-9"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs",
+      ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+      ".csdlc/prepared/issues/648/**",
+      ".csdlc/issues/648/**"
+    ],
+    "invariants": [
+      "Run-scoped ownership is the production path",
+      "Compatibility global state is identity-aware and not used as production CSM ownership",
+      "No cross-workflow provider snapshot consumption or clearing",
+      "No live Runtime mutation",
+      "No credential value loading or paid provider execution"
+    ],
+    "risks": [
+      "Correct fix remains local if routed through already-merged PR #646",
+      "Metadata-only commits can stale exact-head review without a supported bridge",
+      "Compatibility fallback could regress independently of the run-scoped path",
+      "Live Runtime ownership could be accidentally widened into this corrective issue"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "A corrective branch cannot be created from current main without clobbering existing work",
+      "The repair requires live Runtime mutation or provider credential execution",
+      "Focused overlap/shutdown regression cannot be made nonzero and deterministic",
+      "Typed publication cannot link a corrective PR to #648",
+      "Required review or CI fails and cannot be repaired within #648 scope"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "provider-reload-corrective-production",
+        "proof_role": "Prove production CSM execution consumes a run-scoped provider reload handle and the focused provider reload production path remains nonzero.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-6",
+          "AC-8",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+          "production"
+        ],
+        "parallel_group": "provider-runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "provider-reload-corrective-safety",
+        "proof_role": "Prove overlap, shutdown-order, compatibility global guard, credential-boundary, and local lint safety without live Runtime mutation.",
+        "acceptance_ids": [
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7",
+          "AC-8",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+          "safety"
+        ],
+        "parallel_group": "provider-safety",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on missing issue-bound worktree, process-global production ownership, missing overlap or guard regression, zero-test selectors, live Runtime mutation, credential-backed provider execution, stale exact-head review, red CI, or missing corrective issue linkage.",
+    "review_prompts": [
+      "Does the corrective branch actually differ from current main by the run-scoped reload ownership repair?",
+      "Can overlapping workflows still consume or clear each other's provider snapshot?",
+      "Does the compatibility global guard direct test catch old-drop/new-registration clearing?",
+      "Were all proofs offline and free of live Runtime or provider credential mutation?",
+      "Does the corrective PR close #648 rather than pretending #622 was semantically complete?"
+    ],
+    "review_scope": "Provider reload ownership isolation, production CSM handle propagation, compatibility global guard clearing, overlap/shutdown regression coverage, and offline validation evidence only."
+  }
+}

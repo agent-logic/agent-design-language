@@ -1,0 +1,158 @@
+{
+  "issue": 624,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:624-preparation",
+  "design_path": ".csdlc/prepared/issues/624/design.md",
+  "diagram_path": ".csdlc/prepared/issues/624/diagram.mmd",
+  "design_reviewer": "codex:624-preparation-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][corporate][sidecar] Finish post-move-in operational control-plane hardening",
+    "slug": "corporate-sidecar-operational-hardening",
+    "version": "v0.92.1",
+    "goal": "Complete the redacted corporate operational-control hardening sidecar record for #624 without live account, DNS, GitHub administration, billing, or custody mutation.",
+    "required_outcome": "The sidecar issue records the full operational-control denominator separately from #497 and gives every hardening row either retained readback proof or a concrete narrower follow-on owner/action.",
+    "declared_scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/**",
+      ".csdlc/prepared/issues/624/**",
+      ".csdlc/issues/624/**"
+    ],
+    "authority_boundary": [
+      "#624 owns operational hardening residuals routed out of #497",
+      "#497 corporate IP-transfer acceptance remains accepted and is not reopened",
+      "Existing #497/#613/#634 readbacks are seed evidence, not proof inflation",
+      "Rows requiring live mutation must be decomposed rather than executed without explicit authority",
+      "Private custody facts are represented only through redacted public receipts"
+    ],
+    "operator_constraints": [
+      "Do not mutate AWS, DNS, certificates, GitHub administration, billing, custody, workflows, or production deployment state",
+      "Do not print, commit, or expose credentials, account IDs, private custody artifacts, or recovery details",
+      "Do not treat missing operational hardening as #497 failure",
+      "Use typed C-SDLC v2 lifecycle state and keep main clean"
+    ],
+    "task_boundary": "Produce the #624 public hardening register, machine-readable sidecar receipt, focused validator, validation evidence, and review handoff.",
+    "deliverables": [
+      "Redacted corporate operational hardening register",
+      "Machine-readable #624 hardening receipt",
+      "Focused sidecar validator",
+      "Truthful SOR/SRP lifecycle records"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The sidecar record defines the full GitHub/CI, DNS/certificate, AWS guardrail, private custody, and deployment rollback denominator separately from #497 acceptance",
+      "AC-2: Each denominator row is proven with retained readback evidence or decomposed into a narrower follow-on with owner role, action, authority gate, and closeout condition",
+      "AC-3: The final evidence distinguishes corporate IP ownership acceptance from operational control-plane hardening",
+      "AC-4: No credentials, account IDs, secrets, private custody artifacts, recovery details, or sensitive identifiers are printed or committed",
+      "AC-5: No live cloud, DNS, certificate, GitHub administration, billing, custody, workflow, or production mutation is performed without explicit scoped authorization",
+      "AC-6: Focused validation proves denominator completeness, row disposition, evidence references, secret hygiene, and diff hygiene",
+      "AC-7: Bounded independent review has no unresolved actionable finding before publication"
+    ],
+    "dependencies": [
+      "#497 closed by PR #613",
+      "#634 merged sidecar scope correction",
+      "#498 / PR #637 corporate diligence remains separate and does not complete #624"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#624",
+      "agent-logic/agent-design-language#497",
+      "agent-logic/agent-design-language#613",
+      "agent-logic/agent-design-language#634",
+      "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md",
+      "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json"
+    ],
+    "non_goals": [
+      "Reopen #497",
+      "Replace counsel or infer private legal conclusions",
+      "Perform live account or infrastructure mutations",
+      "Commit private custody material",
+      "Claim operational hardening rows are fixed when only follow-on routing exists"
+    ],
+    "plan_summary": "Read existing corporate acceptance evidence, create a redacted hardening denominator, map every row to proof or follow-on action, validate hygiene and completeness, then obtain exact-head review.",
+    "steps": [
+      {"id":"S1","action":"Inventory #624 hardening denominator from issue body and #497/#634 seed evidence.","acceptance_ids":["AC-1","AC-3"],"status":"pending"},
+      {"id":"S2","action":"Author the redacted operational hardening register and machine-readable receipt.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S3","action":"Add focused validation for denominator completeness, evidence references, row dispositions, and secret hygiene.","acceptance_ids":["AC-4","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Run focused validation and diff hygiene, then record SOR truth.","acceptance_ids":["AC-6"],"status":"pending"},
+      {"id":"S5","action":"Request and satisfy bounded exact-head review before publication.","acceptance_ids":["AC-7"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "docs/operations/corporate/control-transfer/**",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/**",
+      ".csdlc/prepared/issues/624/**",
+      ".csdlc/issues/624/**"
+    ],
+    "invariants": [
+      "No secrets or account IDs in tracked artifacts",
+      "No live/admin mutation",
+      "#497 acceptance remains separate from #624 hardening",
+      "Every denominator row has proof or follow-on disposition",
+      "Validation evidence is retained and exact-head scoped"
+    ],
+    "risks": [
+      "Overclaiming hardening completion from read-only seed evidence",
+      "Leaking sensitive control-plane or custody details",
+      "Silently executing live account mutations",
+      "Leaving an unproven row without a concrete owner/action",
+      "Conflating #624 with unrelated issue 5624"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "A required row needs live mutation and lacks explicit operator authorization",
+      "A redacted public receipt cannot be written without sensitive details",
+      "The #497/#634 sidecar denominator conflicts with #624 issue scope",
+      "Validation finds missing dispositions or secret-like material",
+      "An actionable review finding remains unresolved"
+    ],
+    "validation_lanes": [
+      {
+        "lane":"corp-sidecar-hardening-register",
+        "proof_role":"Prove #624 row denominator completeness, proof/follow-on disposition, evidence references, non-mutation posture, and redaction hygiene.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":120,
+        "budget_tokens":1200,
+        "argv":["python3",".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py"],
+        "parallel_group":"corporate-sidecar-docs",
+        "defer_reason":null
+      },
+      {
+        "lane":"diff-hygiene",
+        "proof_role":"Prove the committed range has no whitespace errors.",
+        "acceptance_ids":["AC-6"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":60,
+        "budget_tokens":400,
+        "argv":["git","diff","--check","origin/main...HEAD"],
+        "parallel_group":"corporate-sidecar-docs",
+        "defer_reason":null
+      },
+      {
+        "lane":"exact-head-review",
+        "proof_role":"Prove no unresolved actionable finding remains before publication.",
+        "acceptance_ids":["AC-7"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":300,
+        "budget_tokens":1200,
+        "argv":["csdlc-review","--issue","624","--exact-head"],
+        "parallel_group":"corporate-sidecar-review",
+        "defer_reason":null
+      }
+    ],
+    "failure_policy": "Fail closed on missing row disposition, missing evidence reference for proven rows, live/admin mutation claim, secret-like material, account identifiers, #497/#624 scope conflation, or diff hygiene failure.",
+    "review_prompts": [
+      "Does the sidecar record define the full #624 hardening denominator separately from #497 acceptance?",
+      "Does every row have either retained proof or a concrete follow-on owner/action/authority gate/closeout condition?",
+      "Does the packet avoid exposing credentials, account IDs, private custody facts, billing identifiers, and recovery details?",
+      "Does the packet avoid live/admin mutation while truthfully preserving rows that remain unproven?",
+      "Is the focused validator meaningful for the sidecar contract?"
+    ],
+    "review_scope": "The #624 redacted operational-control hardening register, machine-readable sidecar receipt, focused validator, validation evidence, and lifecycle cards only."
+  }
+}
