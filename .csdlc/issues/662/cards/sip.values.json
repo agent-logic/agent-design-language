@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 662,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+    "slug": "runtime-agent-to-agent-initiation",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement and prove governed agent-to-agent initiation as a Runtime-authoritative capability distinct from replying to a user.",
+      "required_outcome": "A model-backed resident Shepherd such as Beacon Axioma can initiate a governed turn addressed to another admitted resident agent such as Ember Axioma, with distinct conversation, turn, sender, recipient, work, and correlation identity; the recipient executes through its configured model/provider and terminal outcomes remain explicit.",
+      "declared_scope": [
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/shepherd.rs",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "Observatory/Inspector activity projection surfaces only if existing authoritative events cannot render initiation truth",
+        ".csdlc/prepared/issues/662",
+        ".csdlc/issues/662"
+      ],
+      "authority_boundary": [
+        "Issue #662 owns governed agent-to-agent initiation proof, not the separate Shepherd hardcoded-reply defect",
+        "Runtime remains authoritative for admission, authorization, cancellation, bounded execution, continuity, failure, and correlation identity",
+        "Recipient execution must use configured model/provider behavior; no hardcoded acknowledgement or fixture response receives live credit",
+        "No live Runtime restart or live provider acceptance proof without separate operator authorization"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked files on main",
+        "Use only bound FastWork worktrees under /Volumes/FastWork/adl-worktrees for tracked execution",
+        "Do not write to /private/tmp",
+        "Do not restart or mutate the live Runtime during implementation",
+        "Do not use AWS, paid runners, or live provider calls without explicit operator authorization",
+        "Do not widen into unrestricted autonomous messaging, broadcast, fan-out, or recursive unbounded conversations"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 662,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+    "slug": "runtime-agent-to-agent-initiation",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Governed resident agent-to-agent initiation, deterministic Runtime proof, identity/correlation semantics, replay/cancellation/failure outcomes, and minimal authoritative activity projection only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is agent-to-agent initiation distinct from user-facing replies?",
+        "Are Beacon sender and Ember recipient identities canonical and non-confusable?",
+        "Can duplicate or replayed initiation create duplicate work without an explicit rule?",
+        "Do cancellation and provider/recipient failures produce truthful terminal state?",
+        "Does activity projection expose authoritative initiation truth without inventing delivery?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
