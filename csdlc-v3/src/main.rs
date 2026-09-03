@@ -7,19 +7,31 @@ use csdlc_v3::{
         inspect_v3_local_state, local_route_command, local_route_status, prepare_local_workflow,
         LocalPreparationRequest, PlanStatus, WorktreeRegistration, LOCAL_ROUTE_NAMES,
     },
-    commands::remote::{verify_remote_bridge_request, RemoteCommandRequest},
+    commands::remote::{
+        verify_remote_bridge_request, RemoteCommandOperation, RemoteCommandRequest,
+    },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     repository::RepositoryContext,
 };
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --help\n  cutover --help\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --help\n  github --help\n  github-issue --help\n  github-pr --help\n  install --help\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --help\n  proof --help\n  publish --help\n  review --help\n  remote --repo-root <path> --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --help\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --help\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --repo-root <path> --request <path>\n  cutover --help\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --repo-root <path> --request <path>\n  github --repo-root <path> --request <path>\n  github-issue --repo-root <path> --request <path>\n  github-pr --repo-root <path> --request <path>\n  install --help\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --repo-root <path> --request <path>\n  proof --help\n  publish --repo-root <path> --request <path>\n  review --repo-root <path> --request <path>\n  remote --repo-root <path> --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --help\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --help\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
 const REMOTE_USAGE: &str = "usage: csdlc remote --repo-root <path> --request <path>";
 const SPRINT_USAGE: &str = "usage: csdlc sprint --repo-root <path> --request <path>";
+const REMOTE_BRIDGE_ROUTE_NAMES: &[&str] = &[
+    "github",
+    "github-issue",
+    "github-pr",
+    "pr-state",
+    "publish",
+    "review",
+    "finish",
+    "clean",
+];
 
 fn main() {
     match run(env::args().skip(1).collect()) {
@@ -46,8 +58,8 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "remote" => run_remote(rest),
         "sprint" => run_sprint(rest),
         route if LOCAL_ROUTE_NAMES.contains(&route) => run_local_route(route, rest),
-        "clean" | "cutover" | "finish" | "github" | "github-issue" | "github-pr" | "install"
-        | "pr-state" | "proof" | "publish" | "review" | "soak" => {
+        route if REMOTE_BRIDGE_ROUTE_NAMES.contains(&route) => run_remote_bridge_route(route, rest),
+        "cutover" | "install" | "proof" | "soak" => {
             if rest == ["--help"] || rest == ["-h"] {
                 return Ok(reserved_usage(command, "fail_closed"));
             }
@@ -229,6 +241,50 @@ fn run_remote(args: &[String]) -> Result<String, String> {
     let report = verify_remote_bridge_request(&PathBuf::from(root), request)
         .map_err(|error| format!("{error:?}"))?;
     serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
+fn run_remote_bridge_route(route: &str, args: &[String]) -> Result<String, String> {
+    let usage = format!("usage: csdlc {route} --repo-root <path> --request <path>");
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(format!(
+            "{usage}\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover.\ntransport: structured pre-cutover bridge evidence only."
+        ));
+    }
+    let expected = expected_remote_operation(route);
+    let [root_flag, root, request_flag, request] = args else {
+        return Err(usage);
+    };
+    if root_flag != "--repo-root" {
+        return Err(format!("{usage}; unexpected argument {root_flag}"));
+    }
+    if request_flag != "--request" {
+        return Err(format!("{usage}; unexpected argument {request_flag}"));
+    }
+    let request_bytes =
+        fs::read(request).map_err(|error| format!("failed to read request: {error}"))?;
+    let request: RemoteCommandRequest = serde_json::from_slice(&request_bytes)
+        .map_err(|error| format!("invalid remote request: {error}"))?;
+    if request.operation != expected {
+        return Err(format!(
+            "route_operation_mismatch: csdlc {route} requires request operation {expected:?}, got {:?}",
+            request.operation
+        ));
+    }
+    let report = verify_remote_bridge_request(&PathBuf::from(root), request)
+        .map_err(|error| format!("{error:?}"))?;
+    serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
+fn expected_remote_operation(route: &str) -> RemoteCommandOperation {
+    match route {
+        "finish" => RemoteCommandOperation::Finish,
+        "clean" => RemoteCommandOperation::CleanupPreview,
+        "publish" => RemoteCommandOperation::Publish,
+        "github" | "github-issue" | "github-pr" | "pr-state" | "review" => {
+            RemoteCommandOperation::VerifyBridgeEvidence
+        }
+        _ => RemoteCommandOperation::VerifyBridgeEvidence,
+    }
 }
 
 fn run_sprint(args: &[String]) -> Result<String, String> {

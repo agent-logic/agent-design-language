@@ -242,12 +242,40 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
         .iter()
         .map(|value| value.as_str().expect("v3 command"))
         .collect::<Vec<_>>();
-    assert_eq!(current_v3_commands, ["foundation", "local"]);
+    assert_eq!(
+        current_v3_commands,
+        [
+            "foundation",
+            "local",
+            "bind",
+            "clean",
+            "cutover",
+            "doctor",
+            "edit",
+            "eligibility",
+            "finish",
+            "github",
+            "github-issue",
+            "github-pr",
+            "install",
+            "issue",
+            "pr-state",
+            "proof",
+            "publish",
+            "review",
+            "schedule",
+            "shadow",
+            "shepherd",
+            "soak",
+            "sprint",
+            "validate"
+        ]
+    );
     assert!(denominator["required_v2_entrypoints"]
         .as_array()
         .expect("entrypoint denominator")
         .iter()
-        .any(|entry| entry["replacement_status"] == "missing"));
+        .any(|entry| entry["replacement_status"] == "fail_closed"));
     assert!(denominator["non_claims"]
         .as_array()
         .expect("non-claims")

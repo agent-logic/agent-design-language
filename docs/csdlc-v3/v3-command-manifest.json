@@ -8,11 +8,14 @@
   "one_binary": "csdlc",
   "denominator": {
     "v2_entrypoints": 21,
-    "already_present_v3_construction_surfaces": [
-      "foundation",
-      "local"
-    ],
-    "remaining_replacement_routes": 19
+    "current_v3_commands": 23,
+    "implemented_commands": 17,
+    "partial_commands": 2,
+    "fail_closed_commands": 4,
+    "implemented_replacement_routes": 16,
+    "partial_replacement_routes": 1,
+    "fail_closed_replacement_routes": 4,
+    "remaining_replacement_routes": 5
   },
   "commands": [
     {
@@ -40,7 +43,7 @@
       "command": "clean",
       "replaces": ["csdlc-clean"],
       "owner_issue": 630,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -75,28 +78,28 @@
       "command": "finish",
       "replaces": ["csdlc-finish"],
       "owner_issue": 630,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "github",
       "replaces": ["csdlc-github"],
       "owner_issue": 629,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "github-issue",
       "replaces": ["csdlc-github-issue"],
       "owner_issue": 629,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "github-pr",
       "replaces": ["csdlc-github-pr"],
       "owner_issue": 629,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -117,7 +120,7 @@
       "command": "pr-state",
       "replaces": ["csdlc-pr-state"],
       "owner_issue": 629,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -131,14 +134,14 @@
       "command": "publish",
       "replaces": ["csdlc-publish"],
       "owner_issue": 629,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "review",
       "replaces": ["csdlc-review"],
       "owner_issue": 629,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -181,6 +184,7 @@
     "C-SDLC v2 remains live operational authority until #505 cutover is explicitly approved.",
     "The v3 replacement target is one csdlc binary.",
     "Not-yet-implemented live-authority routes fail closed and do not invoke v2 binaries, raw gh, v1 wrappers, or shell commands.",
+    "Implemented pre-cutover bridge routes parse typed repo-local evidence and remain non-authoritative until #505 cutover.",
     "Each command route has one owning V3-H child issue."
   ]
 }

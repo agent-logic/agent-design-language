@@ -8,93 +8,115 @@
   "current_v3_binary": "csdlc-v3/src/main.rs",
   "current_v3_commands": [
     "foundation",
-    "local"
+    "local",
+    "bind",
+    "clean",
+    "cutover",
+    "doctor",
+    "edit",
+    "eligibility",
+    "finish",
+    "github",
+    "github-issue",
+    "github-pr",
+    "install",
+    "issue",
+    "pr-state",
+    "proof",
+    "publish",
+    "review",
+    "schedule",
+    "shadow",
+    "shepherd",
+    "soak",
+    "sprint",
+    "validate"
   ],
   "required_v2_entrypoints": [
     {
       "entrypoint": "csdlc-bind",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "bind",
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-clean",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "clean",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-cutover",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "cutover",
+      "replacement_status": "fail_closed"
     },
     {
       "entrypoint": "csdlc-doctor",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "doctor",
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-edit",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "edit",
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-eligibility",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "eligibility",
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-finish",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "finish",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-github",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "github",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-github-issue",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "github-issue",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-github-pr",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "github-pr",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-install",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "install",
+      "replacement_status": "fail_closed"
     },
     {
       "entrypoint": "csdlc-issue",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "issue",
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-pr-state",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "pr-state",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-proof",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "proof",
+      "replacement_status": "fail_closed"
     },
     {
       "entrypoint": "csdlc-publish",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "publish",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-review",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "review",
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-schedule",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "schedule",
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-shadow",
@@ -103,18 +125,18 @@
     },
     {
       "entrypoint": "csdlc-shepherd",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "shepherd",
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-soak",
-      "v3_command": null,
-      "replacement_status": "missing"
+      "v3_command": "soak",
+      "replacement_status": "fail_closed"
     },
     {
       "entrypoint": "csdlc-validate",
-      "v3_command": "foundation",
-      "replacement_status": "partial"
+      "v3_command": "validate",
+      "replacement_status": "implemented"
     }
   ],
   "proof_required_before_cutover": [

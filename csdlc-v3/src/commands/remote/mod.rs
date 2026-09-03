@@ -70,6 +70,7 @@ impl From<RemoteCommandMode> for PublicationMode {
 #[serde(rename_all = "snake_case")]
 pub enum RemoteCommandOperation {
     VerifyBridgeEvidence,
+    Publish,
     Deliver,
     Finish,
     CleanupPreview,
@@ -83,18 +84,25 @@ pub struct RemoteCommandRequest {
     pub head_sha: String,
     pub mode: RemoteCommandMode,
     pub operation: RemoteCommandOperation,
-    pub pvf_evidence_ref: String,
-    pub typed_review_ref: String,
-    pub publication_intent_ref: String,
-    pub pr_readback_ref: String,
-    pub issue_readback_ref: String,
-    pub cleanup_inspection_ref: String,
+    #[serde(default)]
+    pub pvf_evidence_ref: Option<String>,
+    #[serde(default)]
+    pub typed_review_ref: Option<String>,
+    #[serde(default)]
+    pub publication_intent_ref: Option<String>,
+    #[serde(default)]
+    pub pr_readback_ref: Option<String>,
+    #[serde(default)]
+    pub issue_readback_ref: Option<String>,
+    #[serde(default)]
+    pub cleanup_inspection_ref: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum RemoteCommandStatus {
     ReadyForTypedBridge,
+    PublicationDerived,
     DeliveryDerived,
     FinishDerived,
     CleanupPreviewDerived,
@@ -144,20 +152,7 @@ pub fn verify_remote_bridge_request(
     {
         return Err(RemoteCommandRejectReason::InvalidIdentity);
     }
-    let refs = [
-        ("pvf_evidence_ref", request.pvf_evidence_ref.as_str()),
-        ("typed_review_ref", request.typed_review_ref.as_str()),
-        (
-            "publication_intent_ref",
-            request.publication_intent_ref.as_str(),
-        ),
-        ("pr_readback_ref", request.pr_readback_ref.as_str()),
-        ("issue_readback_ref", request.issue_readback_ref.as_str()),
-        (
-            "cleanup_inspection_ref",
-            request.cleanup_inspection_ref.as_str(),
-        ),
-    ];
+    let refs = evidence_refs_for_operation(&request)?;
     let issue = request.issue.to_string();
     let pull_request = request.pull_request.to_string();
     let mut digest_inputs = vec![
@@ -502,40 +497,31 @@ fn derive_remote_command_result(
     request: &RemoteCommandRequest,
     evidence: &BTreeMap<&'static str, Value>,
 ) -> Result<(RemoteCommandStatus, Value), RemoteCommandRejectReason> {
-    let pvf = verified(
-        parse_pvf(request, required(evidence, "pvf_evidence_ref")?)?,
-        AuthoritySource::Pvf,
-    )?;
-    let review = verified(
-        parse_review(request, required(evidence, "typed_review_ref")?)?,
-        AuthoritySource::Review,
-    )?;
-    let publication = verified(
-        parse_publication(request, required(evidence, "publication_intent_ref")?)?,
-        AuthoritySource::PublicationIntent,
-    )?;
-    let pr = verified(
-        parse_pr_readback(request, required(evidence, "pr_readback_ref")?)?,
-        AuthoritySource::GithubReadback,
-    )?;
-    let issue = verified(
-        parse_issue_readback(request, required(evidence, "issue_readback_ref")?)?,
-        AuthoritySource::GithubReadback,
-    )?;
-    let cleanup = verified(
-        parse_cleanup(required(evidence, "cleanup_inspection_ref")?)?,
-        AuthoritySource::WorktreeInspection,
-    )?;
-    let input = RemoteDeliveryInput::new(pvf, review, publication, pr, issue, cleanup);
     match request.operation {
-        RemoteCommandOperation::VerifyBridgeEvidence => Ok((
-            RemoteCommandStatus::ReadyForTypedBridge,
-            serde_json::json!({
-                "authority": "typed evidence accepted for v3 derivation",
-                "mutation_allowed": false
-            }),
-        )),
+        RemoteCommandOperation::VerifyBridgeEvidence => {
+            let _ = parse_delivery_input(request, evidence)?;
+            Ok((
+                RemoteCommandStatus::ReadyForTypedBridge,
+                serde_json::json!({
+                    "authority": "typed evidence accepted for v3 derivation",
+                    "mutation_allowed": false
+                }),
+            ))
+        }
+        RemoteCommandOperation::Publish => {
+            let (authorization, publication) = derive_publication(request, evidence)?;
+            Ok((
+                RemoteCommandStatus::PublicationDerived,
+                serde_json::json!({
+                    "authorization_issue": authorization.issue,
+                    "publication_pull_request": publication.pull_request,
+                    "relation": format!("{:?}", publication.relation),
+                    "mutation_allowed": false
+                }),
+            ))
+        }
         RemoteCommandOperation::Deliver => {
+            let input = parse_delivery_input(request, evidence)?;
             let result = deliver(input).map_err(|error| {
                 RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
             })?;
@@ -551,46 +537,29 @@ fn derive_remote_command_result(
             ))
         }
         RemoteCommandOperation::Finish => {
-            let RemoteDeliveryInput {
-                publication,
-                pull_request,
-                issue,
-                ..
-            } = input;
-            let publication_request = publication
-                .require_source(AuthoritySource::PublicationIntent)
-                .map_err(|error| {
-                    RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-                })?;
-            let review = parse_review(request, required(evidence, "typed_review_ref")?)?;
-            let target = ReviewTarget {
-                repository: publication_request.repository.clone(),
-                issue: publication_request.issue,
-                mode: publication_request.mode,
-            };
-            let authorization = authorize_publication(
-                &review,
-                &publication_request.head_sha,
-                &publication_request.publisher,
-                target,
-            )
+            let (_, publication) = derive_publication(request, evidence)?;
+            let pr = verified(
+                parse_pr_readback(request, required(evidence, "pr_readback_ref")?)?,
+                AuthoritySource::GithubReadback,
+            )?
+            .require_source(AuthoritySource::GithubReadback)
             .map_err(|error| {
                 RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
             })?;
-            let publication = publish(publication_request, &authorization).map_err(|error| {
+            let issue = verified(
+                parse_issue_readback(request, required(evidence, "issue_readback_ref")?)?,
+                AuthoritySource::GithubReadback,
+            )?
+            .require_source(AuthoritySource::GithubReadback)
+            .map_err(|error| {
                 RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
             })?;
-            let pr = pull_request
-                .require_source(AuthoritySource::GithubReadback)
-                .map_err(|error| {
-                    RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-                })?;
-            let issue = issue
-                .require_source(AuthoritySource::GithubReadback)
-                .map_err(|error| {
-                    RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-                })?;
             let finish = derive_finish(&publication, &pr, &issue);
+            if matches!(finish, FinishClassification::OperatorRequired { .. }) {
+                return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
+                    format!("{finish:?}"),
+                ));
+            }
             Ok((
                 RemoteCommandStatus::FinishDerived,
                 serde_json::json!({
@@ -600,12 +569,19 @@ fn derive_remote_command_result(
             ))
         }
         RemoteCommandOperation::CleanupPreview => {
-            let RemoteDeliveryInput { cleanup, .. } = input;
-            let cleanup = cleanup
-                .require_source(AuthoritySource::WorktreeInspection)
-                .map_err(|error| {
-                    RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-                })?;
+            let cleanup = verified(
+                parse_cleanup(required(evidence, "cleanup_inspection_ref")?)?,
+                AuthoritySource::WorktreeInspection,
+            )?
+            .require_source(AuthoritySource::WorktreeInspection)
+            .map_err(|error| {
+                RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
+            })?;
+            if !cleanup.preview {
+                return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
+                    "cleanup_preview_requires_preview_candidate".to_owned(),
+                ));
+            }
             let preview = classify_cleanup(&cleanup).map_err(|error| {
                 RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
             })?;
@@ -618,6 +594,150 @@ fn derive_remote_command_result(
             ))
         }
     }
+}
+
+fn evidence_refs_for_operation(
+    request: &RemoteCommandRequest,
+) -> Result<Vec<(&'static str, &str)>, RemoteCommandRejectReason> {
+    match request.operation {
+        RemoteCommandOperation::VerifyBridgeEvidence | RemoteCommandOperation::Deliver => {
+            let mut refs = publication_refs_for_request(request)?;
+            refs.push(optional_ref(
+                "pr_readback_ref",
+                request.pr_readback_ref.as_deref(),
+            )?);
+            refs.push(optional_ref(
+                "issue_readback_ref",
+                request.issue_readback_ref.as_deref(),
+            )?);
+            refs.push(optional_ref(
+                "cleanup_inspection_ref",
+                request.cleanup_inspection_ref.as_deref(),
+            )?);
+            Ok(refs)
+        }
+        RemoteCommandOperation::Publish => publication_refs_for_request(request),
+        RemoteCommandOperation::Finish => {
+            let mut refs = publication_refs_for_request(request)?;
+            refs.push(optional_ref(
+                "pr_readback_ref",
+                request.pr_readback_ref.as_deref(),
+            )?);
+            refs.push(optional_ref(
+                "issue_readback_ref",
+                request.issue_readback_ref.as_deref(),
+            )?);
+            Ok(refs)
+        }
+        RemoteCommandOperation::CleanupPreview => Ok(vec![optional_ref(
+            "cleanup_inspection_ref",
+            request.cleanup_inspection_ref.as_deref(),
+        )?]),
+    }
+}
+
+fn publication_refs_for_request(
+    request: &RemoteCommandRequest,
+) -> Result<Vec<(&'static str, &str)>, RemoteCommandRejectReason> {
+    Ok(vec![
+        optional_ref("pvf_evidence_ref", request.pvf_evidence_ref.as_deref())?,
+        optional_ref("typed_review_ref", request.typed_review_ref.as_deref())?,
+        optional_ref(
+            "publication_intent_ref",
+            request.publication_intent_ref.as_deref(),
+        )?,
+    ])
+}
+
+fn optional_ref<'a>(
+    field: &'static str,
+    value: Option<&'a str>,
+) -> Result<(&'static str, &'a str), RemoteCommandRejectReason> {
+    value
+        .map(|value| (field, value))
+        .ok_or(RemoteCommandRejectReason::EvidenceRefMissing { field })
+}
+
+fn parse_delivery_input(
+    request: &RemoteCommandRequest,
+    evidence: &BTreeMap<&'static str, Value>,
+) -> Result<RemoteDeliveryInput, RemoteCommandRejectReason> {
+    Ok(RemoteDeliveryInput::new(
+        verified(
+            parse_pvf(request, required(evidence, "pvf_evidence_ref")?)?,
+            AuthoritySource::Pvf,
+        )?,
+        verified(
+            parse_review(request, required(evidence, "typed_review_ref")?)?,
+            AuthoritySource::Review,
+        )?,
+        verified(
+            parse_publication(request, required(evidence, "publication_intent_ref")?)?,
+            AuthoritySource::PublicationIntent,
+        )?,
+        verified(
+            parse_pr_readback(request, required(evidence, "pr_readback_ref")?)?,
+            AuthoritySource::GithubReadback,
+        )?,
+        verified(
+            parse_issue_readback(request, required(evidence, "issue_readback_ref")?)?,
+            AuthoritySource::GithubReadback,
+        )?,
+        verified(
+            parse_cleanup(required(evidence, "cleanup_inspection_ref")?)?,
+            AuthoritySource::WorktreeInspection,
+        )?,
+    ))
+}
+
+fn derive_publication(
+    request: &RemoteCommandRequest,
+    evidence: &BTreeMap<&'static str, Value>,
+) -> Result<(PublicationAuthorization, PublicationEvidence), RemoteCommandRejectReason> {
+    let pvf = verified(
+        parse_pvf(request, required(evidence, "pvf_evidence_ref")?)?,
+        AuthoritySource::Pvf,
+    )?
+    .require_source(AuthoritySource::Pvf)
+    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
+    let review = verified(
+        parse_review(request, required(evidence, "typed_review_ref")?)?,
+        AuthoritySource::Review,
+    )?
+    .require_source(AuthoritySource::Review)
+    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
+    let publication_request = verified(
+        parse_publication(request, required(evidence, "publication_intent_ref")?)?,
+        AuthoritySource::PublicationIntent,
+    )?
+    .require_source(AuthoritySource::PublicationIntent)
+    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
+    if pvf.evidence_digest.trim().is_empty() {
+        return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
+            "PvfEvidenceMissing".to_owned(),
+        ));
+    }
+    if pvf.revision != review.reviewed_revision {
+        return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
+            "PvfRevisionMismatch".to_owned(),
+        ));
+    }
+    let target = ReviewTarget {
+        repository: publication_request.repository.clone(),
+        issue: pvf.issue,
+        mode: publication_request.mode,
+    };
+    let authorization = authorize_publication(
+        &review,
+        &pvf.revision,
+        &publication_request.publisher,
+        target,
+    )
+    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
+    let publication = publish(publication_request, &authorization).map_err(|error| {
+        RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
+    })?;
+    Ok((authorization, publication))
 }
 
 fn required<'a>(
