@@ -31,6 +31,16 @@ install_generation generation-b revision-b
 test "$(readlink "$FIXTURE/install/current")" = generations/generation-b
 test "$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["predecessor_generation"])' "$FIXTURE/install/generations/generation-b/receipt.json")" = generation-a
 
+mv "$FIXTURE/install/generations/generation-a" "$FIXTURE/escaped-generation-a"
+ln -s "$FIXTURE/escaped-generation-a" "$FIXTURE/install/generations/generation-a"
+if "$ROOT_DIR/adl/tools/install_runtime_v3_generation.sh" rollback --root "$FIXTURE/install" >/dev/null 2>&1; then
+  echo "rollback accepted a predecessor symlink outside generations" >&2
+  exit 1
+fi
+test "$(readlink "$FIXTURE/install/current")" = generations/generation-b
+unlink "$FIXTURE/install/generations/generation-a"
+mv "$FIXTURE/escaped-generation-a" "$FIXTURE/install/generations/generation-a"
+
 printf 'tampered\n' >>"$FIXTURE/install/generations/generation-b/bin/adl-runtime-kernel"
 if "$ROOT_DIR/adl/tools/install_runtime_v3_generation.sh" verify --root "$FIXTURE/install" >/dev/null 2>&1; then
   echo "tampered mixed generation was accepted" >&2

@@ -329,10 +329,8 @@ fn validate_runtime_service_definition(
         Some(source) => source.clone(),
         None => installed_launchd_plist(args)?,
     };
-    let contents = fs::read_to_string(&plist)
-        .with_context(|| format!("read Runtime v3 launchd definition {}", plist.display()))?;
     let expected_guardian = current.join("bin/adl-runtime-guardian");
-    let executable = launchd_program_executable(&contents)?;
+    let executable = launchd_program_executable(&plist)?;
     if executable != expected_guardian {
         return Err(anyhow!(
             "Runtime v3 launchd Guardian does not resolve through the current generation"
@@ -341,26 +339,23 @@ fn validate_runtime_service_definition(
     Ok(())
 }
 
-#[cfg(any(target_os = "macos", test))]
-fn launchd_program_executable(contents: &str) -> Result<PathBuf> {
-    if contents.contains("<!--") || contents.matches("<key>ProgramArguments</key>").count() != 1 {
-        return Err(anyhow!(
-            "Runtime v3 launchd definition has ambiguous ProgramArguments"
-        ));
+#[cfg(target_os = "macos")]
+fn launchd_program_executable(plist: &Path) -> Result<PathBuf> {
+    let output = Command::new("/usr/bin/plutil")
+        .args(["-extract", "ProgramArguments.0", "raw", "-o", "-"])
+        .arg(plist)
+        .output()
+        .with_context(|| format!("parse Runtime v3 launchd definition {}", plist.display()))?;
+    if !output.status.success() {
+        return Err(anyhow!("Runtime v3 launchd ProgramArguments is invalid"));
     }
-    let arguments = contents
-        .split_once("<key>ProgramArguments</key>")
-        .map(|(_, rest)| rest)
-        .ok_or_else(|| anyhow!("Runtime v3 launchd definition has no ProgramArguments"))?;
-    let array = arguments
-        .split_once("<array>")
-        .and_then(|(_, rest)| rest.split_once("</array>").map(|(value, _)| value))
-        .ok_or_else(|| anyhow!("Runtime v3 launchd ProgramArguments is invalid"))?;
-    let executable = array
-        .split_once("<string>")
-        .and_then(|(_, rest)| rest.split_once("</string>").map(|(value, _)| value.trim()))
-        .filter(|value| !value.is_empty())
-        .ok_or_else(|| anyhow!("Runtime v3 launchd ProgramArguments has no executable"))?;
+    let executable = String::from_utf8(output.stdout)
+        .context("decode Runtime v3 launchd executable")?
+        .trim()
+        .to_owned();
+    if executable.is_empty() || !Path::new(&executable).is_absolute() {
+        return Err(anyhow!("Runtime v3 launchd executable is invalid"));
+    }
     Ok(PathBuf::from(executable))
 }
 
@@ -1376,7 +1371,7 @@ mod tests {
         fs::write(
             &plist,
             format!(
-                "<key>ProgramArguments</key><array><string>{}</string></array>",
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><key>ProgramArguments</key><array><string>{}</string></array></dict></plist>",
                 expected.display()
             ),
         )
@@ -1387,7 +1382,7 @@ mod tests {
         validate_runtime_service_definition(&args, &init).unwrap();
         fs::write(
             &plist,
-            "<key>ProgramArguments</key><array><string>/old/bin/adl-runtime-guardian</string></array>",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><key>ProgramArguments</key><array><string>/old/bin/adl-runtime-guardian</string></array></dict></plist>",
         )
         .unwrap();
         let error = validate_runtime_service_definition(&args, &init).unwrap_err();
@@ -1397,24 +1392,29 @@ mod tests {
     #[test]
     fn service_definition_preflight_parsers_require_exact_executable_position() {
         let expected = "/runtime/current/bin/adl-runtime-guardian";
-        let launchd = format!(
-            "<key>ProgramArguments</key><array><string>/old/guardian</string><string>{expected}</string></array>"
-        );
-        assert_eq!(
-            launchd_program_executable(&launchd).unwrap(),
-            Path::new("/old/guardian")
-        );
         let systemd = format!("{{ path=/old/guardian ; argv[]=/old/guardian {expected} ; }}");
         assert_eq!(
             systemd_exec_start_executable(&systemd).unwrap(),
             Path::new("/old/guardian")
         );
-        let commented = format!(
-            "<!-- <key>ProgramArguments</key><array><string>{expected}</string></array> -->{launchd}"
-        );
-        assert!(launchd_program_executable(&commented).is_err());
         let ambiguous_systemd = format!("ENV_path={expected} {{ path=/old/guardian ; }}");
         assert!(systemd_exec_start_executable(&ambiguous_systemd).is_err());
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn launchd_semantic_preflight_ignores_commented_program_arguments() {
+        let root = tempfile::tempdir().unwrap();
+        let plist = root.path().join("commented.plist");
+        fs::write(
+            &plist,
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><!-- <key>ProgramArguments</key><array><string>/runtime/current/bin/adl-runtime-guardian</string></array> --><key>ProgramArguments</key><array><string>/old/guardian</string></array></dict></plist>",
+        )
+        .unwrap();
+        assert_eq!(
+            launchd_program_executable(&plist).unwrap(),
+            Path::new("/old/guardian")
+        );
     }
 
     #[test]

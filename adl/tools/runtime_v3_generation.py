@@ -84,10 +84,24 @@ def resolve_link(root: Path, name: str) -> Path:
     target = os.readlink(link)
     if Path(target).is_absolute() or Path(target).parts[:1] != ("generations",):
         raise ValueError(f"{name} has an invalid generation target")
-    generation = (root / target).resolve(strict=True)
+    raw_generation = root / target
+    if raw_generation.is_symlink():
+        raise ValueError(f"{name} targets a generation-directory symlink")
+    generation = raw_generation.resolve(strict=True)
     generations = (root / "generations").resolve(strict=True)
     if generation.parent != generations:
         raise ValueError(f"{name} escapes the generations directory")
+    return generation
+
+
+def resolve_generation(root: Path, generation_name: str) -> Path:
+    raw_generation = root / "generations" / generation_name
+    if raw_generation.is_symlink():
+        raise ValueError("receipt predecessor targets a generation-directory symlink")
+    generation = raw_generation.resolve(strict=True)
+    generations = (root / "generations").resolve(strict=True)
+    if generation.parent != generations or generation.name != generation_name:
+        raise ValueError("receipt predecessor escapes the generations directory")
     return generation
 
 
@@ -164,7 +178,7 @@ def rollback(root: Path) -> dict:
     predecessor = current_receipt.get("predecessor_generation")
     if predecessor is None:
         raise ValueError("current generation has no verified predecessor")
-    previous = root / "generations" / predecessor
+    previous = resolve_generation(root, predecessor)
     receipt = load_receipt(previous)
     atomic_link(root, "current", f"generations/{previous.name}")
     verify_current(root)
