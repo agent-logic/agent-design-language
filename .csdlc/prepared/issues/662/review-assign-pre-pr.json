@@ -1,8 +1,8 @@
 {
   "issue": 662,
-  "expected_generation": 5,
-  "expected_digest": "53b49d1fd53966ac48bc7873064e59f49b2428b43e8ffad73ed079d54df166df",
-  "reviewer": "fresh-session:review-662-agent-to-agent-initiation-post-p1-fix",
+  "expected_generation": 7,
+  "expected_digest": "b02f4d511646b5837daad03146242dde1eb9c8ed06a77d3d77e3855ad91a99ab",
+  "reviewer": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
   "assigned_by": "codex:/root:issue-662-exec",
   "scope": [
     "adl-runtime-kernel/src/control.rs",

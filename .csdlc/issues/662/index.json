@@ -6,10 +6,24 @@
   "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
   "phase": "implemented",
   "generation": 7,
-  "digest": "b02f4d511646b5837daad03146242dde1eb9c8ed06a77d3d77e3855ad91a99ab",
+  "digest": "d49a9ee69b411ed29cfd2133e6f564f739839cb400592b7c107e22ef42d6c0f8",
   "branch": "codex/662-agent-to-agent-initiation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+    "assigned_by": "codex:/root:issue-662-exec",
+    "revision": "git-blake3:32c472032f50c4e5283036dfde6e0130d8319e66:e9b91029b83a0b48606032c1301353e1aba3fa68812e983aa6ffbcc38f221d98",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/prepared/issues/662/design.md",
+      ".csdlc/prepared/issues/662/diagram.mmd",
+      ".csdlc/prepared/issues/662/bind.json",
+      ".csdlc/prepared/issues/662/finalize-implementation.json",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/evidence/662"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
     },
     "srp": {
-      "values_digest": "9be85bb2e9b0dc505085a2eb5698c0b181338d53996708f189760d9e133d6a54",
-      "rendered_digest": "523aaa688482be09fe0dd7f68131f23c24ecbe1de41f176226b06685fe9bfc0d",
-      "ast_digest": "8d60538ebebdf81627e90b41335cda15dc2bb30e0f202c39404d817da9ae42cc"
+      "values_digest": "cf9192f9a67cbd537fb3c545a9e2b12bc76eab2a20accb9e496d232d130a1741",
+      "rendered_digest": "f914865a7367024b22b3f6b66dc4992d8b9da07b7355ef415a256e103345d094",
+      "ast_digest": "0871a2cec337dccf5dc78ef0c906ec7a30bc12369f6cbecf8937a87d7f055d4f"
     },
     "sor": {
       "values_digest": "0fcb7993a399715eda281f8623a06d91b402f4c95c480f73cb129b6ce8b90031",
@@ -169,6 +183,13 @@
       "actor": "codex:/root:issue-662-exec",
       "reason": "Recover #662 review truth after recording the post-sender-fix PASS review so a metadata-head review can cover the current branch head before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
