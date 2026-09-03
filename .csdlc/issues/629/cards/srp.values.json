@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
     "slug": "v3-h3-github-publication",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/629/design.md\n.csdlc/prepared/issues/629/diagram.mmd\n.csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
-      "review_revision": "git-blake3:c096824f578007b965f0bb0bb60a2ac4ae35aa1e:6803a98b5df3c975f8fd1c0823a0767aa11e2872e0cb6a1b1ce75b4ebfa7fd93",
-      "reviewer": "subagent:/root/review_629_head_c096824f5",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify remote authority is not caller-forgeable.",
         "Verify publication refuses stale or missing review truth.",
@@ -23,11 +23,8 @@
         "Verify credentials are redacted and no raw gh lifecycle writes are used."
       ],
       "findings": [],
-      "residual_risk": [
-        "The public remote routes remain construction-only and fail-closed until authenticated adapter/receipt ingestion is implemented and #505 explicitly cuts over authority.",
-        "This review does not authorize v3 publication, finish, cleanup, or GitHub mutation as live operational authority before #505."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
