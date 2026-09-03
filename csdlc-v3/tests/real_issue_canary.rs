@@ -263,6 +263,7 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
             "proof",
             "publish",
             "review",
+            "remote",
             "schedule",
             "shadow",
             "shepherd",

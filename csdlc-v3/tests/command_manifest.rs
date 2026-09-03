@@ -32,6 +32,7 @@ const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
 ];
 
 const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow"];
+const IMPLEMENTED_HELPER_COMMANDS: &[&str] = &["remote", "sprint"];
 
 #[test]
 fn help_exposes_one_binary_command_surface() {
@@ -82,8 +83,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     assert_eq!(manifest["operational_authority"], false);
     assert_eq!(denominator["cutover_ready"], false);
     assert_eq!(manifest["denominator"]["v2_entrypoints"], 21);
-    assert_eq!(manifest["denominator"]["current_v3_commands"], 23);
-    assert_eq!(manifest["denominator"]["implemented_commands"], 17);
+    assert_eq!(manifest["denominator"]["current_v3_commands"], 25);
+    assert_eq!(manifest["denominator"]["implemented_commands"], 19);
     assert_eq!(manifest["denominator"]["partial_commands"], 2);
     assert_eq!(manifest["denominator"]["fail_closed_commands"], 4);
     assert_eq!(
@@ -102,8 +103,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     );
 
     let commands = manifest["commands"].as_array().expect("manifest commands");
-    assert_eq!(commands.len(), 23);
-    assert_eq!(status_count(commands, "implemented"), 17);
+    assert_eq!(commands.len(), 25);
+    assert_eq!(status_count(commands, "implemented"), 19);
     assert_eq!(status_count(commands, "partial"), 2);
     assert_eq!(status_count(commands, "fail_closed"), 4);
 
@@ -117,6 +118,11 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
         assert_eq!(row["implementation_status"], "fail_closed");
         assert_eq!(row["authority_status"], "not_live");
     }
+    for command in IMPLEMENTED_HELPER_COMMANDS {
+        let row = command_row(commands, command);
+        assert_eq!(row["implementation_status"], "implemented");
+        assert!(row["replaces"].as_array().expect("replaces").is_empty());
+    }
 
     let current = denominator["current_v3_commands"]
         .as_array()
@@ -129,6 +135,14 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
         assert!(
             current.iter().any(|current| current == name),
             "denominator should include manifest command {name}"
+        );
+    }
+    for name in &current {
+        assert!(
+            commands
+                .iter()
+                .any(|command| command["command"].as_str() == Some(name.as_str())),
+            "manifest should include denominator command {name}"
         );
     }
 

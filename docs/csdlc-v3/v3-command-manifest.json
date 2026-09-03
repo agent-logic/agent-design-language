@@ -8,8 +8,8 @@
   "one_binary": "csdlc",
   "denominator": {
     "v2_entrypoints": 21,
-    "current_v3_commands": 23,
-    "implemented_commands": 17,
+    "current_v3_commands": 25,
+    "implemented_commands": 19,
     "partial_commands": 2,
     "fail_closed_commands": 4,
     "implemented_replacement_routes": 16,
@@ -145,6 +145,13 @@
       "authority_status": "not_live"
     },
     {
+      "command": "remote",
+      "replaces": [],
+      "owner_issue": 504,
+      "implementation_status": "implemented",
+      "authority_status": "not_live_helper"
+    },
+    {
       "command": "schedule",
       "replaces": ["csdlc-schedule"],
       "owner_issue": 628,
@@ -173,6 +180,13 @@
       "authority_status": "not_live"
     },
     {
+      "command": "sprint",
+      "replaces": [],
+      "owner_issue": 632,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_construction"
+    },
+    {
       "command": "validate",
       "replaces": ["csdlc-validate"],
       "owner_issue": 628,
@@ -185,6 +199,7 @@
     "The v3 replacement target is one csdlc binary.",
     "Not-yet-implemented live-authority routes fail closed and do not invoke v2 binaries, raw gh, v1 wrappers, or shell commands.",
     "Implemented pre-cutover bridge routes parse typed repo-local evidence and remain non-authoritative until #505 cutover.",
+    "Visible helper routes with no v2 entrypoint replacement are included in the command-surface denominator and excluded from replacement-route counts.",
     "Each command route has one owning V3-H child issue."
   ]
 }
