@@ -4,3 +4,4 @@
 {"sequence":4,"generation":3,"actor":"codex:624-preparation","reason":"Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":5,"generation":3,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":6,"generation":4,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":7,"generation":4,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}

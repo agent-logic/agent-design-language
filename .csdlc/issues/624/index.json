@@ -6,10 +6,24 @@
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
   "phase": "implemented",
   "generation": 4,
-  "digest": "62ed0eae2e91232e7f5feb8a0d94d0beaf56362c3e3dab4fccbc40745ab0a89a",
+  "digest": "19c42541aca9537791ac7eb1aa927e85b86ec952095d53d8c8a595aaf639ae99",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:657c1e2e-3b40-42e7-bb1d-22ef8295f927",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:bc1dd487faf1939a6294fc5acaaa6bc480805e96:27a58c7efd1cb55c97ef91e0ebd1cb3db68b36053241f29aa571c1b089b8f747",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "319b6ce720b56dad1c819d40b43533f277320e43417abb12a08d158401024e4a",
-      "rendered_digest": "f858154751fb29f2d820a6e0f459764550feaa514ae39265d245c2067a2d5075",
-      "ast_digest": "965f822ec938b4f246c55a05a9fdf288f48b9c35bcb9a97842dc059661683f81"
+      "values_digest": "2336a1fb78b6ab5f145c4bdd5a468b6ac179c7b44757ad8b7d05892850631ffd",
+      "rendered_digest": "7ba8f93f928889c49cd7ee011700201235e15c451b59be37695fd10b4b76e434",
+      "ast_digest": "8b2644ff5481c4e24deec1a2b2b50d696d79849d4567e32c2bea475279cfb055"
     },
     "sor": {
       "values_digest": "ac95318510552508029e155a85aef0d6fdc77548ddc83db26370b61de5e8dc05",
@@ -120,6 +134,13 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
