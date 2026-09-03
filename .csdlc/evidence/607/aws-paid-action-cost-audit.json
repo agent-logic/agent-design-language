@@ -1,8 +1,8 @@
 {
   "schema": "adl.issue607.paid_action_cost_audit.v1",
   "status": "pass",
-  "as_of": "2026-09-03T07:47:47Z",
-  "authorized_ceiling_usd": 20,
+  "as_of": "2026-09-03T08:28:00Z",
+  "authorized_ceiling_usd": 21,
   "method": {
     "instance_start": "AWS CloudTrail RunInstances event time",
     "launch_instance_end": "AWS CloudTrail first TerminateInstances event time",
@@ -11,6 +11,7 @@
     "pricing": "AWS Price List On-Demand Linux shared-tenancy rates in us-west-2 read on 2026-09-02",
     "tag_billing_limitation": "The adl:issue cost-allocation tag was not active in Cost Explorer; this audit therefore uses conservative resource-event reconstruction.",
     "zero_instance_rejection": "A consumed action may contribute zero compute cost only when CloudTrail RunInstances events contain no response instance IDs and the exact owner inventory is empty after cleanup."
+    ,"budget_extension": "The operator extended the issue ceiling from USD 20 to USD 21 during the final payload-recovery run before it completed."
   },
   "rates_usd_per_hour": {
     "m7i.2xlarge": 0.4032,
@@ -42,12 +43,13 @@
     {"run_id":"adl-issue607-e8925c1dc8b0-launch-2","action":"launch-2","runtime_seconds":363,"gpu_seconds":435,"compute_upper_bound_usd":0.150608},
     {"run_id":"adl-issue607-e8925c1dc8b0-remediate","action":"qualification-remediation","outcome":"rejected_before_instance","runtime_seconds":0,"gpu_seconds":0,"compute_upper_bound_usd":0,"cloudtrail_event_ids":["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"],"cloudtrail_response_instance_ids":[],"error_code":"Client.VcpuLimitExceeded","quota_code":"L-DB2E81BA","observed_quota_vcpus":4,"required_vcpus":16,"post_cleanup_owner_inventory":{"observed_at":"2026-09-02T17:24:00Z","owner_token_sha256":"83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}},
     {"run_id":"adl-issue607-e8925c1dc8b0-quota-recovery","action":"qualification-quota-recovery","outcome":"passed_with_review_rejected_recovery_claims","runtime_instance_id":"i-05ff5a7a91434b114","gpu_instance_id":"i-0d2f10455c1c478e8","runtime_launch_time":"2026-09-03T06:31:02Z","runtime_termination_time":"2026-09-03T06:36:35Z","gpu_launch_time":"2026-09-03T06:30:48Z","gpu_termination_time":"2026-09-03T06:37:05Z","runtime_seconds":333,"gpu_seconds":377,"compute_upper_bound_usd":0.133231,"disposable_ebs_ipv4_upper_bound_usd":0.004135,"post_cleanup_owner_inventory":{"observed_at":"2026-09-03T06:45:00Z","owner_token_sha256":"2cde10bd301f9b872fe03ace47ef8f6de830186789614a7f874e150e153b77f0","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}},
-    {"run_id":"adl-issue607-e8925c1dc8b0-proof-recovery","action":"qualification-proof-recovery","outcome":"rejected_before_runtime_instance_user_data_limit","runtime_seconds":0,"gpu_instance_id":"i-0883b9d2e04e4b6da","gpu_launch_time":"2026-09-03T07:38:02Z","gpu_final_termination_event_time":"2026-09-03T07:44:58Z","gpu_seconds":417,"compute_upper_bound_usd":0.093223,"disposable_ebs_ipv4_upper_bound_usd":0.003153,"cloudtrail_event_ids":["c27fa2cb-1490-4900-9f63-02da9f1d9726","cee70fea-3929-4db8-a3ff-5edbdfa9ee92","767e0631-edd8-49d1-a034-9ced2397b0e2","93d68f1c-901c-4a50-a3ce-cd41d0ef036b"],"error_code":"InvalidParameterValue","error_boundary":"aws_instance.runtime.user_data","post_cleanup_owner_inventory":{"observed_at":"2026-09-03T07:47:47Z","owner_token_sha256":"2213ad673e53d9ead6c5cad175742912dd91fdca462cc7ab25766ec784c20c97","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}}
+    {"run_id":"adl-issue607-e8925c1dc8b0-proof-recovery","action":"qualification-proof-recovery","outcome":"rejected_before_runtime_instance_user_data_limit","runtime_seconds":0,"gpu_instance_id":"i-0883b9d2e04e4b6da","gpu_launch_time":"2026-09-03T07:38:02Z","gpu_final_termination_event_time":"2026-09-03T07:44:58Z","gpu_seconds":417,"compute_upper_bound_usd":0.093223,"disposable_ebs_ipv4_upper_bound_usd":0.003153,"cloudtrail_event_ids":["c27fa2cb-1490-4900-9f63-02da9f1d9726","cee70fea-3929-4db8-a3ff-5edbdfa9ee92","767e0631-edd8-49d1-a034-9ced2397b0e2","93d68f1c-901c-4a50-a3ce-cd41d0ef036b"],"error_code":"InvalidParameterValue","error_boundary":"aws_instance.runtime.user_data","post_cleanup_owner_inventory":{"observed_at":"2026-09-03T07:47:47Z","owner_token_sha256":"2213ad673e53d9ead6c5cad175742912dd91fdca462cc7ab25766ec784c20c97","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}},
+    {"run_id":"adl-issue607-e8925c1dc8b0-payload-recovery","action":"qualification-payload-recovery","outcome":"passed","runtime_instance_id":"i-00da9426786754a6c","gpu_instance_id":"i-03bb0138945501212","runtime_launch_time":"2026-09-03T08:15:37Z","runtime_termination_time":"2026-09-03T08:21:14Z","gpu_launch_time":"2026-09-03T08:15:23Z","gpu_final_termination_event_time":"2026-09-03T08:25:33Z","runtime_seconds":337,"gpu_seconds":610,"compute_upper_bound_usd":0.185908,"disposable_ebs_ipv4_upper_bound_usd":0.005913,"apply_to_service_ready_seconds":240,"runtime_local_ready_seconds":5.950,"gpu_local_ready_seconds":97.340,"qualification_complete_sha256":"c4c1c7dcb661c35d307f515bf17991eeaa35c44a0863466e4aae2a312cdc6012","zero_disposable_residue_sha256":"c449614b3a05cd6e7ebfbd6878b5d7384ad56891e64242ef14641e7dfcf6544a","post_cleanup_owner_inventory":{"observed_at":"2026-09-03T08:28:00Z","owner_token_sha256":"65c766c3c0721aa1ad850914b03e6486b1b38c6d5ed89669a9869206c785499b","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}}
   ],
-  "historical_compute_upper_bound_usd": 4.405852,
-  "historical_disposable_ebs_ipv4_allowance_usd": 0.061224,
-  "historical_total_upper_bound_usd": 19.833742,
-  "remaining_before_remediation_usd": 0.166258,
+  "historical_compute_upper_bound_usd": 4.591760,
+  "historical_disposable_ebs_ipv4_allowance_usd": 0.067137,
+  "historical_total_upper_bound_usd": 20.025563,
+  "remaining_before_remediation_usd": 0.974437,
   "audited_remote_action_markers": [
     "shepherd/issue-607/campaigns/2d797ce5b618081a753ab1261d0305820781388e0f52d52f4677fffc332d07c3/actions/prepare.json",
     "shepherd/issue-607/campaigns/307c600bfee46788583c8f06b65f642c0e6d0d6c4e66e77e21d9cd0a05acff0e/actions/prepare.json",
@@ -66,6 +68,7 @@
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/prepare.json",
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-remediation.json",
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-quota-recovery.json",
-    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-proof-recovery.json"
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-proof-recovery.json",
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-payload-recovery.json"
   ]
 }

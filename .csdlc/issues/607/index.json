@@ -3,44 +3,13 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "reviewed",
-  "generation": 106,
-  "digest": "7d5b90ea4f205ee584733be38eabffa4e328c920ef48c854df5a961fac8c0291",
+  "phase": "implemented",
+  "generation": 114,
+  "digest": "1e0a1f2950c3ba4c3bc2a4c4c48f7addd74fcd611c8b890ab4c2993d8cea9613",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": {
-    "reviewer": "subagent:issue_607_payload_exact_review_r3",
-    "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:4cd0900bbd66667e17c3b393a98fcbcdd4e56425:ab9c671f0aa597c327e52836a456f3518ffa07f1d783140f2176f99f86dce652",
-    "scope": [
-      ".csdlc/evidence/607/aws-paid-action-cost-audit.json",
-      ".csdlc/issues/607",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      "infra/aws/runtime/gpu-proof"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue_607_payload_exact_review_r3",
-    "scope": [
-      ".csdlc/evidence/607/aws-paid-action-cost-audit.json",
-      ".csdlc/issues/607",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      "infra/aws/runtime/gpu-proof"
-    ],
-    "reviewed_revision": "git-blake3:4cd0900bbd66667e17c3b393a98fcbcdd4e56425:ab9c671f0aa597c327e52836a456f3518ffa07f1d783140f2176f99f86dce652",
-    "findings": [],
-    "residual_risks": [
-      "The final two-8B-model AWS payload-recovery qualification remains the only pending proof and is bounded by the USD 20 issue ceiling."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "83057a99c10c133607b2c9224db62e2f5c017fce49094bb4d95d03ed79bfe97b",
-      "rendered_digest": "ded31cc85c56142a5ae18eefa707d17ecec138299449d069da584c1ef798629d",
-      "ast_digest": "c01dfdb3c9af18b0edb33e96d8c969635d7b4f3eed374c91dd8a3329186fbe50"
+      "values_digest": "ab656e053f57e256bfc1f2db8fd9eba6a504d59638be8588bf818c2c65c288f6",
+      "rendered_digest": "90aea889da830d9181252e4dc21d7ede731f5cdb5d91335d07198ba1dc7dae0a",
+      "ast_digest": "67e56776abb0eee782ef993c404021b24cc7b9a4470e59655a44421782bd5700"
     },
     "stp": {
-      "values_digest": "8d32cc73fcced90e5dfe6456d4a7f16edc2adead86591c27f87a565ceb86dd72",
-      "rendered_digest": "a48d561fb39b2bfe4b434e3e081c5085f5b4de894db0b8e95d5a87b2b120c547",
-      "ast_digest": "73f42b646b3a353379d71dff2c6d0cb3c9c6073b92bcb5bc9d13b189bcb3968b"
+      "values_digest": "7117fd64cb8c6b3e70ee4763e67cb9ec6a682b0054e6c3ccdde16b55bfede27e",
+      "rendered_digest": "0be79b7287a9ab5deec6306488463e0c6f6528bc56e65a269d93ba0038f4b2bf",
+      "ast_digest": "d63bb658343fa74c02e866ad01d3b0efaa31087b8de46ba3ebab48b511e58e26"
     },
     "spp": {
-      "values_digest": "fcd6137e61cb0786805477990c85100d5f7fc39886845303a76e81863b6d0d48",
-      "rendered_digest": "0bc59097a4a0d77c37d353acc0b9b009faf33b82fe606d603c2a2cd0462a3f3b",
-      "ast_digest": "305fa6f2a5b561532d45f917941a6828942925036b1898206ef39b039eddd547"
+      "values_digest": "2955e80b905a45dea22aba1dc4397545efd75352953d4d24ab063c425d4accab",
+      "rendered_digest": "e4cf3cfae098aefb76e86311aabb86b016754ac5749d9039843b5dd5ff45ca09",
+      "ast_digest": "450ee16651fbaf66f9d05c42c98a5ecad35ee0d79ced0d1a88e547d6a421d2de"
     },
     "vpp": {
-      "values_digest": "fc93fe50ea0005fe776484b8313523800e83a7d386a2e9207a026366809e2f1b",
+      "values_digest": "500fd29d439bd2afeeb877a98d81d5e3869d84e8dfec4469a3b9ed0b6efbacb2",
       "rendered_digest": "05d99118c1b11935e8b7a63fffeef50f341872cc72de2172dfc11f8797fad36e",
       "ast_digest": "7bea9743cd7a504145e8d56b4644ae14e960b56fb72467f9ea56290a67357612"
     },
     "srp": {
-      "values_digest": "98e47ee6b33b0d9dbf6e27264c3e83d7b38311158f6561b6b9dbbaf9aa91b89b",
-      "rendered_digest": "488b07f837f231b04f0720c5cae91348a8ddcc0feaeef3c360c06bfa2215fac4",
-      "ast_digest": "a76cbbaebd40c8c6957d58eb2efd9771b7832f497fedd22b03930517e37dba60"
+      "values_digest": "d1d4c570f9a670d6a4da4aa2e4c0f58e679de924fdeadebe5c17b0193a0a70a2",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "4033e3f1f515e23e1146d7b52ae6ad28fabdce9df96753d43d5dbbf1e5393cde",
-      "rendered_digest": "c3decdbcad929d3912bdc4b954fe0116ad432d911ded8f26c86dda1c06df3706",
-      "ast_digest": "400a29d011b5e79a80131752f6619d7d0ed0a14acc16a8a0aa4b34e37fd508c6"
+      "values_digest": "92d9fdee1d3fb57476eb24308933db25255349ae9320d6895f3e79dc9b810fc5",
+      "rendered_digest": "4cf22844eaea07031cb1ad9e273699b309872143a2db604d270246f21af9a634",
+      "ast_digest": "607b405d4623d5e24ed3a34c2ba9d2f1a72ca644773e4371446ed06097340dae"
     }
   },
   "transitions": [
@@ -197,6 +166,13 @@
       "to": "reviewed",
       "actor": "codex-primary-issue607",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend reviewed state after the final live payload-recovery qualification passed, the operator extended the ceiling to USD 21 before completion, and exact termination lifetimes must be recorded in final SOR and cost truth."
     }
   ],
   "audit": [
@@ -1116,6 +1092,62 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 132,
+      "generation": 107,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend reviewed state after the final live payload-recovery qualification passed, the operator extended the ceiling to USD 21 before completion, and exact termination lifetimes must be recorded in final SOR and cost truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 133,
+      "generation": 108,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the completed source-bound AWS qualification, exact cost, zero residue, and focused final validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The operator extended the issue ceiling to USD 21 before completion; the conservative issue total is USD 20.025563 with USD 0.974437 remaining.\",\"changes\":[\"Compressed the complete Runtime user-data payload and enforced EC2's 16 KiB rendered payload limit in Terraform tests.\",\"Kept full-create topology strict while allowing correctly typed partial destroy after interrupted applies.\",\"Removed brittle floating-point equality and aligned cost tests with the production tolerance.\",\"Aligned controller, guest failsafe, documentation, Terraform, and audit ceilings with the operator-authorized USD 21 limit.\",\"Captured durable source-bound timing, model residency, ACC, Guardian recovery, cost, retained-volume, and zero-residue evidence.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof/variables.tf\",\"infra/aws/runtime/gpu-proof/terraform.tfvars.example\",\"infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove payload, cleanup, authorization, cost, residue, and recovery contracts locally.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: issue607_all=pass\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: 1 passed, 0 failed\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"resourcegroupstaggingapi/ec2\",\"targeted zero-residue queries\"],\"purpose\":\"Prove no disposable issue-owned AWS resources remain.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"}]}"
+    },
+    {
+      "sequence": 134,
+      "generation": 109,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the operator-authorized USD 21 ceiling into the current authority boundary after the final live run.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue authority is agent-logic/agent-design-language#607\",\"#605 and PR #606 are the behavioral and security baseline\",\"USD 21 is the aggregate AWS ceiling for preparation and validation\",\"Production HA DNS TLS routing multi-region replication and 24/7 cutover are outside authority\"]}"
+    },
+    {
+      "sequence": 135,
+      "generation": 110,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the operator-authorized USD 21 ceiling into current operator constraints.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Never compile install packages use Git Snap or download models during normal launch\",\"Use disjoint Terraform state for persistent storage and disposable compute\",\"Keep immutable S3 as artifact authority\",\"Bind exact AMI metadata KMS key AZ volumes seals and plans before mutation\",\"Use three separate single-use paid authorizations\",\"Always retain SSH access on preparation and both launch nodes with one shared key and operator CIDR\",\"Require least-privilege IMDSv2 preparation and zero disposable residue\",\"Keep Ollama private\",\"Write run state only below the bound worktree\",\"Do not exceed USD 21 including seven-day retained storage\"]}"
+    },
+    {
+      "sequence": 136,
+      "generation": 111,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the completed live-proof deliverable with the operator-authorized USD 21 ceiling.",
+      "operation": "{\"new_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"Review-gated typed SPP risk correction support in csdlc-v2/src/store.rs\",\"One repeated live warm-launch proof under USD 21\",\"Updated operator runbook with explicit retention extension and retirement\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"Review-gated typed SPP risk correction support in csdlc-v2/src/store.rs\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook with explicit retention extension and retirement\"],\"recovery_generation\":107,\"recovery_sequence\":132}"
+    },
+    {
+      "sequence": 137,
+      "generation": 112,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile AC-10 with the operator-authorized USD 21 aggregate ceiling.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download\",\"AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources\",\"AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals\",\"AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches\",\"AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted\",\"AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident\",\"AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt; under the current four-vCPU G-family quota the GPU limit is 120 seconds, the Runtime limit is 30 seconds, and controller-monotonic apply-to-observed aggregate service_ready must be at most 270 seconds or remain failed\",\"AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions\",\"AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the current-quota 120-second GPU path testable while stale cross-AZ partial dirty or mismatched volumes fail closed\",\"AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 21 ceiling with no retry reuse\",\"AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action\",\"AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication\"]}"
+    },
+    {
+      "sequence": 138,
+      "generation": 113,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the current planning invariant with the operator-authorized USD 21 ceiling.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Normal launch has no compilation installation Git or model download\",\"Warm-volume identity is immutable and fail-closed\",\"Both nodes retain SSH with one key\",\"Ollama remains private\",\"SSM remains recovery-only\",\"Compute cleanup never deletes warm volumes\",\"Timing denominators remain explicit\",\"Under the current four-vCPU G-family quota the enforced timing envelope is GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, and controller service_ready at or below 270 seconds; 30-second GPU readiness remains a future optimization rather than an issue gate\",\"Aggregate AWS spend does not exceed USD 21\"]}"
+    },
+    {
+      "sequence": 139,
+      "generation": 114,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the paid-operation stop condition with the operator-authorized USD 21 ceiling.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A normal launch requires compilation package installation Git or model download\",\"Warm volume identity or cleanup ownership is ambiguous\",\"Ollama becomes public\",\"Either node lacks SSH\",\"A paid operation would exceed USD 21\",\"Timing cannot distinguish Terraform EC2 and guest denominators\",\"Fresh review reports an unresolved actionable finding\"]}"
     }
   ]
 }

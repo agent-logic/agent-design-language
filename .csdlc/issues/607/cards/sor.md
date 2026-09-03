@@ -12,27 +12,26 @@ Status: draft
 
 ## Summary
 
-The retained warm two-node AWS Polis previously reached service readiness in 235 seconds and executed two 8B models plus six ACC agents. The source-bound proof retry created only the GPU before EC2 rejected oversized Runtime user data; all disposable resources were removed, both warm volumes remain available, compressed embedding and partial cleanup are locally green, and the exact-review floating-point test finding is resolved. One exact live payload-recovery proof remains pending.
+The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The operator extended the issue ceiling to USD 21 before completion; the conservative issue total is USD 20.025563 with USD 0.974437 remaining.
 
 ## Artifacts
 
-- infra/aws/runtime/gpu-proof/main.tf
-- infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl
-- infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl
-- adl/tools/issue607_validate_saved_plan.sh
 - adl/tools/run_issue607_warm_polis.sh
 - adl/tools/test_issue607_warm_polis.sh
+- infra/aws/runtime/gpu-proof/variables.tf
+- infra/aws/runtime/gpu-proof/terraform.tfvars.example
+- infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl
+- docs/operations/cloud/aws/shepherd-gpu-proof/README.md
 - .csdlc/evidence/607/aws-paid-action-cost-audit.json
+- .csdlc/evidence/607/aws-payload-recovery-qualification.json
 
 ## Execution
 
-- Gzip-compressed the two corrected qualification scripts inside Runtime user data and added a Terraform assertion that the fully rendered payload is at most 16 KiB.
-- Fixed the compute-plan guard so a full create still requires the approved r7i.2xlarge and g6.xlarge pair while partial destroy accepts only the correctly typed subset present in interrupted Terraform state.
-- Added deterministic regressions for compressed payload construction, EC2 payload size, valid partial cleanup, and rejection of wrong-shape partial cleanup.
-- Replaced brittle exact floating-point assertions with the same bounded tolerance used by the production cost-ledger validator; the full local issue-607 suite now passes.
-- Terminated the only GPU created by the failed attempt, destroyed all thirteen disposable Terraform resources, and verified empty managed state plus both retained warm volumes detached and available.
-- Reconstructed the failed attempt conservatively through its final termination event, bringing the issue upper bound to USD 19.833742.
-- Bound the final two-8B-model payload-recovery run to a 420-second USD 0.160430 envelope for a projected maximum of USD 19.994172.
+- Compressed the complete Runtime user-data payload and enforced EC2's 16 KiB rendered payload limit in Terraform tests.
+- Kept full-create topology strict while allowing correctly typed partial destroy after interrupted applies.
+- Removed brittle floating-point equality and aligned cost tests with the production tolerance.
+- Aligned controller, guest failsafe, documentation, Terraform, and audit ceilings with the operator-authorized USD 21 limit.
+- Captured durable source-bound timing, model residency, ACC, Guardian recovery, cost, retained-volume, and zero-residue evidence.
 
 ## Validation
 
@@ -43,9 +42,9 @@ The retained warm two-node AWS Polis previously reached service readiness in 235
       "adl/tools/test_issue607_warm_polis.sh",
       "all"
     ],
-    "purpose": "Prove payload size and reconstruction, partial cleanup, recovery, authorization, cost, and residue contracts without AWS mutation.",
+    "purpose": "Prove payload, cleanup, authorization, cost, residue, and recovery contracts locally.",
     "outcome": "passed",
-    "evidence_ref": "fresh local command output 2026-09-03: issue607_all=pass"
+    "evidence_ref": "fresh local output 2026-09-03: issue607_all=pass"
   },
   {
     "command": [
@@ -54,28 +53,30 @@ The retained warm two-node AWS Polis previously reached service readiness in 235
       "test",
       "-filter=tests/issue607_warm.tftest.hcl"
     ],
-    "purpose": "Prove the complete warm Runtime payload stays within 16 KiB and reconstructs compressed scripts.",
+    "purpose": "Prove the rendered warm Runtime payload and Terraform topology.",
     "outcome": "passed",
-    "evidence_ref": "fresh local command output 2026-09-03: 1 passed, 0 failed"
+    "evidence_ref": "fresh local output 2026-09-03: 1 passed, 0 failed"
   },
   {
     "command": [
       "bash",
       "adl/tools/run_issue607_warm_polis.sh",
       "qualification-payload-recovery",
-      "--commit",
-      "7be87dd22260d30a7966d1b129123e84bb761074",
-      "--run-id",
-      "adl-issue607-e8925c1dc8b0-payload-recovery",
-      "--storage-id",
-      "adl-issue607-warm-v6",
-      "--authorization-file",
-      ".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json",
       "--execute"
     ],
-    "purpose": "Retain the final source-bound live proof for the current two-8B-model configuration.",
-    "outcome": "waiting",
-    "evidence_ref": "pending live proof"
+    "purpose": "Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/607/aws-payload-recovery-qualification.json"
+  },
+  {
+    "command": [
+      "aws",
+      "resourcegroupstaggingapi/ec2",
+      "targeted zero-residue queries"
+    ],
+    "purpose": "Prove no disposable issue-owned AWS resources remain.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/607/aws-payload-recovery-qualification.json"
   }
 ]
 

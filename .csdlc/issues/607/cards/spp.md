@@ -16,7 +16,7 @@ Separate slow preparation from fast launch, seal two persistent AZ-local data vo
 
 ## Plan
 
-Revision 12
+Revision 14
 
 ## Steps
 
@@ -96,7 +96,7 @@ Revision 12
 - Compute cleanup never deletes warm volumes
 - Timing denominators remain explicit
 - Under the current four-vCPU G-family quota the enforced timing envelope is GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, and controller service_ready at or below 270 seconds; 30-second GPU readiness remains a future optimization rather than an issue gate
-- Aggregate AWS spend does not exceed USD 20
+- Aggregate AWS spend does not exceed USD 21
 
 ## Risks
 
@@ -133,7 +133,7 @@ Digest: 075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953
 - Warm volume identity or cleanup ownership is ambiguous
 - Ollama becomes public
 - Either node lacks SSH
-- A paid operation would exceed USD 20
+- A paid operation would exceed USD 21
 - Timing cannot distinguish Terraform EC2 and guest denominators
 - Fresh review reports an unresolved actionable finding
 

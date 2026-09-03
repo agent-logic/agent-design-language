@@ -24,7 +24,7 @@ gpu_root_volume_iops                 = 3000
 gpu_root_volume_throughput_mibps     = 125
 
 authorized_max_hourly_usd = 1.50
-authorized_max_total_usd  = 20
+authorized_max_total_usd  = 21
 
 artifact_bucket = "example-versioned-artifact-bucket"
 artifact_prefix = "shepherd/"

@@ -34,7 +34,7 @@ A repeatable Terraform warm path uses the one-L4 g6.xlarge shape admitted by the
 
 - Issue authority is agent-logic/agent-design-language#607
 - #605 and PR #606 are the behavioral and security baseline
-- USD 20 is the aggregate AWS ceiling for preparation and validation
+- USD 21 is the aggregate AWS ceiling for preparation and validation
 - Production HA DNS TLS routing multi-region replication and 24/7 cutover are outside authority
 
 ## Assumptions
@@ -52,4 +52,4 @@ A repeatable Terraform warm path uses the one-L4 g6.xlarge shape admitted by the
 - Require least-privilege IMDSv2 preparation and zero disposable residue
 - Keep Ollama private
 - Write run state only below the bound worktree
-- Do not exceed USD 20 including seven-day retained storage
+- Do not exceed USD 21 including seven-day retained storage

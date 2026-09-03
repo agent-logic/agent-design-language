@@ -172,8 +172,8 @@ variable "authorized_max_total_usd" {
   description = "Authorized combined total ceiling retained as tags; external preflight enforces cost."
   type        = number
   validation {
-    condition     = var.authorized_max_total_usd > 0 && var.authorized_max_total_usd <= 20
-    error_message = "authorized_max_total_usd must be positive and no greater than 20 USD."
+    condition     = var.authorized_max_total_usd > 0 && var.authorized_max_total_usd <= 21
+    error_message = "authorized_max_total_usd must be positive and no greater than 21 USD."
   }
 }
 

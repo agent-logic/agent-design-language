@@ -24,7 +24,7 @@ ISSUE_COST_LEDGER="$STATE_ROOT/aggregate-cost-ledger.json"
 STORAGE_ROOT="$ROOT/infra/aws/runtime/gpu-proof/warm-storage"
 PREPARATION_ROOT="$STORAGE_ROOT/preparation"
 COMPUTE_ROOT="$ROOT/infra/aws/runtime/gpu-proof"
-MAX_TOTAL_USD=20
+MAX_TOTAL_USD=21
 GPU_LOCAL_READY_MAX_SECONDS=120
 RUNTIME_LOCAL_READY_MAX_SECONDS=30
 SERVICE_READY_MAX_SECONDS=270
@@ -227,14 +227,14 @@ preflight() {
   ipv4="$(awk -v p="$PREPARATION_SECONDS" -v l="$LAUNCH_SECONDS" 'BEGIN {printf "%.6f",2*0.005*(p+2*l)/3600}')"
   root_ebs="$(awk -v p="$PREPARATION_SECONDS" -v l="$LAUNCH_SECONDS" -v prep="$PREPARATION_ROOT_GIB" -v runtime="$RUNTIME_ROOT_GIB" -v gpu="$GPU_ROOT_GIB" 'BEGIN {printf "%.6f", ((2*prep*p)+(2*(runtime+gpu)*l))*0.08/(30*24*3600)}')"
   total="$(awk -v s="$storage_7d" -v snap="$snapshot_7d" -v p="$prep_compute" -v l="$launch_compute" -v i="$ipv4" -v r="$root_ebs" 'BEGIN {printf "%.6f",s+snap+p+l+i+r+0.20}')"
-  awk -v total="$total" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' || { echo "conservative aggregate estimate exceeds USD 20: $total" >&2; exit 2; }
+  awk -v total="$total" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' || { echo "conservative aggregate estimate exceeds authorized ceiling: $total" >&2; exit 2; }
   active="$(aws_cli ec2 describe-instances --filters Name=tag:adl:issue,Values=607 Name=instance-state-name,Values=pending,running,stopping,stopped --query 'Reservations[].Instances[].InstanceId' --output text)"
   [[ -z "$active" ]] || { echo "active issue-607 instance exists: $active" >&2; exit 2; }
   jq -n --arg account_sha256 "$(sha256_text "$account")" --arg runtime_ami "$RUNTIME_AMI" --arg gpu_ami "$GPU_AMI" \
     --arg vpc_id "$VPC_ID" --arg subnet_id "$SUBNET_ID" --arg availability_zone "$AZ" --arg kms_key_arn "$KMS_KEY_ARN" \
     --arg ssh_cidr_sha256 "$(sha256_text "$SSH_INGRESS_CIDR")" --arg ssh_key_sha256 "$(sha256_text "$SSH_PUBLIC_KEY")" --arg image_metadata_sha256 "$image_metadata_sha" --argjson image_metadata "$image_metadata" \
-    --argjson runtime_rate "$runtime_price" --argjson runtime_prep_rate "$runtime_prep_price" --argjson gpu_rate "$gpu_price" --argjson storage_7d "$storage_7d" --argjson snapshot_7d "$snapshot_7d" --argjson snapshot_allowance_gib "$SNAPSHOT_ALLOCATED_ALLOWANCE_GIB" --argjson prep_compute "$prep_compute" --argjson launch_compute "$launch_compute" --argjson ipv4 "$ipv4" --argjson root_ebs "$root_ebs" --argjson total "$total" \
-    '{schema:"adl.issue607.preflight.v4",status:"pass",paid_action:false,account_sha256:$account_sha256,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,ami_metadata:$image_metadata,ami_metadata_sha256:$image_metadata_sha256,vpc_id:$vpc_id,subnet_id:$subnet_id,availability_zone:$availability_zone,kms_key_arn:$kms_key_arn,ssh_ingress_cidr_sha256:$ssh_cidr_sha256,ssh_public_key_sha256:$ssh_key_sha256,cost:{rates:{runtime_hourly_usd:$runtime_rate,runtime_preparation_hourly_usd:$runtime_prep_rate,gpu_hourly_usd:$gpu_rate,gp3_gib_month_usd:0.08,ebs_snapshot_gib_month_usd:0.05,public_ipv4_hourly_usd:0.005},warm_storage_seven_day_usd:$storage_7d,snapshot_seven_day_allowance_usd:$snapshot_7d,snapshot_allocated_allowance_gib:$snapshot_allowance_gib,preparation_compute_usd:$prep_compute,two_launch_compute_usd:$launch_compute,disposable_root_ebs_usd:$root_ebs,public_ipv4_usd:$ipv4,requests_s3_allowance_usd:0.20,s3_new_artifact_bytes:0,snapshot_count:4,aggregate_maximum_usd:$total,authorized_ceiling_usd:20,continuing_warm_storage_daily_usd:(52/30),continuing_warm_storage_monthly_usd:52,continuing_snapshot_allowance_daily_usd:((260*0.05)/30),continuing_snapshot_allowance_monthly_usd:(260*0.05),continuing_total_daily_usd:((52+(260*0.05))/30),continuing_total_monthly_usd:(52+(260*0.05))}}'
+    --argjson runtime_rate "$runtime_price" --argjson runtime_prep_rate "$runtime_prep_price" --argjson gpu_rate "$gpu_price" --argjson storage_7d "$storage_7d" --argjson snapshot_7d "$snapshot_7d" --argjson snapshot_allowance_gib "$SNAPSHOT_ALLOCATED_ALLOWANCE_GIB" --argjson prep_compute "$prep_compute" --argjson launch_compute "$launch_compute" --argjson ipv4 "$ipv4" --argjson root_ebs "$root_ebs" --argjson total "$total" --argjson ceiling "$MAX_TOTAL_USD" \
+    '{schema:"adl.issue607.preflight.v4",status:"pass",paid_action:false,account_sha256:$account_sha256,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,ami_metadata:$image_metadata,ami_metadata_sha256:$image_metadata_sha256,vpc_id:$vpc_id,subnet_id:$subnet_id,availability_zone:$availability_zone,kms_key_arn:$kms_key_arn,ssh_ingress_cidr_sha256:$ssh_cidr_sha256,ssh_public_key_sha256:$ssh_key_sha256,cost:{rates:{runtime_hourly_usd:$runtime_rate,runtime_preparation_hourly_usd:$runtime_prep_rate,gpu_hourly_usd:$gpu_rate,gp3_gib_month_usd:0.08,ebs_snapshot_gib_month_usd:0.05,public_ipv4_hourly_usd:0.005},warm_storage_seven_day_usd:$storage_7d,snapshot_seven_day_allowance_usd:$snapshot_7d,snapshot_allocated_allowance_gib:$snapshot_allowance_gib,preparation_compute_usd:$prep_compute,two_launch_compute_usd:$launch_compute,disposable_root_ebs_usd:$root_ebs,public_ipv4_usd:$ipv4,requests_s3_allowance_usd:0.20,s3_new_artifact_bytes:0,snapshot_count:4,aggregate_maximum_usd:$total,authorized_ceiling_usd:$ceiling,continuing_warm_storage_daily_usd:(52/30),continuing_warm_storage_monthly_usd:52,continuing_snapshot_allowance_daily_usd:((260*0.05)/30),continuing_snapshot_allowance_monthly_usd:(260*0.05),continuing_total_daily_usd:((52+(260*0.05))/30),continuing_total_monthly_usd:(52+(260*0.05))}}'
 }
 
 create_source_archive() {
@@ -253,7 +253,7 @@ validate_authorization() {
   expected_action="$1" expected_plan_sha="$2" expected_preflight_sha="$3" expected_manifest_sha="$4" expected_total="$5" expected_campaign="$6"
   [[ -f "$AUTHORIZATION_FILE" ]] || { echo "authorization file is required; review the emitted authorization-request.json" >&2; exit 3; }
   jq -e --arg action "$expected_action" --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
-    --arg plan "$expected_plan_sha" --arg preflight "$expected_preflight_sha" --arg manifest "$expected_manifest_sha" --argjson total "$expected_total" --argjson campaign "$expected_campaign" '
+    --arg plan "$expected_plan_sha" --arg preflight "$expected_preflight_sha" --arg manifest "$expected_manifest_sha" --argjson total "$expected_total" --argjson campaign "$expected_campaign" --argjson ceiling "$MAX_TOTAL_USD" '
     .schema=="adl.issue607.authorization.v3" and .authorized==true and .action==$action
     and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .single_use==true
     and .saved_plan_sha256==$plan and .preflight_sha256==$preflight and .action_manifest_sha256==$manifest
@@ -261,10 +261,10 @@ validate_authorization() {
     and .campaign==$campaign
     and .campaign.schema=="adl.issue607.campaign.v2"
     and [.campaign.actions[].action]==["prepare","launch-1","launch-2"]
-    and .campaign.authorized_ceiling_usd==20 and .campaign.estimated_total_usd==$total
-    and (.campaign.estimated_total_usd|type=="number" and .>0 and .<=20)
+    and .campaign.authorized_ceiling_usd==$ceiling and .campaign.estimated_total_usd==$total
+    and (.campaign.estimated_total_usd|type=="number" and .>0 and .<=$ceiling)
     and (.expires_at|fromdateiso8601>now)
-  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "authorization does not bind the exact reusable plan, action manifest, identities, and USD 20 campaign" >&2; exit 2; }
+  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "authorization does not bind the exact reusable plan, action manifest, identities, and authorized campaign ceiling" >&2; exit 2; }
   AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
   AUTH_CAMPAIGN_ID="$(jq -r .campaign.id "$AUTHORIZATION_FILE")"
   AUTH_ACTION="$expected_action"
@@ -281,8 +281,8 @@ write_remediation_authorization_request() {
   local output="$1" action="$2" plan_sha="$3" preflight_sha="$4" manifest_sha="$5" campaign_id="$6" projected_total="$7" reservation="$8"
   jq -n --arg commit "$COMMIT" --arg controller "$(git -C "$ROOT" rev-parse HEAD)" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
     --arg plan "$plan_sha" --arg preflight "$preflight_sha" --arg manifest "$manifest_sha" --arg campaign "$campaign_id" \
-    --arg action "$action" --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$reservation" --argjson projected "$projected_total" \
-    '{schema:"adl.issue607.remediation_authorization_request.v1",action:$action,source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:$storage,saved_plan_sha256:$plan,preflight_sha256:$preflight,action_manifest_sha256:$manifest,campaign_id:$campaign,issue_cost_audit_sha256:$audit_sha,reserved_cost_usd:$reservation,projected_issue_total_usd:$projected,authorized_ceiling_usd:20}' >"$output"
+    --arg action "$action" --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$reservation" --argjson projected "$projected_total" --argjson ceiling "$MAX_TOTAL_USD" \
+    '{schema:"adl.issue607.remediation_authorization_request.v1",action:$action,source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:$storage,saved_plan_sha256:$plan,preflight_sha256:$preflight,action_manifest_sha256:$manifest,campaign_id:$campaign,issue_cost_audit_sha256:$audit_sha,reserved_cost_usd:$reservation,projected_issue_total_usd:$projected,authorized_ceiling_usd:$ceiling}' >"$output"
 }
 
 validate_remediation_authorization() {
@@ -290,14 +290,14 @@ validate_remediation_authorization() {
   [[ -f "$AUTHORIZATION_FILE" ]] || { echo "remediation authorization file is required; review the emitted authorization-request.json" >&2; exit 3; }
   jq -e --arg action "$expected_action" --arg commit "$COMMIT" --arg controller "$(git -C "$ROOT" rev-parse HEAD)" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
     --arg plan "$expected_plan" --arg preflight "$expected_preflight" --arg manifest "$expected_manifest" --arg campaign "$expected_campaign" \
-    --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$expected_reservation" --argjson projected "$expected_total" '
+    --arg audit_sha "$(sha256_file "$ISSUE_COST_AUDIT")" --argjson reservation "$expected_reservation" --argjson projected "$expected_total" --argjson ceiling "$MAX_TOTAL_USD" '
     .schema=="adl.issue607.remediation_authorization.v1" and .authorized==true and .single_use==true
     and .action==$action and .source_commit==$commit and .controller_revision==$controller
     and .run_id==$run and .storage_id==$storage and .saved_plan_sha256==$plan and .preflight_sha256==$preflight
     and .action_manifest_sha256==$manifest and .campaign_id==$campaign and .issue_cost_audit_sha256==$audit_sha
-    and .reserved_cost_usd==$reservation and .projected_issue_total_usd==$projected and .authorized_ceiling_usd==20
+    and .reserved_cost_usd==$reservation and .projected_issue_total_usd==$projected and .authorized_ceiling_usd==$ceiling
     and (.action_id|type=="string" and length>=16) and (.expires_at|fromdateiso8601>now)
-  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "remediation authorization does not bind the exact plan, controller, global cost audit, and USD 20 reservation" >&2; exit 2; }
+  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "remediation authorization does not bind the exact plan, controller, global cost audit, and authorized reservation" >&2; exit 2; }
   AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
   AUTH_CAMPAIGN_ID="$expected_campaign"
   AUTH_ACTION="$expected_action"
@@ -677,8 +677,8 @@ validate_issue_cost_audit() {
   jq -e --argjson ceiling "$MAX_TOTAL_USD" '
     .schema=="adl.issue607.paid_action_cost_audit.v1" and .status=="pass"
     and .authorized_ceiling_usd==$ceiling
-    and (.historical_paid_attempts|length)==18
-    and (.audited_remote_action_markers|length)==18
+    and (.historical_paid_attempts|length)==19
+    and (.audited_remote_action_markers|length)==19
     and ((.audited_remote_action_markers|length)==(.audited_remote_action_markers|unique|length))
     and ((.historical_compute_upper_bound_usd-([.historical_paid_attempts[].compute_upper_bound_usd]|add))|fabs)<0.00001
     and ((.fixed_allowances.total_usd+.historical_compute_upper_bound_usd+.historical_disposable_ebs_ipv4_allowance_usd-.historical_total_upper_bound_usd)|fabs)<0.00001
@@ -687,6 +687,7 @@ validate_issue_cost_audit() {
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .action=="qualification-remediation" and .outcome=="rejected_before_instance" and .runtime_seconds==0 and .gpu_seconds==0 and .compute_upper_bound_usd==0 and .error_code=="Client.VcpuLimitExceeded" and .quota_code=="L-DB2E81BA" and .observed_quota_vcpus==4 and .required_vcpus==16 and (.cloudtrail_event_ids|sort)==(["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"]|sort) and (.cloudtrail_response_instance_ids|type)=="array" and (.cloudtrail_response_instance_ids|length)==0 and .post_cleanup_owner_inventory.owner_token_sha256=="83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b" and (.post_cleanup_owner_inventory.observed_at|type)=="string" and (.post_cleanup_owner_inventory.observed_at|test("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")) and (.post_cleanup_owner_inventory.instances|type)=="array" and (.post_cleanup_owner_inventory.instances|length)==0 and (.post_cleanup_owner_inventory.volumes|type)=="array" and (.post_cleanup_owner_inventory.volumes|length)==0 and (.post_cleanup_owner_inventory.network_interfaces|type)=="array" and (.post_cleanup_owner_inventory.network_interfaces|length)==0 and (.post_cleanup_owner_inventory.security_groups|type)=="array" and (.post_cleanup_owner_inventory.security_groups|length)==0 and (.post_cleanup_owner_inventory.key_pairs|type)=="array" and (.post_cleanup_owner_inventory.key_pairs|length)==0)]|length)==1
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-quota-recovery" and .action=="qualification-quota-recovery" and .outcome=="passed_with_review_rejected_recovery_claims" and .runtime_instance_id=="i-05ff5a7a91434b114" and .gpu_instance_id=="i-0d2f10455c1c478e8" and .runtime_seconds==333 and .gpu_seconds==377 and .compute_upper_bound_usd==0.133231 and .disposable_ebs_ipv4_upper_bound_usd==0.004135 and .post_cleanup_owner_inventory.owner_token_sha256=="2cde10bd301f9b872fe03ace47ef8f6de830186789614a7f874e150e153b77f0" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-proof-recovery" and .action=="qualification-proof-recovery" and .outcome=="rejected_before_runtime_instance_user_data_limit" and .runtime_seconds==0 and .gpu_instance_id=="i-0883b9d2e04e4b6da" and .gpu_seconds==417 and .compute_upper_bound_usd==0.093223 and .disposable_ebs_ipv4_upper_bound_usd==0.003153 and .error_code=="InvalidParameterValue" and .error_boundary=="aws_instance.runtime.user_data" and .post_cleanup_owner_inventory.owner_token_sha256=="2213ad673e53d9ead6c5cad175742912dd91fdca462cc7ab25766ec784c20c97" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
+    and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-payload-recovery" and .action=="qualification-payload-recovery" and .outcome=="passed" and .runtime_instance_id=="i-00da9426786754a6c" and .gpu_instance_id=="i-03bb0138945501212" and .runtime_seconds==337 and .gpu_seconds==610 and .compute_upper_bound_usd==0.185908 and .disposable_ebs_ipv4_upper_bound_usd==0.005913 and .apply_to_service_ready_seconds==240 and .runtime_local_ready_seconds==5.950 and .gpu_local_ready_seconds==97.340 and .qualification_complete_sha256=="c4c1c7dcb661c35d307f515bf17991eeaa35c44a0863466e4aae2a312cdc6012" and .zero_disposable_residue_sha256=="c449614b3a05cd6e7ebfbd6878b5d7384ad56891e64242ef14641e7dfcf6544a" and .post_cleanup_owner_inventory.owner_token_sha256=="65c766c3c0721aa1ad850914b03e6486b1b38c6d5ed89669a9869206c785499b" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
   ' "$audit" >/dev/null || { echo "issue-wide paid-action cost audit is invalid" >&2; return 2; }
 }
 
@@ -766,7 +767,7 @@ reserve_issue_action_cost() {
   validate_issue_cost_ledger "$ledger.next" "$audit" || { rm -f "$ledger.next"; return 2; }
   cumulative="$(jq -r .cumulative_reserved_usd "$ledger.next")"
   awk -v total="$cumulative" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' \
-    || { rm -f "$ledger.next"; echo "issue-wide reserved cost exceeds USD 20: $cumulative" >&2; return 2; }
+    || { rm -f "$ledger.next"; echo "issue-wide reserved cost exceeds authorized ceiling: $cumulative" >&2; return 2; }
   mv "$ledger.next" "$ledger"
 }
 
@@ -1032,7 +1033,7 @@ record_cost_ledger() {
     '.entries += [{action:$action,run_id:$run,measured_elapsed_seconds:$elapsed,conservative_cost_usd:$cost,s3_new_artifact_bytes:$source_bytes,snapshot_count:$snapshot_count}] | .cumulative_conservative_usd=([.entries[].conservative_cost_usd]|add)' "$ledger" >"$ledger.next"
   mv "$ledger.next" "$ledger"
   cumulative="$(jq -r .cumulative_conservative_usd "$ledger")"
-  awk -v total="$cumulative" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' || { echo "cumulative conservative cost exceeds USD 20: $cumulative" >&2; return 1; }
+  awk -v total="$cumulative" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' || { echo "cumulative conservative cost exceeds authorized ceiling: $cumulative" >&2; return 1; }
 }
 
 validate_storage_authorization() {
@@ -1353,7 +1354,7 @@ prepare() {
   campaign_id="$(sha256_text "$COMMIT:$STORAGE_ID:$preflight_sha:$estimated_total:$RUN_ID")"
   launch_1_run="adl-issue607-${campaign_id:0:12}-launch-1"; launch_2_run="adl-issue607-${campaign_id:0:12}-launch-2"
   campaign="$(jq -n -c --arg id "$campaign_id" --arg commit "$COMMIT" --arg storage "$STORAGE_ID" --arg prep "$RUN_ID" --arg launch1 "$launch_1_run" --arg launch2 "$launch_2_run" --arg preflight "$preflight_sha" --argjson total "$estimated_total" \
-    '{schema:"adl.issue607.campaign.v2",id:$id,source_commit:$commit,storage_id:$storage,preflight_sha256:$preflight,actions:[{action:"prepare",run_id:$prep},{action:"launch-1",run_id:$launch1},{action:"launch-2",run_id:$launch2}],estimated_total_usd:$total,authorized_ceiling_usd:20}')"
+    --argjson ceiling "$MAX_TOTAL_USD" '{schema:"adl.issue607.campaign.v2",id:$id,source_commit:$commit,storage_id:$storage,preflight_sha256:$preflight,actions:[{action:"prepare",run_id:$prep},{action:"launch-1",run_id:$launch1},{action:"launch-2",run_id:$launch2}],estimated_total_usd:$total,authorized_ceiling_usd:$ceiling}')"
   write_authorization_request prepare "$storage_plan_sha" "$preflight_sha" "$action_manifest_sha" "$run_dir/authorization-request.json" "$estimated_total" "$campaign"
   validate_authorization prepare "$storage_plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$campaign"
   assert_remote_run_unused
@@ -1438,7 +1439,7 @@ launch() {
   jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg runtime_ami "$runtime_launch_ami" --arg gpu_ami "$gpu_launch_ami" --arg vpc "$VPC_ID" --arg subnet "$SUBNET_ID" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg bucket "$BUCKET" --arg prefix "$PREFIX" --arg az "$AZ" --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg generation "$generation" --arg commit "$COMMIT" --argjson read_keys "$read_keys" \
     --arg kms "$(jq -r .kms_key_arn "$run_dir/preflight.json")" \
     --arg runtime_type "$RUNTIME_TYPE" --arg gpu_type "$GPU_TYPE" --argjson runtime_root_gib "$RUNTIME_ROOT_GIB" --argjson gpu_root_gib "$GPU_ROOT_GIB" \
-    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,authorized_max_hourly_usd:1.86,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
+    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,authorized_max_hourly_usd:1.86,authorized_max_total_usd:21,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
   plan_sha="$(saved_plan compute "$COMPUTE_ROOT" "$run_dir/tfdata-compute" "$run_dir/compute.tfstate" "$run_dir/compute.tfvars.json" "$run_dir/compute.tfplan" "$run_dir/compute-plan.json")" || return $?
   preflight_sha="$(sha256_file "$run_dir/preflight.json")"
   action_manifest="$run_dir/launch-action-manifest.json"

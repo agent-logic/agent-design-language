@@ -1,0 +1,41 @@
+{
+  "schema": "adl.issue607.live_qualification_summary.v1",
+  "status": "passed",
+  "run_id": "adl-issue607-e8925c1dc8b0-payload-recovery",
+  "artifact_generation": "7be87dd22260d30a7966d1b129123e84bb761074",
+  "controller_revision": "f126783cd23eac3db5fce4351c92ef66f3b2f26e",
+  "plan_sha256": "6d0f78fce69e951c9fcbf62a73bc4d173ab2f65b368937852a89472d5d229ffe",
+  "timing_seconds": {
+    "apply_to_service_ready": 240,
+    "runtime_local_ready": 5.950,
+    "gpu_local_ready": 97.340
+  },
+  "resident_models": [
+    {"identity": "llama3.1:8b", "vram_bytes": 5271715839},
+    {"identity": "qwen3:8b", "vram_bytes": 5578204118}
+  ],
+  "proof_counts": {"shepherd_models": 2, "runtime_acc_agents": 6},
+  "assertions": {
+    "two_model_shepherd": true,
+    "six_agent_acc": true,
+    "guardian_restart": true,
+    "state_preserved": true,
+    "degradation_recovered": true,
+    "vector_recovered": true,
+    "clean_logs": true,
+    "clean_shutdown": true
+  },
+  "qualification_complete_sha256": "c4c1c7dcb661c35d307f515bf17991eeaa35c44a0863466e4aae2a312cdc6012",
+  "zero_disposable_residue_sha256": "c449614b3a05cd6e7ebfbd6878b5d7384ad56891e64242ef14641e7dfcf6544a",
+  "compute_residue": 0,
+  "retained_warm_volumes": [
+    {"role": "runtime", "volume_id": "vol-0dba967c9de521789", "state": "available"},
+    {"role": "gpu", "volume_id": "vol-06a17b1319040bf39", "state": "available"}
+  ],
+  "cost": {
+    "authorized_ceiling_usd": 21,
+    "conservative_issue_total_usd": 20.025563,
+    "remaining_usd": 0.974437
+  },
+  "scope_note": "Timing proves the current two-8B-model configuration; larger model payloads can require longer model load time."
+}

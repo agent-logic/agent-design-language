@@ -84,7 +84,7 @@ Execution requires `adl.issue345.paid_run_authorization.v3`. It binds:
 - the selected subnet's effective route-table and network-ACL fingerprints;
 - Runtime and GPU instance types plus individual and combined hourly ceilings;
 - full two-node billable deadline, both disk costs, two public IPv4 costs,
-  request overhead, and total ceiling no greater than USD 20;
+  request overhead, and total ceiling no greater than the operator-authorized USD 21;
 - the exact SSH `/32` and normalized public-key SHA-256;
 - immutable manifest coordinates/digest and the complete model set.
 - the exact reviewed repository commit, restored from a run-specific versioned
@@ -225,7 +225,7 @@ profiles, disposable root EBS, two public IPv4 addresses, S3/request allowance,
 two retained sparse data snapshots plus two prepared-image root snapshots with
 a conservative 260 GiB changed-block allowance, and
 seven days of retained storage. It fails when the aggregate
-estimate exceeds USD 20 and launches nothing.
+estimate exceeds USD 21 and launches nothing.
 
 ### Prepare once
 
@@ -259,7 +259,7 @@ consuming any further authorization. Consumed reservations remain conservative
 until an attempt has authoritative termination timing and exact
 zero-disposable-residue proof. A completed attempt may then be incorporated
 into a refreshed historical paid-action audit at its measured upper bound;
-failed, live, or unreconciled attempts remain fully reserved against the USD 20
+failed, live, or unreconciled attempts remain fully reserved against the USD 21
 ceiling.
 Retry-suffixed run IDs are rejected. Unused volume extents are not zero-filled, preserving sparse
 snapshot economics. The temporary restored timing volume is deleted. The
@@ -330,7 +330,7 @@ launch slots have been consumed, use the controller-emitted, single-use
 `qualification-remediation` request. It binds the existing prepared generation,
 current controller revision, saved compute plan, historical cost-audit digest,
 and the final projected issue total. It is accepted only while the issue-wide
-ledger remains at or below USD 20:
+ledger remains at or below USD 21:
 
 ```bash
 bash adl/tools/run_issue607_warm_polis.sh qualification-remediation \

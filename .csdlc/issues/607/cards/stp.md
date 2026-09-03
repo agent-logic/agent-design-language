@@ -25,7 +25,7 @@ One preparation path plus one warm two-node Terraform launch path and truthful s
 - Machine-readable startup timing receipts
 - Executable no-paid negative tests
 - Review-gated typed SPP risk correction support in csdlc-v2/src/store.rs
-- One repeated live warm-launch proof under USD 20
+- One repeated live warm-launch proof under USD 21
 - Updated operator runbook with explicit retention extension and retirement
 
 ## Acceptance
@@ -39,7 +39,7 @@ One preparation path plus one warm two-node Terraform launch path and truthful s
 7. AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt; under the current four-vCPU G-family quota the GPU limit is 120 seconds, the Runtime limit is 30 seconds, and controller-monotonic apply-to-observed aggregate service_ready must be at most 270 seconds or remain failed
 8. AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions
 9. AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the current-quota 120-second GPU path testable while stale cross-AZ partial dirty or mismatched volumes fail closed
-10. AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 20 ceiling with no retry reuse
+10. AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 21 ceiling with no retry reuse
 11. AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action
 12. AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication
 

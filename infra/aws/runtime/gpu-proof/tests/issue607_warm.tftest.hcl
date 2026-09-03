@@ -52,7 +52,7 @@ run "warm_launch_apply" {
     ssh_ingress_cidr              = "192.0.2.10/32"
     ssh_public_key                = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAITestKey issue607"
     authorized_max_hourly_usd     = 1.55
-    authorized_max_total_usd      = 20
+    authorized_max_total_usd      = 21
     artifact_bucket               = "adl-test-artifacts"
     artifact_prefix               = "shepherd/issue-607/"
     artifact_read_keys            = ["a/one", "a/two", "a/three", "a/four", "a/five"]

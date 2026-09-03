@@ -12,13 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/evidence/607/aws-paid-action-cost-audit.json
-.csdlc/issues/607
-adl/tools/issue607_validate_saved_plan.sh
-adl/tools/run_issue607_warm_polis.sh
-adl/tools/test_issue607_warm_polis.sh
-docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-infra/aws/runtime/gpu-proof
+
 
 ## Prompts
 
@@ -38,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The final two-8B-model AWS payload-recovery qualification remains the only pending proof and is bounded by the USD 20 issue ceiling.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:4cd0900bbd66667e17c3b393a98fcbcdd4e56425:ab9c671f0aa597c327e52836a456f3518ffa07f1d783140f2176f99f86dce652")
+Revision: None
 
-Reviewer: Some("subagent:issue_607_payload_exact_review_r3")
+Reviewer: None
 
-Result: pass
+Result: pre_review
