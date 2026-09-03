@@ -16,6 +16,23 @@ const DEFAULT_LABEL: &str = "com.agentlogic.adl-runtime-v3";
 const RUNTIME_GENERATION_RECEIPT_SCHEMA: &str = "adl.runtime_v3.install_generation.v1";
 const RUNTIME_INIT_SCHEMA: &str = "adl.runtime_v3.init.v1";
 
+#[derive(Debug)]
+struct ServiceManagerDeadlineExceeded {
+    timeout: Duration,
+}
+
+impl std::fmt::Display for ServiceManagerDeadlineExceeded {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            formatter,
+            "service-manager probe exceeded {} milliseconds",
+            self.timeout.as_millis()
+        )
+    }
+}
+
+impl std::error::Error for ServiceManagerDeadlineExceeded {}
+
 #[derive(Debug, Deserialize)]
 struct RuntimeGenerationReceipt {
     schema: String,
@@ -629,7 +646,8 @@ fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
             } else {
                 let timeout = Duration::from_millis(recovery_convergence.unload_timeout_millis);
                 let deadline = std::time::Instant::now() + timeout;
-                platform_stop_with_timeout(args, timeout)?;
+                platform_stop_with_timeout(args, timeout)
+                    .map_err(|error| normalize_stage_timeout(error, "unload", timeout))?;
                 let remaining = deadline.saturating_duration_since(std::time::Instant::now());
                 if remaining.is_zero() {
                     return convergence_timeout("unload", timeout);
@@ -735,12 +753,14 @@ fn stop_and_wait_with_timeout(
     timeout: Duration,
 ) -> Result<()> {
     let deadline = std::time::Instant::now() + timeout;
-    let guardian_process_id = platform_process_id_with_timeout(args, timeout)?;
+    let guardian_process_id = platform_process_id_with_timeout(args, timeout)
+        .map_err(|error| normalize_stage_timeout(error, "stop", timeout))?;
     let remaining = deadline.saturating_duration_since(std::time::Instant::now());
     if remaining.is_zero() {
         return convergence_timeout("stop", timeout);
     }
-    platform_stop_with_timeout(args, remaining)?;
+    platform_stop_with_timeout(args, remaining)
+        .map_err(|error| normalize_stage_timeout(error, "stop", timeout))?;
     let remaining = deadline.saturating_duration_since(std::time::Instant::now());
     if remaining.is_zero() {
         return convergence_timeout("stop", timeout);
@@ -1047,6 +1067,21 @@ fn convergence_error(stage: &'static str, timeout: Duration) -> anyhow::Error {
         "Runtime v3 convergence stage {stage} did not complete within {} milliseconds",
         timeout.as_millis()
     )
+}
+
+fn normalize_stage_timeout(
+    error: anyhow::Error,
+    stage: &'static str,
+    timeout: Duration,
+) -> anyhow::Error {
+    if error
+        .downcast_ref::<ServiceManagerDeadlineExceeded>()
+        .is_some()
+    {
+        convergence_error(stage, timeout)
+    } else {
+        error
+    }
 }
 
 fn file_hash(path: &Path) -> Result<String> {
@@ -1386,10 +1421,7 @@ fn command_output_with_timeout(command: &mut Command, timeout: Duration) -> Resu
         if std::time::Instant::now() >= deadline {
             let _ = child.kill();
             let _ = child.wait();
-            return Err(anyhow!(
-                "service-manager probe exceeded {} milliseconds",
-                timeout.as_millis()
-            ));
+            return Err(ServiceManagerDeadlineExceeded { timeout }.into());
         }
         std::thread::sleep(Duration::from_millis(10));
     }
@@ -2110,8 +2142,10 @@ mod tests {
             Command::new("/bin/sh").args(["-c", "sleep 1"]),
             Duration::from_millis(20),
         )
+        .map_err(|error| normalize_stage_timeout(error, "stop", Duration::from_millis(20)))
         .unwrap_err();
-        assert!(error.to_string().contains("exceeded 20 milliseconds"));
+        assert!(error.to_string().contains("stage stop"));
+        assert!(error.to_string().contains("20 milliseconds"));
         assert!(started.elapsed() < Duration::from_millis(500));
     }
 
