@@ -5,10 +5,25 @@
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
   "generation": 8,
-  "digest": "41cbeca71c03eabd584f8ced86a88175eecf009714ba814702a13348ef0074b0",
+  "digest": "97fdc20898124f60764976096c25f8b9f682ab34fcafebc57ef8144cef5db225",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:review-631-current-head",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:11db0bcbb2eb22acf55c903950a1e1efde7734ca:5c6c7900340a5e07b9dcbb982a8068e29075eccbb3cf1229b3a3d35c63bf34a0",
+    "scope": [
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh",
+      ".csdlc/prepared/issues/631/finalize-implementation.json",
+      ".csdlc/evidence/631"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "7a3463dafe5089c09f0bb89e7b1388b1f25f6035771a6fbf219d8540daf12683",
-      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
-      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
+      "values_digest": "afaec50589d7719ca6992384daa46ad2359e44fe12340fac55de09454c0d442b",
+      "rendered_digest": "9e8e06bdd31f51e6917b9e939e73468aa1d250fe1a8e8ad6d7f8f5bed3eadda3",
+      "ast_digest": "2afdbe9761399309f3cc6371b01162d1c7ee6cdf9c69145b2d5ff27cc68ff0f4"
     },
     "sor": {
       "values_digest": "d1298fb4863914505c0c3a838f05dabedeeef8e113feca2f9efb3d7766e05e15",
@@ -189,6 +204,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover #631 after removing stacked #627 lifecycle artifacts from the branch so the #631 head can be republished against main with a real GitHub closing relation.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

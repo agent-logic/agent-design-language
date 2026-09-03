@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3/src/commands/proof.rs
+csdlc-v3/src/commands/mod.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/command_manifest.rs
+csdlc-v3/tests/proof_parity_install_commands.rs
+docs/csdlc-v3/v3-command-manifest.json
+.csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh
+.csdlc/prepared/issues/631/finalize-implementation.json
+.csdlc/evidence/631
 
 ## Prompts
 
