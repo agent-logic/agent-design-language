@@ -1,8 +1,8 @@
-Exact post-merge implementation revision: d9598178c6dcfbf8c71743949aee8f18d869d591
+Exact reviewed implementation revision: 670ea79b87ea80f736cd9d6d3718d39661c13c2a
 Command: bash .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh
 
-Nextest run ID 9f30c0c5-ad06-4f03-a885-e6776734d18f
-Starting 8 tests across 3 binaries (68 tests skipped)
+Nextest run ID 23380e47-8361-4f36-90a1-99652200eb85
+Starting 8 tests across 3 binaries (71 tests skipped)
 PASS adl-runtime-kernel::agent_roster resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts
 PASS adl-runtime-kernel::agent_roster shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed
 PASS adl-runtime-kernel::shepherd resident_shepherd_lifetime_recovery_retries_and_recovers
@@ -11,7 +11,8 @@ PASS adl-runtime-kernel::configuration resident_shepherd_configuration_requires_
 PASS adl-runtime-kernel::shepherd resident_shepherd_model_health_gates_inference_and_recovers
 PASS adl-runtime-kernel::shepherd shepherd_provider_routes_governed_reasoning_to_configured_model
 PASS adl-runtime-kernel::shepherd shepherd_provider_routes_through_private_openai_compatible_gateway
-Summary: 8 tests run: 8 passed, 68 skipped
+Summary: 8 tests run: 8 passed, 71 skipped
+The openai-compatible gateway test used a valid two-chunk HTTP/1.1 response and passed.
 
 cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check: passed
 git diff --check: passed
