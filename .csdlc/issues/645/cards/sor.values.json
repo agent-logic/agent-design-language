@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 645,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC v2][bug] Reject stacked closing publication without a GitHub closing relation",
+    "slug": "stacked-closing-relation",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented the C-SDLC v2 publication guard so closing-mode publish normalization reads GitHub closingIssuesReferences, carries linked_issue/linkage_source in RemotePullRequest, and rejects body-only stacked closing PRs that lack the live GitHub closing relation.",
+      "actual_changes": [
+        "Extended RemotePullRequest with optional linked_issue and linkage_source fields for typed publish/readback agreement.",
+        "Added closing-mode relation validation to publication remote identity checks; explicit PartOf checkpoint mode remains relation-free and non-closing.",
+        "Updated csdlc-publish normalization to query GitHub closingIssuesReferences for closing-mode PRs and fail closed with stack/default/checkpoint guidance when absent or mismatched.",
+        "Tightened existing-PR governed-mode matching so a pre-existing stacked PR with only a closing body keyword cannot be accepted.",
+        "Added the #645 regression for PR #644 shape and updated publication fixtures to carry explicit relation truth."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/bin/csdlc-publish.rs",
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/tests/gate6.rs",
+        "csdlc-v2/tests/publication_ready.rs",
+        "csdlc-v2/tests/publication_tail.rs",
+        ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh",
+        ".csdlc/issues/645"
+      ],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
