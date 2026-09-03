@@ -101,7 +101,7 @@ Implemented configurable, backward-compatible Runtime v3 service convergence wit
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
