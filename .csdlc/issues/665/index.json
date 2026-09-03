@@ -4,13 +4,35 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8e9defbef262b52e0a6859b0c7f0ca9dba3fa868e0d0d63c025f16e9fab4d03f",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "391a2f9ec21d46349670458fbeb5d6aab926b923e5d405d99fa3f7120c25fff6",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "9e09bc1b0eaee7c11ec5d954b871bb081b3cea04381d3caa2c459ba6c01775c3",
   "branch": "codex/665-emergency-branch-adoption-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "review_665_prepr_r1",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
+      ".csdlc/issues/665",
+      ".csdlc/prepared/issues/665"
+    ],
+    "reviewed_revision": "git-blake3:76c27a7b6e2867f1da69edd290403c832b234ccc:fa8a77ef6c19a4dc78c0098900616c4ce6d46b3cc959a2241625c6096435ff2b",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "904b440d6f4957ded8ab9b2a1aac4a06c92f4958b1749816eb0975185bd76c3e",
+      "values_digest": "30dd8b7d6e66efa8fc96b4f3a366799a8f57d29068cab27d98956717a5550d1c",
       "rendered_digest": "c99cf6a6817436af3aeb9f0cbe69a206f73f536ebaf79c39e37b5919b6075ae8",
       "ast_digest": "e5e404ab5ec26e9156dbf3d4cc7d67fc80e0d7fcedab9a40ec95e86a3c13306b"
     },
     "stp": {
-      "values_digest": "82fd37c7d68bdbe1ecf4bd8a0cbceb5e6f1f1193ae075bf1f822548fe66d4941",
+      "values_digest": "e5ac0c352b01d9e2eee89a720ca8fd495515069bc22301bb2d3c6ec57dbdf6b8",
       "rendered_digest": "fa229a66e67f84e6d92047006880631861c4148fae6a9b825e1fb9fe7737cae2",
       "ast_digest": "4e3550a9c303e08a6b617990b077934533d26e92e1c2903aaf8078461556a429"
     },
     "spp": {
-      "values_digest": "2c7f26c8b5b626678fae366fe048f38d684343b4fd930569bcf8fd85ae903da4",
+      "values_digest": "35c9f828aaab497b13e06f96cfd2333a0cd22fded02c649670028230f24e7604",
       "rendered_digest": "bcd2e8f91be684f2b2d6e7b35abf7fff36f79a55c97fddc06b2d2303610cd5f1",
       "ast_digest": "e790c79bfd5981bcff9add5b13527d9b38a37b0fd5bebc9ceec7c69a571d5fb3"
     },
     "vpp": {
-      "values_digest": "517ba275fecd1f7d4fe7d8fa05bb66ecb109d39fbaf5811023eeda2fcf4dd157",
+      "values_digest": "9e1bbbfd40379e3b1b2359c7e600a8b7a296e26e704c44d8930c264daa0ac558",
       "rendered_digest": "92f46884cb038ddb7370d9c73dde3ea85c2f280eaa9301dd91e26f65e894f7e6",
       "ast_digest": "278cdd2a01c07ac79943d35cc64ffc69cc7aad637f2c22d117cb2d3be8174db3"
     },
     "srp": {
-      "values_digest": "91b8c6b2093db2388fb23207a2ae4ea050b32d34fbf52f3cf285a7febcd960f0",
-      "rendered_digest": "bed700be8137d39b6a4b9937cb29eb6cf12d5d0da3ffed34a6cf2711aecf0ef9",
-      "ast_digest": "9786012c7d77da42fba5654d0e397cb96ebabe7ac7f25ca0db7598f2b22ee3a6"
+      "values_digest": "ab897582181ed33f8cd5fa8c074d61174bc2031c0a007911314c97a794c5d5d6",
+      "rendered_digest": "2cd951da4de53178e17d0433068103b73e15e91fb3418330452e13340d5db70a",
+      "ast_digest": "d941f407ec5683c2cfeae52043f061fe4505c6ae7effe40c804099c734c2d8a4"
     },
     "sor": {
-      "values_digest": "f19aa8e9fff45b0f340db8a8c1472bafdd2f448f1dc09318da91ff41ad3e3f94",
+      "values_digest": "1e492a5d2a46ed57830a39cc8bb9a663d5647274f0024d68207cf5706cd121c9",
       "rendered_digest": "6c81e89865f9616d0908502a7c94d25ea577e4199353ca7e30c436e50b0a5d86",
       "ast_digest": "a54b8a89c02f1214aee627aaac2604d6b8ec92fc38d79d475966f479624f9eec"
     }
@@ -76,6 +98,13 @@
       "to": "implemented",
       "actor": "codex:/root/Worker-7",
       "reason": "Advance #665 to implemented after recorded execution and passing focused validation."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/Worker-7",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -134,6 +163,13 @@
       "actor": "codex:/root/Worker-7",
       "reason": "Record #665 failed-adoption preservation repair.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed obsolete failed-adoption cleanup that could delete an existing target `.csdlc/issues/<issue>/adoption.v1.json` after a failed bind. Adoption evidence is staged inside the atomic issue projection replacement, so failed adoption now leaves any pre-existing regular evidence file untouched; focused regression coverage proves the preservation behavior.\",\"changes\":[\"Removed the post-error `remove_file` cleanup for adoption evidence from `bind_issue`.\",\"Added a focused regression where a clean worktree has a tracked pre-existing adoption evidence file and a staging blocker; failed adoption returns an I/O error while preserving the existing file and ready/unbound record.\",\"Retained the staged atomic evidence path for successful adoption.\"],\"artifacts\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/665/record-failed-adoption-preservation.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

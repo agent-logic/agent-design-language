@@ -7,15 +7,15 @@
     "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
     "slug": "emergency-branch-adoption-defect",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "C-SDLC v2 emergency branch/worktree adoption in the bind owner, lifecycle topology guards, schema surfaces, focused tests, operator documentation, and issue-local lifecycle artifacts only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\ncsdlc-v2/tests/card_identity.rs\ncsdlc-v2/tests/code_repository_migration.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate4.rs\ncsdlc-v2/tests/issue_330_bridge_cleanup_defect.rs\ncsdlc-v2/tests/projection_recovery_integration.rs\ndocs/tooling/EMERGENCY_BRANCH_ADOPTION.md\n.csdlc/issues/665\n.csdlc/prepared/issues/665",
+      "review_revision": "git-blake3:76c27a7b6e2867f1da69edd290403c832b234ccc:fa8a77ef6c19a4dc78c0098900616c4ce6d46b3cc959a2241625c6096435ff2b",
+      "reviewer": "review_665_prepr_r1",
       "review_prompts": [
         "Can the adoption route import an unrelated or stale branch/worktree?",
         "Does successful adoption advance only to bound and preserve all later lifecycle gates?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
