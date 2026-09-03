@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 663,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP][runtime-v3] Add warm two-node Polis and GPU startup parity",
+    "slug": "gcp-warm-two-node-polis-gpu-startup-parity",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #663 GCP warm two-node Terraform, startup scripts, focused tests, documentation, and issue-local evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the change reuse the existing GCP and AWS designs without creating unnecessary abstractions?",
+        "Can ordinary workload teardown delete a source snapshot, or leave a restored Persistent Disk accruing idle cost?",
+        "Can normal startup perform any build, package installation, Git access, or model download?",
+        "Are private networking, SSH/OS Login authority, artifact identity, and timing denominators explicit?",
+        "Do local tests avoid claiming unmeasured live GCP startup performance?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
