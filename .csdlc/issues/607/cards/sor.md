@@ -87,11 +87,11 @@ The final source-bound warm two-node AWS Polis qualification passed in 240 secon
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

@@ -155,3 +155,4 @@
 {"sequence":155,"generation":125,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":156,"generation":126,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":157,"generation":127,"actor":"codex-primary-issue607","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":158,"generation":128,"actor":"codex-primary-issue607","reason":"Current origin/main was merged into PR #657 to resolve the publication-time conflict. The issue diff remains bounded, but the exact head changed and the resident Shepherd admission conflict was resolved to retry transient failures while keeping Runtime alive on fatal admission failure, so fresh typed review is required before republishing.","operation":"recover_review"}

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 127
+    "generation": 128
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/607\n.csdlc/issues/607\n.csdlc/prepared/issues/607\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime/src/guardian.rs\nadl/tools/issue607_guardian_recovery_proof.sh\nadl/tools/issue607_probe_runtime.py\nadl/tools/issue607_qualify_warm_polis.sh\nadl/tools/issue607_validate_saved_plan.sh\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\ndocs/operations/cloud/aws/shepherd-gpu-proof\ninfra/aws/runtime/gpu-proof",
-      "review_revision": "git-blake3:fddba8dea9d965393f01a70dcf408b75a1857189:b257b892a36ca75cca46ae780713ac23f39acdbef34e5d52f56f91aafb4a2e3c",
-      "reviewer": "subagent:issue_607_final_publication_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -24,11 +24,8 @@
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The measured 240-second service-ready result applies to the current two-8B-model configuration; larger models can take longer to load.",
-        "Only USD 0.016714 remains under the issue ceiling, so the aggregate guard rejects any further paid qualification action."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
