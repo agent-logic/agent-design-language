@@ -13,14 +13,13 @@ Status: draft
 ## Scope
 
 csdlc-v3/src/commands/proof.rs
-csdlc-v3/src/commands/mod.rs
 csdlc-v3/src/main.rs
 csdlc-v3/tests/command_manifest.rs
 csdlc-v3/tests/proof_parity_install_commands.rs
 docs/csdlc-v3/v3-command-manifest.json
+.csdlc/prepared/issues/631/design.md
+.csdlc/prepared/issues/631/diagram.mmd
 .csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh
-.csdlc/prepared/issues/631/finalize-implementation.json
-.csdlc/evidence/631
 
 ## Prompts
 
@@ -39,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 proof, shadow, soak, and install routes remain construction-only and non-authoritative until explicit #505 cutover.
+- The existing PR #644 was opened against a stacked base and cannot prove GitHub closing linkage until republished or retargeted through a typed route.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6475bc82bf78f40e19c766afeab602a498d0d726:6777227f5e869fd94a424498e7aa9cd9c1edbf927132d1d647f8c99fbdfa8e14")
 
-Reviewer: None
+Reviewer: Some("codex-reviewer:review_631_head_6475")
 
-Result: pre_review
+Result: pass

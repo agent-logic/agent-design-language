@@ -3,29 +3,59 @@
   "issue": 631,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "97fdc20898124f60764976096c25f8b9f682ab34fcafebc57ef8144cef5db225",
+  "phase": "published",
+  "generation": 10,
+  "digest": "a71619c8f88f1cef244db52d99879e3858d7cb9dfc9708eb876be1d09a807e51",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
   "review_assignment": {
-    "reviewer": "codex:review-631-current-head",
+    "reviewer": "codex-reviewer:review_631_head_6475",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:11db0bcbb2eb22acf55c903950a1e1efde7734ca:5c6c7900340a5e07b9dcbb982a8068e29075eccbb3cf1229b3a3d35c63bf34a0",
+    "revision": "git-blake3:6475bc82bf78f40e19c766afeab602a498d0d726:6777227f5e869fd94a424498e7aa9cd9c1edbf927132d1d647f8c99fbdfa8e14",
     "scope": [
       "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/mod.rs",
       "csdlc-v3/src/main.rs",
       "csdlc-v3/tests/command_manifest.rs",
       "csdlc-v3/tests/proof_parity_install_commands.rs",
       "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh",
-      ".csdlc/prepared/issues/631/finalize-implementation.json",
-      ".csdlc/evidence/631"
+      ".csdlc/prepared/issues/631/design.md",
+      ".csdlc/prepared/issues/631/diagram.mmd",
+      ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "codex-reviewer:review_631_head_6475",
+    "scope": [
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/631/design.md",
+      ".csdlc/prepared/issues/631/diagram.mmd",
+      ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh"
+    ],
+    "reviewed_revision": "git-blake3:6475bc82bf78f40e19c766afeab602a498d0d726:6777227f5e869fd94a424498e7aa9cd9c1edbf927132d1d647f8c99fbdfa8e14",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 proof, shadow, soak, and install routes remain construction-only and non-authoritative until explicit #505 cutover.",
+      "The existing PR #644 was opened against a stacked base and cannot prove GitHub closing linkage until republished or retargeted through a typed route."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 631,
+    "pull_request": 669,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/669",
+    "base": "main",
+    "head": "codex/631-v3-h5-proof-parity-install-impl",
+    "revision": "git-blake3:6475bc82bf78f40e19c766afeab602a498d0d726:6777227f5e869fd94a424498e7aa9cd9c1edbf927132d1d647f8c99fbdfa8e14",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -39,34 +69,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2fce8febfc1cc0011436254c7951f146b89ddf61a30e9ff579397a35a76ff1aa",
+      "values_digest": "8204e345c676952cc5e797efbc24f659b0f348d9cec3847256710d6247de4ed7",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "10577d1ab9a2c46dbf60eade90e9b57f267f77922806b3a38ea4de2e4de82651",
+      "values_digest": "8c3c95ea8cadbd46b60e02e3b0f4863111785cbe772a9264edaccaee2a1adfc5",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "6f58fe2e2f18673a68601ba99fe087b210ce47edef400e30a6d5e35ae1f97413",
+      "values_digest": "b52bad3821012adf9cc399957ee177d12068e71ffb8424a6c4423b2d7cf000dd",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "6feb7159260f7bc6aad2fd632cc7572a87aa161e6e7f49ccc92eb933ea549bcf",
+      "values_digest": "77ce78a554ca8d156b3205a704914b839ff9856787c54eb69adcbb5faf41765e",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "afaec50589d7719ca6992384daa46ad2359e44fe12340fac55de09454c0d442b",
-      "rendered_digest": "9e8e06bdd31f51e6917b9e939e73468aa1d250fe1a8e8ad6d7f8f5bed3eadda3",
-      "ast_digest": "2afdbe9761399309f3cc6371b01162d1c7ee6cdf9c69145b2d5ff27cc68ff0f4"
+      "values_digest": "1e975e6fcd4cc7e013859ca0651c8a0b89864348a503914af45dd53f9e75fb14",
+      "rendered_digest": "47b1b3ce4bea41036a07297d84c0342104fc3f963ec71fc0d2528d2f87c686a5",
+      "ast_digest": "601cae483bcf55f66fcf8798423f0ec3bdd93daebe0bd1e6dac921c0c79b7aa4"
     },
     "sor": {
-      "values_digest": "d1298fb4863914505c0c3a838f05dabedeeef8e113feca2f9efb3d7766e05e15",
-      "rendered_digest": "768429af9f40f74a8aa63c15183bf03a3c2c8d0abe39432200b21400de49ef42",
-      "ast_digest": "b01df425777a70c6ec01258405b2afd980e56480413d603ade1a315ffe53957e"
+      "values_digest": "48e989d732312caceee6b56b9da649e28deb0b4fbf348e5376cc2b79f24e14a2",
+      "rendered_digest": "86013826b6bb427dda5836bb5fe74d38b0f44b70bcdcf0b63a63b91e70a9726d",
+      "ast_digest": "0eac3d21c2d41e8aee2d6a9b5701dedc42c08a8d167f645239a8f3dcfd260eab"
     }
   },
   "transitions": [
@@ -111,6 +141,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #631 after removing stacked #627 lifecycle artifacts from the branch so the #631 head can be republished against main with a real GitHub closing relation."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -211,6 +255,27 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
