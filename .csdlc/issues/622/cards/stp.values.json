@@ -1,0 +1,58 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 622,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
+    "slug": "provider-profile-hotload",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Add one production provider reload owner and connect it to per-step provider resolution in the existing execution runner.",
+      "deliverables": [
+        "ProviderReloadOwner using the existing watcher",
+        "Provider-only sidecar validation and atomic snapshot publication",
+        "Production execution-runner snapshot consumption",
+        "Focused positive negative concurrency and shutdown proof",
+        "Operator documentation"
+      ],
+      "acceptance_criteria": [
+        "AC-1: A production provider owner starts the existing watcher against an explicit provider-only configuration path",
+        "AC-2: A valid provider or profile edit becomes active for subsequent inference without process restart",
+        "AC-3: Invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic",
+        "AC-4: Concurrent readers observe either the old or new complete snapshot and never a partial mixture",
+        "AC-5: In-flight inference retains its starting snapshot while later inference consumes the accepted replacement",
+        "AC-6: Endpoint model parameter timeout capability and profile changes have focused positive and negative proof",
+        "AC-7: Credential values authority objects and executable workflow content are rejected from the provider-only sidecar",
+        "AC-8: Unknown mandatory parameters and unsupported capabilities fail closed",
+        "AC-9: Debounce duplicate event same-content rapid rewrite and watcher shutdown behavior is proven",
+        "AC-10: Exact production call-path formatting lint diff hygiene and independent review pass"
+      ],
+      "dependencies": [
+        "#510 generic hot-reload substrate",
+        "#514 shared provider inference profiles",
+        "#551 bounded production reload precedent"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#622",
+        "adl-runtime-kernel/src/config_reload.rs",
+        "adl/src/provider/profiles.rs",
+        "adl/src/provider/mod.rs",
+        "adl/src/execute/runner.rs",
+        "docs/runtime/config-hot-reload.md"
+      ],
+      "non_goals": [
+        "Reload credentials signing keys database pools authority objects or model weights",
+        "Create a second watcher or provider registry",
+        "Implement MLX OCI packaging automatic tuning or provider UI",
+        "Change an in-flight request after dispatch",
+        "Redesign the full provider system"
+      ]
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 509,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-D] GCP portability qualification",
+    "slug": "v0-92-1-drt-d-gcp-portability-qualification",
+    "version": "v0.92.1",
+    "generation": 21
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only the optional DRT-D GCP portability packet after all three dependencies are terminal and ancestral.",
+      "deliverables": [
+        "GCP six-resident portability packet",
+        "Identity, continuity, cost, and cleanup-zero receipts",
+        "Exact-head review receipt"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Six identities and lineage remain exact.",
+        "AC-2: GCP account, project, billing, and credentials are separately governed.",
+        "AC-3: Cost and cleanup receipts are retained.",
+        "AC-4: No owned per-run resources remain."
+      ],
+      "dependencies": [
+        "#508 terminal and ancestral",
+        "#494 terminal and ancestral",
+        "#495 terminal and ancestral",
+        "Explicit paid-run authorization before live launch"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#509",
+        "agent-logic/agent-design-language#508",
+        "agent-logic/agent-design-language#494",
+        "agent-logic/agent-design-language#495",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-D",
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md",
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-e/gcp-e-proof-status.md"
+      ],
+      "non_goals": [
+        "Replacing AWS qualification",
+        "Executing issue 269",
+        "Creating persistent production GCP Runtime infrastructure",
+        "Changing provider credentials or IAM policy outside the declared proof"
+      ]
+    }
+  }
+}

@@ -31,10 +31,28 @@ display_name = "Agent Logic Development Polis"
 public_domain = "runtime.dev.agent-logic.ai"
 observatory_public_origin = "https://observatory.dev.agent-logic.ai"
 
+[polis.vertex_ai]
+provider = "vertex_ai"
+gcp_project = "agent-logic-dev"
+vertex_location = "us-central1"
+model = "gemini-2.5-flash"
+
+[polis.vertex_ai.credential_source]
+kind = "application_default_credentials"
+
 [resident_shepherd]
 name = "beacon.axioma"
-display_name = "Beacon"
+display_name = "Beacon Axioma"
 office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
+
+[resident_shepherd.preload]
+enabled = true
+timeout_millis = 900000
+retry_initial_millis = 5000
+retry_max_millis = 60000
 
 [observatory]
 allowed_origins = [

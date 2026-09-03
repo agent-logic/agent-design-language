@@ -46,6 +46,8 @@ pub struct AgentRuntimeEvidence {
     pub name: String,
     pub display_name: String,
     pub public_role: String,
+    pub provider: Option<String>,
+    pub model: Option<String>,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -89,6 +91,10 @@ pub struct AgentRosterEntry {
     pub name: String,
     pub label: String,
     pub role: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub provider: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -439,6 +445,8 @@ fn project_entry(
         name: item.name.clone(),
         label: item.display_name.clone(),
         role: item.public_role.clone(),
+        provider: item.provider.clone(),
+        model: item.model.clone(),
         presence: if stale {
             AgentPresence::Unknown
         } else {

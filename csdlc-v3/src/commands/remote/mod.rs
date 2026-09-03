@@ -10,6 +10,7 @@ use crate::review::{
     ReviewRejectReason, ReviewTarget,
 };
 use serde::{Deserialize, Serialize};
+use std::path::{Path, PathBuf};
 
 pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [
     "github",
@@ -45,15 +46,72 @@ pub struct RemoteRouteRequest {
     #[serde(default)]
     pub review_present: bool,
     #[serde(default)]
+    pub typed_review_receipt_path: Option<String>,
+    #[serde(default)]
+    pub typed_review_receipt_digest: Option<String>,
+    #[serde(default)]
     pub readback_source: Option<RemoteReadbackSource>,
     #[serde(default)]
+    pub readback_receipt_path: Option<String>,
+    #[serde(default)]
     pub readback_receipt_digest: Option<String>,
+    #[serde(default)]
+    pub adapter_receipt_path: Option<String>,
+    #[serde(default)]
+    pub adapter_receipt_digest: Option<String>,
     #[serde(default)]
     pub closes_issue: Option<u64>,
     #[serde(default)]
     pub part_of_issue: Option<u64>,
     #[serde(default)]
     pub credential_names: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct RemoteRouteReceipts {
+    pub typed_review: Option<TypedReviewReceipt>,
+    pub github_readback: Option<GithubReadbackReceipt>,
+    pub adapter: Option<GithubAdapterReceipt>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TypedReviewReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub implementer: String,
+    pub reviewer: String,
+    pub reviewed_revision: String,
+    pub expected_head_sha: String,
+    pub evidence_digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GithubReadbackReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: u64,
+    pub head_sha: String,
+    #[serde(default)]
+    pub closes_issue: Option<u64>,
+    #[serde(default)]
+    pub part_of_issue: Option<u64>,
+    pub source: RemoteReadbackSource,
+    pub observed_by: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GithubAdapterReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: u64,
+    pub head_sha: String,
+    pub readback_receipt_digest: String,
+    pub credential_names: Vec<String>,
+    pub adapter: String,
+    pub authenticated: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -98,6 +156,14 @@ pub fn prepare_remote_publication_route(
     route: &str,
     request: &RemoteRouteRequest,
 ) -> Result<RemoteRoutePlan, RemoteRouteFinding> {
+    prepare_remote_publication_route_with_receipts(route, request, &RemoteRouteReceipts::default())
+}
+
+pub fn prepare_remote_publication_route_with_receipts(
+    route: &str,
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> Result<RemoteRoutePlan, RemoteRouteFinding> {
     if !REMOTE_PUBLICATION_ROUTE_NAMES.contains(&route) {
         return Err(remote_finding(
             "unknown_remote_publication_route",
@@ -105,10 +171,11 @@ pub fn prepare_remote_publication_route(
         ));
     }
     let findings = match route {
-        "publish" => publication_findings(request),
-        "pr-state" | "github-pr" => pr_state_findings(request),
+        "publish" => publication_findings(request, receipts),
+        "github" | "github-issue" | "pr-state" | "github-pr" => {
+            pr_state_findings(request, receipts)
+        }
         "review" => review_findings(request),
-        "github" | "github-issue" => Vec::new(),
         _ => unreachable!("route checked above"),
     };
     let status = if findings.is_empty() {
@@ -130,7 +197,10 @@ pub fn prepare_remote_publication_route(
     })
 }
 
-fn publication_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
+fn publication_findings(
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> Vec<RemoteRouteFinding> {
     let mut findings = Vec::new();
     if !request.review_present {
         findings.push(remote_finding(
@@ -138,10 +208,17 @@ fn publication_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding>
             "publication requires current typed review truth",
         ));
     }
-    findings.push(remote_finding(
-        "authenticated_review_receipt_missing",
-        "public publication route cannot accept caller-attested review truth without a verified typed review receipt",
-    ));
+    if !typed_review_receipt_matches(request, receipts.typed_review.as_ref()) {
+        findings.push(remote_finding(
+            "authenticated_review_receipt_missing",
+            "publication requires a repo-contained typed review receipt matching the exact issue, principals, and head",
+        ));
+    } else {
+        findings.push(remote_finding(
+            "production_review_receipt_not_implemented",
+            "matching JSON review receipts remain construction evidence until v3 ingests typed review truth from the production review authority",
+        ));
+    }
     let expected = request
         .expected_head_sha
         .as_deref()
@@ -186,7 +263,10 @@ fn publication_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding>
     findings
 }
 
-fn pr_state_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
+fn pr_state_findings(
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> Vec<RemoteRouteFinding> {
     let mut findings = Vec::new();
     if request.readback_source != Some(RemoteReadbackSource::Github) {
         findings.push(remote_finding(
@@ -194,10 +274,23 @@ fn pr_state_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
             "PR state must come from authenticated GitHub readback",
         ));
     }
-    findings.push(remote_finding(
-        "authenticated_github_adapter_missing",
-        "public PR-state route cannot accept caller-supplied GitHub readback without an authenticated adapter receipt",
-    ));
+    if !github_readback_receipt_matches(request, receipts.github_readback.as_ref()) {
+        findings.push(remote_finding(
+            "github_readback_receipt_missing",
+            "PR state requires a repo-contained GitHub readback receipt over the observed PR fields",
+        ));
+    }
+    if !github_adapter_receipt_matches(request, receipts) {
+        findings.push(remote_finding(
+            "authenticated_github_adapter_missing",
+            "PR state requires a repo-contained authenticated adapter receipt bound to the readback receipt",
+        ));
+    } else {
+        findings.push(remote_finding(
+            "production_github_adapter_not_implemented",
+            "matching JSON GitHub receipts remain construction evidence until v3 reads from the production authenticated GitHub adapter",
+        ));
+    }
     match request.mode {
         Some(RemotePublicationMode::Closing) if request.closes_issue != Some(request.issue) => {
             findings.push(remote_finding(
@@ -246,9 +339,21 @@ fn same_principal(left: Option<&str>, right: Option<&str>) -> bool {
 }
 
 fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
+    let prefix = format!("{verb} #{issue}");
     body.unwrap_or_default()
         .lines()
-        .any(|line| line.trim_start().starts_with(&format!("{verb} #{issue}")))
+        .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
+}
+
+fn has_issue_relation_prefix(line: &str, prefix: &str) -> bool {
+    let Some(rest) = line.strip_prefix(prefix) else {
+        return false;
+    };
+    rest.is_empty()
+        || rest
+            .chars()
+            .next()
+            .is_some_and(|ch| ch.is_whitespace() || matches!(ch, ',' | '.' | ';' | ':' | ')' | ']'))
 }
 
 fn remote_finding(code: &str, message: &str) -> RemoteRouteFinding {
@@ -258,16 +363,226 @@ fn remote_finding(code: &str, message: &str) -> RemoteRouteFinding {
     }
 }
 
-pub fn remote_readback_receipt_digest(request: &RemoteRouteRequest) -> String {
+pub fn typed_review_receipt_payload_digest(receipt: &TypedReviewReceipt) -> String {
     stable_digest(&[
-        "github-readback",
-        &request.repository,
-        &request.issue.to_string(),
-        &request.pull_request.unwrap_or_default().to_string(),
-        request.head_sha.as_deref().unwrap_or_default(),
-        &request.closes_issue.unwrap_or_default().to_string(),
-        &request.part_of_issue.unwrap_or_default().to_string(),
+        &receipt.schema,
+        &receipt.repository,
+        &receipt.issue.to_string(),
+        &receipt.implementer,
+        &receipt.reviewer,
+        &receipt.reviewed_revision,
+        &receipt.expected_head_sha,
+        &receipt.evidence_digest,
     ])
+}
+
+pub fn github_readback_receipt_payload_digest(receipt: &GithubReadbackReceipt) -> String {
+    stable_digest(&[
+        &receipt.schema,
+        &receipt.repository,
+        &receipt.issue.to_string(),
+        &receipt.pull_request.to_string(),
+        &receipt.head_sha,
+        &receipt.closes_issue.unwrap_or_default().to_string(),
+        &receipt.part_of_issue.unwrap_or_default().to_string(),
+        match receipt.source {
+            RemoteReadbackSource::Github => "github",
+            RemoteReadbackSource::Caller => "caller",
+            RemoteReadbackSource::Fixture => "fixture",
+        },
+        &receipt.observed_by,
+    ])
+}
+
+pub fn github_adapter_receipt_payload_digest(receipt: &GithubAdapterReceipt) -> String {
+    stable_digest(&[
+        &receipt.schema,
+        &receipt.repository,
+        &receipt.issue.to_string(),
+        &receipt.pull_request.to_string(),
+        &receipt.head_sha,
+        &receipt.readback_receipt_digest,
+        &receipt.credential_names.join(","),
+        &receipt.adapter,
+        if receipt.authenticated {
+            "authenticated"
+        } else {
+            "unauthenticated"
+        },
+    ])
+}
+
+fn typed_review_receipt_matches(
+    request: &RemoteRouteRequest,
+    receipt: Option<&TypedReviewReceipt>,
+) -> bool {
+    let Some(receipt) = receipt else {
+        return false;
+    };
+    receipt.schema == "csdlc.v3.typed_review_receipt.v1"
+        && receipt.repository == request.repository
+        && receipt.issue == request.issue
+        && Some(receipt.implementer.as_str()) == request.implementer.as_deref()
+        && Some(receipt.reviewer.as_str()) == request.reviewer.as_deref()
+        && Some(receipt.reviewed_revision.as_str()) == request.review_revision.as_deref()
+        && Some(receipt.expected_head_sha.as_str()) == request.expected_head_sha.as_deref()
+        && !receipt.evidence_digest.trim().is_empty()
+        && request.typed_review_receipt_digest.as_deref()
+            == Some(typed_review_receipt_payload_digest(receipt).as_str())
+}
+
+fn github_readback_receipt_matches(
+    request: &RemoteRouteRequest,
+    receipt: Option<&GithubReadbackReceipt>,
+) -> bool {
+    let Some(receipt) = receipt else {
+        return false;
+    };
+    receipt.schema == "csdlc.v3.github_readback_receipt.v1"
+        && receipt.repository == request.repository
+        && receipt.issue == request.issue
+        && Some(receipt.pull_request) == request.pull_request
+        && Some(receipt.head_sha.as_str()) == request.head_sha.as_deref()
+        && receipt.closes_issue == request.closes_issue
+        && receipt.part_of_issue == request.part_of_issue
+        && receipt.source == RemoteReadbackSource::Github
+        && !receipt.observed_by.trim().is_empty()
+        && request.readback_receipt_digest.as_deref()
+            == Some(github_readback_receipt_payload_digest(receipt).as_str())
+}
+
+fn github_adapter_receipt_matches(
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> bool {
+    let Some(adapter) = receipts.adapter.as_ref() else {
+        return false;
+    };
+    let Some(readback) = receipts.github_readback.as_ref() else {
+        return false;
+    };
+    let readback_digest = github_readback_receipt_payload_digest(readback);
+    adapter.schema == "csdlc.v3.github_adapter_receipt.v1"
+        && adapter.repository == request.repository
+        && adapter.issue == request.issue
+        && Some(adapter.pull_request) == request.pull_request
+        && Some(adapter.head_sha.as_str()) == request.head_sha.as_deref()
+        && adapter.readback_receipt_digest == readback_digest
+        && adapter.credential_names == request.credential_names
+        && !adapter.credential_names.is_empty()
+        && adapter.adapter == "github"
+        && adapter.authenticated
+        && request.adapter_receipt_digest.as_deref()
+            == Some(github_adapter_receipt_payload_digest(adapter).as_str())
+}
+
+pub fn load_remote_route_receipts(
+    repo_root: &Path,
+    request: &RemoteRouteRequest,
+) -> Result<RemoteRouteReceipts, RemoteRouteFinding> {
+    Ok(RemoteRouteReceipts {
+        typed_review: load_optional_receipt(
+            repo_root,
+            request.typed_review_receipt_path.as_deref(),
+            "typed_review_receipt_missing",
+        )?,
+        github_readback: load_optional_receipt(
+            repo_root,
+            request.readback_receipt_path.as_deref(),
+            "github_readback_receipt_missing",
+        )?,
+        adapter: load_optional_receipt(
+            repo_root,
+            request.adapter_receipt_path.as_deref(),
+            "github_adapter_receipt_missing",
+        )?,
+    })
+}
+
+fn load_optional_receipt<T: for<'de> Deserialize<'de>>(
+    repo_root: &Path,
+    path: Option<&str>,
+    code: &str,
+) -> Result<Option<T>, RemoteRouteFinding> {
+    let Some(path) = path else {
+        return Ok(None);
+    };
+    let root = repo_root.canonicalize().map_err(|_| {
+        remote_finding(
+            "repository_root_unavailable",
+            "repository root must be canonical before loading receipts",
+        )
+    })?;
+    let candidate = if Path::new(path).is_absolute() {
+        PathBuf::from(path)
+    } else {
+        root.join(path)
+    };
+    let canonical = candidate
+        .canonicalize()
+        .map_err(|_| remote_finding(code, "declared receipt file is missing"))?;
+    if !is_repo_or_git_receipt_path(&root, &canonical) {
+        return Err(remote_finding(
+            "receipt_path_escapes_repository",
+            "receipt paths must canonicalize beneath the repository root or resolved Git receipt directory",
+        ));
+    }
+    if !is_durable_receipt_path(&root, &canonical) {
+        return Err(remote_finding(
+            "receipt_path_not_durable",
+            "receipt paths must live under .csdlc/evidence or .git/csdlc-v3",
+        ));
+    }
+    let bytes = std::fs::read(&canonical)
+        .map_err(|_| remote_finding(code, "declared receipt file is not readable"))?;
+    serde_json::from_slice(&bytes)
+        .map(Some)
+        .map_err(|_| remote_finding(code, "declared receipt file is not valid typed JSON"))
+}
+
+fn is_durable_receipt_path(root: &Path, canonical: &Path) -> bool {
+    canonical.starts_with(root.join(".csdlc/evidence"))
+        || git_control_dir(root)
+            .map(|git_dir| canonical.starts_with(git_dir.join("csdlc-v3")))
+            .unwrap_or(false)
+}
+
+fn is_repo_or_git_receipt_path(root: &Path, canonical: &Path) -> bool {
+    canonical.starts_with(root)
+        || git_control_dir(root)
+            .map(|git_dir| canonical.starts_with(git_dir.join("csdlc-v3")))
+            .unwrap_or(false)
+}
+
+fn git_control_dir(root: &Path) -> Option<PathBuf> {
+    let dot_git = root.join(".git");
+    if dot_git.is_dir() {
+        return dot_git.canonicalize().ok();
+    }
+    let contents = std::fs::read_to_string(&dot_git).ok()?;
+    let gitdir = contents.strip_prefix("gitdir:")?.trim();
+    let path = Path::new(gitdir);
+    let path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        root.join(path)
+    };
+    let git_dir = path.canonicalize().ok()?;
+    if let Some(common_dir) = git_common_dir(&git_dir) {
+        return Some(common_dir);
+    }
+    Some(git_dir)
+}
+
+fn git_common_dir(git_dir: &Path) -> Option<PathBuf> {
+    let contents = std::fs::read_to_string(git_dir.join("commondir")).ok()?;
+    let path = Path::new(contents.trim());
+    let path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        git_dir.join(path)
+    };
+    path.canonicalize().ok()
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

@@ -1,1 +1,1 @@
-{"findings":[],"generation":2,"issue":627,"next_operation":"inspect_phase","phase":"bound","ready":false,"schema":"csdlc.doctor.report.v1","status":"pass"}
+{"findings":[],"generation":8,"issue":627,"next_operation":"inspect_phase","phase":"implemented","ready":false,"schema":"csdlc.doctor.report.v1","status":"pass"}

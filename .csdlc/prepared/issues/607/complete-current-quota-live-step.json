@@ -1,0 +1,13 @@
+{
+  "actor": "codex-primary-issue607",
+  "card": "spp",
+  "expected_digest": "2dd53997e838d113dd79038ec9b43b6bad8ef3d50a9829a8234bb08987a4b61b",
+  "expected_generation": 83,
+  "issue": 607,
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "completed"
+  },
+  "reason": "The exact current-quota r7i.2xlarge plus g6.xlarge AWS qualification passed all local-ready, service-ready, behavior, cost, cleanup, and residue gates."
+}

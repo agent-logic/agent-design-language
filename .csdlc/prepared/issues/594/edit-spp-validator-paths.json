@@ -1,0 +1,24 @@
+{
+  "issue": 594,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "e81fe1e5bc2520592fe3c1ada70d176b045e93045c927b57682d35d50238140d",
+  "actor": "codex:/root",
+  "reason": "Own the exact executable issue-local Runtime and live AWS validation targets selected by VPP.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/observability/vector.rs",
+      "adl-runtime-kernel/src/observability.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "infra/aws/runtime/log-archive",
+      ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+      ".csdlc/prepared/issues/594/validate-live-aws.sh",
+      ".csdlc/evidence/594"
+    ]
+  }
+}

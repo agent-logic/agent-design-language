@@ -1,0 +1,12 @@
+{
+  "issue": 645,
+  "expected_generation": 11,
+  "expected_digest": "845dfa0f8e510d75cdb5d37cf460e37763f6cdb903052173f82fbe86773a4a13",
+  "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+  "assigned_by": "codex:/root:issue-645-janitor",
+  "scope": [
+    "csdlc-v2/src/bin/csdlc-publish.rs",
+    "csdlc-v2/src/publication.rs",
+    "csdlc-v2/tests/publication_ready.rs"
+  ]
+}

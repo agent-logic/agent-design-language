@@ -1,0 +1,22 @@
+{
+  "issue": 648,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "d7249c39a2c37eb25630e9d3698e9ec6e47f18f18d24dc79e7f1301e7fe56140",
+  "actor": "codex:/root",
+  "reason": "Repair #648 readiness so the issue-owned validation script is an exact governed affected area rather than only covered by a non-proving glob.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs",
+      ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+      ".csdlc/prepared/issues/648/**",
+      ".csdlc/issues/648/**"
+    ]
+  }
+}
