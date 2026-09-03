@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired the second #665 pre-PR review. Adoption now revalidates expected repository, generation, and digest after acquiring lifecycle locks and again against the materialized target record before mutation. Adoption evidence is staged as part of the atomic issue projection replacement, so the record cannot advance to bound unless `.csdlc/issues/<issue>/adoption.v1.json` is written with the same resulting generation and digest returned by `BindResult`.
+Removed obsolete failed-adoption cleanup that could delete an existing target `.csdlc/issues/<issue>/adoption.v1.json` after a failed bind. Adoption evidence is staged inside the atomic issue projection replacement, so failed adoption now leaves any pre-existing regular evidence file untouched; focused regression coverage proves the preservation behavior.
 
 ## Artifacts
 
@@ -37,6 +37,9 @@ Repaired the second #665 pre-PR review. Adoption now revalidates expected reposi
 - csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate5.rs
 - .csdlc/prepared/issues/665/record-atomic-adoption-repairs.json
+- csdlc-v2/src/lifecycle.rs
+- csdlc-v2/tests/gate5.rs
+- .csdlc/prepared/issues/665/record-failed-adoption-preservation.json
 
 ## Execution
 
@@ -56,6 +59,9 @@ Repaired the second #665 pre-PR review. Adoption now revalidates expected reposi
 - Added Store support for issue-directory extra files inside the atomic projection staging swap.
 - Moved adoption evidence into the staged projection replacement so successful adoption writes evidence and record truth together.
 - Added focused regression coverage for stale adoption request freshness after source-record mutation and for replacing a conflicting evidence path with the atomic adoption evidence file.
+- Removed the post-error `remove_file` cleanup for adoption evidence from `bind_issue`.
+- Added a focused regression where a clean worktree has a tracked pre-existing adoption evidence file and a staging blocker; failed adoption returns an I/O error while preserving the existing file and ready/unbound record.
+- Retained the staged atomic evidence path for successful adoption.
 
 ## Validation
 
