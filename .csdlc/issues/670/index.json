@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 670,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9368b813ad731dd962fec73c535984664e7713ffa877b66bd091b84f1d56961a",
-  "phase": "ready",
-  "generation": 5,
-  "digest": "a78ec9dec1cec59aaf8d4a10ee9d97501e1daf3181fbcfabe45914767bb9cb62",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "6f05a103d38b084ddf45c3a7f72f00eb7424f79412634731f117c2535ad5baf0",
+  "branch": "codex/670-gcp-warm-polis-live-qualification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-670-gcp-warm-polis-live-qualification",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b127b42138bbb05d3eb464e3f89746a24150fd920f79430bc3e5503a0805c697",
+      "values_digest": "40e6ddfa76babf9c4b167898f7290bb9f8bd8dfd329337eb99d21585d998c265",
       "rendered_digest": "b7fc096216f2a97613baad2fb438102c17ce3bac77d04aed26a7574442c43bb3",
       "ast_digest": "9ede6543cc3750b7b14708e40cb6f2ee0dbc29d1031114821a7c413bb971bd16"
     },
     "stp": {
-      "values_digest": "12344387f443cbb44b24693d8bae4b6714c769896943ef5fca1e3121829e4206",
+      "values_digest": "b95ee5433a0afa3f9700057c4d279d68fe6fa16284066bbe80a0c29b2e2217d0",
       "rendered_digest": "9baaed8752a7289373b6927e65aa182bbc721e20634d23cf674f414089bfd699",
       "ast_digest": "2e9b385f585f245b4aea4b17a2dbf87850654a783869d66defca7810a1ed424e"
     },
     "spp": {
-      "values_digest": "682ecb39e3fc9b773ba85cd8159f5b5679011c77d3b9d30fe1d1700d846e768e",
+      "values_digest": "175ec38b6dcd2c92eb618a858b8edf2a0c509b455918e19180bf0563c499f0e8",
       "rendered_digest": "db754bf3f56e29967dd9a034fae6eacee71e11b5b527b6607e11db83069ab13a",
       "ast_digest": "ac3fcfdccbdbe1ed837e1d200df7039327e0ba7a503f69ec0ffcde1bbc53f1d5"
     },
     "vpp": {
-      "values_digest": "30efca9d86839c65fc39e661e3fe35f8d610009110ab84db35feee7ff3253cc7",
+      "values_digest": "28f479c3eddd4016939642f65b8fa954386799a9ba6ad6286fa20a23bdc4eb25",
       "rendered_digest": "6cba07df324cc1b0a335314613c8d86902482e25c520ddaf99b395eb6f25be6e",
       "ast_digest": "f1e90a3047a9085f125c1939bd5ba9519dfb0828437d6647693bdf58adbdafb2"
     },
     "srp": {
-      "values_digest": "d5fa5477d15e12eca728b48828cee30a15f33838ab5dc65cb1dfeb8294043c9e",
+      "values_digest": "f398ee2fead5108b56fa3fdb3b3167d79ac0cb73eccb61fd8c5f6617f88cfaea",
       "rendered_digest": "028e7bbf76adab0c3daaa8e0867fcd99f70a6bcbe067fd0b938f5cb32a464773",
       "ast_digest": "8bd04248e677631d5e820c719df36784c3c2677ce8f0c1ecae5ad66bbc551348"
     },
     "sor": {
-      "values_digest": "600aeca85b596e2cf694cdf18a4f65e412e9039a73e2f1af2101e579c20efef8",
-      "rendered_digest": "5452cb65b55410dc75a682261ee63ed6d510ff8b24103c8fc48e16baffe0d700",
-      "ast_digest": "8f9029ad17c9368c0c36b5383338d17261d2864ea8b3135662e0d002f14cde6f"
+      "values_digest": "dbee0a49d27be67ba22f1f0d5fbbcf8eb02c56700b6fc84dba9743a6e73c11fd",
+      "rendered_digest": "0026d3b20f5e1c79b879e8f2e8214f3e70248538c3a3c298c01f200c5f1d7cb6",
+      "ast_digest": "8f00325b2a1854c845e55d0a8c448a094a44e7e11b0dcbd7256fd146f1a240b0"
     }
   },
   "transitions": [
@@ -61,6 +62,20 @@
       "to": "ready",
       "actor": "codex:/root",
       "reason": "Advance #670 after fresh design review PASS, typed approval, deterministic preparation validator PASS, and live read-only preflight PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "The bounded implementation and live qualification have completed and are ready for output recording."
     }
   ],
   "audit": [
@@ -105,6 +120,62 @@
       "actor": "codex:/root",
       "reason": "Advance #670 after fresh design review PASS, typed approval, deterministic preparation validator PASS, and live read-only preflight PASS.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Record the completed bounded live GCP qualification and exact proving evidence before review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Live-qualified the snapshot-backed two-node GCP Polis in the authorized company project, repaired only launch-path blockers, proved six real agent/tool cycles across two resident models, destroyed all issue-owned compute and restored disks, and retained exactly the two verified snapshots within the USD 20 ceiling.\",\"changes\":[\"Made live preflight require an explicit target region and zone and carry issue identity and budget into Terraform.\",\"Hardened snapshot preparation for private Google access, isolated Terraform state, portable Ollama bundles, serial receipt propagation, and no artificial preparation deadline.\",\"Made Runtime startup compatible with the sealed artifact ABI, supervised Guardian independently of Vector, emitted console diagnostics, and ran the six-resident real agent/tool qualification against private Ollama.\",\"Reduced staging and disposable disk sizes to the measured requirements and made launch and cleanup non-interactive and receipt-backed.\"],\"artifacts\":[\".csdlc/evidence/670/live/preflight.json\",\".csdlc/evidence/670/live/snapshot-verification-g670b.json\",\".csdlc/evidence/670/live/launch-g670b.json\",\".csdlc/evidence/670/live/cleanup-g670b.json\",\".csdlc/evidence/670/live/cost-upper-bound.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "Record the passing deterministic preparation and static validation denominator.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/670/validate-preparation.sh\"],\"purpose\":\"Prove preparation contract, shell syntax, Terraform formatting and validity, warm-start and retirement policies, receipt JSON, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/670/validate-preparation.sh\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex-root",
+      "reason": "Record the restore-verified sealed snapshot result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh\",\".csdlc/evidence/670/live/preparation.tfvars\",\".csdlc/evidence/670/live/snapshot-catalog.tfvars\"],\"purpose\":\"Prove both sealed snapshots are READY, restore-verified, generation-bound, and exactly sized.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/snapshot-verification-g670b.json\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex-root",
+      "reason": "Record the passing live two-node qualification result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"launch\"],\"purpose\":\"Prove a real private two-node L4 launch, two simultaneously resident models, Runtime and Guardian health, and six successful agent/tool cycles.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/launch-g670b.json\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex-root",
+      "reason": "Record verified cleanup and conservative cost truth.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"destroy\"],\"purpose\":\"Prove issue-owned compute and restored disks are absent, exactly two intended snapshots remain, and the conservative cost upper bound is below USD 20.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/cleanup-g670b.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex-root",
+      "reason": "The bounded implementation and live qualification have completed and are ready for output recording.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex-root",
+      "reason": "Record the focused Terraform module regression test.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/modules/two-node-ollama-runtime\",\"test\"],\"purpose\":\"Prove the reusable two-node Ollama and Runtime module still satisfies its prepared-artifact launch contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl\"}}"
     }
   ]
 }

@@ -47,11 +47,11 @@ variable "ollama_bundle_sha256" {
 }
 variable "runtime_disk_size_gib" {
   type    = number
-  default = 80
+  default = 20
 }
 variable "ollama_disk_size_gib" {
   type    = number
-  default = 300
+  default = 30
 }
 variable "attach_preparation_vms" {
   description = "True only while hydrating and sealing. Set false and apply before snapshot creation."

@@ -10,8 +10,8 @@ receipt="${ADL_GCP_PREFLIGHT_RECEIPT_PATH:-.csdlc/evidence/670/live/preflight.js
 hourly="${ADL_GCP_CONSERVATIVE_HOURLY_USD:-2.00}"
 paid_hours="${ADL_GCP_MAX_PAID_HOURS:-8.00}"
 storage_reserve="${ADL_GCP_STORAGE_RESERVE_USD:-4.00}"
-region="${ADL_GCP_REGION:-us-west1}"
-zone="${ADL_GCP_ZONE:-us-west1-a}"
+region="${ADL_GCP_REGION:?set ADL_GCP_REGION to the intended live target region}"
+zone="${ADL_GCP_ZONE:?set ADL_GCP_ZONE to the intended live target zone}"
 accelerator_type="${ADL_GCP_ACCELERATOR_TYPE:-nvidia-l4}"
 
 [ "$project" = "$expected_project" ] || { echo "wrong or missing ADL_GCP_PROJECT" >&2; exit 2; }

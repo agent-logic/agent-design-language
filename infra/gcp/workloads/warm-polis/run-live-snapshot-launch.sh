@@ -5,6 +5,7 @@ mode="${1:-launch}"
 root="$(cd "$(dirname "$0")" && pwd)"
 receipt="${ADL_GCP_RECEIPT_PATH:-$root/launch-receipt.json}"
 cleanup_receipt="${ADL_GCP_CLEANUP_RECEIPT_PATH:-$root/cleanup-receipt.json}"
+launch_receipt_ref="$(basename "$receipt")"
 
 [ "${ADL_GCP_LIVE_EXECUTION:-}" = "authorized" ] || {
   echo "live GCP action requires ADL_GCP_LIVE_EXECUTION=authorized" >&2
@@ -26,9 +27,9 @@ case "$mode" in
     ollama_disk="$(jq -r '.launch_state_deletes[1]' <<<"$cleanup_contract")"
     runtime_snapshot="$(jq -r '.retained_snapshots[0]' <<<"$cleanup_contract")"
     ollama_snapshot="$(jq -r '.retained_snapshots[1]' <<<"$cleanup_contract")"
-    if ! terraform -chdir="$root" destroy; then
+    if ! terraform -chdir="$root" destroy -auto-approve; then
       jq -n --argjson started "$cleanup_start_epoch" --argjson observed "$(date +%s)" \
-        --arg launch_receipt "$receipt" \
+        --arg launch_receipt "$launch_receipt_ref" \
         '{schema:"adl.issue663.cleanup-receipt.v1",status:"destroy_failed",cleanup_request_epoch:$started,cleanup_observation_epoch:$observed,launch_receipt:$launch_receipt,resource_absence_verified:false,snapshots_retained_verified:false}' >"$cleanup_receipt"
       exit 1
     fi
@@ -54,7 +55,7 @@ case "$mode" in
     status=cleanup_verification_failed
     [ "$resources_absent" = true ] && [ "$snapshots_retained" = true ] && status=cleaned
     jq -n --arg status "$status" --argjson started "$cleanup_start_epoch" --argjson observed "$cleanup_observed_epoch" \
-      --arg launch_receipt "$receipt" --arg runtime_instance "$runtime_name" --arg ollama_instance "$ollama_name" \
+      --arg launch_receipt "$launch_receipt_ref" --arg runtime_instance "$runtime_name" --arg ollama_instance "$ollama_name" \
       --arg runtime_disk "$runtime_disk" --arg ollama_disk "$ollama_disk" \
       --arg runtime_snapshot "$runtime_snapshot_observed" --arg ollama_snapshot "$ollama_snapshot_observed" \
       --argjson runtime_instance_absent "$runtime_instance_absent" --argjson ollama_instance_absent "$ollama_instance_absent" \
@@ -70,7 +71,7 @@ case "$mode" in
 esac
 
 start_epoch="$(date +%s)"
-terraform -chdir="$root" apply
+terraform -chdir="$root" apply -auto-approve
 apply_epoch="$(date +%s)"
 runtime_name="$(terraform -chdir="$root" output -raw runtime_instance_name)"
 ollama_name="$(terraform -chdir="$root" output -raw ollama_instance_name)"

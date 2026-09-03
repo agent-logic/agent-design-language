@@ -1,0 +1,29 @@
+{
+  "schema": "adl.issue663.cleanup-receipt.v1",
+  "status": "cleaned",
+  "cleanup_request_epoch": 1788477517,
+  "cleanup_observation_epoch": 1788477678,
+  "launch_receipt": "launch-g670b.json",
+  "runtime_instance": {
+    "name": "adl-670-g670-20260903b-runtime",
+    "absent": true
+  },
+  "ollama_instance": {
+    "name": "adl-670-g670-20260903b-ollama",
+    "absent": true
+  },
+  "runtime_restored_disk": {
+    "name": "adl-670-g670-20260903b-runtime-data",
+    "absent": true
+  },
+  "ollama_restored_disk": {
+    "name": "adl-670-g670-20260903b-ollama-data",
+    "absent": true
+  },
+  "resource_absence_verified": true,
+  "retained_snapshot_observed_self_links": [
+    "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-runtime",
+    "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-ollama"
+  ],
+  "snapshots_retained_verified": true
+}

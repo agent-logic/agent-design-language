@@ -1,0 +1,19 @@
+{
+  "schema": "adl.issue663.launch-receipt.v1",
+  "status": "ready",
+  "launch_request_epoch": 1788475378,
+  "terraform_apply_complete_epoch": 1788475473,
+  "runtime_running_observed_epoch": 1788475474,
+  "ollama_running_observed_epoch": 1788475474,
+  "runtime_last_start_timestamp": "2026-09-03T15:44:05.053-07:00",
+  "ollama_last_start_timestamp": "2026-09-03T15:43:22.886-07:00",
+  "runtime_ready_epoch": 1788477498,
+  "gpu_ollama_ready_epoch": 1788475562,
+  "runtime_guest_boot_relative_ready_seconds": 838,
+  "gpu_guest_boot_relative_ready_seconds": 146,
+  "full_polis_ready_epoch": 1788477501,
+  "snapshot_launch_to_ready_seconds": 2123,
+  "terraform_apply_seconds": 95,
+  "runtime_instance": "adl-670-g670-20260903b-runtime",
+  "ollama_instance": "adl-670-g670-20260903b-ollama"
+}

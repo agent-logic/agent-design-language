@@ -46,7 +46,7 @@ resource "google_compute_instance" "ollama" {
     auto_delete = true
     initialize_params {
       image = var.ollama_boot_image
-      size  = 200
+      size  = 50
       type  = "pd-balanced"
     }
   }
@@ -97,7 +97,7 @@ resource "google_compute_instance" "runtime" {
     auto_delete = true
     initialize_params {
       image = var.runtime_boot_image
-      size  = 80
+      size  = 50
       type  = "pd-balanced"
     }
   }

@@ -12,7 +12,7 @@
   },
   "l4_prerequisite": {
     "region": "us-west1",
-    "zone": "us-west1-a",
+    "zone": "us-west1-b",
     "accelerator_type": "nvidia-l4",
     "regional_quota": {
       "limit": 1.0,
