@@ -1,0 +1,55 @@
+{
+  "schema": "agent_logic.podcast.submission_ledger.v1",
+  "show": "The Cognitive Stack",
+  "feed_url": "https://agent-logic.ai/podcast/feed.xml",
+  "entries": [
+    {
+      "provider": "apple_podcasts",
+      "owner": "Agent Logic",
+      "submitted_at_utc": null,
+      "status": "not_authorized",
+      "canonical_url_or_id": null,
+      "evidence": {
+        "redacted_summary": "No Apple Podcasts submission has been authorized or performed.",
+        "secret_material_retained": false
+      },
+      "follow_up": "Await explicit future operator authorization before account access, validation, submission, publication, or destination-link activation."
+    },
+    {
+      "provider": "spotify_for_creators",
+      "owner": "Agent Logic",
+      "submitted_at_utc": null,
+      "status": "not_authorized",
+      "canonical_url_or_id": null,
+      "evidence": {
+        "redacted_summary": "No Spotify for Creators submission has been authorized or performed.",
+        "secret_material_retained": false
+      },
+      "follow_up": "Await explicit future operator authorization before account access, verification-code handling, submission, publication, or destination-link activation."
+    },
+    {
+      "provider": "amazon_music_for_podcasters",
+      "owner": "Agent Logic",
+      "submitted_at_utc": null,
+      "status": "not_authorized",
+      "canonical_url_or_id": null,
+      "evidence": {
+        "redacted_summary": "No Amazon Music for Podcasters submission has been authorized or performed.",
+        "secret_material_retained": false
+      },
+      "follow_up": "Await explicit future operator authorization before account access, confirmation email handling, submission, monitoring, or destination-link activation."
+    },
+    {
+      "provider": "youtube_rss_ingestion",
+      "owner": "Agent Logic",
+      "submitted_at_utc": null,
+      "status": "not_authorized",
+      "canonical_url_or_id": null,
+      "evidence": {
+        "redacted_summary": "No YouTube RSS ingestion has been authorized or performed.",
+        "secret_material_retained": false
+      },
+      "follow_up": "Await explicit future operator authorization before channel selection, RSS ingestion, visibility changes, publication, or destination-link activation."
+    }
+  ]
+}

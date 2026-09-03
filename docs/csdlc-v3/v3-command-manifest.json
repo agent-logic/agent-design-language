@@ -33,7 +33,7 @@
       "command": "bind",
       "replaces": ["csdlc-bind"],
       "owner_issue": 628,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -54,21 +54,21 @@
       "command": "doctor",
       "replaces": ["csdlc-doctor"],
       "owner_issue": 628,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "edit",
       "replaces": ["csdlc-edit"],
       "owner_issue": 628,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "eligibility",
       "replaces": ["csdlc-eligibility"],
       "owner_issue": 628,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -110,7 +110,7 @@
       "command": "issue",
       "replaces": ["csdlc-issue"],
       "owner_issue": 628,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -145,7 +145,7 @@
       "command": "schedule",
       "replaces": ["csdlc-schedule"],
       "owner_issue": 628,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -159,7 +159,7 @@
       "command": "shepherd",
       "replaces": ["csdlc-shepherd"],
       "owner_issue": 628,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
@@ -173,7 +173,7 @@
       "command": "validate",
       "replaces": ["csdlc-validate"],
       "owner_issue": 628,
-      "implementation_status": "partial",
+      "implementation_status": "implemented",
       "authority_status": "not_live"
     }
   ],

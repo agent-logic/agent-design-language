@@ -1368,8 +1368,9 @@ impl InProcessOperationExecutor {
                     let endpoint = task["endpoint"].as_str();
                     match (provider, model, endpoint) {
                         (None, None, None) => return_output(recipient_id),
-                        (Some("ollama"), Some(model), Some(endpoint)) => {
-                            let message = crate::control::invoke_ollama_model(
+                        (Some(provider), Some(model), Some(endpoint)) => {
+                            let message = crate::control::invoke_provider_model(
+                                provider,
                                 endpoint,
                                 model,
                                 input,

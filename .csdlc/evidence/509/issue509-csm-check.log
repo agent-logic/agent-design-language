@@ -1,0 +1,44 @@
+   Compiling ring v0.17.14
+   Compiling rustls v0.23.43
+   Compiling rustls v0.21.12
+    Checking rustls-webpki v0.103.9
+    Checking rustls-webpki v0.101.7
+    Checking sct v0.7.1
+    Checking aws-sigv4 v1.4.1
+    Checking tokio-rustls v0.24.1
+    Checking ntp-proto v0.3.7
+    Checking hyper-rustls v0.24.2
+    Checking tokio-rustls v0.26.4
+    Checking quinn-proto v0.11.17
+    Checking hyper-rustls v0.27.7
+    Checking axum-server v0.8.0
+    Checking ntp-os-clock v0.3.7
+    Checking ntp-udp v0.3.7
+    Checking aws-smithy-http-client v1.1.11
+    Checking reqwest v0.12.28
+    Checking octocrab v0.53.0
+    Checking yup-oauth2 v12.1.2
+    Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability/adl-runtime-kernel)
+    Checking ntp-daemon v0.3.7
+    Checking aws-smithy-runtime v1.10.2
+    Checking google-workspace v0.22.5
+    Checking quinn v0.11.11
+    Checking aws-runtime v1.7.1
+    Checking aws-sdk-sts v1.99.0
+    Checking aws-sdk-sso v1.95.0
+    Checking aws-sdk-ssooidc v1.97.0
+    Checking aws-sdk-eventbridge v1.102.0
+    Checking aws-sdk-servicequotas v1.97.0
+    Checking aws-sdk-lambda v1.117.0
+    Checking aws-sdk-cloudwatchlogs v1.119.0
+    Checking aws-sdk-budgets v1.104.0
+    Checking aws-sdk-ec2 v1.215.0
+    Checking aws-sdk-costexplorer v1.111.0
+    Checking aws-sdk-ssm v1.106.0
+    Checking aws-sdk-bedrockruntime v1.126.0
+    Checking aws-sdk-sns v1.96.0
+    Checking aws-sdk-iam v1.105.0
+    Checking aws-config v1.8.14
+    Checking adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability/adl-runtime)
+    Checking adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-509-drt-d-gcp-portability/adl)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 51.24s

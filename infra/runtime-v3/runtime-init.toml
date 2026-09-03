@@ -31,6 +31,15 @@ display_name = "Agent Logic Development Polis"
 public_domain = "runtime.dev.agent-logic.ai"
 observatory_public_origin = "https://observatory.dev.agent-logic.ai"
 
+[polis.vertex_ai]
+provider = "vertex_ai"
+gcp_project = "agent-logic-dev"
+vertex_location = "us-central1"
+model = "gemini-2.5-flash"
+
+[polis.vertex_ai.credential_source]
+kind = "application_default_credentials"
+
 [resident_shepherd]
 name = "beacon.axioma"
 display_name = "Beacon Axioma"

@@ -1899,7 +1899,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
         validate_agent_admission(&request)
             .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
-        verify_ollama_model(&request).await?;
+        verify_agent_provider_route(&request).await?;
         let _transaction = self
             .dynamic_agent_admission
             .lock()
@@ -5246,6 +5246,56 @@ mod agent_lifecycle {
         }
     }
 
+    fn vertex_declaration() -> AgentAdmissionRequest {
+        AgentAdmissionRequest {
+            schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+            id: "gemini-flash".to_owned(),
+            name: "ember.axioma".to_owned(),
+            display_name: "Ember Axioma".to_owned(),
+            office: "local assistant".to_owned(),
+            role: String::new(),
+            provider: "vertex_ai".to_owned(),
+            model: "gemini-2.5-flash".to_owned(),
+            endpoint: "https://us-central1-aiplatform.googleapis.com/v1/projects/agent-logic-dev/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent".to_owned(),
+        }
+    }
+
+    #[test]
+    fn vertex_ai_agent_admission_uses_explicit_provider_route() {
+        let request = vertex_declaration();
+        assert!(validate_agent_admission(&request).is_ok());
+
+        let mut ambient = request.clone();
+        ambient.endpoint =
+            "https://aiplatform.googleapis.com/v1/models/gemini-2.5-flash".to_owned();
+        assert!(validate_agent_admission(&ambient).is_err());
+
+        let mut mismatched_model = request.clone();
+        mismatched_model.model = "gemini-2.5-pro".to_owned();
+        assert!(validate_agent_admission(&mismatched_model).is_err());
+
+        let mut credentialish = request.clone();
+        credentialish.endpoint = format!("{}?access_token=secret", credentialish.endpoint);
+        assert!(validate_agent_admission(&credentialish).is_err());
+    }
+
+    #[tokio::test]
+    async fn vertex_ai_provider_invocation_fails_closed_before_live_paid_call() {
+        let request = vertex_declaration();
+        assert_eq!(
+            invoke_provider_model(
+                &request.provider,
+                &request.endpoint,
+                &request.model,
+                "hello",
+                &CancellationToken::new(),
+            )
+            .await
+            .unwrap_err(),
+            "agent_provider_live_call_deferred"
+        );
+    }
+
     #[tokio::test]
     async fn agent_lifecycle_is_idempotent_portable_and_restart_safe() {
         let fixture_root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/tmp");
@@ -5480,7 +5530,7 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
     if request.schema != AGENT_ADMISSION_SCHEMA
         || request.id == "shepherd"
         || !is_safe_identifier(&request.id)
-        || request.provider != "ollama"
+        || !is_safe_identifier(&request.provider)
         || request.name.is_empty()
         || request.name.len() > 128
         || request.display_name.len() > 128
@@ -5496,7 +5546,15 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
     {
         return Err(ControlError::InvalidIdentifier);
     }
-    validate_private_provider_binding(&request.model, &request.endpoint)?;
+    match request.provider.as_str() {
+        "ollama" | "openai-compatible" => {
+            validate_private_provider_binding(&request.model, &request.endpoint)?;
+        }
+        "vertex_ai" => {
+            validate_vertex_ai_provider_endpoint(&request.endpoint, &request.model)?;
+        }
+        _ => return Err(ControlError::InvalidIdentifier),
+    }
     Ok(())
 }
 
@@ -5703,6 +5761,20 @@ pub(crate) async fn invoke_resident_shepherd_provider(
     }
 }
 
+async fn verify_agent_provider_route(
+    request: &AgentAdmissionRequest,
+) -> Result<(), AgentAdmissionFailure> {
+    match request.provider.as_str() {
+        "ollama" => verify_ollama_model(request).await,
+        "vertex_ai" => {
+            validate_vertex_ai_provider_endpoint(&request.endpoint, &request.model)
+                .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
+            Ok(())
+        }
+        _ => Err(AgentAdmissionFailure::Invalid("invalid_agent_declaration")),
+    }
+}
+
 fn decode_http_chunked_body(encoded: &[u8]) -> Option<Vec<u8>> {
     let mut cursor = 0_usize;
     let mut decoded = Vec::new();
@@ -5906,6 +5978,24 @@ async fn invoke_openai_compatible_model(
     }
 }
 
+pub(crate) async fn invoke_provider_model(
+    provider: &str,
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<String, &'static str> {
+    match provider {
+        "ollama" => invoke_ollama_model(endpoint, model, prompt, cancellation).await,
+        "vertex_ai" => {
+            validate_vertex_ai_provider_endpoint(endpoint, model)
+                .map_err(|_| "agent_provider_binding_invalid")?;
+            Err("agent_provider_live_call_deferred")
+        }
+        _ => Err("agent_provider_binding_invalid"),
+    }
+}
+
 fn parse_private_provider_endpoint(endpoint: &str) -> Result<(String, u16), ControlError> {
     let authority = endpoint
         .strip_prefix("http://")
@@ -5926,6 +6016,30 @@ fn parse_private_provider_endpoint(endpoint: &str) -> Result<(String, u16), Cont
         return Err(ControlError::InvalidIdentifier);
     }
     Ok((host.to_owned(), port))
+}
+
+fn validate_vertex_ai_provider_endpoint(endpoint: &str, model: &str) -> Result<(), ControlError> {
+    let without_scheme = endpoint
+        .strip_prefix("https://")
+        .ok_or(ControlError::InvalidIdentifier)?;
+    if without_scheme.contains(['@', '?', '#', '\r', '\n', '\t', ' ']) {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    let (host, path) = without_scheme
+        .split_once('/')
+        .ok_or(ControlError::InvalidIdentifier)?;
+    if !host.ends_with("-aiplatform.googleapis.com") {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    let expected_model_suffix = format!("/publishers/google/models/{model}:generateContent");
+    let path = format!("/{path}");
+    if !path.starts_with("/v1/projects/")
+        || !path.contains("/locations/")
+        || !path.ends_with(&expected_model_suffix)
+    {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    Ok(())
 }
 
 fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {

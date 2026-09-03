@@ -1,0 +1,61 @@
+{
+  "issue": 592,
+  "card": "vpp",
+  "expected_generation": 2,
+  "expected_digest": "47555d967330b9f05a8cbf9dc96d3f34f547acc254d0e57720871a9779f6d34a",
+  "actor": "codex:/root",
+  "reason": "Use repository-owned executable validators and treat the merged prerequisite as the execution gate rather than asynchronous closeout paperwork.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "dependency-merge-readback",
+        "proof_role": "Prove the exact PR #603 merge for #528 is present in the selected base revision before execution binding.",
+        "acceptance_ids": ["AC-1"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 300,
+        "argv": ["bash", ".csdlc/prepared/issues/592/validate-528-merge.sh"],
+        "parallel_group": "preflight",
+        "defer_reason": null
+      },
+      {
+        "lane": "vertex-config-docs",
+        "proof_role": "Verify provider, project, location, model, credential sourcing, redaction, and paid-call boundaries are explicit.",
+        "acceptance_ids": ["AC-2", "AC-3"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 180,
+        "budget_tokens": 1600,
+        "argv": ["bash", ".csdlc/prepared/issues/592/validate-vertex-config-docs.sh"],
+        "parallel_group": "docs",
+        "defer_reason": null
+      },
+      {
+        "lane": "runtime-provider-proof",
+        "proof_role": "Prove the explicit production provider-selection contract and reject mock fallback or credential leakage; implementation-time tests extend this lane.",
+        "acceptance_ids": ["AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 3500,
+        "argv": ["bash", ".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh"],
+        "parallel_group": "runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "tooling-canary",
+        "proof_role": "Prove the six-card bundle, design, diagram, dependency request, and exact dependency merge remain retained.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1200,
+        "argv": ["bash", ".csdlc/prepared/issues/592/validate-tooling-canary.sh"],
+        "parallel_group": "tooling",
+        "defer_reason": null
+      }
+    ]
+  }
+}
