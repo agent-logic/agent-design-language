@@ -5,7 +5,8 @@ use serde::{Deserialize, Serialize};
 use crate::{
     AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy, AgentRosterQuery,
     AgentRuntimeEvidence, BootstrapEvent, ComponentId, LifecycleState, ResidentShepherdInitConfig,
-    RunningState, RuntimeSnapshot, WeatherHealthReport, AGENT_ROSTER_PAGE_SCHEMA,
+    ResidentShepherdSetInitConfig, RunningState, RuntimeSnapshot, WeatherHealthReport,
+    AGENT_ROSTER_PAGE_SCHEMA,
 };
 
 pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
@@ -103,7 +104,51 @@ impl AgentPopulationFeed {
     }
 
     pub fn resident_shepherd_from_config(config: &ResidentShepherdInitConfig) -> Self {
-        Self::resident_shepherd_named(&config.name, &config.display_name, &config.office)
+        Self::resident_shepherds_from_config(&ResidentShepherdSetInitConfig::One(config.clone()))
+    }
+
+    pub fn resident_shepherds_from_config(configs: &ResidentShepherdSetInitConfig) -> Self {
+        let mut feed = Self::empty();
+        for (index, config) in configs.iter().enumerate() {
+            let id = if index == 0 {
+                "shepherd".to_owned()
+            } else {
+                format!("shepherd:{}", config.name)
+            };
+            feed.sample.push(AgentSample {
+                id: id.clone(),
+                name: config.name.clone(),
+                label: config.display_name.clone(),
+                role: config.office.clone(),
+                provider: Some(config.provider.clone()),
+                model: Some(config.model.clone()),
+                state: "model_loading".to_owned(),
+                detail: "Provider model preload pending".to_owned(),
+                health: "loading".to_owned(),
+                availability: "unavailable".to_owned(),
+                activity: Some("model_preload".to_owned()),
+                capabilities: vec!["conversation".to_owned()],
+                location: Some("local_runtime".to_owned()),
+                communication_eligible: false,
+                observed_at_unix_millis: 0,
+                freshness_deadline_unix_millis: 0,
+                source_revision: "configured".to_owned(),
+                provenance: "runtime_resident_shepherd".to_owned(),
+            });
+            feed.public_policy
+                .get_or_insert_with(|| AgentRosterPolicy {
+                    policy_subject: "public-observatory".to_owned(),
+                    visible_agent_ids: BTreeSet::new(),
+                    reveal_capabilities: false,
+                    reveal_location: false,
+                })
+                .visible_agent_ids
+                .insert(id);
+        }
+        feed.total_count = feed.sample.len() as u64;
+        feed.rendered_sample_count = feed.total_count;
+        feed.population_complete = true;
+        feed
     }
 
     pub fn resident_shepherd_named(
@@ -117,6 +162,8 @@ impl AgentPopulationFeed {
                 name: name.into(),
                 label: label.into(),
                 role: role.into(),
+                provider: None,
+                model: None,
                 state: "unknown".to_owned(),
                 detail: "Awaiting production Runtime admission".to_owned(),
                 health: "unknown".to_owned(),
@@ -159,6 +206,45 @@ impl AgentPopulationFeed {
                 policy.visible_agent_ids.insert(item.id.clone());
             }
         }
+    }
+
+    pub(super) fn update_resident_shepherd_health(
+        &mut self,
+        name: &str,
+        state: &str,
+        detail: &str,
+    ) {
+        let Some(agent) = self.sample.iter_mut().find(|agent| agent.name == name) else {
+            return;
+        };
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_millis()
+            .try_into()
+            .unwrap_or(u64::MAX);
+        agent.state = state.to_owned();
+        agent.detail = detail.to_owned();
+        agent.health = if state == "ready" {
+            "healthy"
+        } else if state == "model_loading" {
+            "loading"
+        } else {
+            "degraded"
+        }
+        .to_owned();
+        agent.availability = if state == "ready" {
+            "available"
+        } else {
+            "unavailable"
+        }
+        .to_owned();
+        agent.communication_eligible = state == "ready";
+        agent.activity = (state != "ready").then(|| "model_preload".to_owned());
+        agent.observed_at_unix_millis = now;
+        agent.freshness_deadline_unix_millis = now.saturating_add(5 * 60 * 1_000);
+        agent.source_revision = self.revision.saturating_add(1).to_string();
+        self.revision = self.revision.saturating_add(1).max(1);
     }
 
     pub(super) fn remove_dynamic(&mut self, agent_id: &str) {
@@ -290,6 +376,8 @@ fn project_agent_evidence(
         name: agent.name.clone(),
         display_name: agent.label.clone(),
         public_role: agent.role.clone(),
+        provider: agent.provider.clone(),
+        model: agent.model.clone(),
         presence,
         health: health.to_owned(),
         availability: availability.to_owned(),
@@ -311,6 +399,8 @@ impl From<&AgentSample> for AgentRuntimeEvidence {
             name: agent.name.clone(),
             display_name: agent.label.clone(),
             public_role: agent.role.clone(),
+            provider: agent.provider.clone(),
+            model: agent.model.clone(),
             presence: match agent.state.as_str() {
                 "ready" => AgentPresence::Ready,
                 "busy" => AgentPresence::Busy,
@@ -345,6 +435,8 @@ impl From<AgentRosterEntry> for AgentSample {
             name: agent.name,
             label: agent.label,
             role: agent.role,
+            provider: agent.provider,
+            model: agent.model,
             state,
             detail: "Runtime-authorized local roster projection".to_owned(),
             health: agent.health,
@@ -367,6 +459,10 @@ pub struct AgentSample {
     pub name: String,
     pub label: String,
     pub role: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub provider: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
     pub state: String,
     pub detail: String,
     pub health: String,

@@ -19,18 +19,20 @@ use adl_runtime_kernel::{
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
     build_production_operation_executors_with_recorder, load_control_tls, load_identity,
     load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
+    preload_resident_shepherd_model, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
     start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
-    verifying_key_from_hex, AdapterKind, AgentPopulationFeed, CatalogSigningAuthority,
-    CheckpointShutdownRequest, CheckpointingControl, ConfigApplier, ConfigParser,
-    ConfigReloadError, ConfigReloadOptions, ContinuityControlService, ControlApiPolicy,
-    ControlAuthority, ControlCapability, ControlService, DurableContinuityJournal, Kernel,
-    KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
-    ObservabilityHealth, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource,
-    RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
-    TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
-    TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
-    PRIVATE_ALPN,
+    verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
+    CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
+    ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
+    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
+    DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot,
+    ObservabilityDegradation, ObservabilityHealth, OperationRequest, OperationalAdapter,
+    RecorderTrustedTime, ResidentShepherdExecutor, ResidentShepherdProbeExecutor,
+    ResidentShepherdRecoveryPolicy, RsntpTimeSampleSource, RunningState, RuntimeInitConfig,
+    RuntimeRecorder, SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds,
+    TimeSampleSource, TlsIdentityPaths, TrustedControlKey, TrustedTime,
+    AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -239,7 +241,7 @@ async fn main() -> ExitCode {
                 }
             };
             let continuity_reasoning = reasoning.clone();
-            let operation_executors = match build_production_operation_executors_with_recorder(
+            let mut operation_executors = match build_production_operation_executors_with_recorder(
                 operation_state_identity.clone(),
                 recorder.clone(),
             ) {
@@ -249,6 +251,34 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let native_shepherd_executor = operation_executors
+                .get(&AdapterKind::Shepherd)
+                .cloned()
+                .expect("production assembly contains native Shepherd admission");
+            let resident_shepherd = Arc::new(ResidentShepherdExecutor::new(
+                instance_id.clone(),
+                init.resident_shepherd.iter().cloned(),
+                native_shepherd_executor,
+            ));
+            let resident_shepherd_readiness = resident_shepherd.readiness();
+            let shepherd_probe = Arc::new(
+                OperationalAdapter::new(
+                    AdapterKind::Shepherd,
+                    AdapterPolicy {
+                        capacity: 16,
+                        max_in_flight: 1,
+                        shutdown_grace_millis: 60_000,
+                        max_attempts: 1,
+                        idempotency_entries: 16,
+                        authority: AuthorityMode::Internal,
+                    },
+                    Arc::new(ResidentShepherdProbeExecutor::new(
+                        resident_shepherd.clone(),
+                    )),
+                )
+                .expect("resident Shepherd probe policy is valid"),
+            );
+            operation_executors.insert(AdapterKind::Shepherd, resident_shepherd);
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
@@ -610,10 +640,11 @@ async fn main() -> ExitCode {
                 authority,
                 init.kernel.control_history_capacity,
                 init.observatory_allowed_origins(),
-                AgentPopulationFeed::resident_shepherd_from_config(&init.resident_shepherd),
+                AgentPopulationFeed::resident_shepherds_from_config(&init.resident_shepherd),
             )
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
+            .with_readiness_time(Arc::new(roster_trusted_time.clone()))
             .with_canonical_ingress(assembly.canonical_ingress.clone());
             if let Some((authority, exchange)) = layer8 {
                 service = service
@@ -687,6 +718,81 @@ async fn main() -> ExitCode {
                 init.kernel.weather_stale_after_millis,
             ));
             let api_shutdown = tokio_util::sync::CancellationToken::new();
+            for shepherd in init.resident_shepherd.iter().cloned() {
+                let health_service = Arc::clone(&service);
+                let readiness = resident_shepherd_readiness.clone();
+                let probe_adapter = shepherd_probe.clone();
+                let probe_runtime_id = instance_id.clone();
+                let shutdown = api_shutdown.child_token();
+                tokio::spawn(async move {
+                    let name = shepherd.name.clone();
+                    let policy = ResidentShepherdRecoveryPolicy {
+                        timeout: std::time::Duration::from_millis(shepherd.preload.timeout_millis),
+                        retry_initial: std::time::Duration::from_millis(
+                            shepherd.preload.retry_initial_millis,
+                        ),
+                        retry_max: std::time::Duration::from_millis(
+                            shepherd.preload.retry_max_millis,
+                        ),
+                    };
+                    let attempt_shutdown = shutdown.clone();
+                    let attempt_shepherd = shepherd.clone();
+                    let health_name = name.clone();
+                    let sequence = Arc::new(std::sync::atomic::AtomicU64::new(0));
+                    run_resident_shepherd_recovery(
+                        &name,
+                        policy,
+                        readiness,
+                        shutdown,
+                        move || {
+                            let shepherd = attempt_shepherd.clone();
+                            let shutdown = attempt_shutdown.clone();
+                            let adapter = probe_adapter.clone();
+                            let runtime_id = probe_runtime_id.clone();
+                            let sequence = sequence.clone();
+                            async move {
+                                preload_resident_shepherd_model(&shepherd, &shutdown).await?;
+                                let probe_sequence = sequence.fetch_add(
+                                    1,
+                                    std::sync::atomic::Ordering::Relaxed,
+                                ) + 1;
+                                let probe_id = format!(
+                                    "{}:resident-shepherd-probe:{probe_sequence}",
+                                    shepherd.name
+                                );
+                                let governed_probe = OperationRequest {
+                                    schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                                    request_id: probe_id.clone(),
+                                    idempotency_key: probe_id,
+                                    principal: "runtime-bootstrap".to_owned(),
+                                    payload: serde_json::to_vec(&serde_json::json!({
+                                        "schema": adl_runtime_kernel::SHEPHERD_REQUEST_SCHEMA,
+                                        "correlation_id": format!("{}-probe-{probe_sequence}", shepherd.name.replace('.', "-")),
+                                        "runtime_id": runtime_id,
+                                        "shepherd_name": shepherd.name,
+                                        "prompt": "Reply with READY."
+                                    })).expect("resident Shepherd probe request encodes"),
+                                    permit: None,
+                                };
+                                adapter
+                                    .invoke(governed_probe)
+                                    .await
+                                    .map(|_| ())
+                                    .map_err(|_| "resident_shepherd_governed_probe_failed")
+                            }
+                        },
+                        move |state| {
+                            let (status, detail) = state.health();
+                            health_service.update_resident_shepherd_health(
+                                &health_name,
+                                status,
+                                detail,
+                            );
+                        },
+                    )
+                    .await;
+                });
+            }
             let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
                 RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
                     eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
@@ -795,12 +901,7 @@ async fn main() -> ExitCode {
                 .execute(&shepherd_admission)
                 .await
             {
-                eprintln!("runtime resident Shepherd admission failed: {error}");
-                let _ = handle.shutdown(kernel_shutdown_grace).await;
-                if let Some(observability) = observability.as_mut() {
-                    let _ = observability.shutdown().await;
-                }
-                return ExitCode::from(70);
+                eprintln!("runtime resident Shepherd admission degraded; Runtime remains available: {error}");
             }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
                 private_listener,

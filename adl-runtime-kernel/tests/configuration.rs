@@ -233,8 +233,11 @@ observatory_public_origin = "https://observatory.example.test"
 
 [resident_shepherd]
 name = "beacon.axioma"
-display_name = "Beacon"
+display_name = "Beacon Axioma"
 office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
 
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
@@ -814,6 +817,53 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     assert_eq!(
         changed_origins.continuity_identity_projection().unwrap(),
         expected
+    );
+
+    let mut renamed_shepherd = next_cycle.clone();
+    match &mut renamed_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.display_name = "Beacon Axioma".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_eq!(
+        renamed_shepherd.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut rebound_shepherd = renamed_shepherd;
+    match &mut rebound_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.model = "gemma4:e4b-mlx".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_ne!(
+        rebound_shepherd.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut multi_shepherd = next_cycle.clone();
+    let primary = multi_shepherd.resident_shepherd.primary().clone();
+    let mut secondary = primary.clone();
+    secondary.name = "lumen.axioma".to_owned();
+    secondary.display_name = "Lumen".to_owned();
+    multi_shepherd.resident_shepherd =
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, secondary]);
+    let multi_expected = multi_shepherd.continuity_identity_projection().unwrap();
+    if let adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) =
+        &mut multi_shepherd.resident_shepherd
+    {
+        shepherds[0].display_name = "Beacon Axioma".to_owned();
+        shepherds[1].display_name = "Lumen Axioma".to_owned();
+    }
+    assert_eq!(
+        multi_shepherd.continuity_identity_projection().unwrap(),
+        multi_expected
     );
 
     changed_origins.observatory.allowed_origins =
@@ -1428,8 +1478,59 @@ fn canonical_name_is_required_for_resident_shepherd_configuration() {
     let root = tempfile::tempdir().unwrap();
     let valid = valid_runtime_init_toml(root.path());
     let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid).unwrap();
-    assert_eq!(parsed.resident_shepherd.name, "beacon.axioma");
+    assert_eq!(parsed.resident_shepherd.primary().name, "beacon.axioma");
 
     let invalid = valid.replace("name = \"beacon.axioma\"", "name = \"Beacon\"");
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
+}
+
+#[test]
+fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set() {
+    let root = tempfile::tempdir().unwrap();
+    let valid = valid_runtime_init_toml(root.path());
+    let unavailable_provider = valid.replace("provider = \"ollama\"", "provider = \"vertex-ai\"");
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&unavailable_provider)
+        .expect_err("a provider without a compiled execution adapter must fail at startup");
+    assert!(error
+        .to_string()
+        .contains("has no executable adapter in this Runtime build"));
+    let invalid_provider = valid.replace("provider = \"ollama\"", "provider = \"Vertex AI\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
+    let gateway_provider =
+        valid.replace("provider = \"ollama\"", "provider = \"openai-compatible\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&gateway_provider).is_ok());
+    for invalid in [
+        valid.replace("model = \"qwen3:8b\"", "model = \"bad model\""),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://\"",
+        ),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://public.example\"",
+        ),
+    ] {
+        let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid)
+            .expect_err("invalid model and endpoint bindings must fail at startup");
+        assert!(error
+            .to_string()
+            .contains("must form a valid private provider binding"));
+    }
+
+    let duplicate = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"beacon.axioma\"\ndisplay_name = \"Duplicate\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"qwen3:8b\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&duplicate).is_err());
+
+    let two = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"lumen.axioma\"\ndisplay_name = \"Lumen\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"gemma4:e4b-mlx\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&two).unwrap();
+    assert_eq!(parsed.resident_shepherd.iter().count(), 2);
 }
