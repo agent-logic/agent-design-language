@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(git rev-parse --show-toplevel)"
 cd "$repo_root"
 
-if [[ "${1:-}" == "--live-wuji" ]]; then
+if [[ "${1:-}" == "--live-wuji" || "${1:-}" == "--capture-live-wuji-before" ]]; then
   if [[ -n "${2:-}" ]]; then
     echo "unsupported live Wuji acceptance option: $2" >&2
     exit 64
@@ -33,17 +33,20 @@ if [[ "${1:-}" == "--live-wuji" ]]; then
     echo "expected exactly one deployed Runtime kernel executable, found $deployed_kernel_count" >&2
     exit 1
   fi
-  "$csm" runtime-v3 status --init "$init" --json >"$before"
+  if [[ "${1:-}" == "--capture-live-wuji-before" ]]; then
+    "$csm" runtime-v3 status --init "$init" --json >"$before"
+    before_runtime_pid="$(jq -er '.runtime_process_id' "$before")"
+    before_guardian_pid="$(jq -er '.guardian_process_id' "$before")"
+    echo "captured live Wuji pre-restart state for Runtime PID $before_runtime_pid and Guardian PID $before_guardian_pid"
+    exit 0
+  fi
+  if [[ ! -f "$evidence_dir/wuji-service-before-restart.json" ]]; then
+    echo "capture pre-restart state with --capture-live-wuji-before, perform a controlled service restart, then run --live-wuji" >&2
+    exit 1
+  fi
+  "$csm" runtime-v3 status --init "$init" --json >"$status"
   before_runtime_pid="$(jq -er '.runtime_process_id' "$before")"
   before_guardian_pid="$(jq -er '.guardian_process_id' "$before")"
-  kill -TERM "$before_runtime_pid"
-  for _ in $(seq 1 120); do
-    if "$csm" runtime-v3 status --init "$init" --json >"$status" 2>/dev/null \
-      && jq -e --argjson before "$before_runtime_pid" '.listener_ready == true and .runtime_process_id != $before' "$status" >/dev/null; then
-      break
-    fi
-    sleep 1
-  done
   after_runtime_pid="$(jq -er '.runtime_process_id' "$status")"
   process_kernel="$(lsof -a -p "$after_runtime_pid" -d txt -Fn | awk '/^n/ {print substr($0, 2); exit}')"
   process_kernel_realpath="$(realpath "$process_kernel")"
@@ -73,7 +76,6 @@ process_kernel_realpath = sys.argv[7]
 before_guardian_pid = int(sys.argv[8])
 deployed_kernel_count = int(sys.argv[9])
 assert status["service_loaded"] and status["listener_ready"] and status["observability_ready"]
-assert status["guardian_process_id"] == before_guardian_pid
 shepherd = next(agent for agent in feed["agents"]["sample"] if agent["id"] == "shepherd")
 assert shepherd["name"] == "beacon.axioma"
 assert shepherd["provider"] == "ollama" and shepherd["model"] == "qwen3:8b"
@@ -84,14 +86,14 @@ assert ready["ready"] is True and ready["observability_ready"] is True
 assert ready["runtime_process_id"] == status["runtime_process_id"] == feed["runtime_process_id"]
 before = json.load(open(os.path.join(os.path.dirname(sys.argv[1]), "wuji-service-before-restart.json")))
 assert before["runtime_process_id"] != status["runtime_process_id"]
-assert before["guardian_process_id"] == status["guardian_process_id"]
 receipt = {
   "schema":"adl.issue_640.wuji_acceptance.v2",
   "status":"pass",
   "candidate_revision":subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
   "host":socket.gethostname(),
   "command":["bash", ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh", "--live-wuji"],
-  "restart_mechanism":"validator_sigterm_then_guardian_child_recovery",
+  "restart_mechanism":"externally_controlled_service_restart",
+  "guardian_process_before":before_guardian_pid,
   "guardian_process_id":status["guardian_process_id"],
   "configured_kernel_path":configured_kernel_path,
   "configured_kernel_realpath":configured_kernel_realpath,
