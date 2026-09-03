@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -132,9 +133,16 @@ def main() -> None:
     for path in [REGISTER, RECEIPT]:
         require_no_sensitive_text(path)
 
+    head = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+
     print(json.dumps({
         "schema": "adl.validation_receipt.v1",
         "issue": 624,
+        "head": head,
         "validator": ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
         "status": "passed",
         "rows": len(rows),
