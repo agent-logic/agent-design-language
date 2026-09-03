@@ -3,72 +3,14 @@
   "issue": 640,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
-  "phase": "published",
-  "generation": 25,
-  "digest": "6b52dcac9c16b17de34a19d1754f9e2a72b9ca1e4b47b089e037a3608ef8fa6f",
+  "phase": "implemented",
+  "generation": 26,
+  "digest": "80401ecb80ae525524fda3a50d71c52060c2b9461d626b59f190a32134783807",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
-  "review_assignment": {
-    "reviewer": "fresh-session:25cad475-d5d1-4eac-a0d6-41d924dea0f7",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:cfa88fea982503ae3b4daceccd741b01b38d2b51:e9f934ceead9dadf3dfaba45362ea0c5b21d30c81928105af920a12dfcabe943",
-    "scope": [
-      ".csdlc/prepared/issues/640",
-      ".csdlc/evidence/640",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/resident_shepherd.rs",
-      "adl-runtime-kernel/src/shepherd.rs",
-      "adl-runtime-kernel/tests",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "infra/runtime-v3/runtime-init.toml"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:25cad475-d5d1-4eac-a0d6-41d924dea0f7",
-    "scope": [
-      ".csdlc/prepared/issues/640",
-      ".csdlc/evidence/640",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/resident_shepherd.rs",
-      "adl-runtime-kernel/src/shepherd.rs",
-      "adl-runtime-kernel/tests",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "infra/runtime-v3/runtime-init.toml"
-    ],
-    "reviewed_revision": "git-blake3:cfa88fea982503ae3b4daceccd741b01b38d2b51:e9f934ceead9dadf3dfaba45362ea0c5b21d30c81928105af920a12dfcabe943",
-    "findings": [],
-    "residual_risks": [
-      "The full crate had one concurrency-only Guardian-soak timeout among 648 tests; the affected four process tests passed 4/4 when rerun serially."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 640,
-    "pull_request": 653,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/653",
-    "base": "main",
-    "head": "codex/640-runtime-model-backed-resident-shepherd",
-    "revision": "git-blake3:16bf90faca5ca98e3e7082bd47660e2bb76dc1c2:2ef8451e8d34bf39dae7a86fcb100af6388bf757a58b787ac6e7197ae4fc5a75",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -82,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "de691d44f4a5783e17e8e64eb0c4870a16b856090f328bcfc9658e1afa303b12",
+      "values_digest": "53934c6ed72ddc5693a81b143de6ed1fd8bf47aa73b9412c5fb841c02f79b92a",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "f4f279903ddca42bde95fd38b56c06993fe29ed189bc9b46d31e1ac9addf978c",
+      "values_digest": "18dcacf9d01cd82a53a1fccbb0aa55e7ccc1e3c6dc39f606a2e4c5bbf19f707b",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "efe03214d689736cdf44a8e2fa1c5f087aec466aab013dc1d3ea22f06a1e46c5",
+      "values_digest": "7fd66489023606a8d9f7398c339c416b6a3322b83a3b1a4527ac04af1e8c7907",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "d1cb399619575130746f27d14fb50dc1729aa1d7305cc6ee3840d8565d324dff",
+      "values_digest": "5d3d1396c8f8e83565460edee0899ae3f9ae984408a2f9ebf9b5ef1af31538c1",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "ca8866de4c6460033bcca3bcd2302fd9260da870a39c53f8a6fe622a22591e0e",
-      "rendered_digest": "ac7dea4a018202b58fc388927bdca2e20ed1d78e40b107d73464f9ccd5126c6f",
-      "ast_digest": "1b8b16abf6b0b33f1e378c459f179971c547d6e0465f1a79c51cb13ef54e8563"
+      "values_digest": "e149d896bebc0509a5923a0e699fba6a070b2c1f3518ca4e05dd62ad3ca38a00",
+      "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
+      "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
     },
     "sor": {
-      "values_digest": "9dcfa2cefbf1599d78c39ea822e62488728b1210cf6a05293d909e21e9cccded",
-      "rendered_digest": "4f72c224206028c536c75efc6632e31bc27555a706950834c8b8d501f73cca65",
-      "ast_digest": "c93580ae9a067ae7181f6d595a4932a5186af3c4951c663ccd565909e38568e9"
+      "values_digest": "47e0d4c559e9b37673ae4bff94ec721f1759d653a0103c7ae2ce45eb39c87d10",
+      "rendered_digest": "25332a3d892430f26f74b03f7a78fb93b8fadc334c4d1b8b462c362eaae4e356",
+      "ast_digest": "40a5b9d829df7c76841d54965124949e545517647409ee938ecae74eba37e6f3"
     }
   },
   "transitions": [
@@ -147,6 +89,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover published review truth after merging current main and resolving the sole provider-routing conflict before fresh exact-head validation and review."
     }
   ],
   "audit": [
@@ -394,6 +343,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover published review truth after merging current main and resolving the sole provider-routing conflict before fresh exact-head validation and review.",
+      "operation": "recover_review"
     }
   ]
 }

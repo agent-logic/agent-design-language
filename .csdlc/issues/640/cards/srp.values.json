@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
     "slug": "runtime-model-backed-resident-shepherd",
     "version": "v0.92.1",
-    "generation": 25
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/640\n.csdlc/evidence/640\nadl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/resident_shepherd.rs\nadl-runtime-kernel/src/shepherd.rs\nadl-runtime-kernel/tests\nadl-runtime/src/guardian.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\ninfra/runtime-v3/runtime-init.toml",
-      "review_revision": "git-blake3:cfa88fea982503ae3b4daceccd741b01b38d2b51:e9f934ceead9dadf3dfaba45362ea0c5b21d30c81928105af920a12dfcabe943",
-      "reviewer": "fresh-session:25cad475-d5d1-4eac-a0d6-41d924dea0f7",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does configuration remain provider-neutral and keep credentials outside tracked and API surfaces?",
         "Does every Shepherd execute through the existing governed operation boundary?",
@@ -25,10 +25,8 @@
         "Does the branch start from merged #617 rather than carrying an accidental PR stack?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The full crate had one concurrency-only Guardian-soak timeout among 648 tests; the affected four process tests passed 4/4 when rerun serially."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
