@@ -25,3 +25,4 @@
 {"sequence":25,"generation":17,"actor":"codex:worker-6","reason":"Recover #629 review/publication truth after authenticated PR readback and CLI observation hardening through 3fa957d36cfe3df2b125f97f63615c88a6d2ffdb.","operation":"recover_review"}
 {"sequence":26,"generation":17,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":27,"generation":18,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":28,"generation":19,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
