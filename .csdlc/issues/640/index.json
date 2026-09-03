@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "80401ecb80ae525524fda3a50d71c52060c2b9461d626b59f190a32134783807",
+  "generation": 27,
+  "digest": "5186f8eec3fbeb4866dec03ad2c9faaa6ed3d981e411adec678d3903e4af2b50",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "53934c6ed72ddc5693a81b143de6ed1fd8bf47aa73b9412c5fb841c02f79b92a",
+      "values_digest": "b4dfe5b5beeb4edcbaba2fe756c12c2f07a3c6ceed0a9a5bc80eb48c7c8c3a8e",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "18dcacf9d01cd82a53a1fccbb0aa55e7ccc1e3c6dc39f606a2e4c5bbf19f707b",
+      "values_digest": "a74b219e5f1df6fa7bd97f98ce855c04b084e66d76b942b423aaf52a18fe839d",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "7fd66489023606a8d9f7398c339c416b6a3322b83a3b1a4527ac04af1e8c7907",
+      "values_digest": "73e471f412bfbbfbb66b681e66805c6c6d30ead3ed4aa8a4e1540df0180c93ae",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "5d3d1396c8f8e83565460edee0899ae3f9ae984408a2f9ebf9b5ef1af31538c1",
+      "values_digest": "54f59ed0ec28450e541ab7d5075bfb4778898a9876342f6b1e3f668e7ec0a7c0",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "e149d896bebc0509a5923a0e699fba6a070b2c1f3518ca4e05dd62ad3ca38a00",
+      "values_digest": "651bf832bbb57fa6c5cf960a5ae6753abe28d095c7b2dcaaa9cf24aaa68f3857",
       "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
       "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
     },
     "sor": {
-      "values_digest": "47e0d4c559e9b37673ae4bff94ec721f1759d653a0103c7ae2ce45eb39c87d10",
-      "rendered_digest": "25332a3d892430f26f74b03f7a78fb93b8fadc334c4d1b8b462c362eaae4e356",
-      "ast_digest": "40a5b9d829df7c76841d54965124949e545517647409ee938ecae74eba37e6f3"
+      "values_digest": "460157b540e6882d214a9dbf3e604dca685a2c3ce2b3fde7cdfa6d2a20ff7d37",
+      "rendered_digest": "4c234dff35988afdbc5adfd3fc89259bd2c86049dec07c0cf58576e56d57acd6",
+      "ast_digest": "00f90b4d7f24e4567dd0bbe7eb1ddb9bd1971324e6fb309e91ca61e2b3b9c64b"
     }
   },
   "transitions": [
@@ -350,6 +350,13 @@
       "actor": "codex:/root",
       "reason": "Recover published review truth after merging current main and resolving the sole provider-routing conflict before fresh exact-head validation and review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex-640-owner",
+      "reason": "Record final review remediations, exact focused proof, and exact-binary Wuji Guardian recovery acceptance before independent review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented provider-backed resident Shepherds with provider-neutral private gateway support, tested lifetime recovery, presentation-safe continuity identity, shared readiness truth, and exact-binary Wuji restart proof.\",\"changes\":[\"Support compiled Ollama and private OpenAI-compatible provider adapters without serializing provider credentials into Runtime configuration or API output.\",\"Run provider preload plus governed inference through one reusable lifetime recovery controller that retries transient failure without terminating or globally blocking the Runtime.\",\"Exclude resident Shepherd presentation labels from continuity identity for both single and multi-Shepherd configurations while retaining canonical stateful bindings.\",\"Bind Wuji acceptance to the exact checked-out release build and installed canonical kernel and Guardian executables, then prove a controlled Guardian restart restores a new Runtime process without letting the validator terminate the live service.\",\"Retain one canonical deployed Runtime kernel binary and report Beacon Axioma backed by qwen3:8b with consistent readiness and Observatory truth.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove eight nonzero focused configuration, provider dispatch, governed inference, lifetime recovery, canonical identity, truthful roster counts, readiness consistency, formatting, and diff-hygiene behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across changed Runtime production and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"vertex_ai\",\"--lib\"],\"purpose\":\"Prove the post-merge conflict resolution preserves mainline Vertex AI admission and fail-closed invocation alongside #640 local provider routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"purpose\":\"Prove clean exact post-merge commit d9598178c6dcfbf8c71743949aee8f18d869d591, installed kernel digest 9593340f25c4436ccfa214df94ca23a43d867a47e841af937cd6a3a1fbd9ec1c, and installed Guardian digest ce014d2ad8b63d58f0b9dcdbf10f2d679427a62c85cb1c648931e4365f20e28e restart to new PIDs, preload qwen3:8b, pass governed inference, and report certificate-verified local and AWS readiness.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"}]}"
     }
   ]
 }

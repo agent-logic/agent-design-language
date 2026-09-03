@@ -1,7 +1,7 @@
-Exact implementation revision: 58fbeaa41795b9bfcf2a903fb4a3f3225c68f8a6
+Exact post-merge implementation revision: d9598178c6dcfbf8c71743949aee8f18d869d591
 Command: bash .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh
 
-Nextest run ID 40122e0c-5cc4-40e8-80f4-6212d11039c7
+Nextest run ID 9f30c0c5-ad06-4f03-a885-e6776734d18f
 Starting 8 tests across 3 binaries (68 tests skipped)
 PASS adl-runtime-kernel::agent_roster resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts
 PASS adl-runtime-kernel::agent_roster shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed
@@ -16,3 +16,4 @@ Summary: 8 tests run: 8 passed, 68 skipped
 cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check: passed
 git diff --check: passed
 cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --bins --tests -- -D warnings: passed
+cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml vertex_ai --lib: 2 passed

@@ -66,11 +66,25 @@ Implemented provider-backed resident Shepherds with provider-neutral private gat
   },
   {
     "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "vertex_ai",
+      "--lib"
+    ],
+    "purpose": "Prove the post-merge conflict resolution preserves mainline Vertex AI admission and fail-closed invocation alongside #640 local provider routes.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/640/model-backed-shepherd.log"
+  },
+  {
+    "command": [
       "bash",
       ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
       "--live-wuji"
     ],
-    "purpose": "Prove clean exact implementation commit 58fbeaa41795b9bfcf2a903fb4a3f3225c68f8a6, installed kernel digest 4259f2d0441fecac0890bfab3b0f246bac16695101aa8b3bd1203ebbf6ed5ae4, and installed Guardian digest 94074672f547f6adecbe46d8f580f0e63e588b2989358050854f1075055d5074 restart to new PIDs, preload qwen3:8b, pass governed inference, and report certificate-verified local and AWS readiness.",
+    "purpose": "Prove clean exact post-merge commit d9598178c6dcfbf8c71743949aee8f18d869d591, installed kernel digest 9593340f25c4436ccfa214df94ca23a43d867a47e841af937cd6a3a1fbd9ec1c, and installed Guardian digest ce014d2ad8b63d58f0b9dcdbf10f2d679427a62c85cb1c648931e4365f20e28e restart to new PIDs, preload qwen3:8b, pass governed inference, and report certificate-verified local and AWS readiness.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/640/wuji-shepherd-acceptance.log"
   }
