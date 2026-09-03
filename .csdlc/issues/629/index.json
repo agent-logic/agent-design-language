@@ -4,14 +4,61 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "a9d87ecee15d920f4291cef39b04a443565746e1783077a817449049de951097",
+  "phase": "published",
+  "generation": 10,
+  "digest": "30789289f4f1e3c047c4eabbccce86279d1f29a3609e64bd3472d92862156a39",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_629_head_c096824f5",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:c096824f578007b965f0bb0bb60a2ac4ae35aa1e:6803a98b5df3c975f8fd1c0823a0767aa11e2872e0cb6a1b1ce75b4ebfa7fd93",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/629/design.md",
+      ".csdlc/prepared/issues/629/diagram.mmd",
+      ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_629_head_c096824f5",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/629/design.md",
+      ".csdlc/prepared/issues/629/diagram.mmd",
+      ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh"
+    ],
+    "reviewed_revision": "git-blake3:c096824f578007b965f0bb0bb60a2ac4ae35aa1e:6803a98b5df3c975f8fd1c0823a0767aa11e2872e0cb6a1b1ce75b4ebfa7fd93",
+    "findings": [],
+    "residual_risks": [
+      "The public remote routes remain construction-only and fail-closed until authenticated adapter/receipt ingestion is implemented and #505 explicitly cuts over authority.",
+      "This review does not authorize v3 publication, finish, cleanup, or GitHub mutation as live operational authority before #505."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 629,
+    "pull_request": 641,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/641",
+    "base": "main",
+    "head": "codex/629-v3-h3-github-publication-exec",
+    "revision": "git-blake3:c096824f578007b965f0bb0bb60a2ac4ae35aa1e:6803a98b5df3c975f8fd1c0823a0767aa11e2872e0cb6a1b1ce75b4ebfa7fd93",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2e6f5278731386418e1047bd8b0e8185eb8e5b9e263afc1beb7fe34b319d7434",
+      "values_digest": "ac951d47bdced9e8dd3f50de8b3068b39223756d272485b73c2ead67497b2b59",
       "rendered_digest": "e446948ed0ad2268373108f73463028bfa4db9d89c070b19f3efbb817893e249",
       "ast_digest": "4441dd096f6c525cb946e18a6fc6a31f4b07b3be9a00752bfc4c2d67c4f0c2a3"
     },
     "stp": {
-      "values_digest": "0ec74e0f596948a46fc47265cb02956978696a72fd8445f1e2963349ea07b69e",
+      "values_digest": "1f927fd731969a094ad5e5d49d868c8b93ce676e1dfea240b7f77cacdbdcd866",
       "rendered_digest": "27d53576f399af4a88d9a3a47d4928fc3d600c625480612e442939edc5cd1f4b",
       "ast_digest": "8dda543d0b0c799e3467b5ce616ba72f9b6a7d8ae2cbb9373fe69eca07952409"
     },
     "spp": {
-      "values_digest": "b46c0289cd65b3385a42992638064b481a2d72153656248c1a44d70251cc4fda",
+      "values_digest": "d184be6866e2344c3f9e6d493a63a89387d640fccc437596d646e6fbb82acec7",
       "rendered_digest": "556e13e7c158af8c80538c151cc2fc12041ac4e470df6ff04129b2c2b4150680",
       "ast_digest": "776112b5558f285d4e428c4f3e40e4e18c4fd06dbdb09c9b2952b17e3737f34b"
     },
     "vpp": {
-      "values_digest": "b453240500b4b6e1fdf0e1d48419b7203d9acbeb76913dc2f1bede2108413217",
+      "values_digest": "a17345217c66d891f0aa729e207868feb4de9c27d78cb3d96fdb9fffe3efcac8",
       "rendered_digest": "344816c3eaa375d6ef4366492e688f885d2536b905e94af4617b596b7fe11eb3",
       "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
     },
     "srp": {
-      "values_digest": "5de18d9e1fdfe0d271720cea6e4b0a1910c0f60412004e78a67edef698fe1022",
-      "rendered_digest": "1775065929855381bd8ef25484ba4f687f40bf96eb3acf59fc8cfd24a6d80259",
-      "ast_digest": "4ec2773367b73bbf4044cbc54b1022fca5e1cde871fb69261ea2ec40ed8e9385"
+      "values_digest": "b5ab91a8d8cd09d619e35f8878ed6f401cfecdd33bec9f3c3b52db5426539f33",
+      "rendered_digest": "0b6b1519c6a4deec17d87124dbf7ee7623c2f92759bb4a5c38af0a63e0886e2b",
+      "ast_digest": "5a62adb5382b36cf33ad07e63bbe19ffa71240cedc87b88a67cac5eb32fd01e4"
     },
     "sor": {
-      "values_digest": "9f694e295d658d6252d66ba89c2a60490454485e8a3eefb3cb55a8c9fca91bb2",
-      "rendered_digest": "e0b4384596e7224e5b3483f65848e987d550b02fa713f9bc0e30f273774c15b1",
-      "ast_digest": "e8c07e017fc6b180f98f8172d72576051c6ba466a57929819f96f99439bb0f54"
+      "values_digest": "e082f47a33846ad0ebbeb1bb917cc9c737bcdbcd2a9e5129ebfb62e62e5b4c02",
+      "rendered_digest": "164f2477409eb8f9eec1c7aa9ca383615fae44b2b02ac6ad7e4f7666e762f475",
+      "ast_digest": "2a24de59e9be975da5f42ac666e99145b43e86038b34a5e53aff9738805a7e0c"
     }
   },
   "transitions": [
@@ -97,6 +144,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #629 after post-publication local repairs to durable receipt path handling and authenticated remote readback route coverage. Existing PR #641 is now conflicting after #628 merged, and the current worktree has unreviewed source/test changes that must be committed, reviewed, republished, and reconciled before terminal finish."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -190,6 +251,27 @@
       "actor": "codex:worker-6",
       "reason": "Record the exact-head #629 review finding fix for issue-number relation boundaries in v3 publication route planning.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented V3-H.3 GitHub, PR-state, review, and publication construction routes under the single non-authoritative csdlc v3 binary, with synthetic receipts and ambiguous closing references failing closed before #505.\",\"changes\":[\"Implemented #629-owned route handlers for github, github-issue, github-pr, pr-state, publish, and review under the single v3 csdlc binary.\",\"Kept every #629 route non-authoritative before #505 cutover; GitHub/readback and publication routes return fail-closed findings when authority would depend on caller-provided receipts.\",\"Added fail-closed detection for caller-forged GitHub adapter readbacks and caller-attested typed review/publication receipts.\",\"Tightened publication body relation parsing so `Closes #6290` no longer satisfies the required `Closes #629` relation.\",\"Kept credential-name redaction in route reports.\",\"Preserved the v3 command manifest truth that #629 GitHub/publication routes are fail_closed/not_live construction routes, not operational authority.\",\"Added and updated focused command-manifest, remote-publication, and real-issue canary tests for the fail-closed boundary.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/remote_publication_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/629/design.md\",\".csdlc/prepared/issues/629/diagram.mmd\",\".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh\",\".csdlc/issues/629\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Prove the current v3 Rust source is formatted after tightening publication relation parsing.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"remote_publication_commands\"],\"purpose\":\"Prove remote publication planning rejects ambiguous closing references such as Closes #6290.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: 5 passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove local whitespace hygiene after the relation-boundary fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
