@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue607.paid_action_cost_audit.v1",
   "status": "pass",
-  "as_of": "2026-09-02T17:15:00Z",
+  "as_of": "2026-09-03T06:45:00Z",
   "authorized_ceiling_usd": 20,
   "method": {
     "instance_start": "AWS CloudTrail RunInstances event time",
@@ -40,12 +40,13 @@
     {"run_id":"adl-issue607-e8925c1dc8b0-launch-1","action":"launch-1","runtime_seconds":299,"gpu_seconds":641,"compute_upper_bound_usd":0.187252},
     {"run_id":"adl-issue607-e8925c1dc8b0-launch-1-retry-1","action":"historical-retry","runtime_seconds":363,"gpu_seconds":579,"compute_upper_bound_usd":0.182800},
     {"run_id":"adl-issue607-e8925c1dc8b0-launch-2","action":"launch-2","runtime_seconds":363,"gpu_seconds":435,"compute_upper_bound_usd":0.150608},
-    {"run_id":"adl-issue607-e8925c1dc8b0-remediate","action":"qualification-remediation","outcome":"rejected_before_instance","runtime_seconds":0,"gpu_seconds":0,"compute_upper_bound_usd":0,"cloudtrail_event_ids":["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"],"cloudtrail_response_instance_ids":[],"error_code":"Client.VcpuLimitExceeded","quota_code":"L-DB2E81BA","observed_quota_vcpus":4,"required_vcpus":16,"post_cleanup_owner_inventory":{"observed_at":"2026-09-02T17:24:00Z","owner_token_sha256":"83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}}
+    {"run_id":"adl-issue607-e8925c1dc8b0-remediate","action":"qualification-remediation","outcome":"rejected_before_instance","runtime_seconds":0,"gpu_seconds":0,"compute_upper_bound_usd":0,"cloudtrail_event_ids":["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"],"cloudtrail_response_instance_ids":[],"error_code":"Client.VcpuLimitExceeded","quota_code":"L-DB2E81BA","observed_quota_vcpus":4,"required_vcpus":16,"post_cleanup_owner_inventory":{"observed_at":"2026-09-02T17:24:00Z","owner_token_sha256":"83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}},
+    {"run_id":"adl-issue607-e8925c1dc8b0-quota-recovery","action":"qualification-quota-recovery","outcome":"passed_with_review_rejected_recovery_claims","runtime_instance_id":"i-05ff5a7a91434b114","gpu_instance_id":"i-0d2f10455c1c478e8","runtime_launch_time":"2026-09-03T06:31:02Z","runtime_termination_time":"2026-09-03T06:36:35Z","gpu_launch_time":"2026-09-03T06:30:48Z","gpu_termination_time":"2026-09-03T06:37:05Z","runtime_seconds":333,"gpu_seconds":377,"compute_upper_bound_usd":0.133231,"disposable_ebs_ipv4_upper_bound_usd":0.004135,"post_cleanup_owner_inventory":{"observed_at":"2026-09-03T06:45:00Z","owner_token_sha256":"2cde10bd301f9b872fe03ace47ef8f6de830186789614a7f874e150e153b77f0","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}}
   ],
-  "historical_compute_upper_bound_usd": 4.179398,
-  "historical_disposable_ebs_ipv4_allowance_usd": 0.053936,
-  "historical_total_upper_bound_usd": 19.6,
-  "remaining_before_remediation_usd": 0.4,
+  "historical_compute_upper_bound_usd": 4.312629,
+  "historical_disposable_ebs_ipv4_allowance_usd": 0.058071,
+  "historical_total_upper_bound_usd": 19.737366,
+  "remaining_before_remediation_usd": 0.262634,
   "audited_remote_action_markers": [
     "shepherd/issue-607/campaigns/2d797ce5b618081a753ab1261d0305820781388e0f52d52f4677fffc332d07c3/actions/prepare.json",
     "shepherd/issue-607/campaigns/307c600bfee46788583c8f06b65f642c0e6d0d6c4e66e77e21d9cd0a05acff0e/actions/prepare.json",
@@ -62,6 +63,7 @@
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/launch-1.json",
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/launch-2.json",
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/prepare.json",
-    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-remediation.json"
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-remediation.json",
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-quota-recovery.json"
   ]
 }

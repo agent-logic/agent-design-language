@@ -16,7 +16,7 @@ Separate slow preparation from fast launch, seal two persistent AZ-local data vo
 
 ## Plan
 
-Revision 11
+Revision 12
 
 ## Steps
 
@@ -119,7 +119,7 @@ Revision 11
 
 .csdlc/prepared/issues/607/design.md
 
-Digest: d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9
+Digest: 9cc3e977d71f54ea832a8b070dbb3498cc0219a811c95b91bc61e5e5bef19786
 
 ## Diagram
 

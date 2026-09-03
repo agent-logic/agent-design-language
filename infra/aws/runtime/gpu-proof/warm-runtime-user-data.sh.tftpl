@@ -39,7 +39,7 @@ failure() {
 }
 trap failure EXIT
 
-for command in curl jq mount openssl python3 readlink socat systemctl veritysetup; do command -v "$command" >/dev/null; done
+for command in base64 curl jq mount openssl python3 readlink socat systemctl veritysetup; do command -v "$command" >/dev/null; done
 python3 -c 'import boto3, botocore' >/dev/null
 compact='${volume_id}'
 compact="$${compact//-/}"
@@ -115,6 +115,9 @@ export ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/mnt/adl-warm-runtime
 export CARGO_TARGET_DIR=/mnt/adl-warm-runtime/target
 export ADL_RUNTIME_VECTOR_BIN=/mnt/adl-warm-runtime/vector/bin/vector
 bash "$repo_runtime/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" --suite preflight_1x >"$state/guardian-validation.log" 2>&1
+printf '%s' '${qualifier_script_base64}' | base64 --decode >"$state/issue607-qualify.sh"
+printf '%s' '${recovery_proof_script_base64}' | base64 --decode >"$state/issue607-guardian-recovery-proof.sh"
+chmod 0700 "$state/issue607-qualify.sh" "$state/issue607-guardian-recovery-proof.sh"
 ADL_ISSUE607_AWS_REGION='${region}' \
 ADL_ISSUE607_ARTIFACT_BUCKET='${artifact_bucket}' \
 ADL_ISSUE607_QUALIFICATION_KEY='${qualification_key}' \
@@ -122,4 +125,5 @@ ADL_ISSUE607_SOURCE_COMMIT='${source_commit}' \
 ADL_ISSUE607_GPU_PRIVATE_IP=127.0.0.1 \
 ADL_ISSUE607_RUN_ID='${run_id}' \
 ADL_ISSUE607_GUARDIAN_EVIDENCE_ROOT="$guardian_evidence" \
-  bash "$repo_runtime/adl/tools/issue607_qualify_warm_polis.sh"
+ADL_ISSUE607_GUARDIAN_RECOVERY_PROOF_HELPER="$state/issue607-guardian-recovery-proof.sh" \
+  bash "$state/issue607-qualify.sh"

@@ -36,11 +36,14 @@ does not own:
 - The controller owns the two prepared AMIs, their root snapshots, the two
   sealed-data snapshots, and the temporary restore volume. Before each raw EC2
   creation can be followed by another operation, its exact provider ID is
-  appended to a worktree-local write-ahead resource ledger. The exit trap and
-  explicit idempotent `recover-preparation` command consume that ledger,
-  re-query exact IDs, and verify incomplete resources are absent. Successful
-  preparation changes those entries from active to retained only after the
-  complete preparation result exists.
+  appended to a worktree-local write-ahead resource ledger. Until both
+  preparation guests have completed successfully and stopped, the exit trap
+  removes their disposable resources and the incomplete warm-storage state.
+  After that boundary, it preserves state so an exact `resume-preparation`
+  invocation can finish image, snapshot, and result creation. Successful
+  preparation changes ledger entries from active to retained only after the
+  complete preparation result exists. Terminal deletion is a separate exact-ID
+  `retire-storage` action.
 
 All three roots bind the same account, region, availability zone, KMS key ARN, owner
 token, and artifact generation. Preflight rejects missing tags, wrong KMS key,
@@ -112,8 +115,11 @@ Cloud-init performs only bounded local operations: mount by volume identity,
 activate a dm-verity mapping from the authorized root hash, validate required
 file identities without rescanning every content block, install no packages,
 copy no large artifacts, start the packaged systemd units, and emit readiness receipts.
-The Runtime node waits for the GPU ready receipt and private Ollama health before
-starting Guardian. Both data volumes remain outside disposable-instance cleanup.
+The Runtime node starts Guardian and Runtime first and proves their local
+authenticated HTTPS/WSS readiness independently of GPU convergence. It then
+waits for the GPU ready receipt and private Ollama health, creates the loopback
+Ollama tunnel, and runs the complete qualification. Both data volumes remain
+outside disposable-instance cleanup.
 
 ## Image and package boundary
 
@@ -188,14 +194,15 @@ an unmeasured aggregate.
 - Explicit storage cleanup owns deletion of obsolete warm volumes only after a
   replacement seal is proven and a separate single-use authorization selects
   the exact IDs. It is not reachable from compute cleanup.
-- The preparation exit trap is installed before the storage apply. Until the
-  complete preparation result and retained-resource ledger are durable, any
-  interruption destroys the exact incomplete warm-storage Terraform state as
-  well as disposable preparation state and raw resources. The explicit
-  `recover-preparation` path performs the same state cleanup without requiring
-  a completed preparation result. Its narrow recovery validator permits one or
-  both named warm volumes to be deleted so a partial Terraform apply cannot
-  defeat cleanup.
+- The preparation exit trap is installed before the storage apply. Through
+  storage creation, guest hydration, receipt collection, and guest shutdown, a
+  handled failure removes the disposable preparation resources and incomplete
+  warm-storage state. Once both successful guest receipts and stopped-instance
+  states are present, the controller switches to preservation before creating
+  retained images and snapshots; `resume-preparation` can then continue the
+  exact run, storage ID, source commit, campaign, and authorization lineage.
+  The legacy `recover-preparation` route is disabled. Obsolete retained storage
+  is deleted only by the separately authorized exact-ID `retire-storage` action.
 - Prepared images, their root snapshots, and both sealed-data snapshots carry
   the same `retention-until` tag. `extend-retention` binds and updates every
   retained artifact; `retire-snapshots` binds exact IDs, deregisters the two

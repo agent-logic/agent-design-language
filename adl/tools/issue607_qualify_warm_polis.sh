@@ -39,6 +39,10 @@ python3 -c 'import boto3, botocore' >/dev/null
 jq -e '.schema=="adl.shepherd.portable_model_bundle.v2" and (.models|length)>=2' "$manifest" >/dev/null
 guardian_evidence_root=${ADL_ISSUE607_GUARDIAN_EVIDENCE_ROOT:-$state_root/guardian-evidence}
 guardian_proof="$(find "$guardian_evidence_root" -type f -name issue-proof.json -print -quit)"
+guardian_report="$(jq -er .lifecycle_report_path "$guardian_proof")"
+recovery_helper=${ADL_ISSUE607_GUARDIAN_RECOVERY_PROOF_HELPER:-"$(dirname "$0")/issue607_guardian_recovery_proof.sh"}
+recovery_proof="$state_root/guardian-recovery-proof.json"
+"$recovery_helper" "$guardian_proof" "$guardian_report" "$recovery_proof"
 jq -e '
   .status=="pass"
   and .assertions.guardian_launched==true
@@ -50,6 +54,7 @@ jq -e '
   and .assertions.clean_shutdown==true
   and .assertions.clean_logs==true
 ' "$guardian_proof" >/dev/null
+jq -e '.status=="pass" and .issue607_acceptance_eligible==true and .assertions.degradation_recovered==true and .assertions.vector_recovered==true' "$recovery_proof" >/dev/null
 
 stage=shepherd
 shepherd='[]'
@@ -87,8 +92,9 @@ agents="$(jq -sc 'map(select(.agent_test_outcome=="executed" and .runtime_exit_c
 stage=receipt
 jq -n --arg run_id "$run_id" --arg source_commit "$source_commit" \
   --arg guardian_proof_sha256 "$(sha256sum "$guardian_proof" | awk '{print $1}')" \
-  --argjson shepherd "$shepherd" --argjson agents "$agents" \
-  '{schema:"adl.issue607.qualification_complete.v1",status:"passed",run_id:$run_id,source_commit:$source_commit,guardian_proof_sha256:$guardian_proof_sha256,shepherd_proofs:$shepherd,runtime_agent_acc_proofs:$agents,assertions:{two_model_shepherd:true,six_agent_acc:true,guardian_restart:true,state_preserved:true,degradation_recovered:true,vector_recovered:true,clean_logs:true,clean_shutdown:true}}' \
+  --arg guardian_recovery_proof_sha256 "$(sha256sum "$recovery_proof" | awk '{print $1}')" \
+  --argjson recovery "$(jq -c . "$recovery_proof")" --argjson shepherd "$shepherd" --argjson agents "$agents" \
+  '{schema:"adl.issue607.qualification_complete.v1",status:"passed",run_id:$run_id,source_commit:$source_commit,guardian_proof_sha256:$guardian_proof_sha256,guardian_recovery_proof_sha256:$guardian_recovery_proof_sha256,guardian_recovery_proof:$recovery,shepherd_proofs:$shepherd,runtime_agent_acc_proofs:$agents,assertions:{two_model_shepherd:true,six_agent_acc:true,guardian_restart:true,state_preserved:true,degradation_recovered:$recovery.assertions.degradation_recovered,vector_recovered:$recovery.assertions.vector_recovered,clean_logs:true,clean_shutdown:true}}' \
   >"$state_root/qualification.json"
 s3_put "$region" "$bucket" "$qualification_key" "$state_root/qualification.json"
 trap - EXIT

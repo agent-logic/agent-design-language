@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue607.aws_current_quota_qualification.v1",
   "issue": 607,
-  "status": "passed",
+  "status": "rejected_by_exact_head_review",
   "aws_profile": "agent-logic-admin",
   "aws_region": "us-west-2",
   "availability_zone": "us-west-2a",
@@ -32,8 +32,8 @@
     "six_agent_acc": true,
     "guardian_restart": true,
     "state_preserved": true,
-    "degradation_recovered": true,
-    "vector_recovered": true,
+    "degradation_recovered": null,
+    "vector_recovered": null,
     "clean_logs": true,
     "clean_shutdown": true
   },
@@ -56,6 +56,7 @@
     "audit": ".csdlc/evidence/607/aws-paid-action-cost-audit.json"
   },
   "limitations": [
+    "The first current-quota receipt did not retain source evidence for its degradation and Vector recovery assertions; exact-head review rejected those two claims and a corrected live proof is required.",
     "The 235-second controller timing includes Terraform apply and AWS control-plane provisioning; it is not the guest-local runtime readiness time.",
     "The conservative issue total includes fixed seven-day storage and snapshot allowances and is not an AWS Cost Explorer actual."
   ]

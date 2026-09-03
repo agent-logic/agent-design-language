@@ -255,8 +255,12 @@ receipts, a GPU snapshot-to-volume availability timing receipt, and an aggregate
 campaign cost ledger. The controller also validates the issue-wide historical
 paid-action audit against every create-only S3 campaign marker and reserves a
 full action window in `.adl/local/issue607/aggregate-cost-ledger.json` before
-consuming any further authorization. Reservations are never refunded after
-consumption, so failed attempts remain charged against the USD 20 ceiling.
+consuming any further authorization. Consumed reservations remain conservative
+until an attempt has authoritative termination timing and exact
+zero-disposable-residue proof. A completed attempt may then be incorporated
+into a refreshed historical paid-action audit at its measured upper bound;
+failed, live, or unreconciled attempts remain fully reserved against the USD 20
+ceiling.
 Retry-suffixed run IDs are rejected. Unused volume extents are not zero-filled, preserving sparse
 snapshot economics. The temporary restored timing volume is deleted. The
 preparation instances, ENIs, security group, IAM resources, scheduler, shared
@@ -277,18 +281,27 @@ reset machine identity, and remove SSH host keys so first launch regenerates
 per-instance state. Raw EC2 provider IDs are written immediately to
 `preparation-resources.json`, including the first data snapshot before the
 second snapshot request begins. The exit trap is active before warm-storage
-apply. If preparation is interrupted before its result is durable, it removes
-the incomplete warm-storage state as well as disposable preparation and raw
-resources. Rerun exact cleanup from that worktree and run ID; it does not
-require a completed preparation result and also discovers tagged resources
-that were created immediately before a local ledger write:
+apply. Through guest hydration, receipt collection, and guest shutdown, a
+handled failure removes disposable preparation resources and incomplete warm
+storage. After both successful guest receipts exist and both guests are stopped,
+the controller preserves the exact state and resource ledger while it creates
+the retained images and snapshots. If interrupted in that preserved phase,
+resume the same preparation from the same worktree, run ID, storage ID, source
+commit, campaign, and authorization lineage:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh recover-preparation \
+bash adl/tools/run_issue607_warm_polis.sh resume-preparation \
   --commit EXACT_REVIEWED_SHA \
   --run-id adl-issue607-prepare-UNIQUE \
-  --storage-id adl-issue607-warm-v1 --execute
+  --storage-id adl-issue607-warm-v1 \
+  --authorization-file EXACT_CONSUMED_AUTHORIZATION.json \
+  --execute
 ```
+
+`recover-preparation` is intentionally disabled: deleting a partially consumed
+mutable Terraform state is not a safe recovery operation. Once the prepared
+generation is terminal and obsolete, use the separately authorized
+`retire-storage` action with its exact retained IDs.
 
 ### Launch twice
 

@@ -302,19 +302,21 @@ resource "aws_instance" "runtime" {
 
   instance_initiated_shutdown_behavior = "terminate"
   user_data = local.warm_enabled ? templatefile("${path.module}/warm-runtime-user-data.sh.tftpl", {
-    run_id              = var.run_id
-    region              = var.aws_region
-    artifact_bucket     = var.artifact_bucket
-    gpu_ready_key       = "${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
-    runtime_ready_key   = "${var.artifact_prefix}runs/${var.run_id}/runtime-local-ready.json"
-    qualification_key   = "${var.artifact_prefix}runs/${var.run_id}/qualification-complete.json"
-    volume_id           = var.runtime_warm_volume_id
-    gpu_volume_id       = var.gpu_warm_volume_id
-    root_hash           = var.runtime_warm_seal_sha256
-    gpu_root_hash       = var.gpu_warm_seal_sha256
-    artifact_generation = var.warm_artifact_generation
-    source_commit       = var.warm_source_commit
-    gpu_private_ip      = aws_instance.gpu.private_ip
+    run_id                       = var.run_id
+    region                       = var.aws_region
+    artifact_bucket              = var.artifact_bucket
+    gpu_ready_key                = "${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
+    runtime_ready_key            = "${var.artifact_prefix}runs/${var.run_id}/runtime-local-ready.json"
+    qualification_key            = "${var.artifact_prefix}runs/${var.run_id}/qualification-complete.json"
+    volume_id                    = var.runtime_warm_volume_id
+    gpu_volume_id                = var.gpu_warm_volume_id
+    root_hash                    = var.runtime_warm_seal_sha256
+    gpu_root_hash                = var.gpu_warm_seal_sha256
+    artifact_generation          = var.warm_artifact_generation
+    source_commit                = var.warm_source_commit
+    gpu_private_ip               = aws_instance.gpu.private_ip
+    qualifier_script_base64      = base64encode(file("${path.module}/../../../../adl/tools/issue607_qualify_warm_polis.sh"))
+    recovery_proof_script_base64 = base64encode(file("${path.module}/../../../../adl/tools/issue607_guardian_recovery_proof.sh"))
   }) : replace(var.runtime_user_data, "__GPU_PRIVATE_IP__", aws_instance.gpu.private_ip)
   user_data_replace_on_change = true
 

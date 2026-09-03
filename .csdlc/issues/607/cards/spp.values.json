@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 86
+    "generation": 94
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 11,
+      "plan_revision": 12,
       "summary": "Separate slow preparation from fast launch, seal two persistent AZ-local data volumes, attach and validate them through Terraform, remove all cold startup work, then prove repeated warm launch timing and full Runtime/GPU behavior.",
       "steps": [
         {
@@ -86,6 +86,10 @@
         "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
         "adl/tools/build_or_prepare_issue607_warm_polis.sh",
         "adl/tools/run_issue607_warm_polis.sh",
+        "adl/tools/issue607_probe_runtime.py",
+        "adl/tools/issue607_qualify_warm_polis.sh",
+        "adl/tools/issue607_guardian_recovery_proof.sh",
+        "adl/tools/issue607_validate_saved_plan.sh",
         "adl/tools/test_issue607_warm_polis.sh",
         "csdlc-v2/src/store.rs",
         "csdlc-v2/tests/gate5.rs",
@@ -130,7 +134,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/607/design.md",
-      "design_digest": "d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9",
+      "design_digest": "9cc3e977d71f54ea832a8b070dbb3498cc0219a811c95b91bc61e5e5bef19786",
       "diagram_ref": ".csdlc/prepared/issues/607/diagram.mmd",
       "diagram_digest": "075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953"
     }
