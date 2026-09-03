@@ -353,13 +353,21 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
 }
 
 #[test]
-fn v3_h3_real_issue_canary_reaches_open_pr_publication_readiness_without_v3_authority() {
+fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_authority() {
     let root = repo_root();
     let index = read_issue_index(&root, 629);
-    assert_eq!(index["phase"], "published");
-    assert_eq!(index["publication"]["pull_request"], 641);
-    assert_eq!(index["publication"]["linkage_mode"], "closing");
-    assert_eq!(index["publication"]["base"], "main");
+    assert_eq!(index["phase"], "implemented");
+    assert!(index["review"].is_null());
+    assert!(index["publication"].is_null());
+    assert!(index["transitions"]
+        .as_array()
+        .expect("real #629 transitions are present")
+        .iter()
+        .any(|transition| transition["from"] == "published"
+            && transition["to"] == "implemented"
+            && transition["reason"]
+                .as_str()
+                .is_some_and(|reason| reason.contains("Recover #629"))));
 
     let revision = index["branch"]
         .as_str()
