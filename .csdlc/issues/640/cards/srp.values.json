@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
     "slug": "runtime-model-backed-resident-shepherd",
     "version": "v0.92.1",
-    "generation": 30
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/resident_shepherd.rs\nadl-runtime-kernel/src/shepherd.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/shepherd.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ninfra/runtime-v3/runtime-init.toml\n.csdlc/prepared/issues/640\n.csdlc/evidence/640",
+      "review_revision": "git-blake3:a1803219ce60e73ed025ad6edded2ffbda1d79c9:cf07e99f6309744022245b3028eb6d426bdde06d40efb09470e8ebfd437b513f",
+      "reviewer": "fresh-session:3f9822f6-9e17-4774-bd67-b348594312a5",
       "review_prompts": [
         "Does configuration remain provider-neutral and keep credentials outside tracked and API surfaces?",
         "Does every Shepherd execute through the existing governed operation boundary?",
@@ -26,7 +26,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

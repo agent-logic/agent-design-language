@@ -3,13 +3,62 @@
   "issue": 640,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "3a6c08fd04f4106c384d92f49635c7d2a41244b4d617a4075ac0935c28dd21f1",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "3638c56b51faca1ed67ccaf4bd290706301bbb5848167037022962376a2e6e5a",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3f9822f6-9e17-4774-bd67-b348594312a5",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:a1803219ce60e73ed025ad6edded2ffbda1d79c9:cf07e99f6309744022245b3028eb6d426bdde06d40efb09470e8ebfd437b513f",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/640",
+      ".csdlc/evidence/640"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3f9822f6-9e17-4774-bd67-b348594312a5",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/640",
+      ".csdlc/evidence/640"
+    ],
+    "reviewed_revision": "git-blake3:a1803219ce60e73ed025ad6edded2ffbda1d79c9:cf07e99f6309744022245b3028eb6d426bdde06d40efb09470e8ebfd437b513f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +73,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4199138dc355a64552aaf5649f911a4260d5a74b1e54948d1c6e71e31b3a29ec",
+      "values_digest": "f058947a8591f26ec3e4df8fabdb35d8b4f76e523291bacb33049b84fb748fc4",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "c5eaa0f848032134e9933866576b9db367d21dbd6edd25d6c6de37cc940dc6d7",
+      "values_digest": "337995203ac7f4130b74a7649b21fc5943c8b88747ffa1b959147981e662201b",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "78e406cc875ea3d0c7069c67b66dfa217ea60a57a1b1b498249f1ad544d4bf45",
+      "values_digest": "68e22adbb15dcbfcd1719bd67ca1b2b658b3d135e7053fab97751cf102fe5e74",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "19aef072fc3ab5773eaa4ac267705cc5b48998e77cd6522bc591c2dd75469727",
+      "values_digest": "a7d39b8ef85cfa84384605da77418df0a51b6aa3cc090cb9efd63624b4610d07",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "84b0d0c24d34e68c30f2726a8d3159ec0271899398bda605338f7229271c534a",
-      "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
-      "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
+      "values_digest": "18b8ebcb3d7771be96d8047d94b602452bb532070a45acee74e3f6a6db27f674",
+      "rendered_digest": "56c2bdfaa96250e2440bb74ba478904b5660e946be0d2a81f961599a1f8e9603",
+      "ast_digest": "5444a9b19899b915ed1278e95b4cfbe6ca3d0b234cfabcb8bcdb84d54a54c4c8"
     },
     "sor": {
-      "values_digest": "f60e096c0c3096320c822e5f556009d07a4cda4d9faa024dbf7b6579dd0257d5",
+      "values_digest": "19364d700c11e24c813bf04c11c3544a8ea506c123f1a2d2587f20bc168ddee4",
       "rendered_digest": "d2dd6949e18f064423c7de4b877f2862058a814b22ea573fc61ca2f48426d54a",
       "ast_digest": "5d9b327e779485dd931e7e3f68f1905514aa84e8240f045addf1353d166215fa"
     }
@@ -96,6 +145,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover published review truth after merging current main and resolving the sole provider-routing conflict before fresh exact-head validation and review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -385,6 +441,20 @@
       "actor": "codex-640-owner",
       "reason": "Record final review remediations, exact focused proof, and exact-binary Wuji Guardian recovery acceptance before independent review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented provider-backed resident Shepherds with provider-neutral private gateway support, tested lifetime recovery, presentation-safe continuity identity, shared readiness truth, and exact-binary Wuji restart proof.\",\"changes\":[\"Support compiled Ollama and private OpenAI-compatible provider adapters without serializing provider credentials into Runtime configuration or API output.\",\"Run provider preload plus governed inference through one reusable lifetime recovery controller that retries transient failure without terminating or globally blocking the Runtime.\",\"Decode bounded HTTP/1.1 content-length and chunked response bodies through one shared provider response path for Ollama and private OpenAI-compatible gateways.\",\"Exclude resident Shepherd presentation labels from continuity identity for both single and multi-Shepherd configurations while retaining canonical stateful bindings.\",\"Bind Wuji acceptance to the exact checked-out release build and installed canonical kernel and Guardian executables, then prove a controlled Guardian restart restores a new Runtime process without letting the validator terminate the live service.\",\"Retain one canonical deployed Runtime kernel binary and report Beacon Axioma backed by qwen3:8b with consistent readiness and Observatory truth.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove eight nonzero focused configuration, provider dispatch including a valid chunked private gateway response, governed inference, lifetime recovery, canonical identity, truthful roster counts, readiness consistency, formatting, and diff-hygiene behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across changed Runtime production and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"vertex_ai\",\"--lib\"],\"purpose\":\"Prove the post-merge conflict resolution preserves mainline Vertex AI admission and fail-closed invocation alongside #640 local provider routes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"purpose\":\"Prove clean exact reviewed commit 670ea79b87ea80f736cd9d6d3718d39661c13c2a, installed kernel digest 80ea61fc51a3651b93f6a4e8be332f72d4a8248da398a2d4c6754064ca82c6a6, and installed Guardian digest ae9ff7e5b622c29feef63fc99187f28c66225b862a92538f860e53ae54ee7e11 restart to new PIDs, preload qwen3:8b, pass governed inference, and report certificate-verified local and AWS readiness.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
