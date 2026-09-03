@@ -3,13 +3,64 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "implemented",
-  "generation": 96,
-  "digest": "85194bcb08804813a10437fc6077cc131476d4c4b181d09d02629e8693054cee",
+  "phase": "reviewed",
+  "generation": 97,
+  "digest": "8fa820eaab5bb36167e400e4f522d928ecb0e902dcf069a5c1cef0bccdeaf8ba",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/issue_607_pre_spend_exact_r2",
+    "assigned_by": "codex-primary-issue607",
+    "revision": "git-blake3:5eb4de0d7a128e566975d078bdfaa275a70f1600:7d50e42115fd4476a8331b42da6069b6f9a0665dc6cdbd4d8c86543cd777fd94",
+    "scope": [
+      "infra/aws/runtime/gpu-proof",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/build_or_prepare_issue607_warm_polis.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      ".csdlc/prepared/issues/607/validate-preparation.sh",
+      ".csdlc/prepared/issues/607",
+      ".csdlc/evidence/607",
+      ".csdlc/issues/607"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/issue_607_pre_spend_exact_r2",
+    "scope": [
+      "infra/aws/runtime/gpu-proof",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/build_or_prepare_issue607_warm_polis.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      ".csdlc/prepared/issues/607/validate-preparation.sh",
+      ".csdlc/prepared/issues/607",
+      ".csdlc/evidence/607",
+      ".csdlc/issues/607"
+    ],
+    "reviewed_revision": "git-blake3:5eb4de0d7a128e566975d078bdfaa275a70f1600:7d50e42115fd4476a8331b42da6069b6f9a0665dc6cdbd4d8c86543cd777fd94",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS proof remains the final validation lane and must stay within the exact USD 20 reservation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "36013b368fc286e79db70cef8e8f801007c3fc23b553aa8c6b54a47840bacd38",
+      "values_digest": "d18f7da2ab1813c10e952d8a02d8a0b4c16276361a46b98d7841ef13c76fbaae",
       "rendered_digest": "ded31cc85c56142a5ae18eefa707d17ecec138299449d069da584c1ef798629d",
       "ast_digest": "c01dfdb3c9af18b0edb33e96d8c969635d7b4f3eed374c91dd8a3329186fbe50"
     },
     "stp": {
-      "values_digest": "5fbe974e66c8e670fc291ce66392fa2a4b611c2235df25d727070d7fc1decf7e",
+      "values_digest": "df3001162434c4720bae177584426ce98056d28bcbd03af3638cc1d95714b518",
       "rendered_digest": "a48d561fb39b2bfe4b434e3e081c5085f5b4de894db0b8e95d5a87b2b120c547",
       "ast_digest": "73f42b646b3a353379d71dff2c6d0cb3c9c6073b92bcb5bc9d13b189bcb3968b"
     },
     "spp": {
-      "values_digest": "88c0284a04663e8bd0952727477d31f71d110f025a094d54db44320104fdceb7",
+      "values_digest": "2b98cbe56fc4f03aafd0bc29c58aea12bc68ff28b3df9cb3caa40ce50974a955",
       "rendered_digest": "0bc59097a4a0d77c37d353acc0b9b009faf33b82fe606d603c2a2cd0462a3f3b",
       "ast_digest": "305fa6f2a5b561532d45f917941a6828942925036b1898206ef39b039eddd547"
     },
     "vpp": {
-      "values_digest": "6f2b87771e77523c9218802d48835487a20c7215aa6699895c9f961f81c404bf",
+      "values_digest": "d06f58944b33cdfb35de927e478efdd10dd96d8ab74bf9db8135929e646f9492",
       "rendered_digest": "df1fd26e8d29bb4b7e378e7fa6a8c308ee30e33350d3219b3154bea243d45e86",
       "ast_digest": "612e5dcfec789289b63d07d1070debe9b067a4dbc2b60eb5d764eff4757365e4"
     },
     "srp": {
-      "values_digest": "e3551fa2147e66e5656e18be6316064d735106f8583d90afcf4150d26e010048",
-      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
-      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
+      "values_digest": "0ee1a47d66c1977e4e1088089f35f971deafa71c6b5063d024c567d5ea1c3f35",
+      "rendered_digest": "675ba6cf7a624816460d8813e77f740617126b955e62e94489b4c19a9b4f1c5e",
+      "ast_digest": "f1299d3c7eeb3bc68bc030b7044df1d92639b30a30ed98943b92d94220735a0b"
     },
     "sor": {
-      "values_digest": "0179e249a99daa1e8fe497fdbfe0e68f589a3a7dc4a8099d9a49015745bc0645",
+      "values_digest": "c8feec0e964ac86f3c8f563da103f899242bedf460e94895ed46702da48e980f",
       "rendered_digest": "5fcf26e9c47a39f0c6e247dfb32639850a1dabeec743e89bd5dbfb2676b6c97c",
       "ast_digest": "3e88bf619e067b723c0d5005a3d546c684f4b97e58cdf074ae6954958728c54b"
     }
@@ -145,6 +196,13 @@
       "to": "implemented",
       "actor": "codex-primary-issue607",
       "reason": "Recover reviewed state after live AWS preparation showed that healthy image and snapshot work must wait without a deadline, start both images before waiting, and survive controller interruption through exact-state resume."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -966,6 +1024,20 @@
       "actor": "codex-primary-issue607",
       "reason": "Recover the failed pre-spend review so the exact Guardian and lifecycle source revisions can be bound to the authorized prepared commit before AWS mutation.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 118,
+      "generation": 96,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 119,
+      "generation": 97,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

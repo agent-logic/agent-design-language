@@ -115,3 +115,5 @@
 {"sequence":115,"generation":94,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":116,"generation":95,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":117,"generation":96,"actor":"codex-primary-issue607","reason":"Recover the failed pre-spend review so the exact Guardian and lifecycle source revisions can be bound to the authorized prepared commit before AWS mutation.","operation":"recover_review"}
+{"sequence":118,"generation":96,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":119,"generation":97,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
