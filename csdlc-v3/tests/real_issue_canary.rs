@@ -502,11 +502,25 @@ fn v3_h3_real_issue_canary_reaches_open_pr_publication_readiness_without_v3_auth
         assert_eq!(value["read_only"], true);
         assert_eq!(value["operational_authority"], false);
         assert_eq!(value["cutover_issue"], 505);
-        assert_eq!(value["result"]["status"], "ready");
+        assert_eq!(value["result"]["status"], "blocked");
         assert_eq!(value["result"]["issue"], 629);
         assert_eq!(
             value["result"]["repository"],
             "agent-logic/agent-design-language"
+        );
+        let findings = value["result"]["findings"]
+            .as_array()
+            .expect("findings array");
+        let expected_code = if route == "publish" {
+            "production_review_receipt_not_implemented"
+        } else {
+            "production_github_adapter_not_implemented"
+        };
+        assert!(
+            findings
+                .iter()
+                .any(|finding| finding["code"] == expected_code),
+            "{route} must fail closed on synthetic receipts: {findings:?}"
         );
     }
 }

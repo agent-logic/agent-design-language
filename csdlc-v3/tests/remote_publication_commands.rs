@@ -190,7 +190,31 @@ fn remote_publication_routes_are_typed_and_non_authoritative() {
             value["result"]["redacted_credentials"][0],
             "GITHUB_TOKEN=<redacted>"
         );
-        assert_eq!(value["result"]["status"], "ready");
+        let findings = value["result"]["findings"]
+            .as_array()
+            .expect("findings array");
+        let expected_code = if route == "review" {
+            None
+        } else if route == "publish" {
+            Some("production_review_receipt_not_implemented")
+        } else {
+            Some("production_github_adapter_not_implemented")
+        };
+        if let Some(expected_code) = expected_code {
+            assert_eq!(value["result"]["status"], "blocked");
+            assert!(
+                findings
+                    .iter()
+                    .any(|finding| finding["code"] == expected_code),
+                "{route} must fail closed on synthetic receipts: {findings:?}"
+            );
+        } else {
+            assert_eq!(value["result"]["status"], "ready");
+            assert!(
+                findings.is_empty(),
+                "review should not need GitHub receipts"
+            );
+        }
         assert!(!String::from_utf8_lossy(&output.stdout).contains("secret"));
     }
 }
@@ -278,8 +302,12 @@ fn pr_state_route_rejects_caller_forged_readback() {
             &self_consistent_forgery,
             &receipts,
         )
-        .expect("plan accepts repo-contained authenticated GitHub readback receipts");
-        assert_eq!(plan.status, RemoteRouteStatus::Ready);
+        .expect("plan rejects JSON-only authenticated GitHub readback receipts");
+        assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+        assert!(plan
+            .findings
+            .iter()
+            .any(|finding| finding.code == "production_github_adapter_not_implemented"));
     }
 
     let (mut forged, receipts) = request();

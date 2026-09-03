@@ -213,6 +213,11 @@ fn publication_findings(
             "authenticated_review_receipt_missing",
             "publication requires a repo-contained typed review receipt matching the exact issue, principals, and head",
         ));
+    } else {
+        findings.push(remote_finding(
+            "production_review_receipt_not_implemented",
+            "matching JSON review receipts remain construction evidence until v3 ingests typed review truth from the production review authority",
+        ));
     }
     let expected = request
         .expected_head_sha
@@ -279,6 +284,11 @@ fn pr_state_findings(
         findings.push(remote_finding(
             "authenticated_github_adapter_missing",
             "PR state requires a repo-contained authenticated adapter receipt bound to the readback receipt",
+        ));
+    } else {
+        findings.push(remote_finding(
+            "production_github_adapter_not_implemented",
+            "matching JSON GitHub receipts remain construction evidence until v3 reads from the production authenticated GitHub adapter",
         ));
     }
     match request.mode {
