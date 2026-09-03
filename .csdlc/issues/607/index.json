@@ -3,13 +3,65 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "implemented",
-  "generation": 125,
-  "digest": "77d098088a02429916a2a082224f3ce0dd8e5f5503721cb22a407f1bb53e8d28",
+  "phase": "reviewed",
+  "generation": 126,
+  "digest": "a1271652a1c6a3357d90c3840328666f489d9efce2289aed3eb667af2210af23",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue_607_final_publication_review",
+    "assigned_by": "codex-primary-issue607",
+    "revision": "git-blake3:fddba8dea9d965393f01a70dcf408b75a1857189:b257b892a36ca75cca46ae780713ac23f39acdbef34e5d52f56f91aafb4a2e3c",
+    "scope": [
+      ".csdlc/evidence/607",
+      ".csdlc/issues/607",
+      ".csdlc/prepared/issues/607",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      "infra/aws/runtime/gpu-proof"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_607_final_publication_review",
+    "scope": [
+      ".csdlc/evidence/607",
+      ".csdlc/issues/607",
+      ".csdlc/prepared/issues/607",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      "infra/aws/runtime/gpu-proof"
+    ],
+    "reviewed_revision": "git-blake3:fddba8dea9d965393f01a70dcf408b75a1857189:b257b892a36ca75cca46ae780713ac23f39acdbef34e5d52f56f91aafb4a2e3c",
+    "findings": [],
+    "residual_risks": [
+      "The measured 240-second service-ready result applies to the current two-8B-model configuration; larger models can take longer to load.",
+      "Only USD 0.016714 remains under the issue ceiling, so the aggregate guard rejects any further paid qualification action."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +76,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6ab4a00b93ff2afd9754f63f882dbee7ad25067ee3f2ba47cbe8f8d5fc5c6fe1",
+      "values_digest": "f1e31409be2e587186a4516a26ded29345bec203432d4e2acc32672f7ca64aaf",
       "rendered_digest": "90aea889da830d9181252e4dc21d7ede731f5cdb5d91335d07198ba1dc7dae0a",
       "ast_digest": "67e56776abb0eee782ef993c404021b24cc7b9a4470e59655a44421782bd5700"
     },
     "stp": {
-      "values_digest": "31383204c2df42ff0e0a59871283a3b42e2141dcddbb24d6aedcf9eb717f9410",
+      "values_digest": "af74cb395112b17c27470469cfc8ae93abd59cb22d05dd31d7a22ac34680d61b",
       "rendered_digest": "0be79b7287a9ab5deec6306488463e0c6f6528bc56e65a269d93ba0038f4b2bf",
       "ast_digest": "d63bb658343fa74c02e866ad01d3b0efaa31087b8de46ba3ebab48b511e58e26"
     },
     "spp": {
-      "values_digest": "39b5d65dbdfb54d5b9caff1479d4965b1677df850fb47de22026aae156c48fa7",
+      "values_digest": "d37944d8443aedf04b94e88864f30736a8c40a3bee8f7ead8094ac429e78ebc2",
       "rendered_digest": "e4cf3cfae098aefb76e86311aabb86b016754ac5749d9039843b5dd5ff45ca09",
       "ast_digest": "450ee16651fbaf66f9d05c42c98a5ecad35ee0d79ced0d1a88e547d6a421d2de"
     },
     "vpp": {
-      "values_digest": "5c3616bbaa24b11b700f678c4787dada2d57ef481900e6e7078b295bde5df754",
+      "values_digest": "f8689869021c4b34f5f29814af6987cbb50fa12492aefc92bc831f2141f38a1e",
       "rendered_digest": "05d99118c1b11935e8b7a63fffeef50f341872cc72de2172dfc11f8797fad36e",
       "ast_digest": "7bea9743cd7a504145e8d56b4644ae14e960b56fb72467f9ea56290a67357612"
     },
     "srp": {
-      "values_digest": "2a37716d22ffc74d6c2a654c4dce2b6dd4de07ccd790f2fb6069d31619e48432",
-      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
-      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
+      "values_digest": "0e598c0afed8b09e055d0d220e3575be762283693989fae75d478bbf8c1a1adc",
+      "rendered_digest": "690a63a21f062aaf0d71c66cb0888f37fc023f9d9d2efd09e875b1c7a31e3b3f",
+      "ast_digest": "fb3d262e7aa53918784b69d69496f94030a26d8ca3310688b531059fa8e3baff"
     },
     "sor": {
-      "values_digest": "293a9d5aa9db87f326d65b2d394286c2f637c77a29bdbd0d781ab70e82664efd",
+      "values_digest": "9281891784de0bd4b7e2ff4689e48266182024e8959c89b4bb60b2f77ff2807e",
       "rendered_digest": "65dbbe07a5c3d0566f0e6c970a019d41946021954a3e9de4b0172176e4957e1a",
       "ast_digest": "43b1fd3a2dc8935050dde9f4415eb06352b196acafcfd03ecbfeba836bb28edc"
     }
@@ -173,6 +225,13 @@
       "to": "implemented",
       "actor": "codex-primary-issue607",
       "reason": "Recover the pre-spend reviewed state after the final live payload-recovery qualification passed, the operator extended the ceiling to USD 21 before completion, and exact termination lifetimes must be recorded in final SOR and cost truth."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1253,6 +1312,20 @@
       "actor": "codex-primary-issue607",
       "reason": "Retain the final exact substantive revision validation artifact and audit-freshness remediation in output truth.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence. One later AWS read observed both exact instances terminated and conservatively bounds Runtime at 3001 seconds and GPU at 3015 seconds, producing a USD 20.983286 issue total with USD 0.016714 remaining. The final substantive revision 54aa257b0 has retained green local, Terraform, typed-card, and diff-hygiene proof.\",\"changes\":[\"Implemented prebuilt immutable Runtime and GPU launch artifacts, persistent EBS data volumes, strict saved-plan identity, no launch-time builds or downloads, SSH, private Ollama, Guardian resilience, and exact cleanup.\",\"Retained the operator's exact USD 21 extension bound to the payload-recovery run, controller, plan, and prior authorization digest.\",\"Used one observed-terminal AWS response for both exact instances and aligned the audit as_of timestamp and freshness validator with that evidence.\",\"Conservatively charged Runtime for 3001 seconds and GPU for 3015 seconds through the shared terminal observation; the issue total remains under USD 21.\",\"Future launches reserve 900 seconds for the full billable lifetime, keep a separate 420-second service-operation deadline, wait for both exact instances to terminate, and are now rejected under the remaining issue budget.\",\"Retained final validation for exact substantive revision 54aa257b0 and tree 4e4b767c7.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/operator-budget-extension.json\",\".csdlc/evidence/607/aws-terminal-state-observation.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\",\".csdlc/evidence/607/final-validation-54aa257b0.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove terminal observation, audit freshness, full-lifetime reservation, extension binding, cleanup, authorization, cost, residue, and recovery contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-validation-54aa257b0.json\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-validation-54aa257b0.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"ec2\",\"describe-instances\",\"--instance-ids\",\"i-00da9426786754a6c\",\"i-03bb0138945501212\"],\"purpose\":\"Prove both exact final-run instances reached terminal state and bind a symmetric conservative lifetime upper bound.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-terminal-state-observation.json\"}]}"
+    },
+    {
+      "sequence": 155,
+      "generation": 125,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 156,
+      "generation": 126,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
