@@ -620,22 +620,22 @@ fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                 .is_ok()
         },
         || {
-            if !platform_stopped(args)? {
-                let guardian_process_id = platform_process_id(args);
-                platform_stop(args)?;
-                if let Ok(init) = validated_init(active) {
-                    wait_for_stopped(
-                        args,
-                        &init,
-                        guardian_process_id,
-                        Duration::from_millis(recovery_convergence.stop_timeout_millis),
-                    )?;
-                } else {
-                    wait_for_service_unloaded(
-                        args,
-                        Duration::from_millis(recovery_convergence.unload_timeout_millis),
-                    )?;
+            if let Ok(init) = validated_init(active) {
+                stop_and_wait_with_timeout(
+                    args,
+                    &init,
+                    Duration::from_millis(recovery_convergence.stop_timeout_millis),
+                )?;
+            } else {
+                let timeout = Duration::from_millis(recovery_convergence.unload_timeout_millis);
+                let deadline = std::time::Instant::now() + timeout;
+                platform_stop_with_timeout(args, timeout)?;
+                let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+                if remaining.is_zero() {
+                    return convergence_timeout("unload", timeout);
                 }
+                wait_for_service_unloaded(args, remaining)
+                    .map_err(|_| convergence_error("unload", timeout))?;
             }
             Ok(())
         },
@@ -708,12 +708,9 @@ fn sync_parent(path: &Path) -> Result<()> {
 
 fn stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let init = validated_init(&args.init)?;
-    let guardian_process_id = platform_process_id(args);
-    platform_stop(args)?;
-    wait_for_stopped(
+    stop_and_wait_with_timeout(
         args,
         &init,
-        guardian_process_id,
         Duration::from_millis(init.service_convergence.stop_timeout_millis),
     )?;
     emit_status(args, &init, "stop", false)
@@ -725,14 +722,31 @@ fn start_clean(args: &RuntimeV3ServiceArgs, init: &RuntimeInitConfig) -> Result<
 }
 
 fn stop_and_wait(args: &RuntimeV3ServiceArgs, current: &RuntimeInitConfig) -> Result<()> {
-    let guardian_process_id = platform_process_id(args);
-    platform_stop(args)?;
-    wait_for_stopped(
+    stop_and_wait_with_timeout(
         args,
         current,
-        guardian_process_id,
         Duration::from_millis(current.service_convergence.stop_timeout_millis),
     )
+}
+
+fn stop_and_wait_with_timeout(
+    args: &RuntimeV3ServiceArgs,
+    current: &RuntimeInitConfig,
+    timeout: Duration,
+) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
+    let guardian_process_id = platform_process_id_with_timeout(args, timeout)?;
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    platform_stop_with_timeout(args, remaining)?;
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    wait_for_stopped(args, current, guardian_process_id, remaining)
+        .map_err(|_| convergence_error("stop", timeout))
 }
 
 fn start_and_wait(args: &RuntimeV3ServiceArgs, next: &RuntimeInitConfig) -> Result<()> {
@@ -1021,10 +1035,18 @@ fn wait_for_convergence(
                 .min(Duration::from_millis(200)),
         );
     }
-    Err(anyhow!(
+    convergence_timeout(stage, timeout)
+}
+
+fn convergence_timeout<T>(stage: &'static str, timeout: Duration) -> Result<T> {
+    Err(convergence_error(stage, timeout))
+}
+
+fn convergence_error(stage: &'static str, timeout: Duration) -> anyhow::Error {
+    anyhow!(
         "Runtime v3 convergence stage {stage} did not complete within {} milliseconds",
         timeout.as_millis()
-    ))
+    )
 }
 
 fn file_hash(path: &Path) -> Result<String> {
@@ -1115,11 +1137,19 @@ fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 }
 
 #[cfg(target_os = "macos")]
-fn platform_stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    if platform_stopped(args)? {
+fn platform_stop_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
+    if platform_stopped_with_timeout(args, timeout)? {
         return Ok(());
     }
-    run(Command::new("launchctl").args(["bootout", &launchd_target(args)]))
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    run_with_timeout(
+        Command::new("launchctl").args(["bootout", &launchd_target(args)]),
+        remaining,
+    )
 }
 
 #[cfg(target_os = "macos")]
@@ -1128,11 +1158,6 @@ fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
         .args(["print", &launchd_target(args)])
         .output()
         .is_ok_and(|output| output.status.success())
-}
-
-#[cfg(target_os = "macos")]
-fn platform_stopped(args: &RuntimeV3ServiceArgs) -> Result<bool> {
-    platform_stopped_with_timeout(args, Duration::from_millis(750))
 }
 
 #[cfg(target_os = "macos")]
@@ -1156,13 +1181,6 @@ fn launchctl_print_is_stopped(success: bool, exit_code: Option<i32>) -> Result<b
     Err(anyhow!(
         "launchctl print failed ambiguously with exit code {exit_code:?}"
     ))
-}
-
-#[cfg(target_os = "macos")]
-fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
-    platform_process_id_with_timeout(args, Duration::from_millis(750))
-        .ok()
-        .flatten()
 }
 
 #[cfg(target_os = "macos")]
@@ -1208,11 +1226,19 @@ fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 }
 
 #[cfg(target_os = "linux")]
-fn platform_stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    if systemd_service_state(args)?.is_stopped() {
+fn platform_stop_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
+    if systemd_service_state_with_timeout(args, timeout)?.is_stopped() {
         return Ok(());
     }
-    run(Command::new("systemctl").args(["stop", &systemd_unit(args)]))
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    run_with_timeout(
+        Command::new("systemctl").args(["stop", &systemd_unit(args)]),
+        remaining,
+    )
 }
 
 #[cfg(any(target_os = "linux", test))]
@@ -1248,11 +1274,6 @@ fn parse_systemd_service_state(output: &str) -> Result<SystemdServiceState> {
 }
 
 #[cfg(target_os = "linux")]
-fn systemd_service_state(args: &RuntimeV3ServiceArgs) -> Result<SystemdServiceState> {
-    systemd_service_state_with_timeout(args, Duration::from_millis(750))
-}
-
-#[cfg(target_os = "linux")]
 fn systemd_service_state_with_timeout(
     args: &RuntimeV3ServiceArgs,
     timeout: Duration,
@@ -1281,11 +1302,6 @@ fn systemd_service_state_with_timeout(
 }
 
 #[cfg(target_os = "linux")]
-fn platform_stopped(args: &RuntimeV3ServiceArgs) -> Result<bool> {
-    Ok(systemd_service_state(args)?.is_stopped())
-}
-
-#[cfg(target_os = "linux")]
 fn platform_stopped_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<bool> {
     Ok(systemd_service_state_with_timeout(args, timeout)?.is_stopped())
 }
@@ -1296,13 +1312,6 @@ fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
         .args(["is-active", "--quiet", &systemd_unit(args)])
         .status()
         .is_ok_and(|status| status.success())
-}
-
-#[cfg(target_os = "linux")]
-fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
-    platform_process_id_with_timeout(args, Duration::from_millis(750))
-        .ok()
-        .flatten()
 }
 
 #[cfg(target_os = "linux")]
@@ -1338,7 +1347,7 @@ fn platform_start(_args: &RuntimeV3ServiceArgs) -> Result<()> {
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_stop(_args: &RuntimeV3ServiceArgs) -> Result<()> {
+fn platform_stop_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<()> {
     Err(anyhow!(
         "csm runtime-v3 service control supports launchd and systemd"
     ))
@@ -1350,22 +1359,10 @@ fn platform_loaded(_args: &RuntimeV3ServiceArgs) -> bool {
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_stopped(_args: &RuntimeV3ServiceArgs) -> Result<bool> {
-    Err(anyhow!(
-        "csm runtime-v3 service control supports launchd and systemd"
-    ))
-}
-
-#[cfg(not(any(target_os = "macos", target_os = "linux")))]
 fn platform_stopped_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<bool> {
     Err(anyhow!(
         "csm runtime-v3 service control supports launchd and systemd"
     ))
-}
-
-#[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_process_id(_args: &RuntimeV3ServiceArgs) -> Option<u32> {
-    None
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
@@ -1396,6 +1393,14 @@ fn command_output_with_timeout(command: &mut Command, timeout: Duration) -> Resu
         }
         std::thread::sleep(Duration::from_millis(10));
     }
+}
+
+fn run_with_timeout(command: &mut Command, timeout: Duration) -> Result<()> {
+    let output = command_output_with_timeout(command, timeout)?;
+    if !output.status.success() {
+        return Err(anyhow!("command failed with status {}", output.status));
+    }
+    Ok(())
 }
 
 fn platform_name() -> &'static str {
@@ -2099,9 +2104,9 @@ mod tests {
     }
 
     #[test]
-    fn convergence_service_manager_probe_is_killed_at_deadline() {
+    fn convergence_hanging_stop_command_is_killed_at_deadline() {
         let started = std::time::Instant::now();
-        let error = command_output_with_timeout(
+        let error = run_with_timeout(
             Command::new("/bin/sh").args(["-c", "sleep 1"]),
             Duration::from_millis(20),
         )
@@ -2320,8 +2325,11 @@ mod tests {
         let args = service_args(root.path().join("runtime-init.toml"));
 
         assert!(!platform_loaded(&args));
-        assert_eq!(platform_process_id(&args), None);
-        assert!(platform_stop(&args).is_ok());
+        assert_eq!(
+            platform_process_id_with_timeout(&args, Duration::from_millis(750)).unwrap(),
+            None
+        );
+        assert!(platform_stop_with_timeout(&args, Duration::from_secs(30)).is_ok());
         assert!(wait_for_service_unloaded(&args, Duration::from_millis(5)).is_ok());
     }
 
