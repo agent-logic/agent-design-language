@@ -338,7 +338,7 @@ run_contracts() {
   rg -q 'LAUNCH_OPERATION_SECONDS=420' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'terminate_owned_compute "\$CLEANUP_OWNER"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   for template in "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"; do
-    rg -q 'systemd-run --unit=adl-issue607-budget-shutdown --on-active=8m /sbin/shutdown -h now' "$template"
+    rg -q 'systemd-run --unit=adl-issue607-budget-shutdown --on-active=7m /sbin/shutdown -h now' "$template"
   done
 
   for template in \

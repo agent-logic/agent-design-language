@@ -5,7 +5,7 @@ start_uptime="$(cut -d' ' -f1 /proc/uptime)"
 state=/var/lib/adl/issue607-gpu
 mkdir -p "$state" /mnt/adl-warm-gpu
 # Independent cost failsafe. EC2 is configured to terminate on guest shutdown.
-systemd-run --unit=adl-issue607-budget-shutdown --on-active=8m /sbin/shutdown -h now
+systemd-run --unit=adl-issue607-budget-shutdown --on-active=7m /sbin/shutdown -h now
 
 s3_put() {
   python3 - "$1" "$2" "$3" "$4" <<'PY'

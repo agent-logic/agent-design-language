@@ -367,10 +367,10 @@ and restart/state/degradation/Vector/log/shutdown proof. Compute is then
 destroyed and live tag inventory must show zero disposable residue while the
 two warm volumes remain `available`.
 
-The ten-minute cost reservation is enforced, not merely estimated. The
-controller stops apply or receipt waits after nine minutes and immediately
+The 420-second cost reservation is enforced, not merely estimated. The
+controller stops apply or receipt waits at 420 seconds and immediately
 terminates instances selected by the exact issue/run owner token before
-Terraform reconciliation. Both guests also schedule an eight-minute local
+Terraform reconciliation. Both guests also schedule a seven-minute local
 shutdown; because their EC2 shutdown behavior is `terminate`, this remains a
 billable-compute failsafe if the controller becomes unavailable. Saved plans
 are bound to the exact controller revision, so controller or template changes

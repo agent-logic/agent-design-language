@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 103,
-  "digest": "5ad44d1190ad488b2e6d7105276e9758ce4522fd03a1db715d58887691c76d22",
+  "generation": 105,
+  "digest": "c582a7773a0be4390f99a68f9fb38e2c5798278702921fd56b5da0755f916716",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": {
-    "reviewer": "subagent:issue_607_payload_exact_review_r2",
-    "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:8d1a8646442f33af331dd861dd2d804e50d73ee3:ddac60d5467770fdbff099c875b13836b1b152de462c2b6657b7871b4490464e",
-    "scope": [
-      ".csdlc/evidence/607/aws-paid-action-cost-audit.json",
-      ".csdlc/issues/607",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "infra/aws/runtime/gpu-proof"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fd17ebafeca1389106584db56344a34fbb81afc13164a3b9ca052c0a2cc9af0b",
+      "values_digest": "2c167fc6c4c27bb318aa8c52b639eff56751f29194ab4fd4c072eed38788ec6f",
       "rendered_digest": "ded31cc85c56142a5ae18eefa707d17ecec138299449d069da584c1ef798629d",
       "ast_digest": "c01dfdb3c9af18b0edb33e96d8c969635d7b4f3eed374c91dd8a3329186fbe50"
     },
     "stp": {
-      "values_digest": "740de1582b2aa8094a1c5cd5db7745166bb4536b1a00764747f6265ceb804c44",
+      "values_digest": "ac083b3ab811a46cd05cd93a3d11c452bd2ec331d346089aba5abc41ede29a1e",
       "rendered_digest": "a48d561fb39b2bfe4b434e3e081c5085f5b4de894db0b8e95d5a87b2b120c547",
       "ast_digest": "73f42b646b3a353379d71dff2c6d0cb3c9c6073b92bcb5bc9d13b189bcb3968b"
     },
     "spp": {
-      "values_digest": "02d24762106bbe46c1f66b89f86c9df9e251ef55520b72fe79e7996269bc7c3c",
+      "values_digest": "49434f8f9b6d60fcc2c34d23ac578108fce5f4d36594eea0c2af37da02303ef1",
       "rendered_digest": "0bc59097a4a0d77c37d353acc0b9b009faf33b82fe606d603c2a2cd0462a3f3b",
       "ast_digest": "305fa6f2a5b561532d45f917941a6828942925036b1898206ef39b039eddd547"
     },
     "vpp": {
-      "values_digest": "44671db2d070a856c92123ce7a77e03934d97e61adb37fb7d76441ab37dfdc1d",
+      "values_digest": "e141700c32e63eb27ad2c00a7835a869fffef5cd61234b188a936a08d789b2f9",
       "rendered_digest": "05d99118c1b11935e8b7a63fffeef50f341872cc72de2172dfc11f8797fad36e",
       "ast_digest": "7bea9743cd7a504145e8d56b4644ae14e960b56fb72467f9ea56290a67357612"
     },
     "srp": {
-      "values_digest": "a2ac420c4988087015d425a15642369da10cffd4c71b10ae76377af80f98e044",
-      "rendered_digest": "14d9648081d6e4c4179a3ba80d0da547892441110263f575e4dcbffb696de7a3",
-      "ast_digest": "b00a6a95985bae70b925080f970c2ca90f731ebbe2ef391cebdf6896c74b7ab7"
+      "values_digest": "d2b8cbe335504a74a3b211acfbf417f894b4e789c4478814474445f3c0d5e069",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "3077784e909db75d86f96a85cfbb5d01e606fee49cedc866fb29073c0e3e722d",
+      "values_digest": "cc9c4a5d3a75a78a0e568ee2ae3dc408e638b7b950cb4af5c2b71bed1c6dd39e",
       "rendered_digest": "c3decdbcad929d3912bdc4b954fe0116ad432d911ded8f26c86dda1c06df3706",
       "ast_digest": "400a29d011b5e79a80131752f6619d7d0ed0a14acc16a8a0aa4b34e37fd508c6"
     }
@@ -1062,6 +1050,20 @@
       "actor": "codex-primary-issue607",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 128,
+      "generation": 104,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 129,
+      "generation": 105,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed payload review to align the stale operator runbook timing text with the exact 420-second cost and operation envelope.",
+      "operation": "recover_review"
     }
   ]
 }

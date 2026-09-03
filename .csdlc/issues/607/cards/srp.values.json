@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 103
+    "generation": 105
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/607/aws-paid-action-cost-audit.json\n.csdlc/issues/607\nadl/tools/issue607_validate_saved_plan.sh\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh\ninfra/aws/runtime/gpu-proof",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
