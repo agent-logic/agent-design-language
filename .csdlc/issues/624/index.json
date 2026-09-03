@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 624,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 3,
-  "digest": "33f09e135ded6ba0649988e2e920663c956ad509c5fb9ba949ca727df3ec94f1",
-  "branch": null,
-  "worktree": null,
+  "digest": "3a033d3d288d012d5f2de8eddc3ab927d96d654dfbf4b2aba97b3cf6de0c9cec",
+  "branch": "codex/624-corporate-sidecar-operational-hardening",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:624-preparation",
       "reason": "Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -91,6 +99,13 @@
       "actor": "codex:624-preparation",
       "reason": "Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
