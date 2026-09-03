@@ -281,6 +281,16 @@ fn publish_route_requires_current_review_and_closing_relation() {
         .findings
         .iter()
         .any(|finding| finding.code == "missing_closing_relation"));
+
+    let (mut wrong_issue, receipts) = request();
+    wrong_issue.body = Some("Closes #6290".into());
+    let plan = prepare_remote_publication_route_with_receipts("publish", &wrong_issue, &receipts)
+        .expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_closing_relation"));
 }
 
 #[test]

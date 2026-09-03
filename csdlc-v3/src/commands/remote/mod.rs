@@ -339,9 +339,21 @@ fn same_principal(left: Option<&str>, right: Option<&str>) -> bool {
 }
 
 fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
+    let prefix = format!("{verb} #{issue}");
     body.unwrap_or_default()
         .lines()
-        .any(|line| line.trim_start().starts_with(&format!("{verb} #{issue}")))
+        .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
+}
+
+fn has_issue_relation_prefix(line: &str, prefix: &str) -> bool {
+    let Some(rest) = line.strip_prefix(prefix) else {
+        return false;
+    };
+    rest.is_empty()
+        || rest
+            .chars()
+            .next()
+            .is_some_and(|ch| ch.is_whitespace() || matches!(ch, ',' | '.' | ';' | ':' | ')' | ']'))
 }
 
 fn remote_finding(code: &str, message: &str) -> RemoteRouteFinding {
