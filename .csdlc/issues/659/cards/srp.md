@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/tests/configuration.rs
+adl/src/cli/csm_runtime_v3_cmd.rs
+.csdlc/prepared/issues/659/validate-runtime-convergence.sh
 
 ## Prompts
 

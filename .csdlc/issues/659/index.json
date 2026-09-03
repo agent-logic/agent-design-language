@@ -6,10 +6,20 @@
   "initialization_digest": "4182d8bb12b47a4db5b57dbf673a0e8a509772c51bd068d4845f75eb96d41c46",
   "phase": "implemented",
   "generation": 16,
-  "digest": "eaee64de4f39567bf968e7ac691c4fc209ecdfde2675c1a32fd66be72ae61f03",
+  "digest": "1d528d0ac9a1439931e09d51c4071fd6a63a7f1b3ec0e009cde17f5e90f2c836",
   "branch": "codex/659-runtime-configurable-convergence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-659-runtime-configurable-convergence",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:b949282b58065fc8ba562de5d1fdead9ed4eaa2c:767e91804a947525badcec367006fa7a37ad93cf84e67e74c9453b77b6e98ab6",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/prepared/issues/659/validate-runtime-convergence.sh"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "84dbae986fe674c2b9113765edc06b553139c5bb97e2fb41a5c34f77dd796a7a"
     },
     "srp": {
-      "values_digest": "eea7e90f477afe47d98bcb3758b3a40ce577df23b3074632339b1dd17e20492a",
-      "rendered_digest": "7d8b1ebbb2a2289685aac6922178e55ebe4805afa40a82356625ff251cd37a1d",
-      "ast_digest": "6db37cdadcf5245f5412e1cca043cab496b6bda7dbc491b0a4bcb21f0feeb956"
+      "values_digest": "673aa977f5f9b522abe9d2b8945b3dcf5d6836ca7309b20639a7bcedc0f4b601",
+      "rendered_digest": "0027578f2b0ebdb14f337a4cf3cee0525996c1d4de86950c394bca345fb392be",
+      "ast_digest": "41592c452c7e92de81c65dffb8913612bb806cd956278045777a0c8aeda4fe39"
     },
     "sor": {
       "values_digest": "4bb50d34fc724832b562ce8511c5a48623b12f31b177bca4fb15a10b9e277446",
@@ -274,6 +284,13 @@
       "actor": "codex:/root",
       "reason": "Exact-head review of PR #676 found that service-manager start and loaded probes could block before configured convergence deadlines began; recover to implemented for the bounded deadline, diagnostics, and deterministic hung-command repair.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
