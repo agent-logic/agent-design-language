@@ -70,8 +70,8 @@ variable "runtime_snapshot" {
   type        = string
 
   validation {
-    condition     = can(regex("^projects/[^/]+/global/snapshots/[^/]+$", var.runtime_snapshot))
-    error_message = "runtime_snapshot must be an exact project snapshot self-link."
+    condition     = can(regex("^(https://www.googleapis.com/compute/(v1|beta)/)?projects/[^/]+/global/snapshots/[^/]+$", var.runtime_snapshot))
+    error_message = "runtime_snapshot must be an exact project snapshot self-link or resource ID."
   }
 }
 
@@ -80,8 +80,8 @@ variable "ollama_snapshot" {
   type        = string
 
   validation {
-    condition     = can(regex("^projects/[^/]+/global/snapshots/[^/]+$", var.ollama_snapshot))
-    error_message = "ollama_snapshot must be an exact project snapshot self-link."
+    condition     = can(regex("^(https://www.googleapis.com/compute/(v1|beta)/)?projects/[^/]+/global/snapshots/[^/]+$", var.ollama_snapshot))
+    error_message = "ollama_snapshot must be an exact project snapshot self-link or resource ID."
   }
 }
 

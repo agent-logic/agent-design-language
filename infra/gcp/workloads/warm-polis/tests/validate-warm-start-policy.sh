@@ -12,4 +12,9 @@ for script in "${scripts[@]}"; do
   rg -q 'adl-artifact-generation|artifact_generation|generation' "$script"
   rg -q '/dev/disk/by-id/google-' "$script"
 done
+bash -n "$root/prepare-snapshot-generation.sh"
+rg -q 'ADL_GCP_TEMP_VM_TIMEOUT_SECONDS' "$root/prepare-snapshot-generation.sh"
+rg -q 'cleanup_temporary_compute' "$root/prepare-snapshot-generation.sh"
+rg -q 'ADL_ISSUE663_SEAL=FAIL' "$root/preparation/seal-disk.sh"
+rg -q 'ADL_ISSUE663_SNAPSHOT_VERIFY=FAIL' "$root/snapshot-catalog/verify-snapshots.sh"
 echo "issue663_warm_start_policy=pass"

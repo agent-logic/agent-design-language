@@ -5,6 +5,14 @@ if [ "$#" -ne 3 ]; then
   echo "usage: $0 EXPECTED_GENERATION EXPECTED_RUNTIME_SNAPSHOT_ID EXPECTED_OLLAMA_SNAPSHOT_ID" >&2
   exit 64
 fi
+[ "${ADL_GCP_LIVE_EXECUTION:-}" = "authorized" ] || {
+  echo "live GCP retirement requires ADL_GCP_LIVE_EXECUTION=authorized" >&2
+  exit 1
+}
+[ "${ADL_GCP_SNAPSHOT_RETIREMENT:-}" = "authorized" ] || {
+  echo "snapshot retirement requires ADL_GCP_SNAPSHOT_RETIREMENT=authorized" >&2
+  exit 1
+}
 expected_generation="$1"
 expected_runtime_id="$2"
 expected_ollama_id="$3"

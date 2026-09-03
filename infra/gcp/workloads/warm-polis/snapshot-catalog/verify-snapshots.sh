@@ -6,6 +6,15 @@ metadata() {
     "http://metadata.google.internal/computeMetadata/v1/instance/attributes/$1"
 }
 
+fail_and_stop() {
+  rc=$?
+  trap - EXIT
+  echo "ADL_ISSUE663_SNAPSHOT_VERIFY=FAIL rc=$rc" >&2
+  shutdown -h now || true
+  exit "$rc"
+}
+trap fail_and_stop EXIT
+
 generation="$(metadata adl-generation)"
 runtime_sha="$(metadata adl-runtime-manifest-sha256)"
 ollama_sha="$(metadata adl-ollama-manifest-sha256)"
@@ -19,4 +28,5 @@ mount -o ro /dev/disk/by-id/google-adl-ollama-verify /mnt/ollama-verify
 echo "ADL_ISSUE663_SNAPSHOT_VERIFY=PASS generation=$generation"
 sync
 umount /mnt/runtime-verify /mnt/ollama-verify
+trap - EXIT
 shutdown -h now

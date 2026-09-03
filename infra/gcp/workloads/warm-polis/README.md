@@ -19,23 +19,27 @@ ADL_GCP_LIVE_EXECUTION=authorized \
 
 The retained result is the two catalog snapshots only.
 
+Disposable hydration and verification VMs have a 900-second observation limit by default. Override it with `ADL_GCP_TEMP_VM_TIMEOUT_SECONDS` when a larger image legitimately needs longer. A timeout or guest failure removes temporary compute and staging/verification disks while preserving any completed catalog snapshots. This limit never applies to a launched Runtime or Ollama service.
+
 ## Launch and clean up
 
 Initialize this directory with its own backend, supply exact image IDs, snapshot self-links, manifest digests, and generation, then run:
 
 ```sh
 ADL_GCP_LIVE_EXECUTION=authorized ./run-live-snapshot-launch.sh launch
-./run-live-snapshot-launch.sh destroy
+ADL_GCP_LIVE_EXECUTION=authorized ./run-live-snapshot-launch.sh destroy
 ```
 
-The launch receipt separates Terraform apply time from full snapshot-launch-to-ready time. An optional observation timeout stops only the caller and explicitly leaves services running; there is no runtime termination deadline.
+The launch receipt records each VM reaching `RUNNING`, each guest readiness marker, guest boot-relative readiness seconds, Terraform apply completion, and full snapshot-launch-to-ready time. An optional observation timeout stops only the caller and explicitly leaves services running; there is no runtime termination deadline.
 
 ## Retire snapshots
 
 Snapshot deletion is intentionally separate. Read the exact generation and snapshot IDs from catalog outputs, then pass all three explicitly:
 
 ```sh
-./retire-snapshot-generation.sh GENERATION RUNTIME_SNAPSHOT_ID OLLAMA_SNAPSHOT_ID
+ADL_GCP_LIVE_EXECUTION=authorized \
+ADL_GCP_SNAPSHOT_RETIREMENT=authorized \
+  ./retire-snapshot-generation.sh GENERATION RUNTIME_SNAPSHOT_ID OLLAMA_SNAPSHOT_ID
 ```
 
 The command fails closed on any mismatch or if verifier resources remain. It never runs as part of ordinary launch cleanup.

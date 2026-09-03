@@ -6,6 +6,15 @@ metadata() {
     "http://metadata.google.internal/computeMetadata/v1/instance/attributes/$1"
 }
 
+fail_and_stop() {
+  rc=$?
+  trap - EXIT
+  echo "ADL_ISSUE663_SEAL=FAIL rc=$rc" >&2
+  shutdown -h now || true
+  exit "$rc"
+}
+trap fail_and_stop EXIT
+
 device="/dev/disk/by-id/google-$(metadata adl-data-device)"
 generation="$(metadata adl-generation)"
 bundle_uri="$(metadata adl-bundle-uri)"
@@ -28,4 +37,6 @@ jq -n --arg generation "$generation" --arg bundle_uri "$bundle_uri" --arg bundle
 sync
 umount "$mount_path"
 sync
+echo "ADL_ISSUE663_SEAL=PASS generation=$generation"
+trap - EXIT
 shutdown -h now
