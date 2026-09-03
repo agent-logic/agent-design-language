@@ -12,3 +12,6 @@
 {"sequence":12,"generation":8,"actor":"subagent:/root/review_645_stacked_closing_relation_pre_pr","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":13,"generation":9,"actor":"codex:/root:issue-645-exec","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":14,"generation":10,"actor":"codex:/root:issue-645-exec","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":15,"generation":11,"actor":"codex:/root:issue-645-janitor","reason":"Recover stale #645 review truth after corrective commit d9b1256fd5193264fab707e2d731a604916b32b0 changed publication relation readback code and focused tests; the prior review metadata no longer covered the current substantive head.","operation":"recover_review"}
+{"sequence":16,"generation":11,"actor":"codex:/root:issue-645-janitor","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":12,"actor":"subagent:/root/review_645_stacked_closing_relation_pre_pr","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

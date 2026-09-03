@@ -7,7 +7,7 @@
     "title": "[v0.92.1][C-SDLC v2][bug] Reject stacked closing publication without a GitHub closing relation",
     "slug": "stacked-closing-relation",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 12
   },
   "status": "ready",
   "content": {

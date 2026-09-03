@@ -14,9 +14,7 @@ Status: draft
 
 csdlc-v2/src/bin/csdlc-publish.rs
 csdlc-v2/src/publication.rs
-csdlc-v2/tests/gate6.rs
 csdlc-v2/tests/publication_ready.rs
-csdlc-v2/tests/publication_tail.rs
 
 ## Prompts
 
@@ -36,11 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The current head differs from the original substantive review by typed lifecycle metadata only; the reviewed code/test scope is unchanged and excludes .csdlc projections.
+- Re-review was read-only with bounded local tests; it did not perform live GitHub publication or readiness mutation.
+- Hosted CI for PR #654 restarted at corrective head d9b1256fd5193264fab707e2d731a604916b32b0 and must pass before merge consideration.
 
 ## Review Result
 
-Revision: Some("git-blake3:e6bfe4674cb4c48a6834d01c5e58cfbc6b75d1b7:65ddfa6734a5c1e1589b6b4abf1940be8f057a9743eac34e28525f2bd4d739e5")
+Revision: Some("git-blake3:d9b1256fd5193264fab707e2d731a604916b32b0:814378cd23ca5bd8af3596545d358325ad37a2840636e4777c2449a50ff73960")
 
 Reviewer: Some("subagent:/root/review_645_stacked_closing_relation_pre_pr")
 
