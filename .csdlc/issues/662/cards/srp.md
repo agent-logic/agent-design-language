@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/telemetry.rs
-.csdlc/prepared/issues/662/design.md
-.csdlc/prepared/issues/662/diagram.mmd
-.csdlc/prepared/issues/662/bind.json
-.csdlc/prepared/issues/662/finalize-implementation.json
-.csdlc/prepared/issues/662/validate-focused.sh
-.csdlc/evidence/662
+
 
 ## Prompts
 
@@ -39,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The metadata-head reviewer also inspected branch HEAD b3335a276a6a520f857afcca87f718d9ed37a3d4 and verified that changes after code commit 024afcd521b984f4b780ead4803507ea95a3938a are confined to typed C-SDLC metadata.
-- No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during metadata-head review.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:32c472032f50c4e5283036dfde6e0130d8319e66:e9b91029b83a0b48606032c1301353e1aba3fa68812e983aa6ffbcc38f221d98")
+Revision: None
 
-Reviewer: Some("fresh-session:review-662-agent-to-agent-initiation-metadata-head")
+Reviewer: None
 
-Result: pass
+Result: pre_review

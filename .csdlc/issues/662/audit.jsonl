@@ -11,3 +11,4 @@
 {"sequence":11,"generation":7,"actor":"codex:/root:issue-662-exec","reason":"Recover #662 review truth after recording the post-sender-fix PASS review so a metadata-head review can cover the current branch head before publication.","operation":"recover_review"}
 {"sequence":12,"generation":7,"actor":"codex:/root:issue-662-exec","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":8,"actor":"fresh-session:review-662-agent-to-agent-initiation-metadata-head","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":14,"generation":9,"actor":"codex:/root:issue-662-exec","reason":"Recover #662 review truth after recording the metadata-head PASS review so a final metadata-only review can cover the current review-record commit before publication.","operation":"recover_review"}
