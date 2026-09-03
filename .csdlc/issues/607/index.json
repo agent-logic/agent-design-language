@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 114,
-  "digest": "1e0a1f2950c3ba4c3bc2a4c4c48f7addd74fcd611c8b890ab4c2993d8cea9613",
+  "generation": 117,
+  "digest": "a537b581f17e98424a0a63bbd94d4dd63fd4ed26384a258147776e0fef210655",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ab656e053f57e256bfc1f2db8fd9eba6a504d59638be8588bf818c2c65c288f6",
+      "values_digest": "fcdba472a4e86d283bf0d9fb94859bb468d20a3809e60bf462bfa8bd0d925d0c",
       "rendered_digest": "90aea889da830d9181252e4dc21d7ede731f5cdb5d91335d07198ba1dc7dae0a",
       "ast_digest": "67e56776abb0eee782ef993c404021b24cc7b9a4470e59655a44421782bd5700"
     },
     "stp": {
-      "values_digest": "7117fd64cb8c6b3e70ee4763e67cb9ec6a682b0054e6c3ccdde16b55bfede27e",
+      "values_digest": "a16fe8620cdb381299201347ef61ff581a2bdd49a2f80da556d6c5f4cc9c050a",
       "rendered_digest": "0be79b7287a9ab5deec6306488463e0c6f6528bc56e65a269d93ba0038f4b2bf",
       "ast_digest": "d63bb658343fa74c02e866ad01d3b0efaa31087b8de46ba3ebab48b511e58e26"
     },
     "spp": {
-      "values_digest": "2955e80b905a45dea22aba1dc4397545efd75352953d4d24ab063c425d4accab",
+      "values_digest": "794e6b9239e9f762b22413645eea76f36c953b06812c9902189038bbbf053783",
       "rendered_digest": "e4cf3cfae098aefb76e86311aabb86b016754ac5749d9039843b5dd5ff45ca09",
       "ast_digest": "450ee16651fbaf66f9d05c42c98a5ecad35ee0d79ced0d1a88e547d6a421d2de"
     },
     "vpp": {
-      "values_digest": "500fd29d439bd2afeeb877a98d81d5e3869d84e8dfec4469a3b9ed0b6efbacb2",
+      "values_digest": "7947fb8ef3503bdeba8eff2b42dbe28320bd1d1eeb34fe6590e7a57a9bd88008",
       "rendered_digest": "05d99118c1b11935e8b7a63fffeef50f341872cc72de2172dfc11f8797fad36e",
       "ast_digest": "7bea9743cd7a504145e8d56b4644ae14e960b56fb72467f9ea56290a67357612"
     },
     "srp": {
-      "values_digest": "d1d4c570f9a670d6a4da4aa2e4c0f58e679de924fdeadebe5c17b0193a0a70a2",
+      "values_digest": "756bdd2a8bf9352b1ccd15337974026df85f4b736ded441459e2f4b64371d6bc",
       "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
       "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "92d9fdee1d3fb57476eb24308933db25255349ae9320d6895f3e79dc9b810fc5",
-      "rendered_digest": "4cf22844eaea07031cb1ad9e273699b309872143a2db604d270246f21af9a634",
-      "ast_digest": "607b405d4623d5e24ed3a34c2ba9d2f1a72ca644773e4371446ed06097340dae"
+      "values_digest": "0d32f3a476b81c29cccb6615fe272ff9f3565385f0775679049b27504ff631ee",
+      "rendered_digest": "ae54952cc5c636602545728fb8d14efef78f978d81437643db1862b77b3c35ca",
+      "ast_digest": "3145ef84be4402a2233cdb3880fd5ec3e1070d95c077f2f7935bb266808a6e9d"
     }
   },
   "transitions": [
@@ -1148,6 +1148,34 @@
       "actor": "codex-primary-issue607",
       "reason": "Reconcile the paid-operation stop condition with the operator-authorized USD 21 ceiling.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A normal launch requires compilation package installation Git or model download\",\"Warm volume identity or cleanup ownership is ambiguous\",\"Ollama becomes public\",\"Either node lacks SSH\",\"A paid operation would exceed USD 21\",\"Timing cannot distinguish Terraform EC2 and guest denominators\",\"Fresh review reports an unresolved actionable finding\"]}"
+    },
+    {
+      "sequence": 140,
+      "generation": 114,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 141,
+      "generation": 115,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 142,
+      "generation": 116,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed final review to bind the operator's USD 21 extension to the exact run and reserve future full billable lifetime through verified cleanup.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 143,
+      "generation": 117,
+      "actor": "codex-primary-issue607",
+      "reason": "Resolve the final P1 by binding the exact operator extension and reserving full future billable lifetime through verified termination.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence; conservative total cost is USD 20.025563 with USD 0.974437 remaining. Future actions reserve 900 seconds for the full billable lifetime and cannot declare cleanup complete until both exact instances are terminated.\",\"changes\":[\"Compressed the complete Runtime user-data payload and enforced EC2's 16 KiB rendered payload limit in Terraform tests.\",\"Kept full-create topology strict while allowing correctly typed partial destroy after interrupted applies.\",\"Removed brittle floating-point equality and aligned cost tests with the production tolerance.\",\"Retained the operator's exact USD 21 extension bound to the payload-recovery run, controller, plan, and prior authorization digest.\",\"Changed future launch reservations from the 420-second service window to a 900-second full billable-lifetime envelope covering qualification, destroy, and verified termination.\",\"Required both exact instances to reach AWS terminated state before cleanup can complete, with regression checks accepting the observed 610-second cleanup lifetime and rejecting 901 seconds.\",\"Captured durable source-bound timing, model residency, ACC, Guardian recovery, cost, retained-volume, and zero-residue evidence.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof/variables.tf\",\"infra/aws/runtime/gpu-proof/terraform.tfvars.example\",\"infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/operator-budget-extension.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove payload, cleanup-through-termination, full-lifetime reservation, extension binding, authorization, cost, residue, and recovery contracts locally.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: issue607_all=pass\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: 1 passed, 0 failed\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"resourcegroupstaggingapi/ec2\",\"targeted zero-residue queries\"],\"purpose\":\"Prove no disposable issue-owned AWS resources remain.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"}]}"
     }
   ]
 }

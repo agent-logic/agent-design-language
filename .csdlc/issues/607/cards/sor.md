@@ -12,7 +12,7 @@ Status: draft
 
 ## Summary
 
-The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The operator extended the issue ceiling to USD 21 before completion; the conservative issue total is USD 20.025563 with USD 0.974437 remaining.
+The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence; conservative total cost is USD 20.025563 with USD 0.974437 remaining. Future actions reserve 900 seconds for the full billable lifetime and cannot declare cleanup complete until both exact instances are terminated.
 
 ## Artifacts
 
@@ -22,6 +22,7 @@ The final source-bound warm two-node AWS Polis qualification passed in 240 secon
 - infra/aws/runtime/gpu-proof/terraform.tfvars.example
 - infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl
 - docs/operations/cloud/aws/shepherd-gpu-proof/README.md
+- .csdlc/evidence/607/operator-budget-extension.json
 - .csdlc/evidence/607/aws-paid-action-cost-audit.json
 - .csdlc/evidence/607/aws-payload-recovery-qualification.json
 
@@ -30,7 +31,9 @@ The final source-bound warm two-node AWS Polis qualification passed in 240 secon
 - Compressed the complete Runtime user-data payload and enforced EC2's 16 KiB rendered payload limit in Terraform tests.
 - Kept full-create topology strict while allowing correctly typed partial destroy after interrupted applies.
 - Removed brittle floating-point equality and aligned cost tests with the production tolerance.
-- Aligned controller, guest failsafe, documentation, Terraform, and audit ceilings with the operator-authorized USD 21 limit.
+- Retained the operator's exact USD 21 extension bound to the payload-recovery run, controller, plan, and prior authorization digest.
+- Changed future launch reservations from the 420-second service window to a 900-second full billable-lifetime envelope covering qualification, destroy, and verified termination.
+- Required both exact instances to reach AWS terminated state before cleanup can complete, with regression checks accepting the observed 610-second cleanup lifetime and rejecting 901 seconds.
 - Captured durable source-bound timing, model residency, ACC, Guardian recovery, cost, retained-volume, and zero-residue evidence.
 
 ## Validation
@@ -42,7 +45,7 @@ The final source-bound warm two-node AWS Polis qualification passed in 240 secon
       "adl/tools/test_issue607_warm_polis.sh",
       "all"
     ],
-    "purpose": "Prove payload, cleanup, authorization, cost, residue, and recovery contracts locally.",
+    "purpose": "Prove payload, cleanup-through-termination, full-lifetime reservation, extension binding, authorization, cost, residue, and recovery contracts locally.",
     "outcome": "passed",
     "evidence_ref": "fresh local output 2026-09-03: issue607_all=pass"
   },

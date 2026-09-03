@@ -27,15 +27,19 @@
   },
   "qualification_complete_sha256": "c4c1c7dcb661c35d307f515bf17991eeaa35c44a0863466e4aae2a312cdc6012",
   "zero_disposable_residue_sha256": "c449614b3a05cd6e7ebfbd6878b5d7384ad56891e64242ef14641e7dfcf6544a",
+  "budget_extension_sha256": "76495aca8c66ad065d55e3efda602cf1810b1b36f0d0986c830a254b13f02903",
   "compute_residue": 0,
   "retained_warm_volumes": [
     {"role": "runtime", "volume_id": "vol-0dba967c9de521789", "state": "available"},
     {"role": "gpu", "volume_id": "vol-06a17b1319040bf39", "state": "available"}
   ],
   "cost": {
+    "prior_authorized_ceiling_usd": 20,
+    "prior_reserved_seconds": 420,
     "authorized_ceiling_usd": 21,
     "conservative_issue_total_usd": 20.025563,
-    "remaining_usd": 0.974437
+    "remaining_usd": 0.974437,
+    "future_billable_lifetime_reservation_seconds": 900
   },
   "scope_note": "Timing proves the current two-8B-model configuration; larger model payloads can require longer model load time."
 }

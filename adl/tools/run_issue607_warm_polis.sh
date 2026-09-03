@@ -20,6 +20,7 @@ RUNTIME_TYPE="${ADL_ISSUE607_RUNTIME_TYPE:-r7i.2xlarge}"
 GPU_TYPE="${ADL_ISSUE607_GPU_TYPE:-g6.xlarge}"
 STATE_ROOT="$ROOT/.adl/local/issue607"
 ISSUE_COST_AUDIT="$ROOT/.csdlc/evidence/607/aws-paid-action-cost-audit.json"
+ISSUE_BUDGET_EXTENSION="$ROOT/.csdlc/evidence/607/operator-budget-extension.json"
 ISSUE_COST_LEDGER="$STATE_ROOT/aggregate-cost-ledger.json"
 STORAGE_ROOT="$ROOT/infra/aws/runtime/gpu-proof/warm-storage"
 PREPARATION_ROOT="$STORAGE_ROOT/preparation"
@@ -29,7 +30,7 @@ GPU_LOCAL_READY_MAX_SECONDS=120
 RUNTIME_LOCAL_READY_MAX_SECONDS=30
 SERVICE_READY_MAX_SECONDS=270
 PREPARATION_SECONDS=2700
-LAUNCH_SECONDS=420
+LAUNCH_SECONDS=900
 LAUNCH_OPERATION_SECONDS=420
 GPU_ON_DEMAND_QUOTA_CODE=L-DB2E81BA
 PREPARATION_ROOT_GIB=80
@@ -424,6 +425,22 @@ terminate_owned_compute() {
   [[ -n "$ids" && "$ids" != None ]] || return 0
   # shellcheck disable=SC2086 -- AWS returns a whitespace-delimited instance ID list.
   aws_cli ec2 terminate-instances --instance-ids $ids >/dev/null
+  # Termination is part of the billable action. Do not declare cleanup complete
+  # until AWS reports every exact owner-bound instance terminal.
+  # shellcheck disable=SC2086 -- IDs were returned by the exact owner query above.
+  wait_instances_terminated $ids
+}
+
+wait_instances_terminated() {
+  local states
+  while true; do
+    states="$(aws_cli ec2 describe-instances --instance-ids "$@" --query 'Reservations[].Instances[].State.Name' --output json)" \
+      || { echo "AWS instance termination query failed" >&2; return 2; }
+    jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="terminated")' <<<"$states" >/dev/null && return 0
+    jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="pending" or .=="running" or .=="stopping" or .=="stopped" or .=="shutting-down" or .=="terminated")' <<<"$states" >/dev/null \
+      || { echo "instance entered a missing or malformed termination state" >&2; return 1; }
+    sleep "$CONTROL_PLANE_POLL_SECONDS"
+  done
 }
 
 verify_gpu_on_demand_quota() {
@@ -671,12 +688,35 @@ release_cost_ledger_lock() {
   COST_LEDGER_LOCK=""
 }
 
+validate_budget_extension() {
+  local extension="$1"
+  jq -e '
+    .schema=="adl.issue607.operator_budget_extension.v1"
+    and .issue==607
+    and .action=="qualification-payload-recovery"
+    and .run_id=="adl-issue607-e8925c1dc8b0-payload-recovery"
+    and .artifact_generation=="7be87dd22260d30a7966d1b129123e84bb761074"
+    and .controller_revision=="f126783cd23eac3db5fce4351c92ef66f3b2f26e"
+    and .saved_plan_sha256=="6d0f78fce69e951c9fcbf62a73bc4d173ab2f65b368937852a89472d5d229ffe"
+    and .prior_authorization_sha256=="21289a7704c4a46df64152e228197144f5e2d05331f9d4307d8a5a0962b24dfb"
+    and .prior_ceiling_usd==20 and .extended_ceiling_usd==21
+    and .authorization_order=="after paid action start and before final run completion and cost closeout"
+    and .authorized_by=="operator"
+    and (.operator_statement|type)=="string" and (.operator_statement|length)>0
+    and (.scope|contains("no additional paid action is authorized"))
+  ' "$extension" >/dev/null || { echo "issue-wide budget extension evidence is invalid" >&2; return 2; }
+}
+
 validate_issue_cost_audit() {
-  local audit="$1"
+  local audit="$1" extension_sha
   [[ -f "$audit" ]] || { echo "issue-wide paid-action cost audit is missing" >&2; return 2; }
-  jq -e --argjson ceiling "$MAX_TOTAL_USD" '
+  [[ -f "$ISSUE_BUDGET_EXTENSION" ]] || { echo "issue-wide budget extension evidence is missing" >&2; return 2; }
+  validate_budget_extension "$ISSUE_BUDGET_EXTENSION"
+  extension_sha="$(sha256_file "$ISSUE_BUDGET_EXTENSION")"
+  jq -e --argjson ceiling "$MAX_TOTAL_USD" --arg extension_sha "$extension_sha" '
     .schema=="adl.issue607.paid_action_cost_audit.v1" and .status=="pass"
     and .authorized_ceiling_usd==$ceiling
+    and .budget_extension_sha256==$extension_sha
     and (.historical_paid_attempts|length)==19
     and (.audited_remote_action_markers|length)==19
     and ((.audited_remote_action_markers|length)==(.audited_remote_action_markers|unique|length))
@@ -687,7 +727,7 @@ validate_issue_cost_audit() {
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .action=="qualification-remediation" and .outcome=="rejected_before_instance" and .runtime_seconds==0 and .gpu_seconds==0 and .compute_upper_bound_usd==0 and .error_code=="Client.VcpuLimitExceeded" and .quota_code=="L-DB2E81BA" and .observed_quota_vcpus==4 and .required_vcpus==16 and (.cloudtrail_event_ids|sort)==(["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"]|sort) and (.cloudtrail_response_instance_ids|type)=="array" and (.cloudtrail_response_instance_ids|length)==0 and .post_cleanup_owner_inventory.owner_token_sha256=="83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b" and (.post_cleanup_owner_inventory.observed_at|type)=="string" and (.post_cleanup_owner_inventory.observed_at|test("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")) and (.post_cleanup_owner_inventory.instances|type)=="array" and (.post_cleanup_owner_inventory.instances|length)==0 and (.post_cleanup_owner_inventory.volumes|type)=="array" and (.post_cleanup_owner_inventory.volumes|length)==0 and (.post_cleanup_owner_inventory.network_interfaces|type)=="array" and (.post_cleanup_owner_inventory.network_interfaces|length)==0 and (.post_cleanup_owner_inventory.security_groups|type)=="array" and (.post_cleanup_owner_inventory.security_groups|length)==0 and (.post_cleanup_owner_inventory.key_pairs|type)=="array" and (.post_cleanup_owner_inventory.key_pairs|length)==0)]|length)==1
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-quota-recovery" and .action=="qualification-quota-recovery" and .outcome=="passed_with_review_rejected_recovery_claims" and .runtime_instance_id=="i-05ff5a7a91434b114" and .gpu_instance_id=="i-0d2f10455c1c478e8" and .runtime_seconds==333 and .gpu_seconds==377 and .compute_upper_bound_usd==0.133231 and .disposable_ebs_ipv4_upper_bound_usd==0.004135 and .post_cleanup_owner_inventory.owner_token_sha256=="2cde10bd301f9b872fe03ace47ef8f6de830186789614a7f874e150e153b77f0" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-proof-recovery" and .action=="qualification-proof-recovery" and .outcome=="rejected_before_runtime_instance_user_data_limit" and .runtime_seconds==0 and .gpu_instance_id=="i-0883b9d2e04e4b6da" and .gpu_seconds==417 and .compute_upper_bound_usd==0.093223 and .disposable_ebs_ipv4_upper_bound_usd==0.003153 and .error_code=="InvalidParameterValue" and .error_boundary=="aws_instance.runtime.user_data" and .post_cleanup_owner_inventory.owner_token_sha256=="2213ad673e53d9ead6c5cad175742912dd91fdca462cc7ab25766ec784c20c97" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
-    and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-payload-recovery" and .action=="qualification-payload-recovery" and .outcome=="passed" and .runtime_instance_id=="i-00da9426786754a6c" and .gpu_instance_id=="i-03bb0138945501212" and .runtime_seconds==337 and .gpu_seconds==610 and .compute_upper_bound_usd==0.185908 and .disposable_ebs_ipv4_upper_bound_usd==0.005913 and .apply_to_service_ready_seconds==240 and .runtime_local_ready_seconds==5.950 and .gpu_local_ready_seconds==97.340 and .qualification_complete_sha256=="c4c1c7dcb661c35d307f515bf17991eeaa35c44a0863466e4aae2a312cdc6012" and .zero_disposable_residue_sha256=="c449614b3a05cd6e7ebfbd6878b5d7384ad56891e64242ef14641e7dfcf6544a" and .post_cleanup_owner_inventory.owner_token_sha256=="65c766c3c0721aa1ad850914b03e6486b1b38c6d5ed89669a9869206c785499b" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
+    and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-payload-recovery" and .action=="qualification-payload-recovery" and .outcome=="passed" and .runtime_instance_id=="i-00da9426786754a6c" and .gpu_instance_id=="i-03bb0138945501212" and .runtime_seconds==337 and .gpu_seconds==610 and .compute_upper_bound_usd==0.185908 and .disposable_ebs_ipv4_upper_bound_usd==0.005913 and .apply_to_service_ready_seconds==240 and .runtime_local_ready_seconds==5.950 and .gpu_local_ready_seconds==97.340 and .prior_authorization_ceiling_usd==20 and .prior_reserved_seconds==420 and .budget_extension_sha256==$extension_sha and .qualification_complete_sha256=="c4c1c7dcb661c35d307f515bf17991eeaa35c44a0863466e4aae2a312cdc6012" and .zero_disposable_residue_sha256=="c449614b3a05cd6e7ebfbd6878b5d7384ad56891e64242ef14641e7dfcf6544a" and .post_cleanup_owner_inventory.owner_token_sha256=="65c766c3c0721aa1ad850914b03e6486b1b38c6d5ed89669a9869206c785499b" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
   ' "$audit" >/dev/null || { echo "issue-wide paid-action cost audit is invalid" >&2; return 2; }
 }
 
@@ -1493,6 +1533,7 @@ launch() {
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" show -json "$run_dir/compute-destroy.tfplan" >"$run_dir/compute-destroy-plan.json"
   "$ROOT/adl/tools/issue607_validate_saved_plan.sh" compute "$run_dir/compute-destroy-plan.json" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute-destroy.tfplan" >/dev/null
+  wait_instances_terminated "$runtime_instance" "$gpu_instance"
   managed="$(tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" state list -state="$run_dir/compute.tfstate" | awk '!/^data\./')" \
     || { echo "failed to read compute Terraform state after destroy" >&2; exit 1; }
   [[ -z "$managed" ]] || { echo "compute Terraform state retains managed resources: $managed" >&2; exit 1; }
@@ -1606,6 +1647,10 @@ case "$ACTION" in
     [[ $# -eq 1 ]] || { echo "test-validate-issue-cost-audit requires an audit file" >&2; exit 2; }
     validate_issue_cost_audit "$1"
     ;;
+  test-validate-budget-extension)
+    [[ $# -eq 1 ]] || { echo "test-validate-budget-extension requires an extension file" >&2; exit 2; }
+    validate_budget_extension "$1"
+    ;;
   test-reserve-issue-cost)
     [[ $# -eq 4 ]] || { echo "test-reserve-issue-cost requires action, run ID, audit, and ledger" >&2; exit 2; }
     reserve_issue_action_cost "$1" "$2" "$3" "$4"
@@ -1613,6 +1658,10 @@ case "$ACTION" in
   test-readiness-deadlines)
     [[ $# -eq 3 ]] || { echo "test-readiness-deadlines requires GPU receipt, Runtime receipt, and controller elapsed seconds" >&2; exit 2; }
     assert_readiness_deadlines "$1" "$2" "$3"
+    ;;
+  test-billable-lifetime-reservation)
+    [[ $# -eq 1 && "$1" =~ ^[0-9]+$ ]] || { echo "test-billable-lifetime-reservation requires elapsed seconds" >&2; exit 2; }
+    (( $1 <= LAUNCH_SECONDS ))
     ;;
   test-wait-object-deadline)
     [[ $# -eq 0 ]] || { echo "test-wait-object-deadline takes no arguments" >&2; exit 2; }

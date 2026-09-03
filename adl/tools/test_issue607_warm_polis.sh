@@ -222,9 +222,13 @@ run_contracts() {
   rmdir "$cost_ledger.lock"
 
   issue_cost_audit="$ROOT/.csdlc/evidence/607/aws-paid-action-cost-audit.json"
+  budget_extension="$ROOT/.csdlc/evidence/607/operator-budget-extension.json"
   issue_cost_ledger="$CASE_ROOT/issue-cost-ledger.json"
   rm -f "$issue_cost_ledger" "$issue_cost_ledger.next"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$issue_cost_audit"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-budget-extension "$budget_extension"
+  jq '.run_id="wrong-run"' "$budget_extension" >"$CASE_ROOT/budget-extension-wrong-run.json"
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-budget-extension "$CASE_ROOT/budget-extension-wrong-run.json" >/dev/null 2>&1
   jq '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")) |= del(.cloudtrail_response_instance_ids)' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-missing-cloudtrail-responses.json"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-missing-cloudtrail-responses.json" >/dev/null 2>&1
   for field in instances volumes network_interfaces security_groups key_pairs; do
@@ -236,16 +240,19 @@ run_contracts() {
   jq '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")|.post_cleanup_owner_inventory.observed_at) = "invalid"' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-invalid-observed-at.json"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-invalid-observed-at.json" >/dev/null 2>&1
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation "$issue_cost_audit" "$issue_cost_ledger"
-  jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and ((.cumulative_reserved_usd-20.185993)|fabs)<0.000001' "$issue_cost_ledger" >/dev/null
-  for ordinal in 2 3 4 5 6; do
+  jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and ((.cumulative_reserved_usd-20.369341)|fabs)<0.000001' "$issue_cost_ledger" >/dev/null
+  for ordinal in 2; do
     bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation "adl-issue607-test-remediation-$ordinal" "$issue_cost_audit" "$issue_cost_ledger"
   done
-  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation-7 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation-3 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-retry-1 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
   recovery_ledger="$CASE_ROOT/issue-cost-recovery-ledger.json"
   rm -f "$recovery_ledger" "$recovery_ledger.next"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-quota-recovery adl-issue607-test-quota-recovery "$issue_cost_audit" "$recovery_ledger"
-  jq -e '(.reservations|length)==1 and .reservations[0].action=="qualification-quota-recovery" and .reservations[0].run_id=="adl-issue607-test-quota-recovery" and .reservations[0].reserved_seconds==420 and ((.reservations[0].reserved_cost_usd-0.160430)|fabs)<0.000001 and .reservations[0].status=="reserved" and ((.cumulative_reserved_usd-20.185993)|fabs)<0.000001' "$recovery_ledger" >/dev/null
+  jq -e '(.reservations|length)==1 and .reservations[0].action=="qualification-quota-recovery" and .reservations[0].run_id=="adl-issue607-test-quota-recovery" and .reservations[0].reserved_seconds==900 and ((.reservations[0].reserved_cost_usd-0.343778)|fabs)<0.000001 and .reservations[0].status=="reserved" and ((.cumulative_reserved_usd-20.369341)|fabs)<0.000001' "$recovery_ledger" >/dev/null
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-billable-lifetime-reservation 610
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-billable-lifetime-reservation 899
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-billable-lifetime-reservation 901 >/dev/null 2>&1
 
   recovery_campaign=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   recovery_run=adl-issue607-aaaaaaaaaaaa-quota-recovery
@@ -267,10 +274,10 @@ run_contracts() {
   recovery_auth="$CASE_ROOT/quota-recovery-authorization.json"
   controller="$(git -C "$ROOT" rev-parse HEAD)"; audit_sha="$(shasum -a 256 "$issue_cost_audit" | awk '{print $1}')"
   jq -n --arg commit "$ancestor" --arg controller "$controller" --arg run "$recovery_run" --arg campaign "$recovery_campaign" --arg audit "$audit_sha" \
-    '{schema:"adl.issue607.remediation_authorization.v1",authorized:true,single_use:true,action:"qualification-quota-recovery",action_id:"test-quota-recovery-authorization",source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:"adl-issue607-test-storage",saved_plan_sha256:"plan",preflight_sha256:"preflight",action_manifest_sha256:"manifest",campaign_id:$campaign,issue_cost_audit_sha256:$audit,reserved_cost_usd:0.160430,projected_issue_total_usd:20.185993,authorized_ceiling_usd:21,expires_at:"2099-01-01T00:00:00Z"}' >"$recovery_auth"
-  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 20.185993 0.160430
+    '{schema:"adl.issue607.remediation_authorization.v1",authorized:true,single_use:true,action:"qualification-quota-recovery",action_id:"test-quota-recovery-authorization",source_commit:$commit,controller_revision:$controller,run_id:$run,storage_id:"adl-issue607-test-storage",saved_plan_sha256:"plan",preflight_sha256:"preflight",action_manifest_sha256:"manifest",campaign_id:$campaign,issue_cost_audit_sha256:$audit,reserved_cost_usd:0.343778,projected_issue_total_usd:20.369341,authorized_ceiling_usd:21,expires_at:"2099-01-01T00:00:00Z"}' >"$recovery_auth"
+  bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 20.369341 0.343778
   jq '.action="qualification-remediation"' "$recovery_auth" >"$recovery_auth.mismatch"
-  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth.mismatch" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 20.185993 0.160430 >/dev/null 2>&1
+  ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-remediation-authorization --commit "$ancestor" --run-id "$recovery_run" --storage-id adl-issue607-test-storage --authorization-file "$recovery_auth.mismatch" qualification-quota-recovery plan preflight manifest "$recovery_campaign" 20.369341 0.343778 >/dev/null 2>&1
   jq -e '([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .outcome=="rejected_before_instance" and .compute_upper_bound_usd==0 and (.cloudtrail_response_instance_ids|length)==0)]|length)==1' "$issue_cost_audit" >/dev/null
 
   lifecycle_report="$CASE_ROOT/guardian-lifecycle-report.json"
@@ -311,7 +318,15 @@ run_contracts() {
   (
     aws() {
       case " $* " in
-        *' describe-instances '*) printf 'describe %s\n' "$*" >>"$ADL_ISSUE607_TERMINATION_LOG"; printf 'i-0123456789abcdef0\ti-0abcdef0123456789\n' ;;
+        *' describe-instances '*)
+          if [[ " $* " == *' --instance-ids '* ]]; then
+            printf 'describe-terminal %s\n' "$*" >>"$ADL_ISSUE607_TERMINATION_LOG"
+            printf '["terminated","terminated"]\n'
+          else
+            printf 'describe %s\n' "$*" >>"$ADL_ISSUE607_TERMINATION_LOG"
+            printf 'i-0123456789abcdef0\ti-0abcdef0123456789\n'
+          fi
+          ;;
         *' terminate-instances '*) printf 'terminate %s\n' "$*" >>"$ADL_ISSUE607_TERMINATION_LOG" ;;
         *) return 2 ;;
       esac
