@@ -1,8 +1,8 @@
 {
   "issue": 659,
   "card": "srp",
-  "expected_generation": 7,
-  "expected_digest": "024b955de4bc2ad5e21661e358848c54575b7315823d5046b627ceed28d09dad",
+  "expected_generation": 8,
+  "expected_digest": "9b1bb5e07f318807b2be9e9394436832e8111a5b608c0f0c1f80d9aa094dda77",
   "actor": "codex:659-preparation",
   "reason": "Ensure exact review covers the Runtime-init schema, integration tests, service-control implementation, and issue proof surfaces.",
   "operation": {

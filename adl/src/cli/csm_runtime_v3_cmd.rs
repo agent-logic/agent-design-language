@@ -1,5 +1,6 @@
 use std::fs::{self, OpenOptions};
 use std::io;
+use std::net::TcpStream;
 #[cfg(unix)]
 use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
@@ -590,6 +591,12 @@ fn reload_transaction_paths(active: &Path) -> Result<(PathBuf, PathBuf)> {
 
 fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let active = &args.init;
+    let (backup, _) = reload_transaction_paths(active)?;
+    let recovery_convergence = if backup.exists() {
+        validated_init(&backup)?.service_convergence
+    } else {
+        Default::default()
+    };
     reconcile_interrupted_reload_with(
         active,
         |backup| validated_init(backup).map(|_| ()),
@@ -603,9 +610,17 @@ fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                 let guardian_process_id = platform_process_id(args);
                 platform_stop(args)?;
                 if let Ok(init) = validated_init(active) {
-                    wait_for_stopped(args, &init, guardian_process_id, Duration::from_secs(15))?;
+                    wait_for_stopped(
+                        args,
+                        &init,
+                        guardian_process_id,
+                        Duration::from_millis(recovery_convergence.stop_timeout_millis),
+                    )?;
                 } else {
-                    wait_for_service_unloaded(args, Duration::from_secs(15))?;
+                    wait_for_service_unloaded(
+                        args,
+                        Duration::from_millis(recovery_convergence.unload_timeout_millis),
+                    )?;
                 }
             }
             Ok(())
@@ -681,7 +696,12 @@ fn stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let init = validated_init(&args.init)?;
     let guardian_process_id = platform_process_id(args);
     platform_stop(args)?;
-    wait_for_stopped(args, &init, guardian_process_id, Duration::from_secs(15))?;
+    wait_for_stopped(
+        args,
+        &init,
+        guardian_process_id,
+        Duration::from_millis(init.service_convergence.stop_timeout_millis),
+    )?;
     emit_status(args, &init, "stop", false)
 }
 
@@ -693,12 +713,25 @@ fn start_clean(args: &RuntimeV3ServiceArgs, init: &RuntimeInitConfig) -> Result<
 fn stop_and_wait(args: &RuntimeV3ServiceArgs, current: &RuntimeInitConfig) -> Result<()> {
     let guardian_process_id = platform_process_id(args);
     platform_stop(args)?;
-    wait_for_stopped(args, current, guardian_process_id, Duration::from_secs(15))
+    wait_for_stopped(
+        args,
+        current,
+        guardian_process_id,
+        Duration::from_millis(current.service_convergence.stop_timeout_millis),
+    )
 }
 
 fn start_and_wait(args: &RuntimeV3ServiceArgs, next: &RuntimeInitConfig) -> Result<()> {
     platform_start(args)?;
-    wait_for_listener(args, next, Duration::from_secs(15))
+    wait_for_listener_open(
+        next,
+        Duration::from_millis(next.service_convergence.listener_timeout_millis),
+    )?;
+    wait_for_readiness(
+        args,
+        next,
+        Duration::from_millis(next.service_convergence.readiness_timeout_millis),
+    )
 }
 
 fn status(args: &RuntimeV3ServiceArgs, operation: &'static str) -> Result<()> {
@@ -858,23 +891,26 @@ fn validate_readiness_probe(readiness: &RuntimeReadinessProbe) -> Result<()> {
     Ok(())
 }
 
-fn wait_for_listener(
+fn wait_for_listener_open(init: &RuntimeInitConfig, timeout: Duration) -> Result<()> {
+    wait_for_convergence("listener", timeout, |remaining| {
+        let attempt_timeout = remaining.min(Duration::from_millis(750));
+        Ok(init.socket_addrs().is_ok_and(|addresses| {
+            addresses
+                .iter()
+                .any(|address| TcpStream::connect_timeout(address, attempt_timeout).is_ok())
+        }))
+    })
+    .with_context(|| format!("connect to Runtime v3 listener {}", init.api.address))
+}
+
+fn wait_for_readiness(
     args: &RuntimeV3ServiceArgs,
     init: &RuntimeInitConfig,
     timeout: Duration,
 ) -> Result<()> {
-    let deadline = std::time::Instant::now() + timeout;
-    while std::time::Instant::now() < deadline {
-        if owned_runtime_readiness(args, init).is_ok() {
-            return Ok(());
-        }
-        std::thread::sleep(Duration::from_millis(200));
-    }
-    Err(anyhow!(
-        "Runtime v3 listener {} did not become ready within {} seconds",
-        init.api.address,
-        timeout.as_secs()
-    ))
+    wait_for_convergence("readiness", timeout, |_| {
+        Ok(owned_runtime_readiness(args, init).is_ok())
+    })
 }
 
 fn wait_for_stopped(
@@ -883,34 +919,43 @@ fn wait_for_stopped(
     stopped_guardian_process_id: Option<u32>,
     timeout: Duration,
 ) -> Result<()> {
-    let deadline = std::time::Instant::now() + timeout;
-    while std::time::Instant::now() < deadline {
+    wait_for_convergence("stop", timeout, |_| {
         let stopped_listener_gone = runtime_readiness(init).map_or(true, |readiness| {
             stopped_guardian_process_id
                 .is_some_and(|process_id| process_id != readiness.guardian_process_id)
         });
-        if platform_stopped(args)? && stopped_listener_gone {
-            return Ok(());
-        }
-        std::thread::sleep(Duration::from_millis(200));
-    }
-    Err(anyhow!(
-        "Runtime v3 service did not stop within {} seconds",
-        timeout.as_secs()
-    ))
+        Ok(platform_stopped(args)? && stopped_listener_gone)
+    })
 }
 
 fn wait_for_service_unloaded(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    wait_for_convergence("unload", timeout, |_| platform_stopped(args))
+}
+
+fn wait_for_convergence(
+    stage: &'static str,
+    timeout: Duration,
+    mut converged: impl FnMut(Duration) -> Result<bool>,
+) -> Result<()> {
     let deadline = std::time::Instant::now() + timeout;
-    while std::time::Instant::now() < deadline {
-        if platform_stopped(args)? {
+    loop {
+        let now = std::time::Instant::now();
+        if converged(deadline.saturating_duration_since(now))? {
             return Ok(());
         }
-        std::thread::sleep(Duration::from_millis(200));
+        let now = std::time::Instant::now();
+        if now >= deadline {
+            break;
+        }
+        std::thread::sleep(
+            deadline
+                .saturating_duration_since(now)
+                .min(Duration::from_millis(200)),
+        );
     }
     Err(anyhow!(
-        "Runtime v3 service manager did not unload within {} seconds",
-        timeout.as_secs()
+        "Runtime v3 convergence stage {stage} did not complete within {} milliseconds",
+        timeout.as_millis()
     ))
 }
 
@@ -1839,7 +1884,8 @@ mod tests {
         args.json = true;
         assert!(emit_status(&args, &init, "status", true).is_err());
         assert!(status(&args, "status").is_err());
-        assert!(wait_for_listener(&args, &init, Duration::ZERO).is_err());
+        assert!(wait_for_listener_open(&init, Duration::ZERO).is_err());
+        assert!(wait_for_readiness(&args, &init, Duration::ZERO).is_err());
         assert!(wait_for_stopped(&args, &init, None, Duration::ZERO).is_err());
 
         let (backup, _) = reload_transaction_paths(&path).unwrap();
@@ -1861,6 +1907,39 @@ mod tests {
 
         let error = runtime_readiness(&init).unwrap_err().to_string();
         assert!(error.contains("query Runtime v3 readiness"));
+    }
+
+    #[test]
+    fn convergence_slow_success_completes_within_configured_deadline() {
+        let mut probes = 0_u8;
+        wait_for_convergence("readiness", Duration::from_millis(500), |_| {
+            probes += 1;
+            Ok(probes == 3)
+        })
+        .unwrap();
+        assert_eq!(probes, 3);
+    }
+
+    #[test]
+    fn convergence_true_timeout_reports_exact_stage_and_deadline() {
+        let error = wait_for_convergence("unload", Duration::ZERO, |_| Ok(false)).unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "Runtime v3 convergence stage unload did not complete within 0 milliseconds"
+        );
+    }
+
+    #[test]
+    fn convergence_listener_open_is_distinct_from_full_readiness() {
+        let root = tempfile::tempdir().unwrap();
+        let (path, mut init) = write_valid_init(root.path());
+        let listener = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+        init.api.address = listener.local_addr().unwrap().to_string();
+        let args = service_args(path);
+
+        wait_for_listener_open(&init, Duration::from_secs(1)).unwrap();
+        let error = wait_for_readiness(&args, &init, Duration::ZERO).unwrap_err();
+        assert!(error.to_string().contains("stage readiness"));
     }
 
     #[test]

@@ -29,6 +29,7 @@ rg -q 'U -->\|deadline\| E' "$repo_root/.csdlc/prepared/issues/659/diagram.mmd"
 ! rg -q 'RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN' "$repo_root/.csdlc/issues/659/cards/stp.values.json"
 
 fixed_count="$(rg -c 'Duration::from_secs\(15\)' "$source_file" || true)"
-test "$fixed_count" -ge 1
+fixed_count="${fixed_count:-0}"
+test "$fixed_count" -eq 0
 
-printf 'issue 659 preparation contract valid; fixed operational waits remain implementation work (%s sites)\n' "$fixed_count"
+printf 'issue 659 convergence contract valid; fixed 15-second operational waits: %s\n' "$fixed_count"
