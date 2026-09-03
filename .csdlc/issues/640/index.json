@@ -3,13 +3,60 @@
   "issue": 640,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "014fc467f2989e35ab03b4f7c12da72263b91bbbbfdea091503d62cb3b2c693d",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "119730f8da83b620a65e5df41051c3a7ce0385db9670e20ac22915942ab25661",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "c7b7418a48bf7a42c2d39e43a28791d71fc6f4289201c7ac3042e59677e33ae8",
   "branch": "codex/640-runtime-model-backed-resident-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:25cad475-d5d1-4eac-a0d6-41d924dea0f7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:cfa88fea982503ae3b4daceccd741b01b38d2b51:e9f934ceead9dadf3dfaba45362ea0c5b21d30c81928105af920a12dfcabe943",
+    "scope": [
+      ".csdlc/prepared/issues/640",
+      ".csdlc/evidence/640",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/tests",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "infra/runtime-v3/runtime-init.toml"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:25cad475-d5d1-4eac-a0d6-41d924dea0f7",
+    "scope": [
+      ".csdlc/prepared/issues/640",
+      ".csdlc/evidence/640",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/tests",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "infra/runtime-v3/runtime-init.toml"
+    ],
+    "reviewed_revision": "git-blake3:cfa88fea982503ae3b4daceccd741b01b38d2b51:e9f934ceead9dadf3dfaba45362ea0c5b21d30c81928105af920a12dfcabe943",
+    "findings": [],
+    "residual_risks": [
+      "The full crate had one concurrency-only Guardian-soak timeout among 648 tests; the affected four process tests passed 4/4 when rerun serially."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e5c2f932ae9d2f942de528a720f5669739253339b273761acf81daf6a9bb6276",
+      "values_digest": "11ff82fb8c7ed0594538f257e8a8ae55664d35bae45ece0ec5aa2fd5fd9e6790",
       "rendered_digest": "fd071db40de35c83938f778ae23859989748a3e2fbeaf90381b069116b4cfb8f",
       "ast_digest": "c5270afe9b52c7a6a82f70172adcd689a9abec9172f8acfb0ff332dbe9dbe350"
     },
     "stp": {
-      "values_digest": "d20b5374c674d71fa224496d32526c11fc8fa984addc0cb9b9dafad0f7cb7d21",
+      "values_digest": "67eee227d92e4473d926ec2cd384d019688efebef39ca30a5f1bef767e65ffae",
       "rendered_digest": "393fe27a91f019c9880f8a1219cf6a58fbfdf646ff50dad3ea6291ff30aa3d29",
       "ast_digest": "607b11506e1613e2ac56fb4782d64e54da61df40e7ff3d14635188fdbe1082c3"
     },
     "spp": {
-      "values_digest": "f3137b5288a1cffb36a4f19b0b2b7fed15e2850c7729354e58be1ce181676d37",
+      "values_digest": "0b01b0ce2a3f6e7ca17576c22e1f4fcdd6d244f7e825e3ee6feb9db45ece30a1",
       "rendered_digest": "d6e9ff9b5f04a7ae81d673eaf749720a1701ec0815e675f8eddc8150a7df66d6",
       "ast_digest": "f8b27af9c7c1cc9891d075636e9b6d801b33c9c627e437adc898db410845d484"
     },
     "vpp": {
-      "values_digest": "5533f43a6e9556ed600ac99d7a666f46f93675648ff03f04ee326588ee4de892",
+      "values_digest": "c8f95cf459271cbedec4e48d0e442e138625b046e9f3a17fabec29c6b89d5096",
       "rendered_digest": "7f677539c9657410b03ff404a327d0bad8a38c3b28d1efb84751073d8bd94bdb",
       "ast_digest": "0567f2e90f7dee16a75b5a6b7c638903a951849077c3934927cb7cd43861e852"
     },
     "srp": {
-      "values_digest": "b1f63b0b2297c28ec30eb9c4919ae528c9a8cfd68067d377aaa5bd6b442698ec",
-      "rendered_digest": "18d157b679a2beed17a31c13bf9c6f93a4f3db2b2aa88230a8e8b46b77cff2d8",
-      "ast_digest": "6318c7ebb522afbf4cac03c38abfb8231e07b8998eb8a5d20affd52fc8473266"
+      "values_digest": "546cad9a165f05003c141ed0906f73f6885cbe7e746b2d6826bdf056fc3750ae",
+      "rendered_digest": "ac7dea4a018202b58fc388927bdca2e20ed1d78e40b107d73464f9ccd5126c6f",
+      "ast_digest": "1b8b16abf6b0b33f1e378c459f179971c547d6e0465f1a79c51cb13ef54e8563"
     },
     "sor": {
-      "values_digest": "fb590cbe6e0c3a66ef06c2224a9032b88417da9260fa68c146d75583cff2f8f4",
+      "values_digest": "7cce0d2f36ec86382bebfc34766a2454b280406716c6c68f9767b008608f70e8",
       "rendered_digest": "25332a3d892430f26f74b03f7a78fb93b8fadc334c4d1b8b462c362eaae4e356",
       "ast_digest": "40a5b9d829df7c76841d54965124949e545517647409ee938ecae74eba37e6f3"
     }
@@ -75,6 +122,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -301,6 +355,20 @@
       "actor": "codex-640-owner",
       "reason": "Record final review remediations, exact focused proof, and exact-binary Wuji Guardian recovery acceptance before independent review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented provider-backed resident Shepherds with provider-neutral private gateway support, tested lifetime recovery, presentation-safe continuity identity, shared readiness truth, and exact-binary Wuji restart proof.\",\"changes\":[\"Support compiled Ollama and private OpenAI-compatible provider adapters without serializing provider credentials into Runtime configuration or API output.\",\"Run provider preload plus governed inference through one reusable lifetime recovery controller that retries transient failure without terminating or globally blocking the Runtime.\",\"Exclude resident Shepherd presentation labels from continuity identity for both single and multi-Shepherd configurations while retaining canonical stateful bindings.\",\"Bind Wuji acceptance to the exact checked-out release build and installed canonical kernel and Guardian executables, then prove a controlled Guardian restart restores a new Runtime process without letting the validator terminate the live service.\",\"Retain one canonical deployed Runtime kernel binary and report Beacon Axioma backed by qwen3:8b with consistent readiness and Observatory truth.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\".csdlc/evidence/640/model-backed-shepherd.log\",\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\"],\"purpose\":\"Prove eight nonzero focused configuration, provider dispatch, governed inference, lifetime recovery, canonical identity, truthful roster counts, readiness consistency, formatting, and diff-hygiene behaviors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across changed Runtime production and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/model-backed-shepherd.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh\",\"--live-wuji\"],\"purpose\":\"Prove clean exact implementation commit 58fbeaa41795b9bfcf2a903fb4a3f3225c68f8a6, installed kernel digest 4259f2d0441fecac0890bfab3b0f246bac16695101aa8b3bd1203ebbf6ed5ae4, and installed Guardian digest 94074672f547f6adecbe46d8f580f0e63e588b2989358050854f1075055d5074 restart to new PIDs, preload qwen3:8b, pass governed inference, and report certificate-verified local and AWS readiness.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/640/wuji-shepherd-acceptance.log\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

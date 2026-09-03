@@ -12,7 +12,21 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/640
+.csdlc/evidence/640
+adl-runtime-kernel/src/agent_roster.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/control/feeds.rs
+adl-runtime-kernel/src/conversation_sessions_tests.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/resident_shepherd.rs
+adl-runtime-kernel/src/shepherd.rs
+adl-runtime-kernel/tests
+adl-runtime/src/guardian.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+infra/runtime-v3/runtime-init.toml
 
 ## Prompts
 
@@ -33,12 +47,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The full crate had one concurrency-only Guardian-soak timeout among 648 tests; the affected four process tests passed 4/4 when rerun serially.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:cfa88fea982503ae3b4daceccd741b01b38d2b51:e9f934ceead9dadf3dfaba45362ea0c5b21d30c81928105af920a12dfcabe943")
 
-Reviewer: None
+Reviewer: Some("fresh-session:25cad475-d5d1-4eac-a0d6-41d924dea0f7")
 
-Result: pre_review
+Result: pass
