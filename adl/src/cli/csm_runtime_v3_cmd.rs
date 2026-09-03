@@ -483,35 +483,49 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                 start_clean(args, &current)?;
                 return emit_status(args, &current, "reload", true);
             };
-            stop_and_wait(args, &current)?;
-            let backup = match replace_config_with_candidate(&args.init, candidate_path) {
-                Ok(backup) => backup,
-                Err(error) => {
-                    start_and_wait(args, &current)
-                        .context("Runtime v3 did not recover after candidate install failed")?;
-                    return Err(error);
-                }
-            };
-            let reload_result = start_and_wait(args, candidate);
-            if let Err(reload_error) = reload_result {
-                stop_and_wait(args, candidate)
-                    .context("stop failed Runtime v3 candidate before config rollback")?;
-                restore_last_known_good(&args.init, &backup).with_context(|| {
-                    format!(
-                        "restore last-known-good Runtime v3 init {}",
-                        args.init.display()
-                    )
-                })?;
-                start_and_wait(args, &current)
-                    .context("Runtime v3 did not recover after config rollback")?;
-                return Err(anyhow!(
-                    "Runtime v3 candidate reload failed and last-known-good configuration was restored: {reload_error}"
-                ));
-            }
-            commit_candidate(&args.init, &backup)?;
+            reload_candidate_transaction(
+                &args.init,
+                candidate_path,
+                || stop_and_wait(args, &current),
+                || start_and_wait(args, candidate),
+                || stop_and_wait(args, candidate),
+                || start_and_wait(args, &current),
+            )?;
             emit_status(args, candidate, "reload", true)
         },
     )
+}
+
+fn reload_candidate_transaction(
+    active: &Path,
+    candidate_path: &Path,
+    stop_current: impl FnOnce() -> Result<()>,
+    start_candidate: impl FnOnce() -> Result<()>,
+    stop_candidate: impl FnOnce() -> Result<()>,
+    start_current: impl FnOnce() -> Result<()>,
+) -> Result<()> {
+    stop_current()?;
+    let backup = match replace_config_with_candidate(active, candidate_path) {
+        Ok(backup) => backup,
+        Err(error) => {
+            start_current().context("Runtime v3 did not recover after candidate install failed")?;
+            return Err(error);
+        }
+    };
+    if let Err(reload_error) = start_candidate() {
+        stop_candidate().context("stop failed Runtime v3 candidate before config rollback")?;
+        restore_last_known_good(active, &backup).with_context(|| {
+            format!(
+                "restore last-known-good Runtime v3 init {}",
+                active.display()
+            )
+        })?;
+        start_current().context("Runtime v3 did not recover after config rollback")?;
+        return Err(anyhow!(
+            "Runtime v3 candidate reload failed and last-known-good configuration was restored: {reload_error}"
+        ));
+    }
+    commit_candidate(active, &backup)
 }
 
 fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<PathBuf> {
@@ -804,9 +818,17 @@ fn owned_runtime_readiness(
     args: &RuntimeV3ServiceArgs,
     init: &RuntimeInitConfig,
 ) -> Result<RuntimeReadinessProbe> {
+    owned_runtime_readiness_with_timeout(args, init, Duration::from_millis(750))
+}
+
+fn owned_runtime_readiness_with_timeout(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+    request_timeout: Duration,
+) -> Result<RuntimeReadinessProbe> {
     let service_process_id = platform_process_id(args)
         .ok_or_else(|| anyhow!("Runtime v3 service manager has no live process identity"))?;
-    let readiness = runtime_readiness(init)?;
+    let readiness = runtime_readiness_with_timeout(init, request_timeout)?;
     let active_init_hash = file_hash(&args.init)?;
     validate_owned_readiness(service_process_id, &active_init_hash, &readiness)?;
     Ok(readiness)
@@ -833,6 +855,13 @@ fn validate_owned_readiness(
 }
 
 fn runtime_readiness(init: &RuntimeInitConfig) -> Result<RuntimeReadinessProbe> {
+    runtime_readiness_with_timeout(init, Duration::from_millis(750))
+}
+
+fn runtime_readiness_with_timeout(
+    init: &RuntimeInitConfig,
+    request_timeout: Duration,
+) -> Result<RuntimeReadinessProbe> {
     let addresses = init
         .socket_addrs()
         .context("resolve Runtime v3 API address")?;
@@ -849,7 +878,7 @@ fn runtime_readiness(init: &RuntimeInitConfig) -> Result<RuntimeReadinessProbe> 
     let certificates =
         reqwest::Certificate::from_pem_bundle(&roots).context("parse Runtime v3 trust roots")?;
     let mut builder = reqwest::blocking::Client::builder()
-        .timeout(Duration::from_millis(750))
+        .timeout(request_timeout)
         .tls_built_in_root_certs(false)
         .resolve(&init.api.tls.server_name, address);
     for certificate in certificates {
@@ -892,13 +921,23 @@ fn validate_readiness_probe(readiness: &RuntimeReadinessProbe) -> Result<()> {
 }
 
 fn wait_for_listener_open(init: &RuntimeInitConfig, timeout: Duration) -> Result<()> {
+    let addresses = init
+        .socket_addrs()
+        .context("resolve Runtime v3 listener address")?;
     wait_for_convergence("listener", timeout, |remaining| {
-        let attempt_timeout = remaining.min(Duration::from_millis(750));
-        Ok(init.socket_addrs().is_ok_and(|addresses| {
-            addresses
-                .iter()
-                .any(|address| TcpStream::connect_timeout(address, attempt_timeout).is_ok())
-        }))
+        let attempt_deadline = std::time::Instant::now() + remaining;
+        for address in &addresses {
+            let remaining = attempt_deadline.saturating_duration_since(std::time::Instant::now());
+            if remaining.is_zero() {
+                return Ok(false);
+            }
+            if TcpStream::connect_timeout(address, remaining.min(Duration::from_millis(750)))
+                .is_ok()
+            {
+                return Ok(true);
+            }
+        }
+        Ok(false)
     })
     .with_context(|| format!("connect to Runtime v3 listener {}", init.api.address))
 }
@@ -908,8 +947,13 @@ fn wait_for_readiness(
     init: &RuntimeInitConfig,
     timeout: Duration,
 ) -> Result<()> {
-    wait_for_convergence("readiness", timeout, |_| {
-        Ok(owned_runtime_readiness(args, init).is_ok())
+    wait_for_convergence("readiness", timeout, |remaining| {
+        Ok(owned_runtime_readiness_with_timeout(
+            args,
+            init,
+            remaining.min(Duration::from_millis(750)),
+        )
+        .is_ok())
     })
 }
 
@@ -940,7 +984,15 @@ fn wait_for_convergence(
     let deadline = std::time::Instant::now() + timeout;
     loop {
         let now = std::time::Instant::now();
-        if converged(deadline.saturating_duration_since(now))? {
+        let remaining = deadline.saturating_duration_since(now);
+        if remaining.is_zero() {
+            break;
+        }
+        let success = converged(remaining)?;
+        if std::time::Instant::now() >= deadline {
+            break;
+        }
+        if success {
             return Ok(());
         }
         let now = std::time::Instant::now();
@@ -1930,6 +1982,17 @@ mod tests {
     }
 
     #[test]
+    fn convergence_rejects_success_observed_after_deadline() {
+        let error = wait_for_convergence("readiness", Duration::from_millis(5), |_| {
+            std::thread::sleep(Duration::from_millis(10));
+            Ok(true)
+        })
+        .unwrap_err();
+        assert!(error.to_string().contains("stage readiness"));
+        assert!(error.to_string().contains("5 milliseconds"));
+    }
+
+    #[test]
     fn convergence_listener_open_is_distinct_from_full_readiness() {
         let root = tempfile::tempdir().unwrap();
         let (path, mut init) = write_valid_init(root.path());
@@ -1940,6 +2003,48 @@ mod tests {
         wait_for_listener_open(&init, Duration::from_secs(1)).unwrap();
         let error = wait_for_readiness(&args, &init, Duration::ZERO).unwrap_err();
         assert!(error.to_string().contains("stage readiness"));
+    }
+
+    #[test]
+    fn convergence_timeout_rolls_back_candidate_and_restarts_last_known_good() {
+        use std::cell::Cell;
+
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        let candidate = root.path().join("runtime-init.next.toml");
+        fs::write(&active, "last-known-good").unwrap();
+        fs::write(&candidate, "candidate").unwrap();
+        let stopped_current = Cell::new(false);
+        let stopped_candidate = Cell::new(false);
+        let restarted_current = Cell::new(false);
+
+        let error = reload_candidate_transaction(
+            &active,
+            &candidate,
+            || {
+                stopped_current.set(true);
+                Ok(())
+            },
+            || wait_for_convergence("readiness", Duration::ZERO, |_| Ok(false)),
+            || {
+                stopped_candidate.set(true);
+                Ok(())
+            },
+            || {
+                restarted_current.set(true);
+                Ok(())
+            },
+        )
+        .unwrap_err();
+
+        assert!(error.to_string().contains("stage readiness"));
+        assert!(stopped_current.get());
+        assert!(stopped_candidate.get());
+        assert!(restarted_current.get());
+        assert_eq!(fs::read_to_string(&active).unwrap(), "last-known-good");
+        let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        assert!(!backup.exists());
+        assert!(!staged.exists());
     }
 
     #[test]
