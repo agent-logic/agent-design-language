@@ -57,6 +57,9 @@ pub struct SoakEvidence {
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 pub struct InstallPlanInput {
     pub artifact_name: String,
+    pub artifact_ref: String,
+    pub source_provenance_ref: String,
+    pub selector_metadata_ref: String,
     pub source_provenance: String,
     pub selected_binary_digest: String,
     pub observed_binary_digest: String,
@@ -120,7 +123,12 @@ pub fn classify_route(route: &str, request: ProofRouteRequest) -> ProofRouteRepo
             )),
         },
         "install" => match request.install.as_ref() {
-            Some(install) => validate_install(request.cutover_issue, install, &mut findings),
+            Some(install) => validate_install(
+                request.evidence_root.as_deref(),
+                request.cutover_issue,
+                install,
+                &mut findings,
+            ),
             None => findings.push(finding(
                 "install_plan_missing",
                 "install route requires a typed install plan input",
@@ -317,6 +325,7 @@ fn validate_soak(
 }
 
 fn validate_install(
+    evidence_root: Option<&str>,
     cutover_issue: Option<u64>,
     install: &InstallPlanInput,
     findings: &mut Vec<ProofRouteFinding>,
@@ -340,6 +349,24 @@ fn validate_install(
         findings,
     );
     require_nonempty(
+        &install.artifact_ref,
+        "install_artifact_ref_missing",
+        "install artifact ref is required",
+        findings,
+    );
+    require_nonempty(
+        &install.source_provenance_ref,
+        "install_source_provenance_ref_missing",
+        "install source provenance ref is required",
+        findings,
+    );
+    require_nonempty(
+        &install.selector_metadata_ref,
+        "install_selector_metadata_ref_missing",
+        "install selector metadata ref is required",
+        findings,
+    );
+    require_nonempty(
         &install.selector_metadata_digest,
         "install_selector_metadata_missing",
         "selector metadata digest is required",
@@ -357,6 +384,25 @@ fn validate_install(
             "selected binary digest must match observed binary digest",
         ));
     }
+    if let Some(observed) = observed_ref_digest(evidence_root, &install.artifact_ref, findings) {
+        if install.observed_binary_digest != observed {
+            findings.push(finding(
+                "install_observed_binary_digest_mismatch",
+                "install observed binary digest must match the referenced artifact",
+            ));
+        }
+    }
+    if let Some(observed) =
+        observed_ref_digest(evidence_root, &install.selector_metadata_ref, findings)
+    {
+        if install.selector_metadata_digest != observed {
+            findings.push(finding(
+                "install_selector_metadata_digest_mismatch",
+                "install selector metadata digest must match the referenced selector metadata",
+            ));
+        }
+    }
+    let _ = observed_ref_digest(evidence_root, &install.source_provenance_ref, findings);
     if !install.stable_destination || install.destination.contains("/target/") {
         findings.push(finding(
             "install_destination_not_stable",

@@ -48,16 +48,6 @@ fn run_route_value(route: &str, body: Value) -> Value {
     )
 }
 
-fn assert_ready(route: &str, body: &str) {
-    let value = run_route(route, body);
-    assert_eq!(value["schema"], "csdlc.v3.proof_route.v1");
-    assert_eq!(value["route"], route);
-    assert_eq!(value["read_only"], true);
-    assert_eq!(value["operational_authority"], false);
-    assert_eq!(value["status"], "ready");
-    assert!(value["findings"].as_array().unwrap().is_empty());
-}
-
 fn assert_ready_value(route: &str, body: Value) {
     let value = run_route_value(route, body);
     assert_eq!(value["schema"], "csdlc.v3.proof_route.v1");
@@ -250,23 +240,41 @@ fn soak_route_refuses_hidden_state_and_provider_side_effects() {
 
 #[test]
 fn install_route_is_one_binary_plan_gated_by_505() {
-    assert_ready(
+    let (root, artifact_digest) = write_evidence(
+        ".csdlc/evidence/631/install/csdlc",
+        b"single-binary-artifact",
+    );
+    let selector_path = root.join(".csdlc/evidence/631/install/selector.json");
+    fs::write(&selector_path, br#"{"selected":"csdlc"}"#).expect("write selector metadata");
+    let selector_digest = blake3::hash(br#"{"selected":"csdlc"}"#)
+        .to_hex()
+        .to_string();
+    fs::write(
+        root.join(".csdlc/evidence/631/install/provenance.json"),
+        br#"{"source":"git:abc123"}"#,
+    )
+    .expect("write install provenance");
+    assert_ready_value(
         "install",
-        r#"{
+        json!({
           "issue": 631,
           "repository": "agent-logic/agent-design-language",
           "cutover_issue": 505,
+          "evidence_root": root,
           "install": {
             "artifact_name": "csdlc",
+            "artifact_ref": ".csdlc/evidence/631/install/csdlc",
+            "source_provenance_ref": ".csdlc/evidence/631/install/provenance.json",
+            "selector_metadata_ref": ".csdlc/evidence/631/install/selector.json",
             "source_provenance": "git:abc123",
-            "selected_binary_digest": "bin123",
-            "observed_binary_digest": "bin123",
-            "selector_metadata_digest": "selector123",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
             "destination": ".adl/bin/csdlc",
             "stable_destination": true,
             "executes_install": false
           }
-        }"#,
+        }),
     );
     assert_blocked(
         "install",
@@ -276,6 +284,9 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           "cutover_issue": 504,
           "install": {
             "artifact_name": "csdlc-v3",
+            "artifact_ref": ".csdlc/evidence/631/install/csdlc",
+            "source_provenance_ref": ".csdlc/evidence/631/install/provenance.json",
+            "selector_metadata_ref": ".csdlc/evidence/631/install/selector.json",
             "source_provenance": "git:abc123",
             "selected_binary_digest": "bin123",
             "observed_binary_digest": "different",
@@ -286,5 +297,42 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           }
         }"#,
         "install_cutover_issue_missing",
+    );
+    let (root, artifact_digest) = write_evidence(
+        ".csdlc/evidence/631/install/actual-csdlc",
+        b"actual artifact bytes",
+    );
+    fs::write(
+        root.join(".csdlc/evidence/631/install/selector-actual.json"),
+        br#"{"selected":"actual"}"#,
+    )
+    .expect("write selector metadata");
+    fs::write(
+        root.join(".csdlc/evidence/631/install/provenance-actual.json"),
+        br#"{"source":"git:def456"}"#,
+    )
+    .expect("write install provenance");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": ".csdlc/evidence/631/install/actual-csdlc",
+            "source_provenance_ref": ".csdlc/evidence/631/install/provenance-actual.json",
+            "selector_metadata_ref": ".csdlc/evidence/631/install/selector-actual.json",
+            "source_provenance": "git:def456",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": "caller-forged",
+            "selector_metadata_digest": "selector-forged",
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": false
+          }
+        }),
+        "install_observed_binary_digest_mismatch",
     );
 }
