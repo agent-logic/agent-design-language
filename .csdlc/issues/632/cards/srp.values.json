@@ -7,23 +7,27 @@
     "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
     "slug": "v3-h6-real-canaries-docs-readiness",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/prepared/issues/632/command-route-coverage.json\n.csdlc/prepared/issues/632/canary-evidence-index.md\n.csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\n.csdlc/prepared/issues/632/validate-v3-guidance.sh\n.csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\ndocs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\ncsdlc-v3/README.md\ndocs/architecture/ADL_ARCHITECTURE.md\n.git/csdlc-v2/requests/v0921-v3-full-command-sprint/632-publish-refresh-631-one-pending.json",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:eb2cb2d161344b45f0dd3f3373626953ca3452b0:fad7db3e07f48aed1df4c4b43532612b11af4f0c2b50380ef6c536e9a8cb5fab",
+      "reviewer": "subagent:/root/review_632_head_eb2cb2d16",
       "review_prompts": [
         "Does the coverage matrix account for every v3 command-equivalent route without hidden v2 fallback?",
         "Do docs and skills warn operators before cutover while avoiding premature v3 authority claims?",
         "Are canary defects fixed or clearly owned as cutover blockers/follow-ons?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover.",
+        "#505 must consume #629 through #632 dependency evidence through its own exact-head review and publication before cutover.",
+        "Terminal finish and cleanup canary proof still requires an authorized canary merge or explicit #505 blocker disposition."
+      ],
+      "review_result": "pass"
     }
   }
 }

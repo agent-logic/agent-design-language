@@ -38,12 +38,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover.
+- #505 must consume #629 through #632 dependency evidence through its own exact-head review and publication before cutover.
+- Terminal finish and cleanup canary proof still requires an authorized canary merge or explicit #505 blocker disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:eb2cb2d161344b45f0dd3f3373626953ca3452b0:fad7db3e07f48aed1df4c4b43532612b11af4f0c2b50380ef6c536e9a8cb5fab")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_632_head_eb2cb2d16")
 
-Result: pre_review
+Result: pass
