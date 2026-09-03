@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
     "slug": "runtime-shepherd-provider-reply",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
@@ -26,7 +26,17 @@
         "adl-runtime-kernel/src/shepherd.rs",
         "adl-runtime-kernel/src/conversation_sessions_tests.rs"
       ],
-      "actual_validation": [],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/661/validate-focused.sh"
+          ],
+          "purpose": "Prove at exact substantive head c71d93f4c that fresh Shepherd turns return generated provider output, retain correlation, and surface provider failure without fallback",
+          "outcome": "passed",
+          "evidence_ref": "local:c71d93f4ca6afc13265df0678418149c6bbef42f:1-passed-0-failed"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

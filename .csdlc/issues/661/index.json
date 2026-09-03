@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "b426e6b03d51a4ad149a1b5015497d3a674c5cf08f12dedf35f80490522dd40a",
+  "generation": 7,
+  "digest": "b0ad4ebfafcf54d1e4e9ba739e39769e5a418b77d29dda292addee6ffd745c5b",
   "branch": "codex/661-runtime-shepherd-provider-reply",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ec164353681c21a356637109bc0e83b44d1aba854d0ff0fcb9b98c1d57e9ab61",
+      "values_digest": "d9d91aaa049926c635089bd1aa090a6d6047dea6e0b67c8c61631ef2728ce8e2",
       "rendered_digest": "f81858805d6596c05d714b6694a8adde96047af590ebc6970a4985d59a3d4aa8",
       "ast_digest": "be404bc1b531b0b8363255094d4cfe1289e0448763882de267a515502bdfedd4"
     },
     "stp": {
-      "values_digest": "99dcccdcc357b41471b03d6ea4400f442ed80a4474fef085ca6c6d04bee5a9c7",
+      "values_digest": "8da80f8c9b9933be62612616b3ee641896a7cebfe7527bb73a2f11e8c60540af",
       "rendered_digest": "31248829a6d785b2b6cc9d845d0078b7d07c978554285bdbd3ca83c41aee5c02",
       "ast_digest": "53365e39345337f25b5d609b1050fa15319db4a1c076eebda90d03d720729b18"
     },
     "spp": {
-      "values_digest": "dcb7b4a5524e2cba37efa11ef1185d1045995d48ecfd6b73cc65a789e455390e",
+      "values_digest": "b03109a5213814134126282f91e1c762f3569d0d9640a5a23b22487afd85880e",
       "rendered_digest": "12ac832fd8e998d0f9c56d423586f18218e86688635870d686aa4f4f073f4f6c",
       "ast_digest": "7c255866c472dca18e47a429c3bd7e74cca7feb5cca2c9d7bea6e5a7693e13b6"
     },
     "vpp": {
-      "values_digest": "72ca7dd5ed89bd3c63aa40f02300fbb860cf8b1971795286a8608cd56321e45f",
+      "values_digest": "197195c41774d173cea26c1a1d4132ba2759470c0398a6b21a632deb5903d143",
       "rendered_digest": "f9198f867c8b5717a736e229a13cea05a8187261e47afd0f405ed485ec52e200",
       "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
     },
     "srp": {
-      "values_digest": "c4d3b3d5898e691e4ba8d632f9e60bb4341edc9a3d737680f621502f355f8760",
+      "values_digest": "612d1e7a0905ff4f8a7c78d0e49b1432a94759e54bf3a472e52bc410e9d7fb86",
       "rendered_digest": "6dfae77b1360e688e1d74c293e4b02225208063a5b50d62cb81ac95818c19925",
       "ast_digest": "156db9c3fe21a3fa334005efb0407e349c7cbb197111e14b3fccf06b0bab8162"
     },
     "sor": {
-      "values_digest": "66dda0f9e6648b1acf911ba01fd861de0c4c1a97d847ec4605e02cb8c6884df6",
-      "rendered_digest": "82e8c5dcf42edc38cd61c9dd24513132edf18f3359b88178d76d5f6b4cffa72c",
-      "ast_digest": "fa25bf60456a04ed40bf43638ea722a63ea5a5068dd75d042cdb7f09e6837c0a"
+      "values_digest": "c8fc7a2b05d7c7de077d8718d11d17223cfd1884a1cb4b2bf4be40ff14515c7b",
+      "rendered_digest": "d1d777e643c1620de778673fde1253a6927df5a072c5ec4233e150c3ba48fb45",
+      "ast_digest": "2a312d2468819953af974e0965fd5d344f01c107ff12b0a3baf22d5780e30b2e"
     }
   },
   "transitions": [
@@ -134,6 +134,13 @@
       "actor": "codex:661-implementation",
       "reason": "Provider-backed Shepherd conversation replies, explicit failure behavior, focused proof, full library tests, strict lint, production binary check, formatting, and diff hygiene are complete; exact-head review is next.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:661-implementation",
+      "reason": "The exact final substantive head preserves provider-backed conversation proof and prior non-conversation Shepherd ingress behavior.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"purpose\":\"Prove at exact substantive head c71d93f4c that fresh Shepherd turns return generated provider output, retain correlation, and surface provider failure without fallback\",\"outcome\":\"passed\",\"evidence_ref\":\"local:c71d93f4ca6afc13265df0678418149c6bbef42f:1-passed-0-failed\"}}"
     }
   ]
 }
