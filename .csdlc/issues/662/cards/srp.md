@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-Governed resident agent-to-agent initiation, deterministic Runtime proof, identity/correlation semantics, replay/cancellation/failure outcomes, and minimal authoritative activity projection only.
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/telemetry.rs
+.csdlc/prepared/issues/662/design.md
+.csdlc/prepared/issues/662/diagram.mmd
+.csdlc/prepared/issues/662/bind.json
+.csdlc/prepared/issues/662/finalize-implementation.json
+.csdlc/prepared/issues/662/validate-focused.sh
+.csdlc/evidence/662
 
 ## Prompts
 

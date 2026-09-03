@@ -6,10 +6,24 @@
   "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
   "phase": "implemented",
   "generation": 5,
-  "digest": "c5f09c1b877bb261f06663b00558c579860bc64e3f440d5fd8dcec629afd1a20",
+  "digest": "53b49d1fd53966ac48bc7873064e59f49b2428b43e8ffad73ed079d54df166df",
   "branch": "codex/662-agent-to-agent-initiation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-pre-pr",
+    "assigned_by": "codex:/root:issue-662-exec",
+    "revision": "git-blake3:f72d3ca7c9b0d83e0db7a4db0a328e8b5f9fe1dc:a00f12fe9e0c09a3a71435fd3732a87153a1f173a5c18c5336285dc06a87672a",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/prepared/issues/662/design.md",
+      ".csdlc/prepared/issues/662/diagram.mmd",
+      ".csdlc/prepared/issues/662/bind.json",
+      ".csdlc/prepared/issues/662/finalize-implementation.json",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/evidence/662"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
     },
     "srp": {
-      "values_digest": "4b28e1b3095b3e25392285cc6e4b0170f987156e2bd694d825b23f37662b533f",
-      "rendered_digest": "f7ef2e8d8c1c7e7458fc6ab3d90539d8f7e6c49cc572d63e6470051734cc2e9b",
-      "ast_digest": "96b29ad030c0abb5cc17f9823968f6c7435a9ef69cd004f5db88e441f366a122"
+      "values_digest": "e1d4af4f4c2bd9ae49474e72e33c831ba8ceffb7d54994b50c25cef7426cb04a",
+      "rendered_digest": "03af858465ab32646e23f9e18cf8b65e2968dbdb510f8c234667747538dc4b56",
+      "ast_digest": "59a63bcf68408e196c7a8118086ddd6523bc7f8a2f2d28cd5be808c391b8148a"
     },
     "sor": {
       "values_digest": "42d8bd66b382492cd4450d4321926247a6ef3908f4a0024e1db445680681bd72",
@@ -127,6 +141,13 @@
       "actor": "codex:/root:issue-662-exec",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

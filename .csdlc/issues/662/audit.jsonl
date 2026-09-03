@@ -5,3 +5,4 @@
 {"sequence":5,"generation":4,"actor":"codex:662-bootstrap","reason":"Own the exact issue-local focused validator selected by the VPP.","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\".csdlc/prepared/issues/662/validate-focused.sh\",\".csdlc/prepared/issues/662\",\".csdlc/issues/662\"]}"}
 {"sequence":6,"generation":4,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":7,"generation":5,"actor":"codex:/root:issue-662-exec","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":8,"generation":5,"actor":"codex:/root:issue-662-exec","reason":"assign bounded exact-revision review","operation":"assign_review"}
