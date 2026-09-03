@@ -31,7 +31,7 @@ Implemented provider-backed resident Shepherds with provider-neutral private gat
 - Support compiled Ollama and private OpenAI-compatible provider adapters without serializing provider credentials into Runtime configuration or API output.
 - Run provider preload plus governed inference through one reusable lifetime recovery controller that retries transient failure without terminating or globally blocking the Runtime.
 - Exclude resident Shepherd presentation labels from continuity identity for both single and multi-Shepherd configurations while retaining canonical stateful bindings.
-- Bind Wuji acceptance to the exact checked-out release build and installed canonical kernel SHA-256, then prove Guardian child recovery to a new Runtime PID.
+- Bind Wuji acceptance to the exact checked-out release build and installed canonical kernel and Guardian executables, then prove a controlled Guardian restart restores a new Runtime process without letting the validator terminate the live service.
 - Retain one canonical deployed Runtime kernel binary and report Beacon Axioma backed by qwen3:8b with consistent readiness and Observatory truth.
 
 ## Validation
@@ -42,7 +42,7 @@ Implemented provider-backed resident Shepherds with provider-neutral private gat
       "bash",
       ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh"
     ],
-    "purpose": "Prove seven nonzero focused configuration, provider dispatch, governed inference, lifetime recovery, canonical identity, readiness consistency, formatting, and diff-hygiene behaviors.",
+    "purpose": "Prove eight nonzero focused configuration, provider dispatch, governed inference, lifetime recovery, canonical identity, truthful roster counts, readiness consistency, formatting, and diff-hygiene behaviors.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/640/model-backed-shepherd.log"
   },
@@ -68,10 +68,9 @@ Implemented provider-backed resident Shepherds with provider-neutral private gat
     "command": [
       "bash",
       ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
-      "--live-wuji",
-      "--observe-existing-guardian-restart"
+      "--live-wuji"
     ],
-    "purpose": "Prove exact commit 078dba11445cdd9affdd86e3133871bacc0e7144 and installed kernel digest e997c3a329994737724f58182d1f0863e71d678ef5fed46f315afc0d4f9a6c59 recover under Guardian to a new PID, preload qwen3:8b, pass governed inference, and report consistent local and AWS readiness.",
+    "purpose": "Prove exact implementation commit 9a27c7f8a314fb267d2587dc5de11abb8bcd17d2 and installed kernel digest 7ba488929e943635ccd77a62d9b42c2e8da227378b399db5429e0d4193d067ac restart under the canonical Guardian to a new PID, preload qwen3:8b, pass governed inference, and report consistent local and AWS readiness.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/640/wuji-shepherd-acceptance.log"
   }

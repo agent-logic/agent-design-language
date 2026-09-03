@@ -1,8 +1,9 @@
-Exact source revision: 078dba11445cdd9affdd86e3133871bacc0e7144
+Exact implementation revision: 9a27c7f8a314fb267d2587dc5de11abb8bcd17d2
 Command: bash .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh
 
-Nextest run ID ab86dbc9-035b-4471-a0c1-1fdd55fdc68a
-Starting 7 tests across 3 binaries (69 tests skipped)
+Nextest run ID 1ad5cba2-3c71-4f31-a652-ecb69236b5f1
+Starting 8 tests across 3 binaries (68 tests skipped)
+PASS adl-runtime-kernel::agent_roster resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts
 PASS adl-runtime-kernel::agent_roster shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed
 PASS adl-runtime-kernel::shepherd resident_shepherd_lifetime_recovery_retries_and_recovers
 PASS adl-runtime-kernel::configuration canonical_name_is_required_for_resident_shepherd_configuration
@@ -10,7 +11,7 @@ PASS adl-runtime-kernel::configuration resident_shepherd_configuration_requires_
 PASS adl-runtime-kernel::shepherd resident_shepherd_model_health_gates_inference_and_recovers
 PASS adl-runtime-kernel::shepherd shepherd_provider_routes_governed_reasoning_to_configured_model
 PASS adl-runtime-kernel::shepherd shepherd_provider_routes_through_private_openai_compatible_gateway
-Summary: 7 tests run: 7 passed, 69 skipped
+Summary: 8 tests run: 8 passed, 68 skipped
 
 cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check: passed
 git diff --check: passed

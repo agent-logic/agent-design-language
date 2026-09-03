@@ -1,22 +1,37 @@
 {
-  "schema": "adl.issue_640.wuji_acceptance.v1",
+  "schema": "adl.issue_640.wuji_acceptance.v2",
   "status": "pass",
+  "candidate_revision": "9a27c7f8a314fb267d2587dc5de11abb8bcd17d2",
+  "host": "wuji.local",
+  "restart_mechanism": "externally_controlled_guardian_restart",
   "runtime": {
-    "service_manager": "launchd",
-    "service_loaded": true,
     "listener_ready": true,
     "observability_ready": true,
-    "restart_verified": true
+    "runtime_process_before": 84939,
+    "runtime_process_after": 85256,
+    "guardian_process_before": 84938,
+    "guardian_process_after": 85255,
+    "restart_verified": true,
+    "configured_kernel_realpath": ".adl/runtime-v3/releases/issue-640-candidate/bin/adl-runtime-kernel",
+    "process_kernel_realpath": ".adl/runtime-v3/releases/issue-640-candidate/bin/adl-runtime-kernel",
+    "configured_guardian_realpath": ".adl/runtime-v3/releases/issue-640-candidate/bin/adl-runtime-guardian",
+    "process_guardian_realpath": ".adl/runtime-v3/releases/issue-640-candidate/bin/adl-runtime-guardian",
+    "kernel_sha256": "7ba488929e943635ccd77a62d9b42c2e8da227378b399db5429e0d4193d067ac",
+    "deployed_kernel_executable_count": 1
   },
   "resident_shepherd": {
     "id": "shepherd",
     "name": "beacon.axioma",
+    "label": "Beacon Axioma",
     "provider": "ollama",
     "model": "qwen3:8b",
     "state": "ready",
     "communication_eligible": true,
+    "detail": "Configured provider model loaded; governed inference probe passed",
     "model_residency": "Forever"
   },
+  "governed_inference_proved": true,
+  "readiness_feed_consistent": true,
   "proof_command": "bash .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh --live-wuji",
   "secrets_recorded": false
 }
