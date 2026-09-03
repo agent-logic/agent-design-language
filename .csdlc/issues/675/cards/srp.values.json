@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime][bug] Make agent-to-agent initiation first-class in live Observatory",
     "slug": "runtime-first-class-agent-to-agent-live-path",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #675 A2A action bridge, Observatory/UI projection, Runtime authority preservation, focused tests, and issue-local lifecycle evidence only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\ndemos/html-observatory/app.js\n.csdlc/prepared/issues/675",
+      "review_revision": "git-blake3:5212c20d09f2aa38c9c5268be14bfac2452df571:76da7409d54bca64f0fd20ab7a70c11d6822ed6594e932569e068541d4c6c033",
+      "reviewer": "subagent:/root/review_675_provider_envelope_exact",
       "review_prompts": [
         "Does the model/shepherd path emit a first-class governed A2A action rather than relying on reply text?",
         "Are sender, recipient, work, turn, conversation, and correlation identities distinct and observable?",
@@ -24,8 +24,11 @@
         "Does the UI distinguish accepted dispatch from terminal delivery?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The exact-head review did not rerun cargo or node validation because it was explicitly read-only; it relied on the recorded local validation passes.",
+        "No live credential-backed provider inference, AWS, paid runner, or production runtime restart was performed."
+      ],
+      "review_result": "pass"
     }
   }
 }

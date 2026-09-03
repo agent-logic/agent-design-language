@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "421c639338da4b4b87f4e83eb2bc04d509704baa043dfd1eed6262fcb2d57e4a",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "7162c03e12eb68e06c062b2855dd204880896c6c3c1ccb0376d4585e1cac11d0",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "352f973c44a80f3d6f4fb72f52be4a0827a56e5270c19876a113393aef15d18f",
   "branch": "codex/675-first-class-a2a-live-path-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-675-first-class-a2a-live-path-impl",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_675_provider_envelope_exact",
+    "assigned_by": "codex:/root:issue-675-first-class-a2a",
+    "revision": "git-blake3:5212c20d09f2aa38c9c5268be14bfac2452df571:76da7409d54bca64f0fd20ab7a70c11d6822ed6594e932569e068541d4c6c033",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "demos/html-observatory/app.js",
+      ".csdlc/prepared/issues/675"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_675_provider_envelope_exact",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "demos/html-observatory/app.js",
+      ".csdlc/prepared/issues/675"
+    ],
+    "reviewed_revision": "git-blake3:5212c20d09f2aa38c9c5268be14bfac2452df571:76da7409d54bca64f0fd20ab7a70c11d6822ed6594e932569e068541d4c6c033",
+    "findings": [],
+    "residual_risks": [
+      "The exact-head review did not rerun cargo or node validation because it was explicitly read-only; it relied on the recorded local validation passes.",
+      "No live credential-backed provider inference, AWS, paid runner, or production runtime restart was performed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ba99e5869066bcaf902928ad3c25d53f9dc034cc582ac76623dee54606648656",
+      "values_digest": "3a177118cae586c2e1348944b68c4c57f0395fbc4ef08fe537f632b408f155e8",
       "rendered_digest": "9b220d4fa0937aaeb000bd149aefbd15704ee1ecd0e91272ffa404d7def1c223",
       "ast_digest": "0699f875edd27e63d09acc2081bb92416e23d902b6f54b69afd7f905a8d0695f"
     },
     "stp": {
-      "values_digest": "a70f57c7eade38a5043d15b7ebe0707de866c3dd5ab7f01534b87e1d664fe480",
+      "values_digest": "35078883312eb9a0d7e0a09904f49a933ffb538f66866a75872b28523e59f0ba",
       "rendered_digest": "c8c8fad263f5e04e11b6473cc393b63cf4cd1764299ca7547f63cad7cdcade29",
       "ast_digest": "64a3e7f6e00aabe76dfdca2408d06c4d828eb1d350995771eea427a58e139ea2"
     },
     "spp": {
-      "values_digest": "261460782bd82bedb70cdfe79769650b5091b0e9f9ca7c972864eab598637d82",
+      "values_digest": "177bb83228cd0e5ab7e1cbcb55fea3b660cbe6a89f0502353318a59a22a30e44",
       "rendered_digest": "68650dbf2cb39bb4162b4493478248e9327fde8e56b6cd5aa9884d78fe24bdbe",
       "ast_digest": "6ae2d22ac130bb8cb7df62a2e01f515d9be7b4435ea23ade79e373a89ea69fa4"
     },
     "vpp": {
-      "values_digest": "9f5e10337eaa8b1e170e9440638c0e5515ea1b5d204e44b562445f89baf11a98",
+      "values_digest": "d4e9534a3e11c6673976a89466579a7b8358aad8fca29991ca5f587703bb0323",
       "rendered_digest": "9b2ba5d7cccfb7b45334862edc672c548d666a9740a06cc0234b78007f0beb50",
       "ast_digest": "53dfec33a381c7e5c5bde88852e1a6dfe581cc7a3e8e31e26c4cdec721774aea"
     },
     "srp": {
-      "values_digest": "5458b8428d8c4a8e4ab1a239cf220795d0e8bd4c40828214a292d007be5dc890",
-      "rendered_digest": "6447ac278fba641d21e23cc48b89b85ae74de3b33658f8f6a5eb20e1916e32d0",
-      "ast_digest": "0503b863afb8b9d137212c386dc77864659f7d2dc1359067a2b4d1670c8d6395"
+      "values_digest": "a004e1fe82fec3d3184f0ee84d965ab526f1db376536395ea1f26ca6fdc04604",
+      "rendered_digest": "67e1afac0899971ba7751db1df9ac539f0627aa9a9082ccea8b6dccd57ffa0f0",
+      "ast_digest": "f5cfa89eeef68f381abfc7b3a1726a8be8fed8008a8f598f164c466788264032"
     },
     "sor": {
-      "values_digest": "aab3bfe30097ebe0f2cfcdf91dfdc5458390fd8af41783d2a02ee2830f2521a9",
+      "values_digest": "5a665da03bdd29854c33fef5da72a94f64cf062af85a4aece3f5a3c3824f47e1",
       "rendered_digest": "6bd32752ac1d45876f0375b7c0fe3767e8ac09e04cb0f00d3fb8201be0999f1d",
       "ast_digest": "2a2e32ab57a423a89e22be5736bb7b4422e3dcf95c95b9751239f136908d389a"
     }
@@ -76,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Advance #675 after implementation and local validation have been recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_675_provider_envelope_exact",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -190,6 +225,20 @@
       "actor": "codex:/root",
       "reason": "Record focused and broader validation after correcting provider A2A peer conversation identity.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove provider-valid A2A peer conversation identifiers no longer collide with the active operator conversation and the full Runtime kernel library still passes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-peer-conversation-fix-runtime-kernel-lib-137-passed\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "subagent:/root/review_675_provider_envelope_exact",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

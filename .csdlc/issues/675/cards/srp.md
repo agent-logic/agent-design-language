@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Exact #675 A2A action bridge, Observatory/UI projection, Runtime authority preservation, focused tests, and issue-local lifecycle evidence only.
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/ingress.rs
+demos/html-observatory/app.js
+.csdlc/prepared/issues/675
 
 ## Prompts
 
@@ -32,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The exact-head review did not rerun cargo or node validation because it was explicitly read-only; it relied on the recorded local validation passes.
+- No live credential-backed provider inference, AWS, paid runner, or production runtime restart was performed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5212c20d09f2aa38c9c5268be14bfac2452df571:76da7409d54bca64f0fd20ab7a70c11d6822ed6594e932569e068541d4c6c033")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_675_provider_envelope_exact")
 
-Result: pre_review
+Result: pass
