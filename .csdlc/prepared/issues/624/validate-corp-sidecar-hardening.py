@@ -22,6 +22,16 @@ REQUIRED_CATEGORIES = {
     "deployment_rollback",
 }
 
+REQUIRED_ROW_IDS = {
+    "GH-ORG-RECOVERY",
+    "GH-CI-GUARDRAILS",
+    "DNS-DELEGATION",
+    "CERT-RENEWAL",
+    "AWS-AUDIT-GUARDRAILS",
+    "DEPLOY-ROLLBACK",
+    "PRIVATE-CUSTODY",
+}
+
 FORBIDDEN_PATTERNS = [
     re.compile(r"AKIA[0-9A-Z]{16}"),
     re.compile(r"ASIA[0-9A-Z]{16}"),
@@ -78,8 +88,8 @@ def main() -> None:
         fail("receipt must not reopen #497")
 
     rows = receipt.get("rows")
-    if not isinstance(rows, list) or not rows:
-        fail("rows must be a non-empty list")
+    if not isinstance(rows, list) or len(rows) != len(REQUIRED_ROW_IDS):
+        fail(f"rows must contain exactly {len(REQUIRED_ROW_IDS)} denominator entries")
 
     seen_ids: set[str] = set()
     seen_categories: set[str] = set()
@@ -120,6 +130,14 @@ def main() -> None:
     missing_categories = REQUIRED_CATEGORIES - seen_categories
     if missing_categories:
         fail(f"missing denominator categories: {sorted(missing_categories)}")
+
+    missing_row_ids = REQUIRED_ROW_IDS - seen_ids
+    unexpected_row_ids = seen_ids - REQUIRED_ROW_IDS
+    if missing_row_ids or unexpected_row_ids:
+        fail(
+            "row denominator mismatch: "
+            f"missing={sorted(missing_row_ids)} unexpected={sorted(unexpected_row_ids)}"
+        )
 
     non_claims = receipt.get("non_claims")
     if not isinstance(non_claims, list) or len(non_claims) < 5:
