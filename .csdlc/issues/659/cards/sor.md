@@ -101,11 +101,11 @@ Implemented configurable, backward-compatible Runtime v3 service convergence wit
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

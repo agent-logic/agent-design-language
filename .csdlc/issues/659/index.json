@@ -4,50 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4182d8bb12b47a4db5b57dbf673a0e8a509772c51bd068d4845f75eb96d41c46",
-  "phase": "published",
-  "generation": 15,
-  "digest": "9a69940e44957c8e6d650867f01a6157c10f77b7d4c8c28e661eb73b45ca0c90",
+  "phase": "implemented",
+  "generation": 16,
+  "digest": "eaee64de4f39567bf968e7ac691c4fc209ecdfde2675c1a32fd66be72ae61f03",
   "branch": "codex/659-runtime-configurable-convergence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-659-runtime-configurable-convergence",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/issue_659_design_readiness_review",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:0fe2f0f39982a19f22489f2ebd685a770fa95732:fe1f6685c241277717b964150b960a990d655a6713ac1ec8e646c71493faeeb7",
-    "scope": [
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      ".csdlc/evidence/659"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:/root/issue_659_design_readiness_review",
-    "scope": [
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      ".csdlc/evidence/659"
-    ],
-    "reviewed_revision": "git-blake3:0fe2f0f39982a19f22489f2ebd685a770fa95732:fe1f6685c241277717b964150b960a990d655a6713ac1ec8e646c71493faeeb7",
-    "findings": [],
-    "residual_risks": [
-      "The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 659,
-    "pull_request": 676,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/676",
-    "base": "main",
-    "head": "codex/659-runtime-configurable-convergence",
-    "revision": "git-blake3:5b7fe8aee563c7e21dcea11b4077e8002a2d9aa7:4d382d9674077033ddf140b17ab3ed8e6833f73d0e6b9655a710cb34fc7a40a0",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aea5b06adca1767d541717e162bcb6b79c1f2ceb6d6fe3b9182df3e9d8a62f83",
+      "values_digest": "661cdbfc4129c95636277d8201b1566d1602b982e52fab4b644a9223f9797cc1",
       "rendered_digest": "2d4481e3f68ae78a28cb41941e1b9efa5f31cbf5282a22e1c342579be6d1c943",
       "ast_digest": "3ba45da8035b09337a8474fbd018bb45178796510b4c5a294efec296fcd13cbf"
     },
     "stp": {
-      "values_digest": "cb8276d46ba5acad5f1308fe76a6fbe1f105b6dff7886a0960776915c9287f13",
+      "values_digest": "872320ecb0ebadd7dd02cb95c9b497f96ce020a3c7d4254dca7222a4cfc37fb5",
       "rendered_digest": "c059baa61ff8c6206f6b97dc8b056102b89230d84570f5ca26f49953d684313e",
       "ast_digest": "91df1858746474aa83c407e5a4e6fc7a228df01bbe581a98102fc9d8c8dffed2"
     },
     "spp": {
-      "values_digest": "17564fdc1d09a5e2925f7ffdec3e2c53ecc6522b5ace699e362ded002e62b8f1",
+      "values_digest": "484624a686e1827241f16ccb5d0afe8888789b632ced748ec967f95d43bf17ec",
       "rendered_digest": "b80e87a357458244797a90a5fe887ea0eac68b6b405e7599dee3274024357bdf",
       "ast_digest": "bd036a9a68d2229666ee907c0f489798b4d691446623bd8414e23629b25bef50"
     },
     "vpp": {
-      "values_digest": "1c638e0e508df925358d0d92adec9a6e0390ad10e07138d07a0f5d18deade5e1",
+      "values_digest": "737fc092e8810075811c37f890cd34083cf9808e90f9f8a2e44a7ec2e3dc2907",
       "rendered_digest": "7daf2ded4fe05c23cca44cb8f50992598a104a0c103991b13c77132005dcdedf",
       "ast_digest": "84dbae986fe674c2b9113765edc06b553139c5bb97e2fb41a5c34f77dd796a7a"
     },
     "srp": {
-      "values_digest": "129ffced8875a43fe13f1570e19b9ab0cee3ad1df14a12a4ba875521e12181d4",
-      "rendered_digest": "1daf4a3bb4dd59fc33a380a334758b1fbed5bb860e587431981b7ffb532e2817",
-      "ast_digest": "61b519e394e97ae1e0057ee5c310483c4c0396a19376d96d0bfa8c78b7f410ca"
+      "values_digest": "eea7e90f477afe47d98bcb3758b3a40ce577df23b3074632339b1dd17e20492a",
+      "rendered_digest": "7d8b1ebbb2a2289685aac6922178e55ebe4805afa40a82356625ff251cd37a1d",
+      "ast_digest": "6db37cdadcf5245f5412e1cca043cab496b6bda7dbc491b0a4bcb21f0feeb956"
     },
     "sor": {
-      "values_digest": "b608ef418c20c6d09158e6a2b8b9f3975d32ab5fa41f141068b79688013d87fd",
-      "rendered_digest": "016be28170cbeb446e71771bf693f4e7e65268a043eb485b6111daaeabd82f2f",
-      "ast_digest": "d34b87187f575dcd2906fa7a924680cb23be48fa8fd4484d07a6deaaa1b77813"
+      "values_digest": "4bb50d34fc724832b562ce8511c5a48623b12f31b177bca4fb15a10b9e277446",
+      "rendered_digest": "308f83ffeeaf5cfa3b33a723a226bd593b56372fe3db64d70f3276a3ab94b1b5",
+      "ast_digest": "9bf7f81cd10f2a2e139eceae08cbf15b391f189c0146ba9b02c90b4f76092433"
     }
   },
   "transitions": [
@@ -154,6 +118,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Exact-head review of PR #676 found that service-manager start and loaded probes could block before configured convergence deadlines began; recover to implemented for the bounded deadline, diagnostics, and deterministic hung-command repair."
     }
   ],
   "audit": [
@@ -296,6 +267,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Exact-head review of PR #676 found that service-manager start and loaded probes could block before configured convergence deadlines began; recover to implemented for the bounded deadline, diagnostics, and deterministic hung-command repair.",
+      "operation": "recover_review"
     }
   ]
 }
