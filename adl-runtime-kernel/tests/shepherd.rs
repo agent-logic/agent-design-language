@@ -1004,17 +1004,25 @@ async fn shepherd_provider_routes_through_private_openai_compatible_gateway() {
         assert!(request.contains("POST /v1/chat/completions"));
         assert!(request.contains("gemini-2.5-flash"));
         let body = br#"{"choices":[{"message":{"content":"gateway-backed answer"}}]}"#;
+        let split = body.len() / 2;
         stream
             .write_all(
-                format!(
-                    "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
-                    body.len()
-                )
-                .as_bytes(),
+                b"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n",
             )
             .await
             .unwrap();
-        stream.write_all(body).await.unwrap();
+        stream
+            .write_all(format!("{:X}\r\n", split).as_bytes())
+            .await
+            .unwrap();
+        stream.write_all(&body[..split]).await.unwrap();
+        stream.write_all(b"\r\n").await.unwrap();
+        stream
+            .write_all(format!("{:X}\r\n", body.len() - split).as_bytes())
+            .await
+            .unwrap();
+        stream.write_all(&body[split..]).await.unwrap();
+        stream.write_all(b"\r\n0\r\n\r\n").await.unwrap();
     });
     let temp = tempfile::tempdir().unwrap();
     let native = build_production_operation_executors_with_recorder(

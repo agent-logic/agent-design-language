@@ -5804,6 +5804,19 @@ fn decode_http_chunked_body(encoded: &[u8]) -> Option<Vec<u8>> {
     }
 }
 
+fn decode_http_response_body(response_headers: &str, encoded: &[u8]) -> Option<Vec<u8>> {
+    if response_headers.lines().any(|line| {
+        line.to_ascii_lowercase()
+            .starts_with("transfer-encoding: chunked")
+    }) {
+        decode_http_chunked_body(encoded)
+    } else if encoded.len() <= 4_194_304 {
+        Some(encoded.to_vec())
+    } else {
+        None
+    }
+}
+
 pub(crate) async fn invoke_ollama_model(
     endpoint: &str,
     model: &str,
@@ -5880,14 +5893,8 @@ pub(crate) async fn invoke_ollama_model(
             return Err("agent_provider_failed");
         }
         let encoded = &bytes[split + 4..];
-        let decoded = if response_headers.lines().any(|line| {
-            line.to_ascii_lowercase()
-                .starts_with("transfer-encoding: chunked")
-        }) {
-            decode_http_chunked_body(encoded).ok_or("agent_provider_response_invalid")?
-        } else {
-            encoded.to_vec()
-        };
+        let decoded = decode_http_response_body(response_headers, encoded)
+            .ok_or("agent_provider_response_invalid")?;
         let response: serde_json::Value =
             serde_json::from_slice(&decoded).map_err(|_| "agent_provider_response_invalid")?;
         response["response"]
@@ -5964,8 +5971,10 @@ async fn invoke_openai_compatible_model(
         {
             return Err("agent_provider_failed");
         }
-        let response: serde_json::Value = serde_json::from_slice(&bytes[split + 4..])
-            .map_err(|_| "agent_provider_response_invalid")?;
+        let decoded = decode_http_response_body(response_headers, &bytes[split + 4..])
+            .ok_or("agent_provider_response_invalid")?;
+        let response: serde_json::Value =
+            serde_json::from_slice(&decoded).map_err(|_| "agent_provider_response_invalid")?;
         response["choices"][0]["message"]["content"]
             .as_str()
             .filter(|reply| !reply.trim().is_empty())
