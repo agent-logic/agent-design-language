@@ -1321,6 +1321,24 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 ))
             }
         }
+        if self.layer8_authority.is_none() {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "agent_initiation_authority_unavailable",
+            ));
+        }
+        let Some(exchange) = self.layer8_signed_exchange.as_ref() else {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_signing_unavailable",
+            ));
+        };
+        if exchange.sender_verifying_identity().principal_id != intent.sender_id {
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "sender_identity_mismatch",
+            ));
+        }
         self.accept_conversation_intent_inner(&conversation_intent, Some(metadata))
     }
 
@@ -5112,6 +5130,122 @@ mod layer8_conversation_ingress_tests {
         }
     }
 
+    fn agent_initiation_layer8_fixture(
+        sender_id: &str,
+        recipient_id: &str,
+    ) -> (
+        Layer8ConversationAuthority,
+        Layer8SignedExchange,
+        tempfile::TempDir,
+    ) {
+        let temp_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join(".adl")
+            .join("tmp");
+        std::fs::create_dir_all(&temp_root).expect("create test temp root");
+        let root = tempfile::tempdir_in(temp_root).expect("create agent initiation fixture");
+        let sender_key = SigningKey::from_bytes(&[45; 32]);
+        let recipient_key = SigningKey::from_bytes(&[46; 32]);
+        let sender_key_id = format!("{sender_id}-key");
+        let recipient_key_id = format!("{recipient_id}-key");
+        let sender_key_file = root.path().join(format!("{sender_id}.key"));
+        let recipient_key_file = root.path().join(format!("{recipient_id}.key"));
+        std::fs::write(&sender_key_file, hex::encode(sender_key.to_bytes()))
+            .expect("write sender key");
+        std::fs::write(&recipient_key_file, hex::encode(recipient_key.to_bytes()))
+            .expect("write recipient key");
+        let evidence = RuntimeIdentityEvidence {
+            principal_id: sender_id.to_owned(),
+            polis_id: "conversation-runtime".to_owned(),
+            signing_key_id: sender_key_id.clone(),
+            verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
+            credential_generation: 1,
+            current_credential_generation: 1,
+            expires_at_epoch_secs: u64::MAX,
+            revoked: false,
+            authenticated: true,
+        };
+        let scope = |action| AuthorityScope {
+            polis_id: "conversation-runtime".to_owned(),
+            action,
+            conversation_id: None,
+            recipients: BTreeSet::from([recipient_id.to_owned()]),
+            attachment_id: None,
+        };
+        let contact_scope = scope(Layer8Action::Contact);
+        let continue_scope = scope(Layer8Action::Continue);
+        let capabilities = [
+            ("agent-initiation-contact", contact_scope.clone()),
+            ("agent-initiation-continue", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(capability_id, scope)| Layer8Capability {
+            capability_id: capability_id.to_owned(),
+            principal_id: evidence.principal_id.clone(),
+            scope,
+            epoch: 1,
+            expires_at_epoch_secs: u64::MAX,
+            revoked: false,
+        })
+        .collect();
+        let agent_policies = [
+            ("agent-initiation-agent-contact", contact_scope.clone()),
+            ("agent-initiation-agent-continue", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
+        let polis_policies = [
+            ("agent-initiation-polis-contact", contact_scope),
+            ("agent-initiation-polis-continue", continue_scope),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
+        let authority = Layer8ConversationAuthority::new(
+            Layer8AuthorityStore::open(root.path().join("audit.jsonl")).expect("open audit"),
+            ConversationAuthorityProfile {
+                evidence: evidence.clone(),
+                capabilities,
+                agent_policies,
+                polis_policies,
+            },
+        )
+        .expect("agent initiation authority profile is valid");
+        let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
+            sender: CommunicationKeyDescriptor {
+                principal_id: sender_id.to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: sender_key_id,
+                credential_generation: 1,
+                private_key_file: sender_key_file,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+            recipients: vec![CommunicationVerifyingDescriptor {
+                principal_id: recipient_id.to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: recipient_key_id,
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            }],
+        })
+        .expect("agent initiation exchange profile is valid");
+        (authority, exchange, root)
+    }
+
     async fn agent_initiation_service(
         fail: bool,
         delay: Duration,
@@ -5120,12 +5254,14 @@ mod layer8_conversation_ingress_tests {
         crate::KernelHandle,
         RuntimeRecorder,
         Arc<Mutex<Vec<serde_json::Value>>>,
+        tempfile::TempDir,
     ) {
         let recorder = RuntimeRecorder::new(16);
         let now = now_unix_millis();
         let mut population = AgentPopulationFeed::empty();
         for (id, label, provider, model) in [
             ("beacon", "Beacon Axioma", None, None),
+            ("scribe", "Scribe Axioma", None, None),
             (
                 "ember",
                 "Ember Axioma",
@@ -5163,10 +5299,15 @@ mod layer8_conversation_ingress_tests {
         }
         population = population.with_public_policy(AgentRosterPolicy {
             policy_subject: "agent-initiation-test".to_owned(),
-            visible_agent_ids: BTreeSet::from(["beacon".to_owned(), "ember".to_owned()]),
+            visible_agent_ids: BTreeSet::from([
+                "beacon".to_owned(),
+                "ember".to_owned(),
+                "scribe".to_owned(),
+            ]),
             reveal_capabilities: false,
             reveal_location: false,
         });
+        let (authority, exchange, layer8_root) = agent_initiation_layer8_fixture("beacon", "ember");
         let observed_tasks = Arc::new(Mutex::new(Vec::new()));
         let adapter = Arc::new(
             crate::OperationalAdapter::new(
@@ -5203,7 +5344,9 @@ mod layer8_conversation_ingress_tests {
                 ["https://observatory.example.test".to_owned()],
                 population,
             )
-            .with_canonical_ingress(ingress.clone()),
+            .with_canonical_ingress(ingress.clone())
+            .with_layer8_authority(authority)
+            .with_layer8_signed_exchange(exchange),
         );
         service
             .dynamic_agents
@@ -5230,12 +5373,12 @@ mod layer8_conversation_ingress_tests {
         .start()
         .await
         .expect("kernel starts");
-        (service, kernel, recorder, observed_tasks)
+        (service, kernel, recorder, observed_tasks, layer8_root)
     }
 
     #[tokio::test]
     async fn agent_to_agent_initiation_delivers_configured_provider_work_and_activity() {
-        let (service, kernel, recorder, observed_tasks) =
+        let (service, kernel, recorder, observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
         let accepted = match service
             .accept_agent_initiation_intent(&agent_initiation_intent("turn-a2a", "a2a-work-001"))
@@ -5289,7 +5432,7 @@ mod layer8_conversation_ingress_tests {
 
     #[tokio::test]
     async fn agent_to_agent_initiation_replay_and_conflict_are_explicit() {
-        let (service, kernel, _recorder, observed_tasks) =
+        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
         let intent = agent_initiation_intent("turn-a2a-replay", "a2a-work-replay");
         let dispatch = match service.accept_agent_initiation_intent(&intent) {
@@ -5322,7 +5465,7 @@ mod layer8_conversation_ingress_tests {
 
     #[tokio::test]
     async fn agent_to_agent_initiation_terminal_failures_are_truthful() {
-        let (service, kernel, _recorder, _observed_tasks) =
+        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::from_millis(75)).await;
         let mut unauthorized = agent_initiation_intent("turn-a2a-unauthorized", "a2a-work-unauth");
         unauthorized.sender_id = "unknown-beacon".to_owned();
@@ -5332,6 +5475,15 @@ mod layer8_conversation_ingress_tests {
         };
         assert_eq!(refused.status, "refused");
         assert_eq!(refused.error, Some("unauthorized_initiation"));
+
+        let mut forged_sender = agent_initiation_intent("turn-a2a-forged", "a2a-work-forged");
+        forged_sender.sender_id = "scribe".to_owned();
+        let refused = match service.accept_agent_initiation_intent(&forged_sender) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => panic!("forged sender dispatched"),
+        };
+        assert_eq!(refused.status, "refused");
+        assert_eq!(refused.error, Some("sender_identity_mismatch"));
 
         let mut missing_recipient = agent_initiation_intent("turn-a2a-missing", "a2a-work-missing");
         missing_recipient.recipient_id = "missing-ember".to_owned();
@@ -5380,7 +5532,7 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(cancelled.error, Some("conversation_cancelled"));
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
 
-        let (service, kernel, _recorder, _observed_tasks) =
+        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(true, Duration::ZERO).await;
         let dispatch = match service.accept_agent_initiation_intent(&agent_initiation_intent(
             "turn-a2a-provider-fail",
