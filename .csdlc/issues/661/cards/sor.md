@@ -44,7 +44,7 @@ Routed resident Shepherd conversation turns through the configured Shepherd oper
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

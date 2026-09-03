@@ -4,42 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "ccbffbbd2e2ecedfcebe146e14375e8e62beef50b367dd0ba9d0d68c7b821641",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "495f82fd9fe2fcd572dfc19b9519264576daba72520f14e79410ce317a24c750",
   "branch": "codex/661-runtime-shepherd-provider-reply",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
-  "review_assignment": {
-    "reviewer": "subagent:/root/shepherd_model_reply_fix/issue_661_exact_review",
-    "assigned_by": "codex:/root/shepherd_model_reply_fix",
-    "revision": "git-blake3:aac0d539e1a3231b82a691a052e08f356d85ccd4:7af8b4121e9ed34c896aa375f54ac03ba76199b72730252ff8259b05fae0a3f6",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/shepherd.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      ".csdlc/prepared/issues/661"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/shepherd_model_reply_fix/issue_661_exact_review",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/shepherd.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      ".csdlc/prepared/issues/661"
-    ],
-    "reviewed_revision": "git-blake3:aac0d539e1a3231b82a691a052e08f356d85ccd4:7af8b4121e9ed34c896aa375f54ac03ba76199b72730252ff8259b05fae0a3f6",
-    "findings": [],
-    "residual_risks": [
-      "No live Wuji or external provider invocation was performed; the deterministic executor proves routing, failure propagation, and reply projection while production provider wiring was verified by source trace.",
-      "Hosted CI remains the final integration gate before merge.",
-      "Agent-to-agent initiation is separate scope and is neither implemented nor claimed by issue #661."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "25eba9ee2e83e4d531d913ac51f2f6ed4bd0582dc45c8cca279fb71e6bbaf6ed",
+      "values_digest": "1df2c1de1a129b49a7da31a1475e6b2d363482650a7f47217ebed33961cf3f1c",
       "rendered_digest": "f81858805d6596c05d714b6694a8adde96047af590ebc6970a4985d59a3d4aa8",
       "ast_digest": "be404bc1b531b0b8363255094d4cfe1289e0448763882de267a515502bdfedd4"
     },
     "stp": {
-      "values_digest": "ab4638c12b88424e15fda04cfe78e841e6860d7b8ed1a02c8c055f8191fa2a5e",
+      "values_digest": "beb14ff912f7b0eb7cee2c247c64dbf9b52cf3b21d872e63d95e6990ec0fb04b",
       "rendered_digest": "31248829a6d785b2b6cc9d845d0078b7d07c978554285bdbd3ca83c41aee5c02",
       "ast_digest": "53365e39345337f25b5d609b1050fa15319db4a1c076eebda90d03d720729b18"
     },
     "spp": {
-      "values_digest": "9f978338f8c373d0052f59e1395cd49aec14298e40860072b22b9d5a25ec606b",
+      "values_digest": "ce93dd4cc920a9370e65def4825ae06d38c07a185a412ae15d51827488c5776b",
       "rendered_digest": "12ac832fd8e998d0f9c56d423586f18218e86688635870d686aa4f4f073f4f6c",
       "ast_digest": "7c255866c472dca18e47a429c3bd7e74cca7feb5cca2c9d7bea6e5a7693e13b6"
     },
     "vpp": {
-      "values_digest": "551e891d6792adc6db6b59b01bb62609f0c55d6be947929599f83216ed197714",
+      "values_digest": "e204c587a2206fc5bc64f28984d6ea6b15dc71ca869951f398a5738b730677ba",
       "rendered_digest": "f9198f867c8b5717a736e229a13cea05a8187261e47afd0f405ed485ec52e200",
       "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
     },
     "srp": {
-      "values_digest": "ddcbd0f4afa6eded775ae2636f961d6f916510315f8edce738fde091e2d31cba",
-      "rendered_digest": "ba88ddf905636617e83577bfb6ae8e23721b8ec8fbd29ad26e877201708b4c0d",
-      "ast_digest": "50d1da6528cf862f22e52f4555489f20f546ef191941c193070fa73bb94d52af"
+      "values_digest": "8832703ca7b1a74e6cfc8e17911945b8737d8e4a9e25571d8d69ee29150c25a2",
+      "rendered_digest": "78318f0375a8f3166e80ea9184d96410239b7e957535b4cfca914ff6887ef49d",
+      "ast_digest": "1fef37d8590ad61bcfdae7105d91966a179575666f364abfafbf1123842ab713"
     },
     "sor": {
-      "values_digest": "8cd00bc5ff2660faf9c81c1d0349df9340ed3c985129a6bfd825ad86d1bbcdc8",
-      "rendered_digest": "d1d777e643c1620de778673fde1253a6927df5a072c5ec4233e150c3ba48fb45",
-      "ast_digest": "2a312d2468819953af974e0965fd5d344f01c107ff12b0a3baf22d5780e30b2e"
+      "values_digest": "e01786be08042dbffb933abf982c4b34897ddf371e4d2cbb9d86cbe34e0ab19a",
+      "rendered_digest": "b2c98d11961f9227ef0fc1141ff52e58ac05201772395fdfa7e66e9572ff6ef2",
+      "ast_digest": "8d872a3c01a175b76a220f532bdeb6ec97f6aab89e8647f0d274814b6fae20a8"
     }
   },
   "transitions": [
@@ -112,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root/shepherd_model_reply_fix",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after the review-record metadata commit so publication can require a fresh current-head review without treating retained stale metadata as merge-ready truth."
     }
   ],
   "audit": [
@@ -191,6 +169,13 @@
       "actor": "codex:/root/shepherd_model_reply_fix",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after the review-record metadata commit so publication can require a fresh current-head review without treating retained stale metadata as merge-ready truth.",
+      "operation": "recover_review"
     }
   ]
 }

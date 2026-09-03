@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
     "slug": "runtime-shepherd-provider-reply",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/shepherd.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\n.csdlc/prepared/issues/661",
-      "review_revision": "git-blake3:aac0d539e1a3231b82a691a052e08f356d85ccd4:7af8b4121e9ed34c896aa375f54ac03ba76199b72730252ff8259b05fae0a3f6",
-      "reviewer": "subagent:/root/shepherd_model_reply_fix/issue_661_exact_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every Shepherd reply use configured provider execution?",
         "Can provider failure become success?",
@@ -23,12 +23,8 @@
         "Is agent-to-agent initiation excluded?"
       ],
       "findings": [],
-      "residual_risk": [
-        "No live Wuji or external provider invocation was performed; the deterministic executor proves routing, failure propagation, and reply projection while production provider wiring was verified by source trace.",
-        "Hosted CI remains the final integration gate before merge.",
-        "Agent-to-agent initiation is separate scope and is neither implemented nor claimed by issue #661."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -8,15 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/ingress.rs
-adl-runtime-kernel/src/shepherd.rs
-adl-runtime-kernel/src/conversation_sessions_tests.rs
-.csdlc/prepared/issues/661
+
 
 ## Prompts
 
@@ -35,14 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No live Wuji or external provider invocation was performed; the deterministic executor proves routing, failure propagation, and reply projection while production provider wiring was verified by source trace.
-- Hosted CI remains the final integration gate before merge.
-- Agent-to-agent initiation is separate scope and is neither implemented nor claimed by issue #661.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:aac0d539e1a3231b82a691a052e08f356d85ccd4:7af8b4121e9ed34c896aa375f54ac03ba76199b72730252ff8259b05fae0a3f6")
+Revision: None
 
-Reviewer: Some("subagent:/root/shepherd_model_reply_fix/issue_661_exact_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
