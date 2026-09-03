@@ -1,0 +1,37 @@
+{
+  "issue": 661,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "3c78831537227b3f61a92a7cac2e6106b7a7e86f593c3ee9e4e618ba0799694a",
+  "actor": "codex:661-bootstrap",
+  "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "runtime-shepherd-provider-reply",
+        "proof_role": "Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2500,
+        "argv": ["bash", ".csdlc/prepared/issues/661/validate-focused.sh"],
+        "parallel_group": "runtime-shepherd",
+        "defer_reason": "The exact focused test is an issue #661 implementation deliverable."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove exact branch diff whitespace hygiene.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ]
+  }
+}

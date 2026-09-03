@@ -39,15 +39,29 @@ Diagram: .csdlc/prepared/issues/661/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 2500,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--lib",
-      "conversation"
+      "bash",
+      ".csdlc/prepared/issues/661/validate-focused.sh"
     ],
     "parallel_group": "runtime-shepherd",
-    "defer_reason": "Focused test names are finalized after tracing the existing execution surface."
+    "defer_reason": "The exact focused test is an issue #661 implementation deliverable."
+  },
+  {
+    "lane": "diff-hygiene",
+    "proof_role": "Prove exact branch diff whitespace hygiene.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "parallel_group": "hygiene",
+    "defer_reason": null
   }
 ]
 
@@ -63,7 +77,8 @@ Tokens: 25000
 
 ## Commands
 
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib conversation`
+- `bash .csdlc/prepared/issues/661/validate-focused.sh`
+- `git diff --check`
 
 ## Failure Semantics
 
