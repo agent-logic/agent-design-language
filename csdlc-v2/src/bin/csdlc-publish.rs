@@ -108,7 +108,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                     "resumed metadata publication head could not be reconciled",
                 )
             })?;
-        let publication = normalize(&intent, &observed)?;
+        let publication = normalize(&intent, &observed, &crab).await?;
         if metadata_head == intent.commit_sha {
             csdlc_v2::publication::validate_remote(&intent, &publication)?;
         } else {
@@ -125,15 +125,15 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         let observed = observed.ok_or_else(|| {
             V2Error::new(ErrorCode::ReconciliationRequired, "matching PR not found")
         })?;
-        let normalized = normalize(&intent, &observed)?;
+        let normalized = normalize(&intent, &observed, &crab).await?;
         csdlc_v2::publication::validate_remote(&intent, &normalized)?;
         return serde_json::to_value(normalized).map_err(Into::into);
     }
     verify_git_remote(&cli.root, &request.remote, &intent)?;
-    let before = observed
-        .as_ref()
-        .map(|pr| normalize(&intent, pr))
-        .transpose()?;
+    let before = match observed.as_ref() {
+        Some(pr) => Some(normalize(&intent, pr, &crab).await?),
+        None => None,
+    };
     if let Some(value) = &before {
         if !existing_pr_matches_governed_mode(&intent, value) {
             return Err(V2Error::new(
@@ -181,7 +181,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
             observed.expect("presence checked")
         }
     };
-    let normalized = normalize(&intent, &remote)?;
+    let normalized = normalize(&intent, &remote, &crab).await?;
     csdlc_v2::publication::validate_remote(&intent, &normalized)?;
     let record = record_publication(&store, &request, &intent, normalized.clone())?;
     let mut publication = normalized;
@@ -197,7 +197,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                     "metadata publication head could not be reconciled",
                 )
             })?;
-        publication = normalize(&intent, &observed)?;
+        publication = normalize(&intent, &observed, &crab).await?;
         validate_metadata_followup_remote(&cli.root, &intent, &publication, &metadata_head)?;
     }
     Ok(
@@ -328,6 +328,15 @@ fn existing_pr_matches_governed_mode(
         intent.repository != intent.issue_repository,
         intent.linkage_mode,
     ) && value.draft == intent.draft
+        && match intent.linkage_mode {
+            csdlc_v2::PublicationLinkageMode::Closing => {
+                value.linked_issue == Some(intent.issue)
+                    && value.linkage_source.as_deref() == Some("github_closing_issues_references")
+            }
+            csdlc_v2::PublicationLinkageMode::PartOf => {
+                value.linked_issue.is_none() && value.linkage_source.is_none()
+            }
+        }
 }
 
 fn normalize_ready(
@@ -371,6 +380,8 @@ fn normalize_ready(
         draft: pr.draft.unwrap_or(false),
         state: normalized_remote_state(pr).into(),
         head_sha: head.sha.clone(),
+        linked_issue: None,
+        linkage_source: None,
     })
 }
 
@@ -623,9 +634,10 @@ fn select_unique<T>(mut items: Vec<T>) -> csdlc_v2::Result<Option<T>> {
     Ok(items.pop())
 }
 
-fn normalize(
+async fn normalize(
     intent: &PublicationIntent,
     pr: &octocrab::models::pulls::PullRequest,
+    crab: &octocrab::Octocrab,
 ) -> csdlc_v2::Result<RemotePullRequest> {
     let base = pr.base.as_ref().ok_or_else(|| {
         V2Error::new(
@@ -648,6 +660,12 @@ fn normalize(
             .as_ref()
             .and_then(|repo| repo.full_name.as_deref()),
     )?;
+    let linked_issue = match intent.linkage_mode {
+        csdlc_v2::PublicationLinkageMode::Closing => {
+            Some(observe_closing_issue(crab, intent, pr_number(pr)?).await?)
+        }
+        csdlc_v2::PublicationLinkageMode::PartOf => None,
+    };
     Ok(RemotePullRequest {
         number: pr_number(pr)?,
         url: pr
@@ -664,7 +682,46 @@ fn normalize(
         draft: pr.draft.unwrap_or(false),
         state: normalized_remote_state(pr).into(),
         head_sha: head.sha.clone(),
+        linked_issue,
+        linkage_source: linked_issue.map(|_| "github_closing_issues_references".into()),
     })
+}
+
+async fn observe_closing_issue(
+    crab: &octocrab::Octocrab,
+    intent: &PublicationIntent,
+    pull_request: u64,
+) -> csdlc_v2::Result<u64> {
+    let response: serde_json::Value = crab
+        .graphql(&serde_json::json!({
+            "query": "query ClosingIssues($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { pullRequest(number: $number) { closingIssuesReferences(first: 100) { nodes { number repository { nameWithOwner } } } } } }",
+            "variables": {"owner": owner(intent)?, "repo": repo(intent)?, "number": pull_request}
+        }))
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    let nodes = response
+        .pointer("/repository/pullRequest/closingIssuesReferences/nodes")
+        .or_else(|| response.pointer("/data/repository/pullRequest/closingIssuesReferences/nodes"))
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "GitHub closing-issue relation is absent; wait for the dependency branch to merge, publish the closing PR against the default branch, or choose the explicit non-closing checkpoint route",
+            )
+        })?;
+    if nodes.iter().any(|node| {
+        node.get("number").and_then(serde_json::Value::as_u64) == Some(intent.issue)
+            && node
+                .pointer("/repository/nameWithOwner")
+                .and_then(serde_json::Value::as_str)
+                == Some(intent.issue_repository.as_str())
+    }) {
+        return Ok(intent.issue);
+    }
+    Err(V2Error::new(
+        ErrorCode::ReconciliationRequired,
+        "caller-linked issue is not a remote GitHub closing relation; wait for the dependency branch to merge, publish the closing PR against the default branch, or choose the explicit non-closing checkpoint route",
+    ))
 }
 
 fn normalized_remote_state(pr: &octocrab::models::pulls::PullRequest) -> &'static str {
@@ -767,7 +824,7 @@ mod tests {
         existing_pr_matches_governed_mode, reconcile_create_observation, remote_url_matches,
         remote_urls_match, select_unique, validate_observed_repository_identity, verify_git_remote,
     };
-    use csdlc_v2::{PublicationIntent, PublicationLinkageMode, RemotePullRequest};
+    use csdlc_v2::{ErrorCode, PublicationIntent, PublicationLinkageMode, RemotePullRequest};
     use std::process::Command;
 
     fn git(root: &std::path::Path, args: &[&str]) {
@@ -945,9 +1002,49 @@ mod tests {
             draft: false,
             state: "open".into(),
             head_sha: intent.commit_sha.clone(),
+            linked_issue: Some(5901),
+            linkage_source: Some("github_closing_issues_references".into()),
         };
         assert!(existing_pr_matches_governed_mode(&intent, &remote));
         remote.body = "Closes #5901".into();
         assert!(!existing_pr_matches_governed_mode(&intent, &remote));
+    }
+
+    #[test]
+    fn stacked_closing_publication_without_remote_relation_fails_closed() {
+        let intent = PublicationIntent {
+            schema: "csdlc.publication_intent.v1".into(),
+            issue: 631,
+            repository: "agent-logic/agent-design-language".into(),
+            issue_repository: "agent-logic/agent-design-language".into(),
+            base: "codex/627-v3-h1-command-denominator-r2".into(),
+            head: "codex/631-v3-h5-proof-parity-install-impl".into(),
+            title: "title".into(),
+            body: "Closes #631".into(),
+            linkage_mode: PublicationLinkageMode::Closing,
+            draft: false,
+            revision: "revision".into(),
+            commit_sha: "85c19e5e230819c89f3f699258c1ad9062cad96d".into(),
+        };
+        let remote = RemotePullRequest {
+            number: 644,
+            url: "https://github.com/agent-logic/agent-design-language/pull/644".into(),
+            repository: intent.repository.clone(),
+            base: intent.base.clone(),
+            head: intent.head.clone(),
+            title: intent.title.clone(),
+            body: intent.body.clone(),
+            linkage_mode: intent.linkage_mode,
+            draft: false,
+            state: "open".into(),
+            head_sha: intent.commit_sha.clone(),
+            linked_issue: None,
+            linkage_source: None,
+        };
+
+        assert!(!existing_pr_matches_governed_mode(&intent, &remote));
+        let error = csdlc_v2::publication::validate_remote(&intent, &remote)
+            .expect_err("body-only stacked closing PR must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
     }
 }

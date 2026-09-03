@@ -107,6 +107,10 @@ pub struct RemotePullRequest {
     pub draft: bool,
     pub state: String,
     pub head_sha: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub linked_issue: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub linkage_source: Option<String>,
 }
 
 pub fn body_has_github_closing_keyword(body: &str, issue: u64, repository: &str) -> bool {
@@ -796,11 +800,21 @@ fn validate_remote_identity(intent: &PublicationIntent, remote: &RemotePullReque
         intent.repository != intent.issue_repository,
         intent.linkage_mode,
     );
+    let remote_closing_linkage_ok = match intent.linkage_mode {
+        PublicationLinkageMode::Closing => {
+            remote.linked_issue == Some(intent.issue)
+                && remote.linkage_source.as_deref() == Some("github_closing_issues_references")
+        }
+        PublicationLinkageMode::PartOf => {
+            remote.linked_issue.is_none() && remote.linkage_source.is_none()
+        }
+    };
     if remote.repository != intent.repository
         || remote.base != intent.base
         || remote.head != intent.head
         || remote.linkage_mode != intent.linkage_mode
         || !linkage_ok
+        || !remote_closing_linkage_ok
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,

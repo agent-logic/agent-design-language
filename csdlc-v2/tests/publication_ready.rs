@@ -51,6 +51,8 @@ fn remote(draft: bool) -> RemotePullRequest {
         draft,
         state: "open".into(),
         head_sha: "0123456789abcdef0123456789abcdef01234567".into(),
+        linked_issue: Some(604),
+        linkage_source: Some("github_closing_issues_references".into()),
     }
 }
 
