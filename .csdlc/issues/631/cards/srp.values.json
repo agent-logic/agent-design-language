@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
     "slug": "v3-h5-proof-parity-soak-shadow-install",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/commands/proof.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/full-replacement-denominator.json",
-      "review_revision": "git-blake3:64f143bac44c0649e21dce0c10a9a38d8ecae7a4:b3a1c92e7658c5607d3e25ba3effd45f9911195195ed8a3d76a55fa3a3d426e6",
-      "reviewer": "codex-reviewer:review_631_head_64f143",
+      "review_scope": ".csdlc/evidence/631/pr669-ci-refresh.md",
+      "review_revision": "git-blake3:a0f7d275b3501660abc332c7b6c8b21648a69a06:f333699e06d4fd55e5edaec2daab886ceef8753769f782c4e1f0356348d91780",
+      "reviewer": "codex-reviewer:review_631_evidence_refresh_a0f7",
       "review_prompts": [
         "Can any route claim proof, parity, soak, or install success without durable bounded evidence?",
         "Does shadow refuse broad equivalence and report exact mismatches?",
@@ -24,9 +24,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "C-SDLC v3 proof, shadow, soak, and install routes remain non-authoritative until explicit V3-F/#505 cutover.",
-        "The provenance ref is repo-contained and readable, but the #631 schema does not yet define a separate source provenance digest field.",
-        "Remaining v3 production-readiness gaps in the GitHub publication, terminal cleanup, and cutover groups continue to block #505."
+        "C-SDLC v3 proof, parity, soak, shadow, and install routes remain construction-only and non-authoritative until explicit V3-F/#505 cutover.",
+        "This review covers the evidence-only #669 CI-refresh head; implementation behavior remains covered by the prior exact-head #631 review."
       ],
       "review_result": "pass"
     }

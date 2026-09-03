@@ -12,10 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v3/src/commands/proof.rs
-csdlc-v3/tests/proof_parity_install_commands.rs
-csdlc-v3/tests/real_issue_canary.rs
-docs/csdlc-v3/full-replacement-denominator.json
+.csdlc/evidence/631/pr669-ci-refresh.md
 
 ## Prompts
 
@@ -34,14 +31,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 proof, shadow, soak, and install routes remain non-authoritative until explicit V3-F/#505 cutover.
-- The provenance ref is repo-contained and readable, but the #631 schema does not yet define a separate source provenance digest field.
-- Remaining v3 production-readiness gaps in the GitHub publication, terminal cleanup, and cutover groups continue to block #505.
+- C-SDLC v3 proof, parity, soak, shadow, and install routes remain construction-only and non-authoritative until explicit V3-F/#505 cutover.
+- This review covers the evidence-only #669 CI-refresh head; implementation behavior remains covered by the prior exact-head #631 review.
 
 ## Review Result
 
-Revision: Some("git-blake3:64f143bac44c0649e21dce0c10a9a38d8ecae7a4:b3a1c92e7658c5607d3e25ba3effd45f9911195195ed8a3d76a55fa3a3d426e6")
+Revision: Some("git-blake3:a0f7d275b3501660abc332c7b6c8b21648a69a06:f333699e06d4fd55e5edaec2daab886ceef8753769f782c4e1f0356348d91780")
 
-Reviewer: Some("codex-reviewer:review_631_head_64f143")
+Reviewer: Some("codex-reviewer:review_631_evidence_refresh_a0f7")
 
 Result: pass
