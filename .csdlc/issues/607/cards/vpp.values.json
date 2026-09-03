@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 97
+    "generation": 100
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "issue607-local-contracts",
-          "proof_role": "Prove Terraform topology, immutable warm-volume activation, source-bound recovery evidence, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.",
+          "proof_role": "Prove Terraform topology, EC2 user-data size, compressed script reconstruction, partial-state cleanup, immutable warm-volume activation, source-bound recovery evidence, authorization, residue, and cost calculations without AWS mutation.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -43,8 +43,8 @@
           "defer_reason": null
         },
         {
-          "lane": "issue607-current-quota-live-proof-recovery",
-          "proof_role": "Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, bounded readiness, two resident models, all six ACC cycles, source-bound degradation and Vector recovery, teardown, and zero disposable residue.",
+          "lane": "issue607-current-quota-live-payload-recovery",
+          "proof_role": "Launch the retained two-8B-model warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, bounded readiness, both resident models, all six ACC cycles, source-bound degradation and Vector recovery, teardown, and zero disposable residue.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -61,20 +61,20 @@
           ],
           "deterministic": false,
           "resource_profile": "large",
-          "budget_seconds": 600,
+          "budget_seconds": 420,
           "budget_tokens": 6000,
           "argv": [
             "bash",
             "adl/tools/run_issue607_warm_polis.sh",
-            "qualification-proof-recovery",
+            "qualification-payload-recovery",
             "--commit",
             "7be87dd22260d30a7966d1b129123e84bb761074",
             "--run-id",
-            "adl-issue607-e8925c1dc8b0-proof-recovery",
+            "adl-issue607-e8925c1dc8b0-payload-recovery",
             "--storage-id",
             "adl-issue607-warm-v6",
             "--authorization-file",
-            ".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-proof-recovery/authorization.json",
+            ".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json",
             "--execute"
           ],
           "parallel_group": "aws-paid-serial",

@@ -3,64 +3,13 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "reviewed",
-  "generation": 97,
-  "digest": "8fa820eaab5bb36167e400e4f522d928ecb0e902dcf069a5c1cef0bccdeaf8ba",
+  "phase": "implemented",
+  "generation": 100,
+  "digest": "eab07026708f77c1f54c588dbde253f2b828c4b3c1284361c3beb5be22e51743",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": {
-    "reviewer": "subagent:/root/issue_607_pre_spend_exact_r2",
-    "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:5eb4de0d7a128e566975d078bdfaa275a70f1600:7d50e42115fd4476a8331b42da6069b6f9a0665dc6cdbd4d8c86543cd777fd94",
-    "scope": [
-      "infra/aws/runtime/gpu-proof",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/build_or_prepare_issue607_warm_polis.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/issue607_probe_runtime.py",
-      "adl/tools/issue607_qualify_warm_polis.sh",
-      "adl/tools/issue607_guardian_recovery_proof.sh",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      "docs/operations/cloud/aws/shepherd-gpu-proof",
-      ".csdlc/prepared/issues/607/validate-preparation.sh",
-      ".csdlc/prepared/issues/607",
-      ".csdlc/evidence/607",
-      ".csdlc/issues/607"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/issue_607_pre_spend_exact_r2",
-    "scope": [
-      "infra/aws/runtime/gpu-proof",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/build_or_prepare_issue607_warm_polis.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/issue607_probe_runtime.py",
-      "adl/tools/issue607_qualify_warm_polis.sh",
-      "adl/tools/issue607_guardian_recovery_proof.sh",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      "docs/operations/cloud/aws/shepherd-gpu-proof",
-      ".csdlc/prepared/issues/607/validate-preparation.sh",
-      ".csdlc/prepared/issues/607",
-      ".csdlc/evidence/607",
-      ".csdlc/issues/607"
-    ],
-    "reviewed_revision": "git-blake3:5eb4de0d7a128e566975d078bdfaa275a70f1600:7d50e42115fd4476a8331b42da6069b6f9a0665dc6cdbd4d8c86543cd777fd94",
-    "findings": [],
-    "residual_risks": [
-      "Live AWS proof remains the final validation lane and must stay within the exact USD 20 reservation."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -75,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d18f7da2ab1813c10e952d8a02d8a0b4c16276361a46b98d7841ef13c76fbaae",
+      "values_digest": "107a97ba41f5e2fda07efba770388eeb9774e00d0b734408d8a6a71e01d773bf",
       "rendered_digest": "ded31cc85c56142a5ae18eefa707d17ecec138299449d069da584c1ef798629d",
       "ast_digest": "c01dfdb3c9af18b0edb33e96d8c969635d7b4f3eed374c91dd8a3329186fbe50"
     },
     "stp": {
-      "values_digest": "df3001162434c4720bae177584426ce98056d28bcbd03af3638cc1d95714b518",
+      "values_digest": "f9668cca2f29bdf63d199bfad9c1dc00088574ac93e63cfeac075aa74eaf2ffd",
       "rendered_digest": "a48d561fb39b2bfe4b434e3e081c5085f5b4de894db0b8e95d5a87b2b120c547",
       "ast_digest": "73f42b646b3a353379d71dff2c6d0cb3c9c6073b92bcb5bc9d13b189bcb3968b"
     },
     "spp": {
-      "values_digest": "2b98cbe56fc4f03aafd0bc29c58aea12bc68ff28b3df9cb3caa40ce50974a955",
+      "values_digest": "af98443b9c3fb7d054bf162b03b7338b2bdbaa5976a9c3497d78ad4402299e5d",
       "rendered_digest": "0bc59097a4a0d77c37d353acc0b9b009faf33b82fe606d603c2a2cd0462a3f3b",
       "ast_digest": "305fa6f2a5b561532d45f917941a6828942925036b1898206ef39b039eddd547"
     },
     "vpp": {
-      "values_digest": "d06f58944b33cdfb35de927e478efdd10dd96d8ab74bf9db8135929e646f9492",
-      "rendered_digest": "df1fd26e8d29bb4b7e378e7fa6a8c308ee30e33350d3219b3154bea243d45e86",
-      "ast_digest": "612e5dcfec789289b63d07d1070debe9b067a4dbc2b60eb5d764eff4757365e4"
+      "values_digest": "bc11116271d17e6614500dacf101cbb3af9b130eb04b47fde60eed7f78f21a56",
+      "rendered_digest": "05d99118c1b11935e8b7a63fffeef50f341872cc72de2172dfc11f8797fad36e",
+      "ast_digest": "7bea9743cd7a504145e8d56b4644ae14e960b56fb72467f9ea56290a67357612"
     },
     "srp": {
-      "values_digest": "0ee1a47d66c1977e4e1088089f35f971deafa71c6b5063d024c567d5ea1c3f35",
-      "rendered_digest": "675ba6cf7a624816460d8813e77f740617126b955e62e94489b4c19a9b4f1c5e",
-      "ast_digest": "f1299d3c7eeb3bc68bc030b7044df1d92639b30a30ed98943b92d94220735a0b"
+      "values_digest": "958ea7bbd26be29c8675d4ccf42e834e26828bc507b1ceaa27d2a456e51921f9",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "c8feec0e964ac86f3c8f563da103f899242bedf460e94895ed46702da48e980f",
-      "rendered_digest": "5fcf26e9c47a39f0c6e247dfb32639850a1dabeec743e89bd5dbfb2676b6c97c",
-      "ast_digest": "3e88bf619e067b723c0d5005a3d546c684f4b97e58cdf074ae6954958728c54b"
+      "values_digest": "d836c0d0bfcfe5265590d8ade5d532c32cb54a961de8789f38b92e91798f00f9",
+      "rendered_digest": "181b5084fd119bf20e5d3a9899667305257da85e6a90c62fb4d21edf6536b410",
+      "ast_digest": "18ba31e83b536409f4142f296c602c5068f65174f52edc6689b0ec50fd28e6e3"
     }
   },
   "transitions": [
@@ -203,6 +152,13 @@
       "to": "reviewed",
       "actor": "codex-primary-issue607",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend review after the authorized live apply exposed that uncompressed embedded qualification scripts exceed the EC2 16 KiB user-data limit; repair packaging and add a deterministic pre-apply size guard before any further spend."
     }
   ],
   "audit": [
@@ -1038,6 +994,27 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 120,
+      "generation": 98,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend review after the authorized live apply exposed that uncompressed embedded qualification scripts exceed the EC2 16 KiB user-data limit; repair packaging and add a deterministic pre-apply size guard before any further spend.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 121,
+      "generation": 99,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the consumed proof-recovery lane with the compressed-payload recovery lane and its exact 420-second budget envelope.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, EC2 user-data size, compressed script reconstruction, partial-state cleanup, immutable warm-volume activation, source-bound recovery evidence, authorization, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live-payload-recovery\",\"proof_role\":\"Launch the retained two-8B-model warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, bounded readiness, both resident models, all six ACC cycles, source-bound degradation and Vector recovery, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":420,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-payload-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":null},{\"lane\":\"issue607-typed-spp-risk-repair\",\"proof_role\":\"Prove that implemented-phase SPP risk correction is authorized only as a review-recovery truth repair.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_spp_risk_repair_requires_review_recovery_epoch\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 122,
+      "generation": 100,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the consumed user-data-limit attempt, complete cleanup, compressed-payload repair, and one remaining live validation lane truthfully.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The retained warm two-node AWS Polis previously reached service readiness in 235 seconds and executed two 8B models plus six ACC agents. The source-bound proof retry created only the GPU before EC2 rejected oversized Runtime user data; all disposable resources were removed, both warm volumes remain available, and compressed embedding plus partial-cleanup proof is locally green. One exact live payload-recovery proof remains pending.\",\"changes\":[\"Gzip-compressed the two corrected qualification scripts inside Runtime user data and added a Terraform assertion that the fully rendered payload is at most 16 KiB.\",\"Fixed the compute-plan guard so a full create still requires the approved r7i.2xlarge and g6.xlarge pair while partial destroy accepts only the correctly typed subset present in interrupted Terraform state.\",\"Added deterministic regressions for compressed payload construction, EC2 payload size, valid partial cleanup, and rejection of wrong-shape partial cleanup.\",\"Terminated the only GPU created by the failed attempt, destroyed all thirteen disposable Terraform resources, and verified empty managed state plus both retained warm volumes detached and available.\",\"Reconstructed the failed attempt conservatively through its final termination event, bringing the issue upper bound to USD 19.833742.\",\"Bound the final two-8B-model payload-recovery run to a 420-second USD 0.160430 envelope for a projected maximum of USD 19.994172.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof/main.tf\",\"infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl\",\"infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\"],\"validation\":[{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the complete warm Runtime payload stays within 16 KiB and reconstructs compressed scripts.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output 2026-09-03\"},{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove local payload, partial cleanup, recovery, authorization, cost, and residue contracts without AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output 2026-09-03\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-payload-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json\",\"--execute\"],\"purpose\":\"Retain the final source-bound live proof for the current two-8B-model configuration.\",\"outcome\":\"waiting\",\"evidence_ref\":\"pending live proof\"}]}"
     }
   ]
 }

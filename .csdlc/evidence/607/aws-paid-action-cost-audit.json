@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue607.paid_action_cost_audit.v1",
   "status": "pass",
-  "as_of": "2026-09-03T06:45:00Z",
+  "as_of": "2026-09-03T07:47:47Z",
   "authorized_ceiling_usd": 20,
   "method": {
     "instance_start": "AWS CloudTrail RunInstances event time",
@@ -41,12 +41,13 @@
     {"run_id":"adl-issue607-e8925c1dc8b0-launch-1-retry-1","action":"historical-retry","runtime_seconds":363,"gpu_seconds":579,"compute_upper_bound_usd":0.182800},
     {"run_id":"adl-issue607-e8925c1dc8b0-launch-2","action":"launch-2","runtime_seconds":363,"gpu_seconds":435,"compute_upper_bound_usd":0.150608},
     {"run_id":"adl-issue607-e8925c1dc8b0-remediate","action":"qualification-remediation","outcome":"rejected_before_instance","runtime_seconds":0,"gpu_seconds":0,"compute_upper_bound_usd":0,"cloudtrail_event_ids":["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"],"cloudtrail_response_instance_ids":[],"error_code":"Client.VcpuLimitExceeded","quota_code":"L-DB2E81BA","observed_quota_vcpus":4,"required_vcpus":16,"post_cleanup_owner_inventory":{"observed_at":"2026-09-02T17:24:00Z","owner_token_sha256":"83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}},
-    {"run_id":"adl-issue607-e8925c1dc8b0-quota-recovery","action":"qualification-quota-recovery","outcome":"passed_with_review_rejected_recovery_claims","runtime_instance_id":"i-05ff5a7a91434b114","gpu_instance_id":"i-0d2f10455c1c478e8","runtime_launch_time":"2026-09-03T06:31:02Z","runtime_termination_time":"2026-09-03T06:36:35Z","gpu_launch_time":"2026-09-03T06:30:48Z","gpu_termination_time":"2026-09-03T06:37:05Z","runtime_seconds":333,"gpu_seconds":377,"compute_upper_bound_usd":0.133231,"disposable_ebs_ipv4_upper_bound_usd":0.004135,"post_cleanup_owner_inventory":{"observed_at":"2026-09-03T06:45:00Z","owner_token_sha256":"2cde10bd301f9b872fe03ace47ef8f6de830186789614a7f874e150e153b77f0","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}}
+    {"run_id":"adl-issue607-e8925c1dc8b0-quota-recovery","action":"qualification-quota-recovery","outcome":"passed_with_review_rejected_recovery_claims","runtime_instance_id":"i-05ff5a7a91434b114","gpu_instance_id":"i-0d2f10455c1c478e8","runtime_launch_time":"2026-09-03T06:31:02Z","runtime_termination_time":"2026-09-03T06:36:35Z","gpu_launch_time":"2026-09-03T06:30:48Z","gpu_termination_time":"2026-09-03T06:37:05Z","runtime_seconds":333,"gpu_seconds":377,"compute_upper_bound_usd":0.133231,"disposable_ebs_ipv4_upper_bound_usd":0.004135,"post_cleanup_owner_inventory":{"observed_at":"2026-09-03T06:45:00Z","owner_token_sha256":"2cde10bd301f9b872fe03ace47ef8f6de830186789614a7f874e150e153b77f0","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}},
+    {"run_id":"adl-issue607-e8925c1dc8b0-proof-recovery","action":"qualification-proof-recovery","outcome":"rejected_before_runtime_instance_user_data_limit","runtime_seconds":0,"gpu_instance_id":"i-0883b9d2e04e4b6da","gpu_launch_time":"2026-09-03T07:38:02Z","gpu_final_termination_event_time":"2026-09-03T07:44:58Z","gpu_seconds":417,"compute_upper_bound_usd":0.093223,"disposable_ebs_ipv4_upper_bound_usd":0.003153,"cloudtrail_event_ids":["c27fa2cb-1490-4900-9f63-02da9f1d9726","cee70fea-3929-4db8-a3ff-5edbdfa9ee92","767e0631-edd8-49d1-a034-9ced2397b0e2","93d68f1c-901c-4a50-a3ce-cd41d0ef036b"],"error_code":"InvalidParameterValue","error_boundary":"aws_instance.runtime.user_data","post_cleanup_owner_inventory":{"observed_at":"2026-09-03T07:47:47Z","owner_token_sha256":"2213ad673e53d9ead6c5cad175742912dd91fdca462cc7ab25766ec784c20c97","instances":[],"volumes":[],"network_interfaces":[],"security_groups":[],"key_pairs":[]}}
   ],
-  "historical_compute_upper_bound_usd": 4.312629,
-  "historical_disposable_ebs_ipv4_allowance_usd": 0.058071,
-  "historical_total_upper_bound_usd": 19.737366,
-  "remaining_before_remediation_usd": 0.262634,
+  "historical_compute_upper_bound_usd": 4.405852,
+  "historical_disposable_ebs_ipv4_allowance_usd": 0.061224,
+  "historical_total_upper_bound_usd": 19.833742,
+  "remaining_before_remediation_usd": 0.166258,
   "audited_remote_action_markers": [
     "shepherd/issue-607/campaigns/2d797ce5b618081a753ab1261d0305820781388e0f52d52f4677fffc332d07c3/actions/prepare.json",
     "shepherd/issue-607/campaigns/307c600bfee46788583c8f06b65f642c0e6d0d6c4e66e77e21d9cd0a05acff0e/actions/prepare.json",
@@ -64,6 +65,7 @@
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/launch-2.json",
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/prepare.json",
     "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-remediation.json",
-    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-quota-recovery.json"
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-quota-recovery.json",
+    "shepherd/issue-607/campaigns/e8925c1dc8b00e92921c9ab8e73a0af23c795692ec216d4e2822649b7299a0cd/actions/qualification-proof-recovery.json"
   ]
 }

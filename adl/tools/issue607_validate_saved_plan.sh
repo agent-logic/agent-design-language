@@ -24,16 +24,27 @@ jq -e '
 
 if [[ "$MODE" == compute ]]; then
   jq -e '
-    [.resource_changes[]?
+    . as $plan
+    | [.resource_changes[]?
       | select(.mode == "managed" and .type == "aws_instance")
       | {address, instance_type:(.change.after.instance_type // .change.before.instance_type)}]
-    | sort_by(.address)
-    == [
-      {"address":"aws_instance.gpu","instance_type":"g6.xlarge"},
-      {"address":"aws_instance.runtime","instance_type":"r7i.2xlarge"}
-    ]
+    | sort_by(.address) as $instances
+    | ($instances == [
+        {"address":"aws_instance.gpu","instance_type":"g6.xlarge"},
+        {"address":"aws_instance.runtime","instance_type":"r7i.2xlarge"}
+      ])
+      or (
+        ([$plan.resource_changes[]?
+          | select(.mode == "managed" and .change.actions != ["no-op"])
+          | select(.change.actions != ["delete"])] | length) == 0
+        and ([$instances[]
+          | select(
+              (.address == "aws_instance.gpu" and .instance_type == "g6.xlarge")
+              or (.address == "aws_instance.runtime" and .instance_type == "r7i.2xlarge")
+            )] | length) == ($instances | length)
+      )
   ' "$PLAN_JSON" >/dev/null || {
-    echo "compute plan must bind exactly r7i.2xlarge Runtime and g6.xlarge GPU instances" >&2
+    echo "compute create plan must bind both approved instances; partial cleanup may delete only an approved typed subset" >&2
     exit 1
   }
   jq -e '

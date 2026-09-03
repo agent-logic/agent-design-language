@@ -74,6 +74,19 @@ run "warm_launch_apply" {
   }
 
   assert {
+    condition     = length(nonsensitive(aws_instance.runtime.user_data)) <= 16384
+    error_message = "warm Runtime user data exceeds the EC2 16 KiB API limit"
+  }
+
+  assert {
+    condition = (
+      strcontains(nonsensitive(aws_instance.runtime.user_data), "base64 --decode | gzip --decompress") &&
+      !strcontains(nonsensitive(aws_instance.runtime.user_data), base64encode(file("${path.module}/../../../../adl/tools/issue607_qualify_warm_polis.sh")))
+    )
+    error_message = "warm Runtime scripts must be embedded in compressed form"
+  }
+
+  assert {
     condition = (
       !strcontains(nonsensitive(aws_instance.gpu.user_data), "apt-get") &&
       !strcontains(nonsensitive(aws_instance.runtime.user_data), "apt-get") &&

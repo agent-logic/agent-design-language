@@ -29,8 +29,8 @@ GPU_LOCAL_READY_MAX_SECONDS=120
 RUNTIME_LOCAL_READY_MAX_SECONDS=30
 SERVICE_READY_MAX_SECONDS=270
 PREPARATION_SECONDS=2700
-LAUNCH_SECONDS=600
-LAUNCH_OPERATION_SECONDS=540
+LAUNCH_SECONDS=420
+LAUNCH_OPERATION_SECONDS=420
 GPU_ON_DEMAND_QUOTA_CODE=L-DB2E81BA
 PREPARATION_ROOT_GIB=80
 RUNTIME_ROOT_GIB=80
@@ -80,6 +80,7 @@ Usage:
   run_issue607_warm_polis.sh qualification-remediation --commit <artifact-sha> --run-id <id> --storage-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh qualification-quota-recovery --commit <artifact-sha> --run-id <id> --storage-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh qualification-proof-recovery --commit <artifact-sha> --run-id <id> --storage-id <id> --authorization-file <json> --execute
+  run_issue607_warm_polis.sh qualification-payload-recovery --commit <artifact-sha> --run-id <id> --storage-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh retention-status --storage-id <id>
   run_issue607_warm_polis.sh extend-retention --storage-id <id> --retention-until <UTC> --authorization-file <json> --execute
   run_issue607_warm_polis.sh retire-storage --storage-id <id> --authorization-file <json> --execute
@@ -316,7 +317,7 @@ assert_remote_run_unused() {
 
 consume_authorization() {
   if [[ -n "$AUTH_CAMPAIGN_ID" ]]; then
-    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12]|qualification-remediation|qualification-quota-recovery|qualification-proof-recovery)$ ]] \
+    [[ "$AUTH_CAMPAIGN_ID" =~ ^[0-9a-f]{64}$ && "$AUTH_ACTION" =~ ^(prepare|launch-[12]|qualification-remediation|qualification-quota-recovery|qualification-proof-recovery|qualification-payload-recovery)$ ]] \
       || { echo "authorization campaign slot is invalid" >&2; exit 2; }
     marker="$(campaign_action_marker "$AUTH_CAMPAIGN_ID" "$AUTH_ACTION")"
   elif [[ "$AUTH_ACTION" == retire-snapshots ]]; then
@@ -338,7 +339,7 @@ consume_authorization() {
 
 campaign_action_marker() {
   local campaign="$1" action="$2"
-  [[ "$campaign" =~ ^[0-9a-f]{64}$ && "$action" =~ ^(prepare|launch-[12]|qualification-remediation|qualification-quota-recovery|qualification-proof-recovery)$ ]] \
+  [[ "$campaign" =~ ^[0-9a-f]{64}$ && "$action" =~ ^(prepare|launch-[12]|qualification-remediation|qualification-quota-recovery|qualification-proof-recovery|qualification-payload-recovery)$ ]] \
     || { echo "campaign action marker identity is invalid" >&2; return 2; }
   printf '%scampaigns/%s/actions/%s.json\n' "$PREFIX" "$campaign" "$action"
 }
@@ -676,8 +677,8 @@ validate_issue_cost_audit() {
   jq -e --argjson ceiling "$MAX_TOTAL_USD" '
     .schema=="adl.issue607.paid_action_cost_audit.v1" and .status=="pass"
     and .authorized_ceiling_usd==$ceiling
-    and (.historical_paid_attempts|length)==17
-    and (.audited_remote_action_markers|length)==17
+    and (.historical_paid_attempts|length)==18
+    and (.audited_remote_action_markers|length)==18
     and ((.audited_remote_action_markers|length)==(.audited_remote_action_markers|unique|length))
     and ((.historical_compute_upper_bound_usd-([.historical_paid_attempts[].compute_upper_bound_usd]|add))|fabs)<0.00001
     and ((.fixed_allowances.total_usd+.historical_compute_upper_bound_usd+.historical_disposable_ebs_ipv4_allowance_usd-.historical_total_upper_bound_usd)|fabs)<0.00001
@@ -685,6 +686,7 @@ validate_issue_cost_audit() {
     and ((.authorized_ceiling_usd-.historical_total_upper_bound_usd-.remaining_before_remediation_usd)|fabs)<0.00001
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate" and .action=="qualification-remediation" and .outcome=="rejected_before_instance" and .runtime_seconds==0 and .gpu_seconds==0 and .compute_upper_bound_usd==0 and .error_code=="Client.VcpuLimitExceeded" and .quota_code=="L-DB2E81BA" and .observed_quota_vcpus==4 and .required_vcpus==16 and (.cloudtrail_event_ids|sort)==(["183d1ce1-8246-4475-b0f6-d93e8d2c2a4f","e51b738f-5ec9-4d95-a5d6-ab3b6bb3fddf","9adef042-ed23-4047-b833-7438dcda4645"]|sort) and (.cloudtrail_response_instance_ids|type)=="array" and (.cloudtrail_response_instance_ids|length)==0 and .post_cleanup_owner_inventory.owner_token_sha256=="83c61f041da4fd264b1a7ce5d887496755264873cfd5e2f0977a48622a7d550b" and (.post_cleanup_owner_inventory.observed_at|type)=="string" and (.post_cleanup_owner_inventory.observed_at|test("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")) and (.post_cleanup_owner_inventory.instances|type)=="array" and (.post_cleanup_owner_inventory.instances|length)==0 and (.post_cleanup_owner_inventory.volumes|type)=="array" and (.post_cleanup_owner_inventory.volumes|length)==0 and (.post_cleanup_owner_inventory.network_interfaces|type)=="array" and (.post_cleanup_owner_inventory.network_interfaces|length)==0 and (.post_cleanup_owner_inventory.security_groups|type)=="array" and (.post_cleanup_owner_inventory.security_groups|length)==0 and (.post_cleanup_owner_inventory.key_pairs|type)=="array" and (.post_cleanup_owner_inventory.key_pairs|length)==0)]|length)==1
     and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-quota-recovery" and .action=="qualification-quota-recovery" and .outcome=="passed_with_review_rejected_recovery_claims" and .runtime_instance_id=="i-05ff5a7a91434b114" and .gpu_instance_id=="i-0d2f10455c1c478e8" and .runtime_seconds==333 and .gpu_seconds==377 and .compute_upper_bound_usd==0.133231 and .disposable_ebs_ipv4_upper_bound_usd==0.004135 and .post_cleanup_owner_inventory.owner_token_sha256=="2cde10bd301f9b872fe03ace47ef8f6de830186789614a7f874e150e153b77f0" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
+    and ([.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-proof-recovery" and .action=="qualification-proof-recovery" and .outcome=="rejected_before_runtime_instance_user_data_limit" and .runtime_seconds==0 and .gpu_instance_id=="i-0883b9d2e04e4b6da" and .gpu_seconds==417 and .compute_upper_bound_usd==0.093223 and .disposable_ebs_ipv4_upper_bound_usd==0.003153 and .error_code=="InvalidParameterValue" and .error_boundary=="aws_instance.runtime.user_data" and .post_cleanup_owner_inventory.owner_token_sha256=="2213ad673e53d9ead6c5cad175742912dd91fdca462cc7ab25766ec784c20c97" and ([.post_cleanup_owner_inventory.instances,.post_cleanup_owner_inventory.volumes,.post_cleanup_owner_inventory.network_interfaces,.post_cleanup_owner_inventory.security_groups,.post_cleanup_owner_inventory.key_pairs]|all(length==0)))]|length)==1
   ' "$audit" >/dev/null || { echo "issue-wide paid-action cost audit is invalid" >&2; return 2; }
 }
 
@@ -708,7 +710,7 @@ validate_issue_cost_ledger() {
     and ($ledger.reservations|type=="array")
     and (($ledger.reservations|map(.run_id)|length)==($ledger.reservations|map(.run_id)|unique|length))
     and all($ledger.reservations[]; . as $reservation
-      | ($reservation.action=="prepare" or $reservation.action=="launch-1" or $reservation.action=="launch-2" or $reservation.action=="qualification-remediation" or $reservation.action=="qualification-quota-recovery" or $reservation.action=="qualification-proof-recovery")
+      | ($reservation.action=="prepare" or $reservation.action=="launch-1" or $reservation.action=="launch-2" or $reservation.action=="qualification-remediation" or $reservation.action=="qualification-quota-recovery" or $reservation.action=="qualification-proof-recovery" or $reservation.action=="qualification-payload-recovery")
       and (($reservation.run_id|type)=="string" and ($reservation.run_id|contains("-retry-")|not))
       and $reservation.status=="reserved"
       and (($reservation.reserved_seconds|type)=="number" and $reservation.reserved_seconds>0)
@@ -738,15 +740,16 @@ calculate_issue_action_reservation() {
   local action="$1" audit="$2" runtime_type seconds runtime_rate gpu_rate
   case "$action" in
     prepare) runtime_type="$RUNTIME_PREPARATION_TYPE"; seconds="$PREPARATION_SECONDS" ;;
-    launch-1|launch-2|qualification-remediation|qualification-quota-recovery|qualification-proof-recovery) runtime_type="$RUNTIME_TYPE"; seconds="$LAUNCH_SECONDS" ;;
+    launch-1|launch-2|qualification-remediation|qualification-quota-recovery|qualification-proof-recovery|qualification-payload-recovery) runtime_type="$RUNTIME_TYPE"; seconds="$LAUNCH_SECONDS" ;;
     *) echo "unsupported issue-wide cost action: $action" >&2; return 2 ;;
   esac
   runtime_rate="$(jq -er --arg type "$runtime_type" '.rates_usd_per_hour[$type]' "$audit")"
   gpu_rate="$(jq -er --arg type "$GPU_TYPE" '.rates_usd_per_hour[$type]' "$audit")"
   # The fixed baseline already includes retained storage and snapshots. This
-  # reservation adds a full action window plus conservative disposable EBS,
-  # public IPv4, and request overhead, and is never refunded after consumption.
-  awk -v r="$runtime_rate" -v g="$gpu_rate" -v s="$seconds" 'BEGIN {printf "%.6f",((r+g)*s/3600)+0.020000}'
+  # reservation adds the full action window plus disposable root EBS and public
+  # IPv4. S3 request allowance is already included in the fixed audit baseline.
+  awk -v r="$runtime_rate" -v g="$gpu_rate" -v s="$seconds" -v rr="$RUNTIME_ROOT_GIB" -v gr="$GPU_ROOT_GIB" \
+    'BEGIN {printf "%.6f",((r+g)*s/3600)+((rr+gr)*0.08*s/(30*24*3600))+(2*0.005*s/3600)}'
 }
 
 reserve_issue_action_cost() {
@@ -784,6 +787,7 @@ configure_remediation_route() {
     remediation) launch_action=qualification-remediation; expected_run="adl-issue607-${campaign_id:0:12}-remediate" ;;
     quota-recovery) launch_action=qualification-quota-recovery; expected_run="adl-issue607-${campaign_id:0:12}-quota-recovery" ;;
     proof-recovery) launch_action=qualification-proof-recovery; expected_run="adl-issue607-${campaign_id:0:12}-proof-recovery" ;;
+    payload-recovery) launch_action=qualification-payload-recovery; expected_run="adl-issue607-${campaign_id:0:12}-payload-recovery" ;;
     *) echo "invalid remediation route: $ordinal" >&2; return 2 ;;
   esac
   [[ "$RUN_ID" == "$expected_run" ]] || { echo "remediation run ID must be exactly: $expected_run" >&2; return 2; }
@@ -1398,7 +1402,7 @@ prepare() {
 }
 
 launch() {
-  [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 || "$ORDINAL" == remediation || "$ORDINAL" == quota-recovery || "$ORDINAL" == proof-recovery ) ]] || { echo "launch requires --ordinal 1|2/remediation/quota-recovery/proof-recovery and --execute" >&2; exit 2; }
+  [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 || "$ORDINAL" == remediation || "$ORDINAL" == quota-recovery || "$ORDINAL" == proof-recovery || "$ORDINAL" == payload-recovery ) ]] || { echo "launch requires --ordinal 1|2/remediation/quota-recovery/proof-recovery/payload-recovery and --execute" >&2; exit 2; }
   launch_action="launch-$ORDINAL"; remediation_like=false
   validate_generation_controller
   run_dir="$STATE_ROOT/runs/$RUN_ID"; storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
@@ -1518,6 +1522,7 @@ case "$ACTION" in
   qualification-remediation) require aws; require terraform; ORDINAL=remediation; launch ;;
   qualification-quota-recovery) require aws; require terraform; ORDINAL=quota-recovery; launch ;;
   qualification-proof-recovery) require aws; require terraform; ORDINAL=proof-recovery; launch ;;
+  qualification-payload-recovery) require aws; require terraform; ORDINAL=payload-recovery; launch ;;
   retention-status) require aws; require terraform; retention_status ;;
   extend-retention) require aws; require terraform; extend_retention ;;
   retire-storage) require aws; require terraform; retire_storage ;;

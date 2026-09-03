@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 97
+    "generation": 100
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "infra/aws/runtime/gpu-proof\nadl/tools/run_issue345_aws_gpu_shepherd_proof.sh\nadl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\nadl/tools/build_or_prepare_issue607_warm_polis.sh\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/issue607_probe_runtime.py\nadl/tools/issue607_qualify_warm_polis.sh\nadl/tools/issue607_guardian_recovery_proof.sh\nadl/tools/issue607_validate_saved_plan.sh\nadl/tools/test_issue607_warm_polis.sh\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\ndocs/operations/cloud/aws/shepherd-gpu-proof\n.csdlc/prepared/issues/607/validate-preparation.sh\n.csdlc/prepared/issues/607\n.csdlc/evidence/607\n.csdlc/issues/607",
-      "review_revision": "git-blake3:5eb4de0d7a128e566975d078bdfaa275a70f1600:7d50e42115fd4476a8331b42da6069b6f9a0665dc6cdbd4d8c86543cd777fd94",
-      "reviewer": "subagent:/root/issue_607_pre_spend_exact_r2",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -24,10 +24,8 @@
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live AWS proof remains the final validation lane and must stay within the exact USD 20 reservation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

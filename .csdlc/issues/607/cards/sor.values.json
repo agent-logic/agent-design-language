@@ -7,41 +7,41 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 97
+    "generation": 100
   },
   "status": "draft",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "The warm two-node AWS Polis reached service readiness in 235 seconds and executed two models plus six ACC agents, but exact-head review rejected two recovery assertions because their source lifecycle phases were not retained in the qualification receipt. The source-proof repair is implemented and locally validated; one corrected live proof remains pending.",
+      "summary": "The retained warm two-node AWS Polis previously reached service readiness in 235 seconds and executed two 8B models plus six ACC agents. The source-bound proof retry created only the GPU before EC2 rejected oversized Runtime user data; all disposable resources were removed, both warm volumes remain available, and compressed embedding plus partial-cleanup proof is locally green. One exact live payload-recovery proof remains pending.",
       "actual_changes": [
-        "Added a dedicated recovery-proof helper that binds the exact Guardian lifecycle report digest and validates dependency-degradation, Vector-liveness, and log-stagnation injection/recovery records.",
-        "Packaged the current qualifier and recovery helper directly into warm Runtime user data so no AMI, warm volume, package installation, Git operation, model download, or compilation is required.",
-        "Added deterministic negative tests for missing phases, reversed recovery timestamps, evaluation violations, and report-hash mismatch.",
-        "Corrected design and runbook truth for Guardian-before-GPU readiness and the exact preparation cleanup/resume boundary.",
-        "Marked the first current-quota qualification evidence rejected by review instead of retaining unsupported claims.",
-        "Reconciled the completed run's AWS instance lifetimes and zero-residue proof into a USD 19.737366 historical upper bound, leaving one USD 0.242333 proof-recovery reservation under the USD 20 ceiling."
+        "Gzip-compressed the two corrected qualification scripts inside Runtime user data and added a Terraform assertion that the fully rendered payload is at most 16 KiB.",
+        "Fixed the compute-plan guard so a full create still requires the approved r7i.2xlarge and g6.xlarge pair while partial destroy accepts only the correctly typed subset present in interrupted Terraform state.",
+        "Added deterministic regressions for compressed payload construction, EC2 payload size, valid partial cleanup, and rejection of wrong-shape partial cleanup.",
+        "Terminated the only GPU created by the failed attempt, destroyed all thirteen disposable Terraform resources, and verified empty managed state plus both retained warm volumes detached and available.",
+        "Reconstructed the failed attempt conservatively through its final termination event, bringing the issue upper bound to USD 19.833742.",
+        "Bound the final two-8B-model payload-recovery run to a 420-second USD 0.160430 envelope for a projected maximum of USD 19.994172."
       ],
       "artifacts": [
-        "adl/tools/issue607_guardian_recovery_proof.sh",
-        "adl/tools/issue607_qualify_warm_polis.sh",
+        "infra/aws/runtime/gpu-proof/main.tf",
+        "infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl",
+        "infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl",
+        "adl/tools/issue607_validate_saved_plan.sh",
         "adl/tools/run_issue607_warm_polis.sh",
         "adl/tools/test_issue607_warm_polis.sh",
-        "infra/aws/runtime/gpu-proof",
-        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-        ".csdlc/prepared/issues/607/design.md",
-        ".csdlc/evidence/607/aws-current-quota-qualification-6a8dfdd80.json",
         ".csdlc/evidence/607/aws-paid-action-cost-audit.json"
       ],
       "actual_validation": [
         {
           "command": [
-            "bash",
-            ".csdlc/prepared/issues/607/validate-preparation.sh"
+            "terraform",
+            "-chdir=infra/aws/runtime/gpu-proof",
+            "test",
+            "-filter=tests/issue607_warm.tftest.hcl"
           ],
-          "purpose": "Validate the issue-specific preparation and acceptance contract.",
+          "purpose": "Prove the complete warm Runtime payload stays within 16 KiB and reconstructs compressed scripts.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json"
+          "evidence_ref": "local command output 2026-09-03"
         },
         {
           "command": [
@@ -49,26 +49,26 @@
             "adl/tools/test_issue607_warm_polis.sh",
             "all"
           ],
-          "purpose": "Prove the Terraform, proof-binding, negative-test, cost, cleanup, and warm-launch contracts without AWS mutation.",
+          "purpose": "Prove local payload, partial cleanup, recovery, authorization, cost, and residue contracts without AWS mutation.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json"
+          "evidence_ref": "local command output 2026-09-03"
         },
         {
           "command": [
             "bash",
             "adl/tools/run_issue607_warm_polis.sh",
-            "qualification-proof-recovery",
+            "qualification-payload-recovery",
             "--commit",
             "7be87dd22260d30a7966d1b129123e84bb761074",
             "--run-id",
-            "adl-issue607-e8925c1dc8b0-proof-recovery",
+            "adl-issue607-e8925c1dc8b0-payload-recovery",
             "--storage-id",
             "adl-issue607-warm-v6",
             "--authorization-file",
-            ".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-proof-recovery/authorization.json",
+            ".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json",
             "--execute"
           ],
-          "purpose": "Retain the corrected source-bound live recovery proof under current quota.",
+          "purpose": "Retain the final source-bound live proof for the current two-8B-model configuration.",
           "outcome": "waiting",
           "evidence_ref": "pending live proof"
         }
