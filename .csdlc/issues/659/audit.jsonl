@@ -12,3 +12,5 @@
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":10,"actor":"codex-subagent:/root/issue_659_design_readiness_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":14,"generation":11,"actor":"codex:/root","reason":"Remove mutable review request metadata from the substantive review scope so recording the review cannot stale its own proof.","operation":"recover_review"}
+{"sequence":15,"generation":11,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":16,"generation":12,"actor":"codex-subagent:/root/issue_659_design_readiness_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

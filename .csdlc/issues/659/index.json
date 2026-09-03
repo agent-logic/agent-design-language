@@ -4,13 +4,38 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4182d8bb12b47a4db5b57dbf673a0e8a509772c51bd068d4845f75eb96d41c46",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "835208ebbbf2c462afefacd806af9ce58a1cc980dc85dabfc6073e5397455256",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "ede477958cd3d678138d53ada2bb8d803c6256ca1723fb5b86c6817e5451bafe",
   "branch": "codex/659-runtime-configurable-convergence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-659-runtime-configurable-convergence",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/issue_659_design_readiness_review",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:bf17efa4769374484196a76b99a688c1bfe98951:5f12720aed7c3e94e5970f4277cb0033f4348fbabcaf1a072eae3c1beaf46faa",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/evidence/659"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/issue_659_design_readiness_review",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/evidence/659"
+    ],
+    "reviewed_revision": "git-blake3:bf17efa4769374484196a76b99a688c1bfe98951:5f12720aed7c3e94e5970f4277cb0033f4348fbabcaf1a072eae3c1beaf46faa",
+    "findings": [],
+    "residual_risks": [
+      "The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "725b9c82ec5342a55510b152d7c777c9b9b57d659bb5fe216c928ffc094c7e77",
+      "values_digest": "90f8f7d969a7854d4cd6013374cdef50c5459f2d856e119e8d5e0f16f42cdce3",
       "rendered_digest": "2d4481e3f68ae78a28cb41941e1b9efa5f31cbf5282a22e1c342579be6d1c943",
       "ast_digest": "3ba45da8035b09337a8474fbd018bb45178796510b4c5a294efec296fcd13cbf"
     },
     "stp": {
-      "values_digest": "32a062358107acd836c1eb37cea113f9da42968f397fbb6fb562deef4a4738af",
+      "values_digest": "12be27b065ee68059295dcc5df6f418e73b77375ad4b954d72889aa09d1389e5",
       "rendered_digest": "c059baa61ff8c6206f6b97dc8b056102b89230d84570f5ca26f49953d684313e",
       "ast_digest": "91df1858746474aa83c407e5a4e6fc7a228df01bbe581a98102fc9d8c8dffed2"
     },
     "spp": {
-      "values_digest": "a6013304c7553e036dc05f7a3771274cd3d710147b3df5d4a213a430c9ada41d",
+      "values_digest": "36368c9386f472a9690aababac398e102fb27db6377fe2e048945cb19a937f97",
       "rendered_digest": "b80e87a357458244797a90a5fe887ea0eac68b6b405e7599dee3274024357bdf",
       "ast_digest": "bd036a9a68d2229666ee907c0f489798b4d691446623bd8414e23629b25bef50"
     },
     "vpp": {
-      "values_digest": "6d07f27d21892ae97f910f5e14145ece9a8fe2c7d8bc438fb53e6db752e09781",
+      "values_digest": "4d684bb7708861553d799e836d6f0012c08717192652e431b7a45689f3dbcda1",
       "rendered_digest": "7daf2ded4fe05c23cca44cb8f50992598a104a0c103991b13c77132005dcdedf",
       "ast_digest": "84dbae986fe674c2b9113765edc06b553139c5bb97e2fb41a5c34f77dd796a7a"
     },
     "srp": {
-      "values_digest": "ae968d03dd556700068919e4c5edb5b978a59efe623e102f8031438ffc5e2999",
-      "rendered_digest": "7d8b1ebbb2a2289685aac6922178e55ebe4805afa40a82356625ff251cd37a1d",
-      "ast_digest": "6db37cdadcf5245f5412e1cca043cab496b6bda7dbc491b0a4bcb21f0feeb956"
+      "values_digest": "eae8028a49ad0a81279ab8f008fbed9edff18c5685d365edc225d6a722dae756",
+      "rendered_digest": "317d386d051456b6f19c7de6fbbb87b28e188d0084e18c4974c0576d0919947d",
+      "ast_digest": "dff046a0e877ea666a55c2996a046cf0077ca1c8a5a30bc36ec7418bcd054a01"
     },
     "sor": {
-      "values_digest": "9353658eadbb1b510652e095664bea90af00e463e05650adf0ee022acaf22e05",
+      "values_digest": "f001138ad1b21f9bd5a7f9dd63b7cca2392ce456b71f61a9ec7ebf70af0fb485",
       "rendered_digest": "308f83ffeeaf5cfa3b33a723a226bd593b56372fe3db64d70f3276a3ab94b1b5",
       "ast_digest": "9bf7f81cd10f2a2e139eceae08cbf15b391f189c0146ba9b02c90b4f76092433"
     }
@@ -90,6 +115,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Remove mutable review request metadata from the substantive review scope so recording the review cannot stale its own proof."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -190,6 +222,20 @@
       "actor": "codex:/root",
       "reason": "Remove mutable review request metadata from the substantive review scope so recording the review cannot stale its own proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
