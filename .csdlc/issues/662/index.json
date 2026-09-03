@@ -4,48 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "1beb3b536eab6c44cbe3f807ff27020eb40b24f9c0093d31ccbee02fdfbb4419",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "4a30d969ab38be2a29276991232791f518231bf9a8a2e6a5d7ed202920b3680c",
   "branch": "codex/662-agent-to-agent-initiation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
-  "review_assignment": {
-    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-final-metadata-head",
-    "assigned_by": "codex:/root:issue-662-exec",
-    "revision": "git-blake3:674b8afa57886739be398d7ad669f5ea6e295fc7:647aadf2f0555a68cd6f303f6a9032e65f18cc8bf124809151634674771ed59d",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/prepared/issues/662/design.md",
-      ".csdlc/prepared/issues/662/diagram.mmd",
-      ".csdlc/prepared/issues/662/bind.json",
-      ".csdlc/prepared/issues/662/finalize-implementation.json",
-      ".csdlc/prepared/issues/662/validate-focused.sh",
-      ".csdlc/evidence/662"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-final-metadata-head",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/prepared/issues/662/design.md",
-      ".csdlc/prepared/issues/662/diagram.mmd",
-      ".csdlc/prepared/issues/662/bind.json",
-      ".csdlc/prepared/issues/662/finalize-implementation.json",
-      ".csdlc/prepared/issues/662/validate-focused.sh",
-      ".csdlc/evidence/662"
-    ],
-    "reviewed_revision": "git-blake3:674b8afa57886739be398d7ad669f5ea6e295fc7:647aadf2f0555a68cd6f303f6a9032e65f18cc8bf124809151634674771ed59d",
-    "findings": [],
-    "residual_risks": [
-      "Final review inspected clean branch HEAD 823d9fb2c9a2695c4b6b772912536703abea3130 and confirmed the assignment commit is C-SDLC metadata only.",
-      "No source changes were present after sender-identity fix 024afcd521b984f4b780ead4803507ea95a3938a in adl-runtime-kernel/src/control.rs or adl-runtime-kernel/src/telemetry.rs.",
-      "No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during final-head review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -60,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "69c8e3e8e0d840a562586e7b0daf0ff1cb2113510698063bd7a837e74b91e99b",
+      "values_digest": "81afe3dbf30f0be270c347b9ec9d10fa8d97f1a7c21ec447b6a2fe42a7356778",
       "rendered_digest": "3f58782d50ee9b9fd73ee67152eba61d607fee4223098b680c5c0f3e1c1a69bb",
       "ast_digest": "8d1cd6432ea644f770fdad24fc2499103564ce02f0df3084cc2d649edc32bdf7"
     },
     "stp": {
-      "values_digest": "21a7b64881ff0f41a356ed6ea6749f1b32f60cb7fae20023744dff43a0dabd01",
+      "values_digest": "57f26e3ce346668300c1cd32f4ae42b26132f7cf68475a66f562dc4289416502",
       "rendered_digest": "c48bb7ad9ba7285a23a71f6ae97e54f49365fb1e558f30fb414cb0eedc75cb41",
       "ast_digest": "2f8254c052eca2a8e14f61e33bea7adba5af4aed5728fe93379ad093fdb34306"
     },
     "spp": {
-      "values_digest": "172e8544060dfe3ae111bf247b0ba732a7993ad8bcf6bbcee7722e15557aa257",
+      "values_digest": "329a28e6d29f3d2d1d74f440270172d226a684e742f5f62d41a0fb74ad7e7492",
       "rendered_digest": "210f7d8779f8213a67be9e9f73822619acfe38dbf840213cd57fc23f0d4193fb",
       "ast_digest": "dc5f615ba1d839dd28fb6944f405aaa61cb83da600e9d55b6c9f96c0c2fa271a"
     },
     "vpp": {
-      "values_digest": "cbb6862a1871529642ab664ab1bf038fde61572209d3672f231f0fdd9dcf3765",
+      "values_digest": "253229624e73aa9cb9f7150491fa8e0175f1560c04cf4d67a54171f4035a12f9",
       "rendered_digest": "4adb27da2ca9169c959966cb14eda245bfdfd20a822b3dd6403b71e2de49c337",
       "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
     },
     "srp": {
-      "values_digest": "f90bbd966e1c69938e592cd8555186a20428c7971eb74b0f916e9eb1bc445aef",
-      "rendered_digest": "ffcebb0aa248eb70a998047f83192ea422cbf299547840313a5d1543323c52fd",
-      "ast_digest": "b3c69fca282778188c1a66a72767c2a7e7c1aa4a48eac13a4ae675d4b98ad957"
+      "values_digest": "28a68d8972a574a399a0aba5486062cdbc2d596d3a7d9821ae3309bd6e66760d",
+      "rendered_digest": "523aaa688482be09fe0dd7f68131f23c24ecbe1de41f176226b06685fe9bfc0d",
+      "ast_digest": "8d60538ebebdf81627e90b41335cda15dc2bb30e0f202c39404d817da9ae42cc"
     },
     "sor": {
-      "values_digest": "4db60e58bbf56a7359adf81e1acc0e1034a20fec0480c2bec6ea7ae5229244e2",
+      "values_digest": "defe2a1f042ba7a06b93d8f0a034d9d1e1dced5a6cbb83acbb141c7d1448e80b",
       "rendered_digest": "e93b20f25aa1ed872736e3312a20d603f7adf78828bb3a16f0bf9e7b869c7b8c",
       "ast_digest": "527c2f1df9e77538103eb040a273f7e1ca84982348a1c47aa9464d3dba10330e"
     }
@@ -146,6 +111,13 @@
       "to": "reviewed",
       "actor": "fresh-session:review-662-agent-to-agent-initiation-final-metadata-head",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after the final review-record commit so the next review/publication bridge starts after prior prepared-file metadata commits."
     }
   ],
   "audit": [
@@ -260,6 +232,13 @@
       "actor": "fresh-session:review-662-agent-to-agent-initiation-final-metadata-head",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after the final review-record commit so the next review/publication bridge starts after prior prepared-file metadata commits.",
+      "operation": "recover_review"
     }
   ]
 }
