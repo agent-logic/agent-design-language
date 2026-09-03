@@ -19,12 +19,13 @@ reviewed, approved, merged, and terminally reconciled.
 - #632 GitHub issue read through `csdlc-github-issue`: pass; issue is open.
 - #632 defect comment through `csdlc-github-issue`: pass; comment
   `5513915103` records DEFECT-019.
-- #631 PR #644 unlinked PR-state through `csdlc-github-pr`: pass; PR is open,
-  non-draft, clean, and CI-green on base
-  `codex/627-v3-h1-command-denominator-r2`.
-- #631 PR #644 linked PR-state through `csdlc-github-pr`: fail-closed with
-  `reconciliation_required`; GitHub does not expose `Closes #631` as a closing
-  relation for the stacked base.
+- #631 PR #644 unlinked PR-state through `csdlc-github-pr`: pass as historical
+  topology evidence only. PR #644 is now superseded, intentionally non-closing,
+  and must not be used as the active #631 publication route.
+- #631 PR #669 linked PR-state through `csdlc-github-pr`: pass for repaired
+  topology; PR #669 targets `main` and exposes `Closes #631` as the live GitHub
+  closing relation. It remains a dependency gate until its hosted checks and
+  review decision are settled at the current exact head.
 - #632 local typed bootstrap through `csdlc-issue create`: pass after VPP lane
   coverage repair.
 - #632 typed bind through `csdlc-bind`: pass; execution worktree is
