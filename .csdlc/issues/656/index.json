@@ -4,14 +4,45 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "0cbde54c95cf717a8d857b506db357d8ea6e4adc72bc560b18950891a91033dc",
+  "phase": "published",
+  "generation": 23,
+  "digest": "28a3d89a7f3d4197aeff166810df58ec8e53530a83ecbac16e3c34ba31a4f035",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3b9ef7e8-7a6c-48fe-ae13-09ea23111979",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:6172265eceec54cfa9a89034761b94b41894e2ce:defb4acdf2acf9410e40eb3c642e21959dbacff0b3463628d201a383aeda6a24",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3b9ef7e8-7a6c-48fe-ae13-09ea23111979",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs"
+    ],
+    "reviewed_revision": "git-blake3:6172265eceec54cfa9a89034761b94b41894e2ce:defb4acdf2acf9410e40eb3c642e21959dbacff0b3463628d201a383aeda6a24",
+    "findings": [],
+    "residual_risks": [
+      "Hosted aggregate coverage remains the publication integration gate.",
+      "No live Runtime or service-manager mutation was performed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 656,
+    "pull_request": 658,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/658",
+    "base": "main",
+    "head": "codex/656-runtime-atomic-generation-install",
+    "revision": "git-blake3:6172265eceec54cfa9a89034761b94b41894e2ce:defb4acdf2acf9410e40eb3c642e21959dbacff0b3463628d201a383aeda6a24",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +56,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e859ef07e39c9e66ef46bfe79bf7ec9ba4aee1240ea1db199c898389de669cd",
+      "values_digest": "8044b730a9674dbb71a20a8e0aa75077ea794809342e7d5b979f281298a2b354",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "d5386d8802fc00c53325db2580bfbdd07a4084e946a0e18e53246656e9d05827",
+      "values_digest": "270b0a7840f014d9df05519bf46e3bc9ee50623f3659791629bcdbb333c90cf1",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "00afd1f301e5b7f8557607949dc6d48c922a63460c98a687350c704345041b75",
+      "values_digest": "6d4ff3971b82f826e53f70ed4bb79ac1992ad4517d7da7bbe9195526f8565586",
       "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
       "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "dc52a62945a630cb406436dc7e1258a2f33f8bf3648ab417016833180370d696",
+      "values_digest": "fff2874afdfc1b91fea61c93af60d94e0cfd1ba2ed04317e73137afa26816bbe",
       "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "5b6b165d510bdb7804b1a46b3b25d1ed56d2ee5f97e59760bf0c529754cf7db4",
-      "rendered_digest": "7e7b0289bf774e28b81f2e746033ba0124722612e957f00b2481d794f65c0a6b",
-      "ast_digest": "8be1dc728e321ecd9b7f6c435b59970e3840e558d8736e8b31e5dce48afc390e"
+      "values_digest": "d6374e98f996c5081d205ffa3dc82d1d8bddc1fc428a6f6b9cbd507a0172b4f8",
+      "rendered_digest": "0de93cf6479688b6eb240c5f4f0b33cb3aef3e9b450141078d39f399949e787f",
+      "ast_digest": "f166daf1389a1c681209a40d82271dfbae48b918c2681575a4254da71cb5269b"
     },
     "sor": {
-      "values_digest": "a4dce620fb9886cf8ab71abdf08cddafc327023b0d6b9046672f11b514213a66",
-      "rendered_digest": "6116e0f79c7af7d249dba1485d5dacb4bff0a774b2ed7922f3c6a9280f65b834",
-      "ast_digest": "acdd27784b439f93a919191a0a598b833e84c54c15c07ecf6268cddf296eeca4"
+      "values_digest": "1af13dd1cd873cdfc8750cc9accc079f2e26d8bfc53a1fbe7c9350c30a503711",
+      "rendered_digest": "1b28a7d66a1d2c700db16b24a6ee597805188715f633753b09d67a73df64e72b",
+      "ast_digest": "4f09270f80e2fcc7bc8686ef084876bdd411837e5614e8e5f026b722f80c5682"
     }
   },
   "transitions": [
@@ -132,6 +163,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover the stale review after its typed review record was committed; establish one final committed metadata head for exact review and atomic republication."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -323,6 +368,27 @@
       "actor": "codex:/root",
       "reason": "Recover the stale review after its typed review record was committed; establish one final committed metadata head for exact review and atomic republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

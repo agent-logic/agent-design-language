@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-
+adl/src/cli/csm_runtime_v3_cmd.rs
 
 ## Prompts
 
@@ -32,12 +32,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted aggregate coverage remains the publication integration gate.
+- No live Runtime or service-manager mutation was performed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6172265eceec54cfa9a89034761b94b41894e2ce:defb4acdf2acf9410e40eb3c642e21959dbacff0b3463628d201a383aeda6a24")
 
-Reviewer: None
+Reviewer: Some("fresh-session:3b9ef7e8-7a6c-48fe-ae13-09ea23111979")
 
-Result: pre_review
+Result: pass
