@@ -6,10 +6,22 @@
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
   "phase": "implemented",
   "generation": 9,
-  "digest": "495f82fd9fe2fcd572dfc19b9519264576daba72520f14e79410ce317a24c750",
+  "digest": "4e99d8128de6ac7d57cccac74535ebfacc72e94ba620130612e445fb34de1b86",
   "branch": "codex/661-runtime-shepherd-provider-reply",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_661_shepherd_provider_reply_exact_head",
+    "assigned_by": "codex:/root/issue_661_publication_recovery",
+    "revision": "git-blake3:a88fc18311c6a6b8c5b7685d033769d3df087e20:3c3f70cf378e703821d049b41f106cfa397981daba324261b0131422339f0547",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/661/recover-review-after-review-metadata.json",
+      ".csdlc/prepared/issues/661/assign-current-head-review.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
     },
     "srp": {
-      "values_digest": "8832703ca7b1a74e6cfc8e17911945b8737d8e4a9e25571d8d69ee29150c25a2",
-      "rendered_digest": "78318f0375a8f3166e80ea9184d96410239b7e957535b4cfca914ff6887ef49d",
-      "ast_digest": "1fef37d8590ad61bcfdae7105d91966a179575666f364abfafbf1123842ab713"
+      "values_digest": "4bc8b50914b8d7e3416c337c10528296dd4d4db08f8cd0ef524717274962c96d",
+      "rendered_digest": "7be6e43529c3dfa09095227cbdb1c33f60700e7dd03b049c9a7a58060d272ba0",
+      "ast_digest": "0025fff7c3da44ee878431f04de20b4bda1ec0b29a3435d5126d707747cbff3c"
     },
     "sor": {
       "values_digest": "e01786be08042dbffb933abf982c4b34897ddf371e4d2cbb9d86cbe34e0ab19a",
@@ -176,6 +188,13 @@
       "actor": "codex:/root/issue_661_publication_recovery",
       "reason": "Recover from reviewed state after the review-record metadata commit so publication can require a fresh current-head review without treating retained stale metadata as merge-ready truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/ingress.rs
+adl-runtime-kernel/src/shepherd.rs
+adl-runtime-kernel/src/conversation_sessions_tests.rs
+.csdlc/prepared/issues/661/recover-review-after-review-metadata.json
+.csdlc/prepared/issues/661/assign-current-head-review.json
 
 ## Prompts
 
