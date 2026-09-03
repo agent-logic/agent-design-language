@@ -5,6 +5,8 @@
 //! execute lifecycle authority, provider calls, selector mutation, binary
 //! installation, GitHub mutation, finish, cleanup, or #505 cutover.
 
+use std::{fs, path::Path};
+
 use serde::{Deserialize, Serialize};
 
 pub const PROOF_ROUTE_NAMES: [&str; 4] = ["proof", "shadow", "soak", "install"];
@@ -14,6 +16,7 @@ pub struct ProofRouteRequest {
     pub issue: u64,
     pub repository: String,
     pub cutover_issue: Option<u64>,
+    pub evidence_root: Option<String>,
     pub proof: Option<ProofManifest>,
     pub shadow: Option<ShadowComparison>,
     pub soak: Option<SoakEvidence>,
@@ -92,21 +95,25 @@ pub fn classify_route(route: &str, request: ProofRouteRequest) -> ProofRouteRepo
     let mut findings = common_findings(&request);
     match route {
         "proof" => match request.proof.as_ref() {
-            Some(manifest) => validate_proof_manifest(manifest, &mut findings),
+            Some(manifest) => {
+                validate_proof_manifest(request.evidence_root.as_deref(), manifest, &mut findings)
+            }
             None => findings.push(finding(
                 "proof_manifest_missing",
                 "proof route requires proof manifest evidence",
             )),
         },
         "shadow" => match request.shadow.as_ref() {
-            Some(shadow) => validate_shadow(shadow, &mut findings),
+            Some(shadow) => {
+                validate_shadow(request.evidence_root.as_deref(), shadow, &mut findings)
+            }
             None => findings.push(finding(
                 "shadow_comparison_missing",
                 "shadow route requires paired v2/v3 observations",
             )),
         },
         "soak" => match request.soak.as_ref() {
-            Some(soak) => validate_soak(soak, &mut findings),
+            Some(soak) => validate_soak(request.evidence_root.as_deref(), soak, &mut findings),
             None => findings.push(finding(
                 "soak_evidence_missing",
                 "soak route requires bounded soak evidence",
@@ -151,7 +158,11 @@ fn common_findings(request: &ProofRouteRequest) -> Vec<ProofRouteFinding> {
     findings
 }
 
-fn validate_proof_manifest(manifest: &ProofManifest, findings: &mut Vec<ProofRouteFinding>) {
+fn validate_proof_manifest(
+    evidence_root: Option<&str>,
+    manifest: &ProofManifest,
+    findings: &mut Vec<ProofRouteFinding>,
+) {
     require_nonempty(
         &manifest.manifest_id,
         "proof_manifest_id_missing",
@@ -188,6 +199,14 @@ fn validate_proof_manifest(manifest: &ProofManifest, findings: &mut Vec<ProofRou
             "stale proof evidence cannot authorize readiness",
         ));
     }
+    if let Some(observed) = observed_ref_digest(evidence_root, &manifest.evidence_ref, findings) {
+        if manifest.observed_digest != observed {
+            findings.push(finding(
+                "proof_observed_digest_mismatch",
+                "proof observed digest must match the referenced evidence file",
+            ));
+        }
+    }
     if manifest.evidence_digest != manifest.observed_digest {
         findings.push(finding(
             "proof_digest_mismatch",
@@ -196,7 +215,11 @@ fn validate_proof_manifest(manifest: &ProofManifest, findings: &mut Vec<ProofRou
     }
 }
 
-fn validate_shadow(shadow: &ShadowComparison, findings: &mut Vec<ProofRouteFinding>) {
+fn validate_shadow(
+    evidence_root: Option<&str>,
+    shadow: &ShadowComparison,
+    findings: &mut Vec<ProofRouteFinding>,
+) {
     require_nonempty(
         &shadow.v2_observation_ref,
         "shadow_v2_ref_missing",
@@ -233,6 +256,26 @@ fn validate_shadow(shadow: &ShadowComparison, findings: &mut Vec<ProofRouteFindi
             "shadow route refuses broad equivalence claims",
         ));
     }
+    let observed_v2 = observed_ref_digest(evidence_root, &shadow.v2_observation_ref, findings);
+    let observed_v3 = observed_ref_digest(evidence_root, &shadow.v3_observation_ref, findings);
+    if observed_v2
+        .as_ref()
+        .is_some_and(|observed| observed != &shadow.v2_digest)
+    {
+        findings.push(finding(
+            "shadow_v2_digest_mismatch",
+            "v2 shadow digest must match the referenced observation file",
+        ));
+    }
+    if observed_v3
+        .as_ref()
+        .is_some_and(|observed| observed != &shadow.v3_digest)
+    {
+        findings.push(finding(
+            "shadow_v3_digest_mismatch",
+            "v3 shadow digest must match the referenced observation file",
+        ));
+    }
     if shadow.v2_digest != shadow.v3_digest {
         findings.push(finding(
             "shadow_digest_mismatch",
@@ -241,7 +284,11 @@ fn validate_shadow(shadow: &ShadowComparison, findings: &mut Vec<ProofRouteFindi
     }
 }
 
-fn validate_soak(soak: &SoakEvidence, findings: &mut Vec<ProofRouteFinding>) {
+fn validate_soak(
+    evidence_root: Option<&str>,
+    soak: &SoakEvidence,
+    findings: &mut Vec<ProofRouteFinding>,
+) {
     require_nonempty(
         &soak.evidence_ref,
         "soak_evidence_ref_missing",
@@ -266,6 +313,7 @@ fn validate_soak(soak: &SoakEvidence, findings: &mut Vec<ProofRouteFinding>) {
             "soak route cannot perform provider side effects before cutover",
         ));
     }
+    let _ = observed_ref_digest(evidence_root, &soak.evidence_ref, findings);
 }
 
 fn validate_install(
@@ -331,6 +379,76 @@ fn require_nonempty(
 ) {
     if value.trim().is_empty() {
         findings.push(finding(code, message));
+    }
+}
+
+fn observed_ref_digest(
+    evidence_root: Option<&str>,
+    evidence_ref: &str,
+    findings: &mut Vec<ProofRouteFinding>,
+) -> Option<String> {
+    let Some(root) = evidence_root else {
+        findings.push(finding(
+            "evidence_root_missing",
+            "evidence-backed routes require an evidence root",
+        ));
+        return None;
+    };
+    if root.trim().is_empty() {
+        findings.push(finding(
+            "evidence_root_missing",
+            "evidence-backed routes require an evidence root",
+        ));
+        return None;
+    }
+    if evidence_ref.trim().is_empty() {
+        return None;
+    }
+    let ref_path = Path::new(evidence_ref);
+    if ref_path.is_absolute()
+        || evidence_ref
+            .split('/')
+            .any(|component| component == ".." || component.is_empty())
+        || !evidence_ref.starts_with(".csdlc/evidence/")
+    {
+        findings.push(finding(
+            "evidence_ref_not_repo_contained",
+            "evidence refs must be repo-relative paths under .csdlc/evidence",
+        ));
+        return None;
+    }
+    let root_path = Path::new(root);
+    let evidence_path = root_path.join(ref_path);
+    let Ok(root_canonical) = root_path.canonicalize() else {
+        findings.push(finding(
+            "evidence_root_missing",
+            "evidence root must exist before proof classification",
+        ));
+        return None;
+    };
+    let Ok(evidence_canonical) = evidence_path.canonicalize() else {
+        findings.push(finding(
+            "evidence_ref_missing",
+            "referenced evidence file must exist before proof classification",
+        ));
+        return None;
+    };
+    if !evidence_canonical.starts_with(&root_canonical) {
+        findings.push(finding(
+            "evidence_ref_not_repo_contained",
+            "evidence refs must remain under the evidence root after canonicalization",
+        ));
+        return None;
+    }
+    match fs::read(&evidence_canonical) {
+        Ok(bytes) => Some(blake3::hash(&bytes).to_hex().to_string()),
+        Err(_) => {
+            findings.push(finding(
+                "evidence_ref_unreadable",
+                "referenced evidence file must be readable before proof classification",
+            ));
+            None
+        }
     }
 }
 

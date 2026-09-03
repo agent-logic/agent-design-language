@@ -1,6 +1,6 @@
 use std::{fs, path::PathBuf, process::Command, str};
 
-use serde_json::Value;
+use serde_json::{json, Value};
 
 fn scratch() -> PathBuf {
     let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -15,6 +15,15 @@ fn write_request(name: &str, body: &str) -> PathBuf {
     let path = scratch().join(name);
     fs::write(&path, body).expect("write request");
     path
+}
+
+fn write_evidence(ref_path: &str, body: &[u8]) -> (PathBuf, String) {
+    let root = scratch().join("repo");
+    let path = root.join(ref_path);
+    let parent = path.parent().expect("evidence path has parent");
+    fs::create_dir_all(parent).expect("evidence parent");
+    fs::write(&path, body).expect("write evidence");
+    (root, blake3::hash(body).to_hex().to_string())
 }
 
 fn run_route(route: &str, body: &str) -> Value {
@@ -32,8 +41,25 @@ fn run_route(route: &str, body: &str) -> Value {
     serde_json::from_slice(&output.stdout).expect("route stdout should be json")
 }
 
+fn run_route_value(route: &str, body: Value) -> Value {
+    run_route(
+        route,
+        &serde_json::to_string_pretty(&body).expect("request json"),
+    )
+}
+
 fn assert_ready(route: &str, body: &str) {
     let value = run_route(route, body);
+    assert_eq!(value["schema"], "csdlc.v3.proof_route.v1");
+    assert_eq!(value["route"], route);
+    assert_eq!(value["read_only"], true);
+    assert_eq!(value["operational_authority"], false);
+    assert_eq!(value["status"], "ready");
+    assert!(value["findings"].as_array().unwrap().is_empty());
+}
+
+fn assert_ready_value(route: &str, body: Value) {
+    let value = run_route_value(route, body);
     assert_eq!(value["schema"], "csdlc.v3.proof_route.v1");
     assert_eq!(value["route"], route);
     assert_eq!(value["read_only"], true);
@@ -52,24 +78,36 @@ fn assert_blocked(route: &str, body: &str, code: &str) {
     );
 }
 
+fn assert_blocked_value(route: &str, body: Value, code: &str) {
+    let value = run_route_value(route, body);
+    assert_eq!(value["status"], "blocked");
+    let findings = value["findings"].as_array().unwrap();
+    assert!(
+        findings.iter().any(|finding| finding["code"] == code),
+        "{route} findings should contain {code}: {findings:?}"
+    );
+}
+
 #[test]
 fn proof_route_accepts_fresh_deterministic_manifest_only() {
-    assert_ready(
+    let (root, digest) = write_evidence(".csdlc/evidence/631/proof.json", br#"{"ok":true}"#);
+    assert_ready_value(
         "proof",
-        r#"{
+        json!({
           "issue": 631,
           "repository": "agent-logic/agent-design-language",
           "cutover_issue": 505,
+          "evidence_root": root,
           "proof": {
             "manifest_id": "pvf-631",
             "lane": "proof-parity-install",
             "deterministic": true,
             "evidence_ref": ".csdlc/evidence/631/proof.json",
-            "evidence_digest": "abc123",
-            "observed_digest": "abc123",
+            "evidence_digest": digest,
+            "observed_digest": digest,
             "stale": false
           }
-        }"#,
+        }),
     );
     assert_blocked(
         "proof",
@@ -88,25 +126,49 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
         }"#,
         "proof_lane_not_deterministic",
     );
+    let (root, digest) = write_evidence(".csdlc/evidence/631/actual.json", br#"{"actual":true}"#);
+    assert_blocked_value(
+        "proof",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "proof": {
+            "manifest_id": "pvf-631",
+            "lane": "proof-parity-install",
+            "deterministic": true,
+            "evidence_ref": ".csdlc/evidence/631/actual.json",
+            "evidence_digest": digest,
+            "observed_digest": "caller-forged",
+            "stale": false
+          }
+        }),
+        "proof_observed_digest_mismatch",
+    );
 }
 
 #[test]
 fn shadow_route_requires_bounded_matching_observations() {
-    assert_ready(
+    let (root, digest) = write_evidence(".csdlc/evidence/631/v2.json", br#"{"same":true}"#);
+    let v3_path = root.join(".csdlc/evidence/631/v3.json");
+    fs::write(&v3_path, br#"{"same":true}"#).expect("write v3 evidence");
+    assert_ready_value(
         "shadow",
-        r#"{
+        json!({
           "issue": 631,
           "repository": "agent-logic/agent-design-language",
+          "evidence_root": root,
           "shadow": {
             "v2_observation_ref": ".csdlc/evidence/631/v2.json",
-            "v2_digest": "same",
+            "v2_digest": digest,
             "v3_observation_ref": ".csdlc/evidence/631/v3.json",
-            "v3_digest": "same",
+            "v3_digest": digest,
             "bounded_v2": true,
             "bounded_v3": true,
             "broad_equivalence_claim": false
           }
-        }"#,
+        }),
     );
     assert_blocked(
         "shadow",
@@ -125,15 +187,41 @@ fn shadow_route_requires_bounded_matching_observations() {
         }"#,
         "shadow_observation_unbounded",
     );
+    let (root, digest) = write_evidence(".csdlc/evidence/631/v2-attack.json", br#"{"real":true}"#);
+    fs::write(
+        root.join(".csdlc/evidence/631/v3-attack.json"),
+        br#"{"real":false}"#,
+    )
+    .expect("write attack v3 evidence");
+    assert_blocked_value(
+        "shadow",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "evidence_root": root,
+          "shadow": {
+            "v2_observation_ref": ".csdlc/evidence/631/v2-attack.json",
+            "v2_digest": digest,
+            "v3_observation_ref": ".csdlc/evidence/631/v3-attack.json",
+            "v3_digest": digest,
+            "bounded_v2": true,
+            "bounded_v3": true,
+            "broad_equivalence_claim": false
+          }
+        }),
+        "shadow_v3_digest_mismatch",
+    );
 }
 
 #[test]
 fn soak_route_refuses_hidden_state_and_provider_side_effects() {
-    assert_ready(
+    let (root, _) = write_evidence(".csdlc/evidence/631/soak.json", br#"{"samples":3}"#);
+    assert_ready_value(
         "soak",
-        r#"{
+        json!({
           "issue": 631,
           "repository": "agent-logic/agent-design-language",
+          "evidence_root": root,
           "soak": {
             "evidence_ref": ".csdlc/evidence/631/soak.json",
             "duration_minutes": 15,
@@ -141,7 +229,7 @@ fn soak_route_refuses_hidden_state_and_provider_side_effects() {
             "hidden_state": false,
             "provider_side_effects": false
           }
-        }"#,
+        }),
     );
     assert_blocked(
         "soak",
