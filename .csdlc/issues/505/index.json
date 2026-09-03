@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "aba23a0b224d461b0ecea0d7e4d988c33783c54e6bdbcb4865fd2d8c63dd5f61",
+  "generation": 23,
+  "digest": "48802d9a2d2a83233ddb28465901954149a34bceba144bb60d5173b797d31251",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8742b643ab476820fac25638c5cbb5c4500102d0d8ca29ac7d8156307c2b11ba",
+      "values_digest": "75810a489906859c5bead9b2c63bdfcd8e57481e58c3fd403f07ecec2ef73975",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "fd16e64a138b4ee083e054f78d808c740884699a974c084874898632c847d743",
+      "values_digest": "0f1fe485f997b7cfa57f2a832281d4ebbe6deacde47ecd4fa5fca934d22ed4cf",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "39516b1a3c6beb2aa0147269a36de0228e7eeb31a711350a35a214a78701ffba",
+      "values_digest": "1f7d156480fa4e22f19ef77647d1ddfcfaf90780a94071955c6718c2933559cb",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "3a79f887e459e613a7a286fe0d134fc9465b323b4ccb1efa81f121fc5e530764",
+      "values_digest": "e40b6950fd6ea0031d4096546f4fe2b53049e85ee9add59b1981ed849cb9b964",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "4eadfa6b72b26e474f6e7a48a0302535a8da454e41cecd99923382e80c691f64",
+      "values_digest": "2ff3107937acc37a198d2dbb33b916b555937f8422dd0316047388252459acf1",
       "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
       "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "2036221567aceec55713a5247ce348a9591f915d1b5e0fe8a8c86704db1d5c12",
-      "rendered_digest": "be133a6e5999533afa4a9fcccbb5e8aa6cc43255daa4de163e6530faf7bc1df7",
-      "ast_digest": "ae174821b61b58e4edb3038361adc6afbb09e5e8643669e551a9afa7aa4ca986"
+      "values_digest": "59c114065285c6777362ddfa91cbfc2753b96f20fd55a2a29f7cdb4301fccd68",
+      "rendered_digest": "fc16125c29a6293195fd3fe4553a53fb0c9e6f26baf80816d3bc28fd257080fe",
+      "ast_digest": "56385a4a3fb3d57d9380e6994c4cd9e6669e0fe06bc59b90f0298e3a3a3c8813"
     }
   },
   "transitions": [
@@ -372,6 +372,13 @@
       "actor": "codex:worker-6",
       "reason": "Refresh #505 execution truth after hardening the v3 single-binary remote bridge aliases and command denominator at exact head 9e93d5c507d388a38d3ace14e85fd988006ea345.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Hardened the C-SDLC v3 single-binary remote alias routes and replacement denominator before #505 cutover while preserving C-SDLC v2 as live authority.\",\"changes\":[\"Implemented pre-cutover top-level v3 bridge aliases for GitHub, review, publication, finish, and cleanup route families without granting v3 operational authority.\",\"Split publication derivation from terminal delivery so `csdlc publish` accepts a publish-stage evidence envelope without requiring merged PR, closed issue, or cleanup artifacts.\",\"Made `csdlc finish` fail closed when remote readback derives `OperatorRequired` instead of terminal or checkpoint completion.\",\"Made `csdlc clean` cleanup-preview-only before cutover and allowed it to consume a cleanup-only evidence envelope.\",\"Made generic bridge verification parse the full typed bridge evidence set before reporting ready, so schema and identity mismatches fail closed.\",\"Updated the tracked v3 command manifest and full replacement denominator to reflect 23 visible commands, 21 v2 entrypoints, 17 implemented commands, 2 partial commands, 4 fail-closed commands, and 5 remaining replacement gaps.\"],\"artifacts\":[\"commit 9e93d5c507d388a38d3ace14e85fd988006ea345\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, operation-specific remote alias semantics, minimal publish/cleanup request shapes, identity mismatch rejection, and manifest-denominator consistency.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:12-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the full C-SDLC v3 suite after remote alias hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:101-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after command-denominator changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:status-pass\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after remote alias hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace hygiene for the current #505 worktree diff.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state remains valid in implemented phase before review and publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:status-pass-generation-21-ready-false\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 execution truth after aligning the visible v3 command denominator at exact head 517d39b5cb8637e049ed41f9a4e46690edd1898e.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible command-surface denominator before #505 cutover while preserving C-SDLC v2 as live authority.\",\"changes\":[\"Implemented pre-cutover top-level v3 bridge aliases for GitHub, review, publication, finish, and cleanup route families without granting v3 operational authority.\",\"Split publication derivation from terminal delivery so `csdlc publish` accepts a publish-stage evidence envelope without requiring merged PR, closed issue, or cleanup artifacts.\",\"Made `csdlc finish` fail closed when remote readback derives `OperatorRequired` instead of terminal or checkpoint completion.\",\"Made `csdlc clean` cleanup-preview-only before cutover and allowed it to consume a cleanup-only evidence envelope.\",\"Made generic bridge verification parse the full typed bridge evidence set before reporting ready, so schema and identity mismatches fail closed.\",\"Updated the tracked v3 command manifest and full replacement denominator to reflect 25 visible commands, 21 v2 entrypoints, 19 implemented commands, 2 partial commands, 4 fail-closed commands, and 5 remaining replacement gaps.\",\"Recorded `remote` and `sprint` as visible helper/canary routes with no v2 entrypoint replacement so command-surface counts and replacement-route counts remain distinct.\"],\"artifacts\":[\"commit 9e93d5c507d388a38d3ace14e85fd988006ea345\",\"commit 517d39b5cb8637e049ed41f9a4e46690edd1898e\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, operation-specific remote alias semantics, minimal publish/cleanup request shapes, identity mismatch rejection, and bidirectional manifest-denominator consistency for the visible command surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:12-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the full C-SDLC v3 suite after remote alias hardening and visible-denominator alignment.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:101-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after command-denominator changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after remote alias hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the current #505 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state remains valid in implemented phase before review and publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass-generation-22-ready-false\"}]}"
     }
   ]
 }

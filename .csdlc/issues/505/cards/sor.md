@@ -12,11 +12,12 @@ Status: ready
 
 ## Summary
 
-Hardened the C-SDLC v3 single-binary remote alias routes and replacement denominator before #505 cutover while preserving C-SDLC v2 as live authority.
+Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible command-surface denominator before #505 cutover while preserving C-SDLC v2 as live authority.
 
 ## Artifacts
 
 - commit 9e93d5c507d388a38d3ace14e85fd988006ea345
+- commit 517d39b5cb8637e049ed41f9a4e46690edd1898e
 - csdlc-v3/src/commands/remote/mod.rs
 - csdlc-v3/src/main.rs
 - csdlc-v3/tests/command_manifest.rs
@@ -31,7 +32,8 @@ Hardened the C-SDLC v3 single-binary remote alias routes and replacement denomin
 - Made `csdlc finish` fail closed when remote readback derives `OperatorRequired` instead of terminal or checkpoint completion.
 - Made `csdlc clean` cleanup-preview-only before cutover and allowed it to consume a cleanup-only evidence envelope.
 - Made generic bridge verification parse the full typed bridge evidence set before reporting ready, so schema and identity mismatches fail closed.
-- Updated the tracked v3 command manifest and full replacement denominator to reflect 23 visible commands, 21 v2 entrypoints, 17 implemented commands, 2 partial commands, 4 fail-closed commands, and 5 remaining replacement gaps.
+- Updated the tracked v3 command manifest and full replacement denominator to reflect 25 visible commands, 21 v2 entrypoints, 19 implemented commands, 2 partial commands, 4 fail-closed commands, and 5 remaining replacement gaps.
+- Recorded `remote` and `sprint` as visible helper/canary routes with no v2 entrypoint replacement so command-surface counts and replacement-route counts remain distinct.
 
 ## Validation
 
@@ -46,9 +48,9 @@ Hardened the C-SDLC v3 single-binary remote alias routes and replacement denomin
       "--test",
       "command_manifest"
     ],
-    "purpose": "Prove one-binary route table, operation-specific remote alias semantics, minimal publish/cleanup request shapes, identity mismatch rejection, and manifest-denominator consistency.",
+    "purpose": "Prove one-binary route table, operation-specific remote alias semantics, minimal publish/cleanup request shapes, identity mismatch rejection, and bidirectional manifest-denominator consistency for the visible command surface.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:12-passed"
+    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:12-passed"
   },
   {
     "command": [
@@ -58,9 +60,9 @@ Hardened the C-SDLC v3 single-binary remote alias routes and replacement denomin
       "--manifest-path",
       "csdlc-v3/Cargo.toml"
     ],
-    "purpose": "Run the full C-SDLC v3 suite after remote alias hardening.",
+    "purpose": "Run the full C-SDLC v3 suite after remote alias hardening and visible-denominator alignment.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:101-passed"
+    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:101-passed"
   },
   {
     "command": [
@@ -76,7 +78,7 @@ Hardened the C-SDLC v3 single-binary remote alias routes and replacement denomin
     ],
     "purpose": "Reject warnings across all C-SDLC v3 targets.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed"
+    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed"
   },
   {
     "command": [
@@ -85,7 +87,7 @@ Hardened the C-SDLC v3 single-binary remote alias routes and replacement denomin
     ],
     "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after command-denominator changes.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:status-pass"
+    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass"
   },
   {
     "command": [
@@ -99,17 +101,18 @@ Hardened the C-SDLC v3 single-binary remote alias routes and replacement denomin
     ],
     "purpose": "Reject Rust formatting drift after remote alias hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed"
+    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
-    "purpose": "Verify whitespace hygiene for the current #505 worktree diff.",
+    "purpose": "Verify exact-range whitespace hygiene for the current #505 branch.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed"
+    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed"
   },
   {
     "command": [
@@ -122,7 +125,7 @@ Hardened the C-SDLC v3 single-binary remote alias routes and replacement denomin
     ],
     "purpose": "Verify typed C-SDLC v2 issue state remains valid in implemented phase before review and publication.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:status-pass-generation-21-ready-false"
+    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass-generation-22-ready-false"
   }
 ]
 
