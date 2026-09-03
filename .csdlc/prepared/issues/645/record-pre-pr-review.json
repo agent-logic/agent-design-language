@@ -1,0 +1,25 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 645,
+  "expected_generation": 5,
+  "expected_digest": "341315c580dccccce3a2e56690d7b3536e5050b84a5c469ba942c7f8313fad9e",
+  "claim_id": "claim-645-stacked-closing-relation",
+  "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+  "evidence": {
+    "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/publication_ready.rs",
+      "csdlc-v2/tests/publication_tail.rs"
+    ],
+    "reviewed_revision": "git-blake3:6918a84ae35a8d16fe8028354dbe35690cb1254e:0c43ff38f3de3bcc5b74836e805540517f93cd897b7ee56496de61e18f607fed",
+    "findings": [],
+    "residual_risks": [
+      "No live publication mutation was performed during pre-PR validation; the implementation was validated with read-only PR #644 shape inspection plus local regression and publication suite coverage."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

@@ -1,0 +1,330 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 645,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d5f72068a321dc273dccf54374fabb116b861a065688a5bb42d4cd9944486751",
+  "phase": "published",
+  "generation": 15,
+  "digest": "236d97f8545e2c87e771d8c4599f8b010b93e7748b0053351710b3be1f72e903",
+  "branch": "codex/645-stacked-closing-relation-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-645-stacked-closing-relation-exec",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+    "assigned_by": "codex:/root:issue-645-janitor",
+    "revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/publication_ready.rs",
+      ".csdlc/prepared/issues/645"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/publication_ready.rs",
+      ".csdlc/prepared/issues/645"
+    ],
+    "reviewed_revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
+    "findings": [],
+    "residual_risks": [
+      "Review confirmed eed8ff416b75bdc586a0ec47b3ded142a7db3355 is lifecycle/request metadata only relative to previously reviewed code head d9b1256fd5193264fab707e2d731a604916b32b0.",
+      "No live GitHub publication/readiness mutation was performed during review; typed publication must observe PR #654 before merge consideration."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 645,
+    "pull_request": 654,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/654",
+    "base": "main",
+    "head": "codex/645-stacked-closing-relation-exec",
+    "revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/645/design.md",
+  "diagram_path": ".csdlc/prepared/issues/645/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root:issue-645-design-review",
+      "revision": "0bc4f8014dee0971babeb07386088a49551df6391cd1c072e7051cddd5b37f96"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "62f8974fce354ecc34f96b66c429282a4e55f28d4a999d455347038d834dcae0",
+      "rendered_digest": "ebc25ee7527daf2c4408c73b7c4cfdb9c3dbc855d063caaf11176755bb7086f3",
+      "ast_digest": "518c72fd1f76a8bb76e78892c7fa294581a176c034f5603dd288ad6047c4a8f4"
+    },
+    "stp": {
+      "values_digest": "65bfae4fdac6135ce934a977ca72a3675be86b8222933aa961076afada383f8c",
+      "rendered_digest": "608f2a7a0fc3635e477a1d812a080c9569d823feb0c2af911c2ba81dc181600f",
+      "ast_digest": "b3cdba9f0e4bec1105175ab97611484c2b7d530b78d0e04125b800728b964902"
+    },
+    "spp": {
+      "values_digest": "de7d5620613e5d33647413cbd9ca392db9e1d17cbeaaba2e294dd128f8418b65",
+      "rendered_digest": "1e5f44a7efd4efc8d406e4f39d4a926dd72f89d2795a2ada00958fa480b4d458",
+      "ast_digest": "c4ed92e4d8139d709fde060d006323f64592c4014ae5d527c1e6621b9cae06e4"
+    },
+    "vpp": {
+      "values_digest": "6c9e5cccb61e33a24086d54c8d1c9b6f3de3011795bdb6740da99d51d9b3e104",
+      "rendered_digest": "f68a059529aec384012115f231cef931f74142239471d6f3e4bbfebd7e16ad29",
+      "ast_digest": "b92955d510933086f017513b8a34d9e026b70bdb234022b581025d82a7025c92"
+    },
+    "srp": {
+      "values_digest": "5ec685763442a81013918fbd1d518d21263fa2b07b38551dcf1847e139921237",
+      "rendered_digest": "c424a3e287bb2da05b46364b683dfade43a62de23bfc0d00dc92973bcb89aff2",
+      "ast_digest": "4c64bd6078473dc0fa3056d5629786954a54c23bbf890b22db1f5428256c1f4a"
+    },
+    "sor": {
+      "values_digest": "c6c7570d1388de510867310457a048d91f2cdf46473722f15aada8eb944c46f4",
+      "rendered_digest": "c19081c0b236390429620800d4760c6c257bfd299a9703e15d5d8d34ff535001",
+      "ast_digest": "320c97c49863291bb5584ef6cf6fba8f619cf26f81568c688e3d82d8c787ffea"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "Implementation and focused local validation are complete at commit 6918a84ae; exact-review recording is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "Committed typed lifecycle metadata advanced HEAD after the substantive #645 review; recover so the same bounded code scope can be recorded against the current clean publication head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "Recover stale #645 review truth after corrective commit d9b1256fd5193264fab707e2d731a604916b32b0 changed publication relation readback code and focused tests; the prior review metadata no longer covered the current substantive head."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "Recover #645 review truth after a local lifecycle metadata commit advanced HEAD past the exact corrective-code review; re-record exact-head review before using typed publication to own follow-up metadata."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:issue-645-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root:issue-645-readiness-repair",
+      "reason": "Replace the initial free-form Cargo selector with a #645-owned validation wrapper so doctor can verify an issue-specific denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-stacked-closing-relation-regression\",\"proof_role\":\"Prove closing-mode publication rejects a non-default-base PR whose body has a closing keyword but whose GitHub closing relation readback is absent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh\"],\"parallel_group\":\"csdlc-v2-publication\",\"defer_reason\":\"The issue-owned wrapper and exact regression test are #645 implementation deliverables.\"},{\"lane\":\"csdlc-v2-publication-format-hygiene\",\"proof_role\":\"Confirm Rust formatting and diff hygiene for the changed publication surfaces.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"csdlc-v2-publication\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root:issue-645-readiness-repair",
+      "reason": "Declare the issue-owned validation wrapper as a deliverable so #645 has an executable readiness denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Closing-mode publish guard that requires exact live closingIssuesReferences linkage\",\"Typed publish/PR-state agreement on linked_issue, linkage_source, base, head, and linkage mode\",\"Explicit fail-closed guidance for stacked/non-default-base closing publication without a GitHub relation\",\"Regression test for the PR #644 shape\",\".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh\",\"Focused local validation evidence\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root:issue-645-readiness-repair",
+      "reason": "Declare the #645 validation wrapper as an exact affected path so doctor can match the proving lane to issue-owned work.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\",\".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh\",\".csdlc/prepared/issues/645/design.md\",\".csdlc/prepared/issues/645/diagram.mmd\",\".csdlc/prepared/issues/645/create-request.json\",\".csdlc/prepared/issues/645/bind-request.json\",\".csdlc/prepared/issues/645/edit-vpp-issue-owned-denominator.json\",\".csdlc/prepared/issues/645/edit-stp-validator-deliverable.json\",\".csdlc/prepared/issues/645/edit-spp-validator-owned-path.json\",\".csdlc/issues/645/index.json\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "Record #645 implementation and focused local validation truth before implemented-phase advancement.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the C-SDLC v2 publication guard so closing-mode publish normalization reads GitHub closingIssuesReferences, carries linked_issue/linkage_source in RemotePullRequest, and rejects body-only stacked closing PRs that lack the live GitHub closing relation.\",\"changes\":[\"Extended RemotePullRequest with optional linked_issue and linkage_source fields for typed publish/readback agreement.\",\"Added closing-mode relation validation to publication remote identity checks; explicit PartOf checkpoint mode remains relation-free and non-closing.\",\"Updated csdlc-publish normalization to query GitHub closingIssuesReferences for closing-mode PRs and fail closed with stack/default/checkpoint guidance when absent or mismatched.\",\"Tightened existing-PR governed-mode matching so a pre-existing stacked PR with only a closing body keyword cannot be accepted.\",\"Added the #645 regression for PR #644 shape and updated publication fixtures to carry explicit relation truth.\"],\"artifacts\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/publication_ready.rs\",\"csdlc-v2/tests/publication_tail.rs\",\".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh\",\".csdlc/issues/645\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "Implementation and focused local validation are complete at commit 6918a84ae; exact-review recording is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "Committed typed lifecycle metadata advanced HEAD after the substantive #645 review; recover so the same bounded code scope can be recorded against the current clean publication head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "Recover stale #645 review truth after corrective commit d9b1256fd5193264fab707e2d731a604916b32b0 changed publication relation readback code and focused tests; the prior review metadata no longer covered the current substantive head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "Recover #645 review truth after a local lifecycle metadata commit advanced HEAD past the exact corrective-code review; re-record exact-head review before using typed publication to own follow-up metadata.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root:issue-645-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
