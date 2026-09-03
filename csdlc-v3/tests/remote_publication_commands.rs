@@ -267,6 +267,30 @@ fn cli_receipt_loader_rejects_disposable_target_receipts() {
 }
 
 #[test]
+fn cli_observe_github_fails_before_network_without_an_explicit_credential_name() {
+    let dir = fixture_dir("observe-missing-credential");
+    let request_path = dir.join("request.json");
+    let (mut request, _) = request();
+    request.credential_names.clear();
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request).expect("request json"),
+    )
+    .expect("write request fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("pr-state")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--observe-github")
+        .output()
+        .expect("run pr-state observation preflight");
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("github_credential_missing"), "{stderr}");
+}
+
+#[test]
 fn publish_route_requires_current_review_and_closing_relation() {
     let (mut missing_review, receipts) = request();
     missing_review.review_present = false;

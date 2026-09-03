@@ -8,6 +8,8 @@ use std::{
 #[cfg(unix)]
 use std::os::unix::fs::OpenOptionsExt;
 
+const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
+
 #[derive(Clone, PartialEq, Eq)]
 pub struct CommandInvocation {
     pub program: String,
@@ -258,6 +260,14 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
             None => None,
         };
         let Some((credential_name, credential_value)) = credential else {
+            if invocation.program == GITHUB_READ_ONLY_ADAPTER {
+                return ProcessOutput {
+                    status: ProcessStatus::Exit(126),
+                    stdout: String::new(),
+                    stderr: "credential resolution failed".into(),
+                    truncated: false,
+                };
+            }
             return run_process(&invocation, None, None, self.max_output_bytes);
         };
         if credential_value.contains(['\n', '\r', '"', '\\']) {
@@ -268,7 +278,16 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
                 truncated: false,
             };
         }
-        let curl_config = if invocation.program == "curl" {
+        let (process_invocation, curl_config_required) =
+            if invocation.program == GITHUB_READ_ONLY_ADAPTER {
+                match github_read_only_curl_invocation(&invocation) {
+                    Ok(curl) => (curl, true),
+                    Err(output) => return output,
+                }
+            } else {
+                (invocation, false)
+            };
+        let curl_config = if curl_config_required || process_invocation.program == "curl" {
             match write_private_curl_config(&credential_value) {
                 Ok(path) => Some(path),
                 Err(_) => {
@@ -284,7 +303,7 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
             None
         };
         let result = run_process(
-            &invocation,
+            &process_invocation,
             Some((&credential_name, &credential_value)),
             curl_config.as_deref(),
             self.max_output_bytes,
@@ -295,6 +314,47 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
         }
         result
     }
+}
+
+fn github_read_only_curl_invocation(
+    invocation: &CommandInvocation,
+) -> Result<CommandInvocation, ProcessOutput> {
+    let [operation, repository, number] = invocation.argv() else {
+        return Err(ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter requires operation, repository, and number".into(),
+            truncated: false,
+        });
+    };
+    if operation != "pull-request" || number.parse::<u64>().is_err() {
+        return Err(ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter received unsupported request".into(),
+            truncated: false,
+        });
+    }
+    CommandInvocation::new(
+        "curl",
+        [
+            "--fail-with-body".to_owned(),
+            "--silent".to_owned(),
+            "--show-error".to_owned(),
+            "--location".to_owned(),
+            "--header".to_owned(),
+            "Accept: application/vnd.github+json".to_owned(),
+            "--header".to_owned(),
+            "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+            format!("https://api.github.com/repos/{repository}/pulls/{number}"),
+        ],
+    )
+    .map_err(|_| ProcessOutput {
+        status: ProcessStatus::Exit(2),
+        stdout: String::new(),
+        stderr: "github read-only adapter rejected unsafe request".into(),
+        truncated: false,
+    })
 }
 
 #[derive(Default)]

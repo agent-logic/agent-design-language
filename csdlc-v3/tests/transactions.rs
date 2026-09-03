@@ -974,6 +974,16 @@ fn real_process_adapter_fails_closed_on_missing_credentials_and_truncates_output
     assert_eq!(output.status, ProcessStatus::Exit(126));
     assert_eq!(output.stderr, "credential resolution failed");
 
+    let invocation = CommandInvocation::new("printenv", ["ADL_TEST_GITHUB_TOKEN"])
+        .expect("printenv argv")
+        .with_child_credential("ADL_TEST_GITHUB_TOKEN")
+        .expect("safe credential name");
+    let resolver = StaticCredentialResolver::new("ADL_TEST_GITHUB_TOKEN", "bad\"token");
+    let mut adapter = RealProcessAdapter::new(resolver);
+    let output = adapter.run(invocation);
+    assert_eq!(output.status, ProcessStatus::Exit(126));
+    assert_eq!(output.stderr, "credential resolution failed");
+
     let mut adapter = RealProcessAdapter::new(StaticCredentialResolver::new("UNUSED", "unused"))
         .with_max_output_bytes(3);
     let output = adapter.run(CommandInvocation::new("printf", ["abcdef"]).expect("printf argv"));

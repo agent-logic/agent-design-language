@@ -10,7 +10,7 @@ use csdlc_v3::{
     },
     commands::remote::{
         load_remote_route_receipts, observe_github_pr_readback,
-        prepare_remote_publication_route_with_receipts, RemoteRouteRequest, RemoteRouteReceipts,
+        prepare_remote_publication_route_with_receipts, RemoteRouteReceipts, RemoteRouteRequest,
         REMOTE_PUBLICATION_ROUTE_NAMES,
     },
     repository::RepositoryContext,
@@ -242,10 +242,7 @@ fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
     serde_json::to_string(&report).map_err(|error| error.to_string())
 }
 
-fn merge_observed_receipts(
-    receipts: &mut RemoteRouteReceipts,
-    observed: RemoteRouteReceipts,
-) {
+fn merge_observed_receipts(receipts: &mut RemoteRouteReceipts, observed: RemoteRouteReceipts) {
     receipts.github_readback = observed.github_readback;
     receipts.adapter = observed.adapter;
 }
