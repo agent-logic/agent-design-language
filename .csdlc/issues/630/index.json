@@ -1,0 +1,353 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 630,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
+  "phase": "published",
+  "generation": 13,
+  "digest": "a93f3f76d3dfcde354808bf12a9e81814e51503ffab9d1e9dfa60a5a88e9163e",
+  "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_630_head_7a91400b",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:7a91400b5377b53350d71c4874c844dc73c59409:804f96dc98c0a9530197b9bc9ef41fd06135ef5dd0b8e2b5b7d741cfd9435409",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/create-request.json",
+      ".csdlc/prepared/issues/630/design.md",
+      ".csdlc/prepared/issues/630/diagram.mmd",
+      ".csdlc/prepared/issues/630/finalize-request.json",
+      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
+      ".csdlc/prepared/issues/630/recover-review-after-sealed-readback.json",
+      ".csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json",
+      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
+      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+      ".csdlc/evidence/630/630-diff-hygiene.log",
+      ".csdlc/evidence/630/630-full-v3-regression.log",
+      ".csdlc/evidence/630/630-issue-validator.log",
+      ".csdlc/evidence/630/630-rustfmt.log",
+      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
+      ".csdlc/evidence/630/630-typed-issue-validation.log",
+      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_630_head_7a91400b",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/create-request.json",
+      ".csdlc/prepared/issues/630/design.md",
+      ".csdlc/prepared/issues/630/diagram.mmd",
+      ".csdlc/prepared/issues/630/finalize-request.json",
+      ".csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json",
+      ".csdlc/prepared/issues/630/recover-review-after-sealed-readback.json",
+      ".csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json",
+      ".csdlc/prepared/issues/630/repair-spp-affected-areas.json",
+      ".csdlc/prepared/issues/630/repair-vpp-lanes.json",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+      ".csdlc/evidence/630/630-diff-hygiene.log",
+      ".csdlc/evidence/630/630-full-v3-regression.log",
+      ".csdlc/evidence/630/630-issue-validator.log",
+      ".csdlc/evidence/630/630-rustfmt.log",
+      ".csdlc/evidence/630/630-terminal-clean-cutover-tests.log",
+      ".csdlc/evidence/630/630-typed-issue-validation.log",
+      ".csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log"
+    ],
+    "reviewed_revision": "git-blake3:7a91400b5377b53350d71c4874c844dc73c59409:804f96dc98c0a9530197b9bc9ef41fd06135ef5dd0b8e2b5b7d741cfd9435409",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 630,
+    "pull_request": 642,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/642",
+    "base": "main",
+    "head": "codex/630-v3-h4-finish-clean-cutover-impl",
+    "revision": "git-blake3:fe378a92b1e2388c5e9ea484807b2afaf4bfba2e:5cf2fde5b602624e9a49b020609cc03c6236d63a5163d37031c7871a3b5873ce",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/630/design.md",
+  "diagram_path": ".csdlc/prepared/issues/630/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:worker-6-design-readiness",
+      "revision": "952ae80c35f499b7d0fc883a143c05f09f155f816ffed49508b423d9e540e301"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a38c4322c24a60a7980bc0be5b94dd4a21eab6bc9ebd9b1493eca9cf355a2578",
+      "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
+      "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
+    },
+    "stp": {
+      "values_digest": "92b4301db527a091c40579067a956b7136fa966add4698d98d466b31e89ba7b0",
+      "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
+      "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
+    },
+    "spp": {
+      "values_digest": "0f2d82b67695d7e19c91af433e88508364eea10ddddd426e1f3f1c0089cbe819",
+      "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
+      "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
+    },
+    "vpp": {
+      "values_digest": "874feeeaa67ebfb761b4448b3de23df436cee797c6a8c7929c9cc4b80b6e1a3b",
+      "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
+      "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
+    },
+    "srp": {
+      "values_digest": "c9d1c8b331950649d0e2868206416e78b79ff5f564804ef8176524b86d13d86d",
+      "rendered_digest": "7afe3719489aec56da11842e6413a00ad2f7e39ca0f8059e90b800332757254c",
+      "ast_digest": "aaf8fcc3dc986ca10728c10b1f80f8a6059ee5bee4700d994e101d61c38f43aa"
+    },
+    "sor": {
+      "values_digest": "e6479da03607f2607823617251108e63f576cd654074b8eaf89663153b6097af",
+      "rendered_digest": "6198ace734451a605498278725ae6439fe08ad937e0940367d0a9b9198bf2769",
+      "ast_digest": "178628d2bcb319adf73f4325ea3a484d916c010ca16fe04347b78e5c9b162527"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6-issue-630",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover reviewed state because tracked review request artifacts polluted the metadata-only publication range; subsequent review requests are kept under git common-dir request storage."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review/publication truth after strict-clippy-only head update 7a91400b5377b53350d71c4874c844dc73c59409."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6-vpp-editor",
+      "reason": "Make the executable issue-owned Rust target the #630 validation denominator and keep the shell validator as retained execution evidence rather than readiness authority.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v3-terminal-clean-cutover-tests\",\"proof_role\":\"Run focused Rust tests for v3 finish, clean, and cutover positive and denial behavior, including caller-forged finish denial, sealed typed terminal closeout, part_of terminal denial, Git-registration-derived cleanup states, and cutover rollback refusal.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2400,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"terminal_cleanup_cutover_commands\"],\"parallel_group\":\"rust-focused\",\"defer_reason\":null},{\"lane\":\"v3-full-regression\",\"proof_role\":\"Run the complete v3 test suite after route implementation to prove the command manifest, foundation, local, remote, terminal, and transaction suites remain coherent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"parallel_group\":\"rust-full\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6-spp-editor",
+      "reason": "Make the #630 executable validation target and changed v3 command files explicit issue-owned affected areas for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh\",\".csdlc/evidence/630/\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6-issue-630",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale exact-review assignment after the pre-publication review found that v3 clean could remove worktrees before #505 cutover and denial tests were incomplete.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale exact-review assignment after the post-fix review found that verified terminal readback construction was still caller-forgeable and nonexistent cleanup traversal was not denied.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale exact-review assignment after final review found nonexistent children under symlinked parents could classify as absent and one retained proof log was stale.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover reviewed state because tracked review request artifacts polluted the metadata-only publication range; subsequent review requests are kept under git common-dir request storage.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Recover review/publication truth after strict-clippy-only head update 7a91400b5377b53350d71c4874c844dc73c59409.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

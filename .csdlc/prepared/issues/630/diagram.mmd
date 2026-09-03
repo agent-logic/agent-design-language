@@ -1,0 +1,9 @@
+flowchart LR
+  A["csdlc finish"] --> B["Authenticated terminal observation"]
+  B --> C{"Merged and issue closed?"}
+  C -->|yes| D["TerminalClosedOut"]
+  C -->|no| E["FailClosed"]
+  F["csdlc clean"] --> G["Git worktree registration"]
+  G --> H["Distinct cleanup classification"]
+  I["csdlc cutover"] --> J["Operator approval + rollback evidence"]
+  J --> K["Non-authoritative decision packet"]

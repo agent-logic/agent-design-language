@@ -1,9 +1,6 @@
 use std::{process::Command, str};
 
 const FAIL_CLOSED_COMMANDS: &[&str] = &[
-    "clean",
-    "cutover",
-    "finish",
     "github",
     "github-issue",
     "github-pr",
@@ -14,6 +11,8 @@ const FAIL_CLOSED_COMMANDS: &[&str] = &[
     "review",
     "soak",
 ];
+
+const IMPLEMENTED_TERMINAL_COMMANDS: &[&str] = &["clean", "cutover", "finish"];
 
 const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
     "issue",
@@ -49,6 +48,12 @@ fn help_exposes_one_binary_command_surface() {
         assert!(
             stdout.contains(&format!("{command} --request <path>")),
             "help should expose implemented local route {command}"
+        );
+    }
+    for command in IMPLEMENTED_TERMINAL_COMMANDS {
+        assert!(
+            stdout.contains(&format!("{command} --request <path>")),
+            "help should expose implemented terminal route {command}"
         );
     }
     for command in PARTIAL_CONSTRUCTION_COMMANDS {
@@ -106,6 +111,29 @@ fn implemented_local_routes_expose_non_authoritative_help() {
         assert!(
             help.status.success(),
             "{command} --help should describe implemented local route"
+        );
+        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
+        assert!(
+            help_stdout.contains("status: implemented"),
+            "{command} help should be truthful: {help_stdout}"
+        );
+        assert!(
+            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+            "{command} help should preserve authority boundary: {help_stdout}"
+        );
+    }
+}
+
+#[test]
+fn implemented_terminal_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_TERMINAL_COMMANDS {
+        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
+        assert!(
+            help.status.success(),
+            "{command} --help should describe implemented terminal route"
         );
         let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
         assert!(
