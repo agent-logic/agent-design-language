@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
     "slug": "v3-h3-github-publication",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/629/design.md\n.csdlc/prepared/issues/629/diagram.mmd\n.csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
+      "review_revision": "git-blake3:8aa002b74432363edd49181e7953f21f3b0d0438:4505e1e6439d828e638d3ad35bc587a3471fb8cded749f104d44d2d6fd57d2a4",
+      "reviewer": "codex-reviewer:review_629_fast",
       "review_prompts": [
         "Verify remote authority is not caller-forgeable.",
         "Verify publication refuses stale or missing review truth.",
@@ -23,8 +23,11 @@
         "Verify credentials are redacted and no raw gh lifecycle writes are used."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "C-SDLC v3 remote/publication routes remain construction-only and non-authoritative until explicit #505 cutover.",
+        "Retained #629 evidence logs are stale relative to this exact head and must not be used as exact-head proof without fresh validation."
+      ],
+      "review_result": "pass"
     }
   }
 }

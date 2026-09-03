@@ -4,14 +4,61 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "355af17094834076fd197f56194ac711269bbe1e1b15a93fb519c6dce120c41c",
+  "phase": "published",
+  "generation": 13,
+  "digest": "9cc3c86d6323458b91f5c64458bd27e99404a04cdbb662c9809afe1ab04e123b",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_629_fast",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:8aa002b74432363edd49181e7953f21f3b0d0438:4505e1e6439d828e638d3ad35bc587a3471fb8cded749f104d44d2d6fd57d2a4",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/629/design.md",
+      ".csdlc/prepared/issues/629/diagram.mmd",
+      ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-reviewer:review_629_fast",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/629/design.md",
+      ".csdlc/prepared/issues/629/diagram.mmd",
+      ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh"
+    ],
+    "reviewed_revision": "git-blake3:8aa002b74432363edd49181e7953f21f3b0d0438:4505e1e6439d828e638d3ad35bc587a3471fb8cded749f104d44d2d6fd57d2a4",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remote/publication routes remain construction-only and non-authoritative until explicit #505 cutover.",
+      "Retained #629 evidence logs are stale relative to this exact head and must not be used as exact-head proof without fresh validation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 629,
+    "pull_request": 641,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/641",
+    "base": "main",
+    "head": "codex/629-v3-h3-github-publication-exec",
+    "revision": "git-blake3:8aa002b74432363edd49181e7953f21f3b0d0438:4505e1e6439d828e638d3ad35bc587a3471fb8cded749f104d44d2d6fd57d2a4",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9a92a9d765d06956d8007a7aad79cbc0847fd8eeaebba43bf28a59a5c9767a7b",
+      "values_digest": "4576421d91c49a44bacc8f413153606c7df7c23b7ebcbd18ba37a41b066f6565",
       "rendered_digest": "e446948ed0ad2268373108f73463028bfa4db9d89c070b19f3efbb817893e249",
       "ast_digest": "4441dd096f6c525cb946e18a6fc6a31f4b07b3be9a00752bfc4c2d67c4f0c2a3"
     },
     "stp": {
-      "values_digest": "5d4f128db9d825241974a956029db77a2d73a3060eb1a72dc0680f9d444750ee",
+      "values_digest": "d587eb7d5f7d461733126841f4e0797affdd651c47a159875a147a44e8793c1f",
       "rendered_digest": "27d53576f399af4a88d9a3a47d4928fc3d600c625480612e442939edc5cd1f4b",
       "ast_digest": "8dda543d0b0c799e3467b5ce616ba72f9b6a7d8ae2cbb9373fe69eca07952409"
     },
     "spp": {
-      "values_digest": "0ea833fe6dc34ff0bdb3a71930856e66aaaae5a7f80812b038617d789a08fb89",
+      "values_digest": "06dac5e9dff1b70657b071812ce088da094d113cce02c3783f8eeba6394fc6d4",
       "rendered_digest": "556e13e7c158af8c80538c151cc2fc12041ac4e470df6ff04129b2c2b4150680",
       "ast_digest": "776112b5558f285d4e428c4f3e40e4e18c4fd06dbdb09c9b2952b17e3737f34b"
     },
     "vpp": {
-      "values_digest": "1150c71150de839d8e41c4a761dc1c2460b50826c344f23399bc8f9437ee644c",
+      "values_digest": "77f84af201d26313cfc8fd567a207046ff5fd790d9c2e4e531150001e5cc7968",
       "rendered_digest": "344816c3eaa375d6ef4366492e688f885d2536b905e94af4617b596b7fe11eb3",
       "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
     },
     "srp": {
-      "values_digest": "344061bff7325020d32f18c6f2210ab19b9960646caa415b4f3efdd9c566d775",
-      "rendered_digest": "1775065929855381bd8ef25484ba4f687f40bf96eb3acf59fc8cfd24a6d80259",
-      "ast_digest": "4ec2773367b73bbf4044cbc54b1022fca5e1cde871fb69261ea2ec40ed8e9385"
+      "values_digest": "19499ae6ef89f13f4afcdfdb82712e181b3682773c8c67318dc7233e0e9a6ff4",
+      "rendered_digest": "3c60b394fded2ab2a36282d59dfb1209e58d68731ab2438bbc274767b1b3a912",
+      "ast_digest": "ca30d2e52e5e9ac144c66975c08a4d0cf4170288a21ce2b6de273faab880f2c3"
     },
     "sor": {
-      "values_digest": "da345a3c8ac8c31a3088624d9b6871e167f07b4dcff2774363cdd4a2f6365c12",
-      "rendered_digest": "e0b4384596e7224e5b3483f65848e987d550b02fa713f9bc0e30f273774c15b1",
-      "ast_digest": "e8c07e017fc6b180f98f8172d72576051c6ba466a57929819f96f99439bb0f54"
+      "values_digest": "e70adba28b44de91ab45aecc222724b877373e968a40db7dfaa8d89094a52c38",
+      "rendered_digest": "164f2477409eb8f9eec1c7aa9ca383615fae44b2b02ac6ad7e4f7666e762f475",
+      "ast_digest": "2a24de59e9be975da5f42ac666e99145b43e86038b34a5e53aff9738805a7e0c"
     }
   },
   "transitions": [
@@ -118,6 +165,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #629 after synchronizing the real-issue canary with the current published #629 lifecycle state so the repaired head can receive fresh review and publication evidence."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -239,6 +300,27 @@
       "actor": "codex:worker-6",
       "reason": "Recover #629 after synchronizing the real-issue canary with the current published #629 lifecycle state so the repaired head can receive fresh review and publication evidence.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
