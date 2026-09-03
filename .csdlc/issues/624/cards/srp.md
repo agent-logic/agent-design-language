@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md
+docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json
+.csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py
+.csdlc/prepared/issues/624/validate-diff-check.py
+.csdlc/prepared/issues/624/finalize-implementation.json
+.csdlc/evidence/624/issue624-sidecar-receipt.log
+.csdlc/evidence/624/issue624-json-parse.log
+.csdlc/evidence/624/issue624-diff-hygiene.log
 
 ## Prompts
 

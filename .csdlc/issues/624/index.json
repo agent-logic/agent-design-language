@@ -6,10 +6,24 @@
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
   "phase": "implemented",
   "generation": 8,
-  "digest": "cc064d77df3ec1d2c1da05920a9adbb43ef20e742036286778b57babb12287b2",
+  "digest": "94de39afc0777c83bb3a9e9dc190eff25cdc8c975e0e1cadf0ddc3c33ba6b0dc",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3819b4d2-7021-4f47-b923-ce3ab875c0b7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1b8f2436babc0bed94cdc4aa772fb8d255e9e17d:0a3d4160ca977d219d9e6a53a0868c43151ad5807e8fd9619561ee7d59a5b344",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "1389685111bbce400d4f1f5b8431e5c6ef687df017e4c62ba081c771582a009d",
-      "rendered_digest": "13a95bea05dd08e8585d66f11cdfad7dcce26957cb28e95e6b227ed958576417",
-      "ast_digest": "01bc6e4331e4a01f0f8dd239733909ae21a2eafa65fbf18f89a088979ac0f441"
+      "values_digest": "8952dbf461b00f6b50371e7b03be4c4e210bf4f8c72b8784516b9f2223c901e3",
+      "rendered_digest": "c9f65193fa406027a5a1753132371fea90c190652806a0bb2353e0cb895c2174",
+      "ast_digest": "9007834905a84bebf9d61f106cf8067d9e2b434c4beae73a89eb813bf1a3c2a2"
     },
     "sor": {
       "values_digest": "17447c5d7dca081badc518a91779b62df9a9a9f28e55c502274e14f861e53859",
@@ -176,6 +190,13 @@
       "actor": "codex:/root",
       "reason": "Recover after exact review P2 found the #624 validator did not lock the exact seven-row denominator; remediate validator and refresh implementation evidence before fresh review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
