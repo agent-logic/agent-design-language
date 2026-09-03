@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
     "slug": "runtime-shepherd-provider-reply",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Trace the Shepherd-only reply branch, route it through existing configured provider execution, add deterministic success and failure proof, then review and publish.",
       "steps": [
         {
@@ -60,6 +60,7 @@
       "affected_areas": [
         "adl-runtime-kernel/src/assembly.rs",
         "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        ".csdlc/prepared/issues/661/validate-focused.sh",
         ".csdlc/prepared/issues/661",
         ".csdlc/issues/661"
       ],

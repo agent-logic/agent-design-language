@@ -1,8 +1,8 @@
 {
   "issue": 661,
   "card": "vpp",
-  "expected_generation": 1,
-  "expected_digest": "3c78831537227b3f61a92a7cac2e6106b7a7e86f593c3ee9e4e618ba0799694a",
+  "expected_generation": 3,
+  "expected_digest": "2b4b8642a0ca420e3ce1d292bf2bcd2310af622a97ceeee3dcb3d6b5b24ec31c",
   "actor": "codex:661-bootstrap",
   "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
   "operation": {

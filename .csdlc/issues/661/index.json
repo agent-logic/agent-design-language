@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "42bcd1232ac68bdf160632477c2ff5f9b501da78178c4679f8eceebfd41bd352",
+  "generation": 4,
+  "digest": "5aa57f597e3f54e616c1487599aa46dfd9bcb5128f95f4b3a638a5d938bb61af",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "45c6e9c6aabb947a5b9ec967bfc2b4b1c9eff2847218b6f272cd4a6601012898",
+      "values_digest": "9c286bf2ac36f2411cc3cf5cff34f73f881b71cf5be27374d0996730dad007e8",
       "rendered_digest": "f81858805d6596c05d714b6694a8adde96047af590ebc6970a4985d59a3d4aa8",
       "ast_digest": "be404bc1b531b0b8363255094d4cfe1289e0448763882de267a515502bdfedd4"
     },
     "stp": {
-      "values_digest": "d344a191fd824a5b8c3fe22239aa29ab06ac6f257b6be04ebbf1374ec2a4bd95",
+      "values_digest": "e0cd999a3db237274209ff315a283abe1f62cd1b69ffe03f56c8882eeba29c1e",
       "rendered_digest": "31248829a6d785b2b6cc9d845d0078b7d07c978554285bdbd3ca83c41aee5c02",
       "ast_digest": "53365e39345337f25b5d609b1050fa15319db4a1c076eebda90d03d720729b18"
     },
     "spp": {
-      "values_digest": "effc4ef78265c6e1c274f40c282b4ffee418b18bbf5443ca1314d1984582a357",
-      "rendered_digest": "dadac0576cd9f413b24d0f29047deb8304eaa35ac4ca7cd3aaa8ceace73a991d",
-      "ast_digest": "95eadb69d0fce147b793dd73eac9ca5090636d5147e627d0c547dc9d0879a72a"
+      "values_digest": "5dc91eb759034c37f8f5955d629a6aceb8375a34fefbcdf5230b7c51f11b01f1",
+      "rendered_digest": "12ac832fd8e998d0f9c56d423586f18218e86688635870d686aa4f4f073f4f6c",
+      "ast_digest": "7c255866c472dca18e47a429c3bd7e74cca7feb5cca2c9d7bea6e5a7693e13b6"
     },
     "vpp": {
-      "values_digest": "265fa26600480d923475a85fcae68248a27bc2c40bf4b1a1dcf8043eeb9a29ea",
+      "values_digest": "ba9baec23788aa6bb43eb7eff309a2ce36438a6663a0118f8530b5c3a34466d5",
       "rendered_digest": "f9198f867c8b5717a736e229a13cea05a8187261e47afd0f405ed485ec52e200",
       "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
     },
     "srp": {
-      "values_digest": "2eec1f67029f6ba5868a2173b9edea6d58ec9f6e1607c81b8ebb9959741bc1bf",
+      "values_digest": "a162e39c502a7ac1b4381f84b037dbfb4d2d6bccc6fe5cb3f87e3be68bf41319",
       "rendered_digest": "6dfae77b1360e688e1d74c293e4b02225208063a5b50d62cb81ac95818c19925",
       "ast_digest": "156db9c3fe21a3fa334005efb0407e349c7cbb197111e14b3fccf06b0bab8162"
     },
     "sor": {
-      "values_digest": "f6915a1f06f15926bb40a88bd5c2fbd5579584b5ccbb114e43e2413b8811d072",
+      "values_digest": "9371e5ff22153903daf7b174d80dfd1a8d04c5e5b6ae7509c5c3bb215eac4a9a",
       "rendered_digest": "52e43810ee96a0ddb497488d980b73e0cde4bab159d828528d038cfd3ba320bc",
       "ast_digest": "5572858de7599ba7b7628e09b20cb93b43fd03bfd1b53027fbc4e77a3158d86c"
     }
@@ -73,6 +73,20 @@
     {
       "sequence": 3,
       "generation": 2,
+      "actor": "codex:661-bootstrap",
+      "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-shepherd-provider-reply\",\"proof_role\":\"Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"parallel_group\":\"runtime-shepherd\",\"defer_reason\":\"The exact focused test is an issue #661 implementation deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:661-bootstrap",
+      "reason": "Own the exact issue-local validation wrapper selected by the VPP.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\".csdlc/prepared/issues/661/validate-focused.sh\",\".csdlc/prepared/issues/661\",\".csdlc/issues/661\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
       "actor": "codex:661-bootstrap",
       "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-shepherd-provider-reply\",\"proof_role\":\"Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"parallel_group\":\"runtime-shepherd\",\"defer_reason\":\"The exact focused test is an issue #661 implementation deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
