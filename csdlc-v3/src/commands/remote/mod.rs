@@ -65,6 +65,8 @@ pub struct RemoteRouteRequest {
     #[serde(default)]
     pub closes_issue: Option<u64>,
     #[serde(default)]
+    pub closing_issues: Vec<u64>,
+    #[serde(default)]
     pub part_of_issue: Option<u64>,
     #[serde(default)]
     pub credential_names: Vec<String>,
@@ -98,6 +100,8 @@ pub struct GithubReadbackReceipt {
     pub head_sha: String,
     #[serde(default)]
     pub closes_issue: Option<u64>,
+    #[serde(default)]
+    pub closing_issues: Vec<u64>,
     #[serde(default)]
     pub part_of_issue: Option<u64>,
     pub source: RemoteReadbackSource,
@@ -265,6 +269,18 @@ fn publication_findings(
         )),
         _ => {}
     }
+    if matches!(request.mode, Some(RemotePublicationMode::Closing)) {
+        let body_closing_issues = body_closing_issue_references(request.body.as_deref());
+        if body_closing_issues
+            .iter()
+            .any(|issue| *issue != request.issue)
+        {
+            findings.push(remote_finding(
+                "unexpected_closing_relation",
+                "closing publication body must not include GitHub closing-keyword references for issues other than the tracked issue",
+            ));
+        }
+    }
     findings.extend(pr_state_findings(request, receipts));
     findings
 }
@@ -297,6 +313,17 @@ fn pr_state_findings(
             findings.push(remote_finding(
                 "missing_closing_readback",
                 "GitHub readback must expose the closing issue relation",
+            ));
+        }
+        Some(RemotePublicationMode::Closing)
+            if request
+                .closing_issues
+                .iter()
+                .any(|issue| *issue != request.issue) =>
+        {
+            findings.push(remote_finding(
+                "unexpected_closing_readback",
+                "GitHub readback must not expose closing relations for issues other than the tracked issue",
             ));
         }
         Some(RemotePublicationMode::PartOf) if request.part_of_issue != Some(request.issue) => {
@@ -346,6 +373,65 @@ fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
         .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
 }
 
+fn body_closing_issue_references(body: Option<&str>) -> Vec<u64> {
+    let Some(body) = body else {
+        return Vec::new();
+    };
+    let lower = body.to_ascii_lowercase();
+    let keywords = [
+        "close", "closes", "closed", "fix", "fixes", "fixed", "resolve", "resolves", "resolved",
+    ];
+    let mut issues = Vec::new();
+    for keyword in keywords {
+        let mut search_start = 0;
+        while let Some(relative) = lower[search_start..].find(keyword) {
+            let keyword_start = search_start + relative;
+            let after_keyword = keyword_start + keyword.len();
+            search_start = after_keyword;
+            if !word_boundary_before(&lower, keyword_start)
+                || !word_boundary_after(&lower, after_keyword)
+            {
+                continue;
+            }
+            if let Some(issue) = parse_issue_after_closing_keyword(&lower[after_keyword..]) {
+                issues.push(issue);
+            }
+        }
+    }
+    issues.sort_unstable();
+    issues.dedup();
+    issues
+}
+
+fn word_boundary_before(text: &str, index: usize) -> bool {
+    index == 0
+        || text[..index]
+            .chars()
+            .next_back()
+            .is_none_or(|ch| !ch.is_ascii_alphanumeric() && ch != '_')
+}
+
+fn word_boundary_after(text: &str, index: usize) -> bool {
+    index == text.len()
+        || text[index..]
+            .chars()
+            .next()
+            .is_none_or(|ch| !ch.is_ascii_alphanumeric() && ch != '_')
+}
+
+fn parse_issue_after_closing_keyword(rest: &str) -> Option<u64> {
+    let rest = rest.trim_start();
+    let digits = rest.strip_prefix('#')?;
+    let digits = digits
+        .chars()
+        .take_while(|ch| ch.is_ascii_digit())
+        .collect::<String>();
+    if digits.is_empty() {
+        return None;
+    }
+    digits.parse().ok()
+}
+
 fn has_issue_relation_prefix(line: &str, prefix: &str) -> bool {
     let Some(rest) = line.strip_prefix(prefix) else {
         return false;
@@ -385,6 +471,12 @@ pub fn github_readback_receipt_payload_digest(receipt: &GithubReadbackReceipt) -
         &receipt.pull_request.to_string(),
         &receipt.head_sha,
         &receipt.closes_issue.unwrap_or_default().to_string(),
+        &receipt
+            .closing_issues
+            .iter()
+            .map(u64::to_string)
+            .collect::<Vec<_>>()
+            .join(","),
         &receipt.part_of_issue.unwrap_or_default().to_string(),
         match receipt.source {
             RemoteReadbackSource::Github => "github",
@@ -487,6 +579,7 @@ pub fn observe_github_pr_readback(
     let body = value["body"].as_str().unwrap_or_default();
     let closes_issue =
         body_has_relation(Some(body), "Closes", request.issue).then_some(request.issue);
+    let closing_issues = body_closing_issue_references(Some(body));
     let part_of_issue = (body_has_relation(Some(body), "Part of", request.issue)
         || body_has_relation(Some(body), "Part-Of", request.issue))
     .then_some(request.issue);
@@ -497,6 +590,7 @@ pub fn observe_github_pr_readback(
         pull_request,
         head_sha: head_sha.to_owned(),
         closes_issue,
+        closing_issues: closing_issues.clone(),
         part_of_issue,
         source: RemoteReadbackSource::Github,
         observed_by: GITHUB_READ_ONLY_ADAPTER.into(),
@@ -520,6 +614,7 @@ pub fn observe_github_pr_readback(
     observed.readback_receipt_digest = Some(readback_digest);
     observed.adapter_receipt_digest = Some(adapter_digest);
     observed.closes_issue = closes_issue;
+    observed.closing_issues = closing_issues;
     observed.part_of_issue = part_of_issue;
     Ok(ObservedRemoteRouteRequest {
         request: observed,
@@ -564,6 +659,7 @@ fn github_readback_receipt_matches(
         && Some(receipt.pull_request) == request.pull_request
         && Some(receipt.head_sha.as_str()) == request.head_sha.as_deref()
         && receipt.closes_issue == request.closes_issue
+        && receipt.closing_issues == request.closing_issues
         && receipt.part_of_issue == request.part_of_issue
         && receipt.source == RemoteReadbackSource::Github
         && receipt.observed_by == GITHUB_READ_ONLY_ADAPTER

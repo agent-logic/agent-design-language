@@ -73,6 +73,7 @@ fn request() -> (RemoteRouteRequest, RemoteRouteReceipts) {
         adapter_receipt_path: None,
         adapter_receipt_digest: None,
         closes_issue: Some(629),
+        closing_issues: vec![629],
         part_of_issue: None,
         credential_names: vec!["GITHUB_TOKEN".into()],
     };
@@ -100,6 +101,7 @@ fn receipts_for(request: &RemoteRouteRequest) -> RemoteRouteReceipts {
         pull_request: request.pull_request.expect("pull request"),
         head_sha: request.head_sha.clone().expect("head sha"),
         closes_issue: request.closes_issue,
+        closing_issues: request.closing_issues.clone(),
         part_of_issue: request.part_of_issue,
         source: RemoteReadbackSource::Github,
         observed_by: "github-api-read-only".into(),
@@ -237,6 +239,7 @@ fn authenticated_github_observation_builds_readback_receipts_without_trusting_ca
         Some("observed-github-head")
     );
     assert_eq!(observed.request.closes_issue, Some(629));
+    assert_eq!(observed.request.closing_issues, vec![629]);
     assert_eq!(observed.request.part_of_issue, None);
 
     let mut receipts = receipts_for(&observed.request);
@@ -455,6 +458,52 @@ fn pr_state_route_rejects_caller_forged_readback() {
         .findings
         .iter()
         .any(|finding| finding.code == "missing_closing_readback"));
+}
+
+#[test]
+fn publication_rejects_unexpected_closing_issue_references() {
+    let (mut extra_closing, receipts) = request();
+    extra_closing.body = Some("Closes #629\n\nThis PR does not close #505 before cutover.".into());
+    extra_closing.closing_issues = vec![505, 629];
+    let plan = prepare_remote_publication_route_with_receipts("publish", &extra_closing, &receipts)
+        .expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "unexpected_closing_relation"));
+}
+
+#[test]
+fn pr_state_rejects_unexpected_observed_closing_issue_references() {
+    let (mut extra_closing, mut receipts) = request();
+    extra_closing.closing_issues = vec![505, 629];
+    receipts
+        .github_readback
+        .as_mut()
+        .expect("readback")
+        .closing_issues = vec![505, 629];
+    extra_closing.readback_receipt_digest = receipts
+        .github_readback
+        .as_ref()
+        .map(github_readback_receipt_payload_digest);
+    receipts
+        .adapter
+        .as_mut()
+        .expect("adapter")
+        .readback_receipt_digest = extra_closing.readback_receipt_digest.clone().unwrap();
+    extra_closing.adapter_receipt_digest = receipts
+        .adapter
+        .as_ref()
+        .map(github_adapter_receipt_payload_digest);
+    let plan =
+        prepare_remote_publication_route_with_receipts("pr-state", &extra_closing, &receipts)
+            .expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "unexpected_closing_readback"));
 }
 
 #[test]

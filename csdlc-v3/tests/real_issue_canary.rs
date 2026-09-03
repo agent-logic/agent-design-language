@@ -418,6 +418,7 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         adapter_receipt_path: None,
         adapter_receipt_digest: None,
         closes_issue: Some(629),
+        closing_issues: vec![629],
         part_of_issue: None,
         credential_names: vec!["GITHUB_TOKEN".into()],
     };
