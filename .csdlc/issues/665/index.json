@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8e9defbef262b52e0a6859b0c7f0ca9dba3fa868e0d0d63c025f16e9fab4d03f",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "748dff416cff6d18d41324053bc7222a88d09e60e5ce174add0b38384c9c7482",
+  "generation": 5,
+  "digest": "942355f06822f2105d01765c2f07fa8558d0f5c8aa450d25c5927aafecd96198",
   "branch": "codex/665-emergency-branch-adoption-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "799dde81d8ad919aed2f1773fd00125c291e623a922b09351a36c6ab4b60315d",
+      "values_digest": "18718e97c8800d46ba1af1250e5ee01f2c988baa307fca1c52fc2f60bb65e62c",
       "rendered_digest": "c99cf6a6817436af3aeb9f0cbe69a206f73f536ebaf79c39e37b5919b6075ae8",
       "ast_digest": "e5e404ab5ec26e9156dbf3d4cc7d67fc80e0d7fcedab9a40ec95e86a3c13306b"
     },
     "stp": {
-      "values_digest": "a5da9ea111cf2666bcca1768be596c623118826d1a70f9701ecaa81677006e25",
+      "values_digest": "37a9e2eb829ac676e489e392a20f5dfb72523b0e4ba6abd8cfbb74444b4de0e8",
       "rendered_digest": "fa229a66e67f84e6d92047006880631861c4148fae6a9b825e1fb9fe7737cae2",
       "ast_digest": "4e3550a9c303e08a6b617990b077934533d26e92e1c2903aaf8078461556a429"
     },
     "spp": {
-      "values_digest": "60cd98a540145b150455b9c1b3e072af8a88edaca0379bd5d31c9a9254ccfbbf",
+      "values_digest": "65a41e6a09691ba7edd0d46b9f03746e0cddf1b5857b70947303c6472c13a03f",
       "rendered_digest": "bcd2e8f91be684f2b2d6e7b35abf7fff36f79a55c97fddc06b2d2303610cd5f1",
       "ast_digest": "e790c79bfd5981bcff9add5b13527d9b38a37b0fd5bebc9ceec7c69a571d5fb3"
     },
     "vpp": {
-      "values_digest": "e5cd457900dd5da5bb7ba9d6c5da735df4d8c44285272b006d629c713940f8a1",
+      "values_digest": "04325befe6cbad6bbefe1ac15da17939ddcaccf126115b40d2cc2d5edba2edc0",
       "rendered_digest": "92f46884cb038ddb7370d9c73dde3ea85c2f280eaa9301dd91e26f65e894f7e6",
       "ast_digest": "278cdd2a01c07ac79943d35cc64ffc69cc7aad637f2c22d117cb2d3be8174db3"
     },
     "srp": {
-      "values_digest": "1cd0041c5bd4aad41f8786fcbc9a880724f42e41c9418450c99bc926b2a57044",
+      "values_digest": "fbbe258c17845f7ba751c164b85532bb44411caa1c72e808dc9ffde53a6bea07",
       "rendered_digest": "bed700be8137d39b6a4b9937cb29eb6cf12d5d0da3ffed34a6cf2711aecf0ef9",
       "ast_digest": "9786012c7d77da42fba5654d0e397cb96ebabe7ac7f25ca0db7598f2b22ee3a6"
     },
     "sor": {
-      "values_digest": "38df1db02d0d62f8b7d2b8aacbaa53e7903e4210e4fe1f7d2fb961d3789b67f1",
-      "rendered_digest": "efcafae3cece20efe414ab5e4f68bf93d8579ff86676e4bc31941819c739bfdd",
-      "ast_digest": "13c6af43abb5c4ff53159e7eb3ad3a9b0e25ddcd5b696ab2e23191a10fe95cc4"
+      "values_digest": "247c3caaf9c87dd0aa916cfc87b59ce3ae4a26aa47297b6cd0558cd322d20b64",
+      "rendered_digest": "57a7cd8ee05a10f25262104cd91dc51fc5db54b01a189caf0b1e4a4cc5fe5f64",
+      "ast_digest": "c4690d41b69f34499617f3738474511217b6faa5175e9d3ccea30222f45e2653"
     }
   },
   "transitions": [
@@ -120,6 +120,13 @@
       "actor": "codex:/root/Worker-7",
       "reason": "Record #665 pre-PR review finding repairs and refreshed validation.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired pre-PR review findings for #665. Adoption now requires an exact expected repository matching the issue authority, successful adoption writes durable `.csdlc/issues/<issue>/adoption.v1.json` evidence with resulting generation and digest, and gate5 proves an adopted emergency worktree can continue through typed execution, implemented state, exact review recording, and publication-review readiness evaluation without bypassing ordinary gates.\",\"changes\":[\"Added `expected_repository` to `BindRequest` and fail-closed validation against the ready issue record repository.\",\"Changed successful adoption result evidence from an audit-only reference to `.csdlc/issues/<issue>/adoption.v1.json` and added `resulting_digest` to `BindResult`.\",\"Recorded adoption evidence with expected repository, observed HEAD, resulting lifecycle generation, and resulting lifecycle digest.\",\"Expanded focused gate5 adoption coverage with wrong-repository rejection and downstream implemented/reviewed/publication-review readiness proof for adopted worktrees.\",\"Updated emergency adoption operator documentation to describe the expected repository and durable adoption evidence contract.\"],\"artifacts\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate5.rs\",\"csdlc-v2/tests/card_identity.rs\",\"csdlc-v2/tests/code_repository_migration.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate4.rs\",\"csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs\",\"csdlc-v2/tests/projection_recovery_integration.rs\",\"docs/tooling/EMERGENCY_BRANCH_ADOPTION.md\",\".csdlc/prepared/issues/665/record-review-finding-repairs.json\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Record #665 under-lock freshness and atomic adoption evidence repairs.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired the second #665 pre-PR review. Adoption now revalidates expected repository, generation, and digest after acquiring lifecycle locks and again against the materialized target record before mutation. Adoption evidence is staged as part of the atomic issue projection replacement, so the record cannot advance to bound unless `.csdlc/issues/<issue>/adoption.v1.json` is written with the same resulting generation and digest returned by `BindResult`.\",\"changes\":[\"Reloaded and revalidated the issue record under the binding and issue locks before bind diagnosis and topology work.\",\"Revalidated adoption authority against the materialized target record immediately before mutating it.\",\"Added Store support for issue-directory extra files inside the atomic projection staging swap.\",\"Moved adoption evidence into the staged projection replacement so successful adoption writes evidence and record truth together.\",\"Added focused regression coverage for stale adoption request freshness after source-record mutation and for replacing a conflicting evidence path with the atomic adoption evidence file.\"],\"artifacts\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/665/record-atomic-adoption-repairs.json\"]}"
     }
   ]
 }

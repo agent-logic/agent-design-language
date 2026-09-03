@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired pre-PR review findings for #665. Adoption now requires an exact expected repository matching the issue authority, successful adoption writes durable `.csdlc/issues/<issue>/adoption.v1.json` evidence with resulting generation and digest, and gate5 proves an adopted emergency worktree can continue through typed execution, implemented state, exact review recording, and publication-review readiness evaluation without bypassing ordinary gates.
+Repaired the second #665 pre-PR review. Adoption now revalidates expected repository, generation, and digest after acquiring lifecycle locks and again against the materialized target record before mutation. Adoption evidence is staged as part of the atomic issue projection replacement, so the record cannot advance to bound unless `.csdlc/issues/<issue>/adoption.v1.json` is written with the same resulting generation and digest returned by `BindResult`.
 
 ## Artifacts
 
@@ -33,6 +33,10 @@ Repaired pre-PR review findings for #665. Adoption now requires an exact expecte
 - csdlc-v2/tests/projection_recovery_integration.rs
 - docs/tooling/EMERGENCY_BRANCH_ADOPTION.md
 - .csdlc/prepared/issues/665/record-review-finding-repairs.json
+- csdlc-v2/src/lifecycle.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate5.rs
+- .csdlc/prepared/issues/665/record-atomic-adoption-repairs.json
 
 ## Execution
 
@@ -47,6 +51,11 @@ Repaired pre-PR review findings for #665. Adoption now requires an exact expecte
 - Recorded adoption evidence with expected repository, observed HEAD, resulting lifecycle generation, and resulting lifecycle digest.
 - Expanded focused gate5 adoption coverage with wrong-repository rejection and downstream implemented/reviewed/publication-review readiness proof for adopted worktrees.
 - Updated emergency adoption operator documentation to describe the expected repository and durable adoption evidence contract.
+- Reloaded and revalidated the issue record under the binding and issue locks before bind diagnosis and topology work.
+- Revalidated adoption authority against the materialized target record immediately before mutating it.
+- Added Store support for issue-directory extra files inside the atomic projection staging swap.
+- Moved adoption evidence into the staged projection replacement so successful adoption writes evidence and record truth together.
+- Added focused regression coverage for stale adoption request freshness after source-record mutation and for replacing a conflicting evidence path with the atomic adoption evidence file.
 
 ## Validation
 
