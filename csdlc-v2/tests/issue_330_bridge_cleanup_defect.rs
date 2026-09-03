@@ -170,6 +170,11 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
             branch: "issue-7".into(),
             worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     )
     .expect("bind");

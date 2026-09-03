@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 665,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8e9defbef262b52e0a6859b0c7f0ca9dba3fa868e0d0d63c025f16e9fab4d03f",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 1,
-  "digest": "355465afd0c11dec94a53e4a8c1e9bbd5a0fdcce0c30771ecde7a811058e85a2",
-  "branch": null,
-  "worktree": null,
+  "digest": "1696862864de4085cfa4e6427f922cc29f77e85df629db6ff6ca9433caf127df",
+  "branch": "codex/665-emergency-branch-adoption-defect",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:/root/Worker-7",
       "reason": "Advance #665 after typed readiness doctor passed with current design approval."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -77,6 +85,13 @@
       "actor": "codex:/root/Worker-7",
       "reason": "Advance #665 after typed readiness doctor passed with current design approval.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
