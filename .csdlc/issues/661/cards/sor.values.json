@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
     "slug": "runtime-shepherd-provider-reply",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
@@ -37,8 +37,8 @@
           "evidence_ref": "local:c71d93f4ca6afc13265df0678418149c6bbef42f:1-passed-0-failed"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

@@ -44,11 +44,11 @@ Routed resident Shepherd conversation turns through the configured Shepherd oper
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
