@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
   "phase": "reviewed",
-  "generation": 10,
-  "digest": "9c9bf1f9e8fed39e40b2552b8bb1fb34114aec6398dffa2ba9fb05b1edf2453e",
+  "generation": 12,
+  "digest": "5bdc904e3de4bcc346f145eb6544b1453e2a888e6c581a248b73721b07cdb896",
   "branch": "codex/661-runtime-shepherd-provider-reply",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_661_source_only_current_head",
+    "reviewer": "subagent:/root/review_661_current_head_safe_bridge",
     "assigned_by": "codex:/root/issue_661_publication_recovery",
-    "revision": "git-blake3:13b31f0533af547fdfe0f35c18bfba07f1bf7c6c:fb6d38ab72f1579fff97ec329142ad4c63150ecba1f35b678f0bf248d73cf6f1",
+    "revision": "git-blake3:9c33e8376abaa5748ce794b8f2bbeae98dcfe8e9:606ef0b6806691771a814e96ffc770fb8970c4036c93a8ef8d9b3fb77a189a16",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/ingress.rs",
@@ -22,7 +22,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_661_source_only_current_head",
+    "reviewer": "subagent:/root/review_661_current_head_safe_bridge",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/ingress.rs",
@@ -30,12 +30,12 @@
       "adl-runtime-kernel/src/conversation_sessions_tests.rs",
       ".csdlc/prepared/issues/661/validate-focused.sh"
     ],
-    "reviewed_revision": "git-blake3:13b31f0533af547fdfe0f35c18bfba07f1bf7c6c:fb6d38ab72f1579fff97ec329142ad4c63150ecba1f35b678f0bf248d73cf6f1",
+    "reviewed_revision": "git-blake3:9c33e8376abaa5748ce794b8f2bbeae98dcfe8e9:606ef0b6806691771a814e96ffc770fb8970c4036c93a8ef8d9b3fb77a189a16",
     "findings": [],
     "residual_risks": [
-      "Source-only review of the five assigned files; no live provider, AWS, paid runner, or Runtime restart was performed.",
-      "The focused deterministic validator proves Shepherd conversation routing, provider-generated reply projection, correlation binding, recipient binding, and provider-failure behavior; hosted CI remains the final integration gate before merge.",
-      "Agent-to-agent initiation and live external provider semantics are outside issue #661 scope and are not claimed."
+      "Read-only source-scope review only; no live provider, AWS, paid runner, or Runtime restart was performed.",
+      "Focused validation proves the deterministic Shepherd conversation provider-reply path; hosted CI remains the final integration gate before merge.",
+      "Agent-to-agent initiation and broader Runtime live-provider semantics are outside issue #661 scope and are not claimed."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -54,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1452201c7a23ebcb7d6b8f0f58a3928d81b88a96852122fa3755fabb00f9dc52",
+      "values_digest": "35b27e1ecf86674ebcacb8b71e9fd96cbbdc67b0a482793e55447c585924b68e",
       "rendered_digest": "f81858805d6596c05d714b6694a8adde96047af590ebc6970a4985d59a3d4aa8",
       "ast_digest": "be404bc1b531b0b8363255094d4cfe1289e0448763882de267a515502bdfedd4"
     },
     "stp": {
-      "values_digest": "d761bff49b604f5609e0fec604343f78c190edf979f8af3ff3332d627398b8e5",
+      "values_digest": "5fbd05d8d29463a309de6a68466f957ab8092055bf764d4ad66ebe404a1935e8",
       "rendered_digest": "31248829a6d785b2b6cc9d845d0078b7d07c978554285bdbd3ca83c41aee5c02",
       "ast_digest": "53365e39345337f25b5d609b1050fa15319db4a1c076eebda90d03d720729b18"
     },
     "spp": {
-      "values_digest": "da416104bd892c4ec5513593a608d24bbcdab1bfc5a7241ac0e291c49d2278ec",
+      "values_digest": "78b71e05542aad2196a1d12de2121e6e21a61c2af4c603b48434194130646594",
       "rendered_digest": "12ac832fd8e998d0f9c56d423586f18218e86688635870d686aa4f4f073f4f6c",
       "ast_digest": "7c255866c472dca18e47a429c3bd7e74cca7feb5cca2c9d7bea6e5a7693e13b6"
     },
     "vpp": {
-      "values_digest": "41f4a81242e9324b6f6f5aeeb48d18917bdcba4d208770846cdfce3534e76dd1",
+      "values_digest": "71ddc62aab3f4cb36d19ab133a31624a647e6ef0d068f6e5e76f6a9d08a7d264",
       "rendered_digest": "f9198f867c8b5717a736e229a13cea05a8187261e47afd0f405ed485ec52e200",
       "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
     },
     "srp": {
-      "values_digest": "f86e27dedf4f831f0d8d0ca5d9f5ca2e6583bf56447539286ed1cc04eb4e593f",
-      "rendered_digest": "f26e2aa7e9eb403cd86f19a1608e9c28887dd8bb18a1ede4c8f9fd208143df7a",
-      "ast_digest": "8f8f0bd80d73eddb6d0428ee7b2a9a9f67f01077993c5218d8b145c44eabc03f"
+      "values_digest": "f8176868624e1a457dd828af5d584c577c679d1dc4bf007f03c3ccad55f5b56d",
+      "rendered_digest": "332004576bcc2c33fb5eee5704a10b36105d8badd5cd4268c9942023f4784849",
+      "ast_digest": "c6a78d6c7b3dbc700d381cc12d78a75701ab078fd4d4b729c6d9ff1fad4bb438"
     },
     "sor": {
-      "values_digest": "2145767f0975fabddfa88daa027c2ccffce005425432e1b052298b276da5ee14",
+      "values_digest": "45e974e3e0ce17dba407d1359fd1dd8d576eca034a8a331f5b5fd8f279842cea",
       "rendered_digest": "b2c98d11961f9227ef0fc1141ff52e58ac05201772395fdfa7e66e9572ff6ef2",
       "ast_digest": "8d872a3c01a175b76a220f532bdeb6ec97f6aab89e8647f0d274814b6fae20a8"
     }
@@ -122,6 +122,20 @@
     },
     {
       "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after a review-record commit included prepared request files that are not accepted by the publication metadata-only bridge; reassign at the current committed head and record the next review using only safe metadata paths."
+    },
+    {
+      "sequence": 8,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:/root/issue_661_publication_recovery",
@@ -230,6 +244,27 @@
     {
       "sequence": 15,
       "generation": 10,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after a review-record commit included prepared request files that are not accepted by the publication metadata-only bridge; reassign at the current committed head and record the next review using only safe metadata paths.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
       "actor": "codex:/root/issue_661_publication_recovery",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

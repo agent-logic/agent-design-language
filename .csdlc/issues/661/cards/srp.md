@@ -35,14 +35,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Source-only review of the five assigned files; no live provider, AWS, paid runner, or Runtime restart was performed.
-- The focused deterministic validator proves Shepherd conversation routing, provider-generated reply projection, correlation binding, recipient binding, and provider-failure behavior; hosted CI remains the final integration gate before merge.
-- Agent-to-agent initiation and live external provider semantics are outside issue #661 scope and are not claimed.
+- Read-only source-scope review only; no live provider, AWS, paid runner, or Runtime restart was performed.
+- Focused validation proves the deterministic Shepherd conversation provider-reply path; hosted CI remains the final integration gate before merge.
+- Agent-to-agent initiation and broader Runtime live-provider semantics are outside issue #661 scope and are not claimed.
 
 ## Review Result
 
-Revision: Some("git-blake3:13b31f0533af547fdfe0f35c18bfba07f1bf7c6c:fb6d38ab72f1579fff97ec329142ad4c63150ecba1f35b678f0bf248d73cf6f1")
+Revision: Some("git-blake3:9c33e8376abaa5748ce794b8f2bbeae98dcfe8e9:606ef0b6806691771a814e96ffc770fb8970c4036c93a8ef8d9b3fb77a189a16")
 
-Reviewer: Some("subagent:/root/review_661_source_only_current_head")
+Reviewer: Some("subagent:/root/review_661_current_head_safe_bridge")
 
 Result: pass
