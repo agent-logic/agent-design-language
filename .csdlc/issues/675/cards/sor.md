@@ -149,11 +149,11 @@ Corrected the provider action-envelope contract so a resident model initiates a 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

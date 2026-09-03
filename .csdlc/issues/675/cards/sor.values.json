@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime][bug] Make agent-to-agent initiation first-class in live Observatory",
     "slug": "runtime-first-class-agent-to-agent-live-path",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -142,8 +142,8 @@
           "evidence_ref": "terminal://2026-09-03#issue-675-peer-conversation-fix-runtime-kernel-lib-137-passed"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
