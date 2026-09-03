@@ -1,0 +1,7 @@
+tests/issue663_warm_polis.tftest.hcl... [37min progress[0m
+[0m  run "snapshot_restore_is_disposable_and_private"... [32mpass[0m[0m
+  run "image_family_alias_is_rejected"... [32mpass[0m[0m
+tests/issue663_warm_polis.tftest.hcl... [37mtearing down[0m
+[0mtests/issue663_warm_polis.tftest.hcl... [32mpass[0m[0m
+
+[32mSuccess![0m[0m 2 passed, 0 failed.

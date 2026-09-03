@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bdec3b2866f08bd765f50a2717fe4fc32698066911fbf20529dc0c01a8571ed",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "b8b2e0f8bacf863fecb89f4236386d1249f2ebb582cacef77ca39cd40736c0e7",
+  "generation": 13,
+  "digest": "19fc316c5cee1b265436352f7eed4973c92463873fb6cde87ae2f5e0c00b3495",
   "branch": "codex/663-gcp-warm-polis",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-663-gcp-warm-polis",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d39411c5ac163794aee1e6ca9e9a28dab16ddb49a2d2f25d5dd260ac8a657eec",
+      "values_digest": "386b5800862af29a20391ceeab8c4850c74259e0f8492ed66db9f9b87e1eb9e3",
       "rendered_digest": "62cd11f39b1d4d4fe0428377e6a70b910f381e8d030c4e432cc2236610333632",
       "ast_digest": "a6cc706f0be24b3552ce8e4346f6d4ba6749b496f706fab1576867cfc1f207d7"
     },
     "stp": {
-      "values_digest": "64565178cc3e8a802014e4b565bfef818fb91a5df4b50de2dfac64ae8132acb5",
+      "values_digest": "19922548cdd5e4b463af630c64b1dee8128f454ee64ecd88b0da87f0b8347f5e",
       "rendered_digest": "eaa84838878b97131d90916d990ada9b5b3e184731ac84e3254b019aab3ca9b6",
       "ast_digest": "d42cfb7e9b28db776d886c5ed813da9daeee9a51a80e0fbd4a7071bc6efd1ef2"
     },
     "spp": {
-      "values_digest": "c15eca36ad196eab401920a45c9cb3b4f58ff002082faf938b52cb35eec112d5",
-      "rendered_digest": "086cd47ff92525436bd927d22105cc879cd78e5968b1a7a38791879b54d130ea",
-      "ast_digest": "443220ddef4abb79b8936f46f17ab09af863f183eb26cfd89b7cc6666b7c84c6"
+      "values_digest": "4c2ab76aae8a1fd215408fcdeadb74085b3db5da89f50d51f17b0bbb3e0270d6",
+      "rendered_digest": "c244d1676034c45ed9648f82ac82040e5c225c04b1dc5e5d0182eafb75d2687b",
+      "ast_digest": "a842c3a3b4fbc3effc4dbf9e392ab6ea4ebba999bc12a740317745b3bcd5ac47"
     },
     "vpp": {
-      "values_digest": "077566b1c36c46a01cc93befff1dc3322e1ba32b0ab97861b91de254a3cd6dc6",
+      "values_digest": "e5980e17a5cc56047c81d9ef0f97e2b740ee1e6898184c27b88f329b09a269a4",
       "rendered_digest": "39431709177b81466f7f38892b756378284fcfedb8559883f16a476e293de31c",
       "ast_digest": "db23bda8a22e0ff2a495972e0b9f22138d8cec0caf8311ff2367fbde0c1ef915"
     },
     "srp": {
-      "values_digest": "62e39eb1774ed503fc93f8450185bef06391018b9ef99b081a1b39a01c53bc7d",
+      "values_digest": "fae95b65b7a8f039c8030a2f4763e343500fae8c54af03c71fa9eebf87b93ae8",
       "rendered_digest": "b99b33d50623e0d7af9246d873080487ef08c0a5439e490eeb7c474848b534c6",
       "ast_digest": "cfb80765417dc5eaf15ac5d96beb373c97bc4c320c0c9142ac1fdd81627ab9e4"
     },
     "sor": {
-      "values_digest": "3daac3433bffaa2ad7dd11a79dab54cbbc12c15c085135eaf8edb810b59d5105",
+      "values_digest": "c6293eeb77093cdb18f09a1035e450ee4a66aa861bbc08a1fa444ded841a0d04",
       "rendered_digest": "cf22e558b76924a2ea32d82de2d51c4b8ebd6520c0e191252a881ed8bb859e69",
       "ast_digest": "1f893c33ad8b13997f1d6a75f192e79cef71171d3400164a575f87bcbb98fff1"
     }
@@ -155,6 +155,34 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record completed reusable-module snapshot attachment implementation and regression proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record completed snapshot preparation, catalog, launch orchestration, and startup implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record completed focused Terraform, startup-policy, retirement-policy, timing-receipt, and diff-hygiene proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record exact-head review and publication as the remaining active step; paid live timing remains conditionally deferred without authorization.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }
