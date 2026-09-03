@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 675,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make agent-to-agent initiation first-class in live Observatory",
+    "slug": "runtime-first-class-agent-to-agent-live-path",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #675 A2A action bridge, Observatory/UI projection, Runtime authority preservation, focused tests, and issue-local lifecycle evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the model/shepherd path emit a first-class governed A2A action rather than relying on reply text?",
+        "Are sender, recipient, work, turn, conversation, and correlation identities distinct and observable?",
+        "Can recipient/provider output be confused with the initiating agent's own reply?",
+        "Are Layer8, roster eligibility, replay, cancellation, and failure semantics preserved?",
+        "Does the UI distinguish accepted dispatch from terminal delivery?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

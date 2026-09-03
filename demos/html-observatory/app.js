@@ -1648,7 +1648,13 @@ function conversationFrameTransition(frame, pending) {
   return {
     status: frame.status,
     terminal: frame.status !== "accepted",
-    reply
+    reply,
+    senderId: typeof frame.sender_id === "string" && frame.sender_id.length <= 128
+      ? frame.sender_id
+      : null,
+    initiatedWorkId: typeof frame.initiated_work_id === "string" && frame.initiated_work_id.length <= 128
+      ? frame.initiated_work_id
+      : null
   };
 }
 
@@ -3090,7 +3096,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       setConversationTurnStatus(pending, transition.status);
       if (transition.reply) {
-        appendConversationTurn("agent", transition.reply, pending.turnId, "delivered");
+        const speaker = transition.senderId
+          ? `agent:${transition.senderId}`
+          : "agent";
+        const status = transition.initiatedWorkId
+          ? `delivered / A2A ${transition.initiatedWorkId}`
+          : "delivered";
+        appendConversationTurn(speaker, transition.reply, pending.turnId, status);
       }
       if (transition.terminal) {
         pending.terminal = true;

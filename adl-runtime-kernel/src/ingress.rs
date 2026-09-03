@@ -22,6 +22,8 @@ use crate::{
 
 pub const DOMAIN_WORK_SCHEMA: &str = "adl.runtime.domain_work.v1";
 pub const DOMAIN_RESULT_SCHEMA: &str = "adl.runtime.domain_result.v1";
+pub const AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA: &str =
+    "adl.runtime.agent_to_agent_initiation_request.v1";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -484,16 +486,126 @@ fn project_public_output(
         .and_then(serde_json::Value::as_str)
         .filter(|value| !value.is_empty() && value.len() <= 4_096)
         .ok_or(IngressError::ExecutionFailed)?;
-    Ok(Some(serde_json::json!({
+    let mut projected = serde_json::json!({
         "schema": "adl.runtime.conversation_reply.v1",
         "recipient_id": recipient_id,
         "message": message,
-    })))
+    });
+    if let Some(action) = output.get("agent_to_agent_initiation") {
+        let valid_action = action.get("schema").and_then(serde_json::Value::as_str)
+            == Some(AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
+            && [
+                "recipient_id",
+                "conversation_id",
+                "turn_id",
+                "correlation_id",
+                "work_id",
+                "message",
+            ]
+            .into_iter()
+            .all(|field| {
+                action
+                    .get(field)
+                    .and_then(serde_json::Value::as_str)
+                    .is_some_and(|value| !value.is_empty() && value.len() <= 4_096)
+            });
+        if !valid_action {
+            return Err(IngressError::ExecutionFailed);
+        }
+        projected["agent_to_agent_initiation"] = action.clone();
+    }
+    Ok(Some(projected))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn conversation_work_payload(recipient_id: &str) -> Vec<u8> {
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{
+                "op": "conversation_message",
+                "recipient_id": recipient_id,
+                "message": "Please contact Ember."
+            }]
+        }))
+        .expect("conversation work payload serializes")
+    }
+
+    fn operation_with_output(output: serde_json::Value) -> crate::OperationResult {
+        crate::OperationResult {
+            schema: crate::OPERATION_RESULT_SCHEMA.to_owned(),
+            request_id: "work-beacon".to_owned(),
+            adapter: crate::AdapterKind::Agent,
+            attempts: 1,
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.runtime.local_agent_execution.v1",
+                "outputs": [{
+                    "unit": 0,
+                    "output": output
+                }]
+            }))
+            .expect("operation payload serializes"),
+        }
+    }
+
+    #[test]
+    fn conversation_public_output_projects_agent_initiation_action() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": "ember",
+                "conversation_id": "conversation-beacon-ember",
+                "turn_id": "turn-beacon-ember",
+                "correlation_id": "a2a-correlation",
+                "work_id": "work-beacon-ember",
+                "message": "Ember, please reply through governed A2A."
+            }
+        }));
+
+        let projected = project_public_output(&work, &operation)
+            .expect("projection succeeds")
+            .expect("conversation output projects");
+        assert_eq!(
+            projected
+                .get("agent_to_agent_initiation")
+                .and_then(|action| action.get("recipient_id"))
+                .and_then(serde_json::Value::as_str),
+            Some("ember")
+        );
+    }
+
+    #[test]
+    fn malformed_agent_initiation_action_is_not_projected() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": "ember"
+            }
+        }));
+
+        assert_eq!(
+            project_public_output(&work, &operation),
+            Err(IngressError::ExecutionFailed)
+        );
+    }
 
     #[test]
     fn pause_and_submit_admission_are_one_atomic_transition() {

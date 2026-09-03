@@ -1,0 +1,21 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "b8a1e778b37aeceafa9be7f278d1909671765d7c6c036c037ae52a739455e5b3",
+  "actor": "codex:/root",
+  "reason": "Record exact branch diff hygiene validation for #675.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "outcome": "passed",
+      "purpose": "Prove whitespace/diff hygiene for the #675 implementation branch.",
+      "evidence_ref": "terminal://2026-09-03#issue-675-git-diff-check"
+    }
+  }
+}

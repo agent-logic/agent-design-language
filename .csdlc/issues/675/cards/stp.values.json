@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 675,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make agent-to-agent initiation first-class in live Observatory",
+    "slug": "runtime-first-class-agent-to-agent-live-path",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly the first-class live-style agent-to-agent initiation bridge and proof; broader autonomy, broadcast, recursive messaging, and live production mutation are out of scope.",
+      "deliverables": [
+        "First-class A2A action/bridge from model-backed Shepherd or resident-agent behavior into Runtime-governed initiation",
+        "Observatory/UI rendering or control path that distinguishes operator chat from A2A initiation and terminal recipient response",
+        "Focused deterministic tests proving live-style Beacon-to-Ember initiation",
+        "Regression coverage preserving the #662 kernel primitive semantics"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Beacon can request/contact Ember through a governed A2A action path instead of replying that it has no colleague when policy allows it",
+        "AC-2: The initiated work records distinct sender, recipient, work, conversation, turn, and correlation identity",
+        "AC-3: Recipient execution uses configured provider/model routing and the response returns to the initiating context without confusion with Beacon's own reply",
+        "AC-4: Missing recipient, unauthorized sender, unavailable authority/signing, stale recipient, cancellation, replay, and provider failure remain truthful terminal outcomes",
+        "AC-5: Observatory Activity/UI exposes accepted dispatch and terminal A2A result without inventing delivery truth",
+        "AC-6: Existing #662 direct primitive tests continue to pass"
+      ],
+      "dependencies": [
+        "#662/#668 backend primitive exists on main",
+        "No live Runtime/provider/AWS execution unless separately authorized"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#675",
+        "agent-logic/agent-design-language#662",
+        "agent-logic/agent-design-language#668",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "demos/html-observatory/app.js",
+        "adl/src/csm_shepherd_agent.rs",
+        "adl/src/csm_resident_agents.rs"
+      ],
+      "non_goals": [
+        "Unrestricted autonomous messaging",
+        "Broadcast or arbitrary fan-out",
+        "Recursive unbounded conversations",
+        "Live production Runtime mutation",
+        "Paid provider or AWS proof without explicit authorization",
+        "Prompt-only capability claims"
+      ]
+    }
+  }
+}

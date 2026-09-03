@@ -1639,6 +1639,38 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
     }
 
+    fn agent_initiation_intent_from_public_output(
+        dispatch: &ConversationDispatch,
+        output: &serde_json::Value,
+    ) -> Result<Option<ObservatoryAgentInitiationIntent>, &'static str> {
+        let Some(action) = output.get("agent_to_agent_initiation") else {
+            return Ok(None);
+        };
+        if action.get("schema").and_then(serde_json::Value::as_str)
+            != Some(crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
+        {
+            return Err("invalid_agent_initiation_action");
+        }
+        let field = |name| {
+            action
+                .get(name)
+                .and_then(serde_json::Value::as_str)
+                .filter(|value| !value.is_empty())
+                .map(str::to_owned)
+                .ok_or("invalid_agent_initiation_action")
+        };
+        Ok(Some(ObservatoryAgentInitiationIntent {
+            schema: OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: field("conversation_id")?,
+            turn_id: field("turn_id")?,
+            sender_id: dispatch.intent.recipient_id.clone(),
+            recipient_id: field("recipient_id")?,
+            correlation_id: field("correlation_id")?,
+            work_id: field("work_id")?,
+            message: field("message")?,
+        }))
+    }
+
     async fn complete_conversation_dispatch(
         &self,
         dispatch: ConversationDispatch,
@@ -1663,6 +1695,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_sequence: Some(dispatch.sequence),
             error: Some(error),
         };
+        let mut dispatch_gate_completed = false;
         let shepherd_name = self
             .agent_population
             .read()
@@ -1685,6 +1718,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
+                "conversation_id": dispatch.intent.conversation_id,
+                "turn_id": dispatch.intent.turn_id,
+                "correlation_id": dispatch.intent.correlation_id,
                 "input": dispatch.intent.message,
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
@@ -1695,6 +1731,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             None => serde_json::json!({
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
+                "conversation_id": dispatch.intent.conversation_id,
+                "turn_id": dispatch.intent.turn_id,
+                "correlation_id": dispatch.intent.correlation_id,
                 "input": dispatch.intent.message,
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
@@ -1786,32 +1825,93 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             outcome("cancelled", "conversation_cancelled")
                         }
                         Some(Ok(result)) => {
-                            let reply = result
-                                .public_output
-                                .as_ref()
+                            let public_output = result.public_output.as_ref();
+                            let reply = public_output
                                 .and_then(|output| output.get("message"))
                                 .and_then(serde_json::Value::as_str)
                                 .map(str::to_owned);
+                            let requested_agent_initiation = if dispatch.initiation.is_none() {
+                                public_output
+                                    .map(|output| {
+                                        Self::agent_initiation_intent_from_public_output(
+                                            &dispatch, output,
+                                        )
+                                    })
+                                    .unwrap_or(Ok(None))
+                            } else {
+                                Ok(None)
+                            };
                             match reply {
-                                Some(reply) => ObservatoryConversationResult {
-                                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                                    status: "delivered",
-                                    conversation_id: dispatch.intent.conversation_id.clone(),
-                                    turn_id: dispatch.intent.turn_id.clone(),
-                                    recipient_id: dispatch.intent.recipient_id.clone(),
-                                    correlation_id: dispatch.intent.correlation_id.clone(),
-                                    sender_id: dispatch
-                                        .initiation
-                                        .as_ref()
-                                        .map(|metadata| metadata.sender_id.clone()),
-                                    initiated_work_id: dispatch
-                                        .initiation
-                                        .as_ref()
-                                        .map(|metadata| metadata.initiated_work_id.clone()),
-                                    reply: Some(reply),
-                                    accepted_sequence: Some(result.accepted_sequence),
-                                    turn_sequence: Some(dispatch.sequence),
-                                    error: None,
+                                Some(reply) => match requested_agent_initiation {
+                                    Ok(Some(intent)) => {
+                                        dispatch.dispatch_gate.complete(dispatch.sequence);
+                                        dispatch_gate_completed = true;
+                                        let initiated = match self
+                                            .accept_agent_initiation_intent(&intent)
+                                        {
+                                            ConversationAcceptance::Dispatch {
+                                                dispatch, ..
+                                            } => {
+                                                Box::pin(
+                                                    self.complete_conversation_dispatch(dispatch),
+                                                )
+                                                .await
+                                            }
+                                            ConversationAcceptance::Response(response) => response,
+                                        };
+                                        ObservatoryConversationResult {
+                                            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                            status: initiated.status,
+                                            conversation_id: dispatch
+                                                .intent
+                                                .conversation_id
+                                                .clone(),
+                                            turn_id: dispatch.intent.turn_id.clone(),
+                                            recipient_id: dispatch.intent.recipient_id.clone(),
+                                            correlation_id: dispatch.intent.correlation_id.clone(),
+                                            sender_id: Some(intent.sender_id),
+                                            initiated_work_id: Some(intent.work_id),
+                                            reply: if initiated.status == "delivered" {
+                                                initiated
+                                                    .reply
+                                                    .map(|initiated_reply| {
+                                                        format!(
+                                                            "A2A delivered to {}: {}",
+                                                            initiated.recipient_id, initiated_reply
+                                                        )
+                                                    })
+                                                    .or(Some(reply))
+                                            } else {
+                                                None
+                                            },
+                                            accepted_sequence: initiated
+                                                .accepted_sequence
+                                                .or(Some(result.accepted_sequence)),
+                                            turn_sequence: Some(dispatch.sequence),
+                                            error: initiated.error,
+                                        }
+                                    }
+                                    Ok(None) => ObservatoryConversationResult {
+                                        schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                        status: "delivered",
+                                        conversation_id: dispatch.intent.conversation_id.clone(),
+                                        turn_id: dispatch.intent.turn_id.clone(),
+                                        recipient_id: dispatch.intent.recipient_id.clone(),
+                                        correlation_id: dispatch.intent.correlation_id.clone(),
+                                        sender_id: dispatch
+                                            .initiation
+                                            .as_ref()
+                                            .map(|metadata| metadata.sender_id.clone()),
+                                        initiated_work_id: dispatch
+                                            .initiation
+                                            .as_ref()
+                                            .map(|metadata| metadata.initiated_work_id.clone()),
+                                        reply: Some(reply),
+                                        accepted_sequence: Some(result.accepted_sequence),
+                                        turn_sequence: Some(dispatch.sequence),
+                                        error: None,
+                                    },
+                                    Err(error) => outcome("refused", error),
                                 },
                                 None => outcome("failed", "conversation_reply_unavailable"),
                             }
@@ -1837,7 +1937,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 Some(&dispatch.intent.correlation_id),
             );
         }
-        dispatch.dispatch_gate.complete(dispatch.sequence);
+        if !dispatch_gate_completed {
+            dispatch.dispatch_gate.complete(dispatch.sequence);
+        }
         if let Some(turn) = self
             .conversation_sessions
             .lock()
@@ -5125,19 +5227,36 @@ mod layer8_conversation_ingress_tests {
                         class: crate::FailureClass::Fatal,
                         message: "missing recipient".to_owned(),
                     })?;
+            let output = if recipient_id == "beacon" {
+                serde_json::json!({
+                    "recipient_id": recipient_id,
+                    "message": "Beacon is initiating governed contact with Ember.",
+                    "agent_to_agent_initiation": {
+                        "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                        "recipient_id": "ember",
+                        "conversation_id": "conversation-beacon-ember-live",
+                        "turn_id": "turn-a2a-live-ember",
+                        "correlation_id": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+                        "work_id": "a2a-work-from-beacon",
+                        "message": "Ember, please answer Beacon through the governed A2A path."
+                    }
+                })
+            } else {
+                serde_json::json!({
+                    "recipient_id": recipient_id,
+                    "message": format!(
+                        "{} handled initiated work {} from {}",
+                        recipient_id,
+                        task["initiated_work_id"].as_str().unwrap_or("none"),
+                        task["sender_id"].as_str().unwrap_or("none")
+                    )
+                })
+            };
             serde_json::to_vec(&serde_json::json!({
                 "schema": "adl.runtime.local_agent_execution.v1",
                 "outputs": [{
                     "unit": 0,
-                    "output": {
-                        "recipient_id": recipient_id,
-                        "message": format!(
-                            "{} handled initiated work {} from {}",
-                            recipient_id,
-                            task["initiated_work_id"].as_str().unwrap_or("none"),
-                            task["sender_id"].as_str().unwrap_or("none")
-                        )
-                    }
+                    "output": output
                 }]
             }))
             .map_err(|error| crate::ExecutorError {
@@ -5198,7 +5317,7 @@ mod layer8_conversation_ingress_tests {
             polis_id: "conversation-runtime".to_owned(),
             action,
             conversation_id: None,
-            recipients: BTreeSet::from([recipient_id.to_owned()]),
+            recipients: BTreeSet::from([sender_id.to_owned(), recipient_id.to_owned()]),
             attachment_id: None,
         };
         let contact_scope = scope(Layer8Action::Contact);
@@ -5255,22 +5374,34 @@ mod layer8_conversation_ingress_tests {
             sender: CommunicationKeyDescriptor {
                 principal_id: sender_id.to_owned(),
                 polis_id: "conversation-runtime".to_owned(),
-                signing_key_id: sender_key_id,
+                signing_key_id: sender_key_id.clone(),
                 credential_generation: 1,
                 private_key_file: sender_key_file,
                 not_before_epoch_secs: 0,
                 expires_at_epoch_secs: u64::MAX,
             },
-            recipients: vec![CommunicationVerifyingDescriptor {
-                principal_id: recipient_id.to_owned(),
-                polis_id: "conversation-runtime".to_owned(),
-                signing_key_id: recipient_key_id,
-                credential_generation: 1,
-                verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
-                revoked: false,
-                not_before_epoch_secs: 0,
-                expires_at_epoch_secs: u64::MAX,
-            }],
+            recipients: vec![
+                CommunicationVerifyingDescriptor {
+                    principal_id: sender_id.to_owned(),
+                    polis_id: "conversation-runtime".to_owned(),
+                    signing_key_id: sender_key_id.clone(),
+                    credential_generation: 1,
+                    verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
+                    revoked: false,
+                    not_before_epoch_secs: 0,
+                    expires_at_epoch_secs: u64::MAX,
+                },
+                CommunicationVerifyingDescriptor {
+                    principal_id: recipient_id.to_owned(),
+                    polis_id: "conversation-runtime".to_owned(),
+                    signing_key_id: recipient_key_id,
+                    credential_generation: 1,
+                    verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+                    revoked: false,
+                    not_before_epoch_secs: 0,
+                    expires_at_epoch_secs: u64::MAX,
+                },
+            ],
         })
         .expect("agent initiation exchange profile is valid");
         (authority, exchange, root)
@@ -5393,6 +5524,21 @@ mod layer8_conversation_ingress_tests {
                 model: "gemma3-local".to_owned(),
                 endpoint: "http://127.0.0.1:11434".to_owned(),
             });
+        service
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .push(AgentAdmissionRequest {
+                schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+                id: "beacon".to_owned(),
+                name: "beacon.runtime".to_owned(),
+                display_name: "Beacon Axioma".to_owned(),
+                office: "resident agent".to_owned(),
+                role: "resident agent".to_owned(),
+                provider: "ollama".to_owned(),
+                model: "gemma3-local".to_owned(),
+                endpoint: "http://127.0.0.1:11434".to_owned(),
+            });
         let mut registry = crate::ComponentRegistry::new();
         registry.register(operation);
         registry.register(ingress);
@@ -5458,6 +5604,64 @@ mod layer8_conversation_ingress_tests {
                         == Some("abababababababababababababababab")
             }),
             "Observatory feed should expose authoritative correlated initiation activity: {events:?}"
+        );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_model_action_from_conversation_delivers_peer_response() {
+        let (service, kernel, recorder, observed_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        let intent = ObservatoryConversationIntent {
+            schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: "conversation-operator-beacon".to_owned(),
+            turn_id: "turn-operator-asks-beacon".to_owned(),
+            recipient_id: "beacon".to_owned(),
+            correlation_id: "efefefefefefefefefefefefefefefef".to_owned(),
+            message: "Please ask Ember for a governed response.".to_owned(),
+        };
+        let delivered = match service.accept_conversation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                service.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!(
+                    "conversation refused before Beacon could act: {:?}",
+                    response.error
+                )
+            }
+        };
+        assert_eq!(delivered.status, "delivered");
+        assert_eq!(delivered.recipient_id, "beacon");
+        assert_eq!(delivered.sender_id.as_deref(), Some("beacon"));
+        assert_eq!(
+            delivered.initiated_work_id.as_deref(),
+            Some("a2a-work-from-beacon")
+        );
+        assert!(
+            delivered.reply.as_deref().is_some_and(|reply| {
+                reply.contains("A2A delivered to ember")
+                    && reply
+                        .contains("ember handled initiated work a2a-work-from-beacon from beacon")
+            }),
+            "operator-visible Beacon turn should contain the governed Ember response: {delivered:?}"
+        );
+        {
+            let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
+            assert_eq!(tasks.len(), 2);
+            assert_eq!(tasks[0]["recipient_id"], "beacon");
+            assert!(tasks[0].get("sender_id").is_none() || tasks[0]["sender_id"].is_null());
+            assert_eq!(tasks[1]["recipient_id"], "ember");
+            assert_eq!(tasks[1]["sender_id"], "beacon");
+            assert_eq!(tasks[1]["initiated_work_id"], "a2a-work-from-beacon");
+        }
+        let events = recorder.events();
+        assert!(
+            events.iter().any(|event| {
+                event.event == "agent_to_agent_initiated"
+                    && event.correlation_id.as_deref() == Some("cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd")
+            }),
+            "A2A model action should emit correlated initiation activity: {events:?}"
         );
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }

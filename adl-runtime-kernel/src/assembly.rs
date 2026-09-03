@@ -53,6 +53,8 @@ pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
 ];
 const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
 const LOCAL_WRITER_START_SCHEMA: &str = "adl.runtime.local_writer_start.v1";
+const PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA: &str =
+    "adl.runtime.agent_conversation_response.v1";
 
 pub struct LiveBindings {
     pub recorder: RuntimeRecorder,
@@ -1369,19 +1371,17 @@ impl InProcessOperationExecutor {
                     match (provider, model, endpoint) {
                         (None, None, None) => return_output(recipient_id),
                         (Some(provider), Some(model), Some(endpoint)) => {
+                            let prompt = provider_conversation_prompt(task, recipient_id, input);
                             let message = crate::control::invoke_provider_model(
                                 provider,
                                 endpoint,
                                 model,
-                                input,
+                                &prompt,
                                 cancellation,
                             )
                             .await
                             .map_err(|error| adapter_error(FailureClass::Retryable, error))?;
-                            serde_json::json!({
-                                "recipient_id": recipient_id,
-                                "message": message,
-                            })
+                            provider_conversation_output(task, recipient_id, &message)?
                         }
                         _ => {
                             return Err(adapter_error(
@@ -1622,6 +1622,232 @@ fn return_output(recipient_id: &str) -> serde_json::Value {
         "recipient_id": recipient_id,
         "message": format!("{recipient_id} received your message."),
     })
+}
+
+fn provider_conversation_prompt(
+    task: &serde_json::Value,
+    recipient_id: &str,
+    input: &str,
+) -> String {
+    let conversation_id = task
+        .get("conversation_id")
+        .and_then(serde_json::Value::as_str)
+        .unwrap_or("conversation");
+    let turn_id = task
+        .get("turn_id")
+        .and_then(serde_json::Value::as_str)
+        .unwrap_or("turn");
+    let correlation_id = task
+        .get("correlation_id")
+        .and_then(serde_json::Value::as_str)
+        .unwrap_or("correlation");
+    format!(
+        "You are resident agent `{recipient_id}` in Axioma Polis.\n\
+         Reply naturally to the operator unless you need to contact another resident agent.\n\
+         If you choose to contact another agent, return only this JSON object, with no Markdown:\n\
+         The current operator turn is conversation `{conversation_id}`, turn `{turn_id}`, correlation `{correlation_id}`.\n\
+         {{\"schema\":\"{PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA}\",\
+         \"message\":\"brief operator-visible status\",\
+         \"agent_to_agent_initiation\":{{\"schema\":\"{}\",\
+         \"recipient_id\":\"target-agent-id\",\
+         \"conversation_id\":\"new-safe-peer-conversation-id\",\
+         \"turn_id\":\"new-safe-peer-turn-id\",\
+         \"correlation_id\":\"new-safe-peer-correlation-id\",\
+         \"work_id\":\"safe-unique-work-id\",\
+         \"message\":\"message to the target agent\"}}}}\n\
+         The runtime signs and verifies delivery; do not claim delivery yourself.\n\
+         Operator message:\n{input}",
+        crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA
+    )
+}
+
+fn provider_conversation_output(
+    task: &serde_json::Value,
+    recipient_id: &str,
+    provider_message: &str,
+) -> Result<serde_json::Value, ExecutorError> {
+    let trimmed = provider_message.trim();
+    let parsed = serde_json::from_str::<serde_json::Value>(trimmed).ok();
+    let Some(value) = parsed else {
+        return Ok(serde_json::json!({
+            "recipient_id": recipient_id,
+            "message": provider_message,
+        }));
+    };
+    if value.get("schema").and_then(serde_json::Value::as_str)
+        != Some(PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA)
+    {
+        return Ok(serde_json::json!({
+            "recipient_id": recipient_id,
+            "message": provider_message,
+        }));
+    }
+    let message = value
+        .get("message")
+        .and_then(serde_json::Value::as_str)
+        .filter(|message| !message.trim().is_empty() && message.len() <= 4_096)
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed"))?;
+    let mut output = serde_json::json!({
+        "recipient_id": recipient_id,
+        "message": message,
+    });
+    if let Some(action) = value.get("agent_to_agent_initiation") {
+        validate_provider_agent_initiation_action(task, action)?;
+        output["agent_to_agent_initiation"] = action.clone();
+    }
+    Ok(output)
+}
+
+fn validate_provider_agent_initiation_action(
+    task: &serde_json::Value,
+    action: &serde_json::Value,
+) -> Result<(), ExecutorError> {
+    if action.get("schema").and_then(serde_json::Value::as_str)
+        != Some(crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
+    {
+        return Err(adapter_error(
+            FailureClass::Fatal,
+            "agent_conversation_action_malformed",
+        ));
+    }
+    let active_recipient = task
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .unwrap_or_default();
+    for field in [
+        "recipient_id",
+        "conversation_id",
+        "turn_id",
+        "correlation_id",
+        "work_id",
+    ] {
+        let value = action
+            .get(field)
+            .and_then(serde_json::Value::as_str)
+            .filter(|value| is_provider_action_identifier(value))
+            .ok_or_else(|| {
+                adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed")
+            })?;
+        if field == "recipient_id" && value == active_recipient {
+            return Err(adapter_error(
+                FailureClass::Fatal,
+                "agent_conversation_action_self_target",
+            ));
+        }
+    }
+    action
+        .get("message")
+        .and_then(serde_json::Value::as_str)
+        .filter(|message| !message.trim().is_empty() && message.len() <= 4_096)
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed"))?;
+    Ok(())
+}
+
+fn is_provider_action_identifier(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 128
+        && value
+            .chars()
+            .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | ':' | '.'))
+}
+
+#[cfg(test)]
+mod provider_conversation_action_tests {
+    use super::*;
+
+    fn task() -> serde_json::Value {
+        serde_json::json!({
+            "op": "conversation_message",
+            "recipient_id": "beacon",
+            "conversation_id": "conversation-operator-beacon",
+            "turn_id": "turn-operator-asks-beacon",
+            "correlation_id": "efefefefefefefefefefefefefefefef",
+            "input": "Please ask Ember for a governed response.",
+            "provider": "ollama",
+            "model": "gemma3-local",
+            "endpoint": "http://127.0.0.1:11434"
+        })
+    }
+
+    #[test]
+    fn provider_conversation_prompt_teaches_first_class_agent_action_contract() {
+        let prompt = provider_conversation_prompt(
+            &task(),
+            "beacon",
+            "Please welcome Ember and report back.",
+        );
+        assert!(prompt.contains(PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA));
+        assert!(prompt.contains(crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA));
+        assert!(prompt.contains("\"recipient_id\":\"target-agent-id\""));
+        assert!(
+            prompt.contains("current operator turn is conversation `conversation-operator-beacon`")
+        );
+        assert!(prompt.contains("\"conversation_id\":\"new-safe-peer-conversation-id\""));
+        assert!(prompt.contains("The runtime signs and verifies delivery"));
+    }
+
+    #[test]
+    fn provider_conversation_output_projects_agent_initiation_envelope() {
+        let output = provider_conversation_output(
+            &task(),
+            "beacon",
+            &serde_json::json!({
+                "schema": PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA,
+                "message": "Beacon is initiating governed contact with Ember.",
+                "agent_to_agent_initiation": {
+                    "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                    "recipient_id": "ember",
+                    "conversation_id": "conversation-beacon-ember-live",
+                    "turn_id": "turn-a2a-live-ember",
+                    "correlation_id": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+                    "work_id": "a2a-work-from-beacon",
+                    "message": "Ember, please answer through the governed A2A path."
+                }
+            })
+            .to_string(),
+        )
+        .expect("schema-tagged provider action should project");
+        assert_eq!(output["recipient_id"], "beacon");
+        assert_eq!(output["agent_to_agent_initiation"]["recipient_id"], "ember");
+        assert_eq!(
+            output["agent_to_agent_initiation"]["work_id"],
+            "a2a-work-from-beacon"
+        );
+    }
+
+    #[test]
+    fn provider_plain_json_reply_remains_plain_message_without_action_schema() {
+        let raw = r#"{"message":"I prefer to answer directly."}"#;
+        let output =
+            provider_conversation_output(&task(), "beacon", raw).expect("plain JSON is a reply");
+        assert_eq!(output["recipient_id"], "beacon");
+        assert_eq!(output["message"], raw);
+        assert!(output.get("agent_to_agent_initiation").is_none());
+    }
+
+    #[test]
+    fn provider_action_envelope_fails_closed_on_self_target() {
+        let error = provider_conversation_output(
+            &task(),
+            "beacon",
+            &serde_json::json!({
+                "schema": PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA,
+                "message": "Beacon is initiating governed contact with Ember.",
+                "agent_to_agent_initiation": {
+                    "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                    "recipient_id": "beacon",
+                    "conversation_id": "conversation-beacon-self",
+                    "turn_id": "turn-a2a-self",
+                    "correlation_id": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+                    "work_id": "a2a-work-from-beacon",
+                    "message": "Beacon, please answer yourself."
+                }
+            })
+            .to_string(),
+        )
+        .expect_err("schema-tagged action must not target the active sender");
+        assert_eq!(error.message, "agent_conversation_action_self_target");
+    }
 }
 
 fn adapter_error(class: FailureClass, message: impl Into<String>) -> ExecutorError {
