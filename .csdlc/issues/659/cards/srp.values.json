@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 659,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+    "slug": "runtime-configurable-convergence",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/src/cli/csm_runtime_v3_cmd.rs\ninfra/runtime-v3/runtime-init.toml\n.csdlc/issues/659\n.csdlc/prepared/issues/659\n.csdlc/evidence/659",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are all former fixed service-control waits replaced by named validated policy values?",
+        "Can slow successful convergence complete without a premature failure?",
+        "Does each real expiry identify its exact stage and preserve recovery?",
+        "Is launchd or systemd continuously authoritative with no direct competing Runtime?",
+        "Are unrelated API timeout and live Runtime behavior unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

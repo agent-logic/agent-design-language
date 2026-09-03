@@ -1,0 +1,123 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 659,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4182d8bb12b47a4db5b57dbf673a0e8a509772c51bd068d4845f75eb96d41c46",
+  "phase": "initialized",
+  "generation": 8,
+  "digest": "75fc426793b1459720e8556d88e756b3b4fcbf178fa5935d8b9c238aa03c2053",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/659/design.md",
+  "diagram_path": ".csdlc/prepared/issues/659/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:09df8904-4935-40da-8511-f3e45e0c73cb",
+      "revision": "dbe55212ed1a7be8e1ff66040e774fa0fe144abf85537398e81d9d2e1c26b19c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d6788d75b6f5e22c1d9bfe5130a4561d4d6b2499af4631ec03af917f30fe3bd6",
+      "rendered_digest": "2d4481e3f68ae78a28cb41941e1b9efa5f31cbf5282a22e1c342579be6d1c943",
+      "ast_digest": "3ba45da8035b09337a8474fbd018bb45178796510b4c5a294efec296fcd13cbf"
+    },
+    "stp": {
+      "values_digest": "d9ea9482aab5ea2f412744390046322ca812d1908cedab81e5548eadd33557d4",
+      "rendered_digest": "c059baa61ff8c6206f6b97dc8b056102b89230d84570f5ca26f49953d684313e",
+      "ast_digest": "91df1858746474aa83c407e5a4e6fc7a228df01bbe581a98102fc9d8c8dffed2"
+    },
+    "spp": {
+      "values_digest": "cd6e9644e167270e7d4468c9f5ee9bc24ec338d9a6e04754a0f0265ccd1dbeaf",
+      "rendered_digest": "b80e87a357458244797a90a5fe887ea0eac68b6b405e7599dee3274024357bdf",
+      "ast_digest": "bd036a9a68d2229666ee907c0f489798b4d691446623bd8414e23629b25bef50"
+    },
+    "vpp": {
+      "values_digest": "0bcac80756f6cd6a23a32dc5f0d86c25fee1f18d3e2a815f0a4255cd3fee16ab",
+      "rendered_digest": "7daf2ded4fe05c23cca44cb8f50992598a104a0c103991b13c77132005dcdedf",
+      "ast_digest": "84dbae986fe674c2b9113765edc06b553139c5bb97e2fb41a5c34f77dd796a7a"
+    },
+    "srp": {
+      "values_digest": "758e1377807885c41f0ef68382d8141cc71c7342fe7458678aad2d65b14cd380",
+      "rendered_digest": "47f61f35c4bb42d15ab380631dd43c76f07a395a767894d9e2d3982a6962e6b8",
+      "ast_digest": "04ae6b8544c4d3a66c439d1abbedadfa622c9734073eabc017ca3510fd0a8b0f"
+    },
+    "sor": {
+      "values_digest": "f6db39a1e02dfda5c247f4c3fc9de65e490a3da642139b023b480e549aa23ee3",
+      "rendered_digest": "2ba8ef3357e0865ff82a6601c9f24b35d9dd9587cf06aea924aa424426af7a11",
+      "ast_digest": "c7e71040ed73c6ca0f2b89c877f00676e57d7670c71c2a9bd5a0eb5a0b696141"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:659-preparation",
+      "reason": "Align dependency truth with the merged atomic-generation implementation now ancestral to current main.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Issue #656 / PR #658 atomic Runtime generation installation merged and ancestral to current main cea5219f6e74b34d930d0dc39b6a607bc6303acb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:659-preparation",
+      "reason": "Remove stale stacked-PR language and state the current-main implementation sequence.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Bind from current main after the merged #656/#658 prerequisite, add one backward-compatible validated service-convergence policy, separate listener-open from full authenticated readiness, replace fixed operational waits while preserving service-manager ownership and recovery, run focused nonzero proof, then obtain exact-head review and publish the issue PR.\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:659-preparation",
+      "reason": "Include the Runtime-init configuration owner and issue-local focused validator; remove the nonexistent generic init path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\",\".csdlc/issues/659\",\".csdlc/prepared/issues/659\",\".csdlc/evidence/659\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:659-preparation",
+      "reason": "Replace the zero-test filter with a nonzero preparation denominator and explicit post-implementation proof lanes for configuration and service convergence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-convergence-preparation\",\"proof_role\":\"Prove the issue plan names every configuration field, generous default and bound, separates listener-open from authenticated readiness, includes the configuration owner, and retains the fixed-wait implementation denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\"],\"parallel_group\":\"659-preparation\",\"defer_reason\":null},{\"lane\":\"runtime-convergence-config\",\"proof_role\":\"Prove backward-compatible defaults, every minimum and maximum bound, and invalid convergence configuration rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"service_convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables.\"},{\"lane\":\"runtime-convergence-service-control\",\"proof_role\":\"Prove deterministic slow success, exact-stage true expiry, independent listener and full-readiness gates, service-manager ownership, and rollback or recovery.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables and do not restart the live Runtime.\"},{\"lane\":\"runtime-convergence-quality\",\"proof_role\":\"Prove formatting, warning-free touched targets, and diff hygiene without broad Runtime execution.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"runtime\"],\"parallel_group\":\"659-quality\",\"defer_reason\":\"Run after the bounded implementation is complete.\"},{\"lane\":\"runtime-convergence-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects in the issue diff.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"659-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:659-preparation",
+      "reason": "Remove an absent untracked TBD source and retain only current repository and issue authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"agent-logic/agent-design-language#659\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime-kernel/src/config.rs\",\"Issue #656 / PR #658 merged prerequisite\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:659-preparation",
+      "reason": "Replace the zero-test filter with a nonzero preparation denominator and explicit post-implementation proof lanes for configuration and service convergence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-convergence-preparation\",\"proof_role\":\"Prove the issue plan names every configuration field, generous default and bound, separates listener-open from authenticated readiness, includes the configuration owner, and retains the fixed-wait implementation denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\"],\"parallel_group\":\"659-preparation\",\"defer_reason\":null},{\"lane\":\"runtime-convergence-config\",\"proof_role\":\"Prove backward-compatible defaults, every minimum and maximum bound, and invalid convergence configuration rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"service_convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables.\"},{\"lane\":\"runtime-convergence-service-control\",\"proof_role\":\"Prove deterministic slow success, exact-stage true expiry, independent listener and full-readiness gates, service-manager ownership, and rollback or recovery.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables and do not restart the live Runtime.\"},{\"lane\":\"runtime-convergence-quality\",\"proof_role\":\"Prove formatting, warning-free touched targets, and diff hygiene without broad Runtime execution.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"runtime\"],\"parallel_group\":\"659-quality\",\"defer_reason\":\"Run after the bounded implementation is complete.\"},{\"lane\":\"runtime-convergence-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects in the issue diff.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"659-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "fresh-session:09df8904-4935-40da-8511-f3e45e0c73cb",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"dbe55212ed1a7be8e1ff66040e774fa0fe144abf85537398e81d9d2e1c26b19c\",\"design_ref\":\".csdlc/prepared/issues/659/design.md\",\"diagram_digest\":\"95257e85456cc87a62c355163b700cabb00f050ad0ce18e90dd01ab6a80d177a\",\"diagram_ref\":\".csdlc/prepared/issues/659/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:659-preparation",
+      "reason": "Replace the zero-test filter with a nonzero preparation denominator and explicit post-implementation proof lanes for configuration and service convergence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-convergence-preparation\",\"proof_role\":\"Prove the issue plan names every configuration field, generous default and bound, separates listener-open from authenticated readiness, includes the configuration owner, and retains the fixed-wait implementation denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\"],\"parallel_group\":\"659-preparation\",\"defer_reason\":null},{\"lane\":\"runtime-convergence-config\",\"proof_role\":\"Prove backward-compatible defaults, every minimum and maximum bound, and invalid convergence configuration rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"service_convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables.\"},{\"lane\":\"runtime-convergence-service-control\",\"proof_role\":\"Prove deterministic slow success, exact-stage true expiry, independent listener and full-readiness gates, service-manager ownership, and rollback or recovery.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables and do not restart the live Runtime.\"},{\"lane\":\"runtime-convergence-quality\",\"proof_role\":\"Prove formatting, warning-free touched targets, and diff hygiene without broad Runtime execution.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"659-quality\",\"defer_reason\":\"Run after the bounded implementation is complete.\"},{\"lane\":\"runtime-convergence-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects in the issue diff.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"659-quality\",\"defer_reason\":null}]}"
+    }
+  ]
+}
