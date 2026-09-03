@@ -33,6 +33,25 @@ impl std::fmt::Display for ServiceManagerDeadlineExceeded {
 
 impl std::error::Error for ServiceManagerDeadlineExceeded {}
 
+#[derive(Debug)]
+struct ConvergenceDeadlineExceeded {
+    stage: &'static str,
+    timeout: Duration,
+}
+
+impl std::fmt::Display for ConvergenceDeadlineExceeded {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            formatter,
+            "Runtime v3 convergence stage {} did not complete within {} milliseconds",
+            self.stage,
+            self.timeout.as_millis()
+        )
+    }
+}
+
+impl std::error::Error for ConvergenceDeadlineExceeded {}
+
 #[derive(Debug, Deserialize)]
 struct RuntimeGenerationReceipt {
     schema: String,
@@ -653,7 +672,7 @@ fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                     return convergence_timeout("unload", timeout);
                 }
                 wait_for_service_unloaded(args, remaining)
-                    .map_err(|_| convergence_error("unload", timeout))?;
+                    .map_err(|error| normalize_stage_timeout(error, "unload", timeout))?;
             }
             Ok(())
         },
@@ -766,7 +785,7 @@ fn stop_and_wait_with_timeout(
         return convergence_timeout("stop", timeout);
     }
     wait_for_stopped(args, current, guardian_process_id, remaining)
-        .map_err(|_| convergence_error("stop", timeout))
+        .map_err(|error| normalize_stage_timeout(error, "stop", timeout))
 }
 
 fn start_and_wait(args: &RuntimeV3ServiceArgs, next: &RuntimeInitConfig) -> Result<()> {
@@ -1063,10 +1082,7 @@ fn convergence_timeout<T>(stage: &'static str, timeout: Duration) -> Result<T> {
 }
 
 fn convergence_error(stage: &'static str, timeout: Duration) -> anyhow::Error {
-    anyhow!(
-        "Runtime v3 convergence stage {stage} did not complete within {} milliseconds",
-        timeout.as_millis()
-    )
+    ConvergenceDeadlineExceeded { stage, timeout }.into()
 }
 
 fn normalize_stage_timeout(
@@ -1077,6 +1093,9 @@ fn normalize_stage_timeout(
     if error
         .downcast_ref::<ServiceManagerDeadlineExceeded>()
         .is_some()
+        || error
+            .downcast_ref::<ConvergenceDeadlineExceeded>()
+            .is_some()
     {
         convergence_error(stage, timeout)
     } else {
@@ -2147,6 +2166,16 @@ mod tests {
         assert!(error.to_string().contains("stage stop"));
         assert!(error.to_string().contains("20 milliseconds"));
         assert!(started.elapsed() < Duration::from_millis(500));
+    }
+
+    #[test]
+    fn convergence_stage_normalization_preserves_non_deadline_errors() {
+        let error = normalize_stage_timeout(
+            anyhow!("malformed service-manager state"),
+            "stop",
+            Duration::from_secs(300),
+        );
+        assert_eq!(error.to_string(), "malformed service-manager state");
     }
 
     #[test]
