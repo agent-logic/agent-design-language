@@ -792,7 +792,7 @@ impl ConversationAttachmentTestHook {
 
 enum ConversationAcceptance {
     Dispatch {
-        accepted: ObservatoryConversationResult,
+        accepted: Box<ObservatoryConversationResult>,
         dispatch: ConversationDispatch,
     },
     Response(ObservatoryConversationResult),
@@ -1277,18 +1277,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             message: intent.message.clone(),
         };
         let outcome = |status, error| {
-            ObservatoryConversationResult::from_parts(
+            ObservatoryConversationResult::from_parts(ObservatoryConversationResultParts {
                 status,
-                conversation_intent.conversation_id.clone(),
-                conversation_intent.turn_id.clone(),
-                conversation_intent.recipient_id.clone(),
-                conversation_intent.correlation_id.clone(),
-                None,
-                None,
-                None,
-                Some(error),
-                Some(metadata.clone()),
-            )
+                conversation_id: conversation_intent.conversation_id.clone(),
+                turn_id: conversation_intent.turn_id.clone(),
+                recipient_id: conversation_intent.recipient_id.clone(),
+                correlation_id: conversation_intent.correlation_id.clone(),
+                reply: None,
+                accepted_sequence: None,
+                turn_sequence: None,
+                error: Some(error),
+                initiation: Some(metadata.clone()),
+            })
         };
         if intent.schema != OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA
             || !is_safe_identifier(&intent.conversation_id)
@@ -1348,18 +1348,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         initiation: Option<AgentInitiationMetadata>,
     ) -> ConversationAcceptance {
         let outcome = |status, error, sequence| {
-            ObservatoryConversationResult::from_parts(
+            ObservatoryConversationResult::from_parts(ObservatoryConversationResultParts {
                 status,
-                intent.conversation_id.clone(),
-                intent.turn_id.clone(),
-                intent.recipient_id.clone(),
-                intent.correlation_id.clone(),
-                None,
-                None,
-                sequence,
-                Some(error),
-                initiation.clone(),
-            )
+                conversation_id: intent.conversation_id.clone(),
+                turn_id: intent.turn_id.clone(),
+                recipient_id: intent.recipient_id.clone(),
+                correlation_id: intent.correlation_id.clone(),
+                reply: None,
+                accepted_sequence: None,
+                turn_sequence: sequence,
+                error: Some(error),
+                initiation: initiation.clone(),
+            })
         };
         let initiated_work_id = initiation
             .as_ref()
@@ -1369,9 +1369,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "initiation": initiation,
         });
         let is_initiated = initiation.is_some();
-        let valid_intent = (intent.schema == OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA
-            && !is_initiated)
-            || is_initiated;
+        let valid_intent =
+            intent.schema == OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA || is_initiated;
         if !valid_intent
             || !is_safe_identifier(&intent.conversation_id)
             || !is_safe_identifier(&intent.turn_id)
@@ -1628,7 +1627,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             error: None,
         };
         ConversationAcceptance::Dispatch {
-            accepted,
+            accepted: Box::new(accepted),
             dispatch: ConversationDispatch {
                 intent: intent.clone(),
                 initiation,
@@ -3837,34 +3836,37 @@ struct ObservatoryConversationResult {
     error: Option<&'static str>,
 }
 
+struct ObservatoryConversationResultParts {
+    status: &'static str,
+    conversation_id: String,
+    turn_id: String,
+    recipient_id: String,
+    correlation_id: String,
+    reply: Option<String>,
+    accepted_sequence: Option<u64>,
+    turn_sequence: Option<u64>,
+    error: Option<&'static str>,
+    initiation: Option<AgentInitiationMetadata>,
+}
+
 impl ObservatoryConversationResult {
-    fn from_parts(
-        status: &'static str,
-        conversation_id: String,
-        turn_id: String,
-        recipient_id: String,
-        correlation_id: String,
-        reply: Option<String>,
-        accepted_sequence: Option<u64>,
-        turn_sequence: Option<u64>,
-        error: Option<&'static str>,
-        initiation: Option<AgentInitiationMetadata>,
-    ) -> Self {
+    fn from_parts(parts: ObservatoryConversationResultParts) -> Self {
         Self {
             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-            status,
-            conversation_id,
-            turn_id,
-            recipient_id,
-            correlation_id,
-            sender_id: initiation
+            status: parts.status,
+            conversation_id: parts.conversation_id,
+            turn_id: parts.turn_id,
+            recipient_id: parts.recipient_id,
+            correlation_id: parts.correlation_id,
+            sender_id: parts
+                .initiation
                 .as_ref()
                 .map(|metadata| metadata.sender_id.clone()),
-            initiated_work_id: initiation.map(|metadata| metadata.initiated_work_id),
-            reply,
-            accepted_sequence,
-            turn_sequence,
-            error,
+            initiated_work_id: parts.initiation.map(|metadata| metadata.initiated_work_id),
+            reply: parts.reply,
+            accepted_sequence: parts.accepted_sequence,
+            turn_sequence: parts.turn_sequence,
+            error: parts.error,
         }
     }
 
@@ -4049,28 +4051,28 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     if let Ok(intent) = serde_json::from_str::<ObservatoryAgentInitiationIntent>(&payload) {
                         let result = if bearer_token.is_none() {
                             ConversationAcceptance::Response(
-                                ObservatoryConversationResult::from_parts(
-                                    "refused",
-                                    intent.conversation_id.clone(),
-                                    intent.turn_id.clone(),
-                                    intent.recipient_id.clone(),
-                                    intent.correlation_id.clone(),
-                                    None,
-                                    None,
-                                    None,
-                                    Some("write_authentication_required"),
-                                    Some(AgentInitiationMetadata {
+                                ObservatoryConversationResult::from_parts(ObservatoryConversationResultParts {
+                                    status: "refused",
+                                    conversation_id: intent.conversation_id.clone(),
+                                    turn_id: intent.turn_id.clone(),
+                                    recipient_id: intent.recipient_id.clone(),
+                                    correlation_id: intent.correlation_id.clone(),
+                                    reply: None,
+                                    accepted_sequence: None,
+                                    turn_sequence: None,
+                                    error: Some("write_authentication_required"),
+                                    initiation: Some(AgentInitiationMetadata {
                                         sender_id: intent.sender_id.clone(),
                                         initiated_work_id: intent.work_id.clone(),
                                     }),
-                                ),
+                                }),
                             )
                         } else {
                             service.accept_agent_initiation_intent(&intent)
                         };
                         let (response, dispatch) = match result {
                             ConversationAcceptance::Dispatch { accepted, dispatch } => {
-                                (accepted, Some(dispatch))
+                                (*accepted, Some(dispatch))
                             }
                             ConversationAcceptance::Response(response) => (response, None),
                         };
@@ -4156,7 +4158,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         };
                         let (response, dispatch) = match result {
                             ConversationAcceptance::Dispatch { accepted, dispatch } => {
-                                (accepted, Some(dispatch))
+                                (*accepted, Some(dispatch))
                             }
                             ConversationAcceptance::Response(response) => (response, None),
                         };
@@ -5397,7 +5399,7 @@ mod layer8_conversation_ingress_tests {
                         .is_some_and(|reply| reply.contains("Ember") || reply.contains("ember")),
                     "recipient reply should be projected from executed work: {delivered:?}"
                 );
-                accepted
+                *accepted
             }
             ConversationAcceptance::Response(response) => {
                 panic!("agent initiation refused: {:?}", response.error)
@@ -5406,14 +5408,16 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(accepted.status, "accepted");
         assert_eq!(accepted.sender_id.as_deref(), Some("beacon"));
         assert_eq!(accepted.initiated_work_id.as_deref(), Some("a2a-work-001"));
-        let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
-        assert_eq!(tasks.len(), 1);
-        assert_eq!(tasks[0]["sender_id"], "beacon");
-        assert_eq!(tasks[0]["recipient_id"], "ember");
-        assert_eq!(tasks[0]["initiated_work_id"], "a2a-work-001");
-        assert_eq!(tasks[0]["provider"], "ollama");
-        assert_eq!(tasks[0]["model"], "gemma3-local");
-        assert_eq!(tasks[0]["endpoint"], "http://127.0.0.1:11434");
+        {
+            let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
+            assert_eq!(tasks.len(), 1);
+            assert_eq!(tasks[0]["sender_id"], "beacon");
+            assert_eq!(tasks[0]["recipient_id"], "ember");
+            assert_eq!(tasks[0]["initiated_work_id"], "a2a-work-001");
+            assert_eq!(tasks[0]["provider"], "ollama");
+            assert_eq!(tasks[0]["model"], "gemma3-local");
+            assert_eq!(tasks[0]["endpoint"], "http://127.0.0.1:11434");
+        }
         let events = recorder.events();
         assert!(
             events.iter().any(|event| {
@@ -5646,7 +5650,7 @@ mod layer8_conversation_ingress_tests {
     fn layer8_ingress_authorizes_before_dispatch() {
         let (service, _root) = service_with_layer8("shepherd", "shepherd");
         let accepted = match service.accept_conversation_intent(&intent()) {
-            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Dispatch { accepted, .. } => *accepted,
             ConversationAcceptance::Response(response) => {
                 panic!("authorized conversation was refused: {:?}", response.error)
             }
@@ -5709,7 +5713,7 @@ mod layer8_conversation_ingress_tests {
         }
 
         let accepted = match service.accept_conversation_intent(&continue_intent("turn-continue")) {
-            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Dispatch { accepted, .. } => *accepted,
             ConversationAcceptance::Response(response) => {
                 panic!("authorized continue was refused: {:?}", response.error)
             }
