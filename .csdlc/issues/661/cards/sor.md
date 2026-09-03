@@ -12,15 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Routed resident Shepherd conversation turns through the configured Shepherd operation adapter, projected generated provider responses into the existing conversation reply contract, and preserved explicit provider failure.
 
 ## Artifacts
 
-- none
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/ingress.rs
+- adl-runtime-kernel/src/shepherd.rs
+- adl-runtime-kernel/src/conversation_sessions_tests.rs
 
 ## Execution
 
-- none
+- Recognize resident Shepherd recipient ids from the canonical population and submit ShepherdRequest work to the Shepherd adapter.
+- Project only structurally valid, correlation-bound ShepherdResponse payloads as public conversation replies.
+- Carry the conversation recipient id inside the governed Shepherd request so public output remains bound to the addressed recipient.
+- Replace the hardcoded Shepherd acknowledgement assertion with deterministic generated-output and provider-failure proof.
 
 ## Validation
 

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
-  "phase": "bound",
-  "generation": 4,
-  "digest": "b991cff0d82b6e6d5a29c83817ce4c9505a9540ae3de60c5212d53658fc5e924",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "b426e6b03d51a4ad149a1b5015497d3a674c5cf08f12dedf35f80490522dd40a",
   "branch": "codex/661-runtime-shepherd-provider-reply",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9c286bf2ac36f2411cc3cf5cff34f73f881b71cf5be27374d0996730dad007e8",
+      "values_digest": "ec164353681c21a356637109bc0e83b44d1aba854d0ff0fcb9b98c1d57e9ab61",
       "rendered_digest": "f81858805d6596c05d714b6694a8adde96047af590ebc6970a4985d59a3d4aa8",
       "ast_digest": "be404bc1b531b0b8363255094d4cfe1289e0448763882de267a515502bdfedd4"
     },
     "stp": {
-      "values_digest": "e0cd999a3db237274209ff315a283abe1f62cd1b69ffe03f56c8882eeba29c1e",
+      "values_digest": "99dcccdcc357b41471b03d6ea4400f442ed80a4474fef085ca6c6d04bee5a9c7",
       "rendered_digest": "31248829a6d785b2b6cc9d845d0078b7d07c978554285bdbd3ca83c41aee5c02",
       "ast_digest": "53365e39345337f25b5d609b1050fa15319db4a1c076eebda90d03d720729b18"
     },
     "spp": {
-      "values_digest": "5dc91eb759034c37f8f5955d629a6aceb8375a34fefbcdf5230b7c51f11b01f1",
+      "values_digest": "dcb7b4a5524e2cba37efa11ef1185d1045995d48ecfd6b73cc65a789e455390e",
       "rendered_digest": "12ac832fd8e998d0f9c56d423586f18218e86688635870d686aa4f4f073f4f6c",
       "ast_digest": "7c255866c472dca18e47a429c3bd7e74cca7feb5cca2c9d7bea6e5a7693e13b6"
     },
     "vpp": {
-      "values_digest": "ba9baec23788aa6bb43eb7eff309a2ce36438a6663a0118f8530b5c3a34466d5",
+      "values_digest": "72ca7dd5ed89bd3c63aa40f02300fbb860cf8b1971795286a8608cd56321e45f",
       "rendered_digest": "f9198f867c8b5717a736e229a13cea05a8187261e47afd0f405ed485ec52e200",
       "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
     },
     "srp": {
-      "values_digest": "a162e39c502a7ac1b4381f84b037dbfb4d2d6bccc6fe5cb3f87e3be68bf41319",
+      "values_digest": "c4d3b3d5898e691e4ba8d632f9e60bb4341edc9a3d737680f621502f355f8760",
       "rendered_digest": "6dfae77b1360e688e1d74c293e4b02225208063a5b50d62cb81ac95818c19925",
       "ast_digest": "156db9c3fe21a3fa334005efb0407e349c7cbb197111e14b3fccf06b0bab8162"
     },
     "sor": {
-      "values_digest": "9371e5ff22153903daf7b174d80dfd1a8d04c5e5b6ae7509c5c3bb215eac4a9a",
-      "rendered_digest": "52e43810ee96a0ddb497488d980b73e0cde4bab159d828528d038cfd3ba320bc",
-      "ast_digest": "5572858de7599ba7b7628e09b20cb93b43fd03bfd1b53027fbc4e77a3158d86c"
+      "values_digest": "66dda0f9e6648b1acf911ba01fd861de0c4c1a97d847ec4605e02cb8c6884df6",
+      "rendered_digest": "82e8c5dcf42edc38cd61c9dd24513132edf18f3359b88178d76d5f6b4cffa72c",
+      "ast_digest": "fa25bf60456a04ed40bf43638ea722a63ea5a5068dd75d042cdb7f09e6837c0a"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:661-implementation",
+      "reason": "Provider-backed Shepherd conversation replies, explicit failure behavior, focused proof, full library tests, strict lint, production binary check, formatting, and diff hygiene are complete; exact-head review is next."
     }
   ],
   "audit": [
@@ -113,6 +120,20 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:661-implementation",
+      "reason": "Record provider-backed Shepherd conversation execution and focused local proof before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Routed resident Shepherd conversation turns through the configured Shepherd operation adapter, projected generated provider responses into the existing conversation reply contract, and preserved explicit provider failure.\",\"changes\":[\"Recognize resident Shepherd recipient ids from the canonical population and submit ShepherdRequest work to the Shepherd adapter.\",\"Project only structurally valid, correlation-bound ShepherdResponse payloads as public conversation replies.\",\"Carry the conversation recipient id inside the governed Shepherd request so public output remains bound to the addressed recipient.\",\"Replace the hardcoded Shepherd acknowledgement assertion with deterministic generated-output and provider-failure proof.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:661-implementation",
+      "reason": "Provider-backed Shepherd conversation replies, explicit failure behavior, focused proof, full library tests, strict lint, production binary check, formatting, and diff hygiene are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
