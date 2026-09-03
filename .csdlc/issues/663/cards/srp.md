@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The paid live GCP timing and cleanup lane was not run because no exact company project and GCP spend authorization were provided; AC-8 explicitly permits this deferred disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ce1616a16ac07a08e3dac8adc5c6cc6ee4315836:27c12b9ed17bb70178a2948d820891efc2726aa0a7cd059c817c9616810df40a")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/issue_663_final_review")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][GCP][runtime-v3] Add warm two-node Polis and GPU startup parity",
     "slug": "gcp-warm-two-node-polis-gpu-startup-parity",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/prepared/issues/663\n.csdlc/evidence/663\ninfra/gcp/workloads/modules/two-node-ollama-runtime\ninfra/gcp/workloads/warm-polis\ndocs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:ce1616a16ac07a08e3dac8adc5c6cc6ee4315836:27c12b9ed17bb70178a2948d820891efc2726aa0a7cd059c817c9616810df40a",
+      "reviewer": "codex-subagent:/root/issue_663_final_review",
       "review_prompts": [
         "Does the change reuse the existing GCP and AWS designs without creating unnecessary abstractions?",
         "Can ordinary workload teardown delete a source snapshot, or leave a restored Persistent Disk accruing idle cost?",
@@ -24,8 +24,10 @@
         "Do local tests avoid claiming unmeasured live GCP startup performance?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The paid live GCP timing and cleanup lane was not run because no exact company project and GCP spend authorization were provided; AC-8 explicitly permits this deferred disposition."
+      ],
+      "review_result": "pass"
     }
   }
 }

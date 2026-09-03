@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bdec3b2866f08bd765f50a2717fe4fc32698066911fbf20529dc0c01a8571ed",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "d8b5f976fe7480ff781c5ca7aad800d1c975ab8661d84418517597950af4c5c8",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "6b669ceab2d376a1ebba1e9626ad74e8f3a9dd97a1310d2c0c3d1e2a9db8debe",
   "branch": "codex/663-gcp-warm-polis",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-663-gcp-warm-polis",
   "review_assignment": {
@@ -21,7 +21,23 @@
       "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/issue_663_final_review",
+    "scope": [
+      ".csdlc/prepared/issues/663",
+      ".csdlc/evidence/663",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime",
+      "infra/gcp/workloads/warm-polis",
+      "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md"
+    ],
+    "reviewed_revision": "git-blake3:ce1616a16ac07a08e3dac8adc5c6cc6ee4315836:27c12b9ed17bb70178a2948d820891efc2726aa0a7cd059c817c9616810df40a",
+    "findings": [],
+    "residual_risks": [
+      "The paid live GCP timing and cleanup lane was not run because no exact company project and GCP spend authorization were provided; AC-8 explicitly permits this deferred disposition."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "74f217019a4592cdbd705be4308488415117d2b0ca7d972634a7dacf352d661e",
+      "values_digest": "4cf54696a7d1131d82b279a6bd38c2b373c8abf25c259b1fb25820eeaf82686c",
       "rendered_digest": "62cd11f39b1d4d4fe0428377e6a70b910f381e8d030c4e432cc2236610333632",
       "ast_digest": "a6cc706f0be24b3552ce8e4346f6d4ba6749b496f706fab1576867cfc1f207d7"
     },
     "stp": {
-      "values_digest": "30eefc2f47fda8457c39b9bc5d9875a805644816cd7e58e7118ba67a8f595827",
+      "values_digest": "937b0edddf3164f092a91cfac1ded6b6e24e7e1545031c8230ece6659df85d30",
       "rendered_digest": "eaa84838878b97131d90916d990ada9b5b3e184731ac84e3254b019aab3ca9b6",
       "ast_digest": "d42cfb7e9b28db776d886c5ed813da9daeee9a51a80e0fbd4a7071bc6efd1ef2"
     },
     "spp": {
-      "values_digest": "78f197dd8180c425bb54b9b8fe4f3077bcf2fb9b08aa7b6f4da44284f8b09e3f",
+      "values_digest": "542b73a498b3fe7919043b16aab6fffd3a1c710e06687d82bb5177df18cb1df0",
       "rendered_digest": "c244d1676034c45ed9648f82ac82040e5c225c04b1dc5e5d0182eafb75d2687b",
       "ast_digest": "a842c3a3b4fbc3effc4dbf9e392ab6ea4ebba999bc12a740317745b3bcd5ac47"
     },
     "vpp": {
-      "values_digest": "9def1a49db081ff940bd7c4d428db9b367ea76d77fca8ab06ec57c7ef14db820",
+      "values_digest": "48dd0d7eb9b2317da1719c789b7e313febb9d55228566937f097181cbe685d92",
       "rendered_digest": "39431709177b81466f7f38892b756378284fcfedb8559883f16a476e293de31c",
       "ast_digest": "db23bda8a22e0ff2a495972e0b9f22138d8cec0caf8311ff2367fbde0c1ef915"
     },
     "srp": {
-      "values_digest": "d9c6cb9e4762659de953e2f21efc899d298d37a2ccec7656857377a86230f210",
-      "rendered_digest": "f5081c9269785f421ed9c07d6eeb54b5c9dd8ee68f46a4ee2b2c696b76e7f9fc",
-      "ast_digest": "d390837d58871c247771082209039a4c362bea1cc37523106ec88523c116a151"
+      "values_digest": "fffc472926a023e3eb0652bfab931435acda2f7e4fcdfa12cd5fd8474e328bcc",
+      "rendered_digest": "a2f68033cea674f683746befd7b93d6991cf623213c8af8b237b5cb2338843b9",
+      "ast_digest": "dac54e3d85969a51e1451a4c4672497e88858c5131830d2fc5981060e8cbcab0"
     },
     "sor": {
-      "values_digest": "024ba2703ae71e0d7229370364bb1c23107817b205bb1c3a51bf8ffd188fd504",
+      "values_digest": "5937af06286965a1ceff1a82cabbff954c26c77dc758d182a4bd461e427ec016",
       "rendered_digest": "16b7dd57d639b61d651e66c88c600c48026ad74afa38437de1cdddaf0c1ddb49",
       "ast_digest": "6ffa3b5ec081ff1074ab29cd607b37a8ef17e63870d71b825ec10b4bff5fe915"
     }
@@ -87,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -229,6 +252,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
