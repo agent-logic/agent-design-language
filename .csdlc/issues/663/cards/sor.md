@@ -108,11 +108,11 @@ Implemented the GCP warm two-node Polis path with snapshot-only idle retention, 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
