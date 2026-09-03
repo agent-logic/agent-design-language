@@ -31,7 +31,18 @@ docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P2-validator-denominator-row-ids-not-locked",
+    "severity": "p2",
+    "summary": "The focused #624 validator enforces category coverage but not the exact seven-row denominator; omitting one duplicate-category row such as a GitHub/CI row could still pass.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -39,12 +50,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Read-only review only; no live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations were performed.
+- The reviewer verified the bridge from assigned revision 311c76b4b627b5aae21986bf7c7b37dc489e27fe to current head 0f36b1988f0e6ab952089decd033bdaa7a74ac51 changed only typed lifecycle/review-assignment metadata and no reviewed artifact, validator, evidence log, receipt, or operational claim.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:311c76b4b627b5aae21986bf7c7b37dc489e27fe:32678b016d0bd92e764204602ca4f8191af016e42783eda78a81dbb810656302")
 
-Reviewer: None
+Reviewer: Some("fresh-session:413e61ea-5220-4eec-b579-40558dea36eb")
 
-Result: pre_review
+Result: changes_required

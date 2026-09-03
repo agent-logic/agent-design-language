@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "3790924b711ae06b90b52453e551c509f813a2079ee2d04439e8a55a8fe3a3bc",
+  "generation": 7,
+  "digest": "57eb35182a0202c4caf1b003179efcc9599cf45a49270582556b88d037845cee",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
   "review_assignment": {
@@ -24,7 +24,38 @@
       ".csdlc/evidence/624/issue624-diff-hygiene.log"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:413e61ea-5220-4eec-b579-40558dea36eb",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ],
+    "reviewed_revision": "git-blake3:311c76b4b627b5aae21986bf7c7b37dc489e27fe:32678b016d0bd92e764204602ca4f8191af016e42783eda78a81dbb810656302",
+    "findings": [
+      {
+        "id": "P2-validator-denominator-row-ids-not-locked",
+        "severity": "p2",
+        "summary": "The focused #624 validator enforces category coverage but not the exact seven-row denominator; omitting one duplicate-category row such as a GitHub/CI row could still pass.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Read-only review only; no live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations were performed.",
+      "The reviewer verified the bridge from assigned revision 311c76b4b627b5aae21986bf7c7b37dc489e27fe to current head 0f36b1988f0e6ab952089decd033bdaa7a74ac51 changed only typed lifecycle/review-assignment metadata and no reviewed artifact, validator, evidence log, receipt, or operational claim."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fe56410582ad44e04a983a660a365a8c719c5174af388a49c9784b2f5948a4b4",
+      "values_digest": "6512d5b5570e149943fcb100a6481949a705d552029c82278580794a407dfcb2",
       "rendered_digest": "178e833abe2b52ed51498bd1f33b08d4a5460f30cb659131d49394c626ace5fa",
       "ast_digest": "3a011837c6252ffb523cb2b6496061b1c394e526a77fe253d90423b5b0d05519"
     },
     "stp": {
-      "values_digest": "98e5212449029e3264e729adf85adbb483bec01e1e04efb9d15af6c45a1213dc",
+      "values_digest": "2d9e03c20d335277f06fe6c8f33f7aecbb7f31ac0116a5f63d7ab83361ff2d67",
       "rendered_digest": "da5de2cf9e9453239574fc79588f610493992f24eb528146b96dddd00cee4c08",
       "ast_digest": "74abf5a4d0df01a61d1cc5e54f20891ce84ab02571fd67ae421214147909c69b"
     },
     "spp": {
-      "values_digest": "b16c884148b5157a28e3e6649fe0bd501e5ce119d9065b2725f990e3621378ec",
+      "values_digest": "26b47b8422542d1ff838bfeb1c8c7f69014dd24fb991a9f57e0a536c45fe59b4",
       "rendered_digest": "8f6ca65e54484bd8a9bb68ab43e899ca662ff90cfb9314696b915697393abb9d",
       "ast_digest": "4e1e45af0baa369fe539558ec219732afe157d6e2b5f1765e72bed8d2c26f1fd"
     },
     "vpp": {
-      "values_digest": "1006695dbb92a5ad4cef48c72d0dcadaf512132579c8e79879e90057cd7e3c95",
+      "values_digest": "5706955a80da1228a5727c2baaa9aa86ac8f0b225bb3b13c472ce42aa406125d",
       "rendered_digest": "4ad50171a537aeec464e3b84f923e5c1129309590ad88c6417dde02bebbdd6c9",
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "695f08bd2a3116aa6479357403c6c1f48f54dc6a23e435edfad4525255b2ebbc",
-      "rendered_digest": "c9f65193fa406027a5a1753132371fea90c190652806a0bb2353e0cb895c2174",
-      "ast_digest": "9007834905a84bebf9d61f106cf8067d9e2b434c4beae73a89eb813bf1a3c2a2"
+      "values_digest": "2ede5a95c6ccdcf156497d55f356d8f78063e987dc99902c9931afb266b85d16",
+      "rendered_digest": "365ef2b4846cd14620b7619ab36fc269d33961edd1840a0d48ea5904318aaa29",
+      "ast_digest": "5dd8548b8672561815996e74f0896c020c13efa18d9d6f083cfbea1af50f485d"
     },
     "sor": {
-      "values_digest": "9167b34c841366a832dae449c760d1215b1628f459ee41d428f9cc4be81ecf75",
+      "values_digest": "447a505c55e1a660edf1bb04f99547c1ce3e04957ec7f769fd895d2e84c64d8a",
       "rendered_digest": "0e6f478d5b457982d286d7aaee843554cfda9e19b1d463f5f5f5cc4f9e654d2c",
       "ast_digest": "951a71486b83f7703fe655105fb879f4492d8267700305db5ab1c57acb32b92a"
     }
@@ -176,6 +207,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
