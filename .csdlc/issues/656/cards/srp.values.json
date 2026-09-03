@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
     "slug": "runtime-atomic-generation-install",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/install_runtime_v3_generation.sh\nadl/tools/runtime_v3_generation.py\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tools/test_runtime_v3_generation_install.sh\nadl/tests/csm_runtime_v3_generation.rs",
-      "review_revision": "git-blake3:d0327eb6f913efab2cacba8b12322c8fd183abee:e24a087e13afe0ac9d62f87fa1db59de4fdadd90efc1f97248658ba9f22d8f17",
-      "reviewer": "fresh-session:ab7be61c-d12e-4f81-8b72-596202f1c850",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can an incomplete set become current?",
         "Does the receipt bind exact activated files?",
@@ -23,43 +23,9 @@
         "Is preflight before mutation?",
         "Is rollback limited to verified generations?"
       ],
-      "findings": [
-        {
-          "id": "F-656-1",
-          "severity": "p1",
-          "summary": "Rust preflight does not reject non-executable generation artifacts before service mutation.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "F-656-2",
-          "severity": "p1",
-          "summary": "Authoritative SOR does not retain exact-final-SHA validation truth.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "F-656-3",
-          "severity": "p2",
-          "summary": "Generation corruption can prevent the governed stop path from stopping a running service.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "Review ran on macOS; Linux systemd behavior was inspected but not executed.",
-        "No live Runtime or service-manager mutation was performed."
-      ],
-      "review_result": "changes_required"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

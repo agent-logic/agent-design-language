@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
     "slug": "runtime-atomic-generation-install",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
@@ -77,7 +77,7 @@
           "evidence_ref": "git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; cargo fmt check and exact commit diff check passed"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

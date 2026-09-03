@@ -84,7 +84,7 @@ Implemented immutable matched Runtime v3 generations with one receipt, atomic cu
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
