@@ -1,0 +1,206 @@
+{
+  "schema": "adl.issue509.gcp_drt_d_runtime_receipt.v1",
+  "status": "passed",
+  "source_revision": "f61de6ac171253db3d0afb47ec3e4c1838b47c54",
+  "topology": {
+    "node_count": 2,
+    "runtime_node": "gcp_compute_instance.runtime",
+    "ollama_node": "gcp_compute_instance.ollama",
+    "ollama_private_ip": "10.138.0.22",
+    "ollama_public": false
+  },
+  "provider": {
+    "kind": "ollama",
+    "runtime_surface": "gcp_private_ollama_http",
+    "model_source": "gcs_object_storage",
+    "artifact_manifest_sha256": "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc",
+    "model_count": 3,
+    "models": [
+      {
+        "model_identity": "llama3.1:8b",
+        "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+        "size_vram": 5271715839
+      },
+      {
+        "model_identity": "phi4-mini:latest",
+        "digest": "78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753",
+        "size_vram": 3087615917
+      },
+      {
+        "model_identity": "qwen3:8b",
+        "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+        "size_vram": 5578204118
+      }
+    ]
+  },
+  "residents": [
+    {
+      "agent_id": "issue268-planner",
+      "agent_test_outcome": "executed",
+      "cycle_id": "cycle-000001",
+      "model": "qwen3:8b",
+      "role": "planner",
+      "runtime_exit_code": 0,
+      "runtime_receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-planner.pre.planner_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-planner",
+        "authority_sha256": "8c6b20761fd0e0622f15b0ed9d6e00350c9287594319949ca07183b042227256",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:0f9f8cc603451fa3f606b0ffb63c5d6c4820ddd79139da4357c503d892d527e7",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:fcf8b19ced7ca25710a0bbbfa20c376bb1a25aaae7726459f799721ee84595fb",
+        "proposal_sha256": "8d258dd516f2aa28603cfceaac12ca05278e476b5c2b427626c82d9262da0972",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-planner",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      },
+      "runtime_receipt_sha256": "49ad8c61aab60ef09a41c2adc74d1a9591a13fd999ddd7c8a94d0db170f08535",
+      "schema": "adl.issue268.runtime_resident_cycle.v1",
+      "task_definition_sha256": "57a65d1690367d6aa446c31871f33115020d4572c2471eee3752c38a552df87c",
+      "task_id": "planner_pre_observe"
+    },
+    {
+      "agent_id": "issue268-recovery-custodian",
+      "agent_test_outcome": "executed",
+      "cycle_id": "cycle-000001",
+      "model": "phi4-mini:latest",
+      "role": "recovery_custodian",
+      "runtime_exit_code": 0,
+      "runtime_receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-recovery-custodian.pre.custodian_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-recovery-custodian",
+        "authority_sha256": "4b776441ab22064c3cc4842b61fa285e8708ef2723168dbd6defeef420af98cd",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:1bd77bcf56bc2d17299dbdec20b3dbac94e4f8314e18b34de48957cf2b60cc22",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:689fb3234a1a328d13b691a25e613be57b11654e4db92cf82f7df841b1576293",
+        "proposal_sha256": "9d042ec14b2f6d941e580824bc9827c077af68edaae4646b3bc6c70a68d8feaa",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-recovery-custodian",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      },
+      "runtime_receipt_sha256": "f4407e91233376ae144f1081d20efa2d5b06671a77d3fee720dc9b608c34c6fe",
+      "schema": "adl.issue268.runtime_resident_cycle.v1",
+      "task_definition_sha256": "384fe8918065713ab407ba16fbf94db02a976761ec9a549fdd4c69b7bb760c32",
+      "task_id": "custodian_pre_observe"
+    },
+    {
+      "agent_id": "issue268-reviewer-escalation",
+      "agent_test_outcome": "executed",
+      "cycle_id": "cycle-000001",
+      "model": "llama3.1:8b",
+      "role": "reviewer_escalation",
+      "runtime_exit_code": 0,
+      "runtime_receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-reviewer-escalation.pre.reviewer_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-reviewer-escalation",
+        "authority_sha256": "64c9fbcaea083419f4f97830db0c643e7d268ab5f30582e525d469944897c46e",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:493a2f2619247fdaf562049ab052db9d0793a386563745a54e46d25f2f82d9d9",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:ad4036738751938d6007c0cd272c800177e32ca592f4afad02ed0828bd061ac2",
+        "proposal_sha256": "140d98bdcd230ad1e0dfe3555e51763f3244695ec6d4e2dc3aa2e13509c7a0ec",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-reviewer-escalation",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      },
+      "runtime_receipt_sha256": "9590f9b6c15d1b3999ee5409427fc5879f773b04b4516301f01e4ee039a8ba86",
+      "schema": "adl.issue268.runtime_resident_cycle.v1",
+      "task_definition_sha256": "d1285c353699eee8bdbc47b6bad21b928374d8297cb7ddb2e38cc1e8b87505c0",
+      "task_id": "reviewer_pre_observe"
+    },
+    {
+      "agent_id": "issue268-runtime-observer",
+      "agent_test_outcome": "executed",
+      "cycle_id": "cycle-000001",
+      "model": "phi4-mini:latest",
+      "role": "runtime_observer",
+      "runtime_exit_code": 0,
+      "runtime_receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-runtime-observer.pre.observer_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-runtime-observer",
+        "authority_sha256": "5bbfdfde8c2fb0b0e1eeac8002c46d15653cb52f09a54d6b2c83a7dcf1909876",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:d210a1b5aed042fb822ff6ba2a0f53b9f9911f70174d8225d625372af93365dd",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:ada35fc052725a881a5acecef9166de68d8e650604450127569bbe305910c87b",
+        "proposal_sha256": "6b0eea7ed4b10499b02d8c61eb1081c94a53748977ee0be9fd706f94f023698e",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-runtime-observer",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      },
+      "runtime_receipt_sha256": "ea93b1cb757e31daaa01cb60123d6564b4a2dd3af1b4e6b7c7e4170be889f2c3",
+      "schema": "adl.issue268.runtime_resident_cycle.v1",
+      "task_definition_sha256": "74311af0f82e0d4b52c08fed32e011a78d9c6efde840ac9567a3bbbbc78c2a07",
+      "task_id": "observer_pre_observe"
+    },
+    {
+      "agent_id": "issue268-shepherd-controller",
+      "agent_test_outcome": "executed",
+      "cycle_id": "cycle-000001",
+      "model": "llama3.1:8b",
+      "role": "shepherd_controller",
+      "runtime_exit_code": 0,
+      "runtime_receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-shepherd-controller.pre.shepherd_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-shepherd-controller",
+        "authority_sha256": "baf081bbf31f344458a3e3da77fb3fedcfcfdb3ee7118246213ce23b6ea10fd1",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:e770b906893b73effb2ba303fd908715fc91048ef19d5aa4c83a3cec134e9202",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:e03bdfe98174a51fd41832eed96857227441e4fd08c135057a013cc4578e80de",
+        "proposal_sha256": "f693b278e520c92be10fd2a0b7a1d21b6d37030471d41ce6ec5584abae4a7f66",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-shepherd-controller",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      },
+      "runtime_receipt_sha256": "3bc7ccc01a2d6643c2f6e7e543c2cd2e27768b13421659c187944721db5c903a",
+      "schema": "adl.issue268.runtime_resident_cycle.v1",
+      "task_definition_sha256": "34f962c526f84dd2d313defa95a57f209ab003c165a33f913752bc054f251885",
+      "task_id": "shepherd_pre_observe"
+    },
+    {
+      "agent_id": "issue268-tool-executor",
+      "agent_test_outcome": "executed",
+      "cycle_id": "cycle-000001",
+      "model": "qwen3:8b",
+      "role": "tool_executor",
+      "runtime_exit_code": 0,
+      "runtime_receipt": {
+        "acc_contract_id": "acc.compiler.issue268.issue268-tool-executor.pre.executor_pre_observe",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "authority_id": "authority.issue268-tool-executor",
+        "authority_sha256": "0f670caf766dc868f1246cf9464c66b5bd800eed2d8c6458c848458db98a7b10",
+        "checkpoint_lineage": "continuity_checkpoint.json#sha256:5b1f5bc746bcd37de20cf6a7f7354929e60b3b6fe44b1ed430f7af116affc778",
+        "cycle_id": "cycle-000001",
+        "decision": "executed",
+        "gate_reason_code": "gate_allowed",
+        "proposal_id": "sha256:5f04b9c024c9eb0ed5b95503ff9cbbf88d0366282c8c37c6cd0999b317128cd1",
+        "proposal_sha256": "8152d142852691552b95d3ac7319bc27734e0202981efdfe018a641f64163cd1",
+        "reason_code": "governed_execution_completed",
+        "resident_id": "issue268-tool-executor",
+        "schema": "adl.runtime.resident_tool_receipt.v1"
+      },
+      "runtime_receipt_sha256": "b5a978b5a066ba3143aa1344ef4a6ad2dc46f1d1f00c313e52adb89e1e18ee6e",
+      "schema": "adl.issue268.runtime_resident_cycle.v1",
+      "task_definition_sha256": "94ce28bd52463a0078b5e922b23d0e6c019f9739a5d5829e18740dd2d66781f0",
+      "task_id": "executor_pre_observe"
+    }
+  ],
+  "components_exercised": [
+    "gcp_compute_runtime_node",
+    "gcp_compute_ollama_gpu_node",
+    "six_resident_uts_runtime",
+    "private_ollama_http"
+  ]
+}

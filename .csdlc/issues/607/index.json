@@ -1,0 +1,1424 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 607,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
+  "phase": "published",
+  "generation": 132,
+  "digest": "95c9f8faa643b03201fa11174bb23eed45a40807019c0a8cbc70ee3edc6d304d",
+  "branch": "codex/607-aws-warm-polis-gpu-startup",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
+  "review_assignment": {
+    "reviewer": "subagent:issue_607_final_publication_review",
+    "assigned_by": "codex-primary-issue607",
+    "revision": "git-blake3:dbbe60015b84afdba918117210bc58df3c6fcaeb:42f8e63c0961b68002aba486b6f700ff4aa9e5a1681e293b535688f928fdba7b",
+    "scope": [
+      ".csdlc/evidence/607",
+      ".csdlc/prepared/issues/607",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      "infra/aws/runtime/gpu-proof"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_607_final_publication_review",
+    "scope": [
+      ".csdlc/evidence/607",
+      ".csdlc/prepared/issues/607",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      "infra/aws/runtime/gpu-proof"
+    ],
+    "reviewed_revision": "git-blake3:dbbe60015b84afdba918117210bc58df3c6fcaeb:42f8e63c0961b68002aba486b6f700ff4aa9e5a1681e293b535688f928fdba7b",
+    "findings": [],
+    "residual_risks": [
+      "The measured 240-second service-ready result applies to the current two-8B-model configuration; larger models can take longer to load.",
+      "Only USD 0.016714 remains under the issue ceiling, so the aggregate guard rejects any further paid qualification action."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 607,
+    "pull_request": 657,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/657",
+    "base": "main",
+    "head": "codex/607-aws-warm-polis-gpu-startup",
+    "revision": "git-blake3:d57c84c63bf60c3576a614444c71de7f4cf96063:f5869e9ddb5eff39633be2a92b76a30e275cb51fe6add48f151ed7bcc6fe5072",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/607/design.md",
+  "diagram_path": ".csdlc/prepared/issues/607/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a06620-cbe8-7033-b73e-afe67ff2d176",
+      "revision": "9cc3e977d71f54ea832a8b070dbb3498cc0219a811c95b91bc61e5e5bef19786"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a579b6fb43b39f29b54e624040c88c86c73b22cc73e364e61898713ca7a98242",
+      "rendered_digest": "90aea889da830d9181252e4dc21d7ede731f5cdb5d91335d07198ba1dc7dae0a",
+      "ast_digest": "67e56776abb0eee782ef993c404021b24cc7b9a4470e59655a44421782bd5700"
+    },
+    "stp": {
+      "values_digest": "f9de2a1b43866f133b3df46edd5bfd10b0f320e8aad3b5507fc94be36c1c379a",
+      "rendered_digest": "0be79b7287a9ab5deec6306488463e0c6f6528bc56e65a269d93ba0038f4b2bf",
+      "ast_digest": "d63bb658343fa74c02e866ad01d3b0efaa31087b8de46ba3ebab48b511e58e26"
+    },
+    "spp": {
+      "values_digest": "db69d9eb34655360ead9dd93030fa76ad6212db37985956fdfec3420838acf35",
+      "rendered_digest": "e4cf3cfae098aefb76e86311aabb86b016754ac5749d9039843b5dd5ff45ca09",
+      "ast_digest": "450ee16651fbaf66f9d05c42c98a5ecad35ee0d79ced0d1a88e547d6a421d2de"
+    },
+    "vpp": {
+      "values_digest": "2525b7e3c8f5a901458cce206a33616ada3539fa41ea517b6ed2b3a5faf957e6",
+      "rendered_digest": "05d99118c1b11935e8b7a63fffeef50f341872cc72de2172dfc11f8797fad36e",
+      "ast_digest": "7bea9743cd7a504145e8d56b4644ae14e960b56fb72467f9ea56290a67357612"
+    },
+    "srp": {
+      "values_digest": "ca3ef99023a8a37752bc64e44914d68394ec8f5fc148f80c06b1b0f1bf18d459",
+      "rendered_digest": "b0ebea391a54cc8ddf708510cf583450b478067fdbb897218a9b6e03e98a8d7b",
+      "ast_digest": "fb1dbbb4f35fd09abfa8f118762aaf3f735533041f4c54b466d5aa781918a447"
+    },
+    "sor": {
+      "values_digest": "b4bbc9f8ea73bd4bfe8f0acec94874365ef7cdc2f2c52de2e35bcb4399e58697",
+      "rendered_digest": "96c3631605388b93c74650ff842ea1de7dc4abed9f86013c7e660c10d4e7ffbb",
+      "ast_digest": "200a42e72785e4f60f7dd34594c6552a893693e50ef4bf8d7f41c3a62b43cc8a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root:issue-607-readiness",
+      "reason": "Advance the independently approved and doctor-ready preparation packet so typed card reconciliation and binding can proceed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "The bounded implementation and no-paid validation are recorded; live AWS validation and exact-head review remain subsequent gates."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the reviewed state after live read-only pre-mutation evidence exposed a null Contents handling defect in the empty S3 run-prefix guard."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized AWS preparation run exposed Ubuntu 24.04 package availability and interrupted-cleanup reconciliation defects, plus a missing early stopped-instance failure signal."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized preparation run proved the Runtime script attempted to unmount its warm filesystem while its current directory remained inside that mount."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized preparation proved AWS AMI and snapshot completion can validly exceed the fixed CLI waiter limit; replace it with bounded state-aware polling before another paid campaign."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after live AWS preparation showed that healthy image and snapshot work must wait without a deadline, start both images before waiting, and survive controller interruption through exact-state resume."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend review after the authorized live apply exposed that uncompressed embedded qualification scripts exceed the EC2 16 KiB user-data limit; repair packaging and add a deterministic pre-apply size guard before any further spend."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend reviewed state after the final live payload-recovery qualification passed, the operator extended the ceiling to USD 21 before completion, and exact termination lifetimes must be recorded in final SOR and cost truth."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-primary-issue607",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Current origin/main was merged into PR #657 to resolve the publication-time conflict. The issue diff remains bounded, but the exact head changed and the resident Shepherd admission conflict was resolved to retry transient failures while keeping Runtime alive on fatal admission failure, so fresh typed review is required before republishing."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-primary-issue607",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:issue-607-init",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root:issue-607-readiness",
+      "reason": "Replace human area labels with exact safe repository-owned path roots before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/build_or_prepare_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof\",\".csdlc/prepared/issues/607\",\".csdlc/evidence/607\",\".csdlc/issues/607\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root:issue-607-readiness",
+      "reason": "Replace human area labels with exact safe repository-owned path roots before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/build_or_prepare_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof\",\".csdlc/prepared/issues/607/validate-preparation.sh\",\".csdlc/prepared/issues/607\",\".csdlc/evidence/607\",\".csdlc/issues/607\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root:issue-607-readiness",
+      "reason": "Use the real issue-owned preparation contract before binding; implementation and paid lanes remain explicit planned deliverables and will replace this readiness lane after their targets exist.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-preparation-contract\",\"proof_role\":\"Validate the exact #607 design packet, acceptance and plan denominator, baseline Terraform and runner inputs, startup targets, and USD 20 operator constraint before implementation binding.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/607/validate-preparation.sh\"],\"parallel_group\":\"readiness\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject preparation and later implementation diff hygiene defects.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:01a05def-4902-75b1-9ae8-72baad3a5e0d",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"8274edf9cc3606a40f6a284bf17c2c1ab75bd50b2ab614038dc0fe9c7f4c7d29\",\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root:issue-607-readiness",
+      "reason": "Advance the independently approved and doctor-ready preparation packet so typed card reconciliation and binding can proceed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root:issue-607-design-remediation",
+      "reason": "Reconcile the reviewed design remediation into one atomic acceptance, plan, and validation denominator.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download\",\"AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources\",\"AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals\",\"AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches\",\"AC-5: Preparation and compute plan destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue and no warm-volume KMS snapshot seal or storage-state mutation\",\"AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident\",\"AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt within 30 seconds and controller-monotonic apply-to-observed aggregate service_ready meets 120 seconds or remains failed\",\"AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions\",\"AC-9: Explicit gp3 size IOPS and throughput artifact-byte full-initialization and per-stage budgets make the 30-second path feasible and stale cross-AZ partial dirty or mismatched volumes fail closed\",\"AC-10: Preparation launch one and launch two use separate single-use authorizations under one aggregate exact-plan USD 20 envelope with no retry reuse\",\"AC-11: Cost proof includes preparation both launches EBS performance S3 snapshots IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action\",\"AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ and destroy-plan guards.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Build the complete immutable launch and qualification artifact closure and dm-verity sealed warm volumes.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement no-install activation service and qualification receipts stage budgets and deterministic negative tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Bind three single-use authorizations and aggregate cost then prepare and launch twice proving timing full behavior and exact residue.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Obtain fresh exact-head review fix every actionable finding and publish through typed lifecycle authority.\",\"acceptance_ids\":[\"AC-12\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"issue607-preparation-contract\",\"proof_role\":\"Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before binding.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/607/validate-preparation.sh\"],\"parallel_group\":\"readiness\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject preparation and later implementation diff hygiene defects.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root:issue-607-design-remediation",
+      "reason": "Reconcile reviewed storage, identity, authorization, SSH, and seven-day cost constraints before implementation.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Never compile install packages use Git Snap or download models during normal launch\",\"Use disjoint Terraform state for persistent storage and disposable compute\",\"Keep immutable S3 as artifact authority\",\"Bind exact AMI metadata KMS key AZ volumes seals and plans before mutation\",\"Use three separate single-use paid authorizations\",\"Always retain SSH access on preparation and both launch nodes with one shared key and operator CIDR\",\"Require least-privilege IMDSv2 preparation and zero disposable residue\",\"Keep Ollama private\",\"Write run state only below the bound worktree\",\"Do not exceed USD 20 including seven-day retained storage\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex-primary-issue607",
+      "reason": "Replan the bound issue for operator-required durable snapshots, restore timing, sparse economics, and the existing thirty-second warm target.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download\",\"AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources\",\"AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals\",\"AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches\",\"AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted\",\"AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident\",\"AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt within 30 seconds and controller-monotonic apply-to-observed aggregate service_ready meets 120 seconds or remains failed\",\"AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions\",\"AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the 30-second warm path testable while stale cross-AZ partial dirty or mismatched volumes fail closed\",\"AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 20 ceiling with no retry reuse\",\"AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action\",\"AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ canonical-plan authorization and destroy guards.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Build the complete immutable launch and qualification closure, seal the two sparse 200 GiB warm volumes, retain completed snapshots of both, and time a temporary snapshot restore.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\",\"AC-11\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement no-install activation, persistent Guardian readiness, separate qualification receipts, stage budgets, deterministic negative tests, and exact zero-residue queries.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Bind three single-use authorizations to one aggregate envelope, prepare once, prove the snapshot restore timing, and launch twice proving timing full behavior cost and exact residue.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Obtain fresh exact-head review, fix every actionable finding, publish through typed lifecycle authority, finish, and clean.\",\"acceptance_ids\":[\"AC-12\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"issue607-preparation-contract\",\"proof_role\":\"Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, snapshot preservation and restore timing, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before publication.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/607/validate-preparation.sh\"],\"parallel_group\":\"readiness\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject preparation and later implementation diff hygiene defects.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the implemented worktree result without claiming pending paid AWS proof, review, publication, or merge.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the bounded warm two-node AWS path at 95efc4fd1; retained live AWS snapshot and launch proof is still pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership\",\"Prepared complete Runtime and GPU closures once and activated without launch-time installation or downloads\",\"Added persistent Guardian HTTPS and WSS readiness probing separately from full qualification\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope\",\"Added exact cleanup queries, explicit retention extension and volume retirement, and a cumulative cost ledger\",\"Required completed sparse snapshots of both sealed volumes and timed/deleted one temporary GPU snapshot restore\",\"Reduced each warm volume to 200 GiB while preserving current-payload headroom and the 30-second target\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex-primary-issue607",
+      "reason": "Record only the local checks actually run at the implementation candidate.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Record the complete bounded no-paid local validation packet; live AWS snapshot and launch proof remains pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-95efc4fd1.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex-primary-issue607",
+      "reason": "Implementation and local validation are recorded; paid AWS evidence, review, publication, and merge remain pending.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"draft\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex-primary-issue607",
+      "reason": "The bounded implementation and no-paid validation are recorded; live AWS validation and exact-head review remain subsequent gates.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the exact-head changes-required review so all seven actionable findings and the resulting design and card drift can be repaired before publication or AWS spend.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh the authored design after exact-head review recovery to describe reusable plan authorization, prepared launch images, sparse snapshots, and bounded artifact retirement truth.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"new_design_digest\":\"7836ebeecff45d827b7657d2e586477f19822b89c7ecbd46c73aba31eb00ffc3\",\"new_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"old_design_digest\":\"8274edf9cc3606a40f6a284bf17c2c1ab75bd50b2ab614038dc0fe9c7f4c7d29\",\"old_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:01a05def-4902-75b1-9ae8-72baad3a5e0d\",\"revision\":\"8274edf9cc3606a40f6a284bf17c2c1ab75bd50b2ab614038dc0fe9c7f4c7d29\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":14,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex-primary-issue607",
+      "reason": "Correct the post-review deliverable denominator to include prepared launch images and bounded snapshot lifecycle artifacts.",
+      "operation": "{\"new_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook with explicit retention extension and retirement\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook\"],\"recovery_generation\":14,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex-primary-issue607",
+      "reason": "Record completed local storage and compute ownership construction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex-primary-issue607",
+      "reason": "Record completed local preparation, sealing, image, and snapshot construction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex-primary-issue607",
+      "reason": "Record completed local no-install activation, path relocation, readiness, and cleanup construction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex-primary-issue607",
+      "reason": "Mark the retained AWS preparation, restore, and repeated launch proof as the sole active execution step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "fresh-session:3ea960bc-31d1-467e-a0ae-45b7ca657cf0",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e\",\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the reviewed state after live read-only pre-mutation evidence exposed a null Contents handling defect in the empty S3 run-prefix guard.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 25,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized AWS preparation run exposed Ubuntu 24.04 package availability and interrupted-cleanup reconciliation defects, plus a missing early stopped-instance failure signal.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized preparation run proved the Runtime script attempted to unmount its warm filesystem while its current directory remained inside that mount.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed exact-head review so the runtime artifact-download diagnostic stage and executable failure-receipt regressions can be repaired before further AWS spend.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 31,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized preparation proved AWS AMI and snapshot completion can validly exceed the fixed CLI waiter limit; replace it with bounded state-aware polling before another paid campaign.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 34,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after live AWS preparation showed that healthy image and snapshot work must wait without a deadline, start both images before waiting, and survive controller interruption through exact-state resume.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 34,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 35,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 36,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace stale implementation and validation truth after the exact restart-safety remediation and focused local proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the warm two-node AWS path through restart-safe controller revision f59fcbf6a; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.\",\"Made AMI and sealed-snapshot creation exact-state and idempotent across controller interruption.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, and ledger identity validation before resume.\",\"Added executable regressions for permanent AWS errors and exact reuse of existing images and snapshots.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, and exact image and snapshot reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue after restart-safety remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and its regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-f59fcbf6a.json\"}]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 36,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 37,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh exact implementation and validation truth after correcting the retained image artifact allowlist.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the warm two-node AWS path through restart-safe controller revision 5fbd22933; the prepared Runtime and GPU AMIs are available, while live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.\",\"Made AMI and sealed-snapshot creation exact-state and idempotent across controller interruption.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, and ledger identity validation before resume.\",\"Allowed only the exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.\",\"Added executable regressions for permanent AWS errors and exact reuse of existing images and snapshots.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the complete bounded no-paid contract including restart-safe indefinite waits, terminal API failures, exact image and snapshot reuse, and retained-artifact residue classification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue after restart-safety remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and its regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-5fbd22933.json\"}]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 37,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 38,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 39,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed review after implementing partial-image continuation, controller versus artifact-generation separation, and atomic reconcilable preparation completion.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 40,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the failed-review claims with exact proof after all partial-image, generation-skew, and terminal-checkpoint findings were remediated.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the restart-safe warm two-node AWS controller through revision b1ca07fb2; live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Prepared complete Runtime and GPU closures once and activated them without launch-time installation or downloads.\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope.\",\"Made partial AMI creation, sealed snapshots, cost recording, and terminal preparation completion idempotent across controller interruption.\",\"Allowed a prepared artifact generation to continue only under a clean descendant controller while recording both identities separately.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, ledger, and terminal-checkpoint validation before resume.\",\"Allowed only the exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.\",\"Added executable regressions for partial-image recovery, controller-generation ancestry, checkpoint reconciliation, permanent AWS errors, and exact image, snapshot, and cost reuse.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the complete bounded no-paid contract including partial-image recovery, generation ancestry, terminal checkpoint reconciliation, indefinite healthy waits, and exact artifact reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue after restart-safety remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and its regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b1ca07fb2.json\"}]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 40,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 41,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 42,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed review after correcting preparation output keys and adding executable no-paid coverage for zero, one, and two image continuation, controller propagation, checkpoint reconciliation, and recovery refusal.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 43,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh exact execution truth after correcting the preparation output-key defect and expanding the no-paid restart denominator.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the restart-safe warm two-node AWS controller through revision 375ae8f88; live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Loaded the exact preparation instance output keys and covered their rejection boundary.\",\"Made zero, one, and two existing AMI continuation create exactly the missing prepared images.\",\"Made sealed snapshots, preparation cost recording, and terminal preparation completion idempotent at their bounded seams.\",\"Allowed a prepared artifact generation to continue only under a clean descendant controller while recording both identities in launch authorization evidence.\",\"Removed elapsed-time failure for healthy AWS image and snapshot transitions while retaining immediate failure for API and terminal-state errors.\",\"Added consumed-authorization, source, plan, Terraform state, owner, image, ledger, and terminal-checkpoint validation before resume.\",\"Prevented destructive recovery when a terminal preparation result exists.\",\"Allowed only exact retained prepared AMIs and root snapshots in zero-disposable-residue proof.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-375ae8f88.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the bounded no-paid continuation seams including real preparation outputs, zero, one, and two AMI states, controller ancestry and manifest identity, checkpoint reconciliation, recovery refusal, and cost reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-375ae8f88.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-375ae8f88.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity for the controller and regression suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-375ae8f88.json\"}]}"
+    },
+    {
+      "sequence": 56,
+      "generation": 43,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 44,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 45,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover failed review after binding destructive recovery to exact authorization, ledger, owner, campaign, and generation and strictly validating atomic cost-ledger reuse.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 46,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh exact execution truth after fail-closing destructive recovery and cost-ledger reconciliation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved the restart-safe warm two-node AWS controller through revision b7b1ebd95; live resume and two warm launches remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership.\",\"Loaded exact preparation output keys and made zero, one, and two existing AMI continuation create only missing images.\",\"Made sealed snapshots and terminal preparation completion idempotent at their bounded seams.\",\"Allowed an artifact generation to continue only under a clean descendant controller and recorded both identities in launch evidence.\",\"Waited indefinitely for healthy AWS transitions while failing immediately on API and terminal-state errors.\",\"Bound resume to consumed authorization, source, plans, Terraform state, owner, images, ledger, campaign, and terminal checkpoint.\",\"Bound destructive recovery to exact authorization, ledger, owner, campaign, generation, and owner-filtered AWS discovery.\",\"Made cost-ledger initialization atomic and rejected duplicate, malformed, arithmetically inconsistent, or wrong-input preparation entries.\",\"Prevented destructive recovery when a terminal preparation result exists and allowed only exact retained artifacts in residue proof.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove bounded no-paid resume, exact destructive recovery identity, strict atomic cost reconciliation, controller ancestry, checkpoint reconciliation, and artifact reuse.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject diff hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\"],\"purpose\":\"Prove shell parse validity.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-resume-b7b1ebd95.json\"}]}"
+    },
+    {
+      "sequence": 60,
+      "generation": 46,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 47,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 48,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover failed review after disabling unsafe destructive preparation recovery, binding resume ledgers to campaign, and serializing paid launches behind validated aggregate cost evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 48,
+      "actor": "codex-session:issue-607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 49,
+      "actor": "codex-session:issue-607",
+      "reason": "Refresh execution truth with the completed two-run AWS qualification, exact timings, cost evidence, and teardown remediations before final review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 50,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace stale pending-live-run output truth with the completed two-launch AWS qualification, exact timing, cost, resilience, and teardown evidence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented and twice live-qualified the restart-safe warm two-node AWS Polis at 31a90eccf; Runtime readiness was 5.53s and 5.22s, both GPU nodes retained two models in 113.93s and 112.43s, and all six resident ACC tool cycles passed in both runs.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership under exact Terraform plans and single-use campaign authorization.\",\"Prepared immutable Runtime and GPU AMIs plus integrity-bound persistent EBS volumes once, with no launch-time build, package installation, Git access, model download, or mutable dependency resolution.\",\"Kept Guardian and Runtime alive independently of qualification failures and retried external continuity readiness instead of terminating on transient Ollama unavailability.\",\"Added a private Runtime-to-GPU Ollama path exposed to the existing model test through a Runtime-local loopback bridge while keeping Ollama non-public.\",\"Executed two clean AWS launches with authenticated Runtime HTTPS and WSS, two resident GPU models, real Shepherd inference, and six governed ACC tool cycles.\",\"Removed contradictory pre-detach stop behavior for terminate-on-shutdown instances and made live EC2 resource APIs authoritative over stale deleted instance and volume entries in the AWS tagging index.\",\"Reconciled both run states to zero disposable compute residue while retaining the two warm volumes and four inexpensive recovery snapshots.\",\"Recorded a cumulative conservative campaign cost of USD 16.694191 under the authorized USD 20 ceiling.\"],\"artifacts\":[\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime/src/guardian.rs\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 51,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the final focused local contract result actually run after the live AWS fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the final no-paid controller, Terraform, permanent Guardian, immutable preparation, launch, teardown, residue, and cost-envelope contracts after live remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"}}"
+    },
+    {
+      "sequence": 67,
+      "generation": 52,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the completed first live qualification without embedding credential or authorization-file paths.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"launch\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-launch-1-retry-1\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--ordinal\",\"1\",\"--execute\"],\"purpose\":\"Prove the first clean warm AWS launch, real two-model Shepherd inference, six resident ACC tool cycles, Guardian resilience assertions, and zero final live compute residue.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"}}"
+    },
+    {
+      "sequence": 68,
+      "generation": 53,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the completed second live qualification without embedding credential or authorization-file paths.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"launch\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-launch-2\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--ordinal\",\"2\",\"--execute\"],\"purpose\":\"Prove repeatable clean warm AWS startup with the same sealed AMIs and volumes, real two-model and six-agent ACC qualification, and zero final live compute residue.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"}}"
+    },
+    {
+      "sequence": 69,
+      "generation": 54,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the focused Guardian library validation actually run for the Runtime liveness remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"guardian\",\"--lib\"],\"purpose\":\"Prove the Guardian retry and supervision behavior changed by this issue; 22 focused tests passed with zero failures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"}}"
+    },
+    {
+      "sequence": 70,
+      "generation": 54,
+      "actor": "codex-session:issue-607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 55,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 72,
+      "generation": 56,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover superseded exact-head review truth before adopting the operator-authorized current-quota timing envelope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 57,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh the authored design after the operator accepted the current four-vCPU quota envelope as non-blocking.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"new_design_digest\":\"d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9\",\"new_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"old_design_digest\":\"4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e\",\"old_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:3ea960bc-31d1-467e-a0ae-45b7ca657cf0\",\"revision\":\"4ff99ec419d2c2bdd9164fcaf0f35c782d0bf63ad527385dbe5d8ea0988e210e\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":56,\"recovery_sequence\":72}"
+    },
+    {
+      "sequence": 74,
+      "generation": 58,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the obsolete 30-second quota-dependent denominator with the operator-authorized current-quota limits.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download\",\"AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources\",\"AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals\",\"AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches\",\"AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted\",\"AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident\",\"AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt; under the current four-vCPU G-family quota the GPU limit is 120 seconds, the Runtime limit is 30 seconds, and controller-monotonic apply-to-observed aggregate service_ready must be at most 270 seconds or remain failed\",\"AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions\",\"AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the current-quota 120-second GPU path testable while stale cross-AZ partial dirty or mismatched volumes fail closed\",\"AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 20 ceiling with no retry reuse\",\"AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action\",\"AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication\"]}"
+    },
+    {
+      "sequence": 75,
+      "generation": 59,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the operative plan with the current-quota g6.xlarge proof and its fail-closed timing thresholds.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ canonical-plan authorization and destroy guards.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Build the complete immutable launch and qualification closure, seal the two sparse 200 GiB warm volumes, retain completed snapshots of both, and time a temporary snapshot restore.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\",\"AC-11\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement no-install activation, persistent Guardian readiness, separate qualification receipts, stage budgets, deterministic negative tests, and exact zero-residue queries.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Use the current-quota one-L4 g6.xlarge shape for the final distinct authorized launch and prove GPU local readiness at or below 120 seconds, Runtime local readiness at or below 30 seconds, controller service readiness at or below 270 seconds, full behavior, cost, and exact residue.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Obtain fresh exact-head review, fix every actionable finding, publish through typed lifecycle authority, finish, and clean.\",\"acceptance_ids\":[\"AC-12\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 76,
+      "generation": 60,
+      "actor": "codex-primary-issue607",
+      "reason": "Make the current-quota timing gate explicit in the operative plan and distinguish the retained 30-second GPU optimization risk from this issue's acceptance boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Normal launch has no compilation installation Git or model download\",\"Warm-volume identity is immutable and fail-closed\",\"Both nodes retain SSH with one key\",\"Ollama remains private\",\"SSM remains recovery-only\",\"Compute cleanup never deletes warm volumes\",\"Timing denominators remain explicit\",\"Under the current four-vCPU G-family quota the enforced timing envelope is GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, and controller service_ready at or below 270 seconds; 30-second GPU readiness remains a future optimization rather than an issue gate\",\"Aggregate AWS spend does not exceed USD 20\"]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 61,
+      "actor": "codex-primary-issue607",
+      "reason": "Restore truthful completed status after replacing the plan steps to adopt the current-quota S4 wording.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 78,
+      "generation": 62,
+      "actor": "codex-primary-issue607",
+      "reason": "Restore truthful completed status after replacing the plan steps to adopt the current-quota S4 wording.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 79,
+      "generation": 63,
+      "actor": "codex-primary-issue607",
+      "reason": "Restore truthful completed status after replacing the plan steps to adopt the current-quota S4 wording.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 80,
+      "generation": 64,
+      "actor": "codex-primary-issue607",
+      "reason": "Mark the remaining current-quota g6.xlarge live qualification as the active execution step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 81,
+      "generation": 65,
+      "actor": "fresh-session:5ba5f864-df40-4e50-8023-dae9a0e8ed48",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9\",\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 82,
+      "generation": 65,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 83,
+      "generation": 66,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 84,
+      "generation": 67,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the current-quota review so the stale SIP and bootstrap contract, premature SOR claim, and non-proving VPP denominator can be repaired before AWS spend.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 85,
+      "generation": 68,
+      "actor": "codex-primary-issue607",
+      "reason": "Correct the stale quota-dependent launch timing outcome after typed review recovery.",
+      "operation": "{\"new_value\":\"A repeatable Terraform warm path uses the one-L4 g6.xlarge shape admitted by the current four-vCPU quota, reaches GPU and Runtime local readiness within 120 and 30 seconds respectively, reaches controller-observed Polis readiness within 270 seconds, preserves security behavior, and retains only intentional itemized warm volumes.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"A repeatable Terraform warm path starts both guests within 30 seconds of cloud-init activation, measures apply-to-Polis-ready against a 120-second target, preserves security behavior, and retains only intentional itemized warm volumes.\"}"
+    },
+    {
+      "sequence": 86,
+      "generation": 69,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the static preparation-only denominator with focused local proof plus the exact current-quota live g6.xlarge qualification gate.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, immutable warm-volume activation, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live\",\"proof_role\":\"Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, controller service_ready at or below 270 seconds, two resident models, all six ACC cycles, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-quota-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-quota-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":\"Pending the final distinct single-use authorization under the aggregate USD 20 ceiling.\"},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 87,
+      "generation": 70,
+      "actor": "codex-primary-issue607",
+      "reason": "Correct output truth before the final current-quota live qualification; retain the earlier larger-shape runs as historical baseline evidence only.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the restart-safe warm two-node AWS Polis and historically qualified it twice on the earlier 16-vCPU GPU shape; the current-quota g6.xlarge qualification and its 120-second GPU, 30-second Runtime, and 270-second controller gates remain pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership under exact Terraform plans and single-use authorization.\",\"Prepared immutable Runtime and GPU AMIs plus integrity-bound persistent EBS volumes once, with no launch-time build, package installation, Git access, model download, or mutable dependency resolution.\",\"Kept Guardian and Runtime alive independently of qualification failures and kept Ollama private to the Runtime-to-GPU path.\",\"Retained the two earlier larger-shape live runs as behavioral baseline evidence without treating them as proof of g6.xlarge timing.\",\"Changed the current-quota GPU default to g6.xlarge and bound the live gate to GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, and controller service_ready at or below 270 seconds.\",\"Reserved one final distinct g6.xlarge qualification under the aggregate USD 20 ceiling; no current-quota completion claim is made before that run passes.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the current no-paid controller, Terraform, immutable activation, authorization, cleanup, residue, and current-quota threshold contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"launch\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-launch-1-retry-1\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--ordinal\",\"1\",\"--execute\"],\"purpose\":\"Retain the first earlier larger-shape behavioral qualification as historical baseline evidence, not current g6.xlarge timing proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"launch\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-launch-2\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--ordinal\",\"2\",\"--execute\"],\"purpose\":\"Retain the second earlier larger-shape behavioral qualification as historical repeatability evidence, not current g6.xlarge timing proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-warm-qualification-31a90eccf.json\"}]}"
+    },
+    {
+      "sequence": 88,
+      "generation": 71,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the static preparation-only denominator with focused local proof plus the exact current-quota live g6.xlarge qualification gate.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, immutable warm-volume activation, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live\",\"proof_role\":\"Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, controller service_ready at or below 270 seconds, two resident models, all six ACC cycles, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-quota-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-quota-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 89,
+      "generation": 72,
+      "actor": "codex-primary-issue607",
+      "reason": "Include the actual issue-owned warm Polis controller used by the current-quota proving lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/build_or_prepare_issue607_warm_polis.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof\",\".csdlc/prepared/issues/607/validate-preparation.sh\",\".csdlc/prepared/issues/607\",\".csdlc/evidence/607\",\".csdlc/issues/607\"]}"
+    },
+    {
+      "sequence": 90,
+      "generation": 72,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 73,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 92,
+      "generation": 74,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the current-quota re-review so the stale SPP risk and non-executable or shape-unbound live validation lane can be corrected before spend.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 93,
+      "generation": 75,
+      "actor": "codex-primary-issue607",
+      "reason": "Correct the last obsolete timing risk immediately after exact-head review recovery.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Base AMI lacks a required facility and tempts launch-time package repair\",\"EBS attachment or filesystem checks consume the startup budget\",\"GPU model page-in exceeds the current-quota 120-second local_ready gate\",\"Terraform destroy deletes or strands a warm volume\",\"Timing receipts omit EC2 provisioning or use incomparable clocks\",\"Preparation artifact identity drifts from reviewed source\"]}"
+    },
+    {
+      "sequence": 94,
+      "generation": 76,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the static preparation-only denominator with focused local proof plus the exact current-quota live g6.xlarge qualification gate.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, immutable warm-volume activation, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live\",\"proof_role\":\"Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, controller service_ready at or below 270 seconds, two resident models, all six ACC cycles, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-quota-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-quota-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 95,
+      "generation": 77,
+      "actor": "codex-primary-issue607",
+      "reason": "Declare the narrow typed-editor repair required to resolve the exact-head SPP risk finding without hand-editing a rendered card.",
+      "operation": "{\"new_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"Review-gated typed SPP risk correction support in csdlc-v2/src/store.rs\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook with explicit retention extension and retirement\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook with explicit retention extension and retirement\"],\"recovery_generation\":74,\"recovery_sequence\":92}"
+    },
+    {
+      "sequence": 96,
+      "generation": 78,
+      "actor": "codex-primary-issue607",
+      "reason": "Include the actual issue-owned warm Polis controller used by the current-quota proving lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/build_or_prepare_issue607_warm_polis.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"csdlc-v2/src/store.rs\",\"docs/operations/cloud/aws/shepherd-gpu-proof\",\".csdlc/prepared/issues/607/validate-preparation.sh\",\".csdlc/prepared/issues/607\",\".csdlc/evidence/607\",\".csdlc/issues/607\"]}"
+    },
+    {
+      "sequence": 97,
+      "generation": 79,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the static preparation-only denominator with focused local proof plus the exact current-quota live g6.xlarge qualification gate.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, immutable warm-volume activation, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live\",\"proof_role\":\"Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, controller service_ready at or below 270 seconds, two resident models, all six ACC cycles, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-quota-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-quota-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":null},{\"lane\":\"issue607-typed-spp-risk-repair\",\"proof_role\":\"Prove that implemented-phase SPP risk correction is authorized only as a review-recovery truth repair and remains covered by the bounded editor authorization test.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"implemented_review_remediation_authorizes_only_bounded_operations\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 98,
+      "generation": 79,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 99,
+      "generation": 80,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 100,
+      "generation": 81,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the third current-quota review so the stale authorization and missing record-level recovery-gate regression can be repaired before AWS mutation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 101,
+      "generation": 82,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the static preparation-only denominator with focused local proof plus the exact current-quota live g6.xlarge qualification gate.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, immutable warm-volume activation, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live\",\"proof_role\":\"Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, controller service_ready at or below 270 seconds, two resident models, all six ACC cycles, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-quota-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-quota-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":null},{\"lane\":\"issue607-typed-spp-risk-repair\",\"proof_role\":\"Prove that implemented-phase SPP risk correction is authorized only as a review-recovery truth repair and remains covered by the bounded editor authorization test.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_spp_risk_repair_requires_review_recovery_epoch\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 102,
+      "generation": 83,
+      "actor": "codex-primary-issue607",
+      "reason": "Include the actual issue-owned warm Polis controller used by the current-quota proving lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/build_or_prepare_issue607_warm_polis.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\"docs/operations/cloud/aws/shepherd-gpu-proof\",\".csdlc/prepared/issues/607/validate-preparation.sh\",\".csdlc/prepared/issues/607\",\".csdlc/evidence/607\",\".csdlc/issues/607\"]}"
+    },
+    {
+      "sequence": 103,
+      "generation": 84,
+      "actor": "codex-primary-issue607",
+      "reason": "The exact current-quota r7i.2xlarge plus g6.xlarge AWS qualification passed all local-ready, service-ready, behavior, cost, cleanup, and residue gates.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 104,
+      "generation": 85,
+      "actor": "codex-primary-issue607",
+      "reason": "The live qualification is complete; begin the remaining exact-head review, publication, merge, finish, and cleanup step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 105,
+      "generation": 86,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the pending pre-run SOR with exact current-quota AWS qualification truth while preserving worktree-only publication and merge state.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and live-qualified the restart-safe warm two-node AWS Polis on the current four-vCPU G-family quota using r7i.2xlarge plus one-L4 g6.xlarge; all local readiness, service readiness, two-model Shepherd, six-agent ACC, resilience, cleanup, and cost gates passed.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership under exact Terraform plans and single-use authorization.\",\"Prepared immutable Runtime and GPU AMIs plus integrity-bound persistent EBS volumes once, with no launch-time build, package installation, Git access, model download, or mutable dependency resolution.\",\"Kept Guardian and Runtime alive independently of qualification failures and kept Ollama private to the Runtime-to-GPU path.\",\"Changed the current-quota GPU default and saved-plan guard to g6.xlarge while retaining r7i.2xlarge for Runtime.\",\"Qualified Runtime local_ready in 4.640 seconds, GPU local_ready with two resident models in 96.090 seconds, and Terraform apply-to-service_ready in 235 seconds.\",\"Executed all six real Runtime agent ACC cycles and passed Guardian restart, state preservation, degradation recovery, Vector recovery, clean-log, and clean-shutdown assertions.\",\"Destroyed all disposable compute, network, security-group, key-pair, and attachment resources while retaining exactly the two prepared warm volumes.\",\"Reserved the final action at USD 0.242333 for a projected conservative issue ledger total of USD 19.842333 under the USD 20 ceiling.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/607/aws-current-quota-qualification-6a8dfdd80.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/607/validate-preparation.sh\"],\"purpose\":\"Prove the issue-specific acceptance, plan, validation, shape, and budget contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove Terraform topology, immutable activation, current-quota thresholds, authorization, cleanup, residue, and cost controls without another AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_spp_risk_repair_requires_review_recovery_epoch\"],\"purpose\":\"Prove implemented-phase SPP risk correction is permitted only within a current review-recovery epoch.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-quota-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-quota-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-quota-recovery/authorization.json\",\"--execute\"],\"purpose\":\"Live-qualify the exact r7i.2xlarge plus g6.xlarge warm Polis under current quota, including two models, six ACC agents, resilience, teardown, and zero residue.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-current-quota-qualification-6a8dfdd80.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject branch diff hygiene defects before exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"}]}"
+    },
+    {
+      "sequence": 106,
+      "generation": 86,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 107,
+      "generation": 87,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 108,
+      "generation": 88,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed final exact-head review so the source-proof recovery assertions and stale design/runbook sequencing and recovery guidance can be repaired before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 109,
+      "generation": 89,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh the authored design after exact-head review exposed stale preparation recovery and startup ordering claims.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"new_design_digest\":\"ac0579a2899b7e381e639b5ab6bb0883b50680d9c13f2e2a535c24040f7d85a4\",\"new_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"old_design_digest\":\"d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9\",\"old_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:5ba5f864-df40-4e50-8023-dae9a0e8ed48\",\"revision\":\"d0e000997d8886e7b6a0d34d7ad328ff13015c3627bc22dd496de63afee1ada9\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":88,\"recovery_sequence\":108}"
+    },
+    {
+      "sequence": 110,
+      "generation": 90,
+      "actor": "codex-primary-issue607",
+      "reason": "Include the exact qualification and retained-proof helpers touched by the review remediation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/build_or_prepare_issue607_warm_polis.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_guardian_recovery_proof.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\"docs/operations/cloud/aws/shepherd-gpu-proof\",\".csdlc/prepared/issues/607/validate-preparation.sh\",\".csdlc/prepared/issues/607\",\".csdlc/evidence/607\",\".csdlc/issues/607\"]}"
+    },
+    {
+      "sequence": 111,
+      "generation": 91,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh the authored design after the fresh reviewer identified the exact transition between handled cleanup and resumable retained-artifact creation.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"new_design_digest\":\"9cc3e977d71f54ea832a8b070dbb3498cc0219a811c95b91bc61e5e5bef19786\",\"new_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"old_design_digest\":\"ac0579a2899b7e381e639b5ab6bb0883b50680d9c13f2e2a535c24040f7d85a4\",\"old_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":88,\"recovery_sequence\":108}"
+    },
+    {
+      "sequence": 112,
+      "generation": 92,
+      "actor": "fresh-session:01a06620-cbe8-7033-b73e-afe67ff2d176",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"9cc3e977d71f54ea832a8b070dbb3498cc0219a811c95b91bc61e5e5bef19786\",\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 113,
+      "generation": 93,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the rejected recovery-claim run with one exact proof-recovery lane that retains source-bound degradation and Vector evidence under the remaining USD 20 envelope.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, immutable warm-volume activation, source-bound recovery evidence, no-cold-work guards, current-quota thresholds, authorization, cleanup, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live-proof-recovery\",\"proof_role\":\"Launch the exact retained warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, bounded readiness, two resident models, all six ACC cycles, source-bound degradation and Vector recovery, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-proof-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-proof-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-proof-recovery/authorization.json\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":null},{\"lane\":\"issue607-typed-spp-risk-repair\",\"proof_role\":\"Prove that implemented-phase SPP risk correction is authorized only as a review-recovery truth repair.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_spp_risk_repair_requires_review_recovery_epoch\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 114,
+      "generation": 94,
+      "actor": "codex-primary-issue607",
+      "reason": "Correct the output truth after exact-head review rejected the first run's unbound degradation and Vector recovery assertions; one corrected live proof remains pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The warm two-node AWS Polis reached service readiness in 235 seconds and executed two models plus six ACC agents, but exact-head review rejected two recovery assertions because their source lifecycle phases were not retained in the qualification receipt. The source-proof repair is implemented and locally validated; one corrected live proof remains pending.\",\"changes\":[\"Added a dedicated recovery-proof helper that binds the exact Guardian lifecycle report digest and validates dependency-degradation, Vector-liveness, and log-stagnation injection/recovery records.\",\"Packaged the current qualifier and recovery helper directly into warm Runtime user data so no AMI, warm volume, package installation, Git operation, model download, or compilation is required.\",\"Added deterministic negative tests for missing phases, reversed recovery timestamps, evaluation violations, and report-hash mismatch.\",\"Corrected design and runbook truth for Guardian-before-GPU readiness and the exact preparation cleanup/resume boundary.\",\"Marked the first current-quota qualification evidence rejected by review instead of retaining unsupported claims.\",\"Reconciled the completed run's AWS instance lifetimes and zero-residue proof into a USD 19.737366 historical upper bound, leaving one USD 0.242333 proof-recovery reservation under the USD 20 ceiling.\"],\"artifacts\":[\"adl/tools/issue607_guardian_recovery_proof.sh\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/prepared/issues/607/design.md\",\".csdlc/evidence/607/aws-current-quota-qualification-6a8dfdd80.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/607/validate-preparation.sh\"],\"purpose\":\"Validate the issue-specific preparation and acceptance contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove the Terraform, proof-binding, negative-test, cost, cleanup, and warm-launch contracts without AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-proof-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-proof-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-proof-recovery/authorization.json\",\"--execute\"],\"purpose\":\"Retain the corrected source-bound live recovery proof under current quota.\",\"outcome\":\"waiting\",\"evidence_ref\":\"pending live proof\"}]}"
+    },
+    {
+      "sequence": 115,
+      "generation": 94,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 116,
+      "generation": 95,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 117,
+      "generation": 96,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed pre-spend review so the exact Guardian and lifecycle source revisions can be bound to the authorized prepared commit before AWS mutation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 118,
+      "generation": 96,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 119,
+      "generation": 97,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 120,
+      "generation": 98,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend review after the authorized live apply exposed that uncompressed embedded qualification scripts exceed the EC2 16 KiB user-data limit; repair packaging and add a deterministic pre-apply size guard before any further spend.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 121,
+      "generation": 99,
+      "actor": "codex-primary-issue607",
+      "reason": "Replace the consumed proof-recovery lane with the compressed-payload recovery lane and its exact 420-second budget envelope.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue607-local-contracts\",\"proof_role\":\"Prove Terraform topology, EC2 user-data size, compressed script reconstruction, partial-state cleanup, immutable warm-volume activation, source-bound recovery evidence, authorization, residue, and cost calculations without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-current-quota-live-payload-recovery\",\"proof_role\":\"Launch the retained two-8B-model warm Polis on r7i.2xlarge plus one-L4 g6.xlarge and prove shape identity, bounded readiness, both resident models, all six ACC cycles, source-bound degradation and Vector recovery, teardown, and zero disposable residue.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":420,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-payload-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":null},{\"lane\":\"issue607-typed-spp-risk-repair\",\"proof_role\":\"Prove that implemented-phase SPP risk correction is authorized only as a review-recovery truth repair.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_spp_risk_repair_requires_review_recovery_epoch\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject branch diff hygiene defects before publication.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 122,
+      "generation": 100,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the consumed user-data-limit attempt, complete cleanup, compressed-payload repair, and one remaining live validation lane truthfully.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The retained warm two-node AWS Polis previously reached service readiness in 235 seconds and executed two 8B models plus six ACC agents. The source-bound proof retry created only the GPU before EC2 rejected oversized Runtime user data; all disposable resources were removed, both warm volumes remain available, and compressed embedding plus partial-cleanup proof is locally green. One exact live payload-recovery proof remains pending.\",\"changes\":[\"Gzip-compressed the two corrected qualification scripts inside Runtime user data and added a Terraform assertion that the fully rendered payload is at most 16 KiB.\",\"Fixed the compute-plan guard so a full create still requires the approved r7i.2xlarge and g6.xlarge pair while partial destroy accepts only the correctly typed subset present in interrupted Terraform state.\",\"Added deterministic regressions for compressed payload construction, EC2 payload size, valid partial cleanup, and rejection of wrong-shape partial cleanup.\",\"Terminated the only GPU created by the failed attempt, destroyed all thirteen disposable Terraform resources, and verified empty managed state plus both retained warm volumes detached and available.\",\"Reconstructed the failed attempt conservatively through its final termination event, bringing the issue upper bound to USD 19.833742.\",\"Bound the final two-8B-model payload-recovery run to a 420-second USD 0.160430 envelope for a projected maximum of USD 19.994172.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof/main.tf\",\"infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl\",\"infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\"],\"validation\":[{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the complete warm Runtime payload stays within 16 KiB and reconstructs compressed scripts.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output 2026-09-03\"},{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove local payload, partial cleanup, recovery, authorization, cost, and residue contracts without AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output 2026-09-03\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-payload-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json\",\"--execute\"],\"purpose\":\"Retain the final source-bound live proof for the current two-8B-model configuration.\",\"outcome\":\"waiting\",\"evidence_ref\":\"pending live proof\"}]}"
+    },
+    {
+      "sequence": 123,
+      "generation": 100,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 124,
+      "generation": 101,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 125,
+      "generation": 102,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed payload review to replace brittle exact floating-point assertions with bounded tolerance checks and refresh truthful SOR validation evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 126,
+      "generation": 103,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the resolved exact-review finding and fresh successful local payload-recovery proof before reassignment.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The retained warm two-node AWS Polis previously reached service readiness in 235 seconds and executed two 8B models plus six ACC agents. The source-bound proof retry created only the GPU before EC2 rejected oversized Runtime user data; all disposable resources were removed, both warm volumes remain available, compressed embedding and partial cleanup are locally green, and the exact-review floating-point test finding is resolved. One exact live payload-recovery proof remains pending.\",\"changes\":[\"Gzip-compressed the two corrected qualification scripts inside Runtime user data and added a Terraform assertion that the fully rendered payload is at most 16 KiB.\",\"Fixed the compute-plan guard so a full create still requires the approved r7i.2xlarge and g6.xlarge pair while partial destroy accepts only the correctly typed subset present in interrupted Terraform state.\",\"Added deterministic regressions for compressed payload construction, EC2 payload size, valid partial cleanup, and rejection of wrong-shape partial cleanup.\",\"Replaced brittle exact floating-point assertions with the same bounded tolerance used by the production cost-ledger validator; the full local issue-607 suite now passes.\",\"Terminated the only GPU created by the failed attempt, destroyed all thirteen disposable Terraform resources, and verified empty managed state plus both retained warm volumes detached and available.\",\"Reconstructed the failed attempt conservatively through its final termination event, bringing the issue upper bound to USD 19.833742.\",\"Bound the final two-8B-model payload-recovery run to a 420-second USD 0.160430 envelope for a projected maximum of USD 19.994172.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof/main.tf\",\"infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl\",\"infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove payload size and reconstruction, partial cleanup, recovery, authorization, cost, and residue contracts without AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local command output 2026-09-03: issue607_all=pass\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the complete warm Runtime payload stays within 16 KiB and reconstructs compressed scripts.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local command output 2026-09-03: 1 passed, 0 failed\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--commit\",\"7be87dd22260d30a7966d1b129123e84bb761074\",\"--run-id\",\"adl-issue607-e8925c1dc8b0-payload-recovery\",\"--storage-id\",\"adl-issue607-warm-v6\",\"--authorization-file\",\".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-payload-recovery/authorization.json\",\"--execute\"],\"purpose\":\"Retain the final source-bound live proof for the current two-8B-model configuration.\",\"outcome\":\"waiting\",\"evidence_ref\":\"pending live proof\"}]}"
+    },
+    {
+      "sequence": 127,
+      "generation": 103,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 128,
+      "generation": 104,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 129,
+      "generation": 105,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed payload review to align the stale operator runbook timing text with the exact 420-second cost and operation envelope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 130,
+      "generation": 105,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 131,
+      "generation": 106,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 132,
+      "generation": 107,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the pre-spend reviewed state after the final live payload-recovery qualification passed, the operator extended the ceiling to USD 21 before completion, and exact termination lifetimes must be recorded in final SOR and cost truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 133,
+      "generation": 108,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the completed source-bound AWS qualification, exact cost, zero residue, and focused final validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The operator extended the issue ceiling to USD 21 before completion; the conservative issue total is USD 20.025563 with USD 0.974437 remaining.\",\"changes\":[\"Compressed the complete Runtime user-data payload and enforced EC2's 16 KiB rendered payload limit in Terraform tests.\",\"Kept full-create topology strict while allowing correctly typed partial destroy after interrupted applies.\",\"Removed brittle floating-point equality and aligned cost tests with the production tolerance.\",\"Aligned controller, guest failsafe, documentation, Terraform, and audit ceilings with the operator-authorized USD 21 limit.\",\"Captured durable source-bound timing, model residency, ACC, Guardian recovery, cost, retained-volume, and zero-residue evidence.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof/variables.tf\",\"infra/aws/runtime/gpu-proof/terraform.tfvars.example\",\"infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove payload, cleanup, authorization, cost, residue, and recovery contracts locally.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: issue607_all=pass\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: 1 passed, 0 failed\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"resourcegroupstaggingapi/ec2\",\"targeted zero-residue queries\"],\"purpose\":\"Prove no disposable issue-owned AWS resources remain.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"}]}"
+    },
+    {
+      "sequence": 134,
+      "generation": 109,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the operator-authorized USD 21 ceiling into the current authority boundary after the final live run.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue authority is agent-logic/agent-design-language#607\",\"#605 and PR #606 are the behavioral and security baseline\",\"USD 21 is the aggregate AWS ceiling for preparation and validation\",\"Production HA DNS TLS routing multi-region replication and 24/7 cutover are outside authority\"]}"
+    },
+    {
+      "sequence": 135,
+      "generation": 110,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the operator-authorized USD 21 ceiling into current operator constraints.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Never compile install packages use Git Snap or download models during normal launch\",\"Use disjoint Terraform state for persistent storage and disposable compute\",\"Keep immutable S3 as artifact authority\",\"Bind exact AMI metadata KMS key AZ volumes seals and plans before mutation\",\"Use three separate single-use paid authorizations\",\"Always retain SSH access on preparation and both launch nodes with one shared key and operator CIDR\",\"Require least-privilege IMDSv2 preparation and zero disposable residue\",\"Keep Ollama private\",\"Write run state only below the bound worktree\",\"Do not exceed USD 21 including seven-day retained storage\"]}"
+    },
+    {
+      "sequence": 136,
+      "generation": 111,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the completed live-proof deliverable with the operator-authorized USD 21 ceiling.",
+      "operation": "{\"new_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"Review-gated typed SPP risk correction support in csdlc-v2/src/store.rs\",\"One repeated live warm-launch proof under USD 21\",\"Updated operator runbook with explicit retention extension and retirement\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"Review-gated typed SPP risk correction support in csdlc-v2/src/store.rs\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook with explicit retention extension and retirement\"],\"recovery_generation\":107,\"recovery_sequence\":132}"
+    },
+    {
+      "sequence": 137,
+      "generation": 112,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile AC-10 with the operator-authorized USD 21 aggregate ceiling.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download\",\"AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources\",\"AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals\",\"AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches\",\"AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted\",\"AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident\",\"AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt; under the current four-vCPU G-family quota the GPU limit is 120 seconds, the Runtime limit is 30 seconds, and controller-monotonic apply-to-observed aggregate service_ready must be at most 270 seconds or remain failed\",\"AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions\",\"AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the current-quota 120-second GPU path testable while stale cross-AZ partial dirty or mismatched volumes fail closed\",\"AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 21 ceiling with no retry reuse\",\"AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action\",\"AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication\"]}"
+    },
+    {
+      "sequence": 138,
+      "generation": 113,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the current planning invariant with the operator-authorized USD 21 ceiling.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Normal launch has no compilation installation Git or model download\",\"Warm-volume identity is immutable and fail-closed\",\"Both nodes retain SSH with one key\",\"Ollama remains private\",\"SSM remains recovery-only\",\"Compute cleanup never deletes warm volumes\",\"Timing denominators remain explicit\",\"Under the current four-vCPU G-family quota the enforced timing envelope is GPU local_ready at or below 120 seconds, Runtime local_ready at or below 30 seconds, and controller service_ready at or below 270 seconds; 30-second GPU readiness remains a future optimization rather than an issue gate\",\"Aggregate AWS spend does not exceed USD 21\"]}"
+    },
+    {
+      "sequence": 139,
+      "generation": 114,
+      "actor": "codex-primary-issue607",
+      "reason": "Reconcile the paid-operation stop condition with the operator-authorized USD 21 ceiling.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A normal launch requires compilation package installation Git or model download\",\"Warm volume identity or cleanup ownership is ambiguous\",\"Ollama becomes public\",\"Either node lacks SSH\",\"A paid operation would exceed USD 21\",\"Timing cannot distinguish Terraform EC2 and guest denominators\",\"Fresh review reports an unresolved actionable finding\"]}"
+    },
+    {
+      "sequence": 140,
+      "generation": 114,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 141,
+      "generation": 115,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 142,
+      "generation": 116,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed final review to bind the operator's USD 21 extension to the exact run and reserve future full billable lifetime through verified cleanup.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 143,
+      "generation": 117,
+      "actor": "codex-primary-issue607",
+      "reason": "Resolve the final P1 by binding the exact operator extension and reserving full future billable lifetime through verified termination.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence; conservative total cost is USD 20.025563 with USD 0.974437 remaining. Future actions reserve 900 seconds for the full billable lifetime and cannot declare cleanup complete until both exact instances are terminated.\",\"changes\":[\"Compressed the complete Runtime user-data payload and enforced EC2's 16 KiB rendered payload limit in Terraform tests.\",\"Kept full-create topology strict while allowing correctly typed partial destroy after interrupted applies.\",\"Removed brittle floating-point equality and aligned cost tests with the production tolerance.\",\"Retained the operator's exact USD 21 extension bound to the payload-recovery run, controller, plan, and prior authorization digest.\",\"Changed future launch reservations from the 420-second service window to a 900-second full billable-lifetime envelope covering qualification, destroy, and verified termination.\",\"Required both exact instances to reach AWS terminated state before cleanup can complete, with regression checks accepting the observed 610-second cleanup lifetime and rejecting 901 seconds.\",\"Captured durable source-bound timing, model residency, ACC, Guardian recovery, cost, retained-volume, and zero-residue evidence.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof/variables.tf\",\"infra/aws/runtime/gpu-proof/terraform.tfvars.example\",\"infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/operator-budget-extension.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove payload, cleanup-through-termination, full-lifetime reservation, extension binding, authorization, cost, residue, and recovery contracts locally.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: issue607_all=pass\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: 1 passed, 0 failed\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"resourcegroupstaggingapi/ec2\",\"targeted zero-residue queries\"],\"purpose\":\"Prove no disposable issue-owned AWS resources remain.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"}]}"
+    },
+    {
+      "sequence": 144,
+      "generation": 117,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 145,
+      "generation": 118,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 146,
+      "generation": 119,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the incomplete-scope review and reassign exact main-to-head coverage for every material branch path.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 147,
+      "generation": 119,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 148,
+      "generation": 120,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 149,
+      "generation": 121,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the terminal-observation finding and replace asymmetric terminate-request bounds with a read-only observed-terminal upper bound for both exact instances.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 150,
+      "generation": 122,
+      "actor": "codex-primary-issue607",
+      "reason": "Resolve the terminal-observation review finding with a symmetric observed-terminal upper bound for both exact instances.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence. A later single AWS read observed both exact instances terminated and conservatively bounds both lifetimes through that shared observation, producing a USD 20.983286 issue total with USD 0.016714 remaining. Future paid runs are rejected by the aggregate guard at the current remaining budget.\",\"changes\":[\"Compressed the complete Runtime user-data payload and enforced EC2's 16 KiB rendered payload limit in Terraform tests.\",\"Kept full-create topology strict while allowing correctly typed partial destroy after interrupted applies.\",\"Retained the operator's exact USD 21 extension bound to the payload-recovery run, controller, plan, and prior authorization digest.\",\"Replaced asymmetric terminate-request cost bounds with one read-only AWS observation proving both exact instances terminated; conservatively charged Runtime for 3001 seconds and GPU for 3015 seconds through that shared observation.\",\"Changed future launch reservations from the 420-second service window to a 900-second full billable-lifetime envelope covering qualification, destroy, and verified termination; the aggregate guard now rejects any further run under the remaining USD 0.016714.\",\"Required both exact instances to reach AWS terminated state before cleanup can complete, with regression checks accepting the observed 610-second operational case and rejecting 901 seconds.\",\"Captured durable source-bound timing, model residency, ACC, Guardian recovery, cost, retained-volume, terminal-state, and zero-residue evidence.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/operator-budget-extension.json\",\".csdlc/evidence/607/aws-terminal-state-observation.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove terminal observation, full-lifetime reservation, extension binding, cleanup, authorization, cost, residue, and recovery contracts locally.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: issue607_all=pass\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove the rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh local output 2026-09-03: 1 passed, 0 failed\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"ec2\",\"describe-instances\",\"--instance-ids\",\"i-00da9426786754a6c\",\"i-03bb0138945501212\"],\"purpose\":\"Prove both exact final-run instances reached terminal state and bind a symmetric conservative lifetime upper bound.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-terminal-state-observation.json\"}]}"
+    },
+    {
+      "sequence": 151,
+      "generation": 122,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 152,
+      "generation": 123,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 153,
+      "generation": 124,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the final evidence review to align audit freshness and retain exact tested-revision validation proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 154,
+      "generation": 125,
+      "actor": "codex-primary-issue607",
+      "reason": "Retain the final exact substantive revision validation artifact and audit-freshness remediation in output truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence. One later AWS read observed both exact instances terminated and conservatively bounds Runtime at 3001 seconds and GPU at 3015 seconds, producing a USD 20.983286 issue total with USD 0.016714 remaining. The final substantive revision 54aa257b0 has retained green local, Terraform, typed-card, and diff-hygiene proof.\",\"changes\":[\"Implemented prebuilt immutable Runtime and GPU launch artifacts, persistent EBS data volumes, strict saved-plan identity, no launch-time builds or downloads, SSH, private Ollama, Guardian resilience, and exact cleanup.\",\"Retained the operator's exact USD 21 extension bound to the payload-recovery run, controller, plan, and prior authorization digest.\",\"Used one observed-terminal AWS response for both exact instances and aligned the audit as_of timestamp and freshness validator with that evidence.\",\"Conservatively charged Runtime for 3001 seconds and GPU for 3015 seconds through the shared terminal observation; the issue total remains under USD 21.\",\"Future launches reserve 900 seconds for the full billable lifetime, keep a separate 420-second service-operation deadline, wait for both exact instances to terminate, and are now rejected under the remaining issue budget.\",\"Retained final validation for exact substantive revision 54aa257b0 and tree 4e4b767c7.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/operator-budget-extension.json\",\".csdlc/evidence/607/aws-terminal-state-observation.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\",\".csdlc/evidence/607/final-validation-54aa257b0.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove terminal observation, audit freshness, full-lifetime reservation, extension binding, cleanup, authorization, cost, residue, and recovery contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-validation-54aa257b0.json\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-validation-54aa257b0.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"ec2\",\"describe-instances\",\"--instance-ids\",\"i-00da9426786754a6c\",\"i-03bb0138945501212\"],\"purpose\":\"Prove both exact final-run instances reached terminal state and bind a symmetric conservative lifetime upper bound.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-terminal-state-observation.json\"}]}"
+    },
+    {
+      "sequence": 155,
+      "generation": 125,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 156,
+      "generation": 126,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 157,
+      "generation": 127,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 158,
+      "generation": 128,
+      "actor": "codex-primary-issue607",
+      "reason": "Current origin/main was merged into PR #657 to resolve the publication-time conflict. The issue diff remains bounded, but the exact head changed and the resident Shepherd admission conflict was resolved to retry transient failures while keeping Runtime alive on fatal admission failure, so fresh typed review is required before republishing.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 159,
+      "generation": 128,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 160,
+      "generation": 129,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed post-main exact-head review so fresh validation can be retained for the substantive merge-resolution revision and the SOR can name that exact proof boundary.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 161,
+      "generation": 130,
+      "actor": "codex-primary-issue607",
+      "reason": "Resolve the post-main exact-head review finding by retaining validation for the substantive merge-resolution revision and naming that exact proof boundary in output truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence. One later AWS read observed both exact instances terminated and conservatively bounds Runtime at 3001 seconds and GPU at 3015 seconds, producing a USD 20.983286 issue total with USD 0.016714 remaining. After merging current main and resolving the resident Shepherd admission conflict, substantive revision fd4118d39 has retained green issue-contract, Runtime compile, typed-card, and diff-hygiene proof.\",\"changes\":[\"Implemented prebuilt immutable Runtime and GPU launch artifacts, persistent EBS data volumes, strict saved-plan identity, no launch-time builds or downloads, SSH, private Ollama, Guardian resilience, and exact cleanup.\",\"Retained the operator's exact USD 21 extension bound to the payload-recovery run, controller, plan, and prior authorization digest.\",\"Used one observed-terminal AWS response for both exact instances and aligned the audit as_of timestamp and freshness validator with that evidence.\",\"Conservatively charged Runtime for 3001 seconds and GPU for 3015 seconds through the shared terminal observation; the issue total remains under USD 21.\",\"Future launches reserve 900 seconds for the full billable lifetime, keep a separate 420-second service-operation deadline, wait for both exact instances to terminate, and are now rejected under the remaining issue budget.\",\"Merged current main to resolve PR #657, retaining transient resident Shepherd admission retries while degrading without killing Runtime on non-retryable admission failure.\",\"Retained final validation for exact substantive revision fd4118d39 and tree 44481d107.\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/607/operator-budget-extension.json\",\".csdlc/evidence/607/aws-terminal-state-observation.json\",\".csdlc/evidence/607/aws-paid-action-cost-audit.json\",\".csdlc/evidence/607/aws-payload-recovery-qualification.json\",\".csdlc/evidence/607/final-validation-fd4118d39.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Prove terminal observation, audit freshness, full-lifetime reservation, extension binding, cleanup, authorization, cost, residue, recovery, and post-main merge contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-validation-fd4118d39.json\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--bin\",\"adl-runtime-kernel\"],\"purpose\":\"Compile the exact post-main Runtime kernel and resident Shepherd admission integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-validation-fd4118d39.json\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"test\",\"-filter=tests/issue607_warm.tftest.hcl\"],\"purpose\":\"Prove rendered warm Runtime payload and Terraform topology.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/final-validation-54aa257b0.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue607_warm_polis.sh\",\"qualification-payload-recovery\",\"--execute\"],\"purpose\":\"Prove the source-bound current two-8B-model warm Polis on real AWS GPU infrastructure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-payload-recovery-qualification.json\"},{\"command\":[\"aws\",\"ec2\",\"describe-instances\",\"--instance-ids\",\"i-00da9426786754a6c\",\"i-03bb0138945501212\"],\"purpose\":\"Prove both exact final-run instances reached terminal state and bind a symmetric conservative lifetime upper bound.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/aws-terminal-state-observation.json\"}]}"
+    },
+    {
+      "sequence": 162,
+      "generation": 130,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 163,
+      "generation": 131,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 164,
+      "generation": 132,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

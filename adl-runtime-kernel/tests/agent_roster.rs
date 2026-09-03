@@ -4,7 +4,7 @@ use adl_runtime_kernel::{
     build_production_operation_executors_with_recorder, AdapterKind, AgentPresence, AgentRoster,
     AgentRosterError, AgentRosterPolicy, AgentRosterQuery, AgentRuntimeEvidence, ClockAuthority,
     ComponentId, ControlAuthority, ControlService, KernelExit, LifecycleControl, OperationRequest,
-    RunningState, RuntimeRecorder, OPERATION_REQUEST_SCHEMA,
+    ResidentShepherdInitConfig, RunningState, RuntimeRecorder, OPERATION_REQUEST_SCHEMA,
 };
 
 struct NoopLifecycle;
@@ -19,8 +19,11 @@ impl LifecycleControl for NoopLifecycle {
 fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvidence {
     AgentRuntimeEvidence {
         agent_id: id.to_owned(),
+        name: format!("{id}.runtime"),
         display_name: label.to_owned(),
         public_role: "resident agent".to_owned(),
+        provider: None,
+        model: None,
         presence,
         health: "healthy".to_owned(),
         availability: "available".to_owned(),
@@ -33,6 +36,96 @@ fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvide
         source_revision: "runtime-revision-7".to_owned(),
         provenance: "runtime_component_state".to_owned(),
     }
+}
+
+#[test]
+fn canonical_name_is_projected_and_old_v1_entries_remain_readable() {
+    let roster = AgentRoster::new(
+        1,
+        false,
+        [evidence("shepherd", "Shepherd", AgentPresence::Ready)],
+        [1; 32],
+    )
+    .unwrap();
+    let entry = roster
+        .detail(&policy(&["shepherd"]), "shepherd", 1_500)
+        .unwrap();
+    assert_eq!(entry.name, "shepherd.runtime");
+    let mut old = serde_json::to_value(&entry).unwrap();
+    old.as_object_mut().unwrap().remove("name");
+    let decoded: adl_runtime_kernel::AgentRosterEntry = serde_json::from_value(old).unwrap();
+    assert_eq!(decoded.name, "");
+}
+
+#[test]
+fn resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts() {
+    let config = ResidentShepherdInitConfig {
+        name: "beacon.axioma".to_owned(),
+        display_name: "Beacon".to_owned(),
+        office: "resident shepherd".to_owned(),
+        provider: "ollama".to_owned(),
+        model: "qwen3:8b".to_owned(),
+        endpoint: "http://127.0.0.1:11434".to_owned(),
+        preload: Default::default(),
+    };
+    let feed = adl_runtime_kernel::AgentPopulationFeed::resident_shepherd_from_config(&config);
+    let shepherd = &feed.sample[0];
+
+    assert_eq!(shepherd.id, "shepherd");
+    assert_eq!(shepherd.name, config.name);
+    assert_eq!(shepherd.label, config.display_name);
+    assert_eq!(shepherd.role, config.office);
+    assert_eq!(feed.total_count, 1);
+    assert_eq!(feed.rendered_sample_count, 1);
+    assert!(feed.population_complete);
+    assert!(!feed.has_more);
+}
+
+#[test]
+fn shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed() {
+    let recorder = RuntimeRecorder::new(16);
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+    assert!(recorder.record_agent_admission(
+        "shepherd",
+        now,
+        now + 30_000,
+        "1111111111111111111111111111111111111111"
+    ));
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "runtime-instance",
+        recorder,
+        NoopLifecycle,
+        ControlAuthority::new(BTreeMap::new()),
+        8,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd_from_config(
+            &ResidentShepherdInitConfig {
+                name: "beacon.axioma".to_owned(),
+                display_name: "Beacon".to_owned(),
+                office: "resident shepherd".to_owned(),
+                provider: "ollama".to_owned(),
+                model: "qwen3:8b".to_owned(),
+                endpoint: "http://127.0.0.1:11434".to_owned(),
+                preload: Default::default(),
+            },
+        ),
+    );
+    service.update_resident_shepherd_health("beacon.axioma", "degraded", "retry scheduled");
+    let feed = service.observatory_feed();
+    let shepherd = &feed.agents.sample[0];
+    assert_eq!(shepherd.state, "degraded");
+    assert_eq!(shepherd.provider.as_deref(), Some("ollama"));
+    assert_eq!(shepherd.model.as_deref(), Some("qwen3:8b"));
+    assert!(!shepherd.communication_eligible);
+    assert!(!service
+        .readiness_report()
+        .degraded_reasons
+        .iter()
+        .any(|reason| reason.contains("model")));
 }
 
 fn policy(ids: &[&str]) -> AgentRosterPolicy {

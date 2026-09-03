@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root:issue-622-implementation",
+  "card": "sor",
+  "expected_digest": "4148cf85dc3c3db760cf47b8f4cc9c7311ba8b6793a626f2e92a96e0991c9268",
+  "expected_generation": 2,
+  "issue": 622,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove the production provider/profile hot-loading lane, including existing provider profile invariants, accepted reloads without restart, invalid reload last-known-good retention, credential-value rejection, and in-flight step snapshot isolation.",
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+        "production"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:issue-622-production-lane:provider_mod_profile 14 passed; provider_reload 4 passed; in-flight snapshot 1 passed"
+    }
+  },
+  "reason": "Record the passing #622 production validation lane."
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "adl.issue607.local_validation.v1",
+  "issue": 607,
+  "tested_revision": "6a8dfdd80c4b4ce6216dc6990fdf7358d85a47b2",
+  "status": "passed",
+  "checks": [
+    {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/607/validate-preparation.sh"
+      ],
+      "outcome": "passed",
+      "result": "issue607_preparation_contract=pass"
+    },
+    {
+      "command": [
+        "bash",
+        "adl/tools/test_issue607_warm_polis.sh",
+        "all"
+      ],
+      "outcome": "passed",
+      "result": "issue607_all=pass"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate5",
+        "implemented_spp_risk_repair_requires_review_recovery_epoch"
+      ],
+      "outcome": "passed",
+      "result": "1 passed; 0 failed; 70 filtered out"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "outcome": "passed"
+    }
+  ],
+  "limitations": [
+    "The tested revision identifies the executable controller source; the tracked lifecycle and evidence updates are reviewed at the later exact branch head."
+  ]
+}

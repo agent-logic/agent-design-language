@@ -1,0 +1,119 @@
+{
+  "issue": 645,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "94ad3cd24341b903b5dc65e5f65681b5921e4ecdfe30260b4e23e13bd0e99a48",
+  "actor": "codex:/root:issue-645-exec",
+  "reason": "Record #645 implementation and focused local validation truth before implemented-phase advancement.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented the C-SDLC v2 publication guard so closing-mode publish normalization reads GitHub closingIssuesReferences, carries linked_issue/linkage_source in RemotePullRequest, and rejects body-only stacked closing PRs that lack the live GitHub closing relation.",
+    "changes": [
+      "Extended RemotePullRequest with optional linked_issue and linkage_source fields for typed publish/readback agreement.",
+      "Added closing-mode relation validation to publication remote identity checks; explicit PartOf checkpoint mode remains relation-free and non-closing.",
+      "Updated csdlc-publish normalization to query GitHub closingIssuesReferences for closing-mode PRs and fail closed with stack/default/checkpoint guidance when absent or mismatched.",
+      "Tightened existing-PR governed-mode matching so a pre-existing stacked PR with only a closing body keyword cannot be accepted.",
+      "Added the #645 regression for PR #644 shape and updated publication fixtures to carry explicit relation truth."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/publication_ready.rs",
+      "csdlc-v2/tests/publication_tail.rs",
+      ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh",
+      ".csdlc/issues/645"
+    ],
+    "validation": [
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh"
+        ],
+        "purpose": "Prove the #645 regression rejects the PR #644 body-only stacked closing shape.",
+        "outcome": "passed",
+        "evidence_ref": "local:csdlc-publish-stacked-closing-relation-regression-1-passed"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--bin",
+          "csdlc-publish"
+        ],
+        "purpose": "Prove csdlc-publish unit behavior including existing PR governed-mode relation checks.",
+        "outcome": "passed",
+        "evidence_ref": "local:csdlc-publish-bin-tests-8-passed"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "publication_ready",
+          "--test",
+          "publication_tail",
+          "--test",
+          "gate6"
+        ],
+        "purpose": "Prove existing publication identity, ready publication, metadata-tail, and PartOf checkpoint behavior remain green.",
+        "outcome": "passed",
+        "evidence_ref": "local:csdlc-v2-publication-ready-tail-gate6-25-passed"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "gate_github_actions"
+        ],
+        "purpose": "Prove typed GitHub action fixtures still pass after publication relation-field changes.",
+        "outcome": "passed",
+        "evidence_ref": "local:csdlc-v2-gate-github-actions-11-passed"
+      },
+      {
+        "command": [
+          "cargo",
+          "fmt",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--check"
+        ],
+        "purpose": "Prove Rust formatting for the changed C-SDLC v2 crate.",
+        "outcome": "passed",
+        "evidence_ref": "local:csdlc-v2-cargo-fmt-check"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "purpose": "Prove strict C-SDLC v2 lint hygiene for all targets.",
+        "outcome": "passed",
+        "evidence_ref": "local:csdlc-v2-clippy-all-targets-D-warnings"
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Prove diff whitespace hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "local:git-diff-check"
+      }
+    ]
+  }
+}

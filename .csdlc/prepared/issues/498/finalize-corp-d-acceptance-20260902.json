@@ -1,0 +1,229 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 498,
+  "expected_generation": 6,
+  "expected_digest": "0f35fdbffb01bab0518f22d53ebee289066c8b52fed222aef600413b83b0b463",
+  "actor": "codex:/root/Worker-7",
+  "summary": "Completed #498 CORP-D corporate diligence acceptance for v0.92.1 Sprint 4. The retained diligence index binds CORP-A #482, CORP-B #483, and CORP-C #497 to closed, merged, ancestral public GitHub receipts; sidecar #624 remains a nonblocking operational-hardening follow-up. The acceptance record binds the exact diligence-index digest and records no unresolved blockers.",
+  "changes": [
+    "Created the corporate diligence index covering CORP-A, CORP-B, and CORP-C prerequisite dispositions.",
+    "Recorded the prerequisite census showing #482, #483, and #497 closed with merged PRs ancestral to `origin/main`.",
+    "Recorded counsel-boundary receipts using only public or redacted receipt references and no counsel-controlled judgment material.",
+    "Recorded CORP-D acceptance bound to the exact diligence-index SHA-256 digest with an empty unresolved-blocker list.",
+    "Finalized #498 through the typed PVF implementation route with local validation lanes."
+  ],
+  "artifacts": [
+    "docs/operations/corporate/diligence/diligence-index.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-d/prerequisite-census.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-d/counsel-boundary-receipts.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json",
+    ".csdlc/prepared/issues/498/validate-readiness.rb",
+    ".csdlc/prepared/issues/498/check-prerequisites.rb",
+    ".csdlc/prepared/issues/498/validate-diligence-index.rb",
+    ".csdlc/prepared/issues/498/validate-counsel-boundary.rb",
+    ".csdlc/prepared/issues/498/validate-acceptance-readback.rb",
+    ".csdlc/evidence/498"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "issue498-readiness-preparation",
+          "proof_role": "Prove #498 typed preparation, declared scope, validation lanes, and sensitive-token guardrails.",
+          "purpose": "Run the issue-owned readiness validator.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "498-local-serial-01",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/498/validate-readiness.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue498-prerequisite-census",
+          "proof_role": "Prove #482, #483, and #497 are closed with merged PRs ancestral to origin/main.",
+          "purpose": "Run the live GitHub prerequisite census.",
+          "determinism": "live",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "external",
+          "dependencies": [
+            "issue498-readiness-preparation"
+          ],
+          "parallel_group": "498-live-serial-02",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 180,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/498/check-prerequisites.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue498-diligence-index",
+          "proof_role": "Prove the diligence index denominator and acceptance-record binding.",
+          "purpose": "Run the diligence-index validator.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "issue498-prerequisite-census"
+          ],
+          "parallel_group": "498-local-serial-03",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/498/validate-diligence-index.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue498-counsel-boundary",
+          "proof_role": "Prove the counsel-boundary receipt register is receipt-only and sensitive-pattern clean.",
+          "purpose": "Run the counsel-boundary validator.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "issue498-diligence-index"
+          ],
+          "parallel_group": "498-local-serial-04",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/498/validate-counsel-boundary.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue498-acceptance-readback",
+          "proof_role": "Prove the CORP-D acceptance record binds issue 498, CORP-D, prerequisite census status, and no unresolved blockers.",
+          "purpose": "Run the acceptance-readback validator.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "issue498-counsel-boundary"
+          ],
+          "parallel_group": "498-local-serial-05",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/498/validate-acceptance-readback.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue498-diff-hygiene",
+          "proof_role": "Reject whitespace and patch hygiene defects before review.",
+          "purpose": "Run exact diff hygiene.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "issue498-acceptance-readback"
+          ],
+          "parallel_group": "498-local-serial-06",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "git",
+          "argv": [
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "issue498-readiness-preparation",
+        "issue498-prerequisite-census",
+        "issue498-diligence-index",
+        "issue498-counsel-boundary",
+        "issue498-acceptance-readback",
+        "issue498-diff-hygiene"
+      ],
+      "allow_network": true,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 512,
+      "tokens": 0
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance/.csdlc/evidence/498",
+    "cancellation_file": null
+  }
+}

@@ -1,0 +1,1 @@
+{"schema":"adl.validation_receipt.v1","validator":".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh","argv":["bash",".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh","scheduling"],"head_sha":"ae3232c6992fc21a4ab03f8b0736be9e96e62484","status":"passed","provenance":"git_worktree_exact_head"}

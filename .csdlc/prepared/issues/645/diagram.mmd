@@ -1,0 +1,7 @@
+flowchart TD
+  A[csdlc-publish closing mode] --> B[Validate body has exact closing keyword]
+  B --> C[Read live GitHub PR state]
+  C --> D{closingIssuesReferences contains issue?}
+  D -- yes --> E[Record linked_issue and terminal closing publication]
+  D -- no --> F[Fail closed with stack/default/checkpoint guidance]
+  G[Explicit non-closing checkpoint mode] --> H[Record non-terminal dependency/checkpoint state]

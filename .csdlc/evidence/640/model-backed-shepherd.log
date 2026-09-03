@@ -1,0 +1,20 @@
+Exact reviewed implementation revision: 670ea79b87ea80f736cd9d6d3718d39661c13c2a
+Command: bash .csdlc/prepared/issues/640/validate-model-backed-shepherd.sh
+
+Nextest run ID 23380e47-8361-4f36-90a1-99652200eb85
+Starting 8 tests across 3 binaries (71 tests skipped)
+PASS adl-runtime-kernel::agent_roster resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts
+PASS adl-runtime-kernel::agent_roster shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed
+PASS adl-runtime-kernel::shepherd resident_shepherd_lifetime_recovery_retries_and_recovers
+PASS adl-runtime-kernel::configuration canonical_name_is_required_for_resident_shepherd_configuration
+PASS adl-runtime-kernel::configuration resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set
+PASS adl-runtime-kernel::shepherd resident_shepherd_model_health_gates_inference_and_recovers
+PASS adl-runtime-kernel::shepherd shepherd_provider_routes_governed_reasoning_to_configured_model
+PASS adl-runtime-kernel::shepherd shepherd_provider_routes_through_private_openai_compatible_gateway
+Summary: 8 tests run: 8 passed, 71 skipped
+The openai-compatible gateway test used a valid two-chunk HTTP/1.1 response and passed.
+
+cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check: passed
+git diff --check: passed
+cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --bins --tests -- -D warnings: passed
+cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml vertex_ai --lib: 2 passed

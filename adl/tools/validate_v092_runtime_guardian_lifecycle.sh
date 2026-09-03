@@ -104,10 +104,19 @@ if [[ -z "$vector_bin" || ! -x "$vector_bin" ]]; then
 fi
 vector_bin=$(cd "$(dirname "$vector_bin")" && pwd -P)/$(basename "$vector_bin")
 
-cargo build --locked --manifest-path "$repo_root/adl-runtime-kernel/Cargo.toml" \
-  --bin adl-runtime-kernel
-cargo build --locked --manifest-path "$repo_root/adl-runtime/Cargo.toml" \
-  --bin adl-runtime-guardian --bin adl-runtime-lifecycle-soak
+if [[ "${ADL_RUNTIME_USE_PREBUILT_BINARIES:-0}" == 1 ]]; then
+  for binary in adl-runtime-kernel adl-runtime-guardian adl-runtime-lifecycle-soak; do
+    [[ -x "$target_dir/debug/$binary" ]] || {
+      echo "prebuilt runtime binary is unavailable: $target_dir/debug/$binary" >&2
+      exit 69
+    }
+  done
+else
+  cargo build --locked --manifest-path "$repo_root/adl-runtime-kernel/Cargo.toml" \
+    --bin adl-runtime-kernel
+  cargo build --locked --manifest-path "$repo_root/adl-runtime/Cargo.toml" \
+    --bin adl-runtime-guardian --bin adl-runtime-lifecycle-soak
+fi
 
 revision=${ADL_RUNTIME_SOURCE_REVISION:-}
 if [[ -n "$revision" ]]; then
@@ -282,6 +291,20 @@ max_open_handles = 8
 '''
 destination_path.write_text(text, encoding="utf-8")
 PY
+
+if [[ "${ADL_RUNTIME_PREPARE_STATE_ONLY:-0}" == 1 ]]; then
+  "$target_dir/debug/adl-runtime-lifecycle-soak" \
+    --guardian "$target_dir/debug/adl-runtime-guardian" \
+    --kernel "$target_dir/debug/adl-runtime-kernel" \
+    --vector "$vector_bin" \
+    --init-template "$init_template" \
+    --state-root "$state_root" \
+    --report "$report" \
+    --revision "$revision" \
+    --suite "$lifecycle_suite" \
+    --prepare-only >/dev/null
+  exit 0
+fi
 
 python3 - "$state_root" "$wss_proof" "$https_transcript" "$wss_transcript" \
   "$probe_ready" "$probe_ack" <<'PY' 2>"$wss_stderr" &

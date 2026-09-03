@@ -1,0 +1,27 @@
+{
+  "issue": 648,
+  "card": "sor",
+  "expected_generation": 1,
+  "expected_digest": "87e81fb19bca9b943363f58734682834d93630da50d4f4fce51ce2341517ebb4",
+  "actor": "codex:/root",
+  "reason": "Record the bound #648 corrective implementation replayed from the reviewed #622 repair branch.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Replayed the provider reload ownership repair through corrective issue #648 after PR #646 merged with stale review evidence.",
+    "changes": [
+      "Added run-scoped ProviderReloadHandle propagation through sequential, concurrent, retry, and called-workflow execution paths.",
+      "Changed production CSM adl_workflow hotload ownership to retain and pass an explicit run-scoped provider reload handle instead of depending on process-global registration.",
+      "Retained compatibility global registration with identity-aware guard clearing so older guards cannot clear newer registrations.",
+      "Added overlap, shutdown-order, in-flight snapshot, and direct global guard regression coverage.",
+      "Kept validation local and offline; no live provider, AWS, paid runner, Runtime restart, cutover, or merge action was performed."
+    ],
+    "artifacts": [
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs",
+      ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh"
+    ]
+  }
+}

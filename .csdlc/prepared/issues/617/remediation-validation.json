@@ -1,0 +1,37 @@
+{
+  "manifest": {
+    "schema": "csdlc.pvf.manifest.v1",
+    "lanes": [
+      {
+        "id": "canonical-agent-name-remediation",
+        "proof_role": "Prove the complete canonical-name denominator after review remediation.",
+        "purpose": "Issue #617 canonical-name, dynamic lifecycle, and production Shepherd construction proof",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 4, "memory_mib": 8192, "tokens": 1000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "runtime-api",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 1200,
+        "executable": "/bin/bash",
+        "argv": [".csdlc/prepared/issues/617/validate-canonical-agent-name.sh"],
+        "evidence": {
+          "max_log_bytes": 131072,
+          "redact_values": [],
+          "require_relative_paths": true
+        }
+      }
+    ]
+  },
+  "selection": {
+    "requested_lanes": ["canonical-agent-name-remediation"],
+    "allow_network": false,
+    "available_credentials": []
+  },
+  "budget": {"max_parallel": 1, "cpu_units": 4, "memory_mib": 8192, "tokens": 1000},
+  "root": ".",
+  "evidence_dir": ".csdlc/evidence/617/remediation",
+  "cancellation_file": null
+}

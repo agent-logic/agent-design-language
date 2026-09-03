@@ -334,6 +334,162 @@ run:
 }
 
 #[test]
+fn tick_adl_workflow_starts_hotload_owner_from_run_args() {
+    let root = temp_dir("provider-reload-production-tick");
+    let workflow = root.join("workflow.adl.yaml");
+    let sidecar = root.join("providers.hot.yaml");
+    let base_proposal = crate::resident_tool_execution::ResidentToolProposalEnvelopeV1 {
+        tool_proposal: crate::uts_acc_compiler::ToolProposalV1 {
+            proposal_id: "proposal.base-provider".to_string(),
+            tool_name: "runtime.observe".to_string(),
+            tool_version: "1.0.0".to_string(),
+            adapter_id: crate::resident_tool_execution::RUNTIME_OBSERVE_ADAPTER_V1.to_string(),
+            arguments: BTreeMap::new(),
+            dry_run_requested: true,
+            ambiguous: false,
+        },
+    };
+    let hot_proposal = crate::resident_tool_execution::ResidentToolProposalEnvelopeV1 {
+        tool_proposal: crate::uts_acc_compiler::ToolProposalV1 {
+            proposal_id: "proposal.hot-provider".to_string(),
+            ..base_proposal.tool_proposal.clone()
+        },
+    };
+    let base_output = serde_json::to_string(&base_proposal).unwrap();
+    let hot_output = serde_json::to_string(&hot_proposal).unwrap();
+    let base_output_yaml = serde_yaml::to_string(&base_output).unwrap();
+    let hot_output_yaml = serde_yaml::to_string(&hot_output).unwrap();
+
+    fs::write(
+        &workflow,
+        format!(
+            r#"version: "0.5"
+providers:
+  local_mock:
+    type: mock
+    default_model: echo-v1
+    config:
+      fixed_output: {base_output_yaml}
+agents:
+  resident:
+    provider: "local_mock"
+    model: "echo-v1"
+tasks:
+  propose:
+    prompt:
+      user: "provider reload production tick"
+run:
+  name: "provider-reload-production-tick"
+  workflow:
+    kind: "sequential"
+    steps:
+      - id: "resident-proposal"
+        agent: "resident"
+        task: "propose"
+"#
+        ),
+    )
+    .unwrap();
+    fs::write(
+        &sidecar,
+        format!(
+            r#"schema: adl.provider_reload_sidecar.v1
+providers:
+  local_mock:
+    type: mock
+    default_model: echo-v1
+    config:
+      fixed_output: {hot_output_yaml}
+"#
+        ),
+    )
+    .unwrap();
+
+    let resident_id = "actor.operator.alice";
+    let role = "operator";
+    let authority = adl_runtime::resident_agent::CsmResidentAgentToolAuthorityBinding::new(
+        "grant.compiler.fixture",
+        format!("runtime://resident/{resident_id}/tool-authority"),
+        vec!["runtime.observe".to_string()],
+    );
+    let mut policy = crate::uts_acc_compiler::wp09_policy_context_fixture();
+    policy.allowed_side_effects = vec![crate::uts::UtsSideEffectClassV1::Read];
+    policy.allowed_resource_scopes = vec!["aggregate-observation".to_string()];
+    let spec = root.join("agent.json");
+    let document = AgentSpec {
+        schema: SPEC_SCHEMA.to_string(),
+        agent_instance_id: resident_id.to_string(),
+        display_name: "Provider reload resident".to_string(),
+        state_root: root.join("state"),
+        workflow: WorkflowSpec {
+            kind: "adl_workflow".to_string(),
+            name: Some("provider-reload-production-tick".to_string()),
+            path: Some(workflow),
+            run_args: json!({
+                "provider_reload_sidecar_path": "providers.hot.yaml",
+                "freedom_gate_policy_decision": "allowed",
+                "tool_registry": crate::resident_tool_execution::runtime_observe_registry_v1(),
+                "tool_policy_context": policy,
+                "tool_risk_class": "low",
+                "citizen_boundary_ref": "runtime.resident.boundary",
+                "tool_gate_context": {
+                    "policy_decision": "allowed",
+                    "requires_operator_review": false,
+                    "requires_human_challenge": false,
+                    "escalation_available": false,
+                    "citizen_action_boundary_intact": true,
+                    "operator_action_boundary_intact": true,
+                    "private_arguments_redacted": true
+                }
+            }),
+        },
+        heartbeat: HeartbeatSpec {
+            interval_secs: Some(1),
+            max_cycles: Some(1),
+            stale_lease_after_secs: Some(60),
+        },
+        checkpoint: AgentCheckpointSpec::default(),
+        safety: json!({
+            "allow_network": false,
+            "allow_broker": false,
+            "allow_filesystem_writes_outside_state_root": false,
+            "allow_real_world_side_effects": false,
+            "require_public_artifact_sanitization": true,
+            "financial_advice": false,
+            "max_cycle_runtime_secs": 120,
+            "max_consecutive_failures": 2
+        }),
+        memory: json!({}),
+        resident_role: Some(role.to_string()),
+        tool_authority: Some(authority),
+    };
+    fs::write(&spec, serde_json::to_vec_pretty(&document).unwrap()).unwrap();
+
+    let status = tick(&spec, TickOptions::default()).expect("provider reload production tick");
+    assert_eq!(status.state, AgentStatusState::Idle);
+    let run_status: Value = serde_json::from_slice(
+        &fs::read(root.join("state/cycles/cycle-000001/csm_adl_run_status.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(run_status["provider_reload"]["status"], "enabled");
+    assert_eq!(run_status["provider_reload"]["shutdown_requested"], true);
+    let receipts: Vec<crate::resident_tool_execution::ResidentToolReceiptV1> =
+        serde_json::from_slice(
+            &fs::read(root.join("state/cycles/cycle-000001/resident_tool_receipts.json")).unwrap(),
+        )
+        .unwrap();
+    assert_eq!(receipts.len(), 1);
+    let hot_proposal_id_sha256 = format!(
+        "sha256:{}",
+        hex::encode(Sha256::digest("proposal.hot-provider".as_bytes()))
+    );
+    assert_eq!(
+        receipts[0].proposal_id.as_deref(),
+        Some(hot_proposal_id_sha256.as_str())
+    );
+}
+
+#[test]
 fn observability_replay_preserves_every_typed_priority_label() {
     let cases = [
         (

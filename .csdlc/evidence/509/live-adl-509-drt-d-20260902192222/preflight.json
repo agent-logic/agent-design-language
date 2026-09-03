@@ -1,0 +1,26 @@
+{
+  "schema": "adl.issue509.gcp_drt_d_preflight.v1",
+  "status": "passed",
+  "account_sha256": "c5b38a2025d0104dcc4991802bc82fe1738fdcc629eb22b019fb8542c417dda0",
+  "project": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+  "region": "us-west1",
+  "zone": "us-west1-a",
+  "service_account_sha256": "a099c5229a83eedc4f3f44138ccddc45156c79e4798ae375b7e9d4026f41b680",
+  "runtime_machine_type": "e2-standard-4",
+  "ollama_machine_type": "g2-standard-4",
+  "accelerator_type": "nvidia-l4",
+  "accelerator_count": 1,
+  "assign_external_ip": false,
+  "enable_oslogin": true,
+  "create_cloud_nat": false,
+  "max_budget_usd": 20,
+  "node_count": 2,
+  "ollama_public": false,
+  "artifact_manifest_sha256": "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc",
+  "model_source": "gcs_object_storage",
+  "resident_models": [
+    "llama3.1:8b",
+    "qwen3:8b",
+    "phi4-mini:latest"
+  ]
+}

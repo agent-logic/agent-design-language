@@ -1,0 +1,10 @@
+flowchart TD
+  A[CORP-A #482 critical asset schedule] --> D[CORP-D #498 prerequisite census]
+  B[CORP-B #483 custody register] --> D
+  C[CORP-C #497 operational-control transfer] --> D
+  D --> E{All blockers dispositioned and merged ancestral?}
+  E -- no --> F[Fail closed: unresolved blocker disposition]
+  E -- yes --> G[Diligence index]
+  G --> H[Counsel-boundary redacted receipts]
+  H --> I[Corporate diligence acceptance record]
+  I --> J[Sprint 4 umbrella #532 child disposition]

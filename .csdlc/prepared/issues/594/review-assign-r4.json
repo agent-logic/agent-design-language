@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 594,
+  "expected_generation": 13,
+  "expected_digest": "8e27c5dcd856326d98677d7d4d74258362e58c5da0a5185403c4c78342c43a7e",
+  "reviewer": "codex:/root/review_594_prepr_r2",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/evidence/594",
+    ".csdlc/prepared/issues/594",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/observability/vector.rs",
+    "adl-runtime-kernel/tests/configuration.rs",
+    "adl-runtime-kernel/tests/observability.rs",
+    "infra/aws/runtime/log-archive"
+  ]
+}

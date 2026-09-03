@@ -1,0 +1,24 @@
+{
+  "issue": 498,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "8fcef6fcb51c246d7c8883b66436e36f5724b7d71a2499a71811771b7cc4d5e6",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Repair #498 execution-readiness denominator by declaring exact issue-owned evidence validator targets in SPP affected areas.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/operations/corporate/diligence",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+      ".csdlc/prepared/issues/498",
+      ".csdlc/evidence/498",
+      ".csdlc/evidence/498/validate-readiness.rb",
+      ".csdlc/evidence/498/check-prerequisites.rb",
+      ".csdlc/evidence/498/validate-diligence-index.rb",
+      ".csdlc/evidence/498/validate-counsel-boundary.rb",
+      ".csdlc/evidence/498/validate-acceptance-readback.rb"
+    ]
+  },
+  "fail_after_backup": false
+}

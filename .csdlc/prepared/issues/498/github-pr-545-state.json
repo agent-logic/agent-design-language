@@ -1,0 +1,20 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "pr_state",
+  "operation_key": "issue-498-read-corp-a-pr",
+  "token_file": null,
+  "issue": null,
+  "pull_request": 545,
+  "title": null,
+  "body": null,
+  "base": null,
+  "head": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

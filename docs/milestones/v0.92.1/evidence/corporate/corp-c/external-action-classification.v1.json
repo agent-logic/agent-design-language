@@ -6,7 +6,9 @@
   "authorized_actions": [
     "corp-c-aws-c-terraform-bootstrap-apply"
   ],
-  "blocked_actions": [
+  "blocked_actions": [],
+  "sidecar_issue": 624,
+  "sidecar_actions": [
     "corp-c-source-control-live-readback",
     "corp-c-ci-cd-live-readback",
     "corp-c-dns-hosted-zone-transfer",
@@ -69,7 +71,7 @@
     {
       "id": "corp-c-dns-hosted-zone-transfer",
       "surface": "hosted-zone, DNS delegation, and rollback-control transfer",
-      "classification": "blocked_missing_required_readback",
+      "classification": "sidecar_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B production_domains and dns_route53 follow-up rows"
@@ -77,7 +79,7 @@
     {
       "id": "corp-c-certificate-renewal-ownership",
       "surface": "certificate inventory, renewal ownership, and rollback controls",
-      "classification": "blocked_missing_required_readback",
+      "classification": "sidecar_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B certificates follow-up row"
@@ -85,7 +87,7 @@
     {
       "id": "corp-c-github-actions-authority",
       "surface": "GitHub organization, Actions billing, environments, required reviewers, runner authority, and emergency workflow-disable procedure",
-      "classification": "blocked_missing_required_readback",
+      "classification": "sidecar_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B source_control and ci_cd follow-up rows"
@@ -93,7 +95,7 @@
     {
       "id": "corp-c-private-custody",
       "surface": "vault, recovery factors, payment method, executed instruments, and counsel-controlled diligence material",
-      "classification": "blocked_missing_private_receipt",
+      "classification": "sidecar_missing_private_receipt",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": false,
       "evidence_ref": "CORP-A redacted custody receipts and CORP-B private-custody follow-up rows"
@@ -101,7 +103,7 @@
     {
       "id": "corp-c-deployment-rollback-readback",
       "surface": "deployment roles, rollback authority, incident audit logging, and emergency access",
-      "classification": "blocked_missing_required_readback",
+      "classification": "sidecar_missing_required_readback",
       "mutation_performed_by_497": false,
       "rollback_required_before_mutation": true,
       "evidence_ref": "CORP-B deployment_operations follow-up row"
