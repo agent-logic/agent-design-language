@@ -4,61 +4,45 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
-  "phase": "published",
-  "generation": 16,
-  "digest": "bde57c7011fe392005b582555520c14d3b9bccd9f71e1505a8cfdd0bd5406edd",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "7584eb601951dd2339d8511e46978a883fcb5994950f37a55bd9b1ff622d8d22",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
   "review_assignment": {
-    "reviewer": "codex-reviewer:review_629_c972_micro",
+    "reviewer": "codex-reviewer:review_629_head_3fa957",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:c9728373330f5ae6dbebbab26b0970bda0a310af:526398bedede01b4a1cc9bcb7c1d400d07c18137e9fcc6cd610bb2cd5573124e",
+    "revision": "git-blake3:3fa957d36cfe3df2b125f97f63615c88a6d2ffdb:f9649a215b5f34ff2d7f3f945953a6b2a564b6f2f3fba657e6b2e7319cf7213d",
     "scope": [
+      "csdlc-v3/src/adapters/mod.rs",
       "csdlc-v3/src/commands/remote/mod.rs",
       "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
       "csdlc-v3/tests/remote_publication_commands.rs",
       "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/629/design.md",
-      ".csdlc/prepared/issues/629/diagram.mmd",
-      ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh"
+      "csdlc-v3/tests/transactions.rs"
     ]
   },
   "review": {
-    "reviewer": "codex-reviewer:review_629_c972_micro",
+    "reviewer": "codex-reviewer:review_629_head_3fa957",
     "scope": [
+      "csdlc-v3/src/adapters/mod.rs",
       "csdlc-v3/src/commands/remote/mod.rs",
       "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
       "csdlc-v3/tests/remote_publication_commands.rs",
       "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/629/design.md",
-      ".csdlc/prepared/issues/629/diagram.mmd",
-      ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh"
+      "csdlc-v3/tests/transactions.rs"
     ],
-    "reviewed_revision": "git-blake3:c9728373330f5ae6dbebbab26b0970bda0a310af:526398bedede01b4a1cc9bcb7c1d400d07c18137e9fcc6cd610bb2cd5573124e",
+    "reviewed_revision": "git-blake3:3fa957d36cfe3df2b125f97f63615c88a6d2ffdb:f9649a215b5f34ff2d7f3f945953a6b2a564b6f2f3fba657e6b2e7319cf7213d",
     "findings": [],
     "residual_risks": [
-      "C-SDLC v3 remote/publication routes remain construction-only and non-authoritative until explicit #505 cutover.",
-      "The #629 canary is intentionally tolerant of implemented, reviewed, or published pre-terminal lifecycle phases so lifecycle metadata publication does not make exact-head source proof brittle."
+      "C-SDLC v3 GitHub and publication routes remain non-authoritative until explicit V3-F/#505 cutover.",
+      "Live authenticated-success --observe-github was not run with a real token; fake-token dispatch proof verifies adapter shape and fail-closed behavior without exposing credentials.",
+      "V3 PR create/update writes remain incomplete; typed C-SDLC v2 remains publication authority until #505."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 629,
-    "pull_request": 641,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/641",
-    "base": "main",
-    "head": "codex/629-v3-h3-github-publication-exec",
-    "revision": "git-blake3:c9728373330f5ae6dbebbab26b0970bda0a310af:526398bedede01b4a1cc9bcb7c1d400d07c18137e9fcc6cd610bb2cd5573124e",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -72,34 +56,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "332cd96e77e1edcc1e756099607d7fc0f11bdd06f00e27b10a83e53731ba2bec",
+      "values_digest": "ae413a3b91eebd1f2bc8defc9369f0b387c327427cce78c6adb31d94bf530369",
       "rendered_digest": "e446948ed0ad2268373108f73463028bfa4db9d89c070b19f3efbb817893e249",
       "ast_digest": "4441dd096f6c525cb946e18a6fc6a31f4b07b3be9a00752bfc4c2d67c4f0c2a3"
     },
     "stp": {
-      "values_digest": "7eaa062ba64c19cbf3aeac3cc6d8e96600401aa54299fbadbc72990647ae270d",
+      "values_digest": "bedcc4fbdaadfbd53032edddd7774b48089f1c0e7ce47cd7111f86dc107741e0",
       "rendered_digest": "27d53576f399af4a88d9a3a47d4928fc3d600c625480612e442939edc5cd1f4b",
       "ast_digest": "8dda543d0b0c799e3467b5ce616ba72f9b6a7d8ae2cbb9373fe69eca07952409"
     },
     "spp": {
-      "values_digest": "e3fc33eabfc3ddb8e49bd77925e77e5d77c7fd57287b70742307f43e229c7e20",
+      "values_digest": "bf5b903062e4c7c0ba208446e4c31329d1efab3aca4ecfdd97063396163ca348",
       "rendered_digest": "556e13e7c158af8c80538c151cc2fc12041ac4e470df6ff04129b2c2b4150680",
       "ast_digest": "776112b5558f285d4e428c4f3e40e4e18c4fd06dbdb09c9b2952b17e3737f34b"
     },
     "vpp": {
-      "values_digest": "08b3afeb6008380e952bc1c27e2829a86b9fd99c397073e73ee2b915afb812cf",
+      "values_digest": "df64575f6efdd3495ea40e5731fa99b57c6b58b4037302620b3e3a400c15bed4",
       "rendered_digest": "344816c3eaa375d6ef4366492e688f885d2536b905e94af4617b596b7fe11eb3",
       "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
     },
     "srp": {
-      "values_digest": "6e9f43d4e7ebc0b2af5c5412fc58724fe5911ac0f7c22692ef6fddf680dbd2fc",
-      "rendered_digest": "d141c17eeb202bccd9854134ca0496c4698492b465ce003e849178ddfdd9876e",
-      "ast_digest": "d8f1d71c41e21e533000e30eb8a97406033f1fceb4ed72c151edaa04b880f889"
+      "values_digest": "77bc4966992f891bb1f38abe4e9b382c8a535b5ef73f3894298eee1bed928ebc",
+      "rendered_digest": "57d815df78f4fe4db768cb94326a722590a4e06d23a8ba9721556da0fa8e2919",
+      "ast_digest": "66fcf19f884fb1da758eecad6d1bbd1a350a44525574f9ffbd304a4a7ee009b8"
     },
     "sor": {
-      "values_digest": "d7ae8edab2cc82f7d069960e916c3e3c85d9c8a2be9aff379ef3d4929a8648cf",
-      "rendered_digest": "164f2477409eb8f9eec1c7aa9ca383615fae44b2b02ac6ad7e4f7666e762f475",
-      "ast_digest": "2a24de59e9be975da5f42ac666e99145b43e86038b34a5e53aff9738805a7e0c"
+      "values_digest": "385575bebafc9ff5ed1871014f63ffd79fa9bd89e776f9cb2d56fdc7d23e0681",
+      "rendered_digest": "e0b4384596e7224e5b3483f65848e987d550b02fa713f9bc0e30f273774c15b1",
+      "ast_digest": "e8c07e017fc6b180f98f8172d72576051c6ba466a57929819f96f99439bb0f54"
     }
   },
   "transitions": [
@@ -200,6 +184,20 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after authenticated PR readback and CLI observation hardening through 3fa957d36cfe3df2b125f97f63615c88a6d2ffdb."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -370,6 +368,27 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after authenticated PR readback and CLI observation hardening through 3fa957d36cfe3df2b125f97f63615c88a6d2ffdb.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

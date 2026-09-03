@@ -80,11 +80,11 @@ Implemented V3-H.3 GitHub, PR-state, review, and publication construction routes
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
