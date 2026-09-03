@@ -555,6 +555,15 @@ pub fn validate_ready_remote(
         .as_deref()
         .is_some_and(|repository| repository != request.repository);
     let linkage_mode = governed.linkage_mode.unwrap_or_default();
+    let remote_closing_linkage_ok = match linkage_mode {
+        PublicationLinkageMode::Closing => {
+            remote.linked_issue == Some(request.issue)
+                && remote.linkage_source.as_deref() == Some("github_closing_issues_references")
+        }
+        PublicationLinkageMode::PartOf => {
+            remote.linked_issue.is_none() && remote.linkage_source.is_none()
+        }
+    };
     if governed.issue != request.issue
         || remote.repository != governed.repository
         || remote.number != request.pull_request
@@ -570,6 +579,7 @@ pub fn validate_ready_remote(
             split_authority,
             linkage_mode,
         )
+        || !remote_closing_linkage_ok
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,

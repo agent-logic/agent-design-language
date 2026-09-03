@@ -222,7 +222,7 @@ async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_
         .get(request.pull_request)
         .await
         .map_err(|error| remote(error.to_string()))?;
-    let before = normalize_ready(&governed, &before)?;
+    let before = normalize_ready(&governed, &request, &before, &crab).await?;
     csdlc_v2::publication::validate_ready_remote(&governed, &request, &before, true)?;
     let node_id = ready_node_id(&request, &before, &crab).await?;
     let _: serde_json::Value = crab
@@ -237,7 +237,7 @@ async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_
         .get(request.pull_request)
         .await
         .map_err(|error| remote(error.to_string()))?;
-    let after = normalize_ready(&governed, &after)?;
+    let after = normalize_ready(&governed, &request, &after, &crab).await?;
     csdlc_v2::publication::validate_ready_remote(&governed, &request, &after, false)?;
     let record = record_ready_publication(&store, &request, &governed, after.clone())?;
     let mut publication = after;
@@ -248,7 +248,7 @@ async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_
         let observed =
             reobserve_ready_pr_at_head(&crab, owner, repo, request.pull_request, &metadata_head)
                 .await?;
-        publication = normalize_ready(&governed, &observed)?;
+        publication = normalize_ready(&governed, &request, &observed, &crab).await?;
         validate_ready_metadata_followup_remote(
             root,
             &governed,
@@ -284,7 +284,7 @@ async fn reconcile_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<s
         .get(request.ready.pull_request)
         .await
         .map_err(|error| remote(error.to_string()))?;
-    let observed = normalize_ready(&governed, &observed)?;
+    let observed = normalize_ready(&governed, &request.ready, &observed, &crab).await?;
     csdlc_v2::publication::validate_ready_remote(&governed, &request.ready, &observed, false)?;
     let record = record_ready_reconciliation(&store, &request, &governed, observed.clone())?;
     let mut publication = observed;
@@ -300,7 +300,7 @@ async fn reconcile_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<s
             &metadata_head,
         )
         .await?;
-        publication = normalize_ready(&governed, &observed)?;
+        publication = normalize_ready(&governed, &request.ready, &observed, &crab).await?;
         validate_ready_metadata_followup_remote(
             root,
             &governed,
@@ -339,9 +339,11 @@ fn existing_pr_matches_governed_mode(
         }
 }
 
-fn normalize_ready(
+async fn normalize_ready(
     governed: &PublicationEvidence,
+    request: &ReadyPublicationRequest,
     pr: &octocrab::models::pulls::PullRequest,
+    crab: &octocrab::Octocrab,
 ) -> csdlc_v2::Result<RemotePullRequest> {
     let base = pr.base.as_ref().ok_or_else(|| {
         V2Error::new(
@@ -364,6 +366,19 @@ fn normalize_ready(
             .as_ref()
             .and_then(|repo| repo.full_name.as_deref()),
     )?;
+    let relation = observe_target_closing_relation(
+        crab,
+        &governed.repository,
+        &request.repository,
+        request.issue,
+        pr_number(pr)?,
+    )
+    .await?;
+    let (linked_issue, linkage_source) = remote_linkage_fields(
+        request.issue,
+        governed.linkage_mode.unwrap_or_default(),
+        relation,
+    )?;
     Ok(RemotePullRequest {
         number: pr_number(pr)?,
         url: pr
@@ -380,8 +395,8 @@ fn normalize_ready(
         draft: pr.draft.unwrap_or(false),
         state: normalized_remote_state(pr).into(),
         head_sha: head.sha.clone(),
-        linked_issue: None,
-        linkage_source: None,
+        linked_issue,
+        linkage_source,
     })
 }
 
@@ -660,12 +675,16 @@ async fn normalize(
             .as_ref()
             .and_then(|repo| repo.full_name.as_deref()),
     )?;
-    let linked_issue = match intent.linkage_mode {
-        csdlc_v2::PublicationLinkageMode::Closing => {
-            Some(observe_closing_issue(crab, intent, pr_number(pr)?).await?)
-        }
-        csdlc_v2::PublicationLinkageMode::PartOf => None,
-    };
+    let relation = observe_target_closing_relation(
+        crab,
+        &intent.repository,
+        &intent.issue_repository,
+        intent.issue,
+        pr_number(pr)?,
+    )
+    .await?;
+    let (linked_issue, linkage_source) =
+        remote_linkage_fields(intent.issue, intent.linkage_mode, relation)?;
     Ok(RemotePullRequest {
         number: pr_number(pr)?,
         url: pr
@@ -683,19 +702,22 @@ async fn normalize(
         state: normalized_remote_state(pr).into(),
         head_sha: head.sha.clone(),
         linked_issue,
-        linkage_source: linked_issue.map(|_| "github_closing_issues_references".into()),
+        linkage_source,
     })
 }
 
-async fn observe_closing_issue(
+async fn observe_target_closing_relation(
     crab: &octocrab::Octocrab,
-    intent: &PublicationIntent,
+    code_repository: &str,
+    issue_repository: &str,
+    issue: u64,
     pull_request: u64,
-) -> csdlc_v2::Result<u64> {
+) -> csdlc_v2::Result<bool> {
+    let (owner, repo) = repository_parts(code_repository)?;
     let response: serde_json::Value = crab
         .graphql(&serde_json::json!({
             "query": "query ClosingIssues($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { pullRequest(number: $number) { closingIssuesReferences(first: 100) { nodes { number repository { nameWithOwner } } } } } }",
-            "variables": {"owner": owner(intent)?, "repo": repo(intent)?, "number": pull_request}
+            "variables": {"owner": owner, "repo": repo, "number": pull_request}
         }))
         .await
         .map_err(|error| remote(error.to_string()))?;
@@ -709,19 +731,35 @@ async fn observe_closing_issue(
                 "GitHub closing-issue relation is absent; wait for the dependency branch to merge, publish the closing PR against the default branch, or choose the explicit non-closing checkpoint route",
             )
         })?;
-    if nodes.iter().any(|node| {
-        node.get("number").and_then(serde_json::Value::as_u64) == Some(intent.issue)
+    Ok(nodes.iter().any(|node| {
+        node.get("number").and_then(serde_json::Value::as_u64) == Some(issue)
             && node
                 .pointer("/repository/nameWithOwner")
                 .and_then(serde_json::Value::as_str)
-                == Some(intent.issue_repository.as_str())
-    }) {
-        return Ok(intent.issue);
+                == Some(issue_repository)
+    }))
+}
+
+fn remote_linkage_fields(
+    issue: u64,
+    linkage_mode: csdlc_v2::PublicationLinkageMode,
+    target_closing_relation: bool,
+) -> csdlc_v2::Result<(Option<u64>, Option<String>)> {
+    match (linkage_mode, target_closing_relation) {
+        (csdlc_v2::PublicationLinkageMode::Closing, true) => Ok((
+            Some(issue),
+            Some("github_closing_issues_references".into()),
+        )),
+        (csdlc_v2::PublicationLinkageMode::Closing, false) => Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "caller-linked issue is not a remote GitHub closing relation; wait for the dependency branch to merge, publish the closing PR against the default branch, or choose the explicit non-closing checkpoint route",
+        )),
+        (csdlc_v2::PublicationLinkageMode::PartOf, false) => Ok((None, None)),
+        (csdlc_v2::PublicationLinkageMode::PartOf, true) => Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "non-closing checkpoint PR has a remote GitHub closing relation; publish with closing linkage or remove the closing relation before using the non-closing checkpoint route",
+        )),
     }
-    Err(V2Error::new(
-        ErrorCode::ReconciliationRequired,
-        "caller-linked issue is not a remote GitHub closing relation; wait for the dependency branch to merge, publish the closing PR against the default branch, or choose the explicit non-closing checkpoint route",
-    ))
 }
 
 fn normalized_remote_state(pr: &octocrab::models::pulls::PullRequest) -> &'static str {
@@ -821,8 +859,9 @@ fn reconcile_create_observation(send_failed: bool, observed: bool) -> csdlc_v2::
 #[cfg(test)]
 mod tests {
     use super::{
-        existing_pr_matches_governed_mode, reconcile_create_observation, remote_url_matches,
-        remote_urls_match, select_unique, validate_observed_repository_identity, verify_git_remote,
+        existing_pr_matches_governed_mode, reconcile_create_observation, remote_linkage_fields,
+        remote_url_matches, remote_urls_match, select_unique,
+        validate_observed_repository_identity, verify_git_remote,
     };
     use csdlc_v2::{ErrorCode, PublicationIntent, PublicationLinkageMode, RemotePullRequest};
     use std::process::Command;
@@ -1045,6 +1084,22 @@ mod tests {
         assert!(!existing_pr_matches_governed_mode(&intent, &remote));
         let error = csdlc_v2::publication::validate_remote(&intent, &remote)
             .expect_err("body-only stacked closing PR must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[test]
+    fn observed_closing_relation_controls_normalized_linkage_fields() {
+        assert_eq!(
+            remote_linkage_fields(645, PublicationLinkageMode::Closing, true).unwrap(),
+            (Some(645), Some("github_closing_issues_references".into()))
+        );
+        assert!(remote_linkage_fields(645, PublicationLinkageMode::Closing, false).is_err());
+        assert_eq!(
+            remote_linkage_fields(645, PublicationLinkageMode::PartOf, false).unwrap(),
+            (None, None)
+        );
+        let error = remote_linkage_fields(645, PublicationLinkageMode::PartOf, true)
+            .expect_err("non-closing checkpoint cannot hide a GitHub closing relation");
         assert_eq!(error.code, ErrorCode::ReconciliationRequired);
     }
 }

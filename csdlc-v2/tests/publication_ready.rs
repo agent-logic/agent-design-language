@@ -195,6 +195,11 @@ fn ready_readback_rejects_identity_drift_and_wrong_draft_state() {
     linkage_drift.body = "Related #604".into();
     assert!(validate_ready_remote(&governed, &request, &linkage_drift, false).is_err());
 
+    let mut missing_closing_relation = remote(false);
+    missing_closing_relation.linked_issue = None;
+    missing_closing_relation.linkage_source = None;
+    assert!(validate_ready_remote(&governed, &request, &missing_closing_relation, false).is_err());
+
     assert!(validate_ready_remote(&governed, &request, &remote(false), true).is_err());
     assert!(validate_ready_remote(&governed, &request, &remote(true), false).is_err());
 }
