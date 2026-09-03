@@ -6,10 +6,21 @@
   "initialization_digest": "1bdec3b2866f08bd765f50a2717fe4fc32698066911fbf20529dc0c01a8571ed",
   "phase": "implemented",
   "generation": 13,
-  "digest": "19fc316c5cee1b265436352f7eed4973c92463873fb6cde87ae2f5e0c00b3495",
+  "digest": "a58e173a85ad63f2beac013c59a47a831d11378272eb5286f5fde8e3b7488bcb",
   "branch": "codex/663-gcp-warm-polis",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-663-gcp-warm-polis",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/issue_663_governed_review",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:e3e63652d56d1545166bd822bccd8dc34e081b06:771cf801201aaeafa7b098549eea17fcd2649027a970cd80f421774ab39c4034",
+    "scope": [
+      ".csdlc/prepared/issues/663",
+      ".csdlc/evidence/663",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime",
+      "infra/gcp/workloads/warm-polis",
+      "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "db23bda8a22e0ff2a495972e0b9f22138d8cec0caf8311ff2367fbde0c1ef915"
     },
     "srp": {
-      "values_digest": "fae95b65b7a8f039c8030a2f4763e343500fae8c54af03c71fa9eebf87b93ae8",
-      "rendered_digest": "b99b33d50623e0d7af9246d873080487ef08c0a5439e490eeb7c474848b534c6",
-      "ast_digest": "cfb80765417dc5eaf15ac5d96beb373c97bc4c320c0c9142ac1fdd81627ab9e4"
+      "values_digest": "bc09420c9c9c839da8fa5821099012c7dc916891995d705cf884a75487872a19",
+      "rendered_digest": "68260778247d41dd883aa1240b5912a47b36cc823261cc550f31527e1cca953d",
+      "ast_digest": "433b50d32d572265b546f1ded880a081808bafad1295f119b4619ed120002495"
     },
     "sor": {
       "values_digest": "c6293eeb77093cdb18f09a1035e450ee4a66aa861bbc08a1fa444ded841a0d04",
@@ -183,6 +194,13 @@
       "actor": "codex:/root",
       "reason": "Record exact-head review and publication as the remaining active step; paid live timing remains conditionally deferred without authorization.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue #663 GCP warm two-node Terraform, startup scripts, focused tests, documentation, and issue-local evidence only.
+.csdlc/prepared/issues/663
+.csdlc/evidence/663
+infra/gcp/workloads/modules/two-node-ollama-runtime
+infra/gcp/workloads/warm-polis
+docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md
 
 ## Prompts
 
