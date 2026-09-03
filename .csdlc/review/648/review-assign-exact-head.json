@@ -1,0 +1,16 @@
+{
+  "issue": 648,
+  "expected_generation": 5,
+  "expected_digest": "f7f31e0a700615354be25b947f9be4a1ff32dcadcfa59e2f286422370ad5a527",
+  "reviewer": "codex-subagent:/root/review_648_provider_reload_corrective_exact_head",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "adl/src/provider/reload.rs",
+    "adl/src/execute/mod.rs",
+    "adl/src/execute/runner.rs",
+    "adl/src/execute/tests.rs",
+    "adl/src/long_lived_agent.rs",
+    ".csdlc/prepared/issues/648",
+    ".csdlc/evidence/648"
+  ]
+}

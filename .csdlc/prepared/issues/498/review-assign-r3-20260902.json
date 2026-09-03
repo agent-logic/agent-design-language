@@ -1,0 +1,13 @@
+{
+  "issue": 498,
+  "expected_generation": 9,
+  "expected_digest": "70e306389e90b7214a8e079fcd2e8de8b15c54d8c256546df49dcba214003b8d",
+  "reviewer": "subagent:498-corp-d-exact-head-review-r3",
+  "assigned_by": "codex:/root/Worker-7",
+  "scope": [
+    ".csdlc/evidence/498",
+    ".csdlc/prepared/issues/498",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+    "docs/operations/corporate/diligence"
+  ]
+}

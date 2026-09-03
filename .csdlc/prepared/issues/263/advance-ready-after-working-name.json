@@ -1,0 +1,12 @@
+{
+  "issue": 263,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "70eb573efa9c07d93f06fa94fe650a3587b729fc009aebb9286f6d3d362bc133",
+  "actor": "codex:/root/podcast-readiness",
+  "reason": "Advance the validated podcast directory-runbook bundle to ready after recording the operator-directed working show name.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

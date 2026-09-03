@@ -1,0 +1,137 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 515,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+    "slug": "prov-b-local-model-shadow-execution",
+    "version": "v0.92.1",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "shadow-isolation",
+          "proof_role": "Prove authority and shadow paths are distinguishable and shadow output cannot mutate authoritative state.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "-p",
+            "adl",
+            "--test",
+            "provider_shadow_isolation"
+          ],
+          "parallel_group": "provider-shadow",
+          "defer_reason": "The named integration test is a #515 implementation deliverable."
+        },
+        {
+          "lane": "deterministic-comparison",
+          "proof_role": "Prove exact deterministic comparison inputs and rules for authority-versus-shadow observations.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "-p",
+            "adl",
+            "--test",
+            "provider_shadow_comparison"
+          ],
+          "parallel_group": "provider-shadow",
+          "defer_reason": "The named integration test is a #515 implementation deliverable."
+        },
+        {
+          "lane": "fallback",
+          "proof_role": "Prove shadow failures preserve the authoritative result and do not alter authority state.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "-p",
+            "adl",
+            "--test",
+            "provider_shadow_fallback"
+          ],
+          "parallel_group": "provider-shadow",
+          "defer_reason": "The named integration test is a #515 implementation deliverable."
+        },
+        {
+          "lane": "redaction",
+          "proof_role": "Prove shadow comparison evidence is redacted and does not expose credentials, private payloads, prompts, or host-local paths.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 240,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh"
+          ],
+          "parallel_group": "evidence",
+          "defer_reason": "The issue-owned redaction wrapper is a #515 implementation deliverable."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove exact branch diff hygiene before review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on authority mutation, drifted comparison inputs, shadow-output promotion, unredacted evidence, production cutover, or unauthorized paid/live-provider use.",
+      "design_ref": ".csdlc/prepared/issues/515/design.md",
+      "design_digest": "e6bce2ed1224a495cf01affe51a1bd651979a7981d5b0da50700f8a93191f970",
+      "diagram_ref": ".csdlc/prepared/issues/515/diagram.mmd",
+      "diagram_digest": "1639b745f2068d0919b5b82714992d451b50eb5d1d6039fa42188a09c14852a3"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "issue": 596,
+  "card": "vpp",
+  "expected_generation": 24,
+  "expected_digest": "3ce2e5a297313b171229a6e0393fe0b5e16918f0634e510a9fc916f27cecc9d3",
+  "actor": "codex:worker-6",
+  "reason": "Align #596 validation lanes with the v3-separate remediation scope after removing v2 source/test mutation.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "remediation-regression",
+        "proof_role": "Prove #596 local lifecycle, PR-closing linkage, non-closing #505/#534 linkage, portable owner-lane sources, and no net csdlc-v2 source/test mutation through the issue-owned validator.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-6",
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/596/validate-remediation-regression.sh"
+        ],
+        "parallel_group": "policy",
+        "defer_reason": null
+      },
+      {
+        "lane": "v3-real-issue-canary",
+        "proof_role": "Exercise C-SDLC v3 against real issue records while preserving its non-authoritative pre-cutover boundary.",
+        "acceptance_ids": [
+          "AC-5",
+          "AC-6",
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 360,
+        "budget_tokens": 2600,
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--test",
+          "real_issue_canary"
+        ],
+        "parallel_group": "rust-focused",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,20 @@
+{
+  "issue": 596,
+  "expected_generation": 7,
+  "expected_digest": "d72ffeb8f2b993e985a13c199732ab90ba4e3f2b830090654e6575a29b30f0a5",
+  "actor": "codex:worker-6",
+  "evidence": {
+    "reviewer": "Codex independent review subagent /root/review_596_sprint_remediation_delta",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:f4a6429f7ee98b76a4eeb08467e6939e3c02ea15:f166f960f86444bf4273e09a68ae35255ac45085a8e5f66312bd93c238a023d4",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains non-authoritative and incomplete for #505 cutover; the full replacement denominator still lists missing v2 entrypoint replacements.",
+      "Issue #596 terminal closeout remains pending until the new remediation PR is published, merged, reconciled, finished, and cleaned through typed lifecycle routes."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

@@ -21,11 +21,21 @@ variable "aws_region" {
   default = "us-west-2"
 }
 
+variable "issue_number" {
+  description = "Exact tracked issue owning this qualification graph."
+  type        = number
+  default     = 345
+  validation {
+    condition     = contains([345, 607], var.issue_number)
+    error_message = "issue_number must select the retained #345 path or the reviewed #607 warm path."
+  }
+}
+
 variable "run_id" {
   type = string
   validation {
-    condition     = can(regex("^adl-issue345-[A-Za-z0-9._-]+$", var.run_id)) && length(var.run_id) <= 48
-    error_message = "run_id must begin with adl-issue345-, use safe characters, and be at most 48 characters."
+    condition     = can(regex("^adl-issue[0-9]+-[A-Za-z0-9._-]+$", var.run_id)) && startswith(var.run_id, "adl-issue${var.issue_number}-") && length(var.run_id) <= 48
+    error_message = "run_id must begin with the selected issue number, use safe characters, and be at most 48 characters."
   }
 }
 
@@ -149,14 +159,6 @@ variable "gpu_root_volume_throughput_mibps" {
   default = 125
 }
 
-variable "termination_at" {
-  type = string
-  validation {
-    condition     = can(regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$", var.termination_at))
-    error_message = "termination_at must be an exact second-resolution UTC timestamp ending in Z."
-  }
-}
-
 variable "authorized_max_hourly_usd" {
   description = "Authorized combined hourly ceiling retained as tags; Terraform does not query pricing."
   type        = number
@@ -170,8 +172,8 @@ variable "authorized_max_total_usd" {
   description = "Authorized combined total ceiling retained as tags; external preflight enforces cost."
   type        = number
   validation {
-    condition     = var.authorized_max_total_usd > 0 && var.authorized_max_total_usd <= 20
-    error_message = "authorized_max_total_usd must be positive and no greater than 20 USD."
+    condition     = var.authorized_max_total_usd > 0 && var.authorized_max_total_usd <= 21
+    error_message = "authorized_max_total_usd must be positive and no greater than 21 USD."
   }
 }
 
@@ -180,7 +182,7 @@ variable "artifact_bucket" {
 }
 
 variable "artifact_prefix" {
-  description = "Only S3 prefix both nodes may read and write."
+  description = "Exact receipt prefix the nodes may write; read access is separately restricted to artifact_read_keys."
   type        = string
   default     = "shepherd/"
   validation {
@@ -219,5 +221,85 @@ variable "runtime_user_data" {
   validation {
     condition     = strcontains(var.runtime_user_data, "__GPU_PRIVATE_IP__")
     error_message = "runtime_user_data must contain __GPU_PRIVATE_IP__."
+  }
+}
+
+variable "warm_volume_availability_zone" {
+  description = "Exact AZ of both issue #607 retained volumes. Null selects the original cold #345 path."
+  type        = string
+  default     = null
+}
+
+variable "runtime_warm_volume_id" {
+  description = "Prepared Runtime content volume owned by the separate warm-storage state."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.runtime_warm_volume_id == null || can(regex("^vol-[0-9a-f]+$", var.runtime_warm_volume_id))
+    error_message = "runtime_warm_volume_id must be null or an EBS volume ID."
+  }
+}
+
+variable "gpu_warm_volume_id" {
+  description = "Prepared Ollama/model content volume owned by the separate warm-storage state."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.gpu_warm_volume_id == null || can(regex("^vol-[0-9a-f]+$", var.gpu_warm_volume_id))
+    error_message = "gpu_warm_volume_id must be null or an EBS volume ID."
+  }
+}
+
+variable "runtime_warm_device_name" {
+  type    = string
+  default = "/dev/sdf"
+}
+
+variable "gpu_warm_device_name" {
+  type    = string
+  default = "/dev/sdf"
+}
+
+variable "runtime_warm_seal_sha256" {
+  type    = string
+  default = null
+  validation {
+    condition     = var.runtime_warm_seal_sha256 == null || can(regex("^[0-9a-f]{64}$", var.runtime_warm_seal_sha256))
+    error_message = "runtime_warm_seal_sha256 must be null or lowercase SHA-256."
+  }
+}
+
+variable "gpu_warm_seal_sha256" {
+  type    = string
+  default = null
+  validation {
+    condition     = var.gpu_warm_seal_sha256 == null || can(regex("^[0-9a-f]{64}$", var.gpu_warm_seal_sha256))
+    error_message = "gpu_warm_seal_sha256 must be null or lowercase SHA-256."
+  }
+}
+
+variable "warm_artifact_generation" {
+  description = "Immutable prepared generation expected in both sealed-volume manifests."
+  type        = string
+  default     = null
+}
+
+variable "warm_source_commit" {
+  description = "Exact source revision embedded in the Runtime sealed volume."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.warm_source_commit == null || can(regex("^[0-9a-f]{40}$", var.warm_source_commit))
+    error_message = "warm_source_commit must be null or an exact lowercase Git commit."
+  }
+}
+
+variable "warm_kms_key_arn" {
+  description = "Exact KMS key required on both prepared warm volumes."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.warm_kms_key_arn == null || can(regex("^arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key/[0-9a-f-]+$", var.warm_kms_key_arn))
+    error_message = "warm_kms_key_arn must be null or an exact KMS key ARN."
   }
 }

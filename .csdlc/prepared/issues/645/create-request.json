@@ -1,0 +1,200 @@
+{
+  "issue": 645,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root:issue-645-bootstrap",
+  "design_path": ".csdlc/prepared/issues/645/design.md",
+  "diagram_path": ".csdlc/prepared/issues/645/diagram.mmd",
+  "design_reviewer": "codex:/root:issue-645-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][C-SDLC v2][bug] Reject stacked closing publication without a GitHub closing relation",
+    "slug": "stacked-closing-relation",
+    "version": "v0.92.1",
+    "goal": "Prevent C-SDLC v2 publication from recording terminal closing authority for stacked pull requests when GitHub does not expose the target issue through closingIssuesReferences.",
+    "required_outcome": "Closing-mode csdlc-publish fails closed unless live GitHub PR readback confirms the exact target issue through closingIssuesReferences, and stacked checkpoint publication remains explicitly non-closing.",
+    "declared_scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/**",
+      ".csdlc/prepared/issues/645/**",
+      ".csdlc/issues/645/**"
+    ],
+    "authority_boundary": [
+      "Issue #645 owns the C-SDLC v2 publication guard for stacked closing relation readback",
+      "PR #644 is reproducer evidence only and must not be retargeted or merged by this issue",
+      "GitHub closingIssuesReferences is the live authority for terminal closing linkage",
+      "Typed C-SDLC v2 remains the lifecycle authority"
+    ],
+    "operator_constraints": [
+      "Do not merge, retarget, or mutate PR #644",
+      "Do not use raw gh as a lifecycle write workaround",
+      "Do not weaken body keyword validation",
+      "Do not write tracked issue work on main",
+      "Do not use AWS, paid provider APIs, big runners, or live provider inference"
+    ],
+    "task_boundary": "Repair the typed C-SDLC v2 publication/readback path so stacked PRs without a GitHub closing relation cannot be recorded as terminal closing publication.",
+    "deliverables": [
+      "Closing-mode publish guard that requires exact live closingIssuesReferences linkage",
+      "Typed publish/PR-state agreement on linked_issue, linkage_source, base, head, and linkage mode",
+      "Explicit fail-closed guidance for stacked/non-default-base closing publication without a GitHub relation",
+      "Regression test for the PR #644 shape",
+      "Focused local validation evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Closing-mode publication fails closed when live GitHub readback does not expose the target issue through closingIssuesReferences.",
+      "AC-2: A non-default stack-base PR cannot be recorded as closing publication unless GitHub reports the exact closing relation.",
+      "AC-3: Typed publish result and typed PR-state result agree on linked_issue, linkage_source, base, head, and linkage mode.",
+      "AC-4: Stacked checkpoint work has explicit non-closing/dependency mode and cannot masquerade as terminal closing authority.",
+      "AC-5: The failure message tells the operator whether to wait for the dependency branch merge, publish against the default branch, or choose the non-closing checkpoint route.",
+      "AC-6: A regression test covers the PR #644 shape: body starts with Closes #631, base is non-default, and GitHub closing relation is absent."
+    ],
+    "dependencies": [
+      "Live PR #644 reproducer state",
+      "Issue #631 and PR #644 publication/readback behavior",
+      "Current C-SDLC v2 GitHub PR-state closingIssuesReferences parser"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#645",
+      "agent-logic/agent-design-language#644",
+      "agent-logic/agent-design-language#631",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ],
+    "non_goals": [
+      "Do not merge, retarget, or otherwise mutate PR #644",
+      "Do not close or rewrite issue #631 lifecycle truth",
+      "Do not replace GitHub closingIssuesReferences authority with body parsing",
+      "Do not implement C-SDLC v3 publication cutover",
+      "Do not run live provider, AWS, paid, or big-runner validation"
+    ],
+    "plan_summary": "Bootstrap and bind #645, reproduce the typed publication mismatch with offline test fixtures and current live read-only PR state, add the fail-closed closing relation guard, and validate the C-SDLC v2 publication lane.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind #645 into a FastWork issue worktree and confirm live read-only PR #644 still has no GitHub closing relation.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-6"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Add or tighten the csdlc-publish closing-mode reconciliation guard against live PR-state linked_issue/linkage_source.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Preserve explicit non-closing checkpoint semantics for stacked dependency PRs.",
+        "acceptance_ids": [
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused C-SDLC v2 publication regression tests, formatting, and diff hygiene.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-6"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/**",
+      ".csdlc/prepared/issues/645/**",
+      ".csdlc/issues/645/**"
+    ],
+    "invariants": [
+      "GitHub closingIssuesReferences is required for terminal closing authority",
+      "Body keyword parsing remains necessary but not sufficient",
+      "Non-default stack-base PRs fail closed unless GitHub reports the exact closing relation",
+      "Checkpoint/dependency publication is explicit and non-terminal",
+      "Main remains inspection-only"
+    ],
+    "risks": [
+      "A helper may still infer linked_issue from PR body after the guard is added",
+      "Existing publish tests may assume body keyword validation alone is enough",
+      "Non-closing checkpoint paths may need clearer linkage-mode output to avoid overclaim",
+      "Live GitHub API shape could differ from offline fixtures"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The issue cannot be bootstrapped or bound without writing tracked work on main",
+      "The live PR-state relation cannot be verified read-only",
+      "The fix requires mutating PR #644 or bypassing typed lifecycle writes",
+      "Focused regression tests cannot model closingIssuesReferences absence deterministically"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "csdlc-v2-publication-stacked-closing-regression",
+        "proof_role": "Prove closing-mode publication rejects a non-default-base PR whose body has a closing keyword but whose GitHub closing relation readback is absent.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "gate_github_actions",
+          "publish"
+        ],
+        "parallel_group": "csdlc-v2-publication",
+        "defer_reason": null
+      },
+      {
+        "lane": "csdlc-v2-publication-format-hygiene",
+        "proof_role": "Confirm Rust formatting and diff hygiene for the changed publication surfaces.",
+        "acceptance_ids": [
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1000,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "csdlc-v2-publication",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on missing live GitHub closing relation, ambiguous linkage source, non-default-base terminal overclaim, raw gh lifecycle workaround, stale PR-state truth, or zero-test validation.",
+    "review_prompts": [
+      "Can csdlc-publish still record a terminal closing publication when GitHub closingIssuesReferences is absent?",
+      "Does the regression test cover the PR #644 stacked-base shape rather than only body parsing?",
+      "Do publish and PR-state outputs agree on linked_issue and linkage_source?",
+      "Is non-closing checkpoint publication clearly non-terminal?",
+      "Does the failure message give the operator actionable stack/default/checkpoint choices?"
+    ],
+    "review_scope": "C-SDLC v2 publication and PR-state linkage semantics for stacked PRs, live closingIssuesReferences authority, fail-closed diagnostics, and offline regression coverage only."
+  }
+}

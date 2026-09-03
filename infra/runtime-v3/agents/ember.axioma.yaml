@@ -1,0 +1,12 @@
+schema: adl.csm.agent_config.v1
+runtime:
+  init: ../runtime-init.toml
+identity:
+  id: ember-axioma
+  name: ember.axioma
+  display_name: Ember Axioma
+office: local assistant
+provider:
+  kind: vertex_ai
+  model: gemini-2.5-flash
+  endpoint: https://us-central1-aiplatform.googleapis.com/v1/projects/agent-logic-dev/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent

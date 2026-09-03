@@ -1,0 +1,84 @@
+{
+  "issue": 592,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "73ca85276e48aa9da5f25faf41629289d1f02041ba0215371c1b53616a4dcd43",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Record the completed #592 governed Polis Vertex AI configuration implementation and focused local proof before exact-head review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented the governed Polis Vertex AI configuration path without live paid GCP calls. Runtime init now supports an explicit `polis.vertex_ai` block with provider, GCP project, Vertex location, model, and redacted credential-source selection; the deployed runtime init file names the Vertex AI route explicitly; operator documentation records credential boundaries and failure classifications; focused tests prove parsing, rejection of ambient/unsafe shapes, and deterministic failure buckets.",
+    "changes": [
+      "Added typed Runtime init support for `polis.vertex_ai` with explicit `vertex_ai` provider selection, GCP project, Vertex location, model, and credential-source fields.",
+      "Added validation that rejects missing ambient GCP project selection, non-Vertex provider selection, unsafe labels, and relative service-account credential paths.",
+      "Added deterministic Vertex AI provider failure classification for missing credentials, disabled Vertex APIs, project/location mismatch, quota/auth, model/request, and transport failures.",
+      "Configured `infra/runtime-v3/runtime-init.toml` to select Vertex AI for the Agent Logic development Polis using Application Default Credentials without storing secret material.",
+      "Added `docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md` documenting the GCP project/location/model, credential boundary, redaction rules, failure buckets, and deferred paid-call boundary.",
+      "Strengthened the issue-owned validators so they check the implemented runtime config, docs, failure classifier, retained bind request, and secret-marker hygiene."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+      ".csdlc/prepared/issues/592/bind-request.json",
+      ".csdlc/prepared/issues/592/validate-528-merge.sh",
+      ".csdlc/prepared/issues/592/validate-vertex-config-docs.sh",
+      ".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh",
+      ".csdlc/prepared/issues/592/validate-tooling-canary.sh"
+    ],
+    "validation": [
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/592/validate-528-merge.sh"
+        ],
+        "purpose": "Prove PR #603 / issue #528 merge commit remains ancestral to the #592 execution branch before implementation acceptance.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero and printed the exact #603 merge commit edbc3ebc9b4e7c0862595345eebff8e04c9d5260."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/592/validate-vertex-config-docs.sh"
+        ],
+        "purpose": "Validate explicit Vertex AI provider, GCP project, Vertex location, ADC credential source, redaction wording, paid-call deferral, and project/location mismatch documentation.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero with `issue 592 Vertex configuration documentation contract: pass`."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh"
+        ],
+        "purpose": "Validate runtime Vertex AI config support, failure classifier coverage, mock-fallback rejection wording, and credential-marker hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero with `issue 592 Runtime Vertex AI execution contract: pass`."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/592/validate-tooling-canary.sh"
+        ],
+        "purpose": "Validate retained six-card bundle, design, diagram, dependency read request, bind request, and #528 merge ancestry canary evidence.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero with `issue 592 retained tooling canary: pass`."
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--test",
+          "configuration",
+          "--",
+          "--nocapture"
+        ],
+        "purpose": "Run the full Runtime configuration integration test file including the new Polis Vertex AI config and failure-classification tests.",
+        "outcome": "passed",
+        "evidence_ref": "29 passed, 0 failed."
+      }
+    ]
+  }
+}

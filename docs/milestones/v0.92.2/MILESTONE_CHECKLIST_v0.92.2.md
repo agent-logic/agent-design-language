@@ -34,7 +34,7 @@ Status: planned.
 ## Release Tail
 
 - [ ] TAIL-01 quality gate
-- [ ] TAIL-02 docs and release truth
+- [ ] TAIL-02 documentation review and external-review handoff
 - [ ] TAIL-03 publication finalization
 - [ ] TAIL-04 internal review
 - [ ] TAIL-05 external review

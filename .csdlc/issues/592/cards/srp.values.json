@@ -7,15 +7,15 @@
     "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
     "slug": "runtime-gcp-polis-vertex-ai",
     "version": "v0.92.1",
-    "generation": 0
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #592 bootstrap, dependency gate, provider configuration boundary, validation plan, and canary evidence only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/tests/configuration.rs\ninfra/runtime-v3/agents/ember.axioma.yaml\ninfra/runtime-v3/runtime-init.toml\ndocs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md\n.csdlc/prepared/issues/592",
+      "review_revision": "git-blake3:afacbb13006ff2bfcb53a3ad7187e14147a667a6:38da938feceb7d2991c8cfc1314ca9b48f376646223ff0391830b4bc7b25e0f7",
+      "reviewer": "codex-subagent:/root/review_592_prepr_r1",
       "review_prompts": [
         "Is #528 terminal before execution?",
         "Is Vertex AI configuration explicit and redacted?",
@@ -23,8 +23,11 @@
         "Did the canary record every tooling defect rather than hiding it?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains the final integration gate before merge.",
+        "Live or billable Vertex AI generation remains intentionally deferred until separately authorized credentials, project, API enablement, quota, and runtime execution are in scope."
+      ],
+      "review_result": "pass"
     }
   }
 }

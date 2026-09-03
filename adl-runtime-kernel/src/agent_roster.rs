@@ -12,6 +12,22 @@ const MAX_PAGE_SIZE: usize = 100;
 const MAX_FILTER_BYTES: usize = 64;
 const MAX_ROSTER_ENTRIES: usize = 10_000;
 
+pub fn is_canonical_agent_name(name: &str) -> bool {
+    let segments = name.split('.').collect::<Vec<_>>();
+    segments.len() == 2
+        && segments.iter().all(|segment| {
+            let bytes = segment.as_bytes();
+            !segment.is_empty()
+                && segment.len() <= 32
+                && bytes[0].is_ascii_lowercase()
+                && (bytes[bytes.len() - 1].is_ascii_lowercase()
+                    || bytes[bytes.len() - 1].is_ascii_digit())
+                && bytes
+                    .iter()
+                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || *byte == b'-')
+        })
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum AgentPresence {
@@ -27,8 +43,11 @@ pub enum AgentPresence {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AgentRuntimeEvidence {
     pub agent_id: String,
+    pub name: String,
     pub display_name: String,
     pub public_role: String,
+    pub provider: Option<String>,
+    pub model: Option<String>,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -68,8 +87,14 @@ impl AgentRosterPolicy {
 pub struct AgentRosterEntry {
     pub schema: String,
     pub id: String,
+    #[serde(default)]
+    pub name: String,
     pub label: String,
     pub role: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub provider: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -391,6 +416,7 @@ fn validate_query(query: &AgentRosterQuery) -> Result<(), AgentRosterError> {
 fn validate_evidence(item: &AgentRuntimeEvidence) -> Result<(), AgentRosterError> {
     if item.agent_id.is_empty()
         || item.agent_id.len() > 128
+        || !is_canonical_agent_name(&item.name)
         || item.display_name.is_empty()
         || item.display_name.len() > 128
         || item.public_role.is_empty()
@@ -416,8 +442,11 @@ fn project_entry(
     AgentRosterEntry {
         schema: AGENT_ROSTER_ENTRY_SCHEMA.to_owned(),
         id: item.agent_id.clone(),
+        name: item.name.clone(),
         label: item.display_name.clone(),
         role: item.public_role.clone(),
+        provider: item.provider.clone(),
+        model: item.model.clone(),
         presence: if stale {
             AgentPresence::Unknown
         } else {

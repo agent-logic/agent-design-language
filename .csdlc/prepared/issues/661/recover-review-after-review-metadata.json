@@ -1,0 +1,7 @@
+{
+  "issue": 661,
+  "expected_generation": 8,
+  "expected_digest": "ccbffbbd2e2ecedfcebe146e14375e8e62beef50b367dd0ba9d0d68c7b821641",
+  "actor": "codex:/root/issue_661_publication_recovery",
+  "reason": "Recover from reviewed state after the review-record metadata commit so publication can require a fresh current-head review without treating retained stale metadata as merge-ready truth."
+}

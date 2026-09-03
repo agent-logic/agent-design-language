@@ -1,0 +1,162 @@
+{
+  "issue": 263,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:sprint8-readiness",
+  "design_path": ".csdlc/prepared/issues/263/design.md",
+  "diagram_path": ".csdlc/prepared/issues/263/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "Podcast directory submission runbooks and operator preflight",
+    "slug": "podcast-directory-runbooks",
+    "version": "v0.92.1",
+    "goal": "Prepare current provider-specific directory submission runbooks and one redacted operator preflight without mutating provider accounts.",
+    "required_outcome": "Apple, Spotify, Amazon, and YouTube runbooks identify every account-side and irreversible step, consume the exact production feed, and hand a safe ledger schema to #264.",
+    "declared_scope": [
+      "docs/milestones/v0.92.1/evidence/podcast/51-c",
+      "docs/milestones/v0.92.1/review/podcast_directory_263"
+    ],
+    "authority_boundary": [
+      "Issue 263 owns only its declared result and paths; Sprint 8 umbrella #536 coordinates but cannot implement or approve this child."
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 lifecycle only",
+      "Use a dedicated FastWork issue worktree and issue-bound session goal",
+      "Run one bounded exact-head review before publication",
+      "Do not retain credentials, verification codes, recovery material, TLS private keys, or private account data",
+      "Do not widen into another Sprint 8 child's ownership"
+    ],
+    "task_boundary": "Deliver only issue #263: Podcast directory submission runbooks and operator preflight.",
+    "deliverables": [
+      "Apple, Spotify, Amazon, and YouTube runbooks identify every account-side and irreversible step, consume the exact production feed, and hand a safe ledger schema to #264.",
+      "Issue-specific retained validation evidence",
+      "Exact-head review and truthful terminal record"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Each runbook is verified against current official provider instructions at exact-head review time.",
+      "AC-2: The exact #261 identity and #262 production feed/enclosures are referenced.",
+      "AC-3: Account, 2FA, rights, verification, submit, and publish actions are marked operator-controlled.",
+      "AC-4: No provider mutation, directory submission, credential capture, or public launch occurs.",
+      "AC-5: The ledger schema retains canonical IDs/status without secrets or unsupported acceptance claims."
+    ],
+    "dependencies": [
+      "Terminal #261",
+      "Terminal #262",
+      "Sprint 8 umbrella #536"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.92.1/evidence/podcast/51-c",
+      "docs/milestones/v0.92.1/review/podcast_directory_263",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
+    ],
+    "non_goals": [
+      "Provider submission",
+      "Provider account creation or mutation",
+      "Hosting implementation",
+      "Public launch"
+    ],
+    "plan_summary": "Validate dependencies, implement the smallest owned result, run focused proof, obtain one exact-head review, publish, shepherd, finish, and clean up.",
+    "steps": [
+      {
+        "id": "dependency-gate",
+        "action": "Verify all issue-specific dependencies and operator gates",
+        "acceptance_ids": [
+          "AC-1"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "implement",
+        "action": "Implement the bounded owned result",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "validate-review",
+        "action": "Run focused proof and one exact-head review before publication",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "docs/milestones/v0.92.1/evidence/podcast/51-c",
+      "docs/milestones/v0.92.1/review/podcast_directory_263"
+    ],
+    "invariants": [
+      "No ownership widening",
+      "No action before dependencies",
+      "No secret retention",
+      "Review precedes publication",
+      "Failure preserves prior valid state and evidence"
+    ],
+    "risks": [
+      "Dependency truth could drift",
+      "A child could cross another issue's write boundary",
+      "Evidence could overclaim external or Runtime state"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Any dependency is nonterminal or ambiguous",
+      "Any owned-path collision",
+      "Any missing proof target",
+      "Any secret or private material would enter evidence",
+      "Any unresolved actionable review finding"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "issue-263-focused",
+        "proof_role": "Official-instruction freshness, feed identity, operator-action census, redaction, and ledger-schema checks",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": [
+          ".csdlc/prepared/issues/263/validate-directory-runbooks.rb"
+        ],
+        "parallel_group": "sprint8-issue-263",
+        "defer_reason": "Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication."
+      },
+      {
+        "lane": "issue-263-diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before exact-head review.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "sprint8-hygiene",
+        "defer_reason": "Run after the issue has a bounded candidate diff."
+      }
+    ],
+    "failure_policy": "Fail closed on dependency, ownership, authority, privacy, validation, exact-revision, or review drift; preserve evidence and route separate defects without widening the issue.",
+    "review_prompts": [
+      "Does the candidate satisfy every acceptance criterion on its real owned path?",
+      "Does it preserve sibling ownership, operator authority, privacy, and rollback?",
+      "Are all proof claims exact-revision and non-overstated?"
+    ],
+    "review_scope": "Review issue #263 design, implementation, focused proof, negative cases, ownership boundary, privacy, and terminal truth."
+  }
+}

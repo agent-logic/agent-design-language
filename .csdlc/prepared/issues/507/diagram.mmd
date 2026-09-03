@@ -1,0 +1,9 @@
+flowchart TD
+  A[#506 DRT-A terminal contract] --> B[#507 DRT-B six-resident roster]
+  C[#345 closed GPU runner authority] --> G[Optional paid GPU proof gate]
+  B --> D[UTS workload receipts]
+  D --> E[Dehydrate exact population]
+  E --> F[Restore and replay checks]
+  F --> H[DRT-B qualification packet]
+  G -. explicit authorization only .-> H
+  H --> I[#508 DRT-C consumes after #507 terminal]

@@ -1,0 +1,52 @@
+{
+  "issue": 262,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "74abf3e729db1ce06cfbaf3d3086a7891800c1afd0a215d86da2aefad7e86727",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Use an explicit governed interpreter argv for the issue-owned proof target.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "issue-262-focused",
+        "proof_role": "RSS, enclosure, HTTPS, MIME, byte-range, desktop/mobile playback, rollback, and metadata parity",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+        ],
+        "parallel_group": "sprint8-issue-262",
+        "defer_reason": "Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication."
+      },
+      {
+        "lane": "issue-262-diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before exact-head review.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "sprint8-hygiene",
+        "defer_reason": "Run after the issue has a bounded candidate diff."
+      }
+    ]
+  }
+}

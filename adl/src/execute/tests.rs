@@ -182,6 +182,278 @@ fn unique_temp_path(label: &str) -> std::path::PathBuf {
     std::env::temp_dir().join(format!("{label}-{now}-{}", std::process::id()))
 }
 
+fn provider_reload_resolved(fixed_output: &str, sleep_ms: u64) -> AdlResolved {
+    let mut provider = mock_provider_spec();
+    provider
+        .config
+        .insert("fixed_output".to_string(), serde_json::json!(fixed_output));
+    if sleep_ms > 0 {
+        provider
+            .config
+            .insert("sleep_ms".to_string(), serde_json::json!(sleep_ms));
+    }
+
+    let step = crate::resolve::ResolvedStep {
+        id: "reload.step".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("provider reload production prompt".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+
+    let mut doc = minimal_resolved().doc;
+    doc.providers.insert("p1".to_string(), provider);
+    doc.run.workflow = Some(WorkflowSpec {
+        id: None,
+        kind: WorkflowKind::Sequential,
+        max_concurrency: None,
+        steps: vec![],
+    });
+
+    AdlResolved {
+        run_id: "run".to_string(),
+        workflow_id: "wf".to_string(),
+        doc,
+        steps: vec![step],
+        execution_plan: crate::execution_plan::ExecutionPlan {
+            workflow_kind: WorkflowKind::Sequential,
+            nodes: vec![crate::execution_plan::ExecutionNode {
+                step_id: "reload.step".to_string(),
+                depends_on: vec![],
+                save_as: None,
+                delegation: None,
+            }],
+        },
+    }
+}
+
+fn provider_reload_sidecar(fixed_output: &str, sleep_ms: u64) -> String {
+    format!(
+        r#"schema: adl.provider_reload_sidecar.v1
+version: "0.3"
+providers:
+  p1:
+    type: mock
+    default_model: echo-v1
+    config:
+      fixed_output: "{fixed_output}"
+      sleep_ms: {sleep_ms}
+"#
+    )
+}
+
+fn execute_reload_once_with_handle(
+    resolved: &AdlResolved,
+    base: &std::path::Path,
+    handle: &crate::provider::ProviderReloadHandle,
+) -> String {
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential_with_provider_reload_handle(
+        resolved, &mut tr, false, false, base, &out_dir, handle,
+    )
+    .expect("provider reload execution should succeed");
+    result.outputs[0].model_output.clone()
+}
+
+#[test]
+fn execute_sequential_consumes_provider_reload_snapshots_without_restart() {
+    let base = unique_temp_path("adl-provider-reload-production");
+    std::fs::create_dir_all(&base).expect("create base");
+    let sidecar = base.join("providers.yaml");
+    std::fs::write(&sidecar, provider_reload_sidecar("old-output", 0)).expect("write sidecar");
+
+    let resolved = provider_reload_resolved("base-output", 0);
+    let runtime = tokio::runtime::Runtime::new().expect("runtime");
+    let owner = runtime
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar.clone(),
+            resolved.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions {
+                poll_interval: std::time::Duration::from_millis(10),
+                debounce: std::time::Duration::from_millis(20),
+            },
+        ))
+        .expect("start provider reload owner");
+    let mut handle = owner.handle();
+
+    assert_eq!(handle.current_snapshot().generation, 0);
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "old-output"
+    );
+
+    std::fs::write(&sidecar, provider_reload_sidecar("new-output", 0)).expect("rewrite sidecar");
+    let changed = runtime
+        .block_on(async {
+            tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
+        })
+        .expect("provider reload should publish changed snapshot")
+        .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
+
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "new-output"
+    );
+
+    std::fs::write(
+        &sidecar,
+        r#"schema: adl.provider_reload_sidecar.v1
+version: "0.3"
+providers:
+  p1:
+    type: mock
+    default_model: echo-v1
+    config:
+      api_key: "secret-value"
+"#,
+    )
+    .expect("write invalid sidecar");
+    std::thread::sleep(std::time::Duration::from_millis(80));
+
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "new-output"
+    );
+    let diagnostic = handle
+        .last_diagnostic()
+        .expect("invalid candidate should leave redacted diagnostic");
+    assert!(diagnostic.generation >= 1);
+    assert_eq!(diagnostic.code, "validation_error");
+    assert!(diagnostic.redacted_message.contains("<redacted>"));
+
+    let outcome = runtime.block_on(owner.shutdown()).expect("shutdown owner");
+    assert!(outcome.shutdown_requested);
+    assert!(outcome.reloads_applied >= 1);
+    assert!(outcome.invalid_updates_rejected >= 1);
+}
+
+#[test]
+fn execute_sequential_retains_starting_provider_snapshot_for_in_flight_step() {
+    let base = unique_temp_path("adl-provider-reload-inflight");
+    std::fs::create_dir_all(&base).expect("create base");
+    let sidecar = base.join("providers.yaml");
+    std::fs::write(&sidecar, provider_reload_sidecar("slow-old-output", 180))
+        .expect("write sidecar");
+
+    let resolved = provider_reload_resolved("base-output", 0);
+    let runtime = tokio::runtime::Runtime::new().expect("runtime");
+    let owner = runtime
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar.clone(),
+            resolved.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions {
+                poll_interval: std::time::Duration::from_millis(10),
+                debounce: std::time::Duration::from_millis(20),
+            },
+        ))
+        .expect("start provider reload owner");
+    let mut handle = owner.handle();
+
+    assert_eq!(handle.current_snapshot().generation, 0);
+    let thread_resolved = resolved.clone();
+    let thread_base = base.clone();
+    let thread_handle = handle.clone();
+    let running = std::thread::spawn(move || {
+        execute_reload_once_with_handle(&thread_resolved, &thread_base, &thread_handle)
+    });
+
+    std::thread::sleep(std::time::Duration::from_millis(30));
+    std::fs::write(&sidecar, provider_reload_sidecar("fast-new-output", 0))
+        .expect("rewrite sidecar");
+    let changed = runtime
+        .block_on(async {
+            tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
+        })
+        .expect("provider reload should publish changed snapshot")
+        .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
+
+    assert_eq!(
+        running.join().expect("join in-flight run"),
+        "slow-old-output"
+    );
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "fast-new-output"
+    );
+
+    let outcome = runtime.block_on(owner.shutdown()).expect("shutdown owner");
+    assert!(outcome.shutdown_requested);
+}
+
+#[test]
+fn execute_sequential_provider_reload_handles_are_run_scoped_across_overlap_and_shutdown() {
+    let base_a = unique_temp_path("adl-provider-reload-overlap-a");
+    let base_b = unique_temp_path("adl-provider-reload-overlap-b");
+    std::fs::create_dir_all(&base_a).expect("create base a");
+    std::fs::create_dir_all(&base_b).expect("create base b");
+    let sidecar_a = base_a.join("providers.yaml");
+    let sidecar_b = base_b.join("providers.yaml");
+    std::fs::write(&sidecar_a, provider_reload_sidecar("workflow-a-output", 0))
+        .expect("write sidecar a");
+    std::fs::write(&sidecar_b, provider_reload_sidecar("workflow-b-output", 0))
+        .expect("write sidecar b");
+
+    let resolved_a = provider_reload_resolved("base-a-output", 0);
+    let resolved_b = provider_reload_resolved("base-b-output", 0);
+    let runtime_a = tokio::runtime::Runtime::new().expect("runtime a");
+    let runtime_b = tokio::runtime::Runtime::new().expect("runtime b");
+    let owner_a = runtime_a
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar_a,
+            resolved_a.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
+        ))
+        .expect("start provider reload owner a");
+    let owner_b = runtime_b
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar_b,
+            resolved_b.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
+        ))
+        .expect("start provider reload owner b");
+    let handle_a = owner_a.handle();
+    let handle_b = owner_b.handle();
+
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_a, &base_a, &handle_a),
+        "workflow-a-output"
+    );
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_b, &base_b, &handle_b),
+        "workflow-b-output"
+    );
+
+    let outcome_b = runtime_b.block_on(owner_b.shutdown()).expect("shutdown b");
+    assert!(outcome_b.shutdown_requested);
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_a, &base_a, &handle_a),
+        "workflow-a-output",
+        "shutting down workflow B must not clear workflow A's run-scoped provider reload handle"
+    );
+
+    let outcome_a = runtime_a.block_on(owner_a.shutdown()).expect("shutdown a");
+    assert!(outcome_a.shutdown_requested);
+}
+
 fn steering_patch() -> SteeringPatch {
     let mut set_state = HashMap::new();
     set_state.insert("next.input".to_string(), "ready".to_string());
@@ -607,6 +879,7 @@ fn execute_step_with_retry_does_not_retry_remote_schema_violation() {
         &HashMap::new(),
         std::path::Path::new("."),
         false,
+        None,
         |_| {},
     )
     .expect_err("remote schema violation should fail");
@@ -702,6 +975,7 @@ fn execute_step_with_retry_does_not_retry_missing_prompt_binding() {
         &HashMap::new(),
         std::path::Path::new("."),
         false,
+        None,
         |_| {},
     )
     .expect_err("missing prompt binding should fail");
@@ -727,6 +1001,7 @@ fn execute_step_with_retry_does_not_retry_unknown_provider_setup_failure() {
         &HashMap::new(),
         std::path::Path::new("."),
         false,
+        None,
         |_| {},
     )
     .expect_err("unknown provider should fail");
@@ -1066,6 +1341,7 @@ fn execute_called_workflow_rejects_unknown_workflow() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("unknown called workflow should fail");
     assert!(err.to_string().contains("call references unknown workflow"));
@@ -1101,6 +1377,7 @@ fn execute_called_workflow_rejects_missing_state_binding_in_call_with() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("missing call.with binding should fail");
     let text = err.to_string();
@@ -1141,6 +1418,7 @@ fn execute_called_workflow_rejects_write_to_without_save_as() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("write_to without save_as should fail in called workflow");
     assert!(err
@@ -1179,6 +1457,7 @@ fn execute_called_workflow_nested_call_failure_is_propagated() {
         Path::new("."),
         Path::new("."),
         &caller_state,
+        None,
     )
     .expect_err("nested call to missing workflow should fail");
     assert!(err.to_string().contains("unknown workflow"));
@@ -1942,6 +2221,98 @@ fn runner_sequential_runtime_resilience_records_admitted_and_success() {
                 && !record.terminal
     )));
 
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_local_provider_invokes_configured_shadow_without_authority() {
+    let evidence_path = std::path::PathBuf::from(format!(
+        ".adl/test-artifacts/runner-provider-shadow-{}.jsonl",
+        std::process::id()
+    ));
+    let _ = std::fs::remove_file(&evidence_path);
+
+    let mut provider_spec = mock_provider_spec();
+    provider_spec.config.insert(
+        "local_shadow_model".to_string(),
+        serde_json::json!("shadow-echo-v1"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_provider_kind".to_string(),
+        serde_json::json!("mock"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_rule_set".to_string(),
+        serde_json::json!("runner_provider_shadow_v1"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_evidence_path".to_string(),
+        serde_json::json!(evidence_path.to_string_lossy()),
+    );
+
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), provider_spec);
+    resolved.doc.run.workflow.as_mut().expect("workflow").kind = WorkflowKind::Sequential;
+    resolved.steps = vec![crate::resolve::ResolvedStep {
+        id: "seq.shadow".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("hello shadow runner".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "seq.shadow".to_string(),
+            depends_on: vec![],
+            save_as: None,
+            delegation: None,
+        }],
+    };
+
+    let base = std::path::PathBuf::from(format!(
+        ".adl/test-artifacts/runner-provider-shadow-run-{}",
+        std::process::id()
+    ));
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("sequential shadow-configured provider should succeed");
+
+    assert_eq!(result.outputs.len(), 1);
+    assert_eq!(result.outputs[0].model_output, "USER:\nhello shadow runner");
+    let evidence = std::fs::read_to_string(&evidence_path).expect("shadow evidence log");
+    assert!(evidence.contains("\"authority_channel\":\"authoritative\""));
+    assert!(evidence.contains("\"shadow_channel\":\"shadow\""));
+    assert!(evidence.contains("\"comparison_rule_set\":\"runner_provider_shadow_v1\""));
+    assert!(
+        !evidence.contains("hello shadow runner"),
+        "runtime shadow evidence must not retain prompt text"
+    );
+
+    let _ = std::fs::remove_file(&evidence_path);
+    if let Some(parent) = evidence_path.parent() {
+        let _ = std::fs::remove_dir(parent);
+    }
     let _ = std::fs::remove_dir_all(base);
 }
 

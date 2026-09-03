@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 645,
+  "expected_generation": 5,
+  "expected_digest": "8a58fe8016cdbbf83b15ff0330927a8de26b833285645daeb1e9c77cc04e1457",
+  "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+  "assigned_by": "codex:/root:issue-645-exec",
+  "scope": [
+    "csdlc-v2/src/bin/csdlc-publish.rs",
+    "csdlc-v2/src/publication.rs",
+    "csdlc-v2/tests/gate6.rs",
+    "csdlc-v2/tests/publication_ready.rs",
+    "csdlc-v2/tests/publication_tail.rs"
+  ]
+}

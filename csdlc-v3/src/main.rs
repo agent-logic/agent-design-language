@@ -2,7 +2,11 @@ use std::{env, fs, path::PathBuf};
 
 use csdlc_v3::{
     application::FoundationState,
-    commands::local::{prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration},
+    commands::local::{
+        execute_local_route, finding, initialize_v3_local_state, inspect_local_lifecycle_state,
+        inspect_v3_local_state, local_route_command, local_route_status, prepare_local_workflow,
+        LocalPreparationRequest, PlanStatus, WorktreeRegistration, LOCAL_ROUTE_NAMES,
+    },
     commands::remote::{verify_remote_bridge_request, RemoteCommandRequest},
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     repository::RepositoryContext,
@@ -10,7 +14,7 @@ use csdlc_v3::{
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  remote --repo-root <path> --request <path>\n  sprint --repo-root <path> --request <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  remote --repo-root <path> --request <path>\n  sprint --repo-root <path> --request <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --help\n  cutover --help\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --help\n  github --help\n  github-issue --help\n  github-pr --help\n  install --help\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --help\n  proof --help\n  publish --help\n  review --help\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --help\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --help\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -41,8 +45,32 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "local" => run_local(rest),
         "remote" => run_remote(rest),
         "sprint" => run_sprint(rest),
+        route if LOCAL_ROUTE_NAMES.contains(&route) => run_local_route(route, rest),
+        "clean" | "cutover" | "finish" | "github" | "github-issue" | "github-pr" | "install"
+        | "pr-state" | "proof" | "publish" | "review" | "soak" => {
+            if rest == ["--help"] || rest == ["-h"] {
+                return Ok(reserved_usage(command, "fail_closed"));
+            }
+            Err(format!(
+                "fail_closed: csdlc {command} is reserved for C-SDLC v3 replacement work and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
+            ))
+        }
+        "shadow" => {
+            if rest == ["--help"] || rest == ["-h"] {
+                return Ok(reserved_usage(command, "partial"));
+            }
+            Err(format!(
+                "partial: csdlc {command} has construction evidence only and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
+            ))
+        }
         _ => Err(format!("{ROOT_USAGE}; unexpected command {command}")),
     }
+}
+
+fn reserved_usage(command: &str, status: &str) -> String {
+    format!(
+        "usage: csdlc {command} [--help]\n\nstatus: {status}\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+    )
 }
 
 fn run_foundation(args: &[String]) -> Result<String, String> {
@@ -65,7 +93,22 @@ fn run_local(args: &[String]) -> Result<String, String> {
     if args == ["--help"] || args == ["-h"] {
         return Ok(LOCAL_USAGE.into());
     }
-    let args = LocalArgs::parse(args)?;
+    run_local_report("local", args)
+}
+
+fn run_local_route(route: &str, args: &[String]) -> Result<String, String> {
+    let usage =
+        format!("usage: csdlc {route} --request <path> --registry <path> --registrations <path>");
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(format!(
+            "{usage}\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+        ));
+    }
+    run_local_report(route, args)
+}
+
+fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
+    let args = LocalArgs::parse(args, route)?;
     let request_bytes =
         fs::read(&args.request).map_err(|error| format!("failed to read request: {error}"))?;
     let registry_bytes =
@@ -79,12 +122,86 @@ fn run_local(args: &[String]) -> Result<String, String> {
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
     let registrations: Vec<WorktreeRegistration> = serde_json::from_slice(&registrations_bytes)
         .map_err(|error| format!("invalid registrations json: {error}"))?;
-    let result = prepare_local_workflow(&request, &registry, &registrations)
+    if let Some(command) = local_route_command(route) {
+        if !request.commands.contains(&command) {
+            return Err(format!(
+                "local route {route} is not present in the typed request"
+            ));
+        }
+    }
+    let mut result = prepare_local_workflow(&request, &registry, &registrations)
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
+    let observed_v3_issue_state = match (route, args.v3_state_root.as_ref()) {
+        ("issue", Some(root)) => Some(inspect_v3_local_state(root, request.issue)),
+        _ => None,
+    };
+    if let Some(observed) = observed_v3_issue_state.as_ref() {
+        if request.expected_lifecycle_digest.is_none()
+            && observed.code != "missing_local_lifecycle_state"
+        {
+            return Err(
+                serde_json::to_string(&vec![finding(
+                    PlanStatus::Blocked,
+                    "v3_local_state_digest_required",
+                    "existing v3 local state requires an expected lifecycle digest before the issue route may write",
+                )])
+                .unwrap_or_else(|_| "[]".into()),
+            );
+        }
+    }
+    let prechecked_issue_route_result = if route == "issue"
+        && request.expected_lifecycle_digest.is_some()
+    {
+        Some(
+            execute_local_route(
+                route,
+                &request,
+                &registry,
+                &registrations,
+                observed_v3_issue_state.clone(),
+            )
+            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?,
+        )
+    } else {
+        None
+    };
+    result.lifecycle_state = match (route, args.v3_state_root.as_ref(), args.repo_root.as_ref()) {
+        ("issue", Some(root), _) => Some(
+            initialize_v3_local_state(root, &request, &registry).map_err(|findings| {
+                serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
+            })?,
+        ),
+        ("eligibility", Some(root), _) => Some(inspect_v3_local_state(root, request.issue)),
+        (_, _, Some(root)) => Some(inspect_local_lifecycle_state(root, request.issue)),
+        _ => None,
+    };
+    let route_status = local_route_status(route, result.lifecycle_state.as_ref());
+    let writes_v3_state = route == "issue" && args.v3_state_root.is_some();
+    let route_result = if route == "local" {
+        None
+    } else if let Some(route_result) = prechecked_issue_route_result {
+        Some(route_result)
+    } else {
+        Some(
+            execute_local_route(
+                route,
+                &request,
+                &registry,
+                &registrations,
+                result.lifecycle_state.clone(),
+            )
+            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?,
+        )
+    };
     let report = LocalCommandReport {
         schema: "csdlc.v3.local_preparation.v1",
-        read_only: true,
+        command: route.to_owned(),
+        read_only: !writes_v3_state,
+        operational_read_only: true,
         operational_authority: false,
+        writes_v3_state,
+        route_status,
+        route_result,
         result,
     };
     serde_json::to_string(&report).map_err(|error| error.to_string())
@@ -140,8 +257,13 @@ fn run_sprint(args: &[String]) -> Result<String, String> {
 #[derive(Debug, Serialize)]
 struct LocalCommandReport<T> {
     schema: &'static str,
+    command: String,
     read_only: bool,
+    operational_read_only: bool,
     operational_authority: bool,
+    writes_v3_state: bool,
+    route_status: Option<csdlc_v3::commands::local::LocalRouteStatus>,
+    route_result: Option<csdlc_v3::commands::local::LocalRouteResult>,
     result: T,
 }
 
@@ -150,33 +272,44 @@ struct LocalArgs {
     request: PathBuf,
     registry: PathBuf,
     registrations: PathBuf,
+    repo_root: Option<PathBuf>,
+    v3_state_root: Option<PathBuf>,
 }
 
 impl LocalArgs {
-    fn parse(args: &[String]) -> Result<Self, String> {
+    fn parse(args: &[String], route: &str) -> Result<Self, String> {
+        let usage = format!(
+            "usage: csdlc {route} --request <path> --registry <path> --registrations <path>"
+        );
         let mut request = None;
         let mut registry = None;
         let mut registrations = None;
+        let mut repo_root = None;
+        let mut v3_state_root = None;
         let mut iter = args.iter();
         while let Some(arg) = iter.next() {
             let target = match arg.as_str() {
                 "--request" => &mut request,
                 "--registry" => &mut registry,
                 "--registrations" => &mut registrations,
-                _ => return Err(format!("{LOCAL_USAGE}; unexpected argument {arg}")),
+                "--repo-root" => &mut repo_root,
+                "--v3-state-root" => &mut v3_state_root,
+                _ => return Err(format!("{usage}; unexpected argument {arg}")),
             };
             if target.is_some() {
                 return Err(format!("duplicate argument {arg}"));
             }
             *target =
                 Some(PathBuf::from(iter.next().ok_or_else(|| {
-                    format!("{LOCAL_USAGE}; missing value for {arg}")
+                    format!("{usage}; missing value for {arg}")
                 })?));
         }
         Ok(Self {
-            request: request.ok_or_else(|| LOCAL_USAGE.to_string())?,
-            registry: registry.ok_or_else(|| LOCAL_USAGE.to_string())?,
-            registrations: registrations.ok_or_else(|| LOCAL_USAGE.to_string())?,
+            request: request.ok_or_else(|| usage.clone())?,
+            registry: registry.ok_or_else(|| usage.clone())?,
+            registrations: registrations.ok_or(usage)?,
+            repo_root,
+            v3_state_root,
         })
     }
 }

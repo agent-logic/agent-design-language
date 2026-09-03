@@ -1,0 +1,7 @@
+{
+  "issue": 617,
+  "base_branch": "codex/617-preparation",
+  "branch": "codex/617-runtime-api-canonical-agent-names",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-617-runtime-api-canonical-agent-names",
+  "code_repository": "agent-logic/agent-design-language"
+}

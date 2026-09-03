@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 594,
+  "expected_generation": 16,
+  "expected_digest": "b69700930a86c1e5bc96da07e7d002817c49f82517722e9b95f237d95f364c5a",
+  "reviewer": "codex:/root/review_594_prepr_r2",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/evidence/594/diff-hygiene.log",
+    ".csdlc/evidence/594/runtime-log-archive.log",
+    ".csdlc/evidence/594/runtime-log-archive-config.log",
+    ".csdlc/evidence/594/terraform-log-archive.log",
+    ".csdlc/prepared/issues/594/validate-diff-hygiene.sh",
+    ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+    ".csdlc/prepared/issues/594/validate-terraform-log-archive.sh",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/observability/vector.rs",
+    "adl-runtime-kernel/tests/configuration.rs",
+    "adl-runtime-kernel/tests/observability.rs",
+    "infra/aws/runtime/log-archive"
+  ]
+}

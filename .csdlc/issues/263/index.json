@@ -1,0 +1,238 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 263,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "046dac343f73f25cd3f0dc4f1e1dbb9cbd858b7dda5563a4c1d1fbdfa151e729",
+  "phase": "published",
+  "generation": 13,
+  "digest": "157775de4aa592cddb5b2570d993642108019baafbe29717f363b6dea37708bd",
+  "branch": "codex/263-podcast-directory-runbooks-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-263-podcast-directory-runbooks-exec",
+  "review_assignment": {
+    "reviewer": "fresh-session:94d2a427-ed77-45b0-8994-5cac9c0b2cb2",
+    "assigned_by": "codex:issue-263-execution",
+    "revision": "git-blake3:ee61ef40d7e7862b172e848a4f89eca52977715c:3f23bf6d51e42dac3f924c10086c5deb6cd457b3b30f0694977a0f99e8080ae0",
+    "scope": [
+      "docs/milestones/v0.92.1/review/podcast_directory_263"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:94d2a427-ed77-45b0-8994-5cac9c0b2cb2",
+    "scope": [
+      "docs/milestones/v0.92.1/review/podcast_directory_263"
+    ],
+    "reviewed_revision": "git-blake3:ee61ef40d7e7862b172e848a4f89eca52977715c:3f23bf6d51e42dac3f924c10086c5deb6cd457b3b30f0694977a0f99e8080ae0",
+    "findings": [],
+    "residual_risks": [
+      "Fresh reviewer could not execute the Ruby validator in read-only sandbox; implementation session retained executable validator proof at the same candidate head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 263,
+    "pull_request": 626,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/626",
+    "base": "main",
+    "head": "codex/263-podcast-directory-runbooks-exec",
+    "revision": "git-blake3:3ecaef8f3a84561af4e577372c13f4d934afe4dd:21b4ab1a3c99d988e15db510d1dbd112ee5b95aae275ebdeb18cfb26048c0efa",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/263/design.md",
+  "diagram_path": ".csdlc/prepared/issues/263/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
+      "revision": "acfac8b873ef7ffe15f472da207706573e6bd06235b6a90b5b1bfa05e832c6fd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "659f060d1a1b6493c26de74a01c4aacd5c222c507df3ec2b01d031e042e82077",
+      "rendered_digest": "046556272b3c4d21938f8fad913b7b54d19cbb4385e6d97a8a57ac7ac581c130",
+      "ast_digest": "0af56aabcf93ee11e70afdab97f3a0e737de31e9dab7b047363b3e4443f3b52c"
+    },
+    "stp": {
+      "values_digest": "0c65d29bafc431a574630f7e40712f3d2bb2e53b5e6a224a0ecc6f2b03072c09",
+      "rendered_digest": "3d50d22f6d9ac8c2d57fb83d9026d461e2f94bf9c5e0c77d50973910a848a57c",
+      "ast_digest": "11bcda15339378812b34c7a6cb301b5bdbbdb09ec4cd366112557a8ac871b58c"
+    },
+    "spp": {
+      "values_digest": "015db21850c4ff7fe68fe84b0ca294dd6d10a5a16c1f3edde372d1e80ff6b0a3",
+      "rendered_digest": "7652192089fa9d5c2b46f6d3fa6420febaa7f1555350aa776f7ed5132ada518c",
+      "ast_digest": "0d518a87ffd01f2519e3e3a50bc6899b5346194cec443d57f296363ed200ce2f"
+    },
+    "vpp": {
+      "values_digest": "edf93c3549cc3e1c253385eeebda2c718eaa5e5a65454cb4a6084e422426891a",
+      "rendered_digest": "f26ac9a558fded8565886e055d271334d1b08386d22633b2c2d7fe3dfb1bb202",
+      "ast_digest": "409083946cfb847e015c110b5a62309200bd1519dca892075cb64b6d09f3705e"
+    },
+    "srp": {
+      "values_digest": "b3c199ea3478792ebcf30350873d41d4de1062c7280c002feec52c8374458801",
+      "rendered_digest": "a5d651150767a197bc5955aab9149a861417a31fd906e2de35c4862e7d7cc984",
+      "ast_digest": "6794990d1d15de7b8e299ace727e65c4ad27c51af3a6d7e61b30e56072c67b82"
+    },
+    "sor": {
+      "values_digest": "b979fad101e2f8450e9cff1c4ebac1da2075b68979617b0bb8ff4637154dd2e0",
+      "rendered_digest": "cf5b64bdfce4fba3aedb561c545e65d89bdfc6e2f9dd47179619d4e449ae4f5b",
+      "ast_digest": "851763ed8f2496754fdfe8d88a05587b653c8b56cb5ac5c4bdb8ee3395f026c2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance the validated podcast directory-runbook bundle to ready after recording the operator-directed working show name."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #263 to implemented after bounded runbook execution and retained validation proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-263-execution",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-263-execution",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint8-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Use an explicit governed interpreter argv for the issue-owned proof target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-263-focused\",\"proof_role\":\"Official-instruction freshness, feed identity, operator-action census, redaction, and ledger-schema checks\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/263/validate-directory-runbooks.rb\"],\"parallel_group\":\"sprint8-issue-263\",\"defer_reason\":\"Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication.\"},{\"lane\":\"issue-263-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"sprint8-hygiene\",\"defer_reason\":\"Run after the issue has a bounded candidate diff.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Add the issue-owned validator to the exact readiness denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/podcast/51-c\",\"docs/milestones/v0.92.1/review/podcast_directory_263\",\".csdlc/prepared/issues/263/validate-directory-runbooks.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Record the operator-directed Sprint 8 podcast working show name in the typed preparation bundle.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"initial_assumptions\",\"values\":[\"Sprint 8 podcast preparation uses `The Cognitive Stack` as the operator-directed working show name unless superseded by a later typed issue update.\",\"The working show name is not a legal or trademark clearance claim, directory availability proof, mailbox ownership proof, or public launch authorization.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"acfac8b873ef7ffe15f472da207706573e6bd06235b6a90b5b1bfa05e832c6fd\",\"design_ref\":\".csdlc/prepared/issues/263/design.md\",\"diagram_digest\":\"fdd855bdb0cdc1ff056718bf7b783f2a077edcf16e27ba1d5fcd5681b32d67ee\",\"diagram_ref\":\".csdlc/prepared/issues/263/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Advance the validated podcast directory-runbook bundle to ready after recording the operator-directed working show name.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record #263 podcast directory runbook execution.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Prepared The Cognitive Stack directory-submission runbooks and operator preflight for Apple Podcasts, Spotify for Creators, Amazon Music for Podcasters, and YouTube RSS ingestion without mutating provider accounts, submitting the show, or claiming public launch.\",\"changes\":[\"Added a bounded directory-submission packet for Issue #263 under docs/milestones/v0.92.1/review/podcast_directory_263.\",\"Documented operator-only account, ownership, verification, irreversible submission, and ledger steps for Apple Podcasts, Spotify for Creators, Amazon Music for Podcasters, and YouTube RSS ingestion.\",\"Added a redaction-safe operator preflight that names required account-side decisions without collecting credentials, mailbox codes, platform account data, or private receipts.\",\"Added a submission-ledger JSON schema for #264 handoff so future submission evidence can be recorded without retaining secrets or verification material.\",\"Added a deterministic validator covering current official-source sampling date, The Cognitive Stack working name, production feed identity, provider census, non-submission boundaries, and ledger-schema shape.\"],\"artifacts\":[\"docs/milestones/v0.92.1/review/podcast_directory_263/README.md\",\"docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md\",\"docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md\",\"docs/milestones/v0.92.1/review/podcast_directory_263/submission-ledger.schema.json\",\".csdlc/prepared/issues/263/bootstrap-request.json\",\".csdlc/prepared/issues/263/design.md\",\".csdlc/prepared/issues/263/diagram.mmd\",\".csdlc/prepared/issues/263/design-approval.json\",\".csdlc/prepared/issues/263/advance-ready-after-working-name.json\",\".csdlc/prepared/issues/263/readiness-affected-edit.json\",\".csdlc/prepared/issues/263/readiness-lanes-edit.json\",\".csdlc/prepared/issues/263/validate-directory-runbooks.rb\",\".csdlc/prepared/issues/263/working-name-assumption.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #263 focused directory-runbooks validator proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/263/validate-directory-runbooks.rb\"],\"purpose\":\"Validate The Cognitive Stack provider runbooks, production feed identity, official-source sampling date, non-submission boundary, and redacted ledger handoff shape.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/263/directory-runbooks-validation.json\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record #263 exact-range diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace errors and conflict-marker residue across the exact reviewable #263 candidate diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/263/diff-check.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #263 dependency gate proof for terminal #261.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-finish\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-263-podcast-directory-runbooks-exec\",\"--validate-cached-issue\",\"261\"],\"purpose\":\"Prove #263 executed after canonical terminal truth for podcast identity issue #261.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/263/dependency-261-terminal-validation.json\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record #263 dependency gate proof for terminal #262.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-finish\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-263-podcast-directory-runbooks-exec\",\"--validate-cached-issue\",\"262\"],\"purpose\":\"Prove #263 executed after canonical terminal truth for podcast hosting issue #262.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/263/dependency-262-terminal-validation.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Advance #263 to implemented after bounded runbook execution and retained validation proof.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:issue-263-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:issue-263-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:issue-263-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

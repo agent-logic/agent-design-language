@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "expected_generation": 14,
+  "expected_digest": "b13900f6bd16a8be853fa0b69b6f6640d64ced140dfab591da308869da170865",
+  "actor": "codex:/root:issue-515-implementation",
+  "reason": "Recover #515 review truth after fixing the independent reviewer P1 finding that the shadow-provider panic hook could leak raw panic payloads before redacted observation handling."
+}

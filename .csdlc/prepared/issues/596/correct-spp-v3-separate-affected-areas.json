@@ -1,0 +1,23 @@
+{
+  "issue": 596,
+  "card": "spp",
+  "expected_generation": 33,
+  "expected_digest": "4e49ea467a1f4f4b7d2e8b21cd8509fa2995b411022360ecde86f9d116fc69fd",
+  "actor": "codex:worker-6",
+  "reason": "Remove C-SDLC v2 source/test implementation surfaces from #596 planning after restoring v3 separation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v3/tests",
+      "docs/csdlc-v3",
+      ".github/workflows/ci.yaml",
+      ".csdlc/issues/596",
+      ".csdlc/prepared/issues/596",
+      ".csdlc/prepared/issues/596/validate-remediation-regression.sh",
+      ".csdlc/evidence/596",
+      ".csdlc/evidence/604/full-cycle-defects-tail.md"
+    ]
+  },
+  "fail_after_backup": false
+}

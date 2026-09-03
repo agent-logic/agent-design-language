@@ -1,0 +1,15 @@
+{
+  "issue": 515,
+  "expected_generation": 12,
+  "expected_digest": "ddbcc5b6e6ca8a07a7edd61f53fc7b133e693c421d8f27bb379cf4a4c3c7e3c6",
+  "reviewer": "fresh-session:issue-515-pre-pr-review-b02a82ad7",
+  "assigned_by": "codex:/root:issue-515-implementation",
+  "scope": [
+    "adl/src/provider/mod.rs",
+    "adl/tests/provider_shadow_isolation.rs",
+    "adl/tests/provider_shadow_comparison.rs",
+    "adl/tests/provider_shadow_fallback.rs",
+    "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json",
+    ".csdlc/prepared/issues/515"
+  ]
+}

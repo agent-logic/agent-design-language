@@ -1,0 +1,21 @@
+{
+  "schema": "adl.issue607.local_validation.v1",
+  "source_commit": "95efc4fd1966edf144a58e3bb47c76d1d216e350",
+  "status": "passed",
+  "paid_action": false,
+  "checks": [
+    {"command": ["bash", ".csdlc/prepared/issues/607/validate-preparation.sh"], "outcome": "passed", "result": "issue607_preparation_contract=pass"},
+    {"command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"], "outcome": "passed", "result": "issue607_all=pass"},
+    {"command": ["terraform", "test"], "working_directories": ["infra/aws/runtime/gpu-proof/warm-storage", "infra/aws/runtime/gpu-proof/warm-storage/preparation", "infra/aws/runtime/gpu-proof"], "outcome": "passed", "tests_passed": 3, "tests_failed": 0},
+    {"command": ["bash", "-n", "adl/tools/run_issue607_warm_polis.sh", "adl/tools/issue607_qualify_warm_polis.sh", "adl/tools/issue607_validate_saved_plan.sh", "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"], "outcome": "passed"},
+    {"command": ["python3", "-m", "py_compile", "adl/tools/issue607_probe_runtime.py"], "outcome": "passed"},
+    {"command": ["cargo", "fmt", "--manifest-path", "adl-runtime/Cargo.toml", "--", "--check"], "outcome": "passed"},
+    {"command": ["cargo", "check", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--bin", "adl-runtime-lifecycle-soak"], "outcome": "passed"},
+    {"command": ["git", "diff", "--check"], "outcome": "passed"},
+    {"command": ["bash", "adl/tools/run_issue607_warm_polis.sh", "preflight"], "outcome": "passed", "aggregate_maximum_usd": 14.885204, "snapshot_count": 2, "paid_action": false}
+  ],
+  "limitations": [
+    "No paid AWS preparation, snapshot, restore, or warm launch was run in this local validation packet.",
+    "The snapshot restore receipt measures control-plane availability; mounted Runtime and model reads remain part of the later live warm launches."
+  ]
+}

@@ -1,0 +1,10 @@
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.15s
+────────────
+ Nextest run ID a4bc284a-8c4d-45a7-8d06-4ee2fd488f67 with nextest profile: default
+    Starting 3 tests across 1 binary (25 tests skipped)
+        PASS [   0.012s] (1/3) adl-runtime-kernel::configuration runtime_init_s3_archive_identity_boundaries_match_terraform_contract
+        PASS [   0.012s] (2/3) adl-runtime-kernel::configuration runtime_init_rejects_unsafe_s3_archive_identity_segments
+        PASS [   0.012s] (3/3) adl-runtime-kernel::configuration runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity
+────────────
+     Summary [   0.015s] 3 tests run: 3 passed, 25 skipped

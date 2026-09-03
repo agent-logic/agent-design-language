@@ -1,0 +1,55 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 602,
+  "expected_generation": 5,
+  "expected_digest": "587363c790e2a206de4dcd780be42744041b798fc50cac4b5e70346b02996f30",
+  "actor": "codex:issue-602-runtime-agent-lifecycle",
+  "summary": "Implemented config-driven dynamic Ollama agent admission, lifecycle management, checkpointing, freeze-dried migration and rehydration through csmctl and Runtime v3.",
+  "changes": [
+    "Added authenticated csmctl agent add --config plus list, get, checkpoint, dehydrate, migrate, rehydrate, and remove commands.",
+    "Separated canonical two-part agent identity and display name from provider, model, endpoint, and first-class office configuration.",
+    "Added durable Runtime dynamic-agent state, real Ollama execution, concurrent health, checkpoints with conversation continuity, two-phase migration, and legacy persisted-store compatibility.",
+    "Updated the Runtime route inventory, Observatory OpenAPI contract, portable example configuration, and focused tests."
+  ],
+  "artifacts": [
+    ".csdlc/prepared/issues/602/design.md",
+    ".csdlc/prepared/issues/602/diagram.mmd",
+    ".csdlc/prepared/issues/602/validate-focused.sh",
+    "infra/runtime-v3/agents/ember.axioma.yaml"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [{
+        "id": "focused-agent-lifecycle",
+        "proof_role": "Prove the bounded csmctl and Runtime agent lifecycle plus OpenAPI route parity and diff hygiene.",
+        "purpose": "Issue 602 focused implementation validation",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 4, "memory_mib": 8192, "tokens": 1000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "focused",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 1200,
+        "executable": "/bin/bash",
+        "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add/.csdlc/prepared/issues/602/validate-focused.sh"],
+        "evidence": {
+          "max_log_bytes": 131072,
+          "redact_values": [],
+          "require_relative_paths": true
+        }
+      }]
+    },
+    "selection": {
+      "requested_lanes": ["focused-agent-lifecycle"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 1, "cpu_units": 4, "memory_mib": 8192, "tokens": 1000},
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/602",
+    "cancellation_file": null
+  }
+}

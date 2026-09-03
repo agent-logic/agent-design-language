@@ -1,0 +1,7 @@
+{
+  "issue": 596,
+  "expected_generation": 11,
+  "expected_digest": "7ad3012fa5ed8c4f46ce75a93c5a08431d4f565667004477b910eba11337075e",
+  "actor": "codex:worker-6",
+  "reason": "Recover review after merging origin/main so #596 can receive fresh exact-head review and publication truth."
+}

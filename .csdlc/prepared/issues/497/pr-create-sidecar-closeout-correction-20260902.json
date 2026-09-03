@@ -1,0 +1,13 @@
+{
+  "action": "pr_create",
+  "repository": "agent-logic/agent-design-language",
+  "operation_key": "pr-497-sprint4-sidecar-closeout-correction-20260902",
+  "token_file": null,
+  "title": "[v0.92.1][CORP-C] Route operational hardening to sidecar",
+  "body": "Part-Of #532\n\n## Summary\n\nCorrect the #497 / Sprint 4 truth model after operator scope clarification: corporate IP-transfer acceptance is complete for #497, while broader post-move-in operational control-plane hardening is tracked separately in sidecar #624 and does not block Sprint 4 closeout.\n\n## What changed\n\n- Created sidecar issue #624 for GitHub/CI authority hardening, DNS/certificate ownership and rollback readbacks, AWS account guardrails, private custody receipt, and deployment rollback readback.\n- Updated live #497 through typed issue update so its closed issue body records IP-transfer acceptance and routes operational hardening residuals to #624.\n- Updated live Sprint umbrella #532 through typed issue update: membership version 5, #497 accepted/closed, #498 active, #624 nonblocking sidecar.\n- Updated repo evidence and acceptance records so #497 has `blocked_actions: []`, `sidecar_issue: 624`, and `issue_ready_to_close: true` while still preserving all hardening gaps as truthful sidecar evidence.\n- Repaired #497 SOR through typed `csdlc-edit apply` so it no longer says #497 remains non-terminal because of sidecar hardening.\n\n## Validation\n\n- `ruby .csdlc/evidence/497/validate-readiness.rb` passed with `blocked_actions: 0`, `sidecar_issue: 624`, `sidecar_actions: 7`, and `issue_ready_to_close: true`.\n- `csdlc-doctor --repo /Volumes/FastWork/adl-worktrees/adl-issue-497-sprint4-sidecar-closeout --issue 497` passed.\n- `csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-497-sprint4-sidecar-closeout issue --issue 497` passed.\n- `ruby -rjson -e 'ARGV.each { |p| JSON.parse(File.read(p)) }' ...` passed for the touched CORP-C/control-transfer/prepared JSON surfaces.\n- `git diff --check origin/main...HEAD` passed.\n\n## Non-claims\n\n- This PR does not complete #624.\n- This PR does not complete #498.\n- This PR does not close the Sprint 4 umbrella.\n- This PR does not perform AWS, DNS, certificate, GitHub administration, billing, custody, or deployment mutation.",
+  "base": "main",
+  "head": "codex/497-sprint4-sidecar-closeout",
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

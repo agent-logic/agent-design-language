@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 509,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-D] GCP portability qualification",
+    "slug": "v0-92-1-drt-d-gcp-portability-qualification",
+    "version": "v0.92.1",
+    "generation": 21
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one optional GCP six-resident portability qualification packet.",
+      "required_outcome": "Identity, workload, continuity, cost, and cleanup-zero checks pass without altering AWS qualification authority.",
+      "declared_scope": [
+        "adl-runtime/tests/**",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-d/**",
+        ".csdlc/prepared/issues/509"
+      ],
+      "authority_boundary": [
+        "Issue completion is one optional GCP portability decision.",
+        "AWS qualification authority is unchanged.",
+        "#508, #494, and #495 are terminal and ancestral prerequisites.",
+        "No live paid launch occurs without explicit operator authorization and a fixed cost ceiling."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "No paid GCP run without explicit operator authorization.",
+        "Use governed company project cs-poc-cha8mmii0xk0iaw5vpf8mxf unless operator changes the target.",
+        "Do not read, print, copy, or commit credential material.",
+        "Retain only path-free credential contract truth and redacted command/evidence outputs."
+      ]
+    }
+  }
+}

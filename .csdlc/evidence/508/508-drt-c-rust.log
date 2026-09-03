@@ -1,0 +1,42 @@
+
+running 1 test
+DRT_C_QUALIFICATION_JSON={
+  "schema": "adl.runtime.qualification.drt_c_decision.v1",
+  "issue": 508,
+  "requirements": [
+    "#185",
+    "#186",
+    "#187"
+  ],
+  "runtime_revision": "d022d6c198669bcbc10cd98bee4d7c8520f9c4d4",
+  "source_drt_b_contract_digest": "b84cc6f1503e3547082034b5d6e437a85d0cb4e7805ae2052e1ed32683804a11",
+  "fail_closed_cases": [
+    "identity",
+    "provider",
+    "transport"
+  ],
+  "observatory": {
+    "runtime_emitted": true,
+    "redacted": true,
+    "feed_schema": "adl.runtime_v3.observatory.feed.v1",
+    "artifact_sha256": "114f0f63abc137c4a5ddf029fd47dab2606fd1991f339aba8c8a7a70572bc9b6"
+  },
+  "soak": {
+    "bounded": true,
+    "duration_seconds": 900,
+    "source": "deterministic-local-qualification-window"
+  },
+  "cleanup": {
+    "failure-fixtures": "absent",
+    "observatory-artifacts": "absent",
+    "soak-processes": "absent",
+    "temporary-resources": "absent"
+  },
+  "decision": "qualified_for_final_distributed_runtime_decision"
+}
+test drt_c_final_qualification_decision_is_exact ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/distributed_failure/drt_c_qualification.rs (adl-runtime/target/debug/deps/distributed_failure_drt_c-44ad38700f9d4c1b)

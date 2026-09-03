@@ -59,7 +59,7 @@ pub fn execute_sequential(
     adl_base_dir: &Path,
     out_dir: &Path,
 ) -> Result<ExecutionResult> {
-    execute_sequential_with_resume(
+    execute_sequential_with_resume_and_provider_reload(
         resolved,
         tr,
         print_outputs,
@@ -67,6 +67,32 @@ pub fn execute_sequential(
         adl_base_dir,
         out_dir,
         None,
+        None,
+    )
+}
+
+/// Execute the resolved run with an explicit run-scoped provider reload handle.
+///
+/// This keeps provider/profile hot-loading scoped to the current run instead
+/// of consulting process-global reload state.
+pub fn execute_sequential_with_provider_reload_handle(
+    resolved: &AdlResolved,
+    tr: &mut Trace,
+    print_outputs: bool,
+    emit_progress: bool,
+    adl_base_dir: &Path,
+    out_dir: &Path,
+    provider_reload_handle: &crate::provider::ProviderReloadHandle,
+) -> Result<ExecutionResult> {
+    execute_sequential_with_resume_and_provider_reload(
+        resolved,
+        tr,
+        print_outputs,
+        emit_progress,
+        adl_base_dir,
+        out_dir,
+        None,
+        Some(provider_reload_handle),
     )
 }
 
@@ -82,6 +108,29 @@ pub fn execute_sequential_with_resume(
     adl_base_dir: &Path,
     out_dir: &Path,
     resume: Option<ResumeState>,
+) -> Result<ExecutionResult> {
+    execute_sequential_with_resume_and_provider_reload(
+        resolved,
+        tr,
+        print_outputs,
+        emit_progress,
+        adl_base_dir,
+        out_dir,
+        resume,
+        None,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn execute_sequential_with_resume_and_provider_reload(
+    resolved: &AdlResolved,
+    tr: &mut Trace,
+    print_outputs: bool,
+    emit_progress: bool,
+    adl_base_dir: &Path,
+    out_dir: &Path,
+    resume: Option<ResumeState>,
+    provider_reload_handle: Option<&crate::provider::ProviderReloadHandle>,
 ) -> Result<ExecutionResult> {
     let is_concurrent = matches!(
         resolved.execution_plan.workflow_kind,
@@ -120,6 +169,7 @@ pub fn execute_sequential_with_resume(
             adl_base_dir,
             out_dir,
             resume.as_ref(),
+            provider_reload_handle,
         );
     }
 
@@ -223,6 +273,7 @@ pub fn execute_sequential_with_resume(
                 adl_base_dir,
                 out_dir,
                 &saved_state,
+                provider_reload_handle,
             );
 
             match call_result {
@@ -327,6 +378,7 @@ pub fn execute_sequential_with_resume(
             &saved_state,
             adl_base_dir,
             true,
+            provider_reload_handle,
             |prompt_hash| tr.prompt_assembled(&step_id, prompt_hash),
         ) {
             Ok(success) => {

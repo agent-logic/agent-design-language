@@ -1,0 +1,89 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 264
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Completed #264 repo-side non-submission deliverables for The Cognitive Stack: future operator authorization template, initialized not-authorized submission ledger, monitoring/correction/rollback rules, parent #51 handoff, and validation that no provider submission, account mutation, destination-link activation, or public-launch claim occurred.
+
+## Artifacts
+
+- docs/milestones/v0.92.1/review/podcast_submission_264/README.md
+- docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md
+- docs/milestones/v0.92.1/review/podcast_submission_264/submission-ledger.json
+- docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md
+- docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md
+- .csdlc/prepared/issues/264/bootstrap-request.json
+- .csdlc/prepared/issues/264/design.md
+- .csdlc/prepared/issues/264/diagram.mmd
+- .csdlc/prepared/issues/264/validate-submission-gate.rb
+- .csdlc/prepared/issues/264/validate-terminal-dependencies.rb
+
+## Execution
+
+- Added the #264 submission gate packet under docs/milestones/v0.92.1/review/podcast_submission_264.
+- Initialized all four provider targets as not_authorized in a redaction-safe submission ledger.
+- Added a future operator authorization template requiring per-provider approval before external action.
+- Added monitoring, correction, rollback, and destination-link activation rules that fail closed until live provider evidence and operator authorization exist.
+- Added parent #51 handoff truth that #264 non-submission materials are complete while provider submission/public-launch action remains blocked.
+- Added focused validators for non-submission claims and terminal #261/#262/#263 dependency truth.
+
+## Validation
+
+[
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/264/validate-submission-gate.rb"
+    ],
+    "purpose": "Validate non-submission gate packet, initialized not-authorized ledger, redaction boundary, provider census, and #51 parent handoff truth.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/264/submission-gate-validation.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/264/validate-terminal-dependencies.rb"
+    ],
+    "purpose": "Prove #261, #262, and #263 terminal caches are canonical before #264 publication.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/264/terminal-dependencies-validation.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace errors and conflict-marker residue across the #264 reviewable diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/264/diff-check.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

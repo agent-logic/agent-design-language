@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 645,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC v2][bug] Reject stacked closing publication without a GitHub closing relation",
+    "slug": "stacked-closing-relation",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/publication_ready.rs\n.csdlc/prepared/issues/645",
+      "review_revision": "git-blake3:eed8ff416b75bdc586a0ec47b3ded142a7db3355:9bdfac612c58826eb68217c014295c7c02e9eccb3f3978eb46057cc14a54ef7b",
+      "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "review_prompts": [
+        "Can csdlc-publish still record a terminal closing publication when GitHub closingIssuesReferences is absent?",
+        "Does the regression test cover the PR #644 stacked-base shape rather than only body parsing?",
+        "Do publish and PR-state outputs agree on linked_issue and linkage_source?",
+        "Is non-closing checkpoint publication clearly non-terminal?",
+        "Does the failure message give the operator actionable stack/default/checkpoint choices?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review confirmed eed8ff416b75bdc586a0ec47b3ded142a7db3355 is lifecycle/request metadata only relative to previously reviewed code head d9b1256fd5193264fab707e2d731a604916b32b0.",
+        "No live GitHub publication/readiness mutation was performed during review; typed publication must observe PR #654 before merge consideration."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

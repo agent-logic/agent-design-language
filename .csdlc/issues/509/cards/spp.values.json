@@ -1,0 +1,82 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 509,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-D] GCP portability qualification",
+    "slug": "v0-92-1-drt-d-gcp-portability-qualification",
+    "version": "v0.92.1",
+    "generation": 21
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Verify terminal dependencies and GCP authority, run the optional bounded workload only after paid authorization, retain cost and cleanup-zero receipts, and review.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify terminal #508, #494, and #495 plus GCP billing, project identity, credential contract, and paid-run authority.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Run the six-resident GCP workload and continuity proof only after explicit paid-run authorization.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Retain cost and cleanup-zero receipts, validate no per-run residue, and obtain exact-head review.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/tests",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-d",
+        ".csdlc/prepared/issues/509/validate-readiness.rb",
+        ".csdlc/prepared/issues/509/validate-implementation.rb"
+      ],
+      "invariants": [
+        "AWS authority is unchanged.",
+        "GCP identity, billing, and credential contract are explicit.",
+        "Six identities and lineage remain exact.",
+        "No owned per-run resources remain after the run.",
+        "Credential material remains outside the repository."
+      ],
+      "risks": [
+        "Wrong GCP project or billing identity.",
+        "Residual GCP resources.",
+        "False cross-cloud equivalence.",
+        "Accidental credential path/content retention."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Paid-run authorization is absent for live launch.",
+        "Provider identity is ambiguous.",
+        "Cleanup cannot be proven.",
+        "Credential material would be read, copied, printed, or committed."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/509/design.md",
+      "design_digest": "cda651f8784308d6344a9ff859fa58eb942d1387c0f07171cccfa9066e1ea8dc",
+      "diagram_ref": ".csdlc/prepared/issues/509/diagram.mmd",
+      "diagram_digest": "ae70c09da0f0276ff416d8f32cfdaf28e652ad4f1723c103f12a11ccfe078c64"
+    }
+  }
+}

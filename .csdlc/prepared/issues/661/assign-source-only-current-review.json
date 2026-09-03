@@ -1,0 +1,14 @@
+{
+  "issue": 661,
+  "expected_generation": 9,
+  "expected_digest": "4e99d8128de6ac7d57cccac74535ebfacc72e94ba620130612e445fb34de1b86",
+  "reviewer": "subagent:/root/review_661_source_only_current_head",
+  "assigned_by": "codex:/root/issue_661_publication_recovery",
+  "scope": [
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs",
+    "adl-runtime-kernel/src/shepherd.rs",
+    "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+    ".csdlc/prepared/issues/661/validate-focused.sh"
+  ]
+}

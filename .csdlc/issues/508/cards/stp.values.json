@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 508,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+    "slug": "v0-92-1-drt-c-final-distributed-runtime-qualification",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #508 DRT-C only; produce the final distributed Runtime qualification decision after #507 terminal, without absorbing #509 or Observatory product redesign.",
+      "deliverables": [
+        "Final distributed Runtime qualification decision",
+        "Failure, Observatory, soak, synthesis, and cleanup-zero evidence",
+        "Issue-owned readiness and implementation validators",
+        "Exact-head review receipt"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Requirements 185 through 187 are mapped",
+        "AC-2: Identity, provider, and transport failures fail closed",
+        "AC-3: Observatory evidence is Runtime-authentic and redacted",
+        "AC-4: Soak, cleanup, and synthesis bind exact revisions"
+      ],
+      "dependencies": [
+        "#507 terminal and ancestral: merge d022d6c198669bcbc10cd98bee4d7c8520f9c4d4, terminal digest 68e94be0e0f9addbc95dcf21c8579a35672ecf4c51b02fb5cc67b9c2c02f5328"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#508",
+        "agent-logic/agent-design-language#507",
+        ".git/csdlc-v2/derived-terminal/507.json",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-C",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "non_goals": [
+        "Observatory product redesign",
+        "Unbounded soak",
+        "GCP portability qualification",
+        "Replacing AWS qualification"
+      ]
+    }
+  }
+}
