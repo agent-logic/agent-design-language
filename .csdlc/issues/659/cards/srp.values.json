@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
     "slug": "runtime-configurable-convergence",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/tests/configuration.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\n.csdlc/evidence/659",
-      "review_revision": "git-blake3:bf17efa4769374484196a76b99a688c1bfe98951:5f12720aed7c3e94e5970f4277cb0033f4348fbabcaf1a072eae3c1beaf46faa",
-      "reviewer": "codex-subagent:/root/issue_659_design_readiness_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Are all former fixed service-control waits replaced by named validated policy values?",
         "Can slow successful convergence complete without a premature failure?",
@@ -24,10 +24,8 @@
         "Are unrelated API timeout and live Runtime behavior unchanged?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

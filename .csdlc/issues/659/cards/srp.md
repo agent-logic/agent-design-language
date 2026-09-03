@@ -12,10 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/config.rs
-adl-runtime-kernel/tests/configuration.rs
-adl/src/cli/csm_runtime_v3_cmd.rs
-.csdlc/evidence/659
+
 
 ## Prompts
 
@@ -35,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:bf17efa4769374484196a76b99a688c1bfe98951:5f12720aed7c3e94e5970f4277cb0033f4348fbabcaf1a072eae3c1beaf46faa")
+Revision: None
 
-Reviewer: Some("codex-subagent:/root/issue_659_design_readiness_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
