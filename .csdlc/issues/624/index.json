@@ -4,60 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "1fc7e1b99c815f3e35b2f5dc13b2d47e5db09abda5fb096d150c5fa16cbd624b",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "07b83dd695f701ca68dbfd85834199f1424f6bd5e44853bde5e8467eb423317d",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
-  "review_assignment": {
-    "reviewer": "fresh-session:657c1e2e-3b40-42e7-bb1d-22ef8295f927",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:bc1dd487faf1939a6294fc5acaaa6bc480805e96:27a58c7efd1cb55c97ef91e0ebd1cb3db68b36053241f29aa571c1b089b8f747",
-    "scope": [
-      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
-      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
-      ".csdlc/prepared/issues/624/validate-diff-check.py",
-      ".csdlc/prepared/issues/624/finalize-implementation.json",
-      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
-      ".csdlc/evidence/624/issue624-json-parse.log",
-      ".csdlc/evidence/624/issue624-diff-hygiene.log"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:657c1e2e-3b40-42e7-bb1d-22ef8295f927",
-    "scope": [
-      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
-      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
-      ".csdlc/prepared/issues/624/validate-diff-check.py",
-      ".csdlc/prepared/issues/624/finalize-implementation.json",
-      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
-      ".csdlc/evidence/624/issue624-json-parse.log",
-      ".csdlc/evidence/624/issue624-diff-hygiene.log"
-    ],
-    "reviewed_revision": "git-blake3:bc1dd487faf1939a6294fc5acaaa6bc480805e96:27a58c7efd1cb55c97ef91e0ebd1cb3db68b36053241f29aa571c1b089b8f747",
-    "findings": [],
-    "residual_risks": [
-      "Read-only review only; the reviewer did not perform live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations.",
-      "The branch head at review completion was e2f2a6d0a64b3e57737aed3e3131942891796058, while the typed substantive reviewed revision was bc1dd487faf1939a6294fc5acaaa6bc480805e96. The reviewer inspected the bridge and found only typed review-assignment metadata in .csdlc/issues/624/audit.jsonl, .csdlc/issues/624/cards/srp.md, .csdlc/issues/624/cards/srp.values.json, and .csdlc/issues/624/index.json, with no reviewed artifact, validator, evidence log, receipt, or operational claim changes.",
-      "The retained PVF evidence logs record validator execution at pre-finalize source HEAD 608206048a2d54076cd9efe8560c890498e79301. The reviewer did not treat this as actionable because the sidecar docs and validators did not change from 608206048a2d54076cd9efe8560c890498e79301 to bc1dd487faf1939a6294fc5acaaa6bc480805e96, and the reviewer reran both validators read-only at current head e2f2a6d0a64b3e57737aed3e3131942891796058."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:bc1dd487faf1939a6294fc5acaaa6bc480805e96:27a58c7efd1cb55c97ef91e0ebd1cb3db68b36053241f29aa571c1b089b8f747",
-      "to_revision": "git-blake3:e2f2a6d0a64b3e57737aed3e3131942891796058:cdb3e23fecdc276ffd97c70e219e64ed85543a6420bae8fcac1379527757ae58",
-      "from_commit": "bc1dd487faf1939a6294fc5acaaa6bc480805e96",
-      "to_commit": "e2f2a6d0a64b3e57737aed3e3131942891796058",
-      "changed_paths": [
-        ".csdlc/issues/624/audit.jsonl",
-        ".csdlc/issues/624/cards/srp.md",
-        ".csdlc/issues/624/cards/srp.values.json",
-        ".csdlc/issues/624/index.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -72,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a1944615f4eccafa909a2abefb9a0673fcffa04d502914df19810aa9a20846ad",
+      "values_digest": "fe56410582ad44e04a983a660a365a8c719c5174af388a49c9784b2f5948a4b4",
       "rendered_digest": "178e833abe2b52ed51498bd1f33b08d4a5460f30cb659131d49394c626ace5fa",
       "ast_digest": "3a011837c6252ffb523cb2b6496061b1c394e526a77fe253d90423b5b0d05519"
     },
     "stp": {
-      "values_digest": "c823adb559641c0e468219c894f66bd673ed2b02f562f45f92696dc64af5d524",
+      "values_digest": "98e5212449029e3264e729adf85adbb483bec01e1e04efb9d15af6c45a1213dc",
       "rendered_digest": "da5de2cf9e9453239574fc79588f610493992f24eb528146b96dddd00cee4c08",
       "ast_digest": "74abf5a4d0df01a61d1cc5e54f20891ce84ab02571fd67ae421214147909c69b"
     },
     "spp": {
-      "values_digest": "83ff99223be5ccd0c90bba3ea2269668e9eea026747182d44d0921c097756a96",
+      "values_digest": "b16c884148b5157a28e3e6649fe0bd501e5ce119d9065b2725f990e3621378ec",
       "rendered_digest": "8f6ca65e54484bd8a9bb68ab43e899ca662ff90cfb9314696b915697393abb9d",
       "ast_digest": "4e1e45af0baa369fe539558ec219732afe157d6e2b5f1765e72bed8d2c26f1fd"
     },
     "vpp": {
-      "values_digest": "0c7a8a92dcc50794df6b5ac60e85a14f9b1c814e67f010fe8761de36c6e8d018",
+      "values_digest": "1006695dbb92a5ad4cef48c72d0dcadaf512132579c8e79879e90057cd7e3c95",
       "rendered_digest": "4ad50171a537aeec464e3b84f923e5c1129309590ad88c6417dde02bebbdd6c9",
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "7263d2cdc6effd1e28331b82185ba9b5422a5e48b9e3a7a628604c6299f48dcc",
-      "rendered_digest": "e088f6ab173ae658c4bcd0133a95a1b189d2d25c245e1965519af738eed44d56",
-      "ast_digest": "9acecab11d7f53bc31a24c127e5308440bae50fecee732daa1c7ce79cfd4bcee"
+      "values_digest": "2494a3378b0a584c1621162e122c0b9cf98a3766589a7b485e8ac72778725ad0",
+      "rendered_digest": "13a95bea05dd08e8585d66f11cdfad7dcce26957cb28e95e6b227ed958576417",
+      "ast_digest": "01bc6e4331e4a01f0f8dd239733909ae21a2eafa65fbf18f89a088979ac0f441"
     },
     "sor": {
-      "values_digest": "4c48b13adefa1c2af49b5f14271f1793e13547b2617ffbf0e806d0fd0462e505",
-      "rendered_digest": "c26b83637c37ca5fbfb13069ec7ecbe87563f654305bfd17fc1dbc1858453d73",
-      "ast_digest": "9e068b791e38e2fb3d81ffe6b7ce1296514aa6c4359e098dde8be9a4c0259f5b"
+      "values_digest": "9167b34c841366a832dae449c760d1215b1628f459ee41d428f9cc4be81ecf75",
+      "rendered_digest": "0e6f478d5b457982d286d7aaee843554cfda9e19b1d463f5f5f5cc4f9e654d2c",
+      "ast_digest": "951a71486b83f7703fe655105fb879f4492d8267700305db5ab1c57acb32b92a"
     }
   },
   "transitions": [
@@ -130,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover self-staling explicit non-substantive proof after review-record metadata advanced the branch head; preserve the PASS/no-findings reviewer result and re-record with the lifecycle-supported automatic metadata-only guard."
     }
   ],
   "audit": [
@@ -188,6 +148,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover self-staling explicit non-substantive proof after review-record metadata advanced the branch head; preserve the PASS/no-findings reviewer result and re-record with the lifecycle-supported automatic metadata-only guard.",
+      "operation": "recover_review"
     }
   ]
 }

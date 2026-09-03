@@ -66,7 +66,7 @@ Completed the #624 corporate operational-control hardening sidecar as a redacted
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
