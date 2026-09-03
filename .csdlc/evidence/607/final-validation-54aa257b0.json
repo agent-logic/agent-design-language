@@ -1,0 +1,36 @@
+{
+  "schema": "adl.issue607.final_validation.v1",
+  "status": "pass",
+  "tested_revision": "54aa257b08e5f5ecaced91ce2bb338f9e41ca0b5",
+  "tested_tree": "4e4b767c7b597d854557b3b317f7689620f2ce62",
+  "completed_at": "2026-09-03T09:19:07Z",
+  "validation": [
+    {
+      "command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"],
+      "outcome": "passed",
+      "result": "issue607_all=pass"
+    },
+    {
+      "command": ["terraform", "-chdir=infra/aws/runtime/gpu-proof", "test", "-filter=tests/issue607_warm.tftest.hcl"],
+      "outcome": "passed",
+      "result": "1 passed, 0 failed"
+    },
+    {
+      "command": [".adl/bin/csdlc-v2/csdlc-validate", "--root", ".", "issue", "--issue", "607"],
+      "outcome": "passed",
+      "result": "zero findings at generation 124"
+    },
+    {
+      "command": ["git", "diff", "--check", "main...HEAD"],
+      "outcome": "passed",
+      "result": "no diff hygiene defects"
+    }
+  ],
+  "bound_evidence": [
+    ".csdlc/evidence/607/operator-budget-extension.json",
+    ".csdlc/evidence/607/aws-terminal-state-observation.json",
+    ".csdlc/evidence/607/aws-paid-action-cost-audit.json",
+    ".csdlc/evidence/607/aws-payload-recovery-qualification.json"
+  ],
+  "post_validation_boundary": "Later commits may add this retained validation artifact and typed issue-607 lifecycle/review projections only; any substantive source, test, Terraform, runbook, cost, or AWS evidence change invalidates this proof."
+}
