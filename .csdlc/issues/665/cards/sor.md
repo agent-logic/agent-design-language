@@ -73,11 +73,11 @@ Repaired the red PR #673 strict Clippy failure in `csdlc-v2/src/store.rs` by rep
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

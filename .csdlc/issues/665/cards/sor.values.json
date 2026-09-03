@@ -7,7 +7,7 @@
     "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
     "slug": "emergency-branch-adoption-defect",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -66,8 +66,8 @@
         "csdlc-v2/src/store.rs"
       ],
       "actual_validation": [],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
