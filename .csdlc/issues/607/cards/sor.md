@@ -12,7 +12,7 @@ Status: draft
 
 ## Summary
 
-The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence. One later AWS read observed both exact instances terminated and conservatively bounds Runtime at 3001 seconds and GPU at 3015 seconds, producing a USD 20.983286 issue total with USD 0.016714 remaining. The final substantive revision 54aa257b0 has retained green local, Terraform, typed-card, and diff-hygiene proof.
+The final source-bound warm two-node AWS Polis qualification passed in 240 seconds apply-to-service-ready for the current two-8B-model configuration. Runtime local readiness was 5.950 seconds and GPU local readiness was 97.340 seconds. Both models remained resident, all six Runtime agents executed governed ACC tools, Guardian and degradation recovery passed, all disposable resources were removed, and both warm EBS volumes remain detached and available. The exact run-bound operator extension from USD 20 to USD 21 is retained as immutable evidence. One later AWS read observed both exact instances terminated and conservatively bounds Runtime at 3001 seconds and GPU at 3015 seconds, producing a USD 20.983286 issue total with USD 0.016714 remaining. After merging current main and resolving the resident Shepherd admission conflict, substantive revision fd4118d39 has retained green issue-contract, Runtime compile, typed-card, and diff-hygiene proof.
 
 ## Artifacts
 
@@ -24,7 +24,7 @@ The final source-bound warm two-node AWS Polis qualification passed in 240 secon
 - .csdlc/evidence/607/aws-terminal-state-observation.json
 - .csdlc/evidence/607/aws-paid-action-cost-audit.json
 - .csdlc/evidence/607/aws-payload-recovery-qualification.json
-- .csdlc/evidence/607/final-validation-54aa257b0.json
+- .csdlc/evidence/607/final-validation-fd4118d39.json
 
 ## Execution
 
@@ -33,7 +33,8 @@ The final source-bound warm two-node AWS Polis qualification passed in 240 secon
 - Used one observed-terminal AWS response for both exact instances and aligned the audit as_of timestamp and freshness validator with that evidence.
 - Conservatively charged Runtime for 3001 seconds and GPU for 3015 seconds through the shared terminal observation; the issue total remains under USD 21.
 - Future launches reserve 900 seconds for the full billable lifetime, keep a separate 420-second service-operation deadline, wait for both exact instances to terminate, and are now rejected under the remaining issue budget.
-- Retained final validation for exact substantive revision 54aa257b0 and tree 4e4b767c7.
+- Merged current main to resolve PR #657, retaining transient resident Shepherd admission retries while degrading without killing Runtime on non-retryable admission failure.
+- Retained final validation for exact substantive revision fd4118d39 and tree 44481d107.
 
 ## Validation
 
@@ -44,9 +45,22 @@ The final source-bound warm two-node AWS Polis qualification passed in 240 secon
       "adl/tools/test_issue607_warm_polis.sh",
       "all"
     ],
-    "purpose": "Prove terminal observation, audit freshness, full-lifetime reservation, extension binding, cleanup, authorization, cost, residue, and recovery contracts.",
+    "purpose": "Prove terminal observation, audit freshness, full-lifetime reservation, extension binding, cleanup, authorization, cost, residue, recovery, and post-main merge contracts.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/607/final-validation-54aa257b0.json"
+    "evidence_ref": ".csdlc/evidence/607/final-validation-fd4118d39.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--bin",
+      "adl-runtime-kernel"
+    ],
+    "purpose": "Compile the exact post-main Runtime kernel and resident Shepherd admission integration.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/607/final-validation-fd4118d39.json"
   },
   {
     "command": [
