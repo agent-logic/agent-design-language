@@ -4,13 +4,35 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8e9defbef262b52e0a6859b0c7f0ca9dba3fa868e0d0d63c025f16e9fab4d03f",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "1c27c1131b44a27b69a3f05ef702fb76a41ace6d8c3042d79f8bf51ff15139a5",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "660a83307cd3d66746b5b7571793ab8a9801aa0f2c1d0c0f33a585924941d695",
   "branch": "codex/665-emergency-branch-adoption-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "review_665_prepr_r1",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
+      ".csdlc/issues/665",
+      ".csdlc/prepared/issues/665"
+    ],
+    "reviewed_revision": "git-blake3:363925241c1e0743355feaabc46a0cf47f5e9598:77dbc68992d8f7c4936574692c2f81d31b809bf8df7357163d81042b7a2b5fb2",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9889ec75d5494585612b4766e07d93c49ba7e03d871143ae093580ca6a425980",
+      "values_digest": "38dc38ea6de0c7811894107a935a40f41323d9698c4ff7f3debb030480282406",
       "rendered_digest": "c99cf6a6817436af3aeb9f0cbe69a206f73f536ebaf79c39e37b5919b6075ae8",
       "ast_digest": "e5e404ab5ec26e9156dbf3d4cc7d67fc80e0d7fcedab9a40ec95e86a3c13306b"
     },
     "stp": {
-      "values_digest": "c326a7e51a6efbee3a597074c2c92d82e9002c85e19cf0faca6deabca80f67da",
+      "values_digest": "8f0af7b7e6265e150c61ff932b0b6d3867ba8b2173022bc58bd81cdaab2937e9",
       "rendered_digest": "fa229a66e67f84e6d92047006880631861c4148fae6a9b825e1fb9fe7737cae2",
       "ast_digest": "4e3550a9c303e08a6b617990b077934533d26e92e1c2903aaf8078461556a429"
     },
     "spp": {
-      "values_digest": "b6c3778c5c0022b939976638187e50790f06dd72e1fdbcbd58a08dc3c75b2f5c",
+      "values_digest": "15c667c0dc74c4abd6d0e4c7a1ab3ba378e0a439df17f5f82d7632502e808e36",
       "rendered_digest": "bcd2e8f91be684f2b2d6e7b35abf7fff36f79a55c97fddc06b2d2303610cd5f1",
       "ast_digest": "e790c79bfd5981bcff9add5b13527d9b38a37b0fd5bebc9ceec7c69a571d5fb3"
     },
     "vpp": {
-      "values_digest": "0845e6d212d3e423e2119d9dd4211924543ebb12e047e580b4efed6c39ca3fe2",
+      "values_digest": "8f11972968c848f0fd6f7027f6c8c6281b96d835035e27048b2544d535e5d9e0",
       "rendered_digest": "92f46884cb038ddb7370d9c73dde3ea85c2f280eaa9301dd91e26f65e894f7e6",
       "ast_digest": "278cdd2a01c07ac79943d35cc64ffc69cc7aad637f2c22d117cb2d3be8174db3"
     },
     "srp": {
-      "values_digest": "a4c3dc7356a60b9218e2c39d3af1d87fd8c4b721d97460c4a5d1dda1ae1356da",
-      "rendered_digest": "f079974526dd4516ee22369a0078d1013156ceaa4eebbac42eeef92c42247d02",
-      "ast_digest": "4b55736ddf5efec4c905d12d47bf7fc488e54ba2234bf28c4c2db40caba38311"
+      "values_digest": "1160cd2de93641d21d0de3032e29c11bd182294041a771af00b2e6c97cb0fea1",
+      "rendered_digest": "5baa0b765ec093d1019c2378eebc01c8fc74b81d7655c48d7700799b70d24a04",
+      "ast_digest": "35d5c6c84a772c83c5761d5a3669a1c108db32fb31681e00c9f76856cadceda1"
     },
     "sor": {
-      "values_digest": "60ac4be6a7e7beb91bf1ccb870a3e16246ebdb837a399b040b309bd3db26cb0f",
+      "values_digest": "bf624f0969c9285d3b9ceb9d05eb2efc164c767a25862f32ca94c529806ac3a0",
       "rendered_digest": "a403e7c351342b38c4c4e6359aa9ac8909c06f5ad5e9c6d9f943b578c1948c41",
       "ast_digest": "d77c53ae0c9b68f4ca2acde3b335f6fa98539b55743bc29c6eb7c41a01fbe9cc"
     }
@@ -97,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:/root/Worker-7",
       "reason": "Recover #665 review after strict Clippy CI repair changed the substantive source head."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/Worker-7",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -183,6 +212,13 @@
       "actor": "codex:/root/Worker-7",
       "reason": "Record #665 strict Clippy CI repair.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired the red PR #673 strict Clippy failure in `csdlc-v2/src/store.rs` by replacing the eight-argument `commit_with_authored` helper signature with a small `CommitOptions` struct carrying authored overrides, issue extra files, and an optional verifier. This preserves the atomic projection behavior added for emergency branch adoption while satisfying the hosted `-D clippy::too-many-arguments` gate.\",\"changes\":[\"Introduced `CommitOptions<'a>` for Store commit helper options.\",\"Updated ordinary commit, verified commit, and atomic issue-file replacement call sites to pass structured commit options instead of adding positional helper arguments.\",\"Preserved the issue-file atomic staging path used by successful emergency adoption evidence writes.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root/Worker-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

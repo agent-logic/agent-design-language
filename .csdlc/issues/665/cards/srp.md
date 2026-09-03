@@ -12,7 +12,19 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/lifecycle.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
+csdlc-v2/tests/card_identity.rs
+csdlc-v2/tests/code_repository_migration.rs
+csdlc-v2/tests/gate10a.rs
+csdlc-v2/tests/gate2.rs
+csdlc-v2/tests/gate4.rs
+csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs
+csdlc-v2/tests/projection_recovery_integration.rs
+docs/tooling/EMERGENCY_BRANCH_ADOPTION.md
+.csdlc/issues/665
+.csdlc/prepared/issues/665
 
 ## Prompts
 
@@ -36,8 +48,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:363925241c1e0743355feaabc46a0cf47f5e9598:77dbc68992d8f7c4936574692c2f81d31b809bf8df7357163d81042b7a2b5fb2")
 
-Reviewer: None
+Reviewer: Some("review_665_prepr_r1")
 
-Result: pre_review
+Result: pass
