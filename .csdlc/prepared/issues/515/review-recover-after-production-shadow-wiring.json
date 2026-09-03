@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "expected_generation": 24,
+  "expected_digest": "99ca928a39105388228cc5eb975190b37d9d07fb8a57bf26f15418749b7e5578",
+  "actor": "codex:/root:issue-515-implementation",
+  "reason": "Recover #515 review truth after independent review found the provider shadow helper was not wired into a real provider execution path; remediation now adds opt-in provider-factory/runtime wiring and stricter host-path redaction evidence."
+}

@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 506,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+    "slug": "v0-92-1-drt-a-distributed-qualification-contract",
+    "version": "v0.92.1",
+    "generation": 24
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one deterministic distributed-qualification and ACIP replay contract for requirements 181 and 182.",
+      "required_outcome": "Identity, authority, duplicate-denial, and replay-conformance tests pass with exact receipts for requirements 181 and 182.",
+      "declared_scope": [
+        "deterministic distributed qualification contract",
+        "ACIP authority and replay conformance contract",
+        "duplicate-denial and negative-matrix proof",
+        "DRT-A evidence packet"
+      ],
+      "authority_boundary": [
+        "owns adl-runtime qualification contract surfaces only",
+        "consumes #181 and #182 requirement designs as predecessor inputs",
+        "does not own paid AWS execution",
+        "does not own Observatory redesign"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "no paid AWS execution under #506",
+        "no Observatory redesign under #506",
+        "work in a bound FastWork issue worktree after readiness approval"
+      ]
+    }
+  }
+}

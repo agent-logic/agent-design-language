@@ -1,0 +1,13 @@
+{
+  "issue": 596,
+  "card": "sip",
+  "expected_generation": 17,
+  "expected_digest": "1b4b9b5a9a34bf6c1174006358fa35774cb7578d82a2d0b506df946014996242",
+  "actor": "codex:worker-6",
+  "reason": "Correct SIP outcome so #596 no longer claims v2 source fixes inside the v3-separate cutover lane.",
+  "operation": {
+    "operation": "correct_required_outcome_after_recovery",
+    "value": "The remediation PR has typed local lifecycle state, uses typed C-SDLC v2 operations only as the still-live lifecycle authority, preserves a zero-net csdlc-v2 source/test diff, captures v2 defects as v3 replacement blockers, and remains explicitly non-authoritative for v3 cutover."
+  },
+  "fail_after_backup": false
+}

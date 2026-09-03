@@ -59,7 +59,9 @@ impl TestGuardianLease {
             let mut supplied = vec![0_u8; token_for_thread.len()];
             stream.read_exact(&mut supplied).unwrap();
             assert_eq!(supplied, token_for_thread.as_bytes());
-            stream.write_all(b"ok").unwrap();
+            let mut acknowledgement = b"ok".to_vec();
+            acknowledgement.extend_from_slice(&std::process::id().to_be_bytes());
+            stream.write_all(&acknowledgement).unwrap();
             let _ = release_rx.recv();
         });
         Self {
@@ -355,7 +357,9 @@ async fn guardian_lease_loss_checkpoints_and_stops_the_real_kernel() {
     let mut supplied = vec![0_u8; lease_token.len()];
     lease.read_exact(&mut supplied).await.unwrap();
     assert_eq!(supplied, lease_token.as_bytes());
-    lease.write_all(b"ok").await.unwrap();
+    let mut acknowledgement = b"ok".to_vec();
+    acknowledgement.extend_from_slice(&std::process::id().to_be_bytes());
+    lease.write_all(&acknowledgement).await.unwrap();
 
     let stderr = child.stderr.take().unwrap();
     let (ready_tx, ready_rx) = std::sync::mpsc::channel();

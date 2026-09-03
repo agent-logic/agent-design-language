@@ -1,0 +1,24 @@
+{
+  "issue": 617,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "2dc5a3c62e71294478ea7873a8aa0d6b0568b6275e7b79e1b202f9aa2940b5e6",
+  "actor": "codex:/root",
+  "reason": "Own the exact executable issue-local canonical-name validation target selected by VPP.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      ".csdlc/prepared/issues/617/validate-canonical-agent-name.sh",
+      ".csdlc/evidence/617"
+    ]
+  }
+}

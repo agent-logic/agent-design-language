@@ -1,0 +1,25 @@
+flowchart TD
+  R181["Retained #181<br/>distributed topology contract"]
+  R182["Retained #182<br/>ACIP conformance contract"]
+  DRT_A["#506 DRT-A<br/>deterministic qualification contract"]
+  QMODEL["adl-runtime/src/qualification<br/>contract model"]
+  TESTS["adl-runtime/tests/distributed_contract<br/>producer-derived proof"]
+  EVIDENCE["docs/milestones/v0.92.1/evidence/runtime/drt-a<br/>retained receipts"]
+  ACIP["adl-runtime/src/acip.rs<br/>production carrier contract"]
+  DIST["adl-runtime/src/distributed/**<br/>production authority primitives"]
+  DRT_B["#507 DRT-B<br/>six-resident qualification"]
+  DRT_C["#508 DRT-C<br/>final distributed qualification"]
+  DRT_D["#509 DRT-D<br/>GCP portability qualification"]
+
+  R181 --> DRT_A
+  R182 --> DRT_A
+  ACIP -. read only .-> DRT_A
+  DIST -. read only .-> DRT_A
+  DRT_A --> QMODEL
+  DRT_A --> TESTS
+  DRT_A --> EVIDENCE
+  QMODEL --> TESTS
+  TESTS --> EVIDENCE
+  DRT_A --> DRT_B
+  DRT_B --> DRT_C
+  DRT_C --> DRT_D

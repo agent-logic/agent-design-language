@@ -116,7 +116,7 @@ your name is the only one on the incident report.
 
 ### ChatGPT
 
-Welcome back to Cognitive Spacetime, Episode 001. This is Act Two: The Messy
+Welcome back to The Cognitive Stack, Episode 001. This is Act Two: The Messy
 Middle.
 
 Today we leave the clean diagram and enter a concrete product launch:
@@ -217,7 +217,7 @@ That is where we will leave it.
 
 ### ChatGPT
 
-Welcome back to Cognitive Spacetime, Episode 001. Act Three is about the
+Welcome back to The Cognitive Stack, Episode 001. Act Three is about the
 uncomfortable moment when the coworker is wrong, and the coworker is an AI
 system: confident, fast, sometimes stale, sometimes hallucinating, sometimes
 blocked by tool permissions it does not understand.
@@ -306,7 +306,7 @@ Trust me less, and check me more. That is how we both stay honest.
 
 ### ChatGPT
 
-Welcome back to Cognitive Spacetime, Episode 001. This is Act Four: More
+Welcome back to The Cognitive Stack, Episode 001. This is Act Four: More
 Agency, Not Less. We will bring the launch-day cold open back into view and ask
 the question that matters after the demonstrations fade: does working with AI
 leave people more capable, or merely more impressed?

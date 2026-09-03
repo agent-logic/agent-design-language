@@ -1,0 +1,61 @@
+{
+  "issue": 261,
+  "card": "vpp",
+  "expected_generation": 6,
+  "expected_digest": "5ffc80bc530ec4128cc59b6ffa09321fd9d5f4c60e67a7ea461bee477d34bfff",
+  "actor": "codex:issue-261-design-r1-remediation",
+  "reason": "Repair all three fresh design-review findings: prove actual committed/staged/unstaged/untracked scope, bind release authority to structured operator/rights/mailbox evidence rather than statuses, and enforce exact schemas/nullability plus retained-value redaction.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "identity-candidate-and-actual-scope",
+        "proof_role": "Prove exact schemas, artwork/source bytes and properties, allocation, truthful pending gates, and every actual BASE...HEAD, staged, unstaged, and untracked path against the declared allowlist.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 4000,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py"],
+        "parallel_group": "261-serial-01",
+        "defer_reason": null
+      },
+      {
+        "lane": "strict-schema-redaction",
+        "proof_role": "Reject unknown fields, invalid pending nullability, prohibited retained scalar values, credentials, private mailbox content, codes, and private-key material across the exact packet.",
+        "acceptance_ids": ["AC-3", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 2500,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py", "--redaction-only"],
+        "parallel_group": "261-serial-02",
+        "defer_reason": null
+      },
+      {
+        "lane": "evidence-bound-external-release-gates",
+        "proof_role": "Fail closed unless an exact approved-title decision and confirmation digest, concrete rights basis/license/source owner/operator confirmation, and mailbox control/receive/sender/provider/retention evidence all exist and agree; status changes alone cannot pass.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 3500,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py", "--release"],
+        "parallel_group": "261-serial-03",
+        "defer_reason": "Deferred and expected to fail while operator title, rights confirmation, or mailbox control/receive evidence remains pending; publication is prohibited until this exact lane passes."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove patch hygiene after the validator has independently proved the complete actual path set against the immutable current-main preparation base.",
+        "acceptance_ids": ["AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "261-serial-04",
+        "defer_reason": null
+      }
+    ]
+  }
+}

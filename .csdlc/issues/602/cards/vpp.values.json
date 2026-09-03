@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 602,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
+    "slug": "runtime-csmctl-dynamic-agent-admission",
+    "version": "v0.92.1",
+    "generation": 31
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-agent-admission",
+          "proof_role": "Prove the complete csmctl and Runtime agent lifecycle, authenticated transport, validation, idempotence, atomic persistence, freeze-dry integrity, rehydration, roster projection, OpenAPI parity, and diff hygiene.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 10000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/602/validate-focused.sh"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "live-wuji-agent-admission",
+          "proof_role": "Prove add, duplicate, freeze-dry migration, rehydration, roster health, Shepherd preservation, and restart recovery against installed Wuji gemma4:e4b-mlx.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/602/validate-live-wuji.sh"
+          ],
+          "parallel_group": "live",
+          "defer_reason": "Runs after focused proof and exact candidate deployment using the existing installed model without paid cloud resources."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on unauthorized or invalid admission unavailable models persistence/live divergence Shepherd mutation secret exposure exact-head drift or any proof that requires init-file editing or Runtime restart for first admission.",
+      "design_ref": ".csdlc/prepared/issues/602/design.md",
+      "design_digest": "c0ec199912a0a77bf5b599ac006daac660997eeacf32027503ae4432aac78827",
+      "diagram_ref": ".csdlc/prepared/issues/602/diagram.mmd",
+      "diagram_digest": "a0537252b6076f8d9d79ebe006443712fcdbbbc8796c7cebfad75846edce8775"
+    }
+  }
+}

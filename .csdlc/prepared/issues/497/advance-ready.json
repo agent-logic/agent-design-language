@@ -1,0 +1,13 @@
+{
+  "issue": 497,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "ea0e66e588b22caee795ed49c8b185bc64ccb9185acbf3e5ff50b12bb2e86af9",
+  "actor": "codex:worker-7",
+  "reason": "Typed doctor and issue validation pass for the prepared CORP-C Sprint 4 lifecycle package.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "fail_after_backup": false
+}

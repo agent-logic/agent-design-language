@@ -1,0 +1,56 @@
+{
+  "issue": 506,
+  "expected_generation": 15,
+  "expected_digest": "9c5bbb19215a61df1d1eb8f587d762c6e680d1255219dca2d264c935652f97d6",
+  "actor": "fresh-session:e4b2b176-c5af-4a9a-b491-5bb19a21cf4e",
+  "evidence": {
+    "reviewer": "fresh-session:e4b2b176-c5af-4a9a-b491-5bb19a21cf4e",
+    "scope": [
+      ".csdlc/prepared/issues/506/design.md",
+      ".csdlc/prepared/issues/506/diagram.mmd",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ],
+    "reviewed_revision": "git-blake3:de0536dcb51200ec4f0a8dcb5781bbebeba4a88c:999ebd6ba5d508d020694bbf1d52dfe01b53e2b8a24672e4b12e24636528a25f",
+    "findings": [
+      {
+        "id": "F-506-E4B2B176-1",
+        "severity": "p1",
+        "summary": "Scenario receipt validation omits mutation even though the exact receipt struct and retained evidence schema require it.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-506-E4B2B176-2",
+        "severity": "p1",
+        "summary": "The duplicate negative vector is still denied by expected-outcome labeling rather than a stateful duplicate input.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-506-E4B2B176-3",
+        "severity": "p2",
+        "summary": "Retained evidence records prose digest source and validation summaries but not actual computed contract digest or exact receipt outputs.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Read-only exact-head review only; no live cloud/provider proof was run or claimed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

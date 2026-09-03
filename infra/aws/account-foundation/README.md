@@ -30,6 +30,22 @@ variable validation permits only `agent-logic-admin` for this root. Override the
 profile only by changing reviewed Terraform input truth, not by relying on an
 ambient personal/default credential chain.
 
+## Remote state
+
+This root declares an S3 backend and must consume the AWS-C bootstrap backend
+before any live plan or apply is treated as authoritative. Use a local, untracked
+copy of `infra/aws/account-foundation/backend.hcl.example`, replace only the
+redacted account placeholder in the bucket name from the AWS-C bootstrap
+readback, and keep the state key separate from the bootstrap and Runtime roots:
+
+```sh
+terraform -chdir=infra/aws/account-foundation init \
+  -backend-config=backend.hcl
+```
+
+Do not commit the raw AWS account id, an unredacted backend file, or Terraform
+state.
+
 ## Live readback
 
 Live readback must use the approved business profile:

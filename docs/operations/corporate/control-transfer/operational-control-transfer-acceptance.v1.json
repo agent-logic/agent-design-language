@@ -1,0 +1,109 @@
+{
+  "schema": "adl.corporate.operational_control_transfer_acceptance.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "sprint_umbrella": 532,
+  "created_at": "2026-09-01",
+  "status": "accepted_with_sidecar_operational_hardening",
+  "authority_boundary": "This packet records #497 CORP-C corporate IP-transfer acceptance. Operational control-plane hardening readbacks discovered during closeout are preserved as follow-up scope in sidecar issue #624 and do not block #497 transfer acceptance.",
+  "prerequisite_gate": {
+    "status": "pass",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
+    "prerequisite_issues": [
+      482,
+      483,
+      493,
+      496
+    ]
+  },
+  "evidence": [
+    "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+    "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+    "docs/operations/corporate/account-custody/corporate-custody-register.md",
+    "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json"
+  ],
+  "completed_evidence": [
+    "corp-c-prerequisite-evidence",
+    "corp-c-aws-profile-redacted-sts-readback"
+  ],
+  "partial_evidence": [
+    "corp-c-repository-custody-evidence",
+    "corp-c-terraform-source-custody",
+    "corp-c-production-domain-registration-custody",
+    "corp-c-terraform-bootstrap-live-readback",
+    "corp-c-live-route53-zone-inventory",
+    "corp-c-live-acm-certificate-inventory",
+    "corp-c-live-codebuild-and-iam-role-inventory",
+    "corp-c-live-aws-account-control-posture-readback",
+    "corp-c-github-default-branch-ruleset-readback",
+    "corp-c-public-web-https-availability-readback"
+  ],
+  "blocked_actions": [],
+  "sidecar_issue": 624,
+  "sidecar_actions": [
+    "corp-c-source-control-live-readback",
+    "corp-c-ci-cd-live-readback",
+    "corp-c-dns-hosted-zone-transfer",
+    "corp-c-certificate-renewal-ownership",
+    "corp-c-aws-account-control-readback",
+    "corp-c-private-custody",
+    "corp-c-deployment-rollback-readback"
+  ],
+  "authorized_actions": [
+    "corp-c-aws-c-terraform-bootstrap-apply"
+  ],
+  "acceptance": [
+    {
+      "id": "AC-1",
+      "status": "accepted_sidecar_followup",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+      "reason": "The corporate IP-transfer acceptance is accepted for #497. The broader operational-control readbacks for GitHub/CI, DNS/certificates, deployment rollback, AWS account guardrails, and private custody are preserved in sidecar issue #624 instead of blocking #497."
+    },
+    {
+      "id": "AC-2",
+      "status": "accepted_sidecar_followup",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
+      "reason": "The agent-logic-admin profile resolves to a retained Agent Logic AWS account hash and #497 does not require complete AWS account hardening to accept IP transfer. Remaining AWS billing/root/contact/IAM Identity Center/audit/recovery/break-glass work is sidecar issue #624 scope."
+    },
+    {
+      "id": "AC-3",
+      "status": "accepted_sidecar_followup",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+      "reason": "Repository IaC custody and the AWS-C Terraform backend have live readback evidence sufficient for #497 transfer acceptance. GitHub Actions policy, environment protection, disabled AWS live workflows, downstream runtime backend substitution, and deployment rollback are retained as sidecar issue #624 hardening work."
+    },
+    {
+      "id": "AC-4",
+      "status": "accepted_sidecar_followup",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+      "reason": "Public web HTTPS availability passes for agent-logic.ai and codefriend.ai. Runtime origin-smoke health and recovery/rollback readbacks remain true operational gaps, now tracked by sidecar issue #624 rather than as #497 IP-transfer blockers."
+    }
+  ],
+  "mutation_authority": {
+    "new_mutation_performed_by_497": true,
+    "new_mutation_authorized": true,
+    "authorized_actions": [
+      "corp-c-aws-c-terraform-bootstrap-apply"
+    ],
+    "blocked_if_mutation_required": true
+  },
+  "non_claims": [
+    "Operational control-plane hardening sidecar #624 is not complete.",
+    "Live provider cutover is not complete.",
+    "Cloud parity and billing custody are not globally proved by this packet.",
+    "Private legal, diligence, vault, recovery-factor, payment-method, and executed-instrument material are not committed to the repository.",
+    "Sprint 7 #345 AWS GPU execution is not performed.",
+    "Sprint 8 #84 Unity work is not performed.",
+    "CORP-D #498 diligence acceptance is not performed."
+  ]
+}

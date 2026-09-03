@@ -1,0 +1,130 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 497
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Completed #497 CORP-C corporate IP-transfer acceptance and corrected closeout truth after PR #613. The AWS-C Terraform bootstrap apply and state migration remain the only authorized #497 external mutation; sanitized readbacks are retained. The GitHub/CI, DNS/certificate, AWS account-control, private custody, and deployment rollback hardening gaps are preserved as sidecar issue #624 scope and no longer block #497 transfer acceptance.
+
+## Artifacts
+
+- docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json
+- docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json
+- docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json
+- docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json
+- docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json
+- docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json
+- docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json
+- docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md
+- docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md
+- infra/aws/bootstrap/README.md
+- infra/aws/bootstrap/versions.tf
+- infra/aws/bootstrap/backend.hcl.example
+- infra/aws/runtime/README.md
+- infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example
+- infra/aws/runtime/alb-origin/terraform.tfvars.example
+- infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example
+- infra/aws/runtime/private-node/terraform.tfvars.example
+- infra/aws/runtime/gpu-proof/terraform.tfvars.example
+- .csdlc/evidence/497/validate-readiness.rb
+
+## Execution
+
+- Diagnosed the Terraform gap: PR #567/#486 delivered bootstrap configuration and local/static validation, but no AWS apply had created the live S3 backend bucket or DynamoDB lock table.
+- Performed the bounded authorized AWS-C Terraform bootstrap apply under the approved business AWS profile, creating the backend bucket, bucket controls, DynamoDB lock table with PITR, and deployment-role resources described by the bootstrap root.
+- Migrated the bootstrap state into the newly created remote backend and removed local Terraform state/cache files from the tracked worktree.
+- Retained sanitized Terraform readback evidence using bucket/table/role hashes and shape-only identifiers rather than raw AWS account identifiers or ARNs.
+- Retained GitHub/CI, Route53, ACM, HTTPS availability, and AWS account-control posture observations as operational hardening seed evidence without treating incomplete hardening readbacks as #497 acceptance blockers.
+- Created sidecar issue #624 for post-move-in operational control-plane hardening: GitHub/CI authority, DNS/certificate ownership, AWS guardrails, private custody receipt, and deployment rollback readback.
+- Updated the control-plane denominator, external-action classifier, operational-control-transfer acceptance JSON, acceptance Markdown, and issue-local readiness validator so #497 is accepted for corporate IP-transfer scope while sidecar #624 remains incomplete.
+- Updated AWS Terraform bootstrap documentation and backend examples so future operators use the live foundation backend naming contract instead of the stale unsuffixed placeholder names.
+- Updated AWS runtime backend examples to use the live foundation backend name shape and removed misleading raw-looking account-id placeholders from runtime tfvars examples.
+
+## Validation
+
+[
+  {
+    "command": [
+      "ruby",
+      ".csdlc/evidence/497/validate-readiness.rb"
+    ],
+    "purpose": "Validate the corrected #497 IP-transfer acceptance boundary, sidecar #624 routing, retained evidence files, authorization classification, and credential-marker hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "Local command exited zero with result pass, blocked_actions 0, sidecar_issue 624, sidecar_actions 7, issue_ready_to_close true, and authorized_external_mutations containing only corp-c-aws-c-terraform-bootstrap-apply."
+  },
+  {
+    "command": [
+      "csdlc-doctor",
+      "--repo",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-497-sprint4-sidecar-closeout",
+      "--issue",
+      "497"
+    ],
+    "purpose": "Prove the typed #497 lifecycle package remains coherent after sidecar-split truth repair.",
+    "outcome": "passed",
+    "evidence_ref": "status pass, phase implemented, ready false before final closeout."
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-497-sprint4-sidecar-closeout",
+      "issue",
+      "--issue",
+      "497"
+    ],
+    "purpose": "Prove the typed #497 issue package validates after sidecar-split truth repair.",
+    "outcome": "passed",
+    "evidence_ref": "status pass, phase implemented, ready false before final closeout."
+  },
+  {
+    "command": [
+      "ruby",
+      "-rjson",
+      "-e",
+      "ARGV.each { |path| JSON.parse(File.read(path)) }",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/*.json",
+      "docs/operations/corporate/control-transfer/*.json"
+    ],
+    "purpose": "Prove the updated machine-readable CORP-C evidence files parse as JSON.",
+    "outcome": "passed",
+    "evidence_ref": "Local JSON parse loop exited zero after the sidecar split."
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject malformed whitespace and patch artifacts in the bounded CORP-C sidecar-closeout correction.",
+    "outcome": "passed",
+    "evidence_ref": "To be run after the typed SOR edit."
+  }
+]
+
+## Integration
+
+worktree_only
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

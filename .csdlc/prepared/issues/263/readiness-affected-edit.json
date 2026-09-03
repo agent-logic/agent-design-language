@@ -1,0 +1,17 @@
+{
+  "issue": 263,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "edbbe29dcf9071b1d288e1c3ac74c1f21175fd48d0e5eba6b38e0e6d3b30d827",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/milestones/v0.92.1/evidence/podcast/51-c",
+      "docs/milestones/v0.92.1/review/podcast_directory_263",
+      ".csdlc/prepared/issues/263/validate-directory-runbooks.rb"
+    ]
+  }
+}

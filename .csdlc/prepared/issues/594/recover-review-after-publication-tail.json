@@ -1,0 +1,7 @@
+{
+  "issue": 594,
+  "expected_generation": 14,
+  "expected_digest": "ed6464c4a17886bdeba3f03357daebd9c32ae639c5b7d15795aa6b81f31811b8",
+  "actor": "codex:/root",
+  "reason": "Recover from a reviewed-state publication dead end caused by broad review scope including mutable lifecycle request files; re-review with a publication-safe exact scope."
+}

@@ -1,0 +1,101 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 506,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+    "slug": "v0-92-1-drt-a-distributed-qualification-contract",
+    "version": "v0.92.1",
+    "generation": 24
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "qualification-contract",
+          "proof_role": "Prove requirements 181 and 182 are mapped into one deterministic distributed qualification contract.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+            "qualification-contract"
+          ],
+          "parallel_group": "drt-a",
+          "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+        },
+        {
+          "lane": "acip-authority",
+          "proof_role": "Prove ACIP identity, authority, permit, causation, correlation, sequence, term, Polis, payload, and credential-binding behavior.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+            "acip-authority"
+          ],
+          "parallel_group": "drt-a",
+          "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+        },
+        {
+          "lane": "replay-conformance",
+          "proof_role": "Prove byte-stable encode, decode, re-encode, duplicate-denial, and replay receipts from committed fixtures.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+            "replay-conformance"
+          ],
+          "parallel_group": "drt-a",
+          "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+        },
+        {
+          "lane": "negative-matrix",
+          "proof_role": "Prove stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation attempts fail closed.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+            "negative-matrix"
+          ],
+          "parallel_group": "drt-a",
+          "defer_reason": "Deferred only until #506 implementation creates the issue-owned test harness under adl-runtime/tests/distributed_contract/**."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed if identity provenance is synthetic, replay can change authority, duplicate-denial receipts are not exact, or negative authority inputs pass.",
+      "design_ref": ".csdlc/prepared/issues/506/design.md",
+      "design_digest": "88120bc83fdbe01e9af1298bb6dd178c8639b6a041c2b0a2f7239b2ecd8bd744",
+      "diagram_ref": ".csdlc/prepared/issues/506/diagram.mmd",
+      "diagram_digest": "37f9fb27c6cc7258c306155f658c74be781bdcbdd4a141ab6d4fc65e0e3f780d"
+    }
+  }
+}

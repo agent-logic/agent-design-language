@@ -12,7 +12,10 @@ use std::{
     time::{Duration, Instant},
 };
 
-use adl_runtime_kernel::{RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA};
+use adl_runtime_kernel::{
+    RuntimeCloudWatchInitConfig, RuntimeS3LogArchiveInitConfig, RUNTIME_MASTER_LOG_AUDIT_SCHEMA,
+    RUNTIME_MASTER_LOG_RECORD_SCHEMA,
+};
 use runtime_observability::{
     audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
 };
@@ -247,6 +250,325 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
     assert!(!rendered_text.contains("aws_access_key_id"));
     assert!(!rendered_text.contains("device_and_inode"));
     assert!(!rendered_text.contains("log_to_metric"));
+}
+
+#[test]
+fn vector_config_routes_redacted_runtime_health_to_cloudwatch_without_credentials() {
+    let root = test_root("cloudwatch-config-shape");
+    let mut config = vector_config(root, None);
+    config.cloudwatch = Some(RuntimeCloudWatchInitConfig {
+        region: "us-west-2".to_owned(),
+        log_group: "/agent-logic/runtime-v3/konishi-dev".to_owned(),
+        log_stream: "wuji".to_owned(),
+    });
+    let rendered = render_vector_config(&config);
+
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["type"],
+        "aws_cloudwatch_logs"
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["inputs"],
+        json!(["runtime_v3_cloud_health"])
+    );
+    assert_eq!(
+        rendered["transforms"]["runtime_v3_cloud_health"]["inputs"],
+        json!(["runtime_v3_redacted"])
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["create_missing_group"],
+        false
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["buffer"]["max_size"],
+        268_435_488_u64
+    );
+    let rendered_text = serde_json::to_string(&rendered).unwrap();
+    assert!(rendered_text.contains("runtime_health_heartbeat"));
+    assert!(rendered_text.contains("adl.runtime_v3.cloud_health.v1"));
+    assert!(!rendered_text.contains(". = .fields"));
+    assert!(!rendered_text.contains("aws_secret_access_key"));
+    assert!(!rendered_text.contains("aws_access_key_id"));
+}
+
+#[test]
+fn vector_config_s3_archive_uses_identity_partitioned_bounded_redacted_delivery() {
+    let root = test_root("s3-archive-config-shape");
+    let mut config = vector_config(root, None);
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+
+    let rendered = render_vector_config(&config);
+    let sink = &rendered["sinks"]["runtime_v3_s3_archive"];
+
+    assert_eq!(sink["type"], "aws_s3");
+    assert_eq!(sink["inputs"], json!(["runtime_v3_s3_archive_delivery"]));
+    assert_eq!(sink["healthcheck"]["enabled"], false);
+    assert_eq!(sink["buffer"]["type"], "disk");
+    assert_eq!(sink["buffer"]["max_size"], 536_870_912_u64);
+    assert_eq!(sink["buffer"]["when_full"], "drop_newest");
+    assert_eq!(sink["batch"]["max_bytes"], 5_242_880_u64);
+    assert_eq!(sink["batch"]["timeout_secs"], 60);
+    assert_eq!(sink["request"]["retry_attempts"], 5);
+    assert_eq!(sink["request"]["retry_max_duration_secs"], 30);
+    assert_eq!(
+        sink["key_prefix"],
+        "logs/env=dev/polis=konishi/runtime=wuji/year=%Y/month=%m/day=%d/hour=%H/"
+    );
+    assert_eq!(sink["filename_time_format"], "");
+    assert_eq!(sink["filename_append_uuid"], true);
+    assert_eq!(sink["filename_extension"], "json.gz");
+    assert_eq!(sink["compression"], "gzip");
+    assert_eq!(sink["server_side_encryption"], "AES256");
+
+    let rendered_text = serde_json::to_string(&rendered).unwrap();
+    assert!(rendered_text.contains("runtime_v3_redacted"));
+    assert!(rendered_text.contains("adl.runtime_v3.archive_delivery.v1"));
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"service_continues\": true")
+    );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"failure_telemetry\": \"vector_sink_errors\"")
+    );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"drop_telemetry\": \"vector_disk_buffer_drop_newest\"")
+    );
+    assert!(!rendered_text.contains("aws_secret_access_key"));
+    assert!(!rendered_text.contains("aws_access_key_id"));
+    assert!(!rendered_text.contains("password123"));
+    assert!(!sink["key_prefix"].as_str().unwrap().contains("/Users/"));
+    assert!(!sink["key_prefix"].as_str().unwrap().contains("/Volumes/"));
+    assert!(!sink["key_prefix"].as_str().unwrap().contains(".."));
+}
+
+#[test]
+fn pinned_vector_validates_generated_s3_archive_config() {
+    let root = test_root("s3-archive-vector-validate");
+    let mut config = vector_config(root.clone(), None);
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+    let rendered = render_vector_config(&config);
+    let config_path = root.join("runtime-v3-s3-archive-vector.json");
+    fs::write(&config_path, serde_json::to_vec_pretty(&rendered).unwrap()).unwrap();
+
+    let output = Command::new(&config.vector_binary)
+        .arg("validate")
+        .arg("--no-environment")
+        .arg("--skip-healthchecks")
+        .arg("--deny-warnings")
+        .arg("--config-json")
+        .arg(&config_path)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_s3_archive_outage_does_not_block_master_log_progress() {
+    let root = test_root("s3-archive-outage-survival");
+    let mut config = vector_config(root, None);
+    let vector_config_path = config.vector_config_path.clone();
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+
+    let mut pipeline = RuntimeVectorPipeline::start_without_subscriber_for_test(config).unwrap();
+    pipeline.poll_health().unwrap();
+
+    let snapshot = pipeline.snapshot();
+    assert_eq!(
+        serde_json::to_value(&snapshot.health).unwrap()["status"],
+        "ready"
+    );
+    assert_eq!(snapshot.last_failure, None);
+    assert!(snapshot.vector_pid.is_some());
+
+    let master_log_path = pipeline.master_log_path_for_test().to_path_buf();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    loop {
+        if master_log_path.is_file() && !read_records(&master_log_path).is_empty() {
+            break;
+        }
+        if Instant::now() >= deadline {
+            panic!("master log did not progress with s3 archive outage contract enabled");
+        }
+        sleep(Duration::from_millis(25));
+        pipeline.poll_health().unwrap();
+    }
+
+    let records = read_records(&master_log_path);
+    assert!(records.iter().any(|record| {
+        record["operation"] == "vector_pipeline_started"
+            && record["severity"] == "INFO"
+            && record["fields"]["startup_attempt"] == 1
+    }));
+
+    let rendered = serde_json::from_slice::<Value>(&fs::read(vector_config_path).unwrap()).unwrap();
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_s3_archive"]["healthcheck"]["enabled"],
+        false
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_s3_archive"]["buffer"]["when_full"],
+        "drop_newest"
+    );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"failure_telemetry\": \"vector_sink_errors\"")
+    );
+    assert!(
+        rendered["transforms"]["runtime_v3_s3_archive_delivery"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("\"drop_telemetry\": \"vector_disk_buffer_drop_newest\"")
+    );
+
+    pipeline.shutdown().await.unwrap();
+}
+
+#[test]
+fn pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses() {
+    let root = test_root("s3-archive-vector-outage");
+    let mut config = vector_config(root.clone(), None);
+    config.s3_archive = Some(RuntimeS3LogArchiveInitConfig {
+        region: "us-west-2".to_owned(),
+        bucket: "agent-logic-runtime-log-archive-dev".to_owned(),
+        environment: "dev".to_owned(),
+        polis_id: "konishi".to_owned(),
+        runtime_id: "wuji".to_owned(),
+    });
+
+    fs::create_dir_all(config.ingress_spool_path.parent().unwrap()).unwrap();
+    fs::create_dir_all(&config.vector_data_dir).unwrap();
+    write_records(
+        &config.ingress_spool_path,
+        &[record(
+            0,
+            "INFO",
+            "s3_archive_outage_probe",
+            "s3_endpoint_unreachable",
+            "wp-12",
+        )],
+    );
+
+    let mut rendered = render_vector_config(&config);
+    rendered["sinks"]["runtime_v3_s3_archive"]["endpoint"] = json!("http://127.0.0.1:9");
+    rendered["sinks"]["runtime_v3_s3_archive"]["force_path_style"] = json!(true);
+    rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["max_bytes"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["max_events"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["timeout_secs"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["request"]["retry_attempts"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["request"]["retry_max_duration_secs"] = json!(1);
+    rendered["sinks"]["runtime_v3_s3_archive"]["request"]["timeout_secs"] = json!(1);
+
+    fs::create_dir_all(config.vector_config_path.parent().unwrap()).unwrap();
+    fs::write(
+        &config.vector_config_path,
+        serde_json::to_vec_pretty(&rendered).unwrap(),
+    )
+    .unwrap();
+    let stdout_path = root.join("vector-s3-outage.stdout.jsonl");
+    let stderr_path = root.join("vector-s3-outage.stderr.jsonl");
+    let stdout = fs::File::create(&stdout_path).unwrap();
+    let stderr = fs::File::create(&stderr_path).unwrap();
+
+    let mut child = Command::new(&config.vector_binary)
+        .arg("--config-json")
+        .arg(&config.vector_config_path)
+        .arg("--require-healthy")
+        .arg("false")
+        .arg("--log-format")
+        .arg("json")
+        .arg("--color")
+        .arg("never")
+        .arg("--graceful-shutdown-limit-secs")
+        .arg("1")
+        .env("AWS_ACCESS_KEY_ID", "issue-594-test-access-key")
+        .env("AWS_SECRET_ACCESS_KEY", "issue-594-test-secret-key")
+        .env("AWS_EC2_METADATA_DISABLED", "true")
+        .stdin(Stdio::null())
+        .stdout(Stdio::from(stdout))
+        .stderr(Stdio::from(stderr))
+        .spawn()
+        .unwrap();
+
+    let deadline = Instant::now() + Duration::from_secs(20);
+    let mut master_log_progressed = false;
+    let mut s3_failure_observed = false;
+    loop {
+        if !master_log_progressed && config.master_log_path.is_file() {
+            let records = read_records(&config.master_log_path);
+            master_log_progressed = records
+                .iter()
+                .any(|record| record["operation"] == "s3_archive_outage_probe");
+        }
+        if !s3_failure_observed {
+            let vector_logs = format!(
+                "{}\n{}",
+                fs::read_to_string(&stdout_path).unwrap_or_default(),
+                fs::read_to_string(&stderr_path).unwrap_or_default()
+            );
+            s3_failure_observed = vector_logs.contains("runtime_v3_s3_archive")
+                && vector_logs.contains("Retries exhausted; dropping the request.")
+                && vector_logs.contains("Service call failed. No retries or retries exhausted.")
+                && vector_logs.contains("Events dropped");
+        }
+        if master_log_progressed && s3_failure_observed {
+            break;
+        }
+        if Instant::now() >= deadline {
+            let _ = child.kill();
+            let _ = child.wait();
+            panic!(
+                "timed out waiting for master log progress ({master_log_progressed}) and s3 failure telemetry ({s3_failure_observed}); stdout: {}; stderr: {}",
+                fs::read_to_string(&stdout_path).unwrap_or_default(),
+                fs::read_to_string(&stderr_path).unwrap_or_default(),
+            );
+        }
+        if let Some(status) = child.try_wait().unwrap() {
+            panic!(
+                "vector exited before outage proof completed: {status}; stdout: {}; stderr: {}",
+                fs::read_to_string(&stdout_path).unwrap_or_default(),
+                fs::read_to_string(&stderr_path).unwrap_or_default(),
+            );
+        }
+        sleep(Duration::from_millis(100));
+    }
+
+    if child.try_wait().unwrap().is_none() {
+        let _ = child.kill();
+    }
+    let _ = child.wait();
 }
 
 #[test]
@@ -657,6 +979,8 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         vector_data_dir: root.join("observability/vector-data"),
         spool_max_bytes: 8 * 1024 * 1024,
         spool_retained_files: 4,
+        cloudwatch: None,
+        s3_archive: None,
     }
 }
 

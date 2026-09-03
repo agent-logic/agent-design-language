@@ -68,6 +68,7 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
             "review assignment is incomplete",
         ));
     }
+    reject_self_staling_review_scope(request.issue, &request.scope)?;
     let revision = crate::git::substantive_revision(store.root(), &request.scope)?;
     let head = crate::git::run(store.root(), &["rev-parse", "HEAD"])?.stdout;
     if revision != crate::git::clean_commit_revision(&head) {
@@ -84,6 +85,21 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
         scope: request.scope,
     };
     store.commit_review_assignment(request.issue, &request.expected_digest, assignment)
+}
+
+fn reject_self_staling_review_scope(issue: u64, scope: &[String]) -> Result<()> {
+    let lifecycle_prefix = format!(".csdlc/issues/{issue}");
+    let wildcard_prefix = format!("{lifecycle_prefix}/");
+    if scope.iter().any(|path| {
+        let normalized = path.trim().trim_end_matches("/**").trim_end_matches('/');
+        normalized == lifecycle_prefix || normalized.starts_with(&wildcard_prefix)
+    }) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "review assignment scope must not include the issue's generated lifecycle record",
+        ));
+    }
+    Ok(())
 }
 
 fn require_registered_worktree(store: &Store, record: &crate::IssueRecord) -> Result<()> {

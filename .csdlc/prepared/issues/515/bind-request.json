@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "base_branch": "main",
+  "branch": "codex/515-v0-92-1-prov-b-local-model-shadow-execution",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-515-local-model-shadow-execution",
+  "code_repository": "agent-logic/agent-design-language"
+}

@@ -1,0 +1,16 @@
+{
+  "issue": 263,
+  "card": "sip",
+  "expected_generation": 3,
+  "expected_digest": "29c0cb1c52408d6ce062dd241660c9adc822b2edf0158af769d6ee47925bb5b8",
+  "actor": "codex:/root/podcast-readiness",
+  "reason": "Record the operator-directed Sprint 8 podcast working show name in the typed preparation bundle.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "initial_assumptions",
+    "values": [
+      "Sprint 8 podcast preparation uses `The Cognitive Stack` as the operator-directed working show name unless superseded by a later typed issue update.",
+      "The working show name is not a legal or trademark clearance claim, directory availability proof, mailbox ownership proof, or public launch authorization."
+    ]
+  }
+}

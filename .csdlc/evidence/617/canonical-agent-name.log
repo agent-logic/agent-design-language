@@ -1,0 +1,10 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-617-runtime-api-canonical-agent-names/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.41s
+────────────
+ Nextest run ID f78c64c1-76fa-45c6-9120-7c2ef5719b5a with nextest profile: default
+    Starting 3 tests across 5 binaries (91 tests skipped)
+        PASS [   0.008s] (1/3) adl-runtime-kernel::openapi_contract canonical_name_is_required_by_agent_roster_openapi_contract
+        PASS [   0.013s] (2/3) adl-runtime-kernel::agent_roster canonical_name_is_projected_and_old_v1_entries_remain_readable
+        PASS [   0.017s] (3/3) adl-runtime-kernel::configuration canonical_name_is_required_for_resident_shepherd_configuration
+────────────
+     Summary [   0.018s] 3 tests run: 3 passed, 91 skipped

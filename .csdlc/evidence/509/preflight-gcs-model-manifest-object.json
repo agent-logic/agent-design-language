@@ -1,0 +1,16 @@
+{
+  "bucket": "adl-issue509-artifacts-cs-host-377d41e71a824f92802120",
+  "content_type": "application/json",
+  "crc32c_hash": "ep1g+w==",
+  "creation_time": "2026-09-02T18:16:30+0000",
+  "etag": "CNnttcbA0JYDEAE=",
+  "generation": "1788372990129881",
+  "md5_hash": "05CfpBVCU28Di3wxNyNCAw==",
+  "metageneration": 1,
+  "name": "models/ollama/issue509/issue509-linux-runtime-9f6bae16-202609021814/portable-model-bundle.json",
+  "size": 9324,
+  "storage_class": "STANDARD",
+  "storage_class_update_time": "2026-09-02T18:16:30+0000",
+  "storage_url": "gs://adl-issue509-artifacts-cs-host-377d41e71a824f92802120/models/ollama/issue509/issue509-linux-runtime-9f6bae16-202609021814/portable-model-bundle.json#1788372990129881",
+  "update_time": "2026-09-02T18:16:30+0000"
+}

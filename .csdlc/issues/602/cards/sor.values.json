@@ -1,0 +1,65 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 602,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
+    "slug": "runtime-csmctl-dynamic-agent-admission",
+    "version": "v0.92.1",
+    "generation": 31
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented config-driven dynamic Ollama agent admission and lifecycle management through csmctl and proved the exact candidate live on Wuji.",
+      "actual_changes": [
+        "Added authenticated csmctl agent add --config plus list, get, checkpoint, dehydrate, migrate, rehydrate, and remove commands.",
+        "Separated canonical two-part agent identity and display name from provider, model, endpoint, and first-class office configuration.",
+        "Added durable Runtime dynamic-agent state, real Ollama execution, concurrent health, checkpoints with conversation continuity, two-phase migration, and legacy persisted-store compatibility.",
+        "Updated the Runtime route inventory, Observatory OpenAPI contract, portable example configuration, and focused tests.",
+        "Added authenticated csmctl agent add --config plus list, get, checkpoint, dehydrate, migrate, rehydrate, and remove commands.",
+        "Separated canonical two-part agent identity and display name from provider, model, endpoint, and first-class office configuration; persisted records reject simultaneous current office and legacy role authority.",
+        "Added durable Runtime dynamic-agent state, governed Ollama execution, health, checkpoints with conversation continuity, two-phase migration, and unambiguous legacy persisted-store compatibility.",
+        "Rebased issue 602 onto current main so PR 614 contains only issue 602 work."
+      ],
+      "artifacts": [
+        ".csdlc/prepared/issues/602/design.md",
+        ".csdlc/prepared/issues/602/diagram.mmd",
+        ".csdlc/prepared/issues/602/validate-focused.sh",
+        "infra/runtime-v3/agents/ember.axioma.yaml",
+        ".csdlc/prepared/issues/602/design.md",
+        ".csdlc/prepared/issues/602/diagram.mmd",
+        ".csdlc/prepared/issues/602/validate-focused.sh",
+        ".csdlc/evidence/602/live-wuji-acceptance.md",
+        "infra/runtime-v3/agents/ember.axioma.yaml"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "/bin/bash",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add/.csdlc/prepared/issues/602/validate-focused.sh"
+          ],
+          "purpose": "Issue 602 focused implementation validation",
+          "outcome": "passed",
+          "evidence_ref": "focused-agent-lifecycle.log"
+        },
+        {
+          "command": [
+            "bash .csdlc/prepared/issues/602/validate-focused.sh",
+            "exact-candidate csmctl add, duplicate, checkpoint, migrate, rehydrate, authenticated WSS inference, clean restart, and roster verification on Wuji"
+          ],
+          "purpose": "Prove issue 602 focused contracts and the required live Wuji lifecycle and gemma4:e4b-mlx inference acceptance.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/602/live-wuji-acceptance.md"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

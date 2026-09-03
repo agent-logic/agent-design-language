@@ -1,0 +1,20 @@
+{
+  "issue": 596,
+  "card": "spp",
+  "expected_generation": 23,
+  "expected_digest": "8f4355ed3013989c8e7864f73ed4ace713b66473ad823ca87f9a653912a98b6a",
+  "actor": "codex:worker-6",
+  "reason": "Correct SPP stop conditions after restoring v3 separation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Primary checkout is no longer clean on main",
+      "PR #615 body would close #505 or #534",
+      "The branch gains a net csdlc-v2 source/test diff",
+      "Typed C-SDLC v2 owner refuses required lifecycle mutation",
+      "Fix requires widening beyond sprint remediation"
+    ]
+  },
+  "fail_after_backup": false
+}

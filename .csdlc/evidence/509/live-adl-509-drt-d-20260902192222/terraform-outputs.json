@@ -1,0 +1,37 @@
+{
+  "instance_cleanup_selector": {
+    "sensitive": false,
+    "type": "string",
+    "value": "labels.issue=509 AND labels.lane=drt-d AND labels.run_id=adl-509-drt-d-20260902192222"
+  },
+  "ollama_instance_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "adl-509-drt-d-20260902192222-ollama"
+  },
+  "ollama_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.138.0.22"
+  },
+  "ollama_receipt_path": {
+    "sensitive": false,
+    "type": "string",
+    "value": "/var/lib/adl/issue509/ollama-ready.json"
+  },
+  "runtime_instance_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "adl-509-drt-d-20260902192222-runtime"
+  },
+  "runtime_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.138.0.23"
+  },
+  "runtime_receipt_path": {
+    "sensitive": false,
+    "type": "string",
+    "value": "/var/lib/adl/issue509/final.json"
+  }
+}

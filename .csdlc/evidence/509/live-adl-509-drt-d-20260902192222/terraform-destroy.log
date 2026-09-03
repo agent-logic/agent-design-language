@@ -1,0 +1,510 @@
+[0m[1mdata.google_compute_network.private: Reading...[0m[0m
+[0m[1mdata.google_compute_network.private: Read complete after 0s [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default][0m
+[0m[1mmodule.two_node_ollama_runtime.data.google_compute_subnetwork.private: Reading...[0m[0m
+[0m[1mmodule.two_node_ollama_runtime.data.google_compute_subnetwork.private: Read complete after 1s [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-west1/subnetworks/default][0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Refreshing state... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-ollama][0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Refreshing state... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-runtime][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [31m-[0m destroy[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.two_node_ollama_runtime.google_compute_instance.ollama[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "google_compute_instance" "ollama" {
+      [31m-[0m[0m can_ip_forward             = false [90m-> null[0m[0m
+      [31m-[0m[0m cpu_platform               = "Intel Cascade Lake" [90m-> null[0m[0m
+      [31m-[0m[0m creation_timestamp         = "2026-09-02T12:22:37.702-07:00" [90m-> null[0m[0m
+      [31m-[0m[0m current_status             = "RUNNING" [90m-> null[0m[0m
+      [31m-[0m[0m deletion_policy            = "DELETE" [90m-> null[0m[0m
+      [31m-[0m[0m deletion_protection        = false [90m-> null[0m[0m
+      [31m-[0m[0m effective_labels           = {
+          [31m-[0m[0m "app"                        = "adl"
+          [31m-[0m[0m "goog-terraform-provisioned" = "true"
+          [31m-[0m[0m "issue"                      = "509"
+          [31m-[0m[0m "lane"                       = "drt-d"
+          [31m-[0m[0m "milestone"                  = "v0-92-1"
+          [31m-[0m[0m "owner"                      = "agent-logic"
+          [31m-[0m[0m "run_id"                     = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "ttl"                        = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m enable_display             = false [90m-> null[0m[0m
+      [31m-[0m[0m id                         = "projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-ollama" [90m-> null[0m[0m
+      [31m-[0m[0m instance_id                = "5300879606460828050" [90m-> null[0m[0m
+      [31m-[0m[0m label_fingerprint          = "SXhid826VxQ=" [90m-> null[0m[0m
+      [31m-[0m[0m labels                     = {
+          [31m-[0m[0m "app"       = "adl"
+          [31m-[0m[0m "issue"     = "509"
+          [31m-[0m[0m "lane"      = "drt-d"
+          [31m-[0m[0m "milestone" = "v0-92-1"
+          [31m-[0m[0m "owner"     = "agent-logic"
+          [31m-[0m[0m "run_id"    = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "ttl"       = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m machine_type               = "g2-standard-4" [90m-> null[0m[0m
+      [31m-[0m[0m metadata                   = {
+          [31m-[0m[0m "adl-artifact-bucket"          = "adl-issue509-artifacts-cs-host-377d41e71a824f92802120"
+          [31m-[0m[0m "adl-artifact-manifest-object" = "models/ollama/issue509/issue509-linux-runtime-9f6bae16-202609021814/portable-model-bundle.json"
+          [31m-[0m[0m "adl-artifact-manifest-sha256" = "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc"
+          [31m-[0m[0m "adl-cleanup-required"         = "true"
+          [31m-[0m[0m "adl-issue"                    = "509"
+          [31m-[0m[0m "adl-lane"                     = "drt-d"
+          [31m-[0m[0m "adl-max-budget-usd"           = "20"
+          [31m-[0m[0m "adl-node-role"                = "ollama-gpu"
+          [31m-[0m[0m "adl-resident-models"          = jsonencode(
+                [
+                  [31m-[0m[0m "llama3.1:8b",
+                  [31m-[0m[0m "qwen3:8b",
+                  [31m-[0m[0m "phi4-mini:latest",
+                ]
+            )
+          [31m-[0m[0m "adl-run-id"                   = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "adl-source-revision"          = "f61de6ac171253db3d0afb47ec3e4c1838b47c54"
+          [31m-[0m[0m "adl-ttl-expires-at"           = "2026-09-02T23:22:33Z"
+          [31m-[0m[0m "enable-oslogin"               = "TRUE"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m metadata_fingerprint       = "NCcU7OgThIQ=" [90m-> null[0m[0m
+      [31m-[0m[0m metadata_startup_script    = <<-EOT
+            #!/bin/bash
+            set -Eeuo pipefail
+            
+            install -d -m 0755 /var/lib/adl/issue509 /var/log/adl
+            log=/var/log/adl/issue509-ollama.log
+            exec >"$log" 2>&1
+            
+            echo "issue=509"
+            echo "node_role=ollama-gpu"
+            date -u '+started_at=%Y-%m-%dT%H:%M:%SZ'
+            
+            export DEBIAN_FRONTEND=noninteractive
+            for command in curl jq gcloud tar sha256sum systemd-run; do
+              command -v "$command" >/dev/null 2>&1 || {
+                echo "missing preinstalled launch dependency: $command" >&2
+                exit 2
+              }
+            done
+            
+            artifact_bucket="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-artifact-bucket)"
+            run_id="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-run-id)"
+            manifest_object="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-artifact-manifest-object)"
+            manifest_sha="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-artifact-manifest-sha256)"
+            manifest=/var/lib/adl/issue509/portable-model-bundle.json
+            receipt_object="models/ollama/issue509/receipts/${run_id}/ollama-ready.json"
+            
+            gcloud storage cp "gs://${artifact_bucket}/${manifest_object}" "$manifest"
+            printf '%s  %s\n' "$manifest_sha" "$manifest" | sha256sum -c -
+            
+            jq -e '
+              .schema == "adl.shepherd.portable_model_bundle.v2"
+              and ((.models | map(.model_identity) | sort) == (["llama3.1:8b","qwen3:8b","phi4-mini:latest"] | sort))
+              and ([.artifacts[] | select(.kind == "ollama_runtime")] | length == 1)
+              and (([.artifacts[] | select(.kind == "ollama_model_manifest") | .model_identity] | sort | unique) == (["llama3.1:8b","qwen3:8b","phi4-mini:latest"] | sort))
+              and ([.artifacts[] | select(.kind == "ollama_model_blob")] | length > 0)
+              and all(.artifacts[]; (.sha256 | test("^[0-9a-f]{64}$")) and (.object | type == "string" and length > 0))
+            ' "$manifest" >/dev/null
+            
+            mkdir -p /var/lib/adl/issue509/artifacts /opt/adl-ollama-models
+            while IFS=$'\t' read -r kind object relative sha archive_format; do
+              dest="/var/lib/adl/issue509/artifacts/$relative"
+              mkdir -p "$(dirname "$dest")"
+              gcloud storage cp "gs://${artifact_bucket}/${object}" "$dest"
+              printf '%s  %s\n' "$sha" "$dest" | sha256sum -c -
+              if [[ "$kind" == "ollama_runtime" ]]; then
+                if [[ "$archive_format" == "tar.gz" ]]; then
+                  tar -xzf "$dest" -C /usr/local
+                elif [[ "$archive_format" == "tar" ]]; then
+                  tar -xf "$dest" -C /usr/local
+                else
+                  echo "unsupported ollama runtime archive_format: $archive_format" >&2
+                  exit 2
+                fi
+              elif [[ "$kind" == "ollama_model_manifest" || "$kind" == "ollama_model_blob" ]]; then
+                install -d -m 0755 "$(dirname "/opt/adl-ollama-models/$relative")"
+                cp "$dest" "/opt/adl-ollama-models/$relative"
+              fi
+            done < <(jq -r '.artifacts[] | select(.kind == "ollama_runtime" or .kind == "ollama_model_manifest" or .kind == "ollama_model_blob") | [.kind,.object,.relative_path,.sha256,(.archive_format // "")] | @tsv' "$manifest")
+            
+            systemd-run --unit=adl-ollama \
+              --property=Restart=always \
+              --property=RestartSec=1s \
+              --property=StartLimitIntervalSec=0 \
+              --setenv=HOME=/var/lib/adl/issue509 \
+              --setenv=OLLAMA_MODELS=/opt/adl-ollama-models/models \
+              --setenv=OLLAMA_HOST=0.0.0.0:11434 \
+              --setenv=OLLAMA_KEEP_ALIVE=-1 \
+              --setenv=OLLAMA_MAX_LOADED_MODELS=3 \
+              /usr/local/bin/ollama serve
+            
+            for _ in $(seq 1 120); do
+              curl -fsS http://127.0.0.1:11434/api/version >/dev/null && break
+              sleep 2
+            done
+            
+            for model in llama3.1:8b qwen3:8b phi4-mini:latest; do
+              jq -n --arg model "$model" '{model:$model,prompt:"Reply OK.",stream:false,keep_alive:-1,options:{num_predict:1}}' |
+                curl -fsS http://127.0.0.1:11434/api/generate -d @- >/dev/null
+            done
+            
+            models="$(curl -fsS http://127.0.0.1:11434/api/ps | jq -ce '
+              [.models[] | {model_identity:(.name // .model), digest:(.digest // ""), size_vram:(.size_vram // 0)}]
+              | sort_by(.model_identity)
+            ')"
+            
+            jq -n --argjson models "$models" \
+              --arg artifact_manifest_sha256 "$manifest_sha" \
+              '{schema:"adl.issue509.ollama_gpu_receipt.v1",status:"ready",ollama_public:false,model_source:"gcs_object_storage",artifact_manifest_sha256:$artifact_manifest_sha256,model_count:($models|length),models:$models}' \
+              >/var/lib/adl/issue509/ollama-ready.json
+            gcloud storage cp /var/lib/adl/issue509/ollama-ready.json "gs://${artifact_bucket}/${receipt_object}"
+            
+            date -u '+finished_at=%Y-%m-%dT%H:%M:%SZ'
+        EOT [90m-> null[0m[0m
+      [31m-[0m[0m name                       = "adl-509-drt-d-20260902192222-ollama" [90m-> null[0m[0m
+      [31m-[0m[0m project                    = "cs-poc-cha8mmii0xk0iaw5vpf8mxf" [90m-> null[0m[0m
+      [31m-[0m[0m resource_policies          = [] [90m-> null[0m[0m
+      [31m-[0m[0m self_link                  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-ollama" [90m-> null[0m[0m
+      [31m-[0m[0m tags                       = [
+          [31m-[0m[0m "adl-494-gpu-smoke",
+          [31m-[0m[0m "adl-494-gpu-smoke-ollama",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m tags_fingerprint           = "O2PK6FZG04E=" [90m-> null[0m[0m
+      [31m-[0m[0m terraform_labels           = {
+          [31m-[0m[0m "app"                        = "adl"
+          [31m-[0m[0m "goog-terraform-provisioned" = "true"
+          [31m-[0m[0m "issue"                      = "509"
+          [31m-[0m[0m "lane"                       = "drt-d"
+          [31m-[0m[0m "milestone"                  = "v0-92-1"
+          [31m-[0m[0m "owner"                      = "agent-logic"
+          [31m-[0m[0m "run_id"                     = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "ttl"                        = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m zone                       = "us-west1-a" [90m-> null[0m[0m
+        [90m# (4 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m boot_disk {
+          [31m-[0m[0m auto_delete                     = true [90m-> null[0m[0m
+          [31m-[0m[0m device_name                     = "persistent-disk-0" [90m-> null[0m[0m
+          [31m-[0m[0m force_attach                    = false [90m-> null[0m[0m
+          [31m-[0m[0m guest_os_features               = [
+              [31m-[0m[0m "VIRTIO_SCSI_MULTIQUEUE",
+              [31m-[0m[0m "UEFI_COMPATIBLE",
+              [31m-[0m[0m "GVNIC",
+            ] [90m-> null[0m[0m
+          [31m-[0m[0m mode                            = "READ_WRITE" [90m-> null[0m[0m
+          [31m-[0m[0m source                          = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/disks/adl-509-drt-d-20260902192222-ollama" [90m-> null[0m[0m
+            [90m# (6 unchanged attributes hidden)[0m[0m
+
+          [31m-[0m[0m initialize_params {
+              [31m-[0m[0m enable_confidential_compute = false [90m-> null[0m[0m
+              [31m-[0m[0m image                       = "https://www.googleapis.com/compute/v1/projects/deeplearning-platform-release/global/images/common-cu129-ubuntu-2204-nvidia-580-v20260831" [90m-> null[0m[0m
+              [31m-[0m[0m labels                      = {} [90m-> null[0m[0m
+              [31m-[0m[0m provisioned_iops            = 0 [90m-> null[0m[0m
+              [31m-[0m[0m provisioned_throughput      = 0 [90m-> null[0m[0m
+              [31m-[0m[0m replica_zones               = [] [90m-> null[0m[0m
+              [31m-[0m[0m resource_manager_tags       = {} [90m-> null[0m[0m
+              [31m-[0m[0m resource_policies           = [] [90m-> null[0m[0m
+              [31m-[0m[0m size                        = 200 [90m-> null[0m[0m
+              [31m-[0m[0m type                        = "pd-balanced" [90m-> null[0m[0m
+                [90m# (3 unchanged attributes hidden)[0m[0m
+            }
+        }
+
+      [31m-[0m[0m guest_accelerator {
+          [31m-[0m[0m count = 1 [90m-> null[0m[0m
+          [31m-[0m[0m type  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/acceleratorTypes/nvidia-l4" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m network_interface {
+          [31m-[0m[0m internal_ipv6_prefix_length = 0 [90m-> null[0m[0m
+          [31m-[0m[0m name                        = "nic0" [90m-> null[0m[0m
+          [31m-[0m[0m network                     = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default" [90m-> null[0m[0m
+          [31m-[0m[0m network_ip                  = "10.138.0.22" [90m-> null[0m[0m
+          [31m-[0m[0m queue_count                 = 0 [90m-> null[0m[0m
+          [31m-[0m[0m stack_type                  = "IPV4_ONLY" [90m-> null[0m[0m
+          [31m-[0m[0m subnetwork                  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-west1/subnetworks/default" [90m-> null[0m[0m
+          [31m-[0m[0m subnetwork_project          = "cs-poc-cha8mmii0xk0iaw5vpf8mxf" [90m-> null[0m[0m
+          [31m-[0m[0m vlan                        = 0 [90m-> null[0m[0m
+            [90m# (6 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m scheduling {
+          [31m-[0m[0m automatic_restart           = false [90m-> null[0m[0m
+          [31m-[0m[0m availability_domain         = 0 [90m-> null[0m[0m
+          [31m-[0m[0m host_error_timeout_seconds  = 0 [90m-> null[0m[0m
+          [31m-[0m[0m min_node_cpus               = 0 [90m-> null[0m[0m
+          [31m-[0m[0m on_host_maintenance         = "TERMINATE" [90m-> null[0m[0m
+          [31m-[0m[0m preemptible                 = false [90m-> null[0m[0m
+          [31m-[0m[0m provisioning_model          = "STANDARD" [90m-> null[0m[0m
+            [90m# (2 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m service_account {
+          [31m-[0m[0m email  = "adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com" [90m-> null[0m[0m
+          [31m-[0m[0m scopes = [
+              [31m-[0m[0m "https://www.googleapis.com/auth/cloud-platform",
+            ] [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m shielded_instance_config {
+          [31m-[0m[0m enable_integrity_monitoring = true [90m-> null[0m[0m
+          [31m-[0m[0m enable_secure_boot          = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_vtpm                 = true [90m-> null[0m[0m
+        }
+    }
+
+[1m  # module.two_node_ollama_runtime.google_compute_instance.runtime[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "google_compute_instance" "runtime" {
+      [31m-[0m[0m can_ip_forward             = false [90m-> null[0m[0m
+      [31m-[0m[0m cpu_platform               = "Intel Broadwell" [90m-> null[0m[0m
+      [31m-[0m[0m creation_timestamp         = "2026-09-02T12:22:54.845-07:00" [90m-> null[0m[0m
+      [31m-[0m[0m current_status             = "RUNNING" [90m-> null[0m[0m
+      [31m-[0m[0m deletion_policy            = "DELETE" [90m-> null[0m[0m
+      [31m-[0m[0m deletion_protection        = false [90m-> null[0m[0m
+      [31m-[0m[0m effective_labels           = {
+          [31m-[0m[0m "app"                        = "adl"
+          [31m-[0m[0m "goog-terraform-provisioned" = "true"
+          [31m-[0m[0m "issue"                      = "509"
+          [31m-[0m[0m "lane"                       = "drt-d"
+          [31m-[0m[0m "milestone"                  = "v0-92-1"
+          [31m-[0m[0m "owner"                      = "agent-logic"
+          [31m-[0m[0m "run_id"                     = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "ttl"                        = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m enable_display             = false [90m-> null[0m[0m
+      [31m-[0m[0m id                         = "projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-runtime" [90m-> null[0m[0m
+      [31m-[0m[0m instance_id                = "5814900983208462689" [90m-> null[0m[0m
+      [31m-[0m[0m label_fingerprint          = "SXhid826VxQ=" [90m-> null[0m[0m
+      [31m-[0m[0m labels                     = {
+          [31m-[0m[0m "app"       = "adl"
+          [31m-[0m[0m "issue"     = "509"
+          [31m-[0m[0m "lane"      = "drt-d"
+          [31m-[0m[0m "milestone" = "v0-92-1"
+          [31m-[0m[0m "owner"     = "agent-logic"
+          [31m-[0m[0m "run_id"    = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "ttl"       = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m machine_type               = "e2-standard-4" [90m-> null[0m[0m
+      [31m-[0m[0m metadata                   = {
+          [31m-[0m[0m "adl-artifact-bucket"          = "adl-issue509-artifacts-cs-host-377d41e71a824f92802120"
+          [31m-[0m[0m "adl-artifact-manifest-object" = "models/ollama/issue509/issue509-linux-runtime-9f6bae16-202609021814/portable-model-bundle.json"
+          [31m-[0m[0m "adl-artifact-manifest-sha256" = "2074c5ac4a9b8aa1842dbd841c2f63bd74614820cd6721910f9e685d57846bdc"
+          [31m-[0m[0m "adl-cleanup-required"         = "true"
+          [31m-[0m[0m "adl-issue"                    = "509"
+          [31m-[0m[0m "adl-lane"                     = "drt-d"
+          [31m-[0m[0m "adl-max-budget-usd"           = "20"
+          [31m-[0m[0m "adl-node-role"                = "runtime-csm"
+          [31m-[0m[0m "adl-ollama-private-ip"        = "10.138.0.22"
+          [31m-[0m[0m "adl-resident-models"          = jsonencode(
+                [
+                  [31m-[0m[0m "llama3.1:8b",
+                  [31m-[0m[0m "qwen3:8b",
+                  [31m-[0m[0m "phi4-mini:latest",
+                ]
+            )
+          [31m-[0m[0m "adl-run-id"                   = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "adl-source-revision"          = "f61de6ac171253db3d0afb47ec3e4c1838b47c54"
+          [31m-[0m[0m "adl-ttl-expires-at"           = "2026-09-02T23:22:33Z"
+          [31m-[0m[0m "enable-oslogin"               = "TRUE"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m metadata_fingerprint       = "d0Yr-MzGDE4=" [90m-> null[0m[0m
+      [31m-[0m[0m metadata_startup_script    = <<-EOT
+            #!/bin/bash
+            set -Eeuo pipefail
+            
+            install -d -m 0755 /var/lib/adl/issue509 /var/log/adl
+            log=/var/log/adl/issue509-runtime.log
+            exec >"$log" 2>&1
+            
+            echo "issue=509"
+            echo "node_role=runtime-csm"
+            date -u '+started_at=%Y-%m-%dT%H:%M:%SZ'
+            
+            export DEBIAN_FRONTEND=noninteractive
+            for command in curl jq gcloud tar sha256sum python3; do
+              command -v "$command" >/dev/null 2>&1 || {
+                echo "missing preinstalled launch dependency: $command" >&2
+                exit 2
+              }
+            done
+            
+            ollama_ip="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-ollama-private-ip)"
+            source_revision="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-source-revision)"
+            artifact_bucket="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-artifact-bucket)"
+            run_id="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-run-id)"
+            manifest_object="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-artifact-manifest-object)"
+            manifest_sha="$(curl -fsS -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/instance/attributes/adl-artifact-manifest-sha256)"
+            manifest=/var/lib/adl/issue509/portable-model-bundle.json
+            receipt_object="models/ollama/issue509/receipts/${run_id}/runtime-final.json"
+            
+            for _ in $(seq 1 180); do
+              curl -fsS "http://${ollama_ip}:11434/api/ps" >/dev/null && break
+              sleep 5
+            done
+            
+            gcloud storage cp "gs://${artifact_bucket}/${manifest_object}" "$manifest"
+            printf '%s  %s\n' "$manifest_sha" "$manifest" | sha256sum -c -
+            runtime_object="$(jq -r '.artifacts[] | select(.kind == "runtime_bundle") | .object' "$manifest")"
+            runtime_relative="$(jq -r '.artifacts[] | select(.kind == "runtime_bundle") | .relative_path' "$manifest")"
+            runtime_sha="$(jq -r '.artifacts[] | select(.kind == "runtime_bundle") | .sha256' "$manifest")"
+            [[ -n "$runtime_object" && "$runtime_object" != "null" ]] || { echo "runtime_bundle missing from artifact manifest" >&2; exit 2; }
+            runtime_bundle="/var/lib/adl/issue509/artifacts/$runtime_relative"
+            mkdir -p "$(dirname "$runtime_bundle")" /opt/adl-runtime
+            gcloud storage cp "gs://${artifact_bucket}/${runtime_object}" "$runtime_bundle"
+            printf '%s  %s\n' "$runtime_sha" "$runtime_bundle" | sha256sum -c -
+            tar -xzf "$runtime_bundle" -C /opt/adl-runtime
+            
+            jq '.provider.runtime_surface="gcp_private_ollama_http" | .provider.local_required=false | .provider.cloud_escalation_optional=false | .provider.cloud_escalation_authoritative=true' \
+              /opt/adl-runtime/config/issue268_six_resident_uts_plan.json >/var/lib/adl/issue509/plan.json
+            
+            remote_runner=/var/lib/adl/issue509/run-six-resident-gcp.py
+            sed "s#http://127.0.0.1:11434#http://${ollama_ip}:11434#g" \
+              /opt/adl-runtime/config/run_issue268_six_resident_uts_cycle.py >"$remote_runner"
+            
+            mkdir -p /var/lib/adl/issue509/agent-evidence
+            python3 "$remote_runner" \
+              --phase pre \
+              --state /var/lib/adl/issue509/agent-state.json \
+              --evidence-dir /var/lib/adl/issue509/agent-evidence \
+              --plan /var/lib/adl/issue509/plan.json \
+              --task-panel /opt/adl-runtime/config/issue268_runtime_uts_task_panel.json \
+              --runtime-bin /opt/adl-runtime/bin/adl \
+              --runtime-root /var/lib/adl/issue509/runtime \
+              >/var/log/adl/issue509-six-resident.log 2>&1
+            
+            agents="$(jq -sc 'map(select(.agent_test_outcome=="executed" and .runtime_exit_code==0 and .runtime_receipt.decision=="executed"))|select(length==6)' /var/lib/adl/issue509/agent-evidence/pre-*.json)"
+            ollama_models="$(curl -fsS "http://${ollama_ip}:11434/api/ps" | jq -ce '[.models[] | {model_identity:(.name // .model), digest:(.digest // ""), size_vram:(.size_vram // 0)}] | sort_by(.model_identity)')"
+            
+            jq -n \
+              --arg source_revision "$source_revision" \
+              --arg ollama_private_ip "$ollama_ip" \
+              --arg artifact_manifest_sha256 "$manifest_sha" \
+              --argjson residents "$agents" \
+              --argjson ollama_models "$ollama_models" \
+              '{
+                schema:"adl.issue509.gcp_drt_d_runtime_receipt.v1",
+                status:"passed",
+                source_revision:$source_revision,
+                topology:{node_count:2,runtime_node:"gcp_compute_instance.runtime",ollama_node:"gcp_compute_instance.ollama",ollama_private_ip:$ollama_private_ip,ollama_public:false},
+                provider:{kind:"ollama",runtime_surface:"gcp_private_ollama_http",model_source:"gcs_object_storage",artifact_manifest_sha256:$artifact_manifest_sha256,model_count:($ollama_models|length),models:$ollama_models},
+                residents:$residents,
+                components_exercised:["gcp_compute_runtime_node","gcp_compute_ollama_gpu_node","six_resident_uts_runtime","private_ollama_http"]
+              }' >/var/lib/adl/issue509/final.json
+            gcloud storage cp /var/lib/adl/issue509/final.json "gs://${artifact_bucket}/${receipt_object}"
+            
+            date -u '+finished_at=%Y-%m-%dT%H:%M:%SZ'
+        EOT [90m-> null[0m[0m
+      [31m-[0m[0m name                       = "adl-509-drt-d-20260902192222-runtime" [90m-> null[0m[0m
+      [31m-[0m[0m project                    = "cs-poc-cha8mmii0xk0iaw5vpf8mxf" [90m-> null[0m[0m
+      [31m-[0m[0m resource_policies          = [] [90m-> null[0m[0m
+      [31m-[0m[0m self_link                  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-runtime" [90m-> null[0m[0m
+      [31m-[0m[0m tags                       = [
+          [31m-[0m[0m "adl-494-gpu-smoke",
+          [31m-[0m[0m "adl-494-gpu-smoke-runtime",
+        ] [90m-> null[0m[0m
+      [31m-[0m[0m tags_fingerprint           = "sDgew-k4RwI=" [90m-> null[0m[0m
+      [31m-[0m[0m terraform_labels           = {
+          [31m-[0m[0m "app"                        = "adl"
+          [31m-[0m[0m "goog-terraform-provisioned" = "true"
+          [31m-[0m[0m "issue"                      = "509"
+          [31m-[0m[0m "lane"                       = "drt-d"
+          [31m-[0m[0m "milestone"                  = "v0-92-1"
+          [31m-[0m[0m "owner"                      = "agent-logic"
+          [31m-[0m[0m "run_id"                     = "adl-509-drt-d-20260902192222"
+          [31m-[0m[0m "ttl"                        = "disposable"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m zone                       = "us-west1-a" [90m-> null[0m[0m
+        [90m# (4 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m boot_disk {
+          [31m-[0m[0m auto_delete                     = true [90m-> null[0m[0m
+          [31m-[0m[0m device_name                     = "persistent-disk-0" [90m-> null[0m[0m
+          [31m-[0m[0m force_attach                    = false [90m-> null[0m[0m
+          [31m-[0m[0m guest_os_features               = [
+              [31m-[0m[0m "VIRTIO_SCSI_MULTIQUEUE",
+              [31m-[0m[0m "UEFI_COMPATIBLE",
+              [31m-[0m[0m "GVNIC",
+            ] [90m-> null[0m[0m
+          [31m-[0m[0m mode                            = "READ_WRITE" [90m-> null[0m[0m
+          [31m-[0m[0m source                          = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/disks/adl-509-drt-d-20260902192222-runtime" [90m-> null[0m[0m
+            [90m# (6 unchanged attributes hidden)[0m[0m
+
+          [31m-[0m[0m initialize_params {
+              [31m-[0m[0m enable_confidential_compute = false [90m-> null[0m[0m
+              [31m-[0m[0m image                       = "https://www.googleapis.com/compute/v1/projects/deeplearning-platform-release/global/images/common-cu129-ubuntu-2204-nvidia-580-v20260831" [90m-> null[0m[0m
+              [31m-[0m[0m labels                      = {} [90m-> null[0m[0m
+              [31m-[0m[0m provisioned_iops            = 0 [90m-> null[0m[0m
+              [31m-[0m[0m provisioned_throughput      = 0 [90m-> null[0m[0m
+              [31m-[0m[0m replica_zones               = [] [90m-> null[0m[0m
+              [31m-[0m[0m resource_manager_tags       = {} [90m-> null[0m[0m
+              [31m-[0m[0m resource_policies           = [] [90m-> null[0m[0m
+              [31m-[0m[0m size                        = 80 [90m-> null[0m[0m
+              [31m-[0m[0m type                        = "pd-balanced" [90m-> null[0m[0m
+                [90m# (3 unchanged attributes hidden)[0m[0m
+            }
+        }
+
+      [31m-[0m[0m network_interface {
+          [31m-[0m[0m internal_ipv6_prefix_length = 0 [90m-> null[0m[0m
+          [31m-[0m[0m name                        = "nic0" [90m-> null[0m[0m
+          [31m-[0m[0m network                     = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default" [90m-> null[0m[0m
+          [31m-[0m[0m network_ip                  = "10.138.0.23" [90m-> null[0m[0m
+          [31m-[0m[0m queue_count                 = 0 [90m-> null[0m[0m
+          [31m-[0m[0m stack_type                  = "IPV4_ONLY" [90m-> null[0m[0m
+          [31m-[0m[0m subnetwork                  = "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-west1/subnetworks/default" [90m-> null[0m[0m
+          [31m-[0m[0m subnetwork_project          = "cs-poc-cha8mmii0xk0iaw5vpf8mxf" [90m-> null[0m[0m
+          [31m-[0m[0m vlan                        = 0 [90m-> null[0m[0m
+            [90m# (6 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m scheduling {
+          [31m-[0m[0m automatic_restart           = false [90m-> null[0m[0m
+          [31m-[0m[0m availability_domain         = 0 [90m-> null[0m[0m
+          [31m-[0m[0m host_error_timeout_seconds  = 0 [90m-> null[0m[0m
+          [31m-[0m[0m min_node_cpus               = 0 [90m-> null[0m[0m
+          [31m-[0m[0m on_host_maintenance         = "MIGRATE" [90m-> null[0m[0m
+          [31m-[0m[0m preemptible                 = false [90m-> null[0m[0m
+          [31m-[0m[0m provisioning_model          = "STANDARD" [90m-> null[0m[0m
+            [90m# (2 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m service_account {
+          [31m-[0m[0m email  = "adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com" [90m-> null[0m[0m
+          [31m-[0m[0m scopes = [
+              [31m-[0m[0m "https://www.googleapis.com/auth/cloud-platform",
+            ] [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m shielded_instance_config {
+          [31m-[0m[0m enable_integrity_monitoring = true [90m-> null[0m[0m
+          [31m-[0m[0m enable_secure_boot          = false [90m-> null[0m[0m
+          [31m-[0m[0m enable_vtpm                 = true [90m-> null[0m[0m
+        }
+    }
+
+[1mPlan:[0m [0m0 to add, 0 to change, 2 to destroy.
+
+Changes to Outputs:
+  [31m-[0m[0m instance_cleanup_selector = "labels.issue=509 AND labels.lane=drt-d AND labels.run_id=adl-509-drt-d-20260902192222" [90m-> null[0m[0m
+  [31m-[0m[0m ollama_instance_name      = "adl-509-drt-d-20260902192222-ollama" [90m-> null[0m[0m
+  [31m-[0m[0m ollama_private_ip         = "10.138.0.22" [90m-> null[0m[0m
+  [31m-[0m[0m ollama_receipt_path       = "/var/lib/adl/issue509/ollama-ready.json" [90m-> null[0m[0m
+  [31m-[0m[0m runtime_instance_name     = "adl-509-drt-d-20260902192222-runtime" [90m-> null[0m[0m
+  [31m-[0m[0m runtime_private_ip        = "10.138.0.23" [90m-> null[0m[0m
+  [31m-[0m[0m runtime_receipt_path      = "/var/lib/adl/issue509/final.json" [90m-> null[0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-runtime][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-509-drt-d-20260902192222-runtime, 00m10s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-509-drt-d-20260902192222-runtime, 00m20s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-509-drt-d-20260902192222-runtime, 00m30s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-509-drt-d-20260902192222-runtime, 00m40s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...s/adl-509-drt-d-20260902192222-runtime, 00m50s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.runtime: Destruction complete after 52s[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-west1-a/instances/adl-509-drt-d-20260902192222-ollama][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...es/adl-509-drt-d-20260902192222-ollama, 00m10s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...es/adl-509-drt-d-20260902192222-ollama, 00m20s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...es/adl-509-drt-d-20260902192222-ollama, 00m30s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...es/adl-509-drt-d-20260902192222-ollama, 00m40s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...es/adl-509-drt-d-20260902192222-ollama, 00m50s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Still destroying... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf...es/adl-509-drt-d-20260902192222-ollama, 01m00s elapsed][0m[0m
+[0m[1mmodule.two_node_ollama_runtime.google_compute_instance.ollama: Destruction complete after 1m3s[0m
+[0m[1m[32m
+Destroy complete! Resources: 2 destroyed.[0m

@@ -1,0 +1,25 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "sor",
+  "expected_digest": "808d341bd96197387d3a8711a3537762863650529468fc6610afb5fc48dc7740",
+  "expected_generation": 4,
+  "issue": 515,
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, and emits redacted digest/class comparison evidence.",
+    "changes": [
+      "Added distinct provider shadow authority/shadow channel types and redacted comparison records in adl/src/provider/mod.rs.",
+      "Added complete_with_local_model_shadow so authority executes first and shadow success or failure cannot replace or mask authoritative output.",
+      "Added issue-owned integration tests for shadow isolation, deterministic comparison, and fallback behavior.",
+      "Added redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/."
+    ],
+    "artifacts": [
+      "adl/src/provider/mod.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json"
+    ]
+  },
+  "reason": "Record #515 implementation evidence before validation and implemented-phase advancement."
+}

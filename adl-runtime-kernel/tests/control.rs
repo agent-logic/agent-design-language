@@ -813,7 +813,12 @@ async fn readiness_fails_closed_before_first_weather_sample() {
     assert!(report
         .degraded_reasons
         .contains(&"weather_stale".to_owned()));
+    assert!(report
+        .degraded_reasons
+        .contains(&"shepherd_not_admitted".to_owned()));
     assert!(report.weather_freshness.is_none());
+    assert_eq!(report.guardian_process_id, std::process::id());
+    assert_eq!(report.active_init_hash.len(), 64);
 }
 
 #[tokio::test]
@@ -1016,6 +1021,16 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
         integrity: "snapshot-hash".to_owned(),
     });
     recorder.promote_observability();
+    let admission_now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    assert!(recorder.record_agent_admission(
+        "shepherd",
+        admission_now,
+        admission_now.saturating_add(60_000),
+        "0123456789abcdef0123456789abcdef01234567",
+    ));
     let service = Arc::new(ControlService::new_with_observatory_config(
         "instance-1",
         recorder,
@@ -1180,6 +1195,8 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(ready.contains("\"ready\":true"));
     assert!(ready.contains("\"degraded_reasons\":[]"));
     assert!(ready.contains("\"stale\":false"));
+    assert!(ready.contains("\"guardian_process_id\":"));
+    assert!(ready.contains("\"active_init_hash\":"));
 
     let metrics = https_request(
         &client,
@@ -1442,8 +1459,11 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
             sample: vec![
                 adl_runtime_kernel::AgentSample {
                     id: "agent-00001".to_owned(),
+                    name: "agent-00001.runtime".to_owned(),
                     label: "Runtime agent 1".to_owned(),
                     role: "runtime agent".to_owned(),
+                    provider: None,
+                    model: None,
                     state: "running".to_owned(),
                     detail: "sample 1 of 10000".to_owned(),
                     health: "healthy".to_owned(),
@@ -1459,8 +1479,11 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                 },
                 adl_runtime_kernel::AgentSample {
                     id: "agent-00002".to_owned(),
+                    name: "agent-00002.runtime".to_owned(),
                     label: "Runtime agent 2".to_owned(),
                     role: "runtime agent".to_owned(),
+                    provider: None,
+                    model: None,
                     state: "running".to_owned(),
                     detail: "sample 2 of 10000".to_owned(),
                     health: "healthy".to_owned(),

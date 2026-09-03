@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root",
+  "card": "sor",
+  "expected_digest": "4017a0de4f8bfddab6ce1d470e188e609d3e2cd267d0fa3cf8e8e5e4099cf2b7",
+  "expected_generation": 8,
+  "issue": 506,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+        "replay-conformance"
+      ],
+      "purpose": "Prove replay receipt stability and duplicate/reordered delivery classification.",
+      "outcome": "passed",
+      "evidence_ref": "replay_conformance test passed locally: 1 passed, 0 failed, 3 filtered out"
+    }
+  },
+  "reason": "Record focused #506 replay conformance proof lane."
+}

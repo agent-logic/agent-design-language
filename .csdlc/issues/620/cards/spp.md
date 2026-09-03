@@ -1,0 +1,125 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 620
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Establish the canonical denominator, audit relevant TBD and issue truth, reconcile all planning surfaces, validate the package, and prepare a findings-first review handoff.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Build the canonical document, feature, work-package, sprint, and release-tail denominator.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Audit relevant active TBD sources and existing issue truth into explicit scheduling dispositions.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Reconcile the complete planning package so every issue is bounded and all machine and human surfaces agree.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run focused structural, YAML, link, placeholder, scheduling-coverage, and diff-hygiene validation.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Prepare the review handoff, resolve actionable findings, and leave the package planned and number-free.",
+    "acceptance_ids": [
+      "AC-8",
+      "AC-10"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Milestone remains unopened
+- Package remains number-free
+- Complete and explicit TBD disposition denominator
+- No duplicate existing work
+- One concrete result per planned issue
+- Deferred scope remains deferred
+
+## Risks
+
+- Treating a stale TBD inventory as complete
+- Silently dropping unscheduled material
+- Converting broad feature bundles into nominal single issues
+- Duplicating existing or completed issues
+- Opening the milestone through documentation overclaim
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/620/design.md
+
+Digest: e84e2afd2d541ae719b55446dec8dedf1e211a03fa9dda36336480b0850d028c
+
+## Diagram
+
+.csdlc/prepared/issues/620/diagram.mmd
+
+Digest: 1c6aaf76f37d34a7f603593ea39e85e28ab5882d892b51ef538d06d8558e10c7
+
+## Stop Conditions
+
+- The canonical package denominator cannot be established
+- A relevant TBD source lacks a truthful disposition
+- Machine-readable and human-readable work-package identities disagree
+- A proposed scope move requires operator judgment
+- An actionable review finding remains unresolved
+
+## Handoff
+
+Proceed only after doctor readiness.

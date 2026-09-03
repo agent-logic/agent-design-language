@@ -1,0 +1,54 @@
+{
+  "schema": "agent_logic.podcast.show_identity.v1",
+  "version": "v0.92.1-261-candidate.1",
+  "approval_status": "operator_approved",
+  "show": {
+    "title": "The Cognitive Stack",
+    "subtitle": "Conversations about working with AI systems in ordinary language",
+    "description": "Weekly conversations between AI regulars and occasional special guests about culture, work, and everyday life.",
+    "author": "Agent Logic",
+    "category": "Technology",
+    "language": "en-US",
+    "explicit": false,
+    "copyright": "Copyright 2026 Agent Logic, Inc.",
+    "cadence": "weekly-planned-not-yet-launched",
+    "website_url": "https://agent-logic.ai/podcast/",
+    "public_contact": "podcast@agent-logic.ai"
+  },
+  "artwork": {
+    "path": "demos/podcast/artwork.png",
+    "bytes": 4126190,
+    "sha256": "e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d",
+    "format": "PNG",
+    "width": 3000,
+    "height": 3000,
+    "bit_depth": 8,
+    "color_space": "RGB",
+    "rights_record": "docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json"
+  },
+  "decision_records": {
+    "operator_decision": "docs/milestones/v0.92/review/podcast_identity_261/name-decision.json",
+    "name_conflict_review": "docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md",
+    "mailbox_readiness": "docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json"
+  },
+  "ownership": {
+    "issue_261": [
+      "demos/podcast/artwork.png",
+      "docs/milestones/v0.92/review/podcast_identity_261/**"
+    ],
+    "issue_342": [
+      "demos/podcast/episode-packages/**",
+      "demos/podcast/episode-packages/feed-fragment.xml"
+    ],
+    "issue_262": [
+      "Production feed at https://agent-logic.ai/podcast/feed.xml using the approved 51.a identity packet.",
+      "Stable HTTPS episode enclosure URLs from terminal review-ready episode packages.",
+      "RSS 2.0 and required podcast metadata validation.",
+      "Exact MIME type, byte length, duration, GUID, publication date, artwork, and digest reconciliation.",
+      "HEAD/GET and 206 Partial Content proof for audio.",
+      "Representative desktop and mobile subscription, metadata, and playback proof.",
+      "Hosting/feed correction and rollback limited to this owned publication surface."
+    ]
+  },
+  "publication_claimed": false
+}

@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 628,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
+    "slug": "v3-h2-local-lifecycle",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement and test the v3 local lifecycle replacement routes under the one csdlc binary, using #627's command manifest as the denominator.",
+      "required_outcome": "The v3 one-binary local routes can initialize, inspect, validate, edit, diagnose, and bind local lifecycle state for a real issue canary without v2 operational fallback, while remaining non-authoritative before #505 cutover.",
+      "declared_scope": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands",
+        "csdlc-v3/src/application",
+        "csdlc-v3/src/repository",
+        "csdlc-v3/tests/local_commands.rs",
+        "csdlc-v3/tests/real_issue_canary.rs",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        ".csdlc/prepared/issues/628/**",
+        ".csdlc/issues/628/**"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains live operational authority until explicit #505 cutover.",
+        "Issue #628 may implement local v3 construction-state behavior only.",
+        "Issue #628 must not mutate GitHub, publish PRs, finish, clean, retire v2, or close #505.",
+        "No hidden v2 binary fallback is allowed in v3 proof."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not use raw gh.",
+        "Do not use /private/tmp; keep temporary and durable artifacts inside the repo or FastWork worktrees.",
+        "Keep #505 open.",
+        "Capture every defect for #632/cutover readiness."
+      ]
+    }
+  }
+}

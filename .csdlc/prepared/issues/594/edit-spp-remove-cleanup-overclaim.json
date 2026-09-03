@@ -1,0 +1,16 @@
+{
+  "issue": 594,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "0fe88880270256d0c137f52d05eb9ae8822026ea025ca7240a6d19ad19cbfcae",
+  "actor": "codex:/root",
+  "reason": "Resolve independent review by removing the stale cleanup-proof claim from the non-mutating live inspection step.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {"id":"S1","action":"Implement and semantically test the private encrypted versioned S3 archive and exact-prefix publisher policy in Terraform.","acceptance_ids":["AC-2","AC-3"],"status":"pending"},
+      {"id":"S2","action":"Add bounded identity-partitioned Vector S3 delivery and prove outage, exhaustion, telemetry, redaction, and Runtime-survival behavior locally.","acceptance_ids":["AC-1","AC-4"],"status":"pending"},
+      {"id":"S3","action":"After explicit authorization, verify the expected AWS account, exact bucket controls and publisher policy, then retrieve and inspect one encrypted archived object without mutating the deployment; retain typed lifecycle truth.","acceptance_ids":["AC-5","AC-6"],"status":"pending"}
+    ]
+  }
+}

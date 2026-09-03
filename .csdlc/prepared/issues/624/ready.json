@@ -1,0 +1,12 @@
+{
+  "issue": 624,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "b091358d3959aba9dce14e8df1a301236e1f858fc1477dbc6f67c142a5cdc35b",
+  "actor": "codex:624-preparation",
+  "reason": "Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

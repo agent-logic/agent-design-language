@@ -1,0 +1,23 @@
+{
+  "issue": 594,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "49409e2430fde2b4904c721c22306fc32db7bd35ee12a76e781615170e796d43",
+  "actor": "codex:/root",
+  "reason": "Replace semantic area labels with the exact safe repository-owned implementation and proof path denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/observability/vector.rs",
+      "adl-runtime-kernel/src/observability.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "infra/aws/runtime/log-archive",
+      ".csdlc/prepared/issues/594",
+      ".csdlc/evidence/594"
+    ]
+  }
+}

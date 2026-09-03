@@ -1,0 +1,24 @@
+{
+  "issue": 261,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "b0be108391c64bc434fd36f895f63114ed486f601f2df77141c31a3c5f26465f",
+  "actor": "codex:issue-261-implementation",
+  "reason": "Restore the exact packet validator as a deliverable now that bound implementation has created its target.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "demos/podcast/artwork.png",
+      "docs/milestones/v0.92/review/podcast_identity_261/show-identity.json",
+      "docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json",
+      "docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md",
+      "docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json",
+      "docs/milestones/v0.92/review/podcast_identity_261/README.md",
+      "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+      ".csdlc/prepared/issues/261",
+      ".csdlc/issues/261",
+      ".csdlc/evidence/261"
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "issue": 617,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root",
+  "design_path": ".csdlc/prepared/issues/617/design.md",
+  "diagram_path": ".csdlc/prepared/issues/617/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+    "slug": "runtime-api-canonical-agent-names",
+    "version": "v0.92.1",
+    "goal": "Expose each agent's canonical two-part name directly in Runtime v3 roster and detail responses without changing lifecycle semantics or existing identifiers.",
+    "required_outcome": "AgentRosterEntry, roster/detail JSON, OpenAPI, and focused tests expose stable truthful canonical names for dynamic agents and the Shepherd while preserving operational ID, display name, and public office as separate fields.",
+    "declared_scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      ".csdlc/prepared/issues/617",
+      ".csdlc/evidence/617",
+      ".csdlc/issues/617"
+    ],
+    "authority_boundary": [
+      "Issue authority is agent-logic/agent-design-language#617",
+      "Merged issue #602 supplies canonical agent lifecycle state",
+      "Existing operational IDs and lifecycle semantics remain unchanged",
+      "Only Runtime v3 roster and detail projection plus its schema and tests are in scope"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Do not infer canonical identity from operational ID, display label, or office",
+      "Keep the API change additive and compatibility-tested",
+      "Use the current typed C-SDLC v2 route"
+    ],
+    "task_boundary": "One additive canonical-name field carried from authoritative agent state through AgentRosterEntry, roster/detail JSON, and OpenAPI.",
+    "deliverables": [
+      "Canonical name field in AgentRosterEntry",
+      "Roster and detail API projection for dynamic agents and Shepherd",
+      "Updated Observatory OpenAPI and checked inventory",
+      "Focused serialization and compatibility tests"
+    ],
+    "acceptance_criteria": [
+      "AC-1: AgentRosterEntry and roster/detail JSON expose an explicit canonical two-part agent name",
+      "AC-2: Operational ID, canonical name, display name, and public office remain distinct and truthful",
+      "AC-3: Dynamic agents preserve their admitted canonical names across roster and detail responses",
+      "AC-4: The startup Shepherd exposes a configured stable canonical name without inference",
+      "AC-5: Observatory OpenAPI and checked API inventory require and describe the additive field",
+      "AC-6: Focused serialization and compatibility tests prove existing field meanings and clients are not unexpectedly broken"
+    ],
+    "dependencies": [
+      "Issue #602 and PR #614 must be merged into the execution base"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#617",
+      "agent-logic/agent-design-language#602",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json"
+    ],
+    "non_goals": [
+      "Changing agent admission, checkpoint, migration, or rehydration semantics",
+      "Renaming operational agent IDs",
+      "Changing display-name or office semantics",
+      "Amending the already merged #602 implementation outside a correctness defect required for projection"
+    ],
+    "plan_summary": "Add the canonical field at the roster boundary, project authoritative dynamic and Shepherd names through both API paths, update OpenAPI, and prove additive compatibility with focused tests.",
+    "steps": [
+      {"id":"S1","action":"Add the additive canonical-name field and populate it from authoritative agent state for dynamic agents and Shepherd.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S2","action":"Project the field through roster/detail responses and update the Observatory OpenAPI and checked inventory.","acceptance_ids":["AC-1","AC-5"],"status":"pending"},
+      {"id":"S3","action":"Run focused roster, control, Observatory, OpenAPI, and serialization compatibility proof.","acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Resolve independent exact-head review and publish through typed lifecycle authority.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"}
+    ],
+    "affected_areas": ["Runtime agent roster", "Runtime control API", "Observatory OpenAPI"],
+    "invariants": [
+      "Canonical name comes from authoritative configuration or admitted state",
+      "Operational ID, canonical name, display name, and office never alias silently",
+      "Roster and detail responses agree",
+      "The API change is additive",
+      "Agent lifecycle semantics remain unchanged"
+    ],
+    "risks": [
+      "Canonical name is inferred from a display or operational identifier",
+      "Shepherd lacks a stable configured name",
+      "Roster and detail projections diverge",
+      "OpenAPI or inventory drifts from serialized output",
+      "An additive field unexpectedly changes an existing compatibility contract"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Execution base lacks merged #602/#614 state",
+      "Canonical name authority cannot be identified without changing lifecycle semantics",
+      "Existing ID, label, or office semantics must change",
+      "Validation selects zero tests",
+      "Scope expands beyond Runtime roster/detail projection"
+    ],
+    "validation_lanes": [
+      {"lane":"canonical-agent-roster","proof_role":"Prove dynamic and Shepherd canonical names, field distinction, roster/detail parity, and additive serialization with nonzero focused tests.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":900,"budget_tokens":5000,"argv":["cargo","nextest","run","--locked","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","agent_roster","--test","control","--no-tests=fail","-E","test(canonical_name)"],"parallel_group":"runtime","defer_reason":"The named canonical_name cases are issue #617 implementation deliverables."},
+      {"lane":"canonical-agent-openapi","proof_role":"Prove OpenAPI and checked inventory match the additive serialized field with nonzero tests.","acceptance_ids":["AC-5","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":3500,"argv":["cargo","nextest","run","--locked","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","openapi_contract","--test","observatory","--no-tests=fail","-E","test(canonical_name)"],"parallel_group":"api","defer_reason":"The named canonical_name cases are issue #617 implementation deliverables."},
+      {"lane":"rust-format","proof_role":"Prove formatting for the Runtime kernel workspace.","acceptance_ids":["AC-6"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["cargo","fmt","--manifest-path","adl-runtime-kernel/Cargo.toml","--check"],"parallel_group":"hygiene","defer_reason":null},
+      {"lane":"diff-hygiene","proof_role":"Prove exact branch diff whitespace hygiene.","acceptance_ids":["AC-6"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"hygiene","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on inferred identity, field aliasing, roster/detail drift, schema drift, zero-test validation, scope expansion, or stale review.",
+    "review_prompts": [
+      "Does every canonical name come from authoritative configuration or admitted state?",
+      "Are operational ID, canonical name, display name, and office still distinct?",
+      "Do roster, detail, JSON serialization, and OpenAPI agree?",
+      "Is Shepherd naming stable without changing lifecycle semantics?"
+    ],
+    "review_scope": "Exact #617 Runtime roster/detail projection, OpenAPI, focused tests, and issue-local evidence paths only."
+  }
+}

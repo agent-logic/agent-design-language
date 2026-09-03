@@ -1,0 +1,90 @@
+{
+  "schema": "adl.corporate.corp_c.aws_account_control_readback.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-02T03:29:10Z",
+  "profile": "agent-logic-admin",
+  "region": "us-east-1",
+  "mutation": false,
+  "credential_material_captured": false,
+  "private_contact_material_captured": false,
+  "authority_boundary": "Read-only AWS account-control posture probe. Raw AWS account ids, ARNs, user ids, contact values, emails, postal addresses, phone numbers, payment data, and credential material are not retained.",
+  "classification": {
+    "aws_account_control": "blocked_partial_readback",
+    "reason": "The approved Agent Logic business profile resolves and account-level MFA is enabled, but the live readback still shows no CloudTrail trails, no AWS Config recorder, no Access Analyzer, no account alias, no visible Organizations readback, no alternate-contact readback, and only one IAM user. This proves current posture truth; it does not prove complete corporate recovery, audit, break-glass, or billing/control-plane acceptance."
+  },
+  "readbacks": {
+    "sts": {
+      "status": "pass",
+      "account_hash": "sha256:b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+      "principal_type": "user"
+    },
+    "iam_account_summary": {
+      "status": "pass",
+      "users": 1,
+      "roles": 55,
+      "groups": 0,
+      "identity_providers": 1,
+      "account_mfa_enabled": true,
+      "mfa_devices": 5,
+      "mfa_devices_in_use": 4,
+      "root_access_keys_present": false,
+      "root_signing_certificates_present": false,
+      "root_password_present": true
+    },
+    "account_aliases": {
+      "status": "pass",
+      "count": 0,
+      "alias_hashes": []
+    },
+    "organizations": {
+      "status": "readback_unavailable",
+      "feature_set": null,
+      "management_email_retained": false
+    },
+    "alternate_contacts": {
+      "billing": {
+        "status": "readback_unavailable",
+        "present": false,
+        "value_hash": null
+      },
+      "operations": {
+        "status": "readback_unavailable",
+        "present": false,
+        "value_hash": null
+      },
+      "security": {
+        "status": "readback_unavailable",
+        "present": false,
+        "value_hash": null
+      }
+    },
+    "cloudtrail": {
+      "status": "pass",
+      "trail_count": 0,
+      "multi_region_trail_count": 0,
+      "organization_trail_count": 0,
+      "trail_hashes": []
+    },
+    "aws_config": {
+      "status": "pass",
+      "configuration_recorder_count": 0,
+      "recording_recorder_count": 0
+    },
+    "access_analyzer": {
+      "status": "pass",
+      "account_analyzer_count": 0,
+      "active_account_analyzer_count": 0,
+      "analyzer_hashes": []
+    }
+  },
+  "remaining_blockers": [
+    "Corporate AWS account recovery and non-single-founder break-glass path remain unproven.",
+    "AWS billing ownership and payment/contact authority remain unproven in retained evidence.",
+    "Organizations or standalone-account governance posture is not visible from the current readback.",
+    "Alternate billing, operations, and security contacts are not visible from the current readback.",
+    "CloudTrail, AWS Config, and Access Analyzer are absent in the current account-control readback.",
+    "IAM Identity Center, root recovery, and emergency access exercises remain unproven."
+  ],
+  "issue_ready_to_close": false
+}

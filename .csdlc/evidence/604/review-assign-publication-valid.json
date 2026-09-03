@@ -1,0 +1,28 @@
+{
+  "issue": 604,
+  "expected_generation": 6,
+  "expected_digest": "43772e006dfe5d5022d7c49d1e94c5e01f556754283b19c2329732f93b7cc612",
+  "reviewer": "/root/review_604_pre_pr_repaired",
+  "assigned_by": "codex:/root/worker-6/issue-604",
+  "scope": [
+    ".csdlc/evidence/604/issue-604-implementation-validation.log",
+    ".csdlc/prepared/issues/604/design.md",
+    ".csdlc/prepared/issues/604/diagram.mmd",
+    ".csdlc/prepared/issues/604/finalize-request.json",
+    ".csdlc/prepared/issues/604/full-cycle-defects.md",
+    ".csdlc/prepared/issues/604/publish-draft-request.json",
+    ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+    ".csdlc/prepared/issues/604/review-assign-repaired.json",
+    ".csdlc/prepared/issues/604/review-record-repaired.json",
+    ".csdlc/prepared/issues/604/validate-implementation.sh",
+    "csdlc-v2/operator/skills.json",
+    "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+    "csdlc-v2/src/bin/csdlc-publish.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/src/operator.rs",
+    "csdlc-v2/src/publication.rs",
+    "csdlc-v2/src/schema.rs",
+    "csdlc-v2/tests/gate10a.rs",
+    "csdlc-v2/tests/publication_ready.rs"
+  ]
+}

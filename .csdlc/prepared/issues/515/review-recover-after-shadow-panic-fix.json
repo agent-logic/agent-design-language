@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "expected_generation": 12,
+  "expected_digest": "e84e47e72c2a8e648f51820537281d16129b758a406dbc6f34fac1f27ab4dd16",
+  "actor": "codex:/root:issue-515-implementation",
+  "reason": "Recover #515 review truth after fixing the independent reviewer P1 finding that a panicking shadow provider could mask authoritative output."
+}

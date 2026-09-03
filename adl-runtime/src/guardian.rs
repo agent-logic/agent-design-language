@@ -956,7 +956,10 @@ impl GuardianLease {
                 }
                 continue;
             }
-            if stream.write_all(b"ok").await.is_err() {
+            let mut acknowledgement = [0_u8; 6];
+            acknowledgement[..2].copy_from_slice(b"ok");
+            acknowledgement[2..].copy_from_slice(&std::process::id().to_be_bytes());
+            if stream.write_all(&acknowledgement).await.is_err() {
                 return GuardianLeaseOutcome::AcknowledgementFailed;
             }
             *authenticated_at
@@ -1785,9 +1788,10 @@ fn main() {
         })
         .expect("guardian lease listener");
     stream.write_all(token.as_bytes()).unwrap();
-    let mut acknowledgement = [0_u8; 2];
+    let mut acknowledgement = [0_u8; 6];
     stream.read_exact(&mut acknowledgement).unwrap();
-    assert_eq!(&acknowledgement, b"ok");
+    assert_eq!(&acknowledgement[..2], b"ok");
+    assert!(u32::from_be_bytes([acknowledgement[2], acknowledgement[3], acknowledgement[4], acknowledgement[5]]) > 0);
     std::thread::sleep(Duration::from_millis(80));
     std::process::exit(if count < 3 { 7 } else { 0 });
 }
@@ -1957,9 +1961,10 @@ fn main() {
     let token = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_TOKEN").unwrap();
     let mut stream = TcpStream::connect(address).unwrap();
     stream.write_all(token.as_bytes()).unwrap();
-    let mut acknowledgement = [0_u8; 2];
+    let mut acknowledgement = [0_u8; 6];
     stream.read_exact(&mut acknowledgement).unwrap();
-    assert_eq!(&acknowledgement, b"ok");
+    assert_eq!(&acknowledgement[..2], b"ok");
+    assert!(u32::from_be_bytes([acknowledgement[2], acknowledgement[3], acknowledgement[4], acknowledgement[5]]) > 0);
     std::fs::write(std::env::args().nth(1).unwrap(), b"ready").unwrap();
     let mut closed = [0_u8; 1];
     assert_eq!(stream.read(&mut closed).unwrap(), 0);
@@ -2035,9 +2040,10 @@ fn main() {
     let token = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_TOKEN").unwrap();
     let mut stream = TcpStream::connect(address).unwrap();
     stream.write_all(token.as_bytes()).unwrap();
-    let mut acknowledgement = [0_u8; 2];
+    let mut acknowledgement = [0_u8; 6];
     stream.read_exact(&mut acknowledgement).unwrap();
-    assert_eq!(&acknowledgement, b"ok");
+    assert_eq!(&acknowledgement[..2], b"ok");
+    assert!(u32::from_be_bytes([acknowledgement[2], acknowledgement[3], acknowledgement[4], acknowledgement[5]]) > 0);
     std::fs::write(std::env::args().nth(1).unwrap(), b"ready").unwrap();
     let term_file = std::env::args().nth(2).unwrap();
     while !TERMINATED.load(Ordering::SeqCst) {
@@ -2099,9 +2105,10 @@ fn main() {
     let descendant_ready = std::env::args().nth(3).unwrap();
     let mut stream = TcpStream::connect(address).unwrap();
     stream.write_all(token.as_bytes()).unwrap();
-    let mut acknowledgement = [0_u8; 2];
+    let mut acknowledgement = [0_u8; 6];
     stream.read_exact(&mut acknowledgement).unwrap();
-    assert_eq!(&acknowledgement, b"ok");
+    assert_eq!(&acknowledgement[..2], b"ok");
+    assert!(u32::from_be_bytes([acknowledgement[2], acknowledgement[3], acknowledgement[4], acknowledgement[5]]) > 0);
     std::fs::write(&ready, b"ready").unwrap();
     let mut closed = [0_u8; 1];
     assert_eq!(stream.read(&mut closed).unwrap(), 0);
@@ -2180,9 +2187,10 @@ fn main() {
     std::thread::sleep(Duration::from_millis(150));
     let mut stream = TcpStream::connect(address).unwrap();
     stream.write_all(token.as_bytes()).unwrap();
-    let mut acknowledgement = [0_u8; 2];
+    let mut acknowledgement = [0_u8; 6];
     stream.read_exact(&mut acknowledgement).unwrap();
-    assert_eq!(&acknowledgement, b"ok");
+    assert_eq!(&acknowledgement[..2], b"ok");
+    assert!(u32::from_be_bytes([acknowledgement[2], acknowledgement[3], acknowledgement[4], acknowledgement[5]]) > 0);
     let count = std::fs::read_to_string(&counter)
         .ok()
         .and_then(|value| value.trim().parse::<u32>().ok())

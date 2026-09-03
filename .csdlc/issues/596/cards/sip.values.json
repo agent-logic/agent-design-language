@@ -7,38 +7,37 @@
     "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
     "slug": "sprints-5-6-cutover-fixes",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 42
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Repair the concrete Sprint 5/6 cutover-review blockers while keeping C-SDLC v2 as live authority until #505.",
-      "required_outcome": "The remediation PR has typed local lifecycle state, uses typed GitHub operations, fixes reviewed v2/v3 defects with behavior-backed proof, and remains explicitly non-authoritative for v3 cutover.",
+      "required_outcome": "The remediation PR has typed local lifecycle state, uses typed C-SDLC v2 operations only as the still-live lifecycle authority, preserves a zero-net csdlc-v2 source/test diff, captures v2 defects as v3 replacement blockers, and remains explicitly non-authoritative for v3 cutover.",
       "declared_scope": [
-        "csdlc-v2/src/github.rs",
-        "csdlc-v2/src/bin/csdlc-github-pr.rs",
-        "csdlc-v2/operator",
-        "csdlc-v3",
-        ".github/workflows/ci.yaml",
-        "adl/tools",
-        "docs/csdlc-v3",
+        "csdlc-v3/tests/real_issue_canary.rs",
+        "docs/csdlc-v3/full-replacement-denominator.json",
+        ".csdlc/issues/596",
         ".csdlc/prepared/issues/596",
-        ".csdlc/evidence/sprints-5-6-cutover-fixes"
+        ".csdlc/evidence/604/full-cycle-defects-tail.md"
       ],
       "authority_boundary": [
         "C-SDLC v2 remains live authority until explicit #505 cutover",
-        "PR #597 may close #596 only",
+        "PR #615 may close #596 only",
         "#505 and #534 references are Part-Of only",
         "No merge, finish, cleanup, or v3 authority cutover is authorized by this issue",
-        "Raw gh is not used for covered lifecycle writes"
+        "Raw gh is not used for covered lifecycle writes",
+        "No csdlc-v2 source/test mutation is in scope for this v3 cutover-remediation branch"
       ],
       "initial_assumptions": [],
       "operator_constraints": [
         "Do not work on primary main",
         "Do not use /private/tmp for generated task artifacts",
-        "Use typed C-SDLC v2 operations for covered lifecycle state",
-        "Capture defects found while testing real issues for later resolution"
+        "Use typed C-SDLC v2 operations for covered lifecycle state until #505 cutover",
+        "PR #615 may close #596 only; #505 and #534 remain non-closing Part-Of links",
+        "Capture defects found while testing real issues for later v3 resolution",
+        "Do not mutate csdlc-v2 source or tests in this v3 cutover-remediation branch"
       ]
     }
   }

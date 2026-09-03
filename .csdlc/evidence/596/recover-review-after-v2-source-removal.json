@@ -1,0 +1,7 @@
+{
+  "issue": 596,
+  "expected_generation": 16,
+  "expected_digest": "80d7d16eb18479af81ffd9fd721a022a728d3a757b9044ed13ac013dcaa4ccb3",
+  "actor": "codex:worker-6",
+  "reason": "Recover review after removing net C-SDLC v2 source/test mutations from the v3 cutover remediation branch."
+}

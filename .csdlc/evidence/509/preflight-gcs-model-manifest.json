@@ -1,0 +1,166 @@
+{
+  "schema": "adl.shepherd.portable_model_bundle.v2",
+  "issue": 509,
+  "source_revision": "9f6bae16fafbc085839ee6abca7a1067965c658e",
+  "artifact_generation": "issue509-linux-runtime-9f6bae16-202609021814",
+  "models": [
+    {
+      "model_identity": "llama3.1:8b"
+    },
+    {
+      "model_identity": "qwen3:8b"
+    },
+    {
+      "model_identity": "phi4-mini:latest"
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "runtime_bundle",
+      "object": "models/ollama/issue509/issue509-linux-runtime-9f6bae16-202609021814/runtime-bundle-linux-amd64.tar.gz",
+      "relative_path": "runtime-bundle.tar.gz",
+      "sha256": "270cc07ede1ed0075c20157ac93aad88488ebfc1ad954a92d6366a5b7beb9b15",
+      "archive_format": "tar.gz"
+    },
+    {
+      "kind": "ollama_runtime",
+      "object": "models/ollama/issue509/issue509-relay-a1c440cc7b1e-20260902074759/ollama-runtime-linux-amd64.tar",
+      "relative_path": "ollama-runtime.tar",
+      "sha256": "8c311dacbc2e63033910cefe39a52d0832ac070a84514802c5fa5fda4d01883c",
+      "archive_format": "tar"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76",
+      "relative_path": "models/blobs/sha256-05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76",
+      "sha256": "05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76",
+      "model_identity": "qwen3:8b",
+      "digest": "sha256:05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-0ba8f0e314b4264dfd19df045cde9d4c394a52474bf92ed6a3de22a4ca31a177",
+      "relative_path": "models/blobs/sha256-0ba8f0e314b4264dfd19df045cde9d4c394a52474bf92ed6a3de22a4ca31a177",
+      "sha256": "0ba8f0e314b4264dfd19df045cde9d4c394a52474bf92ed6a3de22a4ca31a177",
+      "model_identity": "llama3.1:8b",
+      "digest": "sha256:0ba8f0e314b4264dfd19df045cde9d4c394a52474bf92ed6a3de22a4ca31a177"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db",
+      "relative_path": "models/blobs/sha256-3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db",
+      "sha256": "3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db",
+      "model_identity": "phi4-mini:latest",
+      "digest": "sha256:3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-455f34728c9b5dd3376378bfb809ee166c145b0b4c1f1a6feca069055066ef9a",
+      "relative_path": "models/blobs/sha256-455f34728c9b5dd3376378bfb809ee166c145b0b4c1f1a6feca069055066ef9a",
+      "sha256": "455f34728c9b5dd3376378bfb809ee166c145b0b4c1f1a6feca069055066ef9a",
+      "model_identity": "llama3.1:8b",
+      "digest": "sha256:455f34728c9b5dd3376378bfb809ee166c145b0b4c1f1a6feca069055066ef9a"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-56bb8bd477a519ffa694fc449c2413c6f0e1d3b1c88fa7e3c9d88d3ae49d4dcb",
+      "relative_path": "models/blobs/sha256-56bb8bd477a519ffa694fc449c2413c6f0e1d3b1c88fa7e3c9d88d3ae49d4dcb",
+      "sha256": "56bb8bd477a519ffa694fc449c2413c6f0e1d3b1c88fa7e3c9d88d3ae49d4dcb",
+      "model_identity": "llama3.1:8b",
+      "digest": "sha256:56bb8bd477a519ffa694fc449c2413c6f0e1d3b1c88fa7e3c9d88d3ae49d4dcb"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29",
+      "relative_path": "models/blobs/sha256-667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29",
+      "sha256": "667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29",
+      "model_identity": "llama3.1:8b",
+      "digest": "sha256:667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-813f53fdc6e58d35bb1c3853c93266380e9ca918a993e8eab193e8ede5d3a603",
+      "relative_path": "models/blobs/sha256-813f53fdc6e58d35bb1c3853c93266380e9ca918a993e8eab193e8ede5d3a603",
+      "sha256": "813f53fdc6e58d35bb1c3853c93266380e9ca918a993e8eab193e8ede5d3a603",
+      "model_identity": "phi4-mini:latest",
+      "digest": "sha256:813f53fdc6e58d35bb1c3853c93266380e9ca918a993e8eab193e8ede5d3a603"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-8c2539a423c4df2d9d2609fba56e7bad554696b66ed0e280c56e0ef4a32498fa",
+      "relative_path": "models/blobs/sha256-8c2539a423c4df2d9d2609fba56e7bad554696b66ed0e280c56e0ef4a32498fa",
+      "sha256": "8c2539a423c4df2d9d2609fba56e7bad554696b66ed0e280c56e0ef4a32498fa",
+      "model_identity": "phi4-mini:latest",
+      "digest": "sha256:8c2539a423c4df2d9d2609fba56e7bad554696b66ed0e280c56e0ef4a32498fa"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-948af2743fc78a328dcb3b0f5a31b3d75f415840fdb699e8b1235978392ecf85",
+      "relative_path": "models/blobs/sha256-948af2743fc78a328dcb3b0f5a31b3d75f415840fdb699e8b1235978392ecf85",
+      "sha256": "948af2743fc78a328dcb3b0f5a31b3d75f415840fdb699e8b1235978392ecf85",
+      "model_identity": "llama3.1:8b",
+      "digest": "sha256:948af2743fc78a328dcb3b0f5a31b3d75f415840fdb699e8b1235978392ecf85"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f",
+      "relative_path": "models/blobs/sha256-a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f",
+      "sha256": "a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f",
+      "model_identity": "qwen3:8b",
+      "digest": "sha256:a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4",
+      "relative_path": "models/blobs/sha256-ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4",
+      "sha256": "ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4",
+      "model_identity": "qwen3:8b",
+      "digest": "sha256:ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb",
+      "relative_path": "models/blobs/sha256-cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb",
+      "sha256": "cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb",
+      "model_identity": "qwen3:8b",
+      "digest": "sha256:cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12",
+      "relative_path": "models/blobs/sha256-d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12",
+      "sha256": "d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12",
+      "model_identity": "qwen3:8b",
+      "digest": "sha256:d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12"
+    },
+    {
+      "kind": "ollama_model_blob",
+      "object": "models/ollama/issue509/ollama-blobs/sha256-fa8235e5b48faca34e3ca98cf4f694ef08bd216d28b58071a1f85b1d50cb814d",
+      "relative_path": "models/blobs/sha256-fa8235e5b48faca34e3ca98cf4f694ef08bd216d28b58071a1f85b1d50cb814d",
+      "sha256": "fa8235e5b48faca34e3ca98cf4f694ef08bd216d28b58071a1f85b1d50cb814d",
+      "model_identity": "phi4-mini:latest",
+      "digest": "sha256:fa8235e5b48faca34e3ca98cf4f694ef08bd216d28b58071a1f85b1d50cb814d"
+    },
+    {
+      "kind": "ollama_model_manifest",
+      "object": "models/ollama/issue509/ollama-manifests/registry.ollama.ai/library/llama3.1/8b-46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e.json",
+      "relative_path": "models/manifests/registry.ollama.ai/library/llama3.1/8b",
+      "sha256": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+      "model_identity": "llama3.1:8b"
+    },
+    {
+      "kind": "ollama_model_manifest",
+      "object": "models/ollama/issue509/ollama-manifests/registry.ollama.ai/library/phi4-mini/latest-78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753.json",
+      "relative_path": "models/manifests/registry.ollama.ai/library/phi4-mini/latest",
+      "sha256": "78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753",
+      "model_identity": "phi4-mini:latest"
+    },
+    {
+      "kind": "ollama_model_manifest",
+      "object": "models/ollama/issue509/ollama-manifests/registry.ollama.ai/library/qwen3/8b-500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41.json",
+      "relative_path": "models/manifests/registry.ollama.ai/library/qwen3/8b",
+      "sha256": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+      "model_identity": "qwen3:8b"
+    }
+  ]
+}

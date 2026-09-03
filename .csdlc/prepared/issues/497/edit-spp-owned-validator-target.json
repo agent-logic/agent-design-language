@@ -1,0 +1,21 @@
+{
+  "issue": 497,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "514b9556c4f13c7917576cdd20e0b369a1b78e078c3bcf123ccef93660ab95f4",
+  "actor": "codex:worker-7",
+  "reason": "Make the issue-specific VPP denominator explicit by owning the exact readiness validator target file.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/operations/corporate/control-transfer/",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/",
+      ".csdlc/issues/497/",
+      ".csdlc/prepared/issues/497/",
+      ".csdlc/evidence/497/",
+      ".csdlc/evidence/497/validate-readiness.rb"
+    ]
+  },
+  "fail_after_backup": false
+}

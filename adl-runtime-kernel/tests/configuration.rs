@@ -11,8 +11,8 @@ use adl_runtime_kernel::{
     ComponentSpec, ConfigError, DeterminismClass, DiskWeather, FactoryRegistration,
     FactoryRegistry, FailurePolicy, GpuWeather, LifecycleGuarantees, Observation, PortSpec,
     ResourceState, RuntimeConfig, ServiceContract, ShutdownDecision, SysinfoWeatherObserver,
-    TopologyError, WeatherConfig, WeatherHealthReport, WeatherObserver, WeatherSample,
-    RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    TopologyError, VertexAiProviderFailure, WeatherConfig, WeatherHealthReport, WeatherObserver,
+    WeatherSample, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 use async_trait::async_trait;
 use semver::{Version, VersionReq};
@@ -231,6 +231,14 @@ display_name = "Test Polis"
 public_domain = "runtime-gateway.example.test"
 observatory_public_origin = "https://observatory.example.test"
 
+[resident_shepherd]
+name = "beacon.axioma"
+display_name = "Beacon Axioma"
+office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
+
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
 additional_allowed_origins = ["http://localhost:8000"]
@@ -284,6 +292,110 @@ fn polis_identity_rejects_domain_and_origin_mismatch() {
         ),
     ] {
         assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
+    }
+}
+
+#[test]
+fn polis_vertex_ai_configuration_is_explicit_and_redacted() {
+    let root = config_test_root();
+    let valid = valid_runtime_init_toml(root.path()).replace(
+        "observatory_public_origin = \"https://observatory.example.test\"",
+        r#"observatory_public_origin = "https://observatory.example.test"
+
+[polis.vertex_ai]
+provider = "vertex_ai"
+gcp_project = "agent-logic-dev"
+vertex_location = "us-central1"
+model = "gemini-2.5-flash"
+
+[polis.vertex_ai.credential_source]
+kind = "application_default_credentials""#,
+    );
+    let config = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid).unwrap();
+    let vertex = config.polis.vertex_ai.unwrap();
+    assert_eq!(vertex.provider, "vertex_ai");
+    assert_eq!(vertex.gcp_project, "agent-logic-dev");
+    assert_eq!(vertex.vertex_location, "us-central1");
+    assert_eq!(vertex.model, "gemini-2.5-flash");
+}
+
+#[test]
+fn polis_vertex_ai_configuration_rejects_ambient_or_secret_shapes() {
+    let root = config_test_root();
+    let valid = valid_runtime_init_toml(root.path()).replace(
+        "observatory_public_origin = \"https://observatory.example.test\"",
+        r#"observatory_public_origin = "https://observatory.example.test"
+
+[polis.vertex_ai]
+provider = "ollama"
+gcp_project = "agent-logic-dev"
+vertex_location = "us-central1"
+model = "gemini-2.5-flash"
+
+[polis.vertex_ai.credential_source]
+kind = "application_default_credentials""#,
+    );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid)
+        .unwrap_err()
+        .to_string()
+        .contains("polis.vertex_ai.provider must be vertex_ai"));
+
+    let missing_project = valid
+        .replace("provider = \"ollama\"", "provider = \"vertex_ai\"")
+        .replace("gcp_project = \"agent-logic-dev\"", "gcp_project = \"\"");
+    assert!(
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&missing_project)
+            .unwrap_err()
+            .to_string()
+            .contains("non-empty")
+    );
+
+    let secret_json = valid
+        .replace("provider = \"ollama\"", "provider = \"vertex_ai\"")
+        .replace(
+            "kind = \"application_default_credentials\"",
+            "kind = \"service_account_file\"\npath = \"credentials/service-account.json\"",
+        );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&secret_json).is_err());
+}
+
+#[test]
+fn vertex_ai_failure_classification_distinguishes_operator_actions() {
+    use adl_runtime_kernel::classify_vertex_ai_provider_failure;
+
+    let cases = [
+        (
+            None,
+            "could not load the default credentials",
+            VertexAiProviderFailure::MissingCredentials,
+        ),
+        (
+            Some(403),
+            "Cloud AI Platform API has not been used in project before or it is disabled",
+            VertexAiProviderFailure::DisabledApi,
+        ),
+        (
+            Some(404),
+            "Publisher model gemini-2.5-flash was not found in location europe-west1",
+            VertexAiProviderFailure::ProjectLocationMismatch,
+        ),
+        (
+            Some(429),
+            "quota exceeded for aiplatform.googleapis.com",
+            VertexAiProviderFailure::QuotaOrAuth,
+        ),
+        (
+            Some(400),
+            "invalid argument: malformed generation request",
+            VertexAiProviderFailure::ModelOrRequest,
+        ),
+    ];
+    for (status, body, expected) in cases {
+        assert_eq!(
+            classify_vertex_ai_provider_failure(status, body),
+            expected,
+            "{body}"
+        );
     }
 }
 
@@ -677,19 +789,99 @@ fn runtime_init_rejects_ipv6_bind_addresses() {
 }
 
 #[test]
-fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
+fn continuity_identity_excludes_non_stateful_runtime_policy() {
     let root = config_test_root();
     let config =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
-    let expected = config.continuity_identity_projection().unwrap();
+    let mut legacy_config = config.clone();
+    legacy_config.observatory.additional_allowed_origins.clear();
+    let expected = legacy_config.continuity_identity_projection().unwrap();
+    assert_eq!(config.continuity_identity_projection().unwrap(), expected);
+    assert!(expected["observability_pipeline"]
+        .get("cloudwatch")
+        .is_none());
 
-    let mut next_cycle = config.clone();
+    let mut next_cycle = legacy_config.clone();
     next_cycle.credentials.continuity_min_generation = 41;
     next_cycle.observability_pipeline.lifecycle_run = "run-2".to_owned();
     next_cycle.observability_pipeline.lifecycle_cycle = "cycle-42".to_owned();
     assert_eq!(
         next_cycle.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut changed_origins = next_cycle.clone();
+    changed_origins.observatory.additional_allowed_origins =
+        vec!["http://localhost:8000".to_owned()];
+    assert_eq!(
+        changed_origins.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut renamed_shepherd = next_cycle.clone();
+    match &mut renamed_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.display_name = "Beacon Axioma".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_eq!(
+        renamed_shepherd.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut rebound_shepherd = renamed_shepherd;
+    match &mut rebound_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.model = "gemma4:e4b-mlx".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_ne!(
+        rebound_shepherd.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut multi_shepherd = next_cycle.clone();
+    let primary = multi_shepherd.resident_shepherd.primary().clone();
+    let mut secondary = primary.clone();
+    secondary.name = "lumen.axioma".to_owned();
+    secondary.display_name = "Lumen".to_owned();
+    multi_shepherd.resident_shepherd =
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, secondary]);
+    let multi_expected = multi_shepherd.continuity_identity_projection().unwrap();
+    if let adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) =
+        &mut multi_shepherd.resident_shepherd
+    {
+        shepherds[0].display_name = "Beacon Axioma".to_owned();
+        shepherds[1].display_name = "Lumen Axioma".to_owned();
+    }
+    assert_eq!(
+        multi_shepherd.continuity_identity_projection().unwrap(),
+        multi_expected
+    );
+
+    changed_origins.observatory.allowed_origins =
+        vec!["https://observatory.example.test".to_owned()];
+    assert_ne!(
+        changed_origins.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut cloudwatch_enabled = next_cycle.clone();
+    cloudwatch_enabled.observability_pipeline.cloudwatch =
+        Some(adl_runtime_kernel::RuntimeCloudWatchInitConfig {
+            region: "us-west-2".to_owned(),
+            log_group: "/agent-logic/runtime-v3/axioma-wuji-dev".to_owned(),
+            log_stream: "wuji".to_owned(),
+        });
+    assert_ne!(
+        cloudwatch_enabled.continuity_identity_projection().unwrap(),
         expected
     );
 
@@ -699,6 +891,117 @@ fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
         changed_runtime.continuity_identity_projection().unwrap(),
         expected
     );
+}
+
+#[test]
+fn runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity() {
+    let root = config_test_root();
+    let toml = valid_runtime_init_toml(root.path()).replace(
+        "\n[weather]\n",
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-dev"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+
+[weather]
+"#,
+    );
+    let config = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&toml).unwrap();
+    assert_eq!(
+        config
+            .observability_pipeline
+            .s3_archive
+            .as_ref()
+            .unwrap()
+            .bucket,
+        "agent-logic-runtime-log-archive-dev"
+    );
+
+    let without_archive =
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
+            .unwrap();
+    assert_ne!(
+        config.continuity_identity_projection().unwrap(),
+        without_archive.continuity_identity_projection().unwrap()
+    );
+}
+
+#[test]
+fn runtime_init_s3_archive_identity_boundaries_match_terraform_contract() {
+    let root = config_test_root();
+    let accepted = valid_runtime_init_toml(root.path()).replace(
+        "\n[weather]\n",
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-d-p-r"
+environment = "d"
+polis_id = "p"
+runtime_id = "r"
+
+[weather]
+"#,
+    );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&accepted).is_ok());
+
+    for rejected_bucket in [
+        "agent-logic..runtime",
+        "agent-logic.-runtime",
+        "agent-logic-.runtime",
+    ] {
+        let rejected = format!(
+            r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "{rejected_bucket}"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+"#
+        );
+        assert!(
+            adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&runtime_init_toml(&rejected))
+                .is_err()
+        );
+    }
+}
+
+#[test]
+fn runtime_init_rejects_unsafe_s3_archive_identity_segments() {
+    for fragment in [
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-dev"
+environment = "../dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+"#,
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "AgentLogic"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji"
+"#,
+        r#"
+[observability_pipeline.s3_archive]
+region = "us-west-2"
+bucket = "agent-logic-runtime-log-archive-dev"
+environment = "dev"
+polis_id = "konishi"
+runtime_id = "wuji/runtime"
+"#,
+    ] {
+        assert!(
+            adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&runtime_init_toml(fragment))
+                .is_err()
+        );
+    }
 }
 
 #[test]
@@ -1168,4 +1471,66 @@ fn runtime_kernel_rejects_demo_and_implicit_demo_startup() {
         assert!(stderr.contains("usage: adl-runtime-kernel"));
         assert!(!stderr.contains("|demo"));
     }
+}
+
+#[test]
+fn canonical_name_is_required_for_resident_shepherd_configuration() {
+    let root = tempfile::tempdir().unwrap();
+    let valid = valid_runtime_init_toml(root.path());
+    let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid).unwrap();
+    assert_eq!(parsed.resident_shepherd.primary().name, "beacon.axioma");
+
+    let invalid = valid.replace("name = \"beacon.axioma\"", "name = \"Beacon\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
+}
+
+#[test]
+fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set() {
+    let root = tempfile::tempdir().unwrap();
+    let valid = valid_runtime_init_toml(root.path());
+    let unavailable_provider = valid.replace("provider = \"ollama\"", "provider = \"vertex-ai\"");
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&unavailable_provider)
+        .expect_err("a provider without a compiled execution adapter must fail at startup");
+    assert!(error
+        .to_string()
+        .contains("has no executable adapter in this Runtime build"));
+    let invalid_provider = valid.replace("provider = \"ollama\"", "provider = \"Vertex AI\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
+    let gateway_provider =
+        valid.replace("provider = \"ollama\"", "provider = \"openai-compatible\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&gateway_provider).is_ok());
+    for invalid in [
+        valid.replace("model = \"qwen3:8b\"", "model = \"bad model\""),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://\"",
+        ),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://public.example\"",
+        ),
+    ] {
+        let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid)
+            .expect_err("invalid model and endpoint bindings must fail at startup");
+        assert!(error
+            .to_string()
+            .contains("must form a valid private provider binding"));
+    }
+
+    let duplicate = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"beacon.axioma\"\ndisplay_name = \"Duplicate\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"qwen3:8b\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&duplicate).is_err());
+
+    let two = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"lumen.axioma\"\ndisplay_name = \"Lumen\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"gemma4:e4b-mlx\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&two).unwrap();
+    assert_eq!(parsed.resident_shepherd.iter().count(), 2);
 }

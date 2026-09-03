@@ -1,0 +1,12 @@
+{
+  "issue": 622,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "2a8af06154d2dfa5ec363c3bd89dd12af75f0de8c7db90a83ebb6d865f5be27d",
+  "actor": "codex:622-readiness",
+  "reason": "All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

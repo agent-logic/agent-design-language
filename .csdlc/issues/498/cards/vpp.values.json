@@ -1,0 +1,141 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 498,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+    "slug": "v0-92-1-corp-d-corporate-diligence-acceptance",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "readiness-preparation",
+          "proof_role": "Prove the #498 typed cards, design, diagram, dependency gates, scope, COTS-free posture, budgets, PVF lanes, and Sprint 4 umbrella update evidence are structurally ready.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/498/validate-readiness.rb"
+          ],
+          "parallel_group": "preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "prerequisite-census",
+          "proof_role": "Fail closed unless CORP-A #482, CORP-B #483, and CORP-C #497 are live merged into main and ancestral to the #498 execution base.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/498/check-prerequisites.rb"
+          ],
+          "parallel_group": "execution-gate",
+          "defer_reason": "Run at execution start; it must fail closed while #497 is not live merged and ancestral."
+        },
+        {
+          "lane": "diligence-index",
+          "proof_role": "Validate the exact diligence index denominator and one-to-one mapping into the acceptance record.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/498/validate-diligence-index.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": "Run after the diligence index and acceptance record exist."
+        },
+        {
+          "lane": "counsel-boundary",
+          "proof_role": "Validate that counsel-controlled judgments are represented only by bounded public or redacted receipts and no private advice is committed.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/498/validate-counsel-boundary.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": "Run after receipt evidence exists."
+        },
+        {
+          "lane": "acceptance-readback",
+          "proof_role": "Validate that corporate diligence acceptance binds the exact diligence index and refuses acceptance when prerequisites remain unresolved.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/498/validate-acceptance-readback.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": "Run after the acceptance record exists."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Verify whitespace and patch hygiene for #498 issue-owned changes.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on unresolved prerequisite blockers, non-ancestral dependency merges, private advice or credential exposure, external mutation without explicit operator authorization, incomplete diligence index binding, or unresolved exact-head review findings.",
+      "design_ref": ".csdlc/prepared/issues/498/design.md",
+      "design_digest": "262827283b5eed453b3521ceac115d26850434611433ea64a006c762c6bcce59",
+      "diagram_ref": ".csdlc/prepared/issues/498/diagram.mmd",
+      "diagram_digest": "c9ce5694da948221c4c85497a9ee582dd0d5689343d4b1b15a8874d8ea900db3"
+    }
+  }
+}

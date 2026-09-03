@@ -89,6 +89,7 @@ serde_yaml = "0.9"
 serde_json = "1.0"
 serde_jcs = "0.2"
 hex = "0.4"
+blake3 = "1"
 markdown = "1.0.0"
 chrono = { version = "0.4", features = ["serde"] }
 chrono-tz = "0.10"

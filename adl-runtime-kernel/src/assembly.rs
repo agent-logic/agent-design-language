@@ -52,6 +52,7 @@ pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
     AdapterKind::Lifelog,
 ];
 const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
+const LOCAL_WRITER_START_SCHEMA: &str = "adl.runtime.local_writer_start.v1";
 
 pub struct LiveBindings {
     pub recorder: RuntimeRecorder,
@@ -871,6 +872,13 @@ struct WriterLockOwner {
     pid: u32,
 }
 
+#[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
+struct WriterStartIntent {
+    schema: String,
+    writer_id: String,
+    pid: u32,
+}
+
 impl LocalRuntimeState {
     fn new_in(
         state_dir: PathBuf,
@@ -887,7 +895,8 @@ impl LocalRuntimeState {
         let writer_id = uuid::Uuid::new_v4().to_string();
         let writer_pid = std::process::id();
         let lock_path = state_dir.join("writer.lock");
-        acquire_writer_lock(&lock_path, &writer_id, writer_pid)?;
+        let start_intent_path = state_dir.join("writer.starting.json");
+        acquire_writer_lock(&lock_path, &start_intent_path, &writer_id, writer_pid)?;
         let durable = match KernelDurableState::open(&state_dir) {
             Ok(durable) => durable,
             Err(error) => {
@@ -926,26 +935,97 @@ impl Drop for LocalRuntimeState {
     }
 }
 
-fn acquire_writer_lock(lock_path: &Path, writer_id: &str, pid: u32) -> io::Result<()> {
+fn acquire_writer_lock(
+    lock_path: &Path,
+    start_intent_path: &Path,
+    writer_id: &str,
+    pid: u32,
+) -> io::Result<()> {
     loop {
+        if lock_path.exists() {
+            if recover_stale_writer_lock(lock_path, start_intent_path)? {
+                continue;
+            }
+            return Err(io::Error::new(
+                io::ErrorKind::AlreadyExists,
+                "state root is already locked by a live or ambiguous writer",
+            ));
+        }
+        prepare_writer_start_intent(start_intent_path, writer_id, pid)?;
         match fs::create_dir(lock_path) {
             Ok(()) => {
                 if let Err(error) = write_writer_lock_owner(lock_path, writer_id, pid) {
                     let _ = fs::remove_dir_all(lock_path);
+                    let _ = remove_matching_start_intent(start_intent_path, writer_id, pid);
                     return Err(error);
                 }
+                remove_matching_start_intent(start_intent_path, writer_id, pid)?;
                 return Ok(());
             }
             Err(error) if error.kind() == io::ErrorKind::AlreadyExists || lock_path.exists() => {
-                if !recover_stale_writer_lock(lock_path)? {
+                remove_matching_start_intent(start_intent_path, writer_id, pid)?;
+                return Err(io::Error::new(
+                    io::ErrorKind::AlreadyExists,
+                    "state root lock appeared during startup; refusing ambiguous recovery",
+                ));
+            }
+            Err(error) => {
+                let _ = remove_matching_start_intent(start_intent_path, writer_id, pid);
+                return Err(error);
+            }
+        }
+    }
+}
+
+fn prepare_writer_start_intent(path: &Path, writer_id: &str, pid: u32) -> io::Result<()> {
+    let intent = WriterStartIntent {
+        schema: LOCAL_WRITER_START_SCHEMA.to_owned(),
+        writer_id: writer_id.to_owned(),
+        pid,
+    };
+    let bytes = serde_json::to_vec(&intent).map_err(io::Error::other)?;
+    loop {
+        match fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(path)
+        {
+            Ok(mut file) => {
+                file.write_all(&bytes)?;
+                file.sync_all()?;
+                return Ok(());
+            }
+            Err(error) if error.kind() == io::ErrorKind::AlreadyExists => {
+                let existing = read_writer_start_intent(path)?;
+                if writer_pid_active(existing.pid) {
                     return Err(io::Error::new(
                         io::ErrorKind::AlreadyExists,
-                        "state root is already locked by a live writer",
+                        "writer startup transaction belongs to a live process",
                     ));
+                }
+                match fs::remove_file(path) {
+                    Ok(()) => continue,
+                    Err(error) if error.kind() == io::ErrorKind::NotFound => continue,
+                    Err(error) => return Err(error),
                 }
             }
             Err(error) => return Err(error),
         }
+    }
+}
+
+fn remove_matching_start_intent(path: &Path, writer_id: &str, pid: u32) -> io::Result<()> {
+    match read_writer_start_intent(path) {
+        Ok(intent) if intent.writer_id == writer_id && intent.pid == pid => {
+            match fs::remove_file(path) {
+                Ok(()) => Ok(()),
+                Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(()),
+                Err(error) => Err(error),
+            }
+        }
+        Ok(_) => Ok(()),
+        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(error),
     }
 }
 
@@ -964,14 +1044,49 @@ fn write_writer_lock_owner(lock_path: &Path, writer_id: &str, pid: u32) -> io::R
     file.sync_all()
 }
 
-fn recover_stale_writer_lock(lock_path: &Path) -> io::Result<bool> {
+fn recover_stale_writer_lock(lock_path: &Path, start_intent_path: &Path) -> io::Result<bool> {
     match read_writer_lock_owner(lock_path) {
         Ok(Some(owner)) if writer_lock_owner_recoverable(&owner) => {
             recover_writer_lock_after_owner_check(lock_path, owner)
         }
         Ok(Some(_)) => Ok(false),
-        Ok(None) => Ok(false),
+        Ok(None) => recover_interrupted_writer_start(lock_path, start_intent_path),
         Err(error) if error.kind() == io::ErrorKind::InvalidData => Ok(false),
+        Err(error) => Err(error),
+    }
+}
+
+fn recover_interrupted_writer_start(
+    lock_path: &Path,
+    start_intent_path: &Path,
+) -> io::Result<bool> {
+    let expected = match read_writer_start_intent(start_intent_path) {
+        Ok(intent) if !writer_pid_active(intent.pid) => intent,
+        Ok(_) => return Ok(false),
+        Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(false),
+        Err(error) if error.kind() == io::ErrorKind::InvalidData => return Ok(false),
+        Err(error) => return Err(error),
+    };
+    let stale_path =
+        lock_path.with_file_name(format!("writer.lock.stale.{}", uuid::Uuid::new_v4()));
+    match fs::rename(lock_path, &stale_path) {
+        Ok(()) => {
+            let moved_is_ownerless = matches!(read_writer_lock_owner(&stale_path), Ok(None));
+            let intent_unchanged = read_writer_start_intent(start_intent_path)
+                .is_ok_and(|observed| observed == expected && !writer_pid_active(observed.pid));
+            if moved_is_ownerless && intent_unchanged {
+                fs::remove_dir_all(&stale_path)?;
+                match fs::remove_file(start_intent_path) {
+                    Ok(()) => Ok(true),
+                    Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(true),
+                    Err(error) => Err(error),
+                }
+            } else {
+                restore_unrecovered_writer_lock(lock_path, &stale_path)?;
+                Ok(false)
+            }
+        }
+        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(true),
         Err(error) => Err(error),
     }
 }
@@ -1048,6 +1163,20 @@ fn read_writer_lock_owner(lock_path: &Path) -> io::Result<Option<WriterLockOwner
         ));
     }
     Ok(Some(owner))
+}
+
+fn read_writer_start_intent(path: &Path) -> io::Result<WriterStartIntent> {
+    let bytes = fs::read(path)?;
+    let intent = serde_json::from_slice::<WriterStartIntent>(&bytes)
+        .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
+    if intent.schema != LOCAL_WRITER_START_SCHEMA || intent.writer_id.is_empty() || intent.pid == 0
+    {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "local writer start transaction is invalid",
+        ));
+    }
+    Ok(intent)
 }
 
 #[cfg(unix)]
@@ -1234,7 +1363,33 @@ impl InProcessOperationExecutor {
                             "agent_conversation_bound",
                         ));
                     }
-                    return_output(recipient_id)
+                    let provider = task["provider"].as_str();
+                    let model = task["model"].as_str();
+                    let endpoint = task["endpoint"].as_str();
+                    match (provider, model, endpoint) {
+                        (None, None, None) => return_output(recipient_id),
+                        (Some(provider), Some(model), Some(endpoint)) => {
+                            let message = crate::control::invoke_provider_model(
+                                provider,
+                                endpoint,
+                                model,
+                                input,
+                                cancellation,
+                            )
+                            .await
+                            .map_err(|error| adapter_error(FailureClass::Retryable, error))?;
+                            serde_json::json!({
+                                "recipient_id": recipient_id,
+                                "message": message,
+                            })
+                        }
+                        _ => {
+                            return Err(adapter_error(
+                                FailureClass::Fatal,
+                                "agent_provider_binding_invalid",
+                            ))
+                        }
+                    }
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };

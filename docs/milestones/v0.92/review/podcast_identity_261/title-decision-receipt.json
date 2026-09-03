@@ -1,0 +1,9 @@
+{
+  "schema": "agent_logic.podcast.redacted_receipt.v1",
+  "receipt_kind": "title_decision",
+  "subject": "The Cognitive Stack",
+  "status": "approved",
+  "decided_at_utc": "2026-09-01T18:44:04Z",
+  "operator_authority_class": "operator_private_confirmation_retained",
+  "redaction_statement": "The private operator approval source is retained outside the public repository; this receipt records only the approved title, timestamp, authority class, and public-safe decision outcome."
+}

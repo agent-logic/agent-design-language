@@ -1,0 +1,26 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "sor",
+  "expected_digest": "80bd414cfe236626b5709e917f8bcaeeff605684a042efbe5d4160c794eb2d07",
+  "expected_generation": 6,
+  "issue": 515,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove exact deterministic comparison inputs and rule set for authority-versus-shadow observations.",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl/Cargo.toml",
+        "-p",
+        "adl",
+        "--test",
+        "provider_shadow_comparison"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:provider_shadow_comparison:1 passed"
+    }
+  },
+  "reason": "Record #515 deterministic-comparison validation lane result."
+}

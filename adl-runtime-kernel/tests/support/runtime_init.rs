@@ -217,8 +217,8 @@ canonical_ingress_capacity = {}
 component_readiness_timeout_millis = 5000
 observability_poll_millis = 50
 weather_stale_after_millis = 75
-guardian_lease_connect_millis = 500
-guardian_lease_auth_millis = 500
+guardian_lease_connect_millis = 30000
+guardian_lease_auth_millis = 30000
 trusted_time_sample_timeout_millis = 3000
 trusted_time_max_offset_millis = 5000
 trusted_time_max_round_trip_millis = 2000
@@ -307,6 +307,14 @@ id = "polis-test"
 display_name = "Test Polis"
 public_domain = "localhost"
 observatory_public_origin = "https://localhost:8765"
+
+[resident_shepherd]
+name = "beacon.axioma"
+display_name = "Beacon Axioma"
+office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
 [observatory]
 allowed_origins = ["https://localhost:8765"]
 [observability_pipeline]

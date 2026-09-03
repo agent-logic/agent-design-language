@@ -68,7 +68,9 @@ impl GuardianLease {
             let mut supplied = vec![0_u8; expected.len()];
             stream.read_exact(&mut supplied).unwrap();
             assert_eq!(supplied, expected.as_bytes());
-            stream.write_all(b"ok").unwrap();
+            let mut acknowledgement = b"ok".to_vec();
+            acknowledgement.extend_from_slice(&std::process::id().to_be_bytes());
+            stream.write_all(&acknowledgement).unwrap();
             let _ = release_rx.recv();
         });
         Self {
