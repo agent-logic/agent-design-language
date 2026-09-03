@@ -26,13 +26,14 @@ use adl_runtime_kernel::{
     CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
     ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
     ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
-    DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot,
-    ObservabilityDegradation, ObservabilityHealth, OperationRequest, OperationalAdapter,
-    RecorderTrustedTime, ResidentShepherdExecutor, ResidentShepherdProbeExecutor,
-    ResidentShepherdRecoveryPolicy, RsntpTimeSampleSource, RunningState, RuntimeInitConfig,
-    RuntimeRecorder, SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds,
-    TimeSampleSource, TlsIdentityPaths, TrustedControlKey, TrustedTime,
-    AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
+    DurableContinuityJournal, FailureClass, Kernel, KernelExit, LiveBindings, LiveContinuity,
+    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
+    OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor,
+    ResidentShepherdProbeExecutor, ResidentShepherdRecoveryPolicy, RsntpTimeSampleSource,
+    RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
+    TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
+    TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
+    PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -897,11 +898,23 @@ async fn main() -> ExitCode {
                     .to_vec(),
                 permit: None,
             };
-            if let Err(error) = resident_shepherd_executor
-                .execute(&shepherd_admission)
-                .await
-            {
-                eprintln!("runtime resident Shepherd admission degraded; Runtime remains available: {error}");
+            loop {
+                match resident_shepherd_executor
+                    .execute(&shepherd_admission)
+                    .await
+                {
+                    Ok(_) => break,
+                    Err(error) if error.class == FailureClass::Retryable => {
+                        eprintln!("runtime resident Shepherd admission pending: {error}");
+                        tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                    }
+                    Err(error) => {
+                        eprintln!(
+                            "runtime resident Shepherd admission degraded; Runtime remains available: {error}"
+                        );
+                        break;
+                    }
+                }
             }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
                 private_listener,
