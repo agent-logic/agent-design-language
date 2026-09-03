@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 665,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+    "slug": "emergency-branch-adoption-defect",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "C-SDLC v2 emergency branch/worktree adoption in the bind owner, lifecycle topology guards, schema surfaces, focused tests, operator documentation, and issue-local lifecycle artifacts only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can the adoption route import an unrelated or stale branch/worktree?",
+        "Does successful adoption advance only to bound and preserve all later lifecycle gates?",
+        "Are dirty, ambiguous, unsafe-parent, main-branch, and missing-ancestry cases rejected?",
+        "Does ordinary bind/create behavior remain unchanged?",
+        "Does documentation make clear that emergency product actions do not grant lifecycle authority?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

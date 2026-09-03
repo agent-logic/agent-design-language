@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 665,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+    "slug": "emergency-branch-adoption-defect",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Provide a fail-closed typed C-SDLC v2 recovery operation that adopts a verified issue-owned emergency branch/worktree into lifecycle authority without weakening implementation, review, or publication gates.",
+      "required_outcome": "An operator can submit a typed adoption request for an existing issue branch/worktree; the bind owner verifies exact repository, issue, branch, worktree, HEAD, base ancestry, checkout ownership, and collision state; records immutable adoption evidence; and advances only to the truthful bound phase.",
+      "declared_scope": [
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/model.rs",
+        "csdlc-v2/src/bin/csdlc-bind.rs",
+        "csdlc-v2/tests/**",
+        "docs/tooling/**",
+        ".csdlc/prepared/issues/665/**",
+        ".csdlc/issues/665/**"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#665",
+        "Typed C-SDLC v2 remains the lifecycle authority",
+        "The operation may adopt only verified issue-owned emergency branch/worktree topology",
+        "Implementation finalization, exact-head review, publication, merge, and closeout remain separate required gates",
+        "Issue #660 product changes and live AWS mutation are out of scope"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Do not reset, force checkout, rebase, merge, overwrite, or copy product work through main",
+        "Do not use raw gh as a lifecycle write workaround",
+        "Do not weaken publication or exact-head review guards",
+        "No live cloud mutation is required"
+      ]
+    }
+  }
+}
