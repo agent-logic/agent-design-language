@@ -13,3 +13,6 @@
 {"sequence":13,"generation":8,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":14,"generation":9,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":15,"generation":10,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":16,"generation":11,"actor":"codex:worker-6","reason":"Recover stale #632 review and publication truth after the exact-head canary topology repair at 2bddd359d8141899efc01e0088c3a33006c50504 before fresh review.","operation":"recover_review"}
+{"sequence":17,"generation":11,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":18,"generation":12,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

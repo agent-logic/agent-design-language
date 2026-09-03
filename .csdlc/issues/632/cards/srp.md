@@ -12,22 +12,14 @@ Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/632/design.md
-.csdlc/prepared/issues/632/diagram.mmd
-.csdlc/prepared/issues/632/bootstrap.json
 .csdlc/prepared/issues/632/command-route-coverage.json
 .csdlc/prepared/issues/632/canary-evidence-index.md
-.csdlc/prepared/issues/632/finalize-implementation.json
-.csdlc/prepared/issues/632/replace-execution-after-review-fixes.json
-.csdlc/prepared/issues/632/replace-execution-current-command-surface.json
-.csdlc/prepared/issues/632/recover-review-after-main-merge.json
 .csdlc/prepared/issues/632/validate-v3-canary-readiness.sh
 .csdlc/prepared/issues/632/validate-v3-guidance.sh
 .csdlc/prepared/issues/632/validate-sprint-review-readiness.sh
-docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md
-csdlc-v3/README.md
-docs/architecture/ADL_ARCHITECTURE.md
-adl/src/cli/csmctl_cmd.rs
+docs/csdlc-v3/full-replacement-denominator.json
+docs/csdlc-v3/v3-command-manifest.json
+csdlc-v3/tests/real_issue_canary.rs
 
 ## Prompts
 
@@ -45,14 +37,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; current v3 routes must not become live lifecycle authority before #505.
-- Terminal finish and cleanup canary proof still requires an authorized canary merge or an explicit #505 blocker disposition.
-- #631/#644 stacked-publication topology remains a cutover blocker until typed retarget/supersede behavior or serial base closure is resolved.
+- C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover.
+- #631/#669 remains a dependency gate until its current hosted checks and review decision settle.
+- Terminal finish and cleanup canary proof still requires an authorized canary merge or explicit #505 blocker disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:d6543d434d21a72d3a2a5fd5824e03b2757f3364:1ad6b9327bb130905c77b8c1e5865afdd83bd7116bd16b83dc8a8f50c9f9100a")
+Revision: Some("git-blake3:2bddd359d8141899efc01e0088c3a33006c50504:2bff921f0a575563754d1cf297c23c26dd06e260b19c1a8440c6aecef41d623c")
 
-Reviewer: Some("subagent:/root/review_632_head_after_recover")
+Reviewer: Some("subagent:/root/review_632_head_2bddd")
 
 Result: pass
