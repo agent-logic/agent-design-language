@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b93a95ade0dac40135117b73005e34975df1f0a635a322b41fd2e3554b887290",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "e12697f4a172bb7fd384e217fa6f144f1503347c87b9cb62e532389c9bd22920",
+  "phase": "published",
+  "generation": 10,
+  "digest": "bd0af74c70610e36a9042e39b789ec6ff91999b146c9c15f1c1685810d156084",
   "branch": "codex/632-v3-h6-canaries-docs-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec",
   "review_assignment": {
     "reviewer": "subagent:/root/review_632_head_after_recover",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:d9635ec4b63193e30321ab872e4636b5cfc19966:095512f74be8073d0a0813954a4c0d9efa74f350cce5720a26e954c993f0987c",
+    "revision": "git-blake3:d6543d434d21a72d3a2a5fd5824e03b2757f3364:1ad6b9327bb130905c77b8c1e5865afdd83bd7116bd16b83dc8a8f50c9f9100a",
     "scope": [
       ".csdlc/prepared/issues/632/design.md",
       ".csdlc/prepared/issues/632/diagram.mmd",
@@ -52,7 +52,7 @@
       "docs/architecture/ADL_ARCHITECTURE.md",
       "adl/src/cli/csmctl_cmd.rs"
     ],
-    "reviewed_revision": "git-blake3:d9635ec4b63193e30321ab872e4636b5cfc19966:095512f74be8073d0a0813954a4c0d9efa74f350cce5720a26e954c993f0987c",
+    "reviewed_revision": "git-blake3:d6543d434d21a72d3a2a5fd5824e03b2757f3364:1ad6b9327bb130905c77b8c1e5865afdd83bd7116bd16b83dc8a8f50c9f9100a",
     "findings": [],
     "residual_risks": [
       "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; current v3 routes must not become live lifecycle authority before #505.",
@@ -62,7 +62,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 632,
+    "pull_request": 647,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/647",
+    "base": "main",
+    "head": "codex/632-v3-h6-canaries-docs-readiness-exec",
+    "revision": "git-blake3:d6543d434d21a72d3a2a5fd5824e03b2757f3364:1ad6b9327bb130905c77b8c1e5865afdd83bd7116bd16b83dc8a8f50c9f9100a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -76,34 +87,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2798593cc357475ccff87d011ed9f292c96c40293b845cc7eeeb69ddae1d92ac",
+      "values_digest": "9d523bffd693f362aec8b46bb482ace02495caf86ebfb6bb16303bf913eb0609",
       "rendered_digest": "0fdbc068a9e16b9a34f4c99b5953930b02c525fdddf4be01c8acd33f0a8bf60d",
       "ast_digest": "ed89ca60d9cce79cf4979853fd6df465539b0f00233e4f03a42decb6a25c16c0"
     },
     "stp": {
-      "values_digest": "83880d0a9dfb3d8d228f25514183df4fa3ce7680977f2fc844d0790ad4d48f4c",
+      "values_digest": "7d795e20764879806e37fdb81b5cf38771a67976806c667fa99b5aad5c4a6851",
       "rendered_digest": "caf0677a955027d962688dc0224133c7c7d4b10c56b4f1d17d551f31f7891779",
       "ast_digest": "4b130a63d7ec3bd4a4bfe6c1596dcbe0ac07119a4f968f8b48bc5db493babaec"
     },
     "spp": {
-      "values_digest": "528b72567d82b971704d3b5a763f6accbd58759e85ff00e6983a2cd17c62c7ec",
+      "values_digest": "6838bd8b11c962dd5b74410cdcac25ef15c78863c7135d8d9f9e82aa95209b51",
       "rendered_digest": "ac428c78623cc711bb9a3eee6ae606302cd3136c5dd40130c37aeafbbbb6d14c",
       "ast_digest": "0654c45b2e0ef0e21df53b9ec506777fc1b26e11ee63dfd8e71da61175637894"
     },
     "vpp": {
-      "values_digest": "e5c8094fbc5290111104d7ee45cb711c9a15e80b03815af410421eadb1e017a5",
+      "values_digest": "d97aa8813cef449685f3248a38d4002f1df84e0b90c6a16f7e3700096babe019",
       "rendered_digest": "a46da483ee55913a32a0ca18e0d7986519dbb3bf24edfb86e71c499b37249825",
       "ast_digest": "c256ae237568c95bf3dff3aa69018688d49b9d7ff18813e8f2f7a567b7fc6da6"
     },
     "srp": {
-      "values_digest": "0b98a8498040df8e707ab4f64c7e4624a3575449af68b94d5719fa8434af55f1",
-      "rendered_digest": "fc1f277299e6f3dcbe75eccdb5e898606e0c5e0305d5eabe060e22958998ccc1",
-      "ast_digest": "053b81fd538038a9833256faf57da9a3ed1d2bfb212bb367eeeb61c5174fb413"
+      "values_digest": "2adfa5833a0342196c6f28b5546604a17726e067e9e7c8abb42bf839db728c4d",
+      "rendered_digest": "5cc2efe27795c30b60c56fc14cbc312a86292030c52c3b0c59dd785ecfb7c7b7",
+      "ast_digest": "b46fb19774c1747ecfb973b689fb9db6320f4f20bafba620a5c26379e3034951"
     },
     "sor": {
-      "values_digest": "334b7f3aded21e7d2e7dd7bb505d9ffbf95f14ebb48fc5c283934b228f86bc13",
-      "rendered_digest": "f0298393d62ae90146faf7193d5fc40749e346deec3b017d792a9e583e769f4d",
-      "ast_digest": "210318127a822564929950087bad6cf0e11e3f1eb06ca6847d385df8e39d7339"
+      "values_digest": "9a6f3b844ae8ca781b095a04a7228ad4d13d899e7486d8eb7d72dff8ca22733f",
+      "rendered_digest": "7a41012e63b5262f5d043f50e0c56f0a76117dfebdca76a72d101122669ec2c5",
+      "ast_digest": "b2042bda2fdd3b59dde9015943fd2aff4ec846408c1f41c26fe522e95067cf75"
     }
   },
   "transitions": [
@@ -155,6 +166,27 @@
       "to": "reviewed",
       "actor": "codex:worker-6",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review truth after the typed review-record metadata tail made the publication guard stale; substantive implementation content remains unchanged and will be reassigned/reviewed at the current clean metadata head before publication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -234,6 +266,34 @@
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review truth after the typed review-record metadata tail made the publication guard stale; substantive implementation content remains unchanged and will be reassigned/reviewed at the current clean metadata head before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
