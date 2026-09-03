@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
     "slug": "v3-h4-finish-clean-cutover-routes",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/commands/terminal/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ncsdlc-v3/tests/command_manifest.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/630/design.md\n.csdlc/prepared/issues/630/diagram.mmd\n.csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
-      "review_revision": "git-blake3:05b17cc83f9e17b7adcfcf22f05498f579508f74:a39833aed2d177f872f73a92afd17c6c5495f594ffd0e6104f116cbbe11f14f6",
-      "reviewer": "codex-reviewer:review_630_fast",
+      "review_scope": "csdlc-v3/src/commands/terminal.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "review_revision": "git-blake3:fef864bb6ae6bd58052cb9c2274ac4330346667d:96b647c2db01c45549870b7d040ebafa47986e0e5ed1e2e4387d60c25a494c2f",
+      "reviewer": "codex-reviewer:review_630_cleanup_receipts_fef864",
       "review_prompts": [
         "Can any caller manufacture terminal, cleanup, or cutover authority without authenticated evidence?",
         "Does cleanup actually consult Git worktree registration and preserve distinct outcomes?",
@@ -24,7 +24,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "C-SDLC v3 terminal, cleanup, and cutover routes remain construction-only and non-authoritative until explicit #505 cutover."
+        "C-SDLC v3 terminal, cleanup, and cutover routes remain construction-only and non-authoritative until explicit V3-F/#505 cutover.",
+        "Publication text must be refreshed to current head fef864bb6ae6bd58052cb9c2274ac4330346667d before readiness or merge claims."
       ],
       "review_result": "pass"
     }
