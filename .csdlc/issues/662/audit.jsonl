@@ -16,3 +16,4 @@
 {"sequence":16,"generation":10,"actor":"fresh-session:review-662-agent-to-agent-initiation-final-metadata-head","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":17,"generation":11,"actor":"codex:/root:issue-662-exec","reason":"Recover #662 review truth after the final review-record commit so the next review/publication bridge starts after prior prepared-file metadata commits.","operation":"recover_review"}
 {"sequence":18,"generation":11,"actor":"codex:/root:issue-662-exec","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":19,"generation":12,"actor":"fresh-session:review-662-agent-to-agent-initiation-safe-tail","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "2726231adc4d95cc06db8e8c2d4cc83bd98ca89b02dc01924d2d7131db3d4804",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "90fce32ed0f769ea8a7fc61ad481a9495c5385af6876219e136bc62e099f20ce",
   "branch": "codex/662-agent-to-agent-initiation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
   "review_assignment": {
@@ -24,7 +24,28 @@
       ".csdlc/evidence/662"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/prepared/issues/662/design.md",
+      ".csdlc/prepared/issues/662/diagram.mmd",
+      ".csdlc/prepared/issues/662/bind.json",
+      ".csdlc/prepared/issues/662/finalize-implementation.json",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/evidence/662"
+    ],
+    "reviewed_revision": "git-blake3:d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3:d9971511ee2cbef68e2f1de4fccbfaf112f8667af3ee8cbc74c49e5cd73c83a1",
+    "findings": [],
+    "residual_risks": [
+      "Safe-tail review inspected clean branch HEAD 7bbb8ccc952cf3fdab286bf26e8c93e7cc6c1b4c and confirmed commits after d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3 are governed .csdlc/issues/662 metadata only.",
+      "No source changes were present after sender-identity fix 024afcd521b984f4b780ead4803507ea95a3938a in adl-runtime-kernel/src/control.rs or adl-runtime-kernel/src/telemetry.rs.",
+      "No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during safe-tail review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "81afe3dbf30f0be270c347b9ec9d10fa8d97f1a7c21ec447b6a2fe42a7356778",
+      "values_digest": "b657ab028df3ae73e174089322bbccaa5777ddf13b49010ca1cba968a8c32ba0",
       "rendered_digest": "3f58782d50ee9b9fd73ee67152eba61d607fee4223098b680c5c0f3e1c1a69bb",
       "ast_digest": "8d1cd6432ea644f770fdad24fc2499103564ce02f0df3084cc2d649edc32bdf7"
     },
     "stp": {
-      "values_digest": "57f26e3ce346668300c1cd32f4ae42b26132f7cf68475a66f562dc4289416502",
+      "values_digest": "08dc6bca222607664697085ac618af24784b22936adf06673366e9d91321b523",
       "rendered_digest": "c48bb7ad9ba7285a23a71f6ae97e54f49365fb1e558f30fb414cb0eedc75cb41",
       "ast_digest": "2f8254c052eca2a8e14f61e33bea7adba5af4aed5728fe93379ad093fdb34306"
     },
     "spp": {
-      "values_digest": "329a28e6d29f3d2d1d74f440270172d226a684e742f5f62d41a0fb74ad7e7492",
+      "values_digest": "32eed3ce876653ad30ef66d1770da3b1e2af676f54aae66276af0daca609e2a1",
       "rendered_digest": "210f7d8779f8213a67be9e9f73822619acfe38dbf840213cd57fc23f0d4193fb",
       "ast_digest": "dc5f615ba1d839dd28fb6944f405aaa61cb83da600e9d55b6c9f96c0c2fa271a"
     },
     "vpp": {
-      "values_digest": "253229624e73aa9cb9f7150491fa8e0175f1560c04cf4d67a54171f4035a12f9",
+      "values_digest": "3c342aad0979c2574d2bee7e09f9985fef7fed26178f9dd3c7391e153c3d77bd",
       "rendered_digest": "4adb27da2ca9169c959966cb14eda245bfdfd20a822b3dd6403b71e2de49c337",
       "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
     },
     "srp": {
-      "values_digest": "9949ba665ef46e483e9d2232f3242c0448e4633a0499ba9f8d42748c34cb5846",
-      "rendered_digest": "f914865a7367024b22b3f6b66dc4992d8b9da07b7355ef415a256e103345d094",
-      "ast_digest": "0871a2cec337dccf5dc78ef0c906ec7a30bc12369f6cbecf8937a87d7f055d4f"
+      "values_digest": "8cf12e13fb9ad2d5bf687b5d7a38010a981f32683f54462a8f211112b1aa2de6",
+      "rendered_digest": "71c3966b682c3175fdca091f2c96e2db64b7cdfc2e3423dc2ef8ae217e6ce546",
+      "ast_digest": "c61d92314e9fa30d064a770e77893cc5e2493d28a472f67fa2baaa889946923e"
     },
     "sor": {
-      "values_digest": "defe2a1f042ba7a06b93d8f0a034d9d1e1dced5a6cbb83acbb141c7d1448e80b",
+      "values_digest": "b3711d031ce0db1e08020be963f1ef62197a94a1b756b93defdcbfbd68939bec",
       "rendered_digest": "e93b20f25aa1ed872736e3312a20d603f7adf78828bb3a16f0bf9e7b869c7b8c",
       "ast_digest": "527c2f1df9e77538103eb040a273f7e1ca84982348a1c47aa9464d3dba10330e"
     }
@@ -132,6 +153,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-662-exec",
       "reason": "Recover #662 review truth after the final review-record commit so the next review/publication bridge starts after prior prepared-file metadata commits."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -260,6 +288,13 @@
       "actor": "codex:/root:issue-662-exec",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
