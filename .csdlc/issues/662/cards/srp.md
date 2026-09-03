@@ -13,11 +13,6 @@ Status: draft
 ## Scope
 
 adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/telemetry.rs
-.csdlc/prepared/issues/662/design.md
-.csdlc/prepared/issues/662/diagram.mmd
-.csdlc/prepared/issues/662/bind.json
-.csdlc/prepared/issues/662/finalize-implementation.json
 .csdlc/prepared/issues/662/validate-focused.sh
 .csdlc/evidence/662
 
@@ -39,14 +34,15 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Safe-tail review inspected clean branch HEAD 7bbb8ccc952cf3fdab286bf26e8c93e7cc6c1b4c and confirmed commits after d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3 are governed .csdlc/issues/662 metadata only.
-- No source changes were present after sender-identity fix 024afcd521b984f4b780ead4803507ea95a3938a in adl-runtime-kernel/src/control.rs or adl-runtime-kernel/src/telemetry.rs.
-- No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during safe-tail review.
+- Review scope was limited to the red-check janitor delta for PR #668 after CI failed adl-runtime-v3-fast on strict Clippy findings.
+- Local proof after the janitor patch: cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; .csdlc/prepared/issues/662/validate-focused.sh from the issue worktree passed 3/3 focused tests; git diff --check passed.
+- The initial absolute invocation of validate-focused.sh from the primary checkout produced running 0 tests and was rejected as non-proving; the accepted proof is the worktree-local invocation.
+- No live Runtime mutation, provider call, AWS action, paid runner, merge, finish, or cleanup was performed during red-check janitor review.
 
 ## Review Result
 
-Revision: Some("git-blake3:d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3:d9971511ee2cbef68e2f1de4fccbfaf112f8667af3ee8cbc74c49e5cd73c83a1")
+Revision: Some("git-blake3:f2d09fa64efed868b043809387efe573eee54941:d1f55948f4b69d6a22f989c09f72116b4b3adce9aa0033985486f08ee2f57b9c")
 
-Reviewer: Some("fresh-session:review-662-agent-to-agent-initiation-safe-tail")
+Reviewer: Some("codex:/root:issue-662-red-janitor-review")
 
 Result: pass

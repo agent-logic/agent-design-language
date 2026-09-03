@@ -4,60 +4,40 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
-  "phase": "published",
-  "generation": 14,
-  "digest": "e87455d789474028488e04fa7d0dc5b4209048b667c8563191c76795f3ea9d51",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "a09a4d45426d77e64fbda197c5e9a3931f0efeaa9c6f16960471ecc8019347e8",
   "branch": "codex/662-agent-to-agent-initiation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
   "review_assignment": {
-    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
-    "assigned_by": "codex:/root:issue-662-exec",
-    "revision": "git-blake3:d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3:d9971511ee2cbef68e2f1de4fccbfaf112f8667af3ee8cbc74c49e5cd73c83a1",
+    "reviewer": "codex:/root:issue-662-red-janitor-review",
+    "assigned_by": "codex:/root:issue-662-red-janitor",
+    "revision": "git-blake3:f2d09fa64efed868b043809387efe573eee54941:d1f55948f4b69d6a22f989c09f72116b4b3adce9aa0033985486f08ee2f57b9c",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/prepared/issues/662/design.md",
-      ".csdlc/prepared/issues/662/diagram.mmd",
-      ".csdlc/prepared/issues/662/bind.json",
-      ".csdlc/prepared/issues/662/finalize-implementation.json",
       ".csdlc/prepared/issues/662/validate-focused.sh",
       ".csdlc/evidence/662"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+    "reviewer": "codex:/root:issue-662-red-janitor-review",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/prepared/issues/662/design.md",
-      ".csdlc/prepared/issues/662/diagram.mmd",
-      ".csdlc/prepared/issues/662/bind.json",
-      ".csdlc/prepared/issues/662/finalize-implementation.json",
       ".csdlc/prepared/issues/662/validate-focused.sh",
       ".csdlc/evidence/662"
     ],
-    "reviewed_revision": "git-blake3:d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3:d9971511ee2cbef68e2f1de4fccbfaf112f8667af3ee8cbc74c49e5cd73c83a1",
+    "reviewed_revision": "git-blake3:f2d09fa64efed868b043809387efe573eee54941:d1f55948f4b69d6a22f989c09f72116b4b3adce9aa0033985486f08ee2f57b9c",
     "findings": [],
     "residual_risks": [
-      "Safe-tail review inspected clean branch HEAD 7bbb8ccc952cf3fdab286bf26e8c93e7cc6c1b4c and confirmed commits after d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3 are governed .csdlc/issues/662 metadata only.",
-      "No source changes were present after sender-identity fix 024afcd521b984f4b780ead4803507ea95a3938a in adl-runtime-kernel/src/control.rs or adl-runtime-kernel/src/telemetry.rs.",
-      "No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during safe-tail review."
+      "Review scope was limited to the red-check janitor delta for PR #668 after CI failed adl-runtime-v3-fast on strict Clippy findings.",
+      "Local proof after the janitor patch: cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; .csdlc/prepared/issues/662/validate-focused.sh from the issue worktree passed 3/3 focused tests; git diff --check passed.",
+      "The initial absolute invocation of validate-focused.sh from the primary checkout produced running 0 tests and was rejected as non-proving; the accepted proof is the worktree-local invocation.",
+      "No live Runtime mutation, provider call, AWS action, paid runner, merge, finish, or cleanup was performed during red-check janitor review."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 662,
-    "pull_request": 668,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/668",
-    "base": "main",
-    "head": "codex/662-agent-to-agent-initiation",
-    "revision": "git-blake3:cf8c7c0ad6149b200e0fb72c2841a0b2875c050b:e5361e0b879beeddfd59ba4b9d0eba70673955d7357b62c1038f509f3ca7bf27",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -71,34 +51,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b0b9608bb48ddb4c05b542df83de218acf10817557cbafe88041469f1f8b8715",
+      "values_digest": "dde5d278ed4bf2f876217f4c39ede02fb6a16c37b8d79d8f533798b3eee5864b",
       "rendered_digest": "3f58782d50ee9b9fd73ee67152eba61d607fee4223098b680c5c0f3e1c1a69bb",
       "ast_digest": "8d1cd6432ea644f770fdad24fc2499103564ce02f0df3084cc2d649edc32bdf7"
     },
     "stp": {
-      "values_digest": "c71bb54d7bdaef4abd484381835e6db76d16ce65c5a2a84857ea4a27af64c521",
+      "values_digest": "a53fed9da7ee24422c732a1f39ba4f7893beca75f6d171264675ca72e40b4f33",
       "rendered_digest": "c48bb7ad9ba7285a23a71f6ae97e54f49365fb1e558f30fb414cb0eedc75cb41",
       "ast_digest": "2f8254c052eca2a8e14f61e33bea7adba5af4aed5728fe93379ad093fdb34306"
     },
     "spp": {
-      "values_digest": "d2ca1c7b513399cad9a77f26c6f09749f607d61fd210c7ef3ea5d77a716f50b3",
+      "values_digest": "e51e61c4886878099a815c3c85ff2a96ee26f86e6dd46ae071e365d75f82e468",
       "rendered_digest": "210f7d8779f8213a67be9e9f73822619acfe38dbf840213cd57fc23f0d4193fb",
       "ast_digest": "dc5f615ba1d839dd28fb6944f405aaa61cb83da600e9d55b6c9f96c0c2fa271a"
     },
     "vpp": {
-      "values_digest": "a8661134424937517d33e595ad35d54853f60b2ad8fde09c446e4244e0d153be",
+      "values_digest": "6f879041d5d9a51429b58f76b1813529d85cbea64a3ed9005752f8d7a5433f9c",
       "rendered_digest": "4adb27da2ca9169c959966cb14eda245bfdfd20a822b3dd6403b71e2de49c337",
       "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
     },
     "srp": {
-      "values_digest": "749dbf38b484800d6d257b8890385cbdef7705899bf33de5b0b4be40b4bd76d2",
-      "rendered_digest": "71c3966b682c3175fdca091f2c96e2db64b7cdfc2e3423dc2ef8ae217e6ce546",
-      "ast_digest": "c61d92314e9fa30d064a770e77893cc5e2493d28a472f67fa2baaa889946923e"
+      "values_digest": "13d5e1f5d350571e46ddd6ffc4cac7247dec08ee5b204351adb06e80bba1c19b",
+      "rendered_digest": "cde985f5842e95bb59fd0633ad2f69d5a02e3f6eef00536a8dbab88d9e919f98",
+      "ast_digest": "c1198fbef92c53817988d021d1fe9c018acc18f61fd652aa6c0c7facda52e335"
     },
     "sor": {
-      "values_digest": "a85d4889f2bde8d58e9ef80606f3c165c12ce361e5b5a4a029268b1bbd60eebb",
-      "rendered_digest": "3557f9c3c8dfa175c9a25f1a4b2b26e9471a735f501ccbb4f4e55d533c34afb5",
-      "ast_digest": "5ccef1549a5d06226264ef33c145fcc2ac38e3e0b37698123a34d50fadd0a891"
+      "values_digest": "3f2f0abeabb5634529d794846417df980ebc842fe8a410b7b63bc3b47d2a2c2e",
+      "rendered_digest": "e93b20f25aa1ed872736e3312a20d603f7adf78828bb3a16f0bf9e7b869c7b8c",
+      "ast_digest": "527c2f1df9e77538103eb040a273f7e1ca84982348a1c47aa9464d3dba10330e"
     }
   },
   "transitions": [
@@ -178,6 +158,20 @@
       "to": "published",
       "actor": "codex:/root:issue-662-exec",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "Recover #662 review truth after the red-check janitor source commit f2d09fa64 so a fresh exact-head review can cover the current substantive PR head before merge readiness."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-662-red-janitor-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -327,6 +321,41 @@
       "actor": "codex:/root:issue-662-exec",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "Recover #662 review truth after the red-check janitor source commit f2d09fa64 so a fresh exact-head review can cover the current substantive PR head before merge readiness.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "Recover #662 review truth after the red-check janitor source commit and unavailable delegated review result so a truthful exact-head review can be recorded before merge readiness.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex:/root:issue-662-red-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:/root:issue-662-red-janitor-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

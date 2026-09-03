@@ -1,0 +1,7 @@
+{
+  "issue": 662,
+  "expected_generation": 15,
+  "expected_digest": "fecfc504e0cfdc0c583716c1f1f90df3dd8a4f8c839bbe96e2f714687aaff2c1",
+  "actor": "codex:/root:issue-662-red-janitor",
+  "reason": "Recover #662 review truth after the red-check janitor source commit and unavailable delegated review result so a truthful exact-head review can be recorded before merge readiness."
+}

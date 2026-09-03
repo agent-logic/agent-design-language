@@ -1,0 +1,7 @@
+{
+  "issue": 662,
+  "expected_generation": 14,
+  "expected_digest": "e87455d789474028488e04fa7d0dc5b4209048b667c8563191c76795f3ea9d51",
+  "actor": "codex:/root:issue-662-red-janitor",
+  "reason": "Recover #662 review truth after the red-check janitor source commit f2d09fa64 so a fresh exact-head review can cover the current substantive PR head before merge readiness."
+}

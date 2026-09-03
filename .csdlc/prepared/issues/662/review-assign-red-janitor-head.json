@@ -1,0 +1,12 @@
+{
+  "issue": 662,
+  "expected_generation": 15,
+  "expected_digest": "887dfe28ce46efc4a813ed418770f4704c5ddc0cc711c815a2ce1200786d962b",
+  "reviewer": "fresh-session:review-662-red-janitor-delta",
+  "assigned_by": "codex:/root:issue-662-red-janitor",
+  "scope": [
+    "adl-runtime-kernel/src/control.rs",
+    ".csdlc/prepared/issues/662/validate-focused.sh",
+    ".csdlc/evidence/662"
+  ]
+}
