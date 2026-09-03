@@ -250,11 +250,13 @@ fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
     let report = TerminalCommandReport {
         schema: "csdlc.v3.terminal_cleanup_cutover.v1",
         command: command.to_owned(),
-        read_only: command != "clean"
-            || !request
+        read_only: true,
+        requested_mutation: command == "clean"
+            && request
                 .cleanup
                 .as_ref()
                 .is_some_and(|cleanup| cleanup.remove),
+        performed_mutation: false,
         operational_authority: false,
         cutover_issue: 505,
         result,
@@ -311,6 +313,8 @@ struct TerminalCommandReport<T> {
     schema: &'static str,
     command: String,
     read_only: bool,
+    requested_mutation: bool,
+    performed_mutation: bool,
     operational_authority: bool,
     cutover_issue: u64,
     result: T,

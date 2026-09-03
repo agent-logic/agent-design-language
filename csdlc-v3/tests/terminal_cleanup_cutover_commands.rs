@@ -1,6 +1,7 @@
 use csdlc_v3::commands::terminal::{
     prepare_terminal_route, CleanupDecision, CleanupRouteRequest, CutoverDecisionRequest,
-    FinishDecision, TerminalPublicationMode, TerminalRouteRequest, TerminalRouteStatus,
+    DurableTerminalReceipt, FinishDecision, TerminalPublicationMode, TerminalRouteRequest,
+    TerminalRouteStatus,
 };
 use std::{
     fs,
@@ -110,6 +111,7 @@ fn cleanup_denies_nonexistent_parent_traversal_escape() {
         &approved.join("missing").join("..").join("escape"),
         false,
         None,
+        None,
     );
     let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
@@ -127,10 +129,23 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
     let unregistered = fixture.join("unregistered");
     fs::create_dir_all(&fixture).expect("fixture root");
     init_repo(&primary);
+    let receipt = write_terminal_receipt(
+        &primary,
+        630,
+        641,
+        "0123456789012345678901234567890123456789",
+    );
     git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
     fs::create_dir_all(&unregistered).expect("unregistered dir");
 
-    let dirty = cleanup_plan(&fixture, &primary, &registered, false, None);
+    let dirty = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        false,
+        Some(receipt.clone()),
+        None,
+    );
     fs::write(registered.join("dirty.txt"), "dirty\n").expect("dirty marker");
     assert!(matches!(
         prepare_terminal_route("clean", &dirty).unwrap().cleanup,
@@ -140,21 +155,42 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
 
     fs::create_dir_all(registered.join(".csdlc")).expect("marker parent");
     fs::write(registered.join(".csdlc/live-worktree.marker"), "live\n").expect("live marker");
-    let live = cleanup_plan(&fixture, &primary, &registered, false, None);
+    let live = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        false,
+        Some(receipt.clone()),
+        None,
+    );
     assert!(matches!(
         prepare_terminal_route("clean", &live).unwrap().cleanup,
         Some(CleanupDecision::Live { .. })
     ));
     fs::remove_file(registered.join(".csdlc/live-worktree.marker")).expect("remove live marker");
 
-    let preview = cleanup_plan(&fixture, &primary, &registered, false, None);
+    let preview = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        false,
+        Some(receipt.clone()),
+        None,
+    );
     let preview_plan = prepare_terminal_route("clean", &preview).expect("preview");
     let receipt_digest = match preview_plan.cleanup {
         Some(CleanupDecision::Removable { receipt_digest, .. }) => receipt_digest,
         other => panic!("expected removable preview, got {other:?}"),
     };
 
-    let wrong_receipt = cleanup_plan(&fixture, &primary, &registered, true, Some("wrong".into()));
+    let wrong_receipt = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        true,
+        Some(receipt.clone()),
+        Some("wrong".into()),
+    );
     assert!(prepare_terminal_route("clean", &wrong_receipt)
         .unwrap()
         .findings
@@ -166,6 +202,7 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
         &primary,
         &registered,
         true,
+        Some(receipt.clone()),
         Some(receipt_digest.clone()),
     );
     assert!(matches!(
@@ -173,7 +210,14 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
         Some(CleanupDecision::RemovalDeniedPreCutover { .. })
     ));
     assert!(registered.exists());
-    let post_denial_preview = cleanup_plan(&fixture, &primary, &registered, false, None);
+    let post_denial_preview = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        false,
+        Some(receipt.clone()),
+        None,
+    );
     assert!(matches!(
         prepare_terminal_route("clean", &post_denial_preview)
             .unwrap()
@@ -186,7 +230,14 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
 
     fs::remove_dir_all(&registered).expect("simulate external already-removed state");
 
-    let already_removed = cleanup_plan(&fixture, &primary, &registered, false, None);
+    let already_removed = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        false,
+        Some(receipt.clone()),
+        None,
+    );
     assert!(matches!(
         prepare_terminal_route("clean", &already_removed)
             .unwrap()
@@ -199,6 +250,7 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
         &primary,
         &fixture.join("never-created"),
         false,
+        Some(receipt.clone()),
         None,
     );
     assert!(matches!(
@@ -206,7 +258,14 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
         Some(CleanupDecision::Absent { .. })
     ));
 
-    let unregistered_plan = cleanup_plan(&fixture, &primary, &unregistered, false, None);
+    let unregistered_plan = cleanup_plan(
+        &fixture,
+        &primary,
+        &unregistered,
+        false,
+        Some(receipt),
+        None,
+    );
     assert!(matches!(
         prepare_terminal_route("clean", &unregistered_plan)
             .unwrap()
@@ -226,9 +285,15 @@ fn cleanup_denies_symlink_escape_from_approved_parent() {
     fs::create_dir_all(&approved).expect("approved parent");
     fs::create_dir_all(&outside).expect("outside target");
     init_repo(&primary);
+    let receipt = write_terminal_receipt(
+        &primary,
+        630,
+        641,
+        "0123456789012345678901234567890123456789",
+    );
     create_symlink(&outside, &escape);
 
-    let plan = cleanup_plan(&approved, &primary, &escape, false, None);
+    let plan = cleanup_plan(&approved, &primary, &escape, false, Some(receipt), None);
     let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
     assert!(blocked
@@ -248,9 +313,22 @@ fn cleanup_denies_nonexistent_child_under_symlink_escape() {
     fs::create_dir_all(&approved).expect("approved parent");
     fs::create_dir_all(&outside).expect("outside target");
     init_repo(&primary);
+    let receipt = write_terminal_receipt(
+        &primary,
+        630,
+        641,
+        "0123456789012345678901234567890123456789",
+    );
     create_symlink(&outside, &escape);
 
-    let plan = cleanup_plan(&approved, &primary, &escape.join("missing"), false, None);
+    let plan = cleanup_plan(
+        &approved,
+        &primary,
+        &escape.join("missing"),
+        false,
+        Some(receipt),
+        None,
+    );
     let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
     assert!(blocked
@@ -301,18 +379,154 @@ fn cleanup_plan(
     repository_root: &Path,
     candidate_path: &Path,
     remove: bool,
+    terminal_receipt: Option<(String, String)>,
     preview_receipt_digest: Option<String>,
 ) -> TerminalRouteRequest {
     let mut request = base_request();
+    let (terminal_receipt_path, terminal_receipt_digest) =
+        terminal_receipt.unwrap_or_else(|| ("".into(), "".into()));
     request.cleanup = Some(CleanupRouteRequest {
         approved_parent: approved_parent.to_path_buf(),
         repository_root: repository_root.to_path_buf(),
         candidate_path: candidate_path.to_path_buf(),
         remove,
         terminal_receipt: true,
+        terminal_receipt_path: (!terminal_receipt_path.is_empty()).then_some(terminal_receipt_path),
+        terminal_receipt_digest: (!terminal_receipt_digest.is_empty())
+            .then_some(terminal_receipt_digest),
         preview_receipt_digest,
     });
     request
+}
+
+#[test]
+fn cleanup_rejects_caller_boolean_without_durable_terminal_receipt() {
+    let fixture = fixture_root("cleanup_missing_terminal_receipt");
+    let primary = fixture.join("primary");
+    let registered = fixture.join("registered");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    init_repo(&primary);
+    git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
+
+    let plan = cleanup_plan(&fixture, &primary, &registered, false, None, None);
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_terminal_receipt"));
+}
+
+#[test]
+fn clean_cli_reports_requested_but_unperformed_mutation_before_cutover() {
+    let fixture = fixture_root("cleanup_cli_read_only_report");
+    let primary = fixture.join("primary");
+    let registered = fixture.join("registered");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    init_repo(&primary);
+    git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
+
+    let request = cleanup_plan(&fixture, &primary, &registered, true, None, None);
+    let request_path = fixture.join("clean-request.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request).expect("serialize clean request"),
+    )
+    .expect("write clean request");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .args(["clean", "--request"])
+        .arg(&request_path)
+        .output()
+        .expect("run clean command");
+    assert!(
+        output.status.success(),
+        "clean command failed\nstdout:{}\nstderr:{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("machine-readable clean JSON");
+    assert_eq!(value["read_only"], true);
+    assert_eq!(value["requested_mutation"], true);
+    assert_eq!(value["performed_mutation"], false);
+    assert_eq!(value["result"]["status"], "blocked");
+    assert!(registered.exists());
+}
+
+#[test]
+fn cleanup_rejects_stale_or_mismatched_terminal_receipts() {
+    let fixture = fixture_root("cleanup_stale_terminal_receipt");
+    let primary = fixture.join("primary");
+    let registered = fixture.join("registered");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    init_repo(&primary);
+    git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
+
+    let mut stale_digest = write_terminal_receipt(
+        &primary,
+        630,
+        641,
+        "0123456789012345678901234567890123456789",
+    );
+    stale_digest.1 = "wrong".into();
+    let digest_plan = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        false,
+        Some(stale_digest),
+        None,
+    );
+    let digest_blocked = prepare_terminal_route("clean", &digest_plan).expect("clean plan");
+    assert_eq!(digest_blocked.status, TerminalRouteStatus::Blocked);
+    assert!(digest_blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "terminal_receipt_digest_mismatch"));
+
+    let mismatched = write_terminal_receipt(
+        &primary,
+        999,
+        641,
+        "0123456789012345678901234567890123456789",
+    );
+    let mismatch_plan = cleanup_plan(
+        &fixture,
+        &primary,
+        &registered,
+        false,
+        Some(mismatched),
+        None,
+    );
+    let mismatch_blocked = prepare_terminal_route("clean", &mismatch_plan).expect("clean plan");
+    assert_eq!(mismatch_blocked.status, TerminalRouteStatus::Blocked);
+    assert!(mismatch_blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "terminal_receipt_mismatch"));
+}
+
+fn write_terminal_receipt(
+    repository_root: &Path,
+    issue: u64,
+    pull_request: u64,
+    head_sha: &str,
+) -> (String, String) {
+    let receipt = DurableTerminalReceipt {
+        schema: "csdlc.v3.terminal_receipt.v1".into(),
+        repository: "agent-logic/agent-design-language".into(),
+        issue,
+        pull_request,
+        head_sha: head_sha.into(),
+        disposition: "closed_out".into(),
+    };
+    let path = repository_root.join(".csdlc/evidence/630/terminal-receipt.json");
+    fs::create_dir_all(path.parent().expect("receipt parent")).expect("receipt directory");
+    let bytes = serde_json::to_vec(&receipt).expect("serialize receipt");
+    fs::write(&path, &bytes).expect("write receipt");
+    let digest = blake3::hash(&bytes).to_hex().to_string();
+    (".csdlc/evidence/630/terminal-receipt.json".into(), digest)
 }
 
 fn fixture_root(name: &str) -> PathBuf {

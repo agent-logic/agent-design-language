@@ -47,7 +47,21 @@ pub struct CleanupRouteRequest {
     #[serde(default)]
     pub terminal_receipt: bool,
     #[serde(default)]
+    pub terminal_receipt_path: Option<String>,
+    #[serde(default)]
+    pub terminal_receipt_digest: Option<String>,
+    #[serde(default)]
     pub preview_receipt_digest: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DurableTerminalReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: u64,
+    pub head_sha: String,
+    pub disposition: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -204,7 +218,7 @@ pub fn prepare_terminal_route(
     match route {
         "finish" => findings.extend(public_finish_findings(request)),
         "clean" => match request.cleanup.as_ref() {
-            Some(cleanup_request) => match classify_cleanup_from_git(cleanup_request) {
+            Some(cleanup_request) => match classify_cleanup_from_git(request, cleanup_request) {
                 Ok(decision) => cleanup = Some(decision),
                 Err(finding) => findings.push(finding),
             },
@@ -338,14 +352,9 @@ fn public_finish_findings(request: &TerminalRouteRequest) -> Vec<TerminalFinding
 }
 
 fn classify_cleanup_from_git(
+    terminal_request: &TerminalRouteRequest,
     request: &CleanupRouteRequest,
 ) -> Result<CleanupDecision, TerminalFinding> {
-    if !request.terminal_receipt {
-        return Err(finding(
-            "missing_terminal_receipt",
-            "cleanup requires terminal closeout receipt truth",
-        ));
-    }
     let approved_parent = canonical_dir(&request.approved_parent, "approved_parent")?;
     let repository_root = canonical_dir(&request.repository_root, "repository_root")?;
     if contains_parent_component(&request.candidate_path) {
@@ -354,6 +363,7 @@ fn classify_cleanup_from_git(
             "cleanup target must not contain parent-directory traversal",
         ));
     }
+    verify_terminal_receipt(&repository_root, terminal_request, request)?;
     if !request.candidate_path.exists() {
         let existing_parent = canonical_existing_ancestor(&request.candidate_path)?;
         if !existing_parent.starts_with(&approved_parent) {
@@ -423,6 +433,68 @@ fn classify_cleanup_from_git(
             receipt_digest,
         })
     }
+}
+
+fn verify_terminal_receipt(
+    repository_root: &Path,
+    terminal_request: &TerminalRouteRequest,
+    cleanup_request: &CleanupRouteRequest,
+) -> Result<(), TerminalFinding> {
+    let Some(path) = cleanup_request.terminal_receipt_path.as_deref() else {
+        return Err(finding(
+            "missing_terminal_receipt",
+            "cleanup requires a repo-contained terminal closeout receipt file",
+        ));
+    };
+    let candidate = if Path::new(path).is_absolute() {
+        PathBuf::from(path)
+    } else {
+        repository_root.join(path)
+    };
+    let canonical = candidate.canonicalize().map_err(|_| {
+        finding(
+            "terminal_receipt_missing",
+            "declared terminal closeout receipt file is missing",
+        )
+    })?;
+    if !canonical.starts_with(repository_root) {
+        return Err(finding(
+            "terminal_receipt_outside_repo",
+            "terminal closeout receipt must remain beneath the repository root",
+        ));
+    }
+    let bytes = fs::read(&canonical).map_err(|error| {
+        finding(
+            "terminal_receipt_unreadable",
+            &format!("terminal closeout receipt could not be read: {error}"),
+        )
+    })?;
+    let digest = blake3::hash(&bytes).to_hex().to_string();
+    if cleanup_request.terminal_receipt_digest.as_deref() != Some(digest.as_str()) {
+        return Err(finding(
+            "terminal_receipt_digest_mismatch",
+            "terminal closeout receipt digest must match the loaded receipt bytes",
+        ));
+    }
+    let receipt: DurableTerminalReceipt = serde_json::from_slice(&bytes).map_err(|_| {
+        finding(
+            "terminal_receipt_invalid",
+            "terminal closeout receipt must be valid typed JSON",
+        )
+    })?;
+    if receipt.schema != "csdlc.v3.terminal_receipt.v1"
+        || receipt.repository != terminal_request.repository
+        || receipt.issue != terminal_request.issue
+        || Some(receipt.pull_request) != terminal_request.pull_request
+        || Some(receipt.head_sha.as_str()) != terminal_request.expected_head_sha.as_deref()
+        || receipt.disposition != "closed_out"
+    {
+        return Err(finding(
+            "terminal_receipt_mismatch",
+            "terminal closeout receipt must match repository, issue, PR, head, and closed-out disposition",
+        ));
+    }
+    Ok(())
 }
 
 fn decide_cutover(
