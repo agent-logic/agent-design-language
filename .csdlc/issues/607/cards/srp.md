@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/607/aws-paid-action-cost-audit.json
+.csdlc/issues/607
+adl/tools/issue607_validate_saved_plan.sh
+adl/tools/run_issue607_warm_polis.sh
+adl/tools/test_issue607_warm_polis.sh
+infra/aws/runtime/gpu-proof
 
 ## Prompts
 
