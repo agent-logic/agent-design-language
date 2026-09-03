@@ -40,12 +40,12 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - C-SDLC v3 remote/publication routes remain construction-only and non-authoritative until explicit #505 cutover.
-- Retained #629 evidence logs are stale relative to this exact head and must not be used as exact-head proof without fresh validation.
+- The #629 canary is intentionally tolerant of implemented, reviewed, or published pre-terminal lifecycle phases so lifecycle metadata publication does not make exact-head source proof brittle.
 
 ## Review Result
 
-Revision: Some("git-blake3:8aa002b74432363edd49181e7953f21f3b0d0438:4505e1e6439d828e638d3ad35bc587a3471fb8cded749f104d44d2d6fd57d2a4")
+Revision: Some("git-blake3:c9728373330f5ae6dbebbab26b0970bda0a310af:526398bedede01b4a1cc9bcb7c1d400d07c18137e9fcc6cd610bb2cd5573124e")
 
-Reviewer: Some("codex-reviewer:review_629_fast")
+Reviewer: Some("codex-reviewer:review_629_c972_micro")
 
 Result: pass

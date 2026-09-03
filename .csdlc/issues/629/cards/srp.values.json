@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
     "slug": "v3-h3-github-publication",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/629/design.md\n.csdlc/prepared/issues/629/diagram.mmd\n.csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
-      "review_revision": "git-blake3:8aa002b74432363edd49181e7953f21f3b0d0438:4505e1e6439d828e638d3ad35bc587a3471fb8cded749f104d44d2d6fd57d2a4",
-      "reviewer": "codex-reviewer:review_629_fast",
+      "review_revision": "git-blake3:c9728373330f5ae6dbebbab26b0970bda0a310af:526398bedede01b4a1cc9bcb7c1d400d07c18137e9fcc6cd610bb2cd5573124e",
+      "reviewer": "codex-reviewer:review_629_c972_micro",
       "review_prompts": [
         "Verify remote authority is not caller-forgeable.",
         "Verify publication refuses stale or missing review truth.",
@@ -25,7 +25,7 @@
       "findings": [],
       "residual_risk": [
         "C-SDLC v3 remote/publication routes remain construction-only and non-authoritative until explicit #505 cutover.",
-        "Retained #629 evidence logs are stale relative to this exact head and must not be used as exact-head proof without fresh validation."
+        "The #629 canary is intentionally tolerant of implemented, reviewed, or published pre-terminal lifecycle phases so lifecycle metadata publication does not make exact-head source proof brittle."
       ],
       "review_result": "pass"
     }
