@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 602,
+  "expected_generation": 6,
+  "expected_digest": "af4c35cf4801cad5de49b04fa4204b6964eb35fee41aa0c2703f07f35e4dd4af",
+  "reviewer": "codex-subagent:issue_602_review",
+  "assigned_by": "codex:issue-602-runtime-agent-lifecycle",
+  "scope": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/control/feeds.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "adl/src/cli/csmctl_cmd.rs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "infra/runtime-v3/agents/ember.axioma.yaml",
+    ".csdlc/issues/602",
+    ".csdlc/prepared/issues/602"
+  ]
+}

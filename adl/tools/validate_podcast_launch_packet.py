@@ -28,7 +28,7 @@ FORBIDDEN_PUBLIC_TEXT = [
 
 STUDIO_HTML = "podcast-studio.html"
 ITUNES_NS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
-SHOW_TITLE = "Cognitive Spacetime: The Agent Logic Podcast"
+SHOW_TITLE = "The Cognitive Stack"
 
 
 def fail(message: str) -> None:
@@ -198,8 +198,8 @@ def validate_mp3_id3(mp3: Path, metadata: dict) -> None:
 
     expected = {
         "TIT2": "Meet the AI Coworkers",
-        "TPE1": "Cognitive Spacetime",
-        "TALB": "Cognitive Spacetime",
+        "TPE1": "The Cognitive Stack",
+        "TALB": "The Cognitive Stack",
         "TPE2": "Agent Logic",
         "TRCK": "1",
     }
@@ -297,22 +297,22 @@ def validate_storage_manifest(root: Path, package_root: Path, metadata: dict) ->
         fail("storage manifest does not prove the private archive boundary")
 
     local_by_key = {
-        "archive/cognitive-spacetime/episodes/001/package/CREATOR_WORKFLOW.md": package_root / "CREATOR_WORKFLOW.md",
-        "archive/cognitive-spacetime/episodes/001/package/artwork-source.png": package_root / "artwork-source.png",
-        "archive/cognitive-spacetime/episodes/001/package/artwork.png": package_root / "artwork.png",
-        "archive/cognitive-spacetime/episodes/001/package/episode.json": package_root / "episode.json",
-        "archive/cognitive-spacetime/episodes/001/package/source-packet.md": package_root / "source-packet.md",
-        "archive/cognitive-spacetime/episodes/001/package/script.md": package_root / "script.md",
-        "archive/cognitive-spacetime/episodes/001/package/transcript.md": package_root / "transcript.md",
-        "archive/cognitive-spacetime/episodes/001/package/show-notes.md": package_root / "show-notes.md",
-        "archive/cognitive-spacetime/episodes/001/package/audio-manifest.json": package_root / "audio-manifest.json",
-        "archive/cognitive-spacetime/episodes/001/package/qa-report.md": package_root / "qa-report.md",
-        "archive/cognitive-spacetime/episodes/001/package/guest-metadata.json": package_root / "guest-metadata.json",
-        "archive/cognitive-spacetime/episodes/001/package/rss-enclosure.json": package_root / "rss-enclosure.json",
-        "archive/cognitive-spacetime/episodes/001/package/redaction-report.md": package_root / "redaction-report.md",
-        "archive/cognitive-spacetime/episodes/001/package/review.md": package_root / "review.md",
-        "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.mp3": root / "audio" / "meet-the-ai-coworkers.mp3",
-        "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.wav": root / "audio" / "meet-the-ai-coworkers.wav",
+        "archive/the-cognitive-stack/episodes/001/package/CREATOR_WORKFLOW.md": package_root / "CREATOR_WORKFLOW.md",
+        "archive/the-cognitive-stack/episodes/001/package/artwork-source.png": package_root / "artwork-source.png",
+        "archive/the-cognitive-stack/episodes/001/package/artwork.png": package_root / "artwork.png",
+        "archive/the-cognitive-stack/episodes/001/package/episode.json": package_root / "episode.json",
+        "archive/the-cognitive-stack/episodes/001/package/source-packet.md": package_root / "source-packet.md",
+        "archive/the-cognitive-stack/episodes/001/package/script.md": package_root / "script.md",
+        "archive/the-cognitive-stack/episodes/001/package/transcript.md": package_root / "transcript.md",
+        "archive/the-cognitive-stack/episodes/001/package/show-notes.md": package_root / "show-notes.md",
+        "archive/the-cognitive-stack/episodes/001/package/audio-manifest.json": package_root / "audio-manifest.json",
+        "archive/the-cognitive-stack/episodes/001/package/qa-report.md": package_root / "qa-report.md",
+        "archive/the-cognitive-stack/episodes/001/package/guest-metadata.json": package_root / "guest-metadata.json",
+        "archive/the-cognitive-stack/episodes/001/package/rss-enclosure.json": package_root / "rss-enclosure.json",
+        "archive/the-cognitive-stack/episodes/001/package/redaction-report.md": package_root / "redaction-report.md",
+        "archive/the-cognitive-stack/episodes/001/package/review.md": package_root / "review.md",
+        "archive/the-cognitive-stack/episodes/001/media/meet-the-ai-coworkers.mp3": root / "audio" / "meet-the-ai-coworkers.mp3",
+        "archive/the-cognitive-stack/episodes/001/media/meet-the-ai-coworkers.wav": root / "audio" / "meet-the-ai-coworkers.wav",
     }
     critical = {entry.get("key"): entry for entry in manifest.get("critical_objects") or []}
     if set(critical) != set(local_by_key):
@@ -415,7 +415,12 @@ def validate_production_episode(root: Path) -> None:
             fail(f"production RSS item {field} does not match enclosure packet")
 
     source_packet = (package_root / metadata["source_packet"]).read_text(encoding="utf-8")
-    for marker in ("not recorded live", "surrogate", "Publication, directory submission, and mailbox verification"):
+    for marker in (
+        "not recorded live",
+        "surrogate",
+        "Publication and directory submission remain separate human-controlled launch",
+        "directory-specific account-side verification mail remains part",
+    ):
         if marker not in source_packet:
             fail(f"source packet is missing required provenance boundary {marker!r}")
     redaction = (package_root / metadata["redaction_report"]).read_text(encoding="utf-8")
@@ -513,7 +518,7 @@ def main() -> None:
 
     studio_html = root / "studio" / STUDIO_HTML
     studio_text = studio_html.read_text(encoding="utf-8")
-    if "Cognitive Spacetime" not in studio_text or "{{ latest.title }}" not in studio_text:
+    if SHOW_TITLE not in studio_text or "{{ latest.title }}" not in studio_text:
         fail("studio reference HTML no longer looks like the operator-provided export")
     if '<script src="./support.js"></script>' not in studio_text:
         fail("studio reference HTML is not wired to its local support.js asset")

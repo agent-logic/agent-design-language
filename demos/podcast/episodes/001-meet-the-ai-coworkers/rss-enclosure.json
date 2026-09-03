@@ -1,12 +1,12 @@
 {
   "schema": "agent-logic.podcast.rss-enclosure.v1",
   "episode": 1,
-  "guid": "agent-logic-cognitive-spacetime-episode-001",
+  "guid": "agent-logic-the-cognitive-stack-episode-001",
   "url": "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3",
   "mime_type": "audio/mpeg",
   "bytes": 22804249,
   "duration": "00:18:32",
   "duration_seconds": 1111.968,
-  "sha256": "2ce56a2a4e3f74315f844978b9a9c344e377227cd92d4ddd0e05f338a4338cbc",
+  "sha256": "ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c",
   "publication_status": "held_for_human_review"
 }

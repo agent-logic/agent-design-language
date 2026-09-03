@@ -19,3 +19,10 @@ AWS_PROFILE=agent-logic-admin terraform -chdir=infra/aws/bootstrap plan -out iss
 
 Apply only after reviewing the saved plan and confirming it differs from no
 reviewed evidence.
+
+After the first reviewed bootstrap apply creates the backend bucket and lock
+table, migrate the bootstrap root itself into that backend with a private
+backend config derived from `terraform output backend_hcl`. Use
+`infra/aws/bootstrap/backend.hcl.example` as the redacted shape, replacing only
+the account placeholder outside Git. Do not commit raw account ids, local
+backend configs, `.terraform/`, `terraform.tfstate`, or plan files.

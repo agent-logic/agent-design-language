@@ -203,6 +203,7 @@ write_lease_server() {
   mkdir -p "$GENERATED_DIR"
   cat > "$LEASE_SERVER_FILE" <<'PY'
 import pathlib
+import os
 import signal
 import socket
 import sys
@@ -225,7 +226,7 @@ supplied = conn.recv(len(token))
 if supplied != token:
     conn.close()
     raise SystemExit(2)
-conn.sendall(b"ok")
+conn.sendall(b"ok" + os.getpid().to_bytes(4, byteorder="big", signed=False))
 
 while True:
     data = conn.recv(1)
@@ -508,8 +509,8 @@ checkpoint_channel_capacity = 4
 component_readiness_timeout_millis = 5000
 observability_poll_millis = 50
 weather_stale_after_millis = 2000
-guardian_lease_connect_millis = 5000
-guardian_lease_auth_millis = 5000
+guardian_lease_connect_millis = 30000
+guardian_lease_auth_millis = 30000
 trusted_time_sample_timeout_millis = 3000
 trusted_time_max_offset_millis = 5000
 trusted_time_max_round_trip_millis = 2000

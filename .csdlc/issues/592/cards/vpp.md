@@ -24,27 +24,25 @@ Diagram: .csdlc/prepared/issues/592/diagram.mmd
 
 [
   {
-    "lane": "dependency-terminal-readback",
-    "proof_role": "Use typed C-SDLC readback to prove #528 is terminal before any execution bind.",
+    "lane": "dependency-merge-readback",
+    "proof_role": "Prove the exact PR #603 merge for #528 is present in the selected base revision before execution binding.",
     "acceptance_ids": [
       "AC-1"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
+    "budget_seconds": 30,
+    "budget_tokens": 300,
     "argv": [
-      ".adl/bin/csdlc-v2/csdlc-github-issue",
-      "run",
-      "--request",
-      ".csdlc/prepared/issues/592/read-528-request.json"
+      "bash",
+      ".csdlc/prepared/issues/592/validate-528-merge.sh"
     ],
     "parallel_group": "preflight",
-    "defer_reason": "#528 was non-terminal during issue-start canary."
+    "defer_reason": null
   },
   {
     "lane": "vertex-config-docs",
-    "proof_role": "Verify provider project location model and credential sourcing are explicit and redacted.",
+    "proof_role": "Verify provider, project, location, model, credential sourcing, redaction, and paid-call boundaries are explicit.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
@@ -58,11 +56,11 @@ Diagram: .csdlc/prepared/issues/592/diagram.mmd
       ".csdlc/prepared/issues/592/validate-vertex-config-docs.sh"
     ],
     "parallel_group": "docs",
-    "defer_reason": "Implementation is gated by #528."
+    "defer_reason": null
   },
   {
     "lane": "runtime-provider-proof",
-    "proof_role": "Prove Polis uses the configured Vertex AI provider route without mocks or secret output.",
+    "proof_role": "Prove the explicit production provider-selection contract and reject mock fallback or credential leakage; implementation-time tests extend this lane.",
     "acceptance_ids": [
       "AC-4",
       "AC-5"
@@ -76,11 +74,11 @@ Diagram: .csdlc/prepared/issues/592/diagram.mmd
       ".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh"
     ],
     "parallel_group": "runtime",
-    "defer_reason": "Implementation is gated by #528 and later explicit live-call authorization if needed."
+    "defer_reason": null
   },
   {
     "lane": "tooling-canary",
-    "proof_role": "Retain real issue create read bootstrap validate and doctor evidence plus defects.",
+    "proof_role": "Prove the six-card bundle, design, diagram, dependency request, and exact dependency merge remain retained.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -109,7 +107,7 @@ Tokens: 25000
 
 ## Commands
 
-- `.adl/bin/csdlc-v2/csdlc-github-issue run --request .csdlc/prepared/issues/592/read-528-request.json`
+- `bash .csdlc/prepared/issues/592/validate-528-merge.sh`
 - `bash .csdlc/prepared/issues/592/validate-vertex-config-docs.sh`
 - `bash .csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh`
 - `bash .csdlc/prepared/issues/592/validate-tooling-canary.sh`

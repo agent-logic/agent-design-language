@@ -1,0 +1,7 @@
+{
+  "issue": 596,
+  "expected_generation": 13,
+  "expected_digest": "1f73425dc4f21636d14b207ce4ce2ae76432f6d4af6322cb76be2b53759c30db",
+  "actor": "codex:worker-6",
+  "reason": "Recover review after fixing typed publication reconciliation for already-pushed metadata-only tails."
+}

@@ -1,0 +1,132 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 662
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Trace existing resident-agent conversation execution and activity projection, design a bounded initiation envelope with Runtime-authoritative sender/recipient/work/correlation identity, add deterministic success/replay/cancel/failure proof, then run focused validation and exact-head independent review before publication.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Trace the existing resident-agent conversation dispatch, Shepherd provider execution, work identity, and activity projection paths.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Define and implement the narrow governed initiation path that creates distinct sender, recipient, conversation, turn, work, and correlation identity.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Preserve Runtime-authoritative authorization, admission, cancellation, continuity, bounded execution, and explicit failure semantics.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Add focused deterministic integration tests for successful Beacon-to-Ember initiation, replay behavior, cancellation, missing or stale recipient, unauthorized initiation, and provider failure.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Verify Observatory and Inspector Activity can expose authoritative initiation and resulting turn truth, changing UI only if existing rendering cannot show the event.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
+    "action": "Run focused validation, hygiene checks, and exact-head independent review before publication.",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Initiation is distinct from replying to a user
+- Sender, recipient, conversation, turn, work, and correlation identities are explicit and non-confusable
+- Admission and authorization remain Runtime-authoritative
+- Recipient execution uses configured provider behavior
+- Provider and recipient failures are terminal truth, not synthetic success
+- No live Runtime or provider mutation is required for local deterministic proof
+
+## Risks
+
+- Conflating an initiated agent-to-agent turn with the initiating Shepherd's user-facing reply
+- Accidentally crediting hardcoded or fixture responses as configured-provider execution
+- Weak replay semantics that duplicate initiated work
+- Authorization or admission bypass for autonomous initiation
+- Activity projection that implies delivery without Runtime-authoritative evidence
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/662/design.md
+
+Digest: 46cef885fa9e71182d32ae68c35e4d0893191e62793e7e26c413389762b87e39
+
+## Diagram
+
+.csdlc/prepared/issues/662/diagram.mmd
+
+Digest: 5bbc2be4c2f551beafcc4ccacdd46975fbfeb14ec62d83c07b52ef2509818775
+
+## Stop Conditions
+
+- Live Runtime restart or live provider access becomes necessary
+- Authorization/admission semantics are unclear enough to require operator design review
+- Scope widens into unrestricted autonomous messaging, broadcast, fan-out, or recursive conversation loops
+- Observatory proof requires more than minimal authoritative-event rendering
+- Exact-head review returns unresolved findings
+
+## Handoff
+
+Proceed only after doctor readiness.

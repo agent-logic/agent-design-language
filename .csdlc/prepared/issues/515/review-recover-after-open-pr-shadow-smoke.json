@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "expected_generation": 22,
+  "expected_digest": "dfe9ba8116caa5aa51f554ba36f8f0c593beb6b9cb18ae56c49590130091f5fe",
+  "actor": "codex:/root:issue-515-implementation",
+  "reason": "Recover #515 lifecycle truth after adding the requested local Ollama open-PR shadow-review smoke test and redacted evidence to the already-published PR branch."
+}

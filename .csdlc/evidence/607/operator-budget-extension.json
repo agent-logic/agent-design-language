@@ -1,0 +1,17 @@
+{
+  "schema": "adl.issue607.operator_budget_extension.v1",
+  "issue": 607,
+  "action": "qualification-payload-recovery",
+  "run_id": "adl-issue607-e8925c1dc8b0-payload-recovery",
+  "artifact_generation": "7be87dd22260d30a7966d1b129123e84bb761074",
+  "controller_revision": "f126783cd23eac3db5fce4351c92ef66f3b2f26e",
+  "saved_plan_sha256": "6d0f78fce69e951c9fcbf62a73bc4d173ab2f65b368937852a89472d5d229ffe",
+  "prior_authorization_sha256": "21289a7704c4a46df64152e228197144f5e2d05331f9d4307d8a5a0962b24dfb",
+  "prior_ceiling_usd": 20,
+  "extended_ceiling_usd": 21,
+  "authorization_order": "after paid action start and before final run completion and cost closeout",
+  "authorized_by": "operator",
+  "operator_statement": "I'm extending the budget to $21 get it moving and done",
+  "scope": "Aggregate issue-607 AWS cost, including the exact run's teardown and provider-side termination linger; no additional paid action is authorized by this record.",
+  "recorded_at": "2026-09-03T08:47:05Z"
+}

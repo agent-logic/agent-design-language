@@ -8,6 +8,39 @@ const OBSERVATORY_OPENAPI: &str =
 const CONTROL_RS: &str = include_str!("../src/control.rs");
 
 #[test]
+fn canonical_name_is_required_by_agent_roster_openapi_contract() {
+    let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    let entry = &observatory["components"]["schemas"]["AgentRosterEntry"];
+    assert!(entry["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v == "name"));
+    assert_eq!(
+        entry["properties"]["name"]["pattern"],
+        "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+    );
+    let sample = &observatory["components"]["schemas"]["AgentSample"];
+    assert!(sample["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v == "name"));
+    let checkpoint = &observatory["components"]["schemas"]["AgentCheckpoint"];
+    assert_eq!(
+        checkpoint["properties"]["roster_state"]["$ref"],
+        "#/components/schemas/CheckpointAgentSample"
+    );
+    let checkpoint_sample = &observatory["components"]["schemas"]["CheckpointAgentSample"];
+    assert!(!checkpoint_sample["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|v| v == "name"));
+    assert!(checkpoint_sample["properties"].get("name").is_none());
+}
+
+#[test]
 fn polis_identity_openapi_contract_is_required_and_redacted() {
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
     let feed = &observatory["components"]["schemas"]["ObservatoryFeed"];
@@ -297,9 +330,25 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
     let mut routes = BTreeSet::new();
     for route in literal_routes_from_control_rs() {
         match route.as_str() {
-            "/v1/agents" | "/v1/agents/{agent_id}" | "/v1/observatory" | "/v1/ready" => {
+            "/v1/agents" => {
+                routes.insert(("get".to_owned(), route.clone()));
+                routes.insert(("post".to_owned(), route.clone()));
+                routes.insert(("options".to_owned(), route));
+            }
+            "/v1/agents/{agent_id}" => {
+                routes.insert(("get".to_owned(), route.clone()));
+                routes.insert(("delete".to_owned(), route.clone()));
+                routes.insert(("options".to_owned(), route));
+            }
+            "/v1/observatory" | "/v1/ready" => {
                 routes.insert(("get".to_owned(), route.clone()));
                 routes.insert(("options".to_owned(), route));
+            }
+            "/v1/agents/{agent_id}/checkpoint"
+            | "/v1/agents/{agent_id}/dehydrate"
+            | "/v1/agents/{agent_id}/dehydrate/commit"
+            | "/v1/agents/rehydrate" => {
+                routes.insert(("post".to_owned(), route));
             }
             "/v1/health"
             | "/v1/metrics"
@@ -330,6 +379,10 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
         "/v1/acip/ws",
         "/v1/agents",
         "/v1/agents/{agent_id}",
+        "/v1/agents/{agent_id}/checkpoint",
+        "/v1/agents/{agent_id}/dehydrate",
+        "/v1/agents/{agent_id}/dehydrate/commit",
+        "/v1/agents/rehydrate",
         "/v1/observatory",
         "/v1/control",
         "/v1/layer8/recipient-acknowledgement",

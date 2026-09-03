@@ -1,0 +1,11 @@
+{
+  "issue": 617,
+  "expected_generation": 15,
+  "expected_digest": "bd4fad4388e398130fc66a07e282243d19f8e583085bc3b6216a0a4ffcf46849",
+  "reviewer": "fresh-session:cd23d270-c41f-4421-a05f-05a77bd00428",
+  "assigned_by": "codex:/root/issue_617_finish",
+  "scope": [
+    "adl-runtime-kernel/src/control.rs",
+    ".csdlc/evidence/617/hosted-ci-retry.md"
+  ]
+}

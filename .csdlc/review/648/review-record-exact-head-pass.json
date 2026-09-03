@@ -1,0 +1,26 @@
+{
+  "issue": 648,
+  "expected_generation": 5,
+  "expected_digest": "1f22fcf5a622861199ed98e09294dba6853dc8b0d357a4c503ba1590b6045975",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "codex-subagent:/root/review_648_provider_reload_corrective_exact_head",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/mod.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl/src/long_lived_agent.rs",
+      ".csdlc/prepared/issues/648",
+      ".csdlc/evidence/648"
+    ],
+    "reviewed_revision": "git-blake3:885c9e3b58637be8ee3e2b13fbfe56839b284879:7df793a6456b634fb3e995a965105715e4e519fbcb31466af561c3cf6b9cc2bd",
+    "findings": [],
+    "residual_risks": [
+      "Review did not run live provider, AWS, paid/cloud, Runtime restart, cutover, or CI checks.",
+      "Publication/PR/CI readiness remains unproven until typed publication creates a PR and GitHub checks complete."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

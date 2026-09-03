@@ -256,6 +256,10 @@ pub struct ShepherdRequest {
     pub schema: String,
     pub correlation_id: String,
     pub runtime_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub shepherd_name: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub conversation_recipient_id: Option<String>,
     pub prompt: String,
 }
 
@@ -714,7 +718,7 @@ impl LocalShepherdExecutor {
     }
 }
 
-fn decode_request(
+pub(crate) fn decode_request(
     operation: &OperationRequest,
     max_prompt_bytes: usize,
 ) -> Result<ShepherdRequest, ShepherdError> {
@@ -728,6 +732,10 @@ fn decode_request(
     if request.schema != SHEPHERD_REQUEST_SCHEMA
         || validate_identifier(&request.correlation_id).is_err()
         || validate_identifier(&request.runtime_id).is_err()
+        || request
+            .shepherd_name
+            .as_deref()
+            .is_some_and(|name| !crate::is_canonical_agent_name(name))
         || request.prompt.trim().is_empty()
         || request.prompt.len() > max_prompt_bytes
         || request.prompt.bytes().any(|byte| byte == 0)

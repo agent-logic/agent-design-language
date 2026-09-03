@@ -1,0 +1,175 @@
+{
+  "schema": "agent_logic.podcast_public_exposure_emergency.v1",
+  "issue": 660,
+  "created_utc": "2026-09-03T17:12:00Z",
+  "incident": {
+    "summary": "The Cognitive Stack podcast page and RSS/media assets were unintentionally reachable under the public /podcast/ route before the operator-approved public launch gate.",
+    "risk": "If indexed, public /podcast/ exposure could advertise a pre-launch podcast surface and feed before the approved provider-directory launch path.",
+    "operator_constraint": "The Cognitive Stack must remain hidden under /_preview until explicit public launch approval."
+  },
+  "repository_context": {
+    "repo": "agent-logic/agent-design-language",
+    "branch": "codex/660-podcast-public-exposure-emergency",
+    "base_head": "fbeef48757b9e5e0c46d3576af34c13976a08f4b",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-660-podcast-public-exposure-emergency"
+  },
+  "hosting_context": {
+    "aws_profile": "agent-logic-admin",
+    "account_id": "713332525889",
+    "distribution_id": "E3C29FMX32KDDU",
+    "origin_bucket": "agent-logic-ai-origin-agentlogic",
+    "public_prefix": "podcast/",
+    "hidden_preview_prefix": "_preview/podcast/",
+    "private_archive_bucket": "agent-logic-podcast-archive-agentlogic"
+  },
+  "remote_actions": {
+    "public_prefix_delete": {
+      "command_intent": "Create delete markers for the exact unintended public podcast objects only.",
+      "manifest": ".csdlc/prepared/issues/660/delete-public-podcast-prefix.json",
+      "objects_deleted": 13,
+      "purged_versions": false,
+      "delete_markers": [
+        { "key": "podcast/", "delete_marker_version_id": "ixk5mToUHvE2YmS.hXUKB3M0g_RkVvaO" },
+        { "key": "podcast/artwork.png", "delete_marker_version_id": "wt0tvZRzLCedTEDAW88QSFJWHm.CGkBc" },
+        { "key": "podcast/audio/meet-the-ai-coworkers.mp3", "delete_marker_version_id": "ujvmF7.T8zHBB9zshb4B9ZAQWShL5Zw." },
+        { "key": "podcast/audio/meet-the-ai-coworkers.wav", "delete_marker_version_id": "QKQFyyOYshsk9mWxIsxNW8n3coBLJwRJ" },
+        { "key": "podcast/episodes/meet-the-ai-coworkers/", "delete_marker_version_id": ".1Y9yOOUOCv6_hTS9GwzUEPbnkBRmVCn" },
+        { "key": "podcast/episodes/meet-the-ai-coworkers/index.html", "delete_marker_version_id": "tJYwYEtJGJ6slGwmcVNHFpWv7z8xYXYv" },
+        { "key": "podcast/feed.xml", "delete_marker_version_id": "laLD3fL8yfS7RfTHYM06RQ9h_ttWXrro" },
+        { "key": "podcast/index.html", "delete_marker_version_id": "5XSm2CjMwCz3xI_byKt2FMq2zmIizZVk" },
+        { "key": "podcast/studio/image-slot.js", "delete_marker_version_id": "eYO6r35Wn1iyBIB4m5v1HwzbRjyjP9Rr" },
+        { "key": "podcast/studio/support.js", "delete_marker_version_id": "P2JgtLHlf_lYwNRw47x0AfPh9LHv.Cur" },
+        { "key": "podcast/studio/uploads/agent-logic-logo.svg", "delete_marker_version_id": "tWbFoJkmzivjnon1_1l3kAfhPAcQcya4" },
+        { "key": "podcast/studio/vendor/react-dom.production.min.js", "delete_marker_version_id": "y3_ibiY2_xbSsZ0YqdjvXIKHg.rApr6Z" },
+        { "key": "podcast/studio/vendor/react.production.min.js", "delete_marker_version_id": "RpBWH.YC1s93Z9BUv4zLuzvvcwOtCqUT" }
+      ],
+      "cloudfront_invalidation": {
+        "id": "I70QN9DHI2JCC0SJPV2BPCTDPX",
+        "status": "Completed",
+        "paths": ["/podcast/", "/podcast/*", "/podcast"]
+      }
+    },
+    "hidden_preview_update": {
+      "command_intent": "Serve the current The Cognitive Stack landing page only under the hidden preview route, with noindex and without public feed or public /podcast/ media links. The playable preview audio is served from the hidden _preview prefix.",
+      "objects_written": [
+        {
+          "key": "_preview/podcast/",
+          "version_id": "2vpkHjmtPfOPczb0Z8DxsT2gy2RdEPZz",
+          "etag": "5361b85b064f5670d0bce9002fb304db",
+          "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
+        },
+        {
+          "key": "_preview/podcast/index.html",
+          "version_id": "otD6BtEAchu3JePCo1Fyeq3MefvvO9pT",
+          "etag": "5361b85b064f5670d0bce9002fb304db",
+          "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
+        },
+        {
+          "key": "_preview/podcast/assets/agent-logic-logo.svg",
+          "version_id": "jhj8XHWDG0xZ4j72YPyK6H0SEsBIEZty",
+          "etag": "296a8e630d4bceb8b26c88b72790e3dd",
+          "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
+        },
+        {
+          "key": "_preview/podcast/audio/meet-the-ai-coworkers.mp3",
+          "version_id": "ACMbDmF09.HFknFtBghGhhqE_iNRquj.",
+          "etag": "1bffe6761607c24f94be7701d2e4d73e",
+          "metadata": { "issue": "660", "source": "adl-podcast-emergency-preview-only" }
+        }
+      ],
+      "cloudfront_invalidations": [
+        {
+          "id": "IDOJDMQSH5KUY916YKZPZ9JEBH",
+          "status": "Completed",
+          "paths": ["/_preview/podcast/", "/_preview/podcast/index.html", "/_preview/podcast/assets/agent-logic-logo.svg"]
+        },
+        {
+          "id": "IC641W2HU2Q3OD0L3JIWTT1L73",
+          "status": "Completed",
+          "paths": ["/_preview/podcast/", "/_preview/podcast/index.html"]
+        },
+        {
+          "id": "I92QYR285C91VZDC5V17PWIUTY",
+          "status": "Completed",
+          "paths": ["/_preview/podcast/", "/_preview/podcast/index.html"]
+        },
+        {
+          "id": "ID39I13BIHITVK8CKFPRWVA435",
+          "status": "Completed",
+          "paths": ["/_preview/podcast/", "/_preview/podcast/index.html", "/_preview/podcast/audio/meet-the-ai-coworkers.mp3"]
+        }
+      ]
+    }
+  },
+  "repository_durability": {
+    "public_launch_readiness_truth": "demos/podcast/LAUNCH_READINESS.md no longer claims production publication and records the public route as withheld while preserving the RSS feed, media, artwork, and page files as ready-but-withheld launch candidates.",
+    "hidden_preview_playback_truth": "demos/_preview/podcast/index.html uses ./audio/meet-the-ai-coworkers.mp3 so the preview remains playable without referencing https://agent-logic.ai/podcast/audio/.",
+    "publication_hold_marker": "demos/podcast/PUBLICATION_HOLD.md",
+    "promotion_runbook_gate": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md records that, as of #660, the production launch candidate is intentionally withheld and the promotion steps require future explicit operator approval.",
+    "preserved_launch_candidate_artifacts": [
+      "demos/podcast/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/artwork.png",
+      "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "demos/podcast/audio/meet-the-ai-coworkers.wav",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/studio/image-slot.js",
+      "demos/podcast/studio/support.js",
+      "demos/podcast/studio/uploads/agent-logic-logo.svg"
+    ],
+    "retained_sources": [
+      "demos/podcast/episodes/001-meet-the-ai-coworkers/",
+      "demos/podcast/episode-packages/"
+    ],
+    "durability_intent": "The production launch candidate remains reviewable in the repository, but the live public route is withheld and repo truth now rejects treating the candidate as currently deployed or provider-submittable without explicit future launch approval."
+  },
+  "verification": {
+    "checked_utc": "2026-09-03T17:12:21Z",
+    "public_urls": [
+      { "url": "https://agent-logic.ai/podcast/", "expected_status": 403, "observed_status": 403 },
+      { "url": "https://agent-logic.ai/podcast/feed.xml", "expected_status": 403, "observed_status": 403 },
+      { "url": "https://agent-logic.ai/podcast/artwork.png", "expected_status": 403, "observed_status": 403 },
+      { "url": "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3", "expected_status": 403, "observed_status": 403 },
+      { "url": "https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/", "expected_status": 403, "observed_status": 403 }
+    ],
+    "hidden_preview_urls": [
+      {
+        "url": "https://agent-logic.ai/_preview/podcast/",
+        "expected_status": 200,
+        "observed_status": 200,
+        "title": "The Cognitive Stack",
+        "robots": "noindex,nofollow",
+        "contains_public_feed_link": false,
+        "contains_public_audio_link": false,
+        "contains_preview_audio_link": true,
+        "contains_old_show_name": false
+      },
+      {
+        "url": "https://agent-logic.ai/_preview/podcast/assets/agent-logic-logo.svg",
+        "expected_status": 200,
+        "observed_status": 200
+      },
+      {
+        "url": "https://agent-logic.ai/_preview/podcast/audio/meet-the-ai-coworkers.mp3",
+        "expected_status": 200,
+        "observed_status": 200
+      }
+    ],
+    "s3_origin_state": {
+      "public_prefix_latest_versions": 0,
+      "public_prefix_latest_delete_markers": 13
+    }
+  },
+  "negative_authority": {
+    "provider_submission_performed": false,
+    "provider_directory_mutation_performed": false,
+    "private_archive_bucket_deleted_or_purged": false,
+    "s3_version_purge_performed": false,
+    "credentials_or_private_receipts_committed": false
+  },
+  "follow_up": {
+    "parent_issue": 51,
+    "closed_prior_issue": 264,
+    "required_truth": "#51 must remain open until #660 is closed or otherwise dispositioned and the operator separately accepts the still-blocked external provider/public-launch gate."
+  }
+}

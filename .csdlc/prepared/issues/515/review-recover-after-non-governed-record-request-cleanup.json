@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "expected_generation": 17,
+  "expected_digest": "1308f0413070edd0ce6347c24be04d16bd26ecdf4cacba703410e73a5f23cfb3",
+  "actor": "codex:/root:issue-515-implementation",
+  "reason": "Recover #515 review truth so the final exact-head review can include the current branch history after removing an accidental non-governed one-shot review request copy."
+}

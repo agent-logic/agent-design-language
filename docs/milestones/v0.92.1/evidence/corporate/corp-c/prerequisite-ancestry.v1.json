@@ -1,0 +1,49 @@
+{
+  "schema": "adl.corporate.corp_c.prerequisite_ancestry.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "result": "pass",
+  "checked_at": "2026-09-01",
+  "live_issue_checks": [
+    {
+      "lane": "CORP-A critical-asset schedule",
+      "issue": 482,
+      "state": "CLOSED",
+      "closing_pr": 545,
+      "closing_pr_state": "MERGED",
+      "merge_commit": "e2c1d1649b0c930a5a1254575a07ef2a4496d48d",
+      "ancestor_of_origin_main": true
+    },
+    {
+      "lane": "CORP-B corporate account custody register",
+      "issue": 483,
+      "state": "CLOSED",
+      "closing_pr": 562,
+      "closing_pr_state": "MERGED",
+      "merge_commit": "4a0b49c0071bacdaab19d6d9eb8c44380beb51be",
+      "ancestor_of_origin_main": true
+    },
+    {
+      "lane": "GCP-D private platform foundation",
+      "issue": 493,
+      "state": "CLOSED",
+      "closing_pr": 587,
+      "closing_pr_state": "MERGED",
+      "merge_commit": "c0bf217934508d6dbc70d78633e6a95d5ddd9d06",
+      "ancestor_of_origin_main": true
+    },
+    {
+      "lane": "AWS-G CloudFormation retirement decision",
+      "issue": 496,
+      "state": "CLOSED",
+      "closing_pr": 599,
+      "closing_pr_state": "MERGED",
+      "merge_commit": "83077ca029d52c9d613ed5a373da30f1dd42d9b3",
+      "ancestor_of_origin_main": true
+    }
+  ],
+  "commands": [
+    "gh issue view 482 483 493 496 and closing PR checks were performed during Sprint 4 readiness triage",
+    "git merge-base --is-ancestor <merge_commit> origin/main for each prerequisite"
+  ]
+}

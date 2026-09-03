@@ -1,0 +1,75 @@
+{
+  "issue": 497,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "4768737928632cf58ae6ac1dfc66c887b536ffb74bdcd78740ceb621c410f563",
+  "actor": "codex:worker-7",
+  "reason": "Record the bounded CORP-C repository-local operational-control acceptance packet and the focused validation that ran locally.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Prepared the CORP-C corporate operational-control transfer acceptance packet as repository-local evidence grounded in closed, merged, ancestral CORP-A, CORP-B, AWS-G, and GCP-D prerequisites. The packet accepts Sprint 4 operational-control transfer with deferred external actions and records that #497 performed no production/provider mutation, billing change, credential transfer, DNS change, certificate action, workflow mutation, or private custody transfer.",
+    "changes": [
+      "Added the CORP-C prerequisite ancestry evidence packet for issues #482, #483, #493, and #496 with their closing PRs and merge commits.",
+      "Added the CORP-C non-mutating account-authority readback record, including the Agent Logic AWS profile boundary.",
+      "Added the external-action classification record separating completed evidence, deferred actions, authorized actions, and blocked actions.",
+      "Added the corporate operational-control transfer acceptance Markdown and machine-readable JSON packet.",
+      "Expanded the issue-local #497 validator so it verifies prerequisite ancestry, authority/readback boundaries, external-action classifications, packet acceptance statuses, and credential-marker hygiene."
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json",
+      "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md",
+      "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json",
+      ".csdlc/evidence/497/validate-readiness.rb"
+    ],
+    "validation": [
+      {
+        "command": [
+          "ruby",
+          ".csdlc/evidence/497/validate-readiness.rb"
+        ],
+        "purpose": "Prove the CORP-C prerequisite ancestry evidence, account-authority readback boundaries, external-action classifications, acceptance packet statuses, and credential-marker hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero with schema adl.corporate.corp_c.validation.v1 and result pass."
+      },
+      {
+        "command": [
+          "ruby",
+          "-rjson",
+          "-e",
+          "JSON.parse(File.read(ARGV[0]))",
+          "docs/milestones/v0.92.1/evidence/corporate/corp-c/*.json",
+          "docs/operations/corporate/control-transfer/*.json"
+        ],
+        "purpose": "Prove all newly added CORP-C machine-readable evidence files parse as JSON.",
+        "outcome": "passed",
+        "evidence_ref": "Local JSON parse loop exited zero."
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Reject malformed whitespace and patch artifacts in the bounded CORP-C changes.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero."
+      },
+      {
+        "command": [
+          "csdlc-validate",
+          "--root",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
+          "issue",
+          "--issue",
+          "497"
+        ],
+        "purpose": "Prove the typed #497 lifecycle package remains valid after binding and implementation.",
+        "outcome": "passed",
+        "evidence_ref": "status pass, phase bound, generation 5 before SOR record."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

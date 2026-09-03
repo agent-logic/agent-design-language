@@ -1,7 +1,7 @@
 {
   "schema": "agent_logic.podcast.episodes.v1",
   "show": {
-    "title": "Cognitive Spacetime: The Agent Logic Podcast",
+    "title": "The Cognitive Stack",
     "site_url": "https://agent-logic.ai/podcast",
     "description": "Weekly conversations about working with AI systems in ordinary language."
   },

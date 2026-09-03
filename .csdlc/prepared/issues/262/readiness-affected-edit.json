@@ -1,0 +1,20 @@
+{
+  "issue": 262,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "337643e07ed776f02806ae32118248473b4a64b89e5c93652ddeffb9ff1e8601",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/podcast/feed.xml",
+      "docs/milestones/v0.92.1/evidence/podcast/51-b",
+      "adl/tools/record_podcast_native_playback.sh",
+      "adl/tools/record_podcast_browser_playback.mjs",
+      "adl/tools/record_podcast_ios_safari_playback.sh",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 661,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+    "slug": "runtime-shepherd-provider-reply",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-shepherd-provider-reply",
+          "proof_role": "Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/661/validate-focused.sh"
+          ],
+          "parallel_group": "runtime-shepherd",
+          "defer_reason": "The exact focused test is an issue #661 implementation deliverable."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove exact branch diff whitespace hygiene.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail explicitly when provider resolution or execution fails; never substitute a hardcoded acknowledgement.",
+      "design_ref": ".csdlc/prepared/issues/661/design.md",
+      "design_digest": "68723dcb68dd267e3c67f4af99d34e1084b46e2c077ca19616c4d0f1c996ea21",
+      "diagram_ref": ".csdlc/prepared/issues/661/diagram.mmd",
+      "diagram_digest": "ed1f345a4ccd7d1b416e6c3548b5b8c553ef63d70f9e42d50eaf1e6aaf63f24a"
+    }
+  }
+}

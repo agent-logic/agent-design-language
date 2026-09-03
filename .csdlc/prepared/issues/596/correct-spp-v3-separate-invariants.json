@@ -1,0 +1,20 @@
+{
+  "issue": 596,
+  "card": "spp",
+  "expected_generation": 22,
+  "expected_digest": "170f6a4b429fe6ac2b7eea74b2262d0126ab94a4cb9a22806acf09e4c3c112db",
+  "actor": "codex:worker-6",
+  "reason": "Correct SPP invariants after restoring v3 separation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Primary checkout remains clean on main",
+      "V2 remains the only live lifecycle authority until #505 cutover",
+      "PR #615 closes only #596",
+      "The remediation branch has no net csdlc-v2 source or test mutation",
+      "V3 canary evidence remains non-authoritative before #505"
+    ]
+  },
+  "fail_after_backup": false
+}

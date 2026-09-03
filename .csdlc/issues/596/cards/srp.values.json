@@ -7,24 +7,28 @@
     "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
     "slug": "sprints-5-6-cutover-fixes",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 42
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Sprint 5/6 remediation branch, #596 lifecycle state, PR #597 linkage, typed PR transport, and v3 durable projection recovery only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/596/correct-sor-v3-separate-output.json\n.csdlc/prepared/issues/596/validate-remediation-regression.sh\ncsdlc-v3/tests/real_issue_canary.rs",
+      "review_revision": "git-blake3:c2ef9e14fb3e00c7f23395892065df1d4162ed8c:7e88c4789fc7ab1d4960826d1e09f17b88385c7d5cb975641a3e34721e93afbd",
+      "reviewer": "/root/review_615_c2ef9e14",
       "review_prompts": [
-        "Does #596 now have canonical local lifecycle state before PR #597 closes it?",
-        "Can the same PR update operation key overwrite a different body?",
-        "Can a crash after durable state commit but before projection write reopen as complete?",
+        "Does #596 have canonical local lifecycle state before PR #615 closes it?",
+        "Does PR #615 visibly close #596 while keeping #505 and #534 as non-closing Part-Of links?",
+        "Does the branch have zero net csdlc-v2 source/test mutation against origin/main?",
+        "Are observed v2 defects captured as v3 replacement requirements rather than patched in v2?",
         "Does any evidence claim v3 authority before #505?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The review subagent's only remaining blocker was lifecycle-state absence before this record/publication sequence; publication still must be recorded through typed C-SDLC v2 before PR #615 is merge-ready for #596 closeout.",
+        "C-SDLC v3 remains non-authoritative until explicit #505 cutover; #615 only repairs #596 sprint-remediation proof and does not retire v2."
+      ],
+      "review_result": "pass"
     }
   }
 }

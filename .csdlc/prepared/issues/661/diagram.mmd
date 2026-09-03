@@ -1,0 +1,5 @@
+flowchart LR
+  Turn[Fresh Shepherd turn] --> Resolve[Resolve configured Shepherd provider]
+  Resolve --> Invoke[Governed provider invocation]
+  Invoke --> Reply[conversation_reply.v1 generated content]
+  Invoke -->|failure| Error[Explicit provider failure]

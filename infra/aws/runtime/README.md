@@ -77,6 +77,13 @@ The committed backend examples are:
 - `infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example`
 - `infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example`
 
+The bucket/table names in those examples are derived from the AWS-C bootstrap
+outputs, not hand-authored legacy names. After #486 bootstrap apply, use
+`terraform -chdir=infra/aws/bootstrap output backend_hcl` with the approved
+`agent-logic-admin` profile and replace only the redacted account placeholder
+in the example bucket name. Do not commit the raw account id or a local
+backend file.
+
 Do not store public-edge state in this AWS-F namespace. The public edge remains
 under #122.
 

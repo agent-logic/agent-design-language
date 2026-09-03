@@ -4,9 +4,9 @@
   "aws_profile": "agent-logic-admin",
   "region": "us-west-2",
   "bucket": "agent-logic-podcast-archive-agentlogic",
-  "archive_prefix": "archive/cognitive-spacetime/",
+  "archive_prefix": "archive/the-cognitive-stack/",
   "archive_object_count": 87,
-  "archive_total_bytes": 191910866,
+  "archive_total_bytes": 191911388,
   "inventory": "s3-object-inventory.json",
   "publication_status": "held_for_human_review",
   "bucket_controls": {
@@ -30,115 +30,115 @@
   },
   "critical_objects": [
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/CREATOR_WORKFLOW.md",
-      "bytes": 3368,
-      "sha256": "9c6a9e7e6ac66e064e523b1a8a6f286f2456423007846a06fe433b1088b63089",
-      "s3_checksum_sha256": "nGqefmrGbgZOUjsaim8obyRWQjAHhGoG/kM7EIi2MIk=",
+      "key": "archive/the-cognitive-stack/episodes/001/package/CREATOR_WORKFLOW.md",
+      "bytes": 3372,
+      "sha256": "35b19944091def17872e765ff66df8d183ebf741ed3ebc90c886810e0f0fb2c6",
+      "s3_checksum_sha256": "NbGZRAkd7xeHLnZf9m340YPr90HtPryQyIaBDg8PssY=",
       "version_id": "ego1meIINWJA3erK8GG.1A._mVE66pHX"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/artwork-source.png",
+      "key": "archive/the-cognitive-stack/episodes/001/package/artwork-source.png",
       "bytes": 1218797,
       "sha256": "a2b3a0bfb9b438e479c036728251c7b8ae90124beb799e875031832ec8916b43",
       "s3_checksum_sha256": "orOgv7m0OOR5wDZyglHHuK6QEkvreZ6HUDGDLsiRa0M=",
       "version_id": "CQvuvExJDx72HtjPKZxRt5Mcfxti2Rur"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/artwork.png",
+      "key": "archive/the-cognitive-stack/episodes/001/package/artwork.png",
       "bytes": 4126190,
       "sha256": "e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d",
       "s3_checksum_sha256": "4UIYLs76BrNCVtfO7t7fs8NBjB9m6aV3UNPtIdjS/I0=",
       "version_id": "WE9vyKRWsP_fdGLBfkHUT8SWk0LsbetL"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/episode.json",
-      "bytes": 3158,
-      "sha256": "3f0bb037aa448e50362367ff4c50c350351c6e390fd23a0e0c7682ac2b95f47a",
-      "s3_checksum_sha256": "PwuwN6pEjlA2I2f/TFDDUDUcbjkP0joODHaCrCuV9Ho=",
+      "key": "archive/the-cognitive-stack/episodes/001/package/episode.json",
+      "bytes": 3133,
+      "sha256": "def015222ea94a71a6f718b067e61554735d79846bcc36551ce5543e83f2e090",
+      "s3_checksum_sha256": "3vAVIi6pSnGm9xiwZ+YVVHNdeYRrzDZVHOVUPoPy4JA=",
       "version_id": "v.ILnRFCOw53kp5zrSiU8XfCUzOgRXPF"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/source-packet.md",
-      "bytes": 1590,
-      "sha256": "c6801a7670f280f490143a685e76ff2f1cd0a882b0567964c3a2c70b3abcc811",
-      "s3_checksum_sha256": "xoAadnDygPSQFDpoXnb/LxzQqIKwVnlkw6LHCzq8yBE=",
+      "key": "archive/the-cognitive-stack/episodes/001/package/source-packet.md",
+      "bytes": 1728,
+      "sha256": "df6055ec3c96dcc6f14513e24ab76ab092b4048306dbcc2a1af34bbbf0dcf042",
+      "s3_checksum_sha256": "32BV7DyW3MbxRRPiSrdqsJK0BIMG28wqGvNLu/Dc8EI=",
       "version_id": "OwooEnyMdzyo4djdIvPaqkd_pk18a2mV"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/script.md",
+      "key": "archive/the-cognitive-stack/episodes/001/package/script.md",
       "bytes": 18147,
-      "sha256": "72ba0fa3c0dd604e6987e961d26dfe16eb825777b3aec49056a20336607d45d7",
-      "s3_checksum_sha256": "croPo8DdYE5ph+lh0m3+FuuCV3ezrsSQVqIDNmB9Rdc=",
+      "sha256": "e4e0ae90c6bdc01da05eab49dda4bb4cd16ca5a8a9c7977bff5ac0058479f6cf",
+      "s3_checksum_sha256": "5OCukMa9wB2gXqtJ3aS7TNFspaipx5d7/1rABYR59s8=",
       "version_id": "ZHNYDn6WDfd9RQCl4uVDX.9iY6pzDCtj"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/transcript.md",
+      "key": "archive/the-cognitive-stack/episodes/001/package/transcript.md",
       "bytes": 17573,
-      "sha256": "0f771e6222625901c8d6ed21b4083b215ee318e05cb6a2494333f4216af6db3b",
-      "s3_checksum_sha256": "D3ceYiJiWQHI1u0htAg7IV7jGOBctqJJQzP0IWr22zs=",
+      "sha256": "f2ccc783aa3d757a18adf07aa90be5a2909578ecea536cb5c44326734e35c6b6",
+      "s3_checksum_sha256": "8szHg6o9dXoYrfB6qQvlopCVeOzqU2y1xEMmc041xrY=",
       "version_id": "IKzBxXQYwlwlfs4zdPeCb5rc6X3bsh9Y"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/show-notes.md",
+      "key": "archive/the-cognitive-stack/episodes/001/package/show-notes.md",
       "bytes": 1759,
-      "sha256": "995ae6e69931da9f5c40e2bcb478c265b3494d8ceb3e12d03e267cbd62653f58",
-      "s3_checksum_sha256": "mVrm5pkx2p9cQOK8tHjCZbNJTYzrPhLQPiZ8vWJlP1g=",
+      "sha256": "47b708c49e35dfe2c381adb664292bb4f56426ff07aeb5aeb2cf553f756c2d77",
+      "s3_checksum_sha256": "R7cIxJ413+LDga22ZCkrtPVkJv8HrrWuss9VP3VsLXc=",
       "version_id": "pe7jhj.DXalt0qmdWgUa2QngpAlP5R6i"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/audio-manifest.json",
+      "key": "archive/the-cognitive-stack/episodes/001/package/audio-manifest.json",
       "bytes": 2259,
-      "sha256": "688611eb5bdd19271e135f2b8b0c9d9ba0993575c0aa68023f10af440628454a",
-      "s3_checksum_sha256": "aIYR61vdGSceE18riwydm6CZNXXAqmgCPxCvRAYoRUo=",
+      "sha256": "ce63f1cd5b8d25ad5a5aa019189bce836b076eb34cd5f4a7475b61f1c9e53591",
+      "s3_checksum_sha256": "zmPxzVuNJa1aWqAZGJvOg2sHbrNM1fSnR1th8cnlNZE=",
       "version_id": "RFLfgjMvxXDSHbzUYB05ov5E1HXixYL7"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/qa-report.md",
-      "bytes": 1474,
-      "sha256": "bb780236c45e36e2cbd06c2673de1a4c94fe0d18db564f38cabd8b8663a51fea",
-      "s3_checksum_sha256": "u3gCNsReNuLL0Gwmc94aTJT+DRjbVk84yr2LhmOlH+o=",
+      "key": "archive/the-cognitive-stack/episodes/001/package/qa-report.md",
+      "bytes": 1883,
+      "sha256": "a57c9ea0fb583e110af72ee5d6f94a983a56c2b686564d3c281333a2d269803c",
+      "s3_checksum_sha256": "pXyeoPtYPhEK9y7l1vlKmDpWwraGVk08KBMzotJpgDw=",
       "version_id": "mmDnSJzg.1.6NjF4OPS2afdA.CnnryDu"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/guest-metadata.json",
+      "key": "archive/the-cognitive-stack/episodes/001/package/guest-metadata.json",
       "bytes": 909,
       "sha256": "1cbbe8f35abf3a932f2732e6f7000897d9ef665fe034aba4c16968b406420471",
       "s3_checksum_sha256": "HLvo81q/OpMvJzLm9wAIl9nvZl/gNKukwWlotAZCBHE=",
       "version_id": "mNOYe.0l1xjZXuaK5dntSkqrRzox9zC3"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/rss-enclosure.json",
+      "key": "archive/the-cognitive-stack/episodes/001/package/rss-enclosure.json",
       "bytes": 440,
-      "sha256": "e8511d263178ae8aeeb53585939e77ccdd870d226802f1a5d7357fc8a5759458",
-      "s3_checksum_sha256": "6FEdJjF4rorutTWFk553zN2HDSJoAvGl1zV/yKV1lFg=",
+      "sha256": "6e347f5e31b919b03125567ebfdcc62669f9e42f3d95242e6f20c671e58cf844",
+      "s3_checksum_sha256": "bjR/XjG5GbAxJVZ+v9zGJmn55C89lSQubyDGceWM+EQ=",
       "version_id": "jflUGGEXKgdE7tD1y0QLGOROfLY._UJf"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/redaction-report.md",
+      "key": "archive/the-cognitive-stack/episodes/001/package/redaction-report.md",
       "bytes": 729,
       "sha256": "d38325fc72ed4c6bd2e9e90e65e690f305a8ae6727ffa4d43a6cc6e12a9437f8",
       "s3_checksum_sha256": "04Ml/HLtTGvS6ekOZeaQ8wWormcn/6TUOmzG4SqUN/g=",
       "version_id": "8wU3P4Hbf_Ve_hyln.B_9sMUFTX7Rd1F"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/package/review.md",
+      "key": "archive/the-cognitive-stack/episodes/001/package/review.md",
       "bytes": 1122,
       "sha256": "1c8322842e6d5456e94e3fa00485b0d2b51315afd95c8613ab6f5e148a72bf87",
       "s3_checksum_sha256": "HIMihC5tVFbpTj+gBIWw0rUTFa/ZXIYTq29eFIpyv4c=",
       "version_id": "CkZZacKe8OX5a3fd136e.1ei1PgMe8CJ"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.mp3",
+      "key": "archive/the-cognitive-stack/episodes/001/media/meet-the-ai-coworkers.mp3",
       "bytes": 22804249,
-      "sha256": "2ce56a2a4e3f74315f844978b9a9c344e377227cd92d4ddd0e05f338a4338cbc",
-      "s3_checksum_sha256": "pdKd00fDxvsX0XZxMKaIIpQYNR4Nno999MDQO0zX1lE=-3",
+      "sha256": "ea213c90e241855030283262419fae7376f1fb4686f291be9e63610f1a34fa0c",
+      "s3_checksum_sha256": "6iE8kOJBhVAwKDJiQZ+uc3bx+0aG8pG+nmNhDxo0+gw=",
       "version_id": "3A8ZrDtym0eaeXyVjPCzjtCu2BAT_rMS"
     },
     {
-      "key": "archive/cognitive-spacetime/episodes/001/media/meet-the-ai-coworkers.wav",
+      "key": "archive/the-cognitive-stack/episodes/001/media/meet-the-ai-coworkers.wav",
       "bytes": 53371758,
       "sha256": "78e1c5edac6f96bddba7faa5e35523f5dda894a4426f6f54b178ceb0bbed5572",
-      "s3_checksum_sha256": "FBmRkKq1xGxGZcNkiLnFyZhBKN1S5pn0JkugzB246JM=-7",
+      "s3_checksum_sha256": "eOHF7axvlr3bp/ql41Uj9d2olKRCb29UsXjOsLvtVXI=",
       "version_id": "PSPG99pCi1CVR7WBrdSf0hMX3iUbefIk"
     }
   ]

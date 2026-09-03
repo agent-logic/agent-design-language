@@ -1,0 +1,23 @@
+{
+  "issue": 607,
+  "card": "sip",
+  "expected_generation": 6,
+  "expected_digest": "306a3308376367c026145ade7afc018a9c898db909360e05e670e478e069274d",
+  "actor": "codex:/root:issue-607-design-remediation",
+  "reason": "Reconcile reviewed storage, identity, authorization, SSH, and seven-day cost constraints before implementation.",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "Never compile install packages use Git Snap or download models during normal launch",
+      "Use disjoint Terraform state for persistent storage and disposable compute",
+      "Keep immutable S3 as artifact authority",
+      "Bind exact AMI metadata KMS key AZ volumes seals and plans before mutation",
+      "Use three separate single-use paid authorizations",
+      "Always retain SSH access on preparation and both launch nodes with one shared key and operator CIDR",
+      "Require least-privilege IMDSv2 preparation and zero disposable residue",
+      "Keep Ollama private",
+      "Write run state only below the bound worktree",
+      "Do not exceed USD 20 including seven-day retained storage"
+    ]
+  }
+}

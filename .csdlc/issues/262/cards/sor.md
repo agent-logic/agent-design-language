@@ -1,0 +1,337 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 262
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented the #262 podcast production-hosting candidate for The Cognitive Stack, including promotion of the approved public page, RSS feed, artwork, MP3 enclosure, and episode page to the production https://agent-logic.ai/podcast/ hosting surface.
+
+## Artifacts
+
+- demos/podcast/feed.xml
+- demos/podcast/index.html
+- demos/_preview/podcast/index.html
+- demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json
+- demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json
+- demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md
+- demos/podcast/episodes/meet-the-ai-coworkers/index.html
+- demos/podcast/LAUNCH_READINESS.md
+- demos/podcast/S3_CLOUDFRONT_RUNBOOK.md
+- .csdlc/prepared/issues/262/validate-podcast-hosting.rb
+- .csdlc/evidence/262
+- .csdlc/prepared/issues/262/record-live-production-proof.rb
+- .csdlc/evidence/262/live-production/public-production-proof.json
+- .csdlc/evidence/262/live-production/cloudfront-invalidation.json
+- .csdlc/evidence/262/live-production/put-feed.json
+- .csdlc/evidence/262/live-production/put-audio.json
+- .csdlc/evidence/262/live-production/put-artwork.json
+- .csdlc/evidence/262/live-production/put-podcast-root.json
+- .csdlc/evidence/262/live-production/put-podcast-index.json
+- .csdlc/evidence/262/live-production/put-episode-root.json
+- .csdlc/evidence/262/live-production/put-episode-index.json
+- demos/podcast/LAUNCH_READINESS.md
+- demos/podcast/S3_CLOUDFRONT_RUNBOOK.md
+
+## Execution
+
+- Renamed the production podcast feed, public page, preview page, episode page, studio reference, and episode metadata from the old working title to The Cognitive Stack.
+- Aligned Episode 001 RSS GUID and enclosure metadata with the approved show identity while preserving the stable HTTPS media URL, MIME type, byte length, audio digest, artwork digest, and held-for-review publication boundary.
+- Updated launch readiness and S3/CloudFront runbook text for the approved show title and retained local validation of feed/page/enclosure/artwork consistency.
+- Promoted the approved public podcast page, RSS feed, artwork, MP3 enclosure, and episode page to the branded production website bucket behind agent-logic.ai.
+- Invalidated the changed CloudFront paths for the production podcast route.
+- Added validator-enforced public HTTPS proof so #262 can no longer pass with only 127.0.0.1 loopback playback receipts.
+- Updated launch-readiness and S3/CloudFront runbook truth to distinguish production hosting publication from #264 directory submission.
+
+## Validation
+
+[
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 reviewable diff.",
+    "outcome": "passed",
+    "evidence_ref": "issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack production-feed candidate, episode metadata, stable HTTPS enclosure, MIME type, byte length, audio/artwork digests, and public/preview page references without claiming external publication.",
+    "outcome": "passed",
+    "evidence_ref": "issue-262-focused.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate post-remediation The Cognitive Stack feed/page/enclosure consistency, MP3 ID3 metadata, QA metadata, and stale transcript-copy guard coverage.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 post-remediation reviewable diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "--profile",
+      "all",
+      "--output",
+      ".csdlc/evidence/262/http-playback-proof.json"
+    ],
+    "purpose": "Retain source-SHA-bound local HTTP playback proof for The Cognitive Stack feed, pages, MP3 HEAD behavior, and first/tail 206 byte-range requests across desktop Safari, desktop Chrome, mobile Safari, and Android Chrome user-agent profiles.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/http-playback-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack feed, pages, enclosure metadata, MP3 ID3 metadata, mailbox/artwork dependency truth, retained HTTP playback proof, wrapper playback receipts, and stale-name/path hygiene.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 post-R2 playback-proof remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "--profile",
+      "all",
+      "--output",
+      ".csdlc/evidence/262/http-playback-proof.json"
+    ],
+    "purpose": "Retain HTTP HEAD, GET, first/tail 206 range, desktop/mobile profile playback proof bound to a recomputable source manifest digest over feed, pages, MP3, validator, generator, and wrapper scripts.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/http-playback-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack launch-feed artifacts, MP3 metadata, HTTP playback receipts, and wrapper receipts while recomputing the source manifest digest that binds the retained proof to current source artifacts.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 source-manifest playback-proof remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "--profile",
+      "all",
+      "--output",
+      ".csdlc/evidence/262/http-playback-proof.json"
+    ],
+    "purpose": "Retain source-manifest-bound HTTP playback proof after source-packet GUID and The Cognitive Stack archive path corrections.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/http-playback-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack GUID consistency, archive path truth, stale production-name guards, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 launch identity and archive path truth remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "--profile",
+      "all",
+      "--output",
+      ".csdlc/evidence/262/http-playback-proof.json"
+    ],
+    "purpose": "Retain source-manifest-bound HTTP playback proof after storage-manifest and S3 object inventory checksum repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/http-playback-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate archive manifest critical-object byte/SHA/checksum truth, S3 inventory size/etag truth, The Cognitive Stack identity, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 archive manifest checksum remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "--profile",
+      "all",
+      "--output",
+      ".csdlc/evidence/262/http-playback-proof.json"
+    ],
+    "purpose": "Retain source-manifest-bound HTTP playback proof after storage-manifest archive total and S3 inventory aggregate byte repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/http-playback-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate archive aggregate object count and byte truth, critical-object byte/SHA/checksum truth, S3 inventory size/etag truth, The Cognitive Stack identity, HTTP playback proof, MP3 metadata, feed/page/enclosure consistency, and dependency truth.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 archive aggregate byte remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_podcast_launch_packet.sh"
+    ],
+    "purpose": "Prove the podcast launch packet contract accepts The Cognitive Stack schedule title, studio reference digest, production source packet boundary, generated packet, and current demo route.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-podcast-launch-packet.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack hosting packet remains consistent after launch schedule title, studio digest, and validator-boundary repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue across the exact #262 post-publication CI remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/record-live-production-proof.rb"
+    ],
+    "purpose": "Retain source-manifest-bound public production proof for The Cognitive Stack feed, page, artwork, MP3 enclosure, S3 version receipts, CloudFront invalidation, public HTTPS HEAD/GET, and first/tail 206 byte-range playback behavior at https://agent-logic.ai/podcast/.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/live-production/public-production-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/262/validate-podcast-hosting.rb"
+    ],
+    "purpose": "Validate The Cognitive Stack hosting packet with source-bound local playback receipts, public production HTTPS proof, S3 version receipts, CloudFront invalidation evidence, and publication_claimed=true.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-focused.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Verify whitespace and diff hygiene for the live production podcast hosting proof remediation.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

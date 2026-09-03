@@ -1,0 +1,26 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "sor",
+  "expected_digest": "5a44d270763e9bdc9bdad20097e7f588856b9b60c7f656475e941872956ce6ce",
+  "expected_generation": 7,
+  "issue": 515,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove shadow failures preserve the authoritative result and do not convert shadow success into authority.",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl/Cargo.toml",
+        "-p",
+        "adl",
+        "--test",
+        "provider_shadow_fallback"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:provider_shadow_fallback:2 passed"
+    }
+  },
+  "reason": "Record #515 fallback validation lane result."
+}

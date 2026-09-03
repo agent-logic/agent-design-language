@@ -1,0 +1,394 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 656,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
+  "phase": "published",
+  "generation": 23,
+  "digest": "28a3d89a7f3d4197aeff166810df58ec8e53530a83ecbac16e3c34ba31a4f035",
+  "branch": "codex/656-runtime-atomic-generation-install",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
+  "review_assignment": {
+    "reviewer": "fresh-session:3b9ef7e8-7a6c-48fe-ae13-09ea23111979",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:6172265eceec54cfa9a89034761b94b41894e2ce:defb4acdf2acf9410e40eb3c642e21959dbacff0b3463628d201a383aeda6a24",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3b9ef7e8-7a6c-48fe-ae13-09ea23111979",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs"
+    ],
+    "reviewed_revision": "git-blake3:6172265eceec54cfa9a89034761b94b41894e2ce:defb4acdf2acf9410e40eb3c642e21959dbacff0b3463628d201a383aeda6a24",
+    "findings": [],
+    "residual_risks": [
+      "Hosted aggregate coverage remains the publication integration gate.",
+      "No live Runtime or service-manager mutation was performed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 656,
+    "pull_request": 658,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/658",
+    "base": "main",
+    "head": "codex/656-runtime-atomic-generation-install",
+    "revision": "git-blake3:6172265eceec54cfa9a89034761b94b41894e2ce:defb4acdf2acf9410e40eb3c642e21959dbacff0b3463628d201a383aeda6a24",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/656/design.md",
+  "diagram_path": ".csdlc/prepared/issues/656/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:656-plan-review",
+      "revision": "ae1e31e488fedefe6d1b9f37692cd4ee37e6dddc60cc35191a042a2c3dfbeb52"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8044b730a9674dbb71a20a8e0aa75077ea794809342e7d5b979f281298a2b354",
+      "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
+      "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
+    },
+    "stp": {
+      "values_digest": "270b0a7840f014d9df05519bf46e3bc9ee50623f3659791629bcdbb333c90cf1",
+      "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
+      "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
+    },
+    "spp": {
+      "values_digest": "6d4ff3971b82f826e53f70ed4bb79ac1992ad4517d7da7bbe9195526f8565586",
+      "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
+      "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
+    },
+    "vpp": {
+      "values_digest": "fff2874afdfc1b91fea61c93af60d94e0cfd1ba2ed04317e73137afa26816bbe",
+      "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
+      "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
+    },
+    "srp": {
+      "values_digest": "d6374e98f996c5081d205ffa3dc82d1d8bddc1fc428a6f6b9cbd507a0172b4f8",
+      "rendered_digest": "0de93cf6479688b6eb240c5f4f0b33cb3aef3e9b450141078d39f399949e787f",
+      "ast_digest": "f166daf1389a1c681209a40d82271dfbae48b918c2681575a4254da71cb5269b"
+    },
+    "sor": {
+      "values_digest": "1af13dd1cd873cdfc8750cc9accc079f2e26d8bfc53a1fbe7c9350c30a503711",
+      "rendered_digest": "1b28a7d66a1d2c700db16b24a6ee597805188715f633753b09d67a73df64e72b",
+      "ast_digest": "4f09270f80e2fcc7bc8686ef084876bdd411837e5614e8e5f026b722f80c5682"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:656-implementation",
+      "reason": "Atomic Runtime generation installation, pre-mutation generation verification, focused tests, formatting, build check, and diff hygiene are complete; bounded exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the published issue after hosted CI found Clippy warnings and coverage-only fixture timeouts at the exact PR head."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the published review after the test-only changed-source coverage repair at 630c7f73a5bbff13ebd701219834c4be7f526701 so focused validation and a fresh exact-head review can be recorded before republication."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the stale review after its typed review record was committed; establish one final committed metadata head for exact review and atomic republication."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:656-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:656-implementation",
+      "reason": "align the planned pre-mutation proof with the executable non-zero CSM test target",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: One command stages and validates all three binaries\",\"AC-2: One receipt binds revision, platform, profile, Runtime-init schema, and three SHA-256 hashes\",\"AC-3: Activation atomically changes one current reference\",\"AC-4: Prior complete generation remains rollback-capable\",\"AC-5: launchd and Runtime-init resolve the same generation\",\"AC-6: start and reload reject invalid generations before service mutation\",\"AC-7: Negative proof shows rejection leaves service untouched\",\"AC-8: Matched activation and rollback tests pass\",\"AC-9: Excluded Runtime and cloud behavior remains unchanged\",\"AC-10: Focused validation, hygiene, and exact-head review pass\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Define generation layout, receipt, compatibility, and verification.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement staging, atomic activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add CSM start and reload preflight before service mutation.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused proof and exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"runtime-generation-contract\",\"proof_role\":\"Prove matched staging, receipt integrity, activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null},{\"lane\":\"runtime-generation-premutation\",\"proof_role\":\"Prove invalid generations are rejected before service mutation on the executable CSM command surface.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"generation_preflight_rejects_mixed_artifacts_before_mutation\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:656-implementation",
+      "reason": "align the planned pre-mutation proof with the executable non-zero CSM test target",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: One command stages and validates all three binaries\",\"AC-2: One receipt binds revision, platform, profile, Runtime-init schema, and three SHA-256 hashes\",\"AC-3: Activation atomically changes one current reference\",\"AC-4: Prior complete generation remains rollback-capable\",\"AC-5: launchd and Runtime-init resolve the same generation\",\"AC-6: start and reload reject invalid generations before service mutation\",\"AC-7: Negative proof shows rejection leaves service untouched\",\"AC-8: Matched activation and rollback tests pass\",\"AC-9: Excluded Runtime and cloud behavior remains unchanged\",\"AC-10: Focused validation, hygiene, and exact-head review pass\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Define generation layout, receipt, compatibility, and verification.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement staging, atomic activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add CSM start and reload preflight before service mutation.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused proof and exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"runtime-generation-contract\",\"proof_role\":\"Prove matched staging, receipt integrity, activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null},{\"lane\":\"runtime-generation-premutation\",\"proof_role\":\"Prove invalid generations and mismatched service definitions are rejected before mutation on the executable CSM command surface.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"preflight_\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:656-implementation",
+      "reason": "Record the bounded atomic Runtime generation implementation and focused local proof before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented immutable matched Runtime v3 generations with one receipt, atomic current and previous references, rollback, platform and schema checks, and CSM preflight before start or reload mutation.\",\"changes\":[\"Added a single Runtime v3 generation command for install, verify, and rollback.\",\"Bound CSM, Guardian, and kernel hashes plus source revision, platform, build profile, and Runtime-init schema in one receipt.\",\"Required installed CSM, kernel, and launchd or systemd Guardian paths to resolve through the same current generation.\",\"Moved current and candidate generation verification ahead of interrupted-transaction reconciliation and service stop paths.\"],\"artifacts\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tools/test_runtime_v3_generation_install.sh\",\"adl/tests/csm_runtime_v3_generation.rs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:656-implementation",
+      "reason": "Atomic Runtime generation installation, pre-mutation generation verification, focused tests, formatting, build check, and diff hygiene are complete; bounded exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head Runtime generation installer validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"purpose\":\"Prove matched immutable generation install, verification, atomic activation, tamper rejection, contained rollback, and current-reference preservation.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; runtime v3 generation installer PASS\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head CSM generation preflight validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"preflight_\"],\"purpose\":\"Prove hash, executable-mode, direct-generation, launchd, and systemd mismatches fail before service mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; 6 passed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head generation installer integration validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Prove the public installer rejects a mixed generation and preserves the current generation reference.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; 1 passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head formatting and diff-hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"8e5a47ad48af6536b700a18a16d7c06b0fea76da^\",\"8e5a47ad48af6536b700a18a16d7c06b0fea76da\"],\"purpose\":\"Reject malformed whitespace in the exact substantive remediation commit after Rust formatting passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; cargo fmt check and exact commit diff check passed\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover from changes-required review after fixing all three findings and retaining exact substantive-head validation truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover the published issue after hosted CI found Clippy warnings and coverage-only fixture timeouts at the exact PR head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record strict Clippy proof for the exact substantive CI-repair commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the hosted-CI repair is warning-free across ADL targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:235befd2e2f38378c01208a993add590a79de799; strict Clippy passed\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record focused preflight proof for the exact substantive CI-repair commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"preflight_\"],\"purpose\":\"Prove generation preflight behavior remains correct and the test fixture completes without coverage-only timeouts.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:235befd2e2f38378c01208a993add590a79de799; 6 passed in 0.01s; cargo fmt and git diff check passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover the published review after the test-only changed-source coverage repair at 630c7f73a5bbff13ebd701219834c4be7f526701 so focused validation and a fresh exact-head review can be recorded before republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Record focused generation-preflight proof for the exact coverage-repair commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"generation_preflight\"],\"purpose\":\"Prove the added coverage tests exercise real fail-closed generation-preflight branches without production changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:630c7f73a5bbff13ebd701219834c4be7f526701; 37 focused CSM tests passed; independent review rerun 6 generation-preflight tests passed\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Recover the stale review after its typed review record was committed; establish one final committed metadata head for exact review and atomic republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

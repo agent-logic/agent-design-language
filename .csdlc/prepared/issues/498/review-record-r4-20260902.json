@@ -1,0 +1,20 @@
+{
+  "issue": 498,
+  "expected_generation": 9,
+  "expected_digest": "af3e60fc5c7979948e332e0bdf8a664581582161c8fc6bc4cdb851006178b160",
+  "actor": "codex:/root/Worker-7",
+  "evidence": {
+    "reviewer": "subagent:498-corp-d-exact-head-review-r4",
+    "reviewed_revision": "git-blake3:86a58181d2f6957f0e9a3726eeb3ca16ebb1d04b:24763d241d8b3fafaeecfedebfb652f2490a3e452917eeddb07154d5491007cb",
+    "scope": [
+      ".csdlc/evidence/498",
+      ".csdlc/prepared/issues/498",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d",
+      "docs/operations/corporate/diligence"
+    ],
+    "completed": true,
+    "findings": [],
+    "residual_risks": [],
+    "non_substantive_proof": null
+  }
+}

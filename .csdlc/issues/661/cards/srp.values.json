@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 661,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+    "slug": "runtime-shepherd-provider-reply",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/shepherd.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\n.csdlc/prepared/issues/661/validate-focused.sh",
+      "review_revision": "git-blake3:9c33e8376abaa5748ce794b8f2bbeae98dcfe8e9:606ef0b6806691771a814e96ffc770fb8970c4036c93a8ef8d9b3fb77a189a16",
+      "reviewer": "subagent:/root/review_661_current_head_safe_bridge",
+      "review_prompts": [
+        "Does every Shepherd reply use configured provider execution?",
+        "Can provider failure become success?",
+        "Are schema and correlation preserved?",
+        "Is agent-to-agent initiation excluded?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Read-only source-scope review only; no live provider, AWS, paid runner, or Runtime restart was performed.",
+        "Focused validation proves the deterministic Shepherd conversation provider-reply path; hosted CI remains the final integration gate before merge.",
+        "Agent-to-agent initiation and broader Runtime live-provider semantics are outside issue #661 scope and are not claimed."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

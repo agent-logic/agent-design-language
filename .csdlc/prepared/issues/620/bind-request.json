@@ -1,0 +1,7 @@
+{
+  "issue": 620,
+  "base_branch": "codex/620-v0922-first-pass-planning-preparation",
+  "branch": "codex/620-v0922-first-pass-planning",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-620-v0922-first-pass-planning",
+  "code_repository": "agent-logic/agent-design-language"
+}

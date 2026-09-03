@@ -1,0 +1,21 @@
+{
+  "issue": 648,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "ffa7530df9bba62a5ffd903c1e8e8eb309b2889d2a291b13b8c0d711b5cdcbcb",
+  "actor": "codex:/root",
+  "reason": "Record passed #648 safety validation lane.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+        "safety"
+      ],
+      "purpose": "Prove config reload safety, provider reload ownership regressions, fmt, clippy, and diff hygiene without live provider, AWS, paid runner, Runtime restart, cutover, or merge action.",
+      "outcome": "passed",
+      "evidence_ref": "terminal:2026-09-02:#648-safety-validation:2-config-14-profile-7-reload-1-inflight-1-csm-fmt-clippy-diffcheck-passed"
+    }
+  }
+}

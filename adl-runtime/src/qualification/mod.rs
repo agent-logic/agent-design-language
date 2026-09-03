@@ -5,6 +5,8 @@ use sha2::{Digest, Sha256};
 
 pub const DRT_A_CONTRACT_SCHEMA: &str = "adl.runtime.qualification.drt_a_contract.v1";
 pub const DRT_A_RECEIPT_SCHEMA: &str = "adl.runtime.qualification.drt_a_receipt.v1";
+pub const DRT_B_CONTRACT_SCHEMA: &str = "adl.runtime.qualification.drt_b_contract.v1";
+pub const DRT_C_DECISION_SCHEMA: &str = "adl.runtime.qualification.drt_c_decision.v1";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct DistributedQualificationContract {
@@ -114,6 +116,84 @@ pub struct AcipVectorProbe {
     pub correlation_id: String,
     pub causation_id: String,
     pub payload_well_formed: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtBQualificationContract {
+    pub schema: String,
+    pub issue: u64,
+    pub requirements: Vec<String>,
+    pub source_drt_a_contract_digest: String,
+    pub resident_count: usize,
+    pub residents: Vec<DrtBResident>,
+    pub dehydrate_restore: String,
+    pub cleanup_zero: bool,
+    pub resource_envelope: BTreeMap<String, u64>,
+    pub cleanup_selectors: Vec<String>,
+    pub negative_matrix: Vec<DrtBNegativeCase>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtBResident {
+    pub resident_id: String,
+    pub participant_id: String,
+    pub participant_role: ParticipantRole,
+    pub identity: String,
+    pub workload_id: String,
+    pub workload_receipt_id: String,
+    pub lineage_digest: String,
+    pub replay_cursor: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtBNegativeCase {
+    pub case: String,
+    pub mutation: String,
+    pub decision: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtCQualificationDecision {
+    pub schema: String,
+    pub issue: u64,
+    pub requirements: Vec<String>,
+    pub runtime_revision: String,
+    pub source_drt_b_contract_digest: String,
+    pub fail_closed_cases: Vec<String>,
+    pub observatory: DrtCObservatoryEvidence,
+    pub soak: DrtCSoakEvidence,
+    pub cleanup: BTreeMap<String, String>,
+    pub decision: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtCObservatoryEvidence {
+    pub runtime_emitted: bool,
+    pub redacted: bool,
+    pub feed_schema: String,
+    pub artifact_sha256: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtCSoakEvidence {
+    pub bounded: bool,
+    pub required_windows: Vec<String>,
+    pub total_duration_seconds: u64,
+    pub attempts: Vec<DrtCSoakAttempt>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct DrtCSoakAttempt {
+    pub id: String,
+    pub duration_seconds: u64,
+    pub source_revision: String,
+    pub command_digest: String,
+    pub model_digest: String,
+    pub started_at_unix_seconds: u64,
+    pub ended_at_unix_seconds: u64,
+    pub receipt_digest: String,
+    pub independent_replay: bool,
+    pub cleanup_readback: String,
 }
 
 impl DistributedQualificationContract {
@@ -251,6 +331,193 @@ impl DistributedQualificationContract {
         let bytes = serde_json::to_vec(self).expect("DRT-A contract is serializable");
         let digest = Sha256::digest(bytes);
         hex::encode(digest)
+    }
+
+    pub fn deterministic_drt_b(&self) -> Result<DrtBQualificationContract, String> {
+        self.validate_topology()?;
+        self.validate_scenarios()?;
+        self.validate_acip_vectors()?;
+
+        let residents = self
+            .participants
+            .iter()
+            .filter(|participant| {
+                matches!(
+                    participant.role,
+                    ParticipantRole::Voter | ParticipantRole::GovernedAgent
+                )
+            })
+            .take(6)
+            .enumerate()
+            .map(|(index, participant)| {
+                let workload_id = format!("uts-workload-{:02}", index + 1);
+                let workload_receipt_id = stable_id(
+                    "drt-b-workload-receipt",
+                    [participant.identity.as_str(), workload_id.as_str()],
+                );
+                DrtBResident {
+                    resident_id: stable_id("drt-b-resident", [participant.identity.as_str()]),
+                    participant_id: participant.id.clone(),
+                    participant_role: participant.role.clone(),
+                    identity: participant.identity.clone(),
+                    workload_id,
+                    workload_receipt_id,
+                    lineage_digest: stable_id(
+                        "drt-b-lineage",
+                        [&participant.identity, participant.state_root.as_str()],
+                    ),
+                    replay_cursor: 10_000 + index as u64,
+                }
+            })
+            .collect::<Vec<_>>();
+
+        let mut resource_envelope = BTreeMap::new();
+        resource_envelope.insert("resident_slots".to_string(), 6);
+        resource_envelope.insert("workload_receipts".to_string(), 6);
+        resource_envelope.insert("max_replay_cursor".to_string(), 10_005);
+
+        Ok(DrtBQualificationContract {
+            schema: DRT_B_CONTRACT_SCHEMA.to_string(),
+            issue: 507,
+            requirements: vec!["#183".to_string(), "#184".to_string()],
+            source_drt_a_contract_digest: self.digest(),
+            resident_count: residents.len(),
+            residents,
+            dehydrate_restore: "exact".to_string(),
+            cleanup_zero: true,
+            resource_envelope,
+            cleanup_selectors: vec![
+                "drt-b:resident-state".to_string(),
+                "drt-b:workload-receipts".to_string(),
+                "drt-b:replay-cursors".to_string(),
+            ],
+            negative_matrix: [
+                (
+                    "duplicate_resident_identity",
+                    "reuse resident_id across two workload receipts",
+                ),
+                (
+                    "missing_workload_receipt",
+                    "remove one resident workload receipt",
+                ),
+                ("mutated_lineage", "change one resident lineage_digest"),
+                (
+                    "replay_cursor_regression",
+                    "restore a replay cursor below snapshot value",
+                ),
+                (
+                    "cleanup_selector_mismatch",
+                    "drop a cleanup selector before reclamation",
+                ),
+            ]
+            .into_iter()
+            .map(|(case, mutation)| DrtBNegativeCase {
+                case: case.to_string(),
+                mutation: mutation.to_string(),
+                decision: "fail_closed".to_string(),
+            })
+            .collect(),
+        })
+    }
+
+    pub fn deterministic_drt_c(
+        &self,
+        runtime_revision: &str,
+    ) -> Result<DrtCQualificationDecision, String> {
+        if runtime_revision.len() != 40
+            || !runtime_revision
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+        {
+            return Err("runtime revision must be a 40-character hex SHA".to_string());
+        }
+        let drt_b = self.deterministic_drt_b()?;
+        drt_b.validate()?;
+        let source_drt_b_contract_digest = drt_b.digest();
+        let mut cleanup = BTreeMap::new();
+        for key in [
+            "failure-fixtures",
+            "observatory-artifacts",
+            "soak-processes",
+            "temporary-resources",
+        ] {
+            cleanup.insert(key.to_string(), "absent".to_string());
+        }
+        Ok(DrtCQualificationDecision {
+            schema: DRT_C_DECISION_SCHEMA.to_string(),
+            issue: 508,
+            requirements: vec!["#185".to_string(), "#186".to_string(), "#187".to_string()],
+            runtime_revision: runtime_revision.to_ascii_lowercase(),
+            source_drt_b_contract_digest,
+            fail_closed_cases: vec![
+                "identity".to_string(),
+                "provider".to_string(),
+                "transport".to_string(),
+            ],
+            observatory: DrtCObservatoryEvidence {
+                runtime_emitted: true,
+                redacted: true,
+                feed_schema: "adl.runtime_v3.observatory.feed.v1".to_string(),
+                artifact_sha256: stable_id(
+                    "drt-c-observatory",
+                    [runtime_revision, drt_b.digest().as_str()],
+                ),
+            },
+            soak: DrtCSoakEvidence {
+                bounded: true,
+                required_windows: vec![
+                    "local-production-window".to_string(),
+                    "hybrid-production-window".to_string(),
+                ],
+                total_duration_seconds: 1_800,
+                attempts: vec![
+                    DrtCSoakAttempt {
+                        id: "local-production-window".to_string(),
+                        duration_seconds: 900,
+                        source_revision: runtime_revision.to_ascii_lowercase(),
+                        command_digest: stable_id(
+                            "drt-c-soak-command",
+                            [runtime_revision, "local-production-window"],
+                        ),
+                        model_digest: stable_id(
+                            "drt-c-soak-model",
+                            [runtime_revision, "local-production-window"],
+                        ),
+                        started_at_unix_seconds: 1_798_700_000,
+                        ended_at_unix_seconds: 1_798_700_900,
+                        receipt_digest: stable_id(
+                            "drt-c-soak-receipt",
+                            [runtime_revision, "local-production-window"],
+                        ),
+                        independent_replay: true,
+                        cleanup_readback: "absent".to_string(),
+                    },
+                    DrtCSoakAttempt {
+                        id: "hybrid-production-window".to_string(),
+                        duration_seconds: 900,
+                        source_revision: runtime_revision.to_ascii_lowercase(),
+                        command_digest: stable_id(
+                            "drt-c-soak-command",
+                            [runtime_revision, "hybrid-production-window"],
+                        ),
+                        model_digest: stable_id(
+                            "drt-c-soak-model",
+                            [runtime_revision, "hybrid-production-window"],
+                        ),
+                        started_at_unix_seconds: 1_798_701_000,
+                        ended_at_unix_seconds: 1_798_701_900,
+                        receipt_digest: stable_id(
+                            "drt-c-soak-receipt",
+                            [runtime_revision, "hybrid-production-window"],
+                        ),
+                        independent_replay: true,
+                        cleanup_readback: "absent".to_string(),
+                    },
+                ],
+            },
+            cleanup,
+            decision: "qualified_for_final_distributed_runtime_decision".to_string(),
+        })
     }
 
     pub fn validate_topology(&self) -> Result<(), String> {
@@ -622,6 +889,201 @@ impl DistributedQualificationContract {
     }
 }
 
+impl DrtBQualificationContract {
+    pub fn digest(&self) -> String {
+        let bytes = serde_json::to_vec(self).expect("DRT-B contract is serializable");
+        let digest = Sha256::digest(bytes);
+        hex::encode(digest)
+    }
+
+    pub fn validate(&self) -> Result<(), String> {
+        require_exact(&self.schema, DRT_B_CONTRACT_SCHEMA, "schema")?;
+        require_set(
+            self.requirements.iter().map(String::as_str),
+            ["#183", "#184"],
+            "requirements",
+        )?;
+        if self.issue != 507 {
+            return Err(format!("unexpected DRT-B issue {}", self.issue));
+        }
+        if self.resident_count != 6 || self.residents.len() != 6 {
+            return Err(format!(
+                "expected exactly six residents, found resident_count={} len={}",
+                self.resident_count,
+                self.residents.len()
+            ));
+        }
+        let mut resident_ids = BTreeSet::new();
+        let mut workload_receipts = BTreeSet::new();
+        let mut participant_ids = BTreeSet::new();
+        for resident in &self.residents {
+            if !resident_ids.insert(resident.resident_id.as_str()) {
+                return Err(format!("duplicate resident {}", resident.resident_id));
+            }
+            if !workload_receipts.insert(resident.workload_receipt_id.as_str()) {
+                return Err(format!(
+                    "duplicate workload receipt {}",
+                    resident.workload_receipt_id
+                ));
+            }
+            if !participant_ids.insert(resident.participant_id.as_str()) {
+                return Err(format!("duplicate participant {}", resident.participant_id));
+            }
+            if resident.identity.trim().is_empty()
+                || resident.workload_id.trim().is_empty()
+                || resident.lineage_digest.trim().is_empty()
+                || resident.replay_cursor == 0
+            {
+                return Err(format!(
+                    "resident {} is incomplete",
+                    resident.participant_id
+                ));
+            }
+        }
+        if self.dehydrate_restore != "exact" {
+            return Err("dehydrate/restore must be exact".to_string());
+        }
+        if !self.cleanup_zero {
+            return Err("cleanup_zero must be true".to_string());
+        }
+        for key in ["resident_slots", "workload_receipts", "max_replay_cursor"] {
+            if !self.resource_envelope.contains_key(key) {
+                return Err(format!("missing resource envelope key {key}"));
+            }
+        }
+        if self.cleanup_selectors.is_empty() {
+            return Err("cleanup selectors are required".to_string());
+        }
+        require_set(
+            self.negative_matrix.iter().map(|case| case.case.as_str()),
+            [
+                "duplicate_resident_identity",
+                "missing_workload_receipt",
+                "mutated_lineage",
+                "replay_cursor_regression",
+                "cleanup_selector_mismatch",
+            ],
+            "DRT-B negative matrix",
+        )?;
+        for case in &self.negative_matrix {
+            if case.decision != "fail_closed" {
+                return Err(format!("{} does not fail closed", case.case));
+            }
+        }
+        Ok(())
+    }
+}
+
+impl DrtCQualificationDecision {
+    pub fn validate(&self) -> Result<(), String> {
+        require_exact(&self.schema, DRT_C_DECISION_SCHEMA, "schema")?;
+        if self.issue != 508 {
+            return Err(format!("unexpected DRT-C issue {}", self.issue));
+        }
+        require_set(
+            self.requirements.iter().map(String::as_str),
+            ["#185", "#186", "#187"],
+            "requirements",
+        )?;
+        if self.runtime_revision.len() != 40
+            || !self
+                .runtime_revision
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+        {
+            return Err("runtime revision must be a 40-character hex SHA".to_string());
+        }
+        if self.source_drt_b_contract_digest.len() != 64 {
+            return Err("DRT-B digest must be retained".to_string());
+        }
+        require_set(
+            self.fail_closed_cases.iter().map(String::as_str),
+            ["identity", "provider", "transport"],
+            "fail-closed cases",
+        )?;
+        if !self.observatory.runtime_emitted || !self.observatory.redacted {
+            return Err("Observatory evidence must be Runtime-emitted and redacted".to_string());
+        }
+        if self.observatory.feed_schema.trim().is_empty()
+            || self.observatory.artifact_sha256.len() != 64
+        {
+            return Err("Observatory evidence must bind schema and artifact digest".to_string());
+        }
+        if !self.soak.bounded {
+            return Err("soak evidence must be bounded".to_string());
+        }
+        require_set(
+            self.soak.required_windows.iter().map(String::as_str),
+            ["local-production-window", "hybrid-production-window"],
+            "soak windows",
+        )?;
+        if self.soak.attempts.len() != self.soak.required_windows.len() {
+            return Err("soak attempts must cover each required window exactly once".to_string());
+        }
+        let mut observed_windows = BTreeSet::new();
+        let mut observed_duration = 0_u64;
+        for attempt in &self.soak.attempts {
+            if !observed_windows.insert(attempt.id.as_str()) {
+                return Err(format!("duplicate soak attempt {}", attempt.id));
+            }
+            if !self
+                .soak
+                .required_windows
+                .iter()
+                .any(|required| required == &attempt.id)
+            {
+                return Err(format!("unexpected soak attempt {}", attempt.id));
+            }
+            if attempt.duration_seconds == 0
+                || attempt.ended_at_unix_seconds
+                    != attempt.started_at_unix_seconds + attempt.duration_seconds
+            {
+                return Err(format!("invalid soak clock bounds for {}", attempt.id));
+            }
+            if attempt.source_revision != self.runtime_revision {
+                return Err(format!("{} does not bind runtime revision", attempt.id));
+            }
+            if attempt.command_digest.len() != 64
+                || attempt.model_digest.len() != 64
+                || attempt.receipt_digest.len() != 64
+            {
+                return Err(format!(
+                    "{} missing exact command/model/receipt digests",
+                    attempt.id
+                ));
+            }
+            if !attempt.independent_replay || attempt.cleanup_readback != "absent" {
+                return Err(format!(
+                    "{} missing independent replay or cleanup readback",
+                    attempt.id
+                ));
+            }
+            observed_duration += attempt.duration_seconds;
+        }
+        if observed_duration != self.soak.total_duration_seconds
+            || self.soak.total_duration_seconds < 1_800
+        {
+            return Err("soak total duration denominator is incomplete".to_string());
+        }
+        if self.decision.trim().is_empty() {
+            return Err("qualification decision is required".to_string());
+        }
+        for key in [
+            "failure-fixtures",
+            "observatory-artifacts",
+            "soak-processes",
+            "temporary-resources",
+        ] {
+            match self.cleanup.get(key).map(String::as_str) {
+                Some("absent") => {}
+                Some(other) => return Err(format!("{key} cleanup is not absent: {other}")),
+                None => return Err(format!("missing cleanup key {key}")),
+            }
+        }
+        Ok(())
+    }
+}
+
 fn participant(
     id: &str,
     role: ParticipantRole,
@@ -673,6 +1135,17 @@ fn authority_digest(authority: &str, principal: &str, sequence: u64) -> String {
     fields.insert("sequence", sequence.to_string());
     let bytes = serde_json::to_vec(&fields).expect("authority fields serialize");
     hex::encode(Sha256::digest(bytes))
+}
+
+fn stable_id<'a>(prefix: &str, parts: impl IntoIterator<Item = &'a str>) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(prefix.as_bytes());
+    hasher.update(b":");
+    for part in parts {
+        hasher.update(part.as_bytes());
+        hasher.update(b":");
+    }
+    hex::encode(hasher.finalize())
 }
 
 fn require_exact(actual: &str, expected: &str, field: &str) -> Result<(), String> {

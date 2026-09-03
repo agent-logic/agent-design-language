@@ -1,0 +1,7 @@
+{
+  "issue": 515,
+  "expected_generation": 18,
+  "expected_digest": "6d2c32cdb1b245b3187011e186f6aed6d829875d5ac4d0f42496b40c6ca53bdf",
+  "actor": "codex:/root:issue-515-implementation",
+  "reason": "Recover #515 review truth after fixing the independent reviewer P2 finding that shadow panic-hook suppression was process-global and could suppress unrelated authoritative/runtime panic observability."
+}

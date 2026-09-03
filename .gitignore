@@ -76,6 +76,11 @@ infra/aws/runtime/private-node/*.auto.tfvars
 infra/aws/runtime/private-node/*.tfvars
 infra/aws/runtime/private-node/*.tfplan
 !infra/aws/runtime/private-node/terraform.tfvars.example
+infra/gcp/workloads/warm-polis/**/.terraform/
+infra/gcp/workloads/warm-polis/**/terraform.tfstate
+infra/gcp/workloads/warm-polis/**/terraform.tfstate.*
+infra/gcp/workloads/warm-polis/**/*.tfvars
+!infra/gcp/workloads/warm-polis/**/*.tfvars.example
 
 # Unity observatory local proof inputs. These are operator-provisioned or
 # generated proof/tooling payloads unless a later issue approves a specific

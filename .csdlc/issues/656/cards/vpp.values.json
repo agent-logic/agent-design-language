@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 656,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+    "slug": "runtime-atomic-generation-install",
+    "version": "v0.92.1",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-generation-contract",
+          "proof_role": "Prove matched staging, receipt integrity, activation, predecessor retention, and rollback.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "bash",
+            "adl/tools/test_runtime_v3_generation_install.sh"
+          ],
+          "parallel_group": "runtime-generation",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-generation-premutation",
+          "proof_role": "Prove invalid generations and mismatched service definitions are rejected before mutation on the executable CSM command surface.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-9",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl",
+            "preflight_"
+          ],
+          "parallel_group": "runtime-generation",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed before service mutation on a missing artifact, hash or receipt mismatch, incompatible schema, partial activation, or unverified rollback target.",
+      "design_ref": ".csdlc/prepared/issues/656/design.md",
+      "design_digest": "ae1e31e488fedefe6d1b9f37692cd4ee37e6dddc60cc35191a042a2c3dfbeb52",
+      "diagram_ref": ".csdlc/prepared/issues/656/diagram.mmd",
+      "diagram_digest": "b73d56623c72f4e63d53bbc165da4751483020f11f41a227f810b7f4d74e4b62"
+    }
+  }
+}

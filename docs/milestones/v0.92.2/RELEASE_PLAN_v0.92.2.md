@@ -9,7 +9,7 @@ CF-INTEGRATE forms a release candidate only after every Beta 1 exit-bar track ha
 ## Canonical Tail
 
 1. TAIL-01 — quality gate
-2. TAIL-02 — docs and release-truth pass
+2. TAIL-02 — documentation review and external-review handoff
 3. TAIL-03 — publication finalization
 4. TAIL-04 — internal milestone review
 5. TAIL-05 — external or third-party review

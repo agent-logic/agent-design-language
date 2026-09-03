@@ -1,0 +1,9 @@
+
+running 2 tests
+test store::terminal_materialization_policy_tests::terminal_publication_supersession_rejects_forgeable_or_terminal_inputs ... ok
+test store::terminal_materialization_policy_tests::historical_merged_terminal_can_supersede_stale_open_publication_pr ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 93 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running unittests src/lib.rs (csdlc-v2/target/debug/deps/csdlc_v2-8d26e35be6aeb619)

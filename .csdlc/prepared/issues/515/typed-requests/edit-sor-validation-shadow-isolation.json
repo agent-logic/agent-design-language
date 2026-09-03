@@ -1,0 +1,26 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "sor",
+  "expected_digest": "17c6a659890e390b16544b71c7449a3516c2b80e4d66284b5a3aa36e3c5e51b7",
+  "expected_generation": 5,
+  "issue": 515,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove authority and shadow paths are distinguishable and shadow output cannot mutate authoritative state.",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl/Cargo.toml",
+        "-p",
+        "adl",
+        "--test",
+        "provider_shadow_isolation"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:provider_shadow_isolation:1 passed"
+    }
+  },
+  "reason": "Record #515 shadow-isolation validation lane result."
+}

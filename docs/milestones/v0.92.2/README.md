@@ -19,6 +19,7 @@ Beta 1 must provide the product shell and onboarding; portable repository ingest
 - [Issue wave](WP_ISSUE_WAVE_v0.92.2.yaml)
 - [Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml)
 - [Canonical inventory](CANONICAL_DOC_INVENTORY_v0.92.2.md)
+- [TBD scheduling reconciliation](TBD_SCHEDULING_RECONCILIATION_v0.92.2.md)
 - [Execution readiness](WP_EXECUTION_READINESS_v0.92.2.md)
 - [Feature index](features/README.md)
 - [Feature/proof coverage](FEATURE_PROOF_COVERAGE_v0.92.2.md)
@@ -32,6 +33,6 @@ Beta 1 must provide the product shell and onboarding; portable repository ingest
 
 ## Explicit Deferrals
 
-Jira, Linear, Slack, broad Workspace integrations, autonomous source mutation, public customer-scale deployment, security tournaments, ATE, MLX/Metal provider work, OCI model packaging, and optional OpenRewrite/general modernization are outside Beta 1 unless separately admitted through milestone planning. Runtime v4 is not silently absorbed here.
+Jira, Linear, Slack, broad Workspace integrations, autonomous source mutation, public customer-scale deployment, security tournaments, ATE, OCI model packaging, and optional OpenRewrite/general modernization are outside Beta 1 unless separately admitted through milestone planning. Runtime v4 is not silently absorbed here. The milestone does include bounded shared-provider configuration and MLX/Metal enablement, UTS productization, recurring Rust reduction, AWS inventory maintenance, publication preparation, Memory Palace integration, and speculative-decoding requalification as separately owned supporting tracks.
 
 The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope by this v0.92.2 package. No date commitment is created.
