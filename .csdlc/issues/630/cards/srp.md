@@ -12,29 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v3/src/commands/mod.rs
-csdlc-v3/src/commands/terminal.rs
-csdlc-v3/src/main.rs
-csdlc-v3/tests/command_manifest.rs
-csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
-docs/csdlc-v3/v3-command-manifest.json
-.csdlc/prepared/issues/630/create-request.json
-.csdlc/prepared/issues/630/design.md
-.csdlc/prepared/issues/630/diagram.mmd
-.csdlc/prepared/issues/630/finalize-request.json
-.csdlc/prepared/issues/630/recover-review-after-cleanup-denial.json
-.csdlc/prepared/issues/630/recover-review-after-sealed-readback.json
-.csdlc/prepared/issues/630/recover-review-after-symlink-parent-escape.json
-.csdlc/prepared/issues/630/repair-spp-affected-areas.json
-.csdlc/prepared/issues/630/repair-vpp-lanes.json
-.csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh
-.csdlc/evidence/630/630-diff-hygiene.log
-.csdlc/evidence/630/630-full-v3-regression.log
-.csdlc/evidence/630/630-issue-validator.log
-.csdlc/evidence/630/630-rustfmt.log
-.csdlc/evidence/630/630-terminal-clean-cutover-tests.log
-.csdlc/evidence/630/630-typed-issue-validation.log
-.csdlc/evidence/630/issue-630-terminal-clean-cutover-validation.log
+
 
 ## Prompts
 
@@ -53,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:7a91400b5377b53350d71c4874c844dc73c59409:804f96dc98c0a9530197b9bc9ef41fd06135ef5dd0b8e2b5b7d741cfd9435409")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_630_head_7a91400b")
+Reviewer: None
 
-Result: pass
+Result: pre_review

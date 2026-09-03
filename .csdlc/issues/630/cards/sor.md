@@ -55,11 +55,11 @@ Implemented non-authoritative C-SDLC v3 finish, clean, and cutover command route
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
