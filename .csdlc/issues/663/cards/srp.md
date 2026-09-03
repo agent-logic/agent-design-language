@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/663
+.csdlc/evidence/663
+infra/gcp/workloads/modules/two-node-ollama-runtime
+infra/gcp/workloads/warm-polis
+docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md
 
 ## Prompts
 
