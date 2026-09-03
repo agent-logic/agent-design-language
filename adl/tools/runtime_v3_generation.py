@@ -33,7 +33,11 @@ def atomic_link(root: Path, name: str, target: str) -> None:
     temporary = root / f".{name}.{os.getpid()}"
     temporary.symlink_to(target)
     os.replace(temporary, root / name)
-    directory = os.open(root, os.O_RDONLY)
+    sync_directory(root)
+
+
+def sync_directory(path: Path) -> None:
+    directory = os.open(path, os.O_RDONLY)
     try:
         os.fsync(directory)
     finally:
@@ -53,6 +57,13 @@ def load_receipt(generation: Path) -> dict:
     for required in ("source_revision", "platform", "build_profile", "runtime_init_schema"):
         if not isinstance(receipt.get(required), str) or not receipt[required].strip():
             raise ValueError(f"generation receipt field is missing: {required}")
+    predecessor = receipt.get("predecessor_generation")
+    if predecessor is not None and (
+        not isinstance(predecessor, str)
+        or predecessor in ("", ".", "..")
+        or Path(predecessor).name != predecessor
+    ):
+        raise ValueError("generation predecessor identity is invalid")
     artifacts = receipt.get("artifacts")
     if not isinstance(artifacts, dict) or set(artifacts) != set(ARTIFACTS):
         raise ValueError("generation receipt must describe exactly csm, guardian, and kernel")
@@ -96,6 +107,11 @@ def stage(args: argparse.Namespace) -> dict:
         raise ValueError(f"generation already exists: {args.generation}")
     staging = Path(tempfile.mkdtemp(prefix=f".{args.generation}.", dir=generations))
     try:
+        predecessor = None
+        if (root / "current").is_symlink():
+            previous = resolve_link(root, "current")
+            load_receipt(previous)
+            predecessor = previous.name
         bindir = staging / "bin"
         bindir.mkdir()
         sources = {"csm": args.csm, "guardian": args.guardian, "kernel": args.kernel}
@@ -110,6 +126,8 @@ def stage(args: argparse.Namespace) -> dict:
             destination = bindir / filename
             shutil.copy2(source, destination)
             destination.chmod(destination.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            with destination.open("rb") as installed:
+                os.fsync(installed.fileno())
             artifacts[key] = {"file": f"bin/{filename}", "sha256": sha256(destination)}
         receipt = {
             "schema": SCHEMA,
@@ -118,19 +136,19 @@ def stage(args: argparse.Namespace) -> dict:
             "platform": args.platform,
             "build_profile": args.build_profile,
             "runtime_init_schema": args.runtime_init_schema,
+            "predecessor_generation": predecessor,
             "artifacts": artifacts,
         }
-        (staging / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+        receipt_path = staging / "receipt.json"
+        receipt_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+        with receipt_path.open("rb") as receipt_file:
+            os.fsync(receipt_file.fileno())
+        sync_directory(bindir)
+        sync_directory(staging)
         staging.rename(final)
+        sync_directory(generations)
         load_receipt(final)
-        previous_target = None
-        if (root / "current").is_symlink():
-            previous = resolve_link(root, "current")
-            load_receipt(previous)
-            previous_target = f"generations/{previous.name}"
         atomic_link(root, "current", f"generations/{args.generation}")
-        if previous_target and previous_target != f"generations/{args.generation}":
-            atomic_link(root, "previous", previous_target)
         verify_current(root)
         return receipt
     except Exception:
@@ -142,11 +160,13 @@ def stage(args: argparse.Namespace) -> dict:
 def rollback(root: Path) -> dict:
     root = root.resolve()
     current = resolve_link(root, "current")
-    previous = resolve_link(root, "previous")
-    load_receipt(current)
+    current_receipt = load_receipt(current)
+    predecessor = current_receipt.get("predecessor_generation")
+    if predecessor is None:
+        raise ValueError("current generation has no verified predecessor")
+    previous = root / "generations" / predecessor
     receipt = load_receipt(previous)
     atomic_link(root, "current", f"generations/{previous.name}")
-    atomic_link(root, "previous", f"generations/{current.name}")
     verify_current(root)
     return receipt
 

@@ -29,7 +29,7 @@ test "$(readlink "$FIXTURE/install/current")" = generations/generation-a
 
 install_generation generation-b revision-b
 test "$(readlink "$FIXTURE/install/current")" = generations/generation-b
-test "$(readlink "$FIXTURE/install/previous")" = generations/generation-a
+test "$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["predecessor_generation"])' "$FIXTURE/install/generations/generation-b/receipt.json")" = generation-a
 
 printf 'tampered\n' >>"$FIXTURE/install/generations/generation-b/bin/adl-runtime-kernel"
 if "$ROOT_DIR/adl/tools/install_runtime_v3_generation.sh" verify --root "$FIXTURE/install" >/dev/null 2>&1; then
@@ -41,6 +41,5 @@ test "$(readlink "$FIXTURE/install/current")" = generations/generation-b
 cp "$FIXTURE/sources/adl-runtime-kernel" "$FIXTURE/install/generations/generation-b/bin/adl-runtime-kernel"
 "$ROOT_DIR/adl/tools/install_runtime_v3_generation.sh" rollback --root "$FIXTURE/install" >/dev/null
 test "$(readlink "$FIXTURE/install/current")" = generations/generation-a
-test "$(readlink "$FIXTURE/install/previous")" = generations/generation-b
 
 echo "runtime v3 generation installer: PASS"
