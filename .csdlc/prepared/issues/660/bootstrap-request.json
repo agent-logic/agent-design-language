@@ -1,0 +1,159 @@
+{
+  "issue": 660,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:emergency-podcast-public-exposure",
+  "design_path": ".csdlc/prepared/issues/660/design.md",
+  "diagram_path": ".csdlc/prepared/issues/660/diagram.mmd",
+  "design_reviewer": "emergency-runtime-review-required",
+  "design_approved": false,
+  "initial": {
+    "title": "Remove unintended public /podcast/ exposure and keep show under _preview",
+    "slug": "podcast-public-exposure-emergency",
+    "version": "v0.92.1",
+    "goal": "Remove the unintentionally public The Cognitive Stack podcast surface from /podcast/ and keep the current preview available only under /_preview/podcast/ until explicit public launch approval.",
+    "required_outcome": "The public /podcast/ route and related feed/media objects no longer serve current podcast content; the hidden preview route serves the current The Cognitive Stack page with noindex metadata and no public feed or public media links.",
+    "declared_scope": [
+      "demos/_preview/podcast/index.html",
+      "demos/_preview/podcast/assets/agent-logic-logo.svg",
+      ".csdlc/prepared/issues/660/delete-public-podcast-prefix.json",
+      ".csdlc/prepared/issues/660/validate-emergency-rollback.rb",
+      ".csdlc/evidence/660/emergency-exposure-rollback.json",
+      "docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md"
+    ],
+    "authority_boundary": [
+      "Issue #660 owns only the emergency public-exposure rollback and hidden-preview correction.",
+      "Issue #51 remains open until #660 is closed or otherwise dispositioned and the operator separately accepts the still-blocked external provider/public-launch gate.",
+      "Closed issue #264 is carried forward only as source context; #660 does not perform provider submission."
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 lifecycle where possible after the emergency live containment action.",
+      "Use the dedicated FastWork worktree for tracked edits.",
+      "Do not write temporary evidence to /private/tmp.",
+      "Do not retain credentials, verification codes, recovery material, cookies, private provider screenshots, or private account data.",
+      "Do not mutate podcast provider directories or make external submissions.",
+      "Do not delete or purge the private podcast archive bucket.",
+      "Do not purge S3 object versions for the public website bucket during emergency containment."
+    ],
+    "task_boundary": "Deliver only issue #660: emergency removal of unintended public /podcast/ exposure and hidden-preview correction.",
+    "deliverables": [
+      "Public /podcast/ and related feed/media/site keys hidden by S3 delete markers and CloudFront invalidation.",
+      "Hidden /_preview/podcast/ page updated to The Cognitive Stack with noindex and no public feed/media links.",
+      "Retained evidence for the exact public-delete manifest, CloudFront invalidations, live URL checks, and negative authority boundaries.",
+      "Local machine-readable validator for the emergency rollback packet."
+    ],
+    "acceptance_criteria": [
+      "AC-1: https://agent-logic.ai/podcast/ returns a non-serving status for current podcast content.",
+      "AC-2: https://agent-logic.ai/podcast/feed.xml and the known public media/page objects return non-serving statuses for current podcast content.",
+      "AC-3: https://agent-logic.ai/_preview/podcast/ returns the current The Cognitive Stack page with noindex,nofollow.",
+      "AC-4: The hidden preview page contains no public feed, public audio, old show-name, or production provider submission link claims.",
+      "AC-5: The retained rollback evidence records exact S3 keys, delete marker version IDs, CloudFront invalidation IDs, and live HTTP status checks.",
+      "AC-6: Evidence records that no provider submission, provider directory mutation, private archive deletion, S3 version purge, or credential/private receipt retention occurred."
+    ],
+    "dependencies": [
+      "Operator emergency instruction to fix the unintended public exposure now.",
+      "Existing Agent Logic public website distribution and origin bucket from demos/podcast/S3_CLOUDFRONT_RUNBOOK.md.",
+      "The prior #264/#51 podcast launch boundary, carried forward as context only."
+    ],
+    "repo_inputs": [
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/studio/uploads/agent-logic-logo.svg",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "GitHub issue #660"
+    ],
+    "non_goals": [
+      "Podcast provider directory submission.",
+      "Public launch announcement.",
+      "Changing provider account credentials or mailbox state.",
+      "Purging historical S3 versions.",
+      "Deleting or changing the private podcast archive bucket.",
+      "Closing #51."
+    ],
+    "plan_summary": "Contain the live public exposure first, correct the hidden preview route, retain exact evidence, run the issue-local validator and diff hygiene, then obtain exact-head review before publication.",
+    "steps": [
+      {
+        "id": "contain-public-route",
+        "action": "Hide the exact unintended public podcast keys with S3 delete markers and invalidate CloudFront.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "repair-hidden-preview",
+        "action": "Deploy the current The Cognitive Stack page under /_preview/podcast/ with noindex and without public feed/media links.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "retain-proof",
+        "action": "Record exact manifest, delete marker IDs, invalidation IDs, live HTTP checks, and negative authority evidence.",
+        "acceptance_ids": ["AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "validate-review",
+        "action": "Run the issue-local validator, diff hygiene, and exact-head review before publication.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "podcast website preview",
+      "public website S3 prefix",
+      "CloudFront cache",
+      "podcast launch evidence"
+    ],
+    "invariants": [
+      "No provider submission without future explicit operator authority.",
+      "No private archive deletion.",
+      "No credential or private receipt retention.",
+      "Public launch remains blocked until separately approved.",
+      "The hidden preview route remains noindex."
+    ],
+    "risks": [
+      "The public route may already have been indexed before emergency containment.",
+      "Separate slash and index S3 keys can drift if only one is updated.",
+      "Preview links can accidentally reintroduce public feed or media fetches."
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Any unexpected non-podcast S3 delete target appears.",
+      "Any public route still serves current podcast content after invalidation.",
+      "Any provider-directory or credential action would be required.",
+      "Any proof requires retaining private account material."
+    ],
+    "validation_lanes": [
+      {
+        "lane": "issue-660-emergency-rollback",
+        "proof_role": "Validate delete manifest scope, retained rollback evidence, negative authority, and hidden-preview source hygiene.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 500,
+        "argv": ["ruby", ".csdlc/prepared/issues/660/validate-emergency-rollback.rb"],
+        "parallel_group": "issue-660",
+        "defer_reason": "Run after emergency rollback evidence and preview source have been recorded."
+      },
+      {
+        "lane": "issue-660-diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before exact-head review.",
+        "acceptance_ids": ["AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "issue-660",
+        "defer_reason": "Run after the issue has a bounded candidate diff."
+      }
+    ],
+    "failure_policy": "Fail closed on public-exposure persistence, delete-scope drift, privacy drift, missing retained proof, or exact-head review failure.",
+    "review_prompts": [
+      "Does the candidate prove the public /podcast/ content is no longer served while the hidden preview remains reachable?",
+      "Does the evidence record exact S3 keys, delete marker IDs, CloudFront invalidations, and live URL checks without retaining private material?",
+      "Does the preview source avoid public feed/audio links and old show-name drift?",
+      "Does the work preserve the #51/#264 provider-launch boundary?"
+    ],
+    "review_scope": "Review issue #660 emergency rollback, hidden-preview source, retained evidence, validation guard, and launch-boundary truth."
+  }
+}
