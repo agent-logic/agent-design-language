@@ -4,13 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "b0ad4ebfafcf54d1e4e9ba739e39769e5a418b77d29dda292addee6ffd745c5b",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "ccbffbbd2e2ecedfcebe146e14375e8e62beef50b367dd0ba9d0d68c7b821641",
   "branch": "codex/661-runtime-shepherd-provider-reply",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/shepherd_model_reply_fix/issue_661_exact_review",
+    "assigned_by": "codex:/root/shepherd_model_reply_fix",
+    "revision": "git-blake3:aac0d539e1a3231b82a691a052e08f356d85ccd4:7af8b4121e9ed34c896aa375f54ac03ba76199b72730252ff8259b05fae0a3f6",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/661"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/shepherd_model_reply_fix/issue_661_exact_review",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/661"
+    ],
+    "reviewed_revision": "git-blake3:aac0d539e1a3231b82a691a052e08f356d85ccd4:7af8b4121e9ed34c896aa375f54ac03ba76199b72730252ff8259b05fae0a3f6",
+    "findings": [],
+    "residual_risks": [
+      "No live Wuji or external provider invocation was performed; the deterministic executor proves routing, failure propagation, and reply projection while production provider wiring was verified by source trace.",
+      "Hosted CI remains the final integration gate before merge.",
+      "Agent-to-agent initiation is separate scope and is neither implemented nor claimed by issue #661."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d9d91aaa049926c635089bd1aa090a6d6047dea6e0b67c8c61631ef2728ce8e2",
+      "values_digest": "25eba9ee2e83e4d531d913ac51f2f6ed4bd0582dc45c8cca279fb71e6bbaf6ed",
       "rendered_digest": "f81858805d6596c05d714b6694a8adde96047af590ebc6970a4985d59a3d4aa8",
       "ast_digest": "be404bc1b531b0b8363255094d4cfe1289e0448763882de267a515502bdfedd4"
     },
     "stp": {
-      "values_digest": "8da80f8c9b9933be62612616b3ee641896a7cebfe7527bb73a2f11e8c60540af",
+      "values_digest": "ab4638c12b88424e15fda04cfe78e841e6860d7b8ed1a02c8c055f8191fa2a5e",
       "rendered_digest": "31248829a6d785b2b6cc9d845d0078b7d07c978554285bdbd3ca83c41aee5c02",
       "ast_digest": "53365e39345337f25b5d609b1050fa15319db4a1c076eebda90d03d720729b18"
     },
     "spp": {
-      "values_digest": "b03109a5213814134126282f91e1c762f3569d0d9640a5a23b22487afd85880e",
+      "values_digest": "9f978338f8c373d0052f59e1395cd49aec14298e40860072b22b9d5a25ec606b",
       "rendered_digest": "12ac832fd8e998d0f9c56d423586f18218e86688635870d686aa4f4f073f4f6c",
       "ast_digest": "7c255866c472dca18e47a429c3bd7e74cca7feb5cca2c9d7bea6e5a7693e13b6"
     },
     "vpp": {
-      "values_digest": "197195c41774d173cea26c1a1d4132ba2759470c0398a6b21a632deb5903d143",
+      "values_digest": "551e891d6792adc6db6b59b01bb62609f0c55d6be947929599f83216ed197714",
       "rendered_digest": "f9198f867c8b5717a736e229a13cea05a8187261e47afd0f405ed485ec52e200",
       "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
     },
     "srp": {
-      "values_digest": "612d1e7a0905ff4f8a7c78d0e49b1432a94759e54bf3a472e52bc410e9d7fb86",
-      "rendered_digest": "6dfae77b1360e688e1d74c293e4b02225208063a5b50d62cb81ac95818c19925",
-      "ast_digest": "156db9c3fe21a3fa334005efb0407e349c7cbb197111e14b3fccf06b0bab8162"
+      "values_digest": "ddcbd0f4afa6eded775ae2636f961d6f916510315f8edce738fde091e2d31cba",
+      "rendered_digest": "ba88ddf905636617e83577bfb6ae8e23721b8ec8fbd29ad26e877201708b4c0d",
+      "ast_digest": "50d1da6528cf862f22e52f4555489f20f546ef191941c193070fa73bb94d52af"
     },
     "sor": {
-      "values_digest": "c8fc7a2b05d7c7de077d8718d11d17223cfd1884a1cb4b2bf4be40ff14515c7b",
+      "values_digest": "8cd00bc5ff2660faf9c81c1d0349df9340ed3c985129a6bfd825ad86d1bbcdc8",
       "rendered_digest": "d1d777e643c1620de778673fde1253a6927df5a072c5ec4233e150c3ba48fb45",
       "ast_digest": "2a312d2468819953af974e0965fd5d344f01c107ff12b0a3baf22d5780e30b2e"
     }
@@ -76,6 +105,13 @@
       "to": "implemented",
       "actor": "codex:661-implementation",
       "reason": "Provider-backed Shepherd conversation replies, explicit failure behavior, focused proof, full library tests, strict lint, production binary check, formatting, and diff hygiene are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/shepherd_model_reply_fix",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -141,6 +177,20 @@
       "actor": "codex:661-implementation",
       "reason": "The exact final substantive head preserves provider-backed conversation proof and prior non-conversation Shepherd ingress behavior.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"purpose\":\"Prove at exact substantive head c71d93f4c that fresh Shepherd turns return generated provider output, retain correlation, and surface provider failure without fallback\",\"outcome\":\"passed\",\"evidence_ref\":\"local:c71d93f4ca6afc13265df0678418149c6bbef42f:1-passed-0-failed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root/shepherd_model_reply_fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/shepherd_model_reply_fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
