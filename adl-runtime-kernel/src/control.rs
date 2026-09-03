@@ -5333,6 +5333,15 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(refused.status, "refused");
         assert_eq!(refused.error, Some("unauthorized_initiation"));
 
+        let mut missing_recipient = agent_initiation_intent("turn-a2a-missing", "a2a-work-missing");
+        missing_recipient.recipient_id = "missing-ember".to_owned();
+        let missing = match service.accept_agent_initiation_intent(&missing_recipient) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => panic!("missing recipient dispatched"),
+        };
+        assert_eq!(missing.status, "refused");
+        assert_eq!(missing.error, Some("unknown_recipient"));
+
         service
             .recorder
             .set_component_state(ComponentId::new("ember"), RunningState::Degraded);
