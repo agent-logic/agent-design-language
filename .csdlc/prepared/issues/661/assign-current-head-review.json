@@ -1,0 +1,15 @@
+{
+  "issue": 661,
+  "expected_generation": 9,
+  "expected_digest": "495f82fd9fe2fcd572dfc19b9519264576daba72520f14e79410ce317a24c750",
+  "reviewer": "subagent:/root/review_661_shepherd_provider_reply_exact_head",
+  "assigned_by": "codex:/root/issue_661_publication_recovery",
+  "scope": [
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs",
+    "adl-runtime-kernel/src/shepherd.rs",
+    "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+    ".csdlc/prepared/issues/661/recover-review-after-review-metadata.json",
+    ".csdlc/prepared/issues/661/assign-current-head-review.json"
+  ]
+}

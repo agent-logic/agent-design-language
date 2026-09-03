@@ -258,6 +258,8 @@ pub struct ShepherdRequest {
     pub runtime_id: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub shepherd_name: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub conversation_recipient_id: Option<String>,
     pub prompt: String,
 }
 

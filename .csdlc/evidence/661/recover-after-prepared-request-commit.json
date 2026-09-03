@@ -1,0 +1,7 @@
+{
+  "issue": 661,
+  "expected_generation": 10,
+  "expected_digest": "9c9bf1f9e8fed39e40b2552b8bb1fb34114aec6398dffa2ba9fb05b1edf2453e",
+  "actor": "codex:/root/issue_661_publication_recovery",
+  "reason": "Recover from reviewed state after a review-record commit included prepared request files that are not accepted by the publication metadata-only bridge; reassign at the current committed head and record the next review using only safe metadata paths."
+}

@@ -1533,6 +1533,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_sequence: Some(dispatch.sequence),
             error: Some(error),
         };
+        let shepherd_name = self
+            .agent_population
+            .read()
+            .expect("agent population lock poisoned")
+            .sample
+            .iter()
+            .find(|agent| {
+                agent.id == dispatch.intent.recipient_id
+                    && (agent.id == "shepherd" || agent.id.starts_with("shepherd:"))
+            })
+            .map(|agent| agent.name.clone());
         let dynamic_binding = self
             .dynamic_agents
             .lock()
@@ -1540,7 +1551,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .find(|agent| agent.id == dispatch.intent.recipient_id)
             .cloned();
-        let task = match dynamic_binding {
+        let agent_task = match dynamic_binding {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
@@ -1555,10 +1566,27 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "input": dispatch.intent.message,
             }),
         };
-        let payload = serde_json::to_vec(&serde_json::json!({
-            "schema": "adl.runtime.local_agent_work.v1",
-            "tasks": [task],
-        }));
+        let (work_kind, payload) = if let Some(shepherd_name) = shepherd_name {
+            (
+                "shepherd",
+                serde_json::to_vec(&crate::ShepherdRequest {
+                    schema: crate::SHEPHERD_REQUEST_SCHEMA.to_owned(),
+                    correlation_id: dispatch.intent.correlation_id.clone(),
+                    runtime_id: self.instance_id.clone(),
+                    shepherd_name: Some(shepherd_name),
+                    conversation_recipient_id: Some(dispatch.intent.recipient_id.clone()),
+                    prompt: dispatch.intent.message.clone(),
+                }),
+            )
+        } else {
+            (
+                "agent_runtime",
+                serde_json::to_vec(&serde_json::json!({
+                    "schema": "adl.runtime.local_agent_work.v1",
+                    "tasks": [agent_task],
+                })),
+            )
+        };
         // Conversation execution is not an authentication handshake. Give local
         // models enough room for cold starts while preserving explicit operator
         // cancellation and bounded shutdown behavior.
@@ -1592,7 +1620,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         DomainWork {
                             schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
                             work_id: dispatch.work_id.clone(),
-                            kind: "agent_runtime".to_owned(),
+                            kind: work_kind.to_owned(),
                             payload,
                         },
                         dispatch.intent.correlation_id.clone(),
