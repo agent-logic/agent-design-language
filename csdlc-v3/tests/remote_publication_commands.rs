@@ -20,9 +20,30 @@ fn repo_root() -> PathBuf {
         .to_path_buf()
 }
 
+fn git_common_dir() -> PathBuf {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(repo_root())
+        .arg("rev-parse")
+        .arg("--git-common-dir")
+        .output()
+        .expect("git common dir should be discoverable");
+    assert!(output.status.success(), "git common dir failed: {output:?}");
+    let path = PathBuf::from(
+        String::from_utf8(output.stdout)
+            .expect("git common dir should be utf8")
+            .trim(),
+    );
+    if path.is_absolute() {
+        path
+    } else {
+        repo_root().join(path)
+    }
+}
+
 fn fixture_dir(name: &str) -> PathBuf {
-    let dir = repo_root()
-        .join(".csdlc/evidence/629/test-fixtures/remote-publication")
+    let dir = git_common_dir()
+        .join("csdlc-v3/test-fixtures/629/remote-publication")
         .join(name);
     let _ = fs::remove_dir_all(&dir);
     fs::create_dir_all(&dir).expect("fixture directory");
@@ -131,27 +152,9 @@ fn write_receipts(dir: &Path, request: &mut RemoteRouteRequest, receipts: &Remot
             .expect("adapter receipt json"),
     )
     .expect("write adapter receipt");
-    request.typed_review_receipt_path = Some(
-        typed_path
-            .strip_prefix(repo_root())
-            .unwrap()
-            .to_string_lossy()
-            .into(),
-    );
-    request.readback_receipt_path = Some(
-        readback_path
-            .strip_prefix(repo_root())
-            .unwrap()
-            .to_string_lossy()
-            .into(),
-    );
-    request.adapter_receipt_path = Some(
-        adapter_path
-            .strip_prefix(repo_root())
-            .unwrap()
-            .to_string_lossy()
-            .into(),
-    );
+    request.typed_review_receipt_path = Some(typed_path.to_string_lossy().into());
+    request.readback_receipt_path = Some(readback_path.to_string_lossy().into());
+    request.adapter_receipt_path = Some(adapter_path.to_string_lossy().into());
 }
 
 #[test]
