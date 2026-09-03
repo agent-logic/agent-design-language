@@ -417,7 +417,6 @@ fn systemd_exec_start_executable(definition: &str) -> Result<PathBuf> {
     } else {
         trimmed
             .trim_start_matches('{')
-            .trim()
             .split_whitespace()
             .next()
             .unwrap_or_default()
@@ -492,9 +491,9 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                     return Err(error);
                 }
             };
-            let reload_result = start_and_wait(args, &candidate);
+            let reload_result = start_and_wait(args, candidate);
             if let Err(reload_error) = reload_result {
-                stop_and_wait(args, &candidate)
+                stop_and_wait(args, candidate)
                     .context("stop failed Runtime v3 candidate before config rollback")?;
                 restore_last_known_good(&args.init, &backup).with_context(|| {
                     format!(
@@ -509,7 +508,7 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                 ));
             }
             commit_candidate(&args.init, &backup)?;
-            emit_status(args, &candidate, "reload", true)
+            emit_status(args, candidate, "reload", true)
         },
     )
 }
@@ -1249,7 +1248,6 @@ mod tests {
         let generation = root.join("generations/test-generation");
         let bin = generation.join("bin");
         fs::create_dir_all(&bin).unwrap();
-        let source = std::env::current_exe().unwrap();
         let mut artifacts = serde_json::Map::new();
         for (key, filename) in [
             ("csm", "csm"),
@@ -1257,7 +1255,10 @@ mod tests {
             ("kernel", "adl-runtime-kernel"),
         ] {
             let path = bin.join(filename);
-            fs::copy(&source, &path).unwrap();
+            fs::write(&path, format!("{filename}-test-artifact")).unwrap();
+            let mut permissions = fs::metadata(&path).unwrap().permissions();
+            permissions.set_mode(0o755);
+            fs::set_permissions(&path, permissions).unwrap();
             let hash = format!("{:x}", Sha256::digest(fs::read(&path).unwrap()));
             artifacts.insert(
                 key.into(),
