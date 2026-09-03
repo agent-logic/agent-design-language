@@ -12,9 +12,9 @@ use csdlc_v3::commands::local::{
 };
 use csdlc_v3::commands::remote::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
-    prepare_remote_publication_route_with_receipts, typed_review_receipt_payload_digest,
-    GithubAdapterReceipt, GithubReadbackReceipt, RemotePublicationMode, RemoteReadbackSource,
-    RemoteRouteReceipts, RemoteRouteRequest, RemoteRouteStatus, TypedReviewReceipt,
+    typed_review_receipt_payload_digest, GithubAdapterReceipt, GithubReadbackReceipt,
+    RemotePublicationMode, RemoteReadbackSource, RemoteRouteReceipts, RemoteRouteRequest,
+    TypedReviewReceipt,
 };
 use csdlc_v3::lifecycle::{
     Capability, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
@@ -285,7 +285,7 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
 fn v3_h3_real_issue_canary_reaches_open_pr_publication_readiness_without_v3_authority() {
     let root = repo_root();
     let index = read_issue_index(&root, 629);
-    assert_eq!(index["phase"], "published");
+    assert_eq!(index["phase"], "implemented");
 
     let revision = index["branch"]
         .as_str()
@@ -380,12 +380,81 @@ fn v3_h3_real_issue_canary_reaches_open_pr_publication_readiness_without_v3_auth
         .as_ref()
         .map(github_adapter_receipt_payload_digest);
 
+    let receipt_dir = root.join(".csdlc/evidence/629/test-fixtures/real-issue-canary");
+    let _ = fs::remove_dir_all(&receipt_dir);
+    fs::create_dir_all(&receipt_dir).expect("receipt fixture dir");
+    let typed_path = receipt_dir.join("typed-review-receipt.json");
+    let readback_path = receipt_dir.join("github-readback-receipt.json");
+    let adapter_path = receipt_dir.join("github-adapter-receipt.json");
+    let request_path = receipt_dir.join("request.json");
+    fs::write(
+        &typed_path,
+        serde_json::to_vec_pretty(receipts.typed_review.as_ref().expect("typed receipt"))
+            .expect("typed receipt json"),
+    )
+    .expect("write typed receipt");
+    fs::write(
+        &readback_path,
+        serde_json::to_vec_pretty(receipts.github_readback.as_ref().expect("readback receipt"))
+            .expect("readback receipt json"),
+    )
+    .expect("write readback receipt");
+    fs::write(
+        &adapter_path,
+        serde_json::to_vec_pretty(receipts.adapter.as_ref().expect("adapter receipt"))
+            .expect("adapter receipt json"),
+    )
+    .expect("write adapter receipt");
+    request.typed_review_receipt_path = Some(
+        typed_path
+            .strip_prefix(&root)
+            .expect("typed receipt is repo-contained")
+            .to_string_lossy()
+            .into(),
+    );
+    request.readback_receipt_path = Some(
+        readback_path
+            .strip_prefix(&root)
+            .expect("readback receipt is repo-contained")
+            .to_string_lossy()
+            .into(),
+    );
+    request.adapter_receipt_path = Some(
+        adapter_path
+            .strip_prefix(&root)
+            .expect("adapter receipt is repo-contained")
+            .to_string_lossy()
+            .into(),
+    );
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&request).expect("request json"),
+    )
+    .expect("write request");
+
     for route in ["publish", "pr-state", "github-pr"] {
-        let plan = prepare_remote_publication_route_with_receipts(route, &request, &receipts)
-            .unwrap_or_else(|finding| panic!("{route} unexpected finding: {finding:?}"));
-        assert_eq!(plan.status, RemoteRouteStatus::Ready);
-        assert_eq!(plan.issue, 629);
-        assert_eq!(plan.repository, "agent-logic/agent-design-language");
+        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .current_dir(&root)
+            .arg(route)
+            .arg("--request")
+            .arg(&request_path)
+            .output()
+            .unwrap_or_else(|error| panic!("run {route}: {error}"));
+        assert!(output.status.success(), "{route} failed: {output:?}");
+        assert!(output.stderr.is_empty(), "{route} stderr should be empty");
+        let value: serde_json::Value =
+            serde_json::from_slice(&output.stdout).expect("machine-readable JSON");
+        assert_eq!(value["schema"], "csdlc.v3.remote_publication.v1");
+        assert_eq!(value["command"], route);
+        assert_eq!(value["read_only"], true);
+        assert_eq!(value["operational_authority"], false);
+        assert_eq!(value["cutover_issue"], 505);
+        assert_eq!(value["result"]["status"], "ready");
+        assert_eq!(value["result"]["issue"], 629);
+        assert_eq!(
+            value["result"]["repository"],
+            "agent-logic/agent-design-language"
+        );
     }
 }
 

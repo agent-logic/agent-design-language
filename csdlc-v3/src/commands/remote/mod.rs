@@ -172,9 +172,10 @@ pub fn prepare_remote_publication_route_with_receipts(
     }
     let findings = match route {
         "publish" => publication_findings(request, receipts),
-        "pr-state" | "github-pr" => pr_state_findings(request, receipts),
+        "github" | "github-issue" | "pr-state" | "github-pr" => {
+            pr_state_findings(request, receipts)
+        }
         "review" => review_findings(request),
-        "github" | "github-issue" => Vec::new(),
         _ => unreachable!("route checked above"),
     };
     let status = if findings.is_empty() {
@@ -504,11 +505,22 @@ fn load_optional_receipt<T: for<'de> Deserialize<'de>>(
             "receipt paths must canonicalize beneath the repository root",
         ));
     }
+    if !is_durable_receipt_path(&root, &canonical) {
+        return Err(remote_finding(
+            "receipt_path_not_durable",
+            "receipt paths must live under .csdlc/evidence or .git/csdlc-v3",
+        ));
+    }
     let bytes = std::fs::read(&canonical)
         .map_err(|_| remote_finding(code, "declared receipt file is not readable"))?;
     serde_json::from_slice(&bytes)
         .map(Some)
         .map_err(|_| remote_finding(code, "declared receipt file is not valid typed JSON"))
+}
+
+fn is_durable_receipt_path(root: &Path, canonical: &Path) -> bool {
+    canonical.starts_with(root.join(".csdlc/evidence"))
+        || canonical.starts_with(root.join(".git/csdlc-v3"))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

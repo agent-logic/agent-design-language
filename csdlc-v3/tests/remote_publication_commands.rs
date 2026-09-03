@@ -6,10 +6,11 @@ use std::{
 
 use csdlc_v3::commands::remote::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
-    prepare_remote_publication_route, prepare_remote_publication_route_with_receipts,
-    typed_review_receipt_payload_digest, GithubAdapterReceipt, GithubReadbackReceipt,
-    RemotePublicationMode, RemoteReadbackSource, RemoteRouteReceipts, RemoteRouteRequest,
-    RemoteRouteStatus, TypedReviewReceipt, REMOTE_PUBLICATION_ROUTE_NAMES,
+    load_remote_route_receipts, prepare_remote_publication_route,
+    prepare_remote_publication_route_with_receipts, typed_review_receipt_payload_digest,
+    GithubAdapterReceipt, GithubReadbackReceipt, RemotePublicationMode, RemoteReadbackSource,
+    RemoteRouteReceipts, RemoteRouteRequest, RemoteRouteStatus, TypedReviewReceipt,
+    REMOTE_PUBLICATION_ROUTE_NAMES,
 };
 
 fn repo_root() -> PathBuf {
@@ -21,7 +22,7 @@ fn repo_root() -> PathBuf {
 
 fn fixture_dir(name: &str) -> PathBuf {
     let dir = repo_root()
-        .join("csdlc-v3/target/remote-publication-fixtures")
+        .join(".csdlc/evidence/629/test-fixtures/remote-publication")
         .join(name);
     let _ = fs::remove_dir_all(&dir);
     fs::create_dir_all(&dir).expect("fixture directory");
@@ -192,6 +193,19 @@ fn remote_publication_routes_are_typed_and_non_authoritative() {
 }
 
 #[test]
+fn cli_receipt_loader_rejects_disposable_target_receipts() {
+    let dir = repo_root().join("csdlc-v3/target/remote-publication-fixtures/disposable-receipts");
+    let _ = fs::remove_dir_all(&dir);
+    fs::create_dir_all(&dir).expect("disposable fixture directory");
+    let (mut request, receipts) = request();
+    write_receipts(&dir, &mut request, &receipts);
+
+    let finding = load_remote_route_receipts(&repo_root(), &request)
+        .expect_err("target receipts are not durable publication evidence");
+    assert_eq!(finding.code, "receipt_path_not_durable");
+}
+
+#[test]
 fn publish_route_requires_current_review_and_closing_relation() {
     let (mut missing_review, receipts) = request();
     missing_review.review_present = false;
@@ -245,21 +259,25 @@ fn publish_route_requires_current_review_and_closing_relation() {
 #[test]
 fn pr_state_route_rejects_caller_forged_readback() {
     let (self_consistent_forgery, receipts) = request();
-    let plan = prepare_remote_publication_route("pr-state", &self_consistent_forgery)
-        .expect("plan rejects caller-only receipt claims");
-    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
-    assert!(plan
-        .findings
-        .iter()
-        .any(|finding| finding.code == "github_readback_receipt_missing"));
+    for route in ["github", "github-issue", "pr-state", "github-pr"] {
+        let plan = prepare_remote_publication_route(route, &self_consistent_forgery)
+            .expect("plan rejects caller-only receipt claims");
+        assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+        assert!(plan
+            .findings
+            .iter()
+            .any(|finding| finding.code == "github_readback_receipt_missing"));
+    }
 
-    let plan = prepare_remote_publication_route_with_receipts(
-        "pr-state",
-        &self_consistent_forgery,
-        &receipts,
-    )
-    .expect("plan accepts repo-contained authenticated GitHub readback receipts");
-    assert_eq!(plan.status, RemoteRouteStatus::Ready);
+    for route in ["github", "github-issue", "pr-state", "github-pr"] {
+        let plan = prepare_remote_publication_route_with_receipts(
+            route,
+            &self_consistent_forgery,
+            &receipts,
+        )
+        .expect("plan accepts repo-contained authenticated GitHub readback receipts");
+        assert_eq!(plan.status, RemoteRouteStatus::Ready);
+    }
 
     let (mut forged, receipts) = request();
     forged.readback_source = Some(RemoteReadbackSource::Caller);

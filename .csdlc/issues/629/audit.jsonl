@@ -8,3 +8,4 @@
 {"sequence":8,"generation":3,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":4,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":10,"generation":5,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":11,"generation":6,"actor":"codex:/root","reason":"Recover #629 after post-publication local repairs to durable receipt path handling and authenticated remote readback route coverage. Existing PR #641 is now conflicting after #628 merged, and the current worktree has unreviewed source/test changes that must be committed, reviewed, republished, and reconciled before terminal finish.","operation":"recover_review"}
