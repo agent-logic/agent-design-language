@@ -12,34 +12,29 @@ Status: pre_phase
 
 ## Summary
 
-Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, corrected docs/architecture guidance, and strengthened the canary validator so it distinguishes planned v3 routes from the current CLI commands actually advertised before #505.
+Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, corrected docs/architecture guidance, and strengthened the canary validator so it verifies the full advertised v3 one-binary surface while preserving the pre-#505 non-authority boundary.
 
 ## Artifacts
 
 - .csdlc/issues/632
-- .csdlc/prepared/issues/632/design.md
-- .csdlc/prepared/issues/632/diagram.mmd
 - .csdlc/prepared/issues/632/command-route-coverage.json
 - .csdlc/prepared/issues/632/canary-evidence-index.md
 - .csdlc/prepared/issues/632/validate-v3-canary-readiness.sh
 - .csdlc/prepared/issues/632/validate-v3-guidance.sh
 - .csdlc/prepared/issues/632/validate-sprint-review-readiness.sh
-- .csdlc/prepared/issues/632/replace-execution-after-review-fixes.json
+- .csdlc/prepared/issues/632/replace-execution-current-command-surface.json
 - docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md
 - csdlc-v3/README.md
-- docs/architecture/ADL_ARCHITECTURE.md
 - adl/src/cli/csmctl_cmd.rs
 
 ## Execution
 
-- Bootstrapped and bound #632 through typed C-SDLC v2 in FastWork prep and execution worktrees.
+- Merged current main into the #632 execution worktree and resolved the Runtime csmctl import move to `adl_runtime_kernel::agent_roster::is_canonical_agent_name`.
 - Captured DEFECT-019 for stacked PR closing-linkage and typed retarget gaps, and DEFECT-020 for fresh-worktree install/bootstrap fragility.
-- Added a 21-entry command-route coverage matrix that remains explicitly not cutover-ready.
-- Repaired the route coverage matrix so planned one-binary routes are not treated as current CLI availability unless they name an advertised `foundation` or `local` command.
-- Strengthened the canary readiness validator to inspect current `csdlc-v3` help output and fail if the matrix claims unavailable commands.
-- Added a canary evidence index distinguishing real typed observations, non-claims, current CLI exposure, and remaining proof needs.
-- Added an operator-facing C-SDLC v3 cutover readiness notice and linked it from the v3 README.
-- Corrected the architecture invariant so the mandatory card lifecycle includes VPP and repaired the cleanup lifecycle sentence.
+- Updated the 21-entry command-route coverage matrix so all v2 entrypoints name their current advertised v3 command while remaining explicitly not cutover-ready.
+- Strengthened the canary readiness validator to inspect current `csdlc-v3` help output and fail if the matrix omits or misstates advertised commands.
+- Updated the canary evidence index, v3 cutover readiness notice, and v3 README so operator guidance matches the full advertised one-binary surface without granting live v3 authority.
+- Preserved the #631 stacked publication topology blocker as a named cutover blocker.
 
 ## Validation
 
@@ -73,24 +68,40 @@ Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, capt
   },
   {
     "command": [
-      ".adl/bin/csdlc-v2/csdlc-validate",
-      "--root",
-      ".",
-      "issue",
-      "--issue",
-      "632"
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "command_manifest"
     ],
-    "purpose": "Prove typed #632 lifecycle structure remains valid after review-fix documentation and canary packet repairs.",
+    "purpose": "Prove the v3 help surface exposes the one-binary command denominator while remaining non-authoritative before #505.",
     "outcome": "passed",
-    "evidence_ref": "console: status pass, phase implemented"
+    "evidence_ref": "console: 4 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "csmctl"
+    ],
+    "purpose": "Prove the current-main Runtime csmctl import merge compiles.",
+    "outcome": "passed",
+    "evidence_ref": "console: Finished dev profile"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main..HEAD"
     ],
-    "purpose": "Prove the exact current worktree diff has no whitespace hygiene failures.",
+    "purpose": "Prove the exact current range has no whitespace hygiene failures.",
     "outcome": "passed",
     "evidence_ref": "console: no output"
   }
@@ -98,11 +109,11 @@ Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, capt
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
