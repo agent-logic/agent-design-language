@@ -1,0 +1,10 @@
+{
+  "issue": 656,
+  "expected_generation": 19,
+  "expected_digest": "0d8857fb94e0ba7e9dff6049a461ae36872803bce9728d159299f68474edcda9",
+  "reviewer": "fresh-session:86dd614c-c575-4753-9e64-1f7327404716",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "adl/src/cli/csm_runtime_v3_cmd.rs"
+  ]
+}
