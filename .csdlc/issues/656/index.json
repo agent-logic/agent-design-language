@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "b5267bb2310f53285e6883bb887825a09554bdedfb1388bb26fd994536c4f5d9",
+  "generation": 9,
+  "digest": "0749b735f19c362765ec9351f84342d318ddc961d74812bea91f62834c38bc92",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
   "review_assignment": {
@@ -84,34 +84,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fbe91d25b1c7c6df5bfe267d92942b1723a8a9a77965dcfbcc02f0dc1e4483fd",
+      "values_digest": "c80f5e4b9a6bb7d7b38c35b01b0b2b5e53dcefebefd9587bae16d4219612dbbb",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "2cf8863280cad290eb6630230fdd1f40e4c6840552cedc5e799b4458c0a421be",
+      "values_digest": "e05fd1a93197fdc7ff415c48c61e156e2a9e5c0bcd40d59676aef1b7e50a6124",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "badaacef3e5c945a29fb4d8c37287512e2a5a5e8bac6bf5ec3e8df1c09921771",
+      "values_digest": "8ef69da8873cf28f48dc5f9ceea3126be43b004a16bf34ccd0793b875a48d3b6",
       "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
       "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "7da2ee447e3d1b4bb867c2ffc8d0208b300cfd8d7308c453fca01509ee1b9d5b",
+      "values_digest": "956aecbbdd900b7a03386ea41fdab3a7b01d8f3a326ffc4631a1d86a269f0db5",
       "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "6397406365b8325a00e04b1c8f671eb8509cf22a71662830a1a0973b9f9b0202",
+      "values_digest": "2026b4fff5a3b706e1bcd71f0ad838dfdf80d23a049f0007c4f4d7b8c209c6c3",
       "rendered_digest": "a1204e0cdf637cebdb556576d98a2afb0e1fca731cf4482af0cce029caec0119",
       "ast_digest": "cbc14c9b6c26a307e4c44c2001869358e09b99902bd8c191c96333bfc8d6fbf5"
     },
     "sor": {
-      "values_digest": "08645bae436a356b196c9ce943033d19c4f4d80f2135be745222745db7018213",
-      "rendered_digest": "edaeb6d851b0a11a6144bd8028f841014c3b4b544bd8c8ece03e94fb14f14c60",
-      "ast_digest": "6c7d3bffca910932043fca7356a6f6bed0a01bc6c9b71752078014f9868e7c8f"
+      "values_digest": "9812b3e8c7922ba22cb49a62027f263e98103cea3021d8bf11987605fd626b77",
+      "rendered_digest": "1bfe63f9a7b5efdac9141529d75a38b6774ad577164e43ead771473d22c7b715",
+      "ast_digest": "09d53b2b0b1cefbfd6e00074007bae76aedee81866cd48e641eb0113f9cbe4ea"
     }
   },
   "transitions": [
@@ -193,6 +193,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head Runtime generation installer validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"purpose\":\"Prove matched immutable generation install, verification, atomic activation, tamper rejection, contained rollback, and current-reference preservation.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; runtime v3 generation installer PASS\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head CSM generation preflight validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"preflight_\"],\"purpose\":\"Prove hash, executable-mode, direct-generation, launchd, and systemd mismatches fail before service mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; 6 passed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head generation installer integration validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Prove the public installer rejects a mixed generation and preserves the current generation reference.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; 1 passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record exact substantive-head formatting and diff-hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"8e5a47ad48af6536b700a18a16d7c06b0fea76da^\",\"8e5a47ad48af6536b700a18a16d7c06b0fea76da\"],\"purpose\":\"Reject malformed whitespace in the exact substantive remediation commit after Rust formatting passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; cargo fmt check and exact commit diff check passed\"}}"
     }
   ]
 }

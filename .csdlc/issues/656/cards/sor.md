@@ -31,7 +31,56 @@ Implemented immutable matched Runtime v3 generations with one receipt, atomic cu
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_runtime_v3_generation_install.sh"
+    ],
+    "purpose": "Prove matched immutable generation install, verification, atomic activation, tamper rejection, contained rollback, and current-reference preservation.",
+    "outcome": "passed",
+    "evidence_ref": "git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; runtime v3 generation installer PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "preflight_"
+    ],
+    "purpose": "Prove hash, executable-mode, direct-generation, launchd, and systemd mismatches fail before service mutation.",
+    "outcome": "passed",
+    "evidence_ref": "git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; 6 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--test",
+      "csm_runtime_v3_generation"
+    ],
+    "purpose": "Prove the public installer rejects a mixed generation and preserves the current generation reference.",
+    "outcome": "passed",
+    "evidence_ref": "git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; 1 passed"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "8e5a47ad48af6536b700a18a16d7c06b0fea76da^",
+      "8e5a47ad48af6536b700a18a16d7c06b0fea76da"
+    ],
+    "purpose": "Reject malformed whitespace in the exact substantive remediation commit after Rust formatting passed.",
+    "outcome": "passed",
+    "evidence_ref": "git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; cargo fmt check and exact commit diff check passed"
+  }
+]
 
 ## Integration
 
