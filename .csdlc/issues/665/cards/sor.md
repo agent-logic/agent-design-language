@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Removed obsolete failed-adoption cleanup that could delete an existing target `.csdlc/issues/<issue>/adoption.v1.json` after a failed bind. Adoption evidence is staged inside the atomic issue projection replacement, so failed adoption now leaves any pre-existing regular evidence file untouched; focused regression coverage proves the preservation behavior.
+Repaired the red PR #673 strict Clippy failure in `csdlc-v2/src/store.rs` by replacing the eight-argument `commit_with_authored` helper signature with a small `CommitOptions` struct carrying authored overrides, issue extra files, and an optional verifier. This preserves the atomic projection behavior added for emergency branch adoption while satisfying the hosted `-D clippy::too-many-arguments` gate.
 
 ## Artifacts
 
@@ -40,6 +40,7 @@ Removed obsolete failed-adoption cleanup that could delete an existing target `.
 - csdlc-v2/src/lifecycle.rs
 - csdlc-v2/tests/gate5.rs
 - .csdlc/prepared/issues/665/record-failed-adoption-preservation.json
+- csdlc-v2/src/store.rs
 
 ## Execution
 
@@ -62,6 +63,9 @@ Removed obsolete failed-adoption cleanup that could delete an existing target `.
 - Removed the post-error `remove_file` cleanup for adoption evidence from `bind_issue`.
 - Added a focused regression where a clean worktree has a tracked pre-existing adoption evidence file and a staging blocker; failed adoption returns an I/O error while preserving the existing file and ready/unbound record.
 - Retained the staged atomic evidence path for successful adoption.
+- Introduced `CommitOptions<'a>` for Store commit helper options.
+- Updated ordinary commit, verified commit, and atomic issue-file replacement call sites to pass structured commit options instead of adding positional helper arguments.
+- Preserved the issue-file atomic staging path used by successful emergency adoption evidence writes.
 
 ## Validation
 
@@ -69,11 +73,11 @@ Removed obsolete failed-adoption cleanup that could delete an existing target `.
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

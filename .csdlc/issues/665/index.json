@@ -4,47 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8e9defbef262b52e0a6859b0c7f0ca9dba3fa868e0d0d63c025f16e9fab4d03f",
-  "phase": "published",
-  "generation": 8,
-  "digest": "3f4f7b932b4630377f5ab31466410840fbee160d9c7506218e70fae62e880f62",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "1c27c1131b44a27b69a3f05ef702fb76a41ace6d8c3042d79f8bf51ff15139a5",
   "branch": "codex/665-emergency-branch-adoption-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
   "review_assignment": null,
-  "review": {
-    "reviewer": "review_665_prepr_r1",
-    "scope": [
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      "csdlc-v2/tests/code_repository_migration.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate2.rs",
-      "csdlc-v2/tests/gate4.rs",
-      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
-      ".csdlc/issues/665",
-      ".csdlc/prepared/issues/665"
-    ],
-    "reviewed_revision": "git-blake3:76c27a7b6e2867f1da69edd290403c832b234ccc:fa8a77ef6c19a4dc78c0098900616c4ce6d46b3cc959a2241625c6096435ff2b",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 665,
-    "pull_request": 673,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/673",
-    "base": "main",
-    "head": "codex/665-emergency-branch-adoption-defect",
-    "revision": "git-blake3:713f1df6f54b59831f8996e4210839a96089eaf5:c8243b1ab4944e11be1a6f22defe6a8ab116f37e5e2b3e789da77e5fb587971e",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -58,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b449e5de2081d46c4bcb75171afe9342e451b4a6a0e3bfc3bb764966bbe702d4",
+      "values_digest": "9889ec75d5494585612b4766e07d93c49ba7e03d871143ae093580ca6a425980",
       "rendered_digest": "c99cf6a6817436af3aeb9f0cbe69a206f73f536ebaf79c39e37b5919b6075ae8",
       "ast_digest": "e5e404ab5ec26e9156dbf3d4cc7d67fc80e0d7fcedab9a40ec95e86a3c13306b"
     },
     "stp": {
-      "values_digest": "025e4d5537aacf5805966bd37f479af0f9b98d14ef903d891d28405858fa7453",
+      "values_digest": "c326a7e51a6efbee3a597074c2c92d82e9002c85e19cf0faca6deabca80f67da",
       "rendered_digest": "fa229a66e67f84e6d92047006880631861c4148fae6a9b825e1fb9fe7737cae2",
       "ast_digest": "4e3550a9c303e08a6b617990b077934533d26e92e1c2903aaf8078461556a429"
     },
     "spp": {
-      "values_digest": "fa58516bf3ba922e1c4f63dbcda6d291f873d6ee599d7c1f095f8e036702f24a",
+      "values_digest": "b6c3778c5c0022b939976638187e50790f06dd72e1fdbcbd58a08dc3c75b2f5c",
       "rendered_digest": "bcd2e8f91be684f2b2d6e7b35abf7fff36f79a55c97fddc06b2d2303610cd5f1",
       "ast_digest": "e790c79bfd5981bcff9add5b13527d9b38a37b0fd5bebc9ceec7c69a571d5fb3"
     },
     "vpp": {
-      "values_digest": "68611a3e6d372dd908cf9047c8de36f745641ca926ef594d98b4165fdb7cf198",
+      "values_digest": "0845e6d212d3e423e2119d9dd4211924543ebb12e047e580b4efed6c39ca3fe2",
       "rendered_digest": "92f46884cb038ddb7370d9c73dde3ea85c2f280eaa9301dd91e26f65e894f7e6",
       "ast_digest": "278cdd2a01c07ac79943d35cc64ffc69cc7aad637f2c22d117cb2d3be8174db3"
     },
     "srp": {
-      "values_digest": "ab18284b55860fdd4ce6a74ca3aadf4affb5e5b642a409540fee7565a5987d69",
-      "rendered_digest": "2cd951da4de53178e17d0433068103b73e15e91fb3418330452e13340d5db70a",
-      "ast_digest": "d941f407ec5683c2cfeae52043f061fe4505c6ae7effe40c804099c734c2d8a4"
+      "values_digest": "a4c3dc7356a60b9218e2c39d3af1d87fd8c4b721d97460c4a5d1dda1ae1356da",
+      "rendered_digest": "f079974526dd4516ee22369a0078d1013156ceaa4eebbac42eeef92c42247d02",
+      "ast_digest": "4b55736ddf5efec4c905d12d47bf7fc488e54ba2234bf28c4c2db40caba38311"
     },
     "sor": {
-      "values_digest": "93d760e331a8d0dcc26c027c1dc7eb2368ea0e8ac1b162911b6e600d21c9b964",
-      "rendered_digest": "1c39ec9c4c67a0eb8dd1064f5ca28a3af8774245a4812e683d00090e0280e4c6",
-      "ast_digest": "a8951a7d06a89dd16da4e178c7bb51e1e5fb20e3a491602f0e80b051fa919bfc"
+      "values_digest": "60ac4be6a7e7beb91bf1ccb870a3e16246ebdb837a399b040b309bd3db26cb0f",
+      "rendered_digest": "a403e7c351342b38c4c4e6359aa9ac8909c06f5ad5e9c6d9f943b578c1948c41",
+      "ast_digest": "d77c53ae0c9b68f4ca2acde3b335f6fa98539b55743bc29c6eb7c41a01fbe9cc"
     }
   },
   "transitions": [
@@ -123,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root/Worker-7",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/Worker-7",
+      "reason": "Recover #665 review after strict Clippy CI repair changed the substantive source head."
     }
   ],
   "audit": [
@@ -195,6 +169,20 @@
       "actor": "codex:/root/Worker-7",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Recover #665 review after strict Clippy CI repair changed the substantive source head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Record #665 strict Clippy CI repair.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired the red PR #673 strict Clippy failure in `csdlc-v2/src/store.rs` by replacing the eight-argument `commit_with_authored` helper signature with a small `CommitOptions` struct carrying authored overrides, issue extra files, and an optional verifier. This preserves the atomic projection behavior added for emergency branch adoption while satisfying the hosted `-D clippy::too-many-arguments` gate.\",\"changes\":[\"Introduced `CommitOptions<'a>` for Store commit helper options.\",\"Updated ordinary commit, verified commit, and atomic issue-file replacement call sites to pass structured commit options instead of adding positional helper arguments.\",\"Preserved the issue-file atomic staging path used by successful emergency adoption evidence writes.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\"]}"
     }
   ]
 }
