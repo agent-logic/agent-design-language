@@ -421,10 +421,12 @@ fn project_public_output(
             serde_json::from_slice(&work.payload).map_err(|_| IngressError::ExecutionFailed)?;
         let response: crate::ShepherdResponse = serde_json::from_slice(&operation.payload)
             .map_err(|_| IngressError::ExecutionFailed)?;
-        let recipient_id = request
+        let Some(recipient_id) = request
             .conversation_recipient_id
             .filter(|value| !value.is_empty() && value.len() <= 128)
-            .ok_or(IngressError::ExecutionFailed)?;
+        else {
+            return Ok(None);
+        };
         if response.schema != crate::SHEPHERD_RESPONSE_SCHEMA
             || response.correlation_id != request.correlation_id
             || response.runtime_id != request.runtime_id
