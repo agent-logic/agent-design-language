@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP][runtime-v3] Add warm two-node Polis and GPU startup parity",
     "slug": "gcp-warm-two-node-polis-gpu-startup-parity",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
