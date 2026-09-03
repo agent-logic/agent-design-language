@@ -39,12 +39,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Read-only review only; the reviewer did not perform live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations.
+- The branch head at review completion was e2f2a6d0a64b3e57737aed3e3131942891796058, while the typed substantive reviewed revision was bc1dd487faf1939a6294fc5acaaa6bc480805e96. The reviewer inspected the bridge and found only typed review-assignment metadata in .csdlc/issues/624/audit.jsonl, .csdlc/issues/624/cards/srp.md, .csdlc/issues/624/cards/srp.values.json, and .csdlc/issues/624/index.json, with no reviewed artifact, validator, evidence log, receipt, or operational claim changes.
+- The retained PVF evidence logs record validator execution at pre-finalize source HEAD 608206048a2d54076cd9efe8560c890498e79301. The reviewer did not treat this as actionable because the sidecar docs and validators did not change from 608206048a2d54076cd9efe8560c890498e79301 to bc1dd487faf1939a6294fc5acaaa6bc480805e96, and the reviewer reran both validators read-only at current head e2f2a6d0a64b3e57737aed3e3131942891796058.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bc1dd487faf1939a6294fc5acaaa6bc480805e96:27a58c7efd1cb55c97ef91e0ebd1cb3db68b36053241f29aa571c1b089b8f747")
 
-Reviewer: None
+Reviewer: Some("fresh-session:657c1e2e-3b40-42e7-bb1d-22ef8295f927")
 
-Result: pre_review
+Result: pass

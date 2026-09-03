@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "19c42541aca9537791ac7eb1aa927e85b86ec952095d53d8c8a595aaf639ae99",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "1fc7e1b99c815f3e35b2f5dc13b2d47e5db09abda5fb096d150c5fa16cbd624b",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
   "review_assignment": {
@@ -24,7 +24,40 @@
       ".csdlc/evidence/624/issue624-diff-hygiene.log"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:657c1e2e-3b40-42e7-bb1d-22ef8295f927",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ],
+    "reviewed_revision": "git-blake3:bc1dd487faf1939a6294fc5acaaa6bc480805e96:27a58c7efd1cb55c97ef91e0ebd1cb3db68b36053241f29aa571c1b089b8f747",
+    "findings": [],
+    "residual_risks": [
+      "Read-only review only; the reviewer did not perform live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations.",
+      "The branch head at review completion was e2f2a6d0a64b3e57737aed3e3131942891796058, while the typed substantive reviewed revision was bc1dd487faf1939a6294fc5acaaa6bc480805e96. The reviewer inspected the bridge and found only typed review-assignment metadata in .csdlc/issues/624/audit.jsonl, .csdlc/issues/624/cards/srp.md, .csdlc/issues/624/cards/srp.values.json, and .csdlc/issues/624/index.json, with no reviewed artifact, validator, evidence log, receipt, or operational claim changes.",
+      "The retained PVF evidence logs record validator execution at pre-finalize source HEAD 608206048a2d54076cd9efe8560c890498e79301. The reviewer did not treat this as actionable because the sidecar docs and validators did not change from 608206048a2d54076cd9efe8560c890498e79301 to bc1dd487faf1939a6294fc5acaaa6bc480805e96, and the reviewer reran both validators read-only at current head e2f2a6d0a64b3e57737aed3e3131942891796058."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:bc1dd487faf1939a6294fc5acaaa6bc480805e96:27a58c7efd1cb55c97ef91e0ebd1cb3db68b36053241f29aa571c1b089b8f747",
+      "to_revision": "git-blake3:e2f2a6d0a64b3e57737aed3e3131942891796058:cdb3e23fecdc276ffd97c70e219e64ed85543a6420bae8fcac1379527757ae58",
+      "from_commit": "bc1dd487faf1939a6294fc5acaaa6bc480805e96",
+      "to_commit": "e2f2a6d0a64b3e57737aed3e3131942891796058",
+      "changed_paths": [
+        ".csdlc/issues/624/audit.jsonl",
+        ".csdlc/issues/624/cards/srp.md",
+        ".csdlc/issues/624/cards/srp.values.json",
+        ".csdlc/issues/624/index.json"
+      ]
+    }
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6ff3887d8d11e76451e4e7b3c54ab411cb9ffb382bc69e414c065a758c58845a",
+      "values_digest": "a1944615f4eccafa909a2abefb9a0673fcffa04d502914df19810aa9a20846ad",
       "rendered_digest": "178e833abe2b52ed51498bd1f33b08d4a5460f30cb659131d49394c626ace5fa",
       "ast_digest": "3a011837c6252ffb523cb2b6496061b1c394e526a77fe253d90423b5b0d05519"
     },
     "stp": {
-      "values_digest": "3cd8713a7be2dda7f9f91135fe9312120c09625e65149b2e941020ca49e50b34",
+      "values_digest": "c823adb559641c0e468219c894f66bd673ed2b02f562f45f92696dc64af5d524",
       "rendered_digest": "da5de2cf9e9453239574fc79588f610493992f24eb528146b96dddd00cee4c08",
       "ast_digest": "74abf5a4d0df01a61d1cc5e54f20891ce84ab02571fd67ae421214147909c69b"
     },
     "spp": {
-      "values_digest": "ea0877945d839690d376cfc2077a09dc74e1d8a759bc49667ad701c112585869",
+      "values_digest": "83ff99223be5ccd0c90bba3ea2269668e9eea026747182d44d0921c097756a96",
       "rendered_digest": "8f6ca65e54484bd8a9bb68ab43e899ca662ff90cfb9314696b915697393abb9d",
       "ast_digest": "4e1e45af0baa369fe539558ec219732afe157d6e2b5f1765e72bed8d2c26f1fd"
     },
     "vpp": {
-      "values_digest": "0dac16ca3f64d243366000f14ebaa4932a18962f704a4ca0e7349efac94835ac",
+      "values_digest": "0c7a8a92dcc50794df6b5ac60e85a14f9b1c814e67f010fe8761de36c6e8d018",
       "rendered_digest": "4ad50171a537aeec464e3b84f923e5c1129309590ad88c6417dde02bebbdd6c9",
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "2336a1fb78b6ab5f145c4bdd5a468b6ac179c7b44757ad8b7d05892850631ffd",
-      "rendered_digest": "7ba8f93f928889c49cd7ee011700201235e15c451b59be37695fd10b4b76e434",
-      "ast_digest": "8b2644ff5481c4e24deec1a2b2b50d696d79849d4567e32c2bea475279cfb055"
+      "values_digest": "7263d2cdc6effd1e28331b82185ba9b5422a5e48b9e3a7a628604c6299f48dcc",
+      "rendered_digest": "e088f6ab173ae658c4bcd0133a95a1b189d2d25c245e1965519af738eed44d56",
+      "ast_digest": "9acecab11d7f53bc31a24c127e5308440bae50fecee732daa1c7ce79cfd4bcee"
     },
     "sor": {
-      "values_digest": "ac95318510552508029e155a85aef0d6fdc77548ddc83db26370b61de5e8dc05",
+      "values_digest": "4c48b13adefa1c2af49b5f14271f1793e13547b2617ffbf0e806d0fd0462e505",
       "rendered_digest": "c26b83637c37ca5fbfb13069ec7ecbe87563f654305bfd17fc1dbc1858453d73",
       "ast_digest": "9e068b791e38e2fb3d81ffe6b7ce1296514aa6c4359e098dde8be9a4c0259f5b"
     }
@@ -90,6 +123,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -141,6 +181,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
