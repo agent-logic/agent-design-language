@@ -79,6 +79,35 @@ Implemented immutable matched Runtime v3 generations with one receipt, atomic cu
     "purpose": "Reject malformed whitespace in the exact substantive remediation commit after Rust formatting passed.",
     "outcome": "passed",
     "evidence_ref": "git:8e5a47ad48af6536b700a18a16d7c06b0fea76da; cargo fmt check and exact commit diff check passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the hosted-CI repair is warning-free across ADL targets.",
+    "outcome": "passed",
+    "evidence_ref": "git:235befd2e2f38378c01208a993add590a79de799; strict Clippy passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "preflight_"
+    ],
+    "purpose": "Prove generation preflight behavior remains correct and the test fixture completes without coverage-only timeouts.",
+    "outcome": "passed",
+    "evidence_ref": "git:235befd2e2f38378c01208a993add590a79de799; 6 passed in 0.01s; cargo fmt and git diff check passed"
   }
 ]
 

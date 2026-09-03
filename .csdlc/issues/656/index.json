@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "9225452a463f17b45451425c36790081a3d6aa49ed9ccbbbd205f92e90d5377a",
+  "generation": 15,
+  "digest": "0be99814e9419b8d37909e47e5f2b0b1a8bdfbc105706d0d13dfe35e145977d7",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d98046957f2f9c6a296efbc24e1ebe85910cbb0324cf7fd657d328bb60dbb900",
+      "values_digest": "7a69a7245dce468390b4196db932163a21871aeb06299d1d7c6182c079a38a24",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "469d49a784d879745d0fca988afddad6c933481cc7c5dd63a8e1f835a9b3a292",
+      "values_digest": "14a8fb7f3923f162912a5c164e72475997e8465b718bcfd9baf6247a4284db4d",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "7acc2e247412031dc0b34a072e8726d909cce49719b831e76583983a7a0f21e3",
+      "values_digest": "d91d03922d89f8669ffa68d8d47bb6a16c8124f161340a3a4945543cdc00a352",
       "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
       "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "81d38d0383feb97bce3103c1dbfa81c330423b24ca371534eef54baa1bc134d7",
+      "values_digest": "143ecd137d1b10f7c7d582e0900da21be74c38d7ebfb121fccac9525de692fb5",
       "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "69b3aafe018e9f88a3a8a6067a8558a78b371570aa2e48dd9a1f355f245b04dc",
+      "values_digest": "9baf9c0b0d11227f69844df4727a24699acd9d68a08605053e2d7448f377180d",
       "rendered_digest": "7e7b0289bf774e28b81f2e746033ba0124722612e957f00b2481d794f65c0a6b",
       "ast_digest": "8be1dc728e321ecd9b7f6c435b59970e3840e558d8736e8b31e5dce48afc390e"
     },
     "sor": {
-      "values_digest": "588642cad8c57811c87f3e3c3ba658efd01f88e1d0fcb8803f1387282261ca89",
-      "rendered_digest": "cfabc9a69ee6705e333e5380f0e4ab010b23186143cdcb3251d06c789186d050",
-      "ast_digest": "5fc261f9bdbf83fffeddb390aa7e935d65b23c4d9ad3b09c01dd475d0133fa52"
+      "values_digest": "de4a1ba1a91edfe5fac60b8b7bd3d5cd93949c8fec8a0f8ddf343f6133bb24a3",
+      "rendered_digest": "abdf918bcb03604f0a50993580010b748a75be430bf4a5b644cff3cc586824be",
+      "ast_digest": "f637a531f20130800ef50d5ca86cedacbc2e8a13e293b504e67952859898b32f"
     }
   },
   "transitions": [
@@ -218,6 +218,20 @@
       "actor": "codex:/root",
       "reason": "Recover the published issue after hosted CI found Clippy warnings and coverage-only fixture timeouts at the exact PR head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record strict Clippy proof for the exact substantive CI-repair commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the hosted-CI repair is warning-free across ADL targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:235befd2e2f38378c01208a993add590a79de799; strict Clippy passed\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record focused preflight proof for the exact substantive CI-repair commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"preflight_\"],\"purpose\":\"Prove generation preflight behavior remains correct and the test fixture completes without coverage-only timeouts.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:235befd2e2f38378c01208a993add590a79de799; 6 passed in 0.01s; cargo fmt and git diff check passed\"}}"
     }
   ]
 }
