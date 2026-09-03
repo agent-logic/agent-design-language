@@ -25,6 +25,8 @@ pub struct BindRequest {
     #[serde(default)]
     pub code_repository: Option<String>,
     #[serde(default)]
+    pub expected_repository: Option<String>,
+    #[serde(default)]
     pub adopt_existing: bool,
     #[serde(default)]
     pub expected_head: Option<String>,
@@ -45,6 +47,8 @@ pub struct BindResult {
     pub adopted: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub evidence_ref: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resulting_digest: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -217,6 +221,8 @@ fn validate_bind_adoption_request(
     let expected_generation =
         require_bind_adoption_u64(request.expected_generation, "expected_generation")?;
     let expected_digest = require_bind_adoption_text(&request.expected_digest, "expected_digest")?;
+    let expected_repository =
+        require_bind_adoption_text(&request.expected_repository, "expected_repository")?;
     let expected_head = require_bind_adoption_text(&request.expected_head, "expected_head")?;
     let actor = require_bind_adoption_text(&request.actor, "actor")?;
     if expected_head.len() != 40 || !expected_head.bytes().all(|byte| byte.is_ascii_hexdigit()) {
@@ -249,6 +255,12 @@ fn validate_bind_adoption_request(
             "adoption expected_digest is stale",
         ));
     }
+    if !record.repository.eq_ignore_ascii_case(&expected_repository) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption expected_repository does not match issue authority",
+        ));
+    }
     if record.branch.is_some() || record.worktree.is_some() {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -261,6 +273,7 @@ fn validate_bind_adoption_request(
 #[derive(Debug, Clone)]
 struct AdoptionObservation {
     actor: String,
+    expected_repository: String,
     expected_generation: u64,
     expected_digest: String,
     expected_head: String,
@@ -282,6 +295,8 @@ fn verify_bind_adoption_topology(
     let expected_generation =
         require_bind_adoption_u64(request.expected_generation, "expected_generation")?;
     let expected_digest = require_bind_adoption_text(&request.expected_digest, "expected_digest")?;
+    let expected_repository =
+        require_bind_adoption_text(&request.expected_repository, "expected_repository")?;
     let expected_head = require_bind_adoption_text(&request.expected_head, "expected_head")?;
     let actor = require_bind_adoption_text(&request.actor, "actor")?;
     if !wanted.exists() {
@@ -344,6 +359,7 @@ fn verify_bind_adoption_topology(
     }
     Ok(Some(AdoptionObservation {
         actor,
+        expected_repository,
         expected_generation,
         expected_digest,
         expected_head,
@@ -1013,6 +1029,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             worktree: wanted_text,
             adopted: false,
             evidence_ref: None,
+            resulting_digest: None,
         });
     }
 
@@ -1091,6 +1108,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                         "actor": observation.actor,
                         "issue": request.issue,
                         "repository": record.repository,
+                        "expected_repository": observation.expected_repository,
                         "code_repository": request.code_repository,
                         "expected_generation": observation.expected_generation,
                         "expected_digest": observation.expected_digest,
@@ -1132,6 +1150,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                     serde_json::json!({
                         "operation": "adopt_existing_bind",
                         "expected_generation": observation.expected_generation,
+                        "expected_repository": observation.expected_repository,
                         "expected_digest": observation.expected_digest,
                         "expected_head": observation.expected_head,
                         "observed_head": observation.observed_head,
@@ -1171,15 +1190,45 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         }
         return Err(error);
     }
+    let mut evidence_ref = None;
+    let mut resulting_digest = None;
+    if let Some(observation) = &adoption {
+        let adopted_record = materialized.store.load_record(request.issue)?;
+        let ref_text = format!(".csdlc/issues/{}/adoption.v1.json", request.issue);
+        let evidence_path = materialized.store.root().join(&ref_text);
+        let evidence = serde_json::json!({
+            "schema": "csdlc.bind_adoption_evidence.v1",
+            "issue": request.issue,
+            "repository": adopted_record.repository.clone(),
+            "expected_repository": observation.expected_repository.clone(),
+            "code_repository": adopted_record.code_repository.clone(),
+            "actor": observation.actor.clone(),
+            "base_branch": observation.base_branch.clone(),
+            "branch": observation.branch.clone(),
+            "worktree": observation.worktree.clone(),
+            "expected_head": observation.expected_head.clone(),
+            "observed_head": observation.observed_head.clone(),
+            "pre_state": "ready",
+            "result_state": "bound",
+            "expected_generation": observation.expected_generation,
+            "resulting_generation": adopted_record.generation,
+            "expected_digest": observation.expected_digest.clone(),
+            "resulting_digest": adopted_record.digest.clone()
+        });
+        let mut bytes = serde_json::to_vec_pretty(&evidence)?;
+        bytes.push(b'\n');
+        fs::write(&evidence_path, bytes)?;
+        evidence_ref = Some(ref_text);
+        resulting_digest = Some(adopted_record.digest);
+    }
 
     Ok(BindResult {
         created,
         branch: request.branch,
         worktree: wanted_text,
         adopted: adoption.is_some(),
-        evidence_ref: adoption
-            .as_ref()
-            .map(|_| format!(".csdlc/issues/{}/audit.jsonl", request.issue)),
+        evidence_ref,
+        resulting_digest,
     })
 }
 

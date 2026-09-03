@@ -6,10 +6,10 @@ The recovery sequence is:
 
 1. Confirm the issue record is `ready` and unbound.
 2. Confirm the target worktree is a registered FastWork worktree on the issue branch.
-3. Capture the exact target `HEAD` SHA and the ready issue generation/digest.
-4. Run `csdlc-bind` with `adopt_existing: true`, exact `expected_head`, `expected_generation`, `expected_digest`, and a session/operator `actor`.
+3. Capture the exact target `HEAD` SHA, the ready issue repository, and the ready issue generation/digest.
+4. Run `csdlc-bind` with `adopt_existing: true`, exact `expected_repository`, `expected_head`, `expected_generation`, `expected_digest`, and a session/operator `actor`.
 5. Continue with ordinary typed finalization, exact-head review, publication, merge, finish, and cleanup gates.
 
-Adoption is fail-closed. It rejects `main`, stale generation or digest, a missing or mismatched worktree, wrong `HEAD`, missing base ancestry, dirty target state, unsafe worktree parents, conflicting typed bindings, or ambiguous branch/worktree topology.
+Adoption is fail-closed. It rejects `main`, stale generation or digest, a wrong expected repository, a missing or mismatched worktree, wrong `HEAD`, missing base ancestry, dirty target state, unsafe worktree parents, conflicting typed bindings, or ambiguous branch/worktree topology.
 
-Successful adoption advances only `ready` to `bound`. It records machine-readable adoption evidence in the issue audit and result surface; it does not claim implementation, review, publication, merge readiness, or closeout.
+Successful adoption advances only `ready` to `bound`. It records machine-readable adoption evidence at `.csdlc/issues/<issue>/adoption.v1.json` and returns that path as `evidence_ref`; the evidence includes the expected repository, observed `HEAD`, resulting lifecycle generation, and resulting digest. Adoption does not claim implementation, review, publication, merge readiness, or closeout. The adopted worktree must still pass ordinary typed execution, exact-head review, publication, merge, finish, and cleanup gates.

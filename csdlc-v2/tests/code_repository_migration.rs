@@ -175,6 +175,7 @@ fn fixture() -> (tempfile::TempDir, Store) {
             branch: "codex/90".into(),
             worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
             adopt_existing: false,
             expected_head: None,
             expected_generation: None,
