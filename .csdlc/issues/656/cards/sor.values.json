@@ -7,15 +7,26 @@
     "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
     "slug": "runtime-atomic-generation-install",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
+      "summary": "Implemented immutable matched Runtime v3 generations with one receipt, atomic current and previous references, rollback, platform and schema checks, and CSM preflight before start or reload mutation.",
+      "actual_changes": [
+        "Added a single Runtime v3 generation command for install, verify, and rollback.",
+        "Bound CSM, Guardian, and kernel hashes plus source revision, platform, build profile, and Runtime-init schema in one receipt.",
+        "Required installed CSM, kernel, and launchd or systemd Guardian paths to resolve through the same current generation.",
+        "Moved current and candidate generation verification ahead of interrupted-transaction reconciliation and service stop paths."
+      ],
+      "artifacts": [
+        "adl/tools/install_runtime_v3_generation.sh",
+        "adl/tools/runtime_v3_generation.py",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl/tools/test_runtime_v3_generation_install.sh",
+        "adl/tests/csm_runtime_v3_generation.rs"
+      ],
       "actual_validation": [],
       "integration_state": "not_started",
       "publication_state": "not_published",
