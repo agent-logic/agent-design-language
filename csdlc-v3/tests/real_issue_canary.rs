@@ -356,7 +356,10 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
 fn v3_h3_real_issue_canary_reaches_open_pr_publication_readiness_without_v3_authority() {
     let root = repo_root();
     let index = read_issue_index(&root, 629);
-    assert_eq!(index["phase"], "implemented");
+    assert_eq!(index["phase"], "published");
+    assert_eq!(index["publication"]["pull_request"], 641);
+    assert_eq!(index["publication"]["linkage_mode"], "closing");
+    assert_eq!(index["publication"]["base"], "main");
 
     let revision = index["branch"]
         .as_str()
