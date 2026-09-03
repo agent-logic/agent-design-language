@@ -72,6 +72,7 @@ pub enum RuntimeEvent {
     ClockAuthorityUpdated,
     ControlCommandCompleted,
     DomainWorkCompleted,
+    AgentToAgentInitiated,
     KernelStarting,
     ComponentsReady,
 }
@@ -87,6 +88,7 @@ impl RuntimeEvent {
             Self::ClockAuthorityUpdated => "clock_authority_updated".to_owned(),
             Self::ControlCommandCompleted => "control_command_completed".to_owned(),
             Self::DomainWorkCompleted => "domain_work_completed".to_owned(),
+            Self::AgentToAgentInitiated => "agent_to_agent_initiated".to_owned(),
             Self::KernelStarting => "kernel_starting".to_owned(),
             Self::ComponentsReady => "components_ready".to_owned(),
         }
