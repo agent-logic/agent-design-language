@@ -1294,6 +1294,14 @@ mod tests {
         (init_path, init, root.join("current/bin/csm"))
     }
 
+    #[cfg(unix)]
+    fn update_generation_receipt(root: &Path, update: impl FnOnce(&mut serde_json::Value)) {
+        let path = root.join("current/receipt.json");
+        let mut receipt = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        update(&mut receipt);
+        fs::write(path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+    }
+
     fn write_valid_init(root: &Path) -> (PathBuf, RuntimeInitConfig) {
         let state_root = root.join("state");
         let kernel = std::env::current_exe().unwrap();
@@ -1396,6 +1404,67 @@ mod tests {
 
         let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
         assert!(error.to_string().contains("through current/bin"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_invalid_receipt_contracts() {
+        for (field, invalid, expected_error) in [
+            (
+                "source_revision",
+                serde_json::json!(""),
+                "identity or compatibility",
+            ),
+            (
+                "artifacts",
+                serde_json::json!({}),
+                "artifact set is incomplete",
+            ),
+        ] {
+            let root = tempfile::tempdir().unwrap();
+            let (_path, init, csm) = write_generation_init(root.path());
+            update_generation_receipt(root.path(), |receipt| receipt[field] = invalid);
+
+            let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+            assert!(error.to_string().contains(expected_error));
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_receipt_paths_and_binary_identity() {
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        update_generation_receipt(root.path(), |receipt| {
+            receipt["artifacts"]["guardian"]["file"] = serde_json::json!("bin/not-guardian");
+        });
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("path mismatch"));
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, mut init, csm) = write_generation_init(root.path());
+        init.binaries.kernel_path = root.path().join("current/bin/csm");
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("kernel does not belong"));
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, _csm) = write_generation_init(root.path());
+        let guardian = root.path().join("current/bin/adl-runtime-guardian");
+        let error = validate_runtime_generation_with_service_binary(&init, &guardian).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("service control does not belong"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_requires_atomic_current_symlink() {
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        fs::remove_file(root.path().join("current")).unwrap();
+        fs::create_dir(root.path().join("current")).unwrap();
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("not an atomic symlink"));
     }
 
     #[cfg(target_os = "macos")]
