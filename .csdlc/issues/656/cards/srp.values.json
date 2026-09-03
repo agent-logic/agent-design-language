@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
     "slug": "runtime-atomic-generation-install",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "review_revision": "git-blake3:7414ea1edd7809644a7e566678adc996cde191c0:c91f426e8134c70cbc11a4e060269d93558c773a3e7902d6ae995478da541b0b",
-      "reviewer": "fresh-session:9caf501f-8875-4b66-b62a-4372e310e0d2",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can an incomplete set become current?",
         "Does the receipt bind exact activated files?",
@@ -24,12 +24,8 @@
         "Is rollback limited to verified generations?"
       ],
       "findings": [],
-      "residual_risk": [
-        "No live Runtime or service-manager mutation was exercised; issue scope intentionally excludes live restart.",
-        "Linux systemd behavior remains covered by source and parser tests rather than a live Linux service mutation in this repair review.",
-        "GitHub hosted CI remains the integration gate after typed republication."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -1,0 +1,17 @@
+{
+  "issue": 656,
+  "card": "sor",
+  "expected_generation": 18,
+  "expected_digest": "84914407c1861f0eb3d0dc92d26be7b28ad64f7c8f965632ecd594a287be808f",
+  "actor": "codex:/root",
+  "reason": "Record focused generation-preflight proof for the exact coverage-repair commit.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "--bin", "adl", "generation_preflight"],
+      "purpose": "Prove the added coverage tests exercise real fail-closed generation-preflight branches without production changes.",
+      "outcome": "passed",
+      "evidence_ref": "git:630c7f73a5bbff13ebd701219834c4be7f526701; 37 focused CSM tests passed; independent review rerun 6 generation-preflight tests passed"
+    }
+  }
+}

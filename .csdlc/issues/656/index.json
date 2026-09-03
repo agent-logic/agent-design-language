@@ -4,46 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
-  "phase": "published",
-  "generation": 17,
-  "digest": "f8089307c490fed55203d01fe7caa03e5185e9ee9fac0277bb30657be52e8813",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "0d8857fb94e0ba7e9dff6049a461ae36872803bce9728d159299f68474edcda9",
   "branch": "codex/656-runtime-atomic-generation-install",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
-  "review_assignment": {
-    "reviewer": "fresh-session:9caf501f-8875-4b66-b62a-4372e310e0d2",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:7414ea1edd7809644a7e566678adc996cde191c0:c91f426e8134c70cbc11a4e060269d93558c773a3e7902d6ae995478da541b0b",
-    "scope": [
-      "adl/src/cli/csm_runtime_v3_cmd.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:9caf501f-8875-4b66-b62a-4372e310e0d2",
-    "scope": [
-      "adl/src/cli/csm_runtime_v3_cmd.rs"
-    ],
-    "reviewed_revision": "git-blake3:7414ea1edd7809644a7e566678adc996cde191c0:c91f426e8134c70cbc11a4e060269d93558c773a3e7902d6ae995478da541b0b",
-    "findings": [],
-    "residual_risks": [
-      "No live Runtime or service-manager mutation was exercised; issue scope intentionally excludes live restart.",
-      "Linux systemd behavior remains covered by source and parser tests rather than a live Linux service mutation in this repair review.",
-      "GitHub hosted CI remains the integration gate after typed republication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 656,
-    "pull_request": 658,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/658",
-    "base": "main",
-    "head": "codex/656-runtime-atomic-generation-install",
-    "revision": "git-blake3:1a776e25b05b294ec5d2cadb7f674e4cfc15f8e7:b3e92ed9eb1fce3ba4e048f34a3b0932893b5ca57a48626a7355346ae84ee39a",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -57,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4d2ec70fbd1d9caadb39b75b912fe99f068c91b323e132cfc1f3945507a9472b",
+      "values_digest": "11146fe9b8b662f9c4204620d0e7d0683b348aa7e7f9306ad1e1f772cf89f110",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "5feca2a5ce41d46b0d58be754c80a4133b5e3d0d76bf27cf8a2df84524b9261e",
+      "values_digest": "ce054d923dd133ee358e5d59ce0f10b9d54f32737ab435801b68ffd7754bbf71",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "90ecfca6fbb28b5575f36b98b839680c238a415ff7fb522183d43581d4f091dd",
+      "values_digest": "195a855083810865d5c4922c26003e4239a93f7f6ee57395652b49a9f4f2d5a7",
       "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
       "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "9db3eb57c23a67616e361aac86bee190e6fbb6ca8cc62f1ee6c5747cd2ef1bdc",
+      "values_digest": "e343601ad46201123e08005bb3f7f35e4103a5bce8d2935c2d8771e66ba986dc",
       "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
       "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "b551361c16abaf1f233f9a89ddcf156d7b8989cc97e541088126659706b6af67",
-      "rendered_digest": "97130577533c204e8d39031be051d3d81ff0926d3c5fbfa68c970019b37123a7",
-      "ast_digest": "074d6c8fba4f23747128052da7cf4be7e972b529a87e8b6f473f9c77c200d5b4"
+      "values_digest": "69b36e3b2719ad2e91c568fceea5b60c545be88d459b277b07ef002b74946387",
+      "rendered_digest": "7e7b0289bf774e28b81f2e746033ba0124722612e957f00b2481d794f65c0a6b",
+      "ast_digest": "8be1dc728e321ecd9b7f6c435b59970e3840e558d8736e8b31e5dce48afc390e"
     },
     "sor": {
-      "values_digest": "2be1d8db2a03541e3949da8cdebab01b1b3b2acd4f7f3dd61a0d40fc968b701e",
-      "rendered_digest": "f5ca200b2ecf1e85f938eeb1c9142c2020f52779a5749f484225cb09834d4643",
-      "ast_digest": "572c217975892b7c7bf5d4ae9fd55848776a56c8f713a86ddc9435c623cb3ca9"
+      "values_digest": "0b550fc9157e6857001ce255550704508662094518f94cafd3b8d02116bb582d",
+      "rendered_digest": "6116e0f79c7af7d249dba1485d5dacb4bff0a774b2ed7922f3c6a9280f65b834",
+      "ast_digest": "acdd27784b439f93a919191a0a598b833e84c54c15c07ecf6268cddf296eeca4"
     }
   },
   "transitions": [
@@ -143,6 +111,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the published review after the test-only changed-source coverage repair at 630c7f73a5bbff13ebd701219834c4be7f526701 so focused validation and a fresh exact-head review can be recorded before republication."
     }
   ],
   "audit": [
@@ -299,6 +274,20 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover the published review after the test-only changed-source coverage repair at 630c7f73a5bbff13ebd701219834c4be7f526701 so focused validation and a fresh exact-head review can be recorded before republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Record focused generation-preflight proof for the exact coverage-repair commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"generation_preflight\"],\"purpose\":\"Prove the added coverage tests exercise real fail-closed generation-preflight branches without production changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:630c7f73a5bbff13ebd701219834c4be7f526701; 37 focused CSM tests passed; independent review rerun 6 generation-preflight tests passed\"}}"
     }
   ]
 }

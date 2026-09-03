@@ -108,16 +108,30 @@ Implemented immutable matched Runtime v3 generations with one receipt, atomic cu
     "purpose": "Prove generation preflight behavior remains correct and the test fixture completes without coverage-only timeouts.",
     "outcome": "passed",
     "evidence_ref": "git:235befd2e2f38378c01208a993add590a79de799; 6 passed in 0.01s; cargo fmt and git diff check passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "generation_preflight"
+    ],
+    "purpose": "Prove the added coverage tests exercise real fail-closed generation-preflight branches without production changes.",
+    "outcome": "passed",
+    "evidence_ref": "git:630c7f73a5bbff13ebd701219834c4be7f526701; 37 focused CSM tests passed; independent review rerun 6 generation-preflight tests passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

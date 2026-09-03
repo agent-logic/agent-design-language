@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
     "slug": "runtime-atomic-generation-install",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -104,10 +104,24 @@
           "purpose": "Prove generation preflight behavior remains correct and the test fixture completes without coverage-only timeouts.",
           "outcome": "passed",
           "evidence_ref": "git:235befd2e2f38378c01208a993add590a79de799; 6 passed in 0.01s; cargo fmt and git diff check passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl",
+            "generation_preflight"
+          ],
+          "purpose": "Prove the added coverage tests exercise real fail-closed generation-preflight branches without production changes.",
+          "outcome": "passed",
+          "evidence_ref": "git:630c7f73a5bbff13ebd701219834c4be7f526701; 37 focused CSM tests passed; independent review rerun 6 generation-preflight tests passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
