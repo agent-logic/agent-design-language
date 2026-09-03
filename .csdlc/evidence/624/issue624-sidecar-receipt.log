@@ -1,0 +1,1 @@
+{"categories": ["aws_guardrails", "deployment_rollback", "dns_certificate", "github_ci", "private_custody"], "head": "608206048a2d54076cd9efe8560c890498e79301", "issue": 624, "rows": 7, "schema": "adl.validation_receipt.v1", "status": "passed", "validator": ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py"}

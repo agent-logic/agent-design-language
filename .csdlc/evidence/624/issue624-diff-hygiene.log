@@ -1,0 +1,1 @@
+{"argv": ["git", "diff", "--check", "origin/main...HEAD"], "head": "608206048a2d54076cd9efe8560c890498e79301", "issue": 624, "schema": "adl.validation_receipt.v1", "status": "passed", "validator": ".csdlc/prepared/issues/624/validate-diff-check.py"}
