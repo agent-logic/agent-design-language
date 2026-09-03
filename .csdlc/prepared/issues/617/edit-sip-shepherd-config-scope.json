@@ -1,0 +1,30 @@
+{
+  "issue": 617,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "3c6f69fd29cafe17465b467915e143d630b12ce4b9afe63a51bf9b3da9ac8e90",
+  "actor": "codex:/root",
+  "reason": "Resolve design review by owning the exact Runtime init configuration and production construction path for the Shepherd canonical name.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/617",
+      ".csdlc/evidence/617",
+      ".csdlc/issues/617"
+    ]
+  }
+}

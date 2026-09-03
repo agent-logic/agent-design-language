@@ -9,13 +9,25 @@ use super::*;
 /// Deterministic local provider used by tests and local smoke flows.
 pub struct MockProvider {
     model: String,
+    fixed_output: Option<String>,
+    sleep_ms: u64,
 }
 
 impl MockProvider {
     /// Build the mock provider from a normalized target.
-    pub fn from_target(target: &ProviderInvocationTargetV1) -> Self {
+    pub fn from_target(spec: &adl::ProviderSpec, target: &ProviderInvocationTargetV1) -> Self {
         Self {
             model: target.model_ref.clone(),
+            fixed_output: spec
+                .config
+                .get("fixed_output")
+                .and_then(|value| value.as_str())
+                .map(ToString::to_string),
+            sleep_ms: spec
+                .config
+                .get("sleep_ms")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0),
         }
     }
 }
@@ -24,7 +36,13 @@ impl Provider for MockProvider {
     /// Returns the input prompt unchanged for deterministic pass-through testing.
     fn complete(&self, prompt: &str) -> Result<String> {
         let _model = &self.model;
-        Ok(prompt.to_string())
+        if self.sleep_ms > 0 {
+            thread::sleep(Duration::from_millis(self.sleep_ms));
+        }
+        Ok(self
+            .fixed_output
+            .clone()
+            .unwrap_or_else(|| prompt.to_string()))
     }
 }
 

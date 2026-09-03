@@ -1,0 +1,21 @@
+{
+  "issue": 648,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "dc4f5a5d9897c43e1cee3ef4a8b4b04cfb9d914f4c7b6089bfe7f1c7e633f6fc",
+  "actor": "codex:/root",
+  "reason": "Record passed #648 production validation lane.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+        "production"
+      ],
+      "purpose": "Prove production provider profile, provider reload, in-flight snapshot, and CSM hotload-owner behavior after the run-scoped reload handle repair.",
+      "outcome": "passed",
+      "evidence_ref": "terminal:2026-09-02:#648-production-validation:14-provider-profile-7-provider-reload-1-inflight-1-csm-passed"
+    }
+  }
+}

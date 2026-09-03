@@ -1,0 +1,51 @@
+{
+  "issue": 607,
+  "card": "sor",
+  "expected_generation": 93,
+  "expected_digest": "1cd4bb6554feb1655f704ddd5f1569dc80e7570f8142e513a02d28d07e1bd1d4",
+  "actor": "codex-primary-issue607",
+  "reason": "Correct the output truth after exact-head review rejected the first run's unbound degradation and Vector recovery assertions; one corrected live proof remains pending.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "The warm two-node AWS Polis reached service readiness in 235 seconds and executed two models plus six ACC agents, but exact-head review rejected two recovery assertions because their source lifecycle phases were not retained in the qualification receipt. The source-proof repair is implemented and locally validated; one corrected live proof remains pending.",
+    "changes": [
+      "Added a dedicated recovery-proof helper that binds the exact Guardian lifecycle report digest and validates dependency-degradation, Vector-liveness, and log-stagnation injection/recovery records.",
+      "Packaged the current qualifier and recovery helper directly into warm Runtime user data so no AMI, warm volume, package installation, Git operation, model download, or compilation is required.",
+      "Added deterministic negative tests for missing phases, reversed recovery timestamps, evaluation violations, and report-hash mismatch.",
+      "Corrected design and runbook truth for Guardian-before-GPU readiness and the exact preparation cleanup/resume boundary.",
+      "Marked the first current-quota qualification evidence rejected by review instead of retaining unsupported claims.",
+      "Reconciled the completed run's AWS instance lifetimes and zero-residue proof into a USD 19.737366 historical upper bound, leaving one USD 0.242333 proof-recovery reservation under the USD 20 ceiling."
+    ],
+    "artifacts": [
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "infra/aws/runtime/gpu-proof",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/prepared/issues/607/design.md",
+      ".csdlc/evidence/607/aws-current-quota-qualification-6a8dfdd80.json",
+      ".csdlc/evidence/607/aws-paid-action-cost-audit.json"
+    ],
+    "validation": [
+      {
+        "command": ["bash",".csdlc/prepared/issues/607/validate-preparation.sh"],
+        "purpose": "Validate the issue-specific preparation and acceptance contract.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json"
+      },
+      {
+        "command": ["bash","adl/tools/test_issue607_warm_polis.sh","all"],
+        "purpose": "Prove the Terraform, proof-binding, negative-test, cost, cleanup, and warm-launch contracts without AWS mutation.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/607/final-pre-review-validation-6a8dfdd80.json"
+      },
+      {
+        "command": ["bash","adl/tools/run_issue607_warm_polis.sh","qualification-proof-recovery","--commit","7be87dd22260d30a7966d1b129123e84bb761074","--run-id","adl-issue607-e8925c1dc8b0-proof-recovery","--storage-id","adl-issue607-warm-v6","--authorization-file",".adl/local/issue607/runs/adl-issue607-e8925c1dc8b0-proof-recovery/authorization.json","--execute"],
+        "purpose": "Retain the corrected source-bound live recovery proof under current quota.",
+        "outcome": "waiting",
+        "evidence_ref": "pending live proof"
+      }
+    ]
+  }
+}

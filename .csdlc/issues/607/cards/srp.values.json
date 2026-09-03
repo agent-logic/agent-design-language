@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 607,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
+    "slug": "aws-warm-polis-gpu-startup",
+    "version": "v0.92.1",
+    "generation": 132
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/607\n.csdlc/prepared/issues/607\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime/src/guardian.rs\nadl/tools/issue607_guardian_recovery_proof.sh\nadl/tools/issue607_probe_runtime.py\nadl/tools/issue607_qualify_warm_polis.sh\nadl/tools/issue607_validate_saved_plan.sh\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\ndocs/operations/cloud/aws/shepherd-gpu-proof\ninfra/aws/runtime/gpu-proof",
+      "review_revision": "git-blake3:dbbe60015b84afdba918117210bc58df3c6fcaeb:42f8e63c0961b68002aba486b6f700ff4aa9e5a1681e293b535688f928fdba7b",
+      "reviewer": "subagent:issue_607_final_publication_review",
+      "review_prompts": [
+        "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
+        "Can Terraform destroy or a trap delete the persistent warm volumes?",
+        "Are timing denominators complete and comparable?",
+        "Can stale or cross-AZ volume content activate?",
+        "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The measured 240-second service-ready result applies to the current two-8B-model configuration; larger models can take longer to load.",
+        "Only USD 0.016714 remains under the issue ceiling, so the aggregate guard rejects any further paid qualification action."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

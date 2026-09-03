@@ -1,0 +1,27 @@
+{
+  "actor": "codex:/root:issue-622-implementation",
+  "card": "sor",
+  "expected_digest": "bd10412987da3a49769c3aee245c13cdc521ca5801cc72830e6bf0df80b42742",
+  "expected_generation": 7,
+  "issue": 622,
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Addressed exact-head review blockers by adding production CSM adl_workflow reload startup, broadening credential-value rejection, preserving provider-level generation truth, and adding production entrypoint proof.",
+    "changes": [
+      "Added workflow.run_args.provider_reload_sidecar_path support to the CSM adl_workflow production cycle so it starts ProviderReloadOwner, installs the global handle for the execution lifetime, records reload status, and shuts the owner down after execution.",
+      "Extended provider sidecar credential rejection to cover password, client_secret, private_key, access/refresh tokens, and credential-shaped raw scalar values under neutral containers such as auth.value while retaining env-reference fields.",
+      "Tracked provider-level reload generations in ProviderReloadSnapshot and diagnostics instead of hard-coding zero.",
+      "Added a long-lived-agent production tick test proving the real CSM ADL workflow entrypoint consumes sidecar provider output through the reload owner.",
+      "Updated #622 validation lanes and documentation to name the production config knob and stronger credential boundary."
+    ],
+    "artifacts": [
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      "adl/src/provider/reload.rs",
+      "adl/src/execute/tests.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md"
+    ]
+  },
+  "reason": "Record fixes for the failed #622 exact-head review before re-review."
+}

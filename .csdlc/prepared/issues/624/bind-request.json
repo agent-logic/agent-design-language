@@ -1,0 +1,7 @@
+{
+  "issue": 624,
+  "base_branch": "codex/624-corporate-sidecar-preparation",
+  "branch": "codex/624-corporate-sidecar-operational-hardening",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
+  "code_repository": "agent-logic/agent-design-language"
+}

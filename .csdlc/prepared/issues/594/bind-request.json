@@ -1,0 +1,7 @@
+{
+  "issue": 594,
+  "base_branch": "codex/594-preparation",
+  "branch": "codex/594-runtime-logs-s3-archive",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-archive",
+  "code_repository": "agent-logic/agent-design-language"
+}

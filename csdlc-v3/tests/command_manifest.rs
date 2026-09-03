@@ -1,22 +1,21 @@
 use std::{process::Command, str};
 
-const REMAINING_REPLACEMENT_COMMANDS: &[&str] = &[
-    "bind",
-    "clean",
-    "cutover",
-    "doctor",
-    "edit",
-    "eligibility",
-    "finish",
-    "install",
+const FAIL_CLOSED_COMMANDS: &[&str] = &["clean", "cutover", "finish", "install", "proof", "soak"];
+
+const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
     "issue",
-    "proof",
+    "bind",
+    "edit",
+    "validate",
+    "doctor",
     "schedule",
     "shepherd",
-    "soak",
+    "eligibility",
 ];
 
-const IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS: &[&str] = &[
+const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow"];
+
+const IMPLEMENTED_REMOTE_COMMANDS: &[&str] = &[
     "github",
     "github-issue",
     "github-pr",
@@ -24,8 +23,6 @@ const IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS: &[&str] = &[
     "publish",
     "review",
 ];
-
-const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow", "validate"];
 
 #[test]
 fn help_exposes_one_binary_command_surface() {
@@ -38,16 +35,22 @@ fn help_exposes_one_binary_command_surface() {
     assert!(stdout.contains("usage: csdlc <command>"));
     assert!(stdout.contains("foundation --repo-root <path>"));
     assert!(stdout.contains("local --request <path> --registry <path> --registrations <path>"));
-    for command in REMAINING_REPLACEMENT_COMMANDS {
+    for command in FAIL_CLOSED_COMMANDS {
         assert!(
             stdout.contains(&format!("{command} --help")),
             "help should expose {command}"
         );
     }
-    for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
+    for command in IMPLEMENTED_LOCAL_COMMANDS {
         assert!(
             stdout.contains(&format!("{command} --request <path>")),
-            "help should expose implemented remote/publication route {command}"
+            "help should expose implemented local route {command}"
+        );
+    }
+    for command in IMPLEMENTED_REMOTE_COMMANDS {
+        assert!(
+            stdout.contains(&format!("{command} --request <path>")),
+            "help should expose implemented remote route {command}"
         );
     }
     for command in PARTIAL_CONSTRUCTION_COMMANDS {
@@ -60,7 +63,7 @@ fn help_exposes_one_binary_command_surface() {
 
 #[test]
 fn fail_closed_routes_do_not_claim_live_authority() {
-    for command in REMAINING_REPLACEMENT_COMMANDS {
+    for command in FAIL_CLOSED_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
             .output()
@@ -96,15 +99,38 @@ fn fail_closed_routes_do_not_claim_live_authority() {
 }
 
 #[test]
-fn implemented_remote_publication_routes_expose_non_authoritative_help() {
-    for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
+fn implemented_local_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_LOCAL_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
             .output()
             .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
         assert!(
             help.status.success(),
-            "{command} --help should describe implemented route"
+            "{command} --help should describe implemented local route"
+        );
+        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
+        assert!(
+            help_stdout.contains("status: implemented"),
+            "{command} help should be truthful: {help_stdout}"
+        );
+        assert!(
+            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+            "{command} help should preserve authority boundary: {help_stdout}"
+        );
+    }
+}
+
+#[test]
+fn implemented_remote_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_REMOTE_COMMANDS {
+        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
+        assert!(
+            help.status.success(),
+            "{command} --help should describe implemented remote route"
         );
         let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
         assert!(

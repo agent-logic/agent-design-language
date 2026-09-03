@@ -1,0 +1,10 @@
+flowchart LR
+  A[Existing v0.92.2 package] --> D[Canonical denominator]
+  B[Active TBD sources] --> T[Disposition audit]
+  C[Existing and completed issues] --> T
+  D --> R[Cross-document reconciliation]
+  T --> R
+  R --> V[Focused validation]
+  V --> H[Review handoff]
+  H --> P[Planned and number-free package]
+  P -. operator opens milestone later .-> W[WP-01 creation]

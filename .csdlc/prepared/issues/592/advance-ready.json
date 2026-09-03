@@ -1,0 +1,10 @@
+{
+  "issue": 592,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "9cde1c6917b6de851f7ac50deeab06e8e7d44f1b39c3eb154b9bba85c1f543c1",
+  "claim_id": "claim-592-runtime-gcp-polis-vertex-ai",
+  "actor": "codex:/root",
+  "reason": "The approved design, exact merge dependency, issue-owned validators, and six-card bundle pass typed readiness doctor.",
+  "operation": {"operation": "advance_phase", "phase": "ready"}
+}

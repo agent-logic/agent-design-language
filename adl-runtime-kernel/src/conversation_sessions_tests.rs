@@ -212,9 +212,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             "1111111111111111111111111111111111111111",
         ));
         population.sample.push(AgentSample {
-            id: agent_id,
+            id: agent_id.clone(),
+            name: format!("{agent_id}.runtime"),
             label: format!("Agent {index:04}"),
             role: "conversation agent".to_owned(),
+            provider: None,
+            model: None,
             state: "unknown".to_owned(),
             detail: "Awaiting Runtime projection".to_owned(),
             health: "unknown".to_owned(),

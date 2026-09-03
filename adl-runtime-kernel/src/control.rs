@@ -41,10 +41,10 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, AgentRosterEntry, AgentRosterQuery, CanonicalIngress, CheckpointManifest,
-    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity,
-    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    decode_acip_envelope, is_canonical_agent_name, AgentRosterEntry, AgentRosterQuery,
+    CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError, KernelControl,
+    KernelExit, LiveContinuity, ObservabilityHealth, ResidentShepherdInitConfig, RuntimeRecorder,
+    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -151,10 +151,54 @@ pub struct AgentCheckpoint {
     pub schema: String,
     pub runtime_instance_id: String,
     pub declaration: AgentAdmissionRequest,
-    pub roster_state: AgentSample,
+    pub roster_state: CheckpointAgentSample,
     pub conversation_history: Vec<AgentConversationCheckpoint>,
     pub created_at_unix_millis: u64,
     pub checkpoint_digest: String,
+}
+
+/// Stable v1 checkpoint representation. Keep this separate from the live
+/// Observatory projection so additive API fields cannot change checkpoint
+/// bytes or integrity digests.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CheckpointAgentSample {
+    pub id: String,
+    pub label: String,
+    pub role: String,
+    pub state: String,
+    pub detail: String,
+    pub health: String,
+    pub availability: String,
+    pub activity: Option<String>,
+    pub capabilities: Vec<String>,
+    pub location: Option<String>,
+    pub communication_eligible: bool,
+    pub observed_at_unix_millis: u64,
+    pub freshness_deadline_unix_millis: u64,
+    pub source_revision: String,
+    pub provenance: String,
+}
+
+impl From<AgentSample> for CheckpointAgentSample {
+    fn from(sample: AgentSample) -> Self {
+        Self {
+            id: sample.id,
+            label: sample.label,
+            role: sample.role,
+            state: sample.state,
+            detail: sample.detail,
+            health: sample.health,
+            availability: sample.availability,
+            activity: sample.activity,
+            capabilities: sample.capabilities,
+            location: sample.location,
+            communication_eligible: sample.communication_eligible,
+            observed_at_unix_millis: sample.observed_at_unix_millis,
+            freshness_deadline_unix_millis: sample.freshness_deadline_unix_millis,
+            source_revision: sample.source_revision,
+            provenance: sample.provenance,
+        }
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -762,6 +806,7 @@ pub struct ControlService<C> {
     acip_write_bearer_digest: Mutex<Option<blake3::Hash>>,
     observatory_origin_policy: ObservatoryOriginPolicy,
     runtime_presentation: Arc<RwLock<RuntimePresentationState>>,
+    readiness_time: Option<Arc<dyn crate::TrustedTime>>,
     agent_population: RwLock<AgentPopulationFeed>,
     dynamic_agent_store: Mutex<Option<PathBuf>>,
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
@@ -868,6 +913,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             acip_write_bearer_digest: Mutex::new(None),
             observatory_origin_policy,
             runtime_presentation,
+            readiness_time: None,
             agent_population: RwLock::new(agent_population),
             dynamic_agent_store: Mutex::new(None),
             dynamic_agents: Mutex::new(Vec::new()),
@@ -941,6 +987,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             observatory_public_origin: init.polis.observatory_public_origin.clone(),
         };
         drop(active);
+        self
+    }
+
+    pub fn with_readiness_time(mut self, trusted_time: Arc<dyn crate::TrustedTime>) -> Self {
+        self.readiness_time = Some(trusted_time);
         self
     }
 
@@ -1773,11 +1824,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .write()
             .expect("agent population state poisoned");
         for agent in &agents {
-            validate_persisted_agent_admission(&agent)?;
+            validate_persisted_agent_admission(agent)?;
             if !seen.insert(agent.id.clone()) {
                 return Err(ControlError::InvalidIdentifier);
             }
-            population.admit_dynamic(agent_sample(&agent));
+            let mut sample = agent_sample(agent);
+            sample.name = persisted_agent_canonical_name(agent);
+            population.admit_dynamic(sample);
         }
         *self
             .dynamic_agents
@@ -1826,9 +1879,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 continue;
             };
             sample.observed_at_unix_millis = observed_at_unix_millis;
-            sample.freshness_deadline_unix_millis = observed_at_unix_millis
-                .checked_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
-                .unwrap_or(u64::MAX);
+            sample.freshness_deadline_unix_millis =
+                observed_at_unix_millis.saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
             sample.state = if healthy { "ready" } else { "unavailable" }.to_owned();
             sample.health = if healthy { "healthy" } else { "unhealthy" }.to_owned();
             sample.availability = if healthy { "available" } else { "unavailable" }.to_owned();
@@ -1847,7 +1899,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
         validate_agent_admission(&request)
             .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
-        verify_ollama_model(&request).await?;
+        verify_agent_provider_route(&request).await?;
         let _transaction = self
             .dynamic_agent_admission
             .lock()
@@ -2053,7 +2105,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             schema: AGENT_CHECKPOINT_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
             declaration,
-            roster_state,
+            roster_state: roster_state.into(),
             conversation_history,
             created_at_unix_millis: now_unix_millis(),
             checkpoint_digest: String::new(),
@@ -2601,7 +2653,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn readiness_report(&self) -> RuntimeReadinessReport {
         let feed = self.observatory_feed();
-        let now = now_unix_millis();
+        let now = self.readiness_now_unix_millis();
         let weather_freshness = feed.weather_freshness.clone();
         let weather_stale = weather_freshness
             .as_ref()
@@ -2630,6 +2682,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             weather_freshness,
             degraded_reasons,
         }
+    }
+
+    fn readiness_now_unix_millis(&self) -> u64 {
+        self.readiness_time
+            .as_ref()
+            .map_or_else(now_unix_millis, |trusted_time| {
+                trusted_time.now_unix_millis()
+            })
     }
 
     pub fn agent_roster_page(
@@ -2677,6 +2737,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 agent_id,
             )
             .map_err(|_| ControlError::InvalidBounds)
+    }
+
+    pub fn update_resident_shepherd_health(&self, name: &str, state: &str, detail: &str) {
+        self.agent_population
+            .write()
+            .expect("agent population state poisoned")
+            .update_resident_shepherd_health(name, state, detail);
     }
 
     pub async fn execute(
@@ -4312,6 +4379,23 @@ fn shepherd_admission_is_fresh(snapshot: &RuntimeSnapshot, now_unix_millis: u64)
 mod shepherd_readiness_tests {
     use super::*;
 
+    struct FakeLifecycle;
+
+    #[async_trait]
+    impl LifecycleControl for FakeLifecycle {
+        async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
+            Ok(KernelExit::Clean)
+        }
+    }
+
+    struct FixedTrustedTime(u64);
+
+    impl crate::TrustedTime for FixedTrustedTime {
+        fn now_unix_millis(&self) -> u64 {
+            self.0
+        }
+    }
+
     #[test]
     fn readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss() {
         let recorder = RuntimeRecorder::new(4);
@@ -4328,6 +4412,20 @@ mod shepherd_readiness_tests {
         assert!(recorder.record_agent_heartbeat("shepherd", 2_000, 32_000));
         assert!(shepherd_admission_is_fresh(&recorder.snapshot(), 32_000));
         assert!(!shepherd_admission_is_fresh(&recorder.snapshot(), 32_001));
+    }
+
+    #[test]
+    fn readiness_uses_the_same_trusted_clock_as_shepherd_admission() {
+        let service = ControlService::new(
+            "trusted-readiness-runtime",
+            RuntimeRecorder::new(4),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            4,
+        )
+        .with_readiness_time(Arc::new(FixedTrustedTime(12_345)));
+
+        assert_eq!(service.readiness_now_unix_millis(), 12_345);
     }
 }
 
@@ -4546,8 +4644,11 @@ mod layer8_conversation_ingress_tests {
             ));
             population.sample.push(AgentSample {
                 id: id.to_owned(),
+                name: format!("{id}.runtime"),
                 label: label.to_owned(),
                 role: "conversation agent".to_owned(),
+                provider: None,
+                model: None,
                 state: "unknown".to_owned(),
                 detail: "Awaiting Runtime projection".to_owned(),
                 health: "unknown".to_owned(),
@@ -5042,6 +5143,7 @@ pub fn write_payload(
 #[cfg(test)]
 mod agent_lifecycle {
     use super::*;
+    use crate::{ComponentId, RunningState};
 
     struct FakeLifecycle;
 
@@ -5144,6 +5246,56 @@ mod agent_lifecycle {
         }
     }
 
+    fn vertex_declaration() -> AgentAdmissionRequest {
+        AgentAdmissionRequest {
+            schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+            id: "gemini-flash".to_owned(),
+            name: "ember.axioma".to_owned(),
+            display_name: "Ember Axioma".to_owned(),
+            office: "local assistant".to_owned(),
+            role: String::new(),
+            provider: "vertex_ai".to_owned(),
+            model: "gemini-2.5-flash".to_owned(),
+            endpoint: "https://us-central1-aiplatform.googleapis.com/v1/projects/agent-logic-dev/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent".to_owned(),
+        }
+    }
+
+    #[test]
+    fn vertex_ai_agent_admission_uses_explicit_provider_route() {
+        let request = vertex_declaration();
+        assert!(validate_agent_admission(&request).is_ok());
+
+        let mut ambient = request.clone();
+        ambient.endpoint =
+            "https://aiplatform.googleapis.com/v1/models/gemini-2.5-flash".to_owned();
+        assert!(validate_agent_admission(&ambient).is_err());
+
+        let mut mismatched_model = request.clone();
+        mismatched_model.model = "gemini-2.5-pro".to_owned();
+        assert!(validate_agent_admission(&mismatched_model).is_err());
+
+        let mut credentialish = request.clone();
+        credentialish.endpoint = format!("{}?access_token=secret", credentialish.endpoint);
+        assert!(validate_agent_admission(&credentialish).is_err());
+    }
+
+    #[tokio::test]
+    async fn vertex_ai_provider_invocation_fails_closed_before_live_paid_call() {
+        let request = vertex_declaration();
+        assert_eq!(
+            invoke_provider_model(
+                &request.provider,
+                &request.endpoint,
+                &request.model,
+                "hello",
+                &CancellationToken::new(),
+            )
+            .await
+            .unwrap_err(),
+            "agent_provider_live_call_deferred"
+        );
+    }
+
     #[tokio::test]
     async fn agent_lifecycle_is_idempotent_portable_and_restart_safe() {
         let fixture_root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/tmp");
@@ -5185,6 +5337,25 @@ mod agent_lifecycle {
             .unwrap();
         assert_eq!(legacy_sample.label, "Gemma");
         assert_eq!(legacy_sample.role, "legacy persisted assistant");
+        assert_eq!(legacy_sample.name, "legacy-gemma.legacy");
+        let observed_at = now_unix_millis();
+        legacy_service
+            .recorder
+            .set_component_state(ComponentId::new("legacy-gemma"), RunningState::Running);
+        assert!(legacy_service.recorder.record_agent_admission(
+            "legacy-gemma",
+            observed_at,
+            observed_at.saturating_add(30_000),
+            "1111111111111111111111111111111111111111",
+        ));
+        let legacy_page = legacy_service
+            .agent_roster_page(10, None, None, None)
+            .expect("legacy agent remains listable");
+        assert_eq!(legacy_page.sample[0].name, "legacy-gemma.legacy");
+        let legacy_detail = legacy_service
+            .agent_roster_detail("legacy-gemma")
+            .expect("legacy agent remains addressable");
+        assert_eq!(legacy_detail.name, "legacy-gemma.legacy");
         let source = service(source_path.clone());
         let request = declaration(endpoint);
 
@@ -5263,6 +5434,14 @@ mod agent_lifecycle {
             checkpoint.checkpoint_digest
         );
         assert_eq!(checkpoint.conversation_history.len(), 1);
+        let checkpoint_json = serde_json::to_value(&checkpoint).unwrap();
+        assert!(checkpoint_json["roster_state"].get("name").is_none());
+        let decoded_checkpoint: AgentCheckpoint =
+            serde_json::from_value(checkpoint_json).expect("v1 checkpoint remains readable");
+        assert_eq!(
+            decoded_checkpoint.checkpoint_digest,
+            checkpoint.checkpoint_digest
+        );
         source.refresh_dynamic_agent_health().await;
         assert_eq!(
             source
@@ -5347,28 +5526,11 @@ enum AgentAdmissionFailure {
     Unavailable(&'static str),
 }
 
-pub fn is_canonical_agent_name(name: &str) -> bool {
-    let segments = name.split('.').collect::<Vec<_>>();
-    segments.len() == 2
-        && segments.iter().all(|segment| {
-            let bytes = segment.as_bytes();
-            !segment.is_empty()
-                && segment.len() <= 32
-                && bytes[0].is_ascii_lowercase()
-                && (bytes[bytes.len() - 1].is_ascii_lowercase()
-                    || bytes[bytes.len() - 1].is_ascii_digit())
-                && bytes
-                    .iter()
-                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || *byte == b'-')
-        })
-}
-
 fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
     if request.schema != AGENT_ADMISSION_SCHEMA
         || request.id == "shepherd"
         || !is_safe_identifier(&request.id)
-        || request.provider != "ollama"
-        || !is_safe_identifier(&request.model)
+        || !is_safe_identifier(&request.provider)
         || request.name.is_empty()
         || request.name.len() > 128
         || request.display_name.len() > 128
@@ -5384,7 +5546,26 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
     {
         return Err(ControlError::InvalidIdentifier);
     }
-    let (host, _) = parse_private_ollama_endpoint(&request.endpoint)?;
+    match request.provider.as_str() {
+        "ollama" | "openai-compatible" => {
+            validate_private_provider_binding(&request.model, &request.endpoint)?;
+        }
+        "vertex_ai" => {
+            validate_vertex_ai_provider_endpoint(&request.endpoint, &request.model)?;
+        }
+        _ => return Err(ControlError::InvalidIdentifier),
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_private_provider_binding(
+    model: &str,
+    endpoint: &str,
+) -> Result<(), ControlError> {
+    if !is_safe_identifier(model) {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    let (host, _) = parse_private_provider_endpoint(endpoint)?;
     let host = host.as_str();
     let private = host == "localhost"
         || host.ends_with(".local")
@@ -5425,10 +5606,25 @@ fn validate_persisted_agent_admission(request: &AgentAdmissionRequest) -> Result
     }
 }
 
+fn persisted_agent_canonical_name(request: &AgentAdmissionRequest) -> String {
+    if is_canonical_agent_name(&request.name) {
+        return request.name.clone();
+    }
+    let candidate = format!("{}.legacy", request.id);
+    if is_canonical_agent_name(&candidate) {
+        candidate
+    } else {
+        format!(
+            "legacy.{}",
+            &blake3::hash(request.id.as_bytes()).to_hex()[..16]
+        )
+    }
+}
+
 async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), AgentAdmissionFailure> {
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
-    let (host, port) = parse_private_ollama_endpoint(&request.endpoint)
+    let (host, port) = parse_private_provider_endpoint(&request.endpoint)
         .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
     let address = tokio::net::lookup_host((host.as_str(), port))
         .await
@@ -5509,6 +5705,76 @@ async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), Agen
     Ok(())
 }
 
+pub async fn preload_resident_shepherd_model(
+    config: &ResidentShepherdInitConfig,
+    cancellation: &CancellationToken,
+) -> Result<(), &'static str> {
+    if !crate::resident_shepherd_provider_is_available(&config.provider) {
+        return Err("resident_shepherd_provider_unsupported");
+    }
+    let request = AgentAdmissionRequest {
+        schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+        id: "resident-shepherd-preload".to_owned(),
+        name: config.name.clone(),
+        display_name: config.display_name.clone(),
+        office: config.office.clone(),
+        role: String::new(),
+        provider: config.provider.clone(),
+        model: config.model.clone(),
+        endpoint: config.endpoint.clone(),
+    };
+    if config.provider == "ollama" {
+        verify_ollama_model(&request)
+            .await
+            .map_err(|failure| match failure {
+                AgentAdmissionFailure::Invalid(reason)
+                | AgentAdmissionFailure::Conflict(reason)
+                | AgentAdmissionFailure::Unavailable(reason) => reason,
+            })?;
+    }
+    if config.preload.enabled || config.provider != "ollama" {
+        invoke_resident_shepherd_provider(
+            &config.provider,
+            &config.endpoint,
+            &config.model,
+            "Reply with READY.",
+            cancellation,
+        )
+        .await?;
+    }
+    Ok(())
+}
+
+pub(crate) async fn invoke_resident_shepherd_provider(
+    provider: &str,
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<String, &'static str> {
+    match provider {
+        "ollama" => invoke_ollama_model(endpoint, model, prompt, cancellation).await,
+        "openai-compatible" => {
+            invoke_openai_compatible_model(endpoint, model, prompt, cancellation).await
+        }
+        _ => Err("resident_shepherd_provider_unsupported"),
+    }
+}
+
+async fn verify_agent_provider_route(
+    request: &AgentAdmissionRequest,
+) -> Result<(), AgentAdmissionFailure> {
+    match request.provider.as_str() {
+        "ollama" => verify_ollama_model(request).await,
+        "vertex_ai" => {
+            validate_vertex_ai_provider_endpoint(&request.endpoint, &request.model)
+                .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
+            Ok(())
+        }
+        _ => Err(AgentAdmissionFailure::Invalid("invalid_agent_declaration")),
+    }
+}
+
 fn decode_http_chunked_body(encoded: &[u8]) -> Option<Vec<u8>> {
     let mut cursor = 0_usize;
     let mut decoded = Vec::new();
@@ -5538,6 +5804,19 @@ fn decode_http_chunked_body(encoded: &[u8]) -> Option<Vec<u8>> {
     }
 }
 
+fn decode_http_response_body(response_headers: &str, encoded: &[u8]) -> Option<Vec<u8>> {
+    if response_headers.lines().any(|line| {
+        line.to_ascii_lowercase()
+            .starts_with("transfer-encoding: chunked")
+    }) {
+        decode_http_chunked_body(encoded)
+    } else if encoded.len() <= 4_194_304 {
+        Some(encoded.to_vec())
+    } else {
+        None
+    }
+}
+
 pub(crate) async fn invoke_ollama_model(
     endpoint: &str,
     model: &str,
@@ -5559,7 +5838,7 @@ pub(crate) async fn invoke_ollama_model(
     let operation = async {
         use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
-        let (host, port) = parse_private_ollama_endpoint(endpoint)
+        let (host, port) = parse_private_provider_endpoint(endpoint)
             .map_err(|_| "agent_provider_binding_invalid")?;
         let address = tokio::net::lookup_host((host.as_str(), port))
             .await
@@ -5576,6 +5855,7 @@ pub(crate) async fn invoke_ollama_model(
             "model": model,
             "prompt": prompt,
             "stream": false,
+            "keep_alive": -1,
         }))
         .map_err(|_| "agent_provider_request_invalid")?;
         let headers = format!(
@@ -5613,14 +5893,8 @@ pub(crate) async fn invoke_ollama_model(
             return Err("agent_provider_failed");
         }
         let encoded = &bytes[split + 4..];
-        let decoded = if response_headers.lines().any(|line| {
-            line.to_ascii_lowercase()
-                .starts_with("transfer-encoding: chunked")
-        }) {
-            decode_http_chunked_body(encoded).ok_or("agent_provider_response_invalid")?
-        } else {
-            encoded.to_vec()
-        };
+        let decoded = decode_http_response_body(response_headers, encoded)
+            .ok_or("agent_provider_response_invalid")?;
         let response: serde_json::Value =
             serde_json::from_slice(&decoded).map_err(|_| "agent_provider_response_invalid")?;
         response["response"]
@@ -5637,7 +5911,101 @@ pub(crate) async fn invoke_ollama_model(
     }
 }
 
-fn parse_private_ollama_endpoint(endpoint: &str) -> Result<(String, u16), ControlError> {
+async fn invoke_openai_compatible_model(
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<String, &'static str> {
+    validate_private_provider_binding(model, endpoint)
+        .map_err(|_| "agent_provider_binding_invalid")?;
+    let operation = async {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
+        let (host, port) = parse_private_provider_endpoint(endpoint)
+            .map_err(|_| "agent_provider_binding_invalid")?;
+        let address = tokio::net::lookup_host((host.as_str(), port))
+            .await
+            .map_err(|_| "agent_provider_unreachable")?
+            .find(|address| match address.ip() {
+                std::net::IpAddr::V4(ip) => ip.is_loopback() || ip.is_private(),
+                std::net::IpAddr::V6(ip) => ip.is_loopback() || ip.is_unique_local(),
+            })
+            .ok_or("agent_provider_unreachable")?;
+        let mut stream = tokio::net::TcpStream::connect(address)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let body = serde_json::to_vec(&serde_json::json!({
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": false
+        }))
+        .map_err(|_| "agent_provider_request_invalid")?;
+        let headers = format!(
+            "POST /v1/chat/completions HTTP/1.1\r\nHost: {host}:{port}\r\nConnection: close\r\nContent-Type: application/json\r\nAccept: application/json\r\nContent-Length: {}\r\n\r\n",
+            body.len()
+        );
+        stream
+            .write_all(headers.as_bytes())
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        stream
+            .write_all(&body)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let mut bytes = Vec::new();
+        stream
+            .take(4_194_305)
+            .read_to_end(&mut bytes)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let split = bytes
+            .windows(4)
+            .position(|window| window == b"\r\n\r\n")
+            .ok_or("agent_provider_response_invalid")?;
+        let response_headers =
+            std::str::from_utf8(&bytes[..split]).map_err(|_| "agent_provider_response_invalid")?;
+        if !response_headers
+            .lines()
+            .next()
+            .is_some_and(|line| line.contains(" 200 "))
+        {
+            return Err("agent_provider_failed");
+        }
+        let decoded = decode_http_response_body(response_headers, &bytes[split + 4..])
+            .ok_or("agent_provider_response_invalid")?;
+        let response: serde_json::Value =
+            serde_json::from_slice(&decoded).map_err(|_| "agent_provider_response_invalid")?;
+        response["choices"][0]["message"]["content"]
+            .as_str()
+            .filter(|reply| !reply.trim().is_empty())
+            .map(str::to_owned)
+            .ok_or("agent_provider_response_invalid")
+    };
+    tokio::select! {
+        _ = cancellation.cancelled() => Err("operation cancelled"),
+        result = tokio::time::timeout(AGENT_PROVIDER_EXECUTION_TIMEOUT, operation) => result.map_err(|_| "agent_provider_timed_out")?,
+    }
+}
+
+pub(crate) async fn invoke_provider_model(
+    provider: &str,
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<String, &'static str> {
+    match provider {
+        "ollama" => invoke_ollama_model(endpoint, model, prompt, cancellation).await,
+        "vertex_ai" => {
+            validate_vertex_ai_provider_endpoint(endpoint, model)
+                .map_err(|_| "agent_provider_binding_invalid")?;
+            Err("agent_provider_live_call_deferred")
+        }
+        _ => Err("agent_provider_binding_invalid"),
+    }
+}
+
+fn parse_private_provider_endpoint(endpoint: &str) -> Result<(String, u16), ControlError> {
     let authority = endpoint
         .strip_prefix("http://")
         .ok_or(ControlError::InvalidIdentifier)?;
@@ -5659,10 +6027,35 @@ fn parse_private_ollama_endpoint(endpoint: &str) -> Result<(String, u16), Contro
     Ok((host.to_owned(), port))
 }
 
+fn validate_vertex_ai_provider_endpoint(endpoint: &str, model: &str) -> Result<(), ControlError> {
+    let without_scheme = endpoint
+        .strip_prefix("https://")
+        .ok_or(ControlError::InvalidIdentifier)?;
+    if without_scheme.contains(['@', '?', '#', '\r', '\n', '\t', ' ']) {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    let (host, path) = without_scheme
+        .split_once('/')
+        .ok_or(ControlError::InvalidIdentifier)?;
+    if !host.ends_with("-aiplatform.googleapis.com") {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    let expected_model_suffix = format!("/publishers/google/models/{model}:generateContent");
+    let path = format!("/{path}");
+    if !path.starts_with("/v1/projects/")
+        || !path.contains("/locations/")
+        || !path.ends_with(&expected_model_suffix)
+    {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    Ok(())
+}
+
 fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
     let now = now_unix_millis();
     AgentSample {
         id: request.id.clone(),
+        name: request.name.clone(),
         label: if request.display_name.is_empty() {
             request.name.clone()
         } else {
@@ -5673,6 +6066,8 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
         } else {
             request.office.clone()
         },
+        provider: Some(request.provider.clone()),
+        model: Some(request.model.clone()),
         state: "ready".to_owned(),
         detail: format!("{} model {}", request.provider, request.model),
         health: "healthy".to_owned(),

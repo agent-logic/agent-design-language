@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 264,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast directory submission gate packet and blocked disposition",
+    "slug": "podcast-directory-submission-gate",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Complete every repo-side non-submission deliverable for directory-submission execution while preserving the explicit operator authorization gate.",
+      "required_outcome": "A redaction-safe #264 handoff packet exists for The Cognitive Stack with exact terminal dependency proof, provider authorization template, initialized submission ledger, monitoring/rollback runbook, and machine validation that no provider submission, account mutation, directory acceptance, destination-link activation, or public-launch claim is retained.",
+      "declared_scope": [
+        "docs/milestones/v0.92.1/review/podcast_submission_264",
+        ".csdlc/prepared/issues/264",
+        ".csdlc/evidence/264"
+      ],
+      "authority_boundary": [
+        "Issue #264 owns only repo-side non-submission preparation unless a later explicit operator authorization names provider submissions.",
+        "The 2026-09-02 ownership assignment authorizes completing non-submission deliverables and preserving the external action gate; it does not authorize provider account access, mailbox-code use, directory submission, website destination-link activation, or public launch.",
+        "Issue #51 is a parent coordination surface and must not be closed unless child truth permits a terminal parent disposition."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle only",
+        "Use a dedicated FastWork issue worktree and issue-bound session goal",
+        "Run one bounded exact-head review before publication",
+        "Do not submit to Apple Podcasts, Spotify, Amazon Music, YouTube, or any other directory",
+        "Do not access or mutate provider accounts",
+        "Do not retain credentials, verification codes, recovery material, mailbox content, private screenshots, or provider session state",
+        "Do not activate site directory links before live provider URLs are verified under explicit authorization"
+      ]
+    }
+  }
+}

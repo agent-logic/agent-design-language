@@ -1,0 +1,125 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 622
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Define a provider-only sidecar, reuse the existing watcher and candidate activation, publish immutable last-known-good snapshots, connect per-step production provider resolution, then prove atomicity redaction and shutdown.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Define provider-only sidecar validation, snapshot identity, bounded diagnostics, and reload-owner interfaces.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Implement ProviderReloadOwner using the existing watcher and last-known-good candidate activation.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Connect the production execution runner so each inference selects and retains one immutable snapshot.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-5",
+      "AC-10"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Add focused parameter capability concurrency redaction debounce and shutdown tests plus operator documentation.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Run focused Rust validation and bounded independent exact-head review.",
+    "acceptance_ids": [
+      "AC-10"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- One existing watcher mechanism
+- Complete immutable snapshots
+- Last-known-good retention
+- No credential values or authority mutation
+- No in-flight request mutation
+- Production call-path proof
+
+## Risks
+
+- Testing helper activation without production consumption
+- Mixing provider changes across one inference call
+- Leaking secret values in diagnostics or digests
+- Accepting executable workflow content through the sidecar
+- Duplicating watcher or registry infrastructure
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/622/design.md
+
+Digest: ea275103456f784d54a414064086d2bd7e100815c04337cd95b857e3ee868966
+
+## Diagram
+
+.csdlc/prepared/issues/622/diagram.mmd
+
+Digest: 535f79ff7ecaf9bd9e1afae0f7393ff03c94d02a69dd2b2b953a5a72fc5dbb32
+
+## Stop Conditions
+
+- The implementation requires a second watcher or provider registry
+- A credential value or authority-bearing object enters reload state
+- Production runner ownership cannot be made explicit
+- A partial provider snapshot can become visible
+- Only helper tests exist without production call-path proof
+
+## Handoff
+
+Proceed only after doctor readiness.
