@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4182d8bb12b47a4db5b57dbf673a0e8a509772c51bd068d4845f75eb96d41c46",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "1d528d0ac9a1439931e09d51c4071fd6a63a7f1b3ec0e009cde17f5e90f2c836",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "3973b650a07b639ed6d418111a34caed54ec9b661761c06b5ec8834f0a5d459b",
   "branch": "codex/659-runtime-configurable-convergence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-659-runtime-configurable-convergence",
   "review_assignment": {
@@ -20,7 +20,23 @@
       ".csdlc/prepared/issues/659/validate-runtime-convergence.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/prepared/issues/659/validate-runtime-convergence.sh"
+    ],
+    "reviewed_revision": "git-blake3:b949282b58065fc8ba562de5d1fdead9ed4eaa2c:767e91804a947525badcec367006fa7a37ad93cf84e67e74c9453b77b6e98ab6",
+    "findings": [],
+    "residual_risks": [
+      "No live Runtime or real launchd/systemd service was exercised; the Linux-specific systemd branches were source-reviewed but not target-compiled on the macOS review host.",
+      "The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "661cdbfc4129c95636277d8201b1566d1602b982e52fab4b644a9223f9797cc1",
+      "values_digest": "5e990053cad3e02c8baea126a33b52c01b2f9021885002247160523b2cf15954",
       "rendered_digest": "2d4481e3f68ae78a28cb41941e1b9efa5f31cbf5282a22e1c342579be6d1c943",
       "ast_digest": "3ba45da8035b09337a8474fbd018bb45178796510b4c5a294efec296fcd13cbf"
     },
     "stp": {
-      "values_digest": "872320ecb0ebadd7dd02cb95c9b497f96ce020a3c7d4254dca7222a4cfc37fb5",
+      "values_digest": "aae5e8d3e3d560734f0efaf8e5de0876d17d1d60d868842c2e7d228b382e0195",
       "rendered_digest": "c059baa61ff8c6206f6b97dc8b056102b89230d84570f5ca26f49953d684313e",
       "ast_digest": "91df1858746474aa83c407e5a4e6fc7a228df01bbe581a98102fc9d8c8dffed2"
     },
     "spp": {
-      "values_digest": "484624a686e1827241f16ccb5d0afe8888789b632ced748ec967f95d43bf17ec",
+      "values_digest": "e1f42bbf3e2dca997d848edbf73f1746b84a1d36725bc63272440ebf99b93b68",
       "rendered_digest": "b80e87a357458244797a90a5fe887ea0eac68b6b405e7599dee3274024357bdf",
       "ast_digest": "bd036a9a68d2229666ee907c0f489798b4d691446623bd8414e23629b25bef50"
     },
     "vpp": {
-      "values_digest": "737fc092e8810075811c37f890cd34083cf9808e90f9f8a2e44a7ec2e3dc2907",
+      "values_digest": "b493f674a96aade6e42782f5a2df3e68399c27d61ca15801ddc27addb34eb508",
       "rendered_digest": "7daf2ded4fe05c23cca44cb8f50992598a104a0c103991b13c77132005dcdedf",
       "ast_digest": "84dbae986fe674c2b9113765edc06b553139c5bb97e2fb41a5c34f77dd796a7a"
     },
     "srp": {
-      "values_digest": "673aa977f5f9b522abe9d2b8945b3dcf5d6836ca7309b20639a7bcedc0f4b601",
-      "rendered_digest": "0027578f2b0ebdb14f337a4cf3cee0525996c1d4de86950c394bca345fb392be",
-      "ast_digest": "41592c452c7e92de81c65dffb8913612bb806cd956278045777a0c8aeda4fe39"
+      "values_digest": "31c8b5b68a5d79960f2437d578256942086fc1ab2cd38cc05fccfd060383e29a",
+      "rendered_digest": "99f2de5c0092ef3e55ca6bbbff07d5ca28be2159be6388ffe6c13fc56e67c21e",
+      "ast_digest": "149774e1b774ac000a22f32d9f1d68d04a07665a1a315b290aa7c813f51addcd"
     },
     "sor": {
-      "values_digest": "4bb50d34fc724832b562ce8511c5a48623b12f31b177bca4fb15a10b9e277446",
+      "values_digest": "0e4a9a9a3b21da790185598a06625a79aeaaafd506f9c823f5657fce9ee18fff",
       "rendered_digest": "308f83ffeeaf5cfa3b33a723a226bd593b56372fe3db64d70f3276a3ab94b1b5",
       "ast_digest": "9bf7f81cd10f2a2e139eceae08cbf15b391f189c0146ba9b02c90b4f76092433"
     }
@@ -135,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Exact-head review of PR #676 found that service-manager start and loaded probes could block before configured convergence deadlines began; recover to implemented for the bounded deadline, diagnostics, and deterministic hung-command repair."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -291,6 +314,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
