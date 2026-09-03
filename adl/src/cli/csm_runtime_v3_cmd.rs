@@ -1,5 +1,5 @@
 use std::fs::{self, OpenOptions};
-use std::io;
+use std::io::{self, Read};
 use std::net::TcpStream;
 #[cfg(unix)]
 use std::os::unix::fs::PermissionsExt;
@@ -789,11 +789,16 @@ fn stop_and_wait_with_timeout(
 }
 
 fn start_and_wait(args: &RuntimeV3ServiceArgs, next: &RuntimeInitConfig) -> Result<()> {
-    platform_start(args)?;
-    wait_for_listener_open(
-        next,
-        Duration::from_millis(next.service_convergence.listener_timeout_millis),
-    )?;
+    let timeout = Duration::from_millis(next.service_convergence.listener_timeout_millis);
+    let deadline = std::time::Instant::now() + timeout;
+    platform_start_with_timeout(args, timeout)
+        .map_err(|error| normalize_stage_timeout(error, "listener", timeout))?;
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("listener", timeout);
+    }
+    wait_for_listener_open(next, remaining)
+        .map_err(|error| normalize_stage_timeout(error, "listener", timeout))?;
     wait_for_readiness(
         args,
         next,
@@ -811,7 +816,17 @@ fn status(args: &RuntimeV3ServiceArgs, operation: &'static str) -> Result<()> {
     let init = validated_init(&args.init)?;
     validate_runtime_generation(&init)?;
     validate_runtime_service_definition(args, &init)?;
-    let loaded = platform_loaded(args);
+    let loaded = platform_loaded_with_timeout(
+        args,
+        Duration::from_millis(init.service_convergence.listener_timeout_millis),
+    )
+    .map_err(|error| {
+        normalize_stage_timeout(
+            error,
+            "listener",
+            Duration::from_millis(init.service_convergence.listener_timeout_millis),
+        )
+    })?;
     let ready = owned_runtime_readiness(args, &init).is_ok();
     emit_status(args, &init, operation, loaded && ready)?;
     if !loaded || !ready {
@@ -828,7 +843,18 @@ fn emit_status(
     operation: &'static str,
     expected_ready: bool,
 ) -> Result<()> {
-    let loaded = platform_loaded(args);
+    let timeout = if operation == "stop" {
+        Duration::from_millis(init.service_convergence.stop_timeout_millis)
+    } else {
+        Duration::from_millis(init.service_convergence.listener_timeout_millis)
+    };
+    let stage = if operation == "stop" {
+        "stop"
+    } else {
+        "listener"
+    };
+    let loaded = platform_loaded_with_timeout(args, timeout)
+        .map_err(|error| normalize_stage_timeout(error, stage, timeout))?;
     let readiness = owned_runtime_readiness(args, init).ok();
     let ready = readiness.is_some();
     let report = RuntimeV3ServiceStatus {
@@ -1170,22 +1196,37 @@ fn install_launchd_plist(args: &RuntimeV3ServiceArgs, source: &Path) -> Result<P
 }
 
 #[cfg(target_os = "macos")]
-fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
+fn platform_start_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
     if let Some(source) = args.plist.as_ref() {
         let plist = install_launchd_plist(args, source)?;
-        run(Command::new("launchctl")
-            .args(["bootstrap", &launchd_domain()])
-            .arg(plist))?;
-    } else if !platform_loaded(args) {
+        let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+        if remaining.is_zero() {
+            return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+        }
+        run_start_command_with_timeout(
+            Command::new("launchctl")
+                .args(["bootstrap", &launchd_domain()])
+                .arg(plist),
+            remaining,
+        )?;
+    } else if !platform_loaded_with_timeout(args, timeout)? {
         let plist = installed_launchd_plist(args)?;
         if !plist.is_file() {
             return Err(anyhow!(
                 "Runtime v3 service is not loaded and installed plist is missing; --plist is required"
             ));
         }
-        run(Command::new("launchctl")
-            .args(["bootstrap", &launchd_domain()])
-            .arg(plist))?;
+        let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+        if remaining.is_zero() {
+            return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+        }
+        run_start_command_with_timeout(
+            Command::new("launchctl")
+                .args(["bootstrap", &launchd_domain()])
+                .arg(plist),
+            remaining,
+        )?;
     }
     Ok(())
 }
@@ -1207,11 +1248,11 @@ fn platform_stop_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) ->
 }
 
 #[cfg(target_os = "macos")]
-fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
-    Command::new("launchctl")
-        .args(["print", &launchd_target(args)])
-        .output()
-        .is_ok_and(|output| output.status.success())
+fn platform_loaded_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<bool> {
+    service_manager_command_succeeds_with_timeout(
+        Command::new("launchctl").args(["print", &launchd_target(args)]),
+        timeout,
+    )
 }
 
 #[cfg(target_os = "macos")]
@@ -1275,8 +1316,11 @@ fn systemd_unit(args: &RuntimeV3ServiceArgs) -> String {
 }
 
 #[cfg(target_os = "linux")]
-fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    run(Command::new("systemctl").args(["start", &systemd_unit(args)]))
+fn platform_start_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    run_start_command_with_timeout(
+        Command::new("systemctl").args(["start", &systemd_unit(args)]),
+        timeout,
+    )
 }
 
 #[cfg(target_os = "linux")]
@@ -1361,11 +1405,11 @@ fn platform_stopped_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration)
 }
 
 #[cfg(target_os = "linux")]
-fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
-    Command::new("systemctl")
-        .args(["is-active", "--quiet", &systemd_unit(args)])
-        .status()
-        .is_ok_and(|status| status.success())
+fn platform_loaded_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<bool> {
+    service_manager_command_succeeds_with_timeout(
+        Command::new("systemctl").args(["is-active", "--quiet", &systemd_unit(args)]),
+        timeout,
+    )
 }
 
 #[cfg(target_os = "linux")]
@@ -1394,7 +1438,7 @@ fn platform_process_id_with_timeout(
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_start(_args: &RuntimeV3ServiceArgs) -> Result<()> {
+fn platform_start_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<()> {
     Err(anyhow!(
         "csm runtime-v3 service control supports launchd and systemd"
     ))
@@ -1408,8 +1452,8 @@ fn platform_stop_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) 
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_loaded(_args: &RuntimeV3ServiceArgs) -> bool {
-    false
+fn platform_loaded_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<bool> {
+    Ok(false)
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
@@ -1428,30 +1472,91 @@ fn platform_process_id_with_timeout(
 }
 
 fn command_output_with_timeout(command: &mut Command, timeout: Duration) -> Result<Output> {
+    let rendered = format!("{command:?}");
     command.stdout(Stdio::piped()).stderr(Stdio::piped());
-    let mut child = command.spawn().context("start service-manager probe")?;
+    let mut child = command
+        .spawn()
+        .with_context(|| format!("start service-manager command {rendered}"))?;
+    let stdout = child
+        .stdout
+        .take()
+        .ok_or_else(|| anyhow!("capture stdout for service-manager command {rendered}"))?;
+    let stderr = child
+        .stderr
+        .take()
+        .ok_or_else(|| anyhow!("capture stderr for service-manager command {rendered}"))?;
+    let stdout_reader = std::thread::spawn(move || {
+        let mut bytes = Vec::new();
+        let mut stdout = stdout;
+        stdout.read_to_end(&mut bytes).map(|_| bytes)
+    });
+    let stderr_reader = std::thread::spawn(move || {
+        let mut bytes = Vec::new();
+        let mut stderr = stderr;
+        stderr.read_to_end(&mut bytes).map(|_| bytes)
+    });
     let deadline = std::time::Instant::now() + timeout;
-    loop {
-        if child.try_wait()?.is_some() {
-            return child
-                .wait_with_output()
-                .context("collect service-manager probe");
+    let status = loop {
+        if let Some(status) = child
+            .try_wait()
+            .with_context(|| format!("poll service-manager command {rendered}"))?
+        {
+            break status;
         }
         if std::time::Instant::now() >= deadline {
             let _ = child.kill();
             let _ = child.wait();
+            let _ = stdout_reader.join();
+            let _ = stderr_reader.join();
             return Err(ServiceManagerDeadlineExceeded { timeout }.into());
         }
         std::thread::sleep(Duration::from_millis(10));
-    }
+    };
+    let stdout = stdout_reader
+        .join()
+        .map_err(|_| anyhow!("stdout reader panicked for service-manager command {rendered}"))??;
+    let stderr = stderr_reader
+        .join()
+        .map_err(|_| anyhow!("stderr reader panicked for service-manager command {rendered}"))??;
+    Ok(Output {
+        status,
+        stdout,
+        stderr,
+    })
 }
 
 fn run_with_timeout(command: &mut Command, timeout: Duration) -> Result<()> {
+    let rendered = format!("{command:?}");
     let output = command_output_with_timeout(command, timeout)?;
     if !output.status.success() {
-        return Err(anyhow!("command failed with status {}", output.status));
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let stderr = stderr.trim();
+        return Err(if stderr.is_empty() {
+            anyhow!(
+                "service-manager command failed: {rendered}: {}",
+                output.status
+            )
+        } else {
+            anyhow!(
+                "service-manager command failed: {rendered}: {}: {stderr}",
+                output.status
+            )
+        });
     }
     Ok(())
+}
+
+fn run_start_command_with_timeout(command: &mut Command, timeout: Duration) -> Result<()> {
+    run_with_timeout(command, timeout)
+}
+
+fn service_manager_command_succeeds_with_timeout(
+    command: &mut Command,
+    timeout: Duration,
+) -> Result<bool> {
+    Ok(command_output_with_timeout(command, timeout)?
+        .status
+        .success())
 }
 
 fn platform_name() -> &'static str {
@@ -1461,20 +1566,6 @@ fn platform_name() -> &'static str {
         "systemd"
     } else {
         "unsupported"
-    }
-}
-
-fn run(command: &mut Command) -> Result<()> {
-    let rendered = format!("{command:?}");
-    let status = command
-        .status()
-        .with_context(|| format!("run service-manager command {rendered}"))?;
-    if status.success() {
-        Ok(())
-    } else {
-        Err(anyhow!(
-            "service-manager command failed: {rendered}: {status}"
-        ))
     }
 }
 
@@ -2155,17 +2246,47 @@ mod tests {
     }
 
     #[test]
-    fn convergence_hanging_stop_command_is_killed_at_deadline() {
+    fn convergence_hanging_start_and_loaded_commands_are_killed_at_stage_deadline() {
+        let timeout = Duration::from_millis(250);
+
         let started = std::time::Instant::now();
-        let error = run_with_timeout(
-            Command::new("/bin/sh").args(["-c", "sleep 1"]),
-            Duration::from_millis(20),
-        )
-        .map_err(|error| normalize_stage_timeout(error, "stop", Duration::from_millis(20)))
-        .unwrap_err();
-        assert!(error.to_string().contains("stage stop"));
-        assert!(error.to_string().contains("20 milliseconds"));
+        let start_error = run_start_command_with_timeout(Command::new("sleep").arg("2"), timeout)
+            .map_err(|error| normalize_stage_timeout(error, "listener", timeout))
+            .unwrap_err();
+        assert!(start_error.to_string().contains("stage listener"));
+        assert!(start_error.to_string().contains("250 milliseconds"));
+        assert!(started.elapsed() < Duration::from_millis(1500));
+
+        let started = std::time::Instant::now();
+        let loaded_error =
+            service_manager_command_succeeds_with_timeout(Command::new("sleep").arg("2"), timeout)
+                .map_err(|error| normalize_stage_timeout(error, "listener", timeout))
+                .unwrap_err();
+        assert!(loaded_error.to_string().contains("stage listener"));
+        assert!(loaded_error.to_string().contains("250 milliseconds"));
+        assert!(started.elapsed() < Duration::from_millis(1500));
+    }
+
+    #[test]
+    fn service_manager_timeout_preserves_non_timeout_command_diagnostics() {
+        let started = std::time::Instant::now();
+        let error =
+            run_with_timeout(&mut Command::new("false"), Duration::from_secs(1)).unwrap_err();
+        assert!(error.to_string().contains("service-manager command failed"));
+        assert!(error.to_string().contains("\"false\""));
+        assert!(error.to_string().contains("exit status"));
         assert!(started.elapsed() < Duration::from_millis(500));
+    }
+
+    #[test]
+    fn service_manager_output_is_drained_while_command_runs() {
+        let output = command_output_with_timeout(
+            Command::new("/bin/sh").args(["-c", "dd if=/dev/zero bs=131072 count=1 2>/dev/null"]),
+            Duration::from_secs(2),
+        )
+        .unwrap();
+        assert!(output.status.success());
+        assert_eq!(output.stdout.len(), 131_072);
     }
 
     #[test]
@@ -2254,9 +2375,13 @@ mod tests {
 
     #[test]
     fn command_runner_reports_success_failure_and_missing_binary() {
-        assert!(run(&mut Command::new("true")).is_ok());
-        assert!(run(&mut Command::new("false")).is_err());
-        assert!(run(&mut Command::new("adl-command-that-does-not-exist")).is_err());
+        assert!(run_with_timeout(&mut Command::new("true"), Duration::from_secs(1)).is_ok());
+        assert!(run_with_timeout(&mut Command::new("false"), Duration::from_secs(1)).is_err());
+        assert!(run_with_timeout(
+            &mut Command::new("adl-command-that-does-not-exist"),
+            Duration::from_secs(1)
+        )
+        .is_err());
         assert!(!platform_name().is_empty());
 
         let root = tempfile::tempdir().unwrap();
@@ -2387,13 +2512,13 @@ mod tests {
         let root = tempfile::tempdir().unwrap();
         let args = service_args(root.path().join("runtime-init.toml"));
 
-        assert!(!platform_loaded(&args));
+        assert!(!platform_loaded_with_timeout(&args, Duration::from_millis(750)).unwrap());
         assert_eq!(
             platform_process_id_with_timeout(&args, Duration::from_millis(750)).unwrap(),
             None
         );
         assert!(platform_stop_with_timeout(&args, Duration::from_secs(30)).is_ok());
-        assert!(wait_for_service_unloaded(&args, Duration::from_millis(5)).is_ok());
+        assert!(wait_for_service_unloaded(&args, Duration::from_millis(750)).is_ok());
     }
 
     #[test]
