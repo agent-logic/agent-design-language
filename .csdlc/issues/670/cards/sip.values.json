@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 670,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
+    "slug": "gcp-warm-polis-live-qualification",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Run the paid live GCP qualification deferred by #663 and prove the snapshot-backed two-node Runtime/Guardian plus L4 Ollama Polis works and cleans up within the authorized USD 20.00 budget.",
+      "required_outcome": "A real GCP run in project cs-poc-cha8mmii0xk0iaw5vpf8mxf produces two sealed snapshots, restores and launches the two-node Polis, proves live private Ollama and real agent/tool behavior, records exact timing and cost, removes all issue-owned VMs and disks, and retains only the intended snapshots.",
+      "declared_scope": [
+        "GCP project cs-poc-cha8mmii0xk0iaw5vpf8mxf only",
+        "the merged #663 warm-polis preparation, snapshot-catalog, launch, and cleanup paths",
+        "one Runtime/Guardian node and one L4 Ollama node",
+        "live readiness, resident-model, real-agent/tool, timing, cost, and cleanup evidence",
+        "bounded repairs required to make the live qualification pass"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 remains lifecycle authority",
+        "operator authorization is limited to USD 20.00 of incremental GCP spend in the exact company project",
+        "the pre-existing #509 relay is not issue-owned and cannot be deleted or materially changed without necessity and explicit evidence",
+        "AWS and unrelated GCP resources remain out of scope",
+        "only the two intended generation snapshots may remain after cleanup"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "use repo Terraform and real GCP resources",
+        "use command-scoped company credentials without exposing key contents",
+        "do not exceed USD 20.00",
+        "do not use synthetic timing or fixture-only functional proof",
+        "normal startup must not build, install, access Git, or download models",
+        "run a real agent/tool-path smoke and resolve every required failure",
+        "work only in the bound FastWork worktree"
+      ]
+    }
+  }
+}

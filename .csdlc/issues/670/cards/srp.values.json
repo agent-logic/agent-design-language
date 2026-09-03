@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 670,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
+    "slug": "gcp-warm-polis-live-qualification",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #670 live GCP warm-Polis qualification configuration, receipts, evidence, any narrow repairs, and residual-resource truth only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every paid action target only the exact authorized company project and remain within the USD 20.00 ceiling?",
+        "Are the two snapshots sealed, versioned, and sufficient for launch without downloads or builds?",
+        "Does the live proof establish private Runtime-to-Ollama behavior, both resident models, and a real agent/tool path?",
+        "Are all timing denominators measured from authoritative events rather than inferred?",
+        "Does cleanup prove every issue-owned VM and disk is absent while exactly the two intended snapshots remain?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

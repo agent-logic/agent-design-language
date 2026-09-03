@@ -1,0 +1,130 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 670,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
+    "slug": "gcp-warm-polis-live-qualification",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-contract",
+          "proof_role": "Validate the exact project, USD 20 guard, shell syntax, and executable two-tfvars preparation invocation before bind.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/670/validate-preparation.sh"
+          ],
+          "parallel_group": "prebind",
+          "defer_reason": null
+        },
+        {
+          "lane": "live-gcp-preflight",
+          "proof_role": "Verify command-scoped credentials, exact project, billing, Compute API, GPU quota, baseline inventory, and conservative USD 20 cost ceiling before mutation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-9"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/670/run-live-preflight.sh"
+          ],
+          "parallel_group": "preflight",
+          "defer_reason": "Deferred only until the typed execution worktree is bound; operator authorization is recorded in issue #670."
+        },
+        {
+          "lane": "live-gcp-snapshot-preparation",
+          "proof_role": "Create and verify the two exact sealed snapshots from explicit issue-owned preparation and catalog variable files, then remove preparation and verification resources.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 2400,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh",
+            ".csdlc/evidence/670/live/preparation.tfvars",
+            ".csdlc/evidence/670/live/snapshot-catalog.tfvars"
+          ],
+          "parallel_group": "paid-live",
+          "defer_reason": "Deferred only until the typed execution worktree is bound and preflight passes."
+        },
+        {
+          "lane": "live-gcp-warm-launch",
+          "proof_role": "Measure full snapshot-to-ready time and prove private networking, both resident models, and real agent/tool behavior.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 3600,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            "infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh",
+            "launch"
+          ],
+          "parallel_group": "paid-live",
+          "defer_reason": "Deferred only until preparation produces the exact retained snapshot generation."
+        },
+        {
+          "lane": "live-gcp-cleanup-cost",
+          "proof_role": "Destroy issue-owned compute and disks, retain exactly two snapshots, inventory residuals, and calculate incremental cost.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 750,
+          "argv": [
+            "bash",
+            "infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh",
+            "destroy"
+          ],
+          "parallel_group": "cleanup",
+          "defer_reason": "Deferred only until the live launch has produced resources and a launch receipt."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on wrong project or credential identity, projected spend above USD 20.00, mutable startup, public Ollama exposure, snapshot ambiguity, cleanup uncertainty, or unresolved required qualification findings; clean up issue-owned paid resources before further diagnosis whenever safe.",
+      "design_ref": ".csdlc/prepared/issues/670/design.md",
+      "design_digest": "ee17d9b8c53fd883b0a394d8720aa2bfd7d6a6a74e3f59eb828c73420c8e11c4",
+      "diagram_ref": ".csdlc/prepared/issues/670/diagram.mmd",
+      "diagram_digest": "29f79d1a6bae4fa54f79d3f3ccefa14c7e064f492ba77aca15c599d17fa02da5"
+    }
+  }
+}

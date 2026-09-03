@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 670,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "9368b813ad731dd962fec73c535984664e7713ffa877b66bd091b84f1d56961a",
+  "phase": "ready",
+  "generation": 5,
+  "digest": "a78ec9dec1cec59aaf8d4a10ee9d97501e1daf3181fbcfabe45914767bb9cb62",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/670/design.md",
+  "diagram_path": ".csdlc/prepared/issues/670/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:30fe5566-41a7-4033-b077-56bdf24cffa8",
+      "revision": "ee17d9b8c53fd883b0a394d8720aa2bfd7d6a6a74e3f59eb828c73420c8e11c4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b127b42138bbb05d3eb464e3f89746a24150fd920f79430bc3e5503a0805c697",
+      "rendered_digest": "b7fc096216f2a97613baad2fb438102c17ce3bac77d04aed26a7574442c43bb3",
+      "ast_digest": "9ede6543cc3750b7b14708e40cb6f2ee0dbc29d1031114821a7c413bb971bd16"
+    },
+    "stp": {
+      "values_digest": "12344387f443cbb44b24693d8bae4b6714c769896943ef5fca1e3121829e4206",
+      "rendered_digest": "9baaed8752a7289373b6927e65aa182bbc721e20634d23cf674f414089bfd699",
+      "ast_digest": "2e9b385f585f245b4aea4b17a2dbf87850654a783869d66defca7810a1ed424e"
+    },
+    "spp": {
+      "values_digest": "682ecb39e3fc9b773ba85cd8159f5b5679011c77d3b9d30fe1d1700d846e768e",
+      "rendered_digest": "db754bf3f56e29967dd9a034fae6eacee71e11b5b527b6607e11db83069ab13a",
+      "ast_digest": "ac3fcfdccbdbe1ed837e1d200df7039327e0ba7a503f69ec0ffcde1bbc53f1d5"
+    },
+    "vpp": {
+      "values_digest": "30efca9d86839c65fc39e661e3fe35f8d610009110ab84db35feee7ff3253cc7",
+      "rendered_digest": "6cba07df324cc1b0a335314613c8d86902482e25c520ddaf99b395eb6f25be6e",
+      "ast_digest": "f1e90a3047a9085f125c1939bd5ba9519dfb0828437d6647693bdf58adbdafb2"
+    },
+    "srp": {
+      "values_digest": "d5fa5477d15e12eca728b48828cee30a15f33838ab5dc65cb1dfeb8294043c9e",
+      "rendered_digest": "028e7bbf76adab0c3daaa8e0867fcd99f70a6bcbe067fd0b938f5cb32a464773",
+      "ast_digest": "8bd04248e677631d5e820c719df36784c3c2677ce8f0c1ecae5ad66bbc551348"
+    },
+    "sor": {
+      "values_digest": "600aeca85b596e2cf694cdf18a4f65e412e9039a73e2f1af2101e579c20efef8",
+      "rendered_digest": "5452cb65b55410dc75a682261ee63ed6d510ff8b24103c8fc48e16baffe0d700",
+      "ast_digest": "8f9029ad17c9368c0c36b5383338d17261d2864ea8b3135662e0d002f14cde6f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #670 after fresh design review PASS, typed approval, deterministic preparation validator PASS, and live read-only preflight PASS."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Resolve independent design-review findings by routing preflight through the issue-owned project, quota, inventory, and USD 20 cost guard and by supplying both required tfvars files to snapshot preparation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"live-gcp-preflight\",\"proof_role\":\"Verify command-scoped credentials, exact project, billing, Compute API, GPU quota, baseline inventory, and conservative USD 20 cost ceiling before mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/670/run-live-preflight.sh\"],\"parallel_group\":\"preflight\",\"defer_reason\":null},{\"lane\":\"live-gcp-snapshot-preparation\",\"proof_role\":\"Create and verify the two exact sealed snapshots from explicit issue-owned preparation and catalog variable files, then remove preparation and verification resources.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":2400,\"budget_tokens\":1000,\"argv\":[\"bash\",\"infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh\",\".csdlc/evidence/670/live/preparation.tfvars\",\".csdlc/evidence/670/live/snapshot-catalog.tfvars\"],\"parallel_group\":\"paid-live\",\"defer_reason\":null},{\"lane\":\"live-gcp-warm-launch\",\"proof_role\":\"Measure full snapshot-to-ready time and prove private networking, both resident models, and real agent/tool behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":3600,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"launch\"],\"parallel_group\":\"paid-live\",\"defer_reason\":null},{\"lane\":\"live-gcp-cleanup-cost\",\"proof_role\":\"Destroy issue-owned compute and disks, retain exactly two snapshots, inventory residuals, and calculate incremental cost.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":750,\"argv\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"destroy\"],\"parallel_group\":\"cleanup\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Add an executable deterministic issue-owned pre-bind denominator and mark paid live lanes deferred only until the typed execution worktree is bound.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Validate the exact project, USD 20 guard, shell syntax, and executable two-tfvars preparation invocation before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/670/validate-preparation.sh\"],\"parallel_group\":\"prebind\",\"defer_reason\":null},{\"lane\":\"live-gcp-preflight\",\"proof_role\":\"Verify command-scoped credentials, exact project, billing, Compute API, GPU quota, baseline inventory, and conservative USD 20 cost ceiling before mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/670/run-live-preflight.sh\"],\"parallel_group\":\"preflight\",\"defer_reason\":\"Deferred only until the typed execution worktree is bound; operator authorization is recorded in issue #670.\"},{\"lane\":\"live-gcp-snapshot-preparation\",\"proof_role\":\"Create and verify the two exact sealed snapshots from explicit issue-owned preparation and catalog variable files, then remove preparation and verification resources.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":2400,\"budget_tokens\":1000,\"argv\":[\"bash\",\"infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh\",\".csdlc/evidence/670/live/preparation.tfvars\",\".csdlc/evidence/670/live/snapshot-catalog.tfvars\"],\"parallel_group\":\"paid-live\",\"defer_reason\":\"Deferred only until the typed execution worktree is bound and preflight passes.\"},{\"lane\":\"live-gcp-warm-launch\",\"proof_role\":\"Measure full snapshot-to-ready time and prove private networking, both resident models, and real agent/tool behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":3600,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"launch\"],\"parallel_group\":\"paid-live\",\"defer_reason\":\"Deferred only until preparation produces the exact retained snapshot generation.\"},{\"lane\":\"live-gcp-cleanup-cost\",\"proof_role\":\"Destroy issue-owned compute and disks, retain exactly two snapshots, inventory residuals, and calculate incremental cost.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":750,\"argv\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"destroy\"],\"parallel_group\":\"cleanup\",\"defer_reason\":\"Deferred only until the live launch has produced resources and a launch receipt.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Bind every planned validator and live runner to an exact issue-owned path for typed execution readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/gcp/workloads/warm-polis\",\"infra/gcp/workloads/modules/two-node-ollama-runtime\",\"infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\".csdlc/issues/670\",\".csdlc/prepared/issues/670\",\".csdlc/prepared/issues/670/validate-preparation.sh\",\".csdlc/prepared/issues/670/run-live-preflight.sh\",\".csdlc/evidence/670\",\"docs/operations/cloud/gcp\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:30fe5566-41a7-4033-b077-56bdf24cffa8",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"ee17d9b8c53fd883b0a394d8720aa2bfd7d6a6a74e3f59eb828c73420c8e11c4\",\"design_ref\":\".csdlc/prepared/issues/670/design.md\",\"diagram_digest\":\"29f79d1a6bae4fa54f79d3f3ccefa14c7e064f492ba77aca15c599d17fa02da5\",\"diagram_ref\":\".csdlc/prepared/issues/670/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Advance #670 after fresh design review PASS, typed approval, deterministic preparation validator PASS, and live read-only preflight PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

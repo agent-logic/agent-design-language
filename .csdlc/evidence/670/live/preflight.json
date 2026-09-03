@@ -1,0 +1,60 @@
+{
+  "schema": "adl.issue670.gcp_preflight.v1",
+  "status": "pass",
+  "project": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+  "authorized_budget_usd": 20.00,
+  "billing_enabled": true,
+  "compute_api": "compute.googleapis.com",
+  "gpu_quota": {
+    "limit": 1.0,
+    "usage": 0.0,
+    "available": 1
+  },
+  "l4_prerequisite": {
+    "region": "us-west1",
+    "zone": "us-west1-a",
+    "accelerator_type": "nvidia-l4",
+    "regional_quota": {
+      "limit": 1.0,
+      "usage": 0.0,
+      "available": 1
+    },
+    "zone_offering": true,
+    "dynamic_capacity_proof": "launch-create-operation"
+  },
+  "conservative_cost_guard": {
+    "hourly_usd": 2.00,
+    "max_paid_hours": 8.00,
+    "storage_reserve_usd": 4.00,
+    "projected_max_usd": 20
+  },
+  "credential": {
+    "source": "command-scoped-approved-file",
+    "token_or_key_material_retained": false
+  },
+  "baseline_inventory": {
+    "instances": [
+      {
+        "name": "adl-509-artifact-relay",
+        "zone": "us-west1-a",
+        "status": "RUNNING",
+        "labels": {
+          "issue": "509",
+          "lane": "drt-d",
+          "owner": "codex",
+          "role": "artifact-relay"
+        }
+      }
+    ],
+    "disks": [
+      {
+        "name": "adl-509-artifact-relay",
+        "zone": "us-west1-a",
+        "status": "READY",
+        "sizeGb": "80",
+        "labels": null
+      }
+    ],
+    "snapshots": []
+  }
+}
