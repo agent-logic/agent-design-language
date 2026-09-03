@@ -6,10 +6,24 @@
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
   "phase": "implemented",
   "generation": 6,
-  "digest": "07b83dd695f701ca68dbfd85834199f1424f6bd5e44853bde5e8467eb423317d",
+  "digest": "3790924b711ae06b90b52453e551c509f813a2079ee2d04439e8a55a8fe3a3bc",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:413e61ea-5220-4eec-b579-40558dea36eb",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:311c76b4b627b5aae21986bf7c7b37dc489e27fe:32678b016d0bd92e764204602ca4f8191af016e42783eda78a81dbb810656302",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "2494a3378b0a584c1621162e122c0b9cf98a3766589a7b485e8ac72778725ad0",
-      "rendered_digest": "13a95bea05dd08e8585d66f11cdfad7dcce26957cb28e95e6b227ed958576417",
-      "ast_digest": "01bc6e4331e4a01f0f8dd239733909ae21a2eafa65fbf18f89a088979ac0f441"
+      "values_digest": "695f08bd2a3116aa6479357403c6c1f48f54dc6a23e435edfad4525255b2ebbc",
+      "rendered_digest": "c9f65193fa406027a5a1753132371fea90c190652806a0bb2353e0cb895c2174",
+      "ast_digest": "9007834905a84bebf9d61f106cf8067d9e2b434c4beae73a89eb813bf1a3c2a2"
     },
     "sor": {
       "values_digest": "9167b34c841366a832dae449c760d1215b1628f459ee41d428f9cc4be81ecf75",
@@ -155,6 +169,13 @@
       "actor": "codex:/root",
       "reason": "Recover self-staling explicit non-substantive proof after review-record metadata advanced the branch head; preserve the PASS/no-findings reviewer result and re-record with the lifecycle-supported automatic metadata-only guard.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

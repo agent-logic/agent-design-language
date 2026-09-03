@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md\ndocs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json\n.csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py\n.csdlc/prepared/issues/624/validate-diff-check.py\n.csdlc/prepared/issues/624/finalize-implementation.json\n.csdlc/evidence/624/issue624-sidecar-receipt.log\n.csdlc/evidence/624/issue624-json-parse.log\n.csdlc/evidence/624/issue624-diff-hygiene.log",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
