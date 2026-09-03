@@ -11,7 +11,6 @@ if [[ "${1:-}" == "--live-wuji" || "${1:-}" == "--capture-live-wuji-before" ]]; 
   fi
   primary_root="$(dirname "$(git rev-parse --git-common-dir)")"
   init="$primary_root/.adl/runtime-v3/live/runtime-init.toml"
-  csm="$primary_root/.adl/runtime-v3/current/bin/csm"
   evidence_dir="$repo_root/.adl/runs/issue-640"
   mkdir -p "$evidence_dir"
   status="$evidence_dir/wuji-service-status.json"
@@ -20,7 +19,10 @@ if [[ "${1:-}" == "--live-wuji" || "${1:-}" == "--capture-live-wuji-before" ]]; 
   before="$evidence_dir/wuji-service-before-restart.json"
   source_kernel="$repo_root/adl-runtime-kernel/target/release/adl-runtime-kernel"
   installed_kernel="$(python3 -c 'import sys,tomllib; print(tomllib.load(open(sys.argv[1], "rb"))["binaries"]["kernel_path"])' "$init")"
+  installed_guardian="$primary_root/.adl/runtime-v3/current/bin/adl-runtime-guardian"
   installed_kernel_realpath="$(realpath "$installed_kernel")"
+  installed_guardian_realpath="$(realpath "$installed_guardian")"
+  local_address="$(python3 -c 'import sys,tomllib; print(tomllib.load(open(sys.argv[1], "rb"))["api"]["address"])' "$init")"
   cargo build --locked --release --manifest-path adl-runtime-kernel/Cargo.toml --bin adl-runtime-kernel
   source_kernel_sha256="$(shasum -a 256 "$source_kernel" | awk '{print $1}')"
   installed_kernel_sha256="$(shasum -a 256 "$installed_kernel_realpath" | awk '{print $1}')"
@@ -34,7 +36,7 @@ if [[ "${1:-}" == "--live-wuji" || "${1:-}" == "--capture-live-wuji-before" ]]; 
     exit 1
   fi
   if [[ "${1:-}" == "--capture-live-wuji-before" ]]; then
-    "$csm" runtime-v3 status --init "$init" --json >"$before"
+    curl -fsSk "https://$local_address/v1/ready" >"$before"
     before_runtime_pid="$(jq -er '.runtime_process_id' "$before")"
     before_guardian_pid="$(jq -er '.guardian_process_id' "$before")"
     echo "captured live Wuji pre-restart state for Runtime PID $before_runtime_pid and Guardian PID $before_guardian_pid"
@@ -44,7 +46,7 @@ if [[ "${1:-}" == "--live-wuji" || "${1:-}" == "--capture-live-wuji-before" ]]; 
     echo "capture pre-restart state with --capture-live-wuji-before, perform a controlled service restart, then run --live-wuji" >&2
     exit 1
   fi
-  "$csm" runtime-v3 status --init "$init" --json >"$status"
+  curl -fsSk "https://$local_address/v1/ready" >"$status"
   before_runtime_pid="$(jq -er '.runtime_process_id' "$before")"
   before_guardian_pid="$(jq -er '.guardian_process_id' "$before")"
   after_runtime_pid="$(jq -er '.runtime_process_id' "$status")"
@@ -53,6 +55,13 @@ if [[ "${1:-}" == "--live-wuji" || "${1:-}" == "--capture-live-wuji-before" ]]; 
   process_kernel_sha256="$(shasum -a 256 "$process_kernel_realpath" | awk '{print $1}')"
   if [[ "$process_kernel_realpath" != "$installed_kernel_realpath" || "$process_kernel_sha256" != "$installed_kernel_sha256" ]]; then
     echo "running Runtime process is not executing the configured exact-build kernel" >&2
+    exit 1
+  fi
+  after_guardian_pid="$(jq -er '.guardian_process_id' "$status")"
+  process_guardian="$(lsof -a -p "$after_guardian_pid" -d txt -Fn | awk '/^n/ {print substr($0, 2); exit}')"
+  process_guardian_realpath="$(realpath "$process_guardian")"
+  if [[ "$process_guardian_realpath" != "$installed_guardian_realpath" ]]; then
+    echo "running Guardian process is not executing the configured Guardian binary" >&2
     exit 1
   fi
   public_base_url="$(python3 -c 'import sys,tomllib; print(tomllib.load(open(sys.argv[1], "rb"))["api"]["public_base_url"])' "$init")"
@@ -64,7 +73,7 @@ if [[ "${1:-}" == "--live-wuji" || "${1:-}" == "--capture-live-wuji-before" ]]; 
     sleep 5
   done
   curl -fsSk "$public_base_url:20997/v1/ready" >"$ready"
-  python3 - "$status" "$feed" "$ready" "$source_kernel_sha256" "$installed_kernel" "$installed_kernel_realpath" "$process_kernel_realpath" "$before_guardian_pid" "$deployed_kernel_count" <<'PY'
+  python3 - "$status" "$feed" "$ready" "$source_kernel_sha256" "$installed_kernel" "$installed_kernel_realpath" "$process_kernel_realpath" "$before_guardian_pid" "$deployed_kernel_count" "$installed_guardian_realpath" "$process_guardian_realpath" <<'PY'
 import json, os, socket, subprocess, sys
 status = json.load(open(sys.argv[1]))
 feed = json.load(open(sys.argv[2]))
@@ -75,7 +84,9 @@ configured_kernel_realpath = sys.argv[6]
 process_kernel_realpath = sys.argv[7]
 before_guardian_pid = int(sys.argv[8])
 deployed_kernel_count = int(sys.argv[9])
-assert status["service_loaded"] and status["listener_ready"] and status["observability_ready"]
+configured_guardian_realpath = sys.argv[10]
+process_guardian_realpath = sys.argv[11]
+assert status["ready"] is True and status["observability_ready"] is True
 shepherd = next(agent for agent in feed["agents"]["sample"] if agent["id"] == "shepherd")
 assert shepherd["name"] == "beacon.axioma"
 assert shepherd["provider"] == "ollama" and shepherd["model"] == "qwen3:8b"
@@ -98,6 +109,8 @@ receipt = {
   "configured_kernel_path":configured_kernel_path,
   "configured_kernel_realpath":configured_kernel_realpath,
   "process_kernel_realpath":process_kernel_realpath,
+  "configured_guardian_realpath":configured_guardian_realpath,
+  "process_guardian_realpath":process_guardian_realpath,
   "installed_kernel_sha256":installed_kernel_sha256,
   "process_kernel_sha256":installed_kernel_sha256,
   "deployed_kernel_executable_count":deployed_kernel_count,
