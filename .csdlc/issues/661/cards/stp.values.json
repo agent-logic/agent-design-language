@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
     "slug": "runtime-shepherd-provider-reply",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "ready",
   "content": {
