@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 663,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bdec3b2866f08bd765f50a2717fe4fc32698066911fbf20529dc0c01a8571ed",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 8,
-  "digest": "b974d57d896509e94a1bda33e0c3667a87c0fcc0445aec7ea0bf428b494f28a5",
-  "branch": null,
-  "worktree": null,
+  "digest": "f01b7b07c9d6d3de2884d1fb12e1a2e0083fe6c6fcc5ac50c0e4272917e94f59",
+  "branch": "codex/663-gcp-warm-polis",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-663-gcp-warm-polis",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:/root",
       "reason": "Advance #663 after fresh design review PASS, typed approval, preparation validator PASS, and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -126,6 +134,13 @@
       "actor": "codex:/root",
       "reason": "Advance #663 after fresh design review PASS, typed approval, preparation validator PASS, and doctor readiness PASS.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
