@@ -343,6 +343,11 @@ fn validate_runtime_service_definition(
 
 #[cfg(any(target_os = "macos", test))]
 fn launchd_program_executable(contents: &str) -> Result<PathBuf> {
+    if contents.contains("<!--") || contents.matches("<key>ProgramArguments</key>").count() != 1 {
+        return Err(anyhow!(
+            "Runtime v3 launchd definition has ambiguous ProgramArguments"
+        ));
+    }
     let arguments = contents
         .split_once("<key>ProgramArguments</key>")
         .map(|(_, rest)| rest)
@@ -400,7 +405,7 @@ fn validate_runtime_service_definition(
 #[cfg(any(target_os = "linux", test))]
 fn systemd_exec_start_executable(definition: &str) -> Result<PathBuf> {
     let trimmed = definition.trim();
-    let executable = if let Some((_, after_path)) = trimmed.split_once("path=") {
+    let executable = if let Some(after_path) = trimmed.strip_prefix("{ path=") {
         after_path
             .split_once(" ;")
             .map(|(value, _)| value.trim())
@@ -1404,6 +1409,12 @@ mod tests {
             systemd_exec_start_executable(&systemd).unwrap(),
             Path::new("/old/guardian")
         );
+        let commented = format!(
+            "<!-- <key>ProgramArguments</key><array><string>{expected}</string></array> -->{launchd}"
+        );
+        assert!(launchd_program_executable(&commented).is_err());
+        let ambiguous_systemd = format!("ENV_path={expected} {{ path=/old/guardian ; }}");
+        assert!(systemd_exec_start_executable(&ambiguous_systemd).is_err());
     }
 
     #[test]
