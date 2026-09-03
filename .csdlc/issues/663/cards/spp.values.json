@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 663,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP][runtime-v3] Add warm two-node Polis and GPU startup parity",
+    "slug": "gcp-warm-two-node-polis-gpu-startup-parity",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Adapt the existing GCP two-node module to snapshot-restored disks, add one preparation root and one warm launch controller with timing receipts, validate focused contracts, then run a bounded review and publish; perform live GCP timing only with explicit spend authorization.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Adapt the reusable GCP two-node module for disposable Runtime and Ollama/model disks restored from exact snapshots.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-9"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Add minimal snapshot preparation and warm launch orchestration using immutable prepared content.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add and run focused Terraform, shell-policy, topology, and timing-receipt tests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6",
+            "AC-7",
+            "AC-9"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain bounded exact-head review, fix findings, publish, and run live timing only if explicitly authorized.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        "infra/gcp/workloads/modules/two-node-ollama-runtime",
+        "infra/gcp/workloads/warm-polis",
+        "infra/gcp/workloads/warm-polis/retire-snapshot-generation.sh",
+        "infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh",
+        "infra/gcp/workloads/warm-polis/tests/validate-warm-start-policy.sh",
+        "infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh",
+        "docs/operations/cloud/gcp",
+        ".csdlc/issues/663",
+        ".csdlc/prepared/issues/663",
+        ".csdlc/prepared/issues/663/validate-preparation.sh",
+        ".csdlc/evidence/663"
+      ],
+      "invariants": [
+        "ordinary workload teardown deletes restored disks and never deletes source snapshots",
+        "Ollama has no public ingress",
+        "normal startup is offline with respect to source, packages, and models",
+        "timing claims name exact start and end events",
+        "no tracked issue work occurs on main"
+      ],
+      "risks": [
+        "G2 zonal capacity can delay or prevent restart",
+        "snapshot identity, restored-disk device naming, or filesystem identity drift can mount the wrong content",
+        "startup scripts can accidentally retain disposable GCS bootstrap behavior",
+        "synthetic tests can overstate live stopped-to-ready performance"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "snapshot or restored-disk identity cannot be verified before activation",
+        "implementation would require AWS or Runtime semantic changes",
+        "paid live execution lacks explicit project and budget authorization",
+        "focused validation or review has unresolved findings"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/663/design.md",
+      "design_digest": "a7d297602440b61f16362fe72dbe84ea5f509085f54d23cc842c133fd1999a6d",
+      "diagram_ref": ".csdlc/prepared/issues/663/diagram.mmd",
+      "diagram_digest": "1928ddccc50e68558c19efdbe8db388ed85af6ce7d71c930189139ae36f7a2a1"
+    }
+  }
+}
