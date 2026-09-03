@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "94de39afc0777c83bb3a9e9dc190eff25cdc8c975e0e1cadf0ddc3c33ba6b0dc",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "c0656613b4e9bfda0e33e943a45829f527194be1033e571d05ed23ba1336b2a6",
   "branch": "codex/624-corporate-sidecar-operational-hardening",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
   "review_assignment": {
@@ -24,7 +24,28 @@
       ".csdlc/evidence/624/issue624-diff-hygiene.log"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:3819b4d2-7021-4f47-b923-ce3ab875c0b7",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ],
+    "reviewed_revision": "git-blake3:1b8f2436babc0bed94cdc4aa772fb8d255e9e17d:0a3d4160ca977d219d9e6a53a0868c43151ad5807e8fd9619561ee7d59a5b344",
+    "findings": [],
+    "residual_risks": [
+      "Read-only review only; no live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations were performed.",
+      "The reviewer verified the bridge from assigned revision 1b8f2436babc0bed94cdc4aa772fb8d255e9e17d to current head 82823354480eb46cb9c733e7646ee8aeb0ee669c changed only typed lifecycle/review-assignment metadata and no reviewed artifact, validator, evidence log, receipt, or operational claim.",
+      "The packet intentionally leaves all operational hardening rows as follow_on_required until independently authorized execution performs the external readbacks or mutations."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5b48692de8105caf0365816e5a6a1eac654b8be2778d011101c09aa0fcd0f9ea",
+      "values_digest": "87c28c9cae29ac495343c0a31a6ac3d01f1f0d9b194d7d011b60f1589bcb4e60",
       "rendered_digest": "178e833abe2b52ed51498bd1f33b08d4a5460f30cb659131d49394c626ace5fa",
       "ast_digest": "3a011837c6252ffb523cb2b6496061b1c394e526a77fe253d90423b5b0d05519"
     },
     "stp": {
-      "values_digest": "cc5408bc31f86c0f1982a4eb7bfc298f26388890331a4382b5dca0a3587c16e5",
+      "values_digest": "378158ed545b142ca6abbe897febc1f8d66d935fd9c4258f837418b1b716a883",
       "rendered_digest": "da5de2cf9e9453239574fc79588f610493992f24eb528146b96dddd00cee4c08",
       "ast_digest": "74abf5a4d0df01a61d1cc5e54f20891ce84ab02571fd67ae421214147909c69b"
     },
     "spp": {
-      "values_digest": "9dfa0536269382a00f4179f0d0020713beb93e968b46b764b9a20cb3997aa4f4",
+      "values_digest": "e3700e55ef70c80d05a51db89a165b8aaa28b32c3828356666e327d4f96ccb95",
       "rendered_digest": "8f6ca65e54484bd8a9bb68ab43e899ca662ff90cfb9314696b915697393abb9d",
       "ast_digest": "4e1e45af0baa369fe539558ec219732afe157d6e2b5f1765e72bed8d2c26f1fd"
     },
     "vpp": {
-      "values_digest": "3be0fb7ce5491d683b764102dad61fe8261f10da7beb99d348a19eca556f7a05",
+      "values_digest": "2e6db07f745cd5fda5b057785f33762c54e6e9fc8c4134925317f68e650c58cd",
       "rendered_digest": "4ad50171a537aeec464e3b84f923e5c1129309590ad88c6417dde02bebbdd6c9",
       "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
     },
     "srp": {
-      "values_digest": "8952dbf461b00f6b50371e7b03be4c4e210bf4f8c72b8784516b9f2223c901e3",
-      "rendered_digest": "c9f65193fa406027a5a1753132371fea90c190652806a0bb2353e0cb895c2174",
-      "ast_digest": "9007834905a84bebf9d61f106cf8067d9e2b434c4beae73a89eb813bf1a3c2a2"
+      "values_digest": "88d20465738167dd3c5a4655cb06f37596b29c7f3b4a58f59777fd899cddf478",
+      "rendered_digest": "8ff11c5802b0d086faf5665a1b0a20c736b38a2d9d14084cdea081e0f17afb82",
+      "ast_digest": "7c97cafbb979e941f107bea7b1e982706aa2253138229cfb00c1de8eca1ac388"
     },
     "sor": {
-      "values_digest": "17447c5d7dca081badc518a91779b62df9a9a9f28e55c502274e14f861e53859",
+      "values_digest": "aaadd59ff48f7f77386b208ee3786cdc4fccc6dfeacf32dde28ce6582d6d1f71",
       "rendered_digest": "0e6f478d5b457982d286d7aaee843554cfda9e19b1d463f5f5f5cc4f9e654d2c",
       "ast_digest": "951a71486b83f7703fe655105fb879f4492d8267700305db5ab1c57acb32b92a"
     }
@@ -104,6 +125,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover self-staling explicit non-substantive proof after review-record metadata advanced the branch head; preserve the PASS/no-findings reviewer result and re-record with the lifecycle-supported automatic metadata-only guard."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -197,6 +225,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
