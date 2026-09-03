@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1bdec3b2866f08bd765f50a2717fe4fc32698066911fbf20529dc0c01a8571ed",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "a58e173a85ad63f2beac013c59a47a831d11378272eb5286f5fde8e3b7488bcb",
+  "generation": 16,
+  "digest": "7c71b3e4400f09398c4d88a7bb61aecfcc933039633c9ffaa4f020960ea554a8",
   "branch": "codex/663-gcp-warm-polis",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-663-gcp-warm-polis",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/issue_663_governed_review",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:e3e63652d56d1545166bd822bccd8dc34e081b06:771cf801201aaeafa7b098549eea17fcd2649027a970cd80f421774ab39c4034",
-    "scope": [
-      ".csdlc/prepared/issues/663",
-      ".csdlc/evidence/663",
-      "infra/gcp/workloads/modules/two-node-ollama-runtime",
-      "infra/gcp/workloads/warm-polis",
-      "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "386b5800862af29a20391ceeab8c4850c74259e0f8492ed66db9f9b87e1eb9e3",
+      "values_digest": "74f217019a4592cdbd705be4308488415117d2b0ca7d972634a7dacf352d661e",
       "rendered_digest": "62cd11f39b1d4d4fe0428377e6a70b910f381e8d030c4e432cc2236610333632",
       "ast_digest": "a6cc706f0be24b3552ce8e4346f6d4ba6749b496f706fab1576867cfc1f207d7"
     },
     "stp": {
-      "values_digest": "19922548cdd5e4b463af630c64b1dee8128f454ee64ecd88b0da87f0b8347f5e",
+      "values_digest": "30eefc2f47fda8457c39b9bc5d9875a805644816cd7e58e7118ba67a8f595827",
       "rendered_digest": "eaa84838878b97131d90916d990ada9b5b3e184731ac84e3254b019aab3ca9b6",
       "ast_digest": "d42cfb7e9b28db776d886c5ed813da9daeee9a51a80e0fbd4a7071bc6efd1ef2"
     },
     "spp": {
-      "values_digest": "4c2ab76aae8a1fd215408fcdeadb74085b3db5da89f50d51f17b0bbb3e0270d6",
+      "values_digest": "78f197dd8180c425bb54b9b8fe4f3077bcf2fb9b08aa7b6f4da44284f8b09e3f",
       "rendered_digest": "c244d1676034c45ed9648f82ac82040e5c225c04b1dc5e5d0182eafb75d2687b",
       "ast_digest": "a842c3a3b4fbc3effc4dbf9e392ab6ea4ebba999bc12a740317745b3bcd5ac47"
     },
     "vpp": {
-      "values_digest": "e5980e17a5cc56047c81d9ef0f97e2b740ee1e6898184c27b88f329b09a269a4",
+      "values_digest": "9def1a49db081ff940bd7c4d428db9b367ea76d77fca8ab06ec57c7ef14db820",
       "rendered_digest": "39431709177b81466f7f38892b756378284fcfedb8559883f16a476e293de31c",
       "ast_digest": "db23bda8a22e0ff2a495972e0b9f22138d8cec0caf8311ff2367fbde0c1ef915"
     },
     "srp": {
-      "values_digest": "bc09420c9c9c839da8fa5821099012c7dc916891995d705cf884a75487872a19",
-      "rendered_digest": "68260778247d41dd883aa1240b5912a47b36cc823261cc550f31527e1cca953d",
-      "ast_digest": "433b50d32d572265b546f1ded880a081808bafad1295f119b4619ed120002495"
+      "values_digest": "9d350227f5c6b89591aa075f3b8ba27be01546817d1c4b694b98a1e596f0e23c",
+      "rendered_digest": "cf82b5a8dfe103f5ee32d35ab761f50648a23b9a19509d5b0710323b3c60bb8f",
+      "ast_digest": "d173dc60e5aaab5b86356c76f41623868ec63f4af3685bc9b139515f891d9614"
     },
     "sor": {
-      "values_digest": "c6293eeb77093cdb18f09a1035e450ee4a66aa861bbc08a1fa444ded841a0d04",
-      "rendered_digest": "cf22e558b76924a2ea32d82de2d51c4b8ebd6520c0e191252a881ed8bb859e69",
-      "ast_digest": "1f893c33ad8b13997f1d6a75f192e79cef71171d3400164a575f87bcbb98fff1"
+      "values_digest": "024ba2703ae71e0d7229370364bb1c23107817b205bb1c3a51bf8ffd188fd504",
+      "rendered_digest": "16b7dd57d639b61d651e66c88c600c48026ad74afa38437de1cdddaf0c1ddb49",
+      "ast_digest": "6ffa3b5ec081ff1074ab29cd607b37a8ef17e63870d71b825ec10b4bff5fe915"
     }
   },
   "transitions": [
@@ -201,6 +190,27 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover the failed first exact-head review after preserving finding 663-R1-P2-CLEANUP-RECEIPT; the bounded repair adds durable launch cleanup truth and focused contract coverage.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record the cleanup-receipt remediation and refreshed focused validation after the first exact-head review finding.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP warm two-node Polis path with snapshot-only idle retention, disposable restored disks, private Runtime-to-Ollama topology, offline normal startup, bounded disposable preparation cleanup, complete per-node launch timing receipts, and durable teardown receipts; live GCP timing remains deferred pending exact project and spend authorization.\",\"changes\":[\"Extended the existing two-node GCP module with optional prepared disk attachment while preserving its default issue #509 behavior.\",\"Added separate preparation, snapshot-catalog, and launch Terraform roots so idle state retains only Runtime and Ollama/model snapshots and ordinary launch teardown cannot delete them.\",\"Added offline Runtime/Guardian and multi-model GPU/Ollama startup scripts with exact artifact-generation verification and private-only Ollama ingress.\",\"Added bounded failure cleanup for disposable hydration and verification compute without imposing a termination deadline on launched Runtime or Ollama services.\",\"Added explicit live-action and snapshot-retirement authorization gates, exact-generation retirement checks, full snapshot self-link support, and per-node RUNNING, ready, guest-relative, apply, and full-Polis timing receipts.\",\"Added a machine-readable destroy receipt that fails closed unless both launch VMs and restored disks are absent and both source snapshots remain observable.\",\"Added focused Terraform and shell-policy tests plus an operator runbook.\"],\"artifacts\":[\"infra/gcp/workloads/modules/two-node-ollama-runtime\",\"infra/gcp/workloads/warm-polis\",\"docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md\",\".csdlc/issues/663\",\".csdlc/prepared/issues/663\",\".csdlc/evidence/663\"],\"validation\":[{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/modules/two-node-ollama-runtime\",\"test\"],\"purpose\":\"Prove issue #509 normal launch remains unchanged when prepared disks are not requested.\",\"outcome\":\"passed\",\"evidence_ref\":\"existing-module-regression.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/warm-polis\",\"test\"],\"purpose\":\"Prove exact snapshot restoration, disposable disk attachment, immutable images, private topology, and launch receipt inputs.\",\"outcome\":\"passed\",\"evidence_ref\":\"warm-launch-terraform.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/warm-polis/preparation\",\"test\"],\"purpose\":\"Prove concurrent disk hydration and removal of temporary preparation VMs while staging disks are retained only until snapshot verification completes.\",\"outcome\":\"passed\",\"evidence_ref\":\"preparation-terraform.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/warm-polis/snapshot-catalog\",\"test\"],\"purpose\":\"Prove two versioned snapshots, restored-content verification, and a snapshots-only retained steady state.\",\"outcome\":\"passed\",\"evidence_ref\":\"snapshot-catalog-terraform.log\"},{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/tests/validate-warm-start-policy.sh\"],\"purpose\":\"Reject mutable startup work and prove guest failure markers plus bounded disposable preparation cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\"warm-start-policy.log\"},{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh\"],\"purpose\":\"Prove exact-generation retirement, independent authorization gates, launch destroy gating, timing fields, and cleanup receipt truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"snapshot-retirement-policy.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker artifacts.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
     }
   ]
 }

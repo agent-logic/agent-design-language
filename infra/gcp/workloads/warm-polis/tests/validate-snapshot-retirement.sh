@@ -24,6 +24,9 @@ destroy_line="$(rg -n 'terraform -chdir="\$root" destroy' "$launch" | head -1 | 
 for field in runtime_running_observed_epoch ollama_running_observed_epoch runtime_ready_epoch gpu_ollama_ready_epoch runtime_guest_boot_relative_ready_seconds gpu_guest_boot_relative_ready_seconds; do
   rg -q "$field" "$launch"
 done
+for field in cleanup-receipt resource_absence_verified runtime_instance_absent ollama_instance_absent runtime_disk_absent ollama_disk_absent retained_snapshot_observed_self_links snapshots_retained_verified; do
+  rg -q "$field" "$launch"
+done
 if rg -n 'snapshot-catalog.*destroy|retire-snapshot' "$launch"; then
   echo "ordinary launch teardown must not reach snapshot catalog retirement" >&2
   exit 1

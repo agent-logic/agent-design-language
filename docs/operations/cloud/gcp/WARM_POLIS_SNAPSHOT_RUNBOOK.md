@@ -6,7 +6,7 @@ The executable source of truth is [`infra/gcp/workloads/warm-polis`](../../../..
 
 Preparation and live launch require an explicit company GCP project and operator spend authorization. Local `terraform test`, `terraform validate`, shell syntax, startup-policy, and snapshot-retirement checks do not create cloud resources.
 
-Disposable hydration and verification VMs fail closed after the configured temporary-VM observation limit and are cleaned up without deleting completed snapshots. Active Runtime and GPU/Ollama nodes have no termination deadline. Launch receipts retain separate per-node `RUNNING`, guest-ready, guest boot-relative, Terraform-apply, and full-Polis timing fields.
+Disposable hydration and verification VMs fail closed after the configured temporary-VM observation limit and are cleaned up without deleting completed snapshots. Active Runtime and GPU/Ollama nodes have no termination deadline. Launch receipts retain separate per-node `RUNNING`, guest-ready, guest boot-relative, Terraform-apply, and full-Polis timing fields; cleanup receipts prove both launch VMs and restored disks are absent while both snapshots remain retained.
 
 Normal idle posture after a generation is prepared:
 

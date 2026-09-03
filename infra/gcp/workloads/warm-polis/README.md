@@ -30,7 +30,7 @@ ADL_GCP_LIVE_EXECUTION=authorized ./run-live-snapshot-launch.sh launch
 ADL_GCP_LIVE_EXECUTION=authorized ./run-live-snapshot-launch.sh destroy
 ```
 
-The launch receipt records each VM reaching `RUNNING`, each guest readiness marker, guest boot-relative readiness seconds, Terraform apply completion, and full snapshot-launch-to-ready time. An optional observation timeout stops only the caller and explicitly leaves services running; there is no runtime termination deadline.
+The launch receipt records each VM reaching `RUNNING`, each guest readiness marker, guest boot-relative readiness seconds, Terraform apply completion, and full snapshot-launch-to-ready time. Destroy writes a separate cleanup receipt proving both VMs and restored disks are absent while both source snapshots remain observable. An optional launch observation timeout stops only the caller and explicitly leaves services running; there is no runtime termination deadline.
 
 ## Retire snapshots
 

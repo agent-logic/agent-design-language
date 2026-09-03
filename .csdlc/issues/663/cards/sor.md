@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the GCP warm two-node Polis path with snapshot-only idle retention, disposable restored disks, private Runtime-to-Ollama topology, offline normal startup, bounded disposable preparation cleanup, and complete per-node launch timing receipts; live GCP timing remains deferred pending exact project and spend authorization.
+Implemented the GCP warm two-node Polis path with snapshot-only idle retention, disposable restored disks, private Runtime-to-Ollama topology, offline normal startup, bounded disposable preparation cleanup, complete per-node launch timing receipts, and durable teardown receipts; live GCP timing remains deferred pending exact project and spend authorization.
 
 ## Artifacts
 
@@ -21,6 +21,7 @@ Implemented the GCP warm two-node Polis path with snapshot-only idle retention, 
 - docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md
 - .csdlc/issues/663
 - .csdlc/prepared/issues/663
+- .csdlc/evidence/663
 
 ## Execution
 
@@ -29,21 +30,12 @@ Implemented the GCP warm two-node Polis path with snapshot-only idle retention, 
 - Added offline Runtime/Guardian and multi-model GPU/Ollama startup scripts with exact artifact-generation verification and private-only Ollama ingress.
 - Added bounded failure cleanup for disposable hydration and verification compute without imposing a termination deadline on launched Runtime or Ollama services.
 - Added explicit live-action and snapshot-retirement authorization gates, exact-generation retirement checks, full snapshot self-link support, and per-node RUNNING, ready, guest-relative, apply, and full-Polis timing receipts.
+- Added a machine-readable destroy receipt that fails closed unless both launch VMs and restored disks are absent and both source snapshots remain observable.
 - Added focused Terraform and shell-policy tests plus an operator runbook.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Reject whitespace and conflict-marker artifacts.",
-    "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
-  },
   {
     "command": [
       "terraform",
@@ -53,6 +45,16 @@ Implemented the GCP warm two-node Polis path with snapshot-only idle retention, 
     "purpose": "Prove issue #509 normal launch remains unchanged when prepared disks are not requested.",
     "outcome": "passed",
     "evidence_ref": "existing-module-regression.log"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/gcp/workloads/warm-polis",
+      "test"
+    ],
+    "purpose": "Prove exact snapshot restoration, disposable disk attachment, immutable images, private topology, and launch receipt inputs.",
+    "outcome": "passed",
+    "evidence_ref": "warm-launch-terraform.log"
   },
   {
     "command": [
@@ -77,36 +79,36 @@ Implemented the GCP warm two-node Polis path with snapshot-only idle retention, 
   {
     "command": [
       "bash",
-      "infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh"
-    ],
-    "purpose": "Prove exact-generation retirement, independent authorization gates, launch destroy gating, and all required timing receipt fields.",
-    "outcome": "passed",
-    "evidence_ref": "snapshot-retirement-policy.log"
-  },
-  {
-    "command": [
-      "terraform",
-      "-chdir=infra/gcp/workloads/warm-polis",
-      "test"
-    ],
-    "purpose": "Prove exact snapshot restoration, disposable disk attachment, immutable images, private topology, and launch receipt inputs.",
-    "outcome": "passed",
-    "evidence_ref": "warm-launch-terraform.log"
-  },
-  {
-    "command": [
-      "bash",
       "infra/gcp/workloads/warm-polis/tests/validate-warm-start-policy.sh"
     ],
     "purpose": "Reject mutable startup work and prove guest failure markers plus bounded disposable preparation cleanup.",
     "outcome": "passed",
     "evidence_ref": "warm-start-policy.log"
+  },
+  {
+    "command": [
+      "bash",
+      "infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh"
+    ],
+    "purpose": "Prove exact-generation retirement, independent authorization gates, launch destroy gating, timing fields, and cleanup receipt truth.",
+    "outcome": "passed",
+    "evidence_ref": "snapshot-retirement-policy.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and conflict-marker artifacts.",
+    "outcome": "passed",
+    "evidence_ref": "diff-hygiene.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
