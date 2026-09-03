@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/tools/install_runtime_v3_generation.sh
-adl/tools/runtime_v3_generation.py
-adl/src/cli/csm_runtime_v3_cmd.rs
-adl/tools/test_runtime_v3_generation_install.sh
-adl/tests/csm_runtime_v3_generation.rs
+
 
 ## Prompts
 
@@ -36,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Linux systemd behavior was source and parser reviewed but not executed on the macOS review host.
-- Stop safety was verified without mutating the live Runtime or service manager.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:e6d78f58cb575529e84111b489a382038a2d8d27:2f23e8e1c732dea73eb18fd282bb4543700df4b87bc055490ce7bf545f6b53f1")
+Revision: None
 
-Reviewer: Some("fresh-session:42d16aeb-9cb2-4418-b7bf-5be4ef111e32")
+Reviewer: None
 
-Result: pass
+Result: pre_review
