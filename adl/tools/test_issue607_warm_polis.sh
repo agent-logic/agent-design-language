@@ -236,13 +236,13 @@ run_contracts() {
   jq '(.historical_paid_attempts[]|select(.run_id=="adl-issue607-e8925c1dc8b0-remediate")|.post_cleanup_owner_inventory.observed_at) = "invalid"' "$issue_cost_audit" >"$CASE_ROOT/issue-cost-audit-invalid-observed-at.json"
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-validate-issue-cost-audit "$CASE_ROOT/issue-cost-audit-invalid-observed-at.json" >/dev/null 2>&1
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation "$issue_cost_audit" "$issue_cost_ledger"
-  jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and .cumulative_reserved_usd==19.994172' "$issue_cost_ledger" >/dev/null
+  jq -e '.schema=="adl.issue607.aggregate_cost_ledger.v2" and (.reservations|length)==1 and .reservations[0].status=="reserved" and ((.cumulative_reserved_usd-19.994172)|fabs)<0.000001' "$issue_cost_ledger" >/dev/null
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-remediation-2 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
   ! bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-remediation adl-issue607-test-retry-1 "$issue_cost_audit" "$issue_cost_ledger" >/dev/null 2>&1
   recovery_ledger="$CASE_ROOT/issue-cost-recovery-ledger.json"
   rm -f "$recovery_ledger" "$recovery_ledger.next"
   bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-reserve-issue-cost qualification-quota-recovery adl-issue607-test-quota-recovery "$issue_cost_audit" "$recovery_ledger"
-  jq -e '.reservations==[{action:"qualification-quota-recovery",run_id:"adl-issue607-test-quota-recovery",reserved_seconds:420,reserved_cost_usd:0.160430,status:"reserved"}] and .cumulative_reserved_usd==19.994172' "$recovery_ledger" >/dev/null
+  jq -e '(.reservations|length)==1 and .reservations[0].action=="qualification-quota-recovery" and .reservations[0].run_id=="adl-issue607-test-quota-recovery" and .reservations[0].reserved_seconds==420 and ((.reservations[0].reserved_cost_usd-0.160430)|fabs)<0.000001 and .reservations[0].status=="reserved" and ((.cumulative_reserved_usd-19.994172)|fabs)<0.000001' "$recovery_ledger" >/dev/null
 
   recovery_campaign=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   recovery_run=adl-issue607-aaaaaaaaaaaa-quota-recovery
@@ -410,8 +410,9 @@ run_contracts() {
   rg -q 'adl-issue607-ollama-tunnel' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'TCP-LISTEN:11434,bind=127.0.0.1,reuseaddr,fork' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'ADL_ISSUE607_GPU_PRIVATE_IP=127.0.0.1' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
-  rg -q 'qualifier_script_base64[[:space:]]*=[[:space:]]*base64encode' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
-  rg -q 'recovery_proof_script_base64[[:space:]]*=[[:space:]]*base64encode' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
+  rg -q 'qualifier_script_base64_gzip[[:space:]]*=[[:space:]]*base64gzip' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
+  rg -q 'recovery_proof_script_base64_gzip[[:space:]]*=[[:space:]]*base64gzip' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
+  rg -q 'base64 --decode | gzip --decompress' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'ADL_ISSUE607_GUARDIAN_RECOVERY_PROOF_HELPER=' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   ! rg -Fq 'degradation_recovered:true,vector_recovered:true' "$ROOT/adl/tools/issue607_qualify_warm_polis.sh"
   ! rg -q 'PRESERVE_COMPUTE_ON_EXIT|compute retained for live qualification diagnosis' "$ROOT/adl/tools/run_issue607_warm_polis.sh"

@@ -12,7 +12,7 @@ Status: draft
 
 ## Summary
 
-The retained warm two-node AWS Polis previously reached service readiness in 235 seconds and executed two 8B models plus six ACC agents. The source-bound proof retry created only the GPU before EC2 rejected oversized Runtime user data; all disposable resources were removed, both warm volumes remain available, and compressed embedding plus partial-cleanup proof is locally green. One exact live payload-recovery proof remains pending.
+The retained warm two-node AWS Polis previously reached service readiness in 235 seconds and executed two 8B models plus six ACC agents. The source-bound proof retry created only the GPU before EC2 rejected oversized Runtime user data; all disposable resources were removed, both warm volumes remain available, compressed embedding and partial cleanup are locally green, and the exact-review floating-point test finding is resolved. One exact live payload-recovery proof remains pending.
 
 ## Artifacts
 
@@ -29,6 +29,7 @@ The retained warm two-node AWS Polis previously reached service readiness in 235
 - Gzip-compressed the two corrected qualification scripts inside Runtime user data and added a Terraform assertion that the fully rendered payload is at most 16 KiB.
 - Fixed the compute-plan guard so a full create still requires the approved r7i.2xlarge and g6.xlarge pair while partial destroy accepts only the correctly typed subset present in interrupted Terraform state.
 - Added deterministic regressions for compressed payload construction, EC2 payload size, valid partial cleanup, and rejection of wrong-shape partial cleanup.
+- Replaced brittle exact floating-point assertions with the same bounded tolerance used by the production cost-ledger validator; the full local issue-607 suite now passes.
 - Terminated the only GPU created by the failed attempt, destroyed all thirteen disposable Terraform resources, and verified empty managed state plus both retained warm volumes detached and available.
 - Reconstructed the failed attempt conservatively through its final termination event, bringing the issue upper bound to USD 19.833742.
 - Bound the final two-8B-model payload-recovery run to a 420-second USD 0.160430 envelope for a projected maximum of USD 19.994172.
@@ -38,6 +39,16 @@ The retained warm two-node AWS Polis previously reached service readiness in 235
 [
   {
     "command": [
+      "bash",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "all"
+    ],
+    "purpose": "Prove payload size and reconstruction, partial cleanup, recovery, authorization, cost, and residue contracts without AWS mutation.",
+    "outcome": "passed",
+    "evidence_ref": "fresh local command output 2026-09-03: issue607_all=pass"
+  },
+  {
+    "command": [
       "terraform",
       "-chdir=infra/aws/runtime/gpu-proof",
       "test",
@@ -45,17 +56,7 @@ The retained warm two-node AWS Polis previously reached service readiness in 235
     ],
     "purpose": "Prove the complete warm Runtime payload stays within 16 KiB and reconstructs compressed scripts.",
     "outcome": "passed",
-    "evidence_ref": "local command output 2026-09-03"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "all"
-    ],
-    "purpose": "Prove local payload, partial cleanup, recovery, authorization, cost, and residue contracts without AWS mutation.",
-    "outcome": "passed",
-    "evidence_ref": "local command output 2026-09-03"
+    "evidence_ref": "fresh local command output 2026-09-03: 1 passed, 0 failed"
   },
   {
     "command": [
