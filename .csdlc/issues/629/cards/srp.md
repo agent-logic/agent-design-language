@@ -37,13 +37,13 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - C-SDLC v3 GitHub and publication routes remain non-authoritative until explicit V3-F/#505 cutover.
-- Live authenticated-success --observe-github was not run with a real token; fake-token dispatch proof verifies adapter shape and fail-closed behavior without exposing credentials.
+- Live PR #641 closing relation was corrected to #629-only through typed v2 PR update; v3 now rejects body-derived unexpected closing references.
 - V3 PR create/update writes remain incomplete; typed C-SDLC v2 remains publication authority until #505.
 
 ## Review Result
 
-Revision: Some("git-blake3:3fa957d36cfe3df2b125f97f63615c88a6d2ffdb:f9649a215b5f34ff2d7f3f945953a6b2a564b6f2f3fba657e6b2e7319cf7213d")
+Revision: Some("git-blake3:c2f4ece7ca8bdffbd27afeee37464f41944f2539:5e13f407cd37a5d910e9141f843e2e6cbe81e4bd3fed42a6b364cdd0aec8634e")
 
-Reviewer: Some("codex-reviewer:review_629_head_3fa957")
+Reviewer: Some("codex-reviewer:review_629_head_c2f4")
 
 Result: pass
