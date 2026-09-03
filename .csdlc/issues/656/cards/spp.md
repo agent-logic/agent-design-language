@@ -16,7 +16,7 @@ Define one generation contract; implement complete staging, verification, activa
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 

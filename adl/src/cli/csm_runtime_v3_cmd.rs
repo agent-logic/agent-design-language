@@ -7,8 +7,28 @@ use std::time::Duration;
 use adl_runtime_kernel::RuntimeInitConfig;
 use anyhow::{anyhow, Context, Result};
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 const DEFAULT_LABEL: &str = "com.agentlogic.adl-runtime-v3";
+const RUNTIME_GENERATION_RECEIPT_SCHEMA: &str = "adl.runtime_v3.install_generation.v1";
+const RUNTIME_INIT_SCHEMA: &str = "adl.runtime_v3.init.v1";
+
+#[derive(Debug, Deserialize)]
+struct RuntimeGenerationReceipt {
+    schema: String,
+    generation: String,
+    source_revision: String,
+    platform: String,
+    build_profile: String,
+    runtime_init_schema: String,
+    artifacts: std::collections::BTreeMap<String, RuntimeGenerationArtifact>,
+}
+
+#[derive(Debug, Deserialize)]
+struct RuntimeGenerationArtifact {
+    file: String,
+    sha256: String,
+}
 
 #[derive(Debug, Clone)]
 struct RuntimeV3ServiceArgs {
@@ -146,15 +166,223 @@ fn validated_init(path: &Path) -> Result<RuntimeInitConfig> {
             init.binaries.kernel_path.display()
         ));
     }
+    validate_runtime_generation(&init)?;
     Ok(init)
+}
+
+fn validate_runtime_generation(init: &RuntimeInitConfig) -> Result<()> {
+    validate_runtime_generation_with_service_binary(init, &std::env::current_exe()?)
+}
+
+fn validate_runtime_generation_with_service_binary(
+    init: &RuntimeInitConfig,
+    service_binary: &Path,
+) -> Result<()> {
+    let kernel_path = &init.binaries.kernel_path;
+    let Some(bin_dir) = kernel_path.parent() else {
+        return Err(anyhow!("Runtime v3 kernel path has no bin directory"));
+    };
+    let Some(current) = bin_dir.parent() else {
+        return Err(anyhow!(
+            "Runtime v3 kernel path has no installation generation"
+        ));
+    };
+    // Existing unmanaged development fixtures remain supported. Installed Runtime v3
+    // layouts opt into the generation contract by resolving through `current/bin`.
+    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
+        return Ok(());
+    }
+    let metadata = fs::symlink_metadata(current).with_context(|| {
+        format!(
+            "inspect Runtime v3 current generation {}",
+            current.display()
+        )
+    })?;
+    if !metadata.file_type().is_symlink() {
+        return Err(anyhow!(
+            "Runtime v3 current generation is not an atomic symlink: {}",
+            current.display()
+        ));
+    }
+    let generation = current.canonicalize().with_context(|| {
+        format!(
+            "resolve Runtime v3 current generation {}",
+            current.display()
+        )
+    })?;
+    let generation_name = generation
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| anyhow!("Runtime v3 generation directory name is invalid"))?;
+    let generations = current
+        .parent()
+        .ok_or_else(|| anyhow!("Runtime v3 current generation has no install root"))?
+        .join("generations")
+        .canonicalize()
+        .context("resolve Runtime v3 generations directory")?;
+    if generation.parent() != Some(generations.as_path()) {
+        return Err(anyhow!(
+            "Runtime v3 current generation escapes generations directory"
+        ));
+    }
+    let receipt_path = generation.join("receipt.json");
+    let receipt: RuntimeGenerationReceipt =
+        serde_json::from_slice(&fs::read(&receipt_path).with_context(|| {
+            format!(
+                "read Runtime v3 generation receipt {}",
+                receipt_path.display()
+            )
+        })?)
+        .with_context(|| {
+            format!(
+                "parse Runtime v3 generation receipt {}",
+                receipt_path.display()
+            )
+        })?;
+    if receipt.schema != RUNTIME_GENERATION_RECEIPT_SCHEMA
+        || receipt.generation != generation_name
+        || receipt.runtime_init_schema != RUNTIME_INIT_SCHEMA
+        || receipt.source_revision.trim().is_empty()
+        || receipt.platform != format!("{}-{}", std::env::consts::OS, std::env::consts::ARCH)
+        || receipt.build_profile.trim().is_empty()
+    {
+        return Err(anyhow!(
+            "Runtime v3 generation receipt identity or compatibility is invalid"
+        ));
+    }
+    let expected = [
+        ("csm", "csm"),
+        ("guardian", "adl-runtime-guardian"),
+        ("kernel", "adl-runtime-kernel"),
+    ];
+    if receipt.artifacts.len() != expected.len() {
+        return Err(anyhow!(
+            "Runtime v3 generation receipt artifact set is incomplete"
+        ));
+    }
+    for (key, filename) in expected {
+        let artifact = receipt
+            .artifacts
+            .get(key)
+            .ok_or_else(|| anyhow!("Runtime v3 generation receipt is missing {key}"))?;
+        if artifact.file != format!("bin/{filename}") {
+            return Err(anyhow!(
+                "Runtime v3 generation receipt path mismatch for {key}"
+            ));
+        }
+        let path = generation.join(&artifact.file);
+        if fs::symlink_metadata(&path)
+            .map(|metadata| !metadata.file_type().is_file())
+            .unwrap_or(true)
+        {
+            return Err(anyhow!(
+                "Runtime v3 generation artifact is missing: {}",
+                path.display()
+            ));
+        }
+        let bytes = fs::read(&path)
+            .with_context(|| format!("hash Runtime v3 generation artifact {}", path.display()))?;
+        let actual = format!("{:x}", Sha256::digest(bytes));
+        if actual != artifact.sha256 {
+            return Err(anyhow!(
+                "Runtime v3 generation artifact hash mismatch: {filename}"
+            ));
+        }
+    }
+    let expected_kernel = generation.join("bin/adl-runtime-kernel").canonicalize()?;
+    if kernel_path.canonicalize()? != expected_kernel {
+        return Err(anyhow!(
+            "Runtime v3 init kernel does not belong to the current generation"
+        ));
+    }
+    let expected_csm = generation.join("bin/csm").canonicalize()?;
+    if service_binary.canonicalize()? != expected_csm {
+        return Err(anyhow!(
+            "Runtime v3 service control does not belong to the current generation"
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(target_os = "macos")]
+fn validate_runtime_service_definition(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+) -> Result<()> {
+    let kernel = &init.binaries.kernel_path;
+    let Some(current) = kernel.parent().and_then(Path::parent) else {
+        return Ok(());
+    };
+    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
+        return Ok(());
+    }
+    let plist = match args.plist.as_ref() {
+        Some(source) => source.clone(),
+        None => installed_launchd_plist(args)?,
+    };
+    let contents = fs::read_to_string(&plist)
+        .with_context(|| format!("read Runtime v3 launchd definition {}", plist.display()))?;
+    let expected_guardian = current.join("bin/adl-runtime-guardian");
+    if !contents.contains(&expected_guardian.display().to_string()) {
+        return Err(anyhow!(
+            "Runtime v3 launchd Guardian does not resolve through the current generation"
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(target_os = "linux")]
+fn validate_runtime_service_definition(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+) -> Result<()> {
+    let kernel = &init.binaries.kernel_path;
+    let Some(current) = kernel.parent().and_then(Path::parent) else {
+        return Ok(());
+    };
+    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
+        return Ok(());
+    }
+    let output = Command::new("systemctl")
+        .args([
+            "show",
+            &systemd_unit(args),
+            "--property=ExecStart",
+            "--value",
+        ])
+        .output()
+        .context("inspect Runtime v3 systemd definition")?;
+    if !output.status.success() {
+        return Err(anyhow!("Runtime v3 systemd definition is unavailable"));
+    }
+    let definition =
+        String::from_utf8(output.stdout).context("decode Runtime v3 systemd definition")?;
+    let expected_guardian = current.join("bin/adl-runtime-guardian");
+    if !definition.contains(&expected_guardian.display().to_string()) {
+        return Err(anyhow!(
+            "Runtime v3 systemd Guardian does not resolve through the current generation"
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(not(any(target_os = "macos", target_os = "linux")))]
+fn validate_runtime_service_definition(
+    _args: &RuntimeV3ServiceArgs,
+    _init: &RuntimeInitConfig,
+) -> Result<()> {
+    Err(anyhow!(
+        "Runtime v3 service control supports launchd and systemd"
+    ))
 }
 
 fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
     if args.candidate.is_some() {
         return Err(anyhow!("--candidate is valid only with runtime-v3 reload"));
     }
-    reconcile_interrupted_reload(args)?;
     let init = validated_init(&args.init)?;
+    validate_runtime_service_definition(args, &init)?;
+    reconcile_interrupted_reload(args)?;
     if owned_runtime_readiness(args, &init).is_ok() {
         return emit_status(args, &init, "start", true);
     }
@@ -163,13 +391,18 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 }
 
 fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    reconcile_interrupted_reload(args)?;
     let current = validated_init(&args.init)?;
-    let Some(candidate_path) = args.candidate.as_ref() else {
+    let candidate = args
+        .candidate
+        .as_ref()
+        .map(|path| validated_init(path))
+        .transpose()?;
+    validate_runtime_service_definition(args, &current)?;
+    reconcile_interrupted_reload(args)?;
+    let Some((candidate_path, candidate)) = args.candidate.as_ref().zip(candidate) else {
         start_clean(args, &current)?;
         return emit_status(args, &current, "reload", true);
     };
-    let candidate = validated_init(candidate_path)?;
     stop_and_wait(args, &current)?;
     let backup = match replace_config_with_candidate(&args.init, candidate_path) {
         Ok(backup) => backup,
@@ -925,6 +1158,57 @@ pub(crate) fn usage() -> &'static str {
 mod tests {
     use super::*;
 
+    #[cfg(unix)]
+    fn write_generation_init(root: &Path) -> (PathBuf, RuntimeInitConfig, PathBuf) {
+        use std::os::unix::fs::symlink;
+
+        let generation = root.join("generations/test-generation");
+        let bin = generation.join("bin");
+        fs::create_dir_all(&bin).unwrap();
+        let source = std::env::current_exe().unwrap();
+        let mut artifacts = serde_json::Map::new();
+        for (key, filename) in [
+            ("csm", "csm"),
+            ("guardian", "adl-runtime-guardian"),
+            ("kernel", "adl-runtime-kernel"),
+        ] {
+            let path = bin.join(filename);
+            fs::copy(&source, &path).unwrap();
+            let hash = format!("{:x}", Sha256::digest(fs::read(&path).unwrap()));
+            artifacts.insert(
+                key.into(),
+                serde_json::json!({"file": format!("bin/{filename}"), "sha256": hash}),
+            );
+        }
+        fs::write(
+            generation.join("receipt.json"),
+            serde_json::to_vec(&serde_json::json!({
+                "schema": RUNTIME_GENERATION_RECEIPT_SCHEMA,
+                "generation": "test-generation",
+                "source_revision": "test-revision",
+                "platform": format!("{}-{}", std::env::consts::OS, std::env::consts::ARCH),
+                "build_profile": "debug",
+                "runtime_init_schema": RUNTIME_INIT_SCHEMA,
+                "artifacts": artifacts,
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        symlink("generations/test-generation", root.join("current")).unwrap();
+        let state_root = root.join("state");
+        let kernel = root.join("current/bin/adl-runtime-kernel");
+        let text = include_str!("../../../infra/runtime-v3/runtime-init.toml")
+            .replace("/var/lib/adl/runtime-v3", &state_root.display().to_string())
+            .replace(
+                "/opt/adl/bin/adl-runtime-kernel",
+                &kernel.display().to_string(),
+            );
+        let init_path = root.join("runtime-init.toml");
+        fs::write(&init_path, text).unwrap();
+        let init = RuntimeInitConfig::load(Some(init_path.clone())).unwrap();
+        (init_path, init, root.join("current/bin/csm"))
+    }
+
     fn write_valid_init(root: &Path) -> (PathBuf, RuntimeInitConfig) {
         let state_root = root.join("state");
         let kernel = std::env::current_exe().unwrap();
@@ -954,6 +1238,45 @@ mod tests {
     fn parser_requires_absolute_init() {
         let error = parse_args(&["--init".into(), "relative.toml".into()]).unwrap_err();
         assert!(error.to_string().contains("must be absolute"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_mixed_artifacts_before_mutation() {
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        validate_runtime_generation_with_service_binary(&init, &csm).unwrap();
+
+        fs::write(
+            root.path().join("current/bin/adl-runtime-guardian"),
+            "mixed",
+        )
+        .unwrap();
+        let service_mutated = false;
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+
+        assert!(error.to_string().contains("hash mismatch"));
+        assert!(
+            !service_mutated,
+            "preflight failure must precede service mutation"
+        );
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn launchd_preflight_requires_guardian_from_current_generation() {
+        let root = tempfile::tempdir().unwrap();
+        let (init_path, init, _csm) = write_generation_init(root.path());
+        let plist = root.path().join("runtime.plist");
+        let expected = root.path().join("current/bin/adl-runtime-guardian");
+        fs::write(&plist, format!("<string>{}</string>", expected.display())).unwrap();
+        let mut args = service_args(init_path);
+        args.plist = Some(plist.clone());
+
+        validate_runtime_service_definition(&args, &init).unwrap();
+        fs::write(&plist, "<string>/old/bin/adl-runtime-guardian</string>").unwrap();
+        let error = validate_runtime_service_definition(&args, &init).unwrap_err();
+        assert!(error.to_string().contains("does not resolve through"));
     }
 
     #[test]

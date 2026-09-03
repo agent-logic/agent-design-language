@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 656,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5e546a2b1316e8b2f497b591bb0d22514011baba1f873416ac4437c95bbbff2",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "cc2c2aaa6ee1e6d987d0df29a4b39e4eb386f9caa098d82caceda4677c5525c4",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 2,
+  "digest": "f5d790d13166762423b2773e2f8cc35dcfd64ef8f9cc642261045b116bffc93c",
+  "branch": "codex/656-runtime-atomic-generation-install",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-656-runtime-atomic-generation-install",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +25,52 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "86edea60b8c5f4796200857ce1f346539dbb54eb601c6c281e4e6eb922807a07",
+      "values_digest": "ebee4482daadbee85667cca46061c91e1898bdec336255305159e12b7502ec53",
       "rendered_digest": "c5d6823bf455ff4f142169ef942216bea6dc5395057f075d956d2d908c8557f7",
       "ast_digest": "cec663ec7b1919db858ad21792988b585052c88cef114a601e36674d3f7fff2c"
     },
     "stp": {
-      "values_digest": "aca96aefc9e90db4d740394a5b936493f5f74978c41986bf17932377fbf0c548",
+      "values_digest": "3e610ee42e9fae967bbf50a76b49ab894ce6ede1bd9fda8ee35d8fa2914315bd",
       "rendered_digest": "1391c0d7707dd739191818525e14365c5db85e47c4c1aba49138dbbfb08f36d3",
       "ast_digest": "d47c19bd9845e31fc9860641509629f8e925d4c2464540266885e87937caed05"
     },
     "spp": {
-      "values_digest": "7748309a43663d2cf820b6cdb428c2b27b14250db9a27f9f1e4fae0b6eef913e",
-      "rendered_digest": "dbf01afd3313ee143e44723d18190ae650bad77e1dc5bfc7d223ffbbc56ef544",
-      "ast_digest": "d62ace683e22f8f6009d4bd75883335a8cfdf722be4da39ebe18aaad14e99a0d"
+      "values_digest": "b8c23b4841cc5e008a9f2b40cacabc1dcfb552ae6cc34dbe18d6aadd58c51e63",
+      "rendered_digest": "404daad9c228c6d47cac01416a4afc5c633e79c3165377093d4c0e25f6b308f8",
+      "ast_digest": "5ee6a0b7f3c24ac863f3fbe916892cee154b0d7be4e3ec41d2ab92f8bbcb97b1"
     },
     "vpp": {
-      "values_digest": "c6c358f49e6aa5134f09785a698824cea611c35243485bbb0865de8ea551a41d",
-      "rendered_digest": "d59c5ce90683ccb1fefbca3a21c433c6e23beb6099b8e515048351456b5ad5db",
-      "ast_digest": "003f558704de702e13c350c8ff44187b7beae68da9dd1c0ca85db55080810765"
+      "values_digest": "b8009431b914a1f84bc8a7ec6bb848586d888aa8e71cbd3226f3d66142e3c1de",
+      "rendered_digest": "3c838309e7423b453954852f8f69d4d3f2807543942a82efc282ac7e79752e09",
+      "ast_digest": "1dd75fbb72226fe750c6b74431829a8e612fb6bab28ef412e82a8ee4a4b6e82e"
     },
     "srp": {
-      "values_digest": "4f8a04b6404ea45dc085f32078a0adffe5e90f54ac22b83febc583770704ad8b",
+      "values_digest": "9c7d486acf73edfde649823d509d3f85b18be5621af5315ea441d504971b455f",
       "rendered_digest": "6e0a7b210fe7c9574f00d9dc53d2794d3c1093f18107f72f8cff7e886f8154fa",
       "ast_digest": "d46f5694b315496cb6622f6db4b57b5a05b712968c9fc1e11d1d87e4e5437ea6"
     },
     "sor": {
-      "values_digest": "b8e5c923dd1b6a76e9c678b02a80311c27e23cfdf2685d4a43b9f4712e831e1b",
+      "values_digest": "c53c4876729fa045e665bf3acdadd0ebbc0f3f474ff38bbb8cc8a214b094a4c5",
       "rendered_digest": "27a532739563a2aae3e72f4884fbeb002e095420b0897cee8206e92379f41247",
       "ast_digest": "f7d82c808b1ab57b7d58f8fd8099e773c003de88bd72836a394d4b07fdcf17fc"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -62,6 +78,27 @@
       "actor": "codex:656-bootstrap",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:656-implementation",
+      "reason": "align the planned pre-mutation proof with the executable non-zero CSM test target",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: One command stages and validates all three binaries\",\"AC-2: One receipt binds revision, platform, profile, Runtime-init schema, and three SHA-256 hashes\",\"AC-3: Activation atomically changes one current reference\",\"AC-4: Prior complete generation remains rollback-capable\",\"AC-5: launchd and Runtime-init resolve the same generation\",\"AC-6: start and reload reject invalid generations before service mutation\",\"AC-7: Negative proof shows rejection leaves service untouched\",\"AC-8: Matched activation and rollback tests pass\",\"AC-9: Excluded Runtime and cloud behavior remains unchanged\",\"AC-10: Focused validation, hygiene, and exact-head review pass\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Define generation layout, receipt, compatibility, and verification.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement staging, atomic activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add CSM start and reload preflight before service mutation.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused proof and exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"runtime-generation-contract\",\"proof_role\":\"Prove matched staging, receipt integrity, activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null},{\"lane\":\"runtime-generation-premutation\",\"proof_role\":\"Prove invalid generations are rejected before service mutation on the executable CSM command surface.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"generation_preflight_rejects_mixed_artifacts_before_mutation\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:656-implementation",
+      "reason": "align the planned pre-mutation proof with the executable non-zero CSM test target",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: One command stages and validates all three binaries\",\"AC-2: One receipt binds revision, platform, profile, Runtime-init schema, and three SHA-256 hashes\",\"AC-3: Activation atomically changes one current reference\",\"AC-4: Prior complete generation remains rollback-capable\",\"AC-5: launchd and Runtime-init resolve the same generation\",\"AC-6: start and reload reject invalid generations before service mutation\",\"AC-7: Negative proof shows rejection leaves service untouched\",\"AC-8: Matched activation and rollback tests pass\",\"AC-9: Excluded Runtime and cloud behavior remains unchanged\",\"AC-10: Focused validation, hygiene, and exact-head review pass\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Define generation layout, receipt, compatibility, and verification.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement staging, atomic activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add CSM start and reload preflight before service mutation.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused proof and exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"runtime-generation-contract\",\"proof_role\":\"Prove matched staging, receipt integrity, activation, predecessor retention, and rollback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null},{\"lane\":\"runtime-generation-premutation\",\"proof_role\":\"Prove invalid generations and mismatched service definitions are rejected before mutation on the executable CSM command surface.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"preflight_\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null}]}"
     }
   ]
 }

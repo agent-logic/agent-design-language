@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
     "slug": "runtime-atomic-generation-install",
     "version": "v0.92.1",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 3,
       "summary": "Define one generation contract; implement complete staging, verification, activation, and rollback; add pre-mutation CSM checks; prove with focused tests and review.",
       "steps": [
         {
