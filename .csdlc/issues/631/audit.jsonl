@@ -15,3 +15,6 @@
 {"sequence":15,"generation":8,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":16,"generation":9,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":17,"generation":10,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":18,"generation":11,"actor":"codex:worker-6","reason":"Recover #631 review/publication truth after proof, shadow, soak, install, and denominator hardening commits through 64f143bac44c0649e21dce0c10a9a38d8ecae7a4.","operation":"recover_review"}
+{"sequence":19,"generation":11,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":20,"generation":12,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

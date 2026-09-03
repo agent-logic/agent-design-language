@@ -13,13 +13,9 @@ Status: draft
 ## Scope
 
 csdlc-v3/src/commands/proof.rs
-csdlc-v3/src/main.rs
-csdlc-v3/tests/command_manifest.rs
 csdlc-v3/tests/proof_parity_install_commands.rs
-docs/csdlc-v3/v3-command-manifest.json
-.csdlc/prepared/issues/631/design.md
-.csdlc/prepared/issues/631/diagram.mmd
-.csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh
+csdlc-v3/tests/real_issue_canary.rs
+docs/csdlc-v3/full-replacement-denominator.json
 
 ## Prompts
 
@@ -38,13 +34,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 proof, shadow, soak, and install routes remain construction-only and non-authoritative until explicit #505 cutover.
-- The existing PR #644 was opened against a stacked base and cannot prove GitHub closing linkage until republished or retargeted through a typed route.
+- C-SDLC v3 proof, shadow, soak, and install routes remain non-authoritative until explicit V3-F/#505 cutover.
+- The provenance ref is repo-contained and readable, but the #631 schema does not yet define a separate source provenance digest field.
+- Remaining v3 production-readiness gaps in the GitHub publication, terminal cleanup, and cutover groups continue to block #505.
 
 ## Review Result
 
-Revision: Some("git-blake3:6475bc82bf78f40e19c766afeab602a498d0d726:6777227f5e869fd94a424498e7aa9cd9c1edbf927132d1d647f8c99fbdfa8e14")
+Revision: Some("git-blake3:64f143bac44c0649e21dce0c10a9a38d8ecae7a4:b3a1c92e7658c5607d3e25ba3effd45f9911195195ed8a3d76a55fa3a3d426e6")
 
-Reviewer: Some("codex-reviewer:review_631_head_6475")
+Reviewer: Some("codex-reviewer:review_631_head_64f143")
 
 Result: pass
