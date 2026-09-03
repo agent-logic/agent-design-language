@@ -35,6 +35,7 @@ use crate::layer8_authority::{
     RefusalReason, SignedIdentityMessage,
 };
 
+use crate::ComponentId;
 use crate::{
     conversation_rooms::{
         GovernedRoom, GovernedRoomDeliveryState, GovernedRoomParticipant,
@@ -43,8 +44,9 @@ use crate::{
     },
     decode_acip_envelope, is_canonical_agent_name, AgentRosterEntry, AgentRosterQuery,
     CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError, KernelControl,
-    KernelExit, LiveContinuity, ObservabilityHealth, ResidentShepherdInitConfig, RuntimeRecorder,
-    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    KernelExit, LiveContinuity, ObservabilityHealth, ResidentShepherdInitConfig, RuntimeEvent,
+    RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
+    ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -73,6 +75,8 @@ pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
 pub const OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_intent.v1";
+pub const OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_agent_initiation_intent.v1";
 pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_result.v1";
 
@@ -689,10 +693,17 @@ struct ConversationTurn {
 
 struct ConversationDispatch {
     intent: ObservatoryConversationIntent,
+    initiation: Option<AgentInitiationMetadata>,
     sequence: u64,
     cancellation: CancellationToken,
     dispatch_gate: Arc<ConversationDispatchGate>,
     work_id: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+struct AgentInitiationMetadata {
+    sender_id: String,
+    initiated_work_id: String,
 }
 
 #[cfg(test)]
@@ -1246,19 +1257,104 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         intent: &ObservatoryConversationIntent,
     ) -> ConversationAcceptance {
-        let outcome = |status, error, sequence| ObservatoryConversationResult {
-            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-            status,
+        self.accept_conversation_intent_inner(intent, None)
+    }
+
+    fn accept_agent_initiation_intent(
+        &self,
+        intent: &ObservatoryAgentInitiationIntent,
+    ) -> ConversationAcceptance {
+        let metadata = AgentInitiationMetadata {
+            sender_id: intent.sender_id.clone(),
+            initiated_work_id: intent.work_id.clone(),
+        };
+        let conversation_intent = ObservatoryConversationIntent {
+            schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
             conversation_id: intent.conversation_id.clone(),
             turn_id: intent.turn_id.clone(),
             recipient_id: intent.recipient_id.clone(),
             correlation_id: intent.correlation_id.clone(),
-            reply: None,
-            accepted_sequence: None,
-            turn_sequence: sequence,
-            error: Some(error),
+            message: intent.message.clone(),
         };
-        if intent.schema != OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA
+        let outcome = |status, error| {
+            ObservatoryConversationResult::from_parts(
+                status,
+                conversation_intent.conversation_id.clone(),
+                conversation_intent.turn_id.clone(),
+                conversation_intent.recipient_id.clone(),
+                conversation_intent.correlation_id.clone(),
+                None,
+                None,
+                None,
+                Some(error),
+                Some(metadata.clone()),
+            )
+        };
+        if intent.schema != OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA
+            || !is_safe_identifier(&intent.conversation_id)
+            || !is_safe_identifier(&intent.turn_id)
+            || !is_safe_identifier(&intent.sender_id)
+            || !is_safe_identifier(&intent.recipient_id)
+            || !is_safe_identifier(&intent.work_id)
+            || !is_correlation_id(&intent.correlation_id)
+            || intent.sender_id == intent.recipient_id
+            || intent.message.trim().is_empty()
+            || intent.message.len() > 4_096
+        {
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "invalid_agent_initiation_intent",
+            ));
+        }
+        match self.conversation_recipient_eligibility(&intent.sender_id) {
+            Ok(Some(true)) => {}
+            Ok(Some(false)) | Ok(None) => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "unauthorized_initiation",
+                ))
+            }
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "failed",
+                    "agent_roster_unavailable",
+                ))
+            }
+        }
+        self.accept_conversation_intent_inner(&conversation_intent, Some(metadata))
+    }
+
+    fn accept_conversation_intent_inner(
+        &self,
+        intent: &ObservatoryConversationIntent,
+        initiation: Option<AgentInitiationMetadata>,
+    ) -> ConversationAcceptance {
+        let outcome = |status, error, sequence| {
+            ObservatoryConversationResult::from_parts(
+                status,
+                intent.conversation_id.clone(),
+                intent.turn_id.clone(),
+                intent.recipient_id.clone(),
+                intent.correlation_id.clone(),
+                None,
+                None,
+                sequence,
+                Some(error),
+                initiation.clone(),
+            )
+        };
+        let initiated_work_id = initiation
+            .as_ref()
+            .map(|metadata| metadata.initiated_work_id.clone());
+        let fingerprint_source = serde_json::json!({
+            "intent": intent,
+            "initiation": initiation,
+        });
+        let is_initiated = initiation.is_some();
+        let valid_intent = (intent.schema == OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA
+            && !is_initiated)
+            || is_initiated;
+        if !valid_intent
             || !is_safe_identifier(&intent.conversation_id)
             || !is_safe_identifier(&intent.turn_id)
             || !is_safe_identifier(&intent.recipient_id)
@@ -1272,6 +1368,23 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 None,
             ));
         }
+        let fingerprint = match serde_json::to_vec(&fingerprint_source) {
+            Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "invalid_conversation_intent",
+                    None,
+                ))
+            }
+        };
+        let work_id = initiated_work_id.unwrap_or_else(|| {
+            format!(
+                "conversation-{}",
+                &blake3::hash(format!("{}:{}", intent.conversation_id, intent.turn_id).as_bytes())
+                    .to_hex()[..32]
+            )
+        });
         let recipient = match self.conversation_recipient_eligibility(&intent.recipient_id) {
             Ok(recipient) => recipient,
             Err(_) => {
@@ -1307,16 +1420,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             ));
         };
         let _ = ingress;
-        let fingerprint = match serde_json::to_vec(intent) {
-            Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
-            Err(_) => {
-                return ConversationAcceptance::Response(outcome(
-                    "refused",
-                    "invalid_conversation_intent",
-                    None,
-                ))
-            }
-        };
         let mut sessions = self
             .conversation_sessions
             .lock()
@@ -1495,20 +1598,22 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_id: intent.turn_id.clone(),
             recipient_id: intent.recipient_id.clone(),
             correlation_id: intent.correlation_id.clone(),
+            sender_id: initiation
+                .as_ref()
+                .map(|metadata| metadata.sender_id.clone()),
+            initiated_work_id: initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_work_id.clone()),
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(sequence),
             error: None,
         };
-        let work_id = format!(
-            "conversation-{}",
-            &blake3::hash(format!("{}:{}", intent.conversation_id, intent.turn_id).as_bytes())
-                .to_hex()[..32]
-        );
         ConversationAcceptance::Dispatch {
             accepted,
             dispatch: ConversationDispatch {
                 intent: intent.clone(),
+                initiation,
                 sequence,
                 cancellation,
                 dispatch_gate: session.dispatch_gate.clone(),
@@ -1528,6 +1633,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_id: dispatch.intent.turn_id.clone(),
             recipient_id: dispatch.intent.recipient_id.clone(),
             correlation_id: dispatch.intent.correlation_id.clone(),
+            sender_id: dispatch
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.sender_id.clone()),
+            initiated_work_id: dispatch
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_work_id.clone()),
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(dispatch.sequence),
@@ -1545,6 +1658,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
                 "input": dispatch.intent.message,
+                "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
+                "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
                 "provider": agent.provider,
                 "model": agent.model,
                 "endpoint": agent.endpoint,
@@ -1553,6 +1668,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
                 "input": dispatch.intent.message,
+                "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
+                "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
             }),
         };
         let payload = serde_json::to_vec(&serde_json::json!({
@@ -1638,6 +1755,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                     turn_id: dispatch.intent.turn_id.clone(),
                                     recipient_id: dispatch.intent.recipient_id.clone(),
                                     correlation_id: dispatch.intent.correlation_id.clone(),
+                                    sender_id: dispatch
+                                        .initiation
+                                        .as_ref()
+                                        .map(|metadata| metadata.sender_id.clone()),
+                                    initiated_work_id: dispatch
+                                        .initiation
+                                        .as_ref()
+                                        .map(|metadata| metadata.initiated_work_id.clone()),
                                     reply: Some(reply),
                                     accepted_sequence: Some(result.accepted_sequence),
                                     turn_sequence: Some(dispatch.sequence),
@@ -1660,6 +1785,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 }
             }
         };
+        if result.status == "delivered" && dispatch.initiation.is_some() {
+            self.recorder.emit_correlated(
+                Some(ComponentId::new("agent_initiation")),
+                RuntimeEvent::AgentToAgentInitiated,
+                Some(&dispatch.intent.correlation_id),
+            );
+        }
         dispatch.dispatch_gate.complete(dispatch.sequence);
         if let Some(turn) = self
             .conversation_sessions
@@ -1736,6 +1868,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_id: cancel.turn_id.clone(),
             recipient_id,
             correlation_id: cancel.correlation_id.clone(),
+            sender_id: None,
+            initiated_work_id: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(turn.sequence),
@@ -2257,6 +2391,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     turn_id: turn.turn_id.clone(),
                     recipient_id: bundle.declaration.id.clone(),
                     correlation_id: turn.correlation_id.clone(),
+                    sender_id: None,
+                    initiated_work_id: None,
                     reply: turn.reply.clone(),
                     accepted_sequence: turn.accepted_sequence,
                     turn_sequence: turn.turn_sequence,
@@ -3477,6 +3613,19 @@ struct ObservatoryConversationIntent {
     message: String,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryAgentInitiationIntent {
+    schema: String,
+    conversation_id: String,
+    turn_id: String,
+    sender_id: String,
+    recipient_id: String,
+    correlation_id: String,
+    work_id: String,
+    message: String,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ObservatoryGovernedRoomIntent {
@@ -3648,7 +3797,7 @@ impl RuntimeRecipientAcknowledgementResponse {
     }
 }
 
-#[derive(Clone, Serialize)]
+#[derive(Clone, Debug, Serialize)]
 struct ObservatoryConversationResult {
     schema: &'static str,
     status: &'static str,
@@ -3656,6 +3805,10 @@ struct ObservatoryConversationResult {
     turn_id: String,
     recipient_id: String,
     correlation_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sender_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_work_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     reply: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -3667,6 +3820,36 @@ struct ObservatoryConversationResult {
 }
 
 impl ObservatoryConversationResult {
+    fn from_parts(
+        status: &'static str,
+        conversation_id: String,
+        turn_id: String,
+        recipient_id: String,
+        correlation_id: String,
+        reply: Option<String>,
+        accepted_sequence: Option<u64>,
+        turn_sequence: Option<u64>,
+        error: Option<&'static str>,
+        initiation: Option<AgentInitiationMetadata>,
+    ) -> Self {
+        Self {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status,
+            conversation_id,
+            turn_id,
+            recipient_id,
+            correlation_id,
+            sender_id: initiation
+                .as_ref()
+                .map(|metadata| metadata.sender_id.clone()),
+            initiated_work_id: initiation.map(|metadata| metadata.initiated_work_id),
+            reply,
+            accepted_sequence,
+            turn_sequence,
+            error,
+        }
+    }
+
     fn refused_cancel(cancel: &ObservatoryConversationCancel, error: &'static str) -> Self {
         Self {
             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
@@ -3675,6 +3858,8 @@ impl ObservatoryConversationResult {
             turn_id: cancel.turn_id.clone(),
             recipient_id: String::new(),
             correlation_id: cancel.correlation_id.clone(),
+            sender_id: None,
+            initiated_work_id: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: None,
@@ -3843,6 +4028,88 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         authentication_generation = next_generation;
                         conversation_attachments.clear();
                     }
+                    if let Ok(intent) = serde_json::from_str::<ObservatoryAgentInitiationIntent>(&payload) {
+                        let result = if bearer_token.is_none() {
+                            ConversationAcceptance::Response(
+                                ObservatoryConversationResult::from_parts(
+                                    "refused",
+                                    intent.conversation_id.clone(),
+                                    intent.turn_id.clone(),
+                                    intent.recipient_id.clone(),
+                                    intent.correlation_id.clone(),
+                                    None,
+                                    None,
+                                    None,
+                                    Some("write_authentication_required"),
+                                    Some(AgentInitiationMetadata {
+                                        sender_id: intent.sender_id.clone(),
+                                        initiated_work_id: intent.work_id.clone(),
+                                    }),
+                                ),
+                            )
+                        } else {
+                            service.accept_agent_initiation_intent(&intent)
+                        };
+                        let (response, dispatch) = match result {
+                            ConversationAcceptance::Dispatch { accepted, dispatch } => {
+                                (accepted, Some(dispatch))
+                            }
+                            ConversationAcceptance::Response(response) => (response, None),
+                        };
+                        let attach_to_in_flight = response.status == "accepted"
+                            && response.error == Some("conversation_in_flight");
+                        let conversation_id = response.conversation_id.clone();
+                        let turn_id = response.turn_id.clone();
+                        let attachment_inserted = if dispatch.is_some() || attach_to_in_flight {
+                            conversation_attachments.insert((
+                                authentication_generation,
+                                conversation_id.clone(),
+                                turn_id.clone(),
+                            ))
+                        } else {
+                            false
+                        };
+                        let Ok(payload) = serde_json::to_string(&response) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        if let Some(dispatch) = dispatch {
+                            let service = service.clone();
+                            let results = conversation_results_tx.clone();
+                            let authorized_generation = authentication_generation;
+                            let authorized_token_digest = bearer_token
+                                .as_deref()
+                                .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                                .expect("authenticated agent initiation dispatch has a bearer token");
+                            tokio::spawn(async move {
+                                let result = service.complete_conversation_dispatch(dispatch).await;
+                                let _ = results
+                                    .send((authorized_generation, authorized_token_digest, result))
+                                    .await;
+                            });
+                        } else if attach_to_in_flight && attachment_inserted {
+                            let service = service.clone();
+                            let results = conversation_results_tx.clone();
+                            let authorized_generation = authentication_generation;
+                            let authorized_token_digest = bearer_token
+                                .as_deref()
+                                .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                                .expect("authenticated agent initiation replay has a bearer token");
+                            tokio::spawn(async move {
+                                if let Some(result) = service
+                                    .wait_for_conversation_terminal(&conversation_id, &turn_id)
+                                    .await
+                                {
+                                    let _ = results
+                                        .send((authorized_generation, authorized_token_digest, result))
+                                        .await;
+                                }
+                            });
+                        }
+                        continue;
+                    }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryConversationIntent>(&payload) {
                         #[cfg(test)]
                         if let Some(hook) = service.conversation_attachment_test_hook(
@@ -3859,6 +4126,8 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 turn_id: intent.turn_id.clone(),
                                 recipient_id: intent.recipient_id.clone(),
                                 correlation_id: intent.correlation_id.clone(),
+                                sender_id: None,
+                                initiated_work_id: None,
                                 reply: None,
                                 accepted_sequence: None,
                                 turn_sequence: None,
@@ -4448,7 +4717,7 @@ mod layer8_conversation_ingress_tests {
         CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
         Layer8AuthorityStore, Layer8Capability, Layer8Policy, RuntimeIdentityEvidence,
     };
-    use crate::{AgentRosterPolicy, ComponentId, RunningState};
+    use crate::{AgentRosterPolicy, AuthorityMode, ComponentId, RunningState};
 
     struct FakeLifecycle;
 
@@ -4768,6 +5037,355 @@ mod layer8_conversation_ingress_tests {
         ));
         assert_eq!(accepted.status, "accepted");
         assert_eq!(accepted.addressed_recipients, vec!["shepherd"]);
+    }
+
+    struct AgentInitiationExecutor {
+        observed_tasks: Arc<Mutex<Vec<serde_json::Value>>>,
+        fail: bool,
+        delay: Duration,
+    }
+
+    #[async_trait]
+    impl crate::OperationExecutor for AgentInitiationExecutor {
+        async fn execute(
+            &self,
+            request: &crate::OperationRequest,
+        ) -> Result<Vec<u8>, crate::ExecutorError> {
+            if !self.delay.is_zero() {
+                tokio::time::sleep(self.delay).await;
+            }
+            if self.fail {
+                return Err(crate::ExecutorError {
+                    class: crate::FailureClass::Retryable,
+                    message: "provider failed".to_owned(),
+                });
+            }
+            let work: serde_json::Value =
+                serde_json::from_slice(&request.payload).map_err(|error| crate::ExecutorError {
+                    class: crate::FailureClass::Fatal,
+                    message: error.to_string(),
+                })?;
+            let task = work["tasks"][0].clone();
+            self.observed_tasks
+                .lock()
+                .expect("observed task mutex poisoned")
+                .push(task.clone());
+            let recipient_id =
+                task["recipient_id"]
+                    .as_str()
+                    .ok_or_else(|| crate::ExecutorError {
+                        class: crate::FailureClass::Fatal,
+                        message: "missing recipient".to_owned(),
+                    })?;
+            serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.runtime.local_agent_execution.v1",
+                "outputs": [{
+                    "unit": 0,
+                    "output": {
+                        "recipient_id": recipient_id,
+                        "message": format!(
+                            "{} handled initiated work {} from {}",
+                            recipient_id,
+                            task["initiated_work_id"].as_str().unwrap_or("none"),
+                            task["sender_id"].as_str().unwrap_or("none")
+                        )
+                    }
+                }]
+            }))
+            .map_err(|error| crate::ExecutorError {
+                class: crate::FailureClass::Fatal,
+                message: error.to_string(),
+            })
+        }
+    }
+
+    fn agent_initiation_intent(turn_id: &str, work_id: &str) -> ObservatoryAgentInitiationIntent {
+        ObservatoryAgentInitiationIntent {
+            schema: OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: "conversation-beacon-ember".to_owned(),
+            turn_id: turn_id.to_owned(),
+            sender_id: "beacon".to_owned(),
+            recipient_id: "ember".to_owned(),
+            correlation_id: "abababababababababababababababab".to_owned(),
+            work_id: work_id.to_owned(),
+            message: "please summarize the governed state".to_owned(),
+        }
+    }
+
+    async fn agent_initiation_service(
+        fail: bool,
+        delay: Duration,
+    ) -> (
+        Arc<ControlService<FakeLifecycle>>,
+        crate::KernelHandle,
+        RuntimeRecorder,
+        Arc<Mutex<Vec<serde_json::Value>>>,
+    ) {
+        let recorder = RuntimeRecorder::new(16);
+        let now = now_unix_millis();
+        let mut population = AgentPopulationFeed::empty();
+        for (id, label, provider, model) in [
+            ("beacon", "Beacon Axioma", None, None),
+            (
+                "ember",
+                "Ember Axioma",
+                Some("ollama".to_owned()),
+                Some("gemma3-local".to_owned()),
+            ),
+        ] {
+            recorder.set_component_state(ComponentId::new(id), RunningState::Running);
+            assert!(recorder.record_agent_admission(
+                id,
+                now,
+                now + 30_000,
+                "1111111111111111111111111111111111111111",
+            ));
+            population.sample.push(AgentSample {
+                id: id.to_owned(),
+                name: format!("{id}.runtime"),
+                label: label.to_owned(),
+                role: "resident agent".to_owned(),
+                provider,
+                model,
+                state: "unknown".to_owned(),
+                detail: "Awaiting Runtime projection".to_owned(),
+                health: "unknown".to_owned(),
+                availability: "unknown".to_owned(),
+                activity: None,
+                capabilities: vec!["conversation".to_owned()],
+                location: Some("local_runtime".to_owned()),
+                communication_eligible: false,
+                observed_at_unix_millis: 0,
+                freshness_deadline_unix_millis: 0,
+                source_revision: "unobserved".to_owned(),
+                provenance: "runtime_component_state".to_owned(),
+            });
+        }
+        population = population.with_public_policy(AgentRosterPolicy {
+            policy_subject: "agent-initiation-test".to_owned(),
+            visible_agent_ids: BTreeSet::from(["beacon".to_owned(), "ember".to_owned()]),
+            reveal_capabilities: false,
+            reveal_location: false,
+        });
+        let observed_tasks = Arc::new(Mutex::new(Vec::new()));
+        let adapter = Arc::new(
+            crate::OperationalAdapter::new(
+                crate::AdapterKind::Agent,
+                crate::AdapterPolicy {
+                    capacity: 4,
+                    max_in_flight: 2,
+                    shutdown_grace_millis: 1_000,
+                    max_attempts: 1,
+                    idempotency_entries: 16,
+                    authority: AuthorityMode::Internal,
+                },
+                Arc::new(AgentInitiationExecutor {
+                    observed_tasks: observed_tasks.clone(),
+                    fail,
+                    delay,
+                }),
+            )
+            .expect("agent adapter"),
+        );
+        let operation = crate::OperationalFactory::new(adapter, vec![]);
+        let ingress = CanonicalIngress::new(
+            4,
+            recorder.clone(),
+            BTreeMap::from([("agent_runtime".to_owned(), operation.clone())]),
+        );
+        let service = Arc::new(
+            ControlService::new_with_observatory_config_and_agents(
+                "conversation-runtime",
+                recorder.clone(),
+                FakeLifecycle,
+                ControlAuthority::new(BTreeMap::new()),
+                8,
+                ["https://observatory.example.test".to_owned()],
+                population,
+            )
+            .with_canonical_ingress(ingress.clone()),
+        );
+        service
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .push(AgentAdmissionRequest {
+                schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+                id: "ember".to_owned(),
+                name: "ember.runtime".to_owned(),
+                display_name: "Ember Axioma".to_owned(),
+                office: "resident agent".to_owned(),
+                role: "resident agent".to_owned(),
+                provider: "ollama".to_owned(),
+                model: "gemma3-local".to_owned(),
+                endpoint: "http://127.0.0.1:11434".to_owned(),
+            });
+        let mut registry = crate::ComponentRegistry::new();
+        registry.register(operation);
+        registry.register(ingress);
+        let kernel = crate::Kernel::new(
+            registry.validate().expect("valid registry"),
+            recorder.clone(),
+        )
+        .start()
+        .await
+        .expect("kernel starts");
+        (service, kernel, recorder, observed_tasks)
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_initiation_delivers_configured_provider_work_and_activity() {
+        let (service, kernel, recorder, observed_tasks) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        let accepted = match service
+            .accept_agent_initiation_intent(&agent_initiation_intent("turn-a2a", "a2a-work-001"))
+        {
+            ConversationAcceptance::Dispatch { accepted, dispatch } => {
+                assert_eq!(dispatch.work_id, "a2a-work-001");
+                let delivered = service.complete_conversation_dispatch(dispatch).await;
+                assert_eq!(delivered.status, "delivered");
+                assert_eq!(delivered.sender_id.as_deref(), Some("beacon"));
+                assert_eq!(delivered.recipient_id, "ember");
+                assert_eq!(delivered.initiated_work_id.as_deref(), Some("a2a-work-001"));
+                assert!(
+                    delivered
+                        .reply
+                        .as_deref()
+                        .is_some_and(|reply| reply.contains("Ember") || reply.contains("ember")),
+                    "recipient reply should be projected from executed work: {delivered:?}"
+                );
+                accepted
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!("agent initiation refused: {:?}", response.error)
+            }
+        };
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.sender_id.as_deref(), Some("beacon"));
+        assert_eq!(accepted.initiated_work_id.as_deref(), Some("a2a-work-001"));
+        let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
+        assert_eq!(tasks.len(), 1);
+        assert_eq!(tasks[0]["sender_id"], "beacon");
+        assert_eq!(tasks[0]["recipient_id"], "ember");
+        assert_eq!(tasks[0]["initiated_work_id"], "a2a-work-001");
+        assert_eq!(tasks[0]["provider"], "ollama");
+        assert_eq!(tasks[0]["model"], "gemma3-local");
+        assert_eq!(tasks[0]["endpoint"], "http://127.0.0.1:11434");
+        let events = recorder.events();
+        assert!(
+            events.iter().any(|event| {
+                event.event == "agent_to_agent_initiated"
+                    && event
+                        .component
+                        .as_ref()
+                        .is_some_and(|component| component.as_str() == "agent_initiation")
+                    && event.correlation_id.as_deref()
+                        == Some("abababababababababababababababab")
+            }),
+            "Observatory feed should expose authoritative correlated initiation activity: {events:?}"
+        );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_initiation_replay_and_conflict_are_explicit() {
+        let (service, kernel, _recorder, observed_tasks) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        let intent = agent_initiation_intent("turn-a2a-replay", "a2a-work-replay");
+        let dispatch = match service.accept_agent_initiation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
+            ConversationAcceptance::Response(response) => {
+                panic!("agent initiation refused: {:?}", response.error)
+            }
+        };
+        let delivered = service.complete_conversation_dispatch(dispatch).await;
+        assert_eq!(delivered.status, "delivered");
+
+        let replay = match service.accept_agent_initiation_intent(&intent) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => panic!("exact replay dispatched again"),
+        };
+        assert_eq!(replay.status, "delivered");
+        assert_eq!(replay.initiated_work_id.as_deref(), Some("a2a-work-replay"));
+        assert_eq!(observed_tasks.lock().unwrap().len(), 1);
+
+        let mut conflict = intent;
+        conflict.work_id = "a2a-work-conflict".to_owned();
+        let conflict = match service.accept_agent_initiation_intent(&conflict) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => panic!("conflicting replay dispatched"),
+        };
+        assert_eq!(conflict.status, "refused");
+        assert_eq!(conflict.error, Some("conversation_conflict"));
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_initiation_terminal_failures_are_truthful() {
+        let (service, kernel, _recorder, _observed_tasks) =
+            agent_initiation_service(false, Duration::from_millis(75)).await;
+        let mut unauthorized = agent_initiation_intent("turn-a2a-unauthorized", "a2a-work-unauth");
+        unauthorized.sender_id = "unknown-beacon".to_owned();
+        let refused = match service.accept_agent_initiation_intent(&unauthorized) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => panic!("unauthorized sender dispatched"),
+        };
+        assert_eq!(refused.status, "refused");
+        assert_eq!(refused.error, Some("unauthorized_initiation"));
+
+        service
+            .recorder
+            .set_component_state(ComponentId::new("ember"), RunningState::Degraded);
+        let stale = match service.accept_agent_initiation_intent(&agent_initiation_intent(
+            "turn-a2a-stale",
+            "a2a-work-stale",
+        )) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => panic!("stale recipient dispatched"),
+        };
+        assert_eq!(stale.status, "refused");
+        assert_eq!(stale.error, Some("recipient_unavailable"));
+        service
+            .recorder
+            .set_component_state(ComponentId::new("ember"), RunningState::Running);
+
+        let dispatch = match service.accept_agent_initiation_intent(&agent_initiation_intent(
+            "turn-a2a-cancel",
+            "a2a-work-cancel",
+        )) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
+            ConversationAcceptance::Response(response) => {
+                panic!("agent initiation refused: {:?}", response.error)
+            }
+        };
+        let cancel = ObservatoryConversationCancel {
+            schema: OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA.to_owned(),
+            conversation_id: "conversation-beacon-ember".to_owned(),
+            turn_id: "turn-a2a-cancel".to_owned(),
+            correlation_id: "abababababababababababababababab".to_owned(),
+        };
+        let accepted_cancel = service.cancel_conversation_turn(&cancel);
+        assert_eq!(accepted_cancel.status, "accepted");
+        let cancelled = service.complete_conversation_dispatch(dispatch).await;
+        assert_eq!(cancelled.status, "cancelled");
+        assert_eq!(cancelled.error, Some("conversation_cancelled"));
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+
+        let (service, kernel, _recorder, _observed_tasks) =
+            agent_initiation_service(true, Duration::ZERO).await;
+        let dispatch = match service.accept_agent_initiation_intent(&agent_initiation_intent(
+            "turn-a2a-provider-fail",
+            "a2a-work-provider-fail",
+        )) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
+            ConversationAcceptance::Response(response) => {
+                panic!("agent initiation refused: {:?}", response.error)
+            }
+        };
+        let failed = service.complete_conversation_dispatch(dispatch).await;
+        assert_eq!(failed.status, "failed");
+        assert_eq!(failed.error, Some("conversation_failed"));
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
     fn intent() -> ObservatoryConversationIntent {
@@ -5394,6 +6012,8 @@ mod agent_lifecycle {
             turn_id: "turn-1".to_owned(),
             recipient_id: "gemma-e4b".to_owned(),
             correlation_id: "correlation-1".to_owned(),
+            sender_id: None,
+            initiated_work_id: None,
             reply: Some("retained reply".to_owned()),
             accepted_sequence: Some(1),
             turn_sequence: Some(1),
@@ -6257,6 +6877,8 @@ mod conversation_dispatch_gate_tests {
                     turn_id: "turn".to_owned(),
                     recipient_id: "shepherd".to_owned(),
                     correlation_id: "00000000000000000000000000000000".to_owned(),
+                    sender_id: None,
+                    initiated_work_id: None,
                     reply: None,
                     accepted_sequence: Some(1),
                     turn_sequence: Some(1),
