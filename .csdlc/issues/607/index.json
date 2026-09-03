@@ -3,9 +3,9 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "implemented",
-  "generation": 105,
-  "digest": "d34a816ef39ff084221f13d3147981b79ddee08147e42d15f9d33e98992ce55b",
+  "phase": "reviewed",
+  "generation": 106,
+  "digest": "7d5b90ea4f205ee584733be38eabffa4e328c920ef48c854df5a961fac8c0291",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": {
@@ -22,7 +22,25 @@
       "infra/aws/runtime/gpu-proof"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:issue_607_payload_exact_review_r3",
+    "scope": [
+      ".csdlc/evidence/607/aws-paid-action-cost-audit.json",
+      ".csdlc/issues/607",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      "infra/aws/runtime/gpu-proof"
+    ],
+    "reviewed_revision": "git-blake3:4cd0900bbd66667e17c3b393a98fcbcdd4e56425:ab9c671f0aa597c327e52836a456f3518ffa07f1d783140f2176f99f86dce652",
+    "findings": [],
+    "residual_risks": [
+      "The final two-8B-model AWS payload-recovery qualification remains the only pending proof and is bounded by the USD 20 issue ceiling."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2c167fc6c4c27bb318aa8c52b639eff56751f29194ab4fd4c072eed38788ec6f",
+      "values_digest": "83057a99c10c133607b2c9224db62e2f5c017fce49094bb4d95d03ed79bfe97b",
       "rendered_digest": "ded31cc85c56142a5ae18eefa707d17ecec138299449d069da584c1ef798629d",
       "ast_digest": "c01dfdb3c9af18b0edb33e96d8c969635d7b4f3eed374c91dd8a3329186fbe50"
     },
     "stp": {
-      "values_digest": "ac083b3ab811a46cd05cd93a3d11c452bd2ec331d346089aba5abc41ede29a1e",
+      "values_digest": "8d32cc73fcced90e5dfe6456d4a7f16edc2adead86591c27f87a565ceb86dd72",
       "rendered_digest": "a48d561fb39b2bfe4b434e3e081c5085f5b4de894db0b8e95d5a87b2b120c547",
       "ast_digest": "73f42b646b3a353379d71dff2c6d0cb3c9c6073b92bcb5bc9d13b189bcb3968b"
     },
     "spp": {
-      "values_digest": "49434f8f9b6d60fcc2c34d23ac578108fce5f4d36594eea0c2af37da02303ef1",
+      "values_digest": "fcd6137e61cb0786805477990c85100d5f7fc39886845303a76e81863b6d0d48",
       "rendered_digest": "0bc59097a4a0d77c37d353acc0b9b009faf33b82fe606d603c2a2cd0462a3f3b",
       "ast_digest": "305fa6f2a5b561532d45f917941a6828942925036b1898206ef39b039eddd547"
     },
     "vpp": {
-      "values_digest": "e141700c32e63eb27ad2c00a7835a869fffef5cd61234b188a936a08d789b2f9",
+      "values_digest": "fc93fe50ea0005fe776484b8313523800e83a7d386a2e9207a026366809e2f1b",
       "rendered_digest": "05d99118c1b11935e8b7a63fffeef50f341872cc72de2172dfc11f8797fad36e",
       "ast_digest": "7bea9743cd7a504145e8d56b4644ae14e960b56fb72467f9ea56290a67357612"
     },
     "srp": {
-      "values_digest": "f764690b4566eb0861903a7cf0b4991dd802a1b978a48fab6906bf0287fbdf9a",
-      "rendered_digest": "3662f40f1313be1793193d834c23d1f375627aae8badc95ee07793f3d1061924",
-      "ast_digest": "738d0f5c27e02c9ec72a2c124c79f46dbf2f7eace26b3b7b8e8256474e3bda69"
+      "values_digest": "98e47ee6b33b0d9dbf6e27264c3e83d7b38311158f6561b6b9dbbaf9aa91b89b",
+      "rendered_digest": "488b07f837f231b04f0720c5cae91348a8ddcc0feaeef3c360c06bfa2215fac4",
+      "ast_digest": "a76cbbaebd40c8c6957d58eb2efd9771b7832f497fedd22b03930517e37dba60"
     },
     "sor": {
-      "values_digest": "cc9c4a5d3a75a78a0e568ee2ae3dc408e638b7b950cb4af5c2b71bed1c6dd39e",
+      "values_digest": "4033e3f1f515e23e1146d7b52ae6ad28fabdce9df96753d43d5dbbf1e5393cde",
       "rendered_digest": "c3decdbcad929d3912bdc4b954fe0116ad432d911ded8f26c86dda1c06df3706",
       "ast_digest": "400a29d011b5e79a80131752f6619d7d0ed0a14acc16a8a0aa4b34e37fd508c6"
     }
@@ -172,6 +190,13 @@
       "to": "implemented",
       "actor": "codex-primary-issue607",
       "reason": "Recover the pre-spend review after the authorized live apply exposed that uncompressed embedded qualification scripts exceed the EC2 16 KiB user-data limit; repair packaging and add a deterministic pre-apply size guard before any further spend."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1084,6 +1109,13 @@
       "actor": "codex-primary-issue607",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 131,
+      "generation": 106,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

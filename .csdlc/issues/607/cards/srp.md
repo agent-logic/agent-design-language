@@ -38,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The final two-8B-model AWS payload-recovery qualification remains the only pending proof and is bounded by the USD 20 issue ceiling.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4cd0900bbd66667e17c3b393a98fcbcdd4e56425:ab9c671f0aa597c327e52836a456f3518ffa07f1d783140f2176f99f86dce652")
 
-Reviewer: None
+Reviewer: Some("subagent:issue_607_payload_exact_review_r3")
 
-Result: pre_review
+Result: pass
