@@ -1,0 +1,56 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 656,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+    "slug": "runtime-atomic-generation-install",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only atomic matched-generation installation and pre-mutation verification for CSM, Guardian, and kernel.",
+      "deliverables": [
+        "Atomic generation installer",
+        "Shared receipt verifier",
+        "Atomic current activation and rollback",
+        "CSM pre-mutation preflight",
+        "Focused tests"
+      ],
+      "acceptance_criteria": [
+        "AC-1: One command stages and validates all three binaries",
+        "AC-2: One receipt binds revision, platform, profile, Runtime-init schema, and three SHA-256 hashes",
+        "AC-3: Activation atomically changes one current reference",
+        "AC-4: Prior complete generation remains rollback-capable",
+        "AC-5: launchd and Runtime-init resolve the same generation",
+        "AC-6: start and reload reject invalid generations before service mutation",
+        "AC-7: Negative proof shows rejection leaves service untouched",
+        "AC-8: Matched activation and rollback tests pass",
+        "AC-9: Excluded Runtime and cloud behavior remains unchanged",
+        "AC-10: Focused validation, hygiene, and exact-head review pass"
+      ],
+      "dependencies": [
+        "Merged Runtime v3 Shepherd baseline",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#656",
+        "adl/tools/install_owner_binaries.sh",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime-guardian/Cargo.toml",
+        "adl-runtime-kernel/Cargo.toml"
+      ],
+      "non_goals": [
+        "Provider or model configuration",
+        "Convergence deadline policy",
+        "Configuration-generation handoff",
+        "Readiness taxonomy or agent identity",
+        "Observatory, Caddy, cloud, Runtime v2, or live Runtime changes"
+      ]
+    }
+  }
+}

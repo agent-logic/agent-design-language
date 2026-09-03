@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 656,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+    "slug": "runtime-atomic-generation-install",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Atomic Runtime v3 generation installation, shared receipt, current activation, rollback, and pre-mutation CSM verification only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can an incomplete set become current?",
+        "Does the receipt bind exact activated files?",
+        "Do launchd and Runtime-init agree?",
+        "Is preflight before mutation?",
+        "Is rollback limited to verified generations?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
