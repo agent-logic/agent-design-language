@@ -913,6 +913,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 
     let _lock = store.binding_lock()?;
     let _issue_lock = store.authority_projection_lock(request.issue)?;
+    let current_record = store.load_record(request.issue)?;
+    validate_bind_adoption_request(&current_record, &request)?;
     let source_diagnosis = crate::doctor::diagnose_with_code_repository(
         store,
         request.issue,
@@ -1088,6 +1090,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let commit = (|| {
         let target = &materialized.store;
         let mut record = target.load_record(request.issue)?;
+        validate_bind_adoption_request(&record, &request)?;
         let expected_digest = record.digest.clone();
         if record.phase == crate::LifecyclePhase::Initialized {
             record.advance(
@@ -1167,60 +1170,89 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                 .unwrap_or_else(|| "bind".into()),
         });
         record.digest = crate::store::record_digest(&record)?;
-        if materialized.source_is_target {
-            target.replace_record_locked(request.issue, &expected_digest, &record)
-        } else {
-            target.replace_record(request.issue, &expected_digest, &record)
+        let mut evidence_ref = None;
+        let mut resulting_digest = None;
+        let mut issue_file = None;
+        if let Some(observation) = &adoption {
+            let ref_text = format!(".csdlc/issues/{}/adoption.v1.json", request.issue);
+            let evidence = serde_json::json!({
+                "schema": "csdlc.bind_adoption_evidence.v1",
+                "issue": request.issue,
+                "repository": record.repository.clone(),
+                "expected_repository": observation.expected_repository.clone(),
+                "code_repository": record.code_repository.clone(),
+                "actor": observation.actor.clone(),
+                "base_branch": observation.base_branch.clone(),
+                "branch": observation.branch.clone(),
+                "worktree": observation.worktree.clone(),
+                "expected_head": observation.expected_head.clone(),
+                "observed_head": observation.observed_head.clone(),
+                "pre_state": "ready",
+                "result_state": "bound",
+                "expected_generation": observation.expected_generation,
+                "resulting_generation": record.generation,
+                "expected_digest": observation.expected_digest.clone(),
+                "resulting_digest": record.digest.clone()
+            });
+            let mut bytes = serde_json::to_vec_pretty(&evidence)?;
+            bytes.push(b'\n');
+            issue_file = Some(("adoption.v1.json".to_owned(), bytes));
+            evidence_ref = Some(ref_text);
+            resulting_digest = Some(record.digest.clone());
         }
+        if let Some((relative_path, bytes)) = issue_file {
+            if materialized.source_is_target {
+                target.replace_record_locked_with_issue_file(
+                    request.issue,
+                    &expected_digest,
+                    &record,
+                    &relative_path,
+                    &bytes,
+                )?;
+            } else {
+                target.replace_record_with_issue_file(
+                    request.issue,
+                    &expected_digest,
+                    &record,
+                    &relative_path,
+                    &bytes,
+                )?;
+            }
+        } else if materialized.source_is_target {
+            target.replace_record_locked(request.issue, &expected_digest, &record)?;
+        } else {
+            target.replace_record(request.issue, &expected_digest, &record)?;
+        }
+        Ok((evidence_ref, resulting_digest))
     })();
 
-    if let Err(error) = commit {
-        materialized.rollback();
-        if target_lock_created {
-            let _ = fs::remove_file(target_lock);
-        }
-        if created {
-            let _ = git::run(
-                store.root(),
-                &["worktree", "remove", "--force", &wanted_text],
-            );
-            if new_branch {
-                let _ = git::run(store.root(), &["branch", "-D", &request.branch]);
+    let (evidence_ref, resulting_digest) = match commit {
+        Ok(result) => result,
+        Err(error) => {
+            if adoption.is_some() {
+                let _ = fs::remove_file(
+                    materialized
+                        .store
+                        .root()
+                        .join(format!(".csdlc/issues/{}/adoption.v1.json", request.issue)),
+                );
             }
+            materialized.rollback();
+            if target_lock_created {
+                let _ = fs::remove_file(target_lock);
+            }
+            if created {
+                let _ = git::run(
+                    store.root(),
+                    &["worktree", "remove", "--force", &wanted_text],
+                );
+                if new_branch {
+                    let _ = git::run(store.root(), &["branch", "-D", &request.branch]);
+                }
+            }
+            return Err(error);
         }
-        return Err(error);
-    }
-    let mut evidence_ref = None;
-    let mut resulting_digest = None;
-    if let Some(observation) = &adoption {
-        let adopted_record = materialized.store.load_record(request.issue)?;
-        let ref_text = format!(".csdlc/issues/{}/adoption.v1.json", request.issue);
-        let evidence_path = materialized.store.root().join(&ref_text);
-        let evidence = serde_json::json!({
-            "schema": "csdlc.bind_adoption_evidence.v1",
-            "issue": request.issue,
-            "repository": adopted_record.repository.clone(),
-            "expected_repository": observation.expected_repository.clone(),
-            "code_repository": adopted_record.code_repository.clone(),
-            "actor": observation.actor.clone(),
-            "base_branch": observation.base_branch.clone(),
-            "branch": observation.branch.clone(),
-            "worktree": observation.worktree.clone(),
-            "expected_head": observation.expected_head.clone(),
-            "observed_head": observation.observed_head.clone(),
-            "pre_state": "ready",
-            "result_state": "bound",
-            "expected_generation": observation.expected_generation,
-            "resulting_generation": adopted_record.generation,
-            "expected_digest": observation.expected_digest.clone(),
-            "resulting_digest": adopted_record.digest.clone()
-        });
-        let mut bytes = serde_json::to_vec_pretty(&evidence)?;
-        bytes.push(b'\n');
-        fs::write(&evidence_path, bytes)?;
-        evidence_ref = Some(ref_text);
-        resulting_digest = Some(adopted_record.digest);
-    }
+    };
 
     Ok(BindResult {
         created,

@@ -6666,6 +6666,104 @@ fn emergency_branch_adoption_rejects_wrong_repository_without_mutating_worktree(
 }
 
 #[test]
+fn emergency_branch_adoption_rechecks_request_freshness_before_materialization() {
+    let (temp, store, ready) = ready_adoption_fixture();
+    let worktree = create_emergency_worktree(temp.path());
+    let head = git_out(&worktree, &["rev-parse", "HEAD"]);
+    let newer = edit_issue(
+        &store,
+        EditRequest {
+            issue: 665,
+            card: CardKind::Sip,
+            expected_generation: ready.generation,
+            expected_digest: ready.digest.clone(),
+            actor: "test-adopter".into(),
+            reason: "concurrent ready-record update".into(),
+            operation: SemanticOperation::CorrectOperatorConstraintsBeforeBind {
+                values: vec!["updated before bind".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("concurrent source update");
+    assert_ne!(newer.digest, ready.digest);
+
+    let error = bind_issue(
+        &store,
+        BindRequest {
+            issue: 665,
+            base_branch: "main".into(),
+            branch: "issue-665-emergency".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
+            code_repository: None,
+            expected_repository: Some("example/repo".into()),
+            adopt_existing: true,
+            expected_head: Some(head.clone()),
+            expected_generation: Some(ready.generation),
+            expected_digest: Some(ready.digest),
+            actor: Some("test-adopter".into()),
+        },
+    )
+    .expect_err("stale adoption request rejects after source update");
+    assert_eq!(error.code, ErrorCode::StaleGeneration);
+    let retained = Store::new(&worktree).load_record(665).expect("record");
+    assert_eq!(retained.phase, LifecyclePhase::Ready);
+    assert!(retained.branch.is_none());
+    assert!(retained.worktree.is_none());
+    assert_eq!(git_out(&worktree, &["rev-parse", "HEAD"]), head);
+}
+
+#[test]
+fn emergency_branch_adoption_replaces_conflicting_evidence_path_atomically() {
+    let (temp, store, ready) = ready_adoption_fixture();
+    let worktree = create_emergency_worktree(temp.path());
+    std::fs::create_dir(worktree.join(".csdlc/issues/665/adoption.v1.json"))
+        .expect("conflicting evidence directory");
+    std::fs::write(
+        worktree.join(".csdlc/issues/665/adoption.v1.json/keep"),
+        "conflict\n",
+    )
+    .expect("conflicting evidence marker");
+    git(&worktree, &["add", ".csdlc/issues/665/adoption.v1.json"]);
+    git(
+        &worktree,
+        &["commit", "-m", "reserve adoption evidence path"],
+    );
+    let head = git_out(&worktree, &["rev-parse", "HEAD"]);
+
+    let result = bind_issue(
+        &store,
+        BindRequest {
+            issue: 665,
+            base_branch: "main".into(),
+            branch: "issue-665-emergency".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
+            code_repository: None,
+            expected_repository: Some("example/repo".into()),
+            adopt_existing: true,
+            expected_head: Some(head.clone()),
+            expected_generation: Some(ready.generation),
+            expected_digest: Some(ready.digest),
+            actor: Some("test-adopter".into()),
+        },
+    )
+    .expect("conflicting evidence path is replaced by atomic projection");
+    assert_eq!(
+        result.evidence_ref.as_deref(),
+        Some(".csdlc/issues/665/adoption.v1.json")
+    );
+    let retained = Store::new(&worktree).load_record(665).expect("record");
+    assert_eq!(retained.phase, LifecyclePhase::Bound);
+    let evidence_path = worktree.join(".csdlc/issues/665/adoption.v1.json");
+    assert!(evidence_path.is_file());
+    let evidence: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&evidence_path).expect("adoption evidence"))
+            .expect("adoption evidence JSON");
+    assert_eq!(evidence["resulting_digest"], retained.digest);
+    assert_eq!(git_out(&worktree, &["rev-parse", "HEAD"]), head);
+}
+
+#[test]
 fn emergency_branch_adoption_rejects_dirty_target_before_lifecycle_materialization() {
     let (temp, store, ready) = ready_adoption_fixture();
     let worktree = create_emergency_worktree(temp.path());

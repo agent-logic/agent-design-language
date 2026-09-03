@@ -381,7 +381,7 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
     ) -> Result<()> {
-        self.commit_with_authored(issue, record, cards, fail_after_backup, None, None)
+        self.commit_with_authored(issue, record, cards, fail_after_backup, None, None, None)
     }
 
     fn commit_verified(
@@ -398,6 +398,7 @@ impl Store {
             cards,
             fail_after_backup,
             None,
+            None,
             Some(verifier),
         )
     }
@@ -409,6 +410,7 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
         authored_overrides: Option<&BTreeMap<String, String>>,
+        issue_files: Option<&BTreeMap<String, Vec<u8>>>,
         mut verifier: Option<&mut dyn FnMut() -> Result<()>>,
     ) -> Result<()> {
         let current = self.issue_dir(issue);
@@ -428,6 +430,30 @@ impl Store {
             fs::remove_dir_all(&backup)?;
         }
         write_complete(&staging, record, cards)?;
+        if let Some(issue_files) = issue_files {
+            for (relative, contents) in issue_files {
+                let relative_path = Path::new(relative);
+                if !crate::pvf::clean_relative(relative_path) {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidInput,
+                        "issue projection extra file path must be issue-directory relative",
+                    ));
+                }
+                let destination = staging.join(relative_path);
+                if let Some(parent) = destination.parent() {
+                    fs::create_dir_all(parent)?;
+                }
+                let mut file = File::create(&destination)?;
+                file.write_all(contents)?;
+                file.sync_all()?;
+                sync_dirs_through(
+                    destination
+                        .parent()
+                        .expect("issue projection extra file parent"),
+                    &staging,
+                )?;
+            }
+        }
         // Preserve authored design artifacts when they live inside the issue
         // directory. The atomic directory swap must not discard them.
         for authored_path in [&record.design_path, &record.diagram_path] {
@@ -546,6 +572,47 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn replace_record_with_issue_file(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+        issue_relative_path: &str,
+        contents: &[u8],
+    ) -> Result<()> {
+        let _lock = self.lock(issue)?;
+        self.replace_record_locked_with_issue_file(
+            issue,
+            expected_digest,
+            record,
+            issue_relative_path,
+            contents,
+        )
+    }
+
+    pub(crate) fn replace_record_locked_with_issue_file(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+        issue_relative_path: &str,
+        contents: &[u8],
+    ) -> Result<()> {
+        self.recover_if_needed(issue)?;
+        let current = self.load_record(issue)?;
+        if current.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before compare-and-swap commit",
+            ));
+        }
+        let cards = self.load_cards(issue)?;
+        verify_cards(self, &current, &cards)?;
+        let mut issue_files = BTreeMap::new();
+        issue_files.insert(issue_relative_path.to_owned(), contents.to_vec());
+        self.commit_with_authored(issue, record, &cards, false, None, Some(&issue_files), None)
     }
 
     #[allow(dead_code)] // Retained compatibility wrapper; live recovery uses descriptor-read bytes.
