@@ -4,13 +4,64 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b93a95ade0dac40135117b73005e34975df1f0a635a322b41fd2e3554b887290",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "8d9ad3c4859d614cba64fa7dd4b471a787a6c9428e4f7a9325b567c94edd2beb",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "e12697f4a172bb7fd384e217fa6f144f1503347c87b9cb62e532389c9bd22920",
   "branch": "codex/632-v3-h6-canaries-docs-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_632_head_after_recover",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:d9635ec4b63193e30321ab872e4636b5cfc19966:095512f74be8073d0a0813954a4c0d9efa74f350cce5720a26e954c993f0987c",
+    "scope": [
+      ".csdlc/prepared/issues/632/design.md",
+      ".csdlc/prepared/issues/632/diagram.mmd",
+      ".csdlc/prepared/issues/632/bootstrap.json",
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/canary-evidence-index.md",
+      ".csdlc/prepared/issues/632/finalize-implementation.json",
+      ".csdlc/prepared/issues/632/replace-execution-after-review-fixes.json",
+      ".csdlc/prepared/issues/632/replace-execution-current-command-surface.json",
+      ".csdlc/prepared/issues/632/recover-review-after-main-merge.json",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "csdlc-v3/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "adl/src/cli/csmctl_cmd.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_632_head_after_recover",
+    "scope": [
+      ".csdlc/prepared/issues/632/design.md",
+      ".csdlc/prepared/issues/632/diagram.mmd",
+      ".csdlc/prepared/issues/632/bootstrap.json",
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/canary-evidence-index.md",
+      ".csdlc/prepared/issues/632/finalize-implementation.json",
+      ".csdlc/prepared/issues/632/replace-execution-after-review-fixes.json",
+      ".csdlc/prepared/issues/632/replace-execution-current-command-surface.json",
+      ".csdlc/prepared/issues/632/recover-review-after-main-merge.json",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "csdlc-v3/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "adl/src/cli/csmctl_cmd.rs"
+    ],
+    "reviewed_revision": "git-blake3:d9635ec4b63193e30321ab872e4636b5cfc19966:095512f74be8073d0a0813954a4c0d9efa74f350cce5720a26e954c993f0987c",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; current v3 routes must not become live lifecycle authority before #505.",
+      "Terminal finish and cleanup canary proof still requires an authorized canary merge or an explicit #505 blocker disposition.",
+      "#631/#644 stacked-publication topology remains a cutover blocker until typed retarget/supersede behavior or serial base closure is resolved."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +76,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7114dbbf344f90f1008b79571f7bf10b271e756b2d0698259b476dcac708dec9",
+      "values_digest": "2798593cc357475ccff87d011ed9f292c96c40293b845cc7eeeb69ddae1d92ac",
       "rendered_digest": "0fdbc068a9e16b9a34f4c99b5953930b02c525fdddf4be01c8acd33f0a8bf60d",
       "ast_digest": "ed89ca60d9cce79cf4979853fd6df465539b0f00233e4f03a42decb6a25c16c0"
     },
     "stp": {
-      "values_digest": "411c9f5c9697785cfec163d184f08a7e5694a5691d6d83c82308616528867b95",
+      "values_digest": "83880d0a9dfb3d8d228f25514183df4fa3ce7680977f2fc844d0790ad4d48f4c",
       "rendered_digest": "caf0677a955027d962688dc0224133c7c7d4b10c56b4f1d17d551f31f7891779",
       "ast_digest": "4b130a63d7ec3bd4a4bfe6c1596dcbe0ac07119a4f968f8b48bc5db493babaec"
     },
     "spp": {
-      "values_digest": "b7fe3be3fcaca209447e34d6fb50ca6bdb0aadb4ff498464154139eede049653",
+      "values_digest": "528b72567d82b971704d3b5a763f6accbd58759e85ff00e6983a2cd17c62c7ec",
       "rendered_digest": "ac428c78623cc711bb9a3eee6ae606302cd3136c5dd40130c37aeafbbbb6d14c",
       "ast_digest": "0654c45b2e0ef0e21df53b9ec506777fc1b26e11ee63dfd8e71da61175637894"
     },
     "vpp": {
-      "values_digest": "40f06eabb0198afab34d5ef9f0e61b82451c23dff29d6782f41a02ce1efb94bd",
+      "values_digest": "e5c8094fbc5290111104d7ee45cb711c9a15e80b03815af410421eadb1e017a5",
       "rendered_digest": "a46da483ee55913a32a0ca18e0d7986519dbb3bf24edfb86e71c499b37249825",
       "ast_digest": "c256ae237568c95bf3dff3aa69018688d49b9d7ff18813e8f2f7a567b7fc6da6"
     },
     "srp": {
-      "values_digest": "95e629eb82e951fa7e873aae6450fd5a55bb8d58b2ff5fb9df3b0ae7e62716f9",
-      "rendered_digest": "a8891715a7c2c1de0936aad9d27fcf09517219d3faf0342facf41ed4edd438d8",
-      "ast_digest": "fdff84622e7c8c586fad9e2878c5e3381f5e16f4fdd54a3a60f36f64804a3b5b"
+      "values_digest": "0b98a8498040df8e707ab4f64c7e4624a3575449af68b94d5719fa8434af55f1",
+      "rendered_digest": "fc1f277299e6f3dcbe75eccdb5e898606e0c5e0305d5eabe060e22958998ccc1",
+      "ast_digest": "053b81fd538038a9833256faf57da9a3ed1d2bfb212bb367eeeb61c5174fb413"
     },
     "sor": {
-      "values_digest": "eb57c211a21fa2c74823ef67c497e1e713b75a0c3f94376e97565ee0fce7f453",
+      "values_digest": "334b7f3aded21e7d2e7dd7bb505d9ffbf95f14ebb48fc5c283934b228f86bc13",
       "rendered_digest": "f0298393d62ae90146faf7193d5fc40749e346deec3b017d792a9e583e769f4d",
       "ast_digest": "210318127a822564929950087bad6cf0e11e3f1eb06ca6847d385df8e39d7339"
     }
@@ -97,6 +148,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover stale #632 review and publication truth after merging current main and correcting the command-surface readiness packet before fresh exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -162,6 +220,20 @@
       "actor": "codex:worker-6",
       "reason": "Refresh #632 SOR truth after merging current main and aligning the canary packet with the full advertised v3 one-binary command surface.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, corrected docs/architecture guidance, and strengthened the canary validator so it verifies the full advertised v3 one-binary surface while preserving the pre-#505 non-authority boundary.\",\"changes\":[\"Merged current main into the #632 execution worktree and resolved the Runtime csmctl import move to `adl_runtime_kernel::agent_roster::is_canonical_agent_name`.\",\"Captured DEFECT-019 for stacked PR closing-linkage and typed retarget gaps, and DEFECT-020 for fresh-worktree install/bootstrap fragility.\",\"Updated the 21-entry command-route coverage matrix so all v2 entrypoints name their current advertised v3 command while remaining explicitly not cutover-ready.\",\"Strengthened the canary readiness validator to inspect current `csdlc-v3` help output and fail if the matrix omits or misstates advertised commands.\",\"Updated the canary evidence index, v3 cutover readiness notice, and v3 README so operator guidance matches the full advertised one-binary surface without granting live v3 authority.\",\"Preserved the #631 stacked publication topology blocker as a named cutover blocker.\"],\"artifacts\":[\".csdlc/issues/632\",\".csdlc/prepared/issues/632/command-route-coverage.json\",\".csdlc/prepared/issues/632/canary-evidence-index.md\",\".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\",\".csdlc/prepared/issues/632/validate-v3-guidance.sh\",\".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\",\".csdlc/prepared/issues/632/replace-execution-current-command-surface.json\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"csdlc-v3/README.md\",\"adl/src/cli/csmctl_cmd.rs\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\"],\"purpose\":\"Prove the #632 route coverage matrix and retained canary defect packet account for the V3-H command replacement surface without claiming cutover readiness, and verify claimed current v3 CLI commands against actual `csdlc-v3 --help` output.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 canary readiness packet: pass\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-v3-guidance.sh\"],\"purpose\":\"Prove docs, AGENTS guidance, architecture lifecycle text, and the v3 readiness notice preserve the pre-cutover and post-cutover authority boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 guidance scan: pass\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\"],\"purpose\":\"Prove the sprint packet still names the six child issues, keeps review out of child issue count, and retains the latest #631 publication-topology defect.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: sprint review readiness: pass\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove the v3 help surface exposes the one-binary command denominator while remaining non-authoritative before #505.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: 4 passed\"},{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"csmctl\"],\"purpose\":\"Prove the current-main Runtime csmctl import merge compiles.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: Finished dev profile\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"purpose\":\"Prove the exact current range has no whitespace hygiene failures.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

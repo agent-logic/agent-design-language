@@ -7,23 +7,27 @@
     "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
     "slug": "v3-h6-real-canaries-docs-readiness",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/632/design.md\n.csdlc/prepared/issues/632/diagram.mmd\n.csdlc/prepared/issues/632/bootstrap.json\n.csdlc/prepared/issues/632/command-route-coverage.json\n.csdlc/prepared/issues/632/canary-evidence-index.md\n.csdlc/prepared/issues/632/finalize-implementation.json\n.csdlc/prepared/issues/632/replace-execution-after-review-fixes.json\n.csdlc/prepared/issues/632/replace-execution-current-command-surface.json\n.csdlc/prepared/issues/632/recover-review-after-main-merge.json\n.csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\n.csdlc/prepared/issues/632/validate-v3-guidance.sh\n.csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\ndocs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\ncsdlc-v3/README.md\ndocs/architecture/ADL_ARCHITECTURE.md\nadl/src/cli/csmctl_cmd.rs",
+      "review_revision": "git-blake3:d9635ec4b63193e30321ab872e4636b5cfc19966:095512f74be8073d0a0813954a4c0d9efa74f350cce5720a26e954c993f0987c",
+      "reviewer": "subagent:/root/review_632_head_after_recover",
       "review_prompts": [
         "Does the coverage matrix account for every v3 command-equivalent route without hidden v2 fallback?",
         "Do docs and skills warn operators before cutover while avoiding premature v3 authority claims?",
         "Are canary defects fixed or clearly owned as cutover blockers/follow-ons?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; current v3 routes must not become live lifecycle authority before #505.",
+        "Terminal finish and cleanup canary proof still requires an authorized canary merge or an explicit #505 blocker disposition.",
+        "#631/#644 stacked-publication topology remains a cutover blocker until typed retarget/supersede behavior or serial base closure is resolved."
+      ],
+      "review_result": "pass"
     }
   }
 }
