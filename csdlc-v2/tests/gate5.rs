@@ -6764,6 +6764,60 @@ fn emergency_branch_adoption_replaces_conflicting_evidence_path_atomically() {
 }
 
 #[test]
+fn emergency_branch_adoption_failure_preserves_existing_evidence_file() {
+    let (temp, store, ready) = ready_adoption_fixture();
+    let worktree = create_emergency_worktree(temp.path());
+    let evidence_path = worktree.join(".csdlc/issues/665/adoption.v1.json");
+    std::fs::write(&evidence_path, "pre-existing evidence\n").expect("existing evidence");
+    std::fs::write(
+        worktree.join(".csdlc/issues/.665.staging"),
+        "staging blocker\n",
+    )
+    .expect("staging blocker");
+    git(
+        &worktree,
+        &[
+            "add",
+            ".csdlc/issues/665/adoption.v1.json",
+            ".csdlc/issues/.665.staging",
+        ],
+    );
+    git(
+        &worktree,
+        &["commit", "-m", "pre-existing adoption evidence"],
+    );
+    let head = git_out(&worktree, &["rev-parse", "HEAD"]);
+
+    let error = bind_issue(
+        &store,
+        BindRequest {
+            issue: 665,
+            base_branch: "main".into(),
+            branch: "issue-665-emergency".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
+            code_repository: None,
+            expected_repository: Some("example/repo".into()),
+            adopt_existing: true,
+            expected_head: Some(head.clone()),
+            expected_generation: Some(ready.generation),
+            expected_digest: Some(ready.digest),
+            actor: Some("test-adopter".into()),
+        },
+    )
+    .expect_err("staging blocker rejects adoption");
+    assert_eq!(error.code, ErrorCode::Io);
+    assert_eq!(
+        std::fs::read_to_string(&evidence_path).expect("existing evidence retained"),
+        "pre-existing evidence\n"
+    );
+    let retained = Store::new(&worktree).load_record(665).expect("record");
+    assert_eq!(retained.phase, LifecyclePhase::Ready);
+    assert!(retained.branch.is_none());
+    assert!(retained.worktree.is_none());
+    assert_eq!(git_out(&worktree, &["rev-parse", "HEAD"]), head);
+}
+
+#[test]
 fn emergency_branch_adoption_rejects_dirty_target_before_lifecycle_materialization() {
     let (temp, store, ready) = ready_adoption_fixture();
     let worktree = create_emergency_worktree(temp.path());

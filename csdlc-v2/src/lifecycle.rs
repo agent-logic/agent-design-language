@@ -1229,14 +1229,6 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let (evidence_ref, resulting_digest) = match commit {
         Ok(result) => result,
         Err(error) => {
-            if adoption.is_some() {
-                let _ = fs::remove_file(
-                    materialized
-                        .store
-                        .root()
-                        .join(format!(".csdlc/issues/{}/adoption.v1.json", request.issue)),
-                );
-            }
             materialized.rollback();
             if target_lock_created {
                 let _ = fs::remove_file(target_lock);
