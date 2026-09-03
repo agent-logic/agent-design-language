@@ -38,11 +38,11 @@ Implemented the C-SDLC v2 publication guard so closing-mode publish normalizatio
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

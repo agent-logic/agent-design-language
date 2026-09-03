@@ -7,3 +7,7 @@
 {"sequence":7,"generation":5,"actor":"codex:/root:issue-645-exec","reason":"Implementation and focused local validation are complete at commit 6918a84ae; exact-review recording is next.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":8,"generation":5,"actor":"codex:/root:issue-645-exec","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"subagent:/root/review_645_stacked_closing_relation_pre_pr","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":7,"actor":"codex:/root:issue-645-exec","reason":"Committed typed lifecycle metadata advanced HEAD after the substantive #645 review; recover so the same bounded code scope can be recorded against the current clean publication head.","operation":"recover_review"}
+{"sequence":11,"generation":7,"actor":"codex:/root:issue-645-exec","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":8,"actor":"subagent:/root/review_645_stacked_closing_relation_pre_pr","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":13,"generation":9,"actor":"codex:/root:issue-645-exec","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

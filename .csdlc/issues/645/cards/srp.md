@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -36,11 +36,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No live publication mutation was performed during pre-PR validation; the implementation was validated with read-only PR #644 shape inspection plus local regression and publication suite coverage.
+- The current head differs from the original substantive review by typed lifecycle metadata only; the reviewed code/test scope is unchanged and excludes .csdlc projections.
 
 ## Review Result
 
-Revision: Some("git-blake3:6918a84ae35a8d16fe8028354dbe35690cb1254e:0c43ff38f3de3bcc5b74836e805540517f93cd897b7ee56496de61e18f607fed")
+Revision: Some("git-blake3:e6bfe4674cb4c48a6834d01c5e58cfbc6b75d1b7:65ddfa6734a5c1e1589b6b4abf1940be8f057a9743eac34e28525f2bd4d739e5")
 
 Reviewer: Some("subagent:/root/review_645_stacked_closing_relation_pre_pr")
 

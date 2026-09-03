@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d5f72068a321dc273dccf54374fabb116b861a065688a5bb42d4cd9944486751",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "d70b34da6850ae95640a17785351605d358c60b090fb225c66c934377a722981",
+  "phase": "published",
+  "generation": 9,
+  "digest": "f4b2b35af5ea8d4e06764bd13254cceb8a64afe731b259d2b338ddbf462d9947",
   "branch": "codex/645-stacked-closing-relation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-645-stacked-closing-relation-exec",
   "review_assignment": {
     "reviewer": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
     "assigned_by": "codex:/root:issue-645-exec",
-    "revision": "git-blake3:6918a84ae35a8d16fe8028354dbe35690cb1254e:0c43ff38f3de3bcc5b74836e805540517f93cd897b7ee56496de61e18f607fed",
+    "revision": "git-blake3:e6bfe4674cb4c48a6834d01c5e58cfbc6b75d1b7:65ddfa6734a5c1e1589b6b4abf1940be8f057a9743eac34e28525f2bd4d739e5",
     "scope": [
       "csdlc-v2/src/bin/csdlc-publish.rs",
       "csdlc-v2/src/publication.rs",
@@ -30,15 +30,26 @@
       "csdlc-v2/tests/publication_ready.rs",
       "csdlc-v2/tests/publication_tail.rs"
     ],
-    "reviewed_revision": "git-blake3:6918a84ae35a8d16fe8028354dbe35690cb1254e:0c43ff38f3de3bcc5b74836e805540517f93cd897b7ee56496de61e18f607fed",
+    "reviewed_revision": "git-blake3:e6bfe4674cb4c48a6834d01c5e58cfbc6b75d1b7:65ddfa6734a5c1e1589b6b4abf1940be8f057a9743eac34e28525f2bd4d739e5",
     "findings": [],
     "residual_risks": [
-      "No live publication mutation was performed during pre-PR validation; the implementation was validated with read-only PR #644 shape inspection plus local regression and publication suite coverage."
+      "The current head differs from the original substantive review by typed lifecycle metadata only; the reviewed code/test scope is unchanged and excludes .csdlc projections."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 645,
+    "pull_request": 654,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/654",
+    "base": "main",
+    "head": "codex/645-stacked-closing-relation-exec",
+    "revision": "git-blake3:e6bfe4674cb4c48a6834d01c5e58cfbc6b75d1b7:65ddfa6734a5c1e1589b6b4abf1940be8f057a9743eac34e28525f2bd4d739e5",
+    "linkage_mode": "closing",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -52,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "02f9c7bfb50dab92a47dca221c1794b679c5356c4343dc4fb11855a96bccb357",
+      "values_digest": "aba4b53d1298e1d9acb1023f05e0f3d825cea0f6418f8de108d68ea5a1cd245c",
       "rendered_digest": "ebc25ee7527daf2c4408c73b7c4cfdb9c3dbc855d063caaf11176755bb7086f3",
       "ast_digest": "518c72fd1f76a8bb76e78892c7fa294581a176c034f5603dd288ad6047c4a8f4"
     },
     "stp": {
-      "values_digest": "4fc7254b3d4503f5817b74ae675c3febf55395db708690bc9589cc5b1a19cb42",
+      "values_digest": "a5103ee31d2ea08d3d2ffd24377ac515d21608ee525ea03ef7e1d3217a0d2050",
       "rendered_digest": "608f2a7a0fc3635e477a1d812a080c9569d823feb0c2af911c2ba81dc181600f",
       "ast_digest": "b3cdba9f0e4bec1105175ab97611484c2b7d530b78d0e04125b800728b964902"
     },
     "spp": {
-      "values_digest": "7587804ba829a3494cacb33c46bb1ab3ce0ff56ea1db884ca4847282d7b31293",
+      "values_digest": "a3d49bef28dfc4676dfd98a4a8c87e4c5ec6d0c327a7e37c2fce60cb7591813b",
       "rendered_digest": "1e5f44a7efd4efc8d406e4f39d4a926dd72f89d2795a2ada00958fa480b4d458",
       "ast_digest": "c4ed92e4d8139d709fde060d006323f64592c4014ae5d527c1e6621b9cae06e4"
     },
     "vpp": {
-      "values_digest": "0bc01a9280a6b7efa17ae1eb821500401a94a6257804f1f61b128e21796d038f",
+      "values_digest": "7afe55d419abf55a18746486e344365b22b70163fb2425db76b8a7642ba19b54",
       "rendered_digest": "f68a059529aec384012115f231cef931f74142239471d6f3e4bbfebd7e16ad29",
       "ast_digest": "b92955d510933086f017513b8a34d9e026b70bdb234022b581025d82a7025c92"
     },
     "srp": {
-      "values_digest": "8df39cd7061b65af355a81377f8dfa61ba0a8c712438ec2b3dacc639c0c7cf00",
-      "rendered_digest": "e9c3e821eea1dd0d7f9b019058749f66220514843ce360a6c1c1b179e6c871c2",
-      "ast_digest": "3e7abec37f2adf62eb7ba71d0a3705c9c87205d9823c2aad417000710a01dc2c"
+      "values_digest": "d8bc005db70da70965d71351b73165058b6f8d4b25a93cc0f31e7703c4605224",
+      "rendered_digest": "b3937b3ff4e160d35b495b01c0f692ee82de1e5b7a09385452bdb9021c559e12",
+      "ast_digest": "e2f7fbddebbceece70b8f5fe55c03a76f9d7288c54510816eb08fa2626dc5c74"
     },
     "sor": {
-      "values_digest": "d4bd980ca33d8a7ff624e4900baf2896a3d0982a0d0cc5aa65d030c3411261b4",
-      "rendered_digest": "885d3089b526ab3c9ae05b0e0a230ca3ba463a9b52087cc315aa10a6a7380fd9",
-      "ast_digest": "7268a0eccbc2d033e9b5661a6eabf6ed47d3d236742f99600c5953ef7579b678"
+      "values_digest": "d1efece9df3b48e74f797e41d37a67ccff5786dd527d8933fe571dabd89e4030",
+      "rendered_digest": "0c694a8bf4fd8a2825a5d9e3d5f2ef2058fce34573910c36e11b0f225ae3d557",
+      "ast_digest": "95119d462fe1c6d4294694942b0c390b9068b7cd19eeca26043013889db56e71"
     }
   },
   "transitions": [
@@ -110,6 +121,27 @@
       "to": "reviewed",
       "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "Committed typed lifecycle metadata advanced HEAD after the substantive #645 review; recover so the same bounded code scope can be recorded against the current clean publication head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -175,6 +207,34 @@
       "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "Committed typed lifecycle metadata advanced HEAD after the substantive #645 review; recover so the same bounded code scope can be recorded against the current clean publication head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "subagent:/root/review_645_stacked_closing_relation_pre_pr",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root:issue-645-exec",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
