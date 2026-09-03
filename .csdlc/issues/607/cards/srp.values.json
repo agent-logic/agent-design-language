@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/evidence/607/aws-paid-action-cost-audit.json\n.csdlc/issues/607\nadl/tools/issue607_validate_saved_plan.sh\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh\ndocs/operations/cloud/aws/shepherd-gpu-proof/README.md\ninfra/aws/runtime/gpu-proof",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
