@@ -13,6 +13,7 @@ root="$(cd "$(dirname "$0")" && pwd)"
 repo_root="$(git -C "$root" rev-parse --show-toplevel)"
 expected_project="cs-poc-cha8mmii0xk0iaw5vpf8mxf"
 preflight_receipt="$repo_root/.csdlc/evidence/670/live/preflight.json"
+cleanup_receipt="${ADL_GCP_PREPARATION_CLEANUP_RECEIPT_PATH:-$repo_root/.csdlc/evidence/670/live/preparation-cleanup-receipt.json}"
 preparation_vars="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 catalog_vars="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"
 preparation_state="${ADL_GCP_PREPARATION_STATE:-}"
@@ -29,10 +30,24 @@ cleanup_temporary_compute() {
   trap - EXIT
   if [ "$completed" != true ]; then
     echo "preparation failed; removing temporary VMs and disks while retaining any completed snapshots" >&2
+    cleanup_ok=true
     if [ "$catalog_started" = true ]; then
-      terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=false || true
+      terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=false -var="paid_deadline_epoch=$paid_deadline_epoch" || cleanup_ok=false
     fi
-    terraform -chdir="$root/preparation" destroy "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false || true
+    terraform -chdir="$root/preparation" destroy "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false -var="paid_deadline_epoch=$paid_deadline_epoch" || cleanup_ok=false
+    residual_instances="$(gcloud compute instances list --project "$project" --filter="name~'adl-663-$generation-.*(prep|verifier)'" --format='json(name,zone,status)' 2>/dev/null || echo 'null')"
+    residual_disks="$(gcloud compute disks list --project "$project" --filter="name~'adl-663-$generation-.*(staging|verify)'" --format='json(name,zone,status)' 2>/dev/null || echo 'null')"
+    jq -e 'type == "array" and length == 0' <<<"$residual_instances" >/dev/null || cleanup_ok=false
+    jq -e 'type == "array" and length == 0' <<<"$residual_disks" >/dev/null || cleanup_ok=false
+    cleanup_status=cleanup_pending
+    [ "$cleanup_ok" = true ] && cleanup_status=cleaned
+    jq -n --arg status "$cleanup_status" --arg project "$project" --arg generation "$generation" \
+      --argjson observed "$(date +%s)" --argjson instances "$residual_instances" --argjson disks "$residual_disks" \
+      '{schema:"adl.issue670.preparation-cleanup-receipt.v1",status:$status,project:$project,generation:$generation,cleanup_observation_epoch:$observed,resource_absence_verified:($status=="cleaned"),residual_instances:$instances,residual_disks:$disks}' >"$cleanup_receipt"
+    if [ "$cleanup_ok" != true ]; then
+      echo "mandatory preparation cleanup failed; recovery is required and recorded at $cleanup_receipt" >&2
+      exit 70
+    fi
   fi
   exit "$rc"
 }
@@ -74,6 +89,21 @@ require_paid_time() {
     echo "refusing new paid preparation work after the immutable qualification deadline" >&2
     return 1
   }
+}
+run_paid_operation() {
+  require_paid_time
+  "$@" &
+  operation_pid=$!
+  while kill -0 "$operation_pid" 2>/dev/null; do
+    if [ "$(date +%s)" -ge "$paid_deadline_epoch" ]; then
+      kill -TERM "$operation_pid" 2>/dev/null || true
+      wait "$operation_pid" 2>/dev/null || true
+      echo "paid operation exceeded the immutable qualification deadline" >&2
+      return 124
+    fi
+    sleep 2
+  done
+  wait "$operation_pid"
 }
 trap cleanup_temporary_compute EXIT
 [ "$(gcloud compute networks subnets describe "$subnet" --project "$project" --region "$region" --format='value(privateIpGoogleAccess)')" = "True" ] || {
@@ -131,8 +161,7 @@ wait_for_verifier() {
   done
 }
 
-require_paid_time
-terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=true
+run_paid_operation terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=true -var="paid_deadline_epoch=$paid_deadline_epoch"
 
 for role in runtime ollama; do
   wait_for_prep_vm "adl-663-${generation}-${role}-prep"
@@ -140,17 +169,16 @@ done
 
 # A normal apply removes both preparation VMs and attachments while retaining
 # the two staging disks in preparation state. No targeted destroy is used.
-terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false
+run_paid_operation terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false -var="paid_deadline_epoch=$paid_deadline_epoch"
 
 catalog_started=true
-require_paid_time
-terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=true
+run_paid_operation terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=true -var="paid_deadline_epoch=$paid_deadline_epoch"
 wait_for_verifier "adl-663-${generation}-snapshot-verifier"
 
 # Retained catalog state is snapshots only. The verifier VM and restored disks
 # are removed before staging resources are destroyed.
-terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=false
-terraform -chdir="$root/preparation" destroy "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false
+terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=false -var="paid_deadline_epoch=$paid_deadline_epoch"
+terraform -chdir="$root/preparation" destroy "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false -var="paid_deadline_epoch=$paid_deadline_epoch"
 terraform -chdir="$root/snapshot-catalog" output "${catalog_state_args[@]}" -json
 completed=true
 trap - EXIT

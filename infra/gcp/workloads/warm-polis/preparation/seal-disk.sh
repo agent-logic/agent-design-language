@@ -19,10 +19,14 @@ device="/dev/disk/by-id/google-$(metadata adl-data-device)"
 generation="$(metadata adl-generation)"
 bundle_uri="$(metadata adl-bundle-uri)"
 bundle_sha="$(metadata adl-bundle-sha256)"
+paid_deadline_epoch="$(metadata adl-paid-deadline-epoch)"
+budget_stop_seconds="$((paid_deadline_epoch - $(date +%s)))"
+[ "$budget_stop_seconds" -gt 0 ]
+for command in curl file gcloud jq mkfs.ext4 mount sha256sum systemd-run tar; do command -v "$command" >/dev/null; done
+systemd-run --unit="adl-issue670-preparation-budget-stop-$(cat /proc/sys/kernel/random/boot_id)" --on-active="${budget_stop_seconds}s" /usr/sbin/poweroff >/dev/null
 mount_path="/mnt/adl-staging"
 work_path="/var/lib/adl/issue663"
 
-for command in curl file gcloud jq mkfs.ext4 mount sha256sum tar; do command -v "$command" >/dev/null; done
 for _ in $(seq 1 120); do [ -e "$device" ] && break; sleep 1; done
 [ -e "$device" ]
 mkfs.ext4 -F "$device"

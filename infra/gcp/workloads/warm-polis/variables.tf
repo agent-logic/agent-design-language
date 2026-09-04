@@ -34,6 +34,12 @@ variable "max_budget_usd" {
   }
 }
 
+variable "paid_deadline_epoch" {
+  description = "Absolute Unix deadline from the immutable live-preflight receipt."
+  type        = number
+  default     = 0
+}
+
 variable "support_id" {
   description = "Existing support network tag used for OS Login/SSH access."
   type        = string

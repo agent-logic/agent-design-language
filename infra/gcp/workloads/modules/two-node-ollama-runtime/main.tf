@@ -21,6 +21,7 @@ locals {
     adl-run-id                   = var.run_id
     adl-source-revision          = var.source_revision
     adl-max-budget-usd           = tostring(var.max_budget_usd)
+    adl-paid-deadline-epoch      = tostring(var.paid_deadline_epoch)
     adl-resident-models          = jsonencode(var.resident_models)
     adl-artifact-bucket          = var.artifact_bucket
     adl-artifact-manifest-object = var.artifact_manifest_object

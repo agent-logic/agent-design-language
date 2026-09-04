@@ -64,6 +64,7 @@ module "two_node_ollama_runtime" {
   accelerator_type         = var.accelerator_type
   accelerator_count        = var.accelerator_count
   max_budget_usd           = var.max_budget_usd
+  paid_deadline_epoch      = var.paid_deadline_epoch
   ttl_expires_at           = "none"
   source_revision          = var.artifact_generation
   issue_id                 = var.issue_id

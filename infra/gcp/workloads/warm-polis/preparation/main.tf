@@ -55,11 +55,12 @@ resource "google_compute_instance" "runtime_preparation" {
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
   metadata = {
-    enable-oslogin    = "TRUE"
-    adl-generation    = var.generation
-    adl-bundle-uri    = var.runtime_bundle_uri
-    adl-bundle-sha256 = var.runtime_bundle_sha256
-    adl-data-device   = "adl-runtime-staging"
+    enable-oslogin          = "TRUE"
+    adl-generation          = var.generation
+    adl-bundle-uri          = var.runtime_bundle_uri
+    adl-bundle-sha256       = var.runtime_bundle_sha256
+    adl-data-device         = "adl-runtime-staging"
+    adl-paid-deadline-epoch = tostring(var.paid_deadline_epoch)
   }
   metadata_startup_script = file("${path.module}/seal-disk.sh")
 }
@@ -86,11 +87,12 @@ resource "google_compute_instance" "ollama_preparation" {
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
   metadata = {
-    enable-oslogin    = "TRUE"
-    adl-generation    = var.generation
-    adl-bundle-uri    = var.ollama_bundle_uri
-    adl-bundle-sha256 = var.ollama_bundle_sha256
-    adl-data-device   = "adl-ollama-staging"
+    enable-oslogin          = "TRUE"
+    adl-generation          = var.generation
+    adl-bundle-uri          = var.ollama_bundle_uri
+    adl-bundle-sha256       = var.ollama_bundle_sha256
+    adl-data-device         = "adl-ollama-staging"
+    adl-paid-deadline-epoch = tostring(var.paid_deadline_epoch)
   }
   metadata_startup_script = file("${path.module}/seal-disk.sh")
 }

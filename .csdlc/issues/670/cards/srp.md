@@ -29,9 +29,9 @@ infra/gcp/workloads/warm-polis
 
 [
   {
-    "id": "670-R3-P1-AUTHORITY-BYPASS",
+    "id": "670-r3-p1-absolute-budget-deadline",
     "severity": "p1",
-    "summary": "Caller-overridable project and preflight paths plus an unchecked snapshot-catalog var-file can bypass exact project, region, zone, and budget authority.",
+    "summary": "The absolute eight-hour budget deadline is not enforced across blocking paid Terraform operations or all paid guests.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -39,9 +39,9 @@ infra/gcp/workloads/warm-polis
     "route": null
   },
   {
-    "id": "670-R3-P1-BUDGET-ENFORCEMENT",
+    "id": "670-r3-p1-cleanup-failure",
     "severity": "p1",
-    "summary": "Caller-overridable pricing inputs and unlimited paid observation can allow the qualification to exceed the authorized USD 20 ceiling.",
+    "summary": "Failure cleanup suppresses Terraform destroy failures without durable cleanup-pending evidence or mandatory residual verification.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -56,13 +56,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No paid GCP action or independent live inventory query was rerun by the reviewer.
-- Validator execution may refresh ignored Terraform provider artifacts.
+- Publication remains blocked until absolute deadline enforcement and fail-closed cleanup evidence are implemented and freshly reviewed.
 
 ## Review Result
 
-Revision: Some("git-blake3:70d8a1a2a4d19a6396851d213c32068ac8fa8efb:0f29ffe3dfbc842f79bc961ba55489aadbda7c0ca14ec8641af51f36411802b3")
+Revision: Some("git-blake3:2745e3b1d60c585081f9baff44375c46a05860c2:97e0e567af595fc0e31c2612d6fa9f4f899754f7d8d80f5409ff3ee3d89c02db")
 
-Reviewer: Some("/root/issue_670_remediation_review")
+Reviewer: Some("/root/issue_670_budget_review")
 
 Result: changes_required

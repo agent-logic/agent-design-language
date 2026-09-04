@@ -26,3 +26,8 @@ variable "enable_verifier" {
   type        = bool
   default     = true
 }
+variable "paid_deadline_epoch" {
+  description = "Absolute Unix deadline enforced by the verifier guest."
+  type        = number
+  default     = 0
+}

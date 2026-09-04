@@ -18,6 +18,11 @@ trap fail_and_stop EXIT
 generation="$(metadata adl-generation)"
 runtime_sha="$(metadata adl-runtime-manifest-sha256)"
 ollama_sha="$(metadata adl-ollama-manifest-sha256)"
+paid_deadline_epoch="$(metadata adl-paid-deadline-epoch)"
+budget_stop_seconds="$((paid_deadline_epoch - $(date +%s)))"
+[ "$budget_stop_seconds" -gt 0 ]
+command -v systemd-run >/dev/null
+systemd-run --unit="adl-issue670-verifier-budget-stop-$(cat /proc/sys/kernel/random/boot_id)" --on-active="${budget_stop_seconds}s" /usr/sbin/poweroff >/dev/null
 install -d -m 0755 /mnt/runtime-verify /mnt/ollama-verify
 mount -o ro /dev/disk/by-id/google-adl-runtime-verify /mnt/runtime-verify
 mount -o ro /dev/disk/by-id/google-adl-ollama-verify /mnt/ollama-verify

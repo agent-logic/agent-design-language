@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
     "slug": "gcp-warm-polis-live-qualification",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -17,7 +17,9 @@
       "actual_changes": [
         "Made the issue preflight use immutable company project, central region and zone, L4, USD 20, USD 2 hourly envelope, eight-hour paid window, and USD 4 storage reserve authority.",
         "Coupled preparation, snapshot catalog, and launch inputs to that fixed preflight authority before any paid create or apply while keeping exact-project cleanup independently available.",
-        "Added an immutable paid deadline to preparation and launch observation, failure cleanup traps, and an eight-hour guest auto-stop for both qualification nodes.",
+        "Propagated the single absolute preflight deadline to Runtime, Ollama, preparation, and verifier guests; every boot schedules poweroff using only the remaining authorized time.",
+        "Bound every paid Terraform apply to the same absolute deadline while leaving cleanup unbounded so deadline expiry cannot prevent resource destruction.",
+        "Made failed launch and preparation cleanup produce durable cleanup-pending receipts, verify residual disposable inventory, and fail distinctly instead of suppressing destroy errors.",
         "Hardened snapshot preparation for private Google access, isolated Terraform state, portable Ollama bundles, serial receipt propagation, and cleanup-safe failure handling.",
         "Made Runtime startup compatible with the sealed artifact ABI, supervised Guardian independently of Vector, and ran the six-resident real agent and ACC tool qualification against private Ollama.",
         "Bound readiness observations to the latest boot ID and artifact generation so stale serial output cannot satisfy a new launch.",
@@ -40,7 +42,7 @@
             "bash",
             ".csdlc/prepared/issues/670/validate-preparation.sh"
           ],
-          "purpose": "From its own Terraform initialization, execute authority ordering, immutable budget controls, shell syntax, Terraform formatting and validation, warm-polis and reusable-module tests, warm-start and retirement policies, receipt parsing, and diff hygiene.",
+          "purpose": "Execute Terraform initialization, validation and tests plus absolute-deadline, fail-closed cleanup, warm-start, receipt, and diff-hygiene policy checks.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/prepared/issues/670/validate-preparation.sh"
         },
@@ -80,7 +82,7 @@
             "bash",
             "infra/gcp/workloads/warm-polis/tests/validate-live-residual-inventory.sh"
           ],
-          "purpose": "Independently query issue and generation scoped instances, disks, firewalls, images, addresses, and snapshots; prove zero disposable resources and exactly two READY retained snapshots.",
+          "purpose": "Independently prove zero disposable resources and exactly two READY retained snapshots.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/670/live/residual-inventory-g670b.json"
         },
@@ -90,7 +92,7 @@
             "-e",
             "launch and cleanup receipt invariants"
           ],
-          "purpose": "Prove exact six-agent execution, two resident models, private-only networking, 930-second clean launch timing, cleanup, and snapshot-set truth.",
+          "purpose": "Prove exact six-agent execution, two resident models, private-only networking, launch timing, cleanup, and snapshot-set truth.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/670/live/launch-g670b.json"
         }

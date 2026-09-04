@@ -113,19 +113,39 @@ jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" --argjs
   exit 1
 }
 paid_deadline_epoch="$(jq -r '.paid_deadline_epoch' "$preflight_receipt")"
+run_paid_operation() {
+  [ "$(date +%s)" -lt "$paid_deadline_epoch" ] || return 124
+  "$@" &
+  operation_pid=$!
+  while kill -0 "$operation_pid" 2>/dev/null; do
+    if [ "$(date +%s)" -ge "$paid_deadline_epoch" ]; then
+      kill -TERM "$operation_pid" 2>/dev/null || true
+      wait "$operation_pid" 2>/dev/null || true
+      echo "paid operation exceeded the immutable qualification deadline" >&2
+      return 124
+    fi
+    sleep 2
+  done
+  wait "$operation_pid"
+}
 launch_completed=false
 cleanup_failed_launch() {
   rc=$?
   trap - EXIT
   if [ "$launch_completed" != true ]; then
     echo "launch failed before qualification completed; destroying disposable launch resources" >&2
-    terraform -chdir="$root" destroy -auto-approve || true
+    jq -n --argjson observed "$(date +%s)" \
+      '{schema:"adl.issue670.cleanup-receipt.v2",status:"cleanup_pending",cleanup_observation_epoch:$observed,resource_absence_verified:false,snapshots_retained_verified:false}' >"$cleanup_receipt"
+    if ! "$0" destroy; then
+      echo "mandatory launch cleanup failed; recovery is required and recorded at $cleanup_receipt" >&2
+      exit 70
+    fi
   fi
   exit "$rc"
 }
 trap cleanup_failed_launch EXIT
 start_epoch="$(date +%s)"
-terraform -chdir="$root" apply -auto-approve
+run_paid_operation terraform -chdir="$root" apply -auto-approve -var="paid_deadline_epoch=$paid_deadline_epoch"
 apply_epoch="$(date +%s)"
 runtime_name="$(terraform -chdir="$root" output -raw runtime_instance_name)"
 ollama_name="$(terraform -chdir="$root" output -raw ollama_instance_name)"

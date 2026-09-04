@@ -12,7 +12,9 @@ generation="$(metadata adl-artifact-generation)"
 expected_sha="$(metadata adl-content-manifest-sha256)"
 models_json="$(metadata adl-resident-models)"
 boot_id="$(cat /proc/sys/kernel/random/boot_id)"
-budget_stop_seconds=28800
+paid_deadline_epoch="$(metadata adl-paid-deadline-epoch)"
+budget_stop_seconds="$((paid_deadline_epoch - $(date +%s)))"
+[ "$budget_stop_seconds" -gt 0 ]
 mount_path="/mnt/adl-ollama"
 state_path="/var/lib/adl/issue663"
 echo "ADL_ISSUE663_OLLAMA_BOOT generation=$generation boot_id=$boot_id"

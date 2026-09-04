@@ -58,3 +58,8 @@ variable "attach_preparation_vms" {
   type        = bool
   default     = true
 }
+variable "paid_deadline_epoch" {
+  description = "Absolute Unix deadline enforced by preparation guests."
+  type        = number
+  default     = 0
+}
