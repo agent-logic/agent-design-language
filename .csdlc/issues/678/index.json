@@ -1,0 +1,89 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 678,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "52323b455bb82ca6a60dae8343ecd2d432f7c9a203f987c847063f9039f61b6a",
+  "phase": "ready",
+  "generation": 2,
+  "digest": "f7fd767cc3c753d6a0e2d6b2d214c20631923f3abb8dd4df2334a72dd9a2ab20",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/678/design.md",
+  "diagram_path": ".csdlc/prepared/issues/678/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:06f7907d-d2cd-441c-aaad-c31a645933c8",
+      "revision": "c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "bf2b50f5d78cd02259a0e6d80cf7a568326b3bcf9bd87498163fed0de76e1693",
+      "rendered_digest": "d0a3c5bb5aa3063605f24fb1401549c159881a8616a067cb6feed3190e28a2f0",
+      "ast_digest": "34c071451b40021c4dbbfebf98bec27dcc6fe9b5b801b2a27d3bc52e374940ae"
+    },
+    "stp": {
+      "values_digest": "669d8a7f3a001cf86e5349212715b8cbadc5934b20d1a89d7cb5ac1885d6ff99",
+      "rendered_digest": "4e3a35d1baacd064e0f656f4a14ba1981f56776f87d1001db9b65e8fb64dcf86",
+      "ast_digest": "a91d0c23336a8e485de43ad119090b77aa27cf83b3a822ba38d20ee75c558d1c"
+    },
+    "spp": {
+      "values_digest": "215aae3ad8bdb20f03af9993fe7d97b98a7712785364fa1c815cc6b44b1b1262",
+      "rendered_digest": "3a110177b15422dc9f99149da4d96060dfca01c591768f5c0b37c1bf08f77701",
+      "ast_digest": "96960e2db010c43d2b51f7c53a395b28f9ca97ea1b6c7fafe289d58dec548ff7"
+    },
+    "vpp": {
+      "values_digest": "5478151f3e54f593d28e7ab5f54561506a0eae54551b9f9885516b7f563cee63",
+      "rendered_digest": "dfe99bbc9da281179e035679b362a62a31664615106f8eeaa743a9e12c2d1e0f",
+      "ast_digest": "a31d70e02068e734181e72ccf9218be473d1f03c11e673309466c181bb3e9e6b"
+    },
+    "srp": {
+      "values_digest": "34a75c2f9bf7ef5fb92d4911333547a520ad2a2ebd6f4178b38398adb0ea653d",
+      "rendered_digest": "df0d0e910d75c14fee1e71342878072e331551bc325beda8246c00c8b07b0d9d",
+      "ast_digest": "0e2451ad6baa5edf1e27f7b217aa10a9a14af5beb8054f32bf9dbd04c3ffb178"
+    },
+    "sor": {
+      "values_digest": "88efbed33a49e2222f67815bd8bc15bb8c2e3204fd18d89953cab06ba3bd4c57",
+      "rendered_digest": "82e13f8692fd0edda497169a8faacc9a8b5a241125f2a4d067b02d63efe74e69",
+      "ast_digest": "17774e62e28118a1e465884dfe47e2c3d903b0e9b4924badcff7e3572254697b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:678-preparation",
+      "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:stable-csm-active-generation-route",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:06f7907d-d2cd-441c-aaad-c31a645933c8",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e\",\"design_ref\":\".csdlc/prepared/issues/678/design.md\",\"diagram_digest\":\"ae358d55ee65dfd2ff5ef4d65a4bf5a37bb81031096f6b58faf57b4f52a88fdf\",\"diagram_ref\":\".csdlc/prepared/issues/678/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:678-preparation",
+      "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

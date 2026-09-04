@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 678,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Route stable CSM commands through the active Runtime generation",
+    "slug": "stable-csm-active-runtime-generation-route",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review issue #678 installer route, stable CSM launcher behavior, isolated regression tests, and operator documentation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does .adl/bin/csm now route to .adl/runtime-v3/current/bin/csm without becoming a second binary source of truth?",
+        "Do activation and rollback switch the stable route atomically through the current symlink?",
+        "Do missing or incomplete active generations fail before service mutation?",
+        "Do the tests prove stale stable binary repair without touching the live Runtime?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

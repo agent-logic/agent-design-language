@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 678,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Route stable CSM commands through the active Runtime generation",
+    "slug": "stable-csm-active-runtime-generation-route",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-v3-generation-install",
+          "proof_role": "Prove installer-managed stable CSM route, stale-binary repair, activation, rollback, and missing-generation failure in an isolated fixture.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/678/validate-stable-csm-route.sh"
+          ],
+          "parallel_group": "issue-678",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed tracked changes before review.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "issue-678",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale stable CSM routing, broken activation or rollback switching, missing-generation mutation risk, live Runtime mutation during validation, or exact-head review failure.",
+      "design_ref": ".csdlc/prepared/issues/678/design.md",
+      "design_digest": "c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e",
+      "diagram_ref": ".csdlc/prepared/issues/678/diagram.mmd",
+      "diagram_digest": "ae358d55ee65dfd2ff5ef4d65a4bf5a37bb81031096f6b58faf57b4f52a88fdf"
+    }
+  }
+}
