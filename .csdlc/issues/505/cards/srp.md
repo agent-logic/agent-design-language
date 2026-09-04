@@ -19,6 +19,9 @@ csdlc-v3/tests/command_manifest.rs
 csdlc-v3/tests/local_commands.rs
 docs/csdlc-v3/full-replacement-denominator.json
 docs/csdlc-v3/v3-command-manifest.json
+.csdlc/prepared/issues/505/recover-review-after-merge-main-conflict-fix.json
+.csdlc/prepared/issues/505/review-assign-after-merge-main-conflict-fix.json
+.csdlc/prepared/issues/505/review-record-after-merge-main-conflict-fix-pass.json
 
 ## Prompts
 
@@ -42,8 +45,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:38411a248d287950c795d6daa3d34625d2a94131:9e0fc7191770af2958e58864ddf90a48ed8850ba4cf38cdab740cff7a0db2381")
+Revision: Some("git-blake3:6f668a26e08fd4180d2a8c2046e467690e8d1a94:1687e0eae3d906e63e805cb7dc2a4e577b2de1891ed1bbbc3faeb10167b14b3e")
 
-Reviewer: Some("subagent:/root/review_591_head_38411a24")
+Reviewer: Some("subagent:/root/review_591_head_6f668a26")
 
 Result: pass
