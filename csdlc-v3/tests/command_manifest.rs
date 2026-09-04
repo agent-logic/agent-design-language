@@ -84,8 +84,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     assert_eq!(denominator["cutover_ready"], false);
     assert_eq!(manifest["denominator"]["v2_entrypoints"], 21);
     assert_eq!(manifest["denominator"]["current_v3_commands"], 25);
-    assert_eq!(manifest["denominator"]["implemented_commands"], 24);
-    assert_eq!(manifest["denominator"]["partial_commands"], 1);
+    assert_eq!(manifest["denominator"]["implemented_commands"], 25);
+    assert_eq!(manifest["denominator"]["partial_commands"], 0);
     assert_eq!(manifest["denominator"]["fail_closed_commands"], 0);
     assert_eq!(
         manifest["denominator"]["implemented_replacement_routes"],
@@ -104,8 +104,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
 
     let commands = manifest["commands"].as_array().expect("manifest commands");
     assert_eq!(commands.len(), 25);
-    assert_eq!(status_count(commands, "implemented"), 24);
-    assert_eq!(status_count(commands, "partial"), 1);
+    assert_eq!(status_count(commands, "implemented"), 25);
+    assert_eq!(status_count(commands, "partial"), 0);
     assert_eq!(status_count(commands, "fail_closed"), 0);
 
     for (command, _) in IMPLEMENTED_REMOTE_BRIDGE_COMMANDS {

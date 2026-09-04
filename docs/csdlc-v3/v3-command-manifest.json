@@ -9,8 +9,8 @@
   "denominator": {
     "v2_entrypoints": 21,
     "current_v3_commands": 25,
-    "implemented_commands": 24,
-    "partial_commands": 1,
+    "implemented_commands": 25,
+    "partial_commands": 0,
     "fail_closed_commands": 0,
     "implemented_replacement_routes": 21,
     "partial_replacement_routes": 0,
@@ -29,7 +29,7 @@
       "command": "local",
       "replaces": [],
       "owner_issue": 503,
-      "implementation_status": "partial",
+      "implementation_status": "implemented",
       "authority_status": "read_only_construction"
     },
     {
@@ -241,7 +241,7 @@
     "The v3 replacement target is one csdlc binary.",
     "Not-yet-implemented live-authority routes fail closed and do not invoke v2 binaries, raw gh, v1 wrappers, or shell commands.",
     "Implemented pre-cutover bridge routes parse typed repo-local evidence and remain non-authoritative until #505 cutover.",
-    "Visible helper routes with no v2 entrypoint replacement are included in the command-surface denominator and excluded from replacement-route counts.",
+    "Visible helper routes with no v2 entrypoint replacement are implemented, included in the command-surface denominator, and excluded from replacement-route counts.",
     "Each command route has one owning V3-H child issue.",
     "cutover/install/proof/shadow/soak execute typed pre-cutover verifier envelopes with mutation_allowed=false before #505 approval.",
     "All 21 v2 entrypoints now have visible v3 replacement routes, but cutover_ready remains false until operator approval and terminal reconciliation."
