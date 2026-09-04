@@ -151,6 +151,6 @@
     "This manifest does not approve #505 cutover.",
     "This manifest records the pre-cutover replacement denominator so cutover cannot be claimed without durable v3 readiness evidence.",
     "All required v2 entrypoints have executable v3 command routes, but v3 remains non-authoritative until #505 approval, merge, finish, and cleanup reconciliation.",
-    "cutover/install/proof/shadow/soak are implemented as typed pre-cutover verifiers with mutation disabled."
+    "install/proof/shadow/soak are implemented as typed pre-cutover verifiers with mutation disabled; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505."
   ]
 }
