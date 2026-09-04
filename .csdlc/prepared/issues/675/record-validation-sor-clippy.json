@@ -1,0 +1,26 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "0874041bd0af9efc7801aeabae744bbfde284cc007e09fa7e4d47ffdb24e05f8",
+  "actor": "codex:/root",
+  "reason": "Record strict Rust lint validation for the #675 Runtime bridge.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--lib",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "purpose": "Prove the Runtime control/ingress changes compile cleanly under strict Clippy before pre-PR review.",
+      "outcome": "passed",
+      "evidence_ref": "terminal://2026-09-03#issue-675-clippy-strict-passed"
+    }
+  }
+}

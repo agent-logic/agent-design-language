@@ -1,0 +1,21 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "592b06a3043f92d9000b8397c971c49e6f2e016b5e5ccc7648d08d7ed34f71d1",
+  "actor": "codex:/root",
+  "reason": "Record Observatory UI syntax validation for first-class A2A transcript metadata.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "node",
+        "--check",
+        "demos/html-observatory/app.js"
+      ],
+      "outcome": "passed",
+      "purpose": "Prove the Observatory conversation UI remains syntactically valid after preserving sender and initiated-work metadata.",
+      "evidence_ref": "terminal://2026-09-03#issue-675-node-check"
+    }
+  }
+}
