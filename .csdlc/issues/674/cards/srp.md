@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md
+.csdlc/prepared/issues/674/validate-welcome-package-docs.sh
 
 ## Prompts
 
@@ -31,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This documentation does not prove live delivery or Runtime behavior and may require revision if the governed contracts change.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2")
 
-Reviewer: None
+Reviewer: Some("fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4")
 
-Result: pre_review
+Result: pass

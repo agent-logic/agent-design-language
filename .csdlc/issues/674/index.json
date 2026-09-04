@@ -3,14 +3,46 @@
   "issue": 674,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e719986764c44aa3be5f2960ecc0fb9927833afa70efe587b132f5a3ff03523",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "9fbdfa40fdc7d435672f7847d01086d671978e045ad394a65e8bcbd6a86c8959",
+  "phase": "published",
+  "generation": 6,
+  "digest": "0fd282dab6546ff9e0f5f5555d9f099474e3a2c2b966a6a54b9c717668cf4369",
   "branch": "codex/674-welcome-package-docs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+    "scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+    "scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+    ],
+    "reviewed_revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+    "findings": [],
+    "residual_risks": [
+      "This documentation does not prove live delivery or Runtime behavior and may require revision if the governed contracts change."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 674,
+    "pull_request": 681,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/681",
+    "base": "main",
+    "head": "codex/674-welcome-package-docs",
+    "revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+    "linkage_mode": "closing",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +56,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "137df0c027dd57aea4617becff4d29821e0bfef8b68ee290f4879957da6f74fa",
+      "values_digest": "28c391020c6f555145df2a5478b7f191cf6984c11d160bcddc05071aa69163dc",
       "rendered_digest": "1aebc584354c0ee60d8599bd7abc775a5d68bc04430b573cc9433bccd7f7191a",
       "ast_digest": "672fa64f2ff8040019066e4431fab1f14841a388139b3307d0b99eb588565b05"
     },
     "stp": {
-      "values_digest": "cad1762374c73e5f502248b7390aa4efc5629ac5acbbd3bbb71381015b947f6e",
+      "values_digest": "bffc45f607b115bb6927425af54ba1fb5c4487516f449997fc435e3d901e7e86",
       "rendered_digest": "6312895eb13c3651abaf81b7a362222bbc9aa0525cef6585bf564af79296b79e",
       "ast_digest": "5628503bbba86f1e784cfe69353934d1308d2d069aa9fec7f08235dbf8c436d2"
     },
     "spp": {
-      "values_digest": "64b5beb565967124e6a1b7e7e362ab7c87f7ae04e0e4696bb126109cbf17dcb6",
+      "values_digest": "1e35769c8afbf82445c523e6963a835385bd234ad6f2292e964fe6edc8467e40",
       "rendered_digest": "3fd2ba8a141ad299b35d32351b401f95120e8a26bfe812da25b4216e21ffc283",
       "ast_digest": "2e45e7af897b30102836929ae7213aee891ec43e9bb6320035e352231e5e7c8a"
     },
     "vpp": {
-      "values_digest": "316ceaaf5a7e847ddee527b88a70bc0f8594c1d9dc51ee4c173342fdbfc933c1",
+      "values_digest": "b99eabc36ba452d19ce6099e09cfa692dda155141019e85ab1e78fd9ab9ea4a2",
       "rendered_digest": "2f70b3d678181a6a90b3afadf18d75801c58437876fd1ddb38bcedabdfa96030",
       "ast_digest": "b99f890269fc3fbc6243b1ab021298aa8ac4381e730c16e575043ae939722a8a"
     },
     "srp": {
-      "values_digest": "a85fd2b80f6550e4ddd45290f9f66d6472ad380880af56ea9b2c81fe8efda30a",
-      "rendered_digest": "a30e8c0fd2766ded9c4eaebde0225f692c09b82abc813fd3911036c76ad2a745",
-      "ast_digest": "1a427c844d1697febc4afcd812b658d38348113bbdc15eac5379ef77adb91752"
+      "values_digest": "70f34051ed4459a126e664111fdcba91dffc23dc954f5400883f3d891e345f04",
+      "rendered_digest": "af765df8811457d9b988863144e742139b1af44d2175caf3045e28d570f6f8a1",
+      "ast_digest": "24f2462c24638b8824d13f32f54d619d93143b0b220414958a18c07bae9e9be9"
     },
     "sor": {
-      "values_digest": "ec8d2c3d21229afe07440392d8510b5259ee71145c0368c0059407e89ff3f8a0",
-      "rendered_digest": "c7c6041b9e90c386fcf1bb7ddf8acceb70026e91c21bec49e5d22cf562f3d3b6",
-      "ast_digest": "31f28598ca24bff60794bce77c43e8abd3b026dbb931df2ec4c31fd0ab5acb55"
+      "values_digest": "7e6579a475fe991e1acc51da5a9e6700bffe763b44a348a56c3323d9c76ddb04",
+      "rendered_digest": "33237a6b57b879956614a57833cfbed0d0898d66d4903c9c1031a28495a483a2",
+      "ast_digest": "2048921ccf9ffdcca519aa41d90e74ab023a7aa4c9b16cda7328961558cb8bcf"
     }
   },
   "transitions": [
@@ -89,6 +121,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -140,6 +186,27 @@
       "actor": "codex:/root",
       "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
