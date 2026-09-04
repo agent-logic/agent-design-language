@@ -5,10 +5,28 @@
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
   "generation": 27,
-  "digest": "8d8f665acaaf90de7744090ed2ad8c92ca2d043d59fe55bcaf6b0b086f218642",
+  "digest": "e6bcff6e42c66e2c9885d103d6125f0032f05798e3fdcc79c5e15abe268ebd03",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_631_ci_proof_root_fix",
+    "assigned_by": "codex:worker-6:sprint6-v3h5-ci-proof-root-fix",
+    "revision": "git-blake3:76ce02d58f8cccb9122d775bcf4862598a844dd0:8f58d44f941a6873c750c727d3c1cedc65a54a794e29a338620edd78f54f9f2e",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +62,9 @@
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "90067580bd0288a5f52d3117630b7b99fe43a73c2e2e6a8ac1e9f1dbf89e02de",
-      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
-      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
+      "values_digest": "a987a86625195c4b72382a0dd8362b0d6e54d97da9ec67bd3b29f6ee9814d3fa",
+      "rendered_digest": "899996636ad7a620e48262c977760c7f0979a51149ac0b99dde9012324c1d05f",
+      "ast_digest": "07cc3533bd700aecb80564b9371be95025681983cf4a721cdfcbf927655840f6"
     },
     "sor": {
       "values_digest": "c700ed97772b77c3a3d7851cec44d179b1999558367d9a1bc60d46bac62370b0",
@@ -455,6 +473,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-ci-proof-root-fix",
       "reason": "Recover the stale #631 review assignment after repairing v3 proof-route repository discovery for CI target directories outside the checkout.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 27,
+      "actor": "codex:worker-6:sprint6-v3h5-ci-proof-root-fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
