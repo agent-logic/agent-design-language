@@ -25,7 +25,7 @@ reviewed, approved, merged, and terminally reconciled.
 - #631 PR #669 linked PR-state through `csdlc-github-pr`: pass for repaired
   topology; PR #669 targets `main` and exposes `Closes #631` as the live GitHub
   closing relation. It is ready/green at exact head
-  `308b489d9238732f056e9d671c5155d0f4f91d2e`; #505 must consume that dependency
+  `f43356321108b91031024fc1fccf11233f188bce`; #505 must consume that dependency
   through current review and publication before cutover.
 - #629 PR #641 was republished after the #644 title-readback lesson. The
   current PR head is `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`; typed #629
