@@ -7,13 +7,13 @@
     "title": "[provider] Add first-class Moonshot/Kimi K3 provider support",
     "slug": "moonshot-kimi-k3-provider",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Moonshot/Kimi provider profile, setup/help, provider selection, deterministic tests, and evidence truth for issue #680.",
+      "review_scope": "adl/src/provider/http_family.rs\nadl/src/provider/mod.rs\nadl/src/provider/profiles.rs\nadl/src/provider_adapter.rs\nadl/src/provider_communication.rs\nadl/src/provider_substrate.rs\nadl/src/cli/provider_cmd.rs\nadl/src/cli/usage.rs\ndocs/tooling/PROVIDER_SETUP.md\nadl/tests/provider_moonshot_kimi_k3.rs\n.csdlc/evidence/680",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

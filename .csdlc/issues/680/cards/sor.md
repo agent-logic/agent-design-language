@@ -92,7 +92,7 @@ Implemented first-class Moonshot/Kimi K3 provider support in the bound issue wor
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

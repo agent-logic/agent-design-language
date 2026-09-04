@@ -4,11 +4,28 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "34be5cd20bd2edff0fae4f4f4f2f9912a0be67f22d155edc0bce45c1ac44133a",
+  "generation": 12,
+  "digest": "bf1ca57abf099b0754daae07b8129abb5c5b312b274964d0da2564a763fb3940",
   "branch": "codex/680-moonshot-kimi-k3-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a4c8ea76-a591-4d5c-b522-45f9219dc001",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:4a24aa86d62de067d0f679fd159e2beae5d9f33d:691fb403b6c2ce6198faf7f09b32797c71a17f71b55905a76af6833d0e4f36e4",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/src/cli/usage.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "adl/tests/provider_moonshot_kimi_k3.rs",
+      ".csdlc/evidence/680"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -24,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "37f751cb46ba718f74d8a11245d02cdfd1cef841fe04d16d110c616871bdabf5",
+      "values_digest": "c4d6f407b305ebbcd0bd4c7f0fa2a3d08e6247f87181ac5fb46ce1f74cd6dfb0",
       "rendered_digest": "d1750351b69e204f5693796d85ac48cea41a42f53671b8a40ef3141fc6650f7d",
       "ast_digest": "b5d721f64919a757cb981f72f9002db89f36b9151a6abbb4229a218a05fdb10e"
     },
     "stp": {
-      "values_digest": "f8f6bacbed72eebf1515b974314ecae33c5fe16fd303b408dd3552b74ba98402",
+      "values_digest": "ed16e5c6aa37763902fbbbd15e1898d9b1a8ed275f9a2e63b5c6eace4202be4b",
       "rendered_digest": "4e94e258a4ce4844db8cf3b314e19518628407a511688f782be0621958534b51",
       "ast_digest": "16b22f9a58c2b06351c71a051baf3ee61c3749e82ecce4c996948612180fb455"
     },
     "spp": {
-      "values_digest": "6a919d1bb09530c2dc4777a637a50c3a30c7292a5431b9b442681dcc42177985",
+      "values_digest": "da5c08a2cf25dd797e047179e63c4dcb2da35bf1b2dec96d0ff1c8b6e5043a19",
       "rendered_digest": "2d57ac5915eb29a45086bbab11caa65d1ececd23166174dc10e81de689035fe0",
       "ast_digest": "ff9c62460f47349e06489e08d78194714960f991a7eeb0fe9a38032eeb248bbc"
     },
     "vpp": {
-      "values_digest": "ac6106be888aec37ec7effbc4e7b6b83d78e03fbba8fd99d2d767d61ad00ea6e",
+      "values_digest": "a24f58daffba5cab6609e4e04176ac583139abf37b7287d46ae5bcc4464e18a7",
       "rendered_digest": "cf19a05549becd97dd7c085e9e607f143358bcf373aa2cb971848de31ba350e1",
       "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
     },
     "srp": {
-      "values_digest": "4a0e0b1526a14510482d89ec4110822a7e9d69cb38111624e834dd270688be53",
-      "rendered_digest": "d2a433b08bd3066b33f0a22bf65a2deed0c25bef9adf4525c7cc97c7151257f9",
-      "ast_digest": "be220e6a21916f4f72d349d8323addebc1d8ec58904ce43efcd316022d8690d3"
+      "values_digest": "cc13ff5756db4fa0b53ca7b250c2df345b782ffc978775ecc679e762deccf347",
+      "rendered_digest": "31474be5796aff1b6fb9e5122bf92ec14987d3247afaca4d34901231cecfd8ca",
+      "ast_digest": "cfc0cfae5a64aad0d1bb6976c4764dafe3fc1b96673fdf55e537009b5fe55603"
     },
     "sor": {
-      "values_digest": "51aac2c7c3ce000d92bc7921e53251028c2089541946810def291d3fc6f1f49d",
-      "rendered_digest": "6b954dfdb84e09538b444c0444fbfaa79fdb05ba7521880acc0bde942522daef",
-      "ast_digest": "32280874348dd37d03c9b43445955639aa45b17611a88b447cb2fee53888c570"
+      "values_digest": "be28000a3afe46da74f5d8a72fe61512da83cf1788076aaba81338d8434d808c",
+      "rendered_digest": "cdb5d31464cc0281dcc23e67919353a2c5ef5506bef2887cfe74680739204d94",
+      "ast_digest": "e6ae1667e897727b3c7d87a07803ec772fb2b1bee3844250d410cdbedf2b7fac"
     }
   },
   "transitions": [
@@ -168,6 +185,27 @@
       "actor": "codex:root",
       "reason": "record #680 implementation and validation evidence before exact review and PR publication",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented first-class Moonshot/Kimi K3 provider support in the bound issue worktree. The change adds native kimi/moonshot provider-kind routing, the kimi:k3 profile, Kimi setup generation, bounded provider documentation, runtime adapter reasoning_effort propagation, and issue-owned deterministic tests. Integration remains worktree-only pending exact review and PR publication.\",\"changes\":[\"Added native Kimi/Moonshot provider support in adl/src/provider/http_family.rs and wired it through adl/src/provider/mod.rs.\",\"Added kimi:k3 profile materialization and reasoning_effort validation in adl/src/provider/profiles.rs.\",\"Canonicalized moonshot as a Kimi provider alias in adl/src/provider_substrate.rs.\",\"Propagated Kimi runtime-adapter reasoning_effort in adl/src/provider_adapter.rs and validated Kimi K3 reasoning values in adl/src/provider_communication.rs.\",\"Added adl provider setup kimi/moonshot support in adl/src/cli/provider_cmd.rs and adl/src/cli/usage.rs.\",\"Documented Moonshot/Kimi setup in docs/tooling/PROVIDER_SETUP.md.\",\"Added issue-owned integration test target adl/tests/provider_moonshot_kimi_k3.rs.\"],\"artifacts\":[\"implementation_commit=db8994b498269ec3d29cbe491b63237ee8e1955a\",\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log sha256=3bd4f84ab979979667312256681f7414680d94a95f8941693b7e031e2596d0a6\",\".csdlc/evidence/680/strict-clippy-all-targets.log sha256=6e4b4b14f649de3418b8eec236d5c8b7b418e3466405d45200ad235a32aa2688\",\".csdlc/evidence/680/fmt-check.log sha256=257f02388635d9f01deba3c03fd79fdf5bca92fae67ddb08378aa8da0d483393\",\".csdlc/evidence/680/diff-check.log sha256=6457db7c0feffdc3b6d97aa5d989a84ff2ee7fdf2bf7c9e2369c5583971d3142\"],\"validation\":[{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"purpose\":\"Focused issue-owned Moonshot/Kimi K3 provider integration proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint proof for touched Rust provider surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/strict-clippy-all-targets.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for touched sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git whitespace diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/diff-check.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "recover silent exact-head review assignment; reviewer returned no PASS/FAIL payload after bounded wait",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
