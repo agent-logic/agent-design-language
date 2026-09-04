@@ -1,0 +1,332 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 662,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "41f56f945ae72d08e06dbe7830db99eae2c9aea72fdcfa3a89f593e6c9777d10",
+  "phase": "published",
+  "generation": 14,
+  "digest": "e87455d789474028488e04fa7d0dc5b4209048b667c8563191c76795f3ea9d51",
+  "branch": "codex/662-agent-to-agent-initiation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
+  "review_assignment": {
+    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+    "assigned_by": "codex:/root:issue-662-exec",
+    "revision": "git-blake3:d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3:d9971511ee2cbef68e2f1de4fccbfaf112f8667af3ee8cbc74c49e5cd73c83a1",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/prepared/issues/662/design.md",
+      ".csdlc/prepared/issues/662/diagram.mmd",
+      ".csdlc/prepared/issues/662/bind.json",
+      ".csdlc/prepared/issues/662/finalize-implementation.json",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/evidence/662"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/prepared/issues/662/design.md",
+      ".csdlc/prepared/issues/662/diagram.mmd",
+      ".csdlc/prepared/issues/662/bind.json",
+      ".csdlc/prepared/issues/662/finalize-implementation.json",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/evidence/662"
+    ],
+    "reviewed_revision": "git-blake3:d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3:d9971511ee2cbef68e2f1de4fccbfaf112f8667af3ee8cbc74c49e5cd73c83a1",
+    "findings": [],
+    "residual_risks": [
+      "Safe-tail review inspected clean branch HEAD 7bbb8ccc952cf3fdab286bf26e8c93e7cc6c1b4c and confirmed commits after d2dfa9c931ae7c4ee1400ec10a9c3d9934d7b9c3 are governed .csdlc/issues/662 metadata only.",
+      "No source changes were present after sender-identity fix 024afcd521b984f4b780ead4803507ea95a3938a in adl-runtime-kernel/src/control.rs or adl-runtime-kernel/src/telemetry.rs.",
+      "No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during safe-tail review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 662,
+    "pull_request": 668,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/668",
+    "base": "main",
+    "head": "codex/662-agent-to-agent-initiation",
+    "revision": "git-blake3:cf8c7c0ad6149b200e0fb72c2841a0b2875c050b:e5361e0b879beeddfd59ba4b9d0eba70673955d7357b62c1038f509f3ca7bf27",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/662/design.md",
+  "diagram_path": ".csdlc/prepared/issues/662/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-b8eb-7ae1-9616-28b5acf9845d",
+      "revision": "46cef885fa9e71182d32ae68c35e4d0893191e62793e7e26c413389762b87e39"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b0b9608bb48ddb4c05b542df83de218acf10817557cbafe88041469f1f8b8715",
+      "rendered_digest": "3f58782d50ee9b9fd73ee67152eba61d607fee4223098b680c5c0f3e1c1a69bb",
+      "ast_digest": "8d1cd6432ea644f770fdad24fc2499103564ce02f0df3084cc2d649edc32bdf7"
+    },
+    "stp": {
+      "values_digest": "c71bb54d7bdaef4abd484381835e6db76d16ce65c5a2a84857ea4a27af64c521",
+      "rendered_digest": "c48bb7ad9ba7285a23a71f6ae97e54f49365fb1e558f30fb414cb0eedc75cb41",
+      "ast_digest": "2f8254c052eca2a8e14f61e33bea7adba5af4aed5728fe93379ad093fdb34306"
+    },
+    "spp": {
+      "values_digest": "d2ca1c7b513399cad9a77f26c6f09749f607d61fd210c7ef3ea5d77a716f50b3",
+      "rendered_digest": "210f7d8779f8213a67be9e9f73822619acfe38dbf840213cd57fc23f0d4193fb",
+      "ast_digest": "dc5f615ba1d839dd28fb6944f405aaa61cb83da600e9d55b6c9f96c0c2fa271a"
+    },
+    "vpp": {
+      "values_digest": "a8661134424937517d33e595ad35d54853f60b2ad8fde09c446e4244e0d153be",
+      "rendered_digest": "4adb27da2ca9169c959966cb14eda245bfdfd20a822b3dd6403b71e2de49c337",
+      "ast_digest": "e9712598b0c20d348d08ae323f32e7940b07a02d99db4a5c526c6d6146bec8c2"
+    },
+    "srp": {
+      "values_digest": "749dbf38b484800d6d257b8890385cbdef7705899bf33de5b0b4be40b4bd76d2",
+      "rendered_digest": "71c3966b682c3175fdca091f2c96e2db64b7cdfc2e3423dc2ef8ae217e6ce546",
+      "ast_digest": "c61d92314e9fa30d064a770e77893cc5e2493d28a472f67fa2baaa889946923e"
+    },
+    "sor": {
+      "values_digest": "a85d4889f2bde8d58e9ef80606f3c165c12ce361e5b5a4a029268b1bbd60eebb",
+      "rendered_digest": "3557f9c3c8dfa175c9a25f1a4b2b26e9471a735f501ccbb4f4e55d533c34afb5",
+      "ast_digest": "5ccef1549a5d06226264ef33c145fcc2ac38e3e0b37698123a34d50fadd0a891"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-post-p1-fix",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after recording the post-sender-fix PASS review so a metadata-head review can cover the current branch head before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after recording the metadata-head PASS review so a final metadata-only review can cover the current review-record commit before publication."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-final-metadata-head",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after the final review-record commit so the next review/publication bridge starts after prior prepared-file metadata commits."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:662-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:662-bootstrap",
+      "reason": "Require an issue-owned focused validator wrapper for governed agent-to-agent initiation readiness rather than only a future cargo test filter.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-to-agent-initiation\",\"proof_role\":\"Prove successful governed Beacon-to-Ember initiation, distinct identity/correlation, replay behavior, cancellation, missing or stale recipient, unauthorized initiation, provider failure, and authoritative activity projection through deterministic Runtime integration tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/662/validate-focused.sh\"],\"parallel_group\":\"runtime-agent-initiation\",\"defer_reason\":\"The exact focused test implementation is an issue #662 deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:019ff3cb-b8eb-7ae1-9616-28b5acf9845d",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"46cef885fa9e71182d32ae68c35e4d0893191e62793e7e26c413389762b87e39\",\"design_ref\":\".csdlc/prepared/issues/662/design.md\",\"diagram_digest\":\"5bbc2be4c2f551beafcc4ccacdd46975fbfeb14ec62d83c07b52ef2509818775\",\"diagram_ref\":\".csdlc/prepared/issues/662/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:662-bootstrap",
+      "reason": "Invoke the issue-owned validator wrapper directly so the readiness guard can classify the lane as executable and governed.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-to-agent-initiation\",\"proof_role\":\"Prove successful governed Beacon-to-Ember initiation, distinct identity/correlation, replay behavior, cancellation, missing or stale recipient, unauthorized initiation, provider failure, and authoritative activity projection through deterministic Runtime integration tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\".csdlc/prepared/issues/662/validate-focused.sh\"],\"parallel_group\":\"runtime-agent-initiation\",\"defer_reason\":\"The exact focused test implementation is an issue #662 deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:662-bootstrap",
+      "reason": "Own the exact issue-local focused validator selected by the VPP.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\".csdlc/prepared/issues/662/validate-focused.sh\",\".csdlc/prepared/issues/662\",\".csdlc/issues/662\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-post-p1-fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after recording the post-sender-fix PASS review so a metadata-head review can cover the current branch head before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after recording the metadata-head PASS review so a final metadata-only review can cover the current review-record commit before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-final-metadata-head",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "Recover #662 review truth after the final review-record commit so the next review/publication bridge starts after prior prepared-file metadata commits.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "fresh-session:review-662-agent-to-agent-initiation-safe-tail",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:/root:issue-662-exec",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

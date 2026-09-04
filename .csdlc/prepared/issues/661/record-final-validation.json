@@ -1,0 +1,18 @@
+{
+  "issue": 661,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "b426e6b03d51a4ad149a1b5015497d3a674c5cf08f12dedf35f80490522dd40a",
+  "claim_id": "claim-661-shepherd-provider-reply",
+  "actor": "codex:661-implementation",
+  "reason": "The exact final substantive head preserves provider-backed conversation proof and prior non-conversation Shepherd ingress behavior.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", ".csdlc/prepared/issues/661/validate-focused.sh"],
+      "purpose": "Prove at exact substantive head c71d93f4c that fresh Shepherd turns return generated provider output, retain correlation, and surface provider failure without fallback",
+      "outcome": "passed",
+      "evidence_ref": "local:c71d93f4ca6afc13265df0678418149c6bbef42f:1-passed-0-failed"
+    }
+  }
+}

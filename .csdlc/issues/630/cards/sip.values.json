@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 630,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
+    "slug": "v3-h4-finish-clean-cutover-routes",
+    "version": "v0.92.1",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement and test v3 terminal truth, safe cleanup, and cutover decision routes under the one csdlc binary.",
+      "required_outcome": "The v3 finish, clean, and cutover routes have simple fail-closed typed behavior, focused regression tests, real-issue canary coverage, and no v2 source changes.",
+      "declared_scope": [
+        "csdlc-v3/src",
+        "csdlc-v3/tests",
+        "docs/csdlc-v3",
+        ".csdlc/prepared/issues/630",
+        ".csdlc/evidence/630"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains live operational authority until #505 cutover",
+        "v3 routes are construction evidence only",
+        "No live GitHub mutation through v3",
+        "No live issue finish through v3",
+        "No operational worktree cleanup through v3 before cutover",
+        "No v2 source changes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not merge #505",
+        "Do not perform cutover",
+        "Do not use raw gh",
+        "Do not use /private/tmp",
+        "Work only from a bound FastWork issue worktree"
+      ]
+    }
+  }
+}

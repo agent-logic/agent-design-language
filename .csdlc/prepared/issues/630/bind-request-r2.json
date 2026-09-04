@@ -1,0 +1,7 @@
+{
+  "issue": 630,
+  "base_branch": "codex/630-v3-h4-finish-clean-cutover-exec",
+  "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
+  "code_repository": "agent-logic/agent-design-language"
+}

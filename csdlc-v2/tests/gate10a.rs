@@ -808,6 +808,12 @@ fn freshly_installed_stable_edit_binary_is_executable() {
             branch: "issue-42".into(),
             worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     )
     .unwrap();

@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 661,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+    "slug": "runtime-shepherd-provider-reply",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Routed resident Shepherd conversation turns through the configured Shepherd operation adapter, projected generated provider responses into the existing conversation reply contract, and preserved explicit provider failure.",
+      "actual_changes": [
+        "Recognize resident Shepherd recipient ids from the canonical population and submit ShepherdRequest work to the Shepherd adapter.",
+        "Project only structurally valid, correlation-bound ShepherdResponse payloads as public conversation replies.",
+        "Carry the conversation recipient id inside the governed Shepherd request so public output remains bound to the addressed recipient.",
+        "Replace the hardcoded Shepherd acknowledgement assertion with deterministic generated-output and provider-failure proof."
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/shepherd.rs",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/661/validate-focused.sh"
+          ],
+          "purpose": "Prove at exact substantive head c71d93f4c that fresh Shepherd turns return generated provider output, retain correlation, and surface provider failure without fallback",
+          "outcome": "passed",
+          "evidence_ref": "local:c71d93f4ca6afc13265df0678418149c6bbef42f:1-passed-0-failed"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

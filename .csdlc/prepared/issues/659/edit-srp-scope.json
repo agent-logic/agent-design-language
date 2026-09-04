@@ -1,0 +1,19 @@
+{
+  "issue": 659,
+  "card": "srp",
+  "expected_generation": 8,
+  "expected_digest": "9b1bb5e07f318807b2be9e9394436832e8111a5b608c0f0c1f80d9aa094dda77",
+  "actor": "codex:659-preparation",
+  "reason": "Ensure exact review covers the Runtime-init schema, integration tests, service-control implementation, and issue proof surfaces.",
+  "operation": {
+    "operation": "correct_declared_scope_before_publication",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/issues/659",
+      ".csdlc/prepared/issues/659",
+      ".csdlc/evidence/659"
+    ]
+  }
+}

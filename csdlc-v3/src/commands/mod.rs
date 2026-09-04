@@ -3,3 +3,4 @@
 pub mod local;
 pub mod proof;
 pub mod remote;
+pub mod terminal;

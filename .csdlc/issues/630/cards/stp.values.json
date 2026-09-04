@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 630,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
+    "slug": "v3-h4-finish-clean-cutover-routes",
+    "version": "v0.92.1",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the V3-H.4 finish, cleanup, and cutover command routes and issue-owned proof.",
+      "deliverables": [
+        "csdlc finish route behavior and tests",
+        "csdlc clean route behavior and tests",
+        "csdlc cutover decision route behavior and tests",
+        "Real issue canary coverage for terminal and cleanup denial paths",
+        "Issue-owned validation script and retained evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Finish derives terminal truth from authenticated live PR/issue state and rejects caller-forged terminal authority.",
+        "AC-2: Cleanup derives worktree authority from actual Git worktree registration, not caller booleans or self-derived digests.",
+        "AC-3: Cleanup preserves distinct states: absent, unregistered, dirty, live, already removed, removable, and removed.",
+        "AC-4: Cutover records explicit operator approval, rollback evidence, selected binary provenance, and fail-closed rollback/undo boundaries.",
+        "AC-5: Tests include positive terminal closeout, stale/nonmerged/part-of denial, dirty/live worktree denial, symlink/path escape denial, and rollback refusal cases.",
+        "AC-6: No v2 source changes."
+      ],
+      "dependencies": [
+        "#625 sprint umbrella",
+        "#627 V3-H.1 command denominator",
+        "#629 V3-H.3 GitHub/publication lane"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#630",
+        "csdlc-v3/AGENTS.md",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/remote/mod.rs"
+      ],
+      "non_goals": [
+        "Perform #505 cutover",
+        "Retire v2",
+        "Merge or close #505",
+        "Mutate GitHub from v3",
+        "Change v2 source code"
+      ]
+    }
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 661,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c2d8c7b3bc4c3e0f9d362197bd9f30713c6418e5a1715a29a0937563827148a3",
+  "phase": "published",
+  "generation": 13,
+  "digest": "b5529320b7203f93a53112f09aaf7a5ebfc67d79eeae17913c66d7522d6ea9ec",
+  "branch": "codex/661-runtime-shepherd-provider-reply",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_661_current_head_safe_bridge",
+    "assigned_by": "codex:/root/issue_661_publication_recovery",
+    "revision": "git-blake3:9c33e8376abaa5748ce794b8f2bbeae98dcfe8e9:606ef0b6806691771a814e96ffc770fb8970c4036c93a8ef8d9b3fb77a189a16",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/661/validate-focused.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_661_current_head_safe_bridge",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/661/validate-focused.sh"
+    ],
+    "reviewed_revision": "git-blake3:9c33e8376abaa5748ce794b8f2bbeae98dcfe8e9:606ef0b6806691771a814e96ffc770fb8970c4036c93a8ef8d9b3fb77a189a16",
+    "findings": [],
+    "residual_risks": [
+      "Read-only source-scope review only; no live provider, AWS, paid runner, or Runtime restart was performed.",
+      "Focused validation proves the deterministic Shepherd conversation provider-reply path; hosted CI remains the final integration gate before merge.",
+      "Agent-to-agent initiation and broader Runtime live-provider semantics are outside issue #661 scope and are not claimed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 661,
+    "pull_request": 666,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/666",
+    "base": "main",
+    "head": "codex/661-runtime-shepherd-provider-reply",
+    "revision": "git-blake3:2de859974161016f803611f26222b2a7abf3799c:e84d07a2add46f5bc88694d0f7544bd8789b67c0079d1ec48a275a3f461df497",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/661/design.md",
+  "diagram_path": ".csdlc/prepared/issues/661/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:661-plan-review",
+      "revision": "68723dcb68dd267e3c67f4af99d34e1084b46e2c077ca19616c4d0f1c996ea21"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b744341f18448ad5b2346a434e57b04c0e4313acdb7af83daeee59adbb7520d4",
+      "rendered_digest": "f81858805d6596c05d714b6694a8adde96047af590ebc6970a4985d59a3d4aa8",
+      "ast_digest": "be404bc1b531b0b8363255094d4cfe1289e0448763882de267a515502bdfedd4"
+    },
+    "stp": {
+      "values_digest": "c74fea02b6239d3203c80e3fc6cd820f6d371ddbf21ab106de6a21498a49a83d",
+      "rendered_digest": "31248829a6d785b2b6cc9d845d0078b7d07c978554285bdbd3ca83c41aee5c02",
+      "ast_digest": "53365e39345337f25b5d609b1050fa15319db4a1c076eebda90d03d720729b18"
+    },
+    "spp": {
+      "values_digest": "2e08b53b28c3a4c20fc210ce623abfaa04caa7aba7c5be21a08782cdb53a9861",
+      "rendered_digest": "12ac832fd8e998d0f9c56d423586f18218e86688635870d686aa4f4f073f4f6c",
+      "ast_digest": "7c255866c472dca18e47a429c3bd7e74cca7feb5cca2c9d7bea6e5a7693e13b6"
+    },
+    "vpp": {
+      "values_digest": "8dbc80eb264f0b2075d67b4adea895bfba77799431444460010bc945813879a9",
+      "rendered_digest": "f9198f867c8b5717a736e229a13cea05a8187261e47afd0f405ed485ec52e200",
+      "ast_digest": "767a29466b340a8097e12325683113b0ced0c9c3fc26117a56a4c6cf1743c7af"
+    },
+    "srp": {
+      "values_digest": "d98d173fdff851c46656da6ede3a64202d2a6a60964e7ccf4ef008be64be1c13",
+      "rendered_digest": "332004576bcc2c33fb5eee5704a10b36105d8badd5cd4268c9942023f4784849",
+      "ast_digest": "c6a78d6c7b3dbc700d381cc12d78a75701ab078fd4d4b729c6d9ff1fad4bb438"
+    },
+    "sor": {
+      "values_digest": "d24b1cd2c7b4eef228c9b3a3557418cce1db7c676b9318b2311f43ff504cc699",
+      "rendered_digest": "e29fa71d298635818d3312368fa575be5916f076c4efed2c5bf1dc9576702924",
+      "ast_digest": "0fd82d53d70fce1044f3af688543706249abbfa170b87a5d6718c873fd145aee"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:661-implementation",
+      "reason": "Provider-backed Shepherd conversation replies, explicit failure behavior, focused proof, full library tests, strict lint, production binary check, formatting, and diff hygiene are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/shepherd_model_reply_fix",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after the review-record metadata commit so publication can require a fresh current-head review without treating retained stale metadata as merge-ready truth."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after a review-record commit included prepared request files that are not accepted by the publication metadata-only bridge; reassign at the current committed head and record the next review using only safe metadata paths."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue_661_publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:661-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:661-bootstrap",
+      "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-shepherd-provider-reply\",\"proof_role\":\"Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"shepherd_conversation_invokes_configured_provider\"],\"parallel_group\":\"runtime-shepherd\",\"defer_reason\":\"The exact focused test is an issue #661 implementation deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:661-bootstrap",
+      "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-shepherd-provider-reply\",\"proof_role\":\"Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"parallel_group\":\"runtime-shepherd\",\"defer_reason\":\"The exact focused test is an issue #661 implementation deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:661-bootstrap",
+      "reason": "Own the exact issue-local validation wrapper selected by the VPP.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\".csdlc/prepared/issues/661/validate-focused.sh\",\".csdlc/prepared/issues/661\",\".csdlc/issues/661\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:661-bootstrap",
+      "reason": "Require an issue-specific nonzero Shepherd provider-reply test target rather than a generic conversation substring.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-shepherd-provider-reply\",\"proof_role\":\"Prove fresh Shepherd turns invoke the configured provider, return generated content with correct correlation, and expose provider failure without fallback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"parallel_group\":\"runtime-shepherd\",\"defer_reason\":\"The exact focused test is an issue #661 implementation deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff whitespace hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:661-implementation",
+      "reason": "Record provider-backed Shepherd conversation execution and focused local proof before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Routed resident Shepherd conversation turns through the configured Shepherd operation adapter, projected generated provider responses into the existing conversation reply contract, and preserved explicit provider failure.\",\"changes\":[\"Recognize resident Shepherd recipient ids from the canonical population and submit ShepherdRequest work to the Shepherd adapter.\",\"Project only structurally valid, correlation-bound ShepherdResponse payloads as public conversation replies.\",\"Carry the conversation recipient id inside the governed Shepherd request so public output remains bound to the addressed recipient.\",\"Replace the hardcoded Shepherd acknowledgement assertion with deterministic generated-output and provider-failure proof.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/shepherd.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:661-implementation",
+      "reason": "Provider-backed Shepherd conversation replies, explicit failure behavior, focused proof, full library tests, strict lint, production binary check, formatting, and diff hygiene are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:661-implementation",
+      "reason": "The exact final substantive head preserves provider-backed conversation proof and prior non-conversation Shepherd ingress behavior.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/661/validate-focused.sh\"],\"purpose\":\"Prove at exact substantive head c71d93f4c that fresh Shepherd turns return generated provider output, retain correlation, and surface provider failure without fallback\",\"outcome\":\"passed\",\"evidence_ref\":\"local:c71d93f4ca6afc13265df0678418149c6bbef42f:1-passed-0-failed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root/shepherd_model_reply_fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/shepherd_model_reply_fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after the review-record metadata commit so publication can require a fresh current-head review without treating retained stale metadata as merge-ready truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "Recover from reviewed state after a review-record commit included prepared request files that are not accepted by the publication metadata-only bridge; reassign at the current committed head and record the next review using only safe metadata paths.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root/issue_661_publication_recovery",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root/issue_661_publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

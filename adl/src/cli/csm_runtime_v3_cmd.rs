@@ -1,14 +1,73 @@
 use std::fs::{self, OpenOptions};
-use std::io;
+use std::io::{self, Read};
+use std::net::TcpStream;
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Output, Stdio};
 use std::time::Duration;
 
 use adl_runtime_kernel::RuntimeInitConfig;
 use anyhow::{anyhow, Context, Result};
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 const DEFAULT_LABEL: &str = "com.agentlogic.adl-runtime-v3";
+const RUNTIME_GENERATION_RECEIPT_SCHEMA: &str = "adl.runtime_v3.install_generation.v1";
+const RUNTIME_INIT_SCHEMA: &str = "adl.runtime_v3.init.v1";
+
+#[derive(Debug)]
+struct ServiceManagerDeadlineExceeded {
+    timeout: Duration,
+}
+
+impl std::fmt::Display for ServiceManagerDeadlineExceeded {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            formatter,
+            "service-manager probe exceeded {} milliseconds",
+            self.timeout.as_millis()
+        )
+    }
+}
+
+impl std::error::Error for ServiceManagerDeadlineExceeded {}
+
+#[derive(Debug)]
+struct ConvergenceDeadlineExceeded {
+    stage: &'static str,
+    timeout: Duration,
+}
+
+impl std::fmt::Display for ConvergenceDeadlineExceeded {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            formatter,
+            "Runtime v3 convergence stage {} did not complete within {} milliseconds",
+            self.stage,
+            self.timeout.as_millis()
+        )
+    }
+}
+
+impl std::error::Error for ConvergenceDeadlineExceeded {}
+
+#[derive(Debug, Deserialize)]
+struct RuntimeGenerationReceipt {
+    schema: String,
+    generation: String,
+    source_revision: String,
+    platform: String,
+    build_profile: String,
+    runtime_init_schema: String,
+    artifacts: std::collections::BTreeMap<String, RuntimeGenerationArtifact>,
+}
+
+#[derive(Debug, Deserialize)]
+struct RuntimeGenerationArtifact {
+    file: String,
+    sha256: String,
+}
 
 #[derive(Debug, Clone)]
 struct RuntimeV3ServiceArgs {
@@ -149,54 +208,360 @@ fn validated_init(path: &Path) -> Result<RuntimeInitConfig> {
     Ok(init)
 }
 
+fn run_after_preflight<T>(
+    preflight: impl FnOnce() -> Result<()>,
+    service_mutation: impl FnOnce() -> Result<T>,
+) -> Result<T> {
+    preflight()?;
+    service_mutation()
+}
+
+fn validate_runtime_generation(init: &RuntimeInitConfig) -> Result<()> {
+    validate_runtime_generation_with_service_binary(init, &std::env::current_exe()?)
+}
+
+fn validate_runtime_generation_with_service_binary(
+    init: &RuntimeInitConfig,
+    service_binary: &Path,
+) -> Result<()> {
+    let kernel_path = &init.binaries.kernel_path;
+    let Some(bin_dir) = kernel_path.parent() else {
+        return Err(anyhow!("Runtime v3 kernel path has no bin directory"));
+    };
+    let Some(current) = bin_dir.parent() else {
+        return Err(anyhow!(
+            "Runtime v3 kernel path has no installation generation"
+        ));
+    };
+    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
+        return Err(anyhow!(
+            "Runtime v3 service init must resolve its kernel through current/bin"
+        ));
+    }
+    let metadata = fs::symlink_metadata(current).with_context(|| {
+        format!(
+            "inspect Runtime v3 current generation {}",
+            current.display()
+        )
+    })?;
+    if !metadata.file_type().is_symlink() {
+        return Err(anyhow!(
+            "Runtime v3 current generation is not an atomic symlink: {}",
+            current.display()
+        ));
+    }
+    let generation = current.canonicalize().with_context(|| {
+        format!(
+            "resolve Runtime v3 current generation {}",
+            current.display()
+        )
+    })?;
+    let generation_name = generation
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| anyhow!("Runtime v3 generation directory name is invalid"))?;
+    let generations = current
+        .parent()
+        .ok_or_else(|| anyhow!("Runtime v3 current generation has no install root"))?
+        .join("generations")
+        .canonicalize()
+        .context("resolve Runtime v3 generations directory")?;
+    if generation.parent() != Some(generations.as_path()) {
+        return Err(anyhow!(
+            "Runtime v3 current generation escapes generations directory"
+        ));
+    }
+    let receipt_path = generation.join("receipt.json");
+    let receipt: RuntimeGenerationReceipt =
+        serde_json::from_slice(&fs::read(&receipt_path).with_context(|| {
+            format!(
+                "read Runtime v3 generation receipt {}",
+                receipt_path.display()
+            )
+        })?)
+        .with_context(|| {
+            format!(
+                "parse Runtime v3 generation receipt {}",
+                receipt_path.display()
+            )
+        })?;
+    if receipt.schema != RUNTIME_GENERATION_RECEIPT_SCHEMA
+        || receipt.generation != generation_name
+        || receipt.runtime_init_schema != RUNTIME_INIT_SCHEMA
+        || receipt.source_revision.trim().is_empty()
+        || receipt.platform != format!("{}-{}", std::env::consts::OS, std::env::consts::ARCH)
+        || receipt.build_profile.trim().is_empty()
+    {
+        return Err(anyhow!(
+            "Runtime v3 generation receipt identity or compatibility is invalid"
+        ));
+    }
+    let expected = [
+        ("csm", "csm"),
+        ("guardian", "adl-runtime-guardian"),
+        ("kernel", "adl-runtime-kernel"),
+    ];
+    if receipt.artifacts.len() != expected.len() {
+        return Err(anyhow!(
+            "Runtime v3 generation receipt artifact set is incomplete"
+        ));
+    }
+    for (key, filename) in expected {
+        let artifact = receipt
+            .artifacts
+            .get(key)
+            .ok_or_else(|| anyhow!("Runtime v3 generation receipt is missing {key}"))?;
+        if artifact.file != format!("bin/{filename}") {
+            return Err(anyhow!(
+                "Runtime v3 generation receipt path mismatch for {key}"
+            ));
+        }
+        let path = generation.join(&artifact.file);
+        let metadata = fs::symlink_metadata(&path).with_context(|| {
+            format!("inspect Runtime v3 generation artifact {}", path.display())
+        })?;
+        if !metadata.file_type().is_file() {
+            return Err(anyhow!(
+                "Runtime v3 generation artifact is missing: {}",
+                path.display()
+            ));
+        }
+        #[cfg(unix)]
+        if metadata.permissions().mode() & 0o111 == 0 {
+            return Err(anyhow!(
+                "Runtime v3 generation artifact is not executable: {}",
+                path.display()
+            ));
+        }
+        let bytes = fs::read(&path)
+            .with_context(|| format!("hash Runtime v3 generation artifact {}", path.display()))?;
+        let actual = format!("{:x}", Sha256::digest(bytes));
+        if actual != artifact.sha256 {
+            return Err(anyhow!(
+                "Runtime v3 generation artifact hash mismatch: {filename}"
+            ));
+        }
+    }
+    let expected_kernel = generation.join("bin/adl-runtime-kernel").canonicalize()?;
+    if kernel_path.canonicalize()? != expected_kernel {
+        return Err(anyhow!(
+            "Runtime v3 init kernel does not belong to the current generation"
+        ));
+    }
+    let expected_csm = generation.join("bin/csm").canonicalize()?;
+    if service_binary.canonicalize()? != expected_csm {
+        return Err(anyhow!(
+            "Runtime v3 service control does not belong to the current generation"
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(target_os = "macos")]
+fn validate_runtime_service_definition(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+) -> Result<()> {
+    let kernel = &init.binaries.kernel_path;
+    let Some(current) = kernel.parent().and_then(Path::parent) else {
+        return Err(anyhow!("Runtime v3 launchd init has no current generation"));
+    };
+    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
+        return Err(anyhow!(
+            "Runtime v3 launchd init must resolve through current/bin"
+        ));
+    }
+    let plist = match args.plist.as_ref() {
+        Some(source) => source.clone(),
+        None => installed_launchd_plist(args)?,
+    };
+    let expected_guardian = current.join("bin/adl-runtime-guardian");
+    let executable = launchd_program_executable(&plist)?;
+    if executable != expected_guardian {
+        return Err(anyhow!(
+            "Runtime v3 launchd Guardian does not resolve through the current generation"
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(target_os = "macos")]
+fn launchd_program_executable(plist: &Path) -> Result<PathBuf> {
+    let output = Command::new("/usr/bin/plutil")
+        .args(["-extract", "ProgramArguments.0", "raw", "-o", "-"])
+        .arg(plist)
+        .output()
+        .with_context(|| format!("parse Runtime v3 launchd definition {}", plist.display()))?;
+    if !output.status.success() {
+        return Err(anyhow!("Runtime v3 launchd ProgramArguments is invalid"));
+    }
+    let executable = String::from_utf8(output.stdout)
+        .context("decode Runtime v3 launchd executable")?
+        .trim()
+        .to_owned();
+    if executable.is_empty() || !Path::new(&executable).is_absolute() {
+        return Err(anyhow!("Runtime v3 launchd executable is invalid"));
+    }
+    Ok(PathBuf::from(executable))
+}
+
+#[cfg(target_os = "linux")]
+fn validate_runtime_service_definition(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+) -> Result<()> {
+    let kernel = &init.binaries.kernel_path;
+    let Some(current) = kernel.parent().and_then(Path::parent) else {
+        return Err(anyhow!("Runtime v3 systemd init has no current generation"));
+    };
+    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
+        return Err(anyhow!(
+            "Runtime v3 systemd init must resolve through current/bin"
+        ));
+    }
+    let output = Command::new("systemctl")
+        .args([
+            "show",
+            &systemd_unit(args),
+            "--property=ExecStart",
+            "--value",
+        ])
+        .output()
+        .context("inspect Runtime v3 systemd definition")?;
+    if !output.status.success() {
+        return Err(anyhow!("Runtime v3 systemd definition is unavailable"));
+    }
+    let definition =
+        String::from_utf8(output.stdout).context("decode Runtime v3 systemd definition")?;
+    let expected_guardian = current.join("bin/adl-runtime-guardian");
+    let executable = systemd_exec_start_executable(&definition)?;
+    if executable != expected_guardian {
+        return Err(anyhow!(
+            "Runtime v3 systemd Guardian does not resolve through the current generation"
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(any(target_os = "linux", test))]
+fn systemd_exec_start_executable(definition: &str) -> Result<PathBuf> {
+    let trimmed = definition.trim();
+    let executable = if let Some(after_path) = trimmed.strip_prefix("{ path=") {
+        after_path
+            .split_once(" ;")
+            .map(|(value, _)| value.trim())
+            .unwrap_or_else(|| after_path.split_whitespace().next().unwrap_or_default())
+    } else {
+        trimmed
+            .trim_start_matches('{')
+            .split_whitespace()
+            .next()
+            .unwrap_or_default()
+    };
+    if executable.is_empty() || !Path::new(executable).is_absolute() {
+        return Err(anyhow!(
+            "Runtime v3 systemd ExecStart executable is invalid"
+        ));
+    }
+    Ok(PathBuf::from(executable))
+}
+
+#[cfg(not(any(target_os = "macos", target_os = "linux")))]
+fn validate_runtime_service_definition(
+    _args: &RuntimeV3ServiceArgs,
+    _init: &RuntimeInitConfig,
+) -> Result<()> {
+    Err(anyhow!(
+        "Runtime v3 service control supports launchd and systemd"
+    ))
+}
+
 fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
     if args.candidate.is_some() {
         return Err(anyhow!("--candidate is valid only with runtime-v3 reload"));
     }
-    reconcile_interrupted_reload(args)?;
     let init = validated_init(&args.init)?;
-    if owned_runtime_readiness(args, &init).is_ok() {
-        return emit_status(args, &init, "start", true);
-    }
-    start_clean(args, &init)?;
-    emit_status(args, &init, "start", true)
+    run_after_preflight(
+        || {
+            validate_runtime_generation(&init)?;
+            validate_runtime_service_definition(args, &init)
+        },
+        || {
+            reconcile_interrupted_reload(args)?;
+            if owned_runtime_readiness(args, &init).is_ok() {
+                return emit_status(args, &init, "start", true);
+            }
+            start_clean(args, &init)?;
+            emit_status(args, &init, "start", true)
+        },
+    )
 }
 
 fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    reconcile_interrupted_reload(args)?;
     let current = validated_init(&args.init)?;
-    let Some(candidate_path) = args.candidate.as_ref() else {
-        start_clean(args, &current)?;
-        return emit_status(args, &current, "reload", true);
-    };
-    let candidate = validated_init(candidate_path)?;
-    stop_and_wait(args, &current)?;
-    let backup = match replace_config_with_candidate(&args.init, candidate_path) {
+    let candidate = args
+        .candidate
+        .as_ref()
+        .map(|path| validated_init(path))
+        .transpose()?;
+    run_after_preflight(
+        || {
+            validate_runtime_generation(&current)?;
+            if let Some(candidate) = candidate.as_ref() {
+                validate_runtime_generation(candidate)?;
+            }
+            validate_runtime_service_definition(args, &current)
+        },
+        || {
+            reconcile_interrupted_reload(args)?;
+            let Some((candidate_path, candidate)) = args.candidate.as_ref().zip(candidate.as_ref())
+            else {
+                start_clean(args, &current)?;
+                return emit_status(args, &current, "reload", true);
+            };
+            reload_candidate_transaction(
+                &args.init,
+                candidate_path,
+                || stop_and_wait(args, &current),
+                || start_and_wait(args, candidate),
+                || stop_and_wait(args, candidate),
+                || start_and_wait(args, &current),
+            )?;
+            emit_status(args, candidate, "reload", true)
+        },
+    )
+}
+
+fn reload_candidate_transaction(
+    active: &Path,
+    candidate_path: &Path,
+    stop_current: impl FnOnce() -> Result<()>,
+    start_candidate: impl FnOnce() -> Result<()>,
+    stop_candidate: impl FnOnce() -> Result<()>,
+    start_current: impl FnOnce() -> Result<()>,
+) -> Result<()> {
+    stop_current()?;
+    let backup = match replace_config_with_candidate(active, candidate_path) {
         Ok(backup) => backup,
         Err(error) => {
-            start_and_wait(args, &current)
-                .context("Runtime v3 did not recover after candidate install failed")?;
+            start_current().context("Runtime v3 did not recover after candidate install failed")?;
             return Err(error);
         }
     };
-    let reload_result = start_and_wait(args, &candidate);
-    if let Err(reload_error) = reload_result {
-        stop_and_wait(args, &candidate)
-            .context("stop failed Runtime v3 candidate before config rollback")?;
-        restore_last_known_good(&args.init, &backup).with_context(|| {
+    if let Err(reload_error) = start_candidate() {
+        stop_candidate().context("stop failed Runtime v3 candidate before config rollback")?;
+        restore_last_known_good(active, &backup).with_context(|| {
             format!(
                 "restore last-known-good Runtime v3 init {}",
-                args.init.display()
+                active.display()
             )
         })?;
-        start_and_wait(args, &current)
-            .context("Runtime v3 did not recover after config rollback")?;
+        start_current().context("Runtime v3 did not recover after config rollback")?;
         return Err(anyhow!(
             "Runtime v3 candidate reload failed and last-known-good configuration was restored: {reload_error}"
         ));
     }
-    commit_candidate(&args.init, &backup)?;
-    emit_status(args, &candidate, "reload", true)
+    commit_candidate(active, &backup)
 }
 
 fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<PathBuf> {
@@ -276,6 +641,12 @@ fn reload_transaction_paths(active: &Path) -> Result<(PathBuf, PathBuf)> {
 
 fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let active = &args.init;
+    let (backup, _) = reload_transaction_paths(active)?;
+    let recovery_convergence = if backup.exists() {
+        validated_init(&backup)?.service_convergence
+    } else {
+        Default::default()
+    };
     reconcile_interrupted_reload_with(
         active,
         |backup| validated_init(backup).map(|_| ()),
@@ -285,14 +656,23 @@ fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                 .is_ok()
         },
         || {
-            if !platform_stopped(args)? {
-                let guardian_process_id = platform_process_id(args);
-                platform_stop(args)?;
-                if let Ok(init) = validated_init(active) {
-                    wait_for_stopped(args, &init, guardian_process_id, Duration::from_secs(15))?;
-                } else {
-                    wait_for_service_unloaded(args, Duration::from_secs(15))?;
+            if let Ok(init) = validated_init(active) {
+                stop_and_wait_with_timeout(
+                    args,
+                    &init,
+                    Duration::from_millis(recovery_convergence.stop_timeout_millis),
+                )?;
+            } else {
+                let timeout = Duration::from_millis(recovery_convergence.unload_timeout_millis);
+                let deadline = std::time::Instant::now() + timeout;
+                platform_stop_with_timeout(args, timeout)
+                    .map_err(|error| normalize_stage_timeout(error, "unload", timeout))?;
+                let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+                if remaining.is_zero() {
+                    return convergence_timeout("unload", timeout);
                 }
+                wait_for_service_unloaded(args, remaining)
+                    .map_err(|error| normalize_stage_timeout(error, "unload", timeout))?;
             }
             Ok(())
         },
@@ -365,9 +745,11 @@ fn sync_parent(path: &Path) -> Result<()> {
 
 fn stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let init = validated_init(&args.init)?;
-    let guardian_process_id = platform_process_id(args);
-    platform_stop(args)?;
-    wait_for_stopped(args, &init, guardian_process_id, Duration::from_secs(15))?;
+    stop_and_wait_with_timeout(
+        args,
+        &init,
+        Duration::from_millis(init.service_convergence.stop_timeout_millis),
+    )?;
     emit_status(args, &init, "stop", false)
 }
 
@@ -377,14 +759,51 @@ fn start_clean(args: &RuntimeV3ServiceArgs, init: &RuntimeInitConfig) -> Result<
 }
 
 fn stop_and_wait(args: &RuntimeV3ServiceArgs, current: &RuntimeInitConfig) -> Result<()> {
-    let guardian_process_id = platform_process_id(args);
-    platform_stop(args)?;
-    wait_for_stopped(args, current, guardian_process_id, Duration::from_secs(15))
+    stop_and_wait_with_timeout(
+        args,
+        current,
+        Duration::from_millis(current.service_convergence.stop_timeout_millis),
+    )
+}
+
+fn stop_and_wait_with_timeout(
+    args: &RuntimeV3ServiceArgs,
+    current: &RuntimeInitConfig,
+    timeout: Duration,
+) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
+    let guardian_process_id = platform_process_id_with_timeout(args, timeout)
+        .map_err(|error| normalize_stage_timeout(error, "stop", timeout))?;
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    platform_stop_with_timeout(args, remaining)
+        .map_err(|error| normalize_stage_timeout(error, "stop", timeout))?;
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    wait_for_stopped(args, current, guardian_process_id, remaining)
+        .map_err(|error| normalize_stage_timeout(error, "stop", timeout))
 }
 
 fn start_and_wait(args: &RuntimeV3ServiceArgs, next: &RuntimeInitConfig) -> Result<()> {
-    platform_start(args)?;
-    wait_for_listener(args, next, Duration::from_secs(15))
+    let timeout = Duration::from_millis(next.service_convergence.listener_timeout_millis);
+    let deadline = std::time::Instant::now() + timeout;
+    platform_start_with_timeout(args, timeout)
+        .map_err(|error| normalize_stage_timeout(error, "listener", timeout))?;
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("listener", timeout);
+    }
+    wait_for_listener_open(next, remaining)
+        .map_err(|error| normalize_stage_timeout(error, "listener", timeout))?;
+    wait_for_readiness(
+        args,
+        next,
+        Duration::from_millis(next.service_convergence.readiness_timeout_millis),
+    )
 }
 
 fn status(args: &RuntimeV3ServiceArgs, operation: &'static str) -> Result<()> {
@@ -395,7 +814,19 @@ fn status(args: &RuntimeV3ServiceArgs, operation: &'static str) -> Result<()> {
         ));
     }
     let init = validated_init(&args.init)?;
-    let loaded = platform_loaded(args);
+    validate_runtime_generation(&init)?;
+    validate_runtime_service_definition(args, &init)?;
+    let loaded = platform_loaded_with_timeout(
+        args,
+        Duration::from_millis(init.service_convergence.listener_timeout_millis),
+    )
+    .map_err(|error| {
+        normalize_stage_timeout(
+            error,
+            "listener",
+            Duration::from_millis(init.service_convergence.listener_timeout_millis),
+        )
+    })?;
     let ready = owned_runtime_readiness(args, &init).is_ok();
     emit_status(args, &init, operation, loaded && ready)?;
     if !loaded || !ready {
@@ -412,7 +843,18 @@ fn emit_status(
     operation: &'static str,
     expected_ready: bool,
 ) -> Result<()> {
-    let loaded = platform_loaded(args);
+    let timeout = if operation == "stop" {
+        Duration::from_millis(init.service_convergence.stop_timeout_millis)
+    } else {
+        Duration::from_millis(init.service_convergence.listener_timeout_millis)
+    };
+    let stage = if operation == "stop" {
+        "stop"
+    } else {
+        "listener"
+    };
+    let loaded = platform_loaded_with_timeout(args, timeout)
+        .map_err(|error| normalize_stage_timeout(error, stage, timeout))?;
     let readiness = owned_runtime_readiness(args, init).ok();
     let ready = readiness.is_some();
     let report = RuntimeV3ServiceStatus {
@@ -455,9 +897,24 @@ fn owned_runtime_readiness(
     args: &RuntimeV3ServiceArgs,
     init: &RuntimeInitConfig,
 ) -> Result<RuntimeReadinessProbe> {
-    let service_process_id = platform_process_id(args)
+    owned_runtime_readiness_with_timeout(args, init, Duration::from_millis(750))
+}
+
+fn owned_runtime_readiness_with_timeout(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+    request_timeout: Duration,
+) -> Result<RuntimeReadinessProbe> {
+    let deadline = std::time::Instant::now() + request_timeout;
+    let service_process_id = platform_process_id_with_timeout(args, request_timeout)?
         .ok_or_else(|| anyhow!("Runtime v3 service manager has no live process identity"))?;
-    let readiness = runtime_readiness(init)?;
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return Err(anyhow!(
+            "Runtime v3 service-manager identity probe exhausted readiness budget"
+        ));
+    }
+    let readiness = runtime_readiness_with_timeout(init, remaining)?;
     let active_init_hash = file_hash(&args.init)?;
     validate_owned_readiness(service_process_id, &active_init_hash, &readiness)?;
     Ok(readiness)
@@ -483,7 +940,10 @@ fn validate_owned_readiness(
     Ok(())
 }
 
-fn runtime_readiness(init: &RuntimeInitConfig) -> Result<RuntimeReadinessProbe> {
+fn runtime_readiness_with_timeout(
+    init: &RuntimeInitConfig,
+    request_timeout: Duration,
+) -> Result<RuntimeReadinessProbe> {
     let addresses = init
         .socket_addrs()
         .context("resolve Runtime v3 API address")?;
@@ -500,7 +960,7 @@ fn runtime_readiness(init: &RuntimeInitConfig) -> Result<RuntimeReadinessProbe> 
     let certificates =
         reqwest::Certificate::from_pem_bundle(&roots).context("parse Runtime v3 trust roots")?;
     let mut builder = reqwest::blocking::Client::builder()
-        .timeout(Duration::from_millis(750))
+        .timeout(request_timeout)
         .tls_built_in_root_certs(false)
         .resolve(&init.api.tls.server_name, address);
     for certificate in certificates {
@@ -542,23 +1002,41 @@ fn validate_readiness_probe(readiness: &RuntimeReadinessProbe) -> Result<()> {
     Ok(())
 }
 
-fn wait_for_listener(
+fn wait_for_listener_open(init: &RuntimeInitConfig, timeout: Duration) -> Result<()> {
+    let addresses = init
+        .socket_addrs()
+        .context("resolve Runtime v3 listener address")?;
+    wait_for_convergence("listener", timeout, |remaining| {
+        let attempt_deadline = std::time::Instant::now() + remaining;
+        for address in &addresses {
+            let remaining = attempt_deadline.saturating_duration_since(std::time::Instant::now());
+            if remaining.is_zero() {
+                return Ok(false);
+            }
+            if TcpStream::connect_timeout(address, remaining.min(Duration::from_millis(750)))
+                .is_ok()
+            {
+                return Ok(true);
+            }
+        }
+        Ok(false)
+    })
+    .with_context(|| format!("connect to Runtime v3 listener {}", init.api.address))
+}
+
+fn wait_for_readiness(
     args: &RuntimeV3ServiceArgs,
     init: &RuntimeInitConfig,
     timeout: Duration,
 ) -> Result<()> {
-    let deadline = std::time::Instant::now() + timeout;
-    while std::time::Instant::now() < deadline {
-        if owned_runtime_readiness(args, init).is_ok() {
-            return Ok(());
-        }
-        std::thread::sleep(Duration::from_millis(200));
-    }
-    Err(anyhow!(
-        "Runtime v3 listener {} did not become ready within {} seconds",
-        init.api.address,
-        timeout.as_secs()
-    ))
+    wait_for_convergence("readiness", timeout, |remaining| {
+        Ok(owned_runtime_readiness_with_timeout(
+            args,
+            init,
+            remaining.min(Duration::from_millis(750)),
+        )
+        .is_ok())
+    })
 }
 
 fn wait_for_stopped(
@@ -567,35 +1045,88 @@ fn wait_for_stopped(
     stopped_guardian_process_id: Option<u32>,
     timeout: Duration,
 ) -> Result<()> {
-    let deadline = std::time::Instant::now() + timeout;
-    while std::time::Instant::now() < deadline {
-        let stopped_listener_gone = runtime_readiness(init).map_or(true, |readiness| {
+    wait_for_convergence("stop", timeout, |remaining| {
+        let attempt_deadline = std::time::Instant::now() + remaining;
+        let stopped_listener_gone = runtime_readiness_with_timeout(
+            init,
+            attempt_deadline
+                .saturating_duration_since(std::time::Instant::now())
+                .min(Duration::from_millis(750)),
+        )
+        .map_or(true, |readiness| {
             stopped_guardian_process_id
                 .is_some_and(|process_id| process_id != readiness.guardian_process_id)
         });
-        if platform_stopped(args)? && stopped_listener_gone {
-            return Ok(());
+        let remaining = attempt_deadline.saturating_duration_since(std::time::Instant::now());
+        if remaining.is_zero() {
+            return Ok(false);
         }
-        std::thread::sleep(Duration::from_millis(200));
-    }
-    Err(anyhow!(
-        "Runtime v3 service did not stop within {} seconds",
-        timeout.as_secs()
-    ))
+        Ok(platform_stopped_with_timeout(args, remaining)? && stopped_listener_gone)
+    })
 }
 
 fn wait_for_service_unloaded(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    wait_for_convergence("unload", timeout, |remaining| {
+        platform_stopped_with_timeout(args, remaining)
+    })
+}
+
+fn wait_for_convergence(
+    stage: &'static str,
+    timeout: Duration,
+    mut converged: impl FnMut(Duration) -> Result<bool>,
+) -> Result<()> {
     let deadline = std::time::Instant::now() + timeout;
-    while std::time::Instant::now() < deadline {
-        if platform_stopped(args)? {
+    loop {
+        let now = std::time::Instant::now();
+        let remaining = deadline.saturating_duration_since(now);
+        if remaining.is_zero() {
+            break;
+        }
+        let success = converged(remaining)?;
+        if std::time::Instant::now() >= deadline {
+            break;
+        }
+        if success {
             return Ok(());
         }
-        std::thread::sleep(Duration::from_millis(200));
+        let now = std::time::Instant::now();
+        if now >= deadline {
+            break;
+        }
+        std::thread::sleep(
+            deadline
+                .saturating_duration_since(now)
+                .min(Duration::from_millis(200)),
+        );
     }
-    Err(anyhow!(
-        "Runtime v3 service manager did not unload within {} seconds",
-        timeout.as_secs()
-    ))
+    convergence_timeout(stage, timeout)
+}
+
+fn convergence_timeout<T>(stage: &'static str, timeout: Duration) -> Result<T> {
+    Err(convergence_error(stage, timeout))
+}
+
+fn convergence_error(stage: &'static str, timeout: Duration) -> anyhow::Error {
+    ConvergenceDeadlineExceeded { stage, timeout }.into()
+}
+
+fn normalize_stage_timeout(
+    error: anyhow::Error,
+    stage: &'static str,
+    timeout: Duration,
+) -> anyhow::Error {
+    if error
+        .downcast_ref::<ServiceManagerDeadlineExceeded>()
+        .is_some()
+        || error
+            .downcast_ref::<ConvergenceDeadlineExceeded>()
+            .is_some()
+    {
+        convergence_error(stage, timeout)
+    } else {
+        error
+    }
 }
 
 fn file_hash(path: &Path) -> Result<String> {
@@ -665,49 +1196,71 @@ fn install_launchd_plist(args: &RuntimeV3ServiceArgs, source: &Path) -> Result<P
 }
 
 #[cfg(target_os = "macos")]
-fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
+fn platform_start_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
     if let Some(source) = args.plist.as_ref() {
         let plist = install_launchd_plist(args, source)?;
-        run(Command::new("launchctl")
-            .args(["bootstrap", &launchd_domain()])
-            .arg(plist))?;
-    } else if !platform_loaded(args) {
+        let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+        if remaining.is_zero() {
+            return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+        }
+        run_start_command_with_timeout(
+            Command::new("launchctl")
+                .args(["bootstrap", &launchd_domain()])
+                .arg(plist),
+            remaining,
+        )?;
+    } else if !platform_loaded_with_timeout(args, timeout)? {
         let plist = installed_launchd_plist(args)?;
         if !plist.is_file() {
             return Err(anyhow!(
                 "Runtime v3 service is not loaded and installed plist is missing; --plist is required"
             ));
         }
-        run(Command::new("launchctl")
-            .args(["bootstrap", &launchd_domain()])
-            .arg(plist))?;
+        let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+        if remaining.is_zero() {
+            return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+        }
+        run_start_command_with_timeout(
+            Command::new("launchctl")
+                .args(["bootstrap", &launchd_domain()])
+                .arg(plist),
+            remaining,
+        )?;
     }
     Ok(())
 }
 
 #[cfg(target_os = "macos")]
-fn platform_stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    if platform_stopped(args)? {
+fn platform_stop_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
+    if platform_stopped_with_timeout(args, timeout)? {
         return Ok(());
     }
-    run(Command::new("launchctl").args(["bootout", &launchd_target(args)]))
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    run_with_timeout(
+        Command::new("launchctl").args(["bootout", &launchd_target(args)]),
+        remaining,
+    )
 }
 
 #[cfg(target_os = "macos")]
-fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
-    Command::new("launchctl")
-        .args(["print", &launchd_target(args)])
-        .output()
-        .is_ok_and(|output| output.status.success())
+fn platform_loaded_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<bool> {
+    service_manager_command_succeeds_with_timeout(
+        Command::new("launchctl").args(["print", &launchd_target(args)]),
+        timeout,
+    )
 }
 
 #[cfg(target_os = "macos")]
-fn platform_stopped(args: &RuntimeV3ServiceArgs) -> Result<bool> {
+fn platform_stopped_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<bool> {
     let target = launchd_target(args);
-    let output = Command::new("launchctl")
-        .args(["print", &target])
-        .output()
-        .with_context(|| format!("inspect launchd service {target}"))?;
+    let output =
+        command_output_with_timeout(Command::new("launchctl").args(["print", &target]), timeout)
+            .with_context(|| format!("inspect launchd service {target}"))?;
     launchctl_print_is_stopped(output.status.success(), output.status.code())
         .with_context(|| format!("inspect launchd service {target}"))
 }
@@ -726,15 +1279,20 @@ fn launchctl_print_is_stopped(success: bool, exit_code: Option<i32>) -> Result<b
 }
 
 #[cfg(target_os = "macos")]
-fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
-    let output = Command::new("launchctl")
-        .args(["print", &launchd_target(args)])
-        .output()
-        .ok()?;
+fn platform_process_id_with_timeout(
+    args: &RuntimeV3ServiceArgs,
+    timeout: Duration,
+) -> Result<Option<u32>> {
+    let output = command_output_with_timeout(
+        Command::new("launchctl").args(["print", &launchd_target(args)]),
+        timeout,
+    )?;
     if !output.status.success() {
-        return None;
+        return Ok(None);
     }
-    parse_launchctl_process_id(std::str::from_utf8(&output.stdout).ok()?)
+    Ok(parse_launchctl_process_id(std::str::from_utf8(
+        &output.stdout,
+    )?))
 }
 
 #[cfg(any(target_os = "macos", test))]
@@ -758,16 +1316,27 @@ fn systemd_unit(args: &RuntimeV3ServiceArgs) -> String {
 }
 
 #[cfg(target_os = "linux")]
-fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    run(Command::new("systemctl").args(["start", &systemd_unit(args)]))
+fn platform_start_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    run_start_command_with_timeout(
+        Command::new("systemctl").args(["start", &systemd_unit(args)]),
+        timeout,
+    )
 }
 
 #[cfg(target_os = "linux")]
-fn platform_stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    if systemd_service_state(args)?.is_stopped() {
+fn platform_stop_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
+    if systemd_service_state_with_timeout(args, timeout)?.is_stopped() {
         return Ok(());
     }
-    run(Command::new("systemctl").args(["stop", &systemd_unit(args)]))
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return convergence_timeout("stop", timeout);
+    }
+    run_with_timeout(
+        Command::new("systemctl").args(["stop", &systemd_unit(args)]),
+        remaining,
+    )
 }
 
 #[cfg(any(target_os = "linux", test))]
@@ -803,17 +1372,21 @@ fn parse_systemd_service_state(output: &str) -> Result<SystemdServiceState> {
 }
 
 #[cfg(target_os = "linux")]
-fn systemd_service_state(args: &RuntimeV3ServiceArgs) -> Result<SystemdServiceState> {
+fn systemd_service_state_with_timeout(
+    args: &RuntimeV3ServiceArgs,
+    timeout: Duration,
+) -> Result<SystemdServiceState> {
     let unit = systemd_unit(args);
-    let output = Command::new("systemctl")
-        .args([
+    let output = command_output_with_timeout(
+        Command::new("systemctl").args([
             "show",
             "--property=LoadState",
             "--property=ActiveState",
             &unit,
-        ])
-        .output()
-        .with_context(|| format!("inspect systemd unit {unit}"))?;
+        ]),
+        timeout,
+    )
+    .with_context(|| format!("inspect systemd unit {unit}"))?;
     if !output.status.success() {
         return Err(anyhow!(
             "systemctl show failed for {unit} with status {}",
@@ -827,70 +1400,163 @@ fn systemd_service_state(args: &RuntimeV3ServiceArgs) -> Result<SystemdServiceSt
 }
 
 #[cfg(target_os = "linux")]
-fn platform_stopped(args: &RuntimeV3ServiceArgs) -> Result<bool> {
-    Ok(systemd_service_state(args)?.is_stopped())
+fn platform_stopped_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<bool> {
+    Ok(systemd_service_state_with_timeout(args, timeout)?.is_stopped())
 }
 
 #[cfg(target_os = "linux")]
-fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
-    Command::new("systemctl")
-        .args(["is-active", "--quiet", &systemd_unit(args)])
-        .status()
-        .is_ok_and(|status| status.success())
+fn platform_loaded_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<bool> {
+    service_manager_command_succeeds_with_timeout(
+        Command::new("systemctl").args(["is-active", "--quiet", &systemd_unit(args)]),
+        timeout,
+    )
 }
 
 #[cfg(target_os = "linux")]
-fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
-    let output = Command::new("systemctl")
-        .args([
+fn platform_process_id_with_timeout(
+    args: &RuntimeV3ServiceArgs,
+    timeout: Duration,
+) -> Result<Option<u32>> {
+    let output = command_output_with_timeout(
+        Command::new("systemctl").args([
             "show",
             "--property",
             "MainPID",
             "--value",
             &systemd_unit(args),
-        ])
-        .output()
-        .ok()?;
+        ]),
+        timeout,
+    )?;
     if !output.status.success() {
-        return None;
+        return Ok(None);
     }
-    std::str::from_utf8(&output.stdout)
-        .ok()?
+    Ok(std::str::from_utf8(&output.stdout)?
         .trim()
         .parse::<u32>()
         .ok()
-        .filter(|process_id| *process_id > 0)
+        .filter(|process_id| *process_id > 0))
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_start(_args: &RuntimeV3ServiceArgs) -> Result<()> {
+fn platform_start_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<()> {
     Err(anyhow!(
         "csm runtime-v3 service control supports launchd and systemd"
     ))
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_stop(_args: &RuntimeV3ServiceArgs) -> Result<()> {
+fn platform_stop_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<()> {
     Err(anyhow!(
         "csm runtime-v3 service control supports launchd and systemd"
     ))
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_loaded(_args: &RuntimeV3ServiceArgs) -> bool {
-    false
+fn platform_loaded_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<bool> {
+    Ok(false)
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_stopped(_args: &RuntimeV3ServiceArgs) -> Result<bool> {
+fn platform_stopped_with_timeout(_args: &RuntimeV3ServiceArgs, _timeout: Duration) -> Result<bool> {
     Err(anyhow!(
         "csm runtime-v3 service control supports launchd and systemd"
     ))
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn platform_process_id(_args: &RuntimeV3ServiceArgs) -> Option<u32> {
-    None
+fn platform_process_id_with_timeout(
+    _args: &RuntimeV3ServiceArgs,
+    _timeout: Duration,
+) -> Result<Option<u32>> {
+    Ok(None)
+}
+
+fn command_output_with_timeout(command: &mut Command, timeout: Duration) -> Result<Output> {
+    let rendered = format!("{command:?}");
+    command.stdout(Stdio::piped()).stderr(Stdio::piped());
+    let mut child = command
+        .spawn()
+        .with_context(|| format!("start service-manager command {rendered}"))?;
+    let stdout = child
+        .stdout
+        .take()
+        .ok_or_else(|| anyhow!("capture stdout for service-manager command {rendered}"))?;
+    let stderr = child
+        .stderr
+        .take()
+        .ok_or_else(|| anyhow!("capture stderr for service-manager command {rendered}"))?;
+    let stdout_reader = std::thread::spawn(move || {
+        let mut bytes = Vec::new();
+        let mut stdout = stdout;
+        stdout.read_to_end(&mut bytes).map(|_| bytes)
+    });
+    let stderr_reader = std::thread::spawn(move || {
+        let mut bytes = Vec::new();
+        let mut stderr = stderr;
+        stderr.read_to_end(&mut bytes).map(|_| bytes)
+    });
+    let deadline = std::time::Instant::now() + timeout;
+    let status = loop {
+        if let Some(status) = child
+            .try_wait()
+            .with_context(|| format!("poll service-manager command {rendered}"))?
+        {
+            break status;
+        }
+        if std::time::Instant::now() >= deadline {
+            let _ = child.kill();
+            let _ = child.wait();
+            let _ = stdout_reader.join();
+            let _ = stderr_reader.join();
+            return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    };
+    let stdout = stdout_reader
+        .join()
+        .map_err(|_| anyhow!("stdout reader panicked for service-manager command {rendered}"))??;
+    let stderr = stderr_reader
+        .join()
+        .map_err(|_| anyhow!("stderr reader panicked for service-manager command {rendered}"))??;
+    Ok(Output {
+        status,
+        stdout,
+        stderr,
+    })
+}
+
+fn run_with_timeout(command: &mut Command, timeout: Duration) -> Result<()> {
+    let rendered = format!("{command:?}");
+    let output = command_output_with_timeout(command, timeout)?;
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let stderr = stderr.trim();
+        return Err(if stderr.is_empty() {
+            anyhow!(
+                "service-manager command failed: {rendered}: {}",
+                output.status
+            )
+        } else {
+            anyhow!(
+                "service-manager command failed: {rendered}: {}: {stderr}",
+                output.status
+            )
+        });
+    }
+    Ok(())
+}
+
+fn run_start_command_with_timeout(command: &mut Command, timeout: Duration) -> Result<()> {
+    run_with_timeout(command, timeout)
+}
+
+fn service_manager_command_succeeds_with_timeout(
+    command: &mut Command,
+    timeout: Duration,
+) -> Result<bool> {
+    Ok(command_output_with_timeout(command, timeout)?
+        .status
+        .success())
 }
 
 fn platform_name() -> &'static str {
@@ -903,20 +1569,6 @@ fn platform_name() -> &'static str {
     }
 }
 
-fn run(command: &mut Command) -> Result<()> {
-    let rendered = format!("{command:?}");
-    let status = command
-        .status()
-        .with_context(|| format!("run service-manager command {rendered}"))?;
-    if status.success() {
-        Ok(())
-    } else {
-        Err(anyhow!(
-            "service-manager command failed: {rendered}: {status}"
-        ))
-    }
-}
-
 pub(crate) fn usage() -> &'static str {
     "csm runtime-v3 start|stop|status|reload --init <absolute-runtime-init.toml> [--candidate <absolute-candidate-init.toml>] [--plist <absolute-launchd-plist>] [--label <service-label>] [--json]"
 }
@@ -924,6 +1576,67 @@ pub(crate) fn usage() -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(unix)]
+    fn write_generation_init(root: &Path) -> (PathBuf, RuntimeInitConfig, PathBuf) {
+        use std::os::unix::fs::symlink;
+
+        let generation = root.join("generations/test-generation");
+        let bin = generation.join("bin");
+        fs::create_dir_all(&bin).unwrap();
+        let mut artifacts = serde_json::Map::new();
+        for (key, filename) in [
+            ("csm", "csm"),
+            ("guardian", "adl-runtime-guardian"),
+            ("kernel", "adl-runtime-kernel"),
+        ] {
+            let path = bin.join(filename);
+            fs::write(&path, format!("{filename}-test-artifact")).unwrap();
+            let mut permissions = fs::metadata(&path).unwrap().permissions();
+            permissions.set_mode(0o755);
+            fs::set_permissions(&path, permissions).unwrap();
+            let hash = format!("{:x}", Sha256::digest(fs::read(&path).unwrap()));
+            artifacts.insert(
+                key.into(),
+                serde_json::json!({"file": format!("bin/{filename}"), "sha256": hash}),
+            );
+        }
+        fs::write(
+            generation.join("receipt.json"),
+            serde_json::to_vec(&serde_json::json!({
+                "schema": RUNTIME_GENERATION_RECEIPT_SCHEMA,
+                "generation": "test-generation",
+                "source_revision": "test-revision",
+                "platform": format!("{}-{}", std::env::consts::OS, std::env::consts::ARCH),
+                "build_profile": "debug",
+                "runtime_init_schema": RUNTIME_INIT_SCHEMA,
+                "artifacts": artifacts,
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        symlink("generations/test-generation", root.join("current")).unwrap();
+        let state_root = root.join("state");
+        let kernel = root.join("current/bin/adl-runtime-kernel");
+        let text = include_str!("../../../infra/runtime-v3/runtime-init.toml")
+            .replace("/var/lib/adl/runtime-v3", &state_root.display().to_string())
+            .replace(
+                "/opt/adl/bin/adl-runtime-kernel",
+                &kernel.display().to_string(),
+            );
+        let init_path = root.join("runtime-init.toml");
+        fs::write(&init_path, text).unwrap();
+        let init = RuntimeInitConfig::load(Some(init_path.clone())).unwrap();
+        (init_path, init, root.join("current/bin/csm"))
+    }
+
+    #[cfg(unix)]
+    fn update_generation_receipt(root: &Path, update: impl FnOnce(&mut serde_json::Value)) {
+        let path = root.join("current/receipt.json");
+        let mut receipt = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        update(&mut receipt);
+        fs::write(path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+    }
 
     fn write_valid_init(root: &Path) -> (PathBuf, RuntimeInitConfig) {
         let state_root = root.join("state");
@@ -954,6 +1667,196 @@ mod tests {
     fn parser_requires_absolute_init() {
         let error = parse_args(&["--init".into(), "relative.toml".into()]).unwrap_err();
         assert!(error.to_string().contains("must be absolute"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_mixed_artifacts_before_mutation() {
+        use std::cell::Cell;
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        validate_runtime_generation_with_service_binary(&init, &csm).unwrap();
+
+        fs::write(
+            root.path().join("current/bin/adl-runtime-guardian"),
+            "mixed",
+        )
+        .unwrap();
+        let service_mutated = Cell::new(false);
+        let error = run_after_preflight(
+            || validate_runtime_generation_with_service_binary(&init, &csm),
+            || {
+                service_mutated.set(true);
+                Ok(())
+            },
+        )
+        .unwrap_err();
+
+        assert!(error.to_string().contains("hash mismatch"));
+        assert!(
+            !service_mutated.get(),
+            "preflight failure must precede service mutation"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_non_executable_artifacts_before_mutation() {
+        use std::cell::Cell;
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        let guardian = root.path().join("current/bin/adl-runtime-guardian");
+        let mut permissions = fs::metadata(&guardian).unwrap().permissions();
+        permissions.set_mode(0o644);
+        fs::set_permissions(&guardian, permissions).unwrap();
+
+        let service_mutated = Cell::new(false);
+        let error = run_after_preflight(
+            || validate_runtime_generation_with_service_binary(&init, &csm),
+            || {
+                service_mutated.set(true);
+                Ok(())
+            },
+        )
+        .unwrap_err();
+
+        assert!(error.to_string().contains("not executable"));
+        assert!(
+            !service_mutated.get(),
+            "executable preflight failure must precede service mutation"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_direct_generation_kernel_path() {
+        let root = tempfile::tempdir().unwrap();
+        let (_path, mut init, csm) = write_generation_init(root.path());
+        init.binaries.kernel_path = root
+            .path()
+            .join("generations/test-generation/bin/adl-runtime-kernel");
+
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("through current/bin"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_invalid_receipt_contracts() {
+        for (field, invalid, expected_error) in [
+            (
+                "source_revision",
+                serde_json::json!(""),
+                "identity or compatibility",
+            ),
+            (
+                "artifacts",
+                serde_json::json!({}),
+                "artifact set is incomplete",
+            ),
+        ] {
+            let root = tempfile::tempdir().unwrap();
+            let (_path, init, csm) = write_generation_init(root.path());
+            update_generation_receipt(root.path(), |receipt| receipt[field] = invalid);
+
+            let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+            assert!(error.to_string().contains(expected_error));
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_receipt_paths_and_binary_identity() {
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        update_generation_receipt(root.path(), |receipt| {
+            receipt["artifacts"]["guardian"]["file"] = serde_json::json!("bin/not-guardian");
+        });
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("path mismatch"));
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, mut init, csm) = write_generation_init(root.path());
+        init.binaries.kernel_path = root.path().join("current/bin/csm");
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("kernel does not belong"));
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, _csm) = write_generation_init(root.path());
+        let guardian = root.path().join("current/bin/adl-runtime-guardian");
+        let error = validate_runtime_generation_with_service_binary(&init, &guardian).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("service control does not belong"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_requires_atomic_current_symlink() {
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        fs::remove_file(root.path().join("current")).unwrap();
+        fs::create_dir(root.path().join("current")).unwrap();
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("not an atomic symlink"));
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn launchd_preflight_requires_guardian_from_current_generation() {
+        let root = tempfile::tempdir().unwrap();
+        let (init_path, init, _csm) = write_generation_init(root.path());
+        let plist = root.path().join("runtime.plist");
+        let expected = root.path().join("current/bin/adl-runtime-guardian");
+        fs::write(
+            &plist,
+            format!(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><key>ProgramArguments</key><array><string>{}</string></array></dict></plist>",
+                expected.display()
+            ),
+        )
+        .unwrap();
+        let mut args = service_args(init_path);
+        args.plist = Some(plist.clone());
+
+        validate_runtime_service_definition(&args, &init).unwrap();
+        fs::write(
+            &plist,
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><key>ProgramArguments</key><array><string>/old/bin/adl-runtime-guardian</string></array></dict></plist>",
+        )
+        .unwrap();
+        let error = validate_runtime_service_definition(&args, &init).unwrap_err();
+        assert!(error.to_string().contains("does not resolve through"));
+    }
+
+    #[test]
+    fn service_definition_preflight_parsers_require_exact_executable_position() {
+        let expected = "/runtime/current/bin/adl-runtime-guardian";
+        let systemd = format!("{{ path=/old/guardian ; argv[]=/old/guardian {expected} ; }}");
+        assert_eq!(
+            systemd_exec_start_executable(&systemd).unwrap(),
+            Path::new("/old/guardian")
+        );
+        let ambiguous_systemd = format!("ENV_path={expected} {{ path=/old/guardian ; }}");
+        assert!(systemd_exec_start_executable(&ambiguous_systemd).is_err());
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn launchd_semantic_preflight_ignores_commented_program_arguments() {
+        let root = tempfile::tempdir().unwrap();
+        let plist = root.path().join("commented.plist");
+        fs::write(
+            &plist,
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><!-- <key>ProgramArguments</key><array><string>/runtime/current/bin/adl-runtime-guardian</string></array> --><key>ProgramArguments</key><array><string>/old/guardian</string></array></dict></plist>",
+        )
+        .unwrap();
+        assert_eq!(
+            launchd_program_executable(&plist).unwrap(),
+            Path::new("/old/guardian")
+        );
     }
 
     #[test]
@@ -1266,13 +2169,14 @@ mod tests {
         let (path, init) = write_valid_init(root.path());
         let mut args = service_args(path.clone());
 
-        assert!(runtime_readiness(&init).is_err());
+        assert!(runtime_readiness_with_timeout(&init, Duration::from_millis(750)).is_err());
         assert!(owned_runtime_readiness(&args, &init).is_err());
         assert!(emit_status(&args, &init, "status", false).is_ok());
         args.json = true;
         assert!(emit_status(&args, &init, "status", true).is_err());
         assert!(status(&args, "status").is_err());
-        assert!(wait_for_listener(&args, &init, Duration::ZERO).is_err());
+        assert!(wait_for_listener_open(&init, Duration::ZERO).is_err());
+        assert!(wait_for_readiness(&args, &init, Duration::ZERO).is_err());
         assert!(wait_for_stopped(&args, &init, None, Duration::ZERO).is_err());
 
         let (backup, _) = reload_transaction_paths(&path).unwrap();
@@ -1292,8 +2196,162 @@ mod tests {
         fs::write(&trust_roots, certified.cert.pem()).unwrap();
         init.api.tls.trust_roots_path = trust_roots;
 
-        let error = runtime_readiness(&init).unwrap_err().to_string();
+        let error = runtime_readiness_with_timeout(&init, Duration::from_millis(750))
+            .unwrap_err()
+            .to_string();
         assert!(error.contains("query Runtime v3 readiness"));
+    }
+
+    #[test]
+    fn convergence_slow_success_completes_within_configured_deadline() {
+        let mut probes = 0_u8;
+        wait_for_convergence("readiness", Duration::from_millis(500), |_| {
+            probes += 1;
+            Ok(probes == 3)
+        })
+        .unwrap();
+        assert_eq!(probes, 3);
+    }
+
+    #[test]
+    fn convergence_true_timeout_reports_exact_stage_and_deadline() {
+        let error = wait_for_convergence("unload", Duration::ZERO, |_| Ok(false)).unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "Runtime v3 convergence stage unload did not complete within 0 milliseconds"
+        );
+    }
+
+    #[test]
+    fn convergence_rejects_success_observed_after_deadline() {
+        let error = wait_for_convergence("readiness", Duration::from_millis(5), |_| {
+            std::thread::sleep(Duration::from_millis(10));
+            Ok(true)
+        })
+        .unwrap_err();
+        assert!(error.to_string().contains("stage readiness"));
+        assert!(error.to_string().contains("5 milliseconds"));
+    }
+
+    #[test]
+    fn convergence_rejects_overrun_for_every_blocking_stage() {
+        for stage in ["stop", "unload", "readiness"] {
+            let error = wait_for_convergence(stage, Duration::from_millis(5), |_| {
+                std::thread::sleep(Duration::from_millis(10));
+                Ok(true)
+            })
+            .unwrap_err();
+            assert!(error.to_string().contains(&format!("stage {stage}")));
+        }
+    }
+
+    #[test]
+    fn convergence_hanging_start_and_loaded_commands_are_killed_at_stage_deadline() {
+        let timeout = Duration::from_millis(250);
+
+        let started = std::time::Instant::now();
+        let start_error = run_start_command_with_timeout(Command::new("sleep").arg("2"), timeout)
+            .map_err(|error| normalize_stage_timeout(error, "listener", timeout))
+            .unwrap_err();
+        assert!(start_error.to_string().contains("stage listener"));
+        assert!(start_error.to_string().contains("250 milliseconds"));
+        assert!(started.elapsed() < Duration::from_millis(1500));
+
+        let started = std::time::Instant::now();
+        let loaded_error =
+            service_manager_command_succeeds_with_timeout(Command::new("sleep").arg("2"), timeout)
+                .map_err(|error| normalize_stage_timeout(error, "listener", timeout))
+                .unwrap_err();
+        assert!(loaded_error.to_string().contains("stage listener"));
+        assert!(loaded_error.to_string().contains("250 milliseconds"));
+        assert!(started.elapsed() < Duration::from_millis(1500));
+    }
+
+    #[test]
+    fn service_manager_timeout_preserves_non_timeout_command_diagnostics() {
+        let started = std::time::Instant::now();
+        let error =
+            run_with_timeout(&mut Command::new("false"), Duration::from_secs(1)).unwrap_err();
+        assert!(error.to_string().contains("service-manager command failed"));
+        assert!(error.to_string().contains("\"false\""));
+        assert!(error.to_string().contains("exit status"));
+        assert!(started.elapsed() < Duration::from_millis(500));
+    }
+
+    #[test]
+    fn service_manager_output_is_drained_while_command_runs() {
+        let output = command_output_with_timeout(
+            Command::new("/bin/sh").args(["-c", "dd if=/dev/zero bs=131072 count=1 2>/dev/null"]),
+            Duration::from_secs(2),
+        )
+        .unwrap();
+        assert!(output.status.success());
+        assert_eq!(output.stdout.len(), 131_072);
+    }
+
+    #[test]
+    fn convergence_stage_normalization_preserves_non_deadline_errors() {
+        let error = normalize_stage_timeout(
+            anyhow!("malformed service-manager state"),
+            "stop",
+            Duration::from_secs(300),
+        );
+        assert_eq!(error.to_string(), "malformed service-manager state");
+    }
+
+    #[test]
+    fn convergence_listener_open_is_distinct_from_full_readiness() {
+        let root = tempfile::tempdir().unwrap();
+        let (path, mut init) = write_valid_init(root.path());
+        let listener = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+        init.api.address = listener.local_addr().unwrap().to_string();
+        let args = service_args(path);
+
+        wait_for_listener_open(&init, Duration::from_secs(1)).unwrap();
+        let error = wait_for_readiness(&args, &init, Duration::ZERO).unwrap_err();
+        assert!(error.to_string().contains("stage readiness"));
+    }
+
+    #[test]
+    fn convergence_timeout_rolls_back_candidate_and_restarts_last_known_good() {
+        use std::cell::Cell;
+
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        let candidate = root.path().join("runtime-init.next.toml");
+        fs::write(&active, "last-known-good").unwrap();
+        fs::write(&candidate, "candidate").unwrap();
+        let stopped_current = Cell::new(false);
+        let stopped_candidate = Cell::new(false);
+        let restarted_current = Cell::new(false);
+
+        let error = reload_candidate_transaction(
+            &active,
+            &candidate,
+            || {
+                stopped_current.set(true);
+                Ok(())
+            },
+            || wait_for_convergence("readiness", Duration::ZERO, |_| Ok(false)),
+            || {
+                stopped_candidate.set(true);
+                Ok(())
+            },
+            || {
+                restarted_current.set(true);
+                Ok(())
+            },
+        )
+        .unwrap_err();
+
+        assert!(error.to_string().contains("stage readiness"));
+        assert!(stopped_current.get());
+        assert!(stopped_candidate.get());
+        assert!(restarted_current.get());
+        assert_eq!(fs::read_to_string(&active).unwrap(), "last-known-good");
+        let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        assert!(!backup.exists());
+        assert!(!staged.exists());
     }
 
     #[test]
@@ -1317,9 +2375,13 @@ mod tests {
 
     #[test]
     fn command_runner_reports_success_failure_and_missing_binary() {
-        assert!(run(&mut Command::new("true")).is_ok());
-        assert!(run(&mut Command::new("false")).is_err());
-        assert!(run(&mut Command::new("adl-command-that-does-not-exist")).is_err());
+        assert!(run_with_timeout(&mut Command::new("true"), Duration::from_secs(1)).is_ok());
+        assert!(run_with_timeout(&mut Command::new("false"), Duration::from_secs(1)).is_err());
+        assert!(run_with_timeout(
+            &mut Command::new("adl-command-that-does-not-exist"),
+            Duration::from_secs(1)
+        )
+        .is_err());
         assert!(!platform_name().is_empty());
 
         let root = tempfile::tempdir().unwrap();
@@ -1450,10 +2512,13 @@ mod tests {
         let root = tempfile::tempdir().unwrap();
         let args = service_args(root.path().join("runtime-init.toml"));
 
-        assert!(!platform_loaded(&args));
-        assert_eq!(platform_process_id(&args), None);
-        assert!(platform_stop(&args).is_ok());
-        assert!(wait_for_service_unloaded(&args, Duration::from_millis(5)).is_ok());
+        assert!(!platform_loaded_with_timeout(&args, Duration::from_millis(750)).unwrap());
+        assert_eq!(
+            platform_process_id_with_timeout(&args, Duration::from_millis(750)).unwrap(),
+            None
+        );
+        assert!(platform_stop_with_timeout(&args, Duration::from_secs(30)).is_ok());
+        assert!(wait_for_service_unloaded(&args, Duration::from_millis(750)).is_ok());
     }
 
     #[test]

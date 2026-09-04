@@ -1,0 +1,10 @@
+flowchart TD
+    A[Unintended public /podcast/ exposure] --> B[Create S3 delete markers for exact public keys]
+    B --> C[Invalidate /podcast/ paths in CloudFront]
+    A --> D[Repair /_preview/podcast/ source]
+    D --> E[Deploy preview slash and index keys]
+    E --> F[Invalidate /_preview/podcast/ paths]
+    C --> G[Public route returns 403]
+    F --> H[Preview route returns 200 with noindex]
+    G --> I[Retained issue #660 evidence]
+    H --> I

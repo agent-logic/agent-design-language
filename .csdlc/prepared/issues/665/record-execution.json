@@ -1,0 +1,98 @@
+{
+  "issue": 665,
+  "card": "sor",
+  "expected_generation": 1,
+  "expected_digest": "1696862864de4085cfa4e6427f922cc29f77e85df629db6ff6ca9433caf127df",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Record #665 implementation and focused validation before exact-head review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented explicit typed C-SDLC v2 adoption for verified pre-existing emergency issue worktrees. `csdlc-bind` now supports `adopt_existing: true` with exact ready-record generation/digest, full expected HEAD SHA, actor, registered worktree topology, clean target state, base ancestry, and collision checks; successful adoption records machine-readable audit evidence and advances only ready to bound. Ordinary bind-create remains available, and implicit adoption of an existing worktree now fails closed without exact adoption authority.",
+    "changes": [
+      "Extended `BindRequest` and `BindResult` with explicit adoption authority and result fields while preserving ordinary bind-create behavior.",
+      "Added fail-closed adoption validation for ready/unbound issue state, stale generation/digest, full expected HEAD, non-csdlc-bind actor, registered branch/worktree uniqueness, worktree branch, HEAD match, base ancestry, and clean target worktree.",
+      "Recorded adoption evidence in the bound issue audit and result surface without claiming implementation, review, publication, merge readiness, or closeout.",
+      "Rejected implicit adoption through ordinary bind when the requested worktree already exists and is not the current bound issue-local worktree.",
+      "Added focused positive and negative gate5 regression coverage for exact-head adoption, stale digest rejection, dirty target rejection, explicit authority requirement, and ordinary bind-create preservation.",
+      "Added operator documentation and issue-owned validators for the emergency adoption sequence and stop conditions."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
+      ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh",
+      ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh",
+      ".csdlc/issues/665/index.json"
+    ],
+    "validation": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "gate5",
+          "emergency_branch_adoption"
+        ],
+        "purpose": "Prove the #660-shaped ready-phase emergency branch/worktree adoption path, fail-closed negative topology cases, explicit authority requirement, and ordinary bind-create preservation.",
+        "outcome": "passed",
+        "evidence_ref": "Local focused gate5 run passed: 5 passed, 0 failed."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh"
+        ],
+        "purpose": "Prove the #665 readiness packet names issue-owned bind/topology design and repository targets.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned scope validator exited zero."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+        ],
+        "purpose": "Prove operator documentation exists and names the fail-closed ready-to-bound adoption sequence.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned docs validator exited zero."
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--no-run"
+        ],
+        "purpose": "Compile every C-SDLC v2 test target after extending the public bind request/result structs.",
+        "outcome": "passed",
+        "evidence_ref": "Local C-SDLC v2 test-target compile completed successfully."
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Prove whitespace and conflict-marker hygiene for the exact branch diff.",
+        "outcome": "passed",
+        "evidence_ref": "Local diff hygiene exited zero."
+      },
+      {
+        "command": [
+          "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+          "--root",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
+          "issue",
+          "--issue",
+          "665"
+        ],
+        "purpose": "Prove typed C-SDLC issue record remains coherent in the bound execution worktree.",
+        "outcome": "passed",
+        "evidence_ref": "Typed doctor passed with no findings at bound generation 1."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}
