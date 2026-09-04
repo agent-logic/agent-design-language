@@ -4,14 +4,50 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b93a95ade0dac40135117b73005e34975df1f0a635a322b41fd2e3554b887290",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "4cdca258a9fba801944b5209f3e8fbc39ea8a844cf5f43774376a3e8663cf978",
+  "phase": "published",
+  "generation": 19,
+  "digest": "ea144f7086c635e1c74397fcec1b038e2583b54a60f4431198430b666253930a",
   "branch": "codex/632-v3-h6-canaries-docs-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_632_docs_d4c637",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:d4c637d56a7359832ab68c76f1761a27bac843d5:727cf625893d9f70263502b4b24ccff395cc1128b86858f0dece784e869912d0",
+    "scope": [
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/canary-evidence-index.md",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_632_docs_d4c637",
+    "scope": [
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/canary-evidence-index.md",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md"
+    ],
+    "reviewed_revision": "git-blake3:d4c637d56a7359832ab68c76f1761a27bac843d5:727cf625893d9f70263502b4b24ccff395cc1128b86858f0dece784e869912d0",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains construction and canary evidence only until explicit V3-F/#505 cutover.",
+      "#505 must consume current #629 through #632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover.",
+      "Terminal finish and cleanup canary proof still requires an authorized canary merge or explicit #505 blocker disposition."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 632,
+    "pull_request": 647,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/647",
+    "base": "main",
+    "head": "codex/632-v3-h6-canaries-docs-readiness-exec",
+    "revision": "git-blake3:d4c637d56a7359832ab68c76f1761a27bac843d5:727cf625893d9f70263502b4b24ccff395cc1128b86858f0dece784e869912d0",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1d127f35deca6e083ef22ce7c90d24aca977391be13b8164e4f27a4864ddc4ff",
+      "values_digest": "3759e7faeb2847076abe28bf9827cb8445dbc734f2170ead19244b2b0ed360c6",
       "rendered_digest": "0fdbc068a9e16b9a34f4c99b5953930b02c525fdddf4be01c8acd33f0a8bf60d",
       "ast_digest": "ed89ca60d9cce79cf4979853fd6df465539b0f00233e4f03a42decb6a25c16c0"
     },
     "stp": {
-      "values_digest": "5589f75b5d358d6aaec0ce1feda41db5b5b340b0b3da459b8bb361844f7224bc",
+      "values_digest": "6b57394d8c9de3149270faa0df251edb43e56703ce350a27405394a73ac860f9",
       "rendered_digest": "caf0677a955027d962688dc0224133c7c7d4b10c56b4f1d17d551f31f7891779",
       "ast_digest": "4b130a63d7ec3bd4a4bfe6c1596dcbe0ac07119a4f968f8b48bc5db493babaec"
     },
     "spp": {
-      "values_digest": "862a6b3cdf9472294594c0c7f0a5ae9d52b5d0920797886bc3fd7c67318510a5",
+      "values_digest": "f7c124ddd3c283dc7f7ca101724e9bca2c71714861d3740102918ccf3bd90733",
       "rendered_digest": "ac428c78623cc711bb9a3eee6ae606302cd3136c5dd40130c37aeafbbbb6d14c",
       "ast_digest": "0654c45b2e0ef0e21df53b9ec506777fc1b26e11ee63dfd8e71da61175637894"
     },
     "vpp": {
-      "values_digest": "ff9929bf03e686b775611c87abfb9134d353a0b7f65a6c752f6041692eb8988d",
+      "values_digest": "784a097c7692b2c15029ce2ed450614fda9d93beed451a010dda231594f7d47c",
       "rendered_digest": "a46da483ee55913a32a0ca18e0d7986519dbb3bf24edfb86e71c499b37249825",
       "ast_digest": "c256ae237568c95bf3dff3aa69018688d49b9d7ff18813e8f2f7a567b7fc6da6"
     },
     "srp": {
-      "values_digest": "c9971ebed737b2c8bea7c94f71828e41d6f8eaddd2d7ec482e2d7d38d3e16afb",
-      "rendered_digest": "a8891715a7c2c1de0936aad9d27fcf09517219d3faf0342facf41ed4edd438d8",
-      "ast_digest": "fdff84622e7c8c586fad9e2878c5e3381f5e16f4fdd54a3a60f36f64804a3b5b"
+      "values_digest": "3c8190cdbb3979dac1d0ecb0e74e8564462910ae457d6aefb33dd7218a208c60",
+      "rendered_digest": "a8f7e0191112d48f77f1528a0446ddb219e041061fe7c68733cccef3e7ed9505",
+      "ast_digest": "d9b44825b9e31a79fd44bd196b31cd3cfdbbe64773bc59ec223258b425a4c891"
     },
     "sor": {
-      "values_digest": "8d1f2e55556072e878778b0a7b6d41b7c2aa6d64903d51a792f93ea5b3c4a739",
-      "rendered_digest": "f0298393d62ae90146faf7193d5fc40749e346deec3b017d792a9e583e769f4d",
-      "ast_digest": "210318127a822564929950087bad6cf0e11e3f1eb06ca6847d385df8e39d7339"
+      "values_digest": "b65a9b5c2ff089c31a47b2f7e1846493657d71082b6e2a43cb402aeab4301b38",
+      "rendered_digest": "7a41012e63b5262f5d043f50e0c56f0a76117dfebdca76a72d101122669ec2c5",
+      "ast_digest": "b2042bda2fdd3b59dde9015943fd2aff4ec846408c1f41c26fe522e95067cf75"
     }
   },
   "transitions": [
@@ -174,6 +210,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #632 review/publication truth after refreshing readiness docs for #629/#641 title-readback repair at aed2a2db4, including the current #641 head 8ad0d56ae7db6421fcbc2016a2f1c8590094577e and pending final CI state."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -351,6 +401,27 @@
       "actor": "codex:worker-6",
       "reason": "Recover #632 review/publication truth after refreshing readiness docs for #629/#641 title-readback repair at aed2a2db4, including the current #641 head 8ad0d56ae7db6421fcbc2016a2f1c8590094577e and pending final CI state.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
