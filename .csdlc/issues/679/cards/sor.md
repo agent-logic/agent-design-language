@@ -62,7 +62,7 @@ Added a standalone Terraform and operator-documentation package for the private-
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 679,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 13,
+  "expected_digest": "c1aa6999ff75358cf041e9f8076014602d7bc62452d1cc5c4f2e73b861ff8835",
+  "actor": "codex:/root",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/679-s3-deployable-observatory",
+  "title": "[v0.92.1][Observatory] Add deployable static edge plan",
+  "body": "Closes #679\n\nAdds the standalone, deployment-ready Terraform and operator contract for serving the #512 Observatory from a private versioned S3 origin through CloudFront at observatory.csm.agent-logic.ai. Includes ACM and Route53, CSP/security headers, access logging, safe caching, rollback guidance, and an inert profile-gated redacted readback script.\n\nNo AWS plan, apply, readback, or live Runtime mutation was performed; live execution remains deferred pending explicit operator authorization.",
+  "draft": false,
+  "linkage_mode": "closing"
+}

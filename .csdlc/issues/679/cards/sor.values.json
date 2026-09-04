@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Observatory][infra] S3 deployable Observatory",
     "slug": "s3-deployable-observatory",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
@@ -55,7 +55,7 @@
           "evidence_ref": ".csdlc/evidence/679/diff-check.log; PASS"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

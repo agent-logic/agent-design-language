@@ -8,14 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-infra/aws/observatory
-docs/operations/cloud/aws/observatory
-.csdlc/prepared/issues/679/validate_s3_deployable_observatory.py
-.csdlc/evidence/679
+
 
 ## Prompts
 
@@ -33,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Terraform and readback behavior were validated locally only; live AWS plan, apply, and readback remain deferred pending explicit operator authorization.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:fac8cf1fb39ba7b561cf35203b452cba90caf6cc:b284085b255bc0f65b42eb0e749ee2b86370ad9693da1e3e69da5c2aab261405")
+Revision: None
 
-Reviewer: Some("codex:issue-679-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
