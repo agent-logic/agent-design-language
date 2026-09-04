@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Live-qualified the snapshot-backed two-node GCP Polis in the authorized company project: a clean launch reached full readiness in 930 seconds, two resident models served six real Runtime agent and ACC tool cycles, all issue-owned disposable resources were destroyed, exactly two verified snapshots remain, and the conservative incremental upper bound is USD 11.55 against the authorized USD 20 ceiling.
+The paid GCP run at revision 542f8c1 reached full two-node Polis readiness in 930 seconds, served six real Runtime agent and ACC tool cycles across two resident models, and ended with zero disposable resources plus two retained snapshots at a conservative USD 11.55 upper bound. Later controller hardening is proven by focused static and unit validation and is not represented as a second paid run.
 
 ## Artifacts
 
@@ -22,6 +22,7 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
 - .csdlc/evidence/670/live/cleanup-g670b.json
 - .csdlc/evidence/670/live/residual-inventory-g670b.json
 - .csdlc/evidence/670/live/cost-upper-bound.json
+- .csdlc/evidence/670/live/remediation-proof-boundary.json
 
 ## Execution
 
@@ -46,7 +47,7 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
       "bash",
       ".csdlc/prepared/issues/670/validate-preparation.sh"
     ],
-    "purpose": "Execute Terraform initialization, validation and tests plus absolute-deadline, fail-closed cleanup, warm-start, receipt, and diff-hygiene policy checks.",
+    "purpose": "Execute Terraform initialization and tests, a bounded forced-termination unit path, destroy-only cleanup and state-independent teardown policy checks, explicit historical-live/current-static evidence-boundary assertions, warm-start checks, and diff hygiene.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/670/validate-preparation.sh"
   },

@@ -1,0 +1,18 @@
+{
+  "schema": "adl.issue670.remediation-proof-boundary.v1",
+  "live_execution_revision": "542f8c1fa2701daa07befe3bb451d9916b80f407",
+  "static_remediation_revision": "9cef21a91338817bacb4723816723abccb5569b2",
+  "live_receipts": {
+    "preflight_schema": "adl.issue670.gcp_preflight.v1",
+    "launch_schema": "adl.issue670.launch-qualification.v2",
+    "cleanup_schema": "adl.issue663.cleanup-receipt.v1"
+  },
+  "remediated_controls": {
+    "absolute_deadline": "static_and_unit_proof_only",
+    "bounded_forced_termination": "static_and_unit_proof_only",
+    "destroy_only_catalog_cleanup": "static_proof_only",
+    "partial_apply_launch_cleanup": "static_proof_only"
+  },
+  "paid_rerun_performed": false,
+  "reason": "The successful paid GCP qualification and zero-residual inventory predate the final fail-closed controller hardening. The retained live receipts prove the earlier run; the focused validator and deadline unit test prove the later static controls without claiming a second paid run."
+}

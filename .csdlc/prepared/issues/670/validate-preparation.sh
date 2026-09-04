@@ -59,6 +59,21 @@ for receipt in \
   [ ! -f "$receipt" ] || jq -e . "$receipt" >/dev/null
 done
 jq -e '
+  .schema == "adl.issue670.remediation-proof-boundary.v1" and
+  .live_execution_revision == "542f8c1fa2701daa07befe3bb451d9916b80f407" and
+  .static_remediation_revision == "9cef21a91338817bacb4723816723abccb5569b2" and
+  .live_receipts == {
+    preflight_schema:"adl.issue670.gcp_preflight.v1",
+    launch_schema:"adl.issue670.launch-qualification.v2",
+    cleanup_schema:"adl.issue663.cleanup-receipt.v1"
+  } and
+  .paid_rerun_performed == false and
+  all(.remediated_controls[]; test("^static"))
+' "$evidence/live/remediation-proof-boundary.json" >/dev/null
+jq -e '.schema == "adl.issue670.gcp_preflight.v1" and .status == "pass" and (has("paid_deadline_epoch") | not)' "$evidence/live/preflight.json" >/dev/null
+jq -e '.schema == "adl.issue670.launch-qualification.v2" and .status == "ready"' "$evidence/live/launch-g670b.json" >/dev/null
+jq -e '.schema == "adl.issue663.cleanup-receipt.v1" and .status == "cleaned" and (has("residual_issue_inventory") | not)' "$evidence/live/cleanup-g670b.json" >/dev/null
+jq -e '
   .status == "clean" and
   ([.residual_issue_resources[] | length] | add) == 0 and
   (.retained_snapshots | length) == 2 and
