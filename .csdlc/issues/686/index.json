@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 686,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "37760990215a85456e08d9bef5739e421f9897dd66a65662fdbaf19b5575f197",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/686/design.md",
+  "diagram_path": ".csdlc/prepared/issues/686/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:277587fe-1fb7-49bf-9e26-06759e00f32f",
+      "revision": "ca33efced30f5574eee1c97e51ed73e21ba0799cdd4a54b41d7fb3167735aad0"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a8648ff37978ac7ee6d499cde42b8a817a5cfa35b6cc961d4348a0dd6cf4f48a",
+      "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
+      "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
+    },
+    "stp": {
+      "values_digest": "23668d28b64c9dab7562e45d84866404b00d8f7927f50fd1f98f18eb3cc8718b",
+      "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
+      "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
+    },
+    "spp": {
+      "values_digest": "7ac78c49175c3d3689ab1d0b0607df266c62b6f6e5526f7c74798c7554da1d37",
+      "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
+      "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
+    },
+    "vpp": {
+      "values_digest": "ce8df2cf563db3e7a817d0d5c378d5c70e50a4e8e3747720ef9ad195839de02d",
+      "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
+      "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
+    },
+    "srp": {
+      "values_digest": "e7d42d4fa9697b6f0c3599881dc801440bbbdd59398fac0da81d6190308e85bf",
+      "rendered_digest": "570803f9f19be1f4e2deb304b1fd7981ed1e400ec289211a3c811a6dd799fad4",
+      "ast_digest": "e519fd5650d4ae2edc2950ed5dc54272b3d5b6a090f827323afe079c7cc91b9e"
+    },
+    "sor": {
+      "values_digest": "7f99be7247967b4704d3ca2c357ad0987b2390f73a4f869d9685745c2ce95587",
+      "rendered_digest": "e46c2ac831b4409a7de50e93fae17e409cfd876d876f3973f7fde3070f2d5e14",
+      "ast_digest": "9caf2ee0af98308ac43a27c3ba0c8cf90acd05afddbb46721d65831227fdbf2c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/config_generation_handoff",
+      "reason": "advance #686 to ready after issue-specific bootstrap and approved design"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/config_generation_handoff",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:277587fe-1fb7-49bf-9e26-06759e00f32f",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"ca33efced30f5574eee1c97e51ed73e21ba0799cdd4a54b41d7fb3167735aad0\",\"design_ref\":\".csdlc/prepared/issues/686/design.md\",\"diagram_digest\":\"98c905c37eb98e035fd0c8c4d579e72c6abaff90728fdac3b3e5719d824e115f\",\"diagram_ref\":\".csdlc/prepared/issues/686/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/config_generation_handoff",
+      "reason": "advance #686 to ready after issue-specific bootstrap and approved design",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/config_generation_handoff",
+      "reason": "replace conceptual affected-area labels with safe repository-owned paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tests/csm_runtime_v3_generation.rs\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\",\".csdlc/issues/686\",\".csdlc/prepared/issues/686\",\".csdlc/evidence/686\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/config_generation_handoff",
+      "reason": "bind validation to the issue-owned configuration-generation denominator and focused Runtime target",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-686-contract-denominator\",\"proof_role\":\"Prove the production handoff and all named recovery boundaries are implemented in the owned source/test surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"parallel_group\":\"686-focused\",\"defer_reason\":null},{\"lane\":\"runtime-config-generation-focused\",\"proof_role\":\"Exercise receipt activation, propagation, mismatch refusal, failpoints, and prior-generation restoration.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"parallel_group\":\"686-focused\",\"defer_reason\":null},{\"lane\":\"runtime-config-generation-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"686-quality\",\"defer_reason\":null}]}"
+    }
+  ]
+}

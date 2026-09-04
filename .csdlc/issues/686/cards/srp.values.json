@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 686,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
+    "slug": "runtime-governed-config-generation-handoff",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #686 configuration-generation receipt, atomic activation, propagation, fail-closed compatibility, and isolated recovery proof only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any partial candidate or mutable file become authority without a committed receipt?",
+        "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
+        "Can a secret value enter any durable or observable surface?",
+        "Does every named failpoint recover deterministically to either the candidate commit or prior generation?",
+        "Does validation avoid the live Runtime?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 686,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
+    "slug": "runtime-governed-config-generation-handoff",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Close only the configuration-generation authority and crash-recovery gap remaining after #589 and #678.",
+      "deliverables": [
+        "Versioned immutable configuration-generation receipt",
+        "Atomic active configuration reference",
+        "Cross-component generation and digest validation/reporting",
+        "Focused failpoint and prior-generation restoration proof"
+      ],
+      "acceptance_criteria": [
+        "AC-1: A committed receipt binds canonical content hash, schema version, redacted secret references, and compatible Runtime binary generation.",
+        "AC-2: One atomic active reference identifies the committed receipt and partial candidates never become authoritative.",
+        "AC-3: CSM, Guardian, kernel, status, and readiness expose and validate the same configuration generation and digest.",
+        "AC-4: Secret values never enter receipts, status, logs, or retained evidence.",
+        "AC-5: Invalid, missing, incompatible, rolled-back, cross-generation, or digest-mismatched receipts fail before service mutation.",
+        "AC-6: Isolated tests prove recovery before activation, after pointer replacement, after candidate readiness, and before commit cleanup.",
+        "AC-7: Candidate failure restores the prior committed generation and its receipt/reference authority.",
+        "AC-8: Focused tests, diff hygiene, and independent exact-head review pass before publication."
+      ],
+      "dependencies": [
+        "#589 / PR #598 is merged",
+        "#678 / PR #682 is merged at d10de869f0c8a0ac660e12ad8561535d6a1878b6"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#686",
+        "agent-logic/agent-design-language#589",
+        "agent-logic/agent-design-language#678",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl/tools/runtime_v3_generation.py",
+        "adl-runtime-kernel/src",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+      ],
+      "non_goals": [
+        "Runtime binary installation redesign",
+        "Convergence deadline changes",
+        "Provider model agent or Observatory changes",
+        "Live Runtime or cloud actions",
+        "Broad configuration-format redesign"
+      ]
+    }
+  }
+}
