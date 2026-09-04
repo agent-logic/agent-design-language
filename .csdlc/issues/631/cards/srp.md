@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/evidence/631/pr669-ci-refresh.md
+
 
 ## Prompts
 
@@ -31,13 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 proof, parity, soak, shadow, and install routes remain construction-only and non-authoritative until explicit V3-F/#505 cutover.
-- This review covers the evidence-only #669 CI-refresh head; implementation behavior remains covered by the prior exact-head #631 review.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a0f7d275b3501660abc332c7b6c8b21648a69a06:f333699e06d4fd55e5edaec2daab886ceef8753769f782c4e1f0356348d91780")
+Revision: None
 
-Reviewer: Some("codex-reviewer:review_631_evidence_refresh_a0f7")
+Reviewer: None
 
-Result: pass
+Result: pre_review

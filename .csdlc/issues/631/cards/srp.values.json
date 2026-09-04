@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
     "slug": "v3-h5-proof-parity-soak-shadow-install",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/631/pr669-ci-refresh.md",
-      "review_revision": "git-blake3:a0f7d275b3501660abc332c7b6c8b21648a69a06:f333699e06d4fd55e5edaec2daab886ceef8753769f782c4e1f0356348d91780",
-      "reviewer": "codex-reviewer:review_631_evidence_refresh_a0f7",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any route claim proof, parity, soak, or install success without durable bounded evidence?",
         "Does shadow refuse broad equivalence and report exact mismatches?",
@@ -23,11 +23,8 @@
         "Are all tests and validators exercising behavior instead of strings?"
       ],
       "findings": [],
-      "residual_risk": [
-        "C-SDLC v3 proof, parity, soak, shadow, and install routes remain construction-only and non-authoritative until explicit V3-F/#505 cutover.",
-        "This review covers the evidence-only #669 CI-refresh head; implementation behavior remains covered by the prior exact-head #631 review."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

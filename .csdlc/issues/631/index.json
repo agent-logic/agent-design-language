@@ -3,45 +3,14 @@
   "issue": 631,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
-  "phase": "published",
-  "generation": 16,
-  "digest": "d6e08d58ac31864655196f06a9e5493567aa37ffe6a33f9a63da3878acbaddc9",
+  "phase": "implemented",
+  "generation": 17,
+  "digest": "1b34d0d7117e3b191806e22fb084ba5698d620130d1d082220ae8e243954bb35",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_631_evidence_refresh_a0f7",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:a0f7d275b3501660abc332c7b6c8b21648a69a06:f333699e06d4fd55e5edaec2daab886ceef8753769f782c4e1f0356348d91780",
-    "scope": [
-      ".csdlc/evidence/631/pr669-ci-refresh.md"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-reviewer:review_631_evidence_refresh_a0f7",
-    "scope": [
-      ".csdlc/evidence/631/pr669-ci-refresh.md"
-    ],
-    "reviewed_revision": "git-blake3:a0f7d275b3501660abc332c7b6c8b21648a69a06:f333699e06d4fd55e5edaec2daab886ceef8753769f782c4e1f0356348d91780",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 proof, parity, soak, shadow, and install routes remain construction-only and non-authoritative until explicit V3-F/#505 cutover.",
-      "This review covers the evidence-only #669 CI-refresh head; implementation behavior remains covered by the prior exact-head #631 review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 631,
-    "pull_request": 669,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/669",
-    "base": "main",
-    "head": "codex/631-v3-h5-proof-parity-install-impl",
-    "revision": "git-blake3:a0f7d275b3501660abc332c7b6c8b21648a69a06:f333699e06d4fd55e5edaec2daab886ceef8753769f782c4e1f0356348d91780",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -55,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4e11101824db35a65c249fd45c0b7455c7b67fb748fe2d08138e059e4053a7f1",
+      "values_digest": "9e801f53f92e4a93988591288c3d63f967581166405b6d61b232bd862a158d90",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "ed6d1c8712e4ebece1166a47e25c1282318816d96da4a381371686bef97a67da",
+      "values_digest": "89287b75cee2d7f3129e7fe64b2c58e0bbb9c27cc8e8e3a897615138e887350b",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "99fe8bbf8e6bd7e0313db5f624710df47db92348ba810515c005b6dcad7c0a8d",
+      "values_digest": "0d6ee10c3f5aa587293f8e009b949f3940a620601b1a7642a679f25a3e3d0ba1",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "2c198e2edb24664fbc5dcffe768d8f2d5373488b408bb6c936534fdd4c12e290",
+      "values_digest": "91165776f8da0f1282f8be5f8c07a42a5f2719cd7a3c685bd47c5b644d3a9bd5",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "264f2279c2d400ae508a3c9340d9d184200f094941e623645625f5ae46ade719",
-      "rendered_digest": "93315adfa931a0eecdfe886a00b5586c32b12ff6dcb8ce5eb5e777966532bf4a",
-      "ast_digest": "b74fde8afd2c168ecb582eb2ef53c8d4e78832f26647d55087e696fb7696633f"
+      "values_digest": "49a94c722636c7bc1bd734406d1d58e7573a3b76e214fa95e40e6e5be1c36c6e",
+      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
+      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
     },
     "sor": {
-      "values_digest": "32ac879296323d1ec31c64532ac678d343758abc8de3bf377be2ffbc89af286d",
-      "rendered_digest": "86013826b6bb427dda5836bb5fe74d38b0f44b70bcdcf0b63a63b91e70a9726d",
-      "ast_digest": "0eac3d21c2d41e8aee2d6a9b5701dedc42c08a8d167f645239a8f3dcfd260eab"
+      "values_digest": "29a7d42e8d0ab7bf17a618faf4f2925e70a6ece481a8a5c3f36292292fe9bec6",
+      "rendered_digest": "768429af9f40f74a8aa63c15183bf03a3c2c8d0abe39432200b21400de49ef42",
+      "ast_digest": "b01df425777a70c6ec01258405b2afd980e56480413d603ade1a315ffe53957e"
     }
   },
   "transitions": [
@@ -183,6 +152,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6:sprint6-v3h5-main-merge",
+      "reason": "Recover stale #631 review and publication truth after merging current main, including completed #629 remote routes and #630 terminal routes, into the V3-H.5 branch."
     }
   ],
   "audit": [
@@ -360,6 +336,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:worker-6:sprint6-v3h5-main-merge",
+      "reason": "Recover stale #631 review and publication truth after merging current main, including completed #629 remote routes and #630 terminal routes, into the V3-H.5 branch.",
+      "operation": "recover_review"
     }
   ]
 }
