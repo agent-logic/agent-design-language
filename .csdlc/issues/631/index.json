@@ -5,10 +5,26 @@
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
   "generation": 17,
-  "digest": "1b34d0d7117e3b191806e22fb084ba5698d620130d1d082220ae8e243954bb35",
+  "digest": "74ef27a1647c35c61e14291125bd537ee8e72784b516154b4e1d037cd7876d40",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_631_after_terminal_merge",
+    "assigned_by": "codex:worker-6:sprint6-v3h5-main-merge",
+    "revision": "git-blake3:0312a5b425e35395384c9a0360786a9469baf525:b7b49df3f0ccddedd329e584c157aa679cc420b0c051172cea12c350cbc4ca1f",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +60,9 @@
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "49a94c722636c7bc1bd734406d1d58e7573a3b76e214fa95e40e6e5be1c36c6e",
-      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
-      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
+      "values_digest": "5a455cff8828ac8fbfcce7a210b5ed7b52c3f4f86dc27b2324e1ea3c3c75240d",
+      "rendered_digest": "c3de2a81e8ccd96203052c7a97a8ead4d246515de51462309f9e5d431187b527",
+      "ast_digest": "4fda94755960488df815f00b26b163e2c55c8fd82fd48a6eecdbcf550a1c6194"
     },
     "sor": {
       "values_digest": "29a7d42e8d0ab7bf17a618faf4f2925e70a6ece481a8a5c3f36292292fe9bec6",
@@ -343,6 +359,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-main-merge",
       "reason": "Recover stale #631 review and publication truth after merging current main, including completed #629 remote routes and #630 terminal routes, into the V3-H.5 branch.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 17,
+      "actor": "codex:worker-6:sprint6-v3h5-main-merge",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
