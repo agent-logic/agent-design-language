@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime][bug] Make agent-to-agent initiation first-class in live Observatory",
     "slug": "runtime-first-class-agent-to-agent-live-path",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 22
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/prepared/issues/675",
-      "review_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
-      "reviewer": "codex:/root:exact-head-review-after-subagent-finding",
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/config_reload.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/prepared/issues/675",
+      "review_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+      "reviewer": "codex:/root:exact-head-review-after-config-reload-ci-fix",
       "review_prompts": [
         "Does the model/shepherd path emit a first-class governed A2A action rather than relying on reply text?",
         "Are sender, recipient, work, turn, conversation, and correlation identities distinct and observable?",
@@ -27,47 +27,58 @@
         {
           "id": "review-675-runtime-derived-a2a-ids",
           "severity": "p1",
-          "summary": "Provider-facing A2A actions must not rely on resident model supplied conversation, turn, correlation, or work identifiers; Runtime must derive governed peer identifiers.",
+          "summary": "Provider-driven A2A prompts advertised caller-supplied peer correlation fields even though Runtime requires 32 lowercase hex identifiers.",
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+          "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
           "route": null
         },
         {
           "id": "review-675-structural-initiated-peer-result",
           "severity": "p1",
-          "summary": "Operator-visible conversation results must structurally expose the initiated peer recipient, conversation, turn, correlation, and work identity instead of relying on reply prose.",
+          "summary": "The initiating conversation result did not structurally expose the initiated peer work and message metadata.",
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+          "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
           "route": null
         },
         {
           "id": "review-675-runtime-resident-pair-coverage",
           "severity": "p1",
-          "summary": "Runtime-internal A2A must allow resident agents to communicate with other resident agents while preserving the external/direct signed-sender guard.",
+          "summary": "Runtime resident A2A coverage needed to prove all resident agents can initiate internal messages to other runtime residents, not just a sample pair.",
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+          "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
           "route": null
         },
         {
           "id": "review-675-observatory-transition-shape",
           "severity": "p2",
-          "summary": "Observatory conversation transitions must preserve the ordinary frame object shape while adding A2A metadata only when present.",
+          "summary": "The Observatory UI transition object always emitted null initiated-peer keys, creating UI contract drift for ordinary turns without peer initiation.",
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+          "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+          "route": null
+        },
+        {
+          "id": "review-675-config-reload-debounce-ci-flake",
+          "severity": "p2",
+          "summary": "Hosted CI exposed that the config reload debounce test could accept a transient empty rewrite candidate as the latest valid snapshot.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
           "route": null
         }
       ],
       "residual_risk": [
-        "No live credential-backed provider inference, AWS, paid runner, external network agent communication, or production Runtime restart was performed; validation is local deterministic Runtime proof.",
-        "The final exact-head review disposition incorporates the prior subagent review findings plus local exact-head validation because two follow-up review agents stalled before producing compact PASS output."
+        "No live credential-backed provider inference, AWS, paid runner, external-network agent communication, or production runtime restart was performed or claimed.",
+        "Hosted PR checks are still pending after the exact-head recovery and must pass before merge readiness is claimed.",
+        "External agent communication remains intentionally deferred; this review covers runtime-internal resident A2A only."
       ],
       "review_result": "pass"
     }
