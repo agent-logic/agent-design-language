@@ -54,6 +54,7 @@ for receipt in \
   "$evidence/live/snapshot-verification-g670b.json" \
   "$evidence/live/launch-g670b.json" \
   "$evidence/live/cleanup-g670b.json" \
+  "$evidence/live/cleanup-g670c.json" \
   "$evidence/live/residual-inventory-g670b.json" \
   "$evidence/live/cost-upper-bound.json"; do
   [ ! -f "$receipt" ] || jq -e . "$receipt" >/dev/null
@@ -68,18 +69,50 @@ jq -e '
     launch_receipt:"launch-g670b.json",
     cleanup_receipt:"cleanup-g670b.json"
   } and
+  .later_paid_rerun == {
+    generation:"g670c",
+    qualification_succeeded:false,
+    cleanup_receipt:"cleanup-g670c.json",
+    cleanup_observation_epoch:1788485777,
+    resource_absence_verified:true,
+    exact_retained_snapshot_set_verified:true
+  } and
   .static_remediation_revision == "775d80901c2f75e7e00bfb4f01c239a81c289002" and
   .live_receipts == {
     preflight_schema:"adl.issue670.gcp_preflight.v1",
     launch_schema:"adl.issue670.launch-qualification.v2",
     cleanup_schema:"adl.issue663.cleanup-receipt.v1"
   } and
-  .paid_rerun_performed == false and
+  .paid_rerun_performed == true and
+  .successful_paid_rerun_performed == false and
   all(.remediated_controls[]; test("^static"))
 ' "$evidence/live/remediation-proof-boundary.json" >/dev/null
 jq -e '.schema == "adl.issue670.gcp_preflight.v1" and .status == "pass" and (has("paid_deadline_epoch") | not)' "$evidence/live/preflight.json" >/dev/null
 jq -e '.schema == "adl.issue670.launch-qualification.v2" and .status == "ready"' "$evidence/live/launch-g670b.json" >/dev/null
 jq -e '.schema == "adl.issue663.cleanup-receipt.v1" and .status == "cleaned" and (has("residual_issue_inventory") | not)' "$evidence/live/cleanup-g670b.json" >/dev/null
+jq -e '
+  .schema == "adl.issue670.cleanup-receipt.v2" and
+  .status == "cleaned" and
+  .qualification_succeeded == false and
+  .cleanup_observation_epoch == 1788485777 and
+  .destroy_succeeded == true and
+  .inventory_queries_succeeded == true and
+  .resource_absence_verified == true and
+  ([.residual_issue_inventory[] | length] | add) == 0 and
+  (.retained_snapshot_inventory | length) == 2 and
+  .exact_retained_snapshot_set_verified == true
+' "$evidence/live/cleanup-g670c.json" >/dev/null
+jq -e '
+  .status == "within_budget" and
+  .window_start_epoch == 1788467972 and
+  .window_end_epoch == 1788485777 and
+  .window_seconds == 17805 and
+  .compute_upper_bound == 9.9 and
+  .storage_reserve == 4 and
+  .total_incremental_upper_bound == 13.9 and
+  .headroom == 6.1 and
+  .total_incremental_upper_bound <= .authorized_budget
+' "$evidence/live/cost-upper-bound.json" >/dev/null
 jq -e '
   .status == "clean" and
   ([.residual_issue_resources[] | length] | add) == 0 and

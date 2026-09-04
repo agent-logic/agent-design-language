@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-The historical paid GCP run reached full two-node Polis readiness in 930 seconds, served six real Runtime agent and ACC tool cycles across two resident models, and ended with zero disposable resources plus two retained snapshots at a conservative USD 11.55 upper bound. The controller checkout was dirty during that run: HEAD was 542f8c1 and the receipt-producing changes were later committed at da2d976, so no immutable execution-source revision is claimed. Later controller hardening is proven by focused static and unit validation and is not represented as a second successful paid run.
+The historical paid GCP run reached full two-node Polis readiness in 930 seconds, served six real Runtime agent and ACC tool cycles across two resident models, and ended with zero disposable resources plus two retained snapshots. The controller checkout was dirty during that run: HEAD was 542f8c1 and the receipt-producing changes were later committed at da2d976, so no immutable execution-source revision is claimed. A later paid g670c attempt did not complete qualification and was cleaned with zero disposable resources and the same two retained snapshots. The conservative envelope covers all paid attempts through that final cleanup at USD 13.90 against the authorized USD 20 ceiling. Later controller hardening is proven by focused static and unit validation and is not represented as a second successful paid run.
 
 ## Artifacts
 
@@ -20,6 +20,7 @@ The historical paid GCP run reached full two-node Polis readiness in 930 seconds
 - .csdlc/evidence/670/live/snapshot-verification-g670b.json
 - .csdlc/evidence/670/live/launch-g670b.json
 - .csdlc/evidence/670/live/cleanup-g670b.json
+- .csdlc/evidence/670/live/cleanup-g670c.json
 - .csdlc/evidence/670/live/residual-inventory-g670b.json
 - .csdlc/evidence/670/live/cost-upper-bound.json
 - .csdlc/evidence/670/live/remediation-proof-boundary.json
@@ -41,6 +42,7 @@ The historical paid GCP run reached full two-node Polis readiness in 930 seconds
 - Configured separately managed warm data-disk attachments to be ignored by instance drift reconciliation, preventing Terraform from planning their removal.
 - Made the focused validator initialize all Terraform roots itself and then execute format, validate and test lanes, shell policy tests, receipt parsing, and diff hygiene.
 - Recorded that the historical successful qualification used a dirty controller checkout at HEAD 542f8c1, with receipt-producing logic later committed at da2d976, so the live evidence is not attributed to an immutable execution-source revision.
+- Recorded the unsuccessful paid g670c attempt, its successful zero-residual cleanup, and the extended USD 13.90 conservative cost envelope through final cleanup.
 - Added .csdlc/local/ to .gitignore so command-scoped local gcloud configuration stays out of publication artifacts.
 
 ## Validation

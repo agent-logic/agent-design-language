@@ -5,15 +5,15 @@
   "authorized_budget": 20.0,
   "method": "conservative_continuous_envelope",
   "window_start_epoch": 1788467972,
-  "window_end_epoch": 1788481546,
-  "window_seconds": 13574,
+  "window_end_epoch": 1788485777,
+  "window_seconds": 17805,
   "conservative_hourly_rate": 2.0,
-  "compute_upper_bound": 7.55,
+  "compute_upper_bound": 9.9,
   "storage_reserve": 4.0,
-  "total_incremental_upper_bound": 11.55,
-  "headroom": 8.45,
+  "total_incremental_upper_bound": 13.9,
+  "headroom": 6.1,
   "notes": [
-    "The envelope starts at the successful paid-action preflight and ends at verified final cleanup.",
+    "The envelope starts at the successful paid-action preflight and ends at verified final cleanup of the later unsuccessful g670c paid attempt.",
     "It deliberately charges the full wall-clock window at the two-node conservative rate, including gaps and retries, so it overstates compute cost.",
     "The storage reserve covers the retained snapshots; provider billing export is delayed and was not treated as immediate proof."
   ]
