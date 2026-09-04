@@ -7,23 +7,25 @@
     "title": "[v0.92.1][Observatory][infra] S3 deployable Observatory",
     "slug": "s3-deployable-observatory",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "infra/aws/observatory\ndocs/operations/cloud/aws/observatory\n.csdlc/prepared/issues/679/validate_s3_deployable_observatory.py\n.csdlc/evidence/679",
+      "review_revision": "git-blake3:9c3b4e4ae568a1f1ff083c0e07b9fadb6606bd64:ad4bf6a6e04a8a47895b8e9888dd7155f962634d4d3f873d6ca0f58b5f3bf1ac",
+      "reviewer": "codex:issue-679-review",
       "review_prompts": [
         "Does the issue keep #512 product work separate from #679 infrastructure deployability?",
         "Does the deployment plan avoid live AWS mutation unless separately authorized and retain truthful dry-run/readback classification?",
         "Do validators prove redaction, profile gating, static asset relativity, CSP/header behavior, and no credential persistence?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live AWS plan, apply, and readback remain deferred pending explicit operator authorization."
+      ],
+      "review_result": "pass"
     }
   }
 }

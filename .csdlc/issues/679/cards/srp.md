@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+infra/aws/observatory
+docs/operations/cloud/aws/observatory
+.csdlc/prepared/issues/679/validate_s3_deployable_observatory.py
+.csdlc/evidence/679
 
 ## Prompts
 
@@ -30,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live AWS plan, apply, and readback remain deferred pending explicit operator authorization.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9c3b4e4ae568a1f1ff083c0e07b9fadb6606bd64:ad4bf6a6e04a8a47895b8e9888dd7155f962634d4d3f873d6ca0f58b5f3bf1ac")
 
-Reviewer: None
+Reviewer: Some("codex:issue-679-review")
 
-Result: pre_review
+Result: pass

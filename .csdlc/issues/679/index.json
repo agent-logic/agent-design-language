@@ -3,13 +3,38 @@
   "issue": 679,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f831ecbc7cce804c9b863e376a8ef997bc1caf08c5126652172536117f5b6716",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "88e1a78077b35090eba5801ed7e75a296db034935a0c0de618b27f2c4a6dd492",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "9cb21e7af58cd4bb79d20662ff78c63779bf245fdfdb1cc9d47b3d619d1f2942",
   "branch": "codex/679-s3-deployable-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-679-s3-deployable-observatory",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:issue-679-review",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9c3b4e4ae568a1f1ff083c0e07b9fadb6606bd64:ad4bf6a6e04a8a47895b8e9888dd7155f962634d4d3f873d6ca0f58b5f3bf1ac",
+    "scope": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+      ".csdlc/evidence/679"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:issue-679-review",
+    "scope": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+      ".csdlc/evidence/679"
+    ],
+    "reviewed_revision": "git-blake3:9c3b4e4ae568a1f1ff083c0e07b9fadb6606bd64:ad4bf6a6e04a8a47895b8e9888dd7155f962634d4d3f873d6ca0f58b5f3bf1ac",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS plan, apply, and readback remain deferred pending explicit operator authorization."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2340d2973f75eeb11a3ec42db9f8c4cbcc8aeb37d713789a4a2258562ac3d2b5",
+      "values_digest": "0917a4cdbd7feb19d4162cc112e47a50a16a7e5317d713195ee4923c82756071",
       "rendered_digest": "9b18c7084878bd53a8c2428eb3432ea3ff939e2418bacb4b581b9f09b5ec642e",
       "ast_digest": "dea8b20133b07d191cd5bfc3f94f221eb074e954541aa50228a4bddffede460c"
     },
     "stp": {
-      "values_digest": "aadf4b710c4cb5d6d5a997eec3e13708f5203801dd7da0def02fed320c9d9d11",
+      "values_digest": "7988f86e8e7a4c5885a93ee7a96d9b075a749d6197cd4bc3b99c03ce3477fb81",
       "rendered_digest": "74ac10784507418bc7bd0432ae43fd2faa551433ed1b0553c491ae233dcff5ff",
       "ast_digest": "b6f758398471850dfde859c1fa41b0a2774f86283b0036785b517142f21fa4a9"
     },
     "spp": {
-      "values_digest": "ce7bacf36c275a15a9fe4e6da57017782ac5f4ae2de261a3dc2b95486dfb5e30",
+      "values_digest": "373bee6613ec94351adea288c3b143b8027953e457cd2e55c0a9b313bfc49a57",
       "rendered_digest": "ce11ec4c16ddc5e0086c13cc03441e3fd3e97cf2c583ab811dfab8bed2216dca",
       "ast_digest": "0ebe497a44d5997c6fbef97883447dda071cbf5fb499e9f20485c216f459da79"
     },
     "vpp": {
-      "values_digest": "80efbd782211aa8bee69f716a445ee06704b1b1e07eb670ff53fd45aa962a753",
+      "values_digest": "dc83126408fb24a397e6fb065492ca00b07bb74f1dfcfe69c2f44317253bc7f1",
       "rendered_digest": "4ae192a78008c709eb0e63821779aff8da8394cf82a5fe60a8fb7b0d94dfaff7",
       "ast_digest": "d19c2ed39d9afbb244e8adbef9b7f33dec8ac1e579ff8fde739d1bb23cab686c"
     },
     "srp": {
-      "values_digest": "22a6fa355a59bd88b8c0e7f841debf3045cf5ae4755302322e016207b03ace3b",
-      "rendered_digest": "bba50b7ceff3e85c677de213eb4bc8d6e086c017c24c6039bec8074c4cc65c64",
-      "ast_digest": "a02c09758152073ab95e13f4346fb88f2ae5ae3ce4b334819f042f4c1e0f232a"
+      "values_digest": "e3f8ec68b416dc92630dba6a174c329891623d64d8e97c4ae1bf92c88280898b",
+      "rendered_digest": "ea9d1485bc088a9a11bf274a330de29f3c1ffea8d29f806f36be7c37f9f70274",
+      "ast_digest": "8a17b5807c697699cbbdf05dce52a6b52f749d8774968ce43fad6d5af9bdaf02"
     },
     "sor": {
-      "values_digest": "40ae530f789567904c6abcfa09eb9d029f83d89d48df3a4cd36d8e4b86abbdd4",
+      "values_digest": "e85a6f0db081892a042225c7aa2fe2453c5cf7c5b669d1af94915b62a3cf3e9a",
       "rendered_digest": "c84eda1bf42e8cc47acf3c1445d1ffb1e476190f4aef33c761fef2651ec4c34c",
       "ast_digest": "3f30550cd5df6c3dcbdc8fb6cbbf1097db853f623f96d6959a8756e85b203876"
     }
@@ -89,6 +114,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover review truth after lifecycle metadata commits moved HEAD beyond the prior substantive review revision."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-679-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -210,6 +242,20 @@
       "actor": "codex:/root",
       "reason": "Recover review truth after lifecycle metadata commits moved HEAD beyond the prior substantive review revision.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:issue-679-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
