@@ -12,6 +12,7 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -83,7 +84,10 @@ pub enum ReplacementVerifierStatus {
 pub struct VerifiedReplacementEvidence {
     pub path: String,
     pub digest: String,
+    pub schema: String,
     pub bytes: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub approved: Option<bool>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -144,6 +148,10 @@ pub fn verify_replacement_request(
             Ok(item) => verified.push(item),
             Err(err) => evidence_blockers.push(format!("{}: {}", err.code, err.message)),
         }
+    }
+    evidence_blockers.extend(required_evidence_blockers(route, &verified));
+    if request.operator_cutover_approved {
+        evidence_blockers.extend(operator_approval_blockers(&verified));
     }
     let status = if !evidence_blockers.is_empty() {
         ReplacementVerifierStatus::BlockedByEvidence
@@ -229,12 +237,100 @@ fn verify_evidence_ref(
             format!("evidence ref {} digest mismatch", evidence.path),
         ));
     }
+    let parsed: Value = serde_json::from_slice(&bytes).map_err(|err| {
+        error(
+            "evidence_schema_invalid",
+            format!("evidence ref {} is not JSON: {err}", evidence.path),
+        )
+    })?;
+    let schema = parsed
+        .get("schema")
+        .and_then(Value::as_str)
+        .ok_or_else(|| {
+            error(
+                "evidence_schema_missing",
+                format!("evidence ref {} has no schema", evidence.path),
+            )
+        })?
+        .to_owned();
+    let approved = parsed.get("approved").and_then(Value::as_bool);
     Ok(VerifiedReplacementEvidence {
         path: evidence.path.clone(),
         digest,
+        schema,
         bytes: bytes.len(),
+        approved,
     })
 }
+
+fn required_evidence_blockers(
+    command: ReplacementCommand,
+    verified: &[VerifiedReplacementEvidence],
+) -> Vec<String> {
+    let required_path = command_proof_path(command);
+    let required_schema = command_proof_schema(command);
+    if verified
+        .iter()
+        .any(|item| item.path == required_path && item.schema == required_schema)
+    {
+        Vec::new()
+    } else {
+        vec![format!(
+            "required_command_evidence_missing: {} requires {} with schema {}",
+            command.as_str(),
+            required_path,
+            required_schema
+        )]
+    }
+}
+
+fn operator_approval_blockers(verified: &[VerifiedReplacementEvidence]) -> Vec<String> {
+    let mut blockers = Vec::new();
+    let approval = verified
+        .iter()
+        .find(|item| item.path == OPERATOR_APPROVAL_PATH);
+    match approval {
+        Some(item) if item.schema == OPERATOR_APPROVAL_SCHEMA && item.approved == Some(true) => {}
+        Some(item) if item.schema != OPERATOR_APPROVAL_SCHEMA => blockers.push(format!(
+            "operator_cutover_approval_schema_mismatch: {} must use schema {}",
+            OPERATOR_APPROVAL_PATH, OPERATOR_APPROVAL_SCHEMA
+        )),
+        Some(_) => blockers.push(format!(
+            "operator_cutover_approval_not_granted: {} must set approved=true",
+            OPERATOR_APPROVAL_PATH
+        )),
+        None => blockers.push(format!(
+            "operator_cutover_approval_evidence_missing: {} is required before readiness can be derived",
+            OPERATOR_APPROVAL_PATH
+        )),
+    }
+
+    let approval_count = verified
+        .iter()
+        .filter(|item| item.path == OPERATOR_APPROVAL_PATH)
+        .count();
+    if approval_count > 1 {
+        blockers.push(format!(
+            "operator_cutover_approval_ambiguous: {} must be unique",
+            OPERATOR_APPROVAL_PATH
+        ));
+    }
+    blockers
+}
+
+fn command_proof_path(command: ReplacementCommand) -> String {
+    format!(
+        ".csdlc/evidence/csdlc-v3/{}-replacement-proof.json",
+        command.as_str()
+    )
+}
+
+fn command_proof_schema(command: ReplacementCommand) -> String {
+    format!("csdlc.v3.{}_replacement_proof.v1", command.as_str())
+}
+
+const OPERATOR_APPROVAL_PATH: &str = ".csdlc/evidence/csdlc-v3/operator-cutover-approval.json";
+const OPERATOR_APPROVAL_SCHEMA: &str = "csdlc.v3.operator_cutover_approval.v1";
 
 fn error(code: &'static str, message: impl Into<String>) -> ReplacementVerifierError {
     ReplacementVerifierError {

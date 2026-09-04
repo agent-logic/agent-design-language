@@ -421,6 +421,73 @@ fn replacement_verifier_rejects_wrong_command_and_bad_evidence() {
 }
 
 #[test]
+fn replacement_verifier_readiness_requires_durable_approval_and_command_proof() {
+    let forged = ReplacementFixture::new_approved_without_evidence("cutover");
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .args([
+            "cutover",
+            "--repo-root",
+            forged.root.to_str().expect("fixture root"),
+            "--request",
+            forged.request.to_str().expect("request path"),
+        ])
+        .output()
+        .expect("csdlc cutover should run");
+    assert!(
+        output.status.success(),
+        "missing proof is reported as verifier state, not a crash"
+    );
+    let stdout = str::from_utf8(&output.stdout).expect("stdout should be utf8");
+    assert!(
+        stdout.contains("\"status\":\"blocked_by_evidence\""),
+        "{stdout}"
+    );
+    assert!(
+        stdout.contains("required_command_evidence_missing"),
+        "{stdout}"
+    );
+    assert!(
+        stdout.contains("operator_cutover_approval_evidence_missing"),
+        "{stdout}"
+    );
+    assert!(
+        !stdout.contains("\"status\":\"ready_for_cutover_decision\""),
+        "{stdout}"
+    );
+
+    let approved = ReplacementFixture::new_with_operator_approval("cutover");
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .args([
+            "cutover",
+            "--repo-root",
+            approved.root.to_str().expect("fixture root"),
+            "--request",
+            approved.request.to_str().expect("request path"),
+        ])
+        .output()
+        .expect("csdlc cutover should run");
+    assert!(output.status.success());
+    let stdout = str::from_utf8(&output.stdout).expect("stdout should be utf8");
+    assert!(
+        stdout.contains("\"status\":\"ready_for_cutover_decision\""),
+        "{stdout}"
+    );
+    assert!(
+        stdout.contains("csdlc.v3.operator_cutover_approval.v1"),
+        "{stdout}"
+    );
+    assert!(
+        stdout.contains("csdlc.v3.cutover_replacement_proof.v1"),
+        "{stdout}"
+    );
+    assert!(stdout.contains("\"mutation_allowed\":false"), "{stdout}");
+    assert!(
+        stdout.contains("\"operational_authority\":false"),
+        "{stdout}"
+    );
+}
+
+#[test]
 fn implemented_remote_bridge_routes_expose_non_authoritative_help() {
     for (command, _) in IMPLEMENTED_REMOTE_BRIDGE_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
@@ -488,28 +555,77 @@ impl ReplacementFixture {
     fn new_with_command(route: &str, command: &str) -> Self {
         let root = fixture_root("replacement-verifier");
         fs::create_dir_all(&root).expect("fixture root");
-        let evidence_path = root.join("evidence.json");
+        let evidence_ref = replacement_proof_ref(command);
+        let evidence_path = root.join(&evidence_ref);
         write_json(
             &evidence_path,
-            r#"{"schema":"csdlc.v3.fixture_evidence.v1","ok":true}"#,
+            &format!(
+                r#"{{"schema":"csdlc.v3.{command}_replacement_proof.v1","command":"{command}","authority_issue":505,"ok":true}}"#
+            ),
         );
         let digest = blake3::hash(&fs::read(&evidence_path).expect("evidence bytes"))
             .to_hex()
             .to_string();
         let request = root.join(format!("{route}-request.json"));
-        write_replacement_request(&request, command, &digest);
+        write_replacement_request(&request, command, false, &[(&evidence_ref, &digest)]);
         Self { root, request }
     }
 
     fn new_with_digest(command: &str, digest: &str) -> Self {
         let root = fixture_root("replacement-verifier-bad-digest");
         fs::create_dir_all(&root).expect("fixture root");
+        let evidence_ref = replacement_proof_ref(command);
         write_json(
-            &root.join("evidence.json"),
-            r#"{"schema":"csdlc.v3.fixture_evidence.v1","ok":true}"#,
+            &root.join(&evidence_ref),
+            &format!(
+                r#"{{"schema":"csdlc.v3.{command}_replacement_proof.v1","command":"{command}","authority_issue":505,"ok":true}}"#
+            ),
         );
         let request = root.join(format!("{command}-request.json"));
-        write_replacement_request(&request, command, digest);
+        write_replacement_request(&request, command, false, &[(&evidence_ref, digest)]);
+        Self { root, request }
+    }
+
+    fn new_approved_without_evidence(command: &str) -> Self {
+        let root = fixture_root("replacement-verifier-forged-approval");
+        fs::create_dir_all(&root).expect("fixture root");
+        let request = root.join(format!("{command}-request.json"));
+        write_replacement_request(&request, command, true, &[]);
+        Self { root, request }
+    }
+
+    fn new_with_operator_approval(command: &str) -> Self {
+        let root = fixture_root("replacement-verifier-approved");
+        fs::create_dir_all(&root).expect("fixture root");
+        let evidence_ref = replacement_proof_ref(command);
+        write_json(
+            &root.join(&evidence_ref),
+            &format!(
+                r#"{{"schema":"csdlc.v3.{command}_replacement_proof.v1","command":"{command}","authority_issue":505,"ok":true}}"#
+            ),
+        );
+        let proof_digest = blake3::hash(&fs::read(root.join(&evidence_ref)).expect("proof bytes"))
+            .to_hex()
+            .to_string();
+        let approval_ref = ".csdlc/evidence/csdlc-v3/operator-cutover-approval.json".to_owned();
+        write_json(
+            &root.join(&approval_ref),
+            r#"{"schema":"csdlc.v3.operator_cutover_approval.v1","authority_issue":505,"approved":true}"#,
+        );
+        let approval_digest =
+            blake3::hash(&fs::read(root.join(&approval_ref)).expect("approval bytes"))
+                .to_hex()
+                .to_string();
+        let request = root.join(format!("{command}-request.json"));
+        write_replacement_request(
+            &request,
+            command,
+            true,
+            &[
+                (&evidence_ref, &proof_digest),
+                (&approval_ref, &approval_digest),
+            ],
+        );
         Self { root, request }
     }
 }
@@ -528,7 +644,28 @@ fn fixture_root(kind: &str) -> PathBuf {
         .join(format!("{}-{nonce}-{id}", std::process::id()))
 }
 
-fn write_replacement_request(path: &Path, command: &str, digest: &str) {
+fn replacement_proof_ref(command: &str) -> String {
+    format!(".csdlc/evidence/csdlc-v3/{command}-replacement-proof.json")
+}
+
+fn write_replacement_request(
+    path: &Path,
+    command: &str,
+    operator_cutover_approved: bool,
+    evidence: &[(&str, &str)],
+) {
+    let evidence_json = evidence
+        .iter()
+        .map(|(path, digest)| {
+            format!(
+                r#"{{
+      "path": "{path}",
+      "digest": "{digest}"
+    }}"#
+            )
+        })
+        .collect::<Vec<_>>()
+        .join(",\n");
     write_json(
         path,
         &format!(
@@ -538,12 +675,9 @@ fn write_replacement_request(path: &Path, command: &str, digest: &str) {
   "issue": 505,
   "authority_issue": 505,
   "repository": "agent-logic/agent-design-language",
-  "operator_cutover_approved": false,
+  "operator_cutover_approved": {operator_cutover_approved},
   "evidence": [
-    {{
-      "path": "evidence.json",
-      "digest": "{digest}"
-    }}
+{evidence_json}
   ],
   "blockers": []
 }}"#
@@ -792,6 +926,10 @@ fn repo_root() -> PathBuf {
 }
 
 fn write_json(path: &Path, json: &str) {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)
+            .unwrap_or_else(|error| panic!("create {}: {error}", parent.display()));
+    }
     fs::write(path, json).unwrap_or_else(|error| panic!("write {}: {error}", path.display()));
 }
 
