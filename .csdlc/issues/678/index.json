@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 678,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "52323b455bb82ca6a60dae8343ecd2d432f7c9a203f987c847063f9039f61b6a",
-  "phase": "ready",
-  "generation": 2,
-  "digest": "f7fd767cc3c753d6a0e2d6b2d214c20631923f3abb8dd4df2334a72dd9a2ab20",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "4a7ddb0e26b0a8d5760290c1d7038f83af103c334ff4218547ee273fb8060f52",
+  "branch": "codex/678-stable-csm-active-generation-route",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-678-stable-csm-active-generation-route",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bf2b50f5d78cd02259a0e6d80cf7a568326b3bcf9bd87498163fed0de76e1693",
-      "rendered_digest": "d0a3c5bb5aa3063605f24fb1401549c159881a8616a067cb6feed3190e28a2f0",
-      "ast_digest": "34c071451b40021c4dbbfebf98bec27dcc6fe9b5b801b2a27d3bc52e374940ae"
+      "values_digest": "33da35f955084558699da8425e66df6b2ab11566e5b96aa5b8b44094bd026dfc",
+      "rendered_digest": "9c296fb02207b3a27c6e09f3bff16ba12e1131d53c01d70e2d17e936003c35f0",
+      "ast_digest": "a955b47b08929c9f70717fb81a6ba9b80803165de0b9a14fffc68d26d0bdea03"
     },
     "stp": {
-      "values_digest": "669d8a7f3a001cf86e5349212715b8cbadc5934b20d1a89d7cb5ac1885d6ff99",
-      "rendered_digest": "4e3a35d1baacd064e0f656f4a14ba1981f56776f87d1001db9b65e8fb64dcf86",
-      "ast_digest": "a91d0c23336a8e485de43ad119090b77aa27cf83b3a822ba38d20ee75c558d1c"
+      "values_digest": "92a69e4de8edb7c9b1e9a72049f4e07d5a2e4e776ab6a4a3ae4d8b0fbd4bcf44",
+      "rendered_digest": "809be64d74b001df03e0ed6ae64e749cd118df8d48cfba2b5170c10e2077125c",
+      "ast_digest": "6e629369f786426ea0b3ae609a9312b8612da6429f6cb4b749f5770001dcd630"
     },
     "spp": {
-      "values_digest": "215aae3ad8bdb20f03af9993fe7d97b98a7712785364fa1c815cc6b44b1b1262",
-      "rendered_digest": "3a110177b15422dc9f99149da4d96060dfca01c591768f5c0b37c1bf08f77701",
-      "ast_digest": "96960e2db010c43d2b51f7c53a395b28f9ca97ea1b6c7fafe289d58dec548ff7"
+      "values_digest": "bea66b9cb05b1c39c5a544cd9a8553dbd6e6f206e825c7e6a9b0cb2af3649550",
+      "rendered_digest": "6afe6523c33ce85256420d7863ba460b1ad970cb0f27fefcb3aac310b06c4f60",
+      "ast_digest": "cad0ab0f52efe72cc589ba7784282436517e1b11afcf2efc8810f1fdf26dfcd1"
     },
     "vpp": {
-      "values_digest": "5478151f3e54f593d28e7ab5f54561506a0eae54551b9f9885516b7f563cee63",
+      "values_digest": "18187ed8aeac72bfc42ce2e74f4f7b13db805808604f804e85921ec1c0a2d849",
       "rendered_digest": "dfe99bbc9da281179e035679b362a62a31664615106f8eeaa743a9e12c2d1e0f",
       "ast_digest": "a31d70e02068e734181e72ccf9218be473d1f03c11e673309466c181bb3e9e6b"
     },
     "srp": {
-      "values_digest": "34a75c2f9bf7ef5fb92d4911333547a520ad2a2ebd6f4178b38398adb0ea653d",
+      "values_digest": "6d5d6c42e38b753bfead0a86457ae3916034c50bd7a5e70f9a98648c423cccf1",
       "rendered_digest": "df0d0e910d75c14fee1e71342878072e331551bc325beda8246c00c8b07b0d9d",
       "ast_digest": "0e2451ad6baa5edf1e27f7b217aa10a9a14af5beb8054f32bf9dbd04c3ffb178"
     },
     "sor": {
-      "values_digest": "88efbed33a49e2222f67815bd8bc15bb8c2e3204fd18d89953cab06ba3bd4c57",
-      "rendered_digest": "82e13f8692fd0edda497169a8faacc9a8b5a241125f2a4d067b02d63efe74e69",
-      "ast_digest": "17774e62e28118a1e465884dfe47e2c3d903b0e9b4924badcff7e3572254697b"
+      "values_digest": "b97d135d7a9343f9104732b29d58d0142616dc384d53c2fafe9f92188b82bc8a",
+      "rendered_digest": "100c9a05bab8f4a5b21ced4f529ccb477cecf357b7696793fd09cbc87056bee3",
+      "ast_digest": "53816da7692fba01f8ce57ddd70192ae76152765a7aeb650a3a4066023ef5226"
     }
   },
   "transitions": [
@@ -61,6 +62,20 @@
       "to": "ready",
       "actor": "codex:678-preparation",
       "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:678-implementation",
+      "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review."
     }
   ],
   "audit": [
@@ -84,6 +99,62 @@
       "actor": "codex:678-preparation",
       "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:678-implementation",
+      "reason": "Record that the stable CSM route implementation owns the delegated Runtime v3 generation installer Python module as well as the shell entrypoint.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".csdlc/prepared/issues/678/design.md\",\".csdlc/prepared/issues/678/diagram.mmd\",\".csdlc/evidence/678/runtime-v3-generation-install.log\",\".csdlc/evidence/678/diff-check.log\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:678-implementation",
+      "reason": "Record the delegated Runtime v3 generation Python module as a concrete implementation deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:678-implementation",
+      "reason": "Record the real implementation denominator including the delegated Runtime v3 generation Python module.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:678-implementation",
+      "reason": "Record #678 stable CSM active-generation route implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented installer-managed stable CSM routing so .adl/bin/csm execs the active Runtime v3 generation's CSM instead of remaining an independent stale binary.\",\"changes\":[\"Added atomic stable CSM launcher installation in adl/tools/runtime_v3_generation.py before generation activation and rollback symlink switches.\",\"Strengthened the Runtime v3 generation installer fixture to prove stable route parity with current/bin/csm, stale stable binary repair, rollback route switching, and missing active-generation CSM failure.\",\"Updated the issue-owned validation wrapper to retain the focused proof log under .csdlc/evidence/678.\",\"Added the hidden operator note for the stable CSM route contract under .adl/docs/TBD/resilience/.\"],\"artifacts\":[\"adl/tools/runtime_v3_generation.py\",\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:678-validation",
+      "reason": "Record #678 validation: Runtime v3 generation installer stable CSM route fixture.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\"],\"purpose\":\"Runtime v3 generation installer stable CSM route fixture\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/678/runtime-v3-generation-install.log; runtime v3 generation installer: PASS\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:678-validation",
+      "reason": "Record #678 validation: Git diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git diff hygiene proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/678/diff-check.log; clean\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:678-implementation",
+      "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

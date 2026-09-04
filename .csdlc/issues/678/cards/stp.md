@@ -17,6 +17,7 @@ Deliver only the installer-managed stable CSM command route and focused regressi
 ## Deliverables
 
 - adl/tools/install_runtime_v3_generation.sh
+- adl/tools/runtime_v3_generation.py
 - adl/tools/test_runtime_v3_generation_install.sh
 - .csdlc/prepared/issues/678/validate-stable-csm-route.sh
 - .adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md

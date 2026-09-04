@@ -16,7 +16,7 @@ Bootstrap the issue, bind a FastWork worktree, change the generation installer s
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
