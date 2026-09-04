@@ -6,10 +6,22 @@
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
   "phase": "implemented",
   "generation": 20,
-  "digest": "23256334774252e9e29d09944742fd31540a07913f5b3892b353982b6579291e",
+  "digest": "06d5821a2731d0df6d0ef68c80106a8db1cb7552604dca084561ec498c502348",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_630_after_h3_merge",
+    "assigned_by": "codex:worker-6:sprint6-v3h4-main-merge",
+    "revision": "git-blake3:6d5b10f3fc29cd93a94c0e1cbe37e8854d66170b:fe8be1e5e839c89580020c7f7ffcc29514b36724f4f48b8c6931242bad09a908",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "7d358d942e74813f95e143119dd5bd9cc12fdd74b708d6a4d7d04f3207ec7078",
-      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
-      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
+      "values_digest": "581718b5f9b4ec3e50ac14b6de9b1d53c94b1efba70d3ea99a98033c639edc8a",
+      "rendered_digest": "ced8ce9b007a4a0af696989fab18fa9988f1078ea63b155e1e33ef785cd54916",
+      "ast_digest": "f3affce89f8acf3077b8a4313c06f6b990c6fa22e64e63ccd7796d4fd94872c2"
     },
     "sor": {
       "values_digest": "938238a3e6b859a96a30cf5f3b7aec78ba691c730c27be56d0d5d660922644e7",
@@ -386,6 +398,13 @@
       "actor": "codex:worker-6:sprint6-v3h4-main-merge",
       "reason": "Recover stale #630 review and publication truth after merging current main, including terminal #629, into the V3-H.4 branch before final typed finish.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 20,
+      "actor": "codex:worker-6:sprint6-v3h4-main-merge",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

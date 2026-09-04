@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3/src/main.rs
+csdlc-v3/src/commands/remote/mod.rs
+csdlc-v3/src/commands/terminal.rs
+csdlc-v3/tests/command_manifest.rs
+csdlc-v3/tests/remote_publication_commands.rs
+csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
 
 ## Prompts
 
