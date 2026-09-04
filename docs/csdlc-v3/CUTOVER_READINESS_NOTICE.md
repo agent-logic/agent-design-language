@@ -29,10 +29,14 @@ The v3 replacement is not cutover-ready. The current #632 evidence records:
 - the current `csdlc-v3` CLI advertises the planned one-binary surface for all
   21 v2 entrypoints, but those routes remain read-only or fail-closed
   construction evidence before #505;
-- green construction/readiness PRs for the current V3-H lanes;
+- green construction/readiness PRs for most current V3-H lanes, with #629/#641
+  refreshed after title-readback hardening and still requiring terminal CI
+  confirmation at its latest head;
 - a fail-closed #631 stacked PR closing-linkage defect;
 - a fresh-worktree install/startup defect that affects the three-minute issue
   startup target;
+- a #644-derived PR title-readback defect that #629 now fixes by requiring
+  non-empty observed PR titles in authenticated readback receipts;
 - terminal finish and cleanup canary proof still pending an authorized canary
   merge.
 
