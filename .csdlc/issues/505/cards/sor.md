@@ -12,16 +12,18 @@ Status: ready
 
 ## Summary
 
-Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replacement commands and hardened cutover-readiness derivation so caller-provided booleans cannot manufacture approval.
+Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement command, hardened cutover-readiness derivation so caller-provided booleans cannot manufacture approval, and removed the last partial-command label from the visible v3 command surface.
 
 ## Artifacts
 
 - commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452
 - commit 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7
+- commit eec95bd3cd2d639898603766001ce9e7d32e6d4b
 - csdlc-v3/src/commands/replacement.rs
 - csdlc-v3/src/commands/mod.rs
 - csdlc-v3/src/main.rs
 - csdlc-v3/tests/command_manifest.rs
+- csdlc-v3/tests/local_commands.rs
 - csdlc-v3/tests/real_issue_canary.rs
 - docs/csdlc-v3/full-replacement-denominator.json
 - docs/csdlc-v3/v3-command-manifest.json
@@ -34,8 +36,9 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
 - Required separate durable operator approval evidence at `.csdlc/evidence/csdlc-v3/operator-cutover-approval.json` with schema `csdlc.v3.operator_cutover_approval.v1` and `approved: true` before any route may emit `ready_for_cutover_decision`.
 - Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when proof and approval evidence are valid.
 - Updated tests so a bare `operator_cutover_approved: true` request with no durable evidence remains `blocked_by_evidence` and cannot manufacture readiness.
-- Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 24 implemented visible commands, 1 helper/local partial command, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.
+- Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 25 implemented visible commands, 0 partial commands, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.
 - Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.
+- Marked the executable `local` helper route as implemented while preserving its `read_only_construction` authority boundary and its exclusion from the v2 replacement-route denominator.
 
 ## Validation
 
@@ -50,9 +53,23 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
       "--test",
       "command_manifest"
     ],
-    "purpose": "Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, and anti-forged-readiness behavior.",
+    "purpose": "Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, zero partial-command rows, and anti-forged-readiness behavior.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:13-passed"
+    "evidence_ref": "exact-head:eec95bd3cd2d639898603766001ce9e7d32e6d4b:13-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "local_commands"
+    ],
+    "purpose": "Prove the local helper route and all implemented local command aliases remain typed, non-authoritative, route-specific, and fail-closed after the partial-command label was removed.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:eec95bd3cd2d639898603766001ce9e7d32e6d4b:23-passed"
   },
   {
     "command": [
@@ -79,7 +96,7 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
     ],
     "purpose": "Run the complete C-SDLC v3 test suite after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:103-passed"
+    "evidence_ref": "exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:103-passed"
   },
   {
     "command": [
@@ -118,7 +135,7 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
     ],
     "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:status-pass"
+    "evidence_ref": "exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:status-pass"
   },
   {
     "command": [
@@ -140,19 +157,19 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
       "--issue",
       "505"
     ],
-    "purpose": "Verify typed C-SDLC v2 issue state remains valid in implemented phase before refreshed review and publication.",
+    "purpose": "Verify typed C-SDLC v2 issue state remains valid before refreshed review and publication.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:status-pass-generation-27-ready-false"
+    "evidence_ref": "exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:status-pass-generation-30-ready-false"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
