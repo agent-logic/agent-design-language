@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary, binding proof/install evidence to the binary checkout repository root, and requiring typed install provenance evidence.
+Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary, binding proof/install evidence to the binary checkout repository root, requiring typed install provenance evidence, and making that binary-checkout discovery work under external Cargo target directories used by CI.
 
 ## Artifacts
 
@@ -33,11 +33,59 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
 - Kept all four routes read-only and blocked from lifecycle authority, provider side effects, binary installation, selector mutation, GitHub mutation, or #505 cutover.
 - Updated the one-binary v3 command manifest and manifest tests so #631-owned routes no longer appear as placeholder fail-closed or partial routes.
 - Replaced the placeholder #631 canary with behavior tests covering positive and negative proof, bounded shadow parity, soak hidden-state denial, full-replacement denominator status, and one-binary install gating.
-- Bound proof/install evidence roots to the repository root discovered from the csdlc binary path, rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent, and rejected untyped install provenance JSON.
+- Bound proof/install evidence roots to the repository root discovered from the csdlc binary checkout, rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent, and rejected untyped install provenance JSON.
+- Repaired binary-checkout root discovery for CI by falling back from the executable path to the compile-time Cargo manifest directory, without reintroducing a caller-cwd or request-controlled root fallback.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "proof_parity_install_commands",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Re-run the exact #631 proof/parity/install test file that failed in GitHub Actions before the CI root-discovery repair.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:3f86681c9:4-passed"
+  },
+  {
+    "command": [
+      "ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/adl-validation-targets/631-ci-shape-target",
+      "bash",
+      "adl/tools/run_cargo_validation.sh",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "proof_parity_install_commands",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Reproduce the GitHub Actions external-target topology locally without /private/tmp and verify proof-root discovery no longer depends on the test binary living inside the checkout.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:3f86681c9:ci-shape-4-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "Run the full csdlc-v3 regression suite after the CI root-discovery repair.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:3f86681c9:all-v3-tests-passed"
+  },
   {
     "command": [
       "cargo",
@@ -48,39 +96,9 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
       "--",
       "--check"
     ],
-    "purpose": "Reject Rust formatting drift after the typed-provenance hardening.",
+    "purpose": "Reject Rust formatting drift after the CI root-discovery repair.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9dd8f2272:passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--test",
-      "proof_parity_install_commands",
-      "--test",
-      "command_manifest",
-      "--test",
-      "real_issue_canary"
-    ],
-    "purpose": "Run focused #631 proof/install, command-manifest, and denominator/canary tests after removing the cwd fallback and requiring typed provenance evidence.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:9dd8f2272:15-passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml"
-    ],
-    "purpose": "Run the full csdlc-v3 regression suite after the typed-provenance hardening.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:9dd8f2272:all-v3-tests-passed"
+    "evidence_ref": "exact-head:3f86681c9:passed"
   },
   {
     "command": [
@@ -90,7 +108,7 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
     ],
     "purpose": "Reject whitespace and conflict-marker artifacts before refreshed review.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9dd8f2272:passed"
+    "evidence_ref": "exact-head:3f86681c9:passed"
   }
 ]
 
