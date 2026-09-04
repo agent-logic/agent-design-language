@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 674,
+  "expected_generation": 3,
+  "expected_digest": "ca0d5ffe0e96b99db632571487a64c631ff0a227146259d6455145367b5777de",
+  "claim_id": "claim-674-review-metadata-recovery",
+  "actor": "codex:/root",
+  "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication."
+}

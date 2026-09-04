@@ -52,7 +52,7 @@ Added the versioned, agent-readable Axioma Polis Welcome Package and a focused o
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

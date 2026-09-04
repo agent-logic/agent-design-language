@@ -3,34 +3,13 @@
   "issue": 674,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e719986764c44aa3be5f2960ecc0fb9927833afa70efe587b132f5a3ff03523",
-  "phase": "reviewed",
-  "generation": 3,
-  "digest": "ca0d5ffe0e96b99db632571487a64c631ff0a227146259d6455145367b5777de",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "9fbdfa40fdc7d435672f7847d01086d671978e045ad394a65e8bcbd6a86c8959",
   "branch": "codex/674-welcome-package-docs",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package",
-  "review_assignment": {
-    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:b71ed1f54df63f8aca5d5742aeb7964af3a15c66:2623050d5fe36acf6f1e269d0cd001f3e956d7369264eab42e3ab03af3c76f62",
-    "scope": [
-      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
-      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
-    "scope": [
-      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
-      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
-    ],
-    "reviewed_revision": "git-blake3:b71ed1f54df63f8aca5d5742aeb7964af3a15c66:2623050d5fe36acf6f1e269d0cd001f3e956d7369264eab42e3ab03af3c76f62",
-    "findings": [],
-    "residual_risks": [
-      "This documentation does not prove live delivery or Runtime behavior and may require revision if the governed contracts change."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9cd1089062a1047f3cf414c424b616d1884170e04d396b4b37d87f0f8ce75fae",
+      "values_digest": "137df0c027dd57aea4617becff4d29821e0bfef8b68ee290f4879957da6f74fa",
       "rendered_digest": "1aebc584354c0ee60d8599bd7abc775a5d68bc04430b573cc9433bccd7f7191a",
       "ast_digest": "672fa64f2ff8040019066e4431fab1f14841a388139b3307d0b99eb588565b05"
     },
     "stp": {
-      "values_digest": "ce9eecdb3c4bf9fde456ac17d87ef1f38397abefde48327c76892fcd879e8a24",
+      "values_digest": "cad1762374c73e5f502248b7390aa4efc5629ac5acbbd3bbb71381015b947f6e",
       "rendered_digest": "6312895eb13c3651abaf81b7a362222bbc9aa0525cef6585bf564af79296b79e",
       "ast_digest": "5628503bbba86f1e784cfe69353934d1308d2d069aa9fec7f08235dbf8c436d2"
     },
     "spp": {
-      "values_digest": "18d93635c7539c9a019593f7459b63ecc4aefd8fd0000a0fbf6372a1e425d123",
+      "values_digest": "64b5beb565967124e6a1b7e7e362ab7c87f7ae04e0e4696bb126109cbf17dcb6",
       "rendered_digest": "3fd2ba8a141ad299b35d32351b401f95120e8a26bfe812da25b4216e21ffc283",
       "ast_digest": "2e45e7af897b30102836929ae7213aee891ec43e9bb6320035e352231e5e7c8a"
     },
     "vpp": {
-      "values_digest": "b293af49c9e23e85217ef897ad2de85cb073e1da1b0d2bf85687b69109d94dba",
+      "values_digest": "316ceaaf5a7e847ddee527b88a70bc0f8594c1d9dc51ee4c173342fdbfc933c1",
       "rendered_digest": "2f70b3d678181a6a90b3afadf18d75801c58437876fd1ddb38bcedabdfa96030",
       "ast_digest": "b99f890269fc3fbc6243b1ab021298aa8ac4381e730c16e575043ae939722a8a"
     },
     "srp": {
-      "values_digest": "c7a2dd4c65f25ea0d4c430d6d9c41480fc6674763a2bd732b057f3b5f96fe6f2",
-      "rendered_digest": "54254bc293c9f537236f1aca586b67135cba973dc9f74486ae21328362a38389",
-      "ast_digest": "81003de05cd5906df387999c863b5e574d5465a5008c8f13e1258cf1a24408d1"
+      "values_digest": "a85fd2b80f6550e4ddd45290f9f66d6472ad380880af56ea9b2c81fe8efda30a",
+      "rendered_digest": "a30e8c0fd2766ded9c4eaebde0225f692c09b82abc813fd3911036c76ad2a745",
+      "ast_digest": "1a427c844d1697febc4afcd812b658d38348113bbdc15eac5379ef77adb91752"
     },
     "sor": {
-      "values_digest": "ba157760ced51292c15963c5cb7529bbad72f5376145f0ce9fea45d128fb79c4",
-      "rendered_digest": "8a165b0b1af13d2b6c61cbc49b30b45083c82a84a4d2c9de9b210208bac0dfa6",
-      "ast_digest": "5b8b61c3b91a8cbb38e0db02c4353dbf7d289feb144f9c26e2ddf3e28d200d0c"
+      "values_digest": "ec8d2c3d21229afe07440392d8510b5259ee71145c0368c0059407e89ff3f8a0",
+      "rendered_digest": "c7c6041b9e90c386fcf1bb7ddf8acceb70026e91c21bec49e5d22cf562f3d3b6",
+      "ast_digest": "31f28598ca24bff60794bce77c43e8abd3b026dbb931df2ec4c31fd0ab5acb55"
     }
   },
   "transitions": [
@@ -103,6 +82,13 @@
       "to": "reviewed",
       "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication."
     }
   ],
   "audit": [
@@ -147,6 +133,13 @@
       "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication.",
+      "operation": "recover_review"
     }
   ]
 }
