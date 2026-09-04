@@ -14,6 +14,7 @@ pub mod cognition;
 pub mod cognitive_profile;
 pub mod component;
 pub mod config;
+pub mod config_generation;
 pub mod config_reload;
 pub mod continuity;
 pub mod continuity_control;
@@ -75,6 +76,7 @@ pub use component::{
     PortAccessError, PortProtocol, PortSpec, RunningState, SupervisionScope,
 };
 pub use config::*;
+pub use config_generation::*;
 pub use config_reload::*;
 pub use continuity::*;
 pub use continuity_control::*;

@@ -7,7 +7,10 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
 use std::time::Duration;
 
-use adl_runtime_kernel::RuntimeInitConfig;
+use adl_runtime_kernel::{
+    activate_config_generation, active_generation_ref, provision_config_generation,
+    validate_active_config_generation, ConfigGenerationIdentity, RuntimeInitConfig,
+};
 use anyhow::{anyhow, Context, Result};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -94,6 +97,8 @@ struct RuntimeV3ServiceStatus {
     runtime_process_id: Option<u32>,
     guardian_process_id: Option<u32>,
     active_init_hash: Option<String>,
+    config_generation: Option<String>,
+    config_receipt_digest: Option<String>,
     observability_ready: bool,
 }
 
@@ -107,6 +112,8 @@ struct RuntimeReadinessProbe {
     runtime_process_id: u32,
     guardian_process_id: u32,
     active_init_hash: String,
+    config_generation: String,
+    config_receipt_digest: String,
 }
 
 pub(crate) fn real_runtime_v3_service(args: &[String]) -> Result<()> {
@@ -216,14 +223,14 @@ fn run_after_preflight<T>(
     service_mutation()
 }
 
-fn validate_runtime_generation(init: &RuntimeInitConfig) -> Result<()> {
+fn validate_runtime_generation(init: &RuntimeInitConfig) -> Result<String> {
     validate_runtime_generation_with_service_binary(init, &std::env::current_exe()?)
 }
 
 fn validate_runtime_generation_with_service_binary(
     init: &RuntimeInitConfig,
     service_binary: &Path,
-) -> Result<()> {
+) -> Result<String> {
     let kernel_path = &init.binaries.kernel_path;
     let Some(bin_dir) = kernel_path.parent() else {
         return Err(anyhow!("Runtime v3 kernel path has no bin directory"));
@@ -354,7 +361,20 @@ fn validate_runtime_generation_with_service_binary(
             "Runtime v3 service control does not belong to the current generation"
         ));
     }
-    Ok(())
+    Ok(generation_name.to_owned())
+}
+
+fn prepare_active_config_generation(
+    init_path: &Path,
+    binary_generation: &str,
+) -> Result<ConfigGenerationIdentity> {
+    let identity =
+        provision_config_generation(init_path, binary_generation).map_err(anyhow::Error::msg)?;
+    let active_ref = active_generation_ref(init_path).map_err(anyhow::Error::msg)?;
+    if !active_ref.exists() {
+        activate_config_generation(init_path, &identity).map_err(anyhow::Error::msg)?;
+    }
+    validate_active_config_generation(init_path, binary_generation).map_err(anyhow::Error::msg)
 }
 
 #[cfg(target_os = "macos")]
@@ -483,7 +503,8 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let init = validated_init(&args.init)?;
     run_after_preflight(
         || {
-            validate_runtime_generation(&init)?;
+            let binary_generation = validate_runtime_generation(&init)?;
+            prepare_active_config_generation(&args.init, &binary_generation)?;
             validate_runtime_service_definition(args, &init)
         },
         || {
@@ -504,14 +525,22 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
         .as_ref()
         .map(|path| validated_init(path))
         .transpose()?;
+    let binary_generation = validate_runtime_generation(&current)?;
+    prepare_active_config_generation(&args.init, &binary_generation)?;
+    let candidate_identity = if let Some(candidate) = candidate.as_ref() {
+        let candidate_binary_generation = validate_runtime_generation(candidate)?;
+        Some(
+            provision_config_generation(
+                args.candidate.as_ref().expect("candidate path"),
+                &candidate_binary_generation,
+            )
+            .map_err(anyhow::Error::msg)?,
+        )
+    } else {
+        None
+    };
     run_after_preflight(
-        || {
-            validate_runtime_generation(&current)?;
-            if let Some(candidate) = candidate.as_ref() {
-                validate_runtime_generation(candidate)?;
-            }
-            validate_runtime_service_definition(args, &current)
-        },
+        || validate_runtime_service_definition(args, &current),
         || {
             reconcile_interrupted_reload(args)?;
             let Some((candidate_path, candidate)) = args.candidate.as_ref().zip(candidate.as_ref())
@@ -522,6 +551,7 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
             reload_candidate_transaction(
                 &args.init,
                 candidate_path,
+                candidate_identity.as_ref().expect("candidate identity"),
                 || stop_and_wait(args, &current),
                 || start_and_wait(args, candidate),
                 || stop_and_wait(args, candidate),
@@ -535,13 +565,14 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
 fn reload_candidate_transaction(
     active: &Path,
     candidate_path: &Path,
+    candidate_identity: &ConfigGenerationIdentity,
     stop_current: impl FnOnce() -> Result<()>,
     start_candidate: impl FnOnce() -> Result<()>,
     stop_candidate: impl FnOnce() -> Result<()>,
     start_current: impl FnOnce() -> Result<()>,
 ) -> Result<()> {
     stop_current()?;
-    let backup = match replace_config_with_candidate(active, candidate_path) {
+    let backup = match replace_config_with_candidate(active, candidate_path, candidate_identity) {
         Ok(backup) => backup,
         Err(error) => {
             start_current().context("Runtime v3 did not recover after candidate install failed")?;
@@ -564,7 +595,11 @@ fn reload_candidate_transaction(
     commit_candidate(active, &backup)
 }
 
-fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<PathBuf> {
+fn replace_config_with_candidate(
+    active: &Path,
+    candidate: &Path,
+    candidate_identity: &ConfigGenerationIdentity,
+) -> Result<PathBuf> {
     if active == candidate {
         return Err(anyhow!(
             "Runtime v3 reload candidate must differ from the active init path"
@@ -579,7 +614,9 @@ fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<Path
         .ok_or_else(|| anyhow!("Runtime v3 active init filename is invalid"))?;
     let backup = parent.join(format!(".{file_name}.last-known-good"));
     let staged = parent.join(format!(".{file_name}.candidate"));
-    if backup.exists() || staged.exists() {
+    let active_ref = active_generation_ref(active).map_err(anyhow::Error::msg)?;
+    let backup_ref = active_ref.with_extension("active-generation.last-known-good");
+    if backup.exists() || staged.exists() || backup_ref.exists() {
         return Err(anyhow!(
             "Runtime v3 reload transaction already exists; run start to reconcile it"
         ));
@@ -590,11 +627,16 @@ fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<Path
             active.display()
         )
     })?;
+    copy_create_new(&active_ref, &backup_ref)
+        .context("retain last-known-good Runtime configuration generation reference")?;
     sync_parent(active)?;
     if let Err(error) = copy_create_new(candidate, &staged)
         .and_then(|_| fs::rename(&staged, active))
         .map_err(anyhow::Error::from)
         .and_then(|_| sync_parent(active))
+        .and_then(|_| {
+            activate_config_generation(active, candidate_identity).map_err(anyhow::Error::msg)
+        })
     {
         let _ = restore_last_known_good(active, &backup);
         return Err(error).with_context(|| {
@@ -716,6 +758,12 @@ fn commit_candidate(active: &Path, backup: &Path) -> Result<()> {
     let (_, staged) = reload_transaction_paths(active)?;
     fs::remove_file(backup)
         .with_context(|| format!("remove Runtime v3 reload backup {}", backup.display()))?;
+    let active_ref = active_generation_ref(active).map_err(anyhow::Error::msg)?;
+    let backup_ref = active_ref.with_extension("active-generation.last-known-good");
+    if backup_ref.exists() {
+        fs::remove_file(&backup_ref)
+            .context("remove Runtime v3 committed configuration generation reference backup")?;
+    }
     if staged.exists() {
         fs::remove_file(&staged).with_context(|| {
             format!("remove Runtime v3 committed candidate {}", staged.display())
@@ -731,6 +779,10 @@ fn restore_last_known_good(active: &Path, backup: &Path) -> Result<()> {
             backup.display()
         )
     })?;
+    let active_ref = active_generation_ref(active).map_err(anyhow::Error::msg)?;
+    let backup_ref = active_ref.with_extension("active-generation.last-known-good");
+    fs::rename(&backup_ref, &active_ref)
+        .context("restore last-known-good Runtime configuration generation reference")?;
     sync_parent(active)
 }
 
@@ -875,6 +927,12 @@ fn emit_status(
         active_init_hash: readiness
             .as_ref()
             .map(|health| health.active_init_hash.clone()),
+        config_generation: readiness
+            .as_ref()
+            .map(|health| health.config_generation.clone()),
+        config_receipt_digest: readiness
+            .as_ref()
+            .map(|health| health.config_receipt_digest.clone()),
         observability_ready: readiness
             .as_ref()
             .is_some_and(|health| health.observability_ready),
@@ -996,6 +1054,8 @@ fn validate_readiness_probe(readiness: &RuntimeReadinessProbe) -> Result<()> {
         || readiness.runtime_process_id == 0
         || readiness.guardian_process_id == 0
         || !is_blake3_hex(&readiness.active_init_hash)
+        || !is_blake3_hex(&readiness.config_generation)
+        || !is_blake3_hex(&readiness.config_receipt_digest)
     {
         return Err(anyhow!("Runtime v3 readiness response is not healthy"));
     }
@@ -1663,6 +1723,18 @@ mod tests {
         }
     }
 
+    fn test_config_generation_identity(generation: &str) -> ConfigGenerationIdentity {
+        ConfigGenerationIdentity {
+            generation: generation.to_owned(),
+            receipt_digest: "a".repeat(64),
+        }
+    }
+
+    fn write_active_config_generation_ref(init: &Path, generation: &str) {
+        let active_ref = active_generation_ref(init).unwrap();
+        fs::write(active_ref, format!("{generation} {}\n", "b".repeat(64))).unwrap();
+    }
+
     #[test]
     fn parser_requires_absolute_init() {
         let error = parse_args(&["--init".into(), "relative.toml".into()]).unwrap_err();
@@ -1685,7 +1757,7 @@ mod tests {
         .unwrap();
         let service_mutated = Cell::new(false);
         let error = run_after_preflight(
-            || validate_runtime_generation_with_service_binary(&init, &csm),
+            || validate_runtime_generation_with_service_binary(&init, &csm).map(|_| ()),
             || {
                 service_mutated.set(true);
                 Ok(())
@@ -1714,7 +1786,7 @@ mod tests {
 
         let service_mutated = Cell::new(false);
         let error = run_after_preflight(
-            || validate_runtime_generation_with_service_binary(&init, &csm),
+            || validate_runtime_generation_with_service_binary(&init, &csm).map(|_| ()),
             || {
                 service_mutated.set(true);
                 Ok(())
@@ -1956,11 +2028,17 @@ mod tests {
         let candidate = root.path().join("runtime-init.next.toml");
         fs::write(&active, "current").unwrap();
         fs::write(&candidate, "candidate").unwrap();
+        write_active_config_generation_ref(&active, "current");
 
-        let backup = replace_config_with_candidate(&active, &candidate).unwrap();
+        let identity = test_config_generation_identity("candidate");
+        let backup = replace_config_with_candidate(&active, &candidate, &identity).unwrap();
 
         assert_eq!(fs::read_to_string(&active).unwrap(), "candidate");
         assert_eq!(fs::read_to_string(backup).unwrap(), "current");
+        assert_eq!(
+            fs::read_to_string(active_generation_ref(&active).unwrap()).unwrap(),
+            format!("candidate {}\n", "a".repeat(64))
+        );
     }
 
     #[test]
@@ -1970,8 +2048,10 @@ mod tests {
         let candidate = root.path().join("runtime-init.next.toml");
         fs::write(&active, "current").unwrap();
         fs::write(&candidate, "candidate").unwrap();
+        write_active_config_generation_ref(&active, "current");
 
-        let backup = replace_config_with_candidate(&active, &candidate).unwrap();
+        let identity = test_config_generation_identity("candidate");
+        let backup = replace_config_with_candidate(&active, &candidate, &identity).unwrap();
         assert_eq!(fs::read_to_string(&active).unwrap(), "candidate");
 
         let mut stopped = false;
@@ -1992,6 +2072,10 @@ mod tests {
 
         assert!(stopped);
         assert_eq!(fs::read_to_string(&active).unwrap(), "current");
+        assert_eq!(
+            fs::read_to_string(active_generation_ref(&active).unwrap()).unwrap(),
+            format!("current {}\n", "b".repeat(64))
+        );
         assert!(!backup.exists());
     }
 
@@ -2002,7 +2086,9 @@ mod tests {
         let candidate = root.path().join("runtime-init.next.toml");
         fs::write(&active, "current").unwrap();
         fs::write(&candidate, "candidate").unwrap();
-        let backup = replace_config_with_candidate(&active, &candidate).unwrap();
+        write_active_config_generation_ref(&active, "current");
+        let identity = test_config_generation_identity("candidate");
+        let backup = replace_config_with_candidate(&active, &candidate, &identity).unwrap();
         let mut stopped = false;
 
         reconcile_interrupted_reload_with(
@@ -2018,6 +2104,10 @@ mod tests {
 
         assert!(!stopped);
         assert_eq!(fs::read_to_string(&active).unwrap(), "candidate");
+        assert_eq!(
+            fs::read_to_string(active_generation_ref(&active).unwrap()).unwrap(),
+            format!("candidate {}\n", "a".repeat(64))
+        );
         assert!(!backup.exists());
     }
 
@@ -2029,11 +2119,16 @@ mod tests {
         let (backup, staged) = reload_transaction_paths(&active).unwrap();
         fs::write(&backup, "known-good").unwrap();
         fs::write(&staged, "stale-stage").unwrap();
+        let active_ref = active_generation_ref(&active).unwrap();
+        let backup_ref = active_ref.with_extension("active-generation.last-known-good");
+        fs::write(&active_ref, format!("candidate {}\n", "a".repeat(64))).unwrap();
+        fs::write(&backup_ref, format!("known-good {}\n", "b".repeat(64))).unwrap();
 
         commit_candidate(&active, &backup).unwrap();
 
         assert!(!backup.exists());
         assert!(!staged.exists());
+        assert!(!backup_ref.exists());
         assert_eq!(fs::read_to_string(active).unwrap(), "candidate");
     }
 
@@ -2069,7 +2164,8 @@ mod tests {
         let (backup, _) = reload_transaction_paths(&active).unwrap();
         fs::write(&backup, "known-good").unwrap();
 
-        let error = replace_config_with_candidate(&active, &candidate).unwrap_err();
+        let identity = test_config_generation_identity("candidate");
+        let error = replace_config_with_candidate(&active, &candidate, &identity).unwrap_err();
 
         assert!(error.to_string().contains("transaction already exists"));
         assert_eq!(fs::read_to_string(backup).unwrap(), "known-good");
@@ -2084,7 +2180,8 @@ mod tests {
         fs::write(&candidate, "candidate").unwrap();
         let (backup, staged) = reload_transaction_paths(&active).unwrap();
 
-        assert!(replace_config_with_candidate(&active, &candidate).is_err());
+        let identity = test_config_generation_identity("candidate");
+        assert!(replace_config_with_candidate(&active, &candidate, &identity).is_err());
         assert!(!backup.exists());
         assert!(!staged.exists());
     }
@@ -2097,9 +2194,15 @@ mod tests {
         fs::write(&active, "current").unwrap();
         fs::create_dir(&candidate).unwrap();
         let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        write_active_config_generation_ref(&active, "current");
 
-        assert!(replace_config_with_candidate(&active, &candidate).is_err());
+        let identity = test_config_generation_identity("candidate");
+        assert!(replace_config_with_candidate(&active, &candidate, &identity).is_err());
         assert_eq!(fs::read_to_string(&active).unwrap(), "current");
+        assert_eq!(
+            fs::read_to_string(active_generation_ref(&active).unwrap()).unwrap(),
+            format!("current {}\n", "b".repeat(64))
+        );
         assert!(!backup.exists());
         assert!(!staged.exists());
     }
@@ -2109,7 +2212,8 @@ mod tests {
         let root = tempfile::tempdir().unwrap();
         let active = root.path().join("runtime-init.toml");
         fs::write(&active, "current").unwrap();
-        assert!(replace_config_with_candidate(&active, &active).is_err());
+        let identity = test_config_generation_identity("candidate");
+        assert!(replace_config_with_candidate(&active, &active, &identity).is_err());
         assert!(reload_transaction_paths(Path::new("/")).is_err());
         assert!(sync_parent(Path::new("/")).is_err());
 
@@ -2157,9 +2261,18 @@ mod tests {
 
         fs::write(&backup, "known-good").unwrap();
         fs::write(&staged, "partial").unwrap();
+        let active_ref = active_generation_ref(&active).unwrap();
+        let backup_ref = active_ref.with_extension("active-generation.last-known-good");
+        fs::write(&active_ref, format!("candidate {}\n", "a".repeat(64))).unwrap();
+        fs::write(&backup_ref, format!("known-good {}\n", "b".repeat(64))).unwrap();
         reconcile_interrupted_reload_with(&active, |_| Ok(()), || false, || Ok(())).unwrap();
         assert_eq!(fs::read_to_string(&active).unwrap(), "known-good");
+        assert_eq!(
+            fs::read_to_string(active_ref).unwrap(),
+            format!("known-good {}\n", "b".repeat(64))
+        );
         assert!(!backup.exists());
+        assert!(!backup_ref.exists());
         assert!(!staged.exists());
     }
 
@@ -2321,6 +2434,8 @@ mod tests {
         let candidate = root.path().join("runtime-init.next.toml");
         fs::write(&active, "last-known-good").unwrap();
         fs::write(&candidate, "candidate").unwrap();
+        write_active_config_generation_ref(&active, "last-known-good");
+        let identity = test_config_generation_identity("candidate");
         let stopped_current = Cell::new(false);
         let stopped_candidate = Cell::new(false);
         let restarted_current = Cell::new(false);
@@ -2328,6 +2443,7 @@ mod tests {
         let error = reload_candidate_transaction(
             &active,
             &candidate,
+            &identity,
             || {
                 stopped_current.set(true);
                 Ok(())
@@ -2419,6 +2535,8 @@ mod tests {
             runtime_process_id: 42,
             guardian_process_id: 41,
             active_init_hash: "a".repeat(64),
+            config_generation: "b".repeat(64),
+            config_receipt_digest: "c".repeat(64),
         };
         assert!(validate_readiness_probe(&healthy).is_ok());
         assert!(validate_owned_readiness(41, &"a".repeat(64), &healthy).is_ok());
@@ -2441,6 +2559,8 @@ mod tests {
                 runtime_process_id: 42,
                 guardian_process_id: 41,
                 active_init_hash: "a".repeat(64),
+                config_generation: "b".repeat(64),
+                config_receipt_digest: "c".repeat(64),
             },
             RuntimeReadinessProbe {
                 guardian_process_id: 0,
@@ -2448,6 +2568,14 @@ mod tests {
             },
             RuntimeReadinessProbe {
                 active_init_hash: "invalid".into(),
+                ..healthy.clone()
+            },
+            RuntimeReadinessProbe {
+                config_generation: "invalid".into(),
+                ..healthy.clone()
+            },
+            RuntimeReadinessProbe {
+                config_receipt_digest: "invalid".into(),
                 ..healthy.clone()
             },
         ] {

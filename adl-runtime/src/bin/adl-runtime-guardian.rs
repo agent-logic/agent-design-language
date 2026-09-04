@@ -5,6 +5,10 @@ use std::{
 
 use adl_runtime::guardian::{run_guardian_with_os_signals, GuardianConfig, GuardianTerminalState};
 use adl_runtime_kernel::RuntimeShutdownInitConfig;
+#[cfg(not(test))]
+use adl_runtime_kernel::{
+    validate_active_config_generation, CONFIG_GENERATION_ENV, CONFIG_RECEIPT_DIGEST_ENV,
+};
 use serde::Deserialize;
 
 #[tokio::main]
@@ -64,6 +68,19 @@ fn parse_args(args: impl Iterator<Item = String>) -> Result<GuardianConfig, Stri
     }
     let (child_shutdown_budget_ms, shutdown_grace_ms) = init_config.shutdown.budgets()?;
     let mut config = GuardianConfig::runtime_kernel(kernel, init.to_string_lossy());
+    #[cfg(not(test))]
+    {
+        let binary_generation = runtime_binary_generation(&init_config.binaries.kernel_path)?;
+        let config_identity = validate_active_config_generation(&init, &binary_generation)
+            .map_err(|error| format!("Runtime configuration generation invalid: {error}"))?;
+        config.env.extend([
+            (CONFIG_GENERATION_ENV.to_owned(), config_identity.generation),
+            (
+                CONFIG_RECEIPT_DIGEST_ENV.to_owned(),
+                config_identity.receipt_digest,
+            ),
+        ]);
+    }
     config.restart_budget = init_config.guardian.restart_budget;
     config.backoff_base_ms = init_config.guardian.backoff_base_millis;
     config.backoff_cap_ms = init_config.guardian.backoff_cap_millis;
@@ -79,6 +96,23 @@ fn parse_args(args: impl Iterator<Item = String>) -> Result<GuardianConfig, Stri
         .validate()
         .map_err(|error| format!("guardian configuration invalid: {error:?}"))?;
     Ok(config)
+}
+
+#[cfg(not(test))]
+fn runtime_binary_generation(kernel: &Path) -> Result<String, String> {
+    let generation = kernel
+        .canonicalize()
+        .map_err(|error| format!("resolve Runtime kernel generation: {error}"))?
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| "Runtime kernel generation identity is invalid".to_owned())?
+        .to_owned();
+    if generation.is_empty() {
+        return Err("Runtime kernel generation identity is empty".to_owned());
+    }
+    Ok(generation)
 }
 
 fn load_init(path: &Path) -> Result<RuntimeGuardianInitConfig, String> {
