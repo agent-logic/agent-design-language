@@ -3,9 +3,9 @@
   "issue": 680,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
-  "phase": "bound",
-  "generation": 8,
-  "digest": "b6a71430080c97493fb2fd0c49211aeeac4ba21a1bd9d6031e8b11714b790cc3",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "34be5cd20bd2edff0fae4f4f4f2f9912a0be67f22d155edc0bce45c1ac44133a",
   "branch": "codex/680-moonshot-kimi-k3-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c2938cb6d681c12201e331c12d8e2078ac5de84270d342c6042a2c1b6de931c0",
+      "values_digest": "37f751cb46ba718f74d8a11245d02cdfd1cef841fe04d16d110c616871bdabf5",
       "rendered_digest": "d1750351b69e204f5693796d85ac48cea41a42f53671b8a40ef3141fc6650f7d",
       "ast_digest": "b5d721f64919a757cb981f72f9002db89f36b9151a6abbb4229a218a05fdb10e"
     },
     "stp": {
-      "values_digest": "012bf93af73f08b1cf225cda57f14dec7d9bc81745891a1022fdbccd4c4ba7b0",
+      "values_digest": "f8f6bacbed72eebf1515b974314ecae33c5fe16fd303b408dd3552b74ba98402",
       "rendered_digest": "4e94e258a4ce4844db8cf3b314e19518628407a511688f782be0621958534b51",
       "ast_digest": "16b22f9a58c2b06351c71a051baf3ee61c3749e82ecce4c996948612180fb455"
     },
     "spp": {
-      "values_digest": "855d1936aad7a8ca2ccf74be350da1182b374383cfdf67d0cbb6ccc24919e4de",
+      "values_digest": "6a919d1bb09530c2dc4777a637a50c3a30c7292a5431b9b442681dcc42177985",
       "rendered_digest": "2d57ac5915eb29a45086bbab11caa65d1ececd23166174dc10e81de689035fe0",
       "ast_digest": "ff9c62460f47349e06489e08d78194714960f991a7eeb0fe9a38032eeb248bbc"
     },
     "vpp": {
-      "values_digest": "c1e9aa3193bf0d18bbfc351da0ba5b1a8b47262161904706015774956bca3900",
+      "values_digest": "ac6106be888aec37ec7effbc4e7b6b83d78e03fbba8fd99d2d767d61ad00ea6e",
       "rendered_digest": "cf19a05549becd97dd7c085e9e607f143358bcf373aa2cb971848de31ba350e1",
       "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
     },
     "srp": {
-      "values_digest": "075ed2747614ad6ff4b7f8bef7ee4ff3f9c075a3f08fb0a7d60ece48bb246846",
+      "values_digest": "4a0e0b1526a14510482d89ec4110822a7e9d69cb38111624e834dd270688be53",
       "rendered_digest": "d2a433b08bd3066b33f0a22bf65a2deed0c25bef9adf4525c7cc97c7151257f9",
       "ast_digest": "be220e6a21916f4f72d349d8323addebc1d8ec58904ce43efcd316022d8690d3"
     },
     "sor": {
-      "values_digest": "8dcff891e8d7c47654e3befc60b70cd7e545a273aee4edd63f21bf60bed5d4a4",
-      "rendered_digest": "fe7b7034cc7e300afd8e29762a2016855d692bee8cb7f6a5acd688920a83015c",
-      "ast_digest": "8f4ea418d4623e81492ae683b0b056879f15393a8e71bd8030a836c5411a0c86"
+      "values_digest": "51aac2c7c3ce000d92bc7921e53251028c2089541946810def291d3fc6f1f49d",
+      "rendered_digest": "6b954dfdb84e09538b444c0444fbfaa79fdb05ba7521880acc0bde942522daef",
+      "ast_digest": "32280874348dd37d03c9b43445955639aa45b17611a88b447cb2fee53888c570"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "advance #680 to implemented after bound worktree implementation and local focused provider validation"
     }
   ],
   "audit": [
@@ -140,6 +147,27 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:root",
+      "reason": "record #680 bound implementation evidence before implemented transition",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented first-class Moonshot/Kimi K3 provider support in the bound issue worktree. The change adds native kimi/moonshot provider-kind routing, the kimi:k3 profile, Kimi setup generation, bounded provider documentation, runtime adapter reasoning_effort propagation, and issue-owned deterministic tests. Integration remains worktree-only pending exact review and PR publication.\",\"changes\":[\"Added native Kimi/Moonshot provider support in adl/src/provider/http_family.rs and wired it through adl/src/provider/mod.rs.\",\"Added kimi:k3 profile materialization and reasoning_effort validation in adl/src/provider/profiles.rs.\",\"Canonicalized moonshot as a Kimi provider alias in adl/src/provider_substrate.rs.\",\"Propagated Kimi runtime-adapter reasoning_effort in adl/src/provider_adapter.rs and validated Kimi K3 reasoning values in adl/src/provider_communication.rs.\",\"Added adl provider setup kimi/moonshot support in adl/src/cli/provider_cmd.rs and adl/src/cli/usage.rs.\",\"Documented Moonshot/Kimi setup in docs/tooling/PROVIDER_SETUP.md.\",\"Added issue-owned integration test target adl/tests/provider_moonshot_kimi_k3.rs.\"],\"artifacts\":[\"implementation_commit=db8994b498269ec3d29cbe491b63237ee8e1955a\",\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log sha256=3bd4f84ab979979667312256681f7414680d94a95f8941693b7e031e2596d0a6\",\".csdlc/evidence/680/strict-clippy-all-targets.log sha256=6e4b4b14f649de3418b8eec236d5c8b7b418e3466405d45200ad235a32aa2688\",\".csdlc/evidence/680/fmt-check.log sha256=257f02388635d9f01deba3c03fd79fdf5bca92fae67ddb08378aa8da0d483393\",\".csdlc/evidence/680/diff-check.log sha256=6457db7c0feffdc3b6d97aa5d989a84ff2ee7fdf2bf7c9e2369c5583971d3142\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:root",
+      "reason": "advance #680 to implemented after bound worktree implementation and local focused provider validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "record #680 implementation and validation evidence before exact review and PR publication",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented first-class Moonshot/Kimi K3 provider support in the bound issue worktree. The change adds native kimi/moonshot provider-kind routing, the kimi:k3 profile, Kimi setup generation, bounded provider documentation, runtime adapter reasoning_effort propagation, and issue-owned deterministic tests. Integration remains worktree-only pending exact review and PR publication.\",\"changes\":[\"Added native Kimi/Moonshot provider support in adl/src/provider/http_family.rs and wired it through adl/src/provider/mod.rs.\",\"Added kimi:k3 profile materialization and reasoning_effort validation in adl/src/provider/profiles.rs.\",\"Canonicalized moonshot as a Kimi provider alias in adl/src/provider_substrate.rs.\",\"Propagated Kimi runtime-adapter reasoning_effort in adl/src/provider_adapter.rs and validated Kimi K3 reasoning values in adl/src/provider_communication.rs.\",\"Added adl provider setup kimi/moonshot support in adl/src/cli/provider_cmd.rs and adl/src/cli/usage.rs.\",\"Documented Moonshot/Kimi setup in docs/tooling/PROVIDER_SETUP.md.\",\"Added issue-owned integration test target adl/tests/provider_moonshot_kimi_k3.rs.\"],\"artifacts\":[\"implementation_commit=db8994b498269ec3d29cbe491b63237ee8e1955a\",\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log sha256=3bd4f84ab979979667312256681f7414680d94a95f8941693b7e031e2596d0a6\",\".csdlc/evidence/680/strict-clippy-all-targets.log sha256=6e4b4b14f649de3418b8eec236d5c8b7b418e3466405d45200ad235a32aa2688\",\".csdlc/evidence/680/fmt-check.log sha256=257f02388635d9f01deba3c03fd79fdf5bca92fae67ddb08378aa8da0d483393\",\".csdlc/evidence/680/diff-check.log sha256=6457db7c0feffdc3b6d97aa5d989a84ff2ee7fdf2bf7c9e2369c5583971d3142\"],\"validation\":[{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"purpose\":\"Focused issue-owned Moonshot/Kimi K3 provider integration proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint proof for touched Rust provider surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/strict-clippy-all-targets.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for touched sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git whitespace diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/diff-check.log\"}]}"
     }
   ]
 }
