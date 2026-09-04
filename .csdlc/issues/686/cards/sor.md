@@ -102,7 +102,7 @@ Implemented the #686 Runtime v3 configuration-generation handoff. The change cre
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
