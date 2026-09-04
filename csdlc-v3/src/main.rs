@@ -203,7 +203,8 @@ fn run_proof_route(command: &str, args: &[String]) -> Result<String, String> {
         fs::read(&request_path).map_err(|error| format!("failed to read request: {error}"))?;
     let request: ProofRouteRequest = serde_json::from_slice(&request_bytes)
         .map_err(|error| format!("invalid request json: {error}"))?;
-    let report = classify_route(command, request);
+    let repo_root = discover_repo_root(env::current_dir().map_err(|error| error.to_string())?);
+    let report = classify_route(command, request, repo_root.as_deref());
     serde_json::to_string(&report).map_err(|error| error.to_string())
 }
 

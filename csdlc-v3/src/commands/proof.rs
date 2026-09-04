@@ -5,7 +5,10 @@
 //! execute lifecycle authority, provider calls, selector mutation, binary
 //! installation, GitHub mutation, finish, cleanup, or #505 cutover.
 
-use std::{fs, path::Path};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use serde::{Deserialize, Serialize};
 
@@ -94,8 +97,12 @@ pub struct ProofRouteFinding {
     pub message: &'static str,
 }
 
-pub fn classify_route(route: &str, request: ProofRouteRequest) -> ProofRouteReport {
-    let mut findings = common_findings(&request);
+pub fn classify_route(
+    route: &str,
+    request: ProofRouteRequest,
+    repository_root: Option<&Path>,
+) -> ProofRouteReport {
+    let mut findings = common_findings(&request, repository_root);
     match route {
         "proof" => match request.proof.as_ref() {
             Some(manifest) => {
@@ -152,7 +159,10 @@ pub fn classify_route(route: &str, request: ProofRouteRequest) -> ProofRouteRepo
     }
 }
 
-fn common_findings(request: &ProofRouteRequest) -> Vec<ProofRouteFinding> {
+fn common_findings(
+    request: &ProofRouteRequest,
+    repository_root: Option<&Path>,
+) -> Vec<ProofRouteFinding> {
     let mut findings = Vec::new();
     if request.issue == 0 {
         findings.push(finding("issue_missing", "issue identity must be non-zero"));
@@ -163,7 +173,48 @@ fn common_findings(request: &ProofRouteRequest) -> Vec<ProofRouteFinding> {
             "repository identity is required",
         ));
     }
+    validate_evidence_root_binding(
+        request.evidence_root.as_deref(),
+        repository_root,
+        &mut findings,
+    );
     findings
+}
+
+fn validate_evidence_root_binding(
+    evidence_root: Option<&str>,
+    repository_root: Option<&Path>,
+    findings: &mut Vec<ProofRouteFinding>,
+) {
+    let Some(evidence_root) = evidence_root else {
+        return;
+    };
+    if evidence_root.trim().is_empty() {
+        return;
+    }
+    let Some(repository_root) = repository_root else {
+        findings.push(finding(
+            "repository_root_unavailable",
+            "proof evidence must be classified from a discovered repository checkout",
+        ));
+        return;
+    };
+    let Ok(evidence_root) = PathBuf::from(evidence_root).canonicalize() else {
+        return;
+    };
+    let Ok(repository_root) = repository_root.canonicalize() else {
+        findings.push(finding(
+            "repository_root_unavailable",
+            "proof evidence must be classified from a discovered repository checkout",
+        ));
+        return;
+    };
+    if evidence_root != repository_root {
+        findings.push(finding(
+            "evidence_root_not_repository_root",
+            "proof evidence root must be the discovered repository root, not a request-controlled scratch tree",
+        ));
+    }
 }
 
 fn validate_proof_manifest(

@@ -19,6 +19,7 @@ fn write_request(name: &str, body: &str) -> PathBuf {
 
 fn write_evidence(ref_path: &str, body: &[u8]) -> (PathBuf, String) {
     let root = scratch().join("repo");
+    fs::create_dir_all(root.join(".git")).expect("fake git root");
     let path = root.join(ref_path);
     let parent = path.parent().expect("evidence path has parent");
     fs::create_dir_all(parent).expect("evidence parent");
@@ -28,7 +29,14 @@ fn write_evidence(ref_path: &str, body: &[u8]) -> (PathBuf, String) {
 
 fn run_route(route: &str, body: &str) -> Value {
     let path = write_request(&format!("{route}.json"), body);
+    let request_value: Value = serde_json::from_str(body).expect("request body json");
+    let evidence_root = request_value
+        .get("evidence_root")
+        .and_then(Value::as_str)
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from(env!("CARGO_MANIFEST_DIR")));
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(evidence_root)
         .args([route, "--request"])
         .arg(path)
         .output()
@@ -374,5 +382,50 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           }
         }),
         "install_source_provenance_mismatch",
+    );
+    let scratch_root = scratch().join("caller-controlled-evidence-root");
+    fs::create_dir_all(scratch_root.join(".csdlc/evidence/631/install"))
+        .expect("scratch evidence root");
+    fs::write(
+        scratch_root.join(".csdlc/evidence/631/install/scratch-csdlc"),
+        b"scratch artifact bytes",
+    )
+    .expect("write scratch artifact");
+    fs::write(
+        scratch_root.join(".csdlc/evidence/631/install/scratch-selector.json"),
+        br#"{"selected":"csdlc"}"#,
+    )
+    .expect("write scratch selector");
+    fs::write(
+        scratch_root.join(".csdlc/evidence/631/install/scratch-provenance.json"),
+        br#"{"source":"git:scratch"}"#,
+    )
+    .expect("write scratch provenance");
+    let artifact_digest = blake3::hash(b"scratch artifact bytes").to_hex().to_string();
+    let selector_digest = blake3::hash(br#"{"selected":"csdlc"}"#)
+        .to_hex()
+        .to_string();
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": scratch_root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": ".csdlc/evidence/631/install/scratch-csdlc",
+            "source_provenance_ref": ".csdlc/evidence/631/install/scratch-provenance.json",
+            "selector_metadata_ref": ".csdlc/evidence/631/install/scratch-selector.json",
+            "source_provenance": "git:scratch",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": false
+          }
+        }),
+        "evidence_root_not_repository_root",
     );
 }
