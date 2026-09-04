@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 660,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Remove unintended public /podcast/ exposure and keep show under _preview",
+    "slug": "podcast-public-exposure-emergency",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-660-emergency-rollback",
+          "proof_role": "Validate delete manifest scope, retained rollback evidence, negative authority, hidden-preview source hygiene, publication hold, and ready-but-withheld launch-candidate truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            ".csdlc/prepared/issues/660/validate-emergency-rollback.rb"
+          ],
+          "parallel_group": "issue-660",
+          "defer_reason": "Run after emergency rollback evidence and preview/publication-hold source have been recorded."
+        },
+        {
+          "lane": "issue-660-diff-hygiene",
+          "proof_role": "Reject malformed tracked changes before exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "parallel_group": "issue-660",
+          "defer_reason": "Run after the issue has a bounded candidate diff."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on public-exposure persistence, delete-scope drift, privacy drift, missing retained proof, or exact-head review failure.",
+      "design_ref": ".csdlc/prepared/issues/660/design.md",
+      "design_digest": "cc7338ad86109c91e2d3d058e86547cbfd72727db264441dc6ed990e652cd052",
+      "diagram_ref": ".csdlc/prepared/issues/660/diagram.mmd",
+      "diagram_digest": "4f3e09153e9d1e896e59e15f39f34f90bce217c8699b20cd449cd0551773d6ef"
+    }
+  }
+}

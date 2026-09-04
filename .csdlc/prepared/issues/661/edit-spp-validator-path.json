@@ -1,0 +1,19 @@
+{
+  "issue": 661,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "42bcd1232ac68bdf160632477c2ff5f9b501da78178c4679f8eceebfd41bd352",
+  "actor": "codex:661-bootstrap",
+  "reason": "Own the exact issue-local validation wrapper selected by the VPP.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/661/validate-focused.sh",
+      ".csdlc/prepared/issues/661",
+      ".csdlc/issues/661"
+    ]
+  }
+}

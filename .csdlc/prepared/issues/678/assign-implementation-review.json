@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 678,
+  "expected_generation": 9,
+  "expected_digest": "4a7ddb0e26b0a8d5760290c1d7038f83af103c334ff4218547ee273fb8060f52",
+  "reviewer": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "adl/tools/runtime_v3_generation.py",
+    "adl/tools/install_runtime_v3_generation.sh",
+    "adl/tools/test_runtime_v3_generation_install.sh",
+    ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+    ".csdlc/prepared/issues/678",
+    ".csdlc/evidence/678"
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 665,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ae81943a8d88b0ca84986efe142c8f0fad3d860f6f4062a2ac3cb8be88e614bf",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "0daca617825c76fa9950efbb8fe11a5e984cb22dc1c465f571ba508a60358d89",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/665/design.md",
+  "diagram_path": ".csdlc/prepared/issues/665/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:66500000-0000-4000-8000-000000000001",
+      "revision": "0d9d58bf4f6c639d9471dc59e735b973aaf4b1479ffd95853d62bed60e8b1834"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ac8b2e68a6d7e4d7deac046da287e728c5429659076c701b0e13b40f76e11198",
+      "rendered_digest": "5212833dcc2f7550d5defbd411fa5a27a0f1b11820729f6ee0b6a21c4ab8e81d",
+      "ast_digest": "300fb67248a358b99db6c3be563bfb2063ae13e2dc9bf4a2483f7267fb1e3063"
+    },
+    "stp": {
+      "values_digest": "9bc1fe3fa401219c7d414444dee445449b3c6aeada7944960518cb941be22b43",
+      "rendered_digest": "dc786d724ddba3edfd6dc940730da85d4e413061be061e2c09958d62a70c330e",
+      "ast_digest": "87aada8566c501d8b17539e0213769b266144ccbba49d9e7664110c27856e76c"
+    },
+    "spp": {
+      "values_digest": "0db95df7be7add44c42c6f3fcafb03a03afb16111ece5f0077368aed463cf464",
+      "rendered_digest": "fd347e43fbcbde02b4340491f6303b64176b79eb461db666d15218b8ff0dabe5",
+      "ast_digest": "f6627891d07962449c46a51af84bde944ef546262163c0eef9f87e05361d9e12"
+    },
+    "vpp": {
+      "values_digest": "e5cd457900dd5da5bb7ba9d6c5da735df4d8c44285272b006d629c713940f8a1",
+      "rendered_digest": "92f46884cb038ddb7370d9c73dde3ea85c2f280eaa9301dd91e26f65e894f7e6",
+      "ast_digest": "278cdd2a01c07ac79943d35cc64ffc69cc7aad637f2c22d117cb2d3be8174db3"
+    },
+    "srp": {
+      "values_digest": "1cd0041c5bd4aad41f8786fcbc9a880724f42e41c9418450c99bc926b2a57044",
+      "rendered_digest": "bed700be8137d39b6a4b9937cb29eb6cf12d5d0da3ffed34a6cf2711aecf0ef9",
+      "ast_digest": "9786012c7d77da42fba5654d0e397cb96ebabe7ac7f25ca0db7598f2b22ee3a6"
+    },
+    "sor": {
+      "values_digest": "6e880563803490f2999256463157b0e78cb7c84717acad8be2bdcfa40f0017de",
+      "rendered_digest": "7106bf123efab76d14daaf8fba8af28839c3000ed0d90c056f46bdd55c6c75aa",
+      "ast_digest": "e9e8cde47aeb8cd6ff5cde03189556a828a13871b5c1ff283b71632aa6cd5021"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/Worker-7",
+      "reason": "Advance #665 after typed readiness doctor passed with current design approval."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/Worker-7",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Replace abstract planning labels with concrete repository-owned paths for #665 design readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/model.rs\",\"csdlc-v2/src/bin/csdlc-bind.rs\",\"csdlc-v2/tests/gate5.rs\",\"docs/tooling/EMERGENCY_BRANCH_ADOPTION.md\",\".csdlc/prepared/issues/665/design.md\",\".csdlc/prepared/issues/665/diagram.mmd\",\".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh\",\".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Replace broad owner validation with #665-owned executable readiness and implementation proof lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-emergency-adoption-regression\",\"proof_role\":\"Prove the #660-shaped ready-phase emergency branch/worktree adoption path, fail-closed topology rejects, preservation, evidence recording, and downstream lifecycle eligibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"emergency_branch_adoption\"],\"parallel_group\":\"csdlc-v2-bind\",\"defer_reason\":null},{\"lane\":\"issue-665-scope-denominator\",\"proof_role\":\"Prove the #665 readiness packet names issue-owned bind/topology design and repository targets before implementation begins.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh\"],\"parallel_group\":\"readiness\",\"defer_reason\":null},{\"lane\":\"issue-665-operator-docs\",\"proof_role\":\"Prove the operator documentation exists and names the fail-closed ready-to-bound adoption sequence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove whitespace and conflict-marker hygiene for the exact branch diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:66500000-0000-4000-8000-000000000001",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"0d9d58bf4f6c639d9471dc59e735b973aaf4b1479ffd95853d62bed60e8b1834\",\"design_ref\":\".csdlc/prepared/issues/665/design.md\",\"diagram_digest\":\"37669ced4633e6b67e042a92c409ec56e2c80b2ed2e858d563fda6c67fbb87f9\",\"diagram_ref\":\".csdlc/prepared/issues/665/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/Worker-7",
+      "reason": "Advance #665 after typed readiness doctor passed with current design approval.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

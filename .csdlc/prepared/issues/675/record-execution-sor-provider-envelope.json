@@ -1,0 +1,25 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "13b0b25f2f86856bfbe09d4b44069ca445834b3722e75156a520f6fbccfc06dc",
+  "actor": "codex:/root",
+  "reason": "Record corrective implementation truth for the provider-backed live conversation path after pre-PR review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Extended the first-class A2A bridge into the live provider-backed conversation adapter so ordinary resident models receive a shared response contract and schema-tagged provider output can trigger governed agent-to-agent initiation.",
+    "changes": [
+      "Passed conversation_id, turn_id, and correlation_id into conversation work so provider-emitted actions are bound to the active turn.",
+      "Prompted provider-backed resident agents with a shared action-envelope contract instead of relying on roleplay or Shepherd-specific behavior.",
+      "Parsed only schema-tagged provider action envelopes into agent_to_agent_initiation output while preserving ordinary plain-text and untagged JSON replies as normal messages.",
+      "Rejected schema-tagged A2A action envelopes whose conversation, turn, or correlation identifiers do not match the active Runtime task.",
+      "Added focused provider-envelope tests that prove the prompt contract, action projection, plain JSON fallback, and fail-closed context mismatch behavior."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "demos/html-observatory/app.js"
+    ]
+  }
+}

@@ -20,7 +20,7 @@ output "ollama_private_ip" {
 
 output "instance_cleanup_selector" {
   description = "Selector for checking that the per-run disposable instances are gone."
-  value       = "labels.issue=509 AND labels.lane=drt-d AND labels.run_id=${local.run_id_label}"
+  value       = "labels.issue=${var.issue_id} AND labels.lane=${var.lane} AND labels.run_id=${local.run_id_label}"
 }
 
 output "runtime_receipt_path" {
@@ -31,4 +31,14 @@ output "runtime_receipt_path" {
 output "ollama_receipt_path" {
   description = "Ollama-side model residency receipt path."
   value       = "/var/lib/adl/issue509/ollama-ready.json"
+}
+
+output "runtime_data_disk_attached" {
+  description = "Whether the optional Runtime data disk is part of this topology."
+  value       = var.attach_data_disks
+}
+
+output "ollama_data_disk_attached" {
+  description = "Whether the optional Ollama/model data disk is part of this topology."
+  value       = var.attach_data_disks
 }

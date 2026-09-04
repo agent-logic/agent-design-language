@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 674,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add New Polis citizen Welcome Package for resident agents",
+    "slug": "runtime-new-polis-citizen-welcome-package",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\n.csdlc/prepared/issues/674/validate-welcome-package-docs.sh",
+      "review_revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+      "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "review_prompts": [
+        "Is every capability statement grounded and conditional on current Runtime gates?",
+        "Does the package clearly state forbidden actions and help paths?",
+        "Is the tone supportive without personhood or capability fantasy?",
+        "Is this strictly one documentation artifact plus its lightweight validator?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "This documentation does not prove live delivery or Runtime behavior and may require revision if the governed contracts change."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

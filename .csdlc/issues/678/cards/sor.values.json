@@ -1,0 +1,58 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 678,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Route stable CSM commands through the active Runtime generation",
+    "slug": "stable-csm-active-runtime-generation-route",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented installer-managed stable CSM routing so .adl/bin/csm execs the active Runtime v3 generation's CSM instead of remaining an independent stale binary.",
+      "actual_changes": [
+        "Added atomic stable CSM launcher installation in adl/tools/runtime_v3_generation.py before generation activation and rollback symlink switches.",
+        "Strengthened the Runtime v3 generation installer fixture to prove stable route parity with current/bin/csm, stale stable binary repair, rollback route switching, and missing active-generation CSM failure.",
+        "Updated the issue-owned validation wrapper to retain the focused proof log under .csdlc/evidence/678.",
+        "Added the hidden operator note for the stable CSM route contract under .adl/docs/TBD/resilience/."
+      ],
+      "artifacts": [
+        "adl/tools/runtime_v3_generation.py",
+        "adl/tools/install_runtime_v3_generation.sh",
+        "adl/tools/test_runtime_v3_generation_install.sh",
+        ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/678/validate-stable-csm-route.sh"
+          ],
+          "purpose": "Runtime v3 generation installer stable CSM route fixture",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/678/runtime-v3-generation-install.log; runtime v3 generation installer: PASS"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Git diff hygiene proof",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/678/diff-check.log; clean"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

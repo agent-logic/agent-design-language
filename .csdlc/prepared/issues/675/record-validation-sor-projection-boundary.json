@@ -1,0 +1,24 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "f50b440ccf34ef161623222916c0eb11eef8031a19e8b8b42259e218acf61f7d",
+  "actor": "codex:/root",
+  "reason": "Record projection-boundary validation for structured A2A model actions.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--lib",
+        "agent_initiation_action"
+      ],
+      "purpose": "Prove local-agent conversation output projects well-formed agent_to_agent_initiation actions and rejects malformed action payloads before Runtime treats them as governed A2A work.",
+      "outcome": "passed",
+      "evidence_ref": "terminal://2026-09-03#issue-675-projection-boundary-2-passed"
+    }
+  }
+}

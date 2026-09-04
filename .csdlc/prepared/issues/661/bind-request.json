@@ -1,0 +1,7 @@
+{
+  "issue": 661,
+  "base_branch": "codex/661-preparation",
+  "branch": "codex/661-runtime-shepherd-provider-reply",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply",
+  "code_repository": "agent-logic/agent-design-language"
+}

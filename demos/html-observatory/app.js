@@ -1645,11 +1645,25 @@ function conversationFrameTransition(frame, pending) {
   if (frame.status === "delivered" && !reply) {
     return null;
   }
-  return {
+  const transition = {
     status: frame.status,
     terminal: frame.status !== "accepted",
     reply
   };
+  if (typeof frame.sender_id === "string" && frame.sender_id.length <= 128) {
+    transition.senderId = frame.sender_id;
+  }
+  if (typeof frame.initiated_work_id === "string" && frame.initiated_work_id.length <= 128) {
+    transition.initiatedWorkId = frame.initiated_work_id;
+  }
+  if (typeof frame.initiated_recipient_id === "string" && frame.initiated_recipient_id.length <= 128) {
+    transition.initiatedRecipientId = frame.initiated_recipient_id;
+  }
+  if (typeof frame.initiated_correlation_id === "string" &&
+      /^[0-9a-f]{32}$/.test(frame.initiated_correlation_id)) {
+    transition.initiatedCorrelationId = frame.initiated_correlation_id;
+  }
+  return transition;
 }
 
 function conversationReplyFromFrame(frame, pending) {
@@ -3090,7 +3104,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       setConversationTurnStatus(pending, transition.status);
       if (transition.reply) {
-        appendConversationTurn("agent", transition.reply, pending.turnId, "delivered");
+        const speaker = transition.senderId
+          ? `agent:${transition.senderId}`
+          : "agent";
+        const status = transition.initiatedWorkId && transition.initiatedRecipientId
+          ? `delivered / A2A ${transition.initiatedRecipientId} ${transition.initiatedWorkId}`
+          : "delivered";
+        appendConversationTurn(speaker, transition.reply, pending.turnId, status);
       }
       if (transition.terminal) {
         pending.terminal = true;

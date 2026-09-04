@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 678,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Route stable CSM commands through the active Runtime generation",
+    "slug": "stable-csm-active-runtime-generation-route",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only the installer-managed stable CSM command route and focused regression proof for issue #678.",
+      "deliverables": [
+        "adl/tools/install_runtime_v3_generation.sh",
+        "adl/tools/runtime_v3_generation.py",
+        "adl/tools/test_runtime_v3_generation_install.sh",
+        ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The stable .adl/bin/csm runtime-v3 status --init <file> --json route executes the same generation-owned CSM artifact as .adl/runtime-v3/current/bin/csm.",
+        "AC-2: .adl/bin/csm cannot silently remain an independently built Runtime-control binary after an active generation is installed.",
+        "AC-3: Generation activation and rollback atomically switch the stable command route with the complete CSM, Guardian, and kernel generation.",
+        "AC-4: A missing, incomplete, or invalid active generation fails before any service mutation.",
+        "AC-5: A deterministic regression fixture reproduces a stale stable binary beside a valid current generation and proves the stable command follows current.",
+        "AC-6: Status-path validation does not restart, reload, or stop the live Runtime."
+      ],
+      "dependencies": [
+        "Issue #656 / PR #658 atomic Runtime generation installation baseline.",
+        "Issue #659 convergence-policy work remains out of scope."
+      ],
+      "repo_inputs": [
+        "GitHub issue #678",
+        "adl/tools/install_runtime_v3_generation.sh",
+        "adl/tools/test_runtime_v3_generation_install.sh",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+      ],
+      "non_goals": [
+        "Runtime convergence-policy changes from #659.",
+        "Provider, model, agent, or Observatory behavior changes.",
+        "Live Runtime rollout, restart, reload, or stop.",
+        "Redesign of unrelated CSMctl commands.",
+        "Replacing atomic generation installation with a second binary source of truth."
+      ]
+    }
+  }
+}

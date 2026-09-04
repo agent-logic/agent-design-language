@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 674,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add New Polis citizen Welcome Package for resident agents",
+    "slug": "runtime-new-polis-citizen-welcome-package",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Added the versioned, agent-readable Axioma Polis Welcome Package and a focused offline documentation contract.",
+      "actual_changes": [
+        "Documented Polis context, resident identity, other residents, the model-backed Shepherd, and governed Layer 8 communication.",
+        "Documented explicit authority, privacy, credential, refusal, clarification, and escalation boundaries without claiming new Runtime behavior.",
+        "Added a focused validator for required sections, safety language, qualitative markers, and path or secret hygiene."
+      ],
+      "artifacts": [
+        "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+        ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "purpose": "Issue 674 exact-range diff hygiene",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+          ],
+          "purpose": "Issue 674 documentation contract validation",
+          "outcome": "passed",
+          "evidence_ref": "welcome-package-docs.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

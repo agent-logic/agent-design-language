@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 670,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
+    "slug": "gcp-warm-polis-live-qualification",
+    "version": "v0.92.1",
+    "generation": 35
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Execute and, where necessary, narrowly repair only the #663 live GCP snapshot-backed warm-Polis qualification in the exact company project; do not add production architecture or alter unrelated cloud resources.",
+      "deliverables": [
+        "preflight project, billing, quota, inventory, and conservative cost receipt",
+        "sealed Runtime/Guardian and Ollama/model snapshots with exact generation identity",
+        "live two-node launch and readiness receipt with all #663 timing denominators",
+        "private-network, two-resident-model, and real agent/tool-path functional proof",
+        "cleanup and residual-resource receipt proving issue-owned VMs and disks absent and exactly two snapshots retained",
+        "actual incremental cost estimate at or below USD 20.00"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every paid mutation targets only cs-poc-cha8mmii0xk0iaw5vpf8mxf and the conservative incremental cost remains at or below USD 20.00.",
+        "AC-2: Preparation creates one sealed Runtime/Guardian snapshot and one sealed Ollama/model snapshot with exact generation and manifest identity.",
+        "AC-3: A real L4-backed two-node launch restores disposable disks and reaches full Polis readiness without Git, compilation, package installation, or model download during normal startup.",
+        "AC-4: Runtime and Guardian reach Ollama over private networking and Ollama has no public ingress.",
+        "AC-5: llama3.1:8b and qwen3:8b are simultaneously resident and one real agent/tool-path smoke succeeds.",
+        "AC-6: The live receipt records request, both RUNNING observations, guest readiness, GPU/Ollama readiness, Runtime readiness, and full-Polis readiness with explicit timing denominators.",
+        "AC-7: Cleanup removes all issue-owned VMs and staging, verifier, and restored disks; exactly the two intended snapshots remain and residual inventory is recorded.",
+        "AC-8: Any live failure is repaired within scope and all required qualification checks finish green.",
+        "AC-9: AWS #607 and completed GCP #495, #509, and #663 behavior remain unchanged."
+      ],
+      "dependencies": [
+        "#663 merged through PR #667",
+        "#509 terminal GCP project and two-node authority",
+        "billing-enabled Agent Logic company project and available L4 quota/capacity"
+      ],
+      "repo_inputs": [
+        "infra/gcp/workloads/warm-polis",
+        "infra/gcp/workloads/modules/two-node-ollama-runtime",
+        "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md",
+        "agent-logic/agent-design-language#663",
+        "agent-logic/agent-design-language#509"
+      ],
+      "non_goals": [
+        "production HA, autoscaling, load balancing, DNS, or 24/7 cutover",
+        "AWS changes",
+        "resources outside the exact company project",
+        "retaining provisioned VMs or disks after proof",
+        "spend above USD 20.00"
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+flowchart TD
+    W[Welcome Package v1]
+    W --> P[Axioma Polis context]
+    W --> I[Resident identity and role]
+    W --> S[Shepherd and help path]
+    W --> L[Layer 8 governed communication]
+    W --> B[Boundaries and forbidden actions]
+    W --> R[Refuse, clarify, or escalate]
+    L -. conditional on Runtime policy .-> G[Admission, eligibility, authority, provider gates]
+    W -. grants no authority .-> G

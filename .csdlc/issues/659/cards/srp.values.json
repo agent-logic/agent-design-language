@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 659,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+    "slug": "runtime-configurable-convergence",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/tests/configuration.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\n.csdlc/prepared/issues/659/validate-runtime-convergence.sh",
+      "review_revision": "git-blake3:b949282b58065fc8ba562de5d1fdead9ed4eaa2c:767e91804a947525badcec367006fa7a37ad93cf84e67e74c9453b77b6e98ab6",
+      "reviewer": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+      "review_prompts": [
+        "Are all former fixed service-control waits replaced by named validated policy values?",
+        "Can slow successful convergence complete without a premature failure?",
+        "Does each real expiry identify its exact stage and preserve recovery?",
+        "Is launchd or systemd continuously authoritative with no direct competing Runtime?",
+        "Are unrelated API timeout and live Runtime behavior unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No live Runtime or real launchd/systemd service was exercised; the Linux-specific systemd branches were source-reviewed but not target-compiled on the macOS review host.",
+        "The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -165,8 +165,11 @@ fn inference_profile_for(preset: ProviderProfilePreset) -> ProviderInferenceProf
     }
 }
 
-fn is_glm_5_3_flash_profile(preset: ProviderProfilePreset) -> bool {
-    preset.kind == "z_ai" && preset.provider_model_id == Some("glm-5.3-flash")
+fn is_reasoning_effort_profile(preset: ProviderProfilePreset) -> bool {
+    matches!(
+        (preset.kind, preset.provider_model_id),
+        ("z_ai", Some("glm-5.3-flash")) | ("kimi", Some("kimi-k3"))
+    )
 }
 
 fn config_f64(
@@ -239,17 +242,17 @@ fn ensure_inference_profile_config(
     config: &mut BTreeMap<String, Value>,
 ) -> Result<()> {
     let inference = inference_profile_for(preset);
-    let max_profile_output_tokens = if is_glm_5_3_flash_profile(preset) {
+    let max_profile_output_tokens = if is_reasoning_effort_profile(preset) {
         131_072
     } else {
         MAX_PROFILE_OUTPUT_TOKENS
     };
-    let temperature_max = if is_glm_5_3_flash_profile(preset) {
+    let temperature_max = if is_reasoning_effort_profile(preset) {
         1.0
     } else {
         2.0
     };
-    let top_p_min = if is_glm_5_3_flash_profile(preset) {
+    let top_p_min = if is_reasoning_effort_profile(preset) {
         0.01
     } else {
         0.0
@@ -322,7 +325,7 @@ fn ensure_inference_profile_config(
         );
     }
 
-    if is_glm_5_3_flash_profile(preset) {
+    if is_reasoning_effort_profile(preset) {
         let reasoning_effort = match config.get("reasoning_effort") {
             Some(Value::String(value)) => value.trim(),
             Some(_) => {
@@ -331,6 +334,7 @@ fn ensure_inference_profile_config(
                     profile_name
                 ));
             }
+            None if preset.kind == "kimi" && preset.provider_model_id == Some("kimi-k3") => "max",
             None => "low",
         };
         if reasoning_effort.is_empty() {
@@ -347,18 +351,20 @@ fn ensure_inference_profile_config(
         }
         config.insert("reasoning_effort".to_string(), json!(reasoning_effort));
 
-        match config.get("clear_thinking") {
-            Some(Value::Bool(_)) | None => {}
-            Some(_) => {
-                return Err(anyhow!(
-                    "providers.{provider_id}.config.clear_thinking must be a boolean for profile '{}'",
-                    profile_name
-                ));
+        if preset.kind == "z_ai" {
+            match config.get("clear_thinking") {
+                Some(Value::Bool(_)) | None => {}
+                Some(_) => {
+                    return Err(anyhow!(
+                        "providers.{provider_id}.config.clear_thinking must be a boolean for profile '{}'",
+                        profile_name
+                    ));
+                }
             }
+            config
+                .entry("clear_thinking".to_string())
+                .or_insert_with(|| json!(true));
         }
-        config
-            .entry("clear_thinking".to_string())
-            .or_insert_with(|| json!(true));
     }
 
     Ok(())
@@ -686,10 +692,21 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             },
         );
     }
+    // First-class Moonshot/Kimi native provider identities.
+    for (name, model) in [("kimi:k2.5", "kimi-k2.5"), ("kimi:k3", "kimi-k3")] {
+        m.insert(
+            name,
+            ProviderProfilePreset {
+                kind: "kimi",
+                default_model: Some(model),
+                provider_model_id: Some(model),
+                endpoint: Some(KIMI_CHAT_COMPLETIONS_ENDPOINT),
+            },
+        );
+    }
     // First-class hosted provider identities. These profiles intentionally
     // share the bounded HTTP transport while retaining vendor/model identity.
     for (name, model, endpoint) in [
-        ("kimi:k2.5", "kimi-k2.5", KIMI_CHAT_COMPLETIONS_ENDPOINT),
         (
             "minimax:m2.5",
             "MiniMax-M2.5",

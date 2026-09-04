@@ -1,7 +1,7 @@
 use csdlc_v3::adapters::{
     ChildCredentialInjector, CommandInvocation, CredentialScope, FakeGitAdapter,
     FakeProcessAdapter, GitAdapter, ProcessAdapter, ProcessOutput, ProcessStatus,
-    StaticCredentialResolver,
+    RealProcessAdapter, StaticCredentialResolver,
 };
 use csdlc_v3::lifecycle::{
     decide, transition_matrix, Capability, CapabilitySet, LifecycleCommand, LifecycleState,
@@ -945,6 +945,51 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
             .status,
         ProcessStatus::Cancelled
     );
+}
+
+#[test]
+fn real_process_adapter_injects_child_credentials_and_redacts_process_output() {
+    let invocation = CommandInvocation::new("printenv", ["ADL_TEST_GITHUB_TOKEN"])
+        .expect("printenv argv")
+        .with_child_credential("ADL_TEST_GITHUB_TOKEN")
+        .expect("safe credential name");
+    let resolver = StaticCredentialResolver::new("ADL_TEST_GITHUB_TOKEN", "real-secret-value");
+    let mut adapter = RealProcessAdapter::new(resolver);
+    let output = adapter.run(invocation);
+    assert_eq!(output.status, ProcessStatus::Exit(0));
+    assert_eq!(output.stdout, "[REDACTED]\n");
+    assert!(!output.stderr.contains("real-secret-value"));
+    assert!(!output.truncated);
+}
+
+#[test]
+fn real_process_adapter_fails_closed_on_missing_credentials_and_truncates_output() {
+    let invocation = CommandInvocation::new("printenv", ["ADL_TEST_GITHUB_TOKEN"])
+        .expect("printenv argv")
+        .with_child_credential("ADL_TEST_GITHUB_TOKEN")
+        .expect("safe credential name");
+    let resolver = StaticCredentialResolver::new("OTHER_TOKEN", "real-secret-value");
+    let mut adapter = RealProcessAdapter::new(resolver);
+    let output = adapter.run(invocation);
+    assert_eq!(output.status, ProcessStatus::Exit(126));
+    assert_eq!(output.stderr, "credential resolution failed");
+
+    let invocation = CommandInvocation::new("printenv", ["ADL_TEST_GITHUB_TOKEN"])
+        .expect("printenv argv")
+        .with_child_credential("ADL_TEST_GITHUB_TOKEN")
+        .expect("safe credential name");
+    let resolver = StaticCredentialResolver::new("ADL_TEST_GITHUB_TOKEN", "bad\"token");
+    let mut adapter = RealProcessAdapter::new(resolver);
+    let output = adapter.run(invocation);
+    assert_eq!(output.status, ProcessStatus::Exit(126));
+    assert_eq!(output.stderr, "credential resolution failed");
+
+    let mut adapter = RealProcessAdapter::new(StaticCredentialResolver::new("UNUSED", "unused"))
+        .with_max_output_bytes(3);
+    let output = adapter.run(CommandInvocation::new("printf", ["abcdef"]).expect("printf argv"));
+    assert_eq!(output.status, ProcessStatus::Exit(0));
+    assert_eq!(output.stdout, "abc");
+    assert!(output.truncated);
 }
 
 #[derive(Default)]

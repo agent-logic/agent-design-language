@@ -1,0 +1,235 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 678,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "52323b455bb82ca6a60dae8343ecd2d432f7c9a203f987c847063f9039f61b6a",
+  "phase": "published",
+  "generation": 11,
+  "digest": "a694b5b2a492a33bae027c806a1266aadee16666454b48ca9bb833e4acf1b4ea",
+  "branch": "codex/678-stable-csm-active-generation-route",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-678-stable-csm-active-generation-route",
+  "review_assignment": {
+    "reviewer": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "scope": [
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678",
+      ".csdlc/evidence/678"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+    "scope": [
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678",
+      ".csdlc/evidence/678"
+    ],
+    "reviewed_revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "findings": [],
+    "residual_risks": [
+      "Review and validation used the isolated Runtime v3 generation fixture; no live Runtime rollout, restart, reload, stop, provider, model, agent, or Observatory path was exercised."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 678,
+    "pull_request": 682,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/682",
+    "base": "main",
+    "head": "codex/678-stable-csm-active-generation-route",
+    "revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/678/design.md",
+  "diagram_path": ".csdlc/prepared/issues/678/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:06f7907d-d2cd-441c-aaad-c31a645933c8",
+      "revision": "c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "cb5d1f563427022f706b24adca7ca409bc5c1c9898c27a52b43db8ea2c334acd",
+      "rendered_digest": "9c296fb02207b3a27c6e09f3bff16ba12e1131d53c01d70e2d17e936003c35f0",
+      "ast_digest": "a955b47b08929c9f70717fb81a6ba9b80803165de0b9a14fffc68d26d0bdea03"
+    },
+    "stp": {
+      "values_digest": "2408c791655903a241b07fed4bf252c6acb28883440a6f80cea053b134b62ce7",
+      "rendered_digest": "809be64d74b001df03e0ed6ae64e749cd118df8d48cfba2b5170c10e2077125c",
+      "ast_digest": "6e629369f786426ea0b3ae609a9312b8612da6429f6cb4b749f5770001dcd630"
+    },
+    "spp": {
+      "values_digest": "eeb3cd791c79375ffec43f55412a03dc29246b785e96252856d899f5be9a2c17",
+      "rendered_digest": "6afe6523c33ce85256420d7863ba460b1ad970cb0f27fefcb3aac310b06c4f60",
+      "ast_digest": "cad0ab0f52efe72cc589ba7784282436517e1b11afcf2efc8810f1fdf26dfcd1"
+    },
+    "vpp": {
+      "values_digest": "b3a1273e408c83c71f4b0a88fc38e737306428396914b306c6fdd3c9cef6983c",
+      "rendered_digest": "dfe99bbc9da281179e035679b362a62a31664615106f8eeaa743a9e12c2d1e0f",
+      "ast_digest": "a31d70e02068e734181e72ccf9218be473d1f03c11e673309466c181bb3e9e6b"
+    },
+    "srp": {
+      "values_digest": "6c532097e1ac80ae1d94ea7ac32e7e5c542ab2aa1a3b5e128c6fadb4d6bfbb9a",
+      "rendered_digest": "e7944388446956c3f028ab150f8833dc72307affdbdd6211e3a02c6654386743",
+      "ast_digest": "488290f3e9da97ea293c814bc7566ca866a0205d0dc546663ccbafd590f6aee0"
+    },
+    "sor": {
+      "values_digest": "72622b455d9d17ef52905fda7d4c7c3c5b1a619b974dd3496179d13837a84848",
+      "rendered_digest": "aa400a7665e98998fb61b60b8194d75952fa640058b6404eeec2e681a88843fa",
+      "ast_digest": "b4b9cd622468d86a2880357bcabf5fdffbaa010d04668aedba58663069742bc0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:678-preparation",
+      "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:678-implementation",
+      "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:stable-csm-active-generation-route",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:06f7907d-d2cd-441c-aaad-c31a645933c8",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e\",\"design_ref\":\".csdlc/prepared/issues/678/design.md\",\"diagram_digest\":\"ae358d55ee65dfd2ff5ef4d65a4bf5a37bb81031096f6b58faf57b4f52a88fdf\",\"diagram_ref\":\".csdlc/prepared/issues/678/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:678-preparation",
+      "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:678-implementation",
+      "reason": "Record that the stable CSM route implementation owns the delegated Runtime v3 generation installer Python module as well as the shell entrypoint.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".csdlc/prepared/issues/678/design.md\",\".csdlc/prepared/issues/678/diagram.mmd\",\".csdlc/evidence/678/runtime-v3-generation-install.log\",\".csdlc/evidence/678/diff-check.log\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:678-implementation",
+      "reason": "Record the delegated Runtime v3 generation Python module as a concrete implementation deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:678-implementation",
+      "reason": "Record the real implementation denominator including the delegated Runtime v3 generation Python module.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:678-implementation",
+      "reason": "Record #678 stable CSM active-generation route implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented installer-managed stable CSM routing so .adl/bin/csm execs the active Runtime v3 generation's CSM instead of remaining an independent stale binary.\",\"changes\":[\"Added atomic stable CSM launcher installation in adl/tools/runtime_v3_generation.py before generation activation and rollback symlink switches.\",\"Strengthened the Runtime v3 generation installer fixture to prove stable route parity with current/bin/csm, stale stable binary repair, rollback route switching, and missing active-generation CSM failure.\",\"Updated the issue-owned validation wrapper to retain the focused proof log under .csdlc/evidence/678.\",\"Added the hidden operator note for the stable CSM route contract under .adl/docs/TBD/resilience/.\"],\"artifacts\":[\"adl/tools/runtime_v3_generation.py\",\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:678-validation",
+      "reason": "Record #678 validation: Runtime v3 generation installer stable CSM route fixture.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\"],\"purpose\":\"Runtime v3 generation installer stable CSM route fixture\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/678/runtime-v3-generation-install.log; runtime v3 generation installer: PASS\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:678-validation",
+      "reason": "Record #678 validation: Git diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git diff hygiene proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/678/diff-check.log; clean\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:678-implementation",
+      "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+flowchart TD
+  operator["operator runs .adl/bin/csm runtime-v3 ..."]
+  launcher["installer-managed .adl/bin/csm launcher"]
+  current[".adl/runtime-v3/current symlink"]
+  generation["active generation bin/csm"]
+  missing["missing/incomplete generation"]
+  service["Runtime v3 service-control path"]
+
+  operator --> launcher
+  launcher --> current
+  current --> generation
+  generation --> service
+  launcher --> missing
+  missing --> fail["fail before service mutation"]
+
+  rollback["activation / rollback moves current atomically"] --> current

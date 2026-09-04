@@ -1,0 +1,18 @@
+{
+  "Objects": [
+    { "Key": "podcast/" },
+    { "Key": "podcast/artwork.png" },
+    { "Key": "podcast/audio/meet-the-ai-coworkers.mp3" },
+    { "Key": "podcast/audio/meet-the-ai-coworkers.wav" },
+    { "Key": "podcast/episodes/meet-the-ai-coworkers/" },
+    { "Key": "podcast/episodes/meet-the-ai-coworkers/index.html" },
+    { "Key": "podcast/feed.xml" },
+    { "Key": "podcast/index.html" },
+    { "Key": "podcast/studio/image-slot.js" },
+    { "Key": "podcast/studio/support.js" },
+    { "Key": "podcast/studio/uploads/agent-logic-logo.svg" },
+    { "Key": "podcast/studio/vendor/react-dom.production.min.js" },
+    { "Key": "podcast/studio/vendor/react.production.min.js" }
+  ],
+  "Quiet": false
+}

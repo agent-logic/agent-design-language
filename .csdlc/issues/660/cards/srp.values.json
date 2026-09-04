@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 660,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Remove unintended public /podcast/ exposure and keep show under _preview",
+    "slug": "podcast-public-exposure-emergency",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review issue #660 emergency rollback, hidden-preview source, retained evidence, validation guard, and launch-boundary truth.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the candidate prove the public /podcast/ content is no longer served while the hidden preview remains reachable?",
+        "Does the evidence record exact S3 keys, delete marker IDs, CloudFront invalidations, and live URL checks without retaining private material?",
+        "Does the preview source avoid public feed/audio links and old show-name drift?",
+        "Does the work preserve the #51/#264 provider-launch boundary?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
