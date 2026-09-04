@@ -13,17 +13,19 @@ use csdlc_v3::{
         prepare_remote_publication_route_with_receipts, RemoteRouteReceipts, RemoteRouteRequest,
         REMOTE_PUBLICATION_ROUTE_NAMES,
     },
+    commands::terminal::{prepare_terminal_route, TerminalRouteRequest, TERMINAL_ROUTE_NAMES},
     repository::RepositoryContext,
 };
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --help\n  cutover --help\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --help\n  github --request <path> [--observe-github]\n  github-issue --request <path> [--observe-github]\n  github-pr --request <path> [--observe-github]\n  install --help\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --help\n  publish --request <path> [--observe-github]\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --help\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --help\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github]\n  github-issue --request <path> [--observe-github]\n  github-pr --request <path> [--observe-github]\n  install --help\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --help\n  publish --request <path> [--observe-github]\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --help\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --help\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
 const REMOTE_USAGE: &str =
     "usage: csdlc <github|github-issue|github-pr|pr-state|publish|review> --request <path> [--observe-github]";
+const TERMINAL_USAGE: &str = "usage: csdlc <finish|clean|cutover> --request <path>";
 
 fn main() {
     match run(env::args().skip(1).collect()) {
@@ -49,7 +51,8 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "local" => run_local(rest),
         route if LOCAL_ROUTE_NAMES.contains(&route) => run_local_route(route, rest),
         route if REMOTE_PUBLICATION_ROUTE_NAMES.contains(&route) => run_remote(route, rest),
-        "clean" | "cutover" | "finish" | "install" | "proof" | "soak" => {
+        route if TERMINAL_ROUTE_NAMES.contains(&route) => run_terminal(route, rest),
+        "install" | "proof" | "soak" => {
             if rest == ["--help"] || rest == ["-h"] {
                 return Ok(reserved_usage(command, "fail_closed"));
             }
@@ -242,6 +245,34 @@ fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
     serde_json::to_string(&report).map_err(|error| error.to_string())
 }
 
+fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(terminal_usage(command));
+    }
+    let args = TerminalArgs::parse(command, args)?;
+    let request_bytes =
+        fs::read(&args.request).map_err(|error| format!("failed to read request: {error}"))?;
+    let request: TerminalRouteRequest = serde_json::from_slice(&request_bytes)
+        .map_err(|error| format!("typed_terminal_request_invalid_json: {error}"))?;
+    let result = prepare_terminal_route(command, &request)
+        .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
+    let report = TerminalCommandReport {
+        schema: "csdlc.v3.terminal_cleanup_cutover.v1",
+        command: command.to_owned(),
+        read_only: true,
+        requested_mutation: command == "clean"
+            && request
+                .cleanup
+                .as_ref()
+                .is_some_and(|cleanup| cleanup.remove),
+        performed_mutation: false,
+        operational_authority: false,
+        cutover_issue: 505,
+        result,
+    };
+    serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
 fn merge_observed_receipts(receipts: &mut RemoteRouteReceipts, observed: RemoteRouteReceipts) {
     receipts.github_readback = observed.github_readback;
     receipts.adapter = observed.adapter;
@@ -259,6 +290,12 @@ fn discover_repo_root(start: PathBuf) -> Option<PathBuf> {
 fn remote_usage(command: &str) -> String {
     format!(
         "usage: csdlc {command} --request <path> [--observe-github]\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+    )
+}
+
+fn terminal_usage(command: &str) -> String {
+    format!(
+        "usage: csdlc {command} --request <path>\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
     )
 }
 
@@ -285,6 +322,18 @@ struct RemoteCommandReport<T> {
     result: T,
 }
 
+#[derive(Debug, Serialize)]
+struct TerminalCommandReport<T> {
+    schema: &'static str,
+    command: String,
+    read_only: bool,
+    requested_mutation: bool,
+    performed_mutation: bool,
+    operational_authority: bool,
+    cutover_issue: u64,
+    result: T,
+}
+
 #[derive(Debug)]
 struct LocalArgs {
     request: PathBuf,
@@ -298,6 +347,11 @@ struct LocalArgs {
 struct RemoteArgs {
     request: PathBuf,
     observe_github: bool,
+}
+
+#[derive(Debug)]
+struct TerminalArgs {
+    request: PathBuf,
 }
 
 impl RemoteArgs {
@@ -332,6 +386,34 @@ impl RemoteArgs {
         Ok(Self {
             request: request.ok_or_else(|| REMOTE_USAGE.to_string())?,
             observe_github,
+        })
+    }
+}
+
+impl TerminalArgs {
+    fn parse(command: &str, args: &[String]) -> Result<Self, String> {
+        let mut request = None;
+        let mut iter = args.iter();
+        while let Some(arg) = iter.next() {
+            match arg.as_str() {
+                "--request" => {
+                    if request.is_some() {
+                        return Err("duplicate argument --request".into());
+                    }
+                    request = Some(PathBuf::from(iter.next().ok_or_else(|| {
+                        format!("{}; missing value for --request", terminal_usage(command))
+                    })?));
+                }
+                _ => {
+                    return Err(format!(
+                        "{}; unexpected argument {arg}",
+                        terminal_usage(command)
+                    ))
+                }
+            }
+        }
+        Ok(Self {
+            request: request.ok_or_else(|| TERMINAL_USAGE.to_string())?,
         })
     }
 }

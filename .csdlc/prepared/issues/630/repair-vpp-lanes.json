@@ -1,0 +1,38 @@
+{
+  "issue": 630,
+  "card": "vpp",
+  "expected_generation": 0,
+  "expected_digest": "41185e7124174d47892677063b3f1e72ceb8624d51980b8692171bec8c9d5046",
+  "actor": "codex:worker-6-vpp-editor",
+  "reason": "Make the executable issue-owned Rust target the #630 validation denominator and keep the shell validator as retained execution evidence rather than readiness authority.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "v3-terminal-clean-cutover-tests",
+        "proof_role": "Run focused Rust tests for v3 finish, clean, and cutover positive and denial behavior, including caller-forged finish denial, sealed typed terminal closeout, part_of terminal denial, Git-registration-derived cleanup states, and cutover rollback refusal.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 2400,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v3/Cargo.toml", "--test", "terminal_cleanup_cutover_commands"],
+        "parallel_group": "rust-focused",
+        "defer_reason": null
+      },
+      {
+        "lane": "v3-full-regression",
+        "proof_role": "Run the complete v3 test suite after route implementation to prove the command manifest, foundation, local, remote, terminal, and transaction suites remain coherent.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 3000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v3/Cargo.toml"],
+        "parallel_group": "rust-full",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

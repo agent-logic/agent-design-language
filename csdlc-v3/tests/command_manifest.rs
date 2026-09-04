@@ -1,6 +1,6 @@
 use std::{process::Command, str};
 
-const FAIL_CLOSED_COMMANDS: &[&str] = &["clean", "cutover", "finish", "install", "proof", "soak"];
+const FAIL_CLOSED_COMMANDS: &[&str] = &["install", "proof", "soak"];
 
 const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
     "issue",
@@ -13,9 +13,7 @@ const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
     "eligibility",
 ];
 
-const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow"];
-
-const IMPLEMENTED_REMOTE_COMMANDS: &[&str] = &[
+const IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS: &[&str] = &[
     "github",
     "github-issue",
     "github-pr",
@@ -23,6 +21,10 @@ const IMPLEMENTED_REMOTE_COMMANDS: &[&str] = &[
     "publish",
     "review",
 ];
+
+const IMPLEMENTED_TERMINAL_COMMANDS: &[&str] = &["clean", "cutover", "finish"];
+
+const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow"];
 
 #[test]
 fn help_exposes_one_binary_command_surface() {
@@ -47,10 +49,16 @@ fn help_exposes_one_binary_command_surface() {
             "help should expose implemented local route {command}"
         );
     }
-    for command in IMPLEMENTED_REMOTE_COMMANDS {
+    for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
         assert!(
             stdout.contains(&format!("{command} --request <path>")),
-            "help should expose implemented remote route {command}"
+            "help should expose implemented remote/publication route {command}"
+        );
+    }
+    for command in IMPLEMENTED_TERMINAL_COMMANDS {
+        assert!(
+            stdout.contains(&format!("{command} --request <path>")),
+            "help should expose implemented terminal route {command}"
         );
     }
     for command in PARTIAL_CONSTRUCTION_COMMANDS {
@@ -109,21 +117,13 @@ fn implemented_local_routes_expose_non_authoritative_help() {
             help.status.success(),
             "{command} --help should describe implemented local route"
         );
-        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
-        assert!(
-            help_stdout.contains("status: implemented"),
-            "{command} help should be truthful: {help_stdout}"
-        );
-        assert!(
-            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
-            "{command} help should preserve authority boundary: {help_stdout}"
-        );
+        assert_implemented_help(command, &help.stdout);
     }
 }
 
 #[test]
-fn implemented_remote_routes_expose_non_authoritative_help() {
-    for command in IMPLEMENTED_REMOTE_COMMANDS {
+fn implemented_remote_publication_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
             .output()
@@ -132,16 +132,35 @@ fn implemented_remote_routes_expose_non_authoritative_help() {
             help.status.success(),
             "{command} --help should describe implemented remote route"
         );
-        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
-        assert!(
-            help_stdout.contains("status: implemented"),
-            "{command} help should be truthful: {help_stdout}"
-        );
-        assert!(
-            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
-            "{command} help should preserve authority boundary: {help_stdout}"
-        );
+        assert_implemented_help(command, &help.stdout);
     }
+}
+
+#[test]
+fn implemented_terminal_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_TERMINAL_COMMANDS {
+        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
+        assert!(
+            help.status.success(),
+            "{command} --help should describe implemented terminal route"
+        );
+        assert_implemented_help(command, &help.stdout);
+    }
+}
+
+fn assert_implemented_help(command: &str, stdout: &[u8]) {
+    let help_stdout = str::from_utf8(stdout).expect("help stdout should be utf8");
+    assert!(
+        help_stdout.contains("status: implemented"),
+        "{command} help should be truthful: {help_stdout}"
+    );
+    assert!(
+        help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+        "{command} help should preserve authority boundary: {help_stdout}"
+    );
 }
 
 #[test]
