@@ -5443,6 +5443,7 @@ mod layer8_conversation_ingress_tests {
         let root = tempfile::tempdir_in(temp_root).expect("create agent initiation fixture");
         let sender_key = SigningKey::from_bytes(&[45; 32]);
         let recipient_key = SigningKey::from_bytes(&[46; 32]);
+        let scribe_key = SigningKey::from_bytes(&[47; 32]);
         let sender_key_id = format!("{sender_id}-key");
         let recipient_key_id = format!("{recipient_id}-key");
         let sender_key_file = root.path().join(format!("{sender_id}.key"));
@@ -5466,7 +5467,11 @@ mod layer8_conversation_ingress_tests {
             polis_id: "conversation-runtime".to_owned(),
             action,
             conversation_id: None,
-            recipients: BTreeSet::from([sender_id.to_owned(), recipient_id.to_owned()]),
+            recipients: BTreeSet::from([
+                sender_id.to_owned(),
+                recipient_id.to_owned(),
+                "scribe".to_owned(),
+            ]),
             attachment_id: None,
         };
         let contact_scope = scope(Layer8Action::Contact);
@@ -5546,6 +5551,16 @@ mod layer8_conversation_ingress_tests {
                     signing_key_id: recipient_key_id,
                     credential_generation: 1,
                     verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+                    revoked: false,
+                    not_before_epoch_secs: 0,
+                    expires_at_epoch_secs: u64::MAX,
+                },
+                CommunicationVerifyingDescriptor {
+                    principal_id: "scribe".to_owned(),
+                    polis_id: "conversation-runtime".to_owned(),
+                    signing_key_id: "scribe-key".to_owned(),
+                    credential_generation: 1,
+                    verifying_key_hex: hex::encode(scribe_key.verifying_key().to_bytes()),
                     revoked: false,
                     not_before_epoch_secs: 0,
                     expires_at_epoch_secs: u64::MAX,
@@ -5667,6 +5682,21 @@ mod layer8_conversation_ingress_tests {
                 id: "ember".to_owned(),
                 name: "ember.runtime".to_owned(),
                 display_name: "Ember Axioma".to_owned(),
+                office: "resident agent".to_owned(),
+                role: "resident agent".to_owned(),
+                provider: "ollama".to_owned(),
+                model: "gemma3-local".to_owned(),
+                endpoint: "http://127.0.0.1:11434".to_owned(),
+            });
+        service
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .push(AgentAdmissionRequest {
+                schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+                id: "scribe".to_owned(),
+                name: "scribe.runtime".to_owned(),
+                display_name: "Scribe Axioma".to_owned(),
                 office: "resident agent".to_owned(),
                 role: "resident agent".to_owned(),
                 provider: "ollama".to_owned(),
@@ -5862,30 +5892,37 @@ mod layer8_conversation_ingress_tests {
     async fn agent_to_agent_runtime_internal_initiation_allows_resident_agent_pairs() {
         let (service, kernel, _recorder, observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
-        let pairs = [
-            (
-                "beacon",
-                "ember",
-                "turn-beacon-ember",
-                "11111111111111111111111111111111",
-                "a2a-work-beacon-ember",
-            ),
-            (
-                "ember",
-                "beacon",
-                "turn-ember-beacon",
-                "22222222222222222222222222222222",
-                "a2a-work-ember-beacon",
-            ),
-            (
-                "scribe",
-                "ember",
-                "turn-scribe-ember",
-                "33333333333333333333333333333333",
-                "a2a-work-scribe-ember",
-            ),
-        ];
-        for (sender_id, recipient_id, turn_id, correlation_id, work_id) in pairs {
+        let resident_ids = ["beacon", "ember", "scribe"];
+        let pairs = resident_ids
+            .iter()
+            .flat_map(|sender_id| {
+                resident_ids
+                    .iter()
+                    .filter(move |recipient_id| recipient_id != &sender_id)
+                    .map(move |recipient_id| (*sender_id, *recipient_id))
+            })
+            .enumerate()
+            .map(|(index, (sender_id, recipient_id))| {
+                (
+                    sender_id,
+                    recipient_id,
+                    format!("turn-{sender_id}-{recipient_id}"),
+                    format!("{:032x}", index + 1),
+                    format!("a2a-work-{sender_id}-{recipient_id}"),
+                )
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(
+            pairs.len(),
+            resident_ids.len() * (resident_ids.len() - 1),
+            "runtime-internal A2A test should cover every ordered resident pair"
+        );
+        for (sender_id, recipient_id, turn_id, correlation_id, work_id) in &pairs {
+            let sender_id = *sender_id;
+            let recipient_id = *recipient_id;
+            let turn_id = turn_id.as_str();
+            let correlation_id = correlation_id.as_str();
+            let work_id = work_id.as_str();
             let accepted =
                 match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
                     sender_id,
