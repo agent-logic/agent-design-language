@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3/src/commands/replacement.rs
+csdlc-v3/src/commands/mod.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/command_manifest.rs
+csdlc-v3/tests/local_commands.rs
+csdlc-v3/tests/real_issue_canary.rs
+docs/csdlc-v3/full-replacement-denominator.json
+docs/csdlc-v3/v3-command-manifest.json
 
 ## Prompts
 
@@ -31,12 +38,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains construction and cutover-readiness evidence only until explicit V3-F/#505 operator approval and terminal reconciliation.
+- PR #591 must remain non-closing for #505 until the operator explicitly authorizes final cutover.
+- Older immutable #505 audit history contains superseded stale proof references, but generation 33 SOR truth corrects the current execution record and the exact-head review accepted that correction.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:646bc66a691c92475dfd4187cf7c9c39fa648b4a:17f5360604ac5e202b6485e84300e897a3d2fe0c933c5a3bbe55bc7e1e59eb65")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_505_all_visible_commands")
 
-Result: pre_review
+Result: pass
