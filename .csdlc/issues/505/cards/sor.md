@@ -12,11 +12,12 @@ Status: ready
 
 ## Summary
 
-Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replacement commands while preserving v2 as live authority until explicit #505 cutover approval.
+Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replacement commands and hardened cutover-readiness derivation so caller-provided booleans cannot manufacture approval.
 
 ## Artifacts
 
 - commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452
+- commit 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7
 - csdlc-v3/src/commands/replacement.rs
 - csdlc-v3/src/commands/mod.rs
 - csdlc-v3/src/main.rs
@@ -29,8 +30,10 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
 
 - Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.
 - Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.
-- Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when evidence is valid.
-- Made bad evidence fail as structured `blocked_by_evidence` verifier output and made route/request command mismatches fail closed.
+- Required every replacement verifier route to include command-specific repo-local proof evidence with the expected schema before it can move past `blocked_by_evidence`.
+- Required separate durable operator approval evidence at `.csdlc/evidence/csdlc-v3/operator-cutover-approval.json` with schema `csdlc.v3.operator_cutover_approval.v1` and `approved: true` before any route may emit `ready_for_cutover_decision`.
+- Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when proof and approval evidence are valid.
+- Updated tests so a bare `operator_cutover_approved: true` request with no durable evidence remains `blocked_by_evidence` and cannot manufacture readiness.
 - Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 24 implemented visible commands, 1 helper/local partial command, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.
 - Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.
 
@@ -47,9 +50,9 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
       "--test",
       "command_manifest"
     ],
-    "purpose": "Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, and executable non-authoritative replacement-verifier routes.",
+    "purpose": "Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, and anti-forged-readiness behavior.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:12-passed"
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:13-passed"
   },
   {
     "command": [
@@ -64,7 +67,7 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
     ],
     "purpose": "Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:1-passed"
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:1-passed"
   },
   {
     "command": [
@@ -74,9 +77,9 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
       "--manifest-path",
       "csdlc-v3/Cargo.toml"
     ],
-    "purpose": "Run the complete C-SDLC v3 test suite after replacement-verifier implementation.",
+    "purpose": "Run the complete C-SDLC v3 test suite after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:102-passed"
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:103-passed"
   },
   {
     "command": [
@@ -92,7 +95,7 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
     ],
     "purpose": "Reject warnings across all C-SDLC v3 targets.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed"
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed"
   },
   {
     "command": [
@@ -104,18 +107,18 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
       "--",
       "--check"
     ],
-    "purpose": "Reject Rust formatting drift after replacement-verifier implementation.",
+    "purpose": "Reject Rust formatting drift after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed"
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
     ],
-    "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier implementation.",
+    "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:status-pass"
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:status-pass"
   },
   {
     "command": [
@@ -126,7 +129,20 @@ Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replac
     ],
     "purpose": "Verify exact-range whitespace hygiene for the current #505 branch.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed"
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
+      "issue",
+      "--issue",
+      "505"
+    ],
+    "purpose": "Verify typed C-SDLC v2 issue state remains valid in implemented phase before refreshed review and publication.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:status-pass-generation-27-ready-false"
   }
 ]
 
