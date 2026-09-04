@@ -379,7 +379,12 @@ mod tests {
         let parser_parses = Arc::clone(&parses);
         let parser: ConfigParser<String> = Arc::new(move |raw| {
             parser_parses.fetch_add(1, Ordering::SeqCst);
-            Ok(raw.to_string())
+            match raw {
+                "one" | "two" => Ok(raw.to_string()),
+                _ => Err(ConfigReloadError::validation(
+                    "transient or unknown config candidate",
+                )),
+            }
         });
 
         let controller = start_config_reload(
