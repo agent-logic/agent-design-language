@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 35
+    "generation": 38
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/commands/replacement.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/local_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/full-replacement-denominator.json\ndocs/csdlc-v3/v3-command-manifest.json",
-      "review_revision": "git-blake3:646bc66a691c92475dfd4187cf7c9c39fa648b4a:17f5360604ac5e202b6485e84300e897a3d2fe0c933c5a3bbe55bc7e1e59eb65",
-      "reviewer": "subagent:/root/review_505_all_visible_commands",
+      "review_scope": "csdlc-v3/src/commands/sprint.rs\n.csdlc/prepared/issues/505/v3-sprint-readiness\ndocs/milestones/v0.92.1/evidence/csdlc-v3/v3-f",
+      "review_revision": "git-blake3:15cf11215b29959379ead339b1d3a4aabfcf01f4:12a0ed21c52f0029801429f7a508386692345fb933d02ec1184674a0bd7587c7",
+      "reviewer": "subagent:/root/review_505_full_current_diff_15cf1121",
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -24,9 +24,9 @@
       ],
       "findings": [],
       "residual_risk": [
-        "C-SDLC v3 remains construction and cutover-readiness evidence only until explicit V3-F/#505 operator approval and terminal reconciliation.",
-        "PR #591 must remain non-closing for #505 until the operator explicitly authorizes final cutover.",
-        "Older immutable #505 audit history contains superseded stale proof references, but generation 33 SOR truth corrects the current execution record and the exact-head review accepted that correction."
+        "C-SDLC v3 remains construction and cutover-readiness evidence only until explicit V3-F/#505 operator approval, merge, finish, and cleanup reconciliation.",
+        "The v3 sprint readiness route is read-only and non-authoritative before cutover; typed v2 remains the only operational lifecycle/GitHub authority.",
+        "V3-H children #629, #630, #631, and #632 remained open in the retained live readbacks, so the sprint readiness report proves the denominator is ready for execution planning rather than complete cutover."
       ],
       "review_result": "pass"
     }

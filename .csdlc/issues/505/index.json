@@ -4,60 +4,39 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "published",
-  "generation": 35,
-  "digest": "e3bf6476543b3a73adeb88b3bafe60229e39098621787129fb5b7dfd3ef0ad49",
+  "phase": "reviewed",
+  "generation": 38,
+  "digest": "cff095852203e4497c3a2fcc74de655bb15dc00a6de11e5bc42cb20ca97ed19f",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_505_all_visible_commands",
+    "reviewer": "subagent:/root/review_505_full_current_diff_15cf1121",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:646bc66a691c92475dfd4187cf7c9c39fa648b4a:17f5360604ac5e202b6485e84300e897a3d2fe0c933c5a3bbe55bc7e1e59eb65",
+    "revision": "git-blake3:15cf11215b29959379ead339b1d3a4aabfcf01f4:12a0ed21c52f0029801429f7a508386692345fb933d02ec1184674a0bd7587c7",
     "scope": [
-      "csdlc-v3/src/commands/replacement.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/full-replacement-denominator.json",
-      "docs/csdlc-v3/v3-command-manifest.json"
+      "csdlc-v3/src/commands/sprint.rs",
+      ".csdlc/prepared/issues/505/v3-sprint-readiness",
+      "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f"
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_505_all_visible_commands",
+    "reviewer": "subagent:/root/review_505_full_current_diff_15cf1121",
     "scope": [
-      "csdlc-v3/src/commands/replacement.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/full-replacement-denominator.json",
-      "docs/csdlc-v3/v3-command-manifest.json"
+      "csdlc-v3/src/commands/sprint.rs",
+      ".csdlc/prepared/issues/505/v3-sprint-readiness",
+      "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f"
     ],
-    "reviewed_revision": "git-blake3:646bc66a691c92475dfd4187cf7c9c39fa648b4a:17f5360604ac5e202b6485e84300e897a3d2fe0c933c5a3bbe55bc7e1e59eb65",
+    "reviewed_revision": "git-blake3:15cf11215b29959379ead339b1d3a4aabfcf01f4:12a0ed21c52f0029801429f7a508386692345fb933d02ec1184674a0bd7587c7",
     "findings": [],
     "residual_risks": [
-      "C-SDLC v3 remains construction and cutover-readiness evidence only until explicit V3-F/#505 operator approval and terminal reconciliation.",
-      "PR #591 must remain non-closing for #505 until the operator explicitly authorizes final cutover.",
-      "Older immutable #505 audit history contains superseded stale proof references, but generation 33 SOR truth corrects the current execution record and the exact-head review accepted that correction."
+      "C-SDLC v3 remains construction and cutover-readiness evidence only until explicit V3-F/#505 operator approval, merge, finish, and cleanup reconciliation.",
+      "The v3 sprint readiness route is read-only and non-authoritative before cutover; typed v2 remains the only operational lifecycle/GitHub authority.",
+      "V3-H children #629, #630, #631, and #632 remained open in the retained live readbacks, so the sprint readiness report proves the denominator is ready for execution planning rather than complete cutover."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 505,
-    "pull_request": 591,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
-    "base": "main",
-    "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:28f5a09db61a8dbfff06a277c9eba32a8b4217d5:325443c4579c13084203cdb94cb280172cd539be636343f56014a282f4a73f4c",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -71,34 +50,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eb56e37a33a75d80ace161b48cfa828a9e1cc568cc1f2f1577c55b5d5e286435",
+      "values_digest": "9c8c104c7e23be738f5a8006fa714a8aa23aec089399736a37b6ce042fdea523",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "5d97a3cb0e99fc1733d77bb1801d29fb7c797d5473ba67098b64e4f945932b12",
+      "values_digest": "31e22c7ae4bd94dd3a65847c28dbb5756f8e1a02c71495f7d3a8cea33248ee6b",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "03f357ed3c04509bc03007098b41ae0cd4d6eecd4beed963f62fcf9d6570da7c",
+      "values_digest": "75b262d3706a9b54f25bf642fc91ccec92b4686dfadc44c8d76e3f783ccb5264",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "a2a8b4b3440580c1c92d9e467fe2af843876ab394ea85efb8fbf0753edef22d9",
+      "values_digest": "8f4f8b7c2458362a3555c8e54110e66c3d412c8ce37f53e19ba08daf69924756",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "2763647fe05fd5cce8eb1cf1ef92616577e58db78c1f103e706648ff4e4bf272",
-      "rendered_digest": "8b6d23daa23aa7ed0ac9c4649f6a5d370168b70bf96812b7afa3c4112d2fc498",
-      "ast_digest": "e03565485613ce506b54aa8f7a8b1da8a0ee39668d31418f5b567cf05c3e7db5"
+      "values_digest": "8413751be4d73bf2442c5597a5772d43cb0da75311fa5c435db4ab01815b1610",
+      "rendered_digest": "4b8fe61b0e9f92abb8b389271d67398c2a8f111d94ba990148e68f340e69c7dc",
+      "ast_digest": "1d64828aa8279ea02cebc9f082c886ebed4b8923ffe96108a4e81f1281edb086"
     },
     "sor": {
-      "values_digest": "63ab58e18e316d5d764ef1912c9167c3139ce9c23dd975ba6d538e95dbf39a5a",
-      "rendered_digest": "e946538a035c4d1c751da3980075c0eb2b355060d0cb8dcb935ba0a407dc6659",
-      "ast_digest": "7a38843952ae09d8a641d1d9e097a4baf576dadbff0b8b6a33adb95036994ff2"
+      "values_digest": "5e67fd334de328dc14325da2c46743191c6b245e07e81c2bca26dcf3e519e52d",
+      "rendered_digest": "37a75c2614abecf95ddea4edbfd37cdcc68b82b0ab798213231b9227bd9d125f",
+      "ast_digest": "937d115e0138e775ff81a1c5e5dab8851cf320e6b5e9d2d2fed78bd75885a1fa"
     }
   },
   "transitions": [
@@ -269,6 +248,20 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 25,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after testing v3 sprint readiness against live V3-H issue #625 and repairing the parser at commit 15cf11215."
+    },
+    {
+      "sequence": 26,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -572,6 +565,34 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 44,
+      "generation": 36,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after testing v3 sprint readiness against live V3-H issue #625 and repairing the parser at commit 15cf11215.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 37,
+      "actor": "codex:worker-6",
+      "reason": "Record #505 execution truth after testing v3 sprint readiness against live V3-H issue #625 at exact head 15cf11215.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Tested the non-authoritative v3 sprint readiness route against the live V3-H sprint umbrella and child issue denominator, repaired the parser for the current umbrella body shape, and retained typed v2 as the only operational authority before #505 cutover.\",\"changes\":[\"Added v3 sprint membership parsing support for the live `## Child issues` umbrella section used by #625.\",\"Added support for numbered child issue rows such as `1. #627` while preserving the existing bullet-row parser path.\",\"Added a regression test proving the V3-H child issue heading, numbered rows, membership version, and readiness status are parsed together.\",\"Captured typed v2 issue readbacks for #625 and child issues #627 through #632 as repo-local evidence for the v3 sprint readiness canary.\",\"Used the typed v2 GitHub issue owner to add `Membership version: 1` to #625 after the v3 canary exposed the missing sprint membership-version defect.\",\"Recorded the v3 sprint readiness report showing `read_only: true`, `operational_authority: false`, `status: ready`, declared children #627 through #632, closed children #627 and #628, and open children #629 through #632.\"],\"artifacts\":[\"commit 15cf11215b29959379ead339b1d3a4aabfcf01f4\",\"csdlc-v3/src/commands/sprint.rs\",\".csdlc/prepared/issues/505/v3-sprint-readiness/sprint-625-readiness-request.json\",\".csdlc/prepared/issues/505/v3-sprint-readiness/issue-625-add-membership-version-request.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-627-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-628-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the v3 sprint parser repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"sprint_readiness\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the sprint-readiness parser rejects escaping evidence, rejects missing child readbacks, preserves existing live membership parsing, and accepts the V3-H `## Child issues` numbered-list shape.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:4-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Verify the one-binary command manifest and cutover-boundary tests remain green after adding the sprint parser regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:13-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Verify real-issue v3 canaries still pass after adding live sprint-readiness evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:5-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the complete C-SDLC v3 test suite after the sprint-readiness parser repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:104-passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after the v3 sprint-readiness canary work.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace hygiene for the current #505 worktree diff before lifecycle reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state before recovering stale review/publication truth for this new slice.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass-generation-35-ready-false\"}]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 37,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 38,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -7,110 +7,36 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 35
+    "generation": 38
   },
   "status": "ready",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement command, hardened cutover-readiness derivation so caller-provided booleans cannot manufacture approval, and removed the last partial-command label from the visible v3 command surface.",
+      "summary": "Tested the non-authoritative v3 sprint readiness route against the live V3-H sprint umbrella and child issue denominator, repaired the parser for the current umbrella body shape, and retained typed v2 as the only operational authority before #505 cutover.",
       "actual_changes": [
-        "Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.",
-        "Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.",
-        "Required every replacement verifier route to include command-specific repo-local proof evidence with the expected schema before it can move past `blocked_by_evidence`.",
-        "Required separate durable operator approval evidence at `.csdlc/evidence/csdlc-v3/operator-cutover-approval.json` with schema `csdlc.v3.operator_cutover_approval.v1` and `approved: true` before any route may emit `ready_for_cutover_decision`.",
-        "Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when proof and approval evidence are valid.",
-        "Updated tests so a bare `operator_cutover_approved: true` request with no durable evidence remains `blocked_by_evidence` and cannot manufacture readiness.",
-        "Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 25 implemented visible commands, 0 partial commands, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.",
-        "Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.",
-        "Marked the executable `local` helper route as implemented while preserving its `read_only_construction` authority boundary and its exclusion from the v2 replacement-route denominator."
+        "Added v3 sprint membership parsing support for the live `## Child issues` umbrella section used by #625.",
+        "Added support for numbered child issue rows such as `1. #627` while preserving the existing bullet-row parser path.",
+        "Added a regression test proving the V3-H child issue heading, numbered rows, membership version, and readiness status are parsed together.",
+        "Captured typed v2 issue readbacks for #625 and child issues #627 through #632 as repo-local evidence for the v3 sprint readiness canary.",
+        "Used the typed v2 GitHub issue owner to add `Membership version: 1` to #625 after the v3 canary exposed the missing sprint membership-version defect.",
+        "Recorded the v3 sprint readiness report showing `read_only: true`, `operational_authority: false`, `status: ready`, declared children #627 through #632, closed children #627 and #628, and open children #629 through #632."
       ],
       "artifacts": [
-        "commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452",
-        "commit 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7",
-        "commit eec95bd1a9ab36bd19720c379368119f87e3df81",
-        "commit 9bcce0f4a7e389030b254240a2f973f0fc928e73",
-        "csdlc-v3/src/commands/replacement.rs",
-        "csdlc-v3/src/commands/mod.rs",
-        "csdlc-v3/src/main.rs",
-        "csdlc-v3/tests/command_manifest.rs",
-        "csdlc-v3/tests/local_commands.rs",
-        "csdlc-v3/tests/real_issue_canary.rs",
-        "docs/csdlc-v3/full-replacement-denominator.json",
-        "docs/csdlc-v3/v3-command-manifest.json"
+        "commit 15cf11215b29959379ead339b1d3a4aabfcf01f4",
+        "csdlc-v3/src/commands/sprint.rs",
+        ".csdlc/prepared/issues/505/v3-sprint-readiness/sprint-625-readiness-request.json",
+        ".csdlc/prepared/issues/505/v3-sprint-readiness/issue-625-add-membership-version-request.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-627-readback.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-628-readback.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json"
       ],
       "actual_validation": [
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v3/Cargo.toml",
-            "--test",
-            "command_manifest"
-          ],
-          "purpose": "Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, zero partial-command rows, and anti-forged-readiness behavior.",
-          "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:13-passed"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v3/Cargo.toml",
-            "--test",
-            "local_commands"
-          ],
-          "purpose": "Prove the local helper route and all implemented local command aliases remain typed, non-authoritative, route-specific, and fail-closed after the partial-command label was removed.",
-          "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:23-passed"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v3/Cargo.toml",
-            "--test",
-            "real_issue_canary",
-            "full_replacement_denominator_blocks_cutover_until_operator_approval"
-          ],
-          "purpose": "Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.",
-          "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:1-passed"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v3/Cargo.toml"
-          ],
-          "purpose": "Run the complete C-SDLC v3 test suite after replacement-verifier hardening.",
-          "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:103-passed"
-        },
-        {
-          "command": [
-            "cargo",
-            "clippy",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v3/Cargo.toml",
-            "--all-targets",
-            "--",
-            "-D",
-            "warnings"
-          ],
-          "purpose": "Reject warnings across all C-SDLC v3 targets.",
-          "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed"
-        },
         {
           "command": [
             "cargo",
@@ -121,29 +47,83 @@
             "--",
             "--check"
           ],
-          "purpose": "Reject Rust formatting drift after replacement-verifier hardening.",
+          "purpose": "Reject Rust formatting drift after the v3 sprint parser repair.",
           "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed"
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "sprint_readiness",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Prove the sprint-readiness parser rejects escaping evidence, rejects missing child readbacks, preserves existing live membership parsing, and accepts the V3-H `## Child issues` numbered-list shape.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:4-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "command_manifest"
+          ],
+          "purpose": "Verify the one-binary command manifest and cutover-boundary tests remain green after adding the sprint parser regression.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:13-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "real_issue_canary"
+          ],
+          "purpose": "Verify real-issue v3 canaries still pass after adding live sprint-readiness evidence.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:5-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml"
+          ],
+          "purpose": "Run the complete C-SDLC v3 test suite after the sprint-readiness parser repair.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:104-passed"
         },
         {
           "command": [
             "ruby",
             ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
           ],
-          "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier hardening.",
+          "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after the v3 sprint-readiness canary work.",
           "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:status-pass"
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass"
         },
         {
           "command": [
             "git",
             "diff",
-            "--check",
-            "origin/main...HEAD"
+            "--check"
           ],
-          "purpose": "Verify exact-range whitespace hygiene for the current #505 branch.",
+          "purpose": "Verify whitespace hygiene for the current #505 worktree diff before lifecycle reconciliation.",
           "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed"
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed"
         },
         {
           "command": [
@@ -154,13 +134,13 @@
             "--issue",
             "505"
           ],
-          "purpose": "Verify typed C-SDLC v2 issue state remains valid before refreshed review and publication.",
+          "purpose": "Verify typed C-SDLC v2 issue state before recovering stale review/publication truth for this new slice.",
           "outcome": "passed",
-          "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:status-pass-generation-32-ready-false"
+          "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass-generation-35-ready-false"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
