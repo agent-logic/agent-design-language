@@ -25,3 +25,4 @@
 {"sequence":25,"generation":16,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":26,"generation":17,"actor":"codex:worker-6:sprint6-v3h5-main-merge","reason":"Recover stale #631 review and publication truth after merging current main, including completed #629 remote routes and #630 terminal routes, into the V3-H.5 branch.","operation":"recover_review"}
 {"sequence":27,"generation":17,"actor":"codex:worker-6:sprint6-v3h5-main-merge","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":28,"generation":18,"actor":"codex:worker-6:sprint6-v3h5-provenance-fix","reason":"Recover stale #631 review assignment after fixing install source provenance evidence binding.","operation":"recover_review"}

@@ -4,27 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "74ef27a1647c35c61e14291125bd537ee8e72784b516154b4e1d037cd7876d40",
+  "generation": 18,
+  "digest": "b5101a339ce1c2c63f59e3d262459beb328121fffd69b2e602c1c1a30a127c94",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_631_after_terminal_merge",
-    "assigned_by": "codex:worker-6:sprint6-v3h5-main-merge",
-    "revision": "git-blake3:0312a5b425e35395384c9a0360786a9469baf525:b7b49df3f0ccddedd329e584c157aa679cc420b0c051172cea12c350cbc4ca1f",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/remote_publication_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/v3-command-manifest.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -40,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9e801f53f92e4a93988591288c3d63f967581166405b6d61b232bd862a158d90",
+      "values_digest": "39dbee3722af1191e3680a057e0d431480beba483dccad693310e43248929b92",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "89287b75cee2d7f3129e7fe64b2c58e0bbb9c27cc8e8e3a897615138e887350b",
+      "values_digest": "fbc1ef4ff5cedfab2ca01b764011366e33ef63abdae67d129fde9f5947329c29",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "0d6ee10c3f5aa587293f8e009b949f3940a620601b1a7642a679f25a3e3d0ba1",
+      "values_digest": "f6273cb163dc7e0cc9a081743facefb54a63e90301e47fbecea041ce05a2e128",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "91165776f8da0f1282f8be5f8c07a42a5f2719cd7a3c685bd47c5b644d3a9bd5",
+      "values_digest": "852262d73b024b878974e84fbbd26f01a7787bc2a9baf966b94deeaa8b311bb4",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "5a455cff8828ac8fbfcce7a210b5ed7b52c3f4f86dc27b2324e1ea3c3c75240d",
-      "rendered_digest": "c3de2a81e8ccd96203052c7a97a8ead4d246515de51462309f9e5d431187b527",
-      "ast_digest": "4fda94755960488df815f00b26b163e2c55c8fd82fd48a6eecdbcf550a1c6194"
+      "values_digest": "02946bfb438b5dc55199e03e97bfe904557a483306a605fd534d688be57aa9e8",
+      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
+      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
     },
     "sor": {
-      "values_digest": "29a7d42e8d0ab7bf17a618faf4f2925e70a6ece481a8a5c3f36292292fe9bec6",
+      "values_digest": "1dc4b3da688def4c82f61a50383efadf3f007d81520539e524eb7e89c87fb94f",
       "rendered_digest": "768429af9f40f74a8aa63c15183bf03a3c2c8d0abe39432200b21400de49ef42",
       "ast_digest": "b01df425777a70c6ec01258405b2afd980e56480413d603ade1a315ffe53957e"
     }
@@ -366,6 +350,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-main-merge",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 18,
+      "actor": "codex:worker-6:sprint6-v3h5-provenance-fix",
+      "reason": "Recover stale #631 review assignment after fixing install source provenance evidence binding.",
+      "operation": "recover_review"
     }
   ]
 }

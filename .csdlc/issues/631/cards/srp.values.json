@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
     "slug": "v3-h5-proof-parity-soak-shadow-install",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/main.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ndocs/csdlc-v3/v3-command-manifest.json",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
