@@ -4,29 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "09a4ff6553719d0fdfa66ec39e36172d9b4f94d2c8d93220984791791f209ce4",
+  "generation": 27,
+  "digest": "8d8f665acaaf90de7744090ed2ad8c92ca2d043d59fe55bcaf6b0b086f218642",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_631_live_head_match",
-    "assigned_by": "codex:worker-6:sprint6-v3h5-reviewer-identity-recovery",
-    "revision": "git-blake3:4c1e63716a7e76c408cd92617551b6495d926991:bf87348205b55fe72a619faa4853aa0ea3208a8a7090a19983b8288627442c1c",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/remote_publication_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      "docs/csdlc-v3/full-replacement-denominator.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -42,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ef2320be5c1719235d8f5c33da2bc00e5f8fca7eedbab54e76c9508323464b6c",
+      "values_digest": "c75d37bcc4db7410a401352a406afa0908d878fa1903917ceda8512db6e9621d",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "f1665e7d67c005d6c8f98122a53fcdc1cb74de4e901b96187bdc8e0668d16237",
+      "values_digest": "ea30cebb96329dac82bbe04160efa19391bf97b927742f12c19fe4ff6c6cc146",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "e7ba792084ef768a72ebdda575fe25f5c4edcbf3fddf00f413e50abb3f94d69c",
+      "values_digest": "76345801b34c4fe11ff139450e1a7065869d30619574fc7117db7feb3366987e",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "38cb1b729e33c6a9a95b576e683ca2b84c3fa0b6dcf0ca4b52ff5947d6aada44",
+      "values_digest": "8f21fe56b541f4b65b5583dfffadeb6cb55ffa6c0a8ca6e66499e9bc46214bff",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "8ce3d45d32d8170af6bcb6a806a070adfb66b121d976038f4ca4425f43abdaf2",
-      "rendered_digest": "899996636ad7a620e48262c977760c7f0979a51149ac0b99dde9012324c1d05f",
-      "ast_digest": "07cc3533bd700aecb80564b9371be95025681983cf4a721cdfcbf927655840f6"
+      "values_digest": "90067580bd0288a5f52d3117630b7b99fe43a73c2e2e6a8ac1e9f1dbf89e02de",
+      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
+      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
     },
     "sor": {
-      "values_digest": "9676739f8c5e135418132f88c515284a430dfd0fc1feea1f8d94b43f77271393",
+      "values_digest": "c700ed97772b77c3a3d7851cec44d179b1999558367d9a1bc60d46bac62370b0",
       "rendered_digest": "dc10577614d0fea3e77bc6b2643374cbc36ccb73df9d583a47d02cf667895089",
       "ast_digest": "9e907c50e561ea519b2fd9b050bbbc2fffa5d35d30b9cae6bca8293b31b8d1b2"
     }
@@ -466,6 +448,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-ci-proof-root-fix",
       "reason": "Refresh #631 execution truth after repairing v3 proof-route repository discovery for CI target directories outside the checkout.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary, binding proof/install evidence to the binary checkout repository root, requiring typed install provenance evidence, and making that binary-checkout discovery work under external Cargo target directories used by CI.\",\"changes\":[\"Added a typed csdlc-v3 proof command module for proof, shadow, soak, and install route request classification.\",\"Routed csdlc proof, shadow, soak, and install through implemented-construction CLI handling that emits machine-readable non-authoritative JSON reports.\",\"Kept all four routes read-only and blocked from lifecycle authority, provider side effects, binary installation, selector mutation, GitHub mutation, or #505 cutover.\",\"Updated the one-binary v3 command manifest and manifest tests so #631-owned routes no longer appear as placeholder fail-closed or partial routes.\",\"Replaced the placeholder #631 canary with behavior tests covering positive and negative proof, bounded shadow parity, soak hidden-state denial, full-replacement denominator status, and one-binary install gating.\",\"Bound proof/install evidence roots to the repository root discovered from the csdlc binary checkout, rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent, and rejected untyped install provenance JSON.\",\"Repaired binary-checkout root discovery for CI by falling back from the executable path to the compile-time Cargo manifest directory, without reintroducing a caller-cwd or request-controlled root fallback.\"],\"artifacts\":[\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_parity_install_commands\",\"--\",\"--nocapture\"],\"purpose\":\"Re-run the exact #631 proof/parity/install test file that failed in GitHub Actions before the CI root-discovery repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:3f86681c9:4-passed\"},{\"command\":[\"ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/adl-validation-targets/631-ci-shape-target\",\"bash\",\"adl/tools/run_cargo_validation.sh\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_parity_install_commands\",\"--\",\"--nocapture\"],\"purpose\":\"Reproduce the GitHub Actions external-target topology locally without /private/tmp and verify proof-root discovery no longer depends on the test binary living inside the checkout.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:3f86681c9:ci-shape-4-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the full csdlc-v3 regression suite after the CI root-discovery repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:3f86681c9:all-v3-tests-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the CI root-discovery repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:3f86681c9:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker artifacts before refreshed review.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:3f86681c9:passed\"}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 27,
+      "actor": "codex:worker-6:sprint6-v3h5-ci-proof-root-fix",
+      "reason": "Recover the stale #631 review assignment after repairing v3 proof-route repository discovery for CI target directories outside the checkout.",
+      "operation": "recover_review"
     }
   ]
 }
