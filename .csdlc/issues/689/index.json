@@ -3,11 +3,11 @@
   "issue": 689,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "a0087aa888361a1dd039d5ef99d929b3f7bc8a63a27294756b700ee8c37210d6",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 6,
-  "digest": "7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3",
-  "branch": null,
-  "worktree": null,
+  "digest": "80de1b4de59359653f75f7ab32a46f5629bb5459e1f18ebcc85b0522f1ed8d4c",
+  "branch": "codex/689-runtime-canonical-control-runbook",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:/root",
       "reason": "advance reviewed executable design after doctor reported ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:/root",
+      "reason": "{\"actor\":\"codex:/root\",\"base_branch\":\"codex/689-bind-prep\",\"branch\":\"codex/689-runtime-canonical-control-runbook\",\"code_repository\":null,\"expected_digest\":\"7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3\",\"expected_generation\":6,\"expected_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":689,\"observed_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook\"}"
     }
   ],
   "audit": [
@@ -112,6 +119,13 @@
       "actor": "codex:/root",
       "reason": "advance reviewed executable design after doctor reported ready",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "{\"base_branch\":\"codex/689-bind-prep\",\"branch\":\"codex/689-runtime-canonical-control-runbook\",\"expected_digest\":\"7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3\",\"expected_generation\":6,\"expected_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook\"}",
+      "operation": "adopt_existing_bind"
     }
   ]
 }
