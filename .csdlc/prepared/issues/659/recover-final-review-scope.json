@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 659,
+  "expected_generation": 10,
+  "expected_digest": "7b062e08bb3757193500166e6e29d26e8ebd2c7e011ea219ce59eaddeb4d3470",
+  "actor": "codex:/root",
+  "reason": "Remove mutable review request metadata from the substantive review scope so recording the review cannot stale its own proof."
+}
