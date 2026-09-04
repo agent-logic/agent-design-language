@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-The Welcome Package document, source-grounding, tone, governance boundaries, and lightweight docs validation only.
+docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md
+.csdlc/prepared/issues/674/validate-welcome-package-docs.sh
 
 ## Prompts
 
@@ -31,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This documentation does not prove live delivery or Runtime behavior and may require revision if the governed contracts change.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b71ed1f54df63f8aca5d5742aeb7964af3a15c66:2623050d5fe36acf6f1e269d0cd001f3e956d7369264eab42e3ab03af3c76f62")
 
-Reviewer: None
+Reviewer: Some("fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4")
 
-Result: pre_review
+Result: pass
