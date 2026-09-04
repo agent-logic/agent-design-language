@@ -272,8 +272,11 @@ fn install_route_is_one_binary_plan_gated_by_505() {
         .to_hex()
         .to_string();
     let provenance_ref = scoped_evidence_ref("install/provenance.json");
-    fs::write(root.join(&provenance_ref), br#"{"source":"git:abc123"}"#)
-        .expect("write install provenance");
+    fs::write(
+        root.join(&provenance_ref),
+        br#"{"schema":"csdlc.v3.install_provenance.v1","source":"git:abc123"}"#,
+    )
+    .expect("write install provenance");
     assert_ready_value(
         "install",
         json!({
@@ -324,8 +327,11 @@ fn install_route_is_one_binary_plan_gated_by_505() {
     fs::write(root.join(&selector_ref), br#"{"selected":"actual"}"#)
         .expect("write selector metadata");
     let provenance_ref = scoped_evidence_ref("install/provenance-actual.json");
-    fs::write(root.join(&provenance_ref), br#"{"source":"git:def456"}"#)
-        .expect("write install provenance");
+    fs::write(
+        root.join(&provenance_ref),
+        br#"{"schema":"csdlc.v3.install_provenance.v1","source":"git:def456"}"#,
+    )
+    .expect("write install provenance");
     assert_blocked_value(
         "install",
         json!({
@@ -362,7 +368,7 @@ fn install_route_is_one_binary_plan_gated_by_505() {
     let provenance_ref = scoped_evidence_ref("install/forged-provenance.json");
     fs::write(
         root.join(&provenance_ref),
-        br#"{"source":"git:real-source"}"#,
+        br#"{"schema":"csdlc.v3.install_provenance.v1","source":"git:real-source"}"#,
     )
     .expect("write install provenance");
     assert_blocked_value(
@@ -388,6 +394,42 @@ fn install_route_is_one_binary_plan_gated_by_505() {
         }),
         "install_source_provenance_mismatch",
     );
+    let (root, artifact_ref, artifact_digest) = write_evidence(
+        "install/untyped-provenance-csdlc",
+        b"untyped provenance artifact bytes",
+    );
+    let selector_ref = scoped_evidence_ref("install/untyped-selector.json");
+    fs::write(root.join(&selector_ref), br#"{"selected":"csdlc"}"#)
+        .expect("write selector metadata");
+    let selector_digest = blake3::hash(br#"{"selected":"csdlc"}"#)
+        .to_hex()
+        .to_string();
+    let provenance_ref = scoped_evidence_ref("install/untyped-provenance.json");
+    fs::write(root.join(&provenance_ref), br#"{"source":"git:untyped"}"#)
+        .expect("write untyped install provenance");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
+            "source_provenance": "git:untyped",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": false
+          }
+        }),
+        "install_source_provenance_invalid",
+    );
     let scratch_root = scratch().join("caller-controlled-evidence-root");
     fs::create_dir_all(scratch_root.join(".csdlc/evidence/631/install"))
         .expect("scratch evidence root");
@@ -403,7 +445,7 @@ fn install_route_is_one_binary_plan_gated_by_505() {
     .expect("write scratch selector");
     fs::write(
         scratch_root.join(".csdlc/evidence/631/install/scratch-provenance.json"),
-        br#"{"source":"git:scratch"}"#,
+        br#"{"schema":"csdlc.v3.install_provenance.v1","source":"git:scratch"}"#,
     )
     .expect("write scratch provenance");
     let artifact_digest = blake3::hash(b"scratch artifact bytes").to_hex().to_string();

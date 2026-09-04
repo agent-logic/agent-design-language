@@ -455,14 +455,18 @@ fn validate_install(
     }
     if let Some(bytes) = observed_ref_bytes(evidence_root, &install.source_provenance_ref, findings)
     {
-        let observed_source = serde_json::from_slice::<serde_json::Value>(&bytes)
+        let observed_provenance = serde_json::from_slice::<serde_json::Value>(&bytes)
             .ok()
-            .and_then(|value| {
-                value
-                    .get("source")
-                    .and_then(serde_json::Value::as_str)
-                    .map(str::to_owned)
+            .filter(|value| {
+                value.get("schema").and_then(serde_json::Value::as_str)
+                    == Some("csdlc.v3.install_provenance.v1")
             });
+        let observed_source = observed_provenance.as_ref().and_then(|value| {
+            value
+                .get("source")
+                .and_then(serde_json::Value::as_str)
+                .map(str::to_owned)
+        });
         match observed_source {
             Some(source) if source == install.source_provenance => {}
             Some(_) => findings.push(finding(
