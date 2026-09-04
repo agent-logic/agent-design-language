@@ -8,16 +8,13 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
 csdlc-v3/src/commands/remote/mod.rs
-csdlc-v3/src/main.rs
-csdlc-v3/tests/command_manifest.rs
 csdlc-v3/tests/remote_publication_commands.rs
-docs/csdlc-v3/v3-command-manifest.json
-.csdlc/prepared/issues/629
+csdlc-v3/tests/real_issue_canary.rs
 
 ## Prompts
 
@@ -36,12 +33,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Public remote route planning intentionally fails closed until authenticated GitHub adapter and typed review receipt ingestion are implemented.
+- C-SDLC v3 GitHub and publication routes remain non-authoritative until explicit V3-F/#505 cutover.
+- This change binds PR title into authenticated v3 PR readback receipts; it does not make v3 perform PR title writes before cutover.
 
 ## Review Result
 
-Revision: Some("git-blake3:eb51488dee5c491653f24c8f521b8033b12e4e12:74c1b2417ca959edb117d37d30029845ee76511ac4723db1814ef25ce820a44f")
+Revision: Some("git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9")
 
-Reviewer: Some("codex-reviewer:review_629_r3_exact_head")
+Reviewer: Some("codex-reviewer:review_629_title_readback")
 
 Result: pass

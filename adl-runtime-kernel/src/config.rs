@@ -375,6 +375,8 @@ pub struct RuntimeInitConfig {
     pub continuity_control: Option<crate::ContinuityControlInitConfig>,
     pub credentials: RuntimeCredentialInitConfig,
     pub shutdown: RuntimeShutdownInitConfig,
+    #[serde(default)]
+    pub service_convergence: RuntimeServiceConvergenceInitConfig,
     pub guardian: RuntimeGuardianInitConfig,
     pub qualification: RuntimeQualificationInitConfig,
     pub observatory: ObservatoryInitConfig,
@@ -455,6 +457,7 @@ impl RuntimeInitConfig {
         }
         self.polis.validate(public_host)?;
         self.resident_shepherd.validate()?;
+        self.service_convergence.validate()?;
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
                 "api.bind_attempts must be between 1 and 100".to_owned(),
@@ -694,6 +697,59 @@ impl RuntimeInitConfig {
             }
         }
         Ok(value)
+    }
+}
+
+pub const MIN_SERVICE_CONVERGENCE_MILLIS: u64 = 1_000;
+pub const MAX_SERVICE_CONVERGENCE_MILLIS: u64 = 3_600_000;
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct RuntimeServiceConvergenceInitConfig {
+    pub stop_timeout_millis: u64,
+    pub unload_timeout_millis: u64,
+    pub listener_timeout_millis: u64,
+    pub readiness_timeout_millis: u64,
+}
+
+impl Default for RuntimeServiceConvergenceInitConfig {
+    fn default() -> Self {
+        Self {
+            stop_timeout_millis: 300_000,
+            unload_timeout_millis: 300_000,
+            listener_timeout_millis: 300_000,
+            readiness_timeout_millis: 900_000,
+        }
+    }
+}
+
+impl RuntimeServiceConvergenceInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        for (field, value) in [
+            (
+                "service_convergence.stop_timeout_millis",
+                self.stop_timeout_millis,
+            ),
+            (
+                "service_convergence.unload_timeout_millis",
+                self.unload_timeout_millis,
+            ),
+            (
+                "service_convergence.listener_timeout_millis",
+                self.listener_timeout_millis,
+            ),
+            (
+                "service_convergence.readiness_timeout_millis",
+                self.readiness_timeout_millis,
+            ),
+        ] {
+            if !(MIN_SERVICE_CONVERGENCE_MILLIS..=MAX_SERVICE_CONVERGENCE_MILLIS).contains(&value) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "{field} must be between {MIN_SERVICE_CONVERGENCE_MILLIS} and {MAX_SERVICE_CONVERGENCE_MILLIS}"
+                )));
+            }
+        }
+        Ok(())
     }
 }
 

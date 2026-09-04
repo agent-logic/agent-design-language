@@ -1,0 +1,351 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 659,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4182d8bb12b47a4db5b57dbf673a0e8a509772c51bd068d4845f75eb96d41c46",
+  "phase": "published",
+  "generation": 18,
+  "digest": "0760c472b97821956c18d603fdff6903e86c5e75b6d71a8059d5b356de64b894",
+  "branch": "codex/659-runtime-configurable-convergence",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-659-runtime-configurable-convergence",
+  "review_assignment": {
+    "reviewer": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:b949282b58065fc8ba562de5d1fdead9ed4eaa2c:767e91804a947525badcec367006fa7a37ad93cf84e67e74c9453b77b6e98ab6",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/prepared/issues/659/validate-runtime-convergence.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/prepared/issues/659/validate-runtime-convergence.sh"
+    ],
+    "reviewed_revision": "git-blake3:b949282b58065fc8ba562de5d1fdead9ed4eaa2c:767e91804a947525badcec367006fa7a37ad93cf84e67e74c9453b77b6e98ab6",
+    "findings": [],
+    "residual_risks": [
+      "No live Runtime or real launchd/systemd service was exercised; the Linux-specific systemd branches were source-reviewed but not target-compiled on the macOS review host.",
+      "The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 659,
+    "pull_request": 676,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/676",
+    "base": "main",
+    "head": "codex/659-runtime-configurable-convergence",
+    "revision": "git-blake3:b165184b09d8a430f6a434dffb5551f171e1cad9:afbfe29064f4bf97edaf3adb0e724026c12cde85039de9e825a314b90f3b405d",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/659/design.md",
+  "diagram_path": ".csdlc/prepared/issues/659/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:09df8904-4935-40da-8511-f3e45e0c73cb",
+      "revision": "dbe55212ed1a7be8e1ff66040e774fa0fe144abf85537398e81d9d2e1c26b19c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e4bdb5f25325eca1c607966877a1218c1406e8011e8bfb90034ece978ef412f0",
+      "rendered_digest": "2d4481e3f68ae78a28cb41941e1b9efa5f31cbf5282a22e1c342579be6d1c943",
+      "ast_digest": "3ba45da8035b09337a8474fbd018bb45178796510b4c5a294efec296fcd13cbf"
+    },
+    "stp": {
+      "values_digest": "eff79a2bbb901c2e5b2a242c255252a1611cc7eca8edd9da25a0df4634b4646c",
+      "rendered_digest": "c059baa61ff8c6206f6b97dc8b056102b89230d84570f5ca26f49953d684313e",
+      "ast_digest": "91df1858746474aa83c407e5a4e6fc7a228df01bbe581a98102fc9d8c8dffed2"
+    },
+    "spp": {
+      "values_digest": "96b566dc9d0a3bbe78611f612002ae6cc3f3b6ec0f5115f10f06650890e41b36",
+      "rendered_digest": "b80e87a357458244797a90a5fe887ea0eac68b6b405e7599dee3274024357bdf",
+      "ast_digest": "bd036a9a68d2229666ee907c0f489798b4d691446623bd8414e23629b25bef50"
+    },
+    "vpp": {
+      "values_digest": "9e2343810862fe13ce6aeb73c497a7699246a51b31f3e5be1bf71536821dfaf5",
+      "rendered_digest": "7daf2ded4fe05c23cca44cb8f50992598a104a0c103991b13c77132005dcdedf",
+      "ast_digest": "84dbae986fe674c2b9113765edc06b553139c5bb97e2fb41a5c34f77dd796a7a"
+    },
+    "srp": {
+      "values_digest": "c350bc6ad8ec893fe3c6bd34acf857e8ee6c9a6ac89f27c7fe98f3e7d7ea0921",
+      "rendered_digest": "99f2de5c0092ef3e55ca6bbbff07d5ca28be2159be6388ffe6c13fc56e67c21e",
+      "ast_digest": "149774e1b774ac000a22f32d9f1d68d04a07665a1a315b290aa7c813f51addcd"
+    },
+    "sor": {
+      "values_digest": "ff317e776efd25616234622a4d93f3895b7b5c602aea30b50d7c7b01f3da0a71",
+      "rendered_digest": "016be28170cbeb446e71771bf693f4e7e65268a043eb485b6111daaeabd82f2f",
+      "ast_digest": "d34b87187f575dcd2906fa7a924680cb23be48fa8fd4484d07a6deaaa1b77813"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Remove mutable review request metadata from the substantive review scope so recording the review cannot stale its own proof."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review after committing publication metadata; remaining review requests are transient in the Git common directory."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Exact-head review of PR #676 found that service-manager start and loaded probes could block before configured convergence deadlines began; recover to implemented for the bounded deadline, diagnostics, and deterministic hung-command repair."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:659-preparation",
+      "reason": "Align dependency truth with the merged atomic-generation implementation now ancestral to current main.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Issue #656 / PR #658 atomic Runtime generation installation merged and ancestral to current main cea5219f6e74b34d930d0dc39b6a607bc6303acb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:659-preparation",
+      "reason": "Remove stale stacked-PR language and state the current-main implementation sequence.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Bind from current main after the merged #656/#658 prerequisite, add one backward-compatible validated service-convergence policy, separate listener-open from full authenticated readiness, replace fixed operational waits while preserving service-manager ownership and recovery, run focused nonzero proof, then obtain exact-head review and publish the issue PR.\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:659-preparation",
+      "reason": "Include the Runtime-init configuration owner and issue-local focused validator; remove the nonexistent generic init path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\",\".csdlc/issues/659\",\".csdlc/prepared/issues/659\",\".csdlc/evidence/659\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:659-preparation",
+      "reason": "Replace the zero-test filter with a nonzero preparation denominator and explicit post-implementation proof lanes for configuration and service convergence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-convergence-preparation\",\"proof_role\":\"Prove the issue plan names every configuration field, generous default and bound, separates listener-open from authenticated readiness, includes the configuration owner, and retains the fixed-wait implementation denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\"],\"parallel_group\":\"659-preparation\",\"defer_reason\":null},{\"lane\":\"runtime-convergence-config\",\"proof_role\":\"Prove backward-compatible defaults, every minimum and maximum bound, and invalid convergence configuration rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"service_convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables.\"},{\"lane\":\"runtime-convergence-service-control\",\"proof_role\":\"Prove deterministic slow success, exact-stage true expiry, independent listener and full-readiness gates, service-manager ownership, and rollback or recovery.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables and do not restart the live Runtime.\"},{\"lane\":\"runtime-convergence-quality\",\"proof_role\":\"Prove formatting, warning-free touched targets, and diff hygiene without broad Runtime execution.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"runtime\"],\"parallel_group\":\"659-quality\",\"defer_reason\":\"Run after the bounded implementation is complete.\"},{\"lane\":\"runtime-convergence-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects in the issue diff.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"659-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:659-preparation",
+      "reason": "Remove an absent untracked TBD source and retain only current repository and issue authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"agent-logic/agent-design-language#659\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime-kernel/src/config.rs\",\"Issue #656 / PR #658 merged prerequisite\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:659-preparation",
+      "reason": "Replace the zero-test filter with a nonzero preparation denominator and explicit post-implementation proof lanes for configuration and service convergence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-convergence-preparation\",\"proof_role\":\"Prove the issue plan names every configuration field, generous default and bound, separates listener-open from authenticated readiness, includes the configuration owner, and retains the fixed-wait implementation denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\"],\"parallel_group\":\"659-preparation\",\"defer_reason\":null},{\"lane\":\"runtime-convergence-config\",\"proof_role\":\"Prove backward-compatible defaults, every minimum and maximum bound, and invalid convergence configuration rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"service_convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables.\"},{\"lane\":\"runtime-convergence-service-control\",\"proof_role\":\"Prove deterministic slow success, exact-stage true expiry, independent listener and full-readiness gates, service-manager ownership, and rollback or recovery.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables and do not restart the live Runtime.\"},{\"lane\":\"runtime-convergence-quality\",\"proof_role\":\"Prove formatting, warning-free touched targets, and diff hygiene without broad Runtime execution.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"runtime\"],\"parallel_group\":\"659-quality\",\"defer_reason\":\"Run after the bounded implementation is complete.\"},{\"lane\":\"runtime-convergence-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects in the issue diff.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"659-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "fresh-session:09df8904-4935-40da-8511-f3e45e0c73cb",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"dbe55212ed1a7be8e1ff66040e774fa0fe144abf85537398e81d9d2e1c26b19c\",\"design_ref\":\".csdlc/prepared/issues/659/design.md\",\"diagram_digest\":\"95257e85456cc87a62c355163b700cabb00f050ad0ce18e90dd01ab6a80d177a\",\"diagram_ref\":\".csdlc/prepared/issues/659/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:659-preparation",
+      "reason": "Replace the zero-test filter with a nonzero preparation denominator and explicit post-implementation proof lanes for configuration and service convergence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-convergence-preparation\",\"proof_role\":\"Prove the issue plan names every configuration field, generous default and bound, separates listener-open from authenticated readiness, includes the configuration owner, and retains the fixed-wait implementation denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\".csdlc/prepared/issues/659/validate-runtime-convergence.sh\"],\"parallel_group\":\"659-preparation\",\"defer_reason\":null},{\"lane\":\"runtime-convergence-config\",\"proof_role\":\"Prove backward-compatible defaults, every minimum and maximum bound, and invalid convergence configuration rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"service_convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables.\"},{\"lane\":\"runtime-convergence-service-control\",\"proof_role\":\"Prove deterministic slow success, exact-stage true expiry, independent listener and full-readiness gates, service-manager ownership, and rollback or recovery.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"convergence_\"],\"parallel_group\":\"659-runtime\",\"defer_reason\":\"The named nonzero tests are issue #659 implementation deliverables and do not restart the live Runtime.\"},{\"lane\":\"runtime-convergence-quality\",\"proof_role\":\"Prove formatting, warning-free touched targets, and diff hygiene without broad Runtime execution.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"659-quality\",\"defer_reason\":\"Run after the bounded implementation is complete.\"},{\"lane\":\"runtime-convergence-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects in the issue diff.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"659-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Remove mutable review request metadata from the substantive review scope so recording the review cannot stale its own proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review after committing publication metadata; remaining review requests are transient in the Git common directory.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Exact-head review of PR #676 found that service-manager start and loaded probes could block before configured convergence deadlines began; recover to implemented for the bounded deadline, diagnostics, and deterministic hung-command repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "fresh-session:ea728ae0-426d-4818-a00c-53113826e66d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "issue": 661,
+  "expected_generation": 7,
+  "expected_digest": "7a332ac533ba6282de51366c528d2a4e4820485ae94c4a483e2ac3551e71b71b",
+  "actor": "codex:/root/shepherd_model_reply_fix",
+  "evidence": {
+    "reviewer": "subagent:/root/shepherd_model_reply_fix/issue_661_exact_review",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/661"
+    ],
+    "reviewed_revision": "git-blake3:aac0d539e1a3231b82a691a052e08f356d85ccd4:7af8b4121e9ed34c896aa375f54ac03ba76199b72730252ff8259b05fae0a3f6",
+    "findings": [],
+    "residual_risks": [
+      "No live Wuji or external provider invocation was performed; the deterministic executor proves routing, failure propagation, and reply projection while production provider wiring was verified by source trace.",
+      "Hosted CI remains the final integration gate before merge.",
+      "Agent-to-agent initiation is separate scope and is neither implemented nor claimed by issue #661."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

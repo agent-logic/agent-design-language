@@ -94,6 +94,13 @@ struct ConversationExecutor {
     barrier_release: Arc<Semaphore>,
 }
 
+struct ShepherdConversationExecutor {
+    dispatches: Arc<AtomicUsize>,
+    completions: Arc<AtomicUsize>,
+    barrier_started: Arc<Notify>,
+    barrier_release: Arc<Semaphore>,
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -157,8 +164,65 @@ impl OperationExecutor for ConversationExecutor {
     }
 }
 
+#[async_trait]
+impl OperationExecutor for ShepherdConversationExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.dispatches.fetch_add(1, Ordering::SeqCst);
+        let work: crate::ShepherdRequest =
+            serde_json::from_slice(&request.payload).map_err(|error| ExecutorError {
+                class: FailureClass::Fatal,
+                message: error.to_string(),
+            })?;
+        if work.prompt == "provider failure" {
+            return Err(ExecutorError {
+                class: FailureClass::Retryable,
+                message: "configured provider failed".to_owned(),
+            });
+        }
+        if work.prompt == "delay" {
+            tokio::time::sleep(Duration::from_millis(250)).await;
+        } else if work.prompt == "delay ordered" {
+            tokio::time::sleep(Duration::from_millis(60)).await;
+        } else if work.prompt == "delay budget" {
+            tokio::time::sleep(Duration::from_millis(70)).await;
+        } else if work.prompt == "delay revoke" {
+            tokio::time::sleep(Duration::from_millis(25)).await;
+        } else if work.prompt == "barrier cleanup" {
+            self.barrier_started.notify_one();
+            self.barrier_release
+                .acquire()
+                .await
+                .expect("barrier release semaphore closed")
+                .forget();
+        }
+        self.completions.fetch_add(1, Ordering::SeqCst);
+        let response = format!("Beacon generated: {}", work.prompt);
+        serde_json::to_vec(&crate::ShepherdResponse {
+            schema: crate::SHEPHERD_RESPONSE_SCHEMA.to_owned(),
+            correlation_id: work.correlation_id,
+            runtime_id: work.runtime_id,
+            execution_class: crate::ShepherdExecutionClass::DeterministicTestDouble,
+            provenance: crate::ShepherdProvenance::LiveExecution,
+            retained: false,
+            backend_identity_sha256: Some("1".repeat(64)),
+            model_identity_sha256: "2".repeat(64),
+            model_artifact_sha256: None,
+            runner_program_sha256: "3".repeat(64),
+            runner_launch_sha256: "4".repeat(64),
+            runner_nonce_sha256: None,
+            elapsed_millis: 1,
+            response_sha256: "5".repeat(64),
+            response,
+        })
+        .map_err(|error| ExecutorError {
+            class: FailureClass::Fatal,
+            message: error.to_string(),
+        })
+    }
+}
+
 #[tokio::test]
-async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() {
+async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress() {
     let recorder = RuntimeRecorder::new(32);
     let dispatches = Arc::new(AtomicUsize::new(0));
     let completions = Arc::new(AtomicUsize::new(0));
@@ -185,10 +249,34 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .unwrap(),
     );
     let operation = OperationalFactory::new(adapter, vec![]);
+    let shepherd_adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Shepherd,
+            AdapterPolicy {
+                capacity: 4,
+                max_in_flight: 2,
+                shutdown_grace_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            Arc::new(ShepherdConversationExecutor {
+                dispatches: dispatches.clone(),
+                completions: completions.clone(),
+                barrier_started: barrier_started.clone(),
+                barrier_release: barrier_release.clone(),
+            }),
+        )
+        .unwrap(),
+    );
+    let shepherd_operation = OperationalFactory::new(shepherd_adapter, vec![]);
     let ingress = CanonicalIngress::new(
         4,
         recorder.clone(),
-        BTreeMap::from([("agent_runtime".to_owned(), operation.clone())]),
+        BTreeMap::from([
+            ("agent_runtime".to_owned(), operation.clone()),
+            ("shepherd".to_owned(), shepherd_operation.clone()),
+        ]),
     );
     let admitted_at = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -279,6 +367,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let address = listener.local_addr().unwrap();
     let mut registry = ComponentRegistry::new();
     registry.register(operation);
+    registry.register(shepherd_operation);
     registry.register(ingress);
     let kernel = Kernel::new(registry.validate().unwrap(), recorder.clone())
         .start()
@@ -486,7 +575,18 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let delivered =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered");
-    assert_eq!(delivered["reply"], "shepherd received your message.");
+    assert_eq!(delivered["reply"], "Beacon generated: Hello");
+    assert_eq!(
+        delivered["schema"],
+        OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA
+    );
+    assert_eq!(delivered["recipient_id"], "shepherd");
+    assert_eq!(delivered["conversation_id"], "conversation-shepherd");
+    assert_eq!(delivered["turn_id"], "turn-positive");
+    assert_eq!(
+        delivered["correlation_id"],
+        "0123456789abcdef0123456789abcdef"
+    );
     assert!(!delivered.to_string().contains("adapter_secret"));
     assert_eq!(dispatches.load(Ordering::SeqCst), 4);
 
@@ -699,9 +799,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-shepherd",
+                "conversation_id": "conversation-forged-output",
                 "turn_id": "turn-forged-output",
-                "recipient_id": "shepherd",
+                "recipient_id": "agent-0100",
                 "correlation_id": "11111111111111111111111111111111",
                 "message": "forge recipient"
             })
@@ -1017,6 +1117,29 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         "active turns must never be evicted to admit new work"
     );
     barrier_release.add_permits(8);
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-provider-failure",
+                "turn_id": "turn-provider-failure",
+                "recipient_id": "shepherd",
+                "correlation_id": "99999999999999999999999999999999",
+                "message": "provider failure"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let accepted = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    let failed = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
+    assert_eq!(failed["status"], "failed", "{failed}");
+    assert_eq!(failed["error"], "conversation_failed", "{failed}");
+    assert!(failed["reply"].is_null(), "{failed}");
+    assert!(!failed.to_string().contains("received your message"));
 
     socket.close(None).await.unwrap();
     server.abort();

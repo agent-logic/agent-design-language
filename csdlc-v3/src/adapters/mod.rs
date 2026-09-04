@@ -1,4 +1,14 @@
-use std::fmt;
+use std::{
+    fmt, fs,
+    path::{Path, PathBuf},
+    process::Command,
+    time::{SystemTime, UNIX_EPOCH},
+};
+
+#[cfg(unix)]
+use std::os::unix::fs::OpenOptionsExt;
+
+const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct CommandInvocation {
@@ -165,12 +175,40 @@ impl fmt::Debug for StaticCredentialResolver {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct EnvironmentCredentialResolver;
+
+impl CredentialResolver for EnvironmentCredentialResolver {
+    fn inject_child_credential(
+        &self,
+        name: &str,
+        injector: &mut impl ChildCredentialInjector,
+    ) -> Result<(), AdapterError> {
+        let value = std::env::var(name).map_err(|_| AdapterError::CredentialResolutionFailed)?;
+        if value.trim().is_empty() {
+            return Err(AdapterError::CredentialResolutionFailed);
+        }
+        injector.inject_child_credential(name, &value);
+        Ok(())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ProcessOutput {
     pub status: ProcessStatus,
     pub stdout: String,
     pub stderr: String,
     pub truncated: bool,
+}
+
+impl ProcessOutput {
+    fn redact_secret(mut self, secret: &str) -> Self {
+        if !secret.is_empty() {
+            self.stdout = self.stdout.replace(secret, "[REDACTED]");
+            self.stderr = self.stderr.replace(secret, "[REDACTED]");
+        }
+        self
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -182,6 +220,162 @@ pub enum ProcessStatus {
 
 pub trait ProcessAdapter {
     fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput;
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RealProcessAdapter<R> {
+    resolver: R,
+    max_output_bytes: usize,
+}
+
+impl<R> RealProcessAdapter<R> {
+    pub fn new(resolver: R) -> Self {
+        Self {
+            resolver,
+            max_output_bytes: 1024 * 1024,
+        }
+    }
+
+    pub fn with_max_output_bytes(mut self, max_output_bytes: usize) -> Self {
+        self.max_output_bytes = max_output_bytes;
+        self
+    }
+}
+
+impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
+    fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput {
+        let mut captured = CapturedChildCredentials::default();
+        let credential = match invocation.child_credential_name() {
+            Some(name) => match self.resolver.inject_child_credential(name, &mut captured) {
+                Ok(()) => captured.take_single(name),
+                Err(_) => {
+                    return ProcessOutput {
+                        status: ProcessStatus::Exit(126),
+                        stdout: String::new(),
+                        stderr: "credential resolution failed".into(),
+                        truncated: false,
+                    };
+                }
+            },
+            None => None,
+        };
+        let Some((credential_name, credential_value)) = credential else {
+            if invocation.program == GITHUB_READ_ONLY_ADAPTER {
+                return ProcessOutput {
+                    status: ProcessStatus::Exit(126),
+                    stdout: String::new(),
+                    stderr: "credential resolution failed".into(),
+                    truncated: false,
+                };
+            }
+            return run_process(&invocation, None, None, self.max_output_bytes);
+        };
+        if credential_value.contains(['\n', '\r', '"', '\\']) {
+            return ProcessOutput {
+                status: ProcessStatus::Exit(126),
+                stdout: String::new(),
+                stderr: "credential resolution failed".into(),
+                truncated: false,
+            };
+        }
+        let (process_invocation, curl_config_required) =
+            if invocation.program == GITHUB_READ_ONLY_ADAPTER {
+                match github_read_only_curl_invocation(&invocation) {
+                    Ok(curl) => (curl, true),
+                    Err(output) => return output,
+                }
+            } else {
+                (invocation, false)
+            };
+        let curl_config = if curl_config_required || process_invocation.program == "curl" {
+            match write_private_curl_config(&credential_value) {
+                Ok(path) => Some(path),
+                Err(_) => {
+                    return ProcessOutput {
+                        status: ProcessStatus::Exit(126),
+                        stdout: String::new(),
+                        stderr: "credential configuration failed".into(),
+                        truncated: false,
+                    };
+                }
+            }
+        } else {
+            None
+        };
+        let result = run_process(
+            &process_invocation,
+            Some((&credential_name, &credential_value)),
+            curl_config.as_deref(),
+            self.max_output_bytes,
+        )
+        .redact_secret(&credential_value);
+        if let Some(path) = curl_config {
+            let _ = fs::remove_file(path);
+        }
+        result
+    }
+}
+
+fn github_read_only_curl_invocation(
+    invocation: &CommandInvocation,
+) -> Result<CommandInvocation, ProcessOutput> {
+    let [operation, repository, number] = invocation.argv() else {
+        return Err(ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter requires operation, repository, and number".into(),
+            truncated: false,
+        });
+    };
+    if operation != "pull-request" || number.parse::<u64>().is_err() {
+        return Err(ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter received unsupported request".into(),
+            truncated: false,
+        });
+    }
+    CommandInvocation::new(
+        "curl",
+        [
+            "--fail-with-body".to_owned(),
+            "--silent".to_owned(),
+            "--show-error".to_owned(),
+            "--location".to_owned(),
+            "--header".to_owned(),
+            "Accept: application/vnd.github+json".to_owned(),
+            "--header".to_owned(),
+            "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+            format!("https://api.github.com/repos/{repository}/pulls/{number}"),
+        ],
+    )
+    .map_err(|_| ProcessOutput {
+        status: ProcessStatus::Exit(2),
+        stdout: String::new(),
+        stderr: "github read-only adapter rejected unsafe request".into(),
+        truncated: false,
+    })
+}
+
+#[derive(Default)]
+struct CapturedChildCredentials {
+    pairs: Vec<(String, String)>,
+}
+
+impl CapturedChildCredentials {
+    fn take_single(&mut self, expected_name: &str) -> Option<(String, String)> {
+        if self.pairs.len() == 1 && self.pairs[0].0 == expected_name {
+            self.pairs.pop()
+        } else {
+            None
+        }
+    }
+}
+
+impl ChildCredentialInjector for CapturedChildCredentials {
+    fn inject_child_credential(&mut self, name: &str, value: &str) {
+        self.pairs.push((name.to_owned(), value.to_owned()));
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -208,6 +402,123 @@ impl ProcessAdapter for FakeProcessAdapter {
         self.invocations.push(invocation);
         self.output.clone()
     }
+}
+
+fn run_process(
+    invocation: &CommandInvocation,
+    credential: Option<(&str, &str)>,
+    curl_config: Option<&Path>,
+    max_output_bytes: usize,
+) -> ProcessOutput {
+    let mut command = Command::new(&invocation.program);
+    command.args(invocation.argv());
+    if let Some(path) = curl_config {
+        command.arg("--config").arg(path);
+    }
+    if let Some((name, value)) = credential {
+        command.env(name, value);
+    }
+    match command.output() {
+        Ok(output) => process_output(output, max_output_bytes),
+        Err(error) => ProcessOutput {
+            status: ProcessStatus::Exit(127),
+            stdout: String::new(),
+            stderr: format!("process execution failed: {error}"),
+            truncated: false,
+        },
+    }
+}
+
+fn process_output(output: std::process::Output, max_output_bytes: usize) -> ProcessOutput {
+    let mut stdout = output.stdout;
+    let mut stderr = output.stderr;
+    let truncated =
+        truncate(&mut stdout, max_output_bytes) | truncate(&mut stderr, max_output_bytes);
+    ProcessOutput {
+        status: output
+            .status
+            .code()
+            .map(ProcessStatus::Exit)
+            .unwrap_or(ProcessStatus::Cancelled),
+        stdout: String::from_utf8_lossy(&stdout).into_owned(),
+        stderr: String::from_utf8_lossy(&stderr).into_owned(),
+        truncated,
+    }
+}
+
+fn truncate(bytes: &mut Vec<u8>, max_output_bytes: usize) -> bool {
+    if bytes.len() > max_output_bytes {
+        bytes.truncate(max_output_bytes);
+        true
+    } else {
+        false
+    }
+}
+
+fn write_private_curl_config(token: &str) -> std::io::Result<PathBuf> {
+    let dir = runtime_dir()?;
+    fs::create_dir_all(&dir)?;
+    let path = dir.join(format!(
+        "curl-auth-{}-{}.config",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_nanos()
+    ));
+    let mut options = fs::OpenOptions::new();
+    options.write(true).create_new(true);
+    #[cfg(unix)]
+    options.mode(0o600);
+    let mut file = options.open(&path)?;
+    use std::io::Write;
+    writeln!(file, "header = \"Authorization: Bearer {token}\"")?;
+    Ok(path)
+}
+
+fn runtime_dir() -> std::io::Result<PathBuf> {
+    let cwd = std::env::current_dir()?;
+    let git_dir = git_control_dir(&cwd).unwrap_or_else(|| cwd.join(".git"));
+    Ok(git_dir.join("csdlc-v3/runtime"))
+}
+
+fn git_control_dir(root: &Path) -> Option<PathBuf> {
+    for candidate in root.ancestors() {
+        let dot_git = candidate.join(".git");
+        if dot_git.is_dir() {
+            return dot_git.canonicalize().ok();
+        }
+        let Ok(contents) = fs::read_to_string(&dot_git) else {
+            continue;
+        };
+        let Some(gitdir) = contents.strip_prefix("gitdir:") else {
+            continue;
+        };
+        let gitdir = gitdir.trim();
+        let path = Path::new(gitdir);
+        let path = if path.is_absolute() {
+            path.to_path_buf()
+        } else {
+            candidate.join(path)
+        };
+        let git_dir = path.canonicalize().ok()?;
+        if let Some(common_dir) = git_common_dir(&git_dir) {
+            return Some(common_dir);
+        }
+        return Some(git_dir);
+    }
+    None
+}
+
+fn git_common_dir(git_dir: &Path) -> Option<PathBuf> {
+    let contents = fs::read_to_string(git_dir.join("commondir")).ok()?;
+    let path = Path::new(contents.trim());
+    let path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        git_dir.join(path)
+    };
+    path.canonicalize().ok()
 }
 
 pub trait GitAdapter {

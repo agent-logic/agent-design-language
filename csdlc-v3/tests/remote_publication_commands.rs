@@ -4,9 +4,10 @@ use std::{
     process::Command,
 };
 
+use csdlc_v3::adapters::{FakeProcessAdapter, ProcessOutput, ProcessStatus};
 use csdlc_v3::commands::remote::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
-    load_remote_route_receipts, prepare_remote_publication_route,
+    load_remote_route_receipts, observe_github_pr_readback, prepare_remote_publication_route,
     prepare_remote_publication_route_with_receipts, typed_review_receipt_payload_digest,
     GithubAdapterReceipt, GithubReadbackReceipt, RemotePublicationMode, RemoteReadbackSource,
     RemoteRouteReceipts, RemoteRouteRequest, RemoteRouteStatus, TypedReviewReceipt,
@@ -62,6 +63,7 @@ fn request() -> (RemoteRouteRequest, RemoteRouteReceipts) {
         expected_head_sha: Some("abc123".into()),
         head_sha: Some("abc123".into()),
         mode: Some(RemotePublicationMode::Closing),
+        title: Some("[v0.92.1][V3-H.3] GitHub publication route".into()),
         body: Some("Closes #629\n\nPart of #625".into()),
         review_present: true,
         typed_review_receipt_path: None,
@@ -72,6 +74,7 @@ fn request() -> (RemoteRouteRequest, RemoteRouteReceipts) {
         adapter_receipt_path: None,
         adapter_receipt_digest: None,
         closes_issue: Some(629),
+        closing_issues: vec![629],
         part_of_issue: None,
         credential_names: vec!["GITHUB_TOKEN".into()],
     };
@@ -97,11 +100,13 @@ fn receipts_for(request: &RemoteRouteRequest) -> RemoteRouteReceipts {
         repository: request.repository.clone(),
         issue: request.issue,
         pull_request: request.pull_request.expect("pull request"),
+        title: request.title.clone(),
         head_sha: request.head_sha.clone().expect("head sha"),
         closes_issue: request.closes_issue,
+        closing_issues: request.closing_issues.clone(),
         part_of_issue: request.part_of_issue,
         source: RemoteReadbackSource::Github,
-        observed_by: "authenticated-v3-github-adapter".into(),
+        observed_by: "github-api-read-only".into(),
     };
     let adapter = GithubAdapterReceipt {
         schema: "csdlc.v3.github_adapter_receipt.v1".into(),
@@ -111,7 +116,7 @@ fn receipts_for(request: &RemoteRouteRequest) -> RemoteRouteReceipts {
         head_sha: request.head_sha.clone().expect("head sha"),
         readback_receipt_digest: github_readback_receipt_payload_digest(&readback),
         credential_names: request.credential_names.clone(),
-        adapter: "github".into(),
+        adapter: "github-api-read-only".into(),
         authenticated: true,
     };
     RemoteRouteReceipts {
@@ -193,30 +198,147 @@ fn remote_publication_routes_are_typed_and_non_authoritative() {
         let findings = value["result"]["findings"]
             .as_array()
             .expect("findings array");
-        let expected_code = if route == "review" {
-            None
-        } else if route == "publish" {
-            Some("production_review_receipt_not_implemented")
-        } else {
-            Some("production_github_adapter_not_implemented")
-        };
-        if let Some(expected_code) = expected_code {
-            assert_eq!(value["result"]["status"], "blocked");
-            assert!(
-                findings
-                    .iter()
-                    .any(|finding| finding["code"] == expected_code),
-                "{route} must fail closed on synthetic receipts: {findings:?}"
-            );
-        } else {
-            assert_eq!(value["result"]["status"], "ready");
-            assert!(
-                findings.is_empty(),
-                "review should not need GitHub receipts"
-            );
-        }
+        assert_eq!(value["result"]["status"], "ready");
+        assert!(findings.is_empty(), "{route} should be ready: {findings:?}");
         assert!(!String::from_utf8_lossy(&output.stdout).contains("secret"));
     }
+}
+
+#[test]
+fn authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json() {
+    let (mut request, _) = request();
+    request.head_sha = Some("caller-forged-head".into());
+    request.closes_issue = None;
+    request.readback_receipt_digest = None;
+    request.adapter_receipt_digest = None;
+
+    let mut process = FakeProcessAdapter::new(ProcessOutput {
+        status: ProcessStatus::Exit(0),
+        stdout: serde_json::json!({
+            "number": 639,
+            "title": "[v0.92.1][V3-H.3] GitHub publication route",
+            "head": {"sha": "observed-github-head"},
+            "merged": false,
+            "body": "Closes #629\n\nPart of #625"
+        })
+        .to_string(),
+        stderr: String::new(),
+        truncated: false,
+    });
+    let observed =
+        observe_github_pr_readback(&request, &mut process).expect("GitHub observation succeeds");
+    assert_eq!(process.invocations().len(), 1);
+    assert_eq!(observed.invocation.program, "github-api-read-only");
+    assert_eq!(
+        observed.invocation.child_credential_name(),
+        Some("GITHUB_TOKEN")
+    );
+    assert_eq!(
+        observed.invocation.argv(),
+        ["pull-request", "agent-logic/agent-design-language", "639"]
+    );
+    assert_eq!(
+        observed.request.head_sha.as_deref(),
+        Some("observed-github-head")
+    );
+    assert_eq!(
+        observed.request.title.as_deref(),
+        Some("[v0.92.1][V3-H.3] GitHub publication route")
+    );
+    assert_eq!(observed.request.closes_issue, Some(629));
+    assert_eq!(observed.request.closing_issues, vec![629]);
+    assert_eq!(observed.request.part_of_issue, None);
+
+    let mut receipts = receipts_for(&observed.request);
+    receipts.github_readback = observed.receipts.github_readback;
+    receipts.adapter = observed.receipts.adapter;
+    receipts.typed_review = receipts_for(&observed.request).typed_review;
+    let mut ready = observed.request;
+    ready.typed_review_receipt_digest = receipts
+        .typed_review
+        .as_ref()
+        .map(typed_review_receipt_payload_digest);
+    let plan = prepare_remote_publication_route_with_receipts("pr-state", &ready, &receipts)
+        .expect("observed readback plans");
+    assert_eq!(plan.status, RemoteRouteStatus::Ready);
+}
+
+#[test]
+fn authenticated_github_observation_requires_title_readback_for_pr_identity() {
+    let (mut request, _) = request();
+    request.title = Some("caller-forged-title".into());
+
+    let mut process = FakeProcessAdapter::new(ProcessOutput {
+        status: ProcessStatus::Exit(0),
+        stdout: serde_json::json!({
+            "number": 639,
+            "head": {"sha": "observed-github-head"},
+            "merged": false,
+            "body": "Closes #629\n\nPart of #625"
+        })
+        .to_string(),
+        stderr: String::new(),
+        truncated: false,
+    });
+    let finding = observe_github_pr_readback(&request, &mut process)
+        .expect_err("title is part of authenticated PR identity readback");
+    assert_eq!(finding.code, "github_observation_missing_title");
+}
+
+#[test]
+fn github_pr_receipt_binds_observed_title_not_caller_title() {
+    let (mut request, mut receipts) = request();
+    request.title = Some("[stale caller title]".into());
+    if let Some(readback) = receipts.github_readback.as_mut() {
+        readback.title = Some("[observed title]".into());
+    }
+    request.readback_receipt_digest = receipts
+        .github_readback
+        .as_ref()
+        .map(github_readback_receipt_payload_digest);
+    request.adapter_receipt_digest = receipts
+        .adapter
+        .as_ref()
+        .map(github_adapter_receipt_payload_digest);
+
+    let plan = prepare_remote_publication_route_with_receipts("github-pr", &request, &receipts)
+        .expect("route should produce findings, not fail structurally");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(
+        plan.findings
+            .iter()
+            .any(|finding| finding.code == "github_readback_receipt_missing"),
+        "{:?}",
+        plan.findings
+    );
+}
+
+#[test]
+fn github_pr_receipt_rejects_titleless_request_and_receipt_pair() {
+    let (mut request, mut receipts) = request();
+    request.title = None;
+    if let Some(readback) = receipts.github_readback.as_mut() {
+        readback.title = None;
+    }
+    request.readback_receipt_digest = receipts
+        .github_readback
+        .as_ref()
+        .map(github_readback_receipt_payload_digest);
+    request.adapter_receipt_digest = receipts
+        .adapter
+        .as_ref()
+        .map(github_adapter_receipt_payload_digest);
+
+    let plan = prepare_remote_publication_route_with_receipts("github-pr", &request, &receipts)
+        .expect("route should produce findings, not fail structurally");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(
+        plan.findings
+            .iter()
+            .any(|finding| finding.code == "github_readback_receipt_missing"),
+        "{:?}",
+        plan.findings
+    );
 }
 
 #[test]
@@ -230,6 +352,30 @@ fn cli_receipt_loader_rejects_disposable_target_receipts() {
     let finding = load_remote_route_receipts(&repo_root(), &request)
         .expect_err("target receipts are not durable publication evidence");
     assert_eq!(finding.code, "receipt_path_not_durable");
+}
+
+#[test]
+fn cli_observe_github_fails_before_network_without_an_explicit_credential_name() {
+    let dir = fixture_dir("observe-missing-credential");
+    let request_path = dir.join("request.json");
+    let (mut request, _) = request();
+    request.credential_names.clear();
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request).expect("request json"),
+    )
+    .expect("write request fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("pr-state")
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--observe-github")
+        .output()
+        .expect("run pr-state observation preflight");
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("github_credential_missing"), "{stderr}");
 }
 
 #[test]
@@ -282,6 +428,24 @@ fn publish_route_requires_current_review_and_closing_relation() {
         .iter()
         .any(|finding| finding.code == "missing_closing_relation"));
 
+    let (mut missing_readback, mut receipts) = request();
+    missing_readback.readback_receipt_digest = None;
+    missing_readback.adapter_receipt_digest = None;
+    receipts.github_readback = None;
+    receipts.adapter = None;
+    let plan =
+        prepare_remote_publication_route_with_receipts("publish", &missing_readback, &receipts)
+            .expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "github_readback_receipt_missing"));
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "authenticated_github_adapter_missing"));
+
     let (mut wrong_issue, receipts) = request();
     wrong_issue.body = Some("Closes #6290".into());
     let plan = prepare_remote_publication_route_with_receipts("publish", &wrong_issue, &receipts)
@@ -312,13 +476,30 @@ fn pr_state_route_rejects_caller_forged_readback() {
             &self_consistent_forgery,
             &receipts,
         )
-        .expect("plan rejects JSON-only authenticated GitHub readback receipts");
-        assert_eq!(plan.status, RemoteRouteStatus::Blocked);
-        assert!(plan
-            .findings
-            .iter()
-            .any(|finding| finding.code == "production_github_adapter_not_implemented"));
+        .expect("plan accepts production-identity authenticated GitHub receipts");
+        assert_eq!(plan.status, RemoteRouteStatus::Ready);
+        assert!(plan.findings.is_empty());
     }
+
+    let (synthetic, mut synthetic_receipts) = request();
+    synthetic_receipts
+        .github_readback
+        .as_mut()
+        .expect("readback receipt")
+        .observed_by = "synthetic-test-fixture".into();
+    synthetic_receipts
+        .adapter
+        .as_mut()
+        .expect("adapter receipt")
+        .adapter = "github".into();
+    let plan =
+        prepare_remote_publication_route_with_receipts("pr-state", &synthetic, &synthetic_receipts)
+            .expect("plan rejects non-production adapter identity");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "github_readback_receipt_missing"));
 
     let (mut forged, receipts) = request();
     forged.readback_source = Some(RemoteReadbackSource::Caller);
@@ -362,6 +543,52 @@ fn pr_state_route_rejects_caller_forged_readback() {
         .findings
         .iter()
         .any(|finding| finding.code == "missing_closing_readback"));
+}
+
+#[test]
+fn publication_rejects_unexpected_closing_issue_references() {
+    let (mut extra_closing, receipts) = request();
+    extra_closing.body = Some("Closes #629\n\nThis PR does not close #505 before cutover.".into());
+    extra_closing.closing_issues = vec![505, 629];
+    let plan = prepare_remote_publication_route_with_receipts("publish", &extra_closing, &receipts)
+        .expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "unexpected_closing_relation"));
+}
+
+#[test]
+fn pr_state_rejects_unexpected_observed_closing_issue_references() {
+    let (mut extra_closing, mut receipts) = request();
+    extra_closing.closing_issues = vec![505, 629];
+    receipts
+        .github_readback
+        .as_mut()
+        .expect("readback")
+        .closing_issues = vec![505, 629];
+    extra_closing.readback_receipt_digest = receipts
+        .github_readback
+        .as_ref()
+        .map(github_readback_receipt_payload_digest);
+    receipts
+        .adapter
+        .as_mut()
+        .expect("adapter")
+        .readback_receipt_digest = extra_closing.readback_receipt_digest.clone().unwrap();
+    extra_closing.adapter_receipt_digest = receipts
+        .adapter
+        .as_ref()
+        .map(github_adapter_receipt_payload_digest);
+    let plan =
+        prepare_remote_publication_route_with_receipts("pr-state", &extra_closing, &receipts)
+            .expect("plan");
+    assert_eq!(plan.status, RemoteRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "unexpected_closing_readback"));
 }
 
 #[test]

@@ -1,0 +1,13 @@
+{
+  "issue": 665,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "dab3952d9b0d2479a0566ebe1adcce1dee2f95ba41faa8a9ca6431e00c5354b3",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Advance #665 to implemented after recorded execution and passing focused validation.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}

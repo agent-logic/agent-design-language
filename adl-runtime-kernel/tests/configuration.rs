@@ -692,6 +692,66 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
 }
 
 #[test]
+fn service_convergence_defaults_support_slow_model_startup() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    std::fs::create_dir_all(&state_root).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    let init =
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(&state_root))
+            .unwrap();
+
+    assert_eq!(init.service_convergence.stop_timeout_millis, 300_000);
+    assert_eq!(init.service_convergence.unload_timeout_millis, 300_000);
+    assert_eq!(init.service_convergence.listener_timeout_millis, 300_000);
+    assert_eq!(init.service_convergence.readiness_timeout_millis, 900_000);
+}
+
+#[test]
+fn service_convergence_accepts_inclusive_bounds() {
+    for value in [1_000, 3_600_000] {
+        let directory = config_test_root();
+        let state_root = directory.path().join("state");
+        std::fs::create_dir_all(&state_root).unwrap();
+        let state_root = state_root.canonicalize().unwrap();
+        let text = format!(
+            "{}\n[service_convergence]\nstop_timeout_millis = {value}\nunload_timeout_millis = {value}\nlistener_timeout_millis = {value}\nreadiness_timeout_millis = {value}\n",
+            valid_runtime_init_toml(&state_root)
+        );
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&text).unwrap();
+    }
+}
+
+#[test]
+fn service_convergence_rejects_each_out_of_range_field() {
+    for field in [
+        "stop_timeout_millis",
+        "unload_timeout_millis",
+        "listener_timeout_millis",
+        "readiness_timeout_millis",
+    ] {
+        for value in [999_u64, 3_600_001] {
+            let directory = config_test_root();
+            let state_root = directory.path().join("state");
+            std::fs::create_dir_all(&state_root).unwrap();
+            let state_root = state_root.canonicalize().unwrap();
+            let text = format!(
+                "{}\n[service_convergence]\nstop_timeout_millis = 300000\nunload_timeout_millis = 300000\nlistener_timeout_millis = 300000\nreadiness_timeout_millis = 900000\n",
+                valid_runtime_init_toml(&state_root)
+            )
+            .replace(&format!("{field} = {}", if field == "readiness_timeout_millis" { 900_000 } else { 300_000 }), &format!("{field} = {value}"));
+            let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&text).unwrap_err();
+            assert!(
+                error
+                    .to_string()
+                    .contains(&format!("service_convergence.{field}")),
+                "unexpected error for {field}={value}: {error}"
+            );
+        }
+    }
+}
+
+#[test]
 fn runtime_init_rejects_migration_decision_key_aliases() {
     let directory = config_test_root();
     let state_root = directory.path().join("state");

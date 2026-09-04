@@ -1,0 +1,23 @@
+{
+  "issue": 665,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "7ad4accd64357b4edea956ee4dae40223828ec1946d8061502b8b39040c490a0",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Replace abstract planning labels with concrete repository-owned paths for #665 design readiness.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
+      ".csdlc/prepared/issues/665/design.md",
+      ".csdlc/prepared/issues/665/diagram.mmd",
+      ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh",
+      ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+    ]
+  }
+}

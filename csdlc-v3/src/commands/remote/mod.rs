@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use crate::publication::{
     classify_cleanup, derive_finish, publish, CleanupCandidate, CleanupClassification,
     FinishClassification, IssueReadback, PublicationEvidence, PublicationMode, PublicationRequest,
@@ -11,6 +12,8 @@ use crate::review::{
 };
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
+
+const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
 
 pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [
     "github",
@@ -42,6 +45,8 @@ pub struct RemoteRouteRequest {
     #[serde(default)]
     pub mode: Option<RemotePublicationMode>,
     #[serde(default)]
+    pub title: Option<String>,
+    #[serde(default)]
     pub body: Option<String>,
     #[serde(default)]
     pub review_present: bool,
@@ -61,6 +66,8 @@ pub struct RemoteRouteRequest {
     pub adapter_receipt_digest: Option<String>,
     #[serde(default)]
     pub closes_issue: Option<u64>,
+    #[serde(default)]
+    pub closing_issues: Vec<u64>,
     #[serde(default)]
     pub part_of_issue: Option<u64>,
     #[serde(default)]
@@ -92,9 +99,13 @@ pub struct GithubReadbackReceipt {
     pub repository: String,
     pub issue: u64,
     pub pull_request: u64,
+    #[serde(default)]
+    pub title: Option<String>,
     pub head_sha: String,
     #[serde(default)]
     pub closes_issue: Option<u64>,
+    #[serde(default)]
+    pub closing_issues: Vec<u64>,
     #[serde(default)]
     pub part_of_issue: Option<u64>,
     pub source: RemoteReadbackSource,
@@ -112,6 +123,13 @@ pub struct GithubAdapterReceipt {
     pub credential_names: Vec<String>,
     pub adapter: String,
     pub authenticated: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ObservedRemoteRouteRequest {
+    pub request: RemoteRouteRequest,
+    pub receipts: RemoteRouteReceipts,
+    pub invocation: CommandInvocation,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -213,11 +231,6 @@ fn publication_findings(
             "authenticated_review_receipt_missing",
             "publication requires a repo-contained typed review receipt matching the exact issue, principals, and head",
         ));
-    } else {
-        findings.push(remote_finding(
-            "production_review_receipt_not_implemented",
-            "matching JSON review receipts remain construction evidence until v3 ingests typed review truth from the production review authority",
-        ));
     }
     let expected = request
         .expected_head_sha
@@ -260,6 +273,19 @@ fn publication_findings(
         )),
         _ => {}
     }
+    if matches!(request.mode, Some(RemotePublicationMode::Closing)) {
+        let body_closing_issues = body_closing_issue_references(request.body.as_deref());
+        if body_closing_issues
+            .iter()
+            .any(|issue| *issue != request.issue)
+        {
+            findings.push(remote_finding(
+                "unexpected_closing_relation",
+                "closing publication body must not include GitHub closing-keyword references for issues other than the tracked issue",
+            ));
+        }
+    }
+    findings.extend(pr_state_findings(request, receipts));
     findings
 }
 
@@ -285,17 +311,23 @@ fn pr_state_findings(
             "authenticated_github_adapter_missing",
             "PR state requires a repo-contained authenticated adapter receipt bound to the readback receipt",
         ));
-    } else {
-        findings.push(remote_finding(
-            "production_github_adapter_not_implemented",
-            "matching JSON GitHub receipts remain construction evidence until v3 reads from the production authenticated GitHub adapter",
-        ));
     }
     match request.mode {
         Some(RemotePublicationMode::Closing) if request.closes_issue != Some(request.issue) => {
             findings.push(remote_finding(
                 "missing_closing_readback",
                 "GitHub readback must expose the closing issue relation",
+            ));
+        }
+        Some(RemotePublicationMode::Closing)
+            if request
+                .closing_issues
+                .iter()
+                .any(|issue| *issue != request.issue) =>
+        {
+            findings.push(remote_finding(
+                "unexpected_closing_readback",
+                "GitHub readback must not expose closing relations for issues other than the tracked issue",
             ));
         }
         Some(RemotePublicationMode::PartOf) if request.part_of_issue != Some(request.issue) => {
@@ -345,6 +377,65 @@ fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
         .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
 }
 
+fn body_closing_issue_references(body: Option<&str>) -> Vec<u64> {
+    let Some(body) = body else {
+        return Vec::new();
+    };
+    let lower = body.to_ascii_lowercase();
+    let keywords = [
+        "close", "closes", "closed", "fix", "fixes", "fixed", "resolve", "resolves", "resolved",
+    ];
+    let mut issues = Vec::new();
+    for keyword in keywords {
+        let mut search_start = 0;
+        while let Some(relative) = lower[search_start..].find(keyword) {
+            let keyword_start = search_start + relative;
+            let after_keyword = keyword_start + keyword.len();
+            search_start = after_keyword;
+            if !word_boundary_before(&lower, keyword_start)
+                || !word_boundary_after(&lower, after_keyword)
+            {
+                continue;
+            }
+            if let Some(issue) = parse_issue_after_closing_keyword(&lower[after_keyword..]) {
+                issues.push(issue);
+            }
+        }
+    }
+    issues.sort_unstable();
+    issues.dedup();
+    issues
+}
+
+fn word_boundary_before(text: &str, index: usize) -> bool {
+    index == 0
+        || text[..index]
+            .chars()
+            .next_back()
+            .is_none_or(|ch| !ch.is_ascii_alphanumeric() && ch != '_')
+}
+
+fn word_boundary_after(text: &str, index: usize) -> bool {
+    index == text.len()
+        || text[index..]
+            .chars()
+            .next()
+            .is_none_or(|ch| !ch.is_ascii_alphanumeric() && ch != '_')
+}
+
+fn parse_issue_after_closing_keyword(rest: &str) -> Option<u64> {
+    let rest = rest.trim_start();
+    let digits = rest.strip_prefix('#')?;
+    let digits = digits
+        .chars()
+        .take_while(|ch| ch.is_ascii_digit())
+        .collect::<String>();
+    if digits.is_empty() {
+        return None;
+    }
+    digits.parse().ok()
+}
+
 fn has_issue_relation_prefix(line: &str, prefix: &str) -> bool {
     let Some(rest) = line.strip_prefix(prefix) else {
         return false;
@@ -382,8 +473,15 @@ pub fn github_readback_receipt_payload_digest(receipt: &GithubReadbackReceipt) -
         &receipt.repository,
         &receipt.issue.to_string(),
         &receipt.pull_request.to_string(),
+        receipt.title.as_deref().unwrap_or_default(),
         &receipt.head_sha,
         &receipt.closes_issue.unwrap_or_default().to_string(),
+        &receipt
+            .closing_issues
+            .iter()
+            .map(u64::to_string)
+            .collect::<Vec<_>>()
+            .join(","),
         &receipt.part_of_issue.unwrap_or_default().to_string(),
         match receipt.source {
             RemoteReadbackSource::Github => "github",
@@ -410,6 +508,142 @@ pub fn github_adapter_receipt_payload_digest(receipt: &GithubAdapterReceipt) -> 
             "unauthenticated"
         },
     ])
+}
+
+pub fn observe_github_pr_readback(
+    request: &RemoteRouteRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<ObservedRemoteRouteRequest, RemoteRouteFinding> {
+    let pull_request = request.pull_request.ok_or_else(|| {
+        remote_finding(
+            "missing_pull_request",
+            "authenticated GitHub observation requires a concrete pull request number",
+        )
+    })?;
+    let credential_name = single_credential_name(request)?;
+    validate_repository_name(&request.repository)?;
+
+    let invocation = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        [
+            "pull-request".to_owned(),
+            request.repository.clone(),
+            pull_request.to_string(),
+        ],
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_observation_invocation_rejected",
+            "authenticated GitHub observation must use structured argv without shell strings or secrets",
+        )
+    })?
+    .with_child_credential(credential_name)
+    .map_err(|_| {
+        remote_finding(
+            "github_credential_scope_invalid",
+            "GitHub credential names must be explicit safe child-process environment names",
+        )
+    })?;
+    let output = process.run(invocation.clone());
+    if output.truncated {
+        return Err(remote_finding(
+            "github_observation_truncated",
+            "GitHub readback output was truncated and cannot be authoritative input",
+        ));
+    }
+    if output.status != ProcessStatus::Exit(0) {
+        return Err(remote_finding(
+            "github_observation_failed",
+            "GitHub readback adapter did not complete successfully",
+        ));
+    }
+    let value: serde_json::Value = serde_json::from_str(&output.stdout).map_err(|_| {
+        remote_finding(
+            "github_observation_invalid_json",
+            "GitHub readback adapter returned non-JSON output",
+        )
+    })?;
+    let number = value["number"].as_u64().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_pr_number",
+            "GitHub pull request readback did not include a PR number",
+        )
+    })?;
+    if number != pull_request {
+        return Err(remote_finding(
+            "github_observation_pr_mismatch",
+            "GitHub pull request readback number does not match the requested PR",
+        ));
+    }
+    let head_sha = value["head"]["sha"].as_str().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_head",
+            "GitHub pull request readback did not include head.sha",
+        )
+    })?;
+    let title = value["title"].as_str().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_title",
+            "GitHub pull request readback did not include title",
+        )
+    })?;
+    if title.trim().is_empty() {
+        return Err(remote_finding(
+            "github_observation_missing_title",
+            "GitHub pull request readback title was empty",
+        ));
+    }
+    let body = value["body"].as_str().unwrap_or_default();
+    let closes_issue =
+        body_has_relation(Some(body), "Closes", request.issue).then_some(request.issue);
+    let closing_issues = body_closing_issue_references(Some(body));
+    let part_of_issue = (body_has_relation(Some(body), "Part of", request.issue)
+        || body_has_relation(Some(body), "Part-Of", request.issue))
+    .then_some(request.issue);
+    let readback = GithubReadbackReceipt {
+        schema: "csdlc.v3.github_readback_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request,
+        title: Some(title.to_owned()),
+        head_sha: head_sha.to_owned(),
+        closes_issue,
+        closing_issues: closing_issues.clone(),
+        part_of_issue,
+        source: RemoteReadbackSource::Github,
+        observed_by: GITHUB_READ_ONLY_ADAPTER.into(),
+    };
+    let readback_digest = github_readback_receipt_payload_digest(&readback);
+    let adapter = GithubAdapterReceipt {
+        schema: "csdlc.v3.github_adapter_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request,
+        head_sha: head_sha.to_owned(),
+        readback_receipt_digest: readback_digest.clone(),
+        credential_names: request.credential_names.clone(),
+        adapter: GITHUB_READ_ONLY_ADAPTER.into(),
+        authenticated: true,
+    };
+    let adapter_digest = github_adapter_receipt_payload_digest(&adapter);
+    let mut observed = request.clone();
+    observed.title = Some(title.to_owned());
+    observed.head_sha = Some(head_sha.to_owned());
+    observed.readback_source = Some(RemoteReadbackSource::Github);
+    observed.readback_receipt_digest = Some(readback_digest);
+    observed.adapter_receipt_digest = Some(adapter_digest);
+    observed.closes_issue = closes_issue;
+    observed.closing_issues = closing_issues;
+    observed.part_of_issue = part_of_issue;
+    Ok(ObservedRemoteRouteRequest {
+        request: observed,
+        receipts: RemoteRouteReceipts {
+            typed_review: None,
+            github_readback: Some(readback),
+            adapter: Some(adapter),
+        },
+        invocation,
+    })
 }
 
 fn typed_review_receipt_matches(
@@ -442,13 +676,31 @@ fn github_readback_receipt_matches(
         && receipt.repository == request.repository
         && receipt.issue == request.issue
         && Some(receipt.pull_request) == request.pull_request
+        && title_matches(receipt.title.as_deref(), request.title.as_deref())
         && Some(receipt.head_sha.as_str()) == request.head_sha.as_deref()
         && receipt.closes_issue == request.closes_issue
+        && receipt.closing_issues == request.closing_issues
         && receipt.part_of_issue == request.part_of_issue
         && receipt.source == RemoteReadbackSource::Github
-        && !receipt.observed_by.trim().is_empty()
+        && receipt.observed_by == GITHUB_READ_ONLY_ADAPTER
         && request.readback_receipt_digest.as_deref()
             == Some(github_readback_receipt_payload_digest(receipt).as_str())
+}
+
+fn title_matches(receipt_title: Option<&str>, request_title: Option<&str>) -> bool {
+    let Some(receipt_title) = receipt_title
+        .map(str::trim)
+        .filter(|title| !title.is_empty())
+    else {
+        return false;
+    };
+    let Some(request_title) = request_title
+        .map(str::trim)
+        .filter(|title| !title.is_empty())
+    else {
+        return false;
+    };
+    receipt_title == request_title
 }
 
 fn github_adapter_receipt_matches(
@@ -470,10 +722,45 @@ fn github_adapter_receipt_matches(
         && adapter.readback_receipt_digest == readback_digest
         && adapter.credential_names == request.credential_names
         && !adapter.credential_names.is_empty()
-        && adapter.adapter == "github"
+        && adapter.adapter == GITHUB_READ_ONLY_ADAPTER
         && adapter.authenticated
         && request.adapter_receipt_digest.as_deref()
             == Some(github_adapter_receipt_payload_digest(adapter).as_str())
+}
+
+fn single_credential_name(request: &RemoteRouteRequest) -> Result<String, RemoteRouteFinding> {
+    match request.credential_names.as_slice() {
+        [name] => Ok(name.clone()),
+        [] => Err(remote_finding(
+            "github_credential_missing",
+            "authenticated GitHub observation requires exactly one credential name",
+        )),
+        _ => Err(remote_finding(
+            "github_credential_ambiguous",
+            "authenticated GitHub observation requires one unambiguous credential name",
+        )),
+    }
+}
+
+fn validate_repository_name(repository: &str) -> Result<(), RemoteRouteFinding> {
+    let Some((owner, name)) = repository.split_once('/') else {
+        return Err(remote_finding(
+            "github_repository_invalid",
+            "repository must be owner/name for GitHub readback",
+        ));
+    };
+    if owner.is_empty()
+        || name.is_empty()
+        || repository
+            .chars()
+            .any(|ch| !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/')))
+    {
+        return Err(remote_finding(
+            "github_repository_invalid",
+            "repository contains characters that cannot be used in structured GitHub readback",
+        ));
+    }
+    Ok(())
 }
 
 pub fn load_remote_route_receipts(
