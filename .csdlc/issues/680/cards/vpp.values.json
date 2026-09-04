@@ -7,7 +7,7 @@
     "title": "[provider] Add first-class Moonshot/Kimi K3 provider support",
     "slug": "moonshot-kimi-k3-provider",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "ready",
   "content": {

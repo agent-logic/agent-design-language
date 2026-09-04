@@ -12,17 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/src/provider/http_family.rs
-adl/src/provider/mod.rs
-adl/src/provider/profiles.rs
-adl/src/provider_adapter.rs
-adl/src/provider_communication.rs
-adl/src/provider_substrate.rs
-adl/src/cli/provider_cmd.rs
-adl/src/cli/usage.rs
-docs/tooling/PROVIDER_SETUP.md
-adl/tests/provider_moonshot_kimi_k3.rs
-.csdlc/evidence/680
+
 
 ## Prompts
 
