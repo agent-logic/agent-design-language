@@ -402,7 +402,28 @@ fn validate_install(
             ));
         }
     }
-    let _ = observed_ref_digest(evidence_root, &install.source_provenance_ref, findings);
+    if let Some(bytes) = observed_ref_bytes(evidence_root, &install.source_provenance_ref, findings)
+    {
+        let observed_source = serde_json::from_slice::<serde_json::Value>(&bytes)
+            .ok()
+            .and_then(|value| {
+                value
+                    .get("source")
+                    .and_then(serde_json::Value::as_str)
+                    .map(str::to_owned)
+            });
+        match observed_source {
+            Some(source) if source == install.source_provenance => {}
+            Some(_) => findings.push(finding(
+                "install_source_provenance_mismatch",
+                "install source provenance must match the referenced provenance evidence",
+            )),
+            None => findings.push(finding(
+                "install_source_provenance_invalid",
+                "install source provenance evidence must be typed JSON with a source string",
+            )),
+        }
+    }
     if !install.stable_destination || install.destination.contains("/target/") {
         findings.push(finding(
             "install_destination_not_stable",
@@ -433,6 +454,15 @@ fn observed_ref_digest(
     evidence_ref: &str,
     findings: &mut Vec<ProofRouteFinding>,
 ) -> Option<String> {
+    observed_ref_bytes(evidence_root, evidence_ref, findings)
+        .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
+}
+
+fn observed_ref_bytes(
+    evidence_root: Option<&str>,
+    evidence_ref: &str,
+    findings: &mut Vec<ProofRouteFinding>,
+) -> Option<Vec<u8>> {
     let Some(root) = evidence_root else {
         findings.push(finding(
             "evidence_root_missing",
@@ -487,7 +517,7 @@ fn observed_ref_digest(
         return None;
     }
     match fs::read(&evidence_canonical) {
-        Ok(bytes) => Some(blake3::hash(&bytes).to_hex().to_string()),
+        Ok(bytes) => Some(bytes),
         Err(_) => {
             findings.push(finding(
                 "evidence_ref_unreadable",

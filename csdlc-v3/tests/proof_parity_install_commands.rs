@@ -335,4 +335,44 @@ fn install_route_is_one_binary_plan_gated_by_505() {
         }),
         "install_observed_binary_digest_mismatch",
     );
+    let (root, artifact_digest) = write_evidence(
+        ".csdlc/evidence/631/install/forged-provenance-csdlc",
+        b"forged provenance artifact bytes",
+    );
+    fs::write(
+        root.join(".csdlc/evidence/631/install/forged-selector.json"),
+        br#"{"selected":"csdlc"}"#,
+    )
+    .expect("write selector metadata");
+    let selector_digest = blake3::hash(br#"{"selected":"csdlc"}"#)
+        .to_hex()
+        .to_string();
+    fs::write(
+        root.join(".csdlc/evidence/631/install/forged-provenance.json"),
+        br#"{"source":"git:real-source"}"#,
+    )
+    .expect("write install provenance");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": ".csdlc/evidence/631/install/forged-provenance-csdlc",
+            "source_provenance_ref": ".csdlc/evidence/631/install/forged-provenance.json",
+            "selector_metadata_ref": ".csdlc/evidence/631/install/forged-selector.json",
+            "source_provenance": "git:caller-forged-source",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": false
+          }
+        }),
+        "install_source_provenance_mismatch",
+    );
 }
