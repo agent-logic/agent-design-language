@@ -4,29 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "985c960626aa3e1fef6b7ad652b5062189e69c39c5fe81641d1fa8052894f532",
+  "generation": 23,
+  "digest": "b84c1f731a35828a963e03731473d450324a5cf50074e7b698a78e0b8a3903b7",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_631_binary_checkout_binding",
-    "assigned_by": "codex:worker-6:sprint6-v3h5-binary-checkout-binding",
-    "revision": "git-blake3:86d74bd62fec9a0e4f6873dd3ef7dd9c458750bd:edf83ff99b0e518cb34688d63a94da6487848bc1cddb5e4a92a6d602e3ebc73b",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/remote_publication_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      "docs/csdlc-v3/full-replacement-denominator.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -42,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dae6f6b28eb2bfb54ed89d22d6d7f4851a6a6e78779b5f3cd372c27c1a5710f8",
+      "values_digest": "0b415b9e489ae66068607d14ed06b1a4ca939291b7be1d22b91da547d808064e",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "d2517f46d7d0206d13f92fa7e3cc8682bd44253f57bb42106a441db7c4241307",
+      "values_digest": "f1e87ce42bdeced1a80cd19bfc83af001cd237773bb1dd460e04e502f249e1d7",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "35fbf68f9b9cb8b28f115e78230481fae0cff0f18d1f7ed1c41a8ee2fdb07668",
+      "values_digest": "f64058fcdf2da5f9d5b154d3c3bab1a434b11f0ff7ed895afd7d6660813f96ab",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "b5caf581539fa7d024a93f6d276a095892897d6b43d25f62613cf5b93e56dcfe",
+      "values_digest": "9e2241f49b5399cf48090cfc7049d1efb9527835e19fc6abcd95a0a4ffdaf589",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "9fdf205cad4e7caa5329543e52f492c9dffb1e1623afd2bb2327b1e719bc8328",
-      "rendered_digest": "899996636ad7a620e48262c977760c7f0979a51149ac0b99dde9012324c1d05f",
-      "ast_digest": "07cc3533bd700aecb80564b9371be95025681983cf4a721cdfcbf927655840f6"
+      "values_digest": "9a7cb0300e1dbc74987e08ad6734ddfc10baa4647972d422563d6fc6fab77c88",
+      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
+      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
     },
     "sor": {
-      "values_digest": "a22195c7fe096cb757c6adf532b9b98d0c34bcaf66757791dfd51cebdada7424",
+      "values_digest": "132444f23cf3d03d3bda865f7787ef3764d6e7eb4235ef64db6d7d4047aa908a",
       "rendered_digest": "40ad4335b833a24cc3704883b561c87a8e7592679e66ffe072f2d9569a166d7d",
       "ast_digest": "024dd561c9036c26f50666b67b1cc0f83ae7a4ad9bcfb596cb19c4255231f93a"
     }
@@ -424,6 +406,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-binary-checkout-binding",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 23,
+      "actor": "codex:worker-6:sprint6-v3h5-typed-provenance",
+      "reason": "Recover stale #631 review assignment after removing the caller-cwd proof root fallback and requiring typed install provenance evidence.",
+      "operation": "recover_review"
     }
   ]
 }
