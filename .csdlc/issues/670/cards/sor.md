@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-The paid GCP run at revision 542f8c1 reached full two-node Polis readiness in 930 seconds, served six real Runtime agent and ACC tool cycles across two resident models, and ended with zero disposable resources plus two retained snapshots at a conservative USD 11.55 upper bound. Later controller hardening is proven by focused static and unit validation and is not represented as a second paid run.
+Resolved the R7 deadline-guard process-tree finding by waiting after process-group KILL and proving a TERM-resistant provider child is gone before accepting deadline enforcement.
 
 ## Artifacts
 
@@ -23,6 +23,8 @@ The paid GCP run at revision 542f8c1 reached full two-node Polis readiness in 93
 - .csdlc/evidence/670/live/residual-inventory-g670b.json
 - .csdlc/evidence/670/live/cost-upper-bound.json
 - .csdlc/evidence/670/live/remediation-proof-boundary.json
+- infra/gcp/workloads/warm-polis/deadline-guard.sh
+- infra/gcp/workloads/warm-polis/tests/validate-deadline-guard.sh
 
 ## Execution
 
@@ -39,6 +41,9 @@ The paid GCP run at revision 542f8c1 reached full two-node Polis readiness in 93
 - Made cleanup enumerate issue and generation scoped instances, disks, firewalls, images, and addresses, prove the exact two-snapshot retained set, and independently retained a matching live residual inventory.
 - Configured separately managed warm data-disk attachments to be ignored by instance drift reconciliation, preventing Terraform from planning their removal.
 - Made the focused validator initialize all Terraform roots itself and then execute format, validate and test lanes, shell policy tests, receipt parsing, and diff hygiene.
+- After a paid operation exceeds its immutable deadline, wait briefly after process-group KILL so process-tree termination is observed before returning.
+- Extend the deadline-guard regression to poll the TERM-resistant child after the guard returns and fail if it remains alive.
+- Keep historical paid GCP qualification evidence separate from this current deterministic guard remediation.
 
 ## Validation
 
@@ -101,6 +106,15 @@ The paid GCP run at revision 542f8c1 reached full two-node Polis readiness in 93
     "purpose": "Prove exact six-agent execution, two resident models, private-only networking, launch timing, cleanup, and snapshot-set truth.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/670/live/launch-g670b.json"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/670/validate-preparation.sh"
+    ],
+    "purpose": "Prove Terraform preparation checks, deadline guard termination behavior, cleanup policy checks, receipt parsing, and diff hygiene after the R7 remediation.",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork output: paid operation exceeded the immutable qualification deadline; issue670_preparation=pass"
   }
 ]
 

@@ -21,6 +21,10 @@ adl_run_paid_operation() {
       done
       kill -KILL -- "-$operation_pid" 2>/dev/null || true
       kill -KILL "$operation_pid" 2>/dev/null || true
+      for _ in 1 2 3 4 5; do
+        kill -0 -- "-$operation_pid" 2>/dev/null || break
+        sleep 0.2
+      done
       wait "$operation_pid" 2>/dev/null || true
       echo "paid operation exceeded the immutable qualification deadline" >&2
       return 124

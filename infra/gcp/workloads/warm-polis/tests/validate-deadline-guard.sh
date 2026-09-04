@@ -24,6 +24,10 @@ else
 fi
 [ "$rc" -eq 124 ]
 child_pid="$(cat "$state_dir/child.pid")"
+for _ in 1 2 3 4 5 6 7 8 9 10; do
+  ! kill -0 "$child_pid" 2>/dev/null && break
+  sleep 0.2
+done
 ! kill -0 "$child_pid" 2>/dev/null || {
   kill -KILL "$child_pid" 2>/dev/null || true
   echo "deadline guard orphaned a TERM-resistant provider child" >&2

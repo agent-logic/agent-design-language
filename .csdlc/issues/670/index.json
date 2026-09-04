@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9368b813ad731dd962fec73c535984664e7713ffa877b66bd091b84f1d56961a",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "f2c2e709807a746b805fd185d7a9dece6724eee52bcd37e6483914cdb9a5618f",
+  "generation": 28,
+  "digest": "23f66d28f65994e3da123f060c7c35c138b28ecffe882424adfdec518f1b6244",
   "branch": "codex/670-gcp-warm-polis-live-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-670-gcp-warm-polis-live-qualification",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "48864b42ff8afcc6e162173b5f9bd1fb40958ed60e0ba0b41c03589980c57af8",
+      "values_digest": "e28ab796a8a6e34057b60fd505b13a27395ff059a37f7528d52586f6d7ecb38a",
       "rendered_digest": "b7fc096216f2a97613baad2fb438102c17ce3bac77d04aed26a7574442c43bb3",
       "ast_digest": "9ede6543cc3750b7b14708e40cb6f2ee0dbc29d1031114821a7c413bb971bd16"
     },
     "stp": {
-      "values_digest": "c974c1b929b91e4fdecf11191f21852e07e49353194624be30f5190d5c570dd8",
+      "values_digest": "ec53ea7891d0f8751f35a504ac99d7cfdfdca8a06a5cba4dd0be699dc8e8c61f",
       "rendered_digest": "9baaed8752a7289373b6927e65aa182bbc721e20634d23cf674f414089bfd699",
       "ast_digest": "2e9b385f585f245b4aea4b17a2dbf87850654a783869d66defca7810a1ed424e"
     },
     "spp": {
-      "values_digest": "de00979d054ccd7ae09b5d96859746d1ea7010b9bea04152f99a184ecaee7e7e",
+      "values_digest": "858486a7794f7c7039a9897208e637cc9c126e0ebfe52fd194194f434c54fa41",
       "rendered_digest": "db754bf3f56e29967dd9a034fae6eacee71e11b5b527b6607e11db83069ab13a",
       "ast_digest": "ac3fcfdccbdbe1ed837e1d200df7039327e0ba7a503f69ec0ffcde1bbc53f1d5"
     },
     "vpp": {
-      "values_digest": "b8b0b90ac8898dae1413f8a71bcc5dee25bccb322030957e56ea9b70808c0f72",
+      "values_digest": "e4064aaf1f8ce50842062031ce586a92890b3699b017c73472668678a4497358",
       "rendered_digest": "6cba07df324cc1b0a335314613c8d86902482e25c520ddaf99b395eb6f25be6e",
       "ast_digest": "f1e90a3047a9085f125c1939bd5ba9519dfb0828437d6647693bdf58adbdafb2"
     },
     "srp": {
-      "values_digest": "97092074d9d0872b1fbc7d5244baabad2c7adadf661be76f856100653a32dd55",
+      "values_digest": "49306913ad7872eaa2c113a1d9ac1d4b0e80b0c97266821e4463158596dcada5",
       "rendered_digest": "24e35934091f8959a9172e11a54016416ed2e3c81c5627d2c1c9b7db51c19bdd",
       "ast_digest": "6dcf3f15ea57a289db37cb0e1007fdc9757a44b2c859e2a6e3b9076fac2db8bb"
     },
     "sor": {
-      "values_digest": "19fc1b9b4f7e3e03226c22198dab3bc2446b82a21718fe46cd16db946b0246af",
-      "rendered_digest": "35fa9a1482488a604d3285aa1b6f6c0f0229d72058537a4d1730bb5c0f826bd0",
-      "ast_digest": "6f0fdf813ff71f756cc74506221592f55c72385bb8d7d812cbfbadfb5f2fe154"
+      "values_digest": "5629de61f40f840c605cab9eaf2a9162535dc97675d4216397512e37c27dd398",
+      "rendered_digest": "3f0fe4487e5f7688d5491732b348b384249381bf7ff211aa008d8adc0f03dafa",
+      "ast_digest": "89c023850c14e5f8e7ebc321338cd478169661c57afd0d1aed08be59ac6b509c"
     }
   },
   "transitions": [
@@ -302,6 +302,41 @@
       "actor": "codex:/root",
       "reason": "Recover stale pre-merge review assignment before refreshing #670 against current origin/main and assigning a new exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover the R7 P1 deadline-guard review failure before recording the deterministic guard/test remediation and assigning a fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Record the R7 deadline-guard remediation before assigning a fresh exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved the R7 deadline-guard process-tree finding by waiting after process-group KILL and proving a TERM-resistant provider child is gone before accepting deadline enforcement.\",\"changes\":[\"After a paid operation exceeds its immutable deadline, wait briefly after process-group KILL so process-tree termination is observed before returning.\",\"Extend the deadline-guard regression to poll the TERM-resistant child after the guard returns and fail if it remains alive.\",\"Keep historical paid GCP qualification evidence separate from this current deterministic guard remediation.\"],\"artifacts\":[\"infra/gcp/workloads/warm-polis/deadline-guard.sh\",\"infra/gcp/workloads/warm-polis/tests/validate-deadline-guard.sh\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "Record the focused validation for the R7 deadline-guard remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/670/validate-preparation.sh\"],\"purpose\":\"Prove Terraform preparation checks, deadline guard termination behavior, cleanup policy checks, receipt parsing, and diff hygiene after the R7 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork output: paid operation exceeded the immutable qualification deadline; issue670_preparation=pass\"}}"
     }
   ]
 }

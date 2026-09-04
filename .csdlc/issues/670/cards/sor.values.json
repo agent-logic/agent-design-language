@@ -7,13 +7,13 @@
     "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
     "slug": "gcp-warm-polis-live-qualification",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 28
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "The paid GCP run at revision 542f8c1 reached full two-node Polis readiness in 930 seconds, served six real Runtime agent and ACC tool cycles across two resident models, and ended with zero disposable resources plus two retained snapshots at a conservative USD 11.55 upper bound. Later controller hardening is proven by focused static and unit validation and is not represented as a second paid run.",
+      "summary": "Resolved the R7 deadline-guard process-tree finding by waiting after process-group KILL and proving a TERM-resistant provider child is gone before accepting deadline enforcement.",
       "actual_changes": [
         "Made the issue preflight use immutable company project, central region and zone, L4, USD 20, USD 2 hourly envelope, eight-hour paid window, and USD 4 storage reserve authority.",
         "Coupled preparation, snapshot catalog, and launch inputs to that fixed preflight authority before any paid create or apply while keeping exact-project cleanup independently available.",
@@ -27,7 +27,10 @@
         "Expanded the durable launch receipt with project, topology, snapshots, GPU, network, resident-model, six-agent, boot-identity, and timing truth.",
         "Made cleanup enumerate issue and generation scoped instances, disks, firewalls, images, and addresses, prove the exact two-snapshot retained set, and independently retained a matching live residual inventory.",
         "Configured separately managed warm data-disk attachments to be ignored by instance drift reconciliation, preventing Terraform from planning their removal.",
-        "Made the focused validator initialize all Terraform roots itself and then execute format, validate and test lanes, shell policy tests, receipt parsing, and diff hygiene."
+        "Made the focused validator initialize all Terraform roots itself and then execute format, validate and test lanes, shell policy tests, receipt parsing, and diff hygiene.",
+        "After a paid operation exceeds its immutable deadline, wait briefly after process-group KILL so process-tree termination is observed before returning.",
+        "Extend the deadline-guard regression to poll the TERM-resistant child after the guard returns and fail if it remains alive.",
+        "Keep historical paid GCP qualification evidence separate from this current deterministic guard remediation."
       ],
       "artifacts": [
         ".csdlc/evidence/670/live/preflight.json",
@@ -36,7 +39,9 @@
         ".csdlc/evidence/670/live/cleanup-g670b.json",
         ".csdlc/evidence/670/live/residual-inventory-g670b.json",
         ".csdlc/evidence/670/live/cost-upper-bound.json",
-        ".csdlc/evidence/670/live/remediation-proof-boundary.json"
+        ".csdlc/evidence/670/live/remediation-proof-boundary.json",
+        "infra/gcp/workloads/warm-polis/deadline-guard.sh",
+        "infra/gcp/workloads/warm-polis/tests/validate-deadline-guard.sh"
       ],
       "actual_validation": [
         {
@@ -97,6 +102,15 @@
           "purpose": "Prove exact six-agent execution, two resident models, private-only networking, launch timing, cleanup, and snapshot-set truth.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/670/live/launch-g670b.json"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/670/validate-preparation.sh"
+          ],
+          "purpose": "Prove Terraform preparation checks, deadline guard termination behavior, cleanup policy checks, receipt parsing, and diff hygiene after the R7 remediation.",
+          "outcome": "passed",
+          "evidence_ref": "local FastWork output: paid operation exceeded the immutable qualification deadline; issue670_preparation=pass"
         }
       ],
       "integration_state": "worktree_only",

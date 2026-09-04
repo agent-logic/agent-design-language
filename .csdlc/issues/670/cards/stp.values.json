@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
     "slug": "gcp-warm-polis-live-qualification",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 28
   },
   "status": "ready",
   "content": {
