@@ -4,27 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "fc80893ca21883636c484ea7d9484a05e94e3421949d67953a1a63b0f2a24a38",
+  "generation": 20,
+  "digest": "0afa1995d4f8d840dce00c645b6704765eb4b26bdbba52d2d12d15ac87328363",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_631_install_provenance_fix",
-    "assigned_by": "codex:worker-6:sprint6-v3h5-provenance-fix",
-    "revision": "git-blake3:3aadc6faf05d9b03ecf49b4e1d3d3d03877ff7f0:3d0c6f0eb88bb0cddea2d9473c61938922db35eaf80e0793aa18b03bc98e9053",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/remote_publication_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/v3-command-manifest.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -40,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "39dbee3722af1191e3680a057e0d431480beba483dccad693310e43248929b92",
+      "values_digest": "e7229c63ecb746ecae7915b8221446ad76abfd5180bfbe7e224d983f509c3f84",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "fbc1ef4ff5cedfab2ca01b764011366e33ef63abdae67d129fde9f5947329c29",
+      "values_digest": "052440518472c01b122ccfcfa473edc2eea58147e6b5131d0059801317e6b76f",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "f6273cb163dc7e0cc9a081743facefb54a63e90301e47fbecea041ce05a2e128",
+      "values_digest": "767347724f32940aa2918b7601af4a09070f2fcb072f0d9993f7013ad15bedee",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "852262d73b024b878974e84fbbd26f01a7787bc2a9baf966b94deeaa8b311bb4",
+      "values_digest": "97d97905f42848ce7fc914bb0320357a1166ec2909740d7d47983b7a609c9fb5",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "509225aaad500b6fe7041f3afb4ab89fffd0262bb393f5d779a9492fe76702fe",
-      "rendered_digest": "c3de2a81e8ccd96203052c7a97a8ead4d246515de51462309f9e5d431187b527",
-      "ast_digest": "4fda94755960488df815f00b26b163e2c55c8fd82fd48a6eecdbcf550a1c6194"
+      "values_digest": "2cc5bb888c8a504b39ba247d956d283f1d76211d6472370bb6a50662aa30327d",
+      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
+      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
     },
     "sor": {
-      "values_digest": "1dc4b3da688def4c82f61a50383efadf3f007d81520539e524eb7e89c87fb94f",
-      "rendered_digest": "768429af9f40f74a8aa63c15183bf03a3c2c8d0abe39432200b21400de49ef42",
-      "ast_digest": "b01df425777a70c6ec01258405b2afd980e56480413d603ade1a315ffe53957e"
+      "values_digest": "2d54e4aa656dd294fb5627f34542dd2e2848930259c81f2450458afd38723352",
+      "rendered_digest": "4cd398829deaf464368b171251700a7770ee2390607899cdf2010d74f109c913",
+      "ast_digest": "2e2e1656791d34185fcddde5d41b2a8dfb236c31f6a2c663ac28b0f51e82e782"
     }
   },
   "transitions": [
@@ -380,6 +364,20 @@
       "actor": "codex:worker-6:sprint6-v3h5-provenance-fix",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 19,
+      "actor": "codex:worker-6:sprint6-v3h5-evidence-root-fix",
+      "reason": "Recover stale #631 review assignment after binding proof and install evidence roots to the discovered repository root.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 20,
+      "actor": "codex:worker-6:sprint6-v3h5-evidence-root-fix",
+      "reason": "Refresh #631 execution truth after binding proof/install evidence roots to the discovered repository root and include the full denominator and real-issue canary artifacts in the SOR.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary and binding proof/install evidence to the discovered repository root.\",\"changes\":[\"Added a typed csdlc-v3 proof command module for proof, shadow, soak, and install route request classification.\",\"Routed csdlc proof, shadow, soak, and install through implemented-construction CLI handling that emits machine-readable non-authoritative JSON reports.\",\"Kept all four routes read-only and blocked from lifecycle authority, provider side effects, binary installation, selector mutation, GitHub mutation, or #505 cutover.\",\"Updated the one-binary v3 command manifest and manifest tests so #631-owned routes no longer appear as placeholder fail-closed or partial routes.\",\"Replaced the placeholder #631 canary with behavior tests covering positive and negative proof, bounded shadow parity, soak hidden-state denial, full-replacement denominator status, and one-binary install gating.\",\"Bound proof/install evidence roots to the discovered Git repository root and rejected request-controlled scratch evidence roots even when their internal artifact, selector, and provenance bytes are self-consistent.\"],\"artifacts\":[\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_parity_install_commands\"],\"purpose\":\"Run the focused #631 proof, shadow, soak, and install behavior tests, including caller-forged provenance and scratch-root rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:69ce09689:4-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Verify one-binary command manifest exposure and the full-replacement denominator canary after the evidence-root hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:69ce09689:11-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the evidence-root hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:69ce09689:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker artifacts before refreshed review.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:69ce09689:passed\"}]}"
     }
   ]
 }
