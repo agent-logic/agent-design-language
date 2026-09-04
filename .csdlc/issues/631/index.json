@@ -5,10 +5,28 @@
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
   "generation": 22,
-  "digest": "dd2c57d54e4adcda06e97959674a3097a870f0b229857ff3b1200601484718f1",
+  "digest": "985c960626aa3e1fef6b7ad652b5062189e69c39c5fe81641d1fa8052894f532",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_631_binary_checkout_binding",
+    "assigned_by": "codex:worker-6:sprint6-v3h5-binary-checkout-binding",
+    "revision": "git-blake3:86d74bd62fec9a0e4f6873dd3ef7dd9c458750bd:edf83ff99b0e518cb34688d63a94da6487848bc1cddb5e4a92a6d602e3ebc73b",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +62,9 @@
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "0efe7cef20f24cdef9e257c5128fd10eb75e26f250ce9440ddf1808178598021",
-      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
-      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
+      "values_digest": "9fdf205cad4e7caa5329543e52f492c9dffb1e1623afd2bb2327b1e719bc8328",
+      "rendered_digest": "899996636ad7a620e48262c977760c7f0979a51149ac0b99dde9012324c1d05f",
+      "ast_digest": "07cc3533bd700aecb80564b9371be95025681983cf4a721cdfcbf927655840f6"
     },
     "sor": {
       "values_digest": "a22195c7fe096cb757c6adf532b9b98d0c34bcaf66757791dfd51cebdada7424",
@@ -399,6 +417,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-binary-checkout-binding",
       "reason": "Refresh #631 execution truth after binding proof/install evidence to the binary checkout repository root.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary and binding proof/install evidence to the binary checkout repository root.\",\"changes\":[\"Added a typed csdlc-v3 proof command module for proof, shadow, soak, and install route request classification.\",\"Routed csdlc proof, shadow, soak, and install through implemented-construction CLI handling that emits machine-readable non-authoritative JSON reports.\",\"Kept all four routes read-only and blocked from lifecycle authority, provider side effects, binary installation, selector mutation, GitHub mutation, or #505 cutover.\",\"Updated the one-binary v3 command manifest and manifest tests so #631-owned routes no longer appear as placeholder fail-closed or partial routes.\",\"Replaced the placeholder #631 canary with behavior tests covering positive and negative proof, bounded shadow parity, soak hidden-state denial, full-replacement denominator status, and one-binary install gating.\",\"Bound proof/install evidence roots to the repository root discovered from the csdlc binary path and rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent.\"],\"artifacts\":[\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_parity_install_commands\"],\"purpose\":\"Run the focused #631 proof, shadow, soak, and install behavior tests, including caller-forged provenance and caller-controlled scratch-root rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:eb71b2eed:4-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Verify one-binary command manifest exposure and the full-replacement denominator canary after the binary-checkout binding.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:eb71b2eed:11-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the binary-checkout binding.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:eb71b2eed:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker artifacts before refreshed review.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:eb71b2eed:passed\"}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 22,
+      "actor": "codex:worker-6:sprint6-v3h5-binary-checkout-binding",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
