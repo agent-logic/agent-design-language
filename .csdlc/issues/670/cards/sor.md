@@ -121,11 +121,11 @@ The historical paid GCP run reached full two-node Polis readiness in 930 seconds
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
