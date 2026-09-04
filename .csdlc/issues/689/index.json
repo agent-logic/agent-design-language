@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 689,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a0087aa888361a1dd039d5ef99d929b3f7bc8a63a27294756b700ee8c37210d6",
+  "phase": "ready",
+  "generation": 6,
+  "digest": "7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/689/design.md",
+  "diagram_path": ".csdlc/prepared/issues/689/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:3c5e3314-34a7-41b5-bebf-8f5b73bf91b5",
+      "revision": "7069adcc2ed6664ad1582c3ea43340c842b7179f132c98a76b6098b99bee2137"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "baa87e50cd3c69a53d9535172db9480e28421ae0b96f2eaef2a759f0c35505f9",
+      "rendered_digest": "b8143a9b06847f14cdad60c5a22e537498d3a8b64535b4f268f4ef2be3adcc81",
+      "ast_digest": "21f37d078ffb67354c9fb12935fbb6333963c678b0538c40e429ef75c3051601"
+    },
+    "stp": {
+      "values_digest": "a80589bffdfcf9cdaf1b889472080c27071595908384541137a43bde751ebe58",
+      "rendered_digest": "d00972b6e802960a768b67adf5326c74b60d17e413cb7ed2f15c9940e40d3ca3",
+      "ast_digest": "9d8979682230b61e5fa3da84c648a03a051da01878b88ae4ac4d577ac8aac266"
+    },
+    "spp": {
+      "values_digest": "cf0bd33c4d2750e1eafbb743b083235aa6e6f24b41be869fca224772e0ae316f",
+      "rendered_digest": "ba6ca2e13e0011b1eba336b040e918091cd05cdcf7cd5369d03fd8df2f25e205",
+      "ast_digest": "4239df6b7c4e8f305161cdaeeaa69d37d884beff8a3c4956cf8ab649c7cce5fa"
+    },
+    "vpp": {
+      "values_digest": "ec17e6eddb310fb7ec24baf6b5c1c6f93b1eb86fd9f0142ee809a7bbef1a2f7c",
+      "rendered_digest": "f778cd8e26cf48d1145ec733d42ebada181c43488426bb4100218adf3d95b689",
+      "ast_digest": "cd1c88ac7d1a1b7699f9615bd449caa381be70fc991d24e384d67fd5974f0c69"
+    },
+    "srp": {
+      "values_digest": "787c799b9f1e4def75cc3e3a66349bab202883fafbe1655dcca49c2705012f56",
+      "rendered_digest": "64af0ff4d9a6c9908e97e4c0d12fcdaf43c6df1b8ca513a63f7e57ac186fcf17",
+      "ast_digest": "9584bf8360abcf8fe50c22b4539ef35cf76a31486332db88140d5070539094ba"
+    },
+    "sor": {
+      "values_digest": "d1914488113e6f834255066278cfd0c7ec63a3eecc3a08f29561e92f4113ce38",
+      "rendered_digest": "fcef6e7924f1e8bf1274f139af6ec3232a39b767e9ecc6cf1ac2751e390d8043",
+      "ast_digest": "bc23b05aeca32089853d80e4e56d2eba82f98c2a4a128f1a3bc461d13676bef2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "advance reviewed executable design after doctor reported ready"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:234d3f03-026d-4f3b-96e7-54d3933297c1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"372a22943f3e24fa1d4676872bd6f7de90537c469feff265d6be49c4215b74da\",\"design_ref\":\".csdlc/prepared/issues/689/design.md\",\"diagram_digest\":\"36966b883f7d8c54c8e812c97ad43c412e33123fb8b8861b82b71ab33597ab8e\",\"diagram_ref\":\".csdlc/prepared/issues/689/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "add the exact-range diff proof required by design review",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_canonical_runtime_route.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Reuse focused Rust ownership and status tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"csm_runtime_v3_cmd\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"shell-syntax\",\"proof_role\":\"Prove legacy shell syntax remains valid.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"bash\",\"-n\",\"CSMctl\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:3c5e3314-34a7-41b5-bebf-8f5b73bf91b5",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "{\"design_digest\":\"7069adcc2ed6664ad1582c3ea43340c842b7179f132c98a76b6098b99bee2137\",\"design_ref\":\".csdlc/prepared/issues/689/design.md\",\"diagram_digest\":\"36966b883f7d8c54c8e812c97ad43c412e33123fb8b8861b82b71ab33597ab8e\",\"diagram_ref\":\".csdlc/prepared/issues/689/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "restrict owned paths to existing safe repository surfaces before binding",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"docs/tooling/START_CSM_RUNBOOK.md\",\"adl/tools/test_csmctl_linux_backend.sh\",\".csdlc/issues/689\",\".csdlc/prepared/issues/689\",\".csdlc/evidence/689\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "add the exact-range diff proof required by design review",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Reuse focused Rust ownership and status tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"csm_runtime_v3_cmd\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "advance reviewed executable design after doctor reported ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

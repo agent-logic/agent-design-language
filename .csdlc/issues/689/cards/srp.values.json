@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 689,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
+    "slug": "runtime-canonical-service-control-runbook",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #689 canonical Runtime operator routing, legacy CSMctl Runtime refusal, documentation, and focused tests only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does any documentation still present the legacy service root or label as permanent authority?",
+        "Can any legacy Runtime verb still report pass?",
+        "Are Observatory-only commands preserved?",
+        "Do tests avoid launchctl and live ports?",
+        "Is the solution a simple routing correction rather than a second controller?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
