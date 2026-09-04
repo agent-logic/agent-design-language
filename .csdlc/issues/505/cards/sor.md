@@ -146,11 +146,11 @@ Tested the non-authoritative v3 sprint readiness route against the live V3-H spr
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
