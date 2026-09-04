@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 680,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[provider] Add first-class Moonshot/Kimi K3 provider support",
+    "slug": "moonshot-kimi-k3-provider",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Add first-class ADL provider support for Moonshot/Kimi K3.",
+      "required_outcome": "Operators can discover, configure, and select Moonshot/Kimi K3 through normal ADL provider setup/profile paths with deterministic offline tests.",
+      "declared_scope": [
+        "Moonshot/Kimi provider profile and setup surfaces",
+        "Provider selection support needed to treat kimi/moonshot as first-class",
+        "Offline deterministic provider/profile/setup tests",
+        "Documentation or help text required for operator setup"
+      ],
+      "authority_boundary": [
+        "No live paid/provider call without separate explicit operator authorization",
+        "Do not commit credentials or token material",
+        "Preserve existing kimi:k2.5 and OpenRouter Kimi compatibility",
+        "Use typed C-SDLC v2 lifecycle for bootstrap, bind, review, publication, and finish"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Get issue #680 to PR",
+        "Keep unrelated root staging, including .csdlc/prepared/issues/678/, preserved"
+      ]
+    }
+  }
+}

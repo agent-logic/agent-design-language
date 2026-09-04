@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 680,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[provider] Add first-class Moonshot/Kimi K3 provider support",
+    "slug": "moonshot-kimi-k3-provider",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-bundle",
+          "proof_role": "Pre-bind issue-owned bootstrap denominator for #680 card/design coherence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/680/issue_680_validate_preparation_bundle.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on lifecycle, credential, model-id, or validation ambiguity; record exact deferred live-provider proof rather than claiming it.",
+      "design_ref": ".csdlc/prepared/issues/680/design.md",
+      "design_digest": "a3c90cc471c42e2254bac1a0c0c7f465a3223cac5d7d3dc7d4cfcbffdd42a32b",
+      "diagram_ref": ".csdlc/prepared/issues/680/diagram.mmd",
+      "diagram_digest": "df55fdd651b5667f53393cb73c5f3fa98d5e722ed8b9a4c47f43bdc6c17acfc3"
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 680,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
+  "phase": "ready",
+  "generation": 8,
+  "digest": "9ddee8182ffa2236efd510d71b0520841352946df245a78e18512405773d06cf",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/680/design.md",
+  "diagram_path": ".csdlc/prepared/issues/680/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:3f5378bd-9881-40c1-ae62-4585247bfad7",
+      "revision": "a3c90cc471c42e2254bac1a0c0c7f465a3223cac5d7d3dc7d4cfcbffdd42a32b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c2938cb6d681c12201e331c12d8e2078ac5de84270d342c6042a2c1b6de931c0",
+      "rendered_digest": "d1750351b69e204f5693796d85ac48cea41a42f53671b8a40ef3141fc6650f7d",
+      "ast_digest": "b5d721f64919a757cb981f72f9002db89f36b9151a6abbb4229a218a05fdb10e"
+    },
+    "stp": {
+      "values_digest": "012bf93af73f08b1cf225cda57f14dec7d9bc81745891a1022fdbccd4c4ba7b0",
+      "rendered_digest": "4e94e258a4ce4844db8cf3b314e19518628407a511688f782be0621958534b51",
+      "ast_digest": "16b22f9a58c2b06351c71a051baf3ee61c3749e82ecce4c996948612180fb455"
+    },
+    "spp": {
+      "values_digest": "855d1936aad7a8ca2ccf74be350da1182b374383cfdf67d0cbb6ccc24919e4de",
+      "rendered_digest": "2d57ac5915eb29a45086bbab11caa65d1ececd23166174dc10e81de689035fe0",
+      "ast_digest": "ff9c62460f47349e06489e08d78194714960f991a7eeb0fe9a38032eeb248bbc"
+    },
+    "vpp": {
+      "values_digest": "c1e9aa3193bf0d18bbfc351da0ba5b1a8b47262161904706015774956bca3900",
+      "rendered_digest": "cf19a05549becd97dd7c085e9e607f143358bcf373aa2cb971848de31ba350e1",
+      "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
+    },
+    "srp": {
+      "values_digest": "075ed2747614ad6ff4b7f8bef7ee4ff3f9c075a3f08fb0a7d60ece48bb246846",
+      "rendered_digest": "d2a433b08bd3066b33f0a22bf65a2deed0c25bef9adf4525c7cc97c7151257f9",
+      "ast_digest": "be220e6a21916f4f72d349d8323addebc1d8ec58904ce43efcd316022d8690d3"
+    },
+    "sor": {
+      "values_digest": "8dcff891e8d7c47654e3befc60b70cd7e545a273aee4edd63f21bf60bed5d4a4",
+      "rendered_digest": "fe7b7034cc7e300afd8e29762a2016855d692bee8cb7f6a5acd688920a83015c",
+      "ast_digest": "8f4ea418d4623e81492ae683b0b056879f15393a8e71bd8030a836c5411a0c86"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:root",
+      "reason": "advance #680 to ready after approved design, executable issue-owned preparation validator, csdlc-doctor PASS, and csdlc-validate PASS"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:root",
+      "reason": "repair pre-bind validation lane denominator for planned issue-owned provider test",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-provider\",\"proof_role\":\"Profile/setup/adapter deterministic proof for Moonshot/Kimi K3.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"parallel_group\":\"local\",\"defer_reason\":\"Issue-owned test target will be added during #680 implementation after binding.\"},{\"lane\":\"strict-clippy\",\"proof_role\":\"Strict lint for touched Rust provider surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:3f5378bd-9881-40c1-ae62-4585247bfad7",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"fe9bf1ea4dbfe41769abf11cac17d6f1cc7425ce0b6f74aa65980c41c47898a7\",\"design_ref\":\".csdlc/prepared/issues/680/design.md\",\"diagram_digest\":\"0e2221559c531ff04b6e0e228e78a71e37c540ab248db3dd61357bcb46e45fcd\",\"diagram_ref\":\".csdlc/prepared/issues/680/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:root",
+      "reason": "add available pre-bind issue-owned preparation denominator while preserving planned implementation tests",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-bundle\",\"proof_role\":\"Pre-bind issue-owned bootstrap denominator for #680 card/design coherence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/680/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"focused-provider\",\"proof_role\":\"Post-bind profile/setup/adapter deterministic proof for Moonshot/Kimi K3.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"parallel_group\":\"local\",\"defer_reason\":\"Issue-owned Rust test target will be added during #680 implementation after binding.\"},{\"lane\":\"strict-clippy\",\"proof_role\":\"Strict lint for touched Rust provider surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:3f5378bd-9881-40c1-ae62-4585247bfad7",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "{\"design_digest\":\"a3c90cc471c42e2254bac1a0c0c7f465a3223cac5d7d3dc7d4cfcbffdd42a32b\",\"design_ref\":\".csdlc/prepared/issues/680/design.md\",\"diagram_digest\":\"df55fdd651b5667f53393cb73c5f3fa98d5e722ed8b9a4c47f43bdc6c17acfc3\",\"diagram_ref\":\".csdlc/prepared/issues/680/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "keep pre-bind validation lanes limited to executable issue-owned preparation proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-bundle\",\"proof_role\":\"Pre-bind issue-owned bootstrap denominator for #680 card/design coherence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/680/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:root",
+      "reason": "rename preparation validator argv to issue-owned target path",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-bundle\",\"proof_role\":\"Pre-bind issue-owned bootstrap denominator for #680 card/design coherence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/680/issue_680_validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "include issue-owned preparation validator in SPP affected areas for readiness denominator",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider_adapter.rs\",\"adl/src/provider/profiles.rs\",\"adl/src/provider_substrate.rs\",\"adl/src/provider/mod.rs\",\"adl/src/cli/provider_cmd.rs\",\"docs/tooling/PROVIDER_SETUP.md\",\".csdlc/prepared/issues/680/issue_680_validate_preparation_bundle.py\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:root",
+      "reason": "advance #680 to ready after approved design, executable issue-owned preparation validator, csdlc-doctor PASS, and csdlc-validate PASS",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

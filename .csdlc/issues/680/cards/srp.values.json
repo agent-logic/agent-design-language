@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 680,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[provider] Add first-class Moonshot/Kimi K3 provider support",
+    "slug": "moonshot-kimi-k3-provider",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Moonshot/Kimi provider profile, setup/help, provider selection, deterministic tests, and evidence truth for issue #680.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the change make Moonshot/Kimi K3 first-class without breaking existing kimi:k2.5 or OpenRouter Kimi behavior?",
+        "Do tests prove setup/profile/provider selection and auth behavior without leaking credentials or claiming live provider proof?",
+        "Is the external model-id truth recorded accurately enough for future catalog drift?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
