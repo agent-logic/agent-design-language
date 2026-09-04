@@ -94,11 +94,11 @@ Implemented first-class Moonshot/Kimi K3 provider support in the bound issue wor
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
