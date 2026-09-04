@@ -5,10 +5,26 @@
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
   "generation": 5,
-  "digest": "0713e54a05a46a7e4b107a26cabddc906953c442e344e286d143b7ca881f91d3",
+  "digest": "574f0ea21cfce64f8871a616b45c5d5e2c155680e222ba65b406834ba3e6408d",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation",
+    "assigned_by": "codex:/root/issue-686",
+    "revision": "git-blake3:8f770c0c3e820eee81d206ff3a284cfbbc247236:3f650a56663e4c5d114e948f6f5365a0e75d1a5d9b7698e8ebd1e78ba9221772",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+      ".csdlc/evidence/686"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +60,9 @@
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "0ab4c59a44994e02f1b3f1cdafd1f056219b263c64ebd002dfadbc6efa0f85a4",
-      "rendered_digest": "570803f9f19be1f4e2deb304b1fd7981ed1e400ec289211a3c811a6dd799fad4",
-      "ast_digest": "e519fd5650d4ae2edc2950ed5dc54272b3d5b6a090f827323afe079c7cc91b9e"
+      "values_digest": "9f4e8e86e5a15cfd26bcc13768078d11ee25e307f0d91ea279059fc00fe2e33f",
+      "rendered_digest": "c17fd72f48669fddc37bb92cd1d597fe86fa3d87f4a1cbd59c37355af746cc7a",
+      "ast_digest": "02f1a3eb6a7d4d0f1f34ba4853d0f50c5b5171906934ee0f0ac5532464c61f05"
     },
     "sor": {
       "values_digest": "eb839fe90aa7f9af650f38d3901670c22bf7deb3c7f8369d99bccae3bcfc0b21",
@@ -126,6 +142,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root/issue-686",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
