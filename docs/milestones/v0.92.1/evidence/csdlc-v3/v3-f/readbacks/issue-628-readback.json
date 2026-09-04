@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "Part of #625. Depends on the V3-H.1 command denominator mapping.\n\n## Outcome\n\nImplement and test the v3 local lifecycle replacement routes under the one `csdlc` binary.\n\n## Command routes\n\n- `csdlc issue`\n- `csdlc bind`\n- `csdlc edit`\n- `csdlc validate`\n- `csdlc doctor`\n- `csdlc schedule`\n- `csdlc shepherd`\n- `csdlc eligibility`\n\n## Acceptance criteria\n\n- A real issue canary reaches ready-to-execute through v3-local state without v2 operational fallback.\n- Six-card lifecycle is enforced: SIP -> STP -> SPP -> VPP -> SRP -> SOR.\n- Missing local lifecycle state is initialized or repaired intentionally with typed errors, not treated as mysterious state loss.\n- Issue start target is measured and can be ready for first useful work in three minutes or less once dependencies are satisfied.\n- Focused tests cover positive, stale-digest, missing-card, unsafe-primary-worktree, and unsupported-transition cases.\n- No v2 source changes.\n\n## Non-goals\n\n- No GitHub mutation, PR publication, finish, cleanup, or cutover.\n- Do not merge or close #505.\n\n<!-- csdlc-github-operation:worker-6-v0921-v3h-child-local-lifecycle-20260902 -->",
+    "closed_at": "2026-09-02T20:12:14Z",
+    "created_at": "2026-09-02T06:48:23Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1",
+      "area:csdlc"
+    ],
+    "marker_present": false,
+    "milestone": null,
+    "number": 628,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "closed",
+    "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes"
+  },
+  "operation_key": null,
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

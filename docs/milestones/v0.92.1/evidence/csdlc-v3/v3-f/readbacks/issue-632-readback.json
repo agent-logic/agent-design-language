@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "Part of #625. Depends on the implementation lanes needed for each canary step.\n\n## Outcome\n\nRun real issue canaries across the v3 replacement workflow and update operator-facing documentation, skills, AGENTS guidance, and changeover notice so #505 cannot close on untested tooling.\n\n## Scope\n\n- Real issue canary for issue creation/init through PR publication using v3.\n- Real issue canary for terminal finish and cleanup once a canary PR is merged by an authorized operator.\n- Defect capture for every v3 function failure found during testing.\n- Docs, skills, AGENTS, onboarding, and changeover notice updates for the one-binary v3 replacement contract.\n- Sprint Execution Packet and sprint-end evidence index updates for #625.\n\n## Acceptance criteria\n\n- Every v3 command-equivalent route is exercised by a real issue canary, a focused deterministic fixture, or an explicit cutover-blocking finding.\n- At least one real issue reaches PR through v3 before #505 closes.\n- Terminal finish and cleanup are proven after an authorized canary merge, or #505 remains blocked with the exact reason.\n- All found defects are fixed in-sprint or recorded as cutover blockers/follow-ons with ownership.\n- Docs and skills do not teach v2 as the future route after cutover, and do not teach v3 as current authority before #505.\n- Final sprint review packet is ready for independent exact-head review.\n- No raw `gh` lifecycle writes and no hidden v2 operational fallback.\n\n## Non-goals\n\n- Independent review is a sprint gate, not this issue's implementation scope.\n- Do not merge or close #505.\n\n<!-- csdlc-github-operation:worker-6-v0921-v3h-child-canaries-docs-readiness-20260902 -->",
+    "closed_at": null,
+    "created_at": "2026-09-02T06:48:47Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1",
+      "area:csdlc"
+    ],
+    "marker_present": false,
+    "milestone": null,
+    "number": 632,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs"
+  },
+  "operation_key": null,
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

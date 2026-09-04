@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "Part of #625. Depends on the V3-H.1 command denominator mapping.\n\n## Outcome\n\nImplement and test the v3 proof, parity, soak, shadow, and installation routes needed to prove the one-binary replacement before #505 can close.\n\n## Command routes\n\n- `csdlc proof`\n- `csdlc shadow`\n- `csdlc soak`\n- `csdlc install`\n\n## Acceptance criteria\n\n- v3 proof manifests run deterministically and retain durable evidence.\n- v3 shadow compares v2/v3 behavior where parity is claimed and refuses broad unproven equivalence.\n- v3 soak generates and classifies evidence without hidden state.\n- v3 install produces one operational `csdlc` artifact with provenance, selector/cutover metadata, and no reliance on disposable Cargo target paths.\n- Tests cover positive proof, missing manifest, stale evidence, parity mismatch, installation provenance mismatch, and fail-closed selector errors.\n- No v2 source changes.\n\n## Non-goals\n\n- No live authority switch; the actual default switch remains #505/cutover-gated.\n- Do not merge or close #505.\n\n<!-- csdlc-github-operation:worker-6-v0921-v3h-child-proof-parity-install-20260902 -->",
+    "closed_at": null,
+    "created_at": "2026-09-02T06:48:41Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1",
+      "area:csdlc"
+    ],
+    "marker_present": false,
+    "milestone": null,
+    "number": 631,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes"
+  },
+  "operation_key": null,
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

@@ -366,16 +366,21 @@ fn parse_child_membership(body: &str) -> Vec<u64> {
         if trimmed.starts_with("## ") {
             in_membership = trimmed.contains("child membership")
                 || trimmed.contains("Initial child membership")
-                || trimmed.contains("Exact child membership");
+                || trimmed.contains("Exact child membership")
+                || trimmed == "## Child issues";
             continue;
         }
         if !in_membership {
             continue;
         }
-        if !trimmed.starts_with("- #") {
+        let issue_ref = if let Some(rest) = trimmed.strip_prefix("- #") {
+            rest
+        } else if let Some((_, rest)) = trimmed.split_once(". #") {
+            rest
+        } else {
             continue;
-        }
-        let number = trimmed[3..]
+        };
+        let number = issue_ref
             .chars()
             .take_while(|value| value.is_ascii_digit())
             .collect::<String>();
@@ -517,6 +522,44 @@ mod tests {
             .findings
             .iter()
             .any(|finding| finding.code == "child_readback_denominator_mismatch"));
+    }
+
+    #[test]
+    fn sprint_readiness_parses_v3_h_child_issue_heading() {
+        let dir = fixture_dir("v3-h-child-issues");
+        let body = "## Outcome\n\nSet up V3-H.\n\n## Child issues\n\n1. #627 -- denominator.\n2. #628 -- local lifecycle.\n3. #629 -- GitHub routes.\n\n- Membership version: `1`\n";
+        write_issue(
+            &dir,
+            "umbrella.json",
+            625,
+            "[v0.92.1][V3-H] C-SDLC v3 full command replacement sprint",
+            body,
+            "open",
+        );
+        write_issue(&dir, "627.json", 627, "V3-H.1", "body", "closed");
+        write_issue(&dir, "628.json", 628, "V3-H.2", "body", "closed");
+        write_issue(&dir, "629.json", 629, "V3-H.3", "body", "open");
+        let request = SprintReadinessRequest {
+            repository: "agent-logic/agent-design-language".into(),
+            version: "v0.92.1".into(),
+            sprints: vec![SprintReadinessTarget {
+                sprint: 6,
+                umbrella_issue: 625,
+                title: "V3-H".into(),
+                execution_mode: SprintExecutionMode::Hybrid,
+                serial_gates: vec!["#629 consumes #628".into()],
+                umbrella_readback_ref: "umbrella.json".into(),
+                child_readback_refs: BTreeMap::from([
+                    ("627".into(), "627.json".into()),
+                    ("628".into(), "628.json".into()),
+                    ("629".into(), "629.json".into()),
+                ]),
+            }],
+        };
+        let report = verify_sprint_readiness(&dir, request).expect("report");
+        assert_eq!(report.sprints[0].declared_children, vec![627, 628, 629]);
+        assert_eq!(report.sprints[0].membership_version, Some(1));
+        assert_eq!(report.status, SprintReadinessStatus::Ready);
     }
 
     #[test]
