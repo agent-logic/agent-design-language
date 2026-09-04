@@ -103,7 +103,7 @@
       "command": "install",
       "replaces": ["csdlc-install"],
       "owner_issue": 631,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
@@ -124,7 +124,7 @@
       "command": "proof",
       "replaces": ["csdlc-proof"],
       "owner_issue": 631,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
@@ -152,7 +152,7 @@
       "command": "shadow",
       "replaces": ["csdlc-shadow"],
       "owner_issue": 631,
-      "implementation_status": "partial",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
@@ -166,7 +166,7 @@
       "command": "soak",
       "replaces": ["csdlc-soak"],
       "owner_issue": 631,
-      "implementation_status": "fail_closed",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
