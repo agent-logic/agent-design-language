@@ -1,6 +1,13 @@
 {
-  "schema": "adl.issue670.remediation-proof-boundary.v1",
-  "live_execution_revision": "542f8c1fa2701daa07befe3bb451d9916b80f407",
+  "schema": "adl.issue670.remediation-proof-boundary.v2",
+  "historical_successful_run": {
+    "controller_head_observed": "542f8c1fa2701daa07befe3bb451d9916b80f407",
+    "source_state": "dirty_uncommitted",
+    "producer_logic_later_committed_at": "da2d97603b1a24017be42a87135e0e1468638583",
+    "exact_source_revision_proven": false,
+    "launch_receipt": "launch-g670b.json",
+    "cleanup_receipt": "cleanup-g670b.json"
+  },
   "static_remediation_revision": "775d80901c2f75e7e00bfb4f01c239a81c289002",
   "live_receipts": {
     "preflight_schema": "adl.issue670.gcp_preflight.v1",
@@ -14,5 +21,5 @@
     "partial_apply_launch_cleanup": "static_proof_only"
   },
   "paid_rerun_performed": false,
-  "reason": "The successful paid GCP qualification and zero-residual inventory predate the final fail-closed controller hardening. The retained live receipts prove the earlier run; the focused validator and deadline unit test prove the later static controls without claiming a second paid run."
+  "reason": "The successful paid GCP qualification ran while the controller checkout had uncommitted producer changes later committed at da2d97603b1a24017be42a87135e0e1468638583. The retained live receipts prove the historical result but not one immutable execution-source revision. The focused validator and deadline unit test prove the later static controls without claiming a second successful paid run."
 }
