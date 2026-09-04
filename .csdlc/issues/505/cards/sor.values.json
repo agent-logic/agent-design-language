@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 34
+    "generation": 35
   },
   "status": "ready",
   "content": {
@@ -159,8 +159,8 @@
           "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:status-pass-generation-32-ready-false"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

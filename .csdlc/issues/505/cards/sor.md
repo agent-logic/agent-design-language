@@ -166,11 +166,11 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
