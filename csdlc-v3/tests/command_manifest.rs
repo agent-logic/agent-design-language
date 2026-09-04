@@ -1,19 +1,6 @@
 use std::{process::Command, str};
 
-const FAIL_CLOSED_COMMANDS: &[&str] = &[
-    "clean",
-    "cutover",
-    "finish",
-    "github",
-    "github-issue",
-    "github-pr",
-    "install",
-    "pr-state",
-    "proof",
-    "publish",
-    "review",
-    "soak",
-];
+const FAIL_CLOSED_COMMANDS: &[&str] = &["clean", "cutover", "finish", "install", "proof", "soak"];
 
 const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
     "issue",
@@ -27,6 +14,15 @@ const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
 ];
 
 const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow"];
+
+const IMPLEMENTED_REMOTE_COMMANDS: &[&str] = &[
+    "github",
+    "github-issue",
+    "github-pr",
+    "pr-state",
+    "publish",
+    "review",
+];
 
 #[test]
 fn help_exposes_one_binary_command_surface() {
@@ -49,6 +45,12 @@ fn help_exposes_one_binary_command_surface() {
         assert!(
             stdout.contains(&format!("{command} --request <path>")),
             "help should expose implemented local route {command}"
+        );
+    }
+    for command in IMPLEMENTED_REMOTE_COMMANDS {
+        assert!(
+            stdout.contains(&format!("{command} --request <path>")),
+            "help should expose implemented remote route {command}"
         );
     }
     for command in PARTIAL_CONSTRUCTION_COMMANDS {
@@ -106,6 +108,29 @@ fn implemented_local_routes_expose_non_authoritative_help() {
         assert!(
             help.status.success(),
             "{command} --help should describe implemented local route"
+        );
+        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
+        assert!(
+            help_stdout.contains("status: implemented"),
+            "{command} help should be truthful: {help_stdout}"
+        );
+        assert!(
+            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+            "{command} help should preserve authority boundary: {help_stdout}"
+        );
+    }
+}
+
+#[test]
+fn implemented_remote_routes_expose_non_authoritative_help() {
+    for command in IMPLEMENTED_REMOTE_COMMANDS {
+        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
+        assert!(
+            help.status.success(),
+            "{command} --help should describe implemented remote route"
         );
         let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
         assert!(
