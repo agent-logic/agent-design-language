@@ -1,0 +1,19 @@
+{
+  "actor": "codex:worker-7",
+  "base_branch": "main",
+  "branch": "codex/687-provider-inference-readiness",
+  "code_repository": null,
+  "expected_digest": "bd7b08e2ee13325e86a2ebb28b0479a9e5fe71cf3b808953cef09518e8c5ce13",
+  "expected_generation": 2,
+  "expected_head": "f27c14fafe76698f0e7660082a4982a7c8692f0f",
+  "expected_repository": "agent-logic/agent-design-language",
+  "issue": 687,
+  "observed_head": "f27c14fafe76698f0e7660082a4982a7c8692f0f",
+  "pre_state": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "result_state": "bound",
+  "resulting_digest": "b19885e1388d3ee88caccc4cca07ef3599e36964621b99baa62ca8e352a132fc",
+  "resulting_generation": 2,
+  "schema": "csdlc.bind_adoption_evidence.v1",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness"
+}

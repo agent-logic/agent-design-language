@@ -3,11 +3,11 @@
   "issue": 687,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5e7a53528833f2592470603f90feb9f44272294b8ca449cc6d4ba06cab4a83c",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 2,
-  "digest": "bd7b08e2ee13325e86a2ebb28b0479a9e5fe71cf3b808953cef09518e8c5ce13",
-  "branch": null,
-  "worktree": null,
+  "digest": "b19885e1388d3ee88caccc4cca07ef3599e36964621b99baa62ca8e352a132fc",
+  "branch": "codex/687-provider-inference-readiness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:worker-7",
       "reason": "advance design-approved initialized issue to ready before typed bind"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:worker-7",
+      "reason": "{\"actor\":\"codex:worker-7\",\"base_branch\":\"main\",\"branch\":\"codex/687-provider-inference-readiness\",\"code_repository\":null,\"expected_digest\":\"bd7b08e2ee13325e86a2ebb28b0479a9e5fe71cf3b808953cef09518e8c5ce13\",\"expected_generation\":2,\"expected_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":687,\"observed_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness\"}"
     }
   ],
   "audit": [
@@ -84,6 +91,13 @@
       "actor": "codex:worker-7",
       "reason": "advance design-approved initialized issue to ready before typed bind",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:worker-7",
+      "reason": "{\"base_branch\":\"main\",\"branch\":\"codex/687-provider-inference-readiness\",\"expected_digest\":\"bd7b08e2ee13325e86a2ebb28b0479a9e5fe71cf3b808953cef09518e8c5ce13\",\"expected_generation\":2,\"expected_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness\"}",
+      "operation": "adopt_existing_bind"
     }
   ]
 }
