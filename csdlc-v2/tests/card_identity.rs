@@ -244,6 +244,12 @@ fn implemented_bound_fixture(
             branch: format!("issue-{issue}-bound"),
             worktree: bind_target.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     )
     .unwrap();
@@ -959,6 +965,12 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
             branch: "issue-297-bound".into(),
             worktree: bind_target.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     );
     let before_bind = before_bind.expect_err("dirty/unsafe pre-recovery source must not bind");
@@ -1037,6 +1049,12 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
             branch: "issue-297-bound".into(),
             worktree: bind_target.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     );
     assert!(

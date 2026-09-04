@@ -1,0 +1,7 @@
+{
+  "issue": 656,
+  "expected_generation": 20,
+  "expected_digest": "76f82f307fe26d85eadebdf6ec1be92686aed4bcc3e59426f58279b9530233bb",
+  "actor": "codex:/root",
+  "reason": "Recover the stale review after its typed review record was committed; establish one final committed metadata head for exact review and atomic republication."
+}
