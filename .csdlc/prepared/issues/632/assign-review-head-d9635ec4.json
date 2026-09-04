@@ -1,0 +1,25 @@
+{
+  "issue": 632,
+  "expected_generation": 6,
+  "expected_digest": "8d9ad3c4859d614cba64fa7dd4b471a787a6c9428e4f7a9325b567c94edd2beb",
+  "reviewer": "subagent:/root/review_632_head_after_recover",
+  "assigned_by": "codex:worker-6",
+  "scope": [
+    ".csdlc/prepared/issues/632/design.md",
+    ".csdlc/prepared/issues/632/diagram.mmd",
+    ".csdlc/prepared/issues/632/bootstrap.json",
+    ".csdlc/prepared/issues/632/command-route-coverage.json",
+    ".csdlc/prepared/issues/632/canary-evidence-index.md",
+    ".csdlc/prepared/issues/632/finalize-implementation.json",
+    ".csdlc/prepared/issues/632/replace-execution-after-review-fixes.json",
+    ".csdlc/prepared/issues/632/replace-execution-current-command-surface.json",
+    ".csdlc/prepared/issues/632/recover-review-after-main-merge.json",
+    ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+    ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+    ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+    "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+    "csdlc-v3/README.md",
+    "docs/architecture/ADL_ARCHITECTURE.md",
+    "adl/src/cli/csmctl_cmd.rs"
+  ]
+}

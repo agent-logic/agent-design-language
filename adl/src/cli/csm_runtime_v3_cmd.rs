@@ -1577,6 +1577,36 @@ pub(crate) fn usage() -> &'static str {
 mod tests {
     use super::*;
 
+    static ENV_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+    struct EnvRestore {
+        key: &'static str,
+        previous: Option<std::ffi::OsString>,
+    }
+
+    impl EnvRestore {
+        fn set(key: &'static str, value: &str) -> Self {
+            let previous = std::env::var_os(key);
+            std::env::set_var(key, value);
+            Self { key, previous }
+        }
+
+        fn remove(key: &'static str) -> Self {
+            let previous = std::env::var_os(key);
+            std::env::remove_var(key);
+            Self { key, previous }
+        }
+    }
+
+    impl Drop for EnvRestore {
+        fn drop(&mut self) {
+            match &self.previous {
+                Some(value) => std::env::set_var(self.key, value),
+                None => std::env::remove_var(self.key),
+            }
+        }
+    }
+
     #[cfg(unix)]
     fn write_generation_init(root: &Path) -> (PathBuf, RuntimeInitConfig, PathBuf) {
         use std::os::unix::fs::symlink;
@@ -1742,6 +1772,71 @@ mod tests {
         assert!(error.to_string().contains("through current/bin"));
     }
 
+    #[test]
+    fn deadline_errors_render_exact_stage_and_timeout() {
+        let service = ServiceManagerDeadlineExceeded {
+            timeout: Duration::from_millis(17),
+        };
+        assert_eq!(
+            service.to_string(),
+            "service-manager probe exceeded 17 milliseconds"
+        );
+
+        let convergence = ConvergenceDeadlineExceeded {
+            stage: "readiness",
+            timeout: Duration::from_millis(23),
+        };
+        assert_eq!(
+            convergence.to_string(),
+            "Runtime v3 convergence stage readiness did not complete within 23 milliseconds"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_missing_broken_and_escaping_current_links() {
+        use std::os::unix::fs::symlink;
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        fs::remove_file(root.path().join("current")).unwrap();
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("inspect Runtime v3 current generation"));
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        fs::remove_file(root.path().join("current")).unwrap();
+        symlink("generations/missing", root.path().join("current")).unwrap();
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("resolve Runtime v3 current generation"));
+
+        let root = tempfile::tempdir().unwrap();
+        let external = tempfile::tempdir().unwrap();
+        fs::create_dir_all(root.path().join("generations")).unwrap();
+        fs::create_dir_all(external.path().join("bin")).unwrap();
+        fs::write(
+            external.path().join("bin/adl-runtime-kernel"),
+            "external-kernel",
+        )
+        .unwrap();
+        fs::write(external.path().join("bin/csm"), "external-csm").unwrap();
+        symlink(external.path(), root.path().join("current")).unwrap();
+        let mut init = write_valid_init(root.path()).1;
+        init.binaries.kernel_path = root.path().join("current/bin/adl-runtime-kernel");
+        let error = validate_runtime_generation_with_service_binary(
+            &init,
+            &root.path().join("current/bin/csm"),
+        )
+        .unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("current generation escapes generations directory"));
+    }
+
     #[cfg(unix)]
     #[test]
     fn generation_preflight_rejects_invalid_receipt_contracts() {
@@ -1764,6 +1859,25 @@ mod tests {
             let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
             assert!(error.to_string().contains(expected_error));
         }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn generation_preflight_rejects_unreadable_receipt_and_non_file_artifact() {
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        fs::write(root.path().join("current/receipt.json"), "not json").unwrap();
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("parse Runtime v3 generation receipt"));
+
+        let root = tempfile::tempdir().unwrap();
+        let (_path, init, csm) = write_generation_init(root.path());
+        fs::remove_file(root.path().join("current/bin/csm")).unwrap();
+        fs::create_dir(root.path().join("current/bin/csm")).unwrap();
+        let error = validate_runtime_generation_with_service_binary(&init, &csm).unwrap_err();
+        assert!(error.to_string().contains("generation artifact is missing"));
     }
 
     #[cfg(unix)]
@@ -1877,6 +1991,39 @@ mod tests {
     }
 
     #[test]
+    fn parser_accepts_environment_defaults_and_help_aliases() {
+        let _guard = ENV_LOCK.lock().unwrap();
+        let _init = EnvRestore::set("ADL_RUNTIME_V3_INIT", "/opt/agent-logic/runtime-init.toml");
+        let _plist = EnvRestore::set(
+            "ADL_RUNTIME_V3_PLIST",
+            "/Library/LaunchDaemons/com.agentlogic.adl-runtime-v3.plist",
+        );
+
+        let args = parse_args(&["--json".into()]).unwrap();
+        assert_eq!(args.init, Path::new("/opt/agent-logic/runtime-init.toml"));
+        assert_eq!(
+            args.plist.as_deref(),
+            Some(Path::new(
+                "/Library/LaunchDaemons/com.agentlogic.adl-runtime-v3.plist"
+            ))
+        );
+        assert!(args.json);
+
+        assert!(real_runtime_v3_service(&["-h".into()]).is_ok());
+        assert!(real_runtime_v3_service(&["--help".into()]).is_ok());
+    }
+
+    #[test]
+    fn parser_requires_init_when_environment_default_is_absent() {
+        let _guard = ENV_LOCK.lock().unwrap();
+        let _init = EnvRestore::remove("ADL_RUNTIME_V3_INIT");
+
+        let error = parse_args(&[]).unwrap_err();
+
+        assert!(error.to_string().contains("requires --init"));
+    }
+
+    #[test]
     fn parser_accepts_absolute_reload_candidate() {
         let args = parse_args(&[
             "--init".into(),
@@ -1893,6 +2040,9 @@ mod tests {
 
     #[test]
     fn parser_rejects_missing_values_unknown_options_and_invalid_identity() {
+        let _guard = ENV_LOCK.lock().unwrap();
+        let _init = EnvRestore::remove("ADL_RUNTIME_V3_INIT");
+
         for args in [
             vec!["--init".into()],
             vec!["--init".into(), "/tmp/init".into(), "--plist".into()],
