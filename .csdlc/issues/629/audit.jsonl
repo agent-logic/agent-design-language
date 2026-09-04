@@ -30,3 +30,7 @@
 {"sequence":30,"generation":20,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":21,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":32,"generation":22,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":33,"generation":23,"actor":"codex:worker-6","reason":"Recover #629 review/publication truth after binding authenticated v3 PR readback receipts to non-empty PR titles at 6e959dc51d5a5343029d284fd9d586777de9f5119.","operation":"recover_review"}
+{"sequence":34,"generation":23,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":35,"generation":24,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":36,"generation":25,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

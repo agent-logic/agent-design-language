@@ -5,39 +5,32 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
   "phase": "published",
-  "generation": 22,
-  "digest": "11b37e7be80378800348da03dbbe2845e7fbf7d1fa5b64b37efdcd6a7e7c17f2",
+  "generation": 25,
+  "digest": "293df8d78154180f2080fdbdd4a3f802435f789317eb901d004c0f9c6f65e6db",
   "branch": "codex/629-v3-h3-github-publication-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
   "review_assignment": {
-    "reviewer": "codex-reviewer:review_629_head_c2f4",
+    "reviewer": "codex-reviewer:review_629_title_readback",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:c2f4ece7ca8bdffbd27afeee37464f41944f2539:5e13f407cd37a5d910e9141f843e2e6cbe81e4bd3fed42a6b364cdd0aec8634e",
+    "revision": "git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9",
     "scope": [
-      "csdlc-v3/src/adapters/mod.rs",
       "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/main.rs",
       "csdlc-v3/tests/remote_publication_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "csdlc-v3/tests/transactions.rs"
+      "csdlc-v3/tests/real_issue_canary.rs"
     ]
   },
   "review": {
-    "reviewer": "codex-reviewer:review_629_head_c2f4",
+    "reviewer": "codex-reviewer:review_629_title_readback",
     "scope": [
-      "csdlc-v3/src/adapters/mod.rs",
       "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/main.rs",
       "csdlc-v3/tests/remote_publication_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "csdlc-v3/tests/transactions.rs"
+      "csdlc-v3/tests/real_issue_canary.rs"
     ],
-    "reviewed_revision": "git-blake3:c2f4ece7ca8bdffbd27afeee37464f41944f2539:5e13f407cd37a5d910e9141f843e2e6cbe81e4bd3fed42a6b364cdd0aec8634e",
+    "reviewed_revision": "git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9",
     "findings": [],
     "residual_risks": [
       "C-SDLC v3 GitHub and publication routes remain non-authoritative until explicit V3-F/#505 cutover.",
-      "Live PR #641 closing relation was corrected to #629-only through typed v2 PR update; v3 now rejects body-derived unexpected closing references.",
-      "V3 PR create/update writes remain incomplete; typed C-SDLC v2 remains publication authority until #505."
+      "This change binds PR title into authenticated v3 PR readback receipts; it does not make v3 perform PR title writes before cutover."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -49,7 +42,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/641",
     "base": "main",
     "head": "codex/629-v3-h3-github-publication-exec",
-    "revision": "git-blake3:0312e6e8f7c2a51d5799db0f7a21df184419d1e9:7652cdc4601829f6344d9a367ea1a5f4ca8e0a8ef19bab9df50d168e08fef389",
+    "revision": "git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -67,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "20abc772f8fe13cc6ee7eeda2b1e751499509dab9dd32b09eca63efab0050d6b",
+      "values_digest": "d9beab9cf6478b9b0bba86b05a7eae2b9523233079fb93ab2c510b562b75381b",
       "rendered_digest": "e446948ed0ad2268373108f73463028bfa4db9d89c070b19f3efbb817893e249",
       "ast_digest": "4441dd096f6c525cb946e18a6fc6a31f4b07b3be9a00752bfc4c2d67c4f0c2a3"
     },
     "stp": {
-      "values_digest": "0191925042b3cd0e4c54e9cd4a63f5ffcc52e440b390f6c55ea71d4459aedd83",
+      "values_digest": "fd4024ccefe499f8a9b27b84616f9b259b8e492ae2ae15b79e40eb7ec9d29b86",
       "rendered_digest": "27d53576f399af4a88d9a3a47d4928fc3d600c625480612e442939edc5cd1f4b",
       "ast_digest": "8dda543d0b0c799e3467b5ce616ba72f9b6a7d8ae2cbb9373fe69eca07952409"
     },
     "spp": {
-      "values_digest": "8f0a7ac7c7ae973bc75f9fdda44ce178bdf04ed1009efeca27f8f5f6944db9cc",
+      "values_digest": "b246239f05f1922c973e070fae65f4c1ae9d24d31b0ee3ca05cc922deff14b2c",
       "rendered_digest": "556e13e7c158af8c80538c151cc2fc12041ac4e470df6ff04129b2c2b4150680",
       "ast_digest": "776112b5558f285d4e428c4f3e40e4e18c4fd06dbdb09c9b2952b17e3737f34b"
     },
     "vpp": {
-      "values_digest": "145f1ee0a0dd088cbed5d58c8d56185b863b163dc862685998aa6a65de99b703",
+      "values_digest": "be43694b7f8ea7247bc9dc6b43ea5a57b91501065ba34771196c3c6e94fe4366",
       "rendered_digest": "344816c3eaa375d6ef4366492e688f885d2536b905e94af4617b596b7fe11eb3",
       "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
     },
     "srp": {
-      "values_digest": "119130a60ab6e4c8bdae1f852762349598293eb0ee40b3991859f85e94994784",
-      "rendered_digest": "8844efdd5f2ec5b053abd6d466ea1be0f0c06e9310c49c858073107f22e44356",
-      "ast_digest": "5e88ecb130214746a8564799ac0abac20a4cbe1fc613c02aafbcf4ca0071ee29"
+      "values_digest": "1501d11b521edc8e39bf2b47c3719eaad41fb3ad840dce750751ba125a329ae1",
+      "rendered_digest": "6f9bac0be31138d227821150c3029d86f180773eb84eba838fcd2298b153efb9",
+      "ast_digest": "089a3c832b2977a1965653e15661529b5b47a1466fd971db0328a81da0af27b6"
     },
     "sor": {
-      "values_digest": "fa7beb9bc3b93aa7b4495056f779f80fe491ebf20f8464abea4a10c510b239e4",
+      "values_digest": "191a3d7c787560d4efec0dc5caca001e2f5dff4487a8497acbbbd3801632e7e9",
       "rendered_digest": "164f2477409eb8f9eec1c7aa9ca383615fae44b2b02ac6ad7e4f7666e762f475",
       "ast_digest": "2a24de59e9be975da5f42ac666e99145b43e86038b34a5e53aff9738805a7e0c"
     }
@@ -233,6 +226,27 @@
     },
     {
       "sequence": 20,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after binding authenticated v3 PR readback receipts to non-empty PR titles at 6e959dc51d5a5343029d284fd9d586777de9f5119."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 23,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:worker-6",
@@ -460,6 +474,34 @@
     {
       "sequence": 32,
       "generation": 22,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after binding authenticated v3 PR readback receipts to non-empty PR titles at 6e959dc51d5a5343029d284fd9d586777de9f5119.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 24,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
