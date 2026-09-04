@@ -5,10 +5,27 @@
   "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
   "phase": "implemented",
   "generation": 14,
-  "digest": "02ee8d01115d15d74eb9b8059045e90c1915ead97caf804e49748236246ba691",
+  "digest": "8bc91d8a010abbd5b317c8bbd97d5d0a2faa49bce67218bb6673196e6ccea097",
   "branch": "codex/680-moonshot-kimi-k3-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:018dbc48a680c861e3cc7861a3f8ba6e72b31a86:fce88815e5d1fdfb743ed92988e3450d6d21a060616d6978d10fef04b939ee74",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/src/cli/usage.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "adl/tests/provider_moonshot_kimi_k3.rs",
+      ".csdlc/evidence/680"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +61,9 @@
       "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
     },
     "srp": {
-      "values_digest": "5080805d5ce95cd25a88fd2d8c9bc5a4af6ac2bf64480970d0621b78a42005f3",
-      "rendered_digest": "43b3a603bc2f3b233383f7d1e13f73aa6913f384383aaa9f1397538ffca7259b",
-      "ast_digest": "274ca16c49f38213a0490f23b9ed672f6095c1179d6e33568a1643b02e07ee47"
+      "values_digest": "4df9119b20fde1cf04eb12804666db88b45901074dc18e2f65963e3c5655caa5",
+      "rendered_digest": "31474be5796aff1b6fb9e5122bf92ec14987d3247afaca4d34901231cecfd8ca",
+      "ast_digest": "cfc0cfae5a64aad0d1bb6976c4764dafe3fc1b96673fdf55e537009b5fe55603"
     },
     "sor": {
       "values_digest": "25b9a44f0d37dae37f7eaf57f5db5a2c615073e3da99368bcfc64d67b8e4ff1a",
@@ -203,6 +220,13 @@
       "actor": "codex:root",
       "reason": "recover stale silent exact-head review assignment after r5 reviewer returned actionable P2 findings and #680 remediation/evidence refreshed at 67bd10d940f8d0303fe74e3bc144d2e6057415ef",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
