@@ -22,3 +22,4 @@
 {"sequence":22,"generation":14,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":23,"generation":15,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":24,"generation":16,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":25,"generation":17,"actor":"codex:worker-6","reason":"Recover #632 review/publication truth after refreshing readiness docs for #629/#641 title-readback repair at aed2a2db4, including the current #641 head 8ad0d56ae7db6421fcbc2016a2f1c8590094577e and pending final CI state.","operation":"recover_review"}

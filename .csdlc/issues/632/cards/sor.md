@@ -109,11 +109,11 @@ Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, capt
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
