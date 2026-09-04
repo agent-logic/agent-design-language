@@ -212,7 +212,7 @@ fn validate_evidence_root_binding(
     if evidence_root != repository_root {
         findings.push(finding(
             "evidence_root_not_repository_root",
-            "proof evidence root must be the discovered repository root, not a request-controlled scratch tree",
+            "proof evidence root must be the binary checkout repository root, not a request-controlled scratch tree",
         ));
     }
 }

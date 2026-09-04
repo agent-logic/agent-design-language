@@ -17,14 +17,29 @@ fn write_request(name: &str, body: &str) -> PathBuf {
     path
 }
 
-fn write_evidence(ref_path: &str, body: &[u8]) -> (PathBuf, String) {
-    let root = scratch().join("repo");
-    fs::create_dir_all(root.join(".git")).expect("fake git root");
-    let path = root.join(ref_path);
+fn binary_repo_root() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("csdlc-v3 has repository parent")
+        .to_path_buf()
+}
+
+fn scoped_evidence_ref(name: &str) -> String {
+    format!(
+        ".csdlc/evidence/631/proof-route-tests/{}/{}",
+        std::process::id(),
+        name
+    )
+}
+
+fn write_evidence(name: &str, body: &[u8]) -> (PathBuf, String, String) {
+    let root = binary_repo_root();
+    let ref_path = scoped_evidence_ref(name);
+    let path = root.join(&ref_path);
     let parent = path.parent().expect("evidence path has parent");
     fs::create_dir_all(parent).expect("evidence parent");
     fs::write(&path, body).expect("write evidence");
-    (root, blake3::hash(body).to_hex().to_string())
+    (root, ref_path, blake3::hash(body).to_hex().to_string())
 }
 
 fn run_route(route: &str, body: &str) -> Value {
@@ -88,7 +103,7 @@ fn assert_blocked_value(route: &str, body: Value, code: &str) {
 
 #[test]
 fn proof_route_accepts_fresh_deterministic_manifest_only() {
-    let (root, digest) = write_evidence(".csdlc/evidence/631/proof.json", br#"{"ok":true}"#);
+    let (root, proof_ref, digest) = write_evidence("proof.json", br#"{"ok":true}"#);
     assert_ready_value(
         "proof",
         json!({
@@ -100,7 +115,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "manifest_id": "pvf-631",
             "lane": "proof-parity-install",
             "deterministic": true,
-            "evidence_ref": ".csdlc/evidence/631/proof.json",
+            "evidence_ref": proof_ref,
             "evidence_digest": digest,
             "observed_digest": digest,
             "stale": false
@@ -124,7 +139,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
         }"#,
         "proof_lane_not_deterministic",
     );
-    let (root, digest) = write_evidence(".csdlc/evidence/631/actual.json", br#"{"actual":true}"#);
+    let (root, actual_ref, digest) = write_evidence("actual.json", br#"{"actual":true}"#);
     assert_blocked_value(
         "proof",
         json!({
@@ -136,7 +151,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "manifest_id": "pvf-631",
             "lane": "proof-parity-install",
             "deterministic": true,
-            "evidence_ref": ".csdlc/evidence/631/actual.json",
+            "evidence_ref": actual_ref,
             "evidence_digest": digest,
             "observed_digest": "caller-forged",
             "stale": false
@@ -148,8 +163,10 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
 
 #[test]
 fn shadow_route_requires_bounded_matching_observations() {
-    let (root, digest) = write_evidence(".csdlc/evidence/631/v2.json", br#"{"same":true}"#);
-    let v3_path = root.join(".csdlc/evidence/631/v3.json");
+    let (root, v2_ref, digest) = write_evidence("v2.json", br#"{"same":true}"#);
+    let v3_ref = scoped_evidence_ref("v3.json");
+    let v3_path = root.join(&v3_ref);
+    fs::create_dir_all(v3_path.parent().expect("v3 evidence parent")).expect("v3 parent");
     fs::write(&v3_path, br#"{"same":true}"#).expect("write v3 evidence");
     assert_ready_value(
         "shadow",
@@ -158,9 +175,9 @@ fn shadow_route_requires_bounded_matching_observations() {
           "repository": "agent-logic/agent-design-language",
           "evidence_root": root,
           "shadow": {
-            "v2_observation_ref": ".csdlc/evidence/631/v2.json",
+            "v2_observation_ref": v2_ref,
             "v2_digest": digest,
-            "v3_observation_ref": ".csdlc/evidence/631/v3.json",
+            "v3_observation_ref": v3_ref,
             "v3_digest": digest,
             "bounded_v2": true,
             "bounded_v3": true,
@@ -185,12 +202,9 @@ fn shadow_route_requires_bounded_matching_observations() {
         }"#,
         "shadow_observation_unbounded",
     );
-    let (root, digest) = write_evidence(".csdlc/evidence/631/v2-attack.json", br#"{"real":true}"#);
-    fs::write(
-        root.join(".csdlc/evidence/631/v3-attack.json"),
-        br#"{"real":false}"#,
-    )
-    .expect("write attack v3 evidence");
+    let (root, v2_ref, digest) = write_evidence("v2-attack.json", br#"{"real":true}"#);
+    let v3_ref = scoped_evidence_ref("v3-attack.json");
+    fs::write(root.join(&v3_ref), br#"{"real":false}"#).expect("write attack v3 evidence");
     assert_blocked_value(
         "shadow",
         json!({
@@ -198,9 +212,9 @@ fn shadow_route_requires_bounded_matching_observations() {
           "repository": "agent-logic/agent-design-language",
           "evidence_root": root,
           "shadow": {
-            "v2_observation_ref": ".csdlc/evidence/631/v2-attack.json",
+            "v2_observation_ref": v2_ref,
             "v2_digest": digest,
-            "v3_observation_ref": ".csdlc/evidence/631/v3-attack.json",
+            "v3_observation_ref": v3_ref,
             "v3_digest": digest,
             "bounded_v2": true,
             "bounded_v3": true,
@@ -213,7 +227,7 @@ fn shadow_route_requires_bounded_matching_observations() {
 
 #[test]
 fn soak_route_refuses_hidden_state_and_provider_side_effects() {
-    let (root, _) = write_evidence(".csdlc/evidence/631/soak.json", br#"{"samples":3}"#);
+    let (root, soak_ref, _) = write_evidence("soak.json", br#"{"samples":3}"#);
     assert_ready_value(
         "soak",
         json!({
@@ -221,7 +235,7 @@ fn soak_route_refuses_hidden_state_and_provider_side_effects() {
           "repository": "agent-logic/agent-design-language",
           "evidence_root": root,
           "soak": {
-            "evidence_ref": ".csdlc/evidence/631/soak.json",
+            "evidence_ref": soak_ref,
             "duration_minutes": 15,
             "sample_count": 3,
             "hidden_state": false,
@@ -248,20 +262,18 @@ fn soak_route_refuses_hidden_state_and_provider_side_effects() {
 
 #[test]
 fn install_route_is_one_binary_plan_gated_by_505() {
-    let (root, artifact_digest) = write_evidence(
-        ".csdlc/evidence/631/install/csdlc",
-        b"single-binary-artifact",
-    );
-    let selector_path = root.join(".csdlc/evidence/631/install/selector.json");
+    let (root, artifact_ref, artifact_digest) =
+        write_evidence("install/csdlc", b"single-binary-artifact");
+    let selector_ref = scoped_evidence_ref("install/selector.json");
+    let selector_path = root.join(&selector_ref);
+    fs::create_dir_all(selector_path.parent().expect("selector parent")).expect("selector parent");
     fs::write(&selector_path, br#"{"selected":"csdlc"}"#).expect("write selector metadata");
     let selector_digest = blake3::hash(br#"{"selected":"csdlc"}"#)
         .to_hex()
         .to_string();
-    fs::write(
-        root.join(".csdlc/evidence/631/install/provenance.json"),
-        br#"{"source":"git:abc123"}"#,
-    )
-    .expect("write install provenance");
+    let provenance_ref = scoped_evidence_ref("install/provenance.json");
+    fs::write(root.join(&provenance_ref), br#"{"source":"git:abc123"}"#)
+        .expect("write install provenance");
     assert_ready_value(
         "install",
         json!({
@@ -271,9 +283,9 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           "evidence_root": root,
           "install": {
             "artifact_name": "csdlc",
-            "artifact_ref": ".csdlc/evidence/631/install/csdlc",
-            "source_provenance_ref": ".csdlc/evidence/631/install/provenance.json",
-            "selector_metadata_ref": ".csdlc/evidence/631/install/selector.json",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
             "source_provenance": "git:abc123",
             "selected_binary_digest": artifact_digest,
             "observed_binary_digest": artifact_digest,
@@ -306,20 +318,14 @@ fn install_route_is_one_binary_plan_gated_by_505() {
         }"#,
         "install_cutover_issue_missing",
     );
-    let (root, artifact_digest) = write_evidence(
-        ".csdlc/evidence/631/install/actual-csdlc",
-        b"actual artifact bytes",
-    );
-    fs::write(
-        root.join(".csdlc/evidence/631/install/selector-actual.json"),
-        br#"{"selected":"actual"}"#,
-    )
-    .expect("write selector metadata");
-    fs::write(
-        root.join(".csdlc/evidence/631/install/provenance-actual.json"),
-        br#"{"source":"git:def456"}"#,
-    )
-    .expect("write install provenance");
+    let (root, artifact_ref, artifact_digest) =
+        write_evidence("install/actual-csdlc", b"actual artifact bytes");
+    let selector_ref = scoped_evidence_ref("install/selector-actual.json");
+    fs::write(root.join(&selector_ref), br#"{"selected":"actual"}"#)
+        .expect("write selector metadata");
+    let provenance_ref = scoped_evidence_ref("install/provenance-actual.json");
+    fs::write(root.join(&provenance_ref), br#"{"source":"git:def456"}"#)
+        .expect("write install provenance");
     assert_blocked_value(
         "install",
         json!({
@@ -329,9 +335,9 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           "evidence_root": root,
           "install": {
             "artifact_name": "csdlc",
-            "artifact_ref": ".csdlc/evidence/631/install/actual-csdlc",
-            "source_provenance_ref": ".csdlc/evidence/631/install/provenance-actual.json",
-            "selector_metadata_ref": ".csdlc/evidence/631/install/selector-actual.json",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
             "source_provenance": "git:def456",
             "selected_binary_digest": artifact_digest,
             "observed_binary_digest": "caller-forged",
@@ -343,20 +349,19 @@ fn install_route_is_one_binary_plan_gated_by_505() {
         }),
         "install_observed_binary_digest_mismatch",
     );
-    let (root, artifact_digest) = write_evidence(
-        ".csdlc/evidence/631/install/forged-provenance-csdlc",
+    let (root, artifact_ref, artifact_digest) = write_evidence(
+        "install/forged-provenance-csdlc",
         b"forged provenance artifact bytes",
     );
-    fs::write(
-        root.join(".csdlc/evidence/631/install/forged-selector.json"),
-        br#"{"selected":"csdlc"}"#,
-    )
-    .expect("write selector metadata");
+    let selector_ref = scoped_evidence_ref("install/forged-selector.json");
+    fs::write(root.join(&selector_ref), br#"{"selected":"csdlc"}"#)
+        .expect("write selector metadata");
     let selector_digest = blake3::hash(br#"{"selected":"csdlc"}"#)
         .to_hex()
         .to_string();
+    let provenance_ref = scoped_evidence_ref("install/forged-provenance.json");
     fs::write(
-        root.join(".csdlc/evidence/631/install/forged-provenance.json"),
+        root.join(&provenance_ref),
         br#"{"source":"git:real-source"}"#,
     )
     .expect("write install provenance");
@@ -369,9 +374,9 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           "evidence_root": root,
           "install": {
             "artifact_name": "csdlc",
-            "artifact_ref": ".csdlc/evidence/631/install/forged-provenance-csdlc",
-            "source_provenance_ref": ".csdlc/evidence/631/install/forged-provenance.json",
-            "selector_metadata_ref": ".csdlc/evidence/631/install/forged-selector.json",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
             "source_provenance": "git:caller-forged-source",
             "selected_binary_digest": artifact_digest,
             "observed_binary_digest": artifact_digest,
