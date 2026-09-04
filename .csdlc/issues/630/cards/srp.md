@@ -36,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue.
+- Live PR publication and GitHub closeout still require typed v2 publication, PR-state verification, merge/finish, and cleanup after this review.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9b6f08bfaa28651d2f632418fe409477b2975d97:da90166c7a28bcd39a34b376384085215bdfe1809ba2b6f15d6e9e7826a3388e")
 
-Reviewer: None
+Reviewer: Some("codex-reviewer:review_630_terminal_guard_fix")
 
-Result: pre_review
+Result: pass

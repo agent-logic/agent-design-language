@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "bb828fd4763be2cedfb78190502be40f7ca07ebb31aa75d7d0fde9d6e140d8b2",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "3458e7389be8cafdb9b062753dabdd93ac67dd864fb3501c654ab8587f95cd27",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
   "review_assignment": {
@@ -22,7 +22,25 @@
       "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-reviewer:review_630_terminal_guard_fix",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+    ],
+    "reviewed_revision": "git-blake3:9b6f08bfaa28651d2f632418fe409477b2975d97:da90166c7a28bcd39a34b376384085215bdfe1809ba2b6f15d6e9e7826a3388e",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 finish, clean, and cutover remain construction-only until explicit V3-F/#505 cutover; no live terminal authority is granted by this issue.",
+      "Live PR publication and GitHub closeout still require typed v2 publication, PR-state verification, merge/finish, and cleanup after this review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f0c60dda652e4769f72afd3862927a1e3b1b15949f839584ced72a704ad69785",
+      "values_digest": "60b975588c4aed6fbb4381b2812e65cbf56dbc52cd7081e79f66360a80315e3a",
       "rendered_digest": "1220c5da6d917ba73b1426740f0e35d17556908d12e517b145862d33c1e47224",
       "ast_digest": "f55748d68cc81689a1069eda23bb646c6a15cba9f493a6b41a167606d2eceda9"
     },
     "stp": {
-      "values_digest": "522ff7979347ac546176db4aa881103df4c55426cb2de8e4136eaa69926e6a96",
+      "values_digest": "0cd5f23975ef2a765ad206c66259c3ab8588bcf7b7294e8119270946db2e3f6d",
       "rendered_digest": "1a78da83ee5aa0da61833652d1aea89bcac2fafd3cec42a6c3d04eedd6b76d22",
       "ast_digest": "29b2d85288d1e6e3e2fcf68b04927243973475d73c136f5f7ea3e105e15d2810"
     },
     "spp": {
-      "values_digest": "e16725f9d3db7bab506b2cea2b13ea03065f3378d36a78938f9d7dda23b853ea",
+      "values_digest": "8a267fe4a8ab7ec07ad945d0ad922458433478b15aef6d480a162dc88cb8c765",
       "rendered_digest": "48bc53e8b0112b82510bc3d6ccaaddc0b5cd3913373cd70395df3dd0c2c5934a",
       "ast_digest": "af1aadfeba9d366e439706ef17875ba228e60014761c4ae53938bce0e8ace95e"
     },
     "vpp": {
-      "values_digest": "e4368c1be1a1e3d5d523178060c4ff6936404fb0ef5ec18e8d1c4b8aaf18f575",
+      "values_digest": "379b26588782c128e0d8fc50ee070cc048891205a4190defdc38b6adfe41e9dd",
       "rendered_digest": "0348c962f9be87eb674c86a89a7b34ada87cff5b7f5a378acd3a44dca63b8875",
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "00ab5fb74e1db07eaaf0cc321d6260e85db1a690d4a6fc5e4de83f2fcd21a036",
-      "rendered_digest": "ced8ce9b007a4a0af696989fab18fa9988f1078ea63b155e1e33ef785cd54916",
-      "ast_digest": "f3affce89f8acf3077b8a4313c06f6b990c6fa22e64e63ccd7796d4fd94872c2"
+      "values_digest": "1dc6bcfc31f0334ac53b2392d695253ff4246429f260f12d7bfa29e41ded9043",
+      "rendered_digest": "49741606aba1c7eb6a86646197eab7488be8341d0d42b3e07db792e592b37d07",
+      "ast_digest": "cc9e1a3d91d2162766cecf6da0a2b7f1ad9f05c7eeb749ce6dac9655ac724e92"
     },
     "sor": {
-      "values_digest": "ff0861a68aea73090087a1e6ceadaea200c9bccc0daeed0a770d9a87b2ad6de8",
+      "values_digest": "ed83febbfbf952a18a31df649239d8623599e9e14f83ba6f85d0142238ed3448",
       "rendered_digest": "ee57911d5890498fa99996f24f0028189ea748fbd7ddf2b9f6298d5d15ed4468",
       "ast_digest": "a88e352e1de52995dc2437cc731c6ceee2a4d460c1d35866a7eb8d822e945f14"
     }
@@ -186,6 +204,13 @@
       "to": "implemented",
       "actor": "codex:worker-6:sprint6-v3h4-main-merge",
       "reason": "Recover stale #630 review and publication truth after merging current main, including terminal #629, into the V3-H.4 branch before final typed finish."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6:sprint6-v3h4-review-fixes",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -419,6 +444,13 @@
       "actor": "codex:worker-6:sprint6-v3h4-review-fixes",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 22,
+      "actor": "codex:worker-6:sprint6-v3h4-review-fixes",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
