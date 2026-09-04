@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 674,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add New Polis citizen Welcome Package for resident agents",
+    "slug": "runtime-new-polis-citizen-welcome-package",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Author the single Welcome Package document and its lightweight documentation contract only.",
+      "deliverables": [
+        "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+        ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh",
+        "Focused documentation validation evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The document is explicitly versioned and addresses a newly admitted model-backed resident agent",
+        "AC-2: It explains Axioma Polis, resident identity, other residents, the Polis Shepherd, and Layer 8 in plain language",
+        "AC-3: It describes agent-to-agent communication only as conditional on Runtime admission, communication eligibility, Layer 8 authority, and provider availability",
+        "AC-4: It forbids unrestricted autonomous messaging, credential access, external side effects, unbounded loops, private-data disclosure, and invented capabilities",
+        "AC-5: It directs the resident to ask the Shepherd or operator, request a governed action, clarify uncertainty, or decline when policy is missing",
+        "AC-6: Its tone is welcoming and supportive without lore, personhood claims, or capability fantasy",
+        "AC-7: Lightweight offline documentation checks and exact-head independent review pass"
+      ],
+      "dependencies": [
+        "Current Runtime resident-agent, Shepherd, Layer 8, and governed A2A contracts are read-only source evidence"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#674",
+        "adl/src/csm_shepherd_agent.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/layer8_authority/mod.rs"
+      ],
+      "non_goals": [
+        "No Runtime implementation or delivery mechanism",
+        "No Rust, API, OpenAPI, Observatory, provider, configuration, or cloud change",
+        "No live model or Runtime validation",
+        "No grant of autonomous powers",
+        "No broad Polis lore rewrite"
+      ]
+    }
+  }
+}
