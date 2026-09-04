@@ -3,11 +3,11 @@
   "issue": 680,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 8,
-  "digest": "9ddee8182ffa2236efd510d71b0520841352946df245a78e18512405773d06cf",
-  "branch": null,
-  "worktree": null,
+  "digest": "b6a71430080c97493fb2fd0c49211aeeac4ba21a1bd9d6031e8b11714b790cc3",
+  "branch": "codex/680-moonshot-kimi-k3-provider",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:root",
       "reason": "advance #680 to ready after approved design, executable issue-owned preparation validator, csdlc-doctor PASS, and csdlc-validate PASS"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -126,6 +133,13 @@
       "actor": "codex:root",
       "reason": "advance #680 to ready after approved design, executable issue-owned preparation validator, csdlc-doctor PASS, and csdlc-validate PASS",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }

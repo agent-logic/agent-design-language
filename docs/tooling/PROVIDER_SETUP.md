@@ -10,6 +10,8 @@ Current `adl provider setup` families:
 - `anthropic`
 - `gemini`
 - `deepseek`
+- `kimi`
+- `moonshot`
 - `bedrock`
 - `openrouter`
 - `z_ai`
@@ -37,10 +39,11 @@ The generated bundle is intentionally local-only:
 - users are expected to copy/fill a local env file and source it before running ADL
 
 Important transport note:
-- `openai`, `anthropic`, `deepseek`, `openrouter`, `bedrock`, and `z_ai` now use Rust-native provider adapters by default:
+- `openai`, `anthropic`, `deepseek`, `kimi`/`moonshot`, `openrouter`, `bedrock`, and `z_ai` now use Rust-native provider adapters by default:
   - `type: "openai"` targets the OpenAI Responses API unless `config.endpoint` is explicitly overridden
   - `type: "anthropic"` targets the Anthropic Messages API unless `config.endpoint` is explicitly overridden
   - `type: "deepseek"` targets the DeepSeek chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "kimi"` targets Moonshot's OpenAI-compatible chat completions API unless `config.endpoint` is explicitly overridden
   - `type: "openrouter"` targets the OpenRouter chat completions API unless `config.endpoint` is explicitly overridden
   - `type: "bedrock"` targets AWS Bedrock Runtime through the AWS SDK and defaults to `ADL_AWS_PROFILE=agent-logic-admin`
   - `type: "z_ai"` targets the Z.ai/Zhipu OpenAI-compatible chat completions API unless `config.endpoint` is explicitly overridden
@@ -60,6 +63,7 @@ adl provider setup chatgpt
 adl provider setup claude
 adl provider setup openai --out ./.adl/provider-setup/openai
 adl provider setup deepseek
+adl provider setup kimi
 adl provider setup bedrock
 adl provider setup z_ai
 ```
@@ -72,6 +76,12 @@ AWS Bedrock native note:
 DeepSeek native note:
 - `adl provider setup deepseek` emits `type: "deepseek"`, reads `DEEPSEEK_API_KEY`, and uses `https://api.deepseek.com/chat/completions` by default
 - the older `http:deepseek-chat` profile remains a compatibility surface for ADL-style completion gateways; it is not the native DeepSeek API path
+
+Moonshot/Kimi native note:
+- `adl provider setup kimi` emits `type: "kimi"`, reads `MOONSHOT_API_KEY`, and uses `https://api.moonshot.ai/v1/chat/completions` by default
+- `adl provider setup moonshot` is an alias for the same provider family
+- the built-in Kimi profiles include `kimi:k2.5` and `kimi:k3`; `kimi:k3` maps to provider model id `kimi-k3` for the provider route `hosted:adl-kimi:kimi-k3`
+- Kimi K3 reasoning configuration is explicit and bounded: `reasoning_effort` may be `low`, `high`, or `max`
 
 Z.ai native note:
 - `adl provider setup z_ai` emits `type: "z_ai"` and reads `ZAI_API_KEY`; the default `glm-5` setup path preserves the established `https://open.bigmodel.cn/api/paas/v4/chat/completions` endpoint, while the `z_ai:glm-5.3-flash` profile uses `https://api.z.ai/api/paas/v4/chat/completions`

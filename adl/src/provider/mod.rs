@@ -38,7 +38,7 @@ pub use http_family::{
     AnthropicProvider, AwsBedrockProvider, HttpProvider, OllamaHttpProvider, OpenAiProvider,
     VertexAiGeminiProvider, ZAiProvider,
 };
-pub use http_family::{DeepSeekProvider, OpenRouterProvider};
+pub use http_family::{DeepSeekProvider, KimiProvider, OpenRouterProvider};
 pub use local::{MockProvider, OllamaProvider};
 pub use profiles::{
     activate_provider_profile_candidate, expand_provider_profiles,
@@ -52,9 +52,9 @@ pub use reload::{
 
 pub(crate) use profiles::{
     is_allowed_ollama_endpoint, is_allowed_remote_endpoint, ANTHROPIC_MESSAGES_ENDPOINT,
-    ANTHROPIC_VERSION, DEEPSEEK_CHAT_COMPLETIONS_ENDPOINT, OPENAI_RESPONSES_ENDPOINT,
-    OPENROUTER_CHAT_COMPLETIONS_ENDPOINT, Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT,
-    Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
+    ANTHROPIC_VERSION, DEEPSEEK_CHAT_COMPLETIONS_ENDPOINT, KIMI_CHAT_COMPLETIONS_ENDPOINT,
+    OPENAI_RESPONSES_ENDPOINT, OPENROUTER_CHAT_COMPLETIONS_ENDPOINT,
+    Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT, Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
 };
 
 /// A minimal blocking provider abstraction used by runtime execution paths.
@@ -495,8 +495,8 @@ impl ProviderError {
             kind: ProviderErrorKind::UnknownKind,
             provider: None,
             message: format!(
-            "provider kind '{kind}' is not supported (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai). \
-Set providers.<id>.type to one of: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai, vertex_ai_gemini. The remote provider surfaces are HTTPS-only."
+                "provider kind '{kind}' is not supported (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, kimi, moonshot, openrouter, bedrock, aws_bedrock, z_ai). \
+Set providers.<id>.type to one of: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, kimi, moonshot, openrouter, bedrock, aws_bedrock, z_ai, vertex_ai_gemini. The remote provider surfaces are HTTPS-only."
             ),
         }
     }
@@ -661,8 +661,8 @@ pub fn build_provider_for_id(
 ) -> Result<Box<dyn Provider>> {
     match spec.kind.trim() {
         "http" | "http_remote" | "ollama" | "local_ollama" | "mock" | "openai" | "anthropic"
-        | "deepseek" | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai" | "zai" | "zhipu"
-        | "vertex_ai_gemini" | "vertex_ai" | "vertex" => {}
+        | "deepseek" | "kimi" | "moonshot" | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai"
+        | "zai" | "zhipu" | "vertex_ai_gemini" | "vertex_ai" | "vertex" => {}
         other => return Err(unknown_kind(other)),
     }
 
@@ -678,6 +678,7 @@ pub fn build_provider_for_id(
             "openai" => Box::new(OpenAiProvider::from_target(spec, &target)?),
             "anthropic" => Box::new(AnthropicProvider::from_target(spec, &target)?),
             "deepseek" => Box::new(DeepSeekProvider::from_target(spec, &target)?),
+            "kimi" | "moonshot" => Box::new(KimiProvider::from_target(spec, &target)?),
             "openrouter" => Box::new(OpenRouterProvider::from_target(spec, &target)?),
             "bedrock" | "aws_bedrock" => Box::new(AwsBedrockProvider::from_target(spec, &target)?),
             "z_ai" | "zai" | "zhipu" => Box::new(ZAiProvider::from_target(spec, &target)?),
@@ -1025,6 +1026,7 @@ mod tests {
         let names = provider_profile_names();
         for name in [
             "kimi:k2.5",
+            "kimi:k3",
             "minimax:m2.5",
             "qwen:qwen3-max",
             "xai:grok-4.5",
@@ -1051,6 +1053,14 @@ mod tests {
         assert_ne!(
             provider_profile_registry()["kimi:k2.5"].provider_model_id,
             provider_profile_registry()["xai:grok-4.5"].provider_model_id
+        );
+        assert_eq!(
+            provider_profile_registry()["kimi:k3"].provider_model_id,
+            Some("kimi-k3")
+        );
+        assert_eq!(
+            provider_profile_registry()["kimi:k3"].endpoint,
+            Some(KIMI_CHAT_COMPLETIONS_ENDPOINT)
         );
     }
 
