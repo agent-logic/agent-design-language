@@ -205,8 +205,14 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
         Some(receipt.clone()),
         Some(receipt_digest.clone()),
     );
+    let denied_remove = prepare_terminal_route("clean", &remove).expect("denied remove");
+    assert_eq!(denied_remove.status, TerminalRouteStatus::Blocked);
+    assert!(denied_remove
+        .findings
+        .iter()
+        .any(|finding| finding.code == "cleanup_removal_denied_pre_cutover"));
     assert!(matches!(
-        prepare_terminal_route("clean", &remove).unwrap().cleanup,
+        denied_remove.cleanup,
         Some(CleanupDecision::RemovalDeniedPreCutover { .. })
     ));
     assert!(registered.exists());
@@ -418,6 +424,31 @@ fn cleanup_rejects_caller_boolean_without_durable_terminal_receipt() {
 }
 
 #[test]
+fn cleanup_rejects_disposable_terminal_receipt_path() {
+    let fixture = fixture_root("cleanup_disposable_terminal_receipt");
+    let primary = fixture.join("primary");
+    let registered = fixture.join("registered");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    init_repo(&primary);
+    git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
+    let receipt = write_terminal_receipt_at(
+        &primary,
+        630,
+        641,
+        "0123456789012345678901234567890123456789",
+        "target/disposable-terminal-receipt.json",
+    );
+
+    let plan = cleanup_plan(&fixture, &primary, &registered, false, Some(receipt), None);
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "receipt_path_not_durable"));
+}
+
+#[test]
 fn clean_cli_reports_requested_but_unperformed_mutation_before_cutover() {
     let fixture = fixture_root("cleanup_cli_read_only_report");
     let primary = fixture.join("primary");
@@ -513,6 +544,22 @@ fn write_terminal_receipt(
     pull_request: u64,
     head_sha: &str,
 ) -> (String, String) {
+    write_terminal_receipt_at(
+        repository_root,
+        issue,
+        pull_request,
+        head_sha,
+        ".csdlc/evidence/630/terminal-receipt.json",
+    )
+}
+
+fn write_terminal_receipt_at(
+    repository_root: &Path,
+    issue: u64,
+    pull_request: u64,
+    head_sha: &str,
+    relative_path: &str,
+) -> (String, String) {
     let receipt = DurableTerminalReceipt {
         schema: "csdlc.v3.terminal_receipt.v1".into(),
         repository: "agent-logic/agent-design-language".into(),
@@ -521,12 +568,12 @@ fn write_terminal_receipt(
         head_sha: head_sha.into(),
         disposition: "closed_out".into(),
     };
-    let path = repository_root.join(".csdlc/evidence/630/terminal-receipt.json");
+    let path = repository_root.join(relative_path);
     fs::create_dir_all(path.parent().expect("receipt parent")).expect("receipt directory");
     let bytes = serde_json::to_vec(&receipt).expect("serialize receipt");
     fs::write(&path, &bytes).expect("write receipt");
     let digest = blake3::hash(&bytes).to_hex().to_string();
-    (".csdlc/evidence/630/terminal-receipt.json".into(), digest)
+    (relative_path.into(), digest)
 }
 
 fn fixture_root(name: &str) -> PathBuf {

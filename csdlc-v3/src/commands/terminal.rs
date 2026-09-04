@@ -219,7 +219,15 @@ pub fn prepare_terminal_route(
         "finish" => findings.extend(public_finish_findings(request)),
         "clean" => match request.cleanup.as_ref() {
             Some(cleanup_request) => match classify_cleanup_from_git(request, cleanup_request) {
-                Ok(decision) => cleanup = Some(decision),
+                Ok(decision) => {
+                    if matches!(decision, CleanupDecision::RemovalDeniedPreCutover { .. }) {
+                        findings.push(finding(
+                            "cleanup_removal_denied_pre_cutover",
+                            "v3 clean cannot remove worktrees before #505 cutover authority",
+                        ));
+                    }
+                    cleanup = Some(decision);
+                }
                 Err(finding) => findings.push(finding),
             },
             None => findings.push(finding(
@@ -457,10 +465,16 @@ fn verify_terminal_receipt(
             "declared terminal closeout receipt file is missing",
         )
     })?;
-    if !canonical.starts_with(repository_root) {
+    if !is_repo_or_git_receipt_path(repository_root, &canonical) {
         return Err(finding(
-            "terminal_receipt_outside_repo",
-            "terminal closeout receipt must remain beneath the repository root",
+            "receipt_path_escapes_repository",
+            "terminal closeout receipt must canonicalize beneath the repository root or resolved Git receipt directory",
+        ));
+    }
+    if !is_durable_terminal_receipt_path(repository_root, &canonical) {
+        return Err(finding(
+            "receipt_path_not_durable",
+            "terminal closeout receipt must live under .csdlc/evidence or .git/csdlc-v3",
         ));
     }
     let bytes = fs::read(&canonical).map_err(|error| {
@@ -495,6 +509,51 @@ fn verify_terminal_receipt(
         ));
     }
     Ok(())
+}
+
+fn is_durable_terminal_receipt_path(repository_root: &Path, canonical: &Path) -> bool {
+    canonical.starts_with(repository_root.join(".csdlc/evidence"))
+        || git_control_dir(repository_root)
+            .map(|git_dir| canonical.starts_with(git_dir.join("csdlc-v3")))
+            .unwrap_or(false)
+}
+
+fn is_repo_or_git_receipt_path(repository_root: &Path, canonical: &Path) -> bool {
+    canonical.starts_with(repository_root)
+        || git_control_dir(repository_root)
+            .map(|git_dir| canonical.starts_with(git_dir.join("csdlc-v3")))
+            .unwrap_or(false)
+}
+
+fn git_control_dir(repository_root: &Path) -> Option<PathBuf> {
+    let dot_git = repository_root.join(".git");
+    if dot_git.is_dir() {
+        return dot_git.canonicalize().ok();
+    }
+    let contents = fs::read_to_string(&dot_git).ok()?;
+    let gitdir = contents.strip_prefix("gitdir:")?.trim();
+    let path = Path::new(gitdir);
+    let path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        repository_root.join(path)
+    };
+    let git_dir = path.canonicalize().ok()?;
+    if let Some(common_dir) = git_common_dir(&git_dir) {
+        return Some(common_dir);
+    }
+    Some(git_dir)
+}
+
+fn git_common_dir(git_dir: &Path) -> Option<PathBuf> {
+    let contents = fs::read_to_string(git_dir.join("commondir")).ok()?;
+    let path = Path::new(contents.trim());
+    let path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        git_dir.join(path)
+    };
+    path.canonicalize().ok()
 }
 
 fn decide_cutover(
