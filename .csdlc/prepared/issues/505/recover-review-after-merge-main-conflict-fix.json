@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 39,
+  "expected_digest": "f982d5aca4c427ffea9cc813db9367104818d896e945e298bb7606bd3f1a75be",
+  "actor": "codex:worker-6",
+  "reason": "Recover stale #505 review/publication truth after merging current main into PR #591, resolving v3 command-route conflicts, and aligning the replacement denominator cutover route without approving cutover."
+}
