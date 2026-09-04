@@ -1,0 +1,94 @@
+{
+  "issue": 665,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "942355f06822f2105d01765c2f07fa8558d0f5c8aa450d25c5927aafecd96198",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Record #665 failed-adoption preservation repair.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Removed obsolete failed-adoption cleanup that could delete an existing target `.csdlc/issues/<issue>/adoption.v1.json` after a failed bind. Adoption evidence is staged inside the atomic issue projection replacement, so failed adoption now leaves any pre-existing regular evidence file untouched; focused regression coverage proves the preservation behavior.",
+    "changes": [
+      "Removed the post-error `remove_file` cleanup for adoption evidence from `bind_issue`.",
+      "Added a focused regression where a clean worktree has a tracked pre-existing adoption evidence file and a staging blocker; failed adoption returns an I/O error while preserving the existing file and ready/unbound record.",
+      "Retained the staged atomic evidence path for successful adoption."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/prepared/issues/665/record-failed-adoption-preservation.json"
+    ],
+    "validation": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "gate5",
+          "emergency_branch_adoption"
+        ],
+        "purpose": "Prove failed adoption preserves existing evidence, alongside all #665 adoption success/failure behavior.",
+        "outcome": "passed",
+        "evidence_ref": "Local focused gate5 run at 7f036ca8 passed: 9 passed, 0 failed."
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--no-run"
+        ],
+        "purpose": "Compile all C-SDLC v2 test targets after final failed-adoption preservation repair.",
+        "outcome": "passed",
+        "evidence_ref": "Local C-SDLC v2 no-run compile completed successfully at 7f036ca8."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh"
+        ],
+        "purpose": "Prove issue-owned scope validator remains green after failed-adoption preservation repair.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned scope validator exited zero."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+        ],
+        "purpose": "Prove issue-owned documentation validator remains green after failed-adoption preservation repair.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned docs validator exited zero."
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Prove whitespace and conflict-marker hygiene for the exact branch diff.",
+        "outcome": "passed",
+        "evidence_ref": "Local diff hygiene exited zero."
+      },
+      {
+        "command": [
+          ".adl/bin/csdlc-v2/csdlc-install",
+          "verify",
+          "--repo",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
+          "--bin-dir",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect/.adl/bin/csdlc-v2",
+          "--inventory",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect/csdlc-v2/operator/coexistence.json"
+        ],
+        "purpose": "Prove repo-local C-SDLC v2 owner binaries are installed from source 7f036ca8 and v1 command surfaces remain absent.",
+        "outcome": "passed",
+        "evidence_ref": "coexistence_report.v2 pass=true with default_generation=v2 and no missing v2 binaries."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}
