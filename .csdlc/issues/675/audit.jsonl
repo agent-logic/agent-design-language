@@ -25,3 +25,7 @@
 {"sequence":25,"generation":20,"actor":"codex:/root:issue-675-first-class-a2a","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":26,"generation":21,"actor":"codex:/root:exact-head-review-after-config-reload-ci-fix","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":27,"generation":22,"actor":"codex:/root:issue-675-first-class-a2a","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":28,"generation":23,"actor":"codex:/root:issue-675-first-class-a2a","reason":"Recover #675 lifecycle truth after hosted CI exposed that the config reload debounce test still used in-place rewrites, and a narrow atomic publish test helper commit was added to the published PR branch.","operation":"recover_review"}
+{"sequence":29,"generation":23,"actor":"codex:/root:issue-675-first-class-a2a","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":30,"generation":24,"actor":"codex:/root:exact-head-review-after-atomic-config-reload-ci-fix","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":31,"generation":25,"actor":"codex:/root:issue-675-first-class-a2a","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

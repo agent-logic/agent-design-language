@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime][bug] Make agent-to-agent initiation first-class in live Observatory",
     "slug": "runtime-first-class-agent-to-agent-live-path",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 25
   },
   "status": "pre_phase",
   "content": {

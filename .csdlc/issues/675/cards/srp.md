@@ -38,7 +38,7 @@ demos/html-observatory/tests/conversation_sessions.test.mjs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "route": null
   },
   {
@@ -48,7 +48,7 @@ demos/html-observatory/tests/conversation_sessions.test.mjs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "route": null
   },
   {
@@ -58,7 +58,7 @@ demos/html-observatory/tests/conversation_sessions.test.mjs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "route": null
   },
   {
@@ -68,17 +68,17 @@ demos/html-observatory/tests/conversation_sessions.test.mjs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "route": null
   },
   {
     "id": "review-675-config-reload-debounce-ci-flake",
     "severity": "p2",
-    "summary": "Hosted CI exposed that the config reload debounce test could accept a transient empty rewrite candidate as the latest valid snapshot.",
+    "summary": "Hosted CI exposed that the config reload debounce test accepted transient rewrite observations and then still published an extra same-content snapshot with in-place test writes.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "route": null
   }
 ]
@@ -95,8 +95,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07")
+Revision: Some("git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4")
 
-Reviewer: Some("codex:/root:exact-head-review-after-config-reload-ci-fix")
+Reviewer: Some("codex:/root:exact-head-review-after-atomic-config-reload-ci-fix")
 
 Result: pass

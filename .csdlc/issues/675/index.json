@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "421c639338da4b4b87f4e83eb2bc04d509704baa043dfd1eed6262fcb2d57e4a",
   "phase": "published",
-  "generation": 22,
-  "digest": "f35085fc28c6be2ff5ae5479f814fa635265e94e6d5046ac729e29011a1d6021",
+  "generation": 25,
+  "digest": "26109df98078cfbb6f856c2e23109e803071e24293de6551a041ad4112e394ce",
   "branch": "codex/675-first-class-a2a-live-path-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-675-first-class-a2a-live-path-impl",
   "review_assignment": {
-    "reviewer": "codex:/root:exact-head-review-after-config-reload-ci-fix",
+    "reviewer": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
     "assigned_by": "codex:/root:issue-675-first-class-a2a",
-    "revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -24,7 +24,7 @@
     ]
   },
   "review": {
-    "reviewer": "codex:/root:exact-head-review-after-config-reload-ci-fix",
+    "reviewer": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -34,7 +34,7 @@
       "demos/html-observatory/tests/conversation_sessions.test.mjs",
       ".csdlc/prepared/issues/675"
     ],
-    "reviewed_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "reviewed_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "findings": [
       {
         "id": "review-675-runtime-derived-a2a-ids",
@@ -43,7 +43,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
         "route": null
       },
       {
@@ -53,7 +53,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
         "route": null
       },
       {
@@ -63,7 +63,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
         "route": null
       },
       {
@@ -73,17 +73,17 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
         "route": null
       },
       {
         "id": "review-675-config-reload-debounce-ci-flake",
         "severity": "p2",
-        "summary": "Hosted CI exposed that the config reload debounce test could accept a transient empty rewrite candidate as the latest valid snapshot.",
+        "summary": "Hosted CI exposed that the config reload debounce test accepted transient rewrite observations and then still published an extra same-content snapshot with in-place test writes.",
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
         "route": null
       }
     ],
@@ -102,7 +102,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/677",
     "base": "main",
     "head": "codex/675-first-class-a2a-live-path-impl",
-    "revision": "git-blake3:981f3541f2036caa5f1396674e965c7b13f55c01:dea0d2519a88ccf0f429bb8233e230823d6cf6dfbc74e1c4bf4f9c4d908eaa07",
+    "revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -120,32 +120,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6f360e8d21645f4b69f3e00dbe5ab95f7a57b196619d5ebbf71bb97e502cbd87",
+      "values_digest": "545cd17328194cdd3841436b1d866f3ae9b1eeb56d09c387323ad2bed9ff5327",
       "rendered_digest": "9b220d4fa0937aaeb000bd149aefbd15704ee1ecd0e91272ffa404d7def1c223",
       "ast_digest": "0699f875edd27e63d09acc2081bb92416e23d902b6f54b69afd7f905a8d0695f"
     },
     "stp": {
-      "values_digest": "a24d09b065f69d91fe710a2dd8f1de912c93246779aa8e36af805756bee2c000",
+      "values_digest": "dd9272cb239f4c553cfa3d3fb10b688af865a7208fa81f1269c7bb8e5a8a8fc9",
       "rendered_digest": "c8c8fad263f5e04e11b6473cc393b63cf4cd1764299ca7547f63cad7cdcade29",
       "ast_digest": "64a3e7f6e00aabe76dfdca2408d06c4d828eb1d350995771eea427a58e139ea2"
     },
     "spp": {
-      "values_digest": "79f28628e3f42989a9639275a818b7b52390f88b88b5771e6d6598547fbbb027",
+      "values_digest": "9731e371b1ee5af78ce459259527fe06633c8af3bcf6afe35d9eda61fed25214",
       "rendered_digest": "68650dbf2cb39bb4162b4493478248e9327fde8e56b6cd5aa9884d78fe24bdbe",
       "ast_digest": "6ae2d22ac130bb8cb7df62a2e01f515d9be7b4435ea23ade79e373a89ea69fa4"
     },
     "vpp": {
-      "values_digest": "b3eb1b095f7e5dcd1fbb0bee5f542221a1de06f0e0cc922586881180c7ab49c2",
+      "values_digest": "aa7511c970e6de56a129b3e5bc556074876c3702a57aac943e45891f3c9b6e2c",
       "rendered_digest": "9b2ba5d7cccfb7b45334862edc672c548d666a9740a06cc0234b78007f0beb50",
       "ast_digest": "53dfec33a381c7e5c5bde88852e1a6dfe581cc7a3e8e31e26c4cdec721774aea"
     },
     "srp": {
-      "values_digest": "aee2536aa501e6c628f2d48e10b854c09ae598d12d3b531b3588c141dbec6027",
-      "rendered_digest": "100e55b7cf68d8a68749d1991292929f58d205081935b32a960df13308c15dab",
-      "ast_digest": "d3761f5aed5560143f37186eb4321be0f5c734a900d8d6a29e24f7a2bab4d988"
+      "values_digest": "f54bf88a1a8b37eddc694a4c76905ca70ca7e968de18011e8ae42aefb067dd16",
+      "rendered_digest": "b9a77496bcf2eb2e4f9c5f43713c089659ee01ef3f9bd567336d346ea9bfd271",
+      "ast_digest": "d85ab566c900c8df7abd8dd064b4b70009c7d075639126101c3ff57099ba30ac"
     },
     "sor": {
-      "values_digest": "d520756f8f857c4d5103c2f1b352155cd806713eea98477f96999fd09b968224",
+      "values_digest": "473e842d9d82e087a18714beec1e7a5de32d01147cbc4fb71133dbba0d415d66",
       "rendered_digest": "498fe41555090a6a9938847791e504ff77093c9c6cc1b60e6635e20de99ac914",
       "ast_digest": "0ab24970ad3debd4f1dc8ae921c08c2eba58619a006b0767603e3d8a6f03e3a1"
     }
@@ -223,6 +223,27 @@
     },
     {
       "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after hosted CI exposed that the config reload debounce test still used in-place rewrites, and a narrow atomic publish test helper commit was added to the published PR branch."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:/root:issue-675-first-class-a2a",
@@ -415,6 +436,34 @@
     {
       "sequence": 27,
       "generation": 22,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after hosted CI exposed that the config reload debounce test still used in-place rewrites, and a narrow atomic publish test helper commit was added to the published PR branch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
       "actor": "codex:/root:issue-675-first-class-a2a",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
