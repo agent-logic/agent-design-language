@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-S3/CloudFront/ACM/Route53 static Observatory deployability, CSP/CORS/WSS compatibility, redacted readbacks, rollback, and lifecycle truth only.
+infra/aws/observatory
+docs/operations/cloud/aws/observatory
+.csdlc/prepared/issues/679/validate_s3_deployable_observatory.py
+.csdlc/evidence/679
 
 ## Prompts
 
@@ -30,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Terraform and readback behavior were validated locally only; live AWS plan, apply, and readback remain deferred pending explicit operator authorization.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fac8cf1fb39ba7b561cf35203b452cba90caf6cc:b284085b255bc0f65b42eb0e749ee2b86370ad9693da1e3e69da5c2aab261405")
 
-Reviewer: None
+Reviewer: Some("codex:issue-679-review")
 
-Result: pre_review
+Result: pass

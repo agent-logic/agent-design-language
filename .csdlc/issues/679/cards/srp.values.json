@@ -7,23 +7,25 @@
     "title": "[v0.92.1][Observatory][infra] S3 deployable Observatory",
     "slug": "s3-deployable-observatory",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "S3/CloudFront/ACM/Route53 static Observatory deployability, CSP/CORS/WSS compatibility, redacted readbacks, rollback, and lifecycle truth only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "infra/aws/observatory\ndocs/operations/cloud/aws/observatory\n.csdlc/prepared/issues/679/validate_s3_deployable_observatory.py\n.csdlc/evidence/679",
+      "review_revision": "git-blake3:fac8cf1fb39ba7b561cf35203b452cba90caf6cc:b284085b255bc0f65b42eb0e749ee2b86370ad9693da1e3e69da5c2aab261405",
+      "reviewer": "codex:issue-679-review",
       "review_prompts": [
         "Does the issue keep #512 product work separate from #679 infrastructure deployability?",
         "Does the deployment plan avoid live AWS mutation unless separately authorized and retain truthful dry-run/readback classification?",
         "Do validators prove redaction, profile gating, static asset relativity, CSP/header behavior, and no credential persistence?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Terraform and readback behavior were validated locally only; live AWS plan, apply, and readback remain deferred pending explicit operator authorization."
+      ],
+      "review_result": "pass"
     }
   }
 }
