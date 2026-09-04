@@ -45,6 +45,8 @@ pub struct RemoteRouteRequest {
     #[serde(default)]
     pub mode: Option<RemotePublicationMode>,
     #[serde(default)]
+    pub title: Option<String>,
+    #[serde(default)]
     pub body: Option<String>,
     #[serde(default)]
     pub review_present: bool,
@@ -97,6 +99,8 @@ pub struct GithubReadbackReceipt {
     pub repository: String,
     pub issue: u64,
     pub pull_request: u64,
+    #[serde(default)]
+    pub title: Option<String>,
     pub head_sha: String,
     #[serde(default)]
     pub closes_issue: Option<u64>,
@@ -469,6 +473,7 @@ pub fn github_readback_receipt_payload_digest(receipt: &GithubReadbackReceipt) -
         &receipt.repository,
         &receipt.issue.to_string(),
         &receipt.pull_request.to_string(),
+        receipt.title.as_deref().unwrap_or_default(),
         &receipt.head_sha,
         &receipt.closes_issue.unwrap_or_default().to_string(),
         &receipt
@@ -576,6 +581,18 @@ pub fn observe_github_pr_readback(
             "GitHub pull request readback did not include head.sha",
         )
     })?;
+    let title = value["title"].as_str().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_title",
+            "GitHub pull request readback did not include title",
+        )
+    })?;
+    if title.trim().is_empty() {
+        return Err(remote_finding(
+            "github_observation_missing_title",
+            "GitHub pull request readback title was empty",
+        ));
+    }
     let body = value["body"].as_str().unwrap_or_default();
     let closes_issue =
         body_has_relation(Some(body), "Closes", request.issue).then_some(request.issue);
@@ -588,6 +605,7 @@ pub fn observe_github_pr_readback(
         repository: request.repository.clone(),
         issue: request.issue,
         pull_request,
+        title: Some(title.to_owned()),
         head_sha: head_sha.to_owned(),
         closes_issue,
         closing_issues: closing_issues.clone(),
@@ -609,6 +627,7 @@ pub fn observe_github_pr_readback(
     };
     let adapter_digest = github_adapter_receipt_payload_digest(&adapter);
     let mut observed = request.clone();
+    observed.title = Some(title.to_owned());
     observed.head_sha = Some(head_sha.to_owned());
     observed.readback_source = Some(RemoteReadbackSource::Github);
     observed.readback_receipt_digest = Some(readback_digest);
@@ -657,6 +676,7 @@ fn github_readback_receipt_matches(
         && receipt.repository == request.repository
         && receipt.issue == request.issue
         && Some(receipt.pull_request) == request.pull_request
+        && title_matches(receipt.title.as_deref(), request.title.as_deref())
         && Some(receipt.head_sha.as_str()) == request.head_sha.as_deref()
         && receipt.closes_issue == request.closes_issue
         && receipt.closing_issues == request.closing_issues
@@ -665,6 +685,22 @@ fn github_readback_receipt_matches(
         && receipt.observed_by == GITHUB_READ_ONLY_ADAPTER
         && request.readback_receipt_digest.as_deref()
             == Some(github_readback_receipt_payload_digest(receipt).as_str())
+}
+
+fn title_matches(receipt_title: Option<&str>, request_title: Option<&str>) -> bool {
+    let Some(receipt_title) = receipt_title
+        .map(str::trim)
+        .filter(|title| !title.is_empty())
+    else {
+        return false;
+    };
+    let Some(request_title) = request_title
+        .map(str::trim)
+        .filter(|title| !title.is_empty())
+    else {
+        return false;
+    };
+    receipt_title == request_title
 }
 
 fn github_adapter_receipt_matches(

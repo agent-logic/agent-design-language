@@ -408,6 +408,7 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         expected_head_sha: Some(head.clone()),
         head_sha: Some("caller-forged-head".into()),
         mode: Some(RemotePublicationMode::Closing),
+        title: Some("[caller-forged-title]".into()),
         body: Some("Closes #629\n\nPart of #625".into()),
         review_present: true,
         typed_review_receipt_path: None,
@@ -426,6 +427,7 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         status: ProcessStatus::Exit(0),
         stdout: serde_json::json!({
             "number": 641,
+            "title": "[v0.92.1][V3-H.3] GitHub publication route",
             "head": {"sha": head},
             "merged": false,
             "body": "Closes #629\n\nPart of #625"
