@@ -1645,23 +1645,25 @@ function conversationFrameTransition(frame, pending) {
   if (frame.status === "delivered" && !reply) {
     return null;
   }
-  return {
+  const transition = {
     status: frame.status,
     terminal: frame.status !== "accepted",
-    reply,
-    senderId: typeof frame.sender_id === "string" && frame.sender_id.length <= 128
-      ? frame.sender_id
-      : null,
-    initiatedWorkId: typeof frame.initiated_work_id === "string" && frame.initiated_work_id.length <= 128
-      ? frame.initiated_work_id
-      : null,
-    initiatedRecipientId: typeof frame.initiated_recipient_id === "string" && frame.initiated_recipient_id.length <= 128
-      ? frame.initiated_recipient_id
-      : null,
-    initiatedCorrelationId: typeof frame.initiated_correlation_id === "string" && /^[0-9a-f]{32}$/.test(frame.initiated_correlation_id)
-      ? frame.initiated_correlation_id
-      : null
+    reply
   };
+  if (typeof frame.sender_id === "string" && frame.sender_id.length <= 128) {
+    transition.senderId = frame.sender_id;
+  }
+  if (typeof frame.initiated_work_id === "string" && frame.initiated_work_id.length <= 128) {
+    transition.initiatedWorkId = frame.initiated_work_id;
+  }
+  if (typeof frame.initiated_recipient_id === "string" && frame.initiated_recipient_id.length <= 128) {
+    transition.initiatedRecipientId = frame.initiated_recipient_id;
+  }
+  if (typeof frame.initiated_correlation_id === "string" &&
+      /^[0-9a-f]{32}$/.test(frame.initiated_correlation_id)) {
+    transition.initiatedCorrelationId = frame.initiated_correlation_id;
+  }
+  return transition;
 }
 
 function conversationReplyFromFrame(frame, pending) {
