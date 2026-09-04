@@ -12,19 +12,93 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented the #686 Runtime v3 configuration-generation handoff. The change creates immutable configuration-generation receipts, validates and activates the active generation reference before Runtime service mutation, carries generation and receipt digest through CSM, Guardian child launch, kernel startup, readiness, and status, and adds deterministic regression coverage for malformed, mismatched, cross-binary, non-activated, and failed-candidate generation states without starting live Runtime/cloud services.
 
 ## Artifacts
 
-- none
+- adl-runtime-kernel/src/config_generation.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/control/feeds.rs
+- adl-runtime/src/bin/adl-runtime-guardian.rs
+- adl/src/cli/csm_runtime_v3_cmd.rs
+- adl/tests/csm_runtime_v3_generation.rs
+- .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py
+- .csdlc/evidence/686
 
 ## Execution
 
-- none
+- Added Runtime kernel configuration-generation receipt primitives for immutable receipt construction, digest validation, active-reference activation, and active-generation validation.
+- Threaded the active configuration generation and receipt digest through CSM Runtime v3 start/reload/status, Guardian child environment propagation, kernel startup, and readiness reporting.
+- Hardened reload recovery so active configuration generation references are backed up, restored, and committed together with init file replacement.
+- Added focused deterministic integration and unit coverage for receipt immutability, secret-path reference redaction, pre-activation non-authority, pointer mismatch rejection, candidate readiness without activation, candidate failure restoration, malformed receipt rejection, and cross-binary rejection.
+- Kept scope local to Runtime v3 configuration-generation handoff surfaces and did not perform any live Runtime restart, cloud, paid, credential, or deployment action.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "echo \"sha=$(git rev-parse HEAD)\"; echo 'argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl/Cargo.toml csm_runtime_v3_cmd'; CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl/Cargo.toml csm_runtime_v3_cmd; cmd_status=$?; echo \"status=${cmd_status}\"; exit ${cmd_status}"
+    ],
+    "purpose": "Run focused csm_runtime_v3_cmd unit tests covering Runtime v3 command behavior touched by the configuration-generation handoff.",
+    "outcome": "passed",
+    "evidence_ref": "issue686-csm-runtime-v3-unit.log"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "echo \"sha=$(git rev-parse HEAD)\"; echo 'argv=python3 .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py'; python3 .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py; cmd_status=$?; echo \"status=${cmd_status}\"; exit ${cmd_status}"
+    ],
+    "purpose": "Prove the issue-owned #686 static denominator for configuration-generation handoff coverage.",
+    "outcome": "passed",
+    "evidence_ref": "issue686-denominator.log"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "echo \"sha=$(git rev-parse HEAD)\"; echo 'argv=git diff --check'; git diff --check; cmd_status=$?; echo \"status=${cmd_status}\"; exit ${cmd_status}"
+    ],
+    "purpose": "Verify Git patch whitespace hygiene for the #686 worktree.",
+    "outcome": "passed",
+    "evidence_ref": "issue686-diff-check.log"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "echo \"sha=$(git rev-parse HEAD)\"; echo 'argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo fmt --manifest-path adl/Cargo.toml --check'; CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo fmt --manifest-path adl/Cargo.toml --check; cmd_status=$?; echo \"status=${cmd_status}\"; exit ${cmd_status}"
+    ],
+    "purpose": "Verify Rust formatting is clean for the ADL Cargo workspace.",
+    "outcome": "passed",
+    "evidence_ref": "issue686-fmt-check.log"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "echo \"sha=$(git rev-parse HEAD)\"; echo 'argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl/Cargo.toml --test csm_runtime_v3_generation'; CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl/Cargo.toml --test csm_runtime_v3_generation; cmd_status=$?; echo \"status=${cmd_status}\"; exit ${cmd_status}"
+    ],
+    "purpose": "Run the #686 focused Runtime v3 configuration-generation integration regression suite.",
+    "outcome": "passed",
+    "evidence_ref": "issue686-focused-generation.log"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "echo \"sha=$(git rev-parse HEAD)\"; echo 'argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo clippy --locked --manifest-path adl/Cargo.toml --all-targets -- -D warnings'; CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo clippy --locked --manifest-path adl/Cargo.toml --all-targets -- -D warnings; cmd_status=$?; echo \"status=${cmd_status}\"; exit ${cmd_status}"
+    ],
+    "purpose": "Run strict Clippy for all ADL Cargo targets with warnings denied.",
+    "outcome": "passed",
+    "evidence_ref": "issue686-strict-clippy.log"
+  }
+]
 
 ## Integration
 

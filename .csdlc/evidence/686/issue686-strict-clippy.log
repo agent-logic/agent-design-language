@@ -1,0 +1,4 @@
+sha=30a1bb05e3ac7c80d20010d8cb3a6207ce0e0cf6
+argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo clippy --locked --manifest-path adl/Cargo.toml --all-targets -- -D warnings
+status=0
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.46s
