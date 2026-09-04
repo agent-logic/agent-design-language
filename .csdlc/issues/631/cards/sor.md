@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary and binding proof/install evidence to the discovered repository root.
+Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary and binding proof/install evidence to the binary checkout repository root.
 
 ## Artifacts
 
@@ -33,7 +33,7 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
 - Kept all four routes read-only and blocked from lifecycle authority, provider side effects, binary installation, selector mutation, GitHub mutation, or #505 cutover.
 - Updated the one-binary v3 command manifest and manifest tests so #631-owned routes no longer appear as placeholder fail-closed or partial routes.
 - Replaced the placeholder #631 canary with behavior tests covering positive and negative proof, bounded shadow parity, soak hidden-state denial, full-replacement denominator status, and one-binary install gating.
-- Bound proof/install evidence roots to the discovered Git repository root and rejected request-controlled scratch evidence roots even when their internal artifact, selector, and provenance bytes are self-consistent.
+- Bound proof/install evidence roots to the repository root discovered from the csdlc binary path and rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent.
 
 ## Validation
 
@@ -48,9 +48,9 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
       "--test",
       "proof_parity_install_commands"
     ],
-    "purpose": "Run the focused #631 proof, shadow, soak, and install behavior tests, including caller-forged provenance and scratch-root rejection.",
+    "purpose": "Run the focused #631 proof, shadow, soak, and install behavior tests, including caller-forged provenance and caller-controlled scratch-root rejection.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:69ce09689:4-passed"
+    "evidence_ref": "exact-head:eb71b2eed:4-passed"
   },
   {
     "command": [
@@ -64,9 +64,9 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
       "--test",
       "real_issue_canary"
     ],
-    "purpose": "Verify one-binary command manifest exposure and the full-replacement denominator canary after the evidence-root hardening.",
+    "purpose": "Verify one-binary command manifest exposure and the full-replacement denominator canary after the binary-checkout binding.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:69ce09689:11-passed"
+    "evidence_ref": "exact-head:eb71b2eed:11-passed"
   },
   {
     "command": [
@@ -78,9 +78,9 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
       "--",
       "--check"
     ],
-    "purpose": "Reject Rust formatting drift after the evidence-root hardening.",
+    "purpose": "Reject Rust formatting drift after the binary-checkout binding.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:69ce09689:passed"
+    "evidence_ref": "exact-head:eb71b2eed:passed"
   },
   {
     "command": [
@@ -90,7 +90,7 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
     ],
     "purpose": "Reject whitespace and conflict-marker artifacts before refreshed review.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:69ce09689:passed"
+    "evidence_ref": "exact-head:eb71b2eed:passed"
   }
 ]
 
