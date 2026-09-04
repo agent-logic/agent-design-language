@@ -186,6 +186,10 @@ run:
         target.endpoint.as_deref(),
         Some("https://api.moonshot.ai/v1/chat/completions")
     );
+    assert_eq!(
+        spec.config.get("reasoning_effort"),
+        Some(&serde_json::json!("max"))
+    );
     assert_eq!(target.model_identity.provider_kind, "kimi");
     assert_eq!(target.model_identity.provider_model_id, "kimi-k3");
 }
@@ -252,6 +256,38 @@ config:
 }
 
 #[test]
+fn issue_680_native_kimi_provider_defaults_k3_reasoning_effort_to_max() {
+    let _no_proxy = std::env::var("NO_PROXY").ok();
+    std::env::set_var("NO_PROXY", "127.0.0.1,localhost");
+    std::env::set_var("ADL_ISSUE_680_MOONSHOT_KEY", "moonshot-test-key");
+    let (endpoint, rx) =
+        one_request_server(r#"{"choices":[{"message":{"content":"KIMI_K3_DEFAULT_OK"}}]}"#);
+    let spec = provider_spec_from_yaml(&format!(
+        r#"
+type: "kimi"
+config:
+  endpoint: "{endpoint}"
+  provider_model_id: "kimi-k3"
+  auth:
+    type: bearer
+    env: ADL_ISSUE_680_MOONSHOT_KEY
+"#
+    ));
+
+    let provider = build_provider(&spec, None).expect("native Kimi provider");
+    assert_eq!(
+        provider
+            .complete("hello kimi default")
+            .expect("Kimi response"),
+        "KIMI_K3_DEFAULT_OK"
+    );
+    let body = request_json_body(&rx.recv_timeout(Duration::from_secs(2)).expect("request"));
+    assert_eq!(body["reasoning_effort"], "max");
+
+    std::env::remove_var("ADL_ISSUE_680_MOONSHOT_KEY");
+}
+
+#[test]
 fn issue_680_runtime_adapter_routes_moonshot_kimi_k3_with_reasoning_effort() {
     std::env::set_var("NO_PROXY", "127.0.0.1,localhost");
     std::env::set_var("ADL_ISSUE_680_RUNTIME_MOONSHOT_KEY", "runtime-moonshot-key");
@@ -261,10 +297,11 @@ fn issue_680_runtime_adapter_routes_moonshot_kimi_k3_with_reasoning_effort() {
     let temp = TempDir::new().expect("temp dir");
     let log_path = temp.path().join("provider-run.jsonl");
     let mut logger = ProviderRunLoggerV1::create(&log_path, "issue-680-run").expect("logger");
-    let req = kimi_invocation_request(
+    let mut req = kimi_invocation_request(
         endpoint,
         "env:ADL_ISSUE_680_RUNTIME_MOONSHOT_KEY".to_string(),
     );
+    req.reasoning_effort = Some(" high ".to_string());
 
     let result = execute_provider_invocation(req, &mut logger);
     drop(logger);

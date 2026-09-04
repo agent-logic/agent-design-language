@@ -741,7 +741,7 @@ impl KimiProvider {
                     "config.reasoning_effort must be a string when provided",
                 ));
             }
-            None => (target.provider_model_id == "kimi-k3").then(|| "low".to_string()),
+            None => (target.provider_model_id == "kimi-k3").then(|| "max".to_string()),
         };
         Ok(Self {
             endpoint,

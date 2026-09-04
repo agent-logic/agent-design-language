@@ -81,7 +81,7 @@ Moonshot/Kimi native note:
 - `adl provider setup kimi` emits `type: "kimi"`, reads `MOONSHOT_API_KEY`, and uses `https://api.moonshot.ai/v1/chat/completions` by default
 - `adl provider setup moonshot` is an alias for the same provider family
 - the built-in Kimi profiles include `kimi:k2.5` and `kimi:k3`; `kimi:k3` maps to provider model id `kimi-k3` for the provider route `hosted:adl-kimi:kimi-k3`
-- Kimi K3 reasoning configuration is explicit and bounded: `reasoning_effort` may be `low`, `high`, or `max`
+- Kimi K3 reasoning configuration is explicit and bounded: `reasoning_effort` may be `low`, `high`, or `max`; ADL follows Moonshot's documented OpenAI-compatible API default of `max` when the field is omitted
 
 Z.ai native note:
 - `adl provider setup z_ai` emits `type: "z_ai"` and reads `ZAI_API_KEY`; the default `glm-5` setup path preserves the established `https://open.bigmodel.cn/api/paas/v4/chat/completions` endpoint, while the `z_ai:glm-5.3-flash` profile uses `https://api.z.ai/api/paas/v4/chat/completions`

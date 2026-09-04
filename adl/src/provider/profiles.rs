@@ -334,6 +334,7 @@ fn ensure_inference_profile_config(
                     profile_name
                 ));
             }
+            None if preset.kind == "kimi" && preset.provider_model_id == Some("kimi-k3") => "max",
             None => "low",
         };
         if reasoning_effort.is_empty() {

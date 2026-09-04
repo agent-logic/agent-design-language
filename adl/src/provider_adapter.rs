@@ -788,7 +788,7 @@ fn chat_completion_request_body(request: &ProviderInvocationRequestV1) -> Value 
         "stream": false,
     });
     if let Some(reasoning_effort) = request.reasoning_effort.as_deref() {
-        body["reasoning_effort"] = json!(reasoning_effort);
+        body["reasoning_effort"] = json!(reasoning_effort.trim());
     }
     body
 }
