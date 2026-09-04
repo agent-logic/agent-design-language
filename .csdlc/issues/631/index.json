@@ -4,29 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "84442dfbb14dcca966d78189ba9cc6e89217e46923c0193a9c6e883513c777a1",
+  "generation": 25,
+  "digest": "5f94b46cb80e937a329372ac8df40ecfa6c7ca8af631a604023307b6c482f93a",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": {
-    "reviewer": "codex-reviewer:review_631_typed_install_provenance",
-    "assigned_by": "codex:worker-6:sprint6-v3h5-typed-provenance",
-    "revision": "git-blake3:733112d3e623b130f3cae67f7885c358dd0f20f4:9e3e85566327a49f9a0e2d7ade50b50d83edae407ea3a76fc30ee25f5a55ff51",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/remote_publication_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      "docs/csdlc-v3/full-replacement-denominator.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -42,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9f37c611a4692f89bdc9975ca3aa08e23d305aff0b9ce600f07302b44f87dbc1",
+      "values_digest": "387a81ee09992cf1370d481372f2131fe780330513831be19d9f4c5011f44888",
       "rendered_digest": "14030977d5cdd0bf5ef52526282b5c614480957fcd0d9afc380ba843d97cabc2",
       "ast_digest": "192c95501ea145eaf3b67f24fae97fd5026fff40c7e11664acaf94278a20dbec"
     },
     "stp": {
-      "values_digest": "ab115db491648ad02965a9fb8f6bcee82246cd3113204c0e2dc6b29e52d39945",
+      "values_digest": "d9aab3f05c3d8564fc9aacc7c8b07f1c05d2122b407c6164fb3e706fe36a7ebd",
       "rendered_digest": "d2f7222fc709a89e3a16b60daf232a2be5f332f831aa8d9f2db48ee0e9fa5ace",
       "ast_digest": "6ef711db7766870570113d8a0ef04afc070fd1a9b32acdf7397dc19393b1f4c1"
     },
     "spp": {
-      "values_digest": "569ae7a24894b778e1f06a7930566fd82fa68f380c937c2c2e5c7c907baa9082",
+      "values_digest": "afb14f99a3f6ca76057677872bbc7c5b402e6b0deb4fc3556895e913e1e1910e",
       "rendered_digest": "b28eaf9274eb880971fae21b8b0a96508ae498503646ab679eaebb6096016018",
       "ast_digest": "29eac98a1e047cf4ad5d22e0f7117d6fab974f60137ff2541a9c1f5d6d3a82a7"
     },
     "vpp": {
-      "values_digest": "f3edc8a0392089d14737d7607617598797ddbcc82610f2e4962d91ec686fa4f9",
+      "values_digest": "e0e9059b27ab4a274b2e4e470d19abfc120985cddd6794ac35d1e9d44344dea4",
       "rendered_digest": "0372e1be215b0ab335f5b78d99d5484edc90dbee57f2b293446cc97763de9383",
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "45ebd0a362a366290562a8c621816a3d648c6b4f01912df1172e6882cbcb1657",
-      "rendered_digest": "899996636ad7a620e48262c977760c7f0979a51149ac0b99dde9012324c1d05f",
-      "ast_digest": "07cc3533bd700aecb80564b9371be95025681983cf4a721cdfcbf927655840f6"
+      "values_digest": "4881d0e3eb5ea69ff7d6e482f8c2f5f18084c0fbaecd2ca493aca250a4dac430",
+      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
+      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
     },
     "sor": {
-      "values_digest": "6716b15b8543e47cea3d5597f2f7252ce5f8e5e4f5b2c68f6560d60a349a93d0",
+      "values_digest": "5ce1fcb99e793309db4f47b8067210412449e33db892032012d5a973579b1810",
       "rendered_digest": "9976e9628ebacc21f41448e5658373ae96d32b7df7ec63c8990d8371aea0dcca",
       "ast_digest": "fb04132d2bed94ad187c83de4459be22f38a8bc15dbec33638a2b17ae96fc9e6"
     }
@@ -445,6 +427,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-typed-provenance",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 25,
+      "actor": "codex:worker-6:sprint6-v3h5-reviewer-identity-recovery",
+      "reason": "Recover the stale #631 review assignment because the successful final live-head review completed under codex-reviewer:review_631_live_head_match rather than the assigned codex-reviewer:review_631_typed_install_provenance identity.",
+      "operation": "recover_review"
     }
   ]
 }
