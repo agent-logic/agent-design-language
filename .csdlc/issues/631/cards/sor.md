@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary and binding proof/install evidence to the binary checkout repository root.
+Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary, binding proof/install evidence to the binary checkout repository root, and requiring typed install provenance evidence.
 
 ## Artifacts
 
@@ -33,41 +33,11 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
 - Kept all four routes read-only and blocked from lifecycle authority, provider side effects, binary installation, selector mutation, GitHub mutation, or #505 cutover.
 - Updated the one-binary v3 command manifest and manifest tests so #631-owned routes no longer appear as placeholder fail-closed or partial routes.
 - Replaced the placeholder #631 canary with behavior tests covering positive and negative proof, bounded shadow parity, soak hidden-state denial, full-replacement denominator status, and one-binary install gating.
-- Bound proof/install evidence roots to the repository root discovered from the csdlc binary path and rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent.
+- Bound proof/install evidence roots to the repository root discovered from the csdlc binary path, rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent, and rejected untyped install provenance JSON.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--test",
-      "proof_parity_install_commands"
-    ],
-    "purpose": "Run the focused #631 proof, shadow, soak, and install behavior tests, including caller-forged provenance and caller-controlled scratch-root rejection.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:eb71b2eed:4-passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--test",
-      "command_manifest",
-      "--test",
-      "real_issue_canary"
-    ],
-    "purpose": "Verify one-binary command manifest exposure and the full-replacement denominator canary after the binary-checkout binding.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:eb71b2eed:11-passed"
-  },
   {
     "command": [
       "cargo",
@@ -78,9 +48,39 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
       "--",
       "--check"
     ],
-    "purpose": "Reject Rust formatting drift after the binary-checkout binding.",
+    "purpose": "Reject Rust formatting drift after the typed-provenance hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:eb71b2eed:passed"
+    "evidence_ref": "exact-head:9dd8f2272:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "proof_parity_install_commands",
+      "--test",
+      "command_manifest",
+      "--test",
+      "real_issue_canary"
+    ],
+    "purpose": "Run focused #631 proof/install, command-manifest, and denominator/canary tests after removing the cwd fallback and requiring typed provenance evidence.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:9dd8f2272:15-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "Run the full csdlc-v3 regression suite after the typed-provenance hardening.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:9dd8f2272:all-v3-tests-passed"
   },
   {
     "command": [
@@ -90,7 +90,7 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
     ],
     "purpose": "Reject whitespace and conflict-marker artifacts before refreshed review.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:eb71b2eed:passed"
+    "evidence_ref": "exact-head:9dd8f2272:passed"
   }
 ]
 
