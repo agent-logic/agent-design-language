@@ -84,6 +84,13 @@ resource "google_compute_instance" "ollama" {
   })
 
   metadata_startup_script = var.ollama_startup_script
+
+  # Data disks are owned by google_compute_attached_disk below. Without this,
+  # a repeat apply treats that provider-observed attachment as inline drift and
+  # detaches the warm model volume before the attachment resource can reconcile.
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
 }
 
 resource "google_compute_instance" "runtime" {
@@ -131,6 +138,10 @@ resource "google_compute_instance" "runtime" {
   })
 
   metadata_startup_script = var.runtime_startup_script
+
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
 }
 
 resource "google_compute_attached_disk" "runtime_data" {

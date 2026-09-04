@@ -12,8 +12,10 @@ device="/dev/disk/by-id/google-$(metadata adl-data-device-name)"
 generation="$(metadata adl-artifact-generation)"
 expected_sha="$(metadata adl-content-manifest-sha256)"
 ollama_ip="$(metadata adl-ollama-private-ip)"
+boot_id="$(cat /proc/sys/kernel/random/boot_id)"
 mount_path="/mnt/adl-runtime"
 state_path="/var/lib/adl/issue663"
+echo "ADL_ISSUE663_RUNTIME_BOOT generation=$generation boot_id=$boot_id"
 
 for command in curl jq mount python3 sed sha256sum systemctl; do
   command -v "$command" >/dev/null
@@ -123,10 +125,13 @@ if ! python3 "$runner" \
 fi
 agent_tool_count="$(jq -sc 'map(select(.agent_test_outcome=="executed" and .runtime_exit_code==0 and .runtime_receipt.decision=="executed"))|length' "$evidence"/pre-*.json)"
 [ "$agent_tool_count" -eq 6 ]
+agent_summary="$(jq -sc 'map({agent_id,model,role,agent_test_outcome,runtime_exit_code,runtime_decision:.runtime_receipt.decision,acc_contract_id:.runtime_receipt.acc_contract_id,resident_id:.runtime_receipt.resident_id})' "$evidence"/pre-*.json)"
+[ "$(jq 'length' <<<"$agent_summary")" -eq 6 ]
 ready_seconds="$(cut -d. -f1 /proc/uptime)"
 jq -n --arg generation "$generation" --argjson boot_seconds "$boot_seconds" \
   --argjson ready_seconds "$ready_seconds" --argjson agent_tool_count "$agent_tool_count" \
   '{schema:"adl.issue663.runtime-ready.v1",status:"ready",artifact_generation:$generation,clock_source:"CLOCK_BOOTTIME_linux_proc_uptime",guest_start_seconds:$boot_seconds,guest_ready_seconds:$ready_seconds,guardian_supervised:true,real_agent_tool_path:true,agent_tool_count:$agent_tool_count}' \
   >"$state_path/runtime-ready.json"
 echo "ADL_ISSUE670_AGENT_TOOL=PASS count=$agent_tool_count"
-echo "ADL_ISSUE663_RUNTIME_READY=PASS generation=$generation ready_seconds=$ready_seconds agent_tool_count=$agent_tool_count"
+echo "ADL_ISSUE670_AGENT_SUMMARY=$agent_summary"
+echo "ADL_ISSUE663_RUNTIME_READY=PASS generation=$generation boot_id=$boot_id ready_seconds=$ready_seconds agent_tool_count=$agent_tool_count"

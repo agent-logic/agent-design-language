@@ -4,6 +4,7 @@ set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 retire="$root/retire-snapshot-generation.sh"
 launch="$root/run-live-snapshot-launch.sh"
+module="$root/../modules/two-node-ollama-runtime/main.tf"
 bash -n "$retire"
 bash -n "$launch"
 rg -q '\[ "\$#" -ne 3 \]' "$retire"
@@ -24,9 +25,16 @@ destroy_line="$(rg -n 'terraform -chdir="\$root" destroy' "$launch" | head -1 | 
 for field in runtime_running_observed_epoch ollama_running_observed_epoch runtime_ready_epoch gpu_ollama_ready_epoch runtime_guest_boot_relative_ready_seconds gpu_guest_boot_relative_ready_seconds; do
   rg -q "$field" "$launch"
 done
-for field in cleanup-receipt resource_absence_verified runtime_instance_absent ollama_instance_absent runtime_disk_absent ollama_disk_absent retained_snapshot_observed_self_links snapshots_retained_verified; do
+for field in ADL_ISSUE663_RUNTIME_BOOT ADL_ISSUE663_OLLAMA_BOOT current_runtime_boot_id current_ollama_boot_id final_runtime_boot_id final_ollama_boot_id ADL_ISSUE670_AGENT_SUMMARY resident_models agent_tool_count; do
+  rg -q "$field" "$root"
+done
+for field in cleanup-receipt resource_absence_verified runtime_instance_absent ollama_instance_absent runtime_disk_absent ollama_disk_absent retained_snapshot_inventory exact_retained_snapshot_set_verified retained_snapshot_observed_self_links snapshots_retained_verified; do
   rg -q "$field" "$launch"
 done
+[ "$(rg -c 'ignore_changes = \[attached_disk\]' "$module")" -eq 2 ] || {
+  echo "both nodes must preserve separately managed warm-disk attachments on repeat apply" >&2
+  exit 1
+}
 if rg -n 'snapshot-catalog.*destroy|retire-snapshot' "$launch"; then
   echo "ordinary launch teardown must not reach snapshot catalog retirement" >&2
   exit 1

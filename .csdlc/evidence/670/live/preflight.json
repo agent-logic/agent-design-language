@@ -11,8 +11,8 @@
     "available": 1
   },
   "l4_prerequisite": {
-    "region": "us-west1",
-    "zone": "us-west1-b",
+    "region": "us-central1",
+    "zone": "us-central1-c",
     "accelerator_type": "nvidia-l4",
     "regional_quota": {
       "limit": 1.0,
@@ -55,6 +55,31 @@
         "labels": null
       }
     ],
-    "snapshots": []
+    "snapshots": [
+      {
+        "name": "adl-663-g670-20260903b-ollama",
+        "status": "READY",
+        "diskSizeGb": "30",
+        "labels": {
+          "adl_generation": "g670-20260903b",
+          "adl_issue": "663",
+          "adl_retained": "true",
+          "adl_state": "snapshot-catalog",
+          "goog-terraform-provisioned": "true"
+        }
+      },
+      {
+        "name": "adl-663-g670-20260903b-runtime",
+        "status": "READY",
+        "diskSizeGb": "20",
+        "labels": {
+          "adl_generation": "g670-20260903b",
+          "adl_issue": "663",
+          "adl_retained": "true",
+          "adl_state": "snapshot-catalog",
+          "goog-terraform-provisioned": "true"
+        }
+      }
+    ]
   }
 }

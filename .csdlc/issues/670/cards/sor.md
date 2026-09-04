@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Live-qualified the snapshot-backed two-node GCP Polis in the authorized company project, repaired only launch-path blockers, proved six real agent/tool cycles across two resident models, destroyed all issue-owned compute and restored disks, and retained exactly the two verified snapshots within the USD 20 ceiling.
+Live-qualified the snapshot-backed two-node GCP Polis in the authorized company project: a clean launch reached full readiness in 930 seconds, two resident models served six real Runtime agent and ACC tool cycles, repeat apply preserved both warm data-disk attachments, all disposable resources were destroyed, exactly two verified snapshots remain, and the conservative incremental upper bound is USD 11.55 against the authorized USD 20 ceiling.
 
 ## Artifacts
 
@@ -26,8 +26,12 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
 
 - Made live preflight require an explicit target region and zone and carry issue identity and budget into Terraform.
 - Hardened snapshot preparation for private Google access, isolated Terraform state, portable Ollama bundles, serial receipt propagation, and no artificial preparation deadline.
-- Made Runtime startup compatible with the sealed artifact ABI, supervised Guardian independently of Vector, emitted console diagnostics, and ran the six-resident real agent/tool qualification against private Ollama.
-- Reduced staging and disposable disk sizes to the measured requirements and made launch and cleanup non-interactive and receipt-backed.
+- Made Runtime startup compatible with the sealed artifact ABI, supervised Guardian independently of Vector, and ran the six-resident real agent and ACC tool qualification against private Ollama.
+- Bound readiness observations to the latest boot ID and artifact generation so stale serial output cannot satisfy a new launch.
+- Expanded the durable launch receipt with project, topology, snapshots, GPU, network, resident-model, six-agent, boot-identity, and timing truth.
+- Made cleanup prove the exact two-snapshot retained set and independently verified zero issue-owned instances and disks after teardown.
+- Preserved separately managed warm data-disk attachments across repeat Terraform applies.
+- Made the focused preparation validator execute Terraform format, validate and test lanes, shell policy tests, receipt parsing, and diff hygiene.
 
 ## Validation
 
@@ -37,7 +41,7 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
       "bash",
       ".csdlc/prepared/issues/670/validate-preparation.sh"
     ],
-    "purpose": "Prove preparation contract, shell syntax, Terraform formatting and validity, warm-start and retirement policies, receipt JSON, and diff hygiene.",
+    "purpose": "Execute the complete focused local lane: shell syntax, Terraform formatting and validation, warm-polis and reusable-module tests, warm-start and retirement policies, receipt parsing, and diff hygiene.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/670/validate-preparation.sh"
   },
@@ -58,7 +62,7 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
       "infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh",
       "launch"
     ],
-    "purpose": "Prove a real private two-node L4 launch, two simultaneously resident models, Runtime and Guardian health, and six successful agent/tool cycles.",
+    "purpose": "Prove a clean real private two-node L4 launch, two simultaneously resident models, Runtime and Guardian readiness, and six successful agent and ACC tool cycles.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/670/live/launch-g670b.json"
   },
@@ -68,19 +72,30 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
       "infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh",
       "destroy"
     ],
-    "purpose": "Prove issue-owned compute and restored disks are absent, exactly two intended snapshots remain, and the conservative cost upper bound is below USD 20.",
+    "purpose": "Prove all issue-owned compute and restored disks are absent and exactly the two intended snapshots remain.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/670/live/cleanup-g670b.json"
   },
   {
     "command": [
-      "terraform",
-      "-chdir=infra/gcp/workloads/modules/two-node-ollama-runtime",
-      "test"
+      "gcloud",
+      "compute",
+      "instances|disks|snapshots",
+      "list"
     ],
-    "purpose": "Prove the reusable two-node Ollama and Runtime module still satisfies its prepared-artifact launch contract.",
+    "purpose": "Independently verify zero adl-670 instances and disks and exactly two READY retained generation snapshots after teardown.",
     "outcome": "passed",
-    "evidence_ref": "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl"
+    "evidence_ref": ".csdlc/evidence/670/live/cleanup-g670b.json"
+  },
+  {
+    "command": [
+      "jq",
+      "-e",
+      "launch and cleanup receipt invariants"
+    ],
+    "purpose": "Prove exact six-agent execution, two resident models, private-only networking, 930-second clean launch timing, cleanup, and snapshot-set truth.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/670/live/launch-g670b.json"
   }
 ]
 
