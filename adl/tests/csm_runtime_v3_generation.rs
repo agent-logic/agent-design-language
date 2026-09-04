@@ -5,6 +5,7 @@ use std::process::Command;
 use adl_runtime_kernel::{
     activate_config_generation, active_generation_ref, build_config_generation_receipt,
     generation_store, provision_config_generation, validate_active_config_generation,
+    REDACTED_SECRET_REFERENCE,
 };
 
 fn write_generation_config(
@@ -54,8 +55,11 @@ fn config_generation_receipt_is_immutable_and_redacts_secret_references() {
     assert_eq!(receipt.config_schema, "adl.runtime_v3.init.v1");
     assert_eq!(
         receipt.secret_references.get("api.tls.private_key_path"),
-        Some(&"/secret/runtime/control.pub.key".to_owned())
+        Some(&REDACTED_SECRET_REFERENCE.to_owned())
     );
+    let receipt_json = serde_json::to_string(&receipt).expect("receipt json");
+    assert!(receipt_json.contains("api.tls.private_key_path"));
+    assert!(!receipt_json.contains("/secret/runtime/control.pub"));
 
     let provisioned =
         provision_config_generation(&init, "runtime-generation-one").expect("provision");

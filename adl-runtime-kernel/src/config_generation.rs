@@ -11,6 +11,7 @@ use sha2::{Digest, Sha256};
 pub const CONFIG_GENERATION_RECEIPT_SCHEMA: &str = "adl.runtime_v3.config_generation.v1";
 pub const CONFIG_GENERATION_ENV: &str = "ADL_RUNTIME_V3_CONFIG_GENERATION";
 pub const CONFIG_RECEIPT_DIGEST_ENV: &str = "ADL_RUNTIME_V3_CONFIG_RECEIPT_DIGEST";
+pub const REDACTED_SECRET_REFERENCE: &str = "[redacted-secret-reference]";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -195,10 +196,10 @@ fn collect_secret_references(
                 && (qualified.starts_with("credentials.")
                     || qualified.starts_with("api.tls."))
             {
-                let reference = child.as_str().ok_or_else(|| {
-                    format!("secret reference {qualified} must be a string path")
-                })?;
-                output.insert(qualified, reference.to_owned());
+                child
+                    .as_str()
+                    .ok_or_else(|| format!("secret reference {qualified} must be a string path"))?;
+                output.insert(qualified, REDACTED_SECRET_REFERENCE.to_owned());
             } else {
                 collect_secret_references(&qualified, child, output)?;
             }
