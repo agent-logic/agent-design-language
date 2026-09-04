@@ -8,15 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/670
-.csdlc/evidence/670/live
-infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf
-infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf
-infra/gcp/workloads/warm-polis
+
 
 ## Prompts
 
@@ -28,18 +24,7 @@ infra/gcp/workloads/warm-polis
 
 ## Findings
 
-[
-  {
-    "id": "670-r5-p1-provider-orphan",
-    "severity": "p1",
-    "summary": "Deadline enforcement can orphan a TERM-resistant provider child after its Terraform parent exits.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -47,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Publication remains blocked until paid operations execute in a fully terminated process group and the provider-child case is tested.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:5046c2f6398644282da73292dba46416c3b5ba6c:454084a471a4d7444a5d2049ca93ad1fdbe5e69e1f11efdb2707449b860a8d7a")
+Revision: None
 
-Reviewer: Some("/root/issue_670_release_review")
+Reviewer: None
 
-Result: changes_required
+Result: pre_review

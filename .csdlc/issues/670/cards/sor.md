@@ -106,7 +106,7 @@ The paid GCP run at revision 542f8c1 reached full two-node Polis readiness in 93
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

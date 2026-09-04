@@ -3,6 +3,7 @@ adl/.local/
 # Internal ADL workspace state stays local; publish canonical docs/templates under docs/.
 .adl/
 .csdlc/locks/
+.csdlc/local/
 .DS_Store
 __pycache__/
 *.pyc
