@@ -5,33 +5,35 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b93a95ade0dac40135117b73005e34975df1f0a635a322b41fd2e3554b887290",
   "phase": "published",
-  "generation": 19,
-  "digest": "ea144f7086c635e1c74397fcec1b038e2583b54a60f4431198430b666253930a",
+  "generation": 22,
+  "digest": "55b447b5ea3fd46f98a9bb035a48b0ec4ef3bc5490a9325bcad693ee9f9fad20",
   "branch": "codex/632-v3-h6-canaries-docs-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_632_docs_d4c637",
+    "reviewer": "subagent:/root/review_632_head_refresh",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:d4c637d56a7359832ab68c76f1761a27bac843d5:727cf625893d9f70263502b4b24ccff395cc1128b86858f0dece784e869912d0",
+    "revision": "git-blake3:04f155ed61eec699cdb45bc02647214262c7db1f:ffad1d035035996a12f7c84158b34be3de6b872c381b6b05ee57aa86d05a6525",
     "scope": [
-      ".csdlc/prepared/issues/632/command-route-coverage.json",
       ".csdlc/prepared/issues/632/canary-evidence-index.md",
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md"
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh"
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_632_docs_d4c637",
+    "reviewer": "subagent:/root/review_632_head_refresh",
     "scope": [
-      ".csdlc/prepared/issues/632/command-route-coverage.json",
       ".csdlc/prepared/issues/632/canary-evidence-index.md",
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md"
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh"
     ],
-    "reviewed_revision": "git-blake3:d4c637d56a7359832ab68c76f1761a27bac843d5:727cf625893d9f70263502b4b24ccff395cc1128b86858f0dece784e869912d0",
+    "reviewed_revision": "git-blake3:04f155ed61eec699cdb45bc02647214262c7db1f:ffad1d035035996a12f7c84158b34be3de6b872c381b6b05ee57aa86d05a6525",
     "findings": [],
     "residual_risks": [
-      "C-SDLC v3 remains construction and canary evidence only until explicit V3-F/#505 cutover.",
-      "#505 must consume current #629 through #632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover.",
-      "Terminal finish and cleanup canary proof still requires an authorized canary merge or explicit #505 blocker disposition."
+      "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; current v3 routes must not become live lifecycle authority before #505.",
+      "Terminal finish and cleanup canary proof still requires an authorized canary merge or an explicit #505 blocker disposition.",
+      "#505 must consume current #629 through #632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -43,7 +45,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/647",
     "base": "main",
     "head": "codex/632-v3-h6-canaries-docs-readiness-exec",
-    "revision": "git-blake3:d4c637d56a7359832ab68c76f1761a27bac843d5:727cf625893d9f70263502b4b24ccff395cc1128b86858f0dece784e869912d0",
+    "revision": "git-blake3:04f155ed61eec699cdb45bc02647214262c7db1f:ffad1d035035996a12f7c84158b34be3de6b872c381b6b05ee57aa86d05a6525",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -61,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3759e7faeb2847076abe28bf9827cb8445dbc734f2170ead19244b2b0ed360c6",
+      "values_digest": "8920183d08e4b67a2d2a0c7694b4b7a8eaf10c252d7f251be97ab8593081c643",
       "rendered_digest": "0fdbc068a9e16b9a34f4c99b5953930b02c525fdddf4be01c8acd33f0a8bf60d",
       "ast_digest": "ed89ca60d9cce79cf4979853fd6df465539b0f00233e4f03a42decb6a25c16c0"
     },
     "stp": {
-      "values_digest": "6b57394d8c9de3149270faa0df251edb43e56703ce350a27405394a73ac860f9",
+      "values_digest": "321b4aa6fd897eff2a2491084e223acc6e79d1e5200e59473ece66eacb02122b",
       "rendered_digest": "caf0677a955027d962688dc0224133c7c7d4b10c56b4f1d17d551f31f7891779",
       "ast_digest": "4b130a63d7ec3bd4a4bfe6c1596dcbe0ac07119a4f968f8b48bc5db493babaec"
     },
     "spp": {
-      "values_digest": "f7c124ddd3c283dc7f7ca101724e9bca2c71714861d3740102918ccf3bd90733",
+      "values_digest": "bd929116cc1650d113e6739a760333115154d6a327ca264f8a81acb596ad7fe8",
       "rendered_digest": "ac428c78623cc711bb9a3eee6ae606302cd3136c5dd40130c37aeafbbbb6d14c",
       "ast_digest": "0654c45b2e0ef0e21df53b9ec506777fc1b26e11ee63dfd8e71da61175637894"
     },
     "vpp": {
-      "values_digest": "784a097c7692b2c15029ce2ed450614fda9d93beed451a010dda231594f7d47c",
+      "values_digest": "85510e4cf6652dfc169a8843fc8d8c60a0ca922a72f04e4888838f8a47f098f9",
       "rendered_digest": "a46da483ee55913a32a0ca18e0d7986519dbb3bf24edfb86e71c499b37249825",
       "ast_digest": "c256ae237568c95bf3dff3aa69018688d49b9d7ff18813e8f2f7a567b7fc6da6"
     },
     "srp": {
-      "values_digest": "3c8190cdbb3979dac1d0ecb0e74e8564462910ae457d6aefb33dd7218a208c60",
-      "rendered_digest": "a8f7e0191112d48f77f1528a0446ddb219e041061fe7c68733cccef3e7ed9505",
-      "ast_digest": "d9b44825b9e31a79fd44bd196b31cd3cfdbbe64773bc59ec223258b425a4c891"
+      "values_digest": "0620c0be96c291511017f4cdad8fca811e0de2b379985c92cfb6decc4f53a4ac",
+      "rendered_digest": "318df9be2c1c4828f3a87afba6c7cc1962de6a1a5db149faa3ad5f02ae6e2e9f",
+      "ast_digest": "2009ade78bc4ebf893d496dd03787b2a5ab4eeaad7574d1e5f765c0151bf40fc"
     },
     "sor": {
-      "values_digest": "b65a9b5c2ff089c31a47b2f7e1846493657d71082b6e2a43cb402aeab4301b38",
+      "values_digest": "dbc3acd1efe59dc8ff6f0eceee9f9256008379af1b8af394131a1326af5d39bd",
       "rendered_digest": "7a41012e63b5262f5d043f50e0c56f0a76117dfebdca76a72d101122669ec2c5",
       "ast_digest": "b2042bda2fdd3b59dde9015943fd2aff4ec846408c1f41c26fe522e95067cf75"
     }
@@ -220,6 +222,27 @@
     },
     {
       "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after refreshing #631/PR #669 dependency evidence from stale head 308b489d9238732f056e9d671c5155d0f4f91d2e to current green head f43356321108b91031024fc1fccf11233f188bce."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:worker-6",
@@ -419,6 +442,34 @@
     {
       "sequence": 28,
       "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after refreshing #631/PR #669 dependency evidence from stale head 308b489d9238732f056e9d671c5155d0f4f91d2e to current green head f43356321108b91031024fc1fccf11233f188bce.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
