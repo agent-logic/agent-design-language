@@ -1,0 +1,9 @@
+{
+  "schema": "adl.issue_679.deployability_check.v1",
+  "ok": true,
+  "checked_paths": [
+    "infra/aws/observatory",
+    "docs/operations/cloud/aws/observatory"
+  ],
+  "failed": []
+}

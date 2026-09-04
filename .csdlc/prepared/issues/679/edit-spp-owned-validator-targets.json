@@ -1,0 +1,24 @@
+{
+  "issue": 679,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "bb14b6cfda479282ecb4b7d716d776b1ad29156ccfa8eb2b9407106a6fa90011",
+  "actor": "codex:679-init",
+  "reason": "Make the issue-specific VPP denominator explicit by owning the exact initialized and implementation validator target files.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "infra/aws/observatory/**",
+      "docs/operations/cloud/aws/observatory/**",
+      "docs/milestones/v0.92.1/evidence/observatory/s3-deployable-observatory/**",
+      ".csdlc/prepared/issues/679/**",
+      ".csdlc/issues/679/**",
+      ".csdlc/evidence/679/**",
+      "demos/html-observatory/**",
+      ".csdlc/prepared/issues/679/validate_init_package.py",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py"
+    ]
+  },
+  "fail_after_backup": false
+}

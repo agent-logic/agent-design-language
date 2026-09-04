@@ -1,0 +1,10 @@
+aws_profile      = "agent-logic-admin"
+aws_region       = "us-west-2"
+hosted_zone_name = "agent-logic.ai"
+observatory_fqdn = "observatory.csm.agent-logic.ai"
+artifact_version = "replace-with-immutable-release-id"
+
+runtime_connect_origins = [
+  "https://konishi.dev.agent-logic.ai",
+  "wss://konishi.dev.agent-logic.ai",
+]

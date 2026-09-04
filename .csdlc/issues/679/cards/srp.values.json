@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 679,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Observatory][infra] S3 deployable Observatory",
+    "slug": "s3-deployable-observatory",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "S3/CloudFront/ACM/Route53 static Observatory deployability, CSP/CORS/WSS compatibility, redacted readbacks, rollback, and lifecycle truth only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the issue keep #512 product work separate from #679 infrastructure deployability?",
+        "Does the deployment plan avoid live AWS mutation unless separately authorized and retain truthful dry-run/readback classification?",
+        "Do validators prove redaction, profile gating, static asset relativity, CSP/header behavior, and no credential persistence?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
