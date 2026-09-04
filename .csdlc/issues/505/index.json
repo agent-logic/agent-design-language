@@ -4,13 +4,45 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 40,
-  "digest": "b7a0dedc489a6f9ee01b0b517dc6a9c370579b0dd28b46af12b6ee05e41d7ed9",
+  "phase": "reviewed",
+  "generation": 41,
+  "digest": "8f89e9e11cd1dd11eccf76b5c9a78b4e594f80d58ce112ece6f2cf9ae7442b5f",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_591_head_38411a24",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:38411a248d287950c795d6daa3d34625d2a94131:9e0fc7191770af2958e58864ddf90a48ed8850ba4cf38cdab740cff7a0db2381",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json",
+      "docs/csdlc-v3/v3-command-manifest.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_591_head_38411a24",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json",
+      "docs/csdlc-v3/v3-command-manifest.json"
+    ],
+    "reviewed_revision": "git-blake3:38411a248d287950c795d6daa3d34625d2a94131:9e0fc7191770af2958e58864ddf90a48ed8850ba4cf38cdab740cff7a0db2381",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains non-authoritative construction and cutover-readiness evidence only until explicit #505 operator approval, merge, finish, and cleanup reconciliation.",
+      "PR #591 must remain non-closing until the explicit cutover approval path is exercised; current publication must use part_of linkage only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4b344970659db47ca8cd0d7690ac0b844d800215ecdaf3c393e7ab73b87772d6",
+      "values_digest": "e08e0c0b1772362c231c12a07faf9c732dcc9673e8faff26585df4945b65180b",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "b86ed4da399da43d694139759943beb23a56404a65188bedc4e47983d512d9c2",
+      "values_digest": "73057f9bf48e78ab99f680359a0695afd56bce10d2083644fe66fb013d08a7a9",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "b12d17a44e23f065fecfe464fd31990206e3d23028813e06d736a98b9a6798c9",
+      "values_digest": "3302221743c74292c78b005495a97a81db9e479b02d4a6e46659244537e4e5e9",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "d39197d2a0f2f4ed1403864872ac3268baded704adb2f7adba48b2c43974602d",
+      "values_digest": "01db8da176935df81cd0910a2744ff382cf568faf73bca8dd66741287fddb04a",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "3089a49dc1d0d5f00dc609cad2ae8d2edff462235cf114914549b5e5cbe200fd",
-      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
-      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
+      "values_digest": "554486f2d5490c9923c720e29631d1dbb4c7fd9c6db9d36029c73bbd8baa7067",
+      "rendered_digest": "016da8659320fcf93aaa05b4a59f4f64bc37990e9887e86dd02064ece15324bb",
+      "ast_digest": "b9099af1d162c3a8728dc3c38a23574f75241995d75897a2212c1dea209d8fab"
     },
     "sor": {
-      "values_digest": "dea704bf25ea42103102cfb658296193eb8a43838e95b6a2a9a39608feed2eb7",
+      "values_digest": "73427d6927a0c51929461c811eb350e7dffbbb9a845d3a5ad1e21d74806373b3",
       "rendered_digest": "37a75c2614abecf95ddea4edbfd37cdcc68b82b0ab798213231b9227bd9d125f",
       "ast_digest": "937d115e0138e775ff81a1c5e5dab8851cf320e6b5e9d2d2fed78bd75885a1fa"
     }
@@ -251,6 +283,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover stale #505 review/publication truth after merging current main into PR #591, resolving v3 command-route conflicts, and aligning the replacement denominator cutover route without approving cutover."
+    },
+    {
+      "sequence": 29,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -596,6 +635,20 @@
       "actor": "codex:worker-6",
       "reason": "Recover stale #505 review/publication truth after merging current main into PR #591, resolving v3 command-route conflicts, and aligning the replacement denominator cutover route without approving cutover.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 40,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 41,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

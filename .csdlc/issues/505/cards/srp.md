@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3/src/commands/mod.rs
+csdlc-v3/src/commands/remote/mod.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/command_manifest.rs
+csdlc-v3/tests/local_commands.rs
+docs/csdlc-v3/full-replacement-denominator.json
+docs/csdlc-v3/v3-command-manifest.json
 
 ## Prompts
 
@@ -31,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains non-authoritative construction and cutover-readiness evidence only until explicit #505 operator approval, merge, finish, and cleanup reconciliation.
+- PR #591 must remain non-closing until the explicit cutover approval path is exercised; current publication must use part_of linkage only.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:38411a248d287950c795d6daa3d34625d2a94131:9e0fc7191770af2958e58864ddf90a48ed8850ba4cf38cdab740cff7a0db2381")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_591_head_38411a24")
 
-Result: pre_review
+Result: pass

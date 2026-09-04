@@ -1,0 +1,27 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 505,
+  "expected_generation": 40,
+  "expected_digest": "8d4a0e90c5f739baebd31de0dd20afc7f54e92d53fda0d34e17c6cd3ae2ea3b7",
+  "actor": "codex:worker-6",
+  "evidence": {
+    "reviewer": "subagent:/root/review_591_head_38411a24",
+    "scope": [
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json",
+      "docs/csdlc-v3/v3-command-manifest.json"
+    ],
+    "reviewed_revision": "git-blake3:38411a248d287950c795d6daa3d34625d2a94131:9e0fc7191770af2958e58864ddf90a48ed8850ba4cf38cdab740cff7a0db2381",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains non-authoritative construction and cutover-readiness evidence only until explicit #505 operator approval, merge, finish, and cleanup reconciliation.",
+      "PR #591 must remain non-closing until the explicit cutover approval path is exercised; current publication must use part_of linkage only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
