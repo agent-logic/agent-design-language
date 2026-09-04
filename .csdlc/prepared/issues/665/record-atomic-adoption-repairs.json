@@ -1,0 +1,97 @@
+{
+  "issue": 665,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "748dff416cff6d18d41324053bc7222a88d09e60e5ce174add0b38384c9c7482",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Record #665 under-lock freshness and atomic adoption evidence repairs.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Repaired the second #665 pre-PR review. Adoption now revalidates expected repository, generation, and digest after acquiring lifecycle locks and again against the materialized target record before mutation. Adoption evidence is staged as part of the atomic issue projection replacement, so the record cannot advance to bound unless `.csdlc/issues/<issue>/adoption.v1.json` is written with the same resulting generation and digest returned by `BindResult`.",
+    "changes": [
+      "Reloaded and revalidated the issue record under the binding and issue locks before bind diagnosis and topology work.",
+      "Revalidated adoption authority against the materialized target record immediately before mutating it.",
+      "Added Store support for issue-directory extra files inside the atomic projection staging swap.",
+      "Moved adoption evidence into the staged projection replacement so successful adoption writes evidence and record truth together.",
+      "Added focused regression coverage for stale adoption request freshness after source-record mutation and for replacing a conflicting evidence path with the atomic adoption evidence file."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/prepared/issues/665/record-atomic-adoption-repairs.json"
+    ],
+    "validation": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "gate5",
+          "emergency_branch_adoption"
+        ],
+        "purpose": "Prove #665 adoption freshness, atomic evidence staging, fail-closed negative cases, ordinary bind preservation, and downstream review/publication-review readiness.",
+        "outcome": "passed",
+        "evidence_ref": "Local focused gate5 run at 00efa193 passed: 8 passed, 0 failed."
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--no-run"
+        ],
+        "purpose": "Compile all C-SDLC v2 test targets after Store atomic projection staging extension.",
+        "outcome": "passed",
+        "evidence_ref": "Local C-SDLC v2 no-run compile completed successfully at 00efa193."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh"
+        ],
+        "purpose": "Prove issue-owned scope validator remains green after atomic adoption repairs.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned scope validator exited zero."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+        ],
+        "purpose": "Prove issue-owned documentation validator remains green after atomic adoption repairs.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned docs validator exited zero."
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Prove whitespace and conflict-marker hygiene for the exact branch diff.",
+        "outcome": "passed",
+        "evidence_ref": "Local diff hygiene exited zero."
+      },
+      {
+        "command": [
+          ".adl/bin/csdlc-v2/csdlc-install",
+          "verify",
+          "--repo",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
+          "--bin-dir",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect/.adl/bin/csdlc-v2",
+          "--inventory",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect/csdlc-v2/operator/coexistence.json"
+        ],
+        "purpose": "Prove repo-local C-SDLC v2 owner binaries are installed from source 00efa193 and v1 command surfaces remain absent.",
+        "outcome": "passed",
+        "evidence_ref": "coexistence_report.v2 pass=true with default_generation=v2 and no missing v2 binaries."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

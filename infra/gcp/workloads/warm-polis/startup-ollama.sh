@@ -11,12 +11,18 @@ device="/dev/disk/by-id/google-$(metadata adl-data-device-name)"
 generation="$(metadata adl-artifact-generation)"
 expected_sha="$(metadata adl-content-manifest-sha256)"
 models_json="$(metadata adl-resident-models)"
+boot_id="$(cat /proc/sys/kernel/random/boot_id)"
+paid_deadline_epoch="$(metadata adl-paid-deadline-epoch)"
+budget_stop_seconds="$((paid_deadline_epoch - $(date +%s)))"
+[ "$budget_stop_seconds" -gt 0 ]
 mount_path="/mnt/adl-ollama"
 state_path="/var/lib/adl/issue663"
+echo "ADL_ISSUE663_OLLAMA_BOOT generation=$generation boot_id=$boot_id"
 
-for command in curl jq mount nvidia-smi sha256sum systemctl; do
+for command in curl jq mount nvidia-smi sha256sum systemctl systemd-run; do
   command -v "$command" >/dev/null
 done
+systemd-run --unit="adl-issue670-budget-stop-$boot_id" --on-active="${budget_stop_seconds}s" /usr/sbin/poweroff >/dev/null
 for _ in $(seq 1 120); do
   [ -e "$device" ] && break
   sleep 1
@@ -59,4 +65,5 @@ jq -n --arg generation "$generation" --argjson models "$models_json" \
   --argjson boot_seconds "$boot_seconds" --argjson ready_seconds "$ready_seconds" \
   '{schema:"adl.issue663.ollama-ready.v1",status:"ready",artifact_generation:$generation,clock_source:"CLOCK_BOOTTIME_linux_proc_uptime",guest_start_seconds:$boot_seconds,guest_ready_seconds:$ready_seconds,models:$models,model_count:($models|length),ollama_public:false}' \
   >"$state_path/ollama-ready.json"
-echo "ADL_ISSUE663_OLLAMA_READY=PASS generation=$generation ready_seconds=$ready_seconds model_count=$(jq 'length' <<<"$models_json")"
+models_csv="$(jq -r 'join(",")' <<<"$models_json")"
+echo "ADL_ISSUE663_OLLAMA_READY=PASS generation=$generation boot_id=$boot_id ready_seconds=$ready_seconds model_count=$(jq 'length' <<<"$models_json") models=$models_csv"

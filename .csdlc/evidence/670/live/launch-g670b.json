@@ -1,0 +1,108 @@
+{
+  "schema": "adl.issue670.launch-qualification.v2",
+  "status": "ready",
+  "project": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+  "region": "us-central1",
+  "zone": "us-central1-c",
+  "artifact_generation": "g670-20260903b",
+  "snapshots": {
+    "runtime": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-runtime",
+    "ollama": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-ollama"
+  },
+  "gpu": {
+    "accelerator_type": "nvidia-l4",
+    "accelerator_count": 1
+  },
+  "network": {
+    "runtime_private_ip": "10.128.0.31",
+    "ollama_private_ip": "10.128.0.30",
+    "runtime_public_ip": null,
+    "ollama_public_ip": null,
+    "ollama_ingress": "runtime-private-only"
+  },
+  "resident_models": [
+    "llama3.1:8b",
+    "qwen3:8b"
+  ],
+  "resident_model_count": 2,
+  "agents": [
+    {
+      "agent_id": "issue268-planner",
+      "model": "qwen3:8b",
+      "role": "planner",
+      "agent_test_outcome": "executed",
+      "runtime_exit_code": 0,
+      "runtime_decision": "executed",
+      "acc_contract_id": "acc.compiler.issue268.issue268-planner.pre.planner_pre_observe",
+      "resident_id": "issue268-planner"
+    },
+    {
+      "agent_id": "issue268-recovery-custodian",
+      "model": "llama3.1:8b",
+      "role": "recovery_custodian",
+      "agent_test_outcome": "executed",
+      "runtime_exit_code": 0,
+      "runtime_decision": "executed",
+      "acc_contract_id": "acc.compiler.issue268.issue268-recovery-custodian.pre.custodian_pre_observe",
+      "resident_id": "issue268-recovery-custodian"
+    },
+    {
+      "agent_id": "issue268-reviewer-escalation",
+      "model": "qwen3:8b",
+      "role": "reviewer_escalation",
+      "agent_test_outcome": "executed",
+      "runtime_exit_code": 0,
+      "runtime_decision": "executed",
+      "acc_contract_id": "acc.compiler.issue268.issue268-reviewer-escalation.pre.reviewer_pre_observe",
+      "resident_id": "issue268-reviewer-escalation"
+    },
+    {
+      "agent_id": "issue268-runtime-observer",
+      "model": "qwen3:8b",
+      "role": "runtime_observer",
+      "agent_test_outcome": "executed",
+      "runtime_exit_code": 0,
+      "runtime_decision": "executed",
+      "acc_contract_id": "acc.compiler.issue268.issue268-runtime-observer.pre.observer_pre_observe",
+      "resident_id": "issue268-runtime-observer"
+    },
+    {
+      "agent_id": "issue268-shepherd-controller",
+      "model": "llama3.1:8b",
+      "role": "shepherd_controller",
+      "agent_test_outcome": "executed",
+      "runtime_exit_code": 0,
+      "runtime_decision": "executed",
+      "acc_contract_id": "acc.compiler.issue268.issue268-shepherd-controller.pre.shepherd_pre_observe",
+      "resident_id": "issue268-shepherd-controller"
+    },
+    {
+      "agent_id": "issue268-tool-executor",
+      "model": "llama3.1:8b",
+      "role": "tool_executor",
+      "agent_test_outcome": "executed",
+      "runtime_exit_code": 0,
+      "runtime_decision": "executed",
+      "acc_contract_id": "acc.compiler.issue268.issue268-tool-executor.pre.executor_pre_observe",
+      "resident_id": "issue268-tool-executor"
+    }
+  ],
+  "agent_tool_count": 6,
+  "launch_request_epoch": 1788480453,
+  "terraform_apply_complete_epoch": 1788480516,
+  "first_runtime_running_observed_epoch": 1788480519,
+  "first_ollama_running_observed_epoch": 1788480519,
+  "final_runtime_last_start_timestamp": "2026-09-03T17:08:16.138-07:00",
+  "final_ollama_last_start_timestamp": "2026-09-03T17:07:55.264-07:00",
+  "final_runtime_boot_id": "23f53511-e5bf-4074-9090-4c4790bb3a1b",
+  "final_ollama_boot_id": "a6305e28-24ba-4f40-80f1-d68b7697f71a",
+  "runtime_ready_epoch": 1788481381,
+  "gpu_ollama_ready_epoch": 1788480630,
+  "runtime_guest_boot_relative_ready_seconds": 868,
+  "gpu_guest_boot_relative_ready_seconds": 147,
+  "full_polis_ready_epoch": 1788481383,
+  "snapshot_launch_to_ready_seconds": 930,
+  "terraform_apply_seconds": 63,
+  "runtime_instance": "adl-670-g670-20260903b-runtime",
+  "ollama_instance": "adl-670-g670-20260903b-ollama"
+}

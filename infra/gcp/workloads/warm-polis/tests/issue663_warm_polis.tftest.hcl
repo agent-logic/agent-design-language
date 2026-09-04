@@ -2,6 +2,8 @@ mock_provider "google" {}
 
 variables {
   project_id             = "agent-logic-test"
+  issue_id               = "670"
+  max_budget_usd         = 20
   region                 = "us-west1"
   zone                   = "us-west1-a"
   run_id                 = "adl-663-test"

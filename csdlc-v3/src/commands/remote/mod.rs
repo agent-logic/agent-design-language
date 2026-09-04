@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use crate::publication::{
     classify_cleanup, derive_finish, publish, CleanupCandidate, CleanupClassification,
     FinishClassification, IssueReadback, PublicationEvidence, PublicationMode, PublicationRequest,
@@ -10,10 +11,866 @@ use crate::review::{
     ReviewRejectReason, ReviewTarget,
 };
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::collections::BTreeMap;
-use std::fs;
-use std::path::{Component, Path};
+use std::path::{Path, PathBuf};
+
+const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
+
+pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [
+    "github",
+    "github-issue",
+    "github-pr",
+    "pr-state",
+    "publish",
+    "review",
+];
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RemoteRouteRequest {
+    pub repository: String,
+    pub issue: u64,
+    #[serde(default)]
+    pub pull_request: Option<u64>,
+    #[serde(default)]
+    pub actor: Option<String>,
+    #[serde(default)]
+    pub implementer: Option<String>,
+    #[serde(default)]
+    pub reviewer: Option<String>,
+    #[serde(default)]
+    pub review_revision: Option<String>,
+    #[serde(default)]
+    pub expected_head_sha: Option<String>,
+    #[serde(default)]
+    pub head_sha: Option<String>,
+    #[serde(default)]
+    pub mode: Option<RemotePublicationMode>,
+    #[serde(default)]
+    pub title: Option<String>,
+    #[serde(default)]
+    pub body: Option<String>,
+    #[serde(default)]
+    pub review_present: bool,
+    #[serde(default)]
+    pub typed_review_receipt_path: Option<String>,
+    #[serde(default)]
+    pub typed_review_receipt_digest: Option<String>,
+    #[serde(default)]
+    pub readback_source: Option<RemoteReadbackSource>,
+    #[serde(default)]
+    pub readback_receipt_path: Option<String>,
+    #[serde(default)]
+    pub readback_receipt_digest: Option<String>,
+    #[serde(default)]
+    pub adapter_receipt_path: Option<String>,
+    #[serde(default)]
+    pub adapter_receipt_digest: Option<String>,
+    #[serde(default)]
+    pub closes_issue: Option<u64>,
+    #[serde(default)]
+    pub closing_issues: Vec<u64>,
+    #[serde(default)]
+    pub part_of_issue: Option<u64>,
+    #[serde(default)]
+    pub credential_names: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct RemoteRouteReceipts {
+    pub typed_review: Option<TypedReviewReceipt>,
+    pub github_readback: Option<GithubReadbackReceipt>,
+    pub adapter: Option<GithubAdapterReceipt>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TypedReviewReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub implementer: String,
+    pub reviewer: String,
+    pub reviewed_revision: String,
+    pub expected_head_sha: String,
+    pub evidence_digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GithubReadbackReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: u64,
+    #[serde(default)]
+    pub title: Option<String>,
+    pub head_sha: String,
+    #[serde(default)]
+    pub closes_issue: Option<u64>,
+    #[serde(default)]
+    pub closing_issues: Vec<u64>,
+    #[serde(default)]
+    pub part_of_issue: Option<u64>,
+    pub source: RemoteReadbackSource,
+    pub observed_by: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GithubAdapterReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: u64,
+    pub head_sha: String,
+    pub readback_receipt_digest: String,
+    pub credential_names: Vec<String>,
+    pub adapter: String,
+    pub authenticated: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ObservedRemoteRouteRequest {
+    pub request: RemoteRouteRequest,
+    pub receipts: RemoteRouteReceipts,
+    pub invocation: CommandInvocation,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RemotePublicationMode {
+    Closing,
+    PartOf,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RemoteReadbackSource {
+    Github,
+    Caller,
+    Fixture,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct RemoteRoutePlan {
+    pub route: String,
+    pub issue: u64,
+    pub repository: String,
+    pub status: RemoteRouteStatus,
+    pub findings: Vec<RemoteRouteFinding>,
+    pub redacted_credentials: Vec<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RemoteRouteStatus {
+    Ready,
+    Blocked,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct RemoteRouteFinding {
+    pub code: String,
+    pub message: String,
+}
+
+pub fn prepare_remote_publication_route(
+    route: &str,
+    request: &RemoteRouteRequest,
+) -> Result<RemoteRoutePlan, RemoteRouteFinding> {
+    prepare_remote_publication_route_with_receipts(route, request, &RemoteRouteReceipts::default())
+}
+
+pub fn prepare_remote_publication_route_with_receipts(
+    route: &str,
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> Result<RemoteRoutePlan, RemoteRouteFinding> {
+    if !REMOTE_PUBLICATION_ROUTE_NAMES.contains(&route) {
+        return Err(remote_finding(
+            "unknown_remote_publication_route",
+            "route is not owned by #629",
+        ));
+    }
+    let findings = match route {
+        "publish" => publication_findings(request, receipts),
+        "github" | "github-issue" | "pr-state" | "github-pr" => {
+            pr_state_findings(request, receipts)
+        }
+        "review" => review_findings(request),
+        _ => unreachable!("route checked above"),
+    };
+    let status = if findings.is_empty() {
+        RemoteRouteStatus::Ready
+    } else {
+        RemoteRouteStatus::Blocked
+    };
+    Ok(RemoteRoutePlan {
+        route: route.to_owned(),
+        issue: request.issue,
+        repository: request.repository.clone(),
+        status,
+        findings,
+        redacted_credentials: request
+            .credential_names
+            .iter()
+            .map(|name| format!("{name}=<redacted>"))
+            .collect(),
+    })
+}
+
+fn publication_findings(
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> Vec<RemoteRouteFinding> {
+    let mut findings = Vec::new();
+    if !request.review_present {
+        findings.push(remote_finding(
+            "missing_review_truth",
+            "publication requires current typed review truth",
+        ));
+    }
+    if !typed_review_receipt_matches(request, receipts.typed_review.as_ref()) {
+        findings.push(remote_finding(
+            "authenticated_review_receipt_missing",
+            "publication requires a repo-contained typed review receipt matching the exact issue, principals, and head",
+        ));
+    }
+    let expected = request
+        .expected_head_sha
+        .as_deref()
+        .unwrap_or_default()
+        .trim();
+    let actual = request.head_sha.as_deref().unwrap_or_default().trim();
+    if expected.is_empty() || actual.is_empty() {
+        findings.push(remote_finding(
+            "missing_review_revision",
+            "publication requires exact reviewed and current head revisions",
+        ));
+    } else if expected != actual {
+        findings.push(remote_finding(
+            "stale_review_truth",
+            "publication head must match the reviewed exact head",
+        ));
+    }
+    match request.mode {
+        Some(RemotePublicationMode::Closing)
+            if !body_has_relation(request.body.as_deref(), "Closes", request.issue) =>
+        {
+            findings.push(remote_finding(
+                "missing_closing_relation",
+                "closing publication must visibly include Closes #<issue>",
+            ));
+        }
+        Some(RemotePublicationMode::PartOf)
+            if !body_has_relation(request.body.as_deref(), "Part of", request.issue)
+                && !body_has_relation(request.body.as_deref(), "Part-Of", request.issue) =>
+        {
+            findings.push(remote_finding(
+                "missing_part_of_relation",
+                "checkpoint publication must visibly include Part of #<issue>",
+            ));
+        }
+        None => findings.push(remote_finding(
+            "missing_publication_mode",
+            "publication mode is required",
+        )),
+        _ => {}
+    }
+    if matches!(request.mode, Some(RemotePublicationMode::Closing)) {
+        let body_closing_issues = body_closing_issue_references(request.body.as_deref());
+        if body_closing_issues
+            .iter()
+            .any(|issue| *issue != request.issue)
+        {
+            findings.push(remote_finding(
+                "unexpected_closing_relation",
+                "closing publication body must not include GitHub closing-keyword references for issues other than the tracked issue",
+            ));
+        }
+    }
+    findings.extend(pr_state_findings(request, receipts));
+    findings
+}
+
+fn pr_state_findings(
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> Vec<RemoteRouteFinding> {
+    let mut findings = Vec::new();
+    if request.readback_source != Some(RemoteReadbackSource::Github) {
+        findings.push(remote_finding(
+            "caller_forged_readback",
+            "PR state must come from authenticated GitHub readback",
+        ));
+    }
+    if !github_readback_receipt_matches(request, receipts.github_readback.as_ref()) {
+        findings.push(remote_finding(
+            "github_readback_receipt_missing",
+            "PR state requires a repo-contained GitHub readback receipt over the observed PR fields",
+        ));
+    }
+    if !github_adapter_receipt_matches(request, receipts) {
+        findings.push(remote_finding(
+            "authenticated_github_adapter_missing",
+            "PR state requires a repo-contained authenticated adapter receipt bound to the readback receipt",
+        ));
+    }
+    match request.mode {
+        Some(RemotePublicationMode::Closing) if request.closes_issue != Some(request.issue) => {
+            findings.push(remote_finding(
+                "missing_closing_readback",
+                "GitHub readback must expose the closing issue relation",
+            ));
+        }
+        Some(RemotePublicationMode::Closing)
+            if request
+                .closing_issues
+                .iter()
+                .any(|issue| *issue != request.issue) =>
+        {
+            findings.push(remote_finding(
+                "unexpected_closing_readback",
+                "GitHub readback must not expose closing relations for issues other than the tracked issue",
+            ));
+        }
+        Some(RemotePublicationMode::PartOf) if request.part_of_issue != Some(request.issue) => {
+            findings.push(remote_finding(
+                "missing_part_of_readback",
+                "GitHub readback must expose the part-of relation",
+            ));
+        }
+        _ => {}
+    }
+    findings
+}
+
+fn review_findings(request: &RemoteRouteRequest) -> Vec<RemoteRouteFinding> {
+    let mut findings = Vec::new();
+    if same_principal(request.implementer.as_deref(), request.reviewer.as_deref()) {
+        findings.push(remote_finding(
+            "self_review_denied",
+            "implementer and reviewer must be distinct principals",
+        ));
+    }
+    if request
+        .review_revision
+        .as_deref()
+        .unwrap_or_default()
+        .trim()
+        .is_empty()
+    {
+        findings.push(remote_finding(
+            "missing_exact_review_revision",
+            "review route requires an exact reviewed revision",
+        ));
+    }
+    findings
+}
+
+fn same_principal(left: Option<&str>, right: Option<&str>) -> bool {
+    let left = left.unwrap_or_default().trim();
+    let right = right.unwrap_or_default().trim();
+    !left.is_empty() && left.eq_ignore_ascii_case(right)
+}
+
+fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
+    let prefix = format!("{verb} #{issue}");
+    body.unwrap_or_default()
+        .lines()
+        .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
+}
+
+fn body_closing_issue_references(body: Option<&str>) -> Vec<u64> {
+    let Some(body) = body else {
+        return Vec::new();
+    };
+    let lower = body.to_ascii_lowercase();
+    let keywords = [
+        "close", "closes", "closed", "fix", "fixes", "fixed", "resolve", "resolves", "resolved",
+    ];
+    let mut issues = Vec::new();
+    for keyword in keywords {
+        let mut search_start = 0;
+        while let Some(relative) = lower[search_start..].find(keyword) {
+            let keyword_start = search_start + relative;
+            let after_keyword = keyword_start + keyword.len();
+            search_start = after_keyword;
+            if !word_boundary_before(&lower, keyword_start)
+                || !word_boundary_after(&lower, after_keyword)
+            {
+                continue;
+            }
+            if let Some(issue) = parse_issue_after_closing_keyword(&lower[after_keyword..]) {
+                issues.push(issue);
+            }
+        }
+    }
+    issues.sort_unstable();
+    issues.dedup();
+    issues
+}
+
+fn word_boundary_before(text: &str, index: usize) -> bool {
+    index == 0
+        || text[..index]
+            .chars()
+            .next_back()
+            .is_none_or(|ch| !ch.is_ascii_alphanumeric() && ch != '_')
+}
+
+fn word_boundary_after(text: &str, index: usize) -> bool {
+    index == text.len()
+        || text[index..]
+            .chars()
+            .next()
+            .is_none_or(|ch| !ch.is_ascii_alphanumeric() && ch != '_')
+}
+
+fn parse_issue_after_closing_keyword(rest: &str) -> Option<u64> {
+    let rest = rest.trim_start();
+    let digits = rest.strip_prefix('#')?;
+    let digits = digits
+        .chars()
+        .take_while(|ch| ch.is_ascii_digit())
+        .collect::<String>();
+    if digits.is_empty() {
+        return None;
+    }
+    digits.parse().ok()
+}
+
+fn has_issue_relation_prefix(line: &str, prefix: &str) -> bool {
+    let Some(rest) = line.strip_prefix(prefix) else {
+        return false;
+    };
+    rest.is_empty()
+        || rest
+            .chars()
+            .next()
+            .is_some_and(|ch| ch.is_whitespace() || matches!(ch, ',' | '.' | ';' | ':' | ')' | ']'))
+}
+
+fn remote_finding(code: &str, message: &str) -> RemoteRouteFinding {
+    RemoteRouteFinding {
+        code: code.to_owned(),
+        message: message.to_owned(),
+    }
+}
+
+pub fn typed_review_receipt_payload_digest(receipt: &TypedReviewReceipt) -> String {
+    stable_digest(&[
+        &receipt.schema,
+        &receipt.repository,
+        &receipt.issue.to_string(),
+        &receipt.implementer,
+        &receipt.reviewer,
+        &receipt.reviewed_revision,
+        &receipt.expected_head_sha,
+        &receipt.evidence_digest,
+    ])
+}
+
+pub fn github_readback_receipt_payload_digest(receipt: &GithubReadbackReceipt) -> String {
+    stable_digest(&[
+        &receipt.schema,
+        &receipt.repository,
+        &receipt.issue.to_string(),
+        &receipt.pull_request.to_string(),
+        receipt.title.as_deref().unwrap_or_default(),
+        &receipt.head_sha,
+        &receipt.closes_issue.unwrap_or_default().to_string(),
+        &receipt
+            .closing_issues
+            .iter()
+            .map(u64::to_string)
+            .collect::<Vec<_>>()
+            .join(","),
+        &receipt.part_of_issue.unwrap_or_default().to_string(),
+        match receipt.source {
+            RemoteReadbackSource::Github => "github",
+            RemoteReadbackSource::Caller => "caller",
+            RemoteReadbackSource::Fixture => "fixture",
+        },
+        &receipt.observed_by,
+    ])
+}
+
+pub fn github_adapter_receipt_payload_digest(receipt: &GithubAdapterReceipt) -> String {
+    stable_digest(&[
+        &receipt.schema,
+        &receipt.repository,
+        &receipt.issue.to_string(),
+        &receipt.pull_request.to_string(),
+        &receipt.head_sha,
+        &receipt.readback_receipt_digest,
+        &receipt.credential_names.join(","),
+        &receipt.adapter,
+        if receipt.authenticated {
+            "authenticated"
+        } else {
+            "unauthenticated"
+        },
+    ])
+}
+
+pub fn observe_github_pr_readback(
+    request: &RemoteRouteRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<ObservedRemoteRouteRequest, RemoteRouteFinding> {
+    let pull_request = request.pull_request.ok_or_else(|| {
+        remote_finding(
+            "missing_pull_request",
+            "authenticated GitHub observation requires a concrete pull request number",
+        )
+    })?;
+    let credential_name = single_credential_name(request)?;
+    validate_repository_name(&request.repository)?;
+
+    let invocation = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        [
+            "pull-request".to_owned(),
+            request.repository.clone(),
+            pull_request.to_string(),
+        ],
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_observation_invocation_rejected",
+            "authenticated GitHub observation must use structured argv without shell strings or secrets",
+        )
+    })?
+    .with_child_credential(credential_name)
+    .map_err(|_| {
+        remote_finding(
+            "github_credential_scope_invalid",
+            "GitHub credential names must be explicit safe child-process environment names",
+        )
+    })?;
+    let output = process.run(invocation.clone());
+    if output.truncated {
+        return Err(remote_finding(
+            "github_observation_truncated",
+            "GitHub readback output was truncated and cannot be authoritative input",
+        ));
+    }
+    if output.status != ProcessStatus::Exit(0) {
+        return Err(remote_finding(
+            "github_observation_failed",
+            "GitHub readback adapter did not complete successfully",
+        ));
+    }
+    let value: serde_json::Value = serde_json::from_str(&output.stdout).map_err(|_| {
+        remote_finding(
+            "github_observation_invalid_json",
+            "GitHub readback adapter returned non-JSON output",
+        )
+    })?;
+    let number = value["number"].as_u64().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_pr_number",
+            "GitHub pull request readback did not include a PR number",
+        )
+    })?;
+    if number != pull_request {
+        return Err(remote_finding(
+            "github_observation_pr_mismatch",
+            "GitHub pull request readback number does not match the requested PR",
+        ));
+    }
+    let head_sha = value["head"]["sha"].as_str().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_head",
+            "GitHub pull request readback did not include head.sha",
+        )
+    })?;
+    let title = value["title"].as_str().ok_or_else(|| {
+        remote_finding(
+            "github_observation_missing_title",
+            "GitHub pull request readback did not include title",
+        )
+    })?;
+    if title.trim().is_empty() {
+        return Err(remote_finding(
+            "github_observation_missing_title",
+            "GitHub pull request readback title was empty",
+        ));
+    }
+    let body = value["body"].as_str().unwrap_or_default();
+    let closes_issue =
+        body_has_relation(Some(body), "Closes", request.issue).then_some(request.issue);
+    let closing_issues = body_closing_issue_references(Some(body));
+    let part_of_issue = (body_has_relation(Some(body), "Part of", request.issue)
+        || body_has_relation(Some(body), "Part-Of", request.issue))
+    .then_some(request.issue);
+    let readback = GithubReadbackReceipt {
+        schema: "csdlc.v3.github_readback_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request,
+        title: Some(title.to_owned()),
+        head_sha: head_sha.to_owned(),
+        closes_issue,
+        closing_issues: closing_issues.clone(),
+        part_of_issue,
+        source: RemoteReadbackSource::Github,
+        observed_by: GITHUB_READ_ONLY_ADAPTER.into(),
+    };
+    let readback_digest = github_readback_receipt_payload_digest(&readback);
+    let adapter = GithubAdapterReceipt {
+        schema: "csdlc.v3.github_adapter_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request,
+        head_sha: head_sha.to_owned(),
+        readback_receipt_digest: readback_digest.clone(),
+        credential_names: request.credential_names.clone(),
+        adapter: GITHUB_READ_ONLY_ADAPTER.into(),
+        authenticated: true,
+    };
+    let adapter_digest = github_adapter_receipt_payload_digest(&adapter);
+    let mut observed = request.clone();
+    observed.title = Some(title.to_owned());
+    observed.head_sha = Some(head_sha.to_owned());
+    observed.readback_source = Some(RemoteReadbackSource::Github);
+    observed.readback_receipt_digest = Some(readback_digest);
+    observed.adapter_receipt_digest = Some(adapter_digest);
+    observed.closes_issue = closes_issue;
+    observed.closing_issues = closing_issues;
+    observed.part_of_issue = part_of_issue;
+    Ok(ObservedRemoteRouteRequest {
+        request: observed,
+        receipts: RemoteRouteReceipts {
+            typed_review: None,
+            github_readback: Some(readback),
+            adapter: Some(adapter),
+        },
+        invocation,
+    })
+}
+
+fn typed_review_receipt_matches(
+    request: &RemoteRouteRequest,
+    receipt: Option<&TypedReviewReceipt>,
+) -> bool {
+    let Some(receipt) = receipt else {
+        return false;
+    };
+    receipt.schema == "csdlc.v3.typed_review_receipt.v1"
+        && receipt.repository == request.repository
+        && receipt.issue == request.issue
+        && Some(receipt.implementer.as_str()) == request.implementer.as_deref()
+        && Some(receipt.reviewer.as_str()) == request.reviewer.as_deref()
+        && Some(receipt.reviewed_revision.as_str()) == request.review_revision.as_deref()
+        && Some(receipt.expected_head_sha.as_str()) == request.expected_head_sha.as_deref()
+        && !receipt.evidence_digest.trim().is_empty()
+        && request.typed_review_receipt_digest.as_deref()
+            == Some(typed_review_receipt_payload_digest(receipt).as_str())
+}
+
+fn github_readback_receipt_matches(
+    request: &RemoteRouteRequest,
+    receipt: Option<&GithubReadbackReceipt>,
+) -> bool {
+    let Some(receipt) = receipt else {
+        return false;
+    };
+    receipt.schema == "csdlc.v3.github_readback_receipt.v1"
+        && receipt.repository == request.repository
+        && receipt.issue == request.issue
+        && Some(receipt.pull_request) == request.pull_request
+        && title_matches(receipt.title.as_deref(), request.title.as_deref())
+        && Some(receipt.head_sha.as_str()) == request.head_sha.as_deref()
+        && receipt.closes_issue == request.closes_issue
+        && receipt.closing_issues == request.closing_issues
+        && receipt.part_of_issue == request.part_of_issue
+        && receipt.source == RemoteReadbackSource::Github
+        && receipt.observed_by == GITHUB_READ_ONLY_ADAPTER
+        && request.readback_receipt_digest.as_deref()
+            == Some(github_readback_receipt_payload_digest(receipt).as_str())
+}
+
+fn title_matches(receipt_title: Option<&str>, request_title: Option<&str>) -> bool {
+    let Some(receipt_title) = receipt_title
+        .map(str::trim)
+        .filter(|title| !title.is_empty())
+    else {
+        return false;
+    };
+    let Some(request_title) = request_title
+        .map(str::trim)
+        .filter(|title| !title.is_empty())
+    else {
+        return false;
+    };
+    receipt_title == request_title
+}
+
+fn github_adapter_receipt_matches(
+    request: &RemoteRouteRequest,
+    receipts: &RemoteRouteReceipts,
+) -> bool {
+    let Some(adapter) = receipts.adapter.as_ref() else {
+        return false;
+    };
+    let Some(readback) = receipts.github_readback.as_ref() else {
+        return false;
+    };
+    let readback_digest = github_readback_receipt_payload_digest(readback);
+    adapter.schema == "csdlc.v3.github_adapter_receipt.v1"
+        && adapter.repository == request.repository
+        && adapter.issue == request.issue
+        && Some(adapter.pull_request) == request.pull_request
+        && Some(adapter.head_sha.as_str()) == request.head_sha.as_deref()
+        && adapter.readback_receipt_digest == readback_digest
+        && adapter.credential_names == request.credential_names
+        && !adapter.credential_names.is_empty()
+        && adapter.adapter == GITHUB_READ_ONLY_ADAPTER
+        && adapter.authenticated
+        && request.adapter_receipt_digest.as_deref()
+            == Some(github_adapter_receipt_payload_digest(adapter).as_str())
+}
+
+fn single_credential_name(request: &RemoteRouteRequest) -> Result<String, RemoteRouteFinding> {
+    match request.credential_names.as_slice() {
+        [name] => Ok(name.clone()),
+        [] => Err(remote_finding(
+            "github_credential_missing",
+            "authenticated GitHub observation requires exactly one credential name",
+        )),
+        _ => Err(remote_finding(
+            "github_credential_ambiguous",
+            "authenticated GitHub observation requires one unambiguous credential name",
+        )),
+    }
+}
+
+fn validate_repository_name(repository: &str) -> Result<(), RemoteRouteFinding> {
+    let Some((owner, name)) = repository.split_once('/') else {
+        return Err(remote_finding(
+            "github_repository_invalid",
+            "repository must be owner/name for GitHub readback",
+        ));
+    };
+    if owner.is_empty()
+        || name.is_empty()
+        || repository
+            .chars()
+            .any(|ch| !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/')))
+    {
+        return Err(remote_finding(
+            "github_repository_invalid",
+            "repository contains characters that cannot be used in structured GitHub readback",
+        ));
+    }
+    Ok(())
+}
+
+pub fn load_remote_route_receipts(
+    repo_root: &Path,
+    request: &RemoteRouteRequest,
+) -> Result<RemoteRouteReceipts, RemoteRouteFinding> {
+    Ok(RemoteRouteReceipts {
+        typed_review: load_optional_receipt(
+            repo_root,
+            request.typed_review_receipt_path.as_deref(),
+            "typed_review_receipt_missing",
+        )?,
+        github_readback: load_optional_receipt(
+            repo_root,
+            request.readback_receipt_path.as_deref(),
+            "github_readback_receipt_missing",
+        )?,
+        adapter: load_optional_receipt(
+            repo_root,
+            request.adapter_receipt_path.as_deref(),
+            "github_adapter_receipt_missing",
+        )?,
+    })
+}
+
+fn load_optional_receipt<T: for<'de> Deserialize<'de>>(
+    repo_root: &Path,
+    path: Option<&str>,
+    code: &str,
+) -> Result<Option<T>, RemoteRouteFinding> {
+    let Some(path) = path else {
+        return Ok(None);
+    };
+    let root = repo_root.canonicalize().map_err(|_| {
+        remote_finding(
+            "repository_root_unavailable",
+            "repository root must be canonical before loading receipts",
+        )
+    })?;
+    let candidate = if Path::new(path).is_absolute() {
+        PathBuf::from(path)
+    } else {
+        root.join(path)
+    };
+    let canonical = candidate
+        .canonicalize()
+        .map_err(|_| remote_finding(code, "declared receipt file is missing"))?;
+    if !is_repo_or_git_receipt_path(&root, &canonical) {
+        return Err(remote_finding(
+            "receipt_path_escapes_repository",
+            "receipt paths must canonicalize beneath the repository root or resolved Git receipt directory",
+        ));
+    }
+    if !is_durable_receipt_path(&root, &canonical) {
+        return Err(remote_finding(
+            "receipt_path_not_durable",
+            "receipt paths must live under .csdlc/evidence or .git/csdlc-v3",
+        ));
+    }
+    let bytes = std::fs::read(&canonical)
+        .map_err(|_| remote_finding(code, "declared receipt file is not readable"))?;
+    serde_json::from_slice(&bytes)
+        .map(Some)
+        .map_err(|_| remote_finding(code, "declared receipt file is not valid typed JSON"))
+}
+
+fn is_durable_receipt_path(root: &Path, canonical: &Path) -> bool {
+    canonical.starts_with(root.join(".csdlc/evidence"))
+        || git_control_dir(root)
+            .map(|git_dir| canonical.starts_with(git_dir.join("csdlc-v3")))
+            .unwrap_or(false)
+}
+
+fn is_repo_or_git_receipt_path(root: &Path, canonical: &Path) -> bool {
+    canonical.starts_with(root)
+        || git_control_dir(root)
+            .map(|git_dir| canonical.starts_with(git_dir.join("csdlc-v3")))
+            .unwrap_or(false)
+}
+
+fn git_control_dir(root: &Path) -> Option<PathBuf> {
+    let dot_git = root.join(".git");
+    if dot_git.is_dir() {
+        return dot_git.canonicalize().ok();
+    }
+    let contents = std::fs::read_to_string(&dot_git).ok()?;
+    let gitdir = contents.strip_prefix("gitdir:")?.trim();
+    let path = Path::new(gitdir);
+    let path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        root.join(path)
+    };
+    let git_dir = path.canonicalize().ok()?;
+    if let Some(common_dir) = git_common_dir(&git_dir) {
+        return Some(common_dir);
+    }
+    Some(git_dir)
+}
+
+fn git_common_dir(git_dir: &Path) -> Option<PathBuf> {
+    let contents = std::fs::read_to_string(git_dir.join("commondir")).ok()?;
+    let path = Path::new(contents.trim());
+    let path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        git_dir.join(path)
+    };
+    path.canonicalize().ok()
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AcceptedPvfResult {
@@ -50,147 +907,8 @@ pub enum VerificationRejectReason {
     WrongSource,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum RemoteCommandMode {
-    Closing,
-    PartOf,
-}
-
-impl From<RemoteCommandMode> for PublicationMode {
-    fn from(value: RemoteCommandMode) -> Self {
-        match value {
-            RemoteCommandMode::Closing => PublicationMode::Closing,
-            RemoteCommandMode::PartOf => PublicationMode::PartOf,
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum RemoteCommandOperation {
-    VerifyBridgeEvidence,
-    Publish,
-    Deliver,
-    Finish,
-    CleanupPreview,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct RemoteCommandRequest {
-    pub repository: String,
-    pub issue: u64,
-    pub pull_request: u64,
-    pub head_sha: String,
-    pub mode: RemoteCommandMode,
-    pub operation: RemoteCommandOperation,
-    #[serde(default)]
-    pub pvf_evidence_ref: Option<String>,
-    #[serde(default)]
-    pub typed_review_ref: Option<String>,
-    #[serde(default)]
-    pub publication_intent_ref: Option<String>,
-    #[serde(default)]
-    pub pr_readback_ref: Option<String>,
-    #[serde(default)]
-    pub issue_readback_ref: Option<String>,
-    #[serde(default)]
-    pub cleanup_inspection_ref: Option<String>,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum RemoteCommandStatus {
-    ReadyForTypedBridge,
-    PublicationDerived,
-    DeliveryDerived,
-    FinishDerived,
-    CleanupPreviewDerived,
-    Rejected,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct RemoteCommandReport {
-    pub schema: &'static str,
-    pub issue: u64,
-    pub pull_request: u64,
-    pub operation: RemoteCommandOperation,
-    pub operational_authority: bool,
-    pub trusted_authority: bool,
-    pub status: RemoteCommandStatus,
-    pub blockers: Vec<String>,
-    pub evidence_refs: BTreeMap<&'static str, String>,
-    pub evidence_digest: String,
-    pub result: Option<Value>,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum RemoteCommandRejectReason {
-    InvalidIdentity,
-    CallerForgedAuthority { field: &'static str },
-    EvidenceRefEscapesRepo { field: &'static str },
-    EvidenceRefMissing { field: &'static str },
-    EvidenceRefInvalidJson { field: &'static str },
-    EvidenceRefSchemaMissing { field: &'static str },
-    EvidenceSchemaMismatch { field: &'static str },
-    EvidenceIdentityMismatch { field: &'static str },
-    EvidenceDerivationFailed(String),
-}
-
 pub trait VerifiableSubject {
     fn subject_digest(&self) -> String;
-}
-
-pub fn verify_remote_bridge_request(
-    root: &Path,
-    request: RemoteCommandRequest,
-) -> Result<RemoteCommandReport, RemoteCommandRejectReason> {
-    if request.repository.trim().is_empty()
-        || request.issue == 0
-        || request.pull_request == 0
-        || !is_full_sha(&request.head_sha)
-    {
-        return Err(RemoteCommandRejectReason::InvalidIdentity);
-    }
-    let refs = evidence_refs_for_operation(&request)?;
-    let issue = request.issue.to_string();
-    let pull_request = request.pull_request.to_string();
-    let mut digest_inputs = vec![
-        request.repository.clone(),
-        issue,
-        pull_request,
-        request.head_sha.clone(),
-    ];
-    let mut evidence_refs = BTreeMap::new();
-    let mut evidence = BTreeMap::new();
-    let mut evidence_digests = Vec::new();
-    for (field, evidence_ref) in refs {
-        let verified = validate_evidence_ref(root, field, evidence_ref)?;
-        evidence_refs.insert(field, evidence_ref.to_owned());
-        digest_inputs.push(evidence_ref.to_owned());
-        evidence_digests.push(verified.digest);
-        evidence.insert(field, verified.value);
-    }
-    digest_inputs.extend(evidence_digests);
-    let evidence_digest =
-        stable_digest(&digest_inputs.iter().map(String::as_str).collect::<Vec<_>>());
-    let blockers = vec![
-        "v3 remote command is pre-cutover verification only; typed C-SDLC v2 remains operational authority until #505 explicitly switches authority".to_owned(),
-    ];
-    let (status, result) = derive_remote_command_result(&request, &evidence)?;
-    Ok(RemoteCommandReport {
-        schema: "csdlc.v3.remote_delivery.v1",
-        issue: request.issue,
-        pull_request: request.pull_request,
-        operation: request.operation,
-        operational_authority: false,
-        trusted_authority: false,
-        status,
-        blockers,
-        evidence_refs,
-        evidence_digest,
-        result: Some(result),
-    })
 }
 
 impl<T: VerifiableSubject> Verified<T> {
@@ -422,670 +1140,6 @@ fn stable_digest(values: &[&str]) -> String {
         hasher.update(b"\0");
     }
     hasher.finalize().to_hex().to_string()
-}
-
-fn is_full_sha(value: &str) -> bool {
-    value.len() == 40 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
-}
-
-#[derive(Debug, Clone)]
-struct JsonEvidence {
-    value: Value,
-    digest: String,
-}
-
-fn validate_evidence_ref(
-    root: &Path,
-    field: &'static str,
-    evidence_ref: &str,
-) -> Result<JsonEvidence, RemoteCommandRejectReason> {
-    if evidence_ref.trim().is_empty()
-        || evidence_ref.contains('\0')
-        || evidence_ref.contains("://")
-        || evidence_ref.starts_with("caller:")
-        || evidence_ref.starts_with("inline:")
-    {
-        return Err(RemoteCommandRejectReason::CallerForgedAuthority { field });
-    }
-    let path = Path::new(evidence_ref);
-    if path.is_absolute()
-        || path
-            .components()
-            .any(|component| matches!(component, Component::ParentDir | Component::RootDir))
-    {
-        return Err(RemoteCommandRejectReason::EvidenceRefEscapesRepo { field });
-    }
-    let Ok(root) = root.canonicalize() else {
-        return Err(RemoteCommandRejectReason::EvidenceRefMissing { field });
-    };
-    let Ok(target) = root.join(path).canonicalize() else {
-        return Err(RemoteCommandRejectReason::EvidenceRefMissing { field });
-    };
-    if !target.starts_with(&root) {
-        return Err(RemoteCommandRejectReason::EvidenceRefEscapesRepo { field });
-    }
-    if !target.is_file() {
-        return Err(RemoteCommandRejectReason::EvidenceRefMissing { field });
-    }
-    let bytes =
-        fs::read(&target).map_err(|_| RemoteCommandRejectReason::EvidenceRefMissing { field })?;
-    let value: Value = serde_json::from_slice(&bytes)
-        .map_err(|_| RemoteCommandRejectReason::EvidenceRefInvalidJson { field })?;
-    let Some(schema) = value.get("schema").and_then(Value::as_str) else {
-        return Err(RemoteCommandRejectReason::EvidenceRefSchemaMissing { field });
-    };
-    if schema.trim().is_empty() {
-        return Err(RemoteCommandRejectReason::EvidenceRefSchemaMissing { field });
-    }
-    let mut hasher = blake3::Hasher::new();
-    hasher.update(b"csdlc-v3.remote-bridge-evidence.v1");
-    hasher.update(b"\0");
-    hasher.update(field.as_bytes());
-    hasher.update(b"\0");
-    hasher.update(evidence_ref.as_bytes());
-    hasher.update(b"\0");
-    hasher.update(schema.as_bytes());
-    hasher.update(b"\0");
-    hasher.update(&bytes);
-    Ok(JsonEvidence {
-        value,
-        digest: hasher.finalize().to_hex().to_string(),
-    })
-}
-
-fn derive_remote_command_result(
-    request: &RemoteCommandRequest,
-    evidence: &BTreeMap<&'static str, Value>,
-) -> Result<(RemoteCommandStatus, Value), RemoteCommandRejectReason> {
-    match request.operation {
-        RemoteCommandOperation::VerifyBridgeEvidence => {
-            let _ = parse_delivery_input(request, evidence)?;
-            Ok((
-                RemoteCommandStatus::ReadyForTypedBridge,
-                serde_json::json!({
-                    "authority": "typed evidence accepted for v3 derivation",
-                    "mutation_allowed": false
-                }),
-            ))
-        }
-        RemoteCommandOperation::Publish => {
-            let (authorization, publication) = derive_publication(request, evidence)?;
-            Ok((
-                RemoteCommandStatus::PublicationDerived,
-                serde_json::json!({
-                    "authorization_issue": authorization.issue,
-                    "publication_pull_request": publication.pull_request,
-                    "relation": format!("{:?}", publication.relation),
-                    "mutation_allowed": false
-                }),
-            ))
-        }
-        RemoteCommandOperation::Deliver => {
-            let input = parse_delivery_input(request, evidence)?;
-            let result = deliver(input).map_err(|error| {
-                RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-            })?;
-            Ok((
-                RemoteCommandStatus::DeliveryDerived,
-                serde_json::json!({
-                    "finish": format!("{:?}", result.finish),
-                    "cleanup": result.cleanup.map(|cleanup| format!("{cleanup:?}")),
-                    "authorization_issue": result.authorization.issue,
-                    "publication_pull_request": result.publication.pull_request,
-                    "mutation_allowed": false
-                }),
-            ))
-        }
-        RemoteCommandOperation::Finish => {
-            let (_, publication) = derive_publication(request, evidence)?;
-            let pr = verified(
-                parse_pr_readback(request, required(evidence, "pr_readback_ref")?)?,
-                AuthoritySource::GithubReadback,
-            )?
-            .require_source(AuthoritySource::GithubReadback)
-            .map_err(|error| {
-                RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-            })?;
-            let issue = verified(
-                parse_issue_readback(request, required(evidence, "issue_readback_ref")?)?,
-                AuthoritySource::GithubReadback,
-            )?
-            .require_source(AuthoritySource::GithubReadback)
-            .map_err(|error| {
-                RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-            })?;
-            let finish = derive_finish(&publication, &pr, &issue);
-            if matches!(finish, FinishClassification::OperatorRequired { .. }) {
-                return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
-                    format!("{finish:?}"),
-                ));
-            }
-            Ok((
-                RemoteCommandStatus::FinishDerived,
-                serde_json::json!({
-                    "finish": format!("{finish:?}"),
-                    "mutation_allowed": false
-                }),
-            ))
-        }
-        RemoteCommandOperation::CleanupPreview => {
-            let cleanup = verified(
-                parse_cleanup(required(evidence, "cleanup_inspection_ref")?)?,
-                AuthoritySource::WorktreeInspection,
-            )?
-            .require_source(AuthoritySource::WorktreeInspection)
-            .map_err(|error| {
-                RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-            })?;
-            if !cleanup.preview {
-                return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
-                    "cleanup_preview_requires_preview_candidate".to_owned(),
-                ));
-            }
-            let preview = classify_cleanup(&cleanup).map_err(|error| {
-                RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-            })?;
-            Ok((
-                RemoteCommandStatus::CleanupPreviewDerived,
-                serde_json::json!({
-                    "cleanup": format!("{preview:?}"),
-                    "mutation_allowed": false
-                }),
-            ))
-        }
-    }
-}
-
-fn evidence_refs_for_operation(
-    request: &RemoteCommandRequest,
-) -> Result<Vec<(&'static str, &str)>, RemoteCommandRejectReason> {
-    match request.operation {
-        RemoteCommandOperation::VerifyBridgeEvidence | RemoteCommandOperation::Deliver => {
-            let mut refs = publication_refs_for_request(request)?;
-            refs.push(optional_ref(
-                "pr_readback_ref",
-                request.pr_readback_ref.as_deref(),
-            )?);
-            refs.push(optional_ref(
-                "issue_readback_ref",
-                request.issue_readback_ref.as_deref(),
-            )?);
-            refs.push(optional_ref(
-                "cleanup_inspection_ref",
-                request.cleanup_inspection_ref.as_deref(),
-            )?);
-            Ok(refs)
-        }
-        RemoteCommandOperation::Publish => publication_refs_for_request(request),
-        RemoteCommandOperation::Finish => {
-            let mut refs = publication_refs_for_request(request)?;
-            refs.push(optional_ref(
-                "pr_readback_ref",
-                request.pr_readback_ref.as_deref(),
-            )?);
-            refs.push(optional_ref(
-                "issue_readback_ref",
-                request.issue_readback_ref.as_deref(),
-            )?);
-            Ok(refs)
-        }
-        RemoteCommandOperation::CleanupPreview => Ok(vec![optional_ref(
-            "cleanup_inspection_ref",
-            request.cleanup_inspection_ref.as_deref(),
-        )?]),
-    }
-}
-
-fn publication_refs_for_request(
-    request: &RemoteCommandRequest,
-) -> Result<Vec<(&'static str, &str)>, RemoteCommandRejectReason> {
-    Ok(vec![
-        optional_ref("pvf_evidence_ref", request.pvf_evidence_ref.as_deref())?,
-        optional_ref("typed_review_ref", request.typed_review_ref.as_deref())?,
-        optional_ref(
-            "publication_intent_ref",
-            request.publication_intent_ref.as_deref(),
-        )?,
-    ])
-}
-
-fn optional_ref<'a>(
-    field: &'static str,
-    value: Option<&'a str>,
-) -> Result<(&'static str, &'a str), RemoteCommandRejectReason> {
-    value
-        .map(|value| (field, value))
-        .ok_or(RemoteCommandRejectReason::EvidenceRefMissing { field })
-}
-
-fn parse_delivery_input(
-    request: &RemoteCommandRequest,
-    evidence: &BTreeMap<&'static str, Value>,
-) -> Result<RemoteDeliveryInput, RemoteCommandRejectReason> {
-    Ok(RemoteDeliveryInput::new(
-        verified(
-            parse_pvf(request, required(evidence, "pvf_evidence_ref")?)?,
-            AuthoritySource::Pvf,
-        )?,
-        verified(
-            parse_review(request, required(evidence, "typed_review_ref")?)?,
-            AuthoritySource::Review,
-        )?,
-        verified(
-            parse_publication(request, required(evidence, "publication_intent_ref")?)?,
-            AuthoritySource::PublicationIntent,
-        )?,
-        verified(
-            parse_pr_readback(request, required(evidence, "pr_readback_ref")?)?,
-            AuthoritySource::GithubReadback,
-        )?,
-        verified(
-            parse_issue_readback(request, required(evidence, "issue_readback_ref")?)?,
-            AuthoritySource::GithubReadback,
-        )?,
-        verified(
-            parse_cleanup(required(evidence, "cleanup_inspection_ref")?)?,
-            AuthoritySource::WorktreeInspection,
-        )?,
-    ))
-}
-
-fn derive_publication(
-    request: &RemoteCommandRequest,
-    evidence: &BTreeMap<&'static str, Value>,
-) -> Result<(PublicationAuthorization, PublicationEvidence), RemoteCommandRejectReason> {
-    let pvf = verified(
-        parse_pvf(request, required(evidence, "pvf_evidence_ref")?)?,
-        AuthoritySource::Pvf,
-    )?
-    .require_source(AuthoritySource::Pvf)
-    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
-    let review = verified(
-        parse_review(request, required(evidence, "typed_review_ref")?)?,
-        AuthoritySource::Review,
-    )?
-    .require_source(AuthoritySource::Review)
-    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
-    let publication_request = verified(
-        parse_publication(request, required(evidence, "publication_intent_ref")?)?,
-        AuthoritySource::PublicationIntent,
-    )?
-    .require_source(AuthoritySource::PublicationIntent)
-    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
-    if pvf.evidence_digest.trim().is_empty() {
-        return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
-            "PvfEvidenceMissing".to_owned(),
-        ));
-    }
-    if pvf.revision != review.reviewed_revision {
-        return Err(RemoteCommandRejectReason::EvidenceDerivationFailed(
-            "PvfRevisionMismatch".to_owned(),
-        ));
-    }
-    let target = ReviewTarget {
-        repository: publication_request.repository.clone(),
-        issue: pvf.issue,
-        mode: publication_request.mode,
-    };
-    let authorization = authorize_publication(
-        &review,
-        &pvf.revision,
-        &publication_request.publisher,
-        target,
-    )
-    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))?;
-    let publication = publish(publication_request, &authorization).map_err(|error| {
-        RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}"))
-    })?;
-    Ok((authorization, publication))
-}
-
-fn required<'a>(
-    evidence: &'a BTreeMap<&'static str, Value>,
-    field: &'static str,
-) -> Result<&'a Value, RemoteCommandRejectReason> {
-    evidence
-        .get(field)
-        .ok_or(RemoteCommandRejectReason::EvidenceRefMissing { field })
-}
-
-fn verified<T: VerifiableSubject>(
-    value: T,
-    source: AuthoritySource,
-) -> Result<Verified<T>, RemoteCommandRejectReason> {
-    let subject_digest = value.subject_digest();
-    Verified::new(value, receipt(source, &subject_digest))
-        .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))
-}
-
-fn parse_pvf(
-    request: &RemoteCommandRequest,
-    value: &Value,
-) -> Result<AcceptedPvfResult, RemoteCommandRejectReason> {
-    require_schema(value, "pvf_evidence_ref", "csdlc.v3.pvf_result.v1")?;
-    let issue = u64_field(value, "pvf_evidence_ref", "issue")?;
-    let revision = string_field(value, "pvf_evidence_ref", "revision")?;
-    let evidence_digest = string_field(value, "pvf_evidence_ref", "evidence_digest")?;
-    if issue != request.issue || revision != request.head_sha || evidence_digest.trim().is_empty() {
-        return Err(RemoteCommandRejectReason::EvidenceIdentityMismatch {
-            field: "pvf_evidence_ref",
-        });
-    }
-    Ok(AcceptedPvfResult {
-        issue,
-        revision,
-        evidence_digest,
-    })
-}
-
-fn parse_review(
-    request: &RemoteCommandRequest,
-    value: &Value,
-) -> Result<ReviewRecord, RemoteCommandRejectReason> {
-    require_schema(value, "typed_review_ref", "csdlc.v3.accepted_review.v1")?;
-    let issue = u64_field(value, "typed_review_ref", "issue")?;
-    let reviewed_revision = string_field(value, "typed_review_ref", "reviewed_revision")?;
-    let scope_paths = string_array_field(value, "typed_review_ref", "scope_paths")?;
-    let implementer = string_field(value, "typed_review_ref", "implementer")?;
-    let reviewer = string_field(value, "typed_review_ref", "reviewer")?;
-    let typed_review_evidence_digest =
-        string_field(value, "typed_review_ref", "typed_review_evidence_digest")?;
-    let target = object_field(value, "typed_review_ref", "target")?;
-    let target_repository = string_field(target, "typed_review_ref", "repository")?;
-    let target_issue = u64_field(target, "typed_review_ref", "issue")?;
-    let target_mode = mode_from_string(
-        "typed_review_ref",
-        &string_field(target, "typed_review_ref", "mode")?,
-    )?;
-    let findings = value
-        .get("findings")
-        .and_then(Value::as_array)
-        .ok_or(RemoteCommandRejectReason::EvidenceIdentityMismatch {
-            field: "typed_review_ref",
-        })?
-        .iter()
-        .map(parse_review_finding)
-        .collect::<Result<Vec<_>, _>>()?;
-    if issue != request.issue
-        || reviewed_revision != request.head_sha
-        || target_repository != request.repository
-        || target_issue != request.issue
-        || target_mode != request.mode.into()
-    {
-        return Err(RemoteCommandRejectReason::EvidenceIdentityMismatch {
-            field: "typed_review_ref",
-        });
-    }
-    review_from_accepted_evidence(AcceptedReviewEvidence {
-        issue,
-        reviewed_revision,
-        scope_paths,
-        implementer,
-        reviewer,
-        findings,
-        target: ReviewTarget {
-            repository: target_repository,
-            issue: target_issue,
-            mode: target_mode,
-        },
-        typed_review_evidence_digest,
-    })
-    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))
-}
-
-fn parse_publication(
-    request: &RemoteCommandRequest,
-    value: &Value,
-) -> Result<PublicationRequest, RemoteCommandRejectReason> {
-    require_schema(
-        value,
-        "publication_intent_ref",
-        "csdlc.v3.publication_intent.v1",
-    )?;
-    let repository = string_field(value, "publication_intent_ref", "repository")?;
-    let issue = u64_field(value, "publication_intent_ref", "issue")?;
-    let pull_request = u64_field(value, "publication_intent_ref", "pull_request")?;
-    let mode = mode_from_string(
-        "publication_intent_ref",
-        &string_field(value, "publication_intent_ref", "mode")?,
-    )?;
-    let publisher = string_field(value, "publication_intent_ref", "publisher")?;
-    let body = string_field(value, "publication_intent_ref", "body")?;
-    let head_sha = string_field(value, "publication_intent_ref", "head_sha")?;
-    if repository != request.repository
-        || issue != request.issue
-        || pull_request != request.pull_request
-        || head_sha != request.head_sha
-        || mode != request.mode.into()
-    {
-        return Err(RemoteCommandRejectReason::EvidenceIdentityMismatch {
-            field: "publication_intent_ref",
-        });
-    }
-    Ok(PublicationRequest {
-        repository,
-        issue,
-        pull_request,
-        mode,
-        publisher,
-        body,
-        head_sha,
-    })
-}
-
-fn parse_pr_readback(
-    request: &RemoteCommandRequest,
-    value: &Value,
-) -> Result<PullRequestReadback, RemoteCommandRejectReason> {
-    require_schema(value, "pr_readback_ref", "csdlc.v3.pr_readback.v1")?;
-    let repository = string_field(value, "pr_readback_ref", "repository")?;
-    let number = u64_field(value, "pr_readback_ref", "number")?;
-    let head_sha = string_field(value, "pr_readback_ref", "head_sha")?;
-    if repository != request.repository
-        || number != request.pull_request
-        || head_sha != request.head_sha
-    {
-        return Err(RemoteCommandRejectReason::EvidenceIdentityMismatch {
-            field: "pr_readback_ref",
-        });
-    }
-    Ok(PullRequestReadback {
-        repository,
-        number,
-        head_sha,
-        merged: bool_field(value, "pr_readback_ref", "merged")?,
-        closes_issue: optional_u64_field(value, "closes_issue"),
-        part_of_issue: optional_u64_field(value, "part_of_issue"),
-    })
-}
-
-fn parse_issue_readback(
-    request: &RemoteCommandRequest,
-    value: &Value,
-) -> Result<IssueReadback, RemoteCommandRejectReason> {
-    require_schema(value, "issue_readback_ref", "csdlc.v3.issue_readback.v1")?;
-    let repository = string_field(value, "issue_readback_ref", "repository")?;
-    let issue = u64_field(value, "issue_readback_ref", "issue")?;
-    if repository != request.repository || issue != request.issue {
-        return Err(RemoteCommandRejectReason::EvidenceIdentityMismatch {
-            field: "issue_readback_ref",
-        });
-    }
-    Ok(IssueReadback {
-        repository,
-        issue,
-        open: bool_field(value, "issue_readback_ref", "open")?,
-    })
-}
-
-fn parse_cleanup(value: &Value) -> Result<CleanupCandidate, RemoteCommandRejectReason> {
-    require_schema(
-        value,
-        "cleanup_inspection_ref",
-        "csdlc.v3.cleanup_inspection.v1",
-    )?;
-    let registration = object_field(value, "cleanup_inspection_ref", "registration")?;
-    let registration = crate::publication::GitWorktreeRegistration {
-        repository_root: Path::new(&string_field(
-            registration,
-            "cleanup_inspection_ref",
-            "repository_root",
-        )?)
-        .to_path_buf(),
-        worktree_path: Path::new(&string_field(
-            registration,
-            "cleanup_inspection_ref",
-            "worktree_path",
-        )?)
-        .to_path_buf(),
-        git_common_dir: Path::new(&string_field(
-            registration,
-            "cleanup_inspection_ref",
-            "git_common_dir",
-        )?)
-        .to_path_buf(),
-    };
-    crate::publication::cleanup_candidate_from_git_registration(
-        Path::new(&string_field(
-            value,
-            "cleanup_inspection_ref",
-            "approved_worktree_parent",
-        )?),
-        Path::new(&string_field(
-            value,
-            "cleanup_inspection_ref",
-            "candidate_path",
-        )?),
-        registration,
-        bool_field(value, "cleanup_inspection_ref", "preview")?,
-        bool_field(value, "cleanup_inspection_ref", "preview_receipt")?,
-        bool_field(value, "cleanup_inspection_ref", "committed_closed_out")?,
-        bool_field(value, "cleanup_inspection_ref", "terminal_receipt")?,
-        value
-            .get("preview_identity_digest")
-            .and_then(Value::as_str)
-            .map(str::to_owned),
-        bool_field(value, "cleanup_inspection_ref", "dirty")?,
-        bool_field(value, "cleanup_inspection_ref", "live")?,
-    )
-    .map_err(|error| RemoteCommandRejectReason::EvidenceDerivationFailed(format!("{error:?}")))
-}
-
-fn parse_review_finding(value: &Value) -> Result<ReviewFinding, RemoteCommandRejectReason> {
-    let id = string_field(value, "typed_review_ref", "id")?;
-    let disposition = match string_field(value, "typed_review_ref", "disposition")?.as_str() {
-        "resolved" => crate::review::FindingDisposition::Resolved,
-        "non_actionable" => crate::review::FindingDisposition::NonActionable,
-        "actionable" => crate::review::FindingDisposition::Actionable,
-        _ => {
-            return Err(RemoteCommandRejectReason::EvidenceIdentityMismatch {
-                field: "typed_review_ref",
-            })
-        }
-    };
-    Ok(ReviewFinding { id, disposition })
-}
-
-fn require_schema(
-    value: &Value,
-    field: &'static str,
-    expected: &str,
-) -> Result<(), RemoteCommandRejectReason> {
-    let schema = value
-        .get("schema")
-        .and_then(Value::as_str)
-        .ok_or(RemoteCommandRejectReason::EvidenceRefSchemaMissing { field })?;
-    if schema != expected {
-        return Err(RemoteCommandRejectReason::EvidenceSchemaMismatch { field });
-    }
-    Ok(())
-}
-
-fn object_field<'a>(
-    value: &'a Value,
-    field: &'static str,
-    key: &str,
-) -> Result<&'a Value, RemoteCommandRejectReason> {
-    value
-        .get(key)
-        .filter(|value| value.is_object())
-        .ok_or(RemoteCommandRejectReason::EvidenceIdentityMismatch { field })
-}
-
-fn string_field(
-    value: &Value,
-    field: &'static str,
-    key: &str,
-) -> Result<String, RemoteCommandRejectReason> {
-    value
-        .get(key)
-        .and_then(Value::as_str)
-        .map(str::to_owned)
-        .filter(|value| !value.trim().is_empty())
-        .ok_or(RemoteCommandRejectReason::EvidenceIdentityMismatch { field })
-}
-
-fn string_array_field(
-    value: &Value,
-    field: &'static str,
-    key: &str,
-) -> Result<Vec<String>, RemoteCommandRejectReason> {
-    let values = value
-        .get(key)
-        .and_then(Value::as_array)
-        .ok_or(RemoteCommandRejectReason::EvidenceIdentityMismatch { field })?;
-    let values = values
-        .iter()
-        .map(|value| {
-            value
-                .as_str()
-                .map(str::to_owned)
-                .filter(|value| !value.trim().is_empty())
-                .ok_or(RemoteCommandRejectReason::EvidenceIdentityMismatch { field })
-        })
-        .collect::<Result<Vec<_>, _>>()?;
-    if values.is_empty() {
-        return Err(RemoteCommandRejectReason::EvidenceIdentityMismatch { field });
-    }
-    Ok(values)
-}
-
-fn u64_field(
-    value: &Value,
-    field: &'static str,
-    key: &str,
-) -> Result<u64, RemoteCommandRejectReason> {
-    value
-        .get(key)
-        .and_then(Value::as_u64)
-        .filter(|value| *value != 0)
-        .ok_or(RemoteCommandRejectReason::EvidenceIdentityMismatch { field })
-}
-
-fn optional_u64_field(value: &Value, key: &str) -> Option<u64> {
-    value.get(key).and_then(Value::as_u64)
-}
-
-fn bool_field(
-    value: &Value,
-    field: &'static str,
-    key: &str,
-) -> Result<bool, RemoteCommandRejectReason> {
-    value
-        .get(key)
-        .and_then(Value::as_bool)
-        .ok_or(RemoteCommandRejectReason::EvidenceIdentityMismatch { field })
-}
-
-fn mode_from_string(
-    field: &'static str,
-    value: &str,
-) -> Result<PublicationMode, RemoteCommandRejectReason> {
-    match value {
-        "closing" => Ok(PublicationMode::Closing),
-        "part_of" => Ok(PublicationMode::PartOf),
-        _ => Err(RemoteCommandRejectReason::EvidenceIdentityMismatch { field }),
-    }
 }
 
 fn authority_receipt_digest(source: AuthoritySource, subject_digest: &str) -> String {

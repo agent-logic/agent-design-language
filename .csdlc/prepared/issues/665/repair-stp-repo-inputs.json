@@ -1,0 +1,19 @@
+{
+  "issue": 665,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "0daca617825c76fa9950efbb8fe11a5e984cb22dc1c465f571ba508a60358d89",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Correct #665 bind-owner source input from nonexistent bind.rs to lifecycle.rs.",
+  "operation": {
+    "operation": "correct_stp_repo_inputs_after_recovery",
+    "values": [
+      "agent-logic/agent-design-language#665",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/tests/**"
+    ]
+  }
+}

@@ -11,6 +11,11 @@ use csdlc_v3::commands::local::{
     required_local_commands, validate_contract, LocalPreparationRequest, PromptRegistry,
     WorktreeRegistration,
 };
+use csdlc_v3::commands::remote::{
+    github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
+    observe_github_pr_readback, typed_review_receipt_payload_digest, RemotePublicationMode,
+    RemoteReadbackSource, RemoteRouteReceipts, RemoteRouteRequest, TypedReviewReceipt,
+};
 use csdlc_v3::lifecycle::{
     Capability, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
     ReviewRecoveryProvenance, TransitionOutcome,
@@ -23,6 +28,27 @@ fn repo_root() -> PathBuf {
         .parent()
         .expect("manifest has repository parent")
         .to_path_buf()
+}
+
+fn git_common_dir(root: &Path) -> PathBuf {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .arg("rev-parse")
+        .arg("--git-common-dir")
+        .output()
+        .expect("git common dir should be discoverable");
+    assert!(output.status.success(), "git common dir failed: {output:?}");
+    let path = PathBuf::from(
+        String::from_utf8(output.stdout)
+            .expect("git common dir should be utf8")
+            .trim(),
+    );
+    if path.is_absolute() {
+        path
+    } else {
+        root.join(path)
+    }
 }
 
 fn read_issue_index(root: &Path, issue: u64) -> serde_json::Value {
@@ -363,6 +389,188 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
             reason: csdlc_v3::lifecycle::RejectReason::InvalidState
         }
     ));
+}
+
+#[test]
+fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_authority() {
+    let root = repo_root();
+    let index = read_issue_index(&root, 629);
+    let phase = index["phase"].as_str().expect("real #629 phase");
+    assert!(
+        matches!(phase, "implemented" | "reviewed" | "published"),
+        "real #629 must be in a post-recovery pre-terminal phase, got {phase}"
+    );
+    assert!(index["transitions"]
+        .as_array()
+        .expect("real #629 transitions are present")
+        .iter()
+        .any(|transition| transition["from"] == "published"
+            && transition["to"] == "implemented"
+            && transition["reason"]
+                .as_str()
+                .is_some_and(|reason| reason.contains("Recover #629"))));
+    if phase == "published" {
+        assert_eq!(index["publication"]["pull_request"], 641);
+        assert_eq!(index["publication"]["linkage_mode"], "closing");
+        assert_eq!(index["publication"]["base"], "main");
+    } else {
+        assert!(index["publication"].is_null());
+    }
+
+    let revision = index["branch"]
+        .as_str()
+        .expect("real #629 branch is recorded");
+    assert_eq!(revision, "codex/629-v3-h3-github-publication-exec");
+    let head = Command::new("git")
+        .arg("-C")
+        .arg(&root)
+        .arg("rev-parse")
+        .arg("HEAD")
+        .output()
+        .expect("git rev-parse runs for real issue canary");
+    assert!(head.status.success(), "git rev-parse failed: {head:?}");
+    let head = String::from_utf8(head.stdout)
+        .expect("git head is utf8")
+        .trim()
+        .to_owned();
+
+    let request = RemoteRouteRequest {
+        repository: index["repository"]
+            .as_str()
+            .expect("real #629 repository")
+            .to_owned(),
+        issue: 629,
+        pull_request: Some(641),
+        actor: Some("worker-6".into()),
+        implementer: Some("worker-6".into()),
+        reviewer: Some("reviewer-629".into()),
+        review_revision: Some(head.clone()),
+        expected_head_sha: Some(head.clone()),
+        head_sha: Some("caller-forged-head".into()),
+        mode: Some(RemotePublicationMode::Closing),
+        title: Some("[caller-forged-title]".into()),
+        body: Some("Closes #629\n\nPart of #625".into()),
+        review_present: true,
+        typed_review_receipt_path: None,
+        typed_review_receipt_digest: None,
+        readback_source: Some(RemoteReadbackSource::Github),
+        readback_receipt_path: None,
+        readback_receipt_digest: None,
+        adapter_receipt_path: None,
+        adapter_receipt_digest: None,
+        closes_issue: Some(629),
+        closing_issues: vec![629],
+        part_of_issue: None,
+        credential_names: vec!["GITHUB_TOKEN".into()],
+    };
+    let mut process = FakeProcessAdapter::new(ProcessOutput {
+        status: ProcessStatus::Exit(0),
+        stdout: serde_json::json!({
+            "number": 641,
+            "title": "[v0.92.1][V3-H.3] GitHub publication route",
+            "head": {"sha": head},
+            "merged": false,
+            "body": "Closes #629\n\nPart of #625"
+        })
+        .to_string(),
+        stderr: String::new(),
+        truncated: false,
+    });
+    let observed =
+        observe_github_pr_readback(&request, &mut process).expect("real issue readback canary");
+    let mut request = observed.request;
+    let receipts = RemoteRouteReceipts {
+        typed_review: Some(TypedReviewReceipt {
+            schema: "csdlc.v3.typed_review_receipt.v1".into(),
+            repository: request.repository.clone(),
+            issue: request.issue,
+            implementer: request.implementer.clone().expect("implementer"),
+            reviewer: request.reviewer.clone().expect("reviewer"),
+            reviewed_revision: request.review_revision.clone().expect("review revision"),
+            expected_head_sha: request.expected_head_sha.clone().expect("expected head"),
+            evidence_digest: "real-issue-canary-typed-review".into(),
+        }),
+        github_readback: observed.receipts.github_readback,
+        adapter: observed.receipts.adapter,
+    };
+    request.typed_review_receipt_digest = receipts
+        .typed_review
+        .as_ref()
+        .map(typed_review_receipt_payload_digest);
+    request.readback_receipt_digest = receipts
+        .github_readback
+        .as_ref()
+        .map(github_readback_receipt_payload_digest);
+    request.adapter_receipt_digest = receipts
+        .adapter
+        .as_ref()
+        .map(github_adapter_receipt_payload_digest);
+
+    let receipt_dir = git_common_dir(&root).join("csdlc-v3/test-fixtures/629/real-issue-canary");
+    let _ = fs::remove_dir_all(&receipt_dir);
+    fs::create_dir_all(&receipt_dir).expect("receipt fixture dir");
+    let typed_path = receipt_dir.join("typed-review-receipt.json");
+    let readback_path = receipt_dir.join("github-readback-receipt.json");
+    let adapter_path = receipt_dir.join("github-adapter-receipt.json");
+    let request_path = receipt_dir.join("request.json");
+    fs::write(
+        &typed_path,
+        serde_json::to_vec_pretty(receipts.typed_review.as_ref().expect("typed receipt"))
+            .expect("typed receipt json"),
+    )
+    .expect("write typed receipt");
+    fs::write(
+        &readback_path,
+        serde_json::to_vec_pretty(receipts.github_readback.as_ref().expect("readback receipt"))
+            .expect("readback receipt json"),
+    )
+    .expect("write readback receipt");
+    fs::write(
+        &adapter_path,
+        serde_json::to_vec_pretty(receipts.adapter.as_ref().expect("adapter receipt"))
+            .expect("adapter receipt json"),
+    )
+    .expect("write adapter receipt");
+    request.typed_review_receipt_path = Some(typed_path.to_string_lossy().into());
+    request.readback_receipt_path = Some(readback_path.to_string_lossy().into());
+    request.adapter_receipt_path = Some(adapter_path.to_string_lossy().into());
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&request).expect("request json"),
+    )
+    .expect("write request");
+
+    for route in ["publish", "pr-state", "github-pr"] {
+        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .current_dir(&root)
+            .arg(route)
+            .arg("--request")
+            .arg(&request_path)
+            .output()
+            .unwrap_or_else(|error| panic!("run {route}: {error}"));
+        assert!(output.status.success(), "{route} failed: {output:?}");
+        assert!(output.stderr.is_empty(), "{route} stderr should be empty");
+        let value: serde_json::Value =
+            serde_json::from_slice(&output.stdout).expect("machine-readable JSON");
+        assert_eq!(value["schema"], "csdlc.v3.remote_publication.v1");
+        assert_eq!(value["command"], route);
+        assert_eq!(value["read_only"], true);
+        assert_eq!(value["operational_authority"], false);
+        assert_eq!(value["cutover_issue"], 505);
+        assert_eq!(value["result"]["status"], "ready");
+        assert_eq!(value["result"]["issue"], 629);
+        assert_eq!(
+            value["result"]["repository"],
+            "agent-logic/agent-design-language"
+        );
+        let findings = value["result"]["findings"]
+            .as_array()
+            .expect("findings array");
+        assert!(
+            findings.is_empty(),
+            "{route} should be ready after adapter-generated readback receipts: {findings:?}"
+        );
+    }
 }
 
 #[derive(Default)]
