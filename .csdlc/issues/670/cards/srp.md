@@ -30,39 +30,9 @@ infra/gcp/workloads/warm-polis
 
 [
   {
-    "id": "670-r4-p1-deadline-termination",
+    "id": "670-r5-p1-provider-orphan",
     "severity": "p1",
-    "summary": "Deadline wrappers can block forever after SIGTERM and prevent mandatory cleanup.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "670-r4-p1-catalog-cleanup-create",
-    "severity": "p1",
-    "summary": "Preparation cleanup can run an unbounded create-capable catalog apply after the deadline.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "670-r4-p1-partial-launch-cleanup",
-    "severity": "p1",
-    "summary": "Launch cleanup reads state outputs before destroy and can exit before teardown or residual verification after partial apply.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "670-r4-p1-live-proof-scope",
-    "severity": "p1",
-    "summary": "Retained live v1 receipts do not prove the remediated v2 failure controls and the validator does not make that boundary explicit.",
+    "summary": "Deadline enforcement can orphan a TERM-resistant provider child after its Terraform parent exits.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -77,12 +47,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Publication remains blocked until all four failure-path findings are fixed and freshly reviewed.
+- Publication remains blocked until paid operations execute in a fully terminated process group and the provider-child case is tested.
 
 ## Review Result
 
-Revision: Some("git-blake3:65e2da4774672ee80201cd44b0bc8c6471dc614e:1360589323d130e538a63ba88b20547ff4ae2feb3703dac0506850a50b9e9e77")
+Revision: Some("git-blake3:5046c2f6398644282da73292dba46416c3b5ba6c:454084a471a4d7444a5d2049ca93ad1fdbe5e69e1f11efdb2707449b860a8d7a")
 
-Reviewer: Some("/root/issue_670_terminal_review")
+Reviewer: Some("/root/issue_670_release_review")
 
 Result: changes_required
