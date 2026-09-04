@@ -5,10 +5,28 @@
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
   "generation": 25,
-  "digest": "5f94b46cb80e937a329372ac8df40ecfa6c7ca8af631a604023307b6c482f93a",
+  "digest": "083bb613739ed690f4435fc47901ff817c1682f3beba8d587c620c1ca76ae10d",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_631_live_head_match",
+    "assigned_by": "codex:worker-6:sprint6-v3h5-reviewer-identity-recovery",
+    "revision": "git-blake3:4c1e63716a7e76c408cd92617551b6495d926991:bf87348205b55fe72a619faa4853aa0ea3208a8a7090a19983b8288627442c1c",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +62,9 @@
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "4881d0e3eb5ea69ff7d6e482f8c2f5f18084c0fbaecd2ca493aca250a4dac430",
-      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
-      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
+      "values_digest": "2f24c1a73a62632c62ab29bdcba5c1117b71b0f1e993672e0fa6bb3668cae44d",
+      "rendered_digest": "899996636ad7a620e48262c977760c7f0979a51149ac0b99dde9012324c1d05f",
+      "ast_digest": "07cc3533bd700aecb80564b9371be95025681983cf4a721cdfcbf927655840f6"
     },
     "sor": {
       "values_digest": "5ce1fcb99e793309db4f47b8067210412449e33db892032012d5a973579b1810",
@@ -434,6 +452,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-reviewer-identity-recovery",
       "reason": "Recover the stale #631 review assignment because the successful final live-head review completed under codex-reviewer:review_631_live_head_match rather than the assigned codex-reviewer:review_631_typed_install_provenance identity.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 25,
+      "actor": "codex:worker-6:sprint6-v3h5-reviewer-identity-recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
