@@ -1,0 +1,12 @@
+{
+  "issue": 678,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "bed04e97d01d8e721227738d0d0192af900002d85f416597d7dd16a5a422a226",
+  "actor": "codex:678-implementation",
+  "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}
