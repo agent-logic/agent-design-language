@@ -12,10 +12,23 @@ Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/632/canary-evidence-index.md
+.csdlc/prepared/issues/632/design.md
+.csdlc/prepared/issues/632/diagram.mmd
+.csdlc/prepared/issues/632/bootstrap.json
 .csdlc/prepared/issues/632/command-route-coverage.json
+.csdlc/prepared/issues/632/canary-evidence-index.md
+.csdlc/prepared/issues/632/finalize-implementation.json
+.csdlc/prepared/issues/632/replace-execution-after-review-fixes.json
+.csdlc/prepared/issues/632/replace-execution-current-command-surface.json
+.csdlc/prepared/issues/632/recover-review-after-main-merge.json
 .csdlc/prepared/issues/632/validate-v3-canary-readiness.sh
+.csdlc/prepared/issues/632/validate-v3-guidance.sh
 .csdlc/prepared/issues/632/validate-sprint-review-readiness.sh
+docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md
+csdlc-v3/README.md
+docs/architecture/ADL_ARCHITECTURE.md
+csdlc-v3/tests/real_issue_canary.rs
+docs/csdlc-v3/full-replacement-denominator.json
 
 ## Prompts
 
@@ -33,14 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; current v3 routes must not become live lifecycle authority before #505.
-- Terminal finish and cleanup canary proof still requires an authorized canary merge or an explicit #505 blocker disposition.
-- #505 must consume current #629 through #632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:04f155ed61eec699cdb45bc02647214262c7db1f:ffad1d035035996a12f7c84158b34be3de6b872c381b6b05ee57aa86d05a6525")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_632_head_refresh")
+Reviewer: None
 
-Result: pass
+Result: pre_review

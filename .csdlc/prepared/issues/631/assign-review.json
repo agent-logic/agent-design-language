@@ -1,0 +1,18 @@
+{
+  "issue": 631,
+  "expected_generation": 3,
+  "expected_digest": "c6f926e6317c7b8798e099e6f2b13a1c2a53955602fc2d19ccdf14429066a2f1",
+  "reviewer": "codex:review-631-task-e508ebc1",
+  "assigned_by": "codex:worker-6",
+  "scope": [
+    "csdlc-v3/src/commands/proof.rs",
+    "csdlc-v3/src/commands/mod.rs",
+    "csdlc-v3/src/main.rs",
+    "csdlc-v3/tests/command_manifest.rs",
+    "csdlc-v3/tests/proof_parity_install_commands.rs",
+    "docs/csdlc-v3/v3-command-manifest.json",
+    ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh",
+    ".csdlc/prepared/issues/631/finalize-implementation.json",
+    ".csdlc/evidence/631"
+  ]
+}

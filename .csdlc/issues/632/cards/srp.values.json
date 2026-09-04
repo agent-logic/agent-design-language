@@ -7,27 +7,23 @@
     "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
     "slug": "v3-h6-real-canaries-docs-readiness",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/632/canary-evidence-index.md\n.csdlc/prepared/issues/632/command-route-coverage.json\n.csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\n.csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
-      "review_revision": "git-blake3:04f155ed61eec699cdb45bc02647214262c7db1f:ffad1d035035996a12f7c84158b34be3de6b872c381b6b05ee57aa86d05a6525",
-      "reviewer": "subagent:/root/review_632_head_refresh",
+      "review_scope": ".csdlc/prepared/issues/632/design.md\n.csdlc/prepared/issues/632/diagram.mmd\n.csdlc/prepared/issues/632/bootstrap.json\n.csdlc/prepared/issues/632/command-route-coverage.json\n.csdlc/prepared/issues/632/canary-evidence-index.md\n.csdlc/prepared/issues/632/finalize-implementation.json\n.csdlc/prepared/issues/632/replace-execution-after-review-fixes.json\n.csdlc/prepared/issues/632/replace-execution-current-command-surface.json\n.csdlc/prepared/issues/632/recover-review-after-main-merge.json\n.csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\n.csdlc/prepared/issues/632/validate-v3-guidance.sh\n.csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\ndocs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\ncsdlc-v3/README.md\ndocs/architecture/ADL_ARCHITECTURE.md\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/full-replacement-denominator.json",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the coverage matrix account for every v3 command-equivalent route without hidden v2 fallback?",
         "Do docs and skills warn operators before cutover while avoiding premature v3 authority claims?",
         "Are canary defects fixed or clearly owned as cutover blockers/follow-ons?"
       ],
       "findings": [],
-      "residual_risk": [
-        "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; current v3 routes must not become live lifecycle authority before #505.",
-        "Terminal finish and cleanup canary proof still requires an authorized canary merge or an explicit #505 blocker disposition.",
-        "#505 must consume current #629 through #632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema": "csdlc.v3.full_replacement_denominator.v1",
   "authority_issue": 505,
-  "source_issue": 604,
+  "source_issue": 631,
   "status": "incomplete",
   "cutover_ready": false,
   "replacement_rule": "C-SDLC v3 may not replace v2 until the single v3 csdlc binary implements and behaviorally proves every required C-SDLC v2 entrypoint listed here, plus any explicitly approved removals.",
@@ -85,7 +85,7 @@
     {
       "entrypoint": "csdlc-install",
       "v3_command": "install",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_construction"
     },
     {
       "entrypoint": "csdlc-issue",
@@ -100,7 +100,7 @@
     {
       "entrypoint": "csdlc-proof",
       "v3_command": "proof",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_construction"
     },
     {
       "entrypoint": "csdlc-publish",
@@ -120,7 +120,7 @@
     {
       "entrypoint": "csdlc-shadow",
       "v3_command": "shadow",
-      "replacement_status": "partial_construction"
+      "replacement_status": "implemented_construction"
     },
     {
       "entrypoint": "csdlc-shepherd",
@@ -130,7 +130,7 @@
     {
       "entrypoint": "csdlc-soak",
       "v3_command": "soak",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_construction"
     },
     {
       "entrypoint": "csdlc-validate",
