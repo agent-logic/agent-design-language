@@ -29,9 +29,9 @@ infra/gcp/workloads/warm-polis
 
 [
   {
-    "id": "670-R2-P1-PROJECT-COUPLING",
+    "id": "670-R3-P1-AUTHORITY-BYPASS",
     "severity": "p1",
-    "summary": "Paid launch applies before proving the Terraform project and approved preflight target match the exact authorized company project.",
+    "summary": "Caller-overridable project and preflight paths plus an unchecked snapshot-catalog var-file can bypass exact project, region, zone, and budget authority.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -39,19 +39,9 @@ infra/gcp/workloads/warm-polis
     "route": null
   },
   {
-    "id": "670-R2-P1-CLEAN-INIT",
+    "id": "670-R3-P1-BUDGET-ENFORCEMENT",
     "severity": "p1",
-    "summary": "The declared validator fails in a clean checkout because it does not initialize required Terraform modules and providers.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "670-R2-P1-EVIDENCE-OVERCLAIM",
-    "severity": "p1",
-    "summary": "SOR overstates repeat-apply attachment proof and complete residual cleanup, and records a non-executable combined gcloud command.",
+    "summary": "Caller-overridable pricing inputs and unlimited paid observation can allow the qualification to exceed the authorized USD 20 ceiling.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -66,13 +56,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The reviewer did not rerun paid GCP actions or independently query current cloud inventory.
-- The reviewer did not inspect or mutate GitHub or PR state.
+- No paid GCP action or independent live inventory query was rerun by the reviewer.
+- Validator execution may refresh ignored Terraform provider artifacts.
 
 ## Review Result
 
-Revision: Some("git-blake3:da2d97603b1a24017be42a87135e0e1468638583:ca3b682f0bfc6e0a5ae2f17d81d650a9daeaf15dfa54e03d5389f84a27826d5f")
+Revision: Some("git-blake3:70d8a1a2a4d19a6396851d213c32068ac8fa8efb:0f29ffe3dfbc842f79bc961ba55489aadbda7c0ca14ec8641af51f36411802b3")
 
-Reviewer: Some("/root/issue_670_final_review")
+Reviewer: Some("/root/issue_670_remediation_review")
 
 Result: changes_required

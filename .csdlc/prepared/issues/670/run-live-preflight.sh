@@ -3,16 +3,18 @@ set -euo pipefail
 
 expected_project="cs-poc-cha8mmii0xk0iaw5vpf8mxf"
 expected_budget="20.00"
+repo_root="$(git rev-parse --show-toplevel)"
 project="${ADL_GCP_PROJECT:-}"
 budget="${ADL_GCP_MAX_BUDGET_USD:-}"
 credential="${GOOGLE_APPLICATION_CREDENTIALS:-}"
-receipt="${ADL_GCP_PREFLIGHT_RECEIPT_PATH:-.csdlc/evidence/670/live/preflight.json}"
-hourly="${ADL_GCP_CONSERVATIVE_HOURLY_USD:-2.00}"
-paid_hours="${ADL_GCP_MAX_PAID_HOURS:-8.00}"
-storage_reserve="${ADL_GCP_STORAGE_RESERVE_USD:-4.00}"
-region="${ADL_GCP_REGION:?set ADL_GCP_REGION to the intended live target region}"
-zone="${ADL_GCP_ZONE:?set ADL_GCP_ZONE to the intended live target zone}"
-accelerator_type="${ADL_GCP_ACCELERATOR_TYPE:-nvidia-l4}"
+receipt="$repo_root/.csdlc/evidence/670/live/preflight.json"
+hourly="2.00"
+paid_hours="8.00"
+storage_reserve="4.00"
+region="us-central1"
+zone="us-central1-c"
+accelerator_type="nvidia-l4"
+qualification_max_seconds=28800
 
 [ "$project" = "$expected_project" ] || { echo "wrong or missing ADL_GCP_PROJECT" >&2; exit 2; }
 [ "$budget" = "$expected_budget" ] || { echo "ADL_GCP_MAX_BUDGET_USD must be exactly 20.00" >&2; exit 2; }
@@ -61,6 +63,8 @@ jq -e --argjson projected "$projected" --argjson budget "$budget" '$projected <=
 instances="$(gcloud compute instances list --project "$project" --format=json | jq '[.[]|{name,zone:(.zone|split("/")[-1]),status,labels}]')"
 disks="$(gcloud compute disks list --project "$project" --format=json | jq '[.[]|{name,zone:(.zone|split("/")[-1]),status,sizeGb,labels}]')"
 snapshots="$(gcloud compute snapshots list --project "$project" --format=json | jq '[.[]|{name,status,diskSizeGb,labels}]')"
+issued_epoch="$(date +%s)"
+paid_deadline_epoch="$((issued_epoch + qualification_max_seconds))"
 mkdir -p "$(dirname "$receipt")"
 jq -n \
   --arg project "$project" --arg budget "$budget" --arg billing "$billing_enabled" \
@@ -69,5 +73,6 @@ jq -n \
   --argjson l4_limit "$l4_limit" --argjson l4_usage "$l4_usage" \
   --argjson hourly "$hourly" --argjson paid_hours "$paid_hours" --argjson storage_reserve "$storage_reserve" \
   --argjson projected "$projected" --argjson instances "$instances" --argjson disks "$disks" --argjson snapshots "$snapshots" \
-  '{schema:"adl.issue670.gcp_preflight.v1",status:"pass",project:$project,authorized_budget_usd:($budget|tonumber),billing_enabled:($billing=="True"),compute_api:$compute_api,gpu_quota:{limit:$gpu_limit,usage:$gpu_usage,available:($gpu_limit-$gpu_usage)},l4_prerequisite:{region:$region,zone:$zone,accelerator_type:$accelerator_type,regional_quota:{limit:$l4_limit,usage:$l4_usage,available:($l4_limit-$l4_usage)},zone_offering:true,dynamic_capacity_proof:"launch-create-operation"},conservative_cost_guard:{hourly_usd:$hourly,max_paid_hours:$paid_hours,storage_reserve_usd:$storage_reserve,projected_max_usd:$projected},credential:{source:"command-scoped-approved-file",token_or_key_material_retained:false},baseline_inventory:{instances:$instances,disks:$disks,snapshots:$snapshots}}' >"$receipt"
+  --argjson issued_epoch "$issued_epoch" --argjson deadline_epoch "$paid_deadline_epoch" --argjson max_seconds "$qualification_max_seconds" \
+  '{schema:"adl.issue670.gcp_preflight.v2",status:"pass",project:$project,authorized_budget_usd:($budget|tonumber),issued_epoch:$issued_epoch,paid_deadline_epoch:$deadline_epoch,qualification_max_seconds:$max_seconds,billing_enabled:($billing=="True"),compute_api:$compute_api,gpu_quota:{limit:$gpu_limit,usage:$gpu_usage,available:($gpu_limit-$gpu_usage)},l4_prerequisite:{region:$region,zone:$zone,accelerator_type:$accelerator_type,regional_quota:{limit:$l4_limit,usage:$l4_usage,available:($l4_limit-$l4_usage)},zone_offering:true,dynamic_capacity_proof:"launch-create-operation"},conservative_cost_guard:{hourly_usd:$hourly,max_paid_hours:$paid_hours,storage_reserve_usd:$storage_reserve,projected_max_usd:$projected},credential:{source:"command-scoped-approved-file",token_or_key_material_retained:false},baseline_inventory:{instances:$instances,disks:$disks,snapshots:$snapshots}}' >"$receipt"
 jq . "$receipt"

@@ -2,6 +2,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
+repo_root="$(git -C "$root" rev-parse --show-toplevel)"
 retire="$root/retire-snapshot-generation.sh"
 launch="$root/run-live-snapshot-launch.sh"
 prepare="$root/prepare-snapshot-generation.sh"
@@ -35,6 +36,17 @@ for field in cleanup-receipt resource_absence_verified runtime_instance_absent o
 done
 for field in expected_project preflight_receipt residual_instances residual_disks residual_firewalls residual_images residual_addresses residual_issue_inventory; do
   rg -q "$field" "$launch"
+done
+! rg -q 'ADL_GCP_EXPECTED_PROJECT|ADL_GCP_PREFLIGHT_RECEIPT_PATH|ADL_GCP_CONSERVATIVE_HOURLY_USD|ADL_GCP_MAX_PAID_HOURS|ADL_GCP_STORAGE_RESERVE_USD' "$launch" "$prepare" "$repo_root/.csdlc/prepared/issues/670/run-live-preflight.sh" || {
+  echo "issue #670 project, preflight path, and cost-envelope authority must not be caller-overridable" >&2
+  exit 1
+}
+for field in catalog_project catalog_region catalog_zone catalog_generation paid_deadline_epoch require_paid_time; do
+  rg -q "$field" "$prepare"
+done
+for startup in "$root/startup-runtime.sh" "$root/startup-ollama.sh"; do
+  rg -q 'budget_stop_seconds=28800' "$startup"
+  rg -q 'adl-issue670-budget-stop' "$startup"
 done
 launch_project_guard_line="$(rg -n 'not authorized project' "$launch" | head -1 | cut -d: -f1)"
 launch_apply_line="$(rg -n 'terraform -chdir="\$root" apply' "$launch" | head -1 | cut -d: -f1)"

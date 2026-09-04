@@ -13,7 +13,8 @@ for script in "${scripts[@]}"; do
   rg -q '/dev/disk/by-id/google-' "$script"
 done
 bash -n "$root/prepare-snapshot-generation.sh"
-rg -q 'ADL_GCP_TEMP_VM_TIMEOUT_SECONDS' "$root/prepare-snapshot-generation.sh"
+rg -q 'paid_deadline_epoch' "$root/prepare-snapshot-generation.sh"
+! rg -q 'ADL_GCP_TEMP_VM_TIMEOUT_SECONDS|ADL_GCP_OBSERVATION_TIMEOUT_SECONDS' "$root/prepare-snapshot-generation.sh" "$root/run-live-snapshot-launch.sh"
 rg -q 'cleanup_temporary_compute' "$root/prepare-snapshot-generation.sh"
 rg -q 'ADL_ISSUE663_SEAL=FAIL' "$root/preparation/seal-disk.sh"
 rg -q 'ADL_ISSUE663_SNAPSHOT_VERIFY=FAIL' "$root/snapshot-catalog/verify-snapshots.sh"

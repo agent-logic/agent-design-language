@@ -13,13 +13,15 @@ generation="$(metadata adl-artifact-generation)"
 expected_sha="$(metadata adl-content-manifest-sha256)"
 ollama_ip="$(metadata adl-ollama-private-ip)"
 boot_id="$(cat /proc/sys/kernel/random/boot_id)"
+budget_stop_seconds=28800
 mount_path="/mnt/adl-runtime"
 state_path="/var/lib/adl/issue663"
 echo "ADL_ISSUE663_RUNTIME_BOOT generation=$generation boot_id=$boot_id"
 
-for command in curl jq mount python3 sed sha256sum systemctl; do
+for command in curl jq mount python3 sed sha256sum systemctl systemd-run; do
   command -v "$command" >/dev/null
 done
+systemd-run --unit="adl-issue670-budget-stop-$boot_id" --on-active="${budget_stop_seconds}s" /usr/sbin/poweroff >/dev/null
 for _ in $(seq 1 120); do
   [ -e "$device" ] && break
   sleep 1

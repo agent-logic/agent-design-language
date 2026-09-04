@@ -7,8 +7,8 @@ repo_root="$(git -C "$root" rev-parse --show-toplevel)"
 receipt="${ADL_GCP_RECEIPT_PATH:-$root/launch-receipt.json}"
 cleanup_receipt="${ADL_GCP_CLEANUP_RECEIPT_PATH:-$root/cleanup-receipt.json}"
 launch_receipt_ref="$(basename "$receipt")"
-preflight_receipt="${ADL_GCP_PREFLIGHT_RECEIPT_PATH:-$repo_root/.csdlc/evidence/670/live/preflight.json}"
-expected_project="${ADL_GCP_EXPECTED_PROJECT:-cs-poc-cha8mmii0xk0iaw5vpf8mxf}"
+preflight_receipt="$repo_root/.csdlc/evidence/670/live/preflight.json"
+expected_project="cs-poc-cha8mmii0xk0iaw5vpf8mxf"
 
 [ "${ADL_GCP_LIVE_EXECUTION:-}" = "authorized" ] || {
   echo "live GCP action requires ADL_GCP_LIVE_EXECUTION=authorized" >&2
@@ -96,17 +96,34 @@ esac
 region="$(terraform -chdir="$root" console <<<"var.region" | tr -d '"')"
 zone="$(terraform -chdir="$root" console <<<"var.zone" | tr -d '"')"
 max_budget_usd="$(terraform -chdir="$root" console <<<"var.max_budget_usd")"
-jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" --argjson budget "$max_budget_usd" '
-  .schema == "adl.issue670.gcp_preflight.v1" and
+jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" --argjson budget "$max_budget_usd" --argjson now "$(date +%s)" '
+  .schema == "adl.issue670.gcp_preflight.v2" and
   .status == "pass" and
   .project == $project and
   .l4_prerequisite.region == $region and
   .l4_prerequisite.zone == $zone and
-  .authorized_budget_usd >= $budget
+  .authorized_budget_usd == 20 and
+  $budget == 20 and
+  .conservative_cost_guard == {hourly_usd:2,max_paid_hours:8,storage_reserve_usd:4,projected_max_usd:20} and
+  .qualification_max_seconds == 28800 and
+  .paid_deadline_epoch == (.issued_epoch + .qualification_max_seconds) and
+  .paid_deadline_epoch > $now
 ' "$preflight_receipt" >/dev/null || {
   echo "refusing GCP launch: preflight receipt does not match Terraform project, region, zone, and budget" >&2
   exit 1
 }
+paid_deadline_epoch="$(jq -r '.paid_deadline_epoch' "$preflight_receipt")"
+launch_completed=false
+cleanup_failed_launch() {
+  rc=$?
+  trap - EXIT
+  if [ "$launch_completed" != true ]; then
+    echo "launch failed before qualification completed; destroying disposable launch resources" >&2
+    terraform -chdir="$root" destroy -auto-approve || true
+  fi
+  exit "$rc"
+}
+trap cleanup_failed_launch EXIT
 start_epoch="$(date +%s)"
 terraform -chdir="$root" apply -auto-approve
 apply_epoch="$(date +%s)"
@@ -118,7 +135,6 @@ ollama_snapshot="$(terraform -chdir="$root" console <<<"var.ollama_snapshot" | t
 accelerator_type="$(terraform -chdir="$root" console <<<"var.accelerator_type" | tr -d '"')"
 accelerator_count="$(terraform -chdir="$root" console <<<"var.accelerator_count" | tr -d '"')"
 expected_models="$(terraform -chdir="$root" console <<<"join(\",\", var.resident_models)" | tr -d '"' | jq -R 'split(",")')"
-timeout_seconds="${ADL_GCP_OBSERVATION_TIMEOUT_SECONDS:-0}"
 
 runtime_running_observed_epoch=0
 ollama_running_observed_epoch=0
@@ -136,10 +152,10 @@ observed_models='[]'
 agent_summary='[]'
 while [ "$runtime_ready" != true ] || [ "$ollama_ready" != true ] || [ "$runtime_running_observed_epoch" -eq 0 ] || [ "$ollama_running_observed_epoch" -eq 0 ]; do
   now="$(date +%s)"
-  if [ "$timeout_seconds" -gt 0 ] && [ $((now - start_epoch)) -ge "$timeout_seconds" ]; then
+  if [ "$now" -ge "$paid_deadline_epoch" ]; then
     jq -n --argjson start "$start_epoch" --argjson observed "$now" \
-      '{schema:"adl.issue663.launch-receipt.v1",status:"observation_timeout",launch_request_epoch:$start,observation_epoch:$observed,resources_left_running:true}' >"$receipt"
-    echo "observation timed out; resources were not terminated" >&2
+      '{schema:"adl.issue670.launch-qualification.v2",status:"paid_deadline_reached",launch_request_epoch:$start,observation_epoch:$observed,cleanup_pending:true}' >"$receipt"
+    echo "qualification reached its immutable paid deadline; cleanup is starting" >&2
     exit 2
   fi
 
@@ -213,3 +229,5 @@ jq -n --argjson start "$start_epoch" --argjson apply "$apply_epoch" --argjson ru
   '{schema:"adl.issue670.launch-qualification.v2",status:"ready",project:$project,region:$region,zone:$zone,artifact_generation:$generation,snapshots:{runtime:$runtime_snapshot,ollama:$ollama_snapshot},gpu:{accelerator_type:$accelerator_type,accelerator_count:$accelerator_count},network:{runtime_private_ip:$runtime_private_ip,ollama_private_ip:$ollama_private_ip,runtime_public_ip:null,ollama_public_ip:null,ollama_ingress:"runtime-private-only"},resident_models:$models,resident_model_count:($models|length),agents:$agents,agent_tool_count:($agents|length),launch_request_epoch:$start,terraform_apply_complete_epoch:$apply,first_runtime_running_observed_epoch:$runtime_running,first_ollama_running_observed_epoch:$ollama_running,final_runtime_last_start_timestamp:$runtime_start,final_ollama_last_start_timestamp:$ollama_start,final_runtime_boot_id:$runtime_boot_id,final_ollama_boot_id:$ollama_boot_id,runtime_ready_epoch:$runtime_ready,gpu_ollama_ready_epoch:$ollama_ready,runtime_guest_boot_relative_ready_seconds:$runtime_guest,gpu_guest_boot_relative_ready_seconds:$ollama_guest,full_polis_ready_epoch:$ready,snapshot_launch_to_ready_seconds:($ready-$start),terraform_apply_seconds:($apply-$start),runtime_instance:$runtime,ollama_instance:$ollama}' \
   >"$receipt"
 jq . "$receipt"
+launch_completed=true
+trap - EXIT

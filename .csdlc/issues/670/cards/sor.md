@@ -25,9 +25,10 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
 
 ## Execution
 
-- Made live preflight require an explicit target region and zone and carry issue identity and budget into Terraform.
-- Coupled snapshot preparation and launch to the exact authorized company project and the matching project, region, zone, and budget in the approved preflight receipt before any apply.
-- Hardened snapshot preparation for private Google access, isolated Terraform state, portable Ollama bundles, serial receipt propagation, and no artificial preparation deadline.
+- Made the issue preflight use immutable company project, central region and zone, L4, USD 20, USD 2 hourly envelope, eight-hour paid window, and USD 4 storage reserve authority.
+- Coupled preparation, snapshot catalog, and launch inputs to that fixed preflight authority before any paid create or apply while keeping exact-project cleanup independently available.
+- Added an immutable paid deadline to preparation and launch observation, failure cleanup traps, and an eight-hour guest auto-stop for both qualification nodes.
+- Hardened snapshot preparation for private Google access, isolated Terraform state, portable Ollama bundles, serial receipt propagation, and cleanup-safe failure handling.
 - Made Runtime startup compatible with the sealed artifact ABI, supervised Guardian independently of Vector, and ran the six-resident real agent and ACC tool qualification against private Ollama.
 - Bound readiness observations to the latest boot ID and artifact generation so stale serial output cannot satisfy a new launch.
 - Expanded the durable launch receipt with project, topology, snapshots, GPU, network, resident-model, six-agent, boot-identity, and timing truth.
@@ -43,7 +44,7 @@ Live-qualified the snapshot-backed two-node GCP Polis in the authorized company 
       "bash",
       ".csdlc/prepared/issues/670/validate-preparation.sh"
     ],
-    "purpose": "From its own Terraform initialization, execute shell syntax, Terraform formatting and validation, warm-polis and reusable-module tests, warm-start and retirement policies, receipt parsing, and diff hygiene.",
+    "purpose": "From its own Terraform initialization, execute authority ordering, immutable budget controls, shell syntax, Terraform formatting and validation, warm-polis and reusable-module tests, warm-start and retirement policies, receipt parsing, and diff hygiene.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/670/validate-preparation.sh"
   },

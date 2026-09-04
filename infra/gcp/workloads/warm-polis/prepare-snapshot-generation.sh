@@ -11,11 +11,10 @@ fi
 }
 root="$(cd "$(dirname "$0")" && pwd)"
 repo_root="$(git -C "$root" rev-parse --show-toplevel)"
-expected_project="${ADL_GCP_EXPECTED_PROJECT:-cs-poc-cha8mmii0xk0iaw5vpf8mxf}"
-preflight_receipt="${ADL_GCP_PREFLIGHT_RECEIPT_PATH:-$repo_root/.csdlc/evidence/670/live/preflight.json}"
+expected_project="cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+preflight_receipt="$repo_root/.csdlc/evidence/670/live/preflight.json"
 preparation_vars="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 catalog_vars="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"
-temp_vm_timeout="${ADL_GCP_TEMP_VM_TIMEOUT_SECONDS:-0}"
 preparation_state="${ADL_GCP_PREPARATION_STATE:-}"
 catalog_state="${ADL_GCP_CATALOG_STATE:-}"
 preparation_state_args=()
@@ -42,19 +41,39 @@ region="$(terraform -chdir="$root/preparation" console "${preparation_state_args
 zone="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.zone" | tr -d '"')"
 subnet="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.subnet_name" | tr -d '"')"
 generation="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.generation" | tr -d '"')"
+catalog_project="$(terraform -chdir="$root/snapshot-catalog" console "${catalog_state_args[@]}" -var-file="$catalog_vars" <<<"var.project_id" | tr -d '"')"
+catalog_region="$(terraform -chdir="$root/snapshot-catalog" console "${catalog_state_args[@]}" -var-file="$catalog_vars" <<<"var.region" | tr -d '"')"
+catalog_zone="$(terraform -chdir="$root/snapshot-catalog" console "${catalog_state_args[@]}" -var-file="$catalog_vars" <<<"var.zone" | tr -d '"')"
+catalog_generation="$(terraform -chdir="$root/snapshot-catalog" console "${catalog_state_args[@]}" -var-file="$catalog_vars" <<<"var.generation" | tr -d '"')"
 [ "$project" = "$expected_project" ] || {
   echo "refusing GCP preparation: Terraform project $project is not authorized project $expected_project" >&2
   exit 1
 }
-jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" '
-  .schema == "adl.issue670.gcp_preflight.v1" and
+[ "$catalog_project" = "$project" ] && [ "$catalog_region" = "$region" ] && [ "$catalog_zone" = "$zone" ] && [ "$catalog_generation" = "$generation" ] || {
+  echo "refusing GCP preparation: preparation and snapshot-catalog targets differ" >&2
+  exit 1
+}
+jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" --argjson now "$(date +%s)" '
+  .schema == "adl.issue670.gcp_preflight.v2" and
   .status == "pass" and
   .project == $project and
   .l4_prerequisite.region == $region and
-  .l4_prerequisite.zone == $zone
+  .l4_prerequisite.zone == $zone and
+  .authorized_budget_usd == 20 and
+  .conservative_cost_guard == {hourly_usd:2,max_paid_hours:8,storage_reserve_usd:4,projected_max_usd:20} and
+  .qualification_max_seconds == 28800 and
+  .paid_deadline_epoch == (.issued_epoch + .qualification_max_seconds) and
+  .paid_deadline_epoch > $now
 ' "$preflight_receipt" >/dev/null || {
   echo "refusing GCP preparation: preflight receipt does not match Terraform project, region, and zone" >&2
   exit 1
+}
+paid_deadline_epoch="$(jq -r '.paid_deadline_epoch' "$preflight_receipt")"
+require_paid_time() {
+  [ "$(date +%s)" -lt "$paid_deadline_epoch" ] || {
+    echo "refusing new paid preparation work after the immutable qualification deadline" >&2
+    return 1
+  }
 }
 trap cleanup_temporary_compute EXIT
 [ "$(gcloud compute networks subnets describe "$subnet" --project "$project" --region "$region" --format='value(privateIpGoogleAccess)')" = "True" ] || {
@@ -64,7 +83,6 @@ trap cleanup_temporary_compute EXIT
 
 wait_for_prep_vm() {
   instance="$1"
-  deadline=$(( $(date +%s) + temp_vm_timeout ))
   while :; do
     status="$(gcloud compute instances describe "$instance" --project "$project" --zone "$zone" --format='value(status)' 2>/dev/null || true)"
     serial="$(gcloud compute instances get-serial-port-output "$instance" --project "$project" --zone "$zone" 2>/dev/null || true)"
@@ -88,8 +106,8 @@ wait_for_prep_vm() {
       echo "$instance stopped without a matching seal receipt after serial propagation grace" >&2
       return 1
     fi
-    if [ "$temp_vm_timeout" -gt 0 ] && [ "$(date +%s)" -ge "$deadline" ]; then
-      echo "$instance exceeded disposable preparation timeout of ${temp_vm_timeout}s" >&2
+    if [ "$(date +%s)" -ge "$paid_deadline_epoch" ]; then
+      echo "$instance reached the immutable paid qualification deadline" >&2
       return 1
     fi
     sleep 5
@@ -98,7 +116,6 @@ wait_for_prep_vm() {
 
 wait_for_verifier() {
   instance="$1"
-  deadline=$(( $(date +%s) + temp_vm_timeout ))
   while :; do
     serial="$(gcloud compute instances get-serial-port-output "$instance" --project "$project" --zone "$zone" 2>/dev/null || true)"
     grep -q "ADL_ISSUE663_SNAPSHOT_VERIFY=PASS generation=$generation" <<<"$serial" && return 0
@@ -106,14 +123,15 @@ wait_for_verifier() {
       echo "$instance reported snapshot verification failure" >&2
       return 1
     fi
-    if [ "$temp_vm_timeout" -gt 0 ] && [ "$(date +%s)" -ge "$deadline" ]; then
-      echo "$instance exceeded disposable verification timeout of ${temp_vm_timeout}s" >&2
+    if [ "$(date +%s)" -ge "$paid_deadline_epoch" ]; then
+      echo "$instance reached the immutable paid qualification deadline" >&2
       return 1
     fi
     sleep 5
   done
 }
 
+require_paid_time
 terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=true
 
 for role in runtime ollama; do
@@ -125,6 +143,7 @@ done
 terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false
 
 catalog_started=true
+require_paid_time
 terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=true
 wait_for_verifier "adl-663-${generation}-snapshot-verifier"
 
