@@ -42,12 +42,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final integration gate before merge.
+- C-SDLC v3 proof, shadow, soak, and install routes remain construction evidence only until explicit #505 cutover approval and terminal reconciliation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:76ce02d58f8cccb9122d775bcf4862598a844dd0:8f58d44f941a6873c750c727d3c1cedc65a54a794e29a338620edd78f54f9f2e")
 
-Reviewer: None
+Reviewer: Some("codex-reviewer:review_631_ci_proof_root_fix")
 
-Result: pre_review
+Result: pass
