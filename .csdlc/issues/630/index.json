@@ -6,10 +6,22 @@
   "initialization_digest": "f9cf300b6ca935e73ed09df691afc149b85ff5fd68d0db1b8ad494932c1edfe1",
   "phase": "implemented",
   "generation": 21,
-  "digest": "6b74bfa53dd00610cbf24c304af90d5e90313642d288b228c31f706d9141632e",
+  "digest": "bb828fd4763be2cedfb78190502be40f7ca07ebb31aa75d7d0fde9d6e140d8b2",
   "branch": "codex/630-v3-h4-finish-clean-cutover-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_630_terminal_guard_fix",
+    "assigned_by": "codex:worker-6:sprint6-v3h4-review-fixes",
+    "revision": "git-blake3:9b6f08bfaa28651d2f632418fe409477b2975d97:da90166c7a28bcd39a34b376384085215bdfe1809ba2b6f15d6e9e7826a3388e",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc53983a6ee90bb700a75542b29b8673ed0dd7baf88f656551b9a8298a3a6dc1"
     },
     "srp": {
-      "values_digest": "e8b0ba517764d53e3a4850290ddaa44da92bd16786b853f0fa9384ca9431f068",
-      "rendered_digest": "2deee1aa68be9de2a0f4af43f8744171aa51877f5029acb9984892b7981eed9a",
-      "ast_digest": "d5458b931ab5d56f1a558c24b0ee3f34c82e9445f674120d24f9c9bf6fbb6d54"
+      "values_digest": "00ab5fb74e1db07eaaf0cc321d6260e85db1a690d4a6fc5e4de83f2fcd21a036",
+      "rendered_digest": "ced8ce9b007a4a0af696989fab18fa9988f1078ea63b155e1e33ef785cd54916",
+      "ast_digest": "f3affce89f8acf3077b8a4313c06f6b990c6fa22e64e63ccd7796d4fd94872c2"
     },
     "sor": {
       "values_digest": "ff0861a68aea73090087a1e6ceadaea200c9bccc0daeed0a770d9a87b2ad6de8",
@@ -400,6 +412,13 @@
       "actor": "codex:worker-6:sprint6-v3h4-review-fixes",
       "reason": "Recover stale #630 review assignment after fixing the review findings for durable terminal receipts and pre-cutover cleanup removal status.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 21,
+      "actor": "codex:worker-6:sprint6-v3h4-review-fixes",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

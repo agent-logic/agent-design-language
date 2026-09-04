@@ -30,3 +30,4 @@
 {"sequence":30,"generation":20,"actor":"codex:worker-6:sprint6-v3h4-main-merge","reason":"Recover stale #630 review and publication truth after merging current main, including terminal #629, into the V3-H.4 branch before final typed finish.","operation":"recover_review"}
 {"sequence":31,"generation":20,"actor":"codex:worker-6:sprint6-v3h4-main-merge","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":32,"generation":21,"actor":"codex:worker-6:sprint6-v3h4-review-fixes","reason":"Recover stale #630 review assignment after fixing the review findings for durable terminal receipts and pre-cutover cleanup removal status.","operation":"recover_review"}
+{"sequence":33,"generation":21,"actor":"codex:worker-6:sprint6-v3h4-review-fixes","reason":"assign bounded exact-revision review","operation":"assign_review"}
