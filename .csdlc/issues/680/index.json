@@ -3,9 +3,9 @@
   "issue": 680,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "26de4ef80c1797750c76aa0f94eb4f1d5f270ef4ccf4e5f417923f21ba718664",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "553c5ac92bf5cd01651e745c24ef824207e5ee7ef8998d664ea68b6672753a0a",
   "branch": "codex/680-moonshot-kimi-k3-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
   "review_assignment": {
@@ -26,7 +26,29 @@
       ".csdlc/evidence/680"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/src/cli/usage.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "adl/tests/provider_moonshot_kimi_k3.rs",
+      ".csdlc/evidence/680"
+    ],
+    "reviewed_revision": "git-blake3:589c88d578ebf9d5598a5ed81e8ca3a448bb3829:70034edda94c1af786e3a4c5334e04bfa82ba95d04190414970a76147766da1a",
+    "findings": [],
+    "residual_risks": [
+      "No live Moonshot API call was performed; #680 proof uses deterministic loopback provider tests plus setup/profile/runtime-adapter validation, with live credentials remaining operator-controlled."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ffb99fdca0989f0a90996ca967da14905ae1220b0ddd274092da13a4657bf239",
+      "values_digest": "87474ad69750cbcd277b6318ece703ed7eda2529c58d68568d600de3f35ff9f9",
       "rendered_digest": "d1750351b69e204f5693796d85ac48cea41a42f53671b8a40ef3141fc6650f7d",
       "ast_digest": "b5d721f64919a757cb981f72f9002db89f36b9151a6abbb4229a218a05fdb10e"
     },
     "stp": {
-      "values_digest": "68ce63b18bd7d87be677d20e50f3484cd5341c676f9af86514668aa779df99a1",
+      "values_digest": "25d08a1b5b8935a7779e1b729271831910e44c157d06c871f78a0b4eb33f4e2d",
       "rendered_digest": "4e94e258a4ce4844db8cf3b314e19518628407a511688f782be0621958534b51",
       "ast_digest": "16b22f9a58c2b06351c71a051baf3ee61c3749e82ecce4c996948612180fb455"
     },
     "spp": {
-      "values_digest": "8be7e885b79c96f31d4dd3bf30383b88e300be367e7362943b010ae59f60a69d",
+      "values_digest": "17454e69e2ebe3a8786f470eacb7f640a7ce0e04ec1050e735906a52d7c80d8b",
       "rendered_digest": "2d57ac5915eb29a45086bbab11caa65d1ececd23166174dc10e81de689035fe0",
       "ast_digest": "ff9c62460f47349e06489e08d78194714960f991a7eeb0fe9a38032eeb248bbc"
     },
     "vpp": {
-      "values_digest": "2d7d803f309ee34db28ba6d769e6331df843d28ca1cb6b73ec31fd8234615722",
+      "values_digest": "46b22907d0b054bb0bf6f60ad2064c7813143a14f21dca3f842bbe89564b856d",
       "rendered_digest": "cf19a05549becd97dd7c085e9e607f143358bcf373aa2cb971848de31ba350e1",
       "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
     },
     "srp": {
-      "values_digest": "51017aac82581274992925aedf7f54039ae071a7955cd979f682e1abe25711b3",
-      "rendered_digest": "31474be5796aff1b6fb9e5122bf92ec14987d3247afaca4d34901231cecfd8ca",
-      "ast_digest": "cfc0cfae5a64aad0d1bb6976c4764dafe3fc1b96673fdf55e537009b5fe55603"
+      "values_digest": "629c475a72340e9bd7adf6cd74b918a2a94b70516e2fb5c1718a3567ef9b6b3c",
+      "rendered_digest": "8d97bfd73880ac4c395c77c9761847ee4fce7d474181dbedaa2a362a7afa4c4b",
+      "ast_digest": "c1a07085210b12fe83d22bfd3b24aa89a858317a4c5b3325b74723cfd30a608d"
     },
     "sor": {
-      "values_digest": "746a94e4e26789431aaa6c7d0fb8a196daf6cff1492bba2a4bf3bcf920de0d5c",
+      "values_digest": "9b1f9f40235fcb976a27f31366b7b2ddbd9bf33c10c5be695d1dafd2c848e680",
       "rendered_digest": "15b947bf1c0697bde4f45b8a61307d103964b8aea4f948eaf33997c57fed50d6",
       "ast_digest": "583d03bdc6db1eac3e95cadf7ba76f2b6b8d2bab1827f7a9e535ff0dbfb6e688"
     }
@@ -106,6 +128,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "recover #680 review because the recorded non-substantive proof used an unsupported policy/to_revision shape; source, docs, tests, and evidence remain unchanged"
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -262,6 +291,13 @@
       "actor": "codex:root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
