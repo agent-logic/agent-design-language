@@ -26,6 +26,9 @@ defects = Path(sys.argv[2]).read_text()
 coverage = json.loads(Path(sys.argv[3]).read_text())
 evidence = Path(sys.argv[4]).read_text()
 v3_help = os.environ["V3_HELP"]
+coverage_text = Path(sys.argv[3]).read_text()
+old_631_head = "308b489d9238732f056e9d671c5155d0f4f91d2e"
+current_631_head = "f43356321108b91031024fc1fccf11233f188bce"
 
 required_routes = [
     "prepare/init",
@@ -136,6 +139,12 @@ if any(route.get("current_v3_cli_command") is None for route in routes):
 for marker in ["#631 PR #644", "DEFECT-019", "DEFECT-020", "not cutover-ready", "foundation", "local", "all 21 v2 entrypoints"]:
     if marker not in evidence:
         raise SystemExit(f"canary evidence index missing {marker}")
+
+if current_631_head not in evidence or current_631_head not in coverage_text:
+    raise SystemExit("canary packet must pin current #631/PR #669 head")
+
+if old_631_head in evidence or old_631_head in coverage_text:
+    raise SystemExit("canary packet still references stale #631/PR #669 head")
 
 print("v3 canary readiness packet: pass")
 PY
