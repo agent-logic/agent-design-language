@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 674,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add New Polis citizen Welcome Package for resident agents",
+    "slug": "runtime-new-polis-citizen-welcome-package",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The Welcome Package document, source-grounding, tone, governance boundaries, and lightweight docs validation only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is every capability statement grounded and conditional on current Runtime gates?",
+        "Does the package clearly state forbidden actions and help paths?",
+        "Is the tone supportive without personhood or capability fantasy?",
+        "Is this strictly one documentation artifact plus its lightweight validator?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
