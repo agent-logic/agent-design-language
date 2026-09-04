@@ -149,6 +149,28 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     let replacements = denominator["required_v2_entrypoints"]
         .as_array()
         .expect("required v2 entrypoints");
+    let implemented_replacement_statuses = ["implemented", "implemented_pre_cutover_bridge"];
+    let implemented_replacement_count = replacements
+        .iter()
+        .filter(|row| {
+            implemented_replacement_statuses.contains(
+                &row["replacement_status"]
+                    .as_str()
+                    .expect("replacement status"),
+            )
+        })
+        .count();
+    assert_eq!(implemented_replacement_count, replacements.len());
+    assert_eq!(implemented_replacement_count, 21);
+    for row in replacements {
+        let v3_command = row["v3_command"].as_str().expect("v3 command");
+        assert!(
+            commands
+                .iter()
+                .any(|command| command["command"].as_str() == Some(v3_command)),
+            "replacement row should name a visible v3 command: {v3_command}"
+        );
+    }
     assert_eq!(
         replacements
             .iter()
