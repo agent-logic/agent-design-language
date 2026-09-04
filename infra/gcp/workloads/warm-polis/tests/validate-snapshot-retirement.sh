@@ -41,7 +41,7 @@ done
   echo "issue #670 project, preflight path, and cost-envelope authority must not be caller-overridable" >&2
   exit 1
 }
-for field in catalog_project catalog_region catalog_zone catalog_generation paid_deadline_epoch require_paid_time run_paid_operation cleanup_pending resource_absence_verified; do
+for field in catalog_project catalog_region catalog_zone catalog_generation paid_deadline_epoch require_paid_time adl_run_paid_operation cleanup_pending resource_absence_verified destroy_catalog_verifier; do
   rg -q "$field" "$prepare"
 done
 for startup in "$root/startup-runtime.sh" "$root/startup-ollama.sh" "$root/preparation/seal-disk.sh" "$root/snapshot-catalog/verify-snapshots.sh"; do
@@ -50,9 +50,11 @@ for startup in "$root/startup-runtime.sh" "$root/startup-ollama.sh" "$root/prepa
   rg -q 'adl-issue670-.*budget-stop' "$startup"
 done
 ! rg -q 'budget_stop_seconds=28800' "$root/startup-runtime.sh" "$root/startup-ollama.sh"
-rg -q 'run_paid_operation terraform -chdir="\$root" apply' "$launch"
+rg -q 'adl_run_paid_operation terraform -chdir="\$root" apply' "$launch"
 rg -q 'mandatory launch cleanup failed' "$launch"
 rg -q '"\$0" destroy' "$launch"
+! rg -q 'snapshot-catalog" apply.*enable_verifier=false' "$prepare"
+rg -q 'snapshot-catalog" destroy' "$prepare"
 launch_project_guard_line="$(rg -n 'not authorized project' "$launch" | head -1 | cut -d: -f1)"
 launch_apply_line="$(rg -n 'terraform -chdir="\$root" apply' "$launch" | head -1 | cut -d: -f1)"
 [ "$launch_project_guard_line" -lt "$launch_apply_line" ] || {

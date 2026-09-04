@@ -30,18 +30,16 @@ case "$mode" in
     zone="$(terraform -chdir="$root" console <<<"var.zone" | tr -d '"')"
     generation="$(terraform -chdir="$root" console <<<"var.artifact_generation" | tr -d '"')"
     issue_id="$(terraform -chdir="$root" console <<<"var.issue_id" | tr -d '"')"
-    runtime_name="$(terraform -chdir="$root" output -raw runtime_instance_name)"
-    ollama_name="$(terraform -chdir="$root" output -raw ollama_instance_name)"
-    cleanup_contract="$(terraform -chdir="$root" output -json cleanup_contract)"
-    runtime_disk="$(jq -r '.launch_state_deletes[0]' <<<"$cleanup_contract")"
-    ollama_disk="$(jq -r '.launch_state_deletes[1]' <<<"$cleanup_contract")"
-    runtime_snapshot="$(jq -r '.retained_snapshots[0]' <<<"$cleanup_contract")"
-    ollama_snapshot="$(jq -r '.retained_snapshots[1]' <<<"$cleanup_contract")"
+    run_id="$(terraform -chdir="$root" console <<<"var.run_id" | tr -d '"')"
+    runtime_name="${run_id}-runtime"
+    ollama_name="${run_id}-ollama"
+    runtime_disk="${run_id}-runtime-data"
+    ollama_disk="${run_id}-ollama-data"
+    runtime_snapshot="$(terraform -chdir="$root" console <<<"var.runtime_snapshot" | tr -d '"')"
+    ollama_snapshot="$(terraform -chdir="$root" console <<<"var.ollama_snapshot" | tr -d '"')"
+    destroy_ok=true
     if ! terraform -chdir="$root" destroy -auto-approve; then
-      jq -n --argjson started "$cleanup_start_epoch" --argjson observed "$(date +%s)" \
-        --arg launch_receipt "$launch_receipt_ref" \
-        '{schema:"adl.issue663.cleanup-receipt.v1",status:"destroy_failed",cleanup_request_epoch:$started,cleanup_observation_epoch:$observed,launch_receipt:$launch_receipt,resource_absence_verified:false,snapshots_retained_verified:false}' >"$cleanup_receipt"
-      exit 1
+      destroy_ok=false
     fi
     runtime_instance_absent=false
     ollama_instance_absent=false
@@ -51,21 +49,26 @@ case "$mode" in
     gcloud compute instances describe "$ollama_name" --project "$project" --zone "$zone" >/dev/null 2>&1 || ollama_instance_absent=true
     gcloud compute disks describe "$runtime_disk" --project "$project" --zone "$zone" >/dev/null 2>&1 || runtime_disk_absent=true
     gcloud compute disks describe "$ollama_disk" --project "$project" --zone "$zone" >/dev/null 2>&1 || ollama_disk_absent=true
-    runtime_snapshot_observed="$(gcloud compute snapshots describe "${runtime_snapshot##*/}" --project "$project" --format='value(selfLink)' 2>/dev/null || true)"
-    ollama_snapshot_observed="$(gcloud compute snapshots describe "${ollama_snapshot##*/}" --project "$project" --format='value(selfLink)' 2>/dev/null || true)"
+    query_ok=true
+    if ! runtime_snapshot_observed="$(gcloud compute snapshots describe "${runtime_snapshot##*/}" --project "$project" --format='value(selfLink)' 2>/dev/null)"; then
+      runtime_snapshot_observed=""
+      query_ok=false
+    fi
+    if ! ollama_snapshot_observed="$(gcloud compute snapshots describe "${ollama_snapshot##*/}" --project "$project" --format='value(selfLink)' 2>/dev/null)"; then
+      ollama_snapshot_observed=""
+      query_ok=false
+    fi
     resources_absent=false
     snapshots_retained=false
     if [ "$runtime_instance_absent" = true ] && [ "$ollama_instance_absent" = true ] && [ "$runtime_disk_absent" = true ] && [ "$ollama_disk_absent" = true ]; then
       resources_absent=true
     fi
-    snapshot_inventory="$(gcloud compute snapshots list --project "$project" \
-      --filter="labels.adl_generation=$generation AND labels.adl_retained=true" \
-      --format='json(name,selfLink)')"
-    residual_instances="$(gcloud compute instances list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,zone,status,labels)')"
-    residual_disks="$(gcloud compute disks list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,zone,status,labels,users)')"
-    residual_firewalls="$(gcloud compute firewall-rules list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,network,direction,disabled)')"
-    residual_images="$(gcloud compute images list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,status,labels)')"
-    residual_addresses="$(gcloud compute addresses list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,region,status,address)')"
+    if ! snapshot_inventory="$(gcloud compute snapshots list --project "$project" --filter="labels.adl_generation=$generation AND labels.adl_retained=true" --format='json(name,selfLink)')"; then snapshot_inventory=null; query_ok=false; fi
+    if ! residual_instances="$(gcloud compute instances list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,zone,status,labels)')"; then residual_instances=null; query_ok=false; fi
+    if ! residual_disks="$(gcloud compute disks list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,zone,status,labels,users)')"; then residual_disks=null; query_ok=false; fi
+    if ! residual_firewalls="$(gcloud compute firewall-rules list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,network,direction,disabled)')"; then residual_firewalls=null; query_ok=false; fi
+    if ! residual_images="$(gcloud compute images list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,status,labels)')"; then residual_images=null; query_ok=false; fi
+    if ! residual_addresses="$(gcloud compute addresses list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,region,status,address)')"; then residual_addresses=null; query_ok=false; fi
     residual_inventory="$(jq -n --argjson instances "$residual_instances" --argjson disks "$residual_disks" --argjson firewalls "$residual_firewalls" --argjson images "$residual_images" --argjson addresses "$residual_addresses" '{instances:$instances,disks:$disks,firewalls:$firewalls,images:$images,addresses:$addresses}')"
     [ "$(jq '[.[] | length] | add' <<<"$residual_inventory")" -eq 0 ] || resources_absent=false
     if [ -n "$runtime_snapshot_observed" ] && [ -n "$ollama_snapshot_observed" ] && \
@@ -74,8 +77,8 @@ case "$mode" in
       snapshots_retained=true
     fi
     cleanup_observed_epoch="$(date +%s)"
-    status=cleanup_verification_failed
-    [ "$resources_absent" = true ] && [ "$snapshots_retained" = true ] && status=cleaned
+    status=cleanup_pending
+    [ "$destroy_ok" = true ] && [ "$query_ok" = true ] && [ "$resources_absent" = true ] && [ "$snapshots_retained" = true ] && status=cleaned
     jq -n --arg status "$status" --argjson started "$cleanup_start_epoch" --argjson observed "$cleanup_observed_epoch" \
       --arg launch_receipt "$launch_receipt_ref" --arg runtime_instance "$runtime_name" --arg ollama_instance "$ollama_name" \
       --arg runtime_disk "$runtime_disk" --arg ollama_disk "$ollama_disk" \
@@ -83,8 +86,10 @@ case "$mode" in
       --argjson snapshot_inventory "$snapshot_inventory" --argjson residual_inventory "$residual_inventory" \
       --argjson runtime_instance_absent "$runtime_instance_absent" --argjson ollama_instance_absent "$ollama_instance_absent" \
       --argjson runtime_disk_absent "$runtime_disk_absent" --argjson ollama_disk_absent "$ollama_disk_absent" \
+      --argjson destroy_succeeded "$destroy_ok" \
+      --argjson inventory_queries_succeeded "$query_ok" \
       --argjson resources_absent "$resources_absent" --argjson snapshots_retained "$snapshots_retained" \
-      '{schema:"adl.issue670.cleanup-receipt.v2",status:$status,cleanup_request_epoch:$started,cleanup_observation_epoch:$observed,launch_receipt:$launch_receipt,runtime_instance:{name:$runtime_instance,absent:$runtime_instance_absent},ollama_instance:{name:$ollama_instance,absent:$ollama_instance_absent},runtime_restored_disk:{name:$runtime_disk,absent:$runtime_disk_absent},ollama_restored_disk:{name:$ollama_disk,absent:$ollama_disk_absent},resource_absence_verified:$resources_absent,residual_issue_inventory:$residual_inventory,retained_snapshot_inventory:$snapshot_inventory,retained_snapshot_observed_self_links:[$runtime_snapshot,$ollama_snapshot],exact_retained_snapshot_set_verified:$snapshots_retained,snapshots_retained_verified:$snapshots_retained}' >"$cleanup_receipt"
+      '{schema:"adl.issue670.cleanup-receipt.v2",status:$status,cleanup_request_epoch:$started,cleanup_observation_epoch:$observed,launch_receipt:$launch_receipt,destroy_succeeded:$destroy_succeeded,inventory_queries_succeeded:$inventory_queries_succeeded,runtime_instance:{name:$runtime_instance,absent:$runtime_instance_absent},ollama_instance:{name:$ollama_instance,absent:$ollama_instance_absent},runtime_restored_disk:{name:$runtime_disk,absent:$runtime_disk_absent},ollama_restored_disk:{name:$ollama_disk,absent:$ollama_disk_absent},resource_absence_verified:$resources_absent,residual_issue_inventory:$residual_inventory,retained_snapshot_inventory:$snapshot_inventory,retained_snapshot_observed_self_links:[$runtime_snapshot,$ollama_snapshot],exact_retained_snapshot_set_verified:$snapshots_retained,snapshots_retained_verified:$snapshots_retained}' >"$cleanup_receipt"
     jq . "$cleanup_receipt"
     [ "$status" = cleaned ] || exit 2
     exit 0
@@ -113,21 +118,7 @@ jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" --argjs
   exit 1
 }
 paid_deadline_epoch="$(jq -r '.paid_deadline_epoch' "$preflight_receipt")"
-run_paid_operation() {
-  [ "$(date +%s)" -lt "$paid_deadline_epoch" ] || return 124
-  "$@" &
-  operation_pid=$!
-  while kill -0 "$operation_pid" 2>/dev/null; do
-    if [ "$(date +%s)" -ge "$paid_deadline_epoch" ]; then
-      kill -TERM "$operation_pid" 2>/dev/null || true
-      wait "$operation_pid" 2>/dev/null || true
-      echo "paid operation exceeded the immutable qualification deadline" >&2
-      return 124
-    fi
-    sleep 2
-  done
-  wait "$operation_pid"
-}
+source "$root/deadline-guard.sh"
 launch_completed=false
 cleanup_failed_launch() {
   rc=$?
@@ -145,7 +136,7 @@ cleanup_failed_launch() {
 }
 trap cleanup_failed_launch EXIT
 start_epoch="$(date +%s)"
-run_paid_operation terraform -chdir="$root" apply -auto-approve -var="paid_deadline_epoch=$paid_deadline_epoch"
+adl_run_paid_operation terraform -chdir="$root" apply -auto-approve -var="paid_deadline_epoch=$paid_deadline_epoch"
 apply_epoch="$(date +%s)"
 runtime_name="$(terraform -chdir="$root" output -raw runtime_instance_name)"
 ollama_name="$(terraform -chdir="$root" output -raw ollama_instance_name)"

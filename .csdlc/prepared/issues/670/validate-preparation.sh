@@ -48,6 +48,7 @@ terraform -chdir="$root/infra/gcp/workloads/warm-polis" test >/dev/null
 terraform -chdir="$root/infra/gcp/workloads/modules/two-node-ollama-runtime" test >/dev/null
 bash "$root/infra/gcp/workloads/warm-polis/tests/validate-warm-start-policy.sh" >/dev/null
 bash "$root/infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh" >/dev/null
+bash "$root/infra/gcp/workloads/warm-polis/tests/validate-deadline-guard.sh" >/dev/null
 for receipt in \
   "$evidence/live/preflight.json" \
   "$evidence/live/snapshot-verification-g670b.json" \

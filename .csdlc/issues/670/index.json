@@ -5,35 +5,37 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9368b813ad731dd962fec73c535984664e7713ffa877b66bd091b84f1d56961a",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "74d4db92cc0efb6b6d7f407d98798c55b37dd0050a8fda2450ee559e5f0aa882",
+  "generation": 20,
+  "digest": "9c07ba234f943f48ac68f5bbd9641fd657784b8698902461cacb04d0263d642c",
   "branch": "codex/670-gcp-warm-polis-live-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-670-gcp-warm-polis-live-qualification",
   "review_assignment": {
-    "reviewer": "/root/issue_670_budget_review",
+    "reviewer": "/root/issue_670_terminal_review",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:2745e3b1d60c585081f9baff44375c46a05860c2:97e0e567af595fc0e31c2612d6fa9f4f899754f7d8d80f5409ff3ee3d89c02db",
+    "revision": "git-blake3:65e2da4774672ee80201cd44b0bc8c6471dc614e:1360589323d130e538a63ba88b20547ff4ae2feb3703dac0506850a50b9e9e77",
     "scope": [
       ".csdlc/prepared/issues/670",
       ".csdlc/evidence/670/live",
       "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
       "infra/gcp/workloads/warm-polis"
     ]
   },
   "review": {
-    "reviewer": "/root/issue_670_budget_review",
+    "reviewer": "/root/issue_670_terminal_review",
     "scope": [
       ".csdlc/prepared/issues/670",
       ".csdlc/evidence/670/live",
       "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
+      "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
       "infra/gcp/workloads/warm-polis"
     ],
-    "reviewed_revision": "git-blake3:2745e3b1d60c585081f9baff44375c46a05860c2:97e0e567af595fc0e31c2612d6fa9f4f899754f7d8d80f5409ff3ee3d89c02db",
+    "reviewed_revision": "git-blake3:65e2da4774672ee80201cd44b0bc8c6471dc614e:1360589323d130e538a63ba88b20547ff4ae2feb3703dac0506850a50b9e9e77",
     "findings": [
       {
-        "id": "670-r3-p1-absolute-budget-deadline",
+        "id": "670-r4-p1-deadline-termination",
         "severity": "p1",
-        "summary": "The absolute eight-hour budget deadline is not enforced across blocking paid Terraform operations or all paid guests.",
+        "summary": "Deadline wrappers can block forever after SIGTERM and prevent mandatory cleanup.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -41,9 +43,29 @@
         "route": null
       },
       {
-        "id": "670-r3-p1-cleanup-failure",
+        "id": "670-r4-p1-catalog-cleanup-create",
         "severity": "p1",
-        "summary": "Failure cleanup suppresses Terraform destroy failures without durable cleanup-pending evidence or mandatory residual verification.",
+        "summary": "Preparation cleanup can run an unbounded create-capable catalog apply after the deadline.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "670-r4-p1-partial-launch-cleanup",
+        "severity": "p1",
+        "summary": "Launch cleanup reads state outputs before destroy and can exit before teardown or residual verification after partial apply.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "670-r4-p1-live-proof-scope",
+        "severity": "p1",
+        "summary": "Retained live v1 receipts do not prove the remediated v2 failure controls and the validator does not make that boundary explicit.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -52,7 +74,7 @@
       }
     ],
     "residual_risks": [
-      "Publication remains blocked until absolute deadline enforcement and fail-closed cleanup evidence are implemented and freshly reviewed."
+      "Publication remains blocked until all four failure-path findings are fixed and freshly reviewed."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -71,32 +93,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ef89942e62baa06265f766df1012a6331331664cdc1ec745fdc26b88fd73f525",
+      "values_digest": "1f82874e4df1486af2c87462f84c2ab37c71a7724a36e9160f711bfe0a327182",
       "rendered_digest": "b7fc096216f2a97613baad2fb438102c17ce3bac77d04aed26a7574442c43bb3",
       "ast_digest": "9ede6543cc3750b7b14708e40cb6f2ee0dbc29d1031114821a7c413bb971bd16"
     },
     "stp": {
-      "values_digest": "5da031947176325a2d30bbc509ec7ebe6ccbbfd74a7767f47e55245550e7ad6d",
+      "values_digest": "6fdeccbb9a2b893663de6f566e8130069183066f03fa8e13fbf96565175864d7",
       "rendered_digest": "9baaed8752a7289373b6927e65aa182bbc721e20634d23cf674f414089bfd699",
       "ast_digest": "2e9b385f585f245b4aea4b17a2dbf87850654a783869d66defca7810a1ed424e"
     },
     "spp": {
-      "values_digest": "86a97bbaa3e24c1202f6ee2154a88f951926336e1125e9f82ea927a438168c09",
+      "values_digest": "80de6cbcfb6cf1f11cfaf126d48f1002371c501edf11f08a430a04cb715e7f46",
       "rendered_digest": "db754bf3f56e29967dd9a034fae6eacee71e11b5b527b6607e11db83069ab13a",
       "ast_digest": "ac3fcfdccbdbe1ed837e1d200df7039327e0ba7a503f69ec0ffcde1bbc53f1d5"
     },
     "vpp": {
-      "values_digest": "ea8955c4f992605875a9b9551846951ff5408728d53a739e3b900b55211fecf9",
+      "values_digest": "cf5e43ea245a6cc5a8d0b782e1aca9c1e2de0be2a36ea90ddcc424bfa251c48b",
       "rendered_digest": "6cba07df324cc1b0a335314613c8d86902482e25c520ddaf99b395eb6f25be6e",
       "ast_digest": "f1e90a3047a9085f125c1939bd5ba9519dfb0828437d6647693bdf58adbdafb2"
     },
     "srp": {
-      "values_digest": "2146c495f308aa3e10096e6f500d7d97530b50b1ec05d1555d900b087d69cefb",
-      "rendered_digest": "0229fcc2a6052e2e91111ac225354fac13bfdae57a85cac63bccc808b29abc78",
-      "ast_digest": "675ae60156f55e8f9fd78e769623c16ba46a58ee09ab960a8142e49b69acdb75"
+      "values_digest": "7dc7ac8451a426918feb432ce2d65c7c95a85768f00c802eec7f53b5593bd530",
+      "rendered_digest": "e59a2640636511f7faddb182970247a0e2392b86212d8ff9e0d960388acb9c04",
+      "ast_digest": "9d365d02b838f4648da5e5c302b3e7880deade2c669e19a7cb3eae2b89bb8b6d"
     },
     "sor": {
-      "values_digest": "1f45f40fd63db95baefb92970c28b74d602e43e5182912268e8c31d8766ef749",
+      "values_digest": "63c1896f8bd91f70a111c25ae8c00eea9670a7f1b01b6e14f60ce28ac944b590",
       "rendered_digest": "64df372417f3e916adca2671fca5b9ffba023f0fdb5d1d6b593108c600b3015d",
       "ast_digest": "24c62bcb55f6b5e500c5c2931e4d8dee05df2fff9c3071bc1d7e2dd13fb12ab4"
     }
@@ -292,6 +314,20 @@
       "actor": "codex:/root",
       "reason": "Record the final budget-deadline and fail-closed cleanup remediations without overstating the historical live run.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Live-qualified the snapshot-backed two-node GCP Polis in the authorized company project: a clean launch reached full readiness in 930 seconds, two resident models served six real Runtime agent and ACC tool cycles, all issue-owned disposable resources were destroyed, exactly two verified snapshots remain, and the conservative incremental upper bound is USD 11.55 against the authorized USD 20 ceiling.\",\"changes\":[\"Made the issue preflight use immutable company project, central region and zone, L4, USD 20, USD 2 hourly envelope, eight-hour paid window, and USD 4 storage reserve authority.\",\"Coupled preparation, snapshot catalog, and launch inputs to that fixed preflight authority before any paid create or apply while keeping exact-project cleanup independently available.\",\"Propagated the single absolute preflight deadline to Runtime, Ollama, preparation, and verifier guests; every boot schedules poweroff using only the remaining authorized time.\",\"Bound every paid Terraform apply to the same absolute deadline while leaving cleanup unbounded so deadline expiry cannot prevent resource destruction.\",\"Made failed launch and preparation cleanup produce durable cleanup-pending receipts, verify residual disposable inventory, and fail distinctly instead of suppressing destroy errors.\",\"Hardened snapshot preparation for private Google access, isolated Terraform state, portable Ollama bundles, serial receipt propagation, and cleanup-safe failure handling.\",\"Made Runtime startup compatible with the sealed artifact ABI, supervised Guardian independently of Vector, and ran the six-resident real agent and ACC tool qualification against private Ollama.\",\"Bound readiness observations to the latest boot ID and artifact generation so stale serial output cannot satisfy a new launch.\",\"Expanded the durable launch receipt with project, topology, snapshots, GPU, network, resident-model, six-agent, boot-identity, and timing truth.\",\"Made cleanup enumerate issue and generation scoped instances, disks, firewalls, images, and addresses, prove the exact two-snapshot retained set, and independently retained a matching live residual inventory.\",\"Configured separately managed warm data-disk attachments to be ignored by instance drift reconciliation, preventing Terraform from planning their removal.\",\"Made the focused validator initialize all Terraform roots itself and then execute format, validate and test lanes, shell policy tests, receipt parsing, and diff hygiene.\"],\"artifacts\":[\".csdlc/evidence/670/live/preflight.json\",\".csdlc/evidence/670/live/snapshot-verification-g670b.json\",\".csdlc/evidence/670/live/launch-g670b.json\",\".csdlc/evidence/670/live/cleanup-g670b.json\",\".csdlc/evidence/670/live/residual-inventory-g670b.json\",\".csdlc/evidence/670/live/cost-upper-bound.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/670/validate-preparation.sh\"],\"purpose\":\"Execute Terraform initialization, validation and tests plus absolute-deadline, fail-closed cleanup, warm-start, receipt, and diff-hygiene policy checks.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/670/validate-preparation.sh\"},{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh\",\".csdlc/evidence/670/live/preparation.tfvars\",\".csdlc/evidence/670/live/snapshot-catalog.tfvars\"],\"purpose\":\"Prove both sealed snapshots are READY, restore-verified, generation-bound, and exactly sized.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/snapshot-verification-g670b.json\"},{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"launch\"],\"purpose\":\"Prove a clean real private two-node L4 launch, two simultaneously resident models, Runtime and Guardian readiness, and six successful agent and ACC tool cycles.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/launch-g670b.json\"},{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh\",\"destroy\"],\"purpose\":\"Destroy the launch topology and prove its named instances and restored disks are absent and exactly the two intended snapshots remain.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/cleanup-g670b.json\"},{\"command\":[\"bash\",\"infra/gcp/workloads/warm-polis/tests/validate-live-residual-inventory.sh\"],\"purpose\":\"Independently prove zero disposable resources and exactly two READY retained snapshots.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/residual-inventory-g670b.json\"},{\"command\":[\"jq\",\"-e\",\"launch and cleanup receipt invariants\"],\"purpose\":\"Prove exact six-agent execution, two resident models, private-only networking, launch timing, cleanup, and snapshot-set truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/670/live/launch-g670b.json\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

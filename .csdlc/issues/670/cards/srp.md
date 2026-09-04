@@ -15,6 +15,7 @@ Status: pre_phase
 .csdlc/prepared/issues/670
 .csdlc/evidence/670/live
 infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf
+infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf
 infra/gcp/workloads/warm-polis
 
 ## Prompts
@@ -29,9 +30,9 @@ infra/gcp/workloads/warm-polis
 
 [
   {
-    "id": "670-r3-p1-absolute-budget-deadline",
+    "id": "670-r4-p1-deadline-termination",
     "severity": "p1",
-    "summary": "The absolute eight-hour budget deadline is not enforced across blocking paid Terraform operations or all paid guests.",
+    "summary": "Deadline wrappers can block forever after SIGTERM and prevent mandatory cleanup.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -39,9 +40,29 @@ infra/gcp/workloads/warm-polis
     "route": null
   },
   {
-    "id": "670-r3-p1-cleanup-failure",
+    "id": "670-r4-p1-catalog-cleanup-create",
     "severity": "p1",
-    "summary": "Failure cleanup suppresses Terraform destroy failures without durable cleanup-pending evidence or mandatory residual verification.",
+    "summary": "Preparation cleanup can run an unbounded create-capable catalog apply after the deadline.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "670-r4-p1-partial-launch-cleanup",
+    "severity": "p1",
+    "summary": "Launch cleanup reads state outputs before destroy and can exit before teardown or residual verification after partial apply.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "670-r4-p1-live-proof-scope",
+    "severity": "p1",
+    "summary": "Retained live v1 receipts do not prove the remediated v2 failure controls and the validator does not make that boundary explicit.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -56,12 +77,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Publication remains blocked until absolute deadline enforcement and fail-closed cleanup evidence are implemented and freshly reviewed.
+- Publication remains blocked until all four failure-path findings are fixed and freshly reviewed.
 
 ## Review Result
 
-Revision: Some("git-blake3:2745e3b1d60c585081f9baff44375c46a05860c2:97e0e567af595fc0e31c2612d6fa9f4f899754f7d8d80f5409ff3ee3d89c02db")
+Revision: Some("git-blake3:65e2da4774672ee80201cd44b0bc8c6471dc614e:1360589323d130e538a63ba88b20547ff4ae2feb3703dac0506850a50b9e9e77")
 
-Reviewer: Some("/root/issue_670_budget_review")
+Reviewer: Some("/root/issue_670_terminal_review")
 
 Result: changes_required

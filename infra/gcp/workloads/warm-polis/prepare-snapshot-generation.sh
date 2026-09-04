@@ -25,6 +25,14 @@ catalog_state_args=()
 catalog_started=false
 completed=false
 
+destroy_catalog_verifier() {
+  terraform -chdir="$root/snapshot-catalog" destroy "${catalog_state_args[@]}" -auto-approve \
+    -var-file="$catalog_vars" -var=enable_verifier=true -var="paid_deadline_epoch=$paid_deadline_epoch" \
+    -target=google_compute_instance.verifier \
+    -target=google_compute_disk.runtime_verifier \
+    -target=google_compute_disk.ollama_verifier
+}
+
 cleanup_temporary_compute() {
   rc=$?
   trap - EXIT
@@ -32,7 +40,7 @@ cleanup_temporary_compute() {
     echo "preparation failed; removing temporary VMs and disks while retaining any completed snapshots" >&2
     cleanup_ok=true
     if [ "$catalog_started" = true ]; then
-      terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=false -var="paid_deadline_epoch=$paid_deadline_epoch" || cleanup_ok=false
+      destroy_catalog_verifier || cleanup_ok=false
     fi
     terraform -chdir="$root/preparation" destroy "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false -var="paid_deadline_epoch=$paid_deadline_epoch" || cleanup_ok=false
     residual_instances="$(gcloud compute instances list --project "$project" --filter="name~'adl-663-$generation-.*(prep|verifier)'" --format='json(name,zone,status)' 2>/dev/null || echo 'null')"
@@ -90,21 +98,7 @@ require_paid_time() {
     return 1
   }
 }
-run_paid_operation() {
-  require_paid_time
-  "$@" &
-  operation_pid=$!
-  while kill -0 "$operation_pid" 2>/dev/null; do
-    if [ "$(date +%s)" -ge "$paid_deadline_epoch" ]; then
-      kill -TERM "$operation_pid" 2>/dev/null || true
-      wait "$operation_pid" 2>/dev/null || true
-      echo "paid operation exceeded the immutable qualification deadline" >&2
-      return 124
-    fi
-    sleep 2
-  done
-  wait "$operation_pid"
-}
+source "$root/deadline-guard.sh"
 trap cleanup_temporary_compute EXIT
 [ "$(gcloud compute networks subnets describe "$subnet" --project "$project" --region "$region" --format='value(privateIpGoogleAccess)')" = "True" ] || {
   echo "subnet $region/$subnet must enable Private Google Access for private preparation VMs" >&2
@@ -161,7 +155,7 @@ wait_for_verifier() {
   done
 }
 
-run_paid_operation terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=true -var="paid_deadline_epoch=$paid_deadline_epoch"
+adl_run_paid_operation terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=true -var="paid_deadline_epoch=$paid_deadline_epoch"
 
 for role in runtime ollama; do
   wait_for_prep_vm "adl-663-${generation}-${role}-prep"
@@ -169,15 +163,15 @@ done
 
 # A normal apply removes both preparation VMs and attachments while retaining
 # the two staging disks in preparation state. No targeted destroy is used.
-run_paid_operation terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false -var="paid_deadline_epoch=$paid_deadline_epoch"
+adl_run_paid_operation terraform -chdir="$root/preparation" apply "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false -var="paid_deadline_epoch=$paid_deadline_epoch"
 
 catalog_started=true
-run_paid_operation terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=true -var="paid_deadline_epoch=$paid_deadline_epoch"
+adl_run_paid_operation terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=true -var="paid_deadline_epoch=$paid_deadline_epoch"
 wait_for_verifier "adl-663-${generation}-snapshot-verifier"
 
 # Retained catalog state is snapshots only. The verifier VM and restored disks
 # are removed before staging resources are destroyed.
-terraform -chdir="$root/snapshot-catalog" apply "${catalog_state_args[@]}" -auto-approve -var-file="$catalog_vars" -var=enable_verifier=false -var="paid_deadline_epoch=$paid_deadline_epoch"
+destroy_catalog_verifier
 terraform -chdir="$root/preparation" destroy "${preparation_state_args[@]}" -auto-approve -var-file="$preparation_vars" -var=attach_preparation_vms=false -var="paid_deadline_epoch=$paid_deadline_epoch"
 terraform -chdir="$root/snapshot-catalog" output "${catalog_state_args[@]}" -json
 completed=true
