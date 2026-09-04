@@ -10,17 +10,22 @@ use csdlc_v3::{
     commands::remote::{
         verify_remote_bridge_request, RemoteCommandOperation, RemoteCommandRequest,
     },
+    commands::replacement::{
+        command_from_route, verify_replacement_request, ReplacementVerifierRequest,
+    },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     repository::RepositoryContext,
 };
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --repo-root <path> --request <path>\n  cutover --help\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --repo-root <path> --request <path>\n  github --repo-root <path> --request <path>\n  github-issue --repo-root <path> --request <path>\n  github-pr --repo-root <path> --request <path>\n  install --help\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --repo-root <path> --request <path>\n  proof --help\n  publish --repo-root <path> --request <path>\n  review --repo-root <path> --request <path>\n  remote --repo-root <path> --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --help\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --help\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --repo-root <path> --request <path>\n  cutover --repo-root <path> --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --repo-root <path> --request <path>\n  github --repo-root <path> --request <path>\n  github-issue --repo-root <path> --request <path>\n  github-pr --repo-root <path> --request <path>\n  install --repo-root <path> --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --repo-root <path> --request <path>\n  proof --repo-root <path> --request <path>\n  publish --repo-root <path> --request <path>\n  review --repo-root <path> --request <path>\n  remote --repo-root <path> --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --repo-root <path> --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --repo-root <path> --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
 const REMOTE_USAGE: &str = "usage: csdlc remote --repo-root <path> --request <path>";
+const REPLACEMENT_USAGE: &str =
+    "usage: csdlc <cutover|install|proof|shadow|soak> --repo-root <path> --request <path>";
 const SPRINT_USAGE: &str = "usage: csdlc sprint --repo-root <path> --request <path>";
 const REMOTE_BRIDGE_ROUTE_NAMES: &[&str] = &[
     "github",
@@ -59,30 +64,9 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "sprint" => run_sprint(rest),
         route if LOCAL_ROUTE_NAMES.contains(&route) => run_local_route(route, rest),
         route if REMOTE_BRIDGE_ROUTE_NAMES.contains(&route) => run_remote_bridge_route(route, rest),
-        "cutover" | "install" | "proof" | "soak" => {
-            if rest == ["--help"] || rest == ["-h"] {
-                return Ok(reserved_usage(command, "fail_closed"));
-            }
-            Err(format!(
-                "fail_closed: csdlc {command} is reserved for C-SDLC v3 replacement work and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
-            ))
-        }
-        "shadow" => {
-            if rest == ["--help"] || rest == ["-h"] {
-                return Ok(reserved_usage(command, "partial"));
-            }
-            Err(format!(
-                "partial: csdlc {command} has construction evidence only and is not implemented as live authority in #627. C-SDLC v3 is not live authority before #505 cutover."
-            ))
-        }
+        route if command_from_route(route).is_some() => run_replacement_route(route, rest),
         _ => Err(format!("{ROOT_USAGE}; unexpected command {command}")),
     }
-}
-
-fn reserved_usage(command: &str, status: &str) -> String {
-    format!(
-        "usage: csdlc {command} [--help]\n\nstatus: {status}\nauthority: C-SDLC v3 is not live authority before #505 cutover."
-    )
 }
 
 fn run_foundation(args: &[String]) -> Result<String, String> {
@@ -272,6 +256,34 @@ fn run_remote_bridge_route(route: &str, args: &[String]) -> Result<String, Strin
     }
     let report = verify_remote_bridge_request(&PathBuf::from(root), request)
         .map_err(|error| format!("{error:?}"))?;
+    serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
+fn run_replacement_route(route: &str, args: &[String]) -> Result<String, String> {
+    let usage = format!("usage: csdlc {route} --repo-root <path> --request <path>");
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(format!(
+            "{usage}\n\nstatus: implemented_pre_cutover_verifier\nauthority: C-SDLC v3 is not live authority before #505 cutover.\nmutation: disabled until explicit operator approval."
+        ));
+    }
+    let Some(command) = command_from_route(route) else {
+        return Err(REPLACEMENT_USAGE.into());
+    };
+    let [root_flag, root, request_flag, request] = args else {
+        return Err(usage);
+    };
+    if root_flag != "--repo-root" {
+        return Err(format!("{usage}; unexpected argument {root_flag}"));
+    }
+    if request_flag != "--request" {
+        return Err(format!("{usage}; unexpected argument {request_flag}"));
+    }
+    let request_bytes =
+        fs::read(request).map_err(|error| format!("failed to read request: {error}"))?;
+    let request: ReplacementVerifierRequest = serde_json::from_slice(&request_bytes)
+        .map_err(|error| format!("invalid replacement request: {error}"))?;
+    let report = verify_replacement_request(&PathBuf::from(root), command, request)
+        .map_err(|error| format!("{}: {}", error.code, error.message))?;
     serde_json::to_string(&report).map_err(|error| error.to_string())
 }
 

@@ -7,8 +7,6 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-const FAIL_CLOSED_COMMANDS: &[&str] = &["cutover", "install", "proof", "soak"];
-
 const IMPLEMENTED_REMOTE_BRIDGE_COMMANDS: &[(&str, &str)] = &[
     ("github", "verify_bridge_evidence"),
     ("github-issue", "verify_bridge_evidence"),
@@ -19,6 +17,9 @@ const IMPLEMENTED_REMOTE_BRIDGE_COMMANDS: &[(&str, &str)] = &[
     ("finish", "finish"),
     ("clean", "cleanup_preview"),
 ];
+
+const IMPLEMENTED_REPLACEMENT_VERIFIER_COMMANDS: &[&str] =
+    &["cutover", "install", "proof", "shadow", "soak"];
 
 const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
     "issue",
@@ -31,7 +32,6 @@ const IMPLEMENTED_LOCAL_COMMANDS: &[&str] = &[
     "eligibility",
 ];
 
-const PARTIAL_CONSTRUCTION_COMMANDS: &[&str] = &["shadow"];
 const IMPLEMENTED_HELPER_COMMANDS: &[&str] = &["remote", "sprint"];
 
 #[test]
@@ -57,10 +57,10 @@ fn help_exposes_one_binary_command_surface() {
             "help should expose implemented local route {command}"
         );
     }
-    for command in PARTIAL_CONSTRUCTION_COMMANDS {
+    for command in IMPLEMENTED_REPLACEMENT_VERIFIER_COMMANDS {
         assert!(
-            stdout.contains(&format!("{command} --help")),
-            "help should expose partial construction route {command}"
+            stdout.contains(&format!("{command} --repo-root <path> --request <path>")),
+            "help should expose implemented replacement verifier route {command}"
         );
     }
 }
@@ -84,16 +84,16 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     assert_eq!(denominator["cutover_ready"], false);
     assert_eq!(manifest["denominator"]["v2_entrypoints"], 21);
     assert_eq!(manifest["denominator"]["current_v3_commands"], 25);
-    assert_eq!(manifest["denominator"]["implemented_commands"], 19);
-    assert_eq!(manifest["denominator"]["partial_commands"], 2);
-    assert_eq!(manifest["denominator"]["fail_closed_commands"], 4);
+    assert_eq!(manifest["denominator"]["implemented_commands"], 24);
+    assert_eq!(manifest["denominator"]["partial_commands"], 1);
+    assert_eq!(manifest["denominator"]["fail_closed_commands"], 0);
     assert_eq!(
         manifest["denominator"]["implemented_replacement_routes"],
-        16
+        21
     );
-    assert_eq!(manifest["denominator"]["partial_replacement_routes"], 1);
-    assert_eq!(manifest["denominator"]["fail_closed_replacement_routes"], 4);
-    assert_eq!(manifest["denominator"]["remaining_replacement_routes"], 5);
+    assert_eq!(manifest["denominator"]["partial_replacement_routes"], 0);
+    assert_eq!(manifest["denominator"]["fail_closed_replacement_routes"], 0);
+    assert_eq!(manifest["denominator"]["remaining_replacement_routes"], 0);
     assert_eq!(
         denominator["required_v2_entrypoints"]
             .as_array()
@@ -104,18 +104,18 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
 
     let commands = manifest["commands"].as_array().expect("manifest commands");
     assert_eq!(commands.len(), 25);
-    assert_eq!(status_count(commands, "implemented"), 19);
-    assert_eq!(status_count(commands, "partial"), 2);
-    assert_eq!(status_count(commands, "fail_closed"), 4);
+    assert_eq!(status_count(commands, "implemented"), 24);
+    assert_eq!(status_count(commands, "partial"), 1);
+    assert_eq!(status_count(commands, "fail_closed"), 0);
 
     for (command, _) in IMPLEMENTED_REMOTE_BRIDGE_COMMANDS {
         let row = command_row(commands, command);
         assert_eq!(row["implementation_status"], "implemented");
         assert_eq!(row["authority_status"], "not_live");
     }
-    for command in FAIL_CLOSED_COMMANDS {
+    for command in IMPLEMENTED_REPLACEMENT_VERIFIER_COMMANDS {
         let row = command_row(commands, command);
-        assert_eq!(row["implementation_status"], "fail_closed");
+        assert_eq!(row["implementation_status"], "implemented");
         assert_eq!(row["authority_status"], "not_live");
     }
     for command in IMPLEMENTED_HELPER_COMMANDS {
@@ -154,14 +154,14 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
             .iter()
             .filter(|row| row["replacement_status"] == "implemented_pre_cutover_bridge")
             .count(),
-        IMPLEMENTED_REMOTE_BRIDGE_COMMANDS.len()
+        IMPLEMENTED_REMOTE_BRIDGE_COMMANDS.len() + IMPLEMENTED_REPLACEMENT_VERIFIER_COMMANDS.len()
     );
     assert_eq!(
         replacements
             .iter()
             .filter(|row| row["replacement_status"] == "fail_closed")
             .count(),
-        FAIL_CLOSED_COMMANDS.len()
+        0
     );
 }
 
@@ -325,8 +325,9 @@ fn clean_alias_is_preview_only_before_cutover() {
 }
 
 #[test]
-fn fail_closed_routes_do_not_claim_live_authority() {
-    for command in FAIL_CLOSED_COMMANDS {
+fn replacement_verifier_routes_execute_without_live_authority() {
+    for command in IMPLEMENTED_REPLACEMENT_VERIFIER_COMMANDS {
+        let fixture = ReplacementFixture::new(command);
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
             .output()
@@ -337,28 +338,86 @@ fn fail_closed_routes_do_not_claim_live_authority() {
         );
         let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
         assert!(
-            help_stdout.contains("status: fail_closed"),
+            help_stdout.contains("status: implemented_pre_cutover_verifier"),
             "{command} help should be truthful: {help_stdout}"
         );
         let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-            .arg(command)
+            .args([
+                command,
+                "--repo-root",
+                fixture.root.to_str().expect("fixture root"),
+                "--request",
+                fixture.request.to_str().expect("request path"),
+            ])
             .output()
             .unwrap_or_else(|error| panic!("csdlc {command} should run: {error}"));
         assert!(
-            !output.status.success(),
-            "{command} should fail closed before implementation"
+            output.status.success(),
+            "{command} should execute the typed pre-cutover verifier: stderr={}",
+            str::from_utf8(&output.stderr).unwrap_or("<non-utf8>")
         );
-        let stderr = str::from_utf8(&output.stderr).expect("stderr should be utf8");
-        assert!(stderr.contains("fail_closed"), "{command} stderr: {stderr}");
+        let stdout = str::from_utf8(&output.stdout).expect("stdout should be utf8");
         assert!(
-            stderr.contains("C-SDLC v3 is not live authority before #505 cutover"),
-            "{command} stderr should preserve authority boundary: {stderr}"
+            stdout.contains("\"schema\":\"csdlc.v3.replacement_verifier.v1\""),
+            "{command} should emit replacement verifier schema: {stdout}"
         );
         assert!(
-            !stderr.contains("csdlc-v2") && !stderr.contains("gh "),
-            "{command} must not advertise v2/raw-gh fallback: {stderr}"
+            stdout.contains("\"implemented\":true"),
+            "{command} should be executable, not a placeholder: {stdout}"
+        );
+        assert!(
+            stdout.contains("\"mutation_allowed\":false"),
+            "{command} must not mutate before cutover: {stdout}"
+        );
+        assert!(
+            stdout.contains("\"operational_authority\":false"),
+            "{command} must not claim live authority: {stdout}"
+        );
+        assert!(
+            stdout.contains("operator_cutover_approval_missing"),
+            "{command} should preserve the #505 approval gate: {stdout}"
         );
     }
+}
+
+#[test]
+fn replacement_verifier_rejects_wrong_command_and_bad_evidence() {
+    let fixture = ReplacementFixture::new_with_command("cutover", "proof");
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .args([
+            "cutover",
+            "--repo-root",
+            fixture.root.to_str().expect("fixture root"),
+            "--request",
+            fixture.request.to_str().expect("request path"),
+        ])
+        .output()
+        .expect("csdlc cutover should run");
+    assert!(!output.status.success());
+    let stderr = str::from_utf8(&output.stderr).expect("stderr should be utf8");
+    assert!(stderr.contains("command_mismatch"), "{stderr}");
+
+    let bad = ReplacementFixture::new_with_digest("proof", "wrong-digest");
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .args([
+            "proof",
+            "--repo-root",
+            bad.root.to_str().expect("fixture root"),
+            "--request",
+            bad.request.to_str().expect("request path"),
+        ])
+        .output()
+        .expect("csdlc proof should run");
+    assert!(
+        output.status.success(),
+        "bad evidence is a verifier report, not a process crash"
+    );
+    let stdout = str::from_utf8(&output.stdout).expect("stdout should be utf8");
+    assert!(
+        stdout.contains("\"status\":\"blocked_by_evidence\""),
+        "{stdout}"
+    );
+    assert!(stdout.contains("evidence_digest_mismatch"), "{stdout}");
 }
 
 #[test]
@@ -411,42 +470,85 @@ fn implemented_local_routes_expose_non_authoritative_help() {
     }
 }
 
-#[test]
-fn partial_routes_remain_non_authoritative() {
-    for command in PARTIAL_CONSTRUCTION_COMMANDS {
-        let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-            .args([command, "--help"])
-            .output()
-            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
-        assert!(
-            help.status.success(),
-            "{command} --help should describe partial construction route"
-        );
-        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
-        assert!(
-            help_stdout.contains("status: partial"),
-            "{command} help should be truthful: {help_stdout}"
-        );
-        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-            .arg(command)
-            .output()
-            .unwrap_or_else(|error| panic!("csdlc {command} should run: {error}"));
-        assert!(
-            !output.status.success(),
-            "{command} should not become live authority in #627"
-        );
-        let stderr = str::from_utf8(&output.stderr).expect("stderr should be utf8");
-        assert!(stderr.contains("partial"), "{command} stderr: {stderr}");
-        assert!(
-            stderr.contains("C-SDLC v3 is not live authority before #505 cutover"),
-            "{command} stderr should preserve authority boundary: {stderr}"
-        );
-    }
-}
-
 struct RemoteFixture {
     root: PathBuf,
     request: PathBuf,
+}
+
+struct ReplacementFixture {
+    root: PathBuf,
+    request: PathBuf,
+}
+
+impl ReplacementFixture {
+    fn new(command: &str) -> Self {
+        Self::new_with_command(command, command)
+    }
+
+    fn new_with_command(route: &str, command: &str) -> Self {
+        let root = fixture_root("replacement-verifier");
+        fs::create_dir_all(&root).expect("fixture root");
+        let evidence_path = root.join("evidence.json");
+        write_json(
+            &evidence_path,
+            r#"{"schema":"csdlc.v3.fixture_evidence.v1","ok":true}"#,
+        );
+        let digest = blake3::hash(&fs::read(&evidence_path).expect("evidence bytes"))
+            .to_hex()
+            .to_string();
+        let request = root.join(format!("{route}-request.json"));
+        write_replacement_request(&request, command, &digest);
+        Self { root, request }
+    }
+
+    fn new_with_digest(command: &str, digest: &str) -> Self {
+        let root = fixture_root("replacement-verifier-bad-digest");
+        fs::create_dir_all(&root).expect("fixture root");
+        write_json(
+            &root.join("evidence.json"),
+            r#"{"schema":"csdlc.v3.fixture_evidence.v1","ok":true}"#,
+        );
+        let request = root.join(format!("{command}-request.json"));
+        write_replacement_request(&request, command, digest);
+        Self { root, request }
+    }
+}
+
+fn fixture_root(kind: &str) -> PathBuf {
+    static NEXT: AtomicU64 = AtomicU64::new(10_000);
+    let id = NEXT.fetch_add(1, Ordering::SeqCst);
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    repo_root()
+        .join("csdlc-v3")
+        .join("target")
+        .join(kind)
+        .join(format!("{}-{nonce}-{id}", std::process::id()))
+}
+
+fn write_replacement_request(path: &Path, command: &str, digest: &str) {
+    write_json(
+        path,
+        &format!(
+            r#"{{
+  "schema": "csdlc.v3.replacement_verifier_request.v1",
+  "command": "{command}",
+  "issue": 505,
+  "authority_issue": 505,
+  "repository": "agent-logic/agent-design-language",
+  "operator_cutover_approved": false,
+  "evidence": [
+    {{
+      "path": "evidence.json",
+      "digest": "{digest}"
+    }}
+  ],
+  "blockers": []
+}}"#
+        ),
+    );
 }
 
 impl RemoteFixture {

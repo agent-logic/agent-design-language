@@ -208,7 +208,7 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
 }
 
 #[test]
-fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_replaced() {
+fn full_replacement_denominator_blocks_cutover_until_operator_approval() {
     let root = repo_root();
     let denominator_path = root.join("docs/csdlc-v3/full-replacement-denominator.json");
     let denominator: serde_json::Value =
@@ -219,7 +219,7 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
         "csdlc.v3.full_replacement_denominator.v1"
     );
     assert_eq!(denominator["authority_issue"], 505);
-    assert_eq!(denominator["status"], "incomplete");
+    assert_eq!(denominator["status"], "pre_cutover_complete");
     assert_eq!(denominator["cutover_ready"], false);
 
     let manifest_entrypoints = denominator["required_v2_entrypoints"]
@@ -276,7 +276,18 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
         .as_array()
         .expect("entrypoint denominator")
         .iter()
-        .any(|entry| entry["replacement_status"] == "fail_closed"));
+        .all(
+            |entry| entry["replacement_status"] == "implemented_pre_cutover_bridge"
+                || entry["replacement_status"] == "implemented"
+        ));
+    assert!(denominator["non_claims"]
+        .as_array()
+        .expect("non-claims")
+        .iter()
+        .any(|claim| claim
+            .as_str()
+            .expect("non-claim")
+            .contains("All required v2 entrypoints have executable v3 command routes")));
     assert!(denominator["non_claims"]
         .as_array()
         .expect("non-claims")
