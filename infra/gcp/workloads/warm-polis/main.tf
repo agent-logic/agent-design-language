@@ -6,7 +6,7 @@ provider "google" {
 
 locals {
   labels = merge(var.labels, {
-    adl_issue               = "663"
+    adl_issue               = var.issue_id
     adl_artifact_generation = lower(replace(var.artifact_generation, "_", "-"))
     adl_retention           = "disposable-launch"
   })
@@ -63,10 +63,11 @@ module "two_node_ollama_runtime" {
   ollama_boot_image        = var.ollama_boot_image
   accelerator_type         = var.accelerator_type
   accelerator_count        = var.accelerator_count
-  max_budget_usd           = 0
+  max_budget_usd           = var.max_budget_usd
+  paid_deadline_epoch      = var.paid_deadline_epoch
   ttl_expires_at           = "none"
   source_revision          = var.artifact_generation
-  issue_id                 = "663"
+  issue_id                 = var.issue_id
   lane                     = "warm-polis"
   retention                = "disposable-launch"
   assign_external_ip       = var.assign_external_ip

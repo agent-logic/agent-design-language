@@ -79,6 +79,7 @@ resource "google_compute_instance" "verifier" {
     adl-generation              = var.generation
     adl-runtime-manifest-sha256 = var.runtime_manifest_sha256
     adl-ollama-manifest-sha256  = var.ollama_manifest_sha256
+    adl-paid-deadline-epoch     = tostring(var.paid_deadline_epoch)
   }
   metadata_startup_script = file("${path.module}/verify-snapshots.sh")
 }

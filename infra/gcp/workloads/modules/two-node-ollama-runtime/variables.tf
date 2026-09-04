@@ -78,6 +78,12 @@ variable "ttl_expires_at" {
   type        = string
 }
 
+variable "paid_deadline_epoch" {
+  description = "Absolute Unix deadline enforced by every disposable paid guest. Zero disables the issue-specific guard for reusable-module callers."
+  type        = number
+  default     = 0
+}
+
 variable "source_revision" {
   description = "Exact ADL source revision under qualification."
   type        = string

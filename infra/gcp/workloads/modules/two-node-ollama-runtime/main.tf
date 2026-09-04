@@ -21,6 +21,7 @@ locals {
     adl-run-id                   = var.run_id
     adl-source-revision          = var.source_revision
     adl-max-budget-usd           = tostring(var.max_budget_usd)
+    adl-paid-deadline-epoch      = tostring(var.paid_deadline_epoch)
     adl-resident-models          = jsonencode(var.resident_models)
     adl-artifact-bucket          = var.artifact_bucket
     adl-artifact-manifest-object = var.artifact_manifest_object
@@ -46,7 +47,7 @@ resource "google_compute_instance" "ollama" {
     auto_delete = true
     initialize_params {
       image = var.ollama_boot_image
-      size  = 200
+      size  = 50
       type  = "pd-balanced"
     }
   }
@@ -84,6 +85,13 @@ resource "google_compute_instance" "ollama" {
   })
 
   metadata_startup_script = var.ollama_startup_script
+
+  # Data disks are owned by google_compute_attached_disk below. Without this,
+  # a repeat apply treats that provider-observed attachment as inline drift and
+  # detaches the warm model volume before the attachment resource can reconcile.
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
 }
 
 resource "google_compute_instance" "runtime" {
@@ -97,7 +105,7 @@ resource "google_compute_instance" "runtime" {
     auto_delete = true
     initialize_params {
       image = var.runtime_boot_image
-      size  = 80
+      size  = 50
       type  = "pd-balanced"
     }
   }
@@ -131,6 +139,10 @@ resource "google_compute_instance" "runtime" {
   })
 
   metadata_startup_script = var.runtime_startup_script
+
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
 }
 
 resource "google_compute_attached_disk" "runtime_data" {

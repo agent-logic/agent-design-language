@@ -18,6 +18,28 @@ variable "run_id" {
   type        = string
 }
 
+variable "issue_id" {
+  description = "Tracked issue identity recorded in labels and metadata."
+  type        = string
+  default     = "663"
+}
+
+variable "max_budget_usd" {
+  description = "Operator-approved maximum spend for this live launch."
+  type        = number
+
+  validation {
+    condition     = var.max_budget_usd > 0 && var.max_budget_usd <= 20
+    error_message = "Warm Polis live execution requires a positive budget capped at USD 20."
+  }
+}
+
+variable "paid_deadline_epoch" {
+  description = "Absolute Unix deadline from the immutable live-preflight receipt."
+  type        = number
+  default     = 0
+}
+
 variable "support_id" {
   description = "Existing support network tag used for OS Login/SSH access."
   type        = string

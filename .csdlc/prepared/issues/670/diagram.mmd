@@ -1,0 +1,14 @@
+flowchart LR
+  A["Authorized project and $20 cap"] --> P["Temporary preparation VMs and staging disks"]
+  P --> S1["Runtime snapshot"]
+  P --> S2["Ollama and model snapshot"]
+  S1 --> D1["Disposable Runtime disk"]
+  S2 --> D2["Disposable Ollama disk"]
+  D1 --> R["Runtime and Guardian VM"]
+  D2 --> O["L4 Ollama VM"]
+  R -->|"private Ollama API"| O
+  R --> E["Real agent and tool proof"]
+  O --> E
+  E --> C["Destroy VMs and disposable disks"]
+  C --> K["Retain exactly two snapshots"]
+  C --> X["Cleanup and cost receipts"]
