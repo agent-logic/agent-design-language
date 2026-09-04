@@ -4,14 +4,54 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "52323b455bb82ca6a60dae8343ecd2d432f7c9a203f987c847063f9039f61b6a",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "4a7ddb0e26b0a8d5760290c1d7038f83af103c334ff4218547ee273fb8060f52",
+  "phase": "published",
+  "generation": 11,
+  "digest": "a694b5b2a492a33bae027c806a1266aadee16666454b48ca9bb833e4acf1b4ea",
   "branch": "codex/678-stable-csm-active-generation-route",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-678-stable-csm-active-generation-route",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "scope": [
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678",
+      ".csdlc/evidence/678"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+    "scope": [
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678",
+      ".csdlc/evidence/678"
+    ],
+    "reviewed_revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "findings": [],
+    "residual_risks": [
+      "Review and validation used the isolated Runtime v3 generation fixture; no live Runtime rollout, restart, reload, stop, provider, model, agent, or Observatory path was exercised."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 678,
+    "pull_request": 682,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/682",
+    "base": "main",
+    "head": "codex/678-stable-csm-active-generation-route",
+    "revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +65,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "33da35f955084558699da8425e66df6b2ab11566e5b96aa5b8b44094bd026dfc",
+      "values_digest": "cb5d1f563427022f706b24adca7ca409bc5c1c9898c27a52b43db8ea2c334acd",
       "rendered_digest": "9c296fb02207b3a27c6e09f3bff16ba12e1131d53c01d70e2d17e936003c35f0",
       "ast_digest": "a955b47b08929c9f70717fb81a6ba9b80803165de0b9a14fffc68d26d0bdea03"
     },
     "stp": {
-      "values_digest": "92a69e4de8edb7c9b1e9a72049f4e07d5a2e4e776ab6a4a3ae4d8b0fbd4bcf44",
+      "values_digest": "2408c791655903a241b07fed4bf252c6acb28883440a6f80cea053b134b62ce7",
       "rendered_digest": "809be64d74b001df03e0ed6ae64e749cd118df8d48cfba2b5170c10e2077125c",
       "ast_digest": "6e629369f786426ea0b3ae609a9312b8612da6429f6cb4b749f5770001dcd630"
     },
     "spp": {
-      "values_digest": "bea66b9cb05b1c39c5a544cd9a8553dbd6e6f206e825c7e6a9b0cb2af3649550",
+      "values_digest": "eeb3cd791c79375ffec43f55412a03dc29246b785e96252856d899f5be9a2c17",
       "rendered_digest": "6afe6523c33ce85256420d7863ba460b1ad970cb0f27fefcb3aac310b06c4f60",
       "ast_digest": "cad0ab0f52efe72cc589ba7784282436517e1b11afcf2efc8810f1fdf26dfcd1"
     },
     "vpp": {
-      "values_digest": "18187ed8aeac72bfc42ce2e74f4f7b13db805808604f804e85921ec1c0a2d849",
+      "values_digest": "b3a1273e408c83c71f4b0a88fc38e737306428396914b306c6fdd3c9cef6983c",
       "rendered_digest": "dfe99bbc9da281179e035679b362a62a31664615106f8eeaa743a9e12c2d1e0f",
       "ast_digest": "a31d70e02068e734181e72ccf9218be473d1f03c11e673309466c181bb3e9e6b"
     },
     "srp": {
-      "values_digest": "6d5d6c42e38b753bfead0a86457ae3916034c50bd7a5e70f9a98648c423cccf1",
-      "rendered_digest": "df0d0e910d75c14fee1e71342878072e331551bc325beda8246c00c8b07b0d9d",
-      "ast_digest": "0e2451ad6baa5edf1e27f7b217aa10a9a14af5beb8054f32bf9dbd04c3ffb178"
+      "values_digest": "6c532097e1ac80ae1d94ea7ac32e7e5c542ab2aa1a3b5e128c6fadb4d6bfbb9a",
+      "rendered_digest": "e7944388446956c3f028ab150f8833dc72307affdbdd6211e3a02c6654386743",
+      "ast_digest": "488290f3e9da97ea293c814bc7566ca866a0205d0dc546663ccbafd590f6aee0"
     },
     "sor": {
-      "values_digest": "b97d135d7a9343f9104732b29d58d0142616dc384d53c2fafe9f92188b82bc8a",
-      "rendered_digest": "100c9a05bab8f4a5b21ced4f529ccb477cecf357b7696793fd09cbc87056bee3",
-      "ast_digest": "53816da7692fba01f8ce57ddd70192ae76152765a7aeb650a3a4066023ef5226"
+      "values_digest": "72622b455d9d17ef52905fda7d4c7c3c5b1a619b974dd3496179d13837a84848",
+      "rendered_digest": "aa400a7665e98998fb61b60b8194d75952fa640058b6404eeec2e681a88843fa",
+      "ast_digest": "b4b9cd622468d86a2880357bcabf5fdffbaa010d04668aedba58663069742bc0"
     }
   },
   "transitions": [
@@ -76,6 +116,20 @@
       "to": "implemented",
       "actor": "codex:678-implementation",
       "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -155,6 +209,27 @@
       "actor": "codex:678-implementation",
       "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
