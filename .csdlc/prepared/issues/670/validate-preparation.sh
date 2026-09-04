@@ -61,7 +61,7 @@ done
 jq -e '
   .schema == "adl.issue670.remediation-proof-boundary.v1" and
   .live_execution_revision == "542f8c1fa2701daa07befe3bb451d9916b80f407" and
-  .static_remediation_revision == "9cef21a91338817bacb4723816723abccb5569b2" and
+  .static_remediation_revision == "775d80901c2f75e7e00bfb4f01c239a81c289002" and
   .live_receipts == {
     preflight_schema:"adl.issue670.gcp_preflight.v1",
     launch_schema:"adl.issue670.launch-qualification.v2",
