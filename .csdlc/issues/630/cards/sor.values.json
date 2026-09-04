@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
     "slug": "v3-h4-finish-clean-cutover-routes",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
@@ -48,8 +48,8 @@
           "evidence_ref": "issue-630-terminal-clean-cutover-validation.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
