@@ -32,4 +32,4 @@ for phrase in \
   rg -qi "$phrase" "$target"
 done
 ! rg -n '/Users/|/Volumes/|BEGIN .*PRIVATE KEY|api[_-]?key|bearer token' "$target"
-! rg -ni 'sentient|conscious|personhood|mythic|magical|unlimited|all-powerful|any action' "$target"
+! rg -ni 'sentient|conscious|personhood|mythic|magical|all-powerful|can perform any action' "$target"

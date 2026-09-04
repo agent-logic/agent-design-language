@@ -3,11 +3,11 @@
   "issue": 674,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e719986764c44aa3be5f2960ecc0fb9927833afa70efe587b132f5a3ff03523",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 1,
-  "digest": "6da72008efbbadb8b7eea39c31b1f845774ca2550f6eb55cd18d6d3a5d909aad",
-  "branch": null,
-  "worktree": null,
+  "digest": "725866c3614ef726061c98f40ed742ae387bc4935be2a52e4b5c725c3ea401d8",
+  "branch": "codex/674-welcome-package-docs",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +54,22 @@
       "ast_digest": "ce8096e014a7f051fd7d9c82f649e2a34c24f65412876367c8cda2e20667101d"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -69,6 +84,13 @@
       "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
       "reason": "approve completed issue design",
       "operation": "{\"design_digest\":\"f023d034a3e65718f81897b43967afad4ad0300936d8a79350f63fb675e83a92\",\"design_ref\":\".csdlc/prepared/issues/674/design.md\",\"diagram_digest\":\"600ab04e631c91e18ff47616f5f1342ab94f4073e5318dcdf2c02118b02dbb50\",\"diagram_ref\":\".csdlc/prepared/issues/674/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
