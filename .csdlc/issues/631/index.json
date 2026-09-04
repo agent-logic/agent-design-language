@@ -5,10 +5,26 @@
   "initialization_digest": "065136f7be39dfbb99f8f4c79264633750f11ed2e9bd489c3a065f05d575a20b",
   "phase": "implemented",
   "generation": 18,
-  "digest": "b5101a339ce1c2c63f59e3d262459beb328121fffd69b2e602c1c1a30a127c94",
+  "digest": "fc80893ca21883636c484ea7d9484a05e94e3421949d67953a1a63b0f2a24a38",
   "branch": "codex/631-v3-h5-proof-parity-install-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-631-v3-h5-proof-parity-install-impl",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_631_install_provenance_fix",
+    "assigned_by": "codex:worker-6:sprint6-v3h5-provenance-fix",
+    "revision": "git-blake3:3aadc6faf05d9b03ecf49b4e1d3d3d03877ff7f0:3d0c6f0eb88bb0cddea2d9473c61938922db35eaf80e0793aa18b03bc98e9053",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +60,9 @@
       "ast_digest": "89221639754a5d27eecbfc7a481a46ff5ec0c6a5a192afbcf5c0109f61f17d72"
     },
     "srp": {
-      "values_digest": "02946bfb438b5dc55199e03e97bfe904557a483306a605fd534d688be57aa9e8",
-      "rendered_digest": "cd037d0b99260cc9f2ae9e5ac89139d21e5ad0832bc60c4ad7a066d05015d746",
-      "ast_digest": "a7955d04af669c78b00b359704869c0aac019c1a3111b8ad91ce9bada0102ee9"
+      "values_digest": "509225aaad500b6fe7041f3afb4ab89fffd0262bb393f5d779a9492fe76702fe",
+      "rendered_digest": "c3de2a81e8ccd96203052c7a97a8ead4d246515de51462309f9e5d431187b527",
+      "ast_digest": "4fda94755960488df815f00b26b163e2c55c8fd82fd48a6eecdbcf550a1c6194"
     },
     "sor": {
       "values_digest": "1dc4b3da688def4c82f61a50383efadf3f007d81520539e524eb7e89c87fb94f",
@@ -357,6 +373,13 @@
       "actor": "codex:worker-6:sprint6-v3h5-provenance-fix",
       "reason": "Recover stale #631 review assignment after fixing install source provenance evidence binding.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 18,
+      "actor": "codex:worker-6:sprint6-v3h5-provenance-fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
