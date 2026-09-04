@@ -40,12 +40,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live Moonshot API call was performed; #680 proof uses deterministic loopback provider tests plus setup/profile/runtime-adapter validation, with live credentials remaining operator-controlled.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:018dbc48a680c861e3cc7861a3f8ba6e72b31a86:fce88815e5d1fdfb743ed92988e3450d6d21a060616d6978d10fef04b939ee74")
 
-Reviewer: None
+Reviewer: Some("fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e")
 
-Result: pre_review
+Result: pass

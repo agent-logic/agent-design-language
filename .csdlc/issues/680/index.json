@@ -3,9 +3,9 @@
   "issue": 680,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "8bc91d8a010abbd5b317c8bbd97d5d0a2faa49bce67218bb6673196e6ccea097",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "ee1c285184d0b6bedb53ec8f2fc69aa8a8c4079202fa32152c60a3541ca5c1d5",
   "branch": "codex/680-moonshot-kimi-k3-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
   "review_assignment": {
@@ -26,7 +26,41 @@
       ".csdlc/evidence/680"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/src/cli/usage.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "adl/tests/provider_moonshot_kimi_k3.rs",
+      ".csdlc/evidence/680"
+    ],
+    "reviewed_revision": "git-blake3:018dbc48a680c861e3cc7861a3f8ba6e72b31a86:fce88815e5d1fdfb743ed92988e3450d6d21a060616d6978d10fef04b939ee74",
+    "findings": [],
+    "residual_risks": [
+      "No live Moonshot API call was performed; #680 proof uses deterministic loopback provider tests plus setup/profile/runtime-adapter validation, with live credentials remaining operator-controlled."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "typed review assignment metadata only after assigned substantive revision; source, docs, tests, and retained evidence unchanged",
+      "from_revision": "git-blake3:018dbc48a680c861e3cc7861a3f8ba6e72b31a86:fce88815e5d1fdfb743ed92988e3450d6d21a060616d6978d10fef04b939ee74",
+      "to_revision": "git:c4296046d7250ae58e733dba2ac30ae4ee6303fa",
+      "from_commit": "018dbc48a680c861e3cc7861a3f8ba6e72b31a86",
+      "to_commit": "c4296046d7250ae58e733dba2ac30ae4ee6303fa",
+      "changed_paths": [
+        ".csdlc/issues/680/audit.jsonl",
+        ".csdlc/issues/680/cards/srp.md",
+        ".csdlc/issues/680/cards/srp.values.json",
+        ".csdlc/issues/680/index.json"
+      ]
+    }
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2d206c24085c2894c6e696f29b48bfba40de58cfd6183d971bb2c5137581ea7d",
+      "values_digest": "21665f23aae1366ab43e40b42eb0887f8afa37ca141cb440908b891977c1f4c4",
       "rendered_digest": "d1750351b69e204f5693796d85ac48cea41a42f53671b8a40ef3141fc6650f7d",
       "ast_digest": "b5d721f64919a757cb981f72f9002db89f36b9151a6abbb4229a218a05fdb10e"
     },
     "stp": {
-      "values_digest": "859c76ca5265b19cdd0c24a9113b238f8216157422b7344826bc5a7d98f713cc",
+      "values_digest": "29820c6cc1092d173c2333ed89d24a3e5995fafca5f89a3a872182df24b2693c",
       "rendered_digest": "4e94e258a4ce4844db8cf3b314e19518628407a511688f782be0621958534b51",
       "ast_digest": "16b22f9a58c2b06351c71a051baf3ee61c3749e82ecce4c996948612180fb455"
     },
     "spp": {
-      "values_digest": "3af869cdaca6d715886ab07d1d30a220f854aaaad24af1119a59ca99e6db415d",
+      "values_digest": "9776c8d615479291de23863b5fd78a5207a830033211e8cd481b2025d376a018",
       "rendered_digest": "2d57ac5915eb29a45086bbab11caa65d1ececd23166174dc10e81de689035fe0",
       "ast_digest": "ff9c62460f47349e06489e08d78194714960f991a7eeb0fe9a38032eeb248bbc"
     },
     "vpp": {
-      "values_digest": "9b3dcb27626b88bb9536b15f61b05d3403918ca42c7fb49b8ec8f9b5a4807fe4",
+      "values_digest": "a3ec6dddbf34a49e8037dd426c0e6ceb79e6486292fa14f9d788e4ab7e2d82b6",
       "rendered_digest": "cf19a05549becd97dd7c085e9e607f143358bcf373aa2cb971848de31ba350e1",
       "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
     },
     "srp": {
-      "values_digest": "4df9119b20fde1cf04eb12804666db88b45901074dc18e2f65963e3c5655caa5",
-      "rendered_digest": "31474be5796aff1b6fb9e5122bf92ec14987d3247afaca4d34901231cecfd8ca",
-      "ast_digest": "cfc0cfae5a64aad0d1bb6976c4764dafe3fc1b96673fdf55e537009b5fe55603"
+      "values_digest": "be28ef5ca71f120d51393377cc9f293d11261fbf522c9529bf60fc2173311616",
+      "rendered_digest": "e2e618423262d562643146b1a1efe66ad1176fb9fc8b23a5aa81a408515e2b5a",
+      "ast_digest": "8883b23b7ae357beef4aa6895818949ca6bebce60e0d9204e1c2395c96c7809f"
     },
     "sor": {
-      "values_digest": "25b9a44f0d37dae37f7eaf57f5db5a2c615073e3da99368bcfc64d67b8e4ff1a",
+      "values_digest": "fe9b9f6c1c25ede6b292e3bfe852e371f1ccbc3da1b5b9d63f8d1a807a8ba6b3",
       "rendered_digest": "15b947bf1c0697bde4f45b8a61307d103964b8aea4f948eaf33997c57fed50d6",
       "ast_digest": "583d03bdc6db1eac3e95cadf7ba76f2b6b8d2bab1827f7a9e535ff0dbfb6e688"
     }
@@ -92,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "advance #680 to implemented after bound worktree implementation and local focused provider validation"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -227,6 +268,13 @@
       "actor": "codex:root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
