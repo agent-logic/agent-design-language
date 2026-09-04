@@ -1650,12 +1650,8 @@ fn provider_conversation_prompt(
          \"message\":\"brief operator-visible status\",\
          \"agent_to_agent_initiation\":{{\"schema\":\"{}\",\
          \"recipient_id\":\"target-agent-id\",\
-         \"conversation_id\":\"new-safe-peer-conversation-id\",\
-         \"turn_id\":\"new-safe-peer-turn-id\",\
-         \"correlation_id\":\"new-safe-peer-correlation-id\",\
-         \"work_id\":\"safe-unique-work-id\",\
          \"message\":\"message to the target agent\"}}}}\n\
-         The runtime signs and verifies delivery; do not claim delivery yourself.\n\
+         Do not invent delivery or routing identifiers. The Runtime derives the governed peer conversation, turn, correlation, and work IDs, then signs and verifies delivery.\n\
          Operator message:\n{input}",
         crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA
     )
@@ -1714,26 +1710,16 @@ fn validate_provider_agent_initiation_action(
         .get("recipient_id")
         .and_then(serde_json::Value::as_str)
         .unwrap_or_default();
-    for field in [
-        "recipient_id",
-        "conversation_id",
-        "turn_id",
-        "correlation_id",
-        "work_id",
-    ] {
-        let value = action
-            .get(field)
-            .and_then(serde_json::Value::as_str)
-            .filter(|value| is_provider_action_identifier(value))
-            .ok_or_else(|| {
-                adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed")
-            })?;
-        if field == "recipient_id" && value == active_recipient {
-            return Err(adapter_error(
-                FailureClass::Fatal,
-                "agent_conversation_action_self_target",
-            ));
-        }
+    let recipient_id = action
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| is_provider_action_identifier(value))
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed"))?;
+    if recipient_id == active_recipient {
+        return Err(adapter_error(
+            FailureClass::Fatal,
+            "agent_conversation_action_self_target",
+        ));
     }
     action
         .get("message")
@@ -1782,8 +1768,9 @@ mod provider_conversation_action_tests {
         assert!(
             prompt.contains("current operator turn is conversation `conversation-operator-beacon`")
         );
-        assert!(prompt.contains("\"conversation_id\":\"new-safe-peer-conversation-id\""));
-        assert!(prompt.contains("The runtime signs and verifies delivery"));
+        assert!(!prompt.contains("new-safe-peer-correlation-id"));
+        assert!(prompt.contains("The Runtime derives the governed peer conversation"));
+        assert!(prompt.contains("correlation"));
     }
 
     #[test]
@@ -1797,10 +1784,6 @@ mod provider_conversation_action_tests {
                 "agent_to_agent_initiation": {
                     "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
                     "recipient_id": "ember",
-                    "conversation_id": "conversation-beacon-ember-live",
-                    "turn_id": "turn-a2a-live-ember",
-                    "correlation_id": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
-                    "work_id": "a2a-work-from-beacon",
                     "message": "Ember, please answer through the governed A2A path."
                 }
             })
@@ -1810,8 +1793,8 @@ mod provider_conversation_action_tests {
         assert_eq!(output["recipient_id"], "beacon");
         assert_eq!(output["agent_to_agent_initiation"]["recipient_id"], "ember");
         assert_eq!(
-            output["agent_to_agent_initiation"]["work_id"],
-            "a2a-work-from-beacon"
+            output["agent_to_agent_initiation"]["message"],
+            "Ember, please answer through the governed A2A path."
         );
     }
 
@@ -1836,10 +1819,6 @@ mod provider_conversation_action_tests {
                 "agent_to_agent_initiation": {
                     "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
                     "recipient_id": "beacon",
-                    "conversation_id": "conversation-beacon-self",
-                    "turn_id": "turn-a2a-self",
-                    "correlation_id": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
-                    "work_id": "a2a-work-from-beacon",
                     "message": "Beacon, please answer yourself."
                 }
             })

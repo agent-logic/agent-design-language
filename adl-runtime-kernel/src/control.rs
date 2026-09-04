@@ -703,6 +703,10 @@ struct ConversationDispatch {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
 struct AgentInitiationMetadata {
     sender_id: String,
+    initiated_recipient_id: String,
+    initiated_conversation_id: String,
+    initiated_turn_id: String,
+    initiated_correlation_id: String,
     initiated_work_id: String,
 }
 
@@ -1264,8 +1268,27 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         intent: &ObservatoryAgentInitiationIntent,
     ) -> ConversationAcceptance {
+        self.accept_agent_initiation_intent_inner(intent, true)
+    }
+
+    fn accept_runtime_agent_initiation_intent(
+        &self,
+        intent: &ObservatoryAgentInitiationIntent,
+    ) -> ConversationAcceptance {
+        self.accept_agent_initiation_intent_inner(intent, false)
+    }
+
+    fn accept_agent_initiation_intent_inner(
+        &self,
+        intent: &ObservatoryAgentInitiationIntent,
+        require_sender_signing_identity: bool,
+    ) -> ConversationAcceptance {
         let metadata = AgentInitiationMetadata {
             sender_id: intent.sender_id.clone(),
+            initiated_recipient_id: intent.recipient_id.clone(),
+            initiated_conversation_id: intent.conversation_id.clone(),
+            initiated_turn_id: intent.turn_id.clone(),
+            initiated_correlation_id: intent.correlation_id.clone(),
             initiated_work_id: intent.work_id.clone(),
         };
         let conversation_intent = ObservatoryConversationIntent {
@@ -1333,7 +1356,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "conversation_signing_unavailable",
             ));
         };
-        if exchange.sender_verifying_identity().principal_id != intent.sender_id {
+        if require_sender_signing_identity
+            && exchange.sender_verifying_identity().principal_id != intent.sender_id
+        {
             return ConversationAcceptance::Response(outcome(
                 "refused",
                 "sender_identity_mismatch",
@@ -1618,6 +1643,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             sender_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.sender_id.clone()),
+            initiated_recipient_id: initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_recipient_id.clone()),
+            initiated_conversation_id: initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_conversation_id.clone()),
+            initiated_turn_id: initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_turn_id.clone()),
+            initiated_correlation_id: initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_correlation_id.clone()),
             initiated_work_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
@@ -1659,15 +1696,30 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .map(str::to_owned)
                 .ok_or("invalid_agent_initiation_action")
         };
+        let recipient_id = field("recipient_id")?;
+        let message = field("message")?;
+        let sender_id = dispatch.intent.recipient_id.clone();
+        let seed = serde_json::json!({
+            "schema": "adl.runtime.agent_to_agent_runtime_derived_ids.v1",
+            "parent_conversation_id": dispatch.intent.conversation_id,
+            "parent_turn_id": dispatch.intent.turn_id,
+            "parent_correlation_id": dispatch.intent.correlation_id,
+            "sender_id": sender_id,
+            "recipient_id": recipient_id,
+            "message": message,
+        });
+        let seed_bytes =
+            serde_json::to_vec(&seed).map_err(|_| "invalid_agent_initiation_action")?;
+        let digest = blake3::hash(&seed_bytes).to_hex().to_string();
         Ok(Some(ObservatoryAgentInitiationIntent {
             schema: OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA.to_owned(),
-            conversation_id: field("conversation_id")?,
-            turn_id: field("turn_id")?,
-            sender_id: dispatch.intent.recipient_id.clone(),
-            recipient_id: field("recipient_id")?,
-            correlation_id: field("correlation_id")?,
-            work_id: field("work_id")?,
-            message: field("message")?,
+            conversation_id: format!("a2a-{}-{}-{}", sender_id, recipient_id, &digest[..16]),
+            turn_id: format!("turn-a2a-{}", &digest[16..32]),
+            sender_id,
+            recipient_id,
+            correlation_id: digest[..32].to_owned(),
+            work_id: format!("a2a-work-{}", &digest[32..48]),
+            message,
         }))
     }
 
@@ -1686,6 +1738,22 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.sender_id.clone()),
+            initiated_recipient_id: dispatch
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_recipient_id.clone()),
+            initiated_conversation_id: dispatch
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_conversation_id.clone()),
+            initiated_turn_id: dispatch
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_turn_id.clone()),
+            initiated_correlation_id: dispatch
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_correlation_id.clone()),
             initiated_work_id: dispatch
                 .initiation
                 .as_ref()
@@ -1847,7 +1915,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                         dispatch.dispatch_gate.complete(dispatch.sequence);
                                         dispatch_gate_completed = true;
                                         let initiated = match self
-                                            .accept_agent_initiation_intent(&intent)
+                                            .accept_runtime_agent_initiation_intent(&intent)
                                         {
                                             ConversationAcceptance::Dispatch {
                                                 dispatch, ..
@@ -1870,6 +1938,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             recipient_id: dispatch.intent.recipient_id.clone(),
                                             correlation_id: dispatch.intent.correlation_id.clone(),
                                             sender_id: Some(intent.sender_id),
+                                            initiated_recipient_id: Some(intent.recipient_id),
+                                            initiated_conversation_id: Some(intent.conversation_id),
+                                            initiated_turn_id: Some(intent.turn_id),
+                                            initiated_correlation_id: Some(intent.correlation_id),
                                             initiated_work_id: Some(intent.work_id),
                                             reply: if initiated.status == "delivered" {
                                                 initiated
@@ -1902,6 +1974,22 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.sender_id.clone()),
+                                        initiated_recipient_id: dispatch.initiation.as_ref().map(
+                                            |metadata| metadata.initiated_recipient_id.clone(),
+                                        ),
+                                        initiated_conversation_id: dispatch
+                                            .initiation
+                                            .as_ref()
+                                            .map(|metadata| {
+                                                metadata.initiated_conversation_id.clone()
+                                            }),
+                                        initiated_turn_id: dispatch
+                                            .initiation
+                                            .as_ref()
+                                            .map(|metadata| metadata.initiated_turn_id.clone()),
+                                        initiated_correlation_id: dispatch.initiation.as_ref().map(
+                                            |metadata| metadata.initiated_correlation_id.clone(),
+                                        ),
                                         initiated_work_id: dispatch
                                             .initiation
                                             .as_ref()
@@ -2016,6 +2104,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             recipient_id,
             correlation_id: cancel.correlation_id.clone(),
             sender_id: None,
+            initiated_recipient_id: None,
+            initiated_conversation_id: None,
+            initiated_turn_id: None,
+            initiated_correlation_id: None,
             initiated_work_id: None,
             reply: None,
             accepted_sequence: None,
@@ -2539,6 +2631,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     recipient_id: bundle.declaration.id.clone(),
                     correlation_id: turn.correlation_id.clone(),
                     sender_id: None,
+                    initiated_recipient_id: None,
+                    initiated_conversation_id: None,
+                    initiated_turn_id: None,
+                    initiated_correlation_id: None,
                     initiated_work_id: None,
                     reply: turn.reply.clone(),
                     accepted_sequence: turn.accepted_sequence,
@@ -3955,6 +4051,14 @@ struct ObservatoryConversationResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     sender_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_recipient_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_conversation_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_turn_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_correlation_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     initiated_work_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     reply: Option<String>,
@@ -3992,6 +4096,22 @@ impl ObservatoryConversationResult {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.sender_id.clone()),
+            initiated_recipient_id: parts
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_recipient_id.clone()),
+            initiated_conversation_id: parts
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_conversation_id.clone()),
+            initiated_turn_id: parts
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_turn_id.clone()),
+            initiated_correlation_id: parts
+                .initiation
+                .as_ref()
+                .map(|metadata| metadata.initiated_correlation_id.clone()),
             initiated_work_id: parts.initiation.map(|metadata| metadata.initiated_work_id),
             reply: parts.reply,
             accepted_sequence: parts.accepted_sequence,
@@ -4009,6 +4129,10 @@ impl ObservatoryConversationResult {
             recipient_id: String::new(),
             correlation_id: cancel.correlation_id.clone(),
             sender_id: None,
+            initiated_recipient_id: None,
+            initiated_conversation_id: None,
+            initiated_turn_id: None,
+            initiated_correlation_id: None,
             initiated_work_id: None,
             reply: None,
             accepted_sequence: None,
@@ -4193,6 +4317,10 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                     error: Some("write_authentication_required"),
                                     initiation: Some(AgentInitiationMetadata {
                                         sender_id: intent.sender_id.clone(),
+                                        initiated_recipient_id: intent.recipient_id.clone(),
+                                        initiated_conversation_id: intent.conversation_id.clone(),
+                                        initiated_turn_id: intent.turn_id.clone(),
+                                        initiated_correlation_id: intent.correlation_id.clone(),
                                         initiated_work_id: intent.work_id.clone(),
                                     }),
                                 }),
@@ -4277,6 +4405,10 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 recipient_id: intent.recipient_id.clone(),
                                 correlation_id: intent.correlation_id.clone(),
                                 sender_id: None,
+                                initiated_recipient_id: None,
+                                initiated_conversation_id: None,
+                                initiated_turn_id: None,
+                                initiated_correlation_id: None,
                                 initiated_work_id: None,
                                 reply: None,
                                 accepted_sequence: None,
@@ -5227,17 +5359,15 @@ mod layer8_conversation_ingress_tests {
                         class: crate::FailureClass::Fatal,
                         message: "missing recipient".to_owned(),
                     })?;
-            let output = if recipient_id == "beacon" {
+            let output = if recipient_id == "beacon"
+                && task.get("sender_id").is_none_or(serde_json::Value::is_null)
+            {
                 serde_json::json!({
                     "recipient_id": recipient_id,
                     "message": "Beacon is initiating governed contact with Ember.",
                     "agent_to_agent_initiation": {
                         "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
                         "recipient_id": "ember",
-                        "conversation_id": "conversation-beacon-ember-live",
-                        "turn_id": "turn-a2a-live-ember",
-                        "correlation_id": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
-                        "work_id": "a2a-work-from-beacon",
                         "message": "Ember, please answer Beacon through the governed A2A path."
                     }
                 })
@@ -5276,6 +5406,25 @@ mod layer8_conversation_ingress_tests {
             correlation_id: "abababababababababababababababab".to_owned(),
             work_id: work_id.to_owned(),
             message: "please summarize the governed state".to_owned(),
+        }
+    }
+
+    fn agent_pair_initiation_intent(
+        sender_id: &str,
+        recipient_id: &str,
+        turn_id: &str,
+        correlation_id: &str,
+        work_id: &str,
+    ) -> ObservatoryAgentInitiationIntent {
+        ObservatoryAgentInitiationIntent {
+            schema: OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: format!("conversation-{sender_id}-{recipient_id}"),
+            turn_id: turn_id.to_owned(),
+            sender_id: sender_id.to_owned(),
+            recipient_id: recipient_id.to_owned(),
+            correlation_id: correlation_id.to_owned(),
+            work_id: work_id.to_owned(),
+            message: format!("{recipient_id}, please answer {sender_id} through governed A2A."),
         }
     }
 
@@ -5634,15 +5783,42 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(delivered.status, "delivered");
         assert_eq!(delivered.recipient_id, "beacon");
         assert_eq!(delivered.sender_id.as_deref(), Some("beacon"));
-        assert_eq!(
-            delivered.initiated_work_id.as_deref(),
-            Some("a2a-work-from-beacon")
+        assert_eq!(delivered.initiated_recipient_id.as_deref(), Some("ember"));
+        assert!(
+            delivered
+                .initiated_conversation_id
+                .as_deref()
+                .is_some_and(|value| {
+                    value.starts_with("a2a-beacon-ember-") && is_safe_identifier(value)
+                }),
+            "operator-visible result should structurally identify the peer conversation: {delivered:?}"
+        );
+        assert!(
+            delivered
+                .initiated_turn_id
+                .as_deref()
+                .is_some_and(|value| value.starts_with("turn-a2a-") && is_safe_identifier(value)),
+            "operator-visible result should structurally identify the peer turn: {delivered:?}"
+        );
+        assert!(
+            delivered
+                .initiated_correlation_id
+                .as_deref()
+                .is_some_and(is_correlation_id),
+            "operator-visible result should structurally expose the governed peer correlation id: {delivered:?}"
+        );
+        assert!(
+            delivered
+                .initiated_work_id
+                .as_deref()
+                .is_some_and(|value| value.starts_with("a2a-work-") && is_safe_identifier(value)),
+            "operator-visible result should structurally expose the governed peer work id: {delivered:?}"
         );
         assert!(
             delivered.reply.as_deref().is_some_and(|reply| {
                 reply.contains("A2A delivered to ember")
-                    && reply
-                        .contains("ember handled initiated work a2a-work-from-beacon from beacon")
+                    && reply.contains("ember handled initiated work a2a-work-")
+                    && reply.contains("from beacon")
             }),
             "operator-visible Beacon turn should contain the governed Ember response: {delivered:?}"
         );
@@ -5653,16 +5829,124 @@ mod layer8_conversation_ingress_tests {
             assert!(tasks[0].get("sender_id").is_none() || tasks[0]["sender_id"].is_null());
             assert_eq!(tasks[1]["recipient_id"], "ember");
             assert_eq!(tasks[1]["sender_id"], "beacon");
-            assert_eq!(tasks[1]["initiated_work_id"], "a2a-work-from-beacon");
+            assert_eq!(
+                tasks[1]["conversation_id"].as_str(),
+                delivered.initiated_conversation_id.as_deref()
+            );
+            assert_eq!(
+                tasks[1]["turn_id"].as_str(),
+                delivered.initiated_turn_id.as_deref()
+            );
+            assert_eq!(
+                tasks[1]["correlation_id"].as_str(),
+                delivered.initiated_correlation_id.as_deref()
+            );
+            assert_eq!(
+                tasks[1]["initiated_work_id"].as_str(),
+                delivered.initiated_work_id.as_deref()
+            );
         }
         let events = recorder.events();
         assert!(
             events.iter().any(|event| {
                 event.event == "agent_to_agent_initiated"
-                    && event.correlation_id.as_deref() == Some("cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd")
+                    && event.correlation_id.as_deref()
+                        == delivered.initiated_correlation_id.as_deref()
             }),
             "A2A model action should emit correlated initiation activity: {events:?}"
         );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_runtime_internal_initiation_allows_resident_agent_pairs() {
+        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        let pairs = [
+            (
+                "beacon",
+                "ember",
+                "turn-beacon-ember",
+                "11111111111111111111111111111111",
+                "a2a-work-beacon-ember",
+            ),
+            (
+                "ember",
+                "beacon",
+                "turn-ember-beacon",
+                "22222222222222222222222222222222",
+                "a2a-work-ember-beacon",
+            ),
+            (
+                "scribe",
+                "ember",
+                "turn-scribe-ember",
+                "33333333333333333333333333333333",
+                "a2a-work-scribe-ember",
+            ),
+        ];
+        for (sender_id, recipient_id, turn_id, correlation_id, work_id) in pairs {
+            let accepted =
+                match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                    sender_id,
+                    recipient_id,
+                    turn_id,
+                    correlation_id,
+                    work_id,
+                )) {
+                    ConversationAcceptance::Dispatch { accepted, dispatch } => {
+                        assert_eq!(accepted.status, "accepted");
+                        assert_eq!(accepted.sender_id.as_deref(), Some(sender_id));
+                        assert_eq!(
+                            accepted.initiated_recipient_id.as_deref(),
+                            Some(recipient_id)
+                        );
+                        assert_eq!(accepted.initiated_work_id.as_deref(), Some(work_id));
+                        let delivered = service.complete_conversation_dispatch(dispatch).await;
+                        assert_eq!(delivered.status, "delivered");
+                        assert_eq!(delivered.sender_id.as_deref(), Some(sender_id));
+                        assert_eq!(delivered.recipient_id, recipient_id);
+                        assert_eq!(
+                            delivered.initiated_recipient_id.as_deref(),
+                            Some(recipient_id)
+                        );
+                        assert_eq!(delivered.initiated_work_id.as_deref(), Some(work_id));
+                        assert_eq!(
+                            delivered.initiated_correlation_id.as_deref(),
+                            Some(correlation_id)
+                        );
+                        delivered
+                    }
+                    ConversationAcceptance::Response(response) => {
+                        panic!(
+                            "runtime-internal {sender_id}->{recipient_id} A2A refused: {:?}",
+                            response.error
+                        )
+                    }
+                };
+            assert!(
+                accepted.reply.as_deref().is_some_and(|reply| {
+                    reply.contains(recipient_id)
+                        && reply.contains(work_id)
+                        && reply.contains(sender_id)
+                }),
+                "resident pair reply should preserve governed sender and work identity: {accepted:?}"
+            );
+        }
+        {
+            let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
+            for (sender_id, recipient_id, _turn_id, correlation_id, work_id) in pairs {
+                assert!(
+                    tasks.iter().any(|task| {
+                        task["sender_id"] == sender_id
+                            && task["recipient_id"] == recipient_id
+                            && task["correlation_id"] == correlation_id
+                            && task["initiated_work_id"] == work_id
+                    }),
+                    "expected governed task for resident pair {sender_id}->{recipient_id}: {tasks:?}"
+                );
+            }
+        }
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
@@ -6410,6 +6694,10 @@ mod agent_lifecycle {
             recipient_id: "gemma-e4b".to_owned(),
             correlation_id: "correlation-1".to_owned(),
             sender_id: None,
+            initiated_recipient_id: None,
+            initiated_conversation_id: None,
+            initiated_turn_id: None,
+            initiated_correlation_id: None,
             initiated_work_id: None,
             reply: Some("retained reply".to_owned()),
             accepted_sequence: Some(1),
@@ -7275,6 +7563,10 @@ mod conversation_dispatch_gate_tests {
                     recipient_id: "shepherd".to_owned(),
                     correlation_id: "00000000000000000000000000000000".to_owned(),
                     sender_id: None,
+                    initiated_recipient_id: None,
+                    initiated_conversation_id: None,
+                    initiated_turn_id: None,
+                    initiated_correlation_id: None,
                     initiated_work_id: None,
                     reply: None,
                     accepted_sequence: Some(1),

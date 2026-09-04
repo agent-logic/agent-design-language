@@ -1654,6 +1654,12 @@ function conversationFrameTransition(frame, pending) {
       : null,
     initiatedWorkId: typeof frame.initiated_work_id === "string" && frame.initiated_work_id.length <= 128
       ? frame.initiated_work_id
+      : null,
+    initiatedRecipientId: typeof frame.initiated_recipient_id === "string" && frame.initiated_recipient_id.length <= 128
+      ? frame.initiated_recipient_id
+      : null,
+    initiatedCorrelationId: typeof frame.initiated_correlation_id === "string" && /^[0-9a-f]{32}$/.test(frame.initiated_correlation_id)
+      ? frame.initiated_correlation_id
       : null
   };
 }
@@ -3099,8 +3105,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         const speaker = transition.senderId
           ? `agent:${transition.senderId}`
           : "agent";
-        const status = transition.initiatedWorkId
-          ? `delivered / A2A ${transition.initiatedWorkId}`
+        const status = transition.initiatedWorkId && transition.initiatedRecipientId
+          ? `delivered / A2A ${transition.initiatedRecipientId} ${transition.initiatedWorkId}`
           : "delivered";
         appendConversationTurn(speaker, transition.reply, pending.turnId, status);
       }

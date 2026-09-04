@@ -494,16 +494,7 @@ fn project_public_output(
     if let Some(action) = output.get("agent_to_agent_initiation") {
         let valid_action = action.get("schema").and_then(serde_json::Value::as_str)
             == Some(AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
-            && [
-                "recipient_id",
-                "conversation_id",
-                "turn_id",
-                "correlation_id",
-                "work_id",
-                "message",
-            ]
-            .into_iter()
-            .all(|field| {
+            && ["recipient_id", "message"].into_iter().all(|field| {
                 action
                     .get(field)
                     .and_then(serde_json::Value::as_str)
@@ -564,10 +555,6 @@ mod tests {
             "agent_to_agent_initiation": {
                 "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
                 "recipient_id": "ember",
-                "conversation_id": "conversation-beacon-ember",
-                "turn_id": "turn-beacon-ember",
-                "correlation_id": "a2a-correlation",
-                "work_id": "work-beacon-ember",
                 "message": "Ember, please reply through governed A2A."
             }
         }));
