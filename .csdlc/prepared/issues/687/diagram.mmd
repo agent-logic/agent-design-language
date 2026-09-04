@@ -1,0 +1,16 @@
+flowchart LR
+    C[Configured provider and model] --> A{Production adapter exists?}
+    A -- no --> U[unimplemented]
+    A -- yes --> L[model_loading]
+    L -->|dependency missing or unreachable| V[unavailable]
+    L -->|probe rejects or returns invalid inference| F[failed]
+    L -->|preload plus governed inference succeeds| R[ready]
+    V --> L
+    F --> L
+    R -->|subsequent health check| L
+    U --> N[not communication-eligible]
+    V --> N
+    F --> N
+    L --> N
+    R --> E[communication-eligible]
+

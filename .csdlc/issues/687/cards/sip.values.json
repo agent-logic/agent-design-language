@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 687,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
+    "slug": "runtime-provider-inference-readiness",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Expose one truthful provider/model inference-readiness state across Runtime v3 resident agents and public roster projections.",
+      "required_outcome": "Runtime v3 distinguishes unimplemented, unavailable, model_loading, failed, and ready inference states; only real ready adapters are communication-eligible and placeholders receive no production readiness credit.",
+      "declared_scope": [
+        "adl-runtime-kernel/src/agent_roster.rs",
+        "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/resident_shepherd.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/tests/agent_roster.rs",
+        "adl-runtime-kernel/tests/shepherd.rs",
+        "adl-runtime-kernel/tests/assembly.rs",
+        ".csdlc/prepared/issues/687",
+        ".csdlc/issues/687"
+      ],
+      "authority_boundary": [
+        "Issue #687 owns only Runtime v3 provider/model inference-readiness taxonomy and projection",
+        "Issues #640/#653 remain authority for model-backed resident Shepherd execution",
+        "Issues #622/#648 remain authority for provider-profile reload ownership",
+        "Production readiness requires a real implemented adapter and successful inference evidence"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Use a bound FastWork issue worktree",
+        "Do not restart, reload, stop, or edit the live Runtime",
+        "Do not call credential-backed providers or mutate cloud resources",
+        "Do not implement a new provider or redesign agent lifecycle"
+      ]
+    }
+  }
+}

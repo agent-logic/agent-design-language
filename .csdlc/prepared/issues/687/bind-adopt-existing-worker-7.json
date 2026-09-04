@@ -1,0 +1,12 @@
+{
+  "issue": 687,
+  "base_branch": "main",
+  "branch": "codex/687-provider-inference-readiness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness",
+  "expected_repository": "agent-logic/agent-design-language",
+  "adopt_existing": true,
+  "expected_head": "d10de869f0c8a0ac660e12ad8561535d6a1878b6",
+  "expected_generation": 1,
+  "expected_digest": "3b638289258f450d68bb8137c4ac0749054f0e8d777a53863fca0222217bfd54",
+  "actor": "codex:worker-7"
+}

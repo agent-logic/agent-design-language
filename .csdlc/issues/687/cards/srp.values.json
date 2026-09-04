@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 687,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
+    "slug": "runtime-provider-inference-readiness",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Runtime v3 inference-readiness types, resident Shepherd and dynamic-agent classification, roster/API projection, production-credit guard, and focused deterministic tests only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are all five readiness states mutually exclusive and semantically precise?",
+        "Can any unsupported, unavailable, loading, or failed adapter project ready or communication-eligible?",
+        "Do resident Shepherd and dynamic-agent paths use the same mapping?",
+        "Does production assembly still reject missing/placeholder bindings?",
+        "Are provider/model identifiers and errors redacted appropriately?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
