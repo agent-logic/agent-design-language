@@ -18,7 +18,8 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
 
 - commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452
 - commit 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7
-- commit eec95bd3cd2d639898603766001ce9e7d32e6d4b
+- commit eec95bd1a9ab36bd19720c379368119f87e3df81
+- commit 9bcce0f4a7e389030b254240a2f973f0fc928e73
 - csdlc-v3/src/commands/replacement.rs
 - csdlc-v3/src/commands/mod.rs
 - csdlc-v3/src/main.rs
@@ -55,7 +56,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, zero partial-command rows, and anti-forged-readiness behavior.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:eec95bd3cd2d639898603766001ce9e7d32e6d4b:13-passed"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:13-passed"
   },
   {
     "command": [
@@ -69,7 +70,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Prove the local helper route and all implemented local command aliases remain typed, non-authoritative, route-specific, and fail-closed after the partial-command label was removed.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:eec95bd3cd2d639898603766001ce9e7d32e6d4b:23-passed"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:23-passed"
   },
   {
     "command": [
@@ -84,7 +85,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:1-passed"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:1-passed"
   },
   {
     "command": [
@@ -96,7 +97,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Run the complete C-SDLC v3 test suite after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:103-passed"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:103-passed"
   },
   {
     "command": [
@@ -112,7 +113,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Reject warnings across all C-SDLC v3 targets.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed"
   },
   {
     "command": [
@@ -126,7 +127,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Reject Rust formatting drift after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed"
   },
   {
     "command": [
@@ -135,7 +136,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier hardening.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:status-pass"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:status-pass"
   },
   {
     "command": [
@@ -146,7 +147,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Verify exact-range whitespace hygiene for the current #505 branch.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed"
   },
   {
     "command": [
@@ -159,7 +160,7 @@ Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement co
     ],
     "purpose": "Verify typed C-SDLC v2 issue state remains valid before refreshed review and publication.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:status-pass-generation-30-ready-false"
+    "evidence_ref": "exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:status-pass-generation-32-ready-false"
   }
 ]
 
