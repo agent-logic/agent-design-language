@@ -62,11 +62,11 @@ Added a standalone Terraform and operator-documentation package for the private-
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
