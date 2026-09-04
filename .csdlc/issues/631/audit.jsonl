@@ -42,3 +42,7 @@
 {"sequence":42,"generation":27,"actor":"codex:worker-6:sprint6-v3h5-ci-proof-root-fix","reason":"Recover the stale #631 review assignment after repairing v3 proof-route repository discovery for CI target directories outside the checkout.","operation":"recover_review"}
 {"sequence":43,"generation":27,"actor":"codex:worker-6:sprint6-v3h5-ci-proof-root-fix","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":44,"generation":28,"actor":"codex-reviewer:review_631_ci_proof_root_fix","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":45,"generation":29,"actor":"codex:worker-6","reason":"Recover stale #631 review truth after test-only Runtime v3 coverage-gate repair at PR #669 exact head ce33d377149e30e1acf802d2391d95ad78c0f722 and hosted CI success.","operation":"recover_review"}
+{"sequence":46,"generation":29,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":47,"generation":30,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":48,"generation":31,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

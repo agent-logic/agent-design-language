@@ -114,11 +114,11 @@ Implemented non-authoritative v3 proof, shadow, soak, and install construction r
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

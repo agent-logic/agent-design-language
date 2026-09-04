@@ -12,6 +12,7 @@ Status: draft
 
 ## Scope
 
+adl/src/cli/csm_runtime_v3_cmd.rs
 csdlc-v3/src/main.rs
 csdlc-v3/src/commands/mod.rs
 csdlc-v3/src/commands/proof.rs
@@ -24,6 +25,8 @@ csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
 csdlc-v3/tests/real_issue_canary.rs
 docs/csdlc-v3/v3-command-manifest.json
 docs/csdlc-v3/full-replacement-denominator.json
+.csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh
+.csdlc/evidence/631
 
 ## Prompts
 
@@ -42,13 +45,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted CI remains the final integration gate before merge.
 - C-SDLC v3 proof, shadow, soak, and install routes remain construction evidence only until explicit #505 cutover approval and terminal reconciliation.
+- The v3 command manifest still records the local command as partial and non-authoritative, so full v2 replacement remains unproven until the remaining cutover gates complete.
 
 ## Review Result
 
-Revision: Some("git-blake3:76ce02d58f8cccb9122d775bcf4862598a844dd0:8f58d44f941a6873c750c727d3c1cedc65a54a794e29a338620edd78f54f9f2e")
+Revision: Some("git-blake3:ce33d377149e30e1acf802d2391d95ad78c0f722:d2bb1e5b2ab908f4f62129d5b13dc3208795c8f0cda0ec32565df5c2cde0c9eb")
 
-Reviewer: Some("codex-reviewer:review_631_ci_proof_root_fix")
+Reviewer: Some("codex-reviewer:review_631_coverage_gate_fix")
 
 Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
     "slug": "v3-h5-proof-parity-soak-shadow-install",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/main.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/v3-command-manifest.json\ndocs/csdlc-v3/full-replacement-denominator.json",
-      "review_revision": "git-blake3:76ce02d58f8cccb9122d775bcf4862598a844dd0:8f58d44f941a6873c750c727d3c1cedc65a54a794e29a338620edd78f54f9f2e",
-      "reviewer": "codex-reviewer:review_631_ci_proof_root_fix",
+      "review_scope": "adl/src/cli/csm_runtime_v3_cmd.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/v3-command-manifest.json\ndocs/csdlc-v3/full-replacement-denominator.json\n.csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh\n.csdlc/evidence/631",
+      "review_revision": "git-blake3:ce33d377149e30e1acf802d2391d95ad78c0f722:d2bb1e5b2ab908f4f62129d5b13dc3208795c8f0cda0ec32565df5c2cde0c9eb",
+      "reviewer": "codex-reviewer:review_631_coverage_gate_fix",
       "review_prompts": [
         "Can any route claim proof, parity, soak, or install success without durable bounded evidence?",
         "Does shadow refuse broad equivalence and report exact mismatches?",
@@ -24,8 +24,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Hosted CI remains the final integration gate before merge.",
-        "C-SDLC v3 proof, shadow, soak, and install routes remain construction evidence only until explicit #505 cutover approval and terminal reconciliation."
+        "C-SDLC v3 proof, shadow, soak, and install routes remain construction evidence only until explicit #505 cutover approval and terminal reconciliation.",
+        "The v3 command manifest still records the local command as partial and non-authoritative, so full v2 replacement remains unproven until the remaining cutover gates complete."
       ],
       "review_result": "pass"
     }
