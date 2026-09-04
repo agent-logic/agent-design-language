@@ -46,12 +46,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; v2 remains live lifecycle authority before that cutover.
+- Merge readiness still depends on the exact live PR #647 checks finishing successfully after the final branch push.
+- #505 must consume current #627-#632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_632_after_main_merge_fd786459")
 
-Result: pre_review
+Result: pass

@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b93a95ade0dac40135117b73005e34975df1f0a635a322b41fd2e3554b887290",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "99194b2e8dcd74e321c4de9a02451584863cf0f2fbbd0de6bba2d8e85d0039e5",
+  "phase": "published",
+  "generation": 25,
+  "digest": "59152ad5c61e0c0f6c121793538ad2c8fde2d6624801fe08086159009e7c8096",
   "branch": "codex/632-v3-h6-canaries-docs-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_632_after_main_merge_220cd014",
+    "reviewer": "subagent:/root/review_632_after_main_merge_fd786459",
     "assigned_by": "codex:root",
-    "revision": "git-blake3:220cd014abe34dee0b13d25c8cd9f046132700bc:6d24ef8ea6923d85a2ec6d98d67e6e6543b8c7ac6e238cfb7273cdd4496979fa",
+    "revision": "git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5",
     "scope": [
       ".csdlc/prepared/issues/632/design.md",
       ".csdlc/prepared/issues/632/diagram.mmd",
@@ -33,8 +33,49 @@
       "docs/csdlc-v3/full-replacement-denominator.json"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "subagent:/root/review_632_after_main_merge_fd786459",
+    "scope": [
+      ".csdlc/prepared/issues/632/design.md",
+      ".csdlc/prepared/issues/632/diagram.mmd",
+      ".csdlc/prepared/issues/632/bootstrap.json",
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/canary-evidence-index.md",
+      ".csdlc/prepared/issues/632/finalize-implementation.json",
+      ".csdlc/prepared/issues/632/replace-execution-after-review-fixes.json",
+      ".csdlc/prepared/issues/632/replace-execution-current-command-surface.json",
+      ".csdlc/prepared/issues/632/recover-review-after-main-merge.json",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "csdlc-v3/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ],
+    "reviewed_revision": "git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; v2 remains live lifecycle authority before that cutover.",
+      "Merge readiness still depends on the exact live PR #647 checks finishing successfully after the final branch push.",
+      "#505 must consume current #627-#632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 632,
+    "pull_request": 647,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/647",
+    "base": "main",
+    "head": "codex/632-v3-h6-canaries-docs-readiness-exec",
+    "revision": "git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -48,34 +89,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f0de830094d2723323ed2dd65138770adc4309709e2319438f7efecd580af7b9",
+      "values_digest": "14913d8622b97be1882f8e6cfddc45755053178e1a0f997dd7a0b558d291d7de",
       "rendered_digest": "0fdbc068a9e16b9a34f4c99b5953930b02c525fdddf4be01c8acd33f0a8bf60d",
       "ast_digest": "ed89ca60d9cce79cf4979853fd6df465539b0f00233e4f03a42decb6a25c16c0"
     },
     "stp": {
-      "values_digest": "bbedde6e68f3cd0d5594f56cd3e006998adcffc0edbaf0cc5e6d52c8553de755",
+      "values_digest": "4d3cc2a5c3e02df5f31967e69cd2897f6ee62e54502f025be1841d3393e4071a",
       "rendered_digest": "caf0677a955027d962688dc0224133c7c7d4b10c56b4f1d17d551f31f7891779",
       "ast_digest": "4b130a63d7ec3bd4a4bfe6c1596dcbe0ac07119a4f968f8b48bc5db493babaec"
     },
     "spp": {
-      "values_digest": "49ba08306fd4e2805c7accb511869716e7b400299ea2774e471e3387fb63ecd7",
+      "values_digest": "8928a2165dbafc78e0eff3424cc54ba56b20a011957e9ff14875c6cb70e38db6",
       "rendered_digest": "ac428c78623cc711bb9a3eee6ae606302cd3136c5dd40130c37aeafbbbb6d14c",
       "ast_digest": "0654c45b2e0ef0e21df53b9ec506777fc1b26e11ee63dfd8e71da61175637894"
     },
     "vpp": {
-      "values_digest": "f935bc7953813270d7c7be4c73172499f48c7203a04b24722e51fa1c22e4d0ce",
+      "values_digest": "67acff3d93d76a383b381e2031ce8180284b64d5700a833dea7beac530f75452",
       "rendered_digest": "a46da483ee55913a32a0ca18e0d7986519dbb3bf24edfb86e71c499b37249825",
       "ast_digest": "c256ae237568c95bf3dff3aa69018688d49b9d7ff18813e8f2f7a567b7fc6da6"
     },
     "srp": {
-      "values_digest": "d09c46c1d78fda617d93b21f6bd49e0b53cb598dd9cbb96cf1f68bd39b6ae358",
-      "rendered_digest": "e4ec29ba656173537cfc64fc98e796b2415b0398f8d414d5d09b64966a8bdccd",
-      "ast_digest": "590940420f097e18d290b9a6bd13650e717510be516e986dc86e9d6f40112a60"
+      "values_digest": "791f6b8807a2c2aa9f4efb42321b1a3080c33f3e6dcad7e6fa55940794f2309c",
+      "rendered_digest": "7dfdb819a7e37944f70af28716f5be0bb7059cc10c922e9824ef9ca314db836b",
+      "ast_digest": "0da68d7f6bc9bf03eafa66df219102fa387dec9cf83d6eef309c0afa76907084"
     },
     "sor": {
-      "values_digest": "079d6f55d62e9892e0d7f1c4d4083df87bae2dd5aeb168a751401e8094136942",
-      "rendered_digest": "f0298393d62ae90146faf7193d5fc40749e346deec3b017d792a9e583e769f4d",
-      "ast_digest": "210318127a822564929950087bad6cf0e11e3f1eb06ca6847d385df8e39d7339"
+      "values_digest": "071581adc14d90c2239669157184e5a99e7f1603f3e197c93b476504a4e36b7a",
+      "rendered_digest": "7a41012e63b5262f5d043f50e0c56f0a76117dfebdca76a72d101122669ec2c5",
+      "ast_digest": "b2042bda2fdd3b59dde9015943fd2aff4ec846408c1f41c26fe522e95067cf75"
     }
   },
   "transitions": [
@@ -239,6 +280,20 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "Recover stale #632 exact-head review/publication truth after merging current origin/main into the already-published PR branch to clear GitHub merge conflicts. The branch-owned diff relative to origin/main remains the #632 V3-H.6 surface; recovery is required because reviewed/published head a8d65a737f89fe77c01f3a34553e6755b23a6549 no longer matches local merge head 220cd014abe34dee0b13d25c8cd9f046132700bc."
+    },
+    {
+      "sequence": 24,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 25,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -479,6 +534,27 @@
       "actor": "codex:root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 23,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 24,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 25,
+      "actor": "codex:root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

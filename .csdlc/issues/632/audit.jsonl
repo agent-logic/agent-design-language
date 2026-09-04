@@ -32,3 +32,6 @@
 {"sequence":32,"generation":22,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":33,"generation":23,"actor":"codex:root","reason":"Recover stale #632 exact-head review/publication truth after merging current origin/main into the already-published PR branch to clear GitHub merge conflicts. The branch-owned diff relative to origin/main remains the #632 V3-H.6 surface; recovery is required because reviewed/published head a8d65a737f89fe77c01f3a34553e6755b23a6549 no longer matches local merge head 220cd014abe34dee0b13d25c8cd9f046132700bc.","operation":"recover_review"}
 {"sequence":34,"generation":23,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":35,"generation":23,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":36,"generation":24,"actor":"codex:root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":37,"generation":25,"actor":"codex:root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
