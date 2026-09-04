@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/670
+.csdlc/evidence/670/live
+infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf
+infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf
+infra/gcp/workloads/warm-polis
 
 ## Prompts
 
@@ -32,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live GCP or billing-export query was performed during final review; tracked redacted receipts are the live evidence boundary.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5c2746a74c86fcb0bb08b661d818e473bed37f76:2b3cee529c23a21c0930fa1d3a74dc964fde75084479637f1a7549bf949eccab")
 
-Reviewer: None
+Reviewer: Some("/root/issue_670_release_truth_review")
 
-Result: pre_review
+Result: pass

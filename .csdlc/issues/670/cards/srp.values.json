@@ -7,15 +7,15 @@
     "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
     "slug": "gcp-warm-polis-live-qualification",
     "version": "v0.92.1",
-    "generation": 33
+    "generation": 34
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/670\n.csdlc/evidence/670/live\ninfra/gcp/workloads/modules/two-node-ollama-runtime/main.tf\ninfra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf\ninfra/gcp/workloads/warm-polis",
+      "review_revision": "git-blake3:5c2746a74c86fcb0bb08b661d818e473bed37f76:2b3cee529c23a21c0930fa1d3a74dc964fde75084479637f1a7549bf949eccab",
+      "reviewer": "/root/issue_670_release_truth_review",
       "review_prompts": [
         "Does every paid action target only the exact authorized company project and remain within the USD 20.00 ceiling?",
         "Are the two snapshots sealed, versioned, and sufficient for launch without downloads or builds?",
@@ -24,8 +24,10 @@
         "Does cleanup prove every issue-owned VM and disk is absent while exactly the two intended snapshots remain?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "No live GCP or billing-export query was performed during final review; tracked redacted receipts are the live evidence boundary."
+      ],
+      "review_result": "pass"
     }
   }
 }
