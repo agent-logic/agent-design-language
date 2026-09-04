@@ -5,10 +5,27 @@
   "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
   "phase": "implemented",
   "generation": 16,
-  "digest": "7d98f6d92111c54d476b477c1f195c5c982ba4f3a5ab0b924f53df1afa9b02e2",
+  "digest": "26de4ef80c1797750c76aa0f94eb4f1d5f270ef4ccf4e5f417923f21ba718664",
   "branch": "codex/680-moonshot-kimi-k3-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:589c88d578ebf9d5598a5ed81e8ca3a448bb3829:70034edda94c1af786e3a4c5334e04bfa82ba95d04190414970a76147766da1a",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/src/cli/usage.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "adl/tests/provider_moonshot_kimi_k3.rs",
+      ".csdlc/evidence/680"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +61,9 @@
       "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
     },
     "srp": {
-      "values_digest": "88e6c9bca79cf0c58f485d488a2386b88b2a4b65b8342905272f538e59ec8b68",
-      "rendered_digest": "43b3a603bc2f3b233383f7d1e13f73aa6913f384383aaa9f1397538ffca7259b",
-      "ast_digest": "274ca16c49f38213a0490f23b9ed672f6095c1179d6e33568a1643b02e07ee47"
+      "values_digest": "51017aac82581274992925aedf7f54039ae071a7955cd979f682e1abe25711b3",
+      "rendered_digest": "31474be5796aff1b6fb9e5122bf92ec14987d3247afaca4d34901231cecfd8ca",
+      "ast_digest": "cfc0cfae5a64aad0d1bb6976c4764dafe3fc1b96673fdf55e537009b5fe55603"
     },
     "sor": {
       "values_digest": "746a94e4e26789431aaa6c7d0fb8a196daf6cff1492bba2a4bf3bcf920de0d5c",
@@ -238,6 +255,13 @@
       "actor": "codex:root",
       "reason": "recover #680 review because the recorded non-substantive proof used an unsupported policy/to_revision shape; source, docs, tests, and evidence remain unchanged",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
