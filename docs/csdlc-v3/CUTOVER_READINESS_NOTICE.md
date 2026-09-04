@@ -30,8 +30,8 @@ The v3 replacement is not cutover-ready. The current #632 evidence records:
   21 v2 entrypoints, but those routes remain read-only or fail-closed
   construction evidence before #505;
 - green construction/readiness PRs for most current V3-H lanes, with #629/#641
-  refreshed after title-readback hardening and still requiring terminal CI
-  confirmation at its latest head;
+  refreshed after title-readback hardening and terminal green at
+  `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`;
 - a fail-closed #631 stacked PR closing-linkage defect;
 - a fresh-worktree install/startup defect that affects the three-minute issue
   startup target;

@@ -31,8 +31,9 @@ reviewed, approved, merged, and terminally reconciled.
   current PR head is `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`; typed #629
   validation passes at `published`, GitHub closing refs show only #629, and
   the v3 route now binds non-empty observed PR title into authenticated readback
-  receipts. Final GitHub tooling-contracts CI for this refreshed head was still
-  pending when this #632 packet was refreshed.
+  receipts. The refreshed GitHub CI run for this head is terminal green,
+  including `csdlc-v3-standalone`, `adl-tooling-contracts`, `adl-ci`, and
+  `adl-coverage`.
 - #632 local typed bootstrap through `csdlc-issue create`: pass after VPP lane
   coverage repair.
 - #632 typed bind through `csdlc-bind`: pass; execution worktree is
@@ -47,9 +48,9 @@ reviewed, approved, merged, and terminally reconciled.
 - This packet does not claim stacked PRs satisfy GitHub closing-linkage
   authority.
 - This packet does not authorize merging #627 through #632.
-- This packet does not claim #629/#641 is fully green until the refreshed
-  `8ad0d56ae7db6421fcbc2016a2f1c8590094577e` CI run reaches a terminal
-  successful state.
+- This packet does not claim #629/#641 authorizes cutover; its refreshed
+  `8ad0d56ae7db6421fcbc2016a2f1c8590094577e` CI is green, but #505 must still
+  consume the current dependency evidence through review and publication.
 
 ## Next proof needed
 
