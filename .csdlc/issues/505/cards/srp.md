@@ -12,13 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/505
-csdlc-v3/src/commands/remote/mod.rs
-csdlc-v3/src/main.rs
-csdlc-v3/tests/command_manifest.rs
-csdlc-v3/tests/real_issue_canary.rs
-docs/csdlc-v3/full-replacement-denominator.json
-docs/csdlc-v3/v3-command-manifest.json
+
 
 ## Prompts
 
@@ -37,14 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 remains construction and cutover-readiness evidence only until explicit V3-F/#505 operator approval and terminal reconciliation.
-- The visible v3 command surface still has five replacement gaps before cutover: shadow partial/local partial plus cutover, install, proof, and soak fail-closed/non-live routes.
-- PR #591 must be republished at the reviewed head and must remain non-closing for #505 until the operator explicitly authorizes cutover.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:3774b1f23fee865e36db178c1ef4f7677cd62bf1:4b8d93e9d1d5fe6f4ad78f5b58e1f8ff359cee124cef8bd701d04a4b6631c74c")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_505_remote_alias_delta")
+Reviewer: None
 
-Result: pass
+Result: pre_review

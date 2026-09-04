@@ -12,13 +12,13 @@ Status: ready
 
 ## Summary
 
-Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible command-surface denominator before #505 cutover while preserving C-SDLC v2 as live authority.
+Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replacement commands while preserving v2 as live authority until explicit #505 cutover approval.
 
 ## Artifacts
 
-- commit 9e93d5c507d388a38d3ace14e85fd988006ea345
-- commit 517d39b5cb8637e049ed41f9a4e46690edd1898e
-- csdlc-v3/src/commands/remote/mod.rs
+- commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452
+- csdlc-v3/src/commands/replacement.rs
+- csdlc-v3/src/commands/mod.rs
 - csdlc-v3/src/main.rs
 - csdlc-v3/tests/command_manifest.rs
 - csdlc-v3/tests/real_issue_canary.rs
@@ -27,13 +27,12 @@ Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible
 
 ## Execution
 
-- Implemented pre-cutover top-level v3 bridge aliases for GitHub, review, publication, finish, and cleanup route families without granting v3 operational authority.
-- Split publication derivation from terminal delivery so `csdlc publish` accepts a publish-stage evidence envelope without requiring merged PR, closed issue, or cleanup artifacts.
-- Made `csdlc finish` fail closed when remote readback derives `OperatorRequired` instead of terminal or checkpoint completion.
-- Made `csdlc clean` cleanup-preview-only before cutover and allowed it to consume a cleanup-only evidence envelope.
-- Made generic bridge verification parse the full typed bridge evidence set before reporting ready, so schema and identity mismatches fail closed.
-- Updated the tracked v3 command manifest and full replacement denominator to reflect 25 visible commands, 21 v2 entrypoints, 19 implemented commands, 2 partial commands, 4 fail-closed commands, and 5 remaining replacement gaps.
-- Recorded `remote` and `sprint` as visible helper/canary routes with no v2 entrypoint replacement so command-surface counts and replacement-route counts remain distinct.
+- Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.
+- Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.
+- Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when evidence is valid.
+- Made bad evidence fail as structured `blocked_by_evidence` verifier output and made route/request command mismatches fail closed.
+- Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 24 implemented visible commands, 1 helper/local partial command, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.
+- Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.
 
 ## Validation
 
@@ -48,9 +47,24 @@ Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible
       "--test",
       "command_manifest"
     ],
-    "purpose": "Prove one-binary route table, operation-specific remote alias semantics, minimal publish/cleanup request shapes, identity mismatch rejection, and bidirectional manifest-denominator consistency for the visible command surface.",
+    "purpose": "Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, and executable non-authoritative replacement-verifier routes.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:12-passed"
+    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:12-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "real_issue_canary",
+      "full_replacement_denominator_blocks_cutover_until_operator_approval"
+    ],
+    "purpose": "Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:1-passed"
   },
   {
     "command": [
@@ -60,9 +74,9 @@ Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible
       "--manifest-path",
       "csdlc-v3/Cargo.toml"
     ],
-    "purpose": "Run the full C-SDLC v3 suite after remote alias hardening and visible-denominator alignment.",
+    "purpose": "Run the complete C-SDLC v3 test suite after replacement-verifier implementation.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:101-passed"
+    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:102-passed"
   },
   {
     "command": [
@@ -78,16 +92,7 @@ Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible
     ],
     "purpose": "Reject warnings across all C-SDLC v3 targets.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
-    ],
-    "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after command-denominator changes.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass"
+    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed"
   },
   {
     "command": [
@@ -99,9 +104,18 @@ Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible
       "--",
       "--check"
     ],
-    "purpose": "Reject Rust formatting drift after remote alias hardening.",
+    "purpose": "Reject Rust formatting drift after replacement-verifier implementation.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed"
+    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+    ],
+    "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier implementation.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:status-pass"
   },
   {
     "command": [
@@ -112,30 +126,17 @@ Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible
     ],
     "purpose": "Verify exact-range whitespace hygiene for the current #505 branch.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-      "issue",
-      "--issue",
-      "505"
-    ],
-    "purpose": "Verify typed C-SDLC v2 issue state remains valid in implemented phase before review and publication.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass-generation-22-ready-false"
+    "evidence_ref": "exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

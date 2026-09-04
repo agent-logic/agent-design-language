@@ -4,45 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "published",
-  "generation": 25,
-  "digest": "2ea200b8b5384ad24487abac86fa8394c54dc962369feef7a216280a71bff3c5",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "2eab711279c7bb058f6a422f6d8a34708cf75754ea2cdbe943b4a142fe74065e",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:/root/review_505_remote_alias_delta",
-    "scope": [
-      ".csdlc/issues/505",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
-      "docs/csdlc-v3/full-replacement-denominator.json",
-      "docs/csdlc-v3/v3-command-manifest.json"
-    ],
-    "reviewed_revision": "git-blake3:3774b1f23fee865e36db178c1ef4f7677cd62bf1:4b8d93e9d1d5fe6f4ad78f5b58e1f8ff359cee124cef8bd701d04a4b6631c74c",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains construction and cutover-readiness evidence only until explicit V3-F/#505 operator approval and terminal reconciliation.",
-      "The visible v3 command surface still has five replacement gaps before cutover: shadow partial/local partial plus cutover, install, proof, and soak fail-closed/non-live routes.",
-      "PR #591 must be republished at the reviewed head and must remain non-closing for #505 until the operator explicitly authorizes cutover."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 505,
-    "pull_request": 591,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
-    "base": "main",
-    "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:e0080d8f6e2095f75d56d6ab133283c613802532:360b9ceb8f6d7b0059e9c7b4156da87a207a80bbde7bab01f350def5b7d8f388",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -56,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e769874144d0daef14dfb58113e6b09ae40833738de3504bbc12f85fb32ef73b",
+      "values_digest": "c471ecade52fad5a5a04b848ddccf78be403f9a8b5e8a5aef2cf5d0268185aa2",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "0b942d19e78349972c8aaa28237b23863045b276fe0121a3f215875d80220519",
+      "values_digest": "227fb500a7a16ad3c02e241a048539c74572b0256a83c0f740f13fb765f0d689",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "5d3494dcdf38f6d3f63ed0f3c87c2800073e0bc37df8770ac053b8a912c508af",
+      "values_digest": "1941374c66f8cc7576f96207e674178e604c7f114be6ce26cf4a7f0476a6fe0d",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "4dc1d0595ff86cdbb27f7db4140a78fd68c29b34497232e3146ec66b781cf3d6",
+      "values_digest": "008d6b7c1bf9c0edd9a1f631a5e820f9ea15107c7c40f250c4f19e5166c61eff",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "c1a32684c60180d41c578bdf53f0bb993f16b869178ab2e31965c42d1b5fa10e",
-      "rendered_digest": "ae1d7b99d685aeaa923ccc1caef4d2f92b49d0b6109c1a5f9181f68f9fab1e78",
-      "ast_digest": "7cda52310c9b890ab30ca867ecac4190e0481bb5a9fc6904cb4215f04ae0a2a6"
+      "values_digest": "99283731236966de21a5474824c99029e7f0e34057dbe5bb859ee4d391554035",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "1b41385c45a33c29fec323d11f3815826db557364871030e165e978628c171f2",
-      "rendered_digest": "857bfa769f3a9594161240688339b5683472de091b28f08dd392f4046454d7d8",
-      "ast_digest": "f7e9a6848b62d1be8b21e95a18110b57dba1a9d4a002eed96c6ce7467f601763"
+      "values_digest": "063b071f5ec65a65eaeed0966594d9a5c890d926bbcd613f7bc78ef1e0278898",
+      "rendered_digest": "2fd3532a29dcb92f49a1179aaabe40bafbcf9234dc0eed28fa7e625966625bbc",
+      "ast_digest": "58847a24980bc4c75eb38805051d8b69cc2f86b1d976edb108bef5d6d2a16f08"
     }
   },
   "transitions": [
@@ -212,6 +181,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 19,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after implementing executable pre-cutover replacement verifier routes for cutover/install/proof/shadow/soak at exact head 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452; the branch must receive refreshed execution truth, exact-head review, and renewed non-closing publication before any cutover claim."
     }
   ],
   "audit": [
@@ -438,6 +414,20 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after implementing executable pre-cutover replacement verifier routes for cutover/install/proof/shadow/soak at exact head 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452; the branch must receive refreshed execution truth, exact-head review, and renewed non-closing publication before any cutover claim.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 execution truth after implementing executable pre-cutover replacement verifier routes at exact head 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replacement commands while preserving v2 as live authority until explicit #505 cutover approval.\",\"changes\":[\"Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.\",\"Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.\",\"Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when evidence is valid.\",\"Made bad evidence fail as structured `blocked_by_evidence` verifier output and made route/request command mismatches fail closed.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 24 implemented visible commands, 1 helper/local partial command, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.\",\"Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.\"],\"artifacts\":[\"commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452\",\"csdlc-v3/src/commands/replacement.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, and executable non-authoritative replacement-verifier routes.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:12-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\",\"full_replacement_denominator_blocks_cutover_until_operator_approval\"],\"purpose\":\"Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:1-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the complete C-SDLC v3 test suite after replacement-verifier implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:102-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after replacement-verifier implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the current #505 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed\"}]}"
     }
   ]
 }
