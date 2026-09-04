@@ -12,17 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/src/provider/http_family.rs
-adl/src/provider/mod.rs
-adl/src/provider/profiles.rs
-adl/src/provider_adapter.rs
-adl/src/provider_communication.rs
-adl/src/provider_substrate.rs
-adl/src/cli/provider_cmd.rs
-adl/src/cli/usage.rs
-docs/tooling/PROVIDER_SETUP.md
-adl/tests/provider_moonshot_kimi_k3.rs
-.csdlc/evidence/680
+
 
 ## Prompts
 
@@ -40,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No live Moonshot API call was performed; #680 proof uses deterministic loopback provider tests plus setup/profile/runtime-adapter validation, with live credentials remaining operator-controlled.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:018dbc48a680c861e3cc7861a3f8ba6e72b31a86:fce88815e5d1fdfb743ed92988e3450d6d21a060616d6978d10fef04b939ee74")
+Revision: None
 
-Reviewer: Some("fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e")
+Reviewer: None
 
-Result: pass
+Result: pre_review
