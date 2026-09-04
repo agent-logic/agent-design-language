@@ -5,36 +5,79 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "421c639338da4b4b87f4e83eb2bc04d509704baa043dfd1eed6262fcb2d57e4a",
   "phase": "published",
-  "generation": 16,
-  "digest": "5f12e042787a1430f9ef34feb75a58d124a7f4c9624bd080ce9d95340b0c2bf5",
+  "generation": 19,
+  "digest": "7b4eeb625218ea90dc8bd567ae8390d0b04a23247db5d08c420f91f4df84fedd",
   "branch": "codex/675-first-class-a2a-live-path-impl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-675-first-class-a2a-live-path-impl",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_675_provider_envelope_exact",
+    "reviewer": "codex:/root:exact-head-review-after-subagent-finding",
     "assigned_by": "codex:/root:issue-675-first-class-a2a",
-    "revision": "git-blake3:5212c20d09f2aa38c9c5268be14bfac2452df571:76da7409d54bca64f0fd20ab7a70c11d6822ed6594e932569e068541d4c6c033",
+    "revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/ingress.rs",
       "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
       ".csdlc/prepared/issues/675"
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_675_provider_envelope_exact",
+    "reviewer": "codex:/root:exact-head-review-after-subagent-finding",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/ingress.rs",
       "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
       ".csdlc/prepared/issues/675"
     ],
-    "reviewed_revision": "git-blake3:5212c20d09f2aa38c9c5268be14bfac2452df571:76da7409d54bca64f0fd20ab7a70c11d6822ed6594e932569e068541d4c6c033",
-    "findings": [],
+    "reviewed_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+    "findings": [
+      {
+        "id": "review-675-runtime-derived-a2a-ids",
+        "severity": "p1",
+        "summary": "Provider-facing A2A actions must not rely on resident model supplied conversation, turn, correlation, or work identifiers; Runtime must derive governed peer identifiers.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+        "route": null
+      },
+      {
+        "id": "review-675-structural-initiated-peer-result",
+        "severity": "p1",
+        "summary": "Operator-visible conversation results must structurally expose the initiated peer recipient, conversation, turn, correlation, and work identity instead of relying on reply prose.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+        "route": null
+      },
+      {
+        "id": "review-675-runtime-resident-pair-coverage",
+        "severity": "p1",
+        "summary": "Runtime-internal A2A must allow resident agents to communicate with other resident agents while preserving the external/direct signed-sender guard.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+        "route": null
+      },
+      {
+        "id": "review-675-observatory-transition-shape",
+        "severity": "p2",
+        "summary": "Observatory conversation transitions must preserve the ordinary frame object shape while adding A2A metadata only when present.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
+        "route": null
+      }
+    ],
     "residual_risks": [
-      "The exact-head review did not rerun cargo or node validation because it was explicitly read-only; it relied on the recorded local validation passes.",
-      "No live credential-backed provider inference, AWS, paid runner, or production runtime restart was performed."
+      "No live credential-backed provider inference, AWS, paid runner, external network agent communication, or production Runtime restart was performed; validation is local deterministic Runtime proof.",
+      "The final exact-head review disposition incorporates the prior subagent review findings plus local exact-head validation because two follow-up review agents stalled before producing compact PASS output."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -46,7 +89,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/677",
     "base": "main",
     "head": "codex/675-first-class-a2a-live-path-impl",
-    "revision": "git-blake3:f22ec37a1261a5b6bdf91f9cba0c39d03df8a737:969fe1f190adb0c509b63dcd2abf9813a152b5dcfb36b2be4b60d2f1845f3efa",
+    "revision": "git-blake3:e8451a53beb776433357a5b8bc023c24890bb379:3b1acf622a3dcee7ac28c09221404be37053a34b158c88317168dd80de55644a",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -64,32 +107,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6dafa361f422649911659c3c02ea2bf52aca531c2b1ee0df2a7036bae207644e",
+      "values_digest": "174e3b4bf8a4461e4ca3135bf30f59948391b72f0015579324c6d724b4f8e8cf",
       "rendered_digest": "9b220d4fa0937aaeb000bd149aefbd15704ee1ecd0e91272ffa404d7def1c223",
       "ast_digest": "0699f875edd27e63d09acc2081bb92416e23d902b6f54b69afd7f905a8d0695f"
     },
     "stp": {
-      "values_digest": "ef82ea68e236ef147d2ea08a6727d6d8291383021b561b4b9ab3fcd96ac975a3",
+      "values_digest": "33b04225bfeb22f07f44368c25a0ced6ec7d57ffa6d0f64f2ebc866b72ec8940",
       "rendered_digest": "c8c8fad263f5e04e11b6473cc393b63cf4cd1764299ca7547f63cad7cdcade29",
       "ast_digest": "64a3e7f6e00aabe76dfdca2408d06c4d828eb1d350995771eea427a58e139ea2"
     },
     "spp": {
-      "values_digest": "e3b4e92563d8b4dd11e02b5495dba525b4d9f8c9dafabccaa4b480dc4f1bda6f",
+      "values_digest": "293e43e956fb1ac999bd6ec240126f571f3f7c4bc335081120372f682cac76cf",
       "rendered_digest": "68650dbf2cb39bb4162b4493478248e9327fde8e56b6cd5aa9884d78fe24bdbe",
       "ast_digest": "6ae2d22ac130bb8cb7df62a2e01f515d9be7b4435ea23ade79e373a89ea69fa4"
     },
     "vpp": {
-      "values_digest": "f279f667c6793b41d5c3684b97f7ad214b6ad5b86320d04ba8e0a2306539eb1e",
+      "values_digest": "ec055a3049063b9634cfa9b147e5f45e86c2e5aa0fa60fd521affd66feb03a06",
       "rendered_digest": "9b2ba5d7cccfb7b45334862edc672c548d666a9740a06cc0234b78007f0beb50",
       "ast_digest": "53dfec33a381c7e5c5bde88852e1a6dfe581cc7a3e8e31e26c4cdec721774aea"
     },
     "srp": {
-      "values_digest": "7ebdf2c1c68853b697af4c7431578b6a74afce67e7e8a68ba065a60d14e58036",
-      "rendered_digest": "67e1afac0899971ba7751db1df9ac539f0627aa9a9082ccea8b6dccd57ffa0f0",
-      "ast_digest": "f5cfa89eeef68f381abfc7b3a1726a8be8fed8008a8f598f164c466788264032"
+      "values_digest": "50fde0f7fbf31df30bdc8f2bee8bfef831e0af568ccbca0eb5cde315f6384bd6",
+      "rendered_digest": "de14f06fec4fc9bf2feafcbf85bf8ea1e886826dc4e1646af6472af042ce1a19",
+      "ast_digest": "97e81dbc8997c9e09d8e5733669a8d4eabd8fd9f081263047b9958f07dae6575"
     },
     "sor": {
-      "values_digest": "2292eca5866b80ae2f8a2cf733ceab2012ba2ed40686fa3d107b6c70afc7d730",
+      "values_digest": "7b57cdbb3bc5f97ac497a4b1d5c4c730d33877863b8527fe0712107b0cca016a",
       "rendered_digest": "498fe41555090a6a9938847791e504ff77093c9c6cc1b60e6635e20de99ac914",
       "ast_digest": "0ab24970ad3debd4f1dc8ae921c08c2eba58619a006b0767603e3d8a6f03e3a1"
     }
@@ -125,6 +168,27 @@
     },
     {
       "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after PR review found stale exact-head coverage and Runtime A2A repair commits were added to the already-published PR branch."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:exact-head-review-after-subagent-finding",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:/root:issue-675-first-class-a2a",
@@ -261,6 +325,34 @@
     {
       "sequence": 19,
       "generation": 16,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after PR review found stale exact-head coverage and Runtime A2A repair commits were added to the already-published PR branch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root:exact-head-review-after-subagent-finding",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
       "actor": "codex:/root:issue-675-first-class-a2a",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
