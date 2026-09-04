@@ -10,6 +10,9 @@ fi
   exit 1
 }
 root="$(cd "$(dirname "$0")" && pwd)"
+repo_root="$(git -C "$root" rev-parse --show-toplevel)"
+expected_project="${ADL_GCP_EXPECTED_PROJECT:-cs-poc-cha8mmii0xk0iaw5vpf8mxf}"
+preflight_receipt="${ADL_GCP_PREFLIGHT_RECEIPT_PATH:-$repo_root/.csdlc/evidence/670/live/preflight.json}"
 preparation_vars="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 catalog_vars="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"
 temp_vm_timeout="${ADL_GCP_TEMP_VM_TIMEOUT_SECONDS:-0}"
@@ -34,13 +37,26 @@ cleanup_temporary_compute() {
   fi
   exit "$rc"
 }
-trap cleanup_temporary_compute EXIT
-
 project="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.project_id" | tr -d '"')"
 region="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.region" | tr -d '"')"
 zone="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.zone" | tr -d '"')"
 subnet="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.subnet_name" | tr -d '"')"
 generation="$(terraform -chdir="$root/preparation" console "${preparation_state_args[@]}" -var-file="$preparation_vars" <<<"var.generation" | tr -d '"')"
+[ "$project" = "$expected_project" ] || {
+  echo "refusing GCP preparation: Terraform project $project is not authorized project $expected_project" >&2
+  exit 1
+}
+jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" '
+  .schema == "adl.issue670.gcp_preflight.v1" and
+  .status == "pass" and
+  .project == $project and
+  .l4_prerequisite.region == $region and
+  .l4_prerequisite.zone == $zone
+' "$preflight_receipt" >/dev/null || {
+  echo "refusing GCP preparation: preflight receipt does not match Terraform project, region, and zone" >&2
+  exit 1
+}
+trap cleanup_temporary_compute EXIT
 [ "$(gcloud compute networks subnets describe "$subnet" --project "$project" --region "$region" --format='value(privateIpGoogleAccess)')" = "True" ] || {
   echo "subnet $region/$subnet must enable Private Google Access for private preparation VMs" >&2
   exit 1

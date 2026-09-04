@@ -7,15 +7,15 @@
     "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
     "slug": "gcp-warm-polis-live-qualification",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #670 live GCP warm-Polis qualification configuration, receipts, evidence, any narrow repairs, and residual-resource truth only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/670\n.csdlc/evidence/670/live\ninfra/gcp/workloads/modules/two-node-ollama-runtime/main.tf\ninfra/gcp/workloads/warm-polis",
+      "review_revision": "git-blake3:da2d97603b1a24017be42a87135e0e1468638583:ca3b682f0bfc6e0a5ae2f17d81d650a9daeaf15dfa54e03d5389f84a27826d5f",
+      "reviewer": "/root/issue_670_final_review",
       "review_prompts": [
         "Does every paid action target only the exact authorized company project and remain within the USD 20.00 ceiling?",
         "Are the two snapshots sealed, versioned, and sufficient for launch without downloads or builds?",
@@ -23,9 +23,43 @@
         "Are all timing denominators measured from authoritative events rather than inferred?",
         "Does cleanup prove every issue-owned VM and disk is absent while exactly the two intended snapshots remain?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "670-R2-P1-PROJECT-COUPLING",
+          "severity": "p1",
+          "summary": "Paid launch applies before proving the Terraform project and approved preflight target match the exact authorized company project.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "670-R2-P1-CLEAN-INIT",
+          "severity": "p1",
+          "summary": "The declared validator fails in a clean checkout because it does not initialize required Terraform modules and providers.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "670-R2-P1-EVIDENCE-OVERCLAIM",
+          "severity": "p1",
+          "summary": "SOR overstates repeat-apply attachment proof and complete residual cleanup, and records a non-executable combined gcloud command.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "The reviewer did not rerun paid GCP actions or independently query current cloud inventory.",
+        "The reviewer did not inspect or mutate GitHub or PR state."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

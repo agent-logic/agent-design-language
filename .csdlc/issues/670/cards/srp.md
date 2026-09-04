@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #670 live GCP warm-Polis qualification configuration, receipts, evidence, any narrow repairs, and residual-resource truth only.
+.csdlc/prepared/issues/670
+.csdlc/evidence/670/live
+infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf
+infra/gcp/workloads/warm-polis
 
 ## Prompts
 
@@ -24,7 +27,38 @@ Issue #670 live GCP warm-Polis qualification configuration, receipts, evidence, 
 
 ## Findings
 
-[]
+[
+  {
+    "id": "670-R2-P1-PROJECT-COUPLING",
+    "severity": "p1",
+    "summary": "Paid launch applies before proving the Terraform project and approved preflight target match the exact authorized company project.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "670-R2-P1-CLEAN-INIT",
+    "severity": "p1",
+    "summary": "The declared validator fails in a clean checkout because it does not initialize required Terraform modules and providers.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "670-R2-P1-EVIDENCE-OVERCLAIM",
+    "severity": "p1",
+    "summary": "SOR overstates repeat-apply attachment proof and complete residual cleanup, and records a non-executable combined gcloud command.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -32,12 +66,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The reviewer did not rerun paid GCP actions or independently query current cloud inventory.
+- The reviewer did not inspect or mutate GitHub or PR state.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:da2d97603b1a24017be42a87135e0e1468638583:ca3b682f0bfc6e0a5ae2f17d81d650a9daeaf15dfa54e03d5389f84a27826d5f")
 
-Reviewer: None
+Reviewer: Some("/root/issue_670_final_review")
 
-Result: pre_review
+Result: changes_required

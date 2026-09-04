@@ -3,9 +3,12 @@ set -euo pipefail
 
 mode="${1:-launch}"
 root="$(cd "$(dirname "$0")" && pwd)"
+repo_root="$(git -C "$root" rev-parse --show-toplevel)"
 receipt="${ADL_GCP_RECEIPT_PATH:-$root/launch-receipt.json}"
 cleanup_receipt="${ADL_GCP_CLEANUP_RECEIPT_PATH:-$root/cleanup-receipt.json}"
 launch_receipt_ref="$(basename "$receipt")"
+preflight_receipt="${ADL_GCP_PREFLIGHT_RECEIPT_PATH:-$repo_root/.csdlc/evidence/670/live/preflight.json}"
+expected_project="${ADL_GCP_EXPECTED_PROJECT:-cs-poc-cha8mmii0xk0iaw5vpf8mxf}"
 
 [ "${ADL_GCP_LIVE_EXECUTION:-}" = "authorized" ] || {
   echo "live GCP action requires ADL_GCP_LIVE_EXECUTION=authorized" >&2
@@ -15,12 +18,18 @@ command -v gcloud >/dev/null
 command -v jq >/dev/null
 command -v terraform >/dev/null
 
+project="$(terraform -chdir="$root" console <<<"var.project_id" | tr -d '"')"
+[ "$project" = "$expected_project" ] || {
+  echo "refusing GCP mutation: Terraform project $project is not authorized project $expected_project" >&2
+  exit 1
+}
+
 case "$mode" in
   destroy)
     cleanup_start_epoch="$(date +%s)"
-    project="$(terraform -chdir="$root" console <<<"var.project_id" | tr -d '"')"
     zone="$(terraform -chdir="$root" console <<<"var.zone" | tr -d '"')"
     generation="$(terraform -chdir="$root" console <<<"var.artifact_generation" | tr -d '"')"
+    issue_id="$(terraform -chdir="$root" console <<<"var.issue_id" | tr -d '"')"
     runtime_name="$(terraform -chdir="$root" output -raw runtime_instance_name)"
     ollama_name="$(terraform -chdir="$root" output -raw ollama_instance_name)"
     cleanup_contract="$(terraform -chdir="$root" output -json cleanup_contract)"
@@ -52,6 +61,13 @@ case "$mode" in
     snapshot_inventory="$(gcloud compute snapshots list --project "$project" \
       --filter="labels.adl_generation=$generation AND labels.adl_retained=true" \
       --format='json(name,selfLink)')"
+    residual_instances="$(gcloud compute instances list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,zone,status,labels)')"
+    residual_disks="$(gcloud compute disks list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,zone,status,labels,users)')"
+    residual_firewalls="$(gcloud compute firewall-rules list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,network,direction,disabled)')"
+    residual_images="$(gcloud compute images list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,status,labels)')"
+    residual_addresses="$(gcloud compute addresses list --project "$project" --filter="name~'$generation|adl-$issue_id'" --format='json(name,region,status,address)')"
+    residual_inventory="$(jq -n --argjson instances "$residual_instances" --argjson disks "$residual_disks" --argjson firewalls "$residual_firewalls" --argjson images "$residual_images" --argjson addresses "$residual_addresses" '{instances:$instances,disks:$disks,firewalls:$firewalls,images:$images,addresses:$addresses}')"
+    [ "$(jq '[.[] | length] | add' <<<"$residual_inventory")" -eq 0 ] || resources_absent=false
     if [ -n "$runtime_snapshot_observed" ] && [ -n "$ollama_snapshot_observed" ] && \
       jq -e --arg runtime "$runtime_snapshot_observed" --arg ollama "$ollama_snapshot_observed" \
         '([.[].selfLink] | sort) == ([$runtime,$ollama] | sort)' <<<"$snapshot_inventory" >/dev/null; then
@@ -64,11 +80,11 @@ case "$mode" in
       --arg launch_receipt "$launch_receipt_ref" --arg runtime_instance "$runtime_name" --arg ollama_instance "$ollama_name" \
       --arg runtime_disk "$runtime_disk" --arg ollama_disk "$ollama_disk" \
       --arg runtime_snapshot "$runtime_snapshot_observed" --arg ollama_snapshot "$ollama_snapshot_observed" \
-      --argjson snapshot_inventory "$snapshot_inventory" \
+      --argjson snapshot_inventory "$snapshot_inventory" --argjson residual_inventory "$residual_inventory" \
       --argjson runtime_instance_absent "$runtime_instance_absent" --argjson ollama_instance_absent "$ollama_instance_absent" \
       --argjson runtime_disk_absent "$runtime_disk_absent" --argjson ollama_disk_absent "$ollama_disk_absent" \
       --argjson resources_absent "$resources_absent" --argjson snapshots_retained "$snapshots_retained" \
-      '{schema:"adl.issue663.cleanup-receipt.v1",status:$status,cleanup_request_epoch:$started,cleanup_observation_epoch:$observed,launch_receipt:$launch_receipt,runtime_instance:{name:$runtime_instance,absent:$runtime_instance_absent},ollama_instance:{name:$ollama_instance,absent:$ollama_instance_absent},runtime_restored_disk:{name:$runtime_disk,absent:$runtime_disk_absent},ollama_restored_disk:{name:$ollama_disk,absent:$ollama_disk_absent},resource_absence_verified:$resources_absent,retained_snapshot_inventory:$snapshot_inventory,retained_snapshot_observed_self_links:[$runtime_snapshot,$ollama_snapshot],exact_retained_snapshot_set_verified:$snapshots_retained,snapshots_retained_verified:$snapshots_retained}' >"$cleanup_receipt"
+      '{schema:"adl.issue670.cleanup-receipt.v2",status:$status,cleanup_request_epoch:$started,cleanup_observation_epoch:$observed,launch_receipt:$launch_receipt,runtime_instance:{name:$runtime_instance,absent:$runtime_instance_absent},ollama_instance:{name:$ollama_instance,absent:$ollama_instance_absent},runtime_restored_disk:{name:$runtime_disk,absent:$runtime_disk_absent},ollama_restored_disk:{name:$ollama_disk,absent:$ollama_disk_absent},resource_absence_verified:$resources_absent,residual_issue_inventory:$residual_inventory,retained_snapshot_inventory:$snapshot_inventory,retained_snapshot_observed_self_links:[$runtime_snapshot,$ollama_snapshot],exact_retained_snapshot_set_verified:$snapshots_retained,snapshots_retained_verified:$snapshots_retained}' >"$cleanup_receipt"
     jq . "$cleanup_receipt"
     [ "$status" = cleaned ] || exit 2
     exit 0
@@ -77,14 +93,25 @@ case "$mode" in
   *) echo "usage: $0 [launch|destroy]" >&2; exit 64 ;;
 esac
 
+region="$(terraform -chdir="$root" console <<<"var.region" | tr -d '"')"
+zone="$(terraform -chdir="$root" console <<<"var.zone" | tr -d '"')"
+max_budget_usd="$(terraform -chdir="$root" console <<<"var.max_budget_usd")"
+jq -e --arg project "$project" --arg region "$region" --arg zone "$zone" --argjson budget "$max_budget_usd" '
+  .schema == "adl.issue670.gcp_preflight.v1" and
+  .status == "pass" and
+  .project == $project and
+  .l4_prerequisite.region == $region and
+  .l4_prerequisite.zone == $zone and
+  .authorized_budget_usd >= $budget
+' "$preflight_receipt" >/dev/null || {
+  echo "refusing GCP launch: preflight receipt does not match Terraform project, region, zone, and budget" >&2
+  exit 1
+}
 start_epoch="$(date +%s)"
 terraform -chdir="$root" apply -auto-approve
 apply_epoch="$(date +%s)"
 runtime_name="$(terraform -chdir="$root" output -raw runtime_instance_name)"
 ollama_name="$(terraform -chdir="$root" output -raw ollama_instance_name)"
-project="$(terraform -chdir="$root" console <<<"var.project_id" | tr -d '"')"
-region="$(terraform -chdir="$root" console <<<"var.region" | tr -d '"')"
-zone="$(terraform -chdir="$root" console <<<"var.zone" | tr -d '"')"
 generation="$(terraform -chdir="$root" console <<<"var.artifact_generation" | tr -d '"')"
 runtime_snapshot="$(terraform -chdir="$root" console <<<"var.runtime_snapshot" | tr -d '"')"
 ollama_snapshot="$(terraform -chdir="$root" console <<<"var.ollama_snapshot" | tr -d '"')"

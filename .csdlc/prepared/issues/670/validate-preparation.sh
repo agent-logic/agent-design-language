@@ -6,6 +6,13 @@ preflight="$root/.csdlc/prepared/issues/670/run-live-preflight.sh"
 vpp="$root/.csdlc/issues/670/cards/vpp.values.json"
 design="$root/.csdlc/prepared/issues/670/design.md"
 evidence="$root/.csdlc/evidence/670"
+git_common_dir="$(git -C "$root" rev-parse --git-common-dir)"
+case "$git_common_dir" in
+  /*) ;;
+  *) git_common_dir="$root/$git_common_dir" ;;
+esac
+export TF_PLUGIN_CACHE_DIR="$git_common_dir/csdlc-v2/local/terraform-plugin-cache"
+mkdir -p "$TF_PLUGIN_CACHE_DIR"
 
 bash -n "$preflight"
 bash -n "$root/infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh"
@@ -27,6 +34,13 @@ jq -e '
 terraform fmt -check -recursive \
   "$root/infra/gcp/workloads/modules/two-node-ollama-runtime" \
   "$root/infra/gcp/workloads/warm-polis"
+for terraform_root in \
+  "$root/infra/gcp/workloads/modules/two-node-ollama-runtime" \
+  "$root/infra/gcp/workloads/warm-polis" \
+  "$root/infra/gcp/workloads/warm-polis/preparation" \
+  "$root/infra/gcp/workloads/warm-polis/snapshot-catalog"; do
+  terraform -chdir="$terraform_root" init -backend=false -input=false >/dev/null
+done
 terraform -chdir="$root/infra/gcp/workloads/warm-polis" validate >/dev/null
 terraform -chdir="$root/infra/gcp/workloads/warm-polis/preparation" validate >/dev/null
 terraform -chdir="$root/infra/gcp/workloads/warm-polis/snapshot-catalog" validate >/dev/null
@@ -39,8 +53,15 @@ for receipt in \
   "$evidence/live/snapshot-verification-g670b.json" \
   "$evidence/live/launch-g670b.json" \
   "$evidence/live/cleanup-g670b.json" \
+  "$evidence/live/residual-inventory-g670b.json" \
   "$evidence/live/cost-upper-bound.json"; do
   [ ! -f "$receipt" ] || jq -e . "$receipt" >/dev/null
 done
+jq -e '
+  .status == "clean" and
+  ([.residual_issue_resources[] | length] | add) == 0 and
+  (.retained_snapshots | length) == 2 and
+  all(.retained_snapshots[]; .status == "READY")
+' "$evidence/live/residual-inventory-g670b.json" >/dev/null
 git -C "$root" diff --check
 printf 'issue670_preparation=pass\n'
