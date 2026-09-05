@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
     "slug": "runtime-a2a-action-selection-reliability",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/telemetry.rs\n.csdlc/evidence/693",
+      "review_revision": "git-blake3:57f3cfc44360a4d51132ffeafb68bca0d05a79af:030f9b35b3bdff6b0440a151e670ad2e2b317236487c53d303750a808d5b60c6",
+      "reviewer": "codex:/root/issue_693_postfix_readonly_review",
       "review_prompts": [
         "Does any path still require exact model-authored JSON?",
         "Can model prose alone cause dispatch?",
@@ -24,8 +24,11 @@
         "Are A2A results distinct from operator replies and observable?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider.",
+        "External agent communication remains out of scope for #693; this issue covers Runtime-owned communication among agents registered on the same local runtime."
+      ],
+      "review_result": "pass"
     }
   }
 }

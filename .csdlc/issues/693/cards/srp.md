@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/telemetry.rs
+.csdlc/evidence/693
 
 ## Prompts
 
@@ -32,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider.
+- External agent communication remains out of scope for #693; this issue covers Runtime-owned communication among agents registered on the same local runtime.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:57f3cfc44360a4d51132ffeafb68bca0d05a79af:030f9b35b3bdff6b0440a151e670ad2e2b317236487c53d303750a808d5b60c6")
 
-Reviewer: None
+Reviewer: Some("codex:/root/issue_693_postfix_readonly_review")
 
-Result: pre_review
+Result: pass

@@ -93,11 +93,11 @@ Implemented Runtime-owned model-backed A2A selection through Ollama-native tool 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
