@@ -1,0 +1,49 @@
+{
+  "schema": "adl.csdlc.issue_687.validation_summary.v1",
+  "issue": 687,
+  "head": "8ed2d826072248e65d1cf140bfc8ae4f9899be25",
+  "cloud_or_provider_calls": false,
+  "runtime_restart": false,
+  "commands": [
+    {
+      "command": ["cargo", "fmt", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--", "--check"],
+      "outcome": "passed",
+      "purpose": "Confirm repository Rust formatting for the touched Runtime-kernel surface."
+    },
+    {
+      "command": ["git", "diff", "--check", "origin/main...HEAD"],
+      "outcome": "passed",
+      "purpose": "Confirm exact-head diff hygiene."
+    },
+    {
+      "command": ["cargo", "check", "--manifest-path", "adl-runtime-kernel/Cargo.toml"],
+      "outcome": "passed",
+      "purpose": "Compile the Runtime-kernel provider readiness implementation."
+    },
+    {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "agent_roster"],
+      "outcome": "passed",
+      "purpose": "Prove provider-backed roster projection uses inference readiness instead of component running state."
+    },
+    {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "shepherd"],
+      "outcome": "passed",
+      "purpose": "Prove resident Shepherd readiness gating and recovery classifications."
+    },
+    {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "assembly"],
+      "outcome": "passed",
+      "purpose": "Prove production provider roster rejects placeholder/unsupported adapters."
+    },
+    {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "control"],
+      "outcome": "passed",
+      "purpose": "Prove ControlService projection and related Runtime control paths remain green."
+    }
+  ],
+  "notes": [
+    "All validation was deterministic local proof.",
+    "No live Runtime process was restarted.",
+    "No AWS, paid cloud, provider credentials, or live provider endpoint were used."
+  ]
+}
