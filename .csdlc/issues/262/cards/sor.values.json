@@ -7,9 +7,9 @@
     "title": "Podcast production hosting, RSS, enclosures, and playback",
     "slug": "podcast-production-hosting",
     "version": "v0.92.1",
-    "generation": 49
+    "generation": 50
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -313,10 +313,10 @@
           "evidence_ref": ".csdlc/evidence/262/issue-262-diff-hygiene.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

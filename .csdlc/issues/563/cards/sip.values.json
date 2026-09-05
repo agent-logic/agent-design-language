@@ -7,7 +7,7 @@
     "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
     "slug": "stale-owner-binary-primary-checkout-guard",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 29
   },
   "status": "ready",
   "content": {

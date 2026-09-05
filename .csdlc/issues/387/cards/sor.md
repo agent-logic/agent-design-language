@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: ready
+Status: complete
 
 ## Summary
 
@@ -73,17 +73,17 @@ Remediated PR #389 csdlc-v2-standalone CI failure by narrowing implemented-phase
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: ready
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

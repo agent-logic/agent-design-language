@@ -7,7 +7,7 @@
     "title": "[v0.92.1][DRT-D] GCP portability qualification",
     "slug": "v0-92-1-drt-d-gcp-portability-qualification",
     "version": "v0.92.1",
-    "generation": 21
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -30,7 +30,7 @@
           "acceptance_ids": [
             "AC-1"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -39,7 +39,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

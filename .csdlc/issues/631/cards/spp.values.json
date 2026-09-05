@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
     "slug": "v3-h5-proof-parity-soak-shadow-install",
     "version": "v0.92.1",
-    "generation": 31
+    "generation": 32
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
             "AC-4",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -45,7 +45,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -55,7 +55,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -68,7 +68,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

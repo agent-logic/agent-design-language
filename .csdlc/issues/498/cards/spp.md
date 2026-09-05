@@ -28,7 +28,7 @@ Revision 3
       "AC-1",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "STEP-498-002",
@@ -38,7 +38,7 @@ Revision 3
       "AC-3",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "STEP-498-003",
@@ -47,7 +47,7 @@ Revision 3
       "AC-2",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "STEP-498-004",
@@ -57,7 +57,7 @@ Revision 3
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "STEP-498-005",
@@ -69,7 +69,7 @@ Revision 3
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

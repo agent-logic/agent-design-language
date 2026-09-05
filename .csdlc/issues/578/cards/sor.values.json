@@ -7,9 +7,9 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 46
+    "generation": 47
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -96,10 +96,10 @@
           "evidence_ref": "local command output, #578 worktree"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

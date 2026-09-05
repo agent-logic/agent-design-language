@@ -7,7 +7,7 @@
     "title": "[v0.92.1][docs] Reconcile onboarding workflow and repository authority with Gate 10D2",
     "slug": "reconcile-onboarding-workflow-authority",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
             "AC-3",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-2",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-3",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -51,7 +51,7 @@
           "acceptance_ids": [
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][PROV-C][corrective] Repair provider reload ownership after #646",
     "slug": "provider-reload-ownership-corrective",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "ready",
   "content": {

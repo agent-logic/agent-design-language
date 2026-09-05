@@ -7,9 +7,9 @@
     "title": "[v0.92.1][docs] Reconcile onboarding workflow and repository authority with Gate 10D2",
     "slug": "reconcile-onboarding-workflow-authority",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 6
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -58,10 +58,10 @@
           "evidence_ref": "docs-authority-validator.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
