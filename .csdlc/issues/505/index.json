@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "implemented",
-  "generation": 47,
-  "digest": "a6cb70fbfa99438c86566e92c5f671ba57feabc6d8e3e64a89b4d5f7fa1bc77c",
+  "generation": 48,
+  "digest": "451579db9afe259a95bddca93e33994144682f5a7d1640d764df98561aaff256",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
@@ -35,34 +35,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bc6424efb1f4ed9957ee2dc07df6c8414016175e31e96d323c587ef34f82a15f",
+      "values_digest": "75cce150eebfd0c83cdb6530badfd883dbfe59fefa1c856d76a42df02032ae11",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "798514809e678f63e422ae810b218a36b66a088db359906f0415c6050d94de47",
+      "values_digest": "6d277687e443fbe8ad73fdd6fe21395dca581e67aed25f9b944c6c1989e9c29a",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "04f655c935e7715d63358578693e2d01440b6912cdf914197343fc223a7d2603",
+      "values_digest": "03bd5c9f234e2337510d63363d418a3e8682cb761f13014db5d51b69764fe9a3",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "2b2423353a53de27061d5da9f4df721628340d7b815b8c9d4f597be423d43d57",
+      "values_digest": "d848a44aa158d3a2765cced06b59f8bcf49e32ae1462a937a51446baaf1a557e",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "ef69e2f8adf8fdc3b1b9760f86e13b9257f6cedad95ff2a99bf209319c70e543",
+      "values_digest": "f28bfe52d3b20222ea656252ba3385391607898ae21cee59dbfbc9d87120c325",
       "rendered_digest": "c927fb463004a8ebbf87eb885a937a72147450dbed8f9aeadad8a86c988a455d",
       "ast_digest": "6102a9b2c097bb72a368213d98050a4f842f0db287c4b49ffcd57e8902c7bc2d"
     },
     "sor": {
-      "values_digest": "0872825193b74d0a2ff902862775c79492f2cf11c7ecfe79d262c1432cce8923",
-      "rendered_digest": "a0be57b4e666c7f370c01d707515c22d0f5134b28e7268e5cd7e57528e2a583b",
-      "ast_digest": "63763475875ff54e125cf409969078ef2e8e1a3a53d743d30f3e8393805f036d"
+      "values_digest": "7bdcd1be9b943d800b6752686a5a3ec6c896bb913ac3768b3371d00025abacd4",
+      "rendered_digest": "a1ddbd0226ed90ef02b438f187c7f66cd32afa92d5a5780c90e2d0002ea3659a",
+      "ast_digest": "f76c8a0ae82b84ba800fe66dc2ad47896f72e7edbd8ab480fe00ef431a058a3a"
     }
   },
   "transitions": [
@@ -718,6 +718,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 48,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after adding proof-route scratch-hygiene coverage to keep the cutover reconciliation evidence clean.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof, exact-head review, and operator approval, and added proof-route test cleanup so validation does not leave repo-local scratch residue.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, pending exact-head review, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, or stale readiness notice language.\",\"Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.\"],\"artifacts\":[\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the proof-route scratch-hygiene test change.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:scratch-hygiene:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Run the full C-SDLC v3 suite after command-surface, readback, cutover-disposition, and scratch-hygiene reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:132-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after terminal V3-H evidence, #179/#180 disposition, deferred cutover notice, and scratch-hygiene checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the reconciled branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:passed\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state after stale review/publication recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:status-pass-generation-47-ready-false\"}]}"
     }
   ]
 }
