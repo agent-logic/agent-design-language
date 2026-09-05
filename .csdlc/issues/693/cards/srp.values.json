@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 693,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+    "slug": "runtime-a2a-action-selection-reliability",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #693 action selection bridge production conversation ingress governed A2A dispatch focused tests and issue-local lifecycle evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does any path still require exact model-authored JSON?",
+        "Can model prose alone cause dispatch?",
+        "Does the Runtime preserve existing Layer8 admission replay cancellation and correlation authority?",
+        "Does the acceptance enter through production conversation ingress and use non-perfect model output?",
+        "Are A2A results distinct from operator replies and observable?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

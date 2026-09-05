@@ -1,0 +1,138 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 693,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "be31e64071c29c3b50483607df44375c1da60cd5729e6545f9f8c9331bbb5d58",
+  "branch": "codex/693-runtime-a2a-action-selection-reliability",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/693/design.md",
+  "diagram_path": ".csdlc/prepared/issues/693/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:dd67c6cd-5845-4358-a680-0b6ff1609226",
+      "revision": "3d6e1f22f907c3dd4a5cdb9cd79f7501e9898ea069400f940bed0de1b12d740d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9aa63725b322b0338b1a2fd9d196c0bb47cb7c1bdbc5ea739cbbe962f1a85dd2",
+      "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
+      "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
+    },
+    "stp": {
+      "values_digest": "837279f827c094e17c49b1d7c8100e9f32c7c294d05f5b565cff017a5c8fabcb",
+      "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
+      "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
+    },
+    "spp": {
+      "values_digest": "4f480673673684e8e8cd3b8ff0543c3772fff525704adb1976dea1550e5ebfc2",
+      "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
+      "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
+    },
+    "vpp": {
+      "values_digest": "e441e8cd35068d17161772efb0929b9919dae3a7a711a9e294059a264a38d5a3",
+      "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
+      "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
+    },
+    "srp": {
+      "values_digest": "89917e1e263df07fc61c3af3acad5efdad5a94589abe9670b946cdf9928f1baf",
+      "rendered_digest": "28041336a4de454290653d79555c01ae2364ce7e1375c88e3e9f0796974945c1",
+      "ast_digest": "2e95938bd8893aa0dcf1d28393a2f2fa4a9144a96c80ef81038d8bec3c5f9c9d"
+    },
+    "sor": {
+      "values_digest": "f8374b418fc46ca65b1037dc537fbb9cd47a9c6a74c36e0cbbaf31ab2aeafa9a",
+      "rendered_digest": "5f4162d21d4e6a02937e631fa7f6a1493442bb9892e8fdb90ea1f7134568edaf",
+      "ast_digest": "54a6cca1cd9155d9a9ad2b9501e65d51d963e426ed1146a3d7d8b16e031b8b85"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "advance approved executable design after doctor reported ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/issue-693",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:dd67c6cd-5845-4358-a680-0b6ff1609226",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"3d6e1f22f907c3dd4a5cdb9cd79f7501e9898ea069400f940bed0de1b12d740d\",\"design_ref\":\".csdlc/prepared/issues/693/design.md\",\"diagram_digest\":\"258c0894881958fb171a77bd3e94eb4c64b8e3bc18fe553a69567fd872f7e7e3\",\"diagram_ref\":\".csdlc/prepared/issues/693/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "restrict ownership to concrete existing Runtime and issue-local paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\".csdlc/issues/693\",\".csdlc/prepared/issues/693\",\".csdlc/evidence/693\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "advance approved executable design after doctor reported ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "replace the zero-test selector identified by independent review with the exact production-ingress acceptance test",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-a2a-live-style\",\"proof_role\":\"Prove production conversation ingress selects and completes governed Beacon-to-Ember A2A from an Ollama-native tool call while preserving the distinct initiating reply and correlated recipient completion.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response\",\"--\",\"--exact\"],\"parallel_group\":\"693-runtime\",\"defer_reason\":null},{\"lane\":\"runtime-a2a-governance\",\"proof_role\":\"Preserve failure replay cancellation admission legacy primitive behavior and ordinary replies for models without tool support.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"provider_conversation\"],\"parallel_group\":\"693-runtime\",\"defer_reason\":null},{\"lane\":\"runtime-quality\",\"proof_role\":\"Prove formatting and lint hygiene for the Runtime kernel change.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":800,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"693-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "include the tightly coupled Runtime event code required to expose correlated A2A completion separately from initiation",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\".csdlc/issues/693\",\".csdlc/prepared/issues/693\",\".csdlc/evidence/693\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/issue-693",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

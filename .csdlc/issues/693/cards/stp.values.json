@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 693,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+    "slug": "runtime-a2a-action-selection-reliability",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only the brittle model-output-to-governed-A2A action selection boundary introduced after #662 and #675.",
+      "deliverables": [
+        "reliable first-class A2A action selection boundary",
+        "governed dispatch integration preserving existing authority",
+        "isolated live-style end-to-end acceptance",
+        "compatibility and failure-path proof"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Production conversation ingress selects A2A from ordinary model-style output without requiring perfect JSON.",
+        "AC-2: Runtime constructs and validates the governed initiation with canonical sender recipient work conversation turn and correlation identity.",
+        "AC-3: Recipient executes through its configured provider route and the correlated terminal result is distinct from the initiator's operator reply.",
+        "AC-4: Authoritative Observatory/feed activity exposes initiation dispatch and result.",
+        "AC-5: Missing or stale recipient unauthorized sender replay cancellation and provider failure retain explicit governed outcomes.",
+        "AC-6: Isolated production-ingress live-style proof passes repeatedly with non-perfect model output.",
+        "AC-7: Existing #662 primitive and compatible #675 tests remain green.",
+        "AC-8: Focused validation diff hygiene and independent exact-head review pass before non-draft publication."
+      ],
+      "dependencies": [
+        "#662 and PR #668 merged",
+        "#675 and its implementation merged"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#693",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "runtime conversation and Observatory tests",
+        "#662",
+        "#675"
+      ],
+      "non_goals": [
+        "Unrestricted autonomous messaging",
+        "Broadcast or recursive fan-out",
+        "Transcript-history restoration",
+        "Live Wuji restart or config mutation",
+        "Cloud/provider spend",
+        "Changes to #686 or #689"
+      ]
+    }
+  }
+}
