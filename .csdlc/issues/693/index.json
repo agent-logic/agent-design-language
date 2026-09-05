@@ -5,10 +5,20 @@
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
   "phase": "implemented",
   "generation": 13,
-  "digest": "f3f2e3b80af68d3357dbd0fe5049087df419ddd2163c59a6445af8f425c9a28e",
+  "digest": "e3a5fdb995e1169d3cc445e4629df6b88a187e81fe4dc9dae709ae592b37f018",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
+    "assigned_by": "codex:/root/a2a_reliability_fix",
+    "revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/evidence/693"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "b2c77d9ecffdffbf645664aafb7d4832bf177c912b0656c6572eede68973b114",
-      "rendered_digest": "f3f6c84a334746e94a66f7ce70a6b222a6a3a4637181835ca46b53914e45ed69",
-      "ast_digest": "c369b67c3e739bbdd33cebc1b450d7a49b1157f68488af9fbb740436d7dc48b8"
+      "values_digest": "1b2197ae363c2c899d57d749958530ce0c50c83abd1fb916c0f10ac5944221b7",
+      "rendered_digest": "6e073498ddadad0d5eac669ada52ae4e85ac0737a3b85cf365db5d0b2dad325f",
+      "ast_digest": "01c540b20dc67dc3fd14edd7a603b4edbecfc545b4565998c5782e883e8f15dc"
     },
     "sor": {
       "values_digest": "f59f27561c6ff2bf41d2a2aa36f20807729bf31d9530aff2225fdee4b8b71a40",
@@ -245,6 +255,13 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "recover review state after review and publication-request metadata commits made the recorded Git revision stale without changing the reviewed Runtime source scope",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
