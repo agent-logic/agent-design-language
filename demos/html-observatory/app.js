@@ -91,6 +91,7 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 });
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v3";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
+const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA = "adl.runtime_v3.observatory_conversation_history_request.v1";
 const LARGE_POLIS_LIMITS = Object.freeze({
   maxVisibleAgents: 120,
   maxTranscriptTurns: 300,
@@ -1576,6 +1577,7 @@ function connectRuntimeV3ObservatoryWebSocket(
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
                  frame.schema === "adl.runtime_v3.observatory_conversation_result.v1" ||
+                 frame.schema === OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
                  frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
                  frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
@@ -1606,6 +1608,22 @@ function authenticateRuntimeV3ObservatorySocket(socket, token) {
   socket.send(JSON.stringify({
     schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
     bearer_token: writeToken
+  }));
+}
+
+function requestRuntimeConversationHistory(socket, conversationId, pageSize = 100) {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    throw new Error("Runtime v3 Observatory WebSocket is not open.");
+  }
+  const boundedConversationId = String(conversationId || "");
+  if (!/^[A-Za-z0-9._:-]{1,128}$/.test(boundedConversationId) ||
+      !Number.isSafeInteger(pageSize) || pageSize < 1 || pageSize > 100) {
+    throw new Error("Conversation history request is invalid.");
+  }
+  socket.send(JSON.stringify({
+    schema: RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA,
+    conversation_id: boundedConversationId,
+    page_size: pageSize
   }));
 }
 
@@ -1721,7 +1739,8 @@ function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
       history.schema !== OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
       typeof history.conversation_id !== "string" ||
       history.conversation_id.length === 0 ||
-      !Array.isArray(history.records)) {
+      !Array.isArray(history.records) ||
+      history.records.length > 100) {
     return { accepted: false, reason: "invalid_runtime_history" };
   }
   const expectedIncarnation = feed.runtime_incarnation_id || feed.runtimeIncarnationId || "";
@@ -1769,6 +1788,22 @@ function restoreConversationTranscriptFromRuntimeHistory(history, feed = {}, app
     }
   }
   return normalized;
+}
+
+function conversationTranscriptBaseTurnId(turnId) {
+  return String(turnId || "").replace(/:(outbound|reply)$/, "");
+}
+
+function conversationTranscriptRoleKey(speaker) {
+  const value = String(speaker || "runtime");
+  if (value === "operator") return "operator";
+  if (value.startsWith("agent")) return "agent";
+  return value;
+}
+
+function conversationTranscriptRenderKey(speaker, turnId) {
+  const baseTurnId = conversationTranscriptBaseTurnId(turnId);
+  return baseTurnId ? `${conversationTranscriptRoleKey(speaker)}:${baseTurnId}` : "";
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -2974,11 +3009,20 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
 
   const appendConversationTurn = (speaker, message, turnId, status = "") => {
     if (!conversationTranscript) return;
+    const renderKey = conversationTranscriptRenderKey(speaker, turnId);
+    const duplicate = Array.from(conversationTranscript.querySelectorAll(".conversation-turn"))
+      .find((item) => item.dataset.renderKey === renderKey);
+    if (duplicate) {
+      const state = duplicate.querySelector(".conversation-turn-status");
+      if (state && status) state.textContent = status;
+      return duplicate;
+    }
     conversationTranscript.querySelector(".conversation-empty")?.remove();
     const item = document.createElement("li");
     item.className = "conversation-turn";
     item.dataset.speaker = speaker;
-    if (turnId) item.dataset.turnId = turnId;
+    if (turnId) item.dataset.turnId = conversationTranscriptBaseTurnId(turnId);
+    if (renderKey) item.dataset.renderKey = renderKey;
     const content = document.createElement("span");
     content.className = "conversation-turn-content";
     content.textContent = message;
@@ -3060,10 +3104,32 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
 
+  const requestAvailableConversationHistories = () => {
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) return;
+    const recipients = new Set(
+      Array.from(conversationRecipient?.options || [])
+        .map((option) => option.value)
+        .filter(Boolean)
+    );
+    if (conversationRecipient?.value) recipients.add(conversationRecipient.value);
+    for (const recipientId of recipients) {
+      requestRuntimeConversationHistory(liveSocket, `conversation-${recipientId}`);
+    }
+  };
+
   const renderControlFrame = (frame) => {
     if (frame.status === "authenticated") {
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
       replayPendingConversationsAfterAuthentication();
+      requestAvailableConversationHistories();
+      return;
+    }
+    if (frame.schema === OBSERVATORY_CONVERSATION_HISTORY_SCHEMA) {
+      restoreConversationTranscriptFromRuntimeHistory(
+        frame,
+        { runtime_incarnation_id: liveRuntimeIncarnationId },
+        appendConversationTurn
+      );
       return;
     }
     if (frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
@@ -3555,6 +3621,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (conversationSend) {
       conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
     }
+    if (conversationAuthorized && conversationRecipient.value) {
+      requestRuntimeConversationHistory(liveSocket, `conversation-${conversationRecipient.value}`);
+    }
   });
   roomRecipients?.addEventListener("change", updateRoomSendState);
   roomMessage?.addEventListener("input", updateRoomSendState);
@@ -3763,6 +3832,10 @@ globalThis.AdlHtmlObservatory = {
   projectPolisIdentity,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
+  requestRuntimeConversationHistory,
+  conversationTranscriptBaseTurnId,
+  conversationTranscriptRoleKey,
+  conversationTranscriptRenderKey,
   conversationFrameTransition,
   conversationFrameProvesAcceptance,
   conversationReconnectIntent,

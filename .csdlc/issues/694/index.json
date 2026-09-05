@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 694,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2df28dc037de9b004e3cf607fc4dbd2948157a07a716fb488c1117f97ea83c53",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 6,
-  "digest": "b21c0b5a34ab21bd059a8359838205aab1bc813425f21d16bcdfa058b1dc6f39",
-  "branch": null,
-  "worktree": null,
+  "digest": "cfd63d1f0a20f0bd8f87ddd9208ed223ec006cace5d7b7b3e7ffea1d3c2c1b6e",
+  "branch": "codex/694-runtime-observatory-conversation-history",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-694-runtime-observatory-conversation-history",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:/root/conversation_history_fix",
       "reason": "advance #694 after non-duplicate issue creation, approved design, governed issue-owned validation denominator, and doctor readiness PASS"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -112,6 +120,13 @@
       "actor": "codex:/root/conversation_history_fix",
       "reason": "advance #694 after non-duplicate issue creation, approved design, governed issue-owned validation denominator, and doctor readiness PASS",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
