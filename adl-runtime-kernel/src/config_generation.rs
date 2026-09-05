@@ -97,8 +97,7 @@ pub fn provision_config_generation_in_store(
     store_owner_init: &Path,
     compatible_binary_generation: &str,
 ) -> Result<ConfigGenerationIdentity, String> {
-    let (receipt, identity) =
-        build_config_generation_receipt(init, compatible_binary_generation)?;
+    let (receipt, identity) = build_config_generation_receipt(init, compatible_binary_generation)?;
     let store = generation_store(store_owner_init)?;
     fs::create_dir_all(&store)
         .map_err(|error| format!("create Runtime configuration generation store: {error}"))?;
@@ -120,7 +119,10 @@ pub fn provision_config_generation_in_store(
             let retained = fs::read(&receipt_path)
                 .map_err(|error| format!("read retained Runtime configuration receipt: {error}"))?;
             if retained != bytes {
-                return Err("immutable Runtime configuration receipt conflicts with retained bytes".to_owned());
+                return Err(
+                    "immutable Runtime configuration receipt conflicts with retained bytes"
+                        .to_owned(),
+                );
             }
         }
         Err(error) => return Err(format!("create Runtime configuration receipt: {error}")),
@@ -164,7 +166,9 @@ pub fn validate_active_config_generation(
         || generation != expected.generation
         || digest != expected.receipt_digest
     {
-        return Err("Runtime configuration active reference does not match init content".to_owned());
+        return Err(
+            "Runtime configuration active reference does not match init content".to_owned(),
+        );
     }
     let receipt_path = generation_store(init)?.join(format!("{generation}.json"));
     let receipt: ConfigGenerationReceipt = serde_json::from_slice(
@@ -177,7 +181,9 @@ pub fn validate_active_config_generation(
         || receipt.compatible_binary_generation != compatible_binary_generation
         || receipt_digest(&receipt)? != digest
     {
-        return Err("Runtime configuration receipt identity or compatibility is invalid".to_owned());
+        return Err(
+            "Runtime configuration receipt identity or compatibility is invalid".to_owned(),
+        );
     }
     Ok(expected)
 }
@@ -197,9 +203,7 @@ pub fn config_generation_identity_from_env(
                 receipt_digest,
             })
         }
-        (None, None) => {
-            Err("runtime configuration generation environment is required".to_owned())
-        }
+        (None, None) => Err("runtime configuration generation environment is required".to_owned()),
         _ => Err("runtime configuration generation environment is incomplete".to_owned()),
     }
 }
@@ -237,8 +241,7 @@ fn collect_secret_references(
                 format!("{prefix}.{key}")
             };
             if key.ends_with("_path")
-                && (qualified.starts_with("credentials.")
-                    || qualified.starts_with("api.tls."))
+                && (qualified.starts_with("credentials.") || qualified.starts_with("api.tls."))
             {
                 child
                     .as_str()

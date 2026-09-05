@@ -987,9 +987,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         );
         assert!(
             receipt_digest.len() == 64
-                && receipt_digest
-                    .bytes()
-                    .all(|byte| byte.is_ascii_hexdigit()),
+                && receipt_digest.bytes().all(|byte| byte.is_ascii_hexdigit()),
             "Runtime configuration receipt digest must be a hex digest"
         );
         self.config_generation = generation;
