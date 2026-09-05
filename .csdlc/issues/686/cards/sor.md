@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated the #686 Runtime v3 configuration-generation handoff after exact-head review recovery and current-main resync. The change creates immutable configuration-generation receipts, validates and activates the active generation reference before Runtime service mutation, carries generation and receipt digest through CSM, Guardian child launch, kernel startup, readiness, and status, reconciles interrupted reload transactions before configuration-generation preflight can reject stranded active/ref mismatches, provisions reload candidate receipts into the active init generation store, and adds deterministic regression coverage without starting live Runtime/cloud services.
+Implemented and remediated the #686 Runtime v3 configuration-generation handoff after exact-head review recovery, current-main resync, and r8 denominator-proof correction. The change creates immutable configuration-generation receipts, validates and activates the active generation reference before Runtime service mutation, carries generation and receipt digest through CSM, Guardian child launch, kernel startup, readiness, and status, reconciles interrupted reload transactions before configuration-generation preflight can reject stranded active/ref mismatches, provisions reload candidate receipts into the active init generation store, and tightens the issue-owned denominator script so it checks named implementation, ordering, propagation, and regression-test anchors instead of loose token presence.
 
 ## Artifacts
 
@@ -25,12 +25,12 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
 - adl/src/cli/csm_runtime_v3_cmd.rs
 - adl/tests/csm_runtime_v3_generation.rs
 - .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py
-- .csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=d7a08594317488c32b3c9a0373745b05248d153fa131ae006f6e2d45cccf386a
-- .csdlc/evidence/686/issue686-denominator.log sha256=d8a692d0e5b3d5b262e9c3a10da943f6cc90237342a029d5812dbf3d6a6056ec
-- .csdlc/evidence/686/issue686-diff-check.log sha256=4dc77d302d7fe6e88e097fa20193b4e00645ccdb02abcb069bfd9bd3b71fc858
-- .csdlc/evidence/686/issue686-fmt-check.log sha256=5f78ae45a846c386437a8b5fdcccdf604328a5336b4be64403b8eff841efade4
-- .csdlc/evidence/686/issue686-focused-generation.log sha256=5d71141865d9f163f4404b0c8d76e5165cc196d48be8ba0d1ab45bf5aebeec44
-- .csdlc/evidence/686/issue686-strict-clippy.log sha256=e1c9ccffc18ab71c03242a531caac2d7710111cf2827aeedaf2b03b88d85d7f2
+- .csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=ae664e073b399e5c6d4592b434f89efa7fd8c1c71b58178871ee6979a17aff32
+- .csdlc/evidence/686/issue686-denominator.log sha256=bb1c2325224c0219dd4e68c76e0835b0f529aabdb90dbfca9db2df53585d85ce
+- .csdlc/evidence/686/issue686-diff-check.log sha256=c78ae230003ac1b3b218409622ca313b6eea006352da204a670361145f02d80f
+- .csdlc/evidence/686/issue686-fmt-check.log sha256=897f3f04eaf71a3ac03d330fd679ea8e41e0c7f49ae5afce4b0f30c574d90fd7
+- .csdlc/evidence/686/issue686-focused-generation.log sha256=5074f5410731b0024c94386ab3818a9725648df498fdc808bbeac3d66445f688
+- .csdlc/evidence/686/issue686-strict-clippy.log sha256=fcaa1d19936fb0caf537a6ac20f4488835b3220116f47c5a0f29147cf5b18b7f
 
 ## Execution
 
@@ -39,6 +39,7 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
 - Hardened reload recovery so active configuration-generation references are backed up, restored, and committed together with init file replacement, and so interrupted reload reconciliation runs before active configuration-generation preflight.
 - Provisioned reload candidate configuration-generation receipts into the active init generation store so candidates from a separate directory can become valid active generations after activation.
 - Merged current origin/main into the issue branch, preserving mainline Runtime v3 command changes and #686's configuration-generation handoff invariants.
+- Remediated r8-p2-denominator-token-presence-overclaim by expanding the denominator script to verify concrete receipt, active-reference, CSM ordering, Guardian/kernel propagation, readiness, active-store candidate, and regression-test anchors.
 - Added focused deterministic integration and unit coverage for receipt immutability, secret-path reference redaction, pre-activation non-authority, pointer mismatch rejection, candidate readiness without activation, candidate failure restoration, malformed receipt rejection, cross-binary rejection, cross-directory candidate receipt activation, and pre-reconcile active/ref mismatch recovery.
 - Kept scope local to Runtime v3 configuration-generation handoff surfaces and did not perform any live Runtime restart, cloud, paid, credential, or deployment action.
 
@@ -50,9 +51,9 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
       "python3",
       ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
     ],
-    "purpose": "Prove the issue-owned #686 static denominator for configuration-generation handoff coverage.",
+    "purpose": "Prove the issue-owned #686 static denominator checks concrete configuration-generation handoff, recovery-ordering, propagation, active-store candidate, and regression-test anchors.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/686/issue686-denominator.log sha256=d8a692d0e5b3d5b262e9c3a10da943f6cc90237342a029d5812dbf3d6a6056ec head=8df49f39cf1cf764b0f15f40a812d14dab24e868 status=0"
+    "evidence_ref": ".csdlc/evidence/686/issue686-denominator.log sha256=bb1c2325224c0219dd4e68c76e0835b0f529aabdb90dbfca9db2df53585d85ce head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0"
   },
   {
     "command": [
@@ -65,7 +66,7 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
     ],
     "purpose": "Focused csm_runtime_v3_cmd unit proof including interrupted reload reconciliation before configuration-generation preflight.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=d7a08594317488c32b3c9a0373745b05248d153fa131ae006f6e2d45cccf386a head=8df49f39cf1cf764b0f15f40a812d14dab24e868 status=0"
+    "evidence_ref": ".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=ae664e073b399e5c6d4592b434f89efa7fd8c1c71b58178871ee6979a17aff32 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0"
   },
   {
     "command": [
@@ -79,7 +80,7 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
     ],
     "purpose": "Focused Runtime v3 configuration-generation integration regression suite including active-store candidate receipt validation.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/686/issue686-focused-generation.log sha256=5d71141865d9f163f4404b0c8d76e5165cc196d48be8ba0d1ab45bf5aebeec44 head=8df49f39cf1cf764b0f15f40a812d14dab24e868 status=0"
+    "evidence_ref": ".csdlc/evidence/686/issue686-focused-generation.log sha256=5074f5410731b0024c94386ab3818a9725648df498fdc808bbeac3d66445f688 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0"
   },
   {
     "command": [
@@ -95,7 +96,7 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
     ],
     "purpose": "Strict Clippy over all ADL Cargo targets with warnings denied.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/686/issue686-strict-clippy.log sha256=e1c9ccffc18ab71c03242a531caac2d7710111cf2827aeedaf2b03b88d85d7f2 head=8df49f39cf1cf764b0f15f40a812d14dab24e868 status=0"
+    "evidence_ref": ".csdlc/evidence/686/issue686-strict-clippy.log sha256=fcaa1d19936fb0caf537a6ac20f4488835b3220116f47c5a0f29147cf5b18b7f head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0"
   },
   {
     "command": [
@@ -107,7 +108,7 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
     ],
     "purpose": "Rust formatting check for the ADL Cargo workspace.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/686/issue686-fmt-check.log sha256=5f78ae45a846c386437a8b5fdcccdf604328a5336b4be64403b8eff841efade4 head=8df49f39cf1cf764b0f15f40a812d14dab24e868 status=0"
+    "evidence_ref": ".csdlc/evidence/686/issue686-fmt-check.log sha256=897f3f04eaf71a3ac03d330fd679ea8e41e0c7f49ae5afce4b0f30c574d90fd7 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0"
   },
   {
     "command": [
@@ -117,7 +118,7 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
     ],
     "purpose": "Whitespace and patch hygiene check.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/686/issue686-diff-check.log sha256=4dc77d302d7fe6e88e097fa20193b4e00645ccdb02abcb069bfd9bd3b71fc858 head=8df49f39cf1cf764b0f15f40a812d14dab24e868 status=0"
+    "evidence_ref": ".csdlc/evidence/686/issue686-diff-check.log sha256=c78ae230003ac1b3b218409622ca313b6eea006352da204a670361145f02d80f head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0"
   }
 ]
 

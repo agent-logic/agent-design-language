@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "76d3086b713d9d31d95146492e6df10e61b5541cfd30c394e827327c69880b0a",
+  "generation": 24,
+  "digest": "5e4f188efaf7d9aef45bcb9e9a5661ef6c748d0b731f08f1801213d90896cf24",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e8866da359bf8a672d121f49f7dff98cca970c9a92fbc38a4bdff8442c442f65",
+      "values_digest": "c1818f9cb5d370428eb959fe736da7d796c3f438f43a7d344a0f016e90d4852a",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "4ebf095288be910976899168efa5036ebac40ab329bed36ac24b9eb4c65622f8",
+      "values_digest": "cbfc33b75587784e967fae42d551cd3ac887428c239535d415c9652c7ba46951",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "5ce131e3776d7db5f0755e05775df7695105e9df1b26aba9cf9ec70f7160f5c8",
+      "values_digest": "eb1d4e65a81d7fa5a9fb23847219cef693330157820103292939560709d4305a",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "4c3385ce83676af3341cb30b4dfb9200bd6a3c39c44843832347a9fece15b7fc",
+      "values_digest": "9081cbca3de87bb5293f4d48fdba72f394d5bc30153c0de4fecb60b73c781aea",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "4e92000222a81f5cedf656306b727f2f71b53ba14a8f87c928f2e9c685f7dfa4",
+      "values_digest": "2786b52e2017bee197f014d67c67e400f8ef6c298a97051ea380f4fdb79d27e5",
       "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
       "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "e44f898ba775e1bf73ada18c56f6de8db65aa0f3e41c7f2e4362eba5fb7597fc",
-      "rendered_digest": "10a04226059c24d17c3efcd534140056981bf88736ccafd7281985a167af12de",
-      "ast_digest": "77c3be140502396c03c40892006f98608194ea8c03c38de6a4d776974037d9e8"
+      "values_digest": "4c1b807ad1af6cea1c4dd6bf718a3ffb3268d46f79a85228cbf8c43e2b6b164b",
+      "rendered_digest": "ec0fe076010f99f9a1184d582039041c629be2365df1b8cc044a43a441373dd8",
+      "ast_digest": "4b873f17a1e1d486f424ebbfebdbecdc2fc5cff91fd5560dbf6f20ac4ebf20a0"
     }
   },
   "transitions": [
@@ -336,6 +336,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "Recover #686 review authority after r8 returned P2 r8-p2-denominator-token-presence-overclaim. Remediation will tighten the issue-owned denominator proof and/or lifecycle validation claim so publication no longer overstates a loose token-presence script, then recapture exact evidence and obtain a fresh review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:/root/issue-686",
+      "reason": "Record exact-head #686 validation evidence after r8 denominator-overclaim remediation before fresh implementation review",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated the #686 Runtime v3 configuration-generation handoff after exact-head review recovery, current-main resync, and r8 denominator-proof correction. The change creates immutable configuration-generation receipts, validates and activates the active generation reference before Runtime service mutation, carries generation and receipt digest through CSM, Guardian child launch, kernel startup, readiness, and status, reconciles interrupted reload transactions before configuration-generation preflight can reject stranded active/ref mismatches, provisions reload candidate receipts into the active init generation store, and tightens the issue-owned denominator script so it checks named implementation, ordering, propagation, and regression-test anchors instead of loose token presence.\",\"changes\":[\"Added Runtime kernel configuration-generation receipt primitives for immutable receipt construction, digest validation, active-reference activation, and active-generation validation.\",\"Threaded the active configuration generation and receipt digest through CSM Runtime v3 start/reload/status, Guardian child launch environment propagation, kernel startup, and readiness reporting.\",\"Hardened reload recovery so active configuration-generation references are backed up, restored, and committed together with init file replacement, and so interrupted reload reconciliation runs before active configuration-generation preflight.\",\"Provisioned reload candidate configuration-generation receipts into the active init generation store so candidates from a separate directory can become valid active generations after activation.\",\"Merged current origin/main into the issue branch, preserving mainline Runtime v3 command changes and #686's configuration-generation handoff invariants.\",\"Remediated r8-p2-denominator-token-presence-overclaim by expanding the denominator script to verify concrete receipt, active-reference, CSM ordering, Guardian/kernel propagation, readiness, active-store candidate, and regression-test anchors.\",\"Added focused deterministic integration and unit coverage for receipt immutability, secret-path reference redaction, pre-activation non-authority, pointer mismatch rejection, candidate readiness without activation, candidate failure restoration, malformed receipt rejection, cross-binary rejection, cross-directory candidate receipt activation, and pre-reconcile active/ref mismatch recovery.\",\"Kept scope local to Runtime v3 configuration-generation handoff surfaces and did not perform any live Runtime restart, cloud, paid, credential, or deployment action.\"],\"artifacts\":[\"adl-runtime-kernel/src/config_generation.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tests/csm_runtime_v3_generation.rs\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\",\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=ae664e073b399e5c6d4592b434f89efa7fd8c1c71b58178871ee6979a17aff32\",\".csdlc/evidence/686/issue686-denominator.log sha256=bb1c2325224c0219dd4e68c76e0835b0f529aabdb90dbfca9db2df53585d85ce\",\".csdlc/evidence/686/issue686-diff-check.log sha256=c78ae230003ac1b3b218409622ca313b6eea006352da204a670361145f02d80f\",\".csdlc/evidence/686/issue686-fmt-check.log sha256=897f3f04eaf71a3ac03d330fd679ea8e41e0c7f49ae5afce4b0f30c574d90fd7\",\".csdlc/evidence/686/issue686-focused-generation.log sha256=5074f5410731b0024c94386ab3818a9725648df498fdc808bbeac3d66445f688\",\".csdlc/evidence/686/issue686-strict-clippy.log sha256=fcaa1d19936fb0caf537a6ac20f4488835b3220116f47c5a0f29147cf5b18b7f\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"purpose\":\"Prove the issue-owned #686 static denominator checks concrete configuration-generation handoff, recovery-ordering, propagation, active-store candidate, and regression-test anchors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-denominator.log sha256=bb1c2325224c0219dd4e68c76e0835b0f529aabdb90dbfca9db2df53585d85ce head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_v3_cmd\"],\"purpose\":\"Focused csm_runtime_v3_cmd unit proof including interrupted reload reconciliation before configuration-generation preflight.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=ae664e073b399e5c6d4592b434f89efa7fd8c1c71b58178871ee6979a17aff32 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Focused Runtime v3 configuration-generation integration regression suite including active-store candidate receipt validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-focused-generation.log sha256=5074f5410731b0024c94386ab3818a9725648df498fdc808bbeac3d66445f688 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all ADL Cargo targets with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-strict-clippy.log sha256=fcaa1d19936fb0caf537a6ac20f4488835b3220116f47c5a0f29147cf5b18b7f head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for the ADL Cargo workspace.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-fmt-check.log sha256=897f3f04eaf71a3ac03d330fd679ea8e41e0c7f49ae5afce4b0f30c574d90fd7 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-diff-check.log sha256=c78ae230003ac1b3b218409622ca313b6eea006352da204a670361145f02d80f head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"}]}"
     }
   ]
 }
