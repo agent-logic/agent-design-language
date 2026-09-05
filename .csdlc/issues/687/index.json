@@ -3,13 +3,39 @@
   "issue": 687,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5e7a53528833f2592470603f90feb9f44272294b8ca449cc6d4ba06cab4a83c",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "f739d4bcfe288b67481aed1aad32e377466db292a36b2a251ff3daff9999795d",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "d1084a7e239fac1ea8a9dfa5ccc6192ca7b11e4b73c895dcc7cb3097efeb49b1",
   "branch": "codex/687-provider-inference-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_687_prepr_r1",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/support/tls.rs",
+      ".csdlc/evidence/687",
+      ".csdlc/issues/687"
+    ],
+    "reviewed_revision": "git-blake3:998fb11928ff783f4c4dc9a8354f6ee680c30044:c74401111c0fd12515ca8e0103043d0d42c5cdca4b1649b60daa0fc869e432ee",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI must rerun after republishing the repaired PR head.",
+      "No live Runtime restart, AWS action, paid cloud action, provider credential use, or live provider call was performed by this issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ecec53ca4f8ccf078cc347fe8935e518f90bf5c7d9a5db7ac0af956163a4bf5c",
+      "values_digest": "e2ab16461aee0d60e695a0439f2d29be3e0b4e18816e5f949246c15ea620ad53",
       "rendered_digest": "86d07617e386282ba3ae6fc8b95d1287f282d6d7e6c97c91cfcac023257e8646",
       "ast_digest": "3da0d2b206b357ba4c6355e383f4230251c39d0628e56ae91103e6a6cba008fe"
     },
     "stp": {
-      "values_digest": "8dcd863b994896eff6091be75028f326a4728a06066ef83559c74a70dec9d292",
+      "values_digest": "e71f6b6b16d26a7d29eb7faee67e7517cd808c1a1375835e528652c7d2355f70",
       "rendered_digest": "b83164581256d4984adbc5eab058899d97ad87dfe567151a35fb08b4f0952d91",
       "ast_digest": "2f700ba5f81e801b3b39fa80a2e4685074d0365b961254e8126c816097a7c537"
     },
     "spp": {
-      "values_digest": "eee78ab4d3e1b62e1c296cf5a2f8e6281b7f4b308f9714bdb797a28221454ac3",
+      "values_digest": "c7eccc4a7d5f347ffd42679376327498d12635bbc86b873df67cd8f573d83ea7",
       "rendered_digest": "b1b06e6b31bfdc053559670fe1d72879382fa2d5f51b583c73a589b9f94144dc",
       "ast_digest": "b82ab97a5a27bfe30749d0bc2c24544c417488f4f9c4b9c51c282514fc3ba418"
     },
     "vpp": {
-      "values_digest": "9a22dfc0a2a114d0808c2689caa86566c7c302f68e08bf599b56c96773cd1f3a",
+      "values_digest": "896ae6fc8c4d87ff9c8e2d4cd58066be779a1299fc66d69c96eec33697c93348",
       "rendered_digest": "f3330544ff2d20da9a46fc927c64b45b2ad64d922f8c08119b7b04db4861ad31",
       "ast_digest": "be9d32360805cb9dafa00b41204105c5f0ec57c331fa365ec0621c5d2a907d61"
     },
     "srp": {
-      "values_digest": "39611c8879f18ff2b53d84f655ace83ea11d485b2bb477043804c13a80d290a1",
-      "rendered_digest": "d3a82bb8da0d4615736ae59a0efec63ade7333332b53be045318b8f53d2aebc6",
-      "ast_digest": "22b7e4a32205478d18e3a94279d50ef0c9dc941626866aa881637861d64ddb63"
+      "values_digest": "c78fd1747bacc8fe897912c66f36edd208789b8755a6ba0f21ce7788e91c22a0",
+      "rendered_digest": "580dca7bf6b334ce3b8215fe6cf4d744f4ac01bea11c23422bbe7979a831ccb6",
+      "ast_digest": "eccb27bebcc4b9281c06edc8b9246e275eb255d48a076f3d71598bb5d50d82d3"
     },
     "sor": {
-      "values_digest": "a6d173597593dcd0ffab2eb19cfadfa01689335051624d3351e6f183ff99fa6d",
+      "values_digest": "7e4673c59f2a39e20eca9652cc0e5d456379c36ea95963dfb9167b671089ff95",
       "rendered_digest": "0b413fd53ac8dfb2c6311409fb151f9f26e8b00e250c2c1d2e6ead67edcfd75a",
       "ast_digest": "e3347951ac9a7ff41227b40a4600f569e000bf656d79cdc13ccfdb45d1e47d70"
     }
@@ -124,6 +150,13 @@
       "to": "implemented",
       "actor": "Worker #7",
       "reason": "Recover stale published review after substantive CI-red repair at PR #691 head."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -245,6 +278,13 @@
       "actor": "Worker #7",
       "reason": "Recover stale published review after substantive CI-red repair at PR #691 head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

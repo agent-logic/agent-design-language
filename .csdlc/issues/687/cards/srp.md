@@ -12,7 +12,20 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/agent_roster.rs
+adl-runtime-kernel/src/config_reload.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/control/feeds.rs
+adl-runtime-kernel/src/conversation_sessions_tests.rs
+adl-runtime-kernel/src/resident_shepherd.rs
+adl-runtime-kernel/tests/agent_roster.rs
+adl-runtime-kernel/tests/assembly.rs
+adl-runtime-kernel/tests/control.rs
+adl-runtime-kernel/tests/shepherd.rs
+adl-runtime-kernel/tests/support/runtime_init.rs
+adl-runtime/tests/support/tls.rs
+.csdlc/evidence/687
+.csdlc/issues/687
 
 ## Prompts
 
@@ -32,12 +45,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GitHub CI must rerun after republishing the repaired PR head.
+- No live Runtime restart, AWS action, paid cloud action, provider credential use, or live provider call was performed by this issue.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:998fb11928ff783f4c4dc9a8354f6ee680c30044:c74401111c0fd12515ca8e0103043d0d42c5cdca4b1649b60daa0fc869e432ee")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_687_prepr_r1")
 
-Result: pre_review
+Result: pass

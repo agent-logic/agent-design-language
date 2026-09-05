@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
     "slug": "runtime-provider-inference-readiness",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/config_reload.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/src/resident_shepherd.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/shepherd.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\nadl-runtime/tests/support/tls.rs\n.csdlc/evidence/687\n.csdlc/issues/687",
+      "review_revision": "git-blake3:998fb11928ff783f4c4dc9a8354f6ee680c30044:c74401111c0fd12515ca8e0103043d0d42c5cdca4b1649b60daa0fc869e432ee",
+      "reviewer": "subagent:/root/review_687_prepr_r1",
       "review_prompts": [
         "Are all five readiness states mutually exclusive and semantically precise?",
         "Can any unsupported, unavailable, loading, or failed adapter project ready or communication-eligible?",
@@ -24,8 +24,11 @@
         "Are provider/model identifiers and errors redacted appropriately?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "GitHub CI must rerun after republishing the repaired PR head.",
+        "No live Runtime restart, AWS action, paid cloud action, provider credential use, or live provider call was performed by this issue."
+      ],
+      "review_result": "pass"
     }
   }
 }
