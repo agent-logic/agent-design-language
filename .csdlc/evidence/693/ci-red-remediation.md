@@ -19,6 +19,7 @@ Local validation after the fix, with `TMPDIR` inside the #693 worktree:
 
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak -- --nocapture`
   - result: passed, 8 tests.
+  - retained log: `.csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log`.
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib agent_to_agent_ -- --nocapture`
   - result: passed, 5 tests.
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib provider_conversation -- --nocapture`
