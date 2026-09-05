@@ -156,26 +156,12 @@ pub fn validate_active_config_generation(
     compatible_binary_generation: &str,
 ) -> Result<ConfigGenerationIdentity, String> {
     let expected = build_config_generation_receipt(init, compatible_binary_generation)?.1;
-    let active = active_generation_ref(init)?;
-    let text = fs::read_to_string(&active)
-        .map_err(|error| format!("read Runtime configuration active reference: {error}"))?;
-    let mut values = text.split_whitespace();
-    let generation = values.next().unwrap_or_default();
-    let digest = values.next().unwrap_or_default();
-    if values.next().is_some()
-        || generation != expected.generation
-        || digest != expected.receipt_digest
-    {
+    let (generation, digest, receipt) = read_active_config_generation_receipt(init)?;
+    if generation != expected.generation || digest != expected.receipt_digest {
         return Err(
             "Runtime configuration active reference does not match init content".to_owned(),
         );
     }
-    let receipt_path = generation_store(init)?.join(format!("{generation}.json"));
-    let receipt: ConfigGenerationReceipt = serde_json::from_slice(
-        &fs::read(&receipt_path)
-            .map_err(|error| format!("read active Runtime configuration receipt: {error}"))?,
-    )
-    .map_err(|error| format!("parse active Runtime configuration receipt: {error}"))?;
     if receipt.schema != CONFIG_GENERATION_RECEIPT_SCHEMA
         || receipt.generation != generation
         || receipt.compatible_binary_generation != compatible_binary_generation
@@ -186,6 +172,24 @@ pub fn validate_active_config_generation(
         );
     }
     Ok(expected)
+}
+
+pub fn validate_active_config_generation_content(
+    init: &Path,
+) -> Result<ConfigGenerationReceipt, String> {
+    let content_sha256 = format!(
+        "{:x}",
+        Sha256::digest(fs::read(init).map_err(|error| format!("read Runtime init: {error}"))?)
+    );
+    let (generation, digest, receipt) = read_active_config_generation_receipt(init)?;
+    if receipt.schema != CONFIG_GENERATION_RECEIPT_SCHEMA
+        || receipt.generation != generation
+        || receipt.content_sha256 != content_sha256
+        || receipt_digest(&receipt)? != digest
+    {
+        return Err("Runtime configuration active receipt does not match init content".to_owned());
+    }
+    Ok(receipt)
 }
 
 pub fn config_generation_identity_from_env(
@@ -226,6 +230,31 @@ pub fn receipt_digest(receipt: &ConfigGenerationReceipt) -> Result<String, Strin
     serde_json::to_vec(receipt)
         .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
         .map_err(|error| format!("encode Runtime configuration receipt digest: {error}"))
+}
+
+fn read_active_config_generation_receipt(
+    init: &Path,
+) -> Result<(String, String, ConfigGenerationReceipt), String> {
+    let active = active_generation_ref(init)?;
+    let text = fs::read_to_string(&active)
+        .map_err(|error| format!("read Runtime configuration active reference: {error}"))?;
+    let mut values = text.split_whitespace();
+    let generation = values.next().unwrap_or_default();
+    let digest = values.next().unwrap_or_default();
+    if values.next().is_some() {
+        return Err(
+            "Runtime configuration active reference does not match init content".to_owned(),
+        );
+    }
+    validate_digest("configuration generation", generation)?;
+    validate_digest("configuration receipt digest", digest)?;
+    let receipt_path = generation_store(init)?.join(format!("{generation}.json"));
+    let receipt: ConfigGenerationReceipt = serde_json::from_slice(
+        &fs::read(&receipt_path)
+            .map_err(|error| format!("read active Runtime configuration receipt: {error}"))?,
+    )
+    .map_err(|error| format!("parse active Runtime configuration receipt: {error}"))?;
+    Ok((generation.to_owned(), digest.to_owned(), receipt))
 }
 
 fn collect_secret_references(

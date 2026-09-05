@@ -65,6 +65,7 @@ def main() -> None:
             'format!("{} {}\\n", identity.generation, identity.receipt_digest)',
             "fs::rename(&staged, &active)",
             "pub fn validate_active_config_generation",
+            "pub fn validate_active_config_generation_content",
             "Runtime configuration active reference does not match init content",
             "Runtime configuration receipt identity or compatibility is invalid",
             "pub fn config_generation_identity_from_env",
@@ -93,6 +94,16 @@ def main() -> None:
             "prepare_active_config_generation(&args.init, &binary_generation)?;",
         ),
         label="start preflight ordering",
+    )
+    require(
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        (
+            "fn prepare_active_config_generation",
+            "validate_active_config_generation(init_path, binary_generation).is_err()",
+            "validate_active_config_generation_content(init_path)",
+            "retained.compatible_binary_generation == binary_generation",
+        ),
+        label="binary-generation transition preflight",
     )
     require_order(
         "adl/src/cli/csm_runtime_v3_cmd.rs",
@@ -193,6 +204,11 @@ def main() -> None:
             "reconcile_interrupted_reload_with(",
             "prepare_active_config_generation(&active, \"test-generation\")",
             "active_identity",
+            "fn config_generation_preflight_advances_unchanged_init_for_new_binary_generation",
+            "prepare_active_config_generation(&init, \"runtime-generation-two\")",
+            "production preflight advances unchanged init",
+            "prepare_active_config_generation(&init, \"runtime-generation-one\")",
+            "production preflight rolls back unchanged init",
         ),
         label="interrupted reload regression denominator",
     )

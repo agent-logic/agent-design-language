@@ -10,7 +10,7 @@ use std::time::Duration;
 use adl_runtime_kernel::{
     activate_config_generation, active_generation_ref, provision_config_generation,
     provision_config_generation_in_store, validate_active_config_generation,
-    ConfigGenerationIdentity, RuntimeInitConfig,
+    validate_active_config_generation_content, ConfigGenerationIdentity, RuntimeInitConfig,
 };
 use anyhow::{anyhow, Context, Result};
 use serde::{Deserialize, Serialize};
@@ -373,6 +373,15 @@ fn prepare_active_config_generation(
         provision_config_generation(init_path, binary_generation).map_err(anyhow::Error::msg)?;
     let active_ref = active_generation_ref(init_path).map_err(anyhow::Error::msg)?;
     if !active_ref.exists() {
+        activate_config_generation(init_path, &identity).map_err(anyhow::Error::msg)?;
+    } else if validate_active_config_generation(init_path, binary_generation).is_err() {
+        let retained =
+            validate_active_config_generation_content(init_path).map_err(anyhow::Error::msg)?;
+        if retained.compatible_binary_generation == binary_generation {
+            return Err(anyhow!(
+                "Runtime configuration active reference does not match init content"
+            ));
+        }
         activate_config_generation(init_path, &identity).map_err(anyhow::Error::msg)?;
     }
     validate_active_config_generation(init_path, binary_generation).map_err(anyhow::Error::msg)
@@ -1655,6 +1664,7 @@ pub(crate) fn usage() -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use adl_runtime_kernel::generation_store;
 
     static ENV_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
@@ -2281,7 +2291,7 @@ mod tests {
             prepare_active_config_generation(&active, "test-generation").unwrap_err();
         assert!(pre_reconcile_error
             .to_string()
-            .contains("active reference does not match init content"));
+            .contains("active receipt does not match init content"));
 
         reconcile_interrupted_reload_with(
             &active,
@@ -2298,6 +2308,43 @@ mod tests {
             prepare_active_config_generation(&active, "test-generation")
                 .expect("preflight after reconcile"),
             active_identity
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn config_generation_preflight_advances_unchanged_init_for_new_binary_generation() {
+        let root = tempfile::tempdir().unwrap();
+        let (init, _, _) = write_generation_init(root.path());
+
+        let generation_one =
+            provision_config_generation(&init, "runtime-generation-one").expect("provision gen1");
+        activate_config_generation(&init, &generation_one).expect("activate gen1");
+
+        let generation_two = prepare_active_config_generation(&init, "runtime-generation-two")
+            .expect("production preflight advances unchanged init");
+        assert_ne!(generation_one.generation, generation_two.generation);
+        assert_ne!(generation_one.receipt_digest, generation_two.receipt_digest);
+        assert_eq!(
+            validate_active_config_generation(&init, "runtime-generation-two")
+                .expect("validate upgraded generation"),
+            generation_two
+        );
+        assert!(
+            generation_store(&init)
+                .expect("store")
+                .join(format!("{}.json", generation_one.generation))
+                .exists(),
+            "rollback receipt remains retained"
+        );
+
+        let rolled_back = prepare_active_config_generation(&init, "runtime-generation-one")
+            .expect("production preflight rolls back unchanged init");
+        assert_eq!(rolled_back, generation_one);
+        assert_eq!(
+            validate_active_config_generation(&init, "runtime-generation-one")
+                .expect("validate rollback generation"),
+            generation_one
         );
     }
 
