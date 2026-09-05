@@ -3,13 +3,30 @@
   "issue": 679,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f831ecbc7cce804c9b863e376a8ef997bc1caf08c5126652172536117f5b6716",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "02c0f45065e5ddf11fd5735c0b5d5ccad5dccbfad79fdcd05d9302956fb47151",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "7a49439351e047e15f7db8a0794bca3bd174ced47baf6efdc70b18dbc927dd28",
   "branch": "codex/679-s3-deployable-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-679-s3-deployable-observatory",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_679_acl_fix_r1",
+    "scope": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+      ".csdlc/evidence/679",
+      ".csdlc/issues/679"
+    ],
+    "reviewed_revision": "git-blake3:bd8f54f7b75644d0268e957380a8a76b132d0184:cb01f62414352cf8abf38f73a7080c66436d17906f665c0a6486661a92153661",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS plan, apply, and readback remain deferred pending explicit operator authorization.",
+      "GitHub CI must rerun after republishing the repaired PR head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +41,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8a65398daf4e1ac57a087fa606c527bf864f3e0da80187aef1a702df4f72fd55",
+      "values_digest": "2f7a91ed811f321d7396a3691a90c24bccb254357f2a77f15d03b24ca818ca76",
       "rendered_digest": "9b18c7084878bd53a8c2428eb3432ea3ff939e2418bacb4b581b9f09b5ec642e",
       "ast_digest": "dea8b20133b07d191cd5bfc3f94f221eb074e954541aa50228a4bddffede460c"
     },
     "stp": {
-      "values_digest": "c8291c1b647cca8cbb7c2629c779e67d006d360d1860213e013754ddc2c88062",
+      "values_digest": "0cc76e36ce70c3ade55ad1fe1de01b597b97a224a816341a9cff2a8c3d1993b8",
       "rendered_digest": "74ac10784507418bc7bd0432ae43fd2faa551433ed1b0553c491ae233dcff5ff",
       "ast_digest": "b6f758398471850dfde859c1fa41b0a2774f86283b0036785b517142f21fa4a9"
     },
     "spp": {
-      "values_digest": "50ca749dc643ac791e4501f6f62b9062cdc623dc4c9c30f8169ce68a1ec99d97",
+      "values_digest": "5986ecf445ad1058bf064cb5ae4627eda00f247ee59f6e09747ff9111eeafbf5",
       "rendered_digest": "ce11ec4c16ddc5e0086c13cc03441e3fd3e97cf2c583ab811dfab8bed2216dca",
       "ast_digest": "0ebe497a44d5997c6fbef97883447dda071cbf5fb499e9f20485c216f459da79"
     },
     "vpp": {
-      "values_digest": "6c00a1f62b8cf393be3cd5c12717e4bde1756f206c1d22929bd18e0cea5ebf9a",
+      "values_digest": "908caa5fb8264e5245c98bd526f48c4be04fd041bb554469c3aa9c6397bc8e25",
       "rendered_digest": "4ae192a78008c709eb0e63821779aff8da8394cf82a5fe60a8fb7b0d94dfaff7",
       "ast_digest": "d19c2ed39d9afbb244e8adbef9b7f33dec8ac1e579ff8fde739d1bb23cab686c"
     },
     "srp": {
-      "values_digest": "6fb432ac543c9f7f072525c7a7df93298d576ac1ac5a72347f069a39c889ca7e",
-      "rendered_digest": "bba50b7ceff3e85c677de213eb4bc8d6e086c017c24c6039bec8074c4cc65c64",
-      "ast_digest": "a02c09758152073ab95e13f4346fb88f2ae5ae3ce4b334819f042f4c1e0f232a"
+      "values_digest": "cced0e5de4385de375a9b0d537bd09e7773cce59030c90927fe5ee0692aaed56",
+      "rendered_digest": "b1c871007070825d8a90f0e97eca0f237e0b6468016708f1ccddc8007fe316e6",
+      "ast_digest": "a2fb844339eb4948038fe0856150b65cb155c5c8fb1f1540f5f9e5860192c2ea"
     },
     "sor": {
-      "values_digest": "8a02f7584fa45895514e91f68ba3ef041e9a90a214988866998f8861e1496388",
+      "values_digest": "5de350f505e99c8d183fa9dab23a9e9c8b455637d8aae5abcc9520cf58233278",
       "rendered_digest": "c84eda1bf42e8cc47acf3c1445d1ffb1e476190f4aef33c761fef2651ec4c34c",
       "ast_digest": "3f30550cd5df6c3dcbdc8fb6cbbf1097db853f623f96d6959a8756e85b203876"
     }
@@ -110,6 +127,13 @@
       "to": "implemented",
       "actor": "Worker #7",
       "reason": "Recover stale published review after CloudFront legacy logging ACL ordering repair for PR #685."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_679_acl_fix_r1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -259,6 +283,13 @@
       "actor": "Worker #7",
       "reason": "Recover stale published review after CloudFront legacy logging ACL ordering repair for PR #685.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "subagent:/root/review_679_acl_fix_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

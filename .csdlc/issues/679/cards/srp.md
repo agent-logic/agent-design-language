@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+infra/aws/observatory
+docs/operations/cloud/aws/observatory
+.csdlc/prepared/issues/679/validate_s3_deployable_observatory.py
+.csdlc/evidence/679
+.csdlc/issues/679
 
 ## Prompts
 
@@ -30,12 +34,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live AWS plan, apply, and readback remain deferred pending explicit operator authorization.
+- GitHub CI must rerun after republishing the repaired PR head.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bd8f54f7b75644d0268e957380a8a76b132d0184:cb01f62414352cf8abf38f73a7080c66436d17906f665c0a6486661a92153661")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_679_acl_fix_r1")
 
-Result: pre_review
+Result: pass
