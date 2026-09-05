@@ -780,6 +780,26 @@ fn runtime_init_rejects_migration_decision_key_aliases() {
 }
 
 #[test]
+fn runtime_init_accepts_supported_additional_origins() {
+    let cases = [
+        "[]",
+        r#"["http://localhost:8000"]"#,
+        r#"["https://wuji.dev.csm.agent-logic.ai:8765"]"#,
+        r#"["http://localhost:8000", "https://wuji.dev.csm.agent-logic.ai:8765"]"#,
+    ];
+
+    for additional_origins in cases {
+        let root = config_test_root();
+        let toml = valid_runtime_init_toml(root.path()).replace(
+            r#"additional_allowed_origins = ["http://localhost:8000"]"#,
+            &format!("additional_allowed_origins = {additional_origins}"),
+        );
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&toml)
+            .expect("supported additional Observatory origins must parse");
+    }
+}
+
+#[test]
 fn runtime_init_rejects_wildcard_duplicate_and_path_origins() {
     let cases = [
         runtime_init_toml(

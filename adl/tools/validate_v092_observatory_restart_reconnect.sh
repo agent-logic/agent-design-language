@@ -15,6 +15,8 @@ fi
 if [[ ! -d "$PRIMARY_REPO_ROOT/.adl" ]]; then
   PRIMARY_REPO_ROOT="$(git -C "$ROOT_DIR" rev-parse --show-toplevel 2>/dev/null || printf '%s' "$ROOT_DIR")"
 fi
+CSM="${ADL_CSM_RUNTIME_BIN:-$PRIMARY_REPO_ROOT/.adl/runtime-v3/current/bin/csm}"
+RUNTIME_INIT="${ADL_CSM_RUNTIME_INIT:-$PRIMARY_REPO_ROOT/.adl/runtime-v3/live/runtime-init.toml}"
 SERVICE_ROOT="$ROOT_DIR"
 if [[ ! -d "$SERVICE_ROOT/.adl/runtime-v3-service" && -d "$PRIMARY_REPO_ROOT/.adl/runtime-v3-service" ]]; then
   SERVICE_ROOT="$PRIMARY_REPO_ROOT"
@@ -277,12 +279,17 @@ assert_exposed_read_routes() {
 
 live_check() {
   require_executable "$CSMCTL"
+  require_executable "$CSM"
+  require_file "$RUNTIME_INIT"
   local state_dir="${ADL_CSM_STATE_DIR:-$ROOT_DIR/.adl/runtime-v3-service/state}"
-  local ready_file="${ADL_CSM_READY_PROBE_FILE:-$state_dir/start_CSM.ready.json}"
   local runtime_base="${ADL_CSM_RUNTIME_BASE:-https://localhost:20997}"
   local observatory_state="${ADL_CSM_OBSERVATORY_STATE_FILE:-$state_dir/CSMctl.observatory.env}"
+  local observatory_feed="$state_dir/CSMctl.observatory.feed.json"
+  local first_status="$state_dir/csm.runtime-v3.status.before.json"
+  local second_status="$state_dir/csm.runtime-v3.status.after.json"
 
-  "$CSMCTL" start
+  "$CSM" runtime-v3 start --init "$RUNTIME_INIT" --json
+  "$CSM" runtime-v3 status --init "$RUNTIME_INIT" --json > "$first_status"
   assert_exposed_read_routes "$runtime_base" "$state_dir"
   "$CSMCTL" observatory stop >/dev/null 2>&1 || true
   "$CSMCTL" observatory start
@@ -290,7 +297,7 @@ live_check() {
   # shellcheck source=/dev/null
   . "$observatory_state"
   local urls_output="$state_dir/CSMctl.urls.out"
-  "$CSMCTL" urls > "$urls_output"
+  "$CSMCTL" observatory urls > "$urls_output"
   grep -F "observatory=$OBSERVATORY_URL" "$urls_output" >/dev/null \
     || fail "observatory_urls_cmd_stale_url"
   grep -F "observatory_runtime_api_base=$OBSERVATORY_RUNTIME_BASE" "$urls_output" >/dev/null \
@@ -302,25 +309,23 @@ live_check() {
   local expected_observatory_url="$OBSERVATORY_URL"
   local expected_observatory_runtime_base="$OBSERVATORY_RUNTIME_BASE"
 
-  local first_incarnation_id=""
-  [[ -f "$ready_file" ]] && first_incarnation_id="$(json_field "$ready_file" runtime_incarnation_id || true)"
-  "$CSMCTL" stop
-  for pid_path in \
-    "${ADL_CSM_PID_FILE:-$state_dir/start_CSM.pid}" \
-    "${ADL_CSM_LEASE_PID_FILE:-$state_dir/start_CSM.lease.pid}" \
-    "${ADL_CSM_LEASE_INFO_FILE:-$state_dir/start_CSM.lease.env}"; do
-    [[ ! -e "$pid_path" ]] || fail "runtime_stop_left_state_file:$pid_path"
-  done
+  local first_incarnation_id
+  first_incarnation_id="$(json_field "$observatory_feed" runtime_incarnation_id)"
+  [[ -n "$first_incarnation_id" ]] || fail "runtime_feed_missing_initial_incarnation_id"
+  "$CSM" runtime-v3 stop --init "$RUNTIME_INIT" --json
   local restart_output="$state_dir/CSMctl.restart.out"
-  "$CSMCTL" start > "$restart_output"
-  grep -F "observatory=$expected_observatory_url" "$restart_output" >/dev/null \
-    || fail "observatory_restart_cmd_stale_url"
-  grep -F "observatory_runtime_api_base=$expected_observatory_runtime_base" "$restart_output" >/dev/null \
-    || fail "observatory_restart_cmd_stale_runtime_api_base"
+  "$CSM" runtime-v3 start --init "$RUNTIME_INIT" --json > "$restart_output"
+  "$CSM" runtime-v3 status --init "$RUNTIME_INIT" --json > "$second_status"
+  "$CSMCTL" observatory urls > "$urls_output"
+  grep -F "observatory=$expected_observatory_url" "$urls_output" >/dev/null \
+    || fail "observatory_restart_stale_url"
+  grep -F "observatory_runtime_api_base=$expected_observatory_runtime_base" "$urls_output" >/dev/null \
+    || fail "observatory_restart_stale_runtime_api_base"
   assert_exposed_read_routes "$runtime_base" "$state_dir"
-  local second_incarnation_id=""
-  [[ -f "$ready_file" ]] && second_incarnation_id="$(json_field "$ready_file" runtime_incarnation_id || true)"
-  [[ -z "$first_incarnation_id" || -z "$second_incarnation_id" || "$first_incarnation_id" != "$second_incarnation_id" ]] \
+  local second_incarnation_id
+  second_incarnation_id="$(json_field "$observatory_feed" runtime_incarnation_id)"
+  [[ -n "$second_incarnation_id" ]] || fail "runtime_feed_missing_restarted_incarnation_id"
+  [[ "$first_incarnation_id" != "$second_incarnation_id" ]] \
     || fail "runtime_restart_did_not_refresh_runtime_incarnation"
 }
 

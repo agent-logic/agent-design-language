@@ -170,12 +170,20 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         );
     }
     for required in [
-        "observatory_restart_cmd_stale_url",
-        "observatory_restart_cmd_stale_runtime_api_base",
+        "runtime-v3 start --init \"$RUNTIME_INIT\" --json",
+        "runtime-v3 stop --init \"$RUNTIME_INIT\" --json",
+        "runtime-v3 status --init \"$RUNTIME_INIT\" --json",
+        "json_field \"$observatory_feed\" runtime_incarnation_id",
+        "observatory_restart_stale_url",
+        "observatory_restart_stale_runtime_api_base",
     ] {
         assert!(
             RESTART_VALIDATOR.contains(required),
-            "restart validator must prove CSMctl start reports the current Observatory URL after restart: {required}"
+            "restart validator must use canonical Runtime control and preserve the Observatory URL after restart: {required}"
         );
     }
+    assert!(
+        !RESTART_VALIDATOR.contains("json_field \"$first_status\" runtime_instance_id"),
+        "restart validator must not treat persistent Runtime instance identity as process incarnation"
+    );
 }
