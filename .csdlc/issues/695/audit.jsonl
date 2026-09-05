@@ -35,3 +35,4 @@
 {"sequence":35,"generation":26,"actor":"codex:/root","reason":"Recover review and publication after CI exposed two strict clippy diagnostics; the narrow storage indirection and type alias remediation preserves behavior and passed the exact clippy gate plus focused Runtime tests.","operation":"recover_review"}
 {"sequence":36,"generation":26,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":37,"generation":27,"actor":"fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":38,"generation":28,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
