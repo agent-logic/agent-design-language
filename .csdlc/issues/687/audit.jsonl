@@ -14,3 +14,4 @@
 {"sequence":14,"generation":10,"actor":"codex:worker-7","reason":"Recover stale reviewed truth after the metadata-only review-record commit moved the publication head.","operation":"recover_review"}
 {"sequence":15,"generation":11,"actor":"subagent:/root/review_687_prepr_r1","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":16,"generation":12,"actor":"Worker #7","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":17,"generation":13,"actor":"Worker #7","reason":"Recover stale published review after substantive CI-red repair at PR #691 head.","operation":"recover_review"}

@@ -49,11 +49,11 @@ Implemented a provider/model inference-readiness taxonomy and routed resident Sh
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
