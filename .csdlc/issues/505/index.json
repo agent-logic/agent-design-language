@@ -4,55 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "reviewed",
-  "generation": 65,
-  "digest": "59baea8d33fc91227e1851f9ff0a3c68ae7dfc2eda8dd3acd0b1d62f0519296f",
+  "phase": "implemented",
+  "generation": 66,
+  "digest": "ecbe879fe5471a2a4961e28b0ec391502ce635401234493d2877f7b34fd0c00d",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_505_canaries",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:4b216568c6674f99641dfffdac99c674e4a294c2:4b3dddb4871d07b7ad98888a0f8091c40e48b0924062ccb068594ccd37113c00",
-    "scope": [
-      "csdlc-v3/src/adapters/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
-      "docs/csdlc-v3/authority-transition-disposition.json",
-      ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
-      ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json",
-      ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
-      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_505_canaries",
-    "scope": [
-      "csdlc-v3/src/adapters/mod.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
-      "docs/csdlc-v3/authority-transition-disposition.json",
-      ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
-      ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json",
-      ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
-      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
-    ],
-    "reviewed_revision": "git-blake3:4b216568c6674f99641dfffdac99c674e4a294c2:4b3dddb4871d07b7ad98888a0f8091c40e48b0924062ccb068594ccd37113c00",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
-      "C-SDLC v2 remains the live lifecycle and rollback authority until that cutover completes."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -67,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ed623e7fbac9f3bdffcefa9468f970b7a04ffef25b609a86297dcd037cada00f",
+      "values_digest": "d16a91bd99fd45d4e2b6b5f6783c2afc2f42bcde48e553fb80f9fd39491c7431",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "91fb3be97fd7d4308293368eddfdcd6b51d74439e1689ac8547455597f8ba26e",
+      "values_digest": "4271406e1333f9b939ae5cc47889207921265d41c1e3913a5823aff81cc04433",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "de82c317227a0e71cce4148ae630b3659cf2d82488b54de1196204c9f77fc13e",
+      "values_digest": "a4d4ace4c5250789a4e033865bd73ab950bbefdee14a19ce2a6394075e95a931",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "06333f3c0f555f8a7712d4e47e5e51c92fd2bbfafe47932b30be06db42a39162",
+      "values_digest": "125d275aeb8114cc6ef99d6ba6a7528c68895791e108d2800a86bee44e2fa3e3",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "8e2712d13675380bfbaf13929b36caf5e08a384838626ac2c0bbb951645e234d",
-      "rendered_digest": "8dd21213bc36f37bdee6f440a20835d971bb6c7d733078eeff5a5075e3d62c24",
-      "ast_digest": "0d8af003ce7c0cfe864c8382644d39fe9f55e14b9d9a9a9e0b968bddc727c88b"
+      "values_digest": "270fbd09d23d1858e81250d613abc64a413839ee4b699b9709c9ffb5b0e9ce16",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "c785e868658728cb6c60e2f8fd66977078790f59ec1a3804af7774a6bc3d3bf5",
+      "values_digest": "df0972654231d5d2a566f09e48da9d9060ac4f235055717396a9524bd7358e46",
       "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
       "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
@@ -412,6 +370,13 @@
       "to": "reviewed",
       "actor": "codex:worker-6",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 46,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after replacing a hard-coded generation review evidence reference with the live review evidence anchor."
     }
   ],
   "audit": [
@@ -1002,6 +967,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 85,
+      "generation": 66,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after replacing a hard-coded generation review evidence reference with the live review evidence anchor.",
+      "operation": "recover_review"
     }
   ]
 }

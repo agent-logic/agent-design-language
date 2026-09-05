@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 65
+    "generation": 66
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/adapters/mod.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ndocs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\ndocs/csdlc-v3/authority-transition-disposition.json\n.csdlc/evidence/505/pre-cutover-rollback-exercise.json\n.csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json\n.csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\n.csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\n.csdlc/evidence/505/cutover-approval-absent-canary-output.json\n.csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
-      "review_revision": "git-blake3:4b216568c6674f99641dfffdac99c674e4a294c2:4b3dddb4871d07b7ad98888a0f8091c40e48b0924062ccb068594ccd37113c00",
-      "reviewer": "subagent:/root/review_505_canaries",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,11 +23,8 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [
-        "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
-        "C-SDLC v2 remains the live lifecycle and rollback authority until that cutover completes."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
