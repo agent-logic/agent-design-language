@@ -50,6 +50,11 @@ command_manifest = json("docs/csdlc-v3/v3-command-manifest.json")
 replacement_denominator = json("docs/csdlc-v3/full-replacement-denominator.json")
 cutover_notice = read("docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md")
 authority_disposition = json("docs/csdlc-v3/authority-transition-disposition.json")
+rollback_exercise = json(".csdlc/evidence/505/pre-cutover-rollback-exercise.json")
+terminal_finish_canary = json(".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json")
+terminal_clean_preview = json(".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json")
+terminal_clean_denial = json(".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json")
+cutover_absent_canary = json(".csdlc/evidence/505/cutover-approval-absent-canary-output.json")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
@@ -190,7 +195,56 @@ assert(sprint625_readiness.dig("cutover_disposition", "cutover_ready") == false,
 cutover_notice_inline = cutover_notice.gsub(/\s+/, " ")
 assert(cutover_notice_inline.include?("authority cutover is deferred"), "cutover readiness notice must state deferred authority")
 assert(cutover_notice.include?("#625") && cutover_notice.include?("#627-#632 closed"), "cutover readiness notice must consume terminal V3-H evidence")
+assert(cutover_notice.include?("pre-cutover-rollback-exercise.json"), "cutover readiness notice missing rollback exercise evidence ref")
+assert(cutover_notice.include?("merged PR") && cutover_notice.include?("#641") && cutover_notice.include?("closed issue #629"), "cutover readiness notice missing terminal finish/cleanup canary refs")
+assert(cutover_notice.include?("explicit operator approval for #505 authority cutover remains absent"), "cutover readiness notice must retain operator approval gate")
 assert(!cutover_notice.match?(/#629\/#641|fail-closed #631|fresh-worktree install\/startup defect|open children remain/i), "cutover readiness notice contains stale pre-terminal V3-H findings")
+
+assert(rollback_exercise["schema"] == "csdlc.v3.rollback_exercise.v1", "rollback exercise emitted wrong schema")
+assert(rollback_exercise["authority_issue"] == 505, "rollback exercise must bind #505")
+assert(rollback_exercise["operational_authority"] == false, "rollback exercise must not grant v3 authority")
+assert(rollback_exercise["operator_approval"] == "absent", "rollback exercise must record absent operator approval")
+assert(rollback_exercise["rollback_target"].to_s.include?("typed C-SDLC v2"), "rollback exercise must name v2 rollback target")
+assert(rollback_exercise.dig("rollback_verification", "output", "status") == "pass", "rollback exercise must prove v2 validation still passes")
+assert(rollback_exercise.dig("rollback_verification", "output", "phase") == "published", "rollback exercise v2 validation phase drift")
+assert(rollback_exercise.fetch("v3_actions").any? { |row| row["evidence_ref"] == ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json" && row["status"] == "ready" && row["performed_mutation"] == false }, "rollback exercise missing terminal finish canary action")
+assert(rollback_exercise.fetch("v3_actions").any? { |row| row["evidence_ref"] == ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json" && row["status"] == "blocked" && row["required_finding"] == "cleanup_removal_denied_pre_cutover" }, "rollback exercise missing pre-cutover cleanup denial action")
+assert(rollback_exercise.fetch("v3_actions").any? { |row| row["evidence_ref"] == ".csdlc/evidence/505/cutover-approval-absent-canary-output.json" && row["status"] == "blocked" && row["required_findings"].include?("missing_505_approval") }, "rollback exercise missing cutover approval-denial action")
+assert(rollback_exercise.fetch("non_claims").any? { |claim| claim.include?("not operator approval") }, "rollback exercise missing non-approval non-claim")
+
+assert(terminal_finish_canary["schema"] == "csdlc.v3.terminal_cleanup_cutover.v1", "terminal finish canary emitted wrong schema")
+assert(terminal_finish_canary["command"] == "finish", "terminal finish canary must exercise finish")
+assert(terminal_finish_canary["read_only"] == true && terminal_finish_canary["performed_mutation"] == false, "terminal finish canary must be read-only")
+assert(terminal_finish_canary.dig("result", "status") == "ready", "terminal finish canary must be ready")
+assert(terminal_finish_canary.dig("result", "finish", "decision") == "terminal_closed_out", "terminal finish canary must derive terminal closeout")
+assert(terminal_finish_canary.dig("result", "finish", "pull_request") == 641, "terminal finish canary PR drift")
+assert(terminal_finish_canary.dig("result", "finish", "issue") == 629, "terminal finish canary issue drift")
+assert(terminal_finish_canary.dig("result", "finish", "head_sha") == "8ad0d56ae7db6421fcbc2016a2f1c8590094577e", "terminal finish canary head drift")
+
+assert(terminal_clean_preview["schema"] == "csdlc.v3.terminal_cleanup_cutover.v1", "terminal clean preview emitted wrong schema")
+assert(terminal_clean_preview["command"] == "clean", "terminal clean preview must exercise clean")
+assert(terminal_clean_preview["read_only"] == true && terminal_clean_preview["performed_mutation"] == false, "terminal clean preview must be read-only")
+assert(terminal_clean_preview.dig("result", "status") == "ready", "terminal clean preview must be ready")
+assert(terminal_clean_preview.dig("result", "cleanup", "decision") == "removable", "terminal clean preview must classify registered clean worktree as removable")
+cleanup_path = "/Volumes/FastWork/adl-worktrees/adl-issue-629-terminal-cleanup-canary"
+assert(terminal_clean_preview.dig("result", "cleanup", "path") == cleanup_path, "terminal clean preview path drift")
+assert(terminal_clean_preview.dig("result", "cleanup", "receipt_digest").to_s.match?(/\A[0-9a-f]{64}\z/), "terminal clean preview missing cleanup receipt digest")
+candidate_head_stdout, candidate_head_stderr, candidate_head_status =
+  Open3.capture3("git", "-C", cleanup_path, "rev-parse", "HEAD")
+assert(candidate_head_status.success?, "terminal cleanup canary candidate HEAD unreadable: #{candidate_head_stderr}")
+assert(candidate_head_stdout.strip == terminal_finish_canary.dig("result", "finish", "head_sha"), "terminal clean preview candidate HEAD must match terminal finish head")
+
+assert(terminal_clean_denial["command"] == "clean", "terminal clean denial must exercise clean")
+assert(terminal_clean_denial["requested_mutation"] == true && terminal_clean_denial["performed_mutation"] == false, "terminal clean denial must request but not perform removal")
+assert(terminal_clean_denial.dig("result", "status") == "blocked", "terminal clean denial must block before cutover")
+assert(terminal_clean_denial.dig("result", "findings").any? { |row| row["code"] == "cleanup_removal_denied_pre_cutover" }, "terminal clean denial missing pre-cutover finding")
+assert(terminal_clean_denial.dig("result", "cleanup", "decision") == "removal_denied_pre_cutover", "terminal clean denial decision drift")
+assert(terminal_clean_denial.dig("result", "cleanup", "receipt_digest") == terminal_clean_preview.dig("result", "cleanup", "receipt_digest"), "terminal clean denial must bind preview receipt digest")
+
+assert(cutover_absent_canary["command"] == "cutover", "cutover absent canary must exercise cutover")
+assert(cutover_absent_canary["read_only"] == true && cutover_absent_canary["performed_mutation"] == false, "cutover absent canary must be read-only")
+assert(cutover_absent_canary.dig("result", "status") == "blocked", "cutover absent canary must block without operator approval")
+assert(cutover_absent_canary.dig("result", "findings").map { |row| row["code"] }.sort == ["missing_505_approval", "missing_operator", "missing_operator_approval"], "cutover absent canary finding denominator drift")
 
 assert(authority_disposition["schema"] == "csdlc.v3.authority_transition_disposition.v1", "authority disposition emitted wrong schema")
 assert(authority_disposition["authority_issue"] == 505, "authority disposition must be bound to #505")
@@ -203,16 +257,19 @@ issue179 = source_dispositions.find { |row| row["issue"] == 179 }
 issue180 = source_dispositions.find { |row| row["issue"] == 180 }
 assert(issue179["live_state"] == "closed" && issue179["closed_at"] == "2026-08-10T22:12:30Z", "#179 live disposition drift")
 assert(issue180["live_state"] == "closed" && issue180["closed_at"] == "2026-08-10T22:12:34Z", "#180 live disposition drift")
-assert(issue179["current_disposition"] == "deferred_pending_authority_evidence", "#179 must remain deferred pending authority evidence")
+assert(issue179["current_disposition"] == "satisfied_pending_operator_approval", "#179 must be satisfied except operator approval")
 assert(issue180["current_disposition"] == "not_started_before_cutover", "#180 must remain not-started before cutover")
 assert(issue179.fetch("satisfied_evidence").any? { |row| row["evidence_ref"] == "docs/csdlc-v3/full-replacement-denominator.json" }, "#179 missing command-denominator evidence ref")
 assert(issue179.fetch("satisfied_evidence").any? { |row| row["claim"].include?("Independent exact-head review") && row["evidence_ref"].include?("generation-57") }, "#179 missing current exact-head review/publication evidence")
-assert(issue179.fetch("blocking_evidence").any? { |row| row["claim"].include?("Rollback exercise evidence") && row["status"] == "missing" }, "#179 missing rollback blocker")
-assert(issue179.fetch("blocking_evidence").any? { |row| row["claim"].include?("Terminal v3 finish/cleanup canary") && row["status"] == "missing_or_unwaived" }, "#179 missing terminal canary blocker")
+assert(issue179.fetch("satisfied_evidence").any? { |row| row["evidence_ref"] == ".csdlc/evidence/505/pre-cutover-rollback-exercise.json" }, "#179 missing rollback exercise evidence ref")
+assert(issue179.fetch("satisfied_evidence").any? { |row| row["evidence_ref"] == ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json" }, "#179 missing terminal canary evidence ref")
+assert(issue179.fetch("blocking_evidence").map { |row| row["claim"] } == ["Explicit operator approval for #505 authority cutover remains absent"], "#179 blocker list must contain only operator approval")
 assert(issue179.fetch("blocking_evidence").none? { |row| row["claim"].include?("Independent exact-head review") }, "#179 exact-head review blocker is stale after generation 57 publication")
 assert(issue180.fetch("blocking_evidence").any? { |row| row["claim"].include?("Operator approval") && row["status"] == "missing" }, "#180 missing operator approval blocker")
-assert(authority_disposition.fetch("approval_blockers").any? { |row| row.include?("actual rollback-exercise evidence") }, "authority disposition missing rollback approval blocker")
-assert(authority_disposition.fetch("approval_blockers").any? { |row| row.include?("terminal v3 finish/cleanup canary evidence") }, "authority disposition missing terminal canary approval blocker")
+assert(authority_disposition.fetch("approval_blockers") == [
+  "Obtain explicit operator approval for #505 authority cutover.",
+  "Keep v2 as live authority until explicit operator approval, merge, finish, and cleanup reconciliation."
+], "authority disposition approval blockers must be reduced to operator approval/live-authority boundary")
 assert(authority_disposition.fetch("approval_blockers").none? { |row| row.include?("Refresh independent exact-head review") }, "authority disposition contains stale exact-head review approval blocker")
 
 assert(sprint89_readiness["schema"] == "csdlc.v3.sprint_readiness.v1", "Sprint 8/9 readiness emitted wrong schema")
@@ -418,6 +475,11 @@ puts JSON.generate(
       "sprint_8_9_readiness_under_three_minutes",
       "issue_604_v3_local_canary_under_three_minutes",
       "cutover_readiness_notice_deferred_authority",
+      "rollback_exercise_canary",
+      "terminal_finish_live_github_canary",
+      "terminal_cleanup_registered_worktree_preview",
+      "terminal_cleanup_pre_cutover_removal_denial",
+      "cutover_operator_approval_denial",
       "authority_disposition_179_180_evidence_backed",
       "full_replacement_denominator_21_routes",
       "full_command_denominator_25_surface",

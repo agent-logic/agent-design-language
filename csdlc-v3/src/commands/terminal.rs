@@ -4,6 +4,10 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
+use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
+
+const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
+
 pub const TERMINAL_ROUTE_NAMES: [&str; 3] = ["finish", "clean", "cutover"];
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -22,6 +26,8 @@ pub struct TerminalRouteRequest {
     pub cleanup: Option<CleanupRouteRequest>,
     #[serde(default)]
     pub cutover: Option<CutoverDecisionRequest>,
+    #[serde(default)]
+    pub credential_names: Vec<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -168,7 +174,6 @@ pub struct VerifiedTerminalReadback {
 
 impl VerifiedTerminalReadback {
     #[allow(clippy::too_many_arguments)]
-    #[cfg(test)]
     pub(crate) fn from_typed_adapter_receipt(
         producer: &str,
         repository: String,
@@ -270,6 +275,40 @@ pub fn prepare_terminal_route(
     })
 }
 
+pub fn prepare_terminal_finish_with_github_observation(
+    request: &TerminalRouteRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<TerminalRoutePlan, TerminalFinding> {
+    let mut findings = Vec::new();
+    let finish = match observe_terminal_github_readback(request, process)
+        .and_then(|readback| derive_finish_from_verified(request, readback))
+    {
+        Ok(decision) => Some(decision),
+        Err(finding) => {
+            findings.push(finding);
+            Some(FinishDecision::CheckpointDenied {
+                reason: "finish requires authenticated terminal GitHub readback".into(),
+            })
+        }
+    };
+    let status = if findings.is_empty() {
+        TerminalRouteStatus::Ready
+    } else {
+        TerminalRouteStatus::Blocked
+    };
+    Ok(TerminalRoutePlan {
+        route: "finish".to_owned(),
+        issue: request.issue,
+        repository: request.repository.clone(),
+        status,
+        operational_authority: false,
+        findings,
+        finish,
+        cleanup: None,
+        cutover: None,
+    })
+}
+
 pub fn derive_finish_from_verified(
     request: &TerminalRouteRequest,
     readback: VerifiedTerminalReadback,
@@ -324,6 +363,208 @@ pub fn derive_finish_from_verified(
             reason: "part_of publications cannot close a terminal issue".into(),
         }),
     }
+}
+
+fn observe_terminal_github_readback(
+    request: &TerminalRouteRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<VerifiedTerminalReadback, TerminalFinding> {
+    let pull_request = request.pull_request.ok_or_else(|| {
+        finding(
+            "missing_pull_request",
+            "authenticated terminal observation requires a concrete pull request number",
+        )
+    })?;
+    let credential_name = single_credential_name(request)?;
+    validate_repository_name(&request.repository)?;
+    let pr_value = run_github_observation(
+        process,
+        &credential_name,
+        "pull-request",
+        &request.repository,
+        pull_request,
+    )?;
+    let number = pr_value["number"].as_u64().ok_or_else(|| {
+        finding(
+            "github_observation_missing_pr_number",
+            "GitHub pull request readback did not include a PR number",
+        )
+    })?;
+    if number != pull_request {
+        return Err(finding(
+            "github_observation_pr_mismatch",
+            "GitHub pull request readback number does not match the requested PR",
+        ));
+    }
+    let head_sha = pr_value["head"]["sha"].as_str().ok_or_else(|| {
+        finding(
+            "github_observation_missing_head",
+            "GitHub pull request readback did not include head.sha",
+        )
+    })?;
+    let pr_merged = pr_value["merged"].as_bool().ok_or_else(|| {
+        finding(
+            "github_observation_missing_merged",
+            "GitHub pull request readback did not include merged",
+        )
+    })?;
+    let body = pr_value["body"].as_str().unwrap_or_default();
+    let closes_issue =
+        body_has_relation(Some(body), "Closes", request.issue).then_some(request.issue);
+    let part_of_issue = (body_has_relation(Some(body), "Part of", request.issue)
+        || body_has_relation(Some(body), "Part-Of", request.issue))
+    .then_some(request.issue);
+
+    let issue_value = run_github_observation(
+        process,
+        &credential_name,
+        "issue",
+        &request.repository,
+        request.issue,
+    )?;
+    let issue_number = issue_value["number"].as_u64().ok_or_else(|| {
+        finding(
+            "github_observation_missing_issue_number",
+            "GitHub issue readback did not include an issue number",
+        )
+    })?;
+    if issue_number != request.issue {
+        return Err(finding(
+            "github_observation_issue_mismatch",
+            "GitHub issue readback number does not match the requested issue",
+        ));
+    }
+    let issue_state = issue_value["state"].as_str().ok_or_else(|| {
+        finding(
+            "github_observation_missing_issue_state",
+            "GitHub issue readback did not include state",
+        )
+    })?;
+    let issue_open = match issue_state {
+        "open" => true,
+        "closed" => false,
+        _ => {
+            return Err(finding(
+                "github_observation_unknown_issue_state",
+                "GitHub issue state must be open or closed",
+            ))
+        }
+    };
+
+    VerifiedTerminalReadback::from_typed_adapter_receipt(
+        "csdlc-github-pr-state",
+        request.repository.clone(),
+        request.issue,
+        pull_request,
+        head_sha.to_owned(),
+        request.mode.unwrap_or(TerminalPublicationMode::PartOf),
+        pr_merged,
+        issue_open,
+        closes_issue,
+        part_of_issue,
+    )
+}
+
+fn run_github_observation(
+    process: &mut impl ProcessAdapter,
+    credential_name: &str,
+    operation: &str,
+    repository: &str,
+    number: u64,
+) -> Result<serde_json::Value, TerminalFinding> {
+    let invocation = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        [
+            operation.to_owned(),
+            repository.to_owned(),
+            number.to_string(),
+        ],
+    )
+    .map_err(|_| {
+        finding(
+            "github_observation_invocation_rejected",
+            "authenticated GitHub observation must use structured argv without shell strings or secrets",
+        )
+    })?
+    .with_child_credential(credential_name)
+    .map_err(|_| {
+        finding(
+            "github_credential_scope_invalid",
+            "GitHub credential names must be explicit safe child-process environment names",
+        )
+    })?;
+    let output = process.run(invocation);
+    if output.truncated {
+        return Err(finding(
+            "github_observation_truncated",
+            "GitHub readback output was truncated and cannot be authoritative input",
+        ));
+    }
+    if output.status != ProcessStatus::Exit(0) {
+        return Err(finding(
+            "github_observation_failed",
+            "GitHub readback adapter did not complete successfully",
+        ));
+    }
+    serde_json::from_str(&output.stdout).map_err(|_| {
+        finding(
+            "github_observation_invalid_json",
+            "GitHub readback adapter returned non-JSON output",
+        )
+    })
+}
+
+fn single_credential_name(request: &TerminalRouteRequest) -> Result<String, TerminalFinding> {
+    match request.credential_names.as_slice() {
+        [name] => Ok(name.clone()),
+        [] => Err(finding(
+            "github_credential_missing",
+            "authenticated GitHub observation requires exactly one credential name",
+        )),
+        _ => Err(finding(
+            "github_credential_ambiguous",
+            "authenticated GitHub observation requires one unambiguous credential name",
+        )),
+    }
+}
+
+fn validate_repository_name(repository: &str) -> Result<(), TerminalFinding> {
+    let Some((owner, name)) = repository.split_once('/') else {
+        return Err(finding(
+            "github_repository_invalid",
+            "repository must be owner/name for GitHub readback",
+        ));
+    };
+    if owner.is_empty()
+        || name.is_empty()
+        || repository
+            .chars()
+            .any(|ch| !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/')))
+    {
+        return Err(finding(
+            "github_repository_invalid",
+            "repository contains characters that cannot be used in structured GitHub readback",
+        ));
+    }
+    Ok(())
+}
+
+fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
+    let prefix = format!("{verb} #{issue}");
+    body.unwrap_or_default()
+        .lines()
+        .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
+}
+
+fn has_issue_relation_prefix(line: &str, prefix: &str) -> bool {
+    let Some(rest) = line.strip_prefix(prefix) else {
+        return false;
+    };
+    rest.is_empty()
+        || rest
+            .chars()
+            .next()
+            .is_some_and(|ch| ch.is_whitespace() || matches!(ch, ',' | '.' | ';' | ':' | ')' | ']'))
 }
 
 fn public_finish_findings(request: &TerminalRouteRequest) -> Vec<TerminalFinding> {
@@ -420,7 +661,23 @@ fn classify_cleanup_from_git(
     if worktree_dirty(&candidate)? {
         return Ok(CleanupDecision::Dirty { path: candidate });
     }
-    let receipt_digest = cleanup_receipt_digest(&repository_root, &candidate);
+    let candidate_head = worktree_head(&candidate)?;
+    let expected_head = terminal_request
+        .expected_head_sha
+        .as_deref()
+        .ok_or_else(|| {
+            finding(
+                "missing_exact_head",
+                "cleanup requires the terminal expected head to match the registered worktree",
+            )
+        })?;
+    if candidate_head != expected_head {
+        return Err(finding(
+            "candidate_head_mismatch",
+            "cleanup target worktree HEAD must match the terminal closeout head",
+        ));
+    }
+    let receipt_digest = cleanup_receipt_digest(&repository_root, &candidate, &candidate_head);
     if request.remove {
         if request.preview_receipt_digest.as_deref() != Some(receipt_digest.as_str()) {
             return Err(finding(
@@ -671,13 +928,36 @@ fn worktree_live(path: &Path) -> bool {
     path.join(".csdlc/live-worktree.marker").exists()
 }
 
-fn cleanup_receipt_digest(repository_root: &Path, candidate: &Path) -> String {
+fn worktree_head(path: &Path) -> Result<String, TerminalFinding> {
+    let output = std::process::Command::new("git")
+        .arg("-C")
+        .arg(path)
+        .arg("rev-parse")
+        .arg("HEAD")
+        .output()
+        .map_err(|error| finding("git_rev_parse_failed", &error.to_string()))?;
+    if !output.status.success() {
+        return Err(finding(
+            "git_rev_parse_failed",
+            &String::from_utf8_lossy(&output.stderr),
+        ));
+    }
+    Ok(String::from_utf8_lossy(&output.stdout).trim().to_owned())
+}
+
+fn cleanup_receipt_digest(
+    repository_root: &Path,
+    candidate: &Path,
+    candidate_head: &str,
+) -> String {
     let mut hasher = blake3::Hasher::new();
     hasher.update(b"csdlc.v3.cleanup.git-registration.v1");
     hasher.update(b"\0");
     hasher.update(repository_root.to_string_lossy().as_bytes());
     hasher.update(b"\0");
     hasher.update(candidate.to_string_lossy().as_bytes());
+    hasher.update(b"\0");
+    hasher.update(candidate_head.as_bytes());
     hasher.finalize().to_hex().to_string()
 }
 
@@ -727,6 +1007,7 @@ mod tests {
             public_adapter_receipt: None,
             cleanup: None,
             cutover: None,
+            credential_names: Vec::new(),
         }
     }
 

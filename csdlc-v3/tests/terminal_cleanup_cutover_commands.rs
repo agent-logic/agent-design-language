@@ -1,7 +1,10 @@
-use csdlc_v3::commands::terminal::{
-    prepare_terminal_route, CleanupDecision, CleanupRouteRequest, CutoverDecisionRequest,
-    DurableTerminalReceipt, FinishDecision, TerminalPublicationMode, TerminalRouteRequest,
-    TerminalRouteStatus,
+use csdlc_v3::{
+    adapters::{CommandInvocation, ProcessAdapter, ProcessOutput, ProcessStatus},
+    commands::terminal::{
+        prepare_terminal_finish_with_github_observation, prepare_terminal_route, CleanupDecision,
+        CleanupRouteRequest, CutoverDecisionRequest, DurableTerminalReceipt, FinishDecision,
+        TerminalPublicationMode, TerminalRouteRequest, TerminalRouteStatus,
+    },
 };
 use std::{
     fs,
@@ -19,6 +22,7 @@ fn base_request() -> TerminalRouteRequest {
         public_adapter_receipt: None,
         cleanup: None,
         cutover: None,
+        credential_names: Vec::new(),
     }
 }
 
@@ -97,6 +101,88 @@ fn retained_unit_tests_cover_verified_readback_denials() {
 }
 
 #[test]
+fn observed_finish_derives_terminal_closeout_from_github_pr_and_issue_readbacks() {
+    let mut request = base_request();
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(
+            641,
+            "0123456789012345678901234567890123456789",
+            true,
+            "Closes #630",
+        ),
+        github_issue_json(630, "closed"),
+    ]);
+
+    let plan =
+        prepare_terminal_finish_with_github_observation(&request, &mut adapter).expect("finish");
+
+    assert_eq!(plan.status, TerminalRouteStatus::Ready);
+    assert_eq!(
+        plan.finish,
+        Some(FinishDecision::TerminalClosedOut {
+            pull_request: 641,
+            issue: 630,
+            head_sha: "0123456789012345678901234567890123456789".into()
+        })
+    );
+    assert_eq!(
+        adapter.invocations,
+        vec![
+            vec![
+                "pull-request".to_owned(),
+                "agent-logic/agent-design-language".to_owned(),
+                "641".to_owned()
+            ],
+            vec![
+                "issue".to_owned(),
+                "agent-logic/agent-design-language".to_owned(),
+                "630".to_owned()
+            ],
+        ]
+    );
+}
+
+#[test]
+fn observed_finish_denies_nonmerged_or_open_issue_readbacks() {
+    let mut request = base_request();
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    let mut nonmerged = FakeGithubAdapter::new([
+        github_pr_json(
+            641,
+            "0123456789012345678901234567890123456789",
+            false,
+            "Closes #630",
+        ),
+        github_issue_json(630, "closed"),
+    ]);
+    let nonmerged_plan =
+        prepare_terminal_finish_with_github_observation(&request, &mut nonmerged).unwrap();
+    assert_eq!(nonmerged_plan.status, TerminalRouteStatus::Blocked);
+    assert!(nonmerged_plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "pull_request_not_merged"));
+
+    let mut open_issue = FakeGithubAdapter::new([
+        github_pr_json(
+            641,
+            "0123456789012345678901234567890123456789",
+            true,
+            "Closes #630",
+        ),
+        github_issue_json(630, "open"),
+    ]);
+    let open_issue_plan =
+        prepare_terminal_finish_with_github_observation(&request, &mut open_issue).unwrap();
+    assert_eq!(open_issue_plan.status, TerminalRouteStatus::Blocked);
+    assert!(open_issue_plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "closing_issue_still_open"));
+}
+
+#[test]
 fn cleanup_denies_nonexistent_parent_traversal_escape() {
     let fixture = fixture_root("cleanup_parent_traversal_escape");
     let approved = fixture.join("approved");
@@ -129,12 +215,8 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
     let unregistered = fixture.join("unregistered");
     fs::create_dir_all(&fixture).expect("fixture root");
     init_repo(&primary);
-    let receipt = write_terminal_receipt(
-        &primary,
-        630,
-        641,
-        "0123456789012345678901234567890123456789",
-    );
+    let head = git_stdout(&primary, &["rev-parse", "HEAD"]);
+    let receipt = write_terminal_receipt(&primary, 630, 641, &head);
     git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
     fs::create_dir_all(&unregistered).expect("unregistered dir");
 
@@ -281,6 +363,26 @@ fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
 }
 
 #[test]
+fn cleanup_rejects_registered_worktree_at_stale_head() {
+    let fixture = fixture_root("cleanup_stale_candidate_head");
+    let primary = fixture.join("primary");
+    let registered = fixture.join("registered");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    init_repo(&primary);
+    let stale_head = "0123456789012345678901234567890123456789";
+    let receipt = write_terminal_receipt(&primary, 630, 641, stale_head);
+    git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
+
+    let plan = cleanup_plan(&fixture, &primary, &registered, false, Some(receipt), None);
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "candidate_head_mismatch"));
+}
+
+#[test]
 fn cleanup_denies_symlink_escape_from_approved_parent() {
     let fixture = fixture_root("cleanup_symlink_escape");
     let approved = fixture.join("approved");
@@ -391,6 +493,13 @@ fn cleanup_plan(
     let mut request = base_request();
     let (terminal_receipt_path, terminal_receipt_digest) =
         terminal_receipt.unwrap_or_else(|| ("".into(), "".into()));
+    if !terminal_receipt_path.is_empty() {
+        let receipt_bytes =
+            fs::read(repository_root.join(&terminal_receipt_path)).expect("read terminal receipt");
+        let receipt: DurableTerminalReceipt =
+            serde_json::from_slice(&receipt_bytes).expect("parse terminal receipt");
+        request.expected_head_sha = Some(receipt.head_sha);
+    }
     request.cleanup = Some(CleanupRouteRequest {
         approved_parent: approved_parent.to_path_buf(),
         repository_root: repository_root.to_path_buf(),
@@ -576,6 +685,52 @@ fn write_terminal_receipt_at(
     (relative_path.into(), digest)
 }
 
+struct FakeGithubAdapter {
+    outputs: Vec<String>,
+    invocations: Vec<Vec<String>>,
+}
+
+impl FakeGithubAdapter {
+    fn new(outputs: impl IntoIterator<Item = String>) -> Self {
+        let mut outputs = outputs.into_iter().collect::<Vec<_>>();
+        outputs.reverse();
+        Self {
+            outputs,
+            invocations: Vec::new(),
+        }
+    }
+}
+
+impl ProcessAdapter for FakeGithubAdapter {
+    fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput {
+        self.invocations.push(invocation.argv().to_vec());
+        ProcessOutput {
+            status: ProcessStatus::Exit(0),
+            stdout: self.outputs.pop().expect("fake GitHub output"),
+            stderr: String::new(),
+            truncated: false,
+        }
+    }
+}
+
+fn github_pr_json(number: u64, head_sha: &str, merged: bool, body: &str) -> String {
+    serde_json::json!({
+        "number": number,
+        "head": { "sha": head_sha },
+        "merged": merged,
+        "body": body
+    })
+    .to_string()
+}
+
+fn github_issue_json(number: u64, state: &str) -> String {
+    serde_json::json!({
+        "number": number,
+        "state": state
+    })
+    .to_string()
+}
+
 fn fixture_root(name: &str) -> PathBuf {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("target")
@@ -611,6 +766,23 @@ fn git(path: &Path, args: &[&str]) {
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+fn git_stdout(path: &Path, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(path)
+        .args(args)
+        .output()
+        .expect("run git");
+    assert!(
+        output.status.success(),
+        "git {:?} failed\nstdout:{}\nstderr:{}",
+        args,
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8_lossy(&output.stdout).trim().to_owned()
 }
 
 #[cfg(unix)]

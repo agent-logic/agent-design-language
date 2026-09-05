@@ -37,9 +37,18 @@ deferred. The current sprint evidence records:
   current `main`, and has current non-closing typed publication evidence;
 - the #505 validation DAG is current at the published head and must remain
   current if PR #591 changes again;
-- rollback exercise evidence, terminal v3 finish/cleanup canary evidence or an
-  explicit operator waiver, and evidence-backed #179/#180 and parity
-  dispositions remain required before approval.
+- rollback exercise evidence is now recorded in
+  `.csdlc/evidence/505/pre-cutover-rollback-exercise.json`: v3 terminal,
+  cleanup, and cutover routes stayed non-authoritative, pre-cutover cleanup
+  removal was denied, and typed v2 validation still passed afterward;
+- terminal v3 finish/cleanup canary evidence is now recorded for merged PR
+  #641 and closed issue #629: v3 observed live GitHub terminal truth, previewed
+  cleanup against a registered exact-head worktree, and refused removal before
+  #505 cutover authority;
+- #179/#180 and parity dispositions are evidence-backed in
+  `docs/csdlc-v3/authority-transition-disposition.json`;
+- explicit operator approval for #505 authority cutover remains absent and is
+  the remaining pre-merge approval gate.
 
 ## Operator guidance
 

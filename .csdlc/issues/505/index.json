@@ -4,54 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "published",
-  "generation": 61,
-  "digest": "52adbcb2832b9d7b24336b660ded67315f7079e22865438d573e7e3adb997a82",
+  "phase": "implemented",
+  "generation": 64,
+  "digest": "6ff5be33f3dbade60468204dc1776c3c5dca961c034ee9d11fedea977aa61c48",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_591_186677ab_readiness_truth",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:186677ab743e5ac2b687cbbeb352f3849e6fceca:afbc3add6af04bec555314d826ba99826010dbeb171d3d3f84747538d21644b2",
-    "scope": [
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
-      "docs/csdlc-v3/authority-transition-disposition.json",
-      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
-      ".csdlc/prepared/issues/505/recover-review-after-readiness-truth-refresh.json",
-      ".csdlc/prepared/issues/505/replace-sor-after-readiness-truth-refresh.json"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_591_186677ab_readiness_truth",
-    "scope": [
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
-      "docs/csdlc-v3/authority-transition-disposition.json",
-      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
-      ".csdlc/prepared/issues/505/recover-review-after-readiness-truth-refresh.json",
-      ".csdlc/prepared/issues/505/replace-sor-after-readiness-truth-refresh.json"
-    ],
-    "reviewed_revision": "git-blake3:186677ab743e5ac2b687cbbeb352f3849e6fceca:afbc3add6af04bec555314d826ba99826010dbeb171d3d3f84747538d21644b2",
-    "findings": [],
-    "residual_risks": [
-      "Actual rollback-exercise evidence remains required before operator cutover approval.",
-      "Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.",
-      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 505,
-    "pull_request": 591,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
-    "base": "main",
-    "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:186677ab743e5ac2b687cbbeb352f3849e6fceca:afbc3add6af04bec555314d826ba99826010dbeb171d3d3f84747538d21644b2",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c00a8f5dfb83651ed36e39a43265ff8197202148fd23a30b34a66b4493125871",
+      "values_digest": "0f1eca4153a38a8a5ca7f5aad55058a6b68969c34c10a3fe256615b017ece108",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "14b978439aab8c81f1c190cd72dea535e856b369836c2e38ec79e30dbbd6c3f9",
+      "values_digest": "95f8ea417b31ec7c21a670d5c1f67ccb194c38b52c57ab671b58a9632db11cd9",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "f9b61d4395fef79d48763cf461a5a1d553b18fbec4277884253242e8fe78c501",
+      "values_digest": "9dc63c9da0c1ace3ecdf39ff6d775c2903bfffd24432ec425f1b71c75613514a",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "c75045737f2f72c7ffbf7fa5b0a67708bd48d837bf7348a8b72003a6c9952ee8",
+      "values_digest": "4f4451cecd41cfe241d66a861597c849848a794330e38bc83e2e27ef8e2e50c7",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "3e25d79b5ee86f023725529f8c8514b598b7e2e1dec2d52e06253f3e19e0ba37",
-      "rendered_digest": "ed95270eedc6fb6c6b1843d19fcdc397c6fe1a89ae1658f081f867f713f4b232",
-      "ast_digest": "ae07ef6ef71d5b5672dcd1f9a112d82eaeae592b23397599af45a83545f1a735"
+      "values_digest": "4e74baf8ccb020597657b5c2da24227b506d5118e18339e5ca098d171e19eb39",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "984cc01d4597447807acdf2a4ee0edb8e67907000755a97ab74a84798d25a6e4",
-      "rendered_digest": "1afcf6ef51194874a5667d9647a7af99ee9f4b173a0ca03587ca9e866e92051c",
-      "ast_digest": "7b0703279b856056b524f046f6fed753dfa67f2fc1ad95892ed5f5be97c40054"
+      "values_digest": "0ff85177d6a775f6e7d9346dda6edf242e8a615dd64422a7fd5a9ca95a9ebc43",
+      "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
+      "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
   },
   "transitions": [
@@ -396,6 +356,13 @@
       "to": "published",
       "actor": "worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 44,
+      "from": "published",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after adding rollback exercise and terminal finish/cleanup canary evidence."
     }
   ],
   "audit": [
@@ -951,6 +918,27 @@
       "actor": "worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 80,
+      "generation": 62,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after adding rollback exercise and terminal finish/cleanup canary evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 81,
+      "generation": 63,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after adding rollback exercise and terminal finish/cleanup canary evidence while preserving the absent operator approval gate.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, proved the pre-cutover rollback and terminal finish/cleanup canary lanes, kept C-SDLC v3 deferred as non-authoritative pending explicit operator approval, and strengthened the #505 validator so the evidence cannot silently regress.\",\"changes\":[\"Added `csdlc finish --observe-github`, which uses a constrained read-only GitHub adapter with child-process credential injection to observe merged PR and closed issue truth instead of accepting caller-authored terminal readbacks.\",\"Ran the observed finish canary against merged PR #641 and closed issue #629 at exact head `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`, deriving `terminal_closed_out` with `performed_mutation=false`.\",\"Created a registered clean detached cleanup canary worktree at `/Volumes/FastWork/adl-worktrees/adl-issue-629-terminal-cleanup-canary` from PR #641's exact head to exercise cleanup against actual Git worktree registration.\",\"Ran v3 clean preview with a durable terminal receipt under `.csdlc/evidence/505/`, producing a removable decision and cleanup receipt digest without deleting anything.\",\"Ran v3 clean with `remove=true` and the preview digest, proving removal is denied before #505 cutover authority and the worktree remains present at the exact #641 head.\",\"Ran the v3 cutover route with an explicit no-approval request, proving it blocks on missing operator, missing approval, and missing #505 approval while staying read-only.\",\"Ran typed C-SDLC v2 validation after the v3 canaries, proving the pre-cutover rollback target remains usable as live lifecycle authority.\",\"Updated `docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md` and `docs/csdlc-v3/authority-transition-disposition.json` so rollback and terminal canary evidence are satisfied and explicit operator approval is the remaining pre-merge authority gate.\",\"Strengthened `.csdlc/prepared/issues/505/validate-authority-transition-prep.rb` to require the rollback exercise, terminal finish canary, cleanup preview, cleanup removal-denial canary, and cutover approval-denial canary.\",\"Kept PR #591 non-closing for #505; this work does not approve cutover, merge, finish #505, clean worktrees, or retire v2.\"],\"artifacts\":[\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\".csdlc/evidence/505/pre-cutover-rollback-exercise.json\",\".csdlc/evidence/505/cutover-approval-absent-canary-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-receipt.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\",\".csdlc/prepared/issues/505/cutover-approval-absent-canary-request.json\",\".csdlc/prepared/issues/505/terminal-finish-canary-issue-629-pr641-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"ADL_GITHUB_TOKEN_FILE=/Users/daniel/keys/github.token\",\"./csdlc-v3/target/debug/csdlc\",\"finish\",\"--request\",\".csdlc/prepared/issues/505/terminal-finish-canary-issue-629-pr641-request.json\",\"--observe-github\"],\"purpose\":\"Live GitHub-observed terminal finish canary for merged PR #641 closing issue #629 at exact head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\"],\"purpose\":\"Preview cleanup from Git worktree registration and durable terminal receipt without removal.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\"],\"purpose\":\"Prove cleanup removal remains blocked before #505 cutover authority even with a valid preview receipt.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"cutover\",\"--request\",\".csdlc/prepared/issues/505/cutover-approval-absent-canary-request.json\"],\"purpose\":\"Prove v3 cutover refuses to execute without explicit #505 operator approval.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/505/cutover-approval-absent-canary-output.json\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed v2 remains the live rollback/lifecycle authority after the v3 canaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/pre-cutover-rollback-exercise.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Full v3 command/test regression after terminal observer and cleanup canary additions.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:131-tests\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Rust lint validation for the terminal observer and cleanup canary changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:clippy-pass\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Rust formatting check for touched v3 source and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:fmt-pass\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates, rollback evidence, terminal canary evidence, and v2-live boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace hygiene after the rollback and terminal canary update.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:passed\"}]}"
+    },
+    {
+      "sequence": 82,
+      "generation": 64,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after independent review found the cleanup canary needed candidate worktree HEAD enforcement.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, proved the pre-cutover rollback and terminal finish/cleanup canary lanes, tightened cleanup so registered candidates must match the terminal exact head, kept C-SDLC v3 deferred as non-authoritative pending explicit operator approval, and strengthened the #505 validator so the evidence cannot silently regress.\",\"changes\":[\"Added `csdlc finish --observe-github`, which uses a constrained read-only GitHub adapter with child-process credential injection to observe merged PR and closed issue truth instead of accepting caller-authored terminal readbacks.\",\"Ran the observed finish canary against merged PR #641 and closed issue #629 at exact head `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`, deriving `terminal_closed_out` with `performed_mutation=false`.\",\"Created a registered clean detached cleanup canary worktree at `/Volumes/FastWork/adl-worktrees/adl-issue-629-terminal-cleanup-canary` from PR #641's exact head to exercise cleanup against actual Git worktree registration.\",\"Tightened v3 cleanup so it reads the registered candidate worktree HEAD, rejects `candidate_head_mismatch`, and binds the candidate HEAD into the cleanup preview receipt digest.\",\"Ran v3 clean preview with a durable terminal receipt under `.csdlc/evidence/505/`, producing a removable decision and HEAD-bound cleanup receipt digest without deleting anything.\",\"Ran v3 clean with `remove=true` and the HEAD-bound preview digest, proving removal is denied before #505 cutover authority and the worktree remains present at the exact #641 head.\",\"Ran the v3 cutover route with an explicit no-approval request, proving it blocks on missing operator, missing approval, and missing #505 approval while staying read-only.\",\"Ran typed C-SDLC v2 validation after the v3 canaries, proving the pre-cutover rollback target remains usable as live lifecycle authority.\",\"Updated `docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md` and `docs/csdlc-v3/authority-transition-disposition.json` so rollback and terminal canary evidence are satisfied and explicit operator approval is the remaining pre-merge authority gate.\",\"Strengthened `.csdlc/prepared/issues/505/validate-authority-transition-prep.rb` to require the rollback exercise, terminal finish canary, cleanup preview, cleanup removal-denial canary, cutover approval-denial canary, and the cleanup candidate's actual HEAD.\",\"Kept PR #591 non-closing for #505; this work does not approve cutover, merge, finish #505, clean worktrees, or retire v2.\"],\"artifacts\":[\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\".csdlc/evidence/505/pre-cutover-rollback-exercise.json\",\".csdlc/evidence/505/cutover-approval-absent-canary-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-receipt.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\",\".csdlc/prepared/issues/505/cutover-approval-absent-canary-request.json\",\".csdlc/prepared/issues/505/terminal-finish-canary-issue-629-pr641-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"terminal_cleanup_cutover_commands\"],\"purpose\":\"Prove terminal finish/cleanup/cutover behavior including candidate HEAD mismatch rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:cleanup-head-binding:17-tests\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\"],\"purpose\":\"Preview cleanup from Git worktree registration, actual candidate HEAD, and durable terminal receipt without removal.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\"],\"purpose\":\"Prove cleanup removal remains blocked before #505 cutover authority even with a valid HEAD-bound preview receipt.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Rust formatting check for touched v3 source and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:cleanup-head-binding:fmt-pass\"}]}"
     }
   ]
 }

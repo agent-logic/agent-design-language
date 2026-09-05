@@ -2,7 +2,7 @@
   "schema": "csdlc.v3.authority_transition_disposition.v1",
   "authority_issue": 505,
   "repository": "agent-logic/agent-design-language",
-  "observed_at": "2026-09-05T19:23:00Z",
+  "observed_at": "2026-09-05T20:52:00Z",
   "operational_authority": false,
   "cutover_ready": false,
   "operator_approval": "absent",
@@ -13,7 +13,7 @@
       "live_state": "closed",
       "closed_at": "2026-08-10T22:12:30Z",
       "required_disposition": "Cutover may be approved only after parity, canary migration, rollback, observation-window, exact-review, and operator-approval evidence are current at #591 head.",
-      "current_disposition": "deferred_pending_authority_evidence",
+      "current_disposition": "satisfied_pending_operator_approval",
       "satisfied_evidence": [
         {
           "claim": "21 required v2 entrypoints have executable v3 command routes behind one csdlc surface",
@@ -30,16 +30,20 @@
         {
           "claim": "Independent exact-head review and non-closing publication were refreshed after current-main reconciliation",
           "evidence_ref": ".csdlc/issues/505/index.json#generation-57"
+        },
+        {
+          "claim": "Pre-cutover rollback exercise was run: v3 terminal/cutover paths stayed non-authoritative, pre-cutover removal was denied, and typed v2 validation still passed afterward",
+          "evidence_ref": ".csdlc/evidence/505/pre-cutover-rollback-exercise.json"
+        },
+        {
+          "claim": "Terminal v3 finish/cleanup canary consumed live GitHub PR #641 and issue #629 readbacks, then previewed cleanup against a registered exact-head worktree without removing it",
+          "evidence_ref": ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json"
         }
       ],
       "blocking_evidence": [
         {
-          "claim": "Rollback exercise evidence must show an actual successful rollback path, not only planned rollback language",
+          "claim": "Explicit operator approval for #505 authority cutover remains absent",
           "status": "missing"
-        },
-        {
-          "claim": "Terminal v3 finish/cleanup canary must be proven after an authorized canary merge, or an explicit operator waiver must be recorded",
-          "status": "missing_or_unwaived"
         }
       ]
     },
@@ -77,8 +81,7 @@
     }
   ],
   "approval_blockers": [
-    "Provide actual rollback-exercise evidence.",
-    "Provide terminal v3 finish/cleanup canary evidence or an explicit operator waiver.",
+    "Obtain explicit operator approval for #505 authority cutover.",
     "Keep v2 as live authority until explicit operator approval, merge, finish, and cleanup reconciliation."
   ]
 }

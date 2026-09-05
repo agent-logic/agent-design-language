@@ -15,7 +15,10 @@ use csdlc_v3::{
         REMOTE_PUBLICATION_ROUTE_NAMES,
     },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
-    commands::terminal::{prepare_terminal_route, TerminalRouteRequest, TERMINAL_ROUTE_NAMES},
+    commands::terminal::{
+        prepare_terminal_finish_with_github_observation, prepare_terminal_route,
+        TerminalRouteRequest, TERMINAL_ROUTE_NAMES,
+    },
     repository::RepositoryContext,
 };
 use serde::Serialize;
@@ -27,7 +30,8 @@ const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
 const REMOTE_USAGE: &str =
     "usage: csdlc <github|github-issue|github-pr|pr-state|publish|review> --request <path> [--observe-github]";
-const TERMINAL_USAGE: &str = "usage: csdlc <finish|clean|cutover> --request <path>";
+const TERMINAL_USAGE: &str =
+    "usage: csdlc <finish|clean|cutover> --request <path> [--observe-github]";
 const SPRINT_USAGE: &str = "usage: csdlc sprint --repo-root <path> --request <path>";
 
 fn main() {
@@ -254,8 +258,14 @@ fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
         fs::read(&args.request).map_err(|error| format!("failed to read request: {error}"))?;
     let request: TerminalRouteRequest = serde_json::from_slice(&request_bytes)
         .map_err(|error| format!("typed_terminal_request_invalid_json: {error}"))?;
-    let result = prepare_terminal_route(command, &request)
-        .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
+    let result = if command == "finish" && args.observe_github {
+        let mut adapter = RealProcessAdapter::new(EnvironmentCredentialResolver);
+        prepare_terminal_finish_with_github_observation(&request, &mut adapter)
+            .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?
+    } else {
+        prepare_terminal_route(command, &request)
+            .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?
+    };
     let report = TerminalCommandReport {
         schema: "csdlc.v3.terminal_cleanup_cutover.v1",
         command: command.to_owned(),
@@ -396,6 +406,7 @@ struct RemoteArgs {
 #[derive(Debug)]
 struct TerminalArgs {
     request: PathBuf,
+    observe_github: bool,
 }
 
 #[derive(Debug)]
@@ -457,6 +468,7 @@ impl RemoteArgs {
 impl TerminalArgs {
     fn parse(command: &str, args: &[String]) -> Result<Self, String> {
         let mut request = None;
+        let mut observe_github = false;
         let mut iter = args.iter();
         while let Some(arg) = iter.next() {
             match arg.as_str() {
@@ -468,6 +480,12 @@ impl TerminalArgs {
                         format!("{}; missing value for --request", terminal_usage(command))
                     })?));
                 }
+                "--observe-github" if command == "finish" => {
+                    if observe_github {
+                        return Err("duplicate argument --observe-github".into());
+                    }
+                    observe_github = true;
+                }
                 _ => {
                     return Err(format!(
                         "{}; unexpected argument {arg}",
@@ -478,6 +496,7 @@ impl TerminalArgs {
         }
         Ok(Self {
             request: request.ok_or_else(|| TERMINAL_USAGE.to_string())?,
+            observe_github,
         })
     }
 }
