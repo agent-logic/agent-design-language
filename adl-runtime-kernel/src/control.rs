@@ -43,7 +43,7 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, is_canonical_agent_name, AgentPartialCapture,
+    decode_acip_envelope, is_canonical_agent_name, AgentArchiveRecovery, AgentPartialCapture,
     AgentPartialCheckpointInitConfig, AgentPartialCheckpointStore, AgentRosterEntry,
     AgentRosterQuery, CanonicalIngress, CheckpointManifest, DomainResult, DomainWork,
     InferenceReadinessState, IngressError, KernelControl, KernelExit, LiveContinuity,
@@ -561,12 +561,13 @@ struct IdempotencyState {
     admission_open: bool,
 }
 
-#[derive(Default)]
+#[derive(Clone, Default)]
 struct ConversationSessions {
     sessions: BTreeMap<String, ConversationSession>,
     next_sequence: u64,
 }
 
+#[derive(Clone)]
 struct ConversationSession {
     sequence: u64,
     recipient_id: String,
@@ -684,6 +685,7 @@ impl ConversationDispatchGate {
     }
 }
 
+#[derive(Clone)]
 struct ConversationTurn {
     fingerprint: String,
     correlation_id: String,
@@ -2300,11 +2302,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             return Ok(0);
         };
         let resident_id_list = resident_ids.iter().cloned().collect::<Vec<_>>();
-        let partials = store
-            .latest_valid_with_archive(generation, &integrity, &resident_id_list)
+        let recovery = store
+            .prepare_archive_recovery(generation, &integrity, &resident_id_list)
             .await
             .map_err(|error| ControlError::Io(error.to_string()))?;
-        self.apply_agent_partial_restore(partials, &resident_ids)
+        self.apply_archived_agent_partial_restore(
+            &store,
+            recovery,
+            generation,
+            &integrity,
+            &resident_ids,
+        )
     }
 
     fn agent_partial_restore_context(
@@ -2353,15 +2361,58 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         partials: Vec<crate::AgentPartialCheckpoint>,
         resident_ids: &BTreeSet<String>,
     ) -> Result<usize, ControlError> {
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let mut staged = sessions.clone();
         let mut restored = 0;
         for partial in partials {
             if !resident_ids.contains(&partial.agent_id) {
                 continue;
             }
-            self.restore_conversation_history(&partial.agent_id, &partial.conversation_history)
-                .map_err(|_| ControlError::Internal)?;
+            Self::merge_conversation_history(
+                &mut staged,
+                &partial.agent_id,
+                &partial.conversation_history,
+            )
+            .map_err(|_| ControlError::Internal)?;
             restored += 1;
         }
+        *sessions = staged;
+        Ok(restored)
+    }
+
+    fn apply_archived_agent_partial_restore(
+        &self,
+        store: &AgentPartialCheckpointStore,
+        recovery: AgentArchiveRecovery,
+        parent_generation: u64,
+        parent_digest: &str,
+        resident_ids: &BTreeSet<String>,
+    ) -> Result<usize, ControlError> {
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let mut staged = sessions.clone();
+        let mut restored = 0;
+        for partial in &recovery.partials {
+            if !resident_ids.contains(&partial.agent_id) {
+                continue;
+            }
+            Self::merge_conversation_history(
+                &mut staged,
+                &partial.agent_id,
+                &partial.conversation_history,
+            )
+            .map_err(|_| ControlError::Internal)?;
+            restored += 1;
+        }
+        store
+            .commit_archive_recovery(&recovery, parent_generation, parent_digest)
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        *sessions = staged;
         Ok(restored)
     }
 
@@ -2959,6 +3010,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
+        let mut staged = sessions.clone();
+        Self::merge_conversation_history(&mut staged, agent_id, conversation_history)?;
+        *sessions = staged;
+        Ok(())
+    }
+
+    fn merge_conversation_history(
+        sessions: &mut ConversationSessions,
+        agent_id: &str,
+        conversation_history: &[AgentConversationCheckpoint],
+    ) -> Result<(), AgentAdmissionFailure> {
         for conversation in conversation_history {
             let mut turns = BTreeMap::new();
             for turn in &conversation.turns {
@@ -3022,6 +3084,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         if current.fingerprint != restored.fingerprint
                             || current.correlation_id != restored.correlation_id
                             || current.sequence != restored.sequence
+                            || current.terminal != restored.terminal
                         {
                             return Err(AgentAdmissionFailure::Conflict(
                                 "conversation_restore_conflict",
@@ -4430,7 +4493,7 @@ impl RuntimeRecipientAcknowledgementResponse {
     }
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
 struct ObservatoryConversationResult {
     schema: &'static str,
     status: &'static str,
@@ -6939,6 +7002,18 @@ mod agent_lifecycle {
         service
             .restore_conversation_history("shepherd", &restored_history(1))
             .unwrap();
+        let mut conflicting = restored_history(2);
+        conflicting[0].turns[0].reply = Some("conflicting-reply".to_owned());
+        assert!(service
+            .restore_conversation_history("shepherd", &conflicting)
+            .is_err());
+        assert_eq!(
+            service.agent_conversation_checkpoint("shepherd").unwrap()[0]
+                .turns
+                .len(),
+            1,
+            "a failed merge must leave the entire session unchanged"
+        );
         service
             .restore_conversation_history("shepherd", &restored_history(2))
             .unwrap();

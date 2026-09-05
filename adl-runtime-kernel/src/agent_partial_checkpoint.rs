@@ -171,6 +171,11 @@ struct ArchiveLatest {
     archived_at_unix_millis: u64,
 }
 
+pub struct AgentArchiveRecovery {
+    pub partials: Vec<AgentPartialCheckpoint>,
+    staged_records: Vec<(Vec<u8>, u64)>,
+}
+
 #[derive(Default)]
 struct StoreState {
     next_sequence: BTreeMap<String, u64>,
@@ -617,21 +622,24 @@ impl AgentPartialCheckpointStore {
         )
     }
 
-    pub async fn latest_valid_with_archive(
+    pub async fn prepare_archive_recovery(
         &self,
         parent_generation: u64,
         parent_digest: &str,
         resident_agent_ids: &[String],
-    ) -> Result<Vec<AgentPartialCheckpoint>, AgentPartialError> {
+    ) -> Result<AgentArchiveRecovery, AgentPartialError> {
         let mut paths = json_files(&self.local_root)?;
         let Some(archive) = self.config.s3_archive.as_ref() else {
-            return select_latest_records(
-                paths,
-                &self.runtime_instance_id,
-                &self.polis_id,
-                parent_generation,
-                parent_digest,
-            );
+            return Ok(AgentArchiveRecovery {
+                partials: select_latest_records(
+                    paths,
+                    &self.runtime_instance_id,
+                    &self.polis_id,
+                    parent_generation,
+                    parent_digest,
+                )?,
+                staged_records: Vec::new(),
+            });
         };
         let download_root = self.root.join("restore-downloads");
         fs::create_dir_all(&download_root)?;
@@ -725,30 +733,46 @@ impl AgentPartialCheckpointStore {
             parent_generation,
             parent_digest,
         );
-        if selected.is_ok() {
-            for (path, latest) in &downloaded_records {
-                self.adopt_archived_record(
-                    path,
-                    parent_generation,
-                    parent_digest,
-                    latest.archived_at_unix_millis,
-                )?;
-            }
-            self.rebuild_state()?;
-        }
+        let staged_records = downloaded_records
+            .iter()
+            .map(|(path, latest)| {
+                fs::read(path)
+                    .map(|bytes| (bytes, latest.archived_at_unix_millis))
+                    .map_err(AgentPartialError::from)
+            })
+            .collect::<Result<Vec<_>, _>>()?;
         let _ = fs::remove_dir_all(download_root);
-        selected
+        Ok(AgentArchiveRecovery {
+            partials: selected?,
+            staged_records,
+        })
+    }
+
+    pub fn commit_archive_recovery(
+        &self,
+        recovery: &AgentArchiveRecovery,
+        parent_generation: u64,
+        parent_digest: &str,
+    ) -> Result<(), AgentPartialError> {
+        for (bytes, archived_at_unix_millis) in &recovery.staged_records {
+            self.adopt_archived_record(
+                bytes,
+                parent_generation,
+                parent_digest,
+                *archived_at_unix_millis,
+            )?;
+        }
+        Ok(())
     }
 
     fn adopt_archived_record(
         &self,
-        path: &Path,
+        bytes: &[u8],
         parent_generation: u64,
         parent_digest: &str,
         archived_at_unix_millis: u64,
     ) -> Result<(), AgentPartialError> {
-        let bytes = fs::read(path)?;
-        let record = decode_record(&bytes)?;
+        let record = decode_record(bytes)?;
         record.validate(
             &self.runtime_instance_id,
             &self.polis_id,
@@ -769,8 +793,34 @@ impl AgentPartialCheckpointStore {
             }
             return Err(AgentPartialError::InvalidLineage);
         }
-        persist_bytes_atomically(&destination, &bytes)?;
+        persist_bytes_atomically(&destination, bytes)?;
         self.write_restored_archive_receipt(&record, archived_at_unix_millis)?;
+        let mut state = self.state.lock().expect("partial store state poisoned");
+        let next = state
+            .next_sequence
+            .entry(record.agent_id().to_owned())
+            .or_insert(1);
+        *next = (*next).max(record.sequence().saturating_add(1));
+        match record {
+            StoredRecord::Tombstone(_) => {
+                state.projections.remove(record.agent_id());
+            }
+            StoredRecord::Partial(partial) => {
+                state.cadence_sequence = state.cadence_sequence.max(partial.cadence_sequence);
+                let projection = state.projections.entry(partial.agent_id).or_default();
+                if projection
+                    .snapshot_sequence
+                    .is_none_or(|sequence| sequence <= partial.snapshot_sequence)
+                {
+                    projection.last_snapshot_at_unix_millis = Some(partial.created_at_unix_millis);
+                    projection.last_archive_at_unix_millis = Some(archived_at_unix_millis);
+                    projection.snapshot_sequence = Some(partial.snapshot_sequence);
+                    projection.pending_archive_count = 0;
+                    projection.snapshot_state = AgentSnapshotState::Current;
+                    projection.archive_state = AgentArchiveState::Current;
+                }
+            }
+        }
         Ok(())
     }
 
@@ -1868,13 +1918,22 @@ mod tests {
         )
         .unwrap();
         store.set_archive_command(script);
+        store.write_partial(capture("relay", 2)).unwrap();
+        assert_eq!(store.projection("relay").pending_archive_count, 1);
 
-        let restored = store
-            .latest_valid_with_archive(2, &"a".repeat(64), &["ember".to_owned()])
+        let recovery = store
+            .prepare_archive_recovery(2, &"a".repeat(64), &["ember".to_owned()])
             .await
             .unwrap();
-        assert_eq!(restored.len(), 1);
-        assert_eq!(restored[0].agent_id, "ember");
+        assert_eq!(recovery.partials.len(), 2);
+        assert!(recovery
+            .partials
+            .iter()
+            .any(|partial| partial.agent_id == "ember"));
+        store
+            .commit_archive_recovery(&recovery, 2, &"a".repeat(64))
+            .unwrap();
+        assert_eq!(store.projection("relay").pending_archive_count, 1);
         assert_eq!(store.projection("ember").snapshot_sequence, Some(1));
         assert_eq!(
             store.projection("ember").archive_state,
