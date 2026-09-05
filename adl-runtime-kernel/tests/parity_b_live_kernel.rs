@@ -1,16 +1,19 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    path::Path,
     sync::Arc,
     time::Duration,
 };
 
 use adl_runtime_kernel::{
-    feature_dispositions, graph_patch_hash, rollback_candidate, AdaptationState, AdaptationStore,
-    AdapterKind, AdvisorySignals, CognitionGates, DomainWork, FeatureDispositionKind, GraphPatch,
+    activate_config_generation, feature_dispositions, graph_patch_hash,
+    provision_config_generation, rollback_candidate, AdaptationState, AdaptationStore, AdapterKind,
+    AdvisorySignals, CognitionGates, DomainWork, FeatureDispositionKind, GraphPatch,
     LoopDefinition, LoopStatus, MutationAuthority, MutationGate, MutationGrant, OperationExecutor,
     ParityBError, ParityBExecutor, ParityBRequest, PatchKind, ReasoningEdge,
     ReasoningGraphDefinition, ReasoningNode, RecordedObservation, TrustedMutationKey, TrustedTime,
-    PARITY_B_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA,
+    CONFIG_GENERATION_ENV, CONFIG_RECEIPT_DIGEST_ENV, PARITY_B_REQUEST_SCHEMA,
+    REASONING_GRAPH_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 
@@ -199,6 +202,7 @@ async fn live_graph_executes_through_guardian_canonical_ingress() {
     guardian.capture_drain_grace_ms = 2_000;
     guardian.configuration_exit_codes = vec![64];
     guardian.env = guardian_environment();
+    apply_runtime_config_generation_env(&init, &mut guardian.env);
     let guardian_task = tokio::spawn(run_guardian(guardian, shutdown.clone()));
     let connector = tls_connector(certificate_der);
     let observatory = match wait_for_runtime(
@@ -676,6 +680,40 @@ fn guardian_environment() -> Vec<(String, String)> {
             hex::encode(SigningKey::from_bytes(&[42; 32]).verifying_key().as_bytes()),
         ),
     ]
+}
+
+#[cfg(unix)]
+fn apply_runtime_config_generation_env(init: &Path, env: &mut Vec<(String, String)>) {
+    let init = init.canonicalize().unwrap();
+    let generation = runtime_kernel_generation_from_init(&init);
+    let identity = provision_config_generation(&init, &generation).unwrap();
+    activate_config_generation(&init, &identity).unwrap();
+    env.push((CONFIG_GENERATION_ENV.to_owned(), identity.generation));
+    env.push((
+        CONFIG_RECEIPT_DIGEST_ENV.to_owned(),
+        identity.receipt_digest,
+    ));
+}
+
+#[cfg(unix)]
+fn runtime_kernel_generation_from_init(init: &Path) -> String {
+    let text = std::fs::read_to_string(init).unwrap();
+    let document = toml::from_str::<toml::Value>(&text).unwrap();
+    let kernel = document
+        .get("binaries")
+        .and_then(toml::Value::as_table)
+        .and_then(|table| table.get("kernel_path"))
+        .and_then(toml::Value::as_str)
+        .unwrap();
+    Path::new(kernel)
+        .canonicalize()
+        .unwrap()
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .unwrap()
+        .to_owned()
 }
 
 #[cfg(unix)]

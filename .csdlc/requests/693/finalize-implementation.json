@@ -1,0 +1,253 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 693,
+  "expected_generation": 5,
+  "expected_digest": "9b26cbd9dca001d750a7e9948384a2d5f67f3fb39363fef31a0f681ef52af70a",
+  "actor": "codex:/root/issue-693",
+  "summary": "Implemented Runtime-owned first-class A2A action selection for model-backed conversation ingress. Ollama-style provider chat responses now expose a provider-native initiate_agent tool channel that Runtime normalizes into the existing governed A2A initiation intent. Free-form prose remains an operator reply and cannot authorize dispatch. Legacy explicit action envelopes remain accepted through the same validation boundary.",
+  "changes": [
+    "adl-runtime-kernel/src/assembly.rs routes initial operator-to-agent provider conversations through a typed ProviderConversationOutput while preserving existing provider-model execution for initiated peer work.",
+    "adl-runtime-kernel/src/assembly.rs changes the model prompt from brittle exact JSON emission to a first-class initiate_agent tool contract and retains legacy JSON envelope compatibility.",
+    "adl-runtime-kernel/src/control.rs adds provider conversation output/action structs plus Ollama /api/chat tool-call invocation and fail-closed normalization.",
+    "adl-runtime-kernel/src/control.rs adds a production-ingress live-style local HTTP fixture proving Beacon selects A2A through provider-native tool output and Ember executes through the governed recipient provider route.",
+    "adl-runtime-kernel/src/control.rs adds coverage for ordinary prose as non-action, provider-native action projection, JSON-object and JSON-encoded tool arguments, ambiguous/unknown tool-call rejection, replay/conflict/failure semantics, and existing governed initiation primitive behavior."
+  ],
+  "artifacts": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/control.rs",
+    ".csdlc/evidence/693"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "runtime-provider-conversation",
+          "proof_role": "provider conversation action selector",
+          "purpose": "Provider conversation normalization lane proving native tool-call selection, JSON-object and JSON-encoded arguments, prose non-action, ambiguous tool rejection, and legacy envelope compatibility.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 1024,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "runtime-tests",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "env",
+          "argv": [
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/.tmp",
+            "cargo",
+            "test",
+            "--manifest-path",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+            "provider_conversation",
+            "--",
+            "--nocapture"
+          ],
+          "evidence": {
+            "max_log_bytes": 20000,
+            "redact_values": [],
+            "require_relative_paths": false
+          }
+        },
+        {
+          "id": "runtime-production-ingress-a2a",
+          "proof_role": "production conversation ingress acceptance",
+          "purpose": "Production conversation ingress proof for Beacon selecting A2A through local Ollama-style /api/chat tool output, Runtime-governed dispatch, Ember provider execution, and correlated A2A activity.",
+          "determinism": "controlled_external",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 1024,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "loopback",
+          "dependencies": [
+            "runtime-provider-conversation"
+          ],
+          "parallel_group": "runtime-tests",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "env",
+          "argv": [
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/.tmp",
+            "cargo",
+            "test",
+            "--manifest-path",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+            "agent_to_agent_model_action_from_conversation_delivers_peer_response",
+            "--",
+            "--nocapture"
+          ],
+          "evidence": {
+            "max_log_bytes": 20000,
+            "redact_values": [],
+            "require_relative_paths": false
+          }
+        },
+        {
+          "id": "runtime-a2a-primitive-compatibility",
+          "proof_role": "existing governed A2A primitive compatibility",
+          "purpose": "Existing #662 governed A2A primitive compatibility lane covering configured provider work/activity, replay/conflict, and terminal missing/stale-recipient failures.",
+          "determinism": "controlled_external",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 1024,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "loopback",
+          "dependencies": [
+            "runtime-production-ingress-a2a"
+          ],
+          "parallel_group": "runtime-tests",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "env",
+          "argv": [
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/.tmp",
+            "cargo",
+            "test",
+            "--manifest-path",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+            "agent_to_agent_initiation",
+            "--",
+            "--nocapture"
+          ],
+          "evidence": {
+            "max_log_bytes": 20000,
+            "redact_values": [],
+            "require_relative_paths": false
+          }
+        },
+        {
+          "id": "runtime-fmt",
+          "proof_role": "rust formatting",
+          "purpose": "Rust formatting hygiene for the touched runtime crate.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 250
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "runtime-a2a-primitive-compatibility"
+          ],
+          "parallel_group": "runtime-hygiene",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "cargo",
+          "argv": [
+            "fmt",
+            "--manifest-path",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+            "--check"
+          ],
+          "evidence": {
+            "max_log_bytes": 12000,
+            "redact_values": [],
+            "require_relative_paths": false
+          }
+        },
+        {
+          "id": "runtime-clippy",
+          "proof_role": "strict linting",
+          "purpose": "Strict lint check for the touched runtime crate and tests.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 2048,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "runtime-fmt"
+          ],
+          "parallel_group": "runtime-hygiene",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 180,
+          "executable": "env",
+          "argv": [
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/.tmp",
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "evidence": {
+            "max_log_bytes": 20000,
+            "redact_values": [],
+            "require_relative_paths": false
+          }
+        },
+        {
+          "id": "diff-check",
+          "proof_role": "diff hygiene",
+          "purpose": "Whitespace and diff hygiene.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 250
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "runtime-clippy"
+          ],
+          "parallel_group": "runtime-hygiene",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 30,
+          "executable": "git",
+          "argv": [
+            "diff",
+            "--check"
+          ],
+          "evidence": {
+            "max_log_bytes": 12000,
+            "redact_values": [],
+            "require_relative_paths": false
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "runtime-provider-conversation",
+        "runtime-production-ingress-a2a",
+        "runtime-a2a-primitive-compatibility",
+        "runtime-fmt",
+        "runtime-clippy",
+        "diff-check"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 2,
+      "memory_mib": 4096,
+      "tokens": 6000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/.csdlc/evidence/693",
+    "cancellation_file": null
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 693,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+    "slug": "runtime-a2a-action-selection-reliability",
+    "version": "v0.92.1",
+    "generation": 34
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-a2a-live-style",
+          "proof_role": "Prove production conversation ingress selects and completes governed Beacon-to-Ember A2A from an Ollama-native tool call while preserving the distinct initiating reply and correlated recipient completion.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response",
+            "--",
+            "--exact"
+          ],
+          "parallel_group": "693-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-a2a-governance",
+          "proof_role": "Preserve failure replay cancellation admission legacy primitive behavior and ordinary replies for models without tool support.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "provider_conversation"
+          ],
+          "parallel_group": "693-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-quality",
+          "proof_role": "Prove formatting and lint hygiene for the Runtime kernel change.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 800,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "693-quality",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed: model prose is never treated as delivery truth, and any invalid action is rejected without bypassing governed admission or corrupting the ordinary reply path.",
+      "design_ref": ".csdlc/prepared/issues/693/design.md",
+      "design_digest": "3d6e1f22f907c3dd4a5cdb9cd79f7501e9898ea069400f940bed0de1b12d740d",
+      "diagram_ref": ".csdlc/prepared/issues/693/diagram.mmd",
+      "diagram_digest": "258c0894881958fb171a77bd3e94eb4c64b8e3bc18fe553a69567fd872f7e7e3"
+    }
+  }
+}
