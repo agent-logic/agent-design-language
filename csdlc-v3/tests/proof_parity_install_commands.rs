@@ -8,6 +8,9 @@ use std::{
 
 use serde_json::{json, Value};
 
+const SHADOW_TARGET_ISSUE: u64 = 505;
+const SHADOW_TARGET_PHASE: &str = "implemented";
+
 struct ScratchGuard {
     _lock: MutexGuard<'static, ()>,
     evidence_dir: PathBuf,
@@ -79,6 +82,21 @@ fn scoped_evidence_ref(name: &str) -> String {
     )
 }
 
+fn issue_index(issue: u64) -> Value {
+    serde_json::from_slice(
+        &fs::read(binary_repo_root().join(format!(".csdlc/issues/{issue}/index.json")))
+            .expect("issue index"),
+    )
+    .expect("issue index json")
+}
+
+fn issue_digest(issue: u64) -> String {
+    issue_index(issue)["digest"]
+        .as_str()
+        .expect("issue digest")
+        .to_string()
+}
+
 fn write_evidence(name: &str, body: &[u8]) -> (PathBuf, String, String) {
     let root = binary_repo_root();
     let ref_path = scoped_evidence_ref(name);
@@ -107,7 +125,7 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
         &format!("v2-doctor-{issue_argument}.json"),
         json!({
             "schema": "csdlc.v3.shadow_command_request.v1",
-            "issue": 505,
+            "issue": issue_argument,
             "command": "doctor",
             "generation": "v2"
         }),
@@ -118,24 +136,31 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
         "argv": ["--repo", ".", "--issue", issue_argument.to_string()],
         "request_ref": request_ref,
         "timeout_millis": 10_000,
-        "side_effect_boundary_refs": [".csdlc/issues/505/index.json"],
+        "side_effect_boundary_refs": [format!(".csdlc/issues/{issue_argument}/index.json")],
         "provider_side_effects": false
     })
 }
 
 fn v3_doctor_spec() -> Value {
+    v3_doctor_spec_for(
+        SHADOW_TARGET_ISSUE,
+        "[v0.92.1][V3-F] C-SDLC v3 authority transition decision",
+    )
+}
+
+fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
     let root = binary_repo_root();
     let request_ref = write_typed_request(
         "v3-doctor-request.json",
         json!({
-            "issue": 505,
-            "title": "[v0.92.1][V3-F] C-SDLC v3 authority transition decision",
+            "issue": issue,
+            "title": title,
             "repository": "agent-logic/agent-design-language",
             "branch": "codex/505-v3-f-authority-transition-decision-exec",
             "worktree": root,
             "registry_version": "1.0.3",
-            "expected_lifecycle_digest": "8da5b5b97a82b309a2ed69f7d6a92aebae55288d3738a5d6cb4a819cf448b2de",
-            "commands": ["issue", "bind", "edit", "validate", "doctor", "schedule", "shepherd", "eligibility"],
+            "expected_lifecycle_digest": issue_digest(issue),
+            "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
             "card_updates": {}
         }),
     );
@@ -342,7 +367,7 @@ fn shadow_route_executes_real_typed_v2_and_v3_doctor_commands() {
           "evidence_root": root,
           "shadow": {
             "normalization": "doctor_issue_phase_v1",
-            "v2": v2_doctor_spec(505),
+            "v2": v2_doctor_spec(SHADOW_TARGET_ISSUE),
             "v3": v3_doctor_spec(),
             "broad_equivalence_claim": false
           }
@@ -361,8 +386,8 @@ fn shadow_route_executes_real_typed_v2_and_v3_doctor_commands() {
     assert!(receipt["binary"]["digest"].as_str().unwrap().len() >= 64);
     assert!(receipt["stdout_digest"].as_str().unwrap().len() >= 64);
     assert!(receipt["stderr_digest"].as_str().unwrap().len() >= 64);
-    assert_eq!(receipt["normalized_output"]["issue"], 505);
-    assert_eq!(receipt["normalized_output"]["phase"], "published");
+    assert_eq!(receipt["normalized_output"]["issue"], SHADOW_TARGET_ISSUE);
+    assert_eq!(receipt["normalized_output"]["phase"], SHADOW_TARGET_PHASE);
     assert_eq!(receipt["side_effect_boundary"][0]["changed"], false);
 }
 
@@ -378,8 +403,8 @@ fn shadow_route_fails_closed_on_real_lifecycle_mismatch_and_provider_effects() {
           "evidence_root": root,
           "shadow": {
             "normalization": "doctor_issue_phase_v1",
-            "v2": v2_doctor_spec(503),
-            "v3": v3_doctor_spec(),
+            "v2": v2_doctor_spec(SHADOW_TARGET_ISSUE),
+            "v3": v3_doctor_spec_for(210, "[v0.91.6] Shadow parity ready issue fixture"),
             "broad_equivalence_claim": false
           }
         }),
@@ -395,7 +420,7 @@ fn shadow_route_fails_closed_on_real_lifecycle_mismatch_and_provider_effects() {
           "evidence_root": binary_repo_root(),
           "shadow": {
             "normalization": "doctor_issue_phase_v1",
-            "v2": v2_doctor_spec(505),
+            "v2": v2_doctor_spec(SHADOW_TARGET_ISSUE),
             "v3": provider_spec,
             "broad_equivalence_claim": false
           }
@@ -416,7 +441,7 @@ fn soak_route_observes_real_monotonic_duration_with_bounded_commands() {
           "evidence_root": root,
           "soak": {
             "normalization": "doctor_issue_phase_v1",
-            "command": v2_doctor_spec(505),
+            "command": v2_doctor_spec(SHADOW_TARGET_ISSUE),
             "duration_millis": 25,
             "sample_interval_millis": 5,
             "hidden_state": false,
@@ -432,7 +457,9 @@ fn soak_route_observes_real_monotonic_duration_with_bounded_commands() {
     assert_eq!(receipt["operational_authority"], false);
     assert_eq!(receipt["provider_side_effects"], false);
     assert!(receipt["started_unix_millis"].as_u64().unwrap() > 0);
-    assert!(receipt["samples"][0]["execution"]["elapsed_millis"].as_u64().is_some());
+    assert!(receipt["samples"][0]["execution"]["elapsed_millis"]
+        .as_u64()
+        .is_some());
 }
 
 #[test]

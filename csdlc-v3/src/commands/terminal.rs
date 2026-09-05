@@ -112,17 +112,12 @@ pub struct CutoverDecisionRequest {
     pub readiness_evidence_digest: Option<String>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum CutoverOperation {
+    #[default]
     Apply,
     Rollback,
-}
-
-impl Default for CutoverOperation {
-    fn default() -> Self {
-        Self::Apply
-    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -345,8 +340,7 @@ pub fn prepare_terminal_finish_with_github_observation(
         .and_then(|decision| {
             persist_terminal_finish(request, &decision)?;
             Ok(decision)
-        })
-    {
+        }) {
         Ok(decision) => Some(decision),
         Err(finding) => {
             findings.push(finding);
@@ -796,8 +790,11 @@ fn persist_terminal_finish(
             "only a verified terminal closeout may be persisted",
         ));
     };
-    let state_path =
-        checked_repo_relative(&repository_root, &write_request.state_path, "terminal_state")?;
+    let state_path = checked_repo_relative(
+        &repository_root,
+        &write_request.state_path,
+        "terminal_state",
+    )?;
     let receipt_path = checked_repo_relative(
         &repository_root,
         &write_request.receipt_path,
@@ -877,20 +874,19 @@ fn canonical_v3_authority(repository_root: &Path) -> Result<bool, TerminalFindin
             "canonical generation selector must be a regular file",
         ));
     }
-    let selector: serde_json::Value = serde_json::from_slice(
-        &fs::read(&selector_path).map_err(|error| {
+    let selector: serde_json::Value =
+        serde_json::from_slice(&fs::read(&selector_path).map_err(|error| {
             finding(
                 "generation_selector_unreadable",
                 &format!("canonical generation selector is unreadable: {error}"),
             )
-        })?,
-    )
-    .map_err(|_| {
-        finding(
-            "generation_selector_invalid",
-            "canonical generation selector must be typed JSON",
-        )
-    })?;
+        })?)
+        .map_err(|_| {
+            finding(
+                "generation_selector_invalid",
+                "canonical generation selector must be typed JSON",
+            )
+        })?;
     if selector["schema"] != "csdlc.generation_selector.v1" {
         return Err(finding(
             "generation_selector_invalid",
@@ -1396,8 +1392,7 @@ fn execute_rollback(
     let mut journal = read_cutover_receipt(&receipt)?;
     if journal.schema != "csdlc.v3.cutover_receipt.v2"
         || journal.authority_issue != 505
-        || journal.canonical_selector
-            != PathBuf::from("csdlc-v2/operator/generation-selector.json")
+        || journal.canonical_selector != Path::new("csdlc-v2/operator/generation-selector.json")
         || (!request.selected_binary_provenance.is_empty()
             && request.selected_binary_provenance != format!("git:{}", journal.selected_revision))
     {
@@ -1593,12 +1588,13 @@ fn validate_cutover_journal(
 }
 
 fn selector_bytes_from_journal(journal: &CutoverReceipt) -> Result<Vec<u8>, TerminalFinding> {
-    let mut value: serde_json::Value = serde_json::from_slice(&journal.prior_selector).map_err(|_| {
-        finding(
-            "cutover_receipt_invalid",
-            "retained selector preimage is not typed JSON",
-        )
-    })?;
+    let mut value: serde_json::Value =
+        serde_json::from_slice(&journal.prior_selector).map_err(|_| {
+            finding(
+                "cutover_receipt_invalid",
+                "retained selector preimage is not typed JSON",
+            )
+        })?;
     value["default_generation"] = serde_json::Value::String("v3".into());
     let bytes = serde_json::to_vec_pretty(&value)
         .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
@@ -1618,13 +1614,15 @@ fn read_cutover_receipt(path: &Path) -> Result<CutoverReceipt, TerminalFinding> 
             &format!("cutover receipt is unreadable: {error}"),
         )
     })?)
-    .map_err(|_| finding("cutover_receipt_invalid", "cutover receipt must be typed JSON"))
+    .map_err(|_| {
+        finding(
+            "cutover_receipt_invalid",
+            "cutover receipt must be typed JSON",
+        )
+    })
 }
 
-fn write_cutover_receipt(
-    path: &Path,
-    receipt: &CutoverReceipt,
-) -> Result<(), TerminalFinding> {
+fn write_cutover_receipt(path: &Path, receipt: &CutoverReceipt) -> Result<(), TerminalFinding> {
     let bytes = serde_json::to_vec_pretty(receipt)
         .map_err(|error| finding("receipt_serialize_failed", &error.to_string()))?;
     write_staged(path, &bytes)

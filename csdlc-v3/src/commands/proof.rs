@@ -604,8 +604,8 @@ fn execute_shadow(
     shadow: &ShadowComparison,
 ) -> Result<Vec<String>, ProofRouteFinding> {
     let root = request_root(request)?;
-    let v2 = execute_shadow_command(&root, request.issue, &shadow.v2, shadow.normalization)?;
-    let v3 = execute_shadow_command(&root, request.issue, &shadow.v3, shadow.normalization)?;
+    let v2 = execute_shadow_command(&root, &shadow.v2, shadow.normalization)?;
+    let v3 = execute_shadow_command(&root, &shadow.v3, shadow.normalization)?;
     if v2.normalized_output != v3.normalized_output {
         return Err(finding(
             "shadow_normalized_mismatch",
@@ -665,7 +665,12 @@ fn execute_soak(
     let interval = Duration::from_millis(soak.sample_interval_millis);
     let started_unix_millis = SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .map_err(|_| finding("soak_clock_invalid", "system clock must be after the Unix epoch"))?
+        .map_err(|_| {
+            finding(
+                "soak_clock_invalid",
+                "system clock must be after the Unix epoch",
+            )
+        })?
         .as_millis();
     let started = Instant::now();
     let mut samples = Vec::new();
@@ -679,12 +684,7 @@ fn execute_soak(
                 "bounded soak sample count cannot exceed 10000",
             ));
         }
-        let execution = execute_shadow_command(
-            &root,
-            request.issue,
-            &soak.command,
-            soak.normalization,
-        )?;
+        let execution = execute_shadow_command(&root, &soak.command, soak.normalization)?;
         samples.push(serde_json::json!({
             "sequence": samples.len() + 1,
             "observed_elapsed_millis": started.elapsed().as_millis(),
@@ -771,18 +771,39 @@ impl ShadowExecution {
 
 fn execute_shadow_command(
     root: &Path,
-    issue: u64,
     spec: &ShadowCommandSpec,
     normalization: ShadowNormalizationContract,
 ) -> Result<ShadowExecution, ProofRouteFinding> {
     let binary = resolve_repo_path(root, &spec.binary_ref, true)?;
     let request_path = resolve_repo_path(root, &spec.request_ref, true)?;
-    let binary_bytes = fs::read(&binary).map_err(|_| finding("shadow_binary_unreadable", "shadow command binary must be readable"))?;
-    let request_bytes = fs::read(&request_path).map_err(|_| finding("shadow_request_unreadable", "shadow request evidence must be readable"))?;
-    let request_value: serde_json::Value = serde_json::from_slice(&request_bytes).map_err(|_| finding("shadow_request_invalid", "shadow request evidence must be typed JSON"))?;
-    if request_value.get("issue").and_then(serde_json::Value::as_u64) != Some(issue) {
-        return Err(finding("shadow_request_issue_mismatch", "shadow request evidence must bind the executed issue"));
-    }
+    let binary_bytes = fs::read(&binary).map_err(|_| {
+        finding(
+            "shadow_binary_unreadable",
+            "shadow command binary must be readable",
+        )
+    })?;
+    let request_bytes = fs::read(&request_path).map_err(|_| {
+        finding(
+            "shadow_request_unreadable",
+            "shadow request evidence must be readable",
+        )
+    })?;
+    let request_value: serde_json::Value =
+        serde_json::from_slice(&request_bytes).map_err(|_| {
+            finding(
+                "shadow_request_invalid",
+                "shadow request evidence must be typed JSON",
+            )
+        })?;
+    let request_issue = request_value
+        .get("issue")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| {
+            finding(
+                "shadow_request_issue_missing",
+                "shadow request evidence must bind the executed issue",
+            )
+        })?;
     let before = snapshot_boundaries(root, &spec.side_effect_boundary_refs)?;
     let started = Instant::now();
     let mut child = Command::new(&binary)
@@ -794,37 +815,93 @@ fn execute_shadow_command(
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()
-        .map_err(|_| finding("shadow_command_spawn_failed", "shadow command could not start"))?;
-    let mut stdout = child.stdout.take().ok_or_else(|| finding("shadow_stdout_unavailable", "shadow stdout must be captured"))?;
-    let mut stderr = child.stderr.take().ok_or_else(|| finding("shadow_stderr_unavailable", "shadow stderr must be captured"))?;
-    let stdout_reader = thread::spawn(move || { let mut bytes = Vec::new(); stdout.read_to_end(&mut bytes).map(|_| bytes) });
-    let stderr_reader = thread::spawn(move || { let mut bytes = Vec::new(); stderr.read_to_end(&mut bytes).map(|_| bytes) });
+        .map_err(|_| {
+            finding(
+                "shadow_command_spawn_failed",
+                "shadow command could not start",
+            )
+        })?;
+    let mut stdout = child.stdout.take().ok_or_else(|| {
+        finding(
+            "shadow_stdout_unavailable",
+            "shadow stdout must be captured",
+        )
+    })?;
+    let mut stderr = child.stderr.take().ok_or_else(|| {
+        finding(
+            "shadow_stderr_unavailable",
+            "shadow stderr must be captured",
+        )
+    })?;
+    let stdout_reader = thread::spawn(move || {
+        let mut bytes = Vec::new();
+        stdout.read_to_end(&mut bytes).map(|_| bytes)
+    });
+    let stderr_reader = thread::spawn(move || {
+        let mut bytes = Vec::new();
+        stderr.read_to_end(&mut bytes).map(|_| bytes)
+    });
     let timeout = Duration::from_millis(spec.timeout_millis);
     let status = loop {
-        if let Some(status) = child.try_wait().map_err(|_| finding("shadow_command_wait_failed", "shadow command status could not be observed"))? {
+        if let Some(status) = child.try_wait().map_err(|_| {
+            finding(
+                "shadow_command_wait_failed",
+                "shadow command status could not be observed",
+            )
+        })? {
             break status;
         }
         if started.elapsed() >= timeout {
             let _ = child.kill();
             let _ = child.wait();
-            return Err(finding("shadow_command_timeout", "shadow command exceeded its typed bounded timeout"));
+            return Err(finding(
+                "shadow_command_timeout",
+                "shadow command exceeded its typed bounded timeout",
+            ));
         }
         thread::sleep(Duration::from_millis(5));
     };
-    let stdout = stdout_reader.join().ok().and_then(Result::ok).ok_or_else(|| finding("shadow_stdout_unreadable", "shadow stdout capture failed"))?;
-    let stderr = stderr_reader.join().ok().and_then(Result::ok).ok_or_else(|| finding("shadow_stderr_unreadable", "shadow stderr capture failed"))?;
+    let stdout = stdout_reader
+        .join()
+        .ok()
+        .and_then(Result::ok)
+        .ok_or_else(|| finding("shadow_stdout_unreadable", "shadow stdout capture failed"))?;
+    let stderr = stderr_reader
+        .join()
+        .ok()
+        .and_then(Result::ok)
+        .ok_or_else(|| finding("shadow_stderr_unreadable", "shadow stderr capture failed"))?;
     if !status.success() {
-        return Err(finding("shadow_command_failed", "shadow command must exit successfully before normalization"));
+        return Err(finding(
+            "shadow_command_failed",
+            "shadow command must exit successfully before normalization",
+        ));
     }
     let normalized_output = normalize_shadow_output(spec.generation, normalization, &stdout)?;
+    if normalized_output
+        .get("issue")
+        .and_then(serde_json::Value::as_u64)
+        != Some(request_issue)
+    {
+        return Err(finding(
+            "shadow_request_issue_mismatch",
+            "shadow request evidence must match the executed issue observed in typed output",
+        ));
+    }
     let after = snapshot_boundaries(root, &spec.side_effect_boundary_refs)?;
     let side_effect_boundary = spec.side_effect_boundary_refs.iter().map(|reference| {
         let before_digest = before.get(reference).cloned().flatten();
         let after_digest = after.get(reference).cloned().flatten();
         serde_json::json!({"ref": reference, "before_digest": before_digest, "after_digest": after_digest, "changed": before_digest != after_digest})
     }).collect::<Vec<_>>();
-    if side_effect_boundary.iter().any(|entry| entry["changed"] == true) {
-        return Err(finding("shadow_side_effect_boundary_changed", "shadow command changed a declared read-only side-effect boundary"));
+    if side_effect_boundary
+        .iter()
+        .any(|entry| entry["changed"] == true)
+    {
+        return Err(finding(
+            "shadow_side_effect_boundary_changed",
+            "shadow command changed a declared read-only side-effect boundary",
+        ));
     }
     Ok(ShadowExecution {
         spec: spec.clone(),
@@ -847,65 +924,148 @@ fn normalize_shadow_output(
     contract: ShadowNormalizationContract,
     stdout: &[u8],
 ) -> Result<serde_json::Value, ProofRouteFinding> {
-    let value: serde_json::Value = serde_json::from_slice(stdout).map_err(|_| finding("shadow_output_not_json", "shadow stdout must be one typed JSON document"))?;
+    let value: serde_json::Value = serde_json::from_slice(stdout).map_err(|_| {
+        finding(
+            "shadow_output_not_json",
+            "shadow stdout must be one typed JSON document",
+        )
+    })?;
     let (issue, phase) = match (generation, contract) {
         (ShadowGeneration::V2, ShadowNormalizationContract::DoctorIssuePhaseV1) => {
             if value["schema"] != "csdlc.doctor.report.v1" {
-                return Err(finding("shadow_output_schema_mismatch", "v2 doctor output must use the typed doctor report schema"));
+                return Err(finding(
+                    "shadow_output_schema_mismatch",
+                    "v2 doctor output must use the typed doctor report schema",
+                ));
             }
             (value.get("issue"), value.get("phase"))
         }
         (ShadowGeneration::V3, ShadowNormalizationContract::DoctorIssuePhaseV1) => {
             if value["schema"] != "csdlc.v3.local_preparation.v1" || value["command"] != "doctor" {
-                return Err(finding("shadow_output_schema_mismatch", "v3 doctor output must use the typed local preparation schema"));
+                return Err(finding(
+                    "shadow_output_schema_mismatch",
+                    "v3 doctor output must use the typed local preparation schema",
+                ));
             }
-            (value.pointer("/result/issue"), value.pointer("/result/lifecycle_state/phase"))
+            (
+                value.pointer("/result/issue"),
+                value.pointer("/result/lifecycle_state/phase"),
+            )
         }
     };
-    let issue = issue.and_then(serde_json::Value::as_u64).ok_or_else(|| finding("shadow_normalization_issue_missing", "doctor normalization requires a typed issue identity"))?;
-    let phase = phase.and_then(serde_json::Value::as_str).ok_or_else(|| finding("shadow_normalization_phase_missing", "doctor normalization requires an observed lifecycle phase"))?;
-    Ok(serde_json::json!({"contract": "doctor_issue_phase.v1", "command": "doctor", "issue": issue, "phase": phase}))
+    let issue = issue.and_then(serde_json::Value::as_u64).ok_or_else(|| {
+        finding(
+            "shadow_normalization_issue_missing",
+            "doctor normalization requires a typed issue identity",
+        )
+    })?;
+    let phase = phase.and_then(serde_json::Value::as_str).ok_or_else(|| {
+        finding(
+            "shadow_normalization_phase_missing",
+            "doctor normalization requires an observed lifecycle phase",
+        )
+    })?;
+    Ok(
+        serde_json::json!({"contract": "doctor_issue_phase.v1", "command": "doctor", "issue": issue, "phase": phase}),
+    )
 }
 
-fn snapshot_boundaries(root: &Path, references: &[String]) -> Result<BTreeMap<String, Option<String>>, ProofRouteFinding> {
-    references.iter().map(|reference| {
-        let path = resolve_repo_path(root, reference, false)?;
-        Ok((reference.clone(), digest_path(&path)?))
-    }).collect()
+fn snapshot_boundaries(
+    root: &Path,
+    references: &[String],
+) -> Result<BTreeMap<String, Option<String>>, ProofRouteFinding> {
+    references
+        .iter()
+        .map(|reference| {
+            let path = resolve_repo_path(root, reference, false)?;
+            Ok((reference.clone(), digest_path(&path)?))
+        })
+        .collect()
 }
 
-fn resolve_repo_path(root: &Path, reference: &str, must_exist: bool) -> Result<PathBuf, ProofRouteFinding> {
+fn resolve_repo_path(
+    root: &Path,
+    reference: &str,
+    must_exist: bool,
+) -> Result<PathBuf, ProofRouteFinding> {
     let relative = Path::new(reference);
-    if relative.is_absolute() || relative.components().any(|component| matches!(component, std::path::Component::ParentDir)) {
-        return Err(finding("shadow_path_not_repo_relative", "shadow paths must be repository-relative and cannot traverse parents"));
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+    {
+        return Err(finding(
+            "shadow_path_not_repo_relative",
+            "shadow paths must be repository-relative and cannot traverse parents",
+        ));
     }
     let path = root.join(relative);
     if must_exist && !path.is_file() {
-        return Err(finding("shadow_path_unavailable", "shadow command input must exist as a repository file"));
+        return Err(finding(
+            "shadow_path_unavailable",
+            "shadow command input must exist as a repository file",
+        ));
     }
     Ok(path)
 }
 
 fn digest_path(path: &Path) -> Result<Option<String>, ProofRouteFinding> {
-    if !path.exists() { return Ok(None); }
-    let metadata = path.symlink_metadata().map_err(|_| finding("shadow_boundary_unreadable", "shadow side-effect boundary must be readable"))?;
+    if !path.exists() {
+        return Ok(None);
+    }
+    let metadata = path.symlink_metadata().map_err(|_| {
+        finding(
+            "shadow_boundary_unreadable",
+            "shadow side-effect boundary must be readable",
+        )
+    })?;
     if metadata.file_type().is_symlink() {
-        return Err(finding("shadow_boundary_symlink", "shadow side-effect boundaries cannot be symlinks"));
+        return Err(finding(
+            "shadow_boundary_symlink",
+            "shadow side-effect boundaries cannot be symlinks",
+        ));
     }
     if metadata.is_file() {
-        return fs::read(path).map(|bytes| Some(blake3::hash(&bytes).to_hex().to_string())).map_err(|_| finding("shadow_boundary_unreadable", "shadow side-effect boundary must be readable"));
+        return fs::read(path)
+            .map(|bytes| Some(blake3::hash(&bytes).to_hex().to_string()))
+            .map_err(|_| {
+                finding(
+                    "shadow_boundary_unreadable",
+                    "shadow side-effect boundary must be readable",
+                )
+            });
     }
     let mut entries = fs::read_dir(path)
-        .map_err(|_| finding("shadow_boundary_unreadable", "shadow boundary directory must be readable"))?
+        .map_err(|_| {
+            finding(
+                "shadow_boundary_unreadable",
+                "shadow boundary directory must be readable",
+            )
+        })?
         .collect::<Result<Vec<_>, _>>()
-        .map_err(|_| finding("shadow_boundary_unreadable", "shadow boundary directory must be readable"))?;
+        .map_err(|_| {
+            finding(
+                "shadow_boundary_unreadable",
+                "shadow boundary directory must be readable",
+            )
+        })?;
     entries.sort_by_key(|entry| entry.file_name());
     let mut manifest = BTreeMap::new();
     for entry in entries {
-        manifest.insert(entry.file_name().to_string_lossy().to_string(), digest_path(&entry.path())?);
+        manifest.insert(
+            entry.file_name().to_string_lossy().to_string(),
+            digest_path(&entry.path())?,
+        );
     }
-    let value = serde_json::to_value(manifest).map_err(|_| finding("shadow_boundary_digest_failed", "shadow boundary digest could not be serialized"))?;
-    Ok(Some(blake3::hash(&canonical_json(&value)).to_hex().to_string()))
+    let value = serde_json::to_value(manifest).map_err(|_| {
+        finding(
+            "shadow_boundary_digest_failed",
+            "shadow boundary digest could not be serialized",
+        )
+    })?;
+    Ok(Some(
+        blake3::hash(&canonical_json(&value)).to_hex().to_string(),
+    ))
 }
 
 fn execute_install(
@@ -977,20 +1137,45 @@ fn execute_install(
     Ok(reference)
 }
 
-fn authorize_install_execution(request: &ProofRouteRequest, install: &InstallPlanInput) -> Result<(), ProofRouteFinding> {
+fn authorize_install_execution(
+    request: &ProofRouteRequest,
+    install: &InstallPlanInput,
+) -> Result<(), ProofRouteFinding> {
     let root = request_root(request)?;
-    if active_canonical_v3_selector(&root, install)? { return Ok(()); }
+    if active_canonical_v3_selector(&root, install)? {
+        return Ok(());
+    }
     let approval_ref = install.cutover_approval_ref.as_deref().ok_or_else(|| finding("install_typed_authority_missing", "executing install requires active canonical v3 authority or an exact typed #505 approval receipt"))?;
     if !approval_ref.starts_with(".csdlc/evidence/505/") {
-        return Err(finding("install_approval_ref_not_canonical", "typed cutover approval must be retained under .csdlc/evidence/505"));
+        return Err(finding(
+            "install_approval_ref_not_canonical",
+            "typed cutover approval must be retained under .csdlc/evidence/505",
+        ));
     }
-    let bytes = fs::read(root.join(approval_ref)).map_err(|_| finding("install_approval_unreadable", "typed cutover approval receipt must be readable"))?;
+    let bytes = fs::read(root.join(approval_ref)).map_err(|_| {
+        finding(
+            "install_approval_unreadable",
+            "typed cutover approval receipt must be readable",
+        )
+    })?;
     let digest = blake3::hash(&bytes).to_hex().to_string();
     if install.cutover_approval_digest.as_deref() != Some(digest.as_str()) {
-        return Err(finding("install_approval_digest_mismatch", "typed cutover approval digest must match retained evidence"));
+        return Err(finding(
+            "install_approval_digest_mismatch",
+            "typed cutover approval digest must match retained evidence",
+        ));
     }
-    let approval: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| finding("install_approval_invalid", "typed cutover approval receipt must be valid JSON"))?;
-    let exact_head_valid = install.exact_head.len() == 40 && install.exact_head.bytes().all(|byte| byte.is_ascii_hexdigit());
+    let approval: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
+        finding(
+            "install_approval_invalid",
+            "typed cutover approval receipt must be valid JSON",
+        )
+    })?;
+    let exact_head_valid = install.exact_head.len() == 40
+        && install
+            .exact_head
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit());
     if approval["schema"] != "csdlc.v3.cutover_approval.v1"
         || approval["authority_issue"] != 505
         || approval["repository"] != request.repository
@@ -1005,9 +1190,19 @@ fn authorize_install_execution(request: &ProofRouteRequest, install: &InstallPla
     Ok(())
 }
 
-fn active_canonical_v3_selector(root: &Path, install: &InstallPlanInput) -> Result<bool, ProofRouteFinding> {
-    let Ok(bytes) = fs::read(root.join(".csdlc/authority-selector.json")) else { return Ok(false); };
-    let selector: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| finding("install_canonical_selector_invalid", "canonical v3 authority selector must be typed valid JSON"))?;
+fn active_canonical_v3_selector(
+    root: &Path,
+    install: &InstallPlanInput,
+) -> Result<bool, ProofRouteFinding> {
+    let Ok(bytes) = fs::read(root.join(".csdlc/authority-selector.json")) else {
+        return Ok(false);
+    };
+    let selector: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
+        finding(
+            "install_canonical_selector_invalid",
+            "canonical v3 authority selector must be typed valid JSON",
+        )
+    })?;
     if selector["schema"] != "csdlc.authority_selector.v1"
         || selector["authority_issue"] != 505
         || selector["default_generation"] != "v3"
@@ -1015,7 +1210,10 @@ fn active_canonical_v3_selector(root: &Path, install: &InstallPlanInput) -> Resu
         || selector["binary"] != ".adl/bin/csdlc"
         || selector["selected_binary_digest"] != install.selected_binary_digest
     {
-        return Err(finding("install_canonical_selector_mismatch", "canonical selector does not grant v3 authority for the selected binary digest"));
+        return Err(finding(
+            "install_canonical_selector_mismatch",
+            "canonical selector does not grant v3 authority for the selected binary digest",
+        ));
     }
     Ok(true)
 }
@@ -1047,21 +1245,6 @@ fn safe_component(value: &str) -> Result<&str, ProofRouteFinding> {
     } else {
         Ok(value)
     }
-}
-
-fn read_json(path: &Path) -> Result<serde_json::Value, ProofRouteFinding> {
-    let bytes = fs::read(path).map_err(|_| {
-        finding(
-            "shadow_observation_unreadable",
-            "shadow observations must be readable JSON",
-        )
-    })?;
-    serde_json::from_slice(&bytes).map_err(|_| {
-        finding(
-            "shadow_observation_invalid_json",
-            "shadow observations must be valid JSON",
-        )
-    })
 }
 
 fn canonical_json(value: &serde_json::Value) -> Vec<u8> {
@@ -1274,6 +1457,11 @@ mod tests {
             destination: ".adl/bin/csdlc".into(),
             stable_destination: true,
             executes_install: true,
+            exact_head: "git:test".into(),
+            cutover_approval_ref: Some("#505 operator approval".into()),
+            cutover_approval_digest: Some(
+                blake3::hash(b"#505 operator approval").to_hex().to_string(),
+            ),
         };
 
         let receipt_ref = execute_install(&request, &install).unwrap();

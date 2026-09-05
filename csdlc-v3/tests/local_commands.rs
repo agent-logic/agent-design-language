@@ -3,10 +3,10 @@ use std::collections::BTreeSet;
 use std::process::Command;
 
 use csdlc_v3::commands::local::{
-    authorize_bind, grants_operational_authority, inspect_local_lifecycle_state,
-    local_route_command, local_route_status, plan_cards, prepare_local_workflow,
-    required_local_commands, validate_contract, LocalPreparationRequest, PlanStatus,
-    PromptRegistry, WorktreeRegistration, LOCAL_ROUTE_NAMES,
+    authorize_bind, execute_operational_local_route, grants_operational_authority,
+    inspect_local_lifecycle_state, local_route_command, local_route_status, plan_cards,
+    prepare_local_workflow, required_local_commands, validate_contract, LocalPreparationRequest,
+    OperationalLocalContext, PlanStatus, PromptRegistry, WorktreeRegistration, LOCAL_ROUTE_NAMES,
 };
 use csdlc_v3::{is_v3d_local_preparation_predecessor, LOCAL_PREPARATION_PREDECESSORS};
 use std::fs;
@@ -811,4 +811,175 @@ fn local_preparation_cli_rejects_malformed_typed_request() {
     let stderr = String::from_utf8_lossy(&output.stderr);
     assert!(stderr.contains("typed_contract_invalid_json"));
     assert!(output.stdout.is_empty());
+}
+
+fn run_git(root: &Path, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .env("GIT_AUTHOR_NAME", "C-SDLC local test")
+        .env("GIT_AUTHOR_EMAIL", "csdlc-local@example.invalid")
+        .env("GIT_COMMITTER_NAME", "C-SDLC local test")
+        .env("GIT_COMMITTER_EMAIL", "csdlc-local@example.invalid")
+        .output()
+        .expect("run fixture git command");
+    assert!(output.status.success(), "git {args:?}: {output:?}");
+    String::from_utf8(output.stdout)
+        .expect("git output is UTF-8")
+        .trim()
+        .to_owned()
+}
+
+fn operational_registry(root: &Path) -> PromptRegistry {
+    let template_root = root.join("templates");
+    fs::create_dir_all(&template_root).expect("template root");
+    let mut template_paths = BTreeMap::new();
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        let path = template_root.join(format!("{kind}.md"));
+        fs::write(&path, format!("# {kind}\n{{{{title}}}}\n")).expect("template fixture");
+        template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());
+    }
+    PromptRegistry {
+        version: "1.0.3".into(),
+        card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
+            .into_iter()
+            .map(str::to_owned)
+            .collect(),
+        template_paths,
+    }
+}
+
+fn operational_authority_fixture(
+    name: &str,
+    generation: &str,
+) -> (PathBuf, String, OperationalLocalContext, PromptRegistry) {
+    let fixture = fixture_dir(name);
+    let repository_root = fixture.join("repo");
+    fs::create_dir_all(&repository_root).expect("repository root");
+    run_git(&repository_root, &["init", "--quiet"]);
+    fs::write(repository_root.join("tracked"), b"fixture\n").expect("tracked fixture");
+    run_git(&repository_root, &["add", "tracked"]);
+    run_git(&repository_root, &["commit", "--quiet", "-m", "fixture"]);
+    let exact_head = run_git(&repository_root, &["rev-parse", "HEAD"]);
+
+    let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
+    fs::create_dir_all(selector_path.parent().expect("selector parent"))
+        .expect("selector parent directory");
+    let selector_bytes = serde_json::to_vec_pretty(&serde_json::json!({
+        "schema": "csdlc.generation_selector.v1",
+        "default_generation": generation,
+        "opted_in_issues": []
+    }))
+    .expect("selector JSON");
+    fs::write(&selector_path, &selector_bytes).expect("canonical selector");
+    let selector_digest = blake3::hash(&selector_bytes).to_hex().to_string();
+
+    let approval_path = PathBuf::from(".csdlc/evidence/505/cutover-approval.json");
+    let approval_file = repository_root.join(&approval_path);
+    fs::create_dir_all(approval_file.parent().expect("approval parent"))
+        .expect("approval directory");
+    let approval_bytes = serde_json::to_vec_pretty(&serde_json::json!({
+        "schema": "csdlc.v3.cutover_approval.v1",
+        "authority_issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "decision": "approved",
+        "exact_head": exact_head,
+        "selector_metadata_digest": selector_digest
+    }))
+    .expect("approval JSON");
+    fs::write(&approval_file, &approval_bytes).expect("approval evidence");
+    let approval_digest = blake3::hash(&approval_bytes).to_hex().to_string();
+
+    let context = OperationalLocalContext {
+        repository_root: repository_root.clone(),
+        state_root: repository_root.join(".csdlc"),
+        allowed_worktree_parent: fixture.join("worktrees"),
+        expected_authority_selector_digest: selector_digest,
+        cutover_approval_path: approval_path,
+        expected_cutover_approval_digest: approval_digest,
+        expected_head_sha: exact_head,
+        expected_lifecycle_digest: None,
+    };
+    let registry = operational_registry(&fixture);
+    (repository_root, generation.to_owned(), context, registry)
+}
+
+#[test]
+fn operational_context_rejects_legacy_boolean_and_forged_fields() {
+    let (_, _, context, _) = operational_authority_fixture("forged-context", "v3");
+    let mut value = serde_json::to_value(&context).expect("serialize operational context");
+    value["cutover_approved"] = serde_json::Value::Bool(true);
+    assert!(serde_json::from_value::<OperationalLocalContext>(value).is_err());
+
+    let roundtrip = serde_json::from_slice::<OperationalLocalContext>(
+        &serde_json::to_vec(&context).expect("serialize operational context"),
+    )
+    .expect("context is a serializable CLI adapter contract");
+    assert_eq!(roundtrip, context);
+}
+
+#[test]
+fn pre_cutover_v2_selector_denies_every_operational_local_route() {
+    let (_, _, context, registry) = operational_authority_fixture("v2-denies-routes", "v2");
+    let request = request();
+    for route in LOCAL_ROUTE_NAMES {
+        let findings = execute_operational_local_route(route, &request, &registry, &context)
+            .expect_err("v2 selector must deny every operational local route");
+        assert_eq!(findings[0].code, "canonical_v3_authority_inactive");
+    }
+    assert!(
+        !context.state_root.join("issues").exists(),
+        "authority denial must precede lifecycle state writes"
+    );
+}
+
+#[test]
+fn operational_local_authority_rejects_stale_selector_approval_and_head_digests() {
+    let (_, _, context, registry) = operational_authority_fixture("stale-authority", "v3");
+    let request = request();
+
+    let mut stale_selector = context.clone();
+    stale_selector.expected_authority_selector_digest = "0".repeat(64);
+    let findings = execute_operational_local_route("issue", &request, &registry, &stale_selector)
+        .expect_err("stale selector digest must fail closed");
+    assert_eq!(
+        findings[0].code,
+        "canonical_authority_selector_digest_mismatch"
+    );
+
+    let mut stale_approval = context.clone();
+    stale_approval.expected_cutover_approval_digest = "1".repeat(64);
+    let findings = execute_operational_local_route("issue", &request, &registry, &stale_approval)
+        .expect_err("stale approval digest must fail closed");
+    assert_eq!(findings[0].code, "cutover_approval_digest_mismatch");
+
+    let mut stale_head = context;
+    stale_head.expected_head_sha = "2".repeat(40);
+    let findings = execute_operational_local_route("issue", &request, &registry, &stale_head)
+        .expect_err("stale head must fail closed");
+    assert_eq!(findings[0].code, "cutover_approval_not_exact");
+}
+
+#[test]
+fn operational_local_authority_rejects_stale_lifecycle_digest() {
+    let (_, _, mut context, registry) = operational_authority_fixture("stale-lifecycle", "v3");
+    write_lifecycle_state(&context.repository_root, 503, "ready", "observed-digest");
+    let mut request = request();
+    request.expected_lifecycle_digest = Some("stale-digest".into());
+    context.expected_lifecycle_digest = request.expected_lifecycle_digest.clone();
+
+    let findings = execute_operational_local_route("bind", &request, &registry, &context)
+        .expect_err("stale lifecycle digest must fail closed");
+    assert_eq!(findings[0].code, "stale_local_lifecycle_digest");
+}
+
+#[test]
+fn canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initialization() {
+    let (_, _, context, registry) = operational_authority_fixture("v3-authorizes", "v3");
+    let result = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect("canonical v3 authority should permit isolated local execution");
+    assert!(result.mutated);
+    assert_eq!(result.phase.as_deref(), Some("ready"));
+    assert!(context.state_root.join("issues/503/index.json").is_file());
 }

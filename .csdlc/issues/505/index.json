@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "implemented",
-  "generation": 74,
-  "digest": "8ce2153dfba83484598819654a7d0d81d711550a76a0fb91e8dd069e181be3c9",
+  "generation": 76,
+  "digest": "d9ad431d02bc0812cde0867dee6df8413c529d9aa5d288f3c75ae566e678d619",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "acd6e547c1efbd1cc1d284771eaeb49e0876f9c4c5577d9478e392545d4c2a1f",
+      "values_digest": "54171f64e71f101761939a7ef780b64a9fe61b982aa371ce5d23ead40b4478f7",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "1deff5b048658289de7248105139e3e8f304f365040634662c87775c7b82915a",
+      "values_digest": "928645c163dceb4530a63cd0efc2890539dcb5e296739f084c4a6c037a01e574",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "e7172682deb5d8adfd0e243f5c8455d270cd884c9f45c70d2716b3b087e89451",
+      "values_digest": "696680852cee34af1766fa342e9f75cabd76b2dc7770b4d8873b45472c3bdb45",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "7fff1a77c7f0fc32c1c1467a3e93ac7f88b773e05ff37afe0e4f7feb7b0b820e",
+      "values_digest": "af6215d27a6c784f0855d6aaf9847653bf5c305b4e8da6040c25afae553ca187",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "0980116d29b62263bb998d4e7b2b9b437eec41080f9cc56c18a247161bc59935",
+      "values_digest": "ecff616ae80509769f316ad6ea230a88337f2c3c6329b9529b2ab3eb22d97981",
       "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
       "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "5681868c97d2b5f742a154240de4e5918e05cd7c3ae86a2523342ff7d27c59a6",
+      "values_digest": "bf4f4175e09cb0241e0029a8c36e890e2370b9dc8f14bd314f9fc6e557d2e802",
       "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
       "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
@@ -433,6 +433,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale #505 review/publication truth after committing final v2/v3 cutover-operation replay hardening at 84ef26dde; a fresh exact-head review is required before republishing PR #591."
+    },
+    {
+      "sequence": 55,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 56,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-8",
+      "reason": "Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication."
     }
   ],
   "audit": [
@@ -1127,6 +1141,27 @@
       "generation": 74,
       "actor": "codex:/root",
       "reason": "Recover stale #505 review/publication truth after committing final v2/v3 cutover-operation replay hardening at 84ef26dde; a fresh exact-head review is required before republishing PR #591.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 100,
+      "generation": 74,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 101,
+      "generation": 75,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 102,
+      "generation": 76,
+      "actor": "codex:worker-8",
+      "reason": "Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication.",
       "operation": "recover_review"
     }
   ]

@@ -97,3 +97,6 @@
 {"sequence":97,"generation":72,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":98,"generation":73,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":99,"generation":74,"actor":"codex:/root","reason":"Recover stale #505 review/publication truth after committing final v2/v3 cutover-operation replay hardening at 84ef26dde; a fresh exact-head review is required before republishing PR #591.","operation":"recover_review"}
+{"sequence":100,"generation":74,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":101,"generation":75,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":102,"generation":76,"actor":"codex:worker-8","reason":"Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication.","operation":"recover_review"}
