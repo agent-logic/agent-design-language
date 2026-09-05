@@ -4,13 +4,59 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 71,
-  "digest": "9f8327ce83b4c02da0044c1454cafe4548e1d57088f1804f279548a2c719f9cc",
+  "phase": "reviewed",
+  "generation": 72,
+  "digest": "df154231187ac9f77e0c4401a58ab51aab54b241cadcb9185c17504ca95c1b15",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "local-independent:claude-style+gemini-style:no-provider-attestation",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9cc8ddaeac71d7816ff65b3d50ece288fa91fc25:1aa3c787603bb3993b233abf94c96e8f5041491ade431bd724bdc4e831b247c3",
+    "scope": [
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "docs/csdlc-v3/authority-transition-disposition.json",
+      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "local-independent:claude-style+gemini-style:no-provider-attestation",
+    "scope": [
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "docs/csdlc-v3/authority-transition-disposition.json",
+      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+    ],
+    "reviewed_revision": "git-blake3:9cc8ddaeac71d7816ff65b3d50ece288fa91fc25:1aa3c787603bb3993b233abf94c96e8f5041491ade431bd724bdc4e831b247c3",
+    "findings": [],
+    "residual_risks": [
+      "Hosted Claude review attempts did not produce usable current provider review authority; retained provider artifacts must not be treated as a Claude pass.",
+      "Hosted Gemini review artifacts are advisory and stale or truncated relative to the reviewed 9cc8ddae head; retained provider artifacts must not be treated as current typed review authority.",
+      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
+      "Post-cutover v2 retirement remains out of scope until the rollback window and retirement evidence are separately satisfied."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ace0a9923909bb7c02ee23be5817ac74e980811ab4e46af1435275b4ab3e3340",
+      "values_digest": "5aeb406f51c92eaa6ebee25e8ab2bd4ff5cf64431328eb139ccbdad501fa6404",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "3ac11e276c0484eb8bcad428d91fa1451d0bd539759be3efff1f8ebf0587f3e1",
+      "values_digest": "6986700db034221d954ab4e438256bf0ad5c50823002062d81fb305fd09b5642",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "1ee594242286d9490484bfc240a918121804c09533ae9a00f6b7ae188079c3ad",
+      "values_digest": "49fe9857ac1051ac075c4604747b63e1c3ef74c2981d32b5df85a657c40cb0e4",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "62b6f69c9592536a9d87c8c52f3c0f73599f2795798fd0f80ef46f0eccd1ca5e",
+      "values_digest": "3c132b0e51df2acbeb427f0a609442292602279dca340cf7059973901a2a82e2",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "431ada23817157aeb7efd9a34fa9fd6e31ffed2f9bed46c90b7aa87be1256432",
-      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
-      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
+      "values_digest": "00339c5cb4e9da7e65a10703db9527ec82f95448b42e2b1546ac30bbd009d729",
+      "rendered_digest": "2be6d4df378d6b8c1d4c6be6e69c2164f69c90a73fce89e1dbf195ee50a66e5a",
+      "ast_digest": "c722ac2ffa8a8b449d73f4924c147d55a70101d724a31cabb4996279bbddbdcf"
     },
     "sor": {
-      "values_digest": "bb9b0ada80d267e4643d714d9953e0576fa4abf2f2fce94002ec78d5effeefa5",
+      "values_digest": "0131422faa9d3ecd59edc3dac588aeb99f1f126873e7b18d2117312e2ba82236",
       "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
       "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
@@ -412,6 +458,13 @@
       "to": "implemented",
       "actor": "Worker #6",
       "reason": "Recover stale #505 review/publication truth after merging current main and updating the #629 real-issue canary to consume current terminal truth at exact head 9cbb44c855653b75e0163c5b5391eff807f49f50."
+    },
+    {
+      "sequence": 52,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1065,6 +1118,34 @@
       "actor": "Worker #6",
       "reason": "Recover stale #505 review/publication truth after merging current main and updating the #629 real-issue canary to consume current terminal truth at exact head 9cbb44c855653b75e0163c5b5391eff807f49f50.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 71,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 95,
+      "generation": 71,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 96,
+      "generation": 71,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 97,
+      "generation": 72,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

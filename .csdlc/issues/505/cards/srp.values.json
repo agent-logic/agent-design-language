@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 71
+    "generation": 72
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v3/src/adapters/mod.rs\ncsdlc-v3/src/commands/local/mod.rs\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/tests/local_commands.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\ndocs/csdlc-v3/authority-transition-disposition.json\n.csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
+      "review_revision": "git-blake3:9cc8ddaeac71d7816ff65b3d50ece288fa91fc25:1aa3c787603bb3993b233abf94c96e8f5041491ade431bd724bdc4e831b247c3",
+      "reviewer": "local-independent:claude-style+gemini-style:no-provider-attestation",
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,8 +23,13 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted Claude review attempts did not produce usable current provider review authority; retained provider artifacts must not be treated as a Claude pass.",
+        "Hosted Gemini review artifacts are advisory and stale or truncated relative to the reviewed 9cc8ddae head; retained provider artifacts must not be treated as current typed review authority.",
+        "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
+        "Post-cutover v2 retirement remains out of scope until the rollback window and retirement evidence are separately satisfied."
+      ],
+      "review_result": "pass"
     }
   }
 }
