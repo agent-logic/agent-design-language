@@ -4,13 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "49ed3a84968f08aa164c10fb4d45b5f9d3a50ff4e4a667655b01e43fee672352",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "a7a33ee9e32ca2afc5935c8fbece233b2ac38dd3b95a718f76365a6d32db2542",
   "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:b79b2cfab371b053622ff492759fac6c39f7185b:5ff283f6869dae45bfd915796a18b6f5c8b439de6b3e72e5dc5beb82e8ca74f6",
+    "scope": [
+      "five-minute per-agent partial checkpoint cadence",
+      "atomic local persistence and bounded retention",
+      "asynchronous S3 spool, archive, and restore",
+      "Runtime API and Observatory continuity projection",
+      "AWS Terraform archive boundary",
+      "focused exact-head validation"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "scope": [
+      "five-minute per-agent partial checkpoint cadence",
+      "atomic local persistence and bounded retention",
+      "asynchronous S3 spool, archive, and restore",
+      "Runtime API and Observatory continuity projection",
+      "AWS Terraform archive boundary",
+      "focused exact-head validation"
+    ],
+    "reviewed_revision": "git-blake3:b79b2cfab371b053622ff492759fac6c39f7185b:5ff283f6869dae45bfd915796a18b6f5c8b439de6b3e72e5dc5beb82e8ca74f6",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS Terraform apply and permanent Wuji rollout are intentionally deferred and are not claimed as issue #695 proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e9bb94fc0d19ed421ec1896e0edbb48229e9acbf6e072453bec00440b6fd28aa",
+      "values_digest": "590eefe948216090eb53b14a3c17f2b0e611245b8b21fa32cc256e93d2b48241",
       "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
       "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
     },
     "stp": {
-      "values_digest": "1ecf02a9318cea7a67bfa18d19c11f70f95d1c6e7dc8e74e068ef227a174b828",
+      "values_digest": "c33e45468faa22f87ee1c31a8e76601b2356e0c8fdc53986c5f1af94e76128fe",
       "rendered_digest": "2c3c11dd93c7edaf7e4d5e7f3e7a6a77428649b405d2091f6959e1b3a20d924c",
       "ast_digest": "4e98cb924f78d34c5631ea6135da7b04bb9c10c91c726eb865af22fb00028a4c"
     },
     "spp": {
-      "values_digest": "10477e7bded3ad00950d1c4a4d89a4fb539edd2f82002f34e5000d1eb1ff192a",
+      "values_digest": "5a07d29567a0ab26f6f154bbeb246d09993c7a3dc24ccf187f391e5da3dc2181",
       "rendered_digest": "d5b51af9610919ae6e51b44288b88b7f88b1f5a9f02080c0432b7d27f9b14164",
       "ast_digest": "e862f3841fe57c134e2337a28371588754f3d3ec8be15fbcf4531c4f4147f872"
     },
     "vpp": {
-      "values_digest": "6a9c9dcf4205b26067f9a39f6600c5babff1d38a91c7809e891d8595c0a9e7e9",
+      "values_digest": "2cd0a0873b9bbc62e97880c2a6651fa1f94c8be3ed34b974bbb9079dd0fe83dd",
       "rendered_digest": "3e9546cce535c699192da26f46a56ae11cb14e3ee45cae3dfa58d306d82c3dcd",
       "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
     },
     "srp": {
-      "values_digest": "742a222a8f3b4a5e943f4aa58b98a2c2cafffffc4c5ff2528c0f470ff7b997c2",
-      "rendered_digest": "5ed94e79d52fccb9957a25e85d14903ca13fff663eab2b5639a18e1ab4e49aaf",
-      "ast_digest": "06e87c997b3673dfdd23dbeaf31239220030f697afa0b5ebe5b3675616bd1b47"
+      "values_digest": "c0cec6a137fd76a870a5d711043d1420783c4f401ce29513289ffce0cc748d70",
+      "rendered_digest": "700c43aa4f3fb6eae6c6e86871a5b00485d460b5a17ba69e45fbec92135f4830",
+      "ast_digest": "8cfcfbdabaa95f098b27886514283edbdc93bcba19016916589b2417614829ca"
     },
     "sor": {
-      "values_digest": "14285a6e8bde667de4ccfd66ae3364b1d4cd5ad6f6915a1930a0af070b0e4fa2",
+      "values_digest": "2a8d98623662847720d877dcb9e6e4f3eb535e37bc8dfa0cf6fec7ea2c094512",
       "rendered_digest": "7be2907d14a291dd67bc9cd00d5c0c7729cb0f85e1e7a2ae803a301c23a68e79",
       "ast_digest": "aa341d3ff8d56c0c2e575635c8d167e9509870beb4f4a224015ddaa7485e089e"
     }
@@ -90,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Repair three stale planned validator argv targets so typed doctor reflects the exact passing commands already recorded in issue evidence."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -211,6 +247,20 @@
       "actor": "codex:/root",
       "reason": "Complete validator-lane repair by selecting the existing nonzero Rust module test directly for the production-shaped checkpoint proof.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-partial-continuity\",\"proof_role\":\"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-api\",\"proof_role\":\"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-observatory\",\"proof_role\":\"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_continuity.test.mjs\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-checkpoint-terraform\",\"proof_role\":\"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.\",\"acceptance_ids\":[\"AC-5\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-partial-production-shape\",\"proof_role\":\"Exercise multiple coordinator cycles, resident roster mutation, durable local state, and restart restoration through the ControlService production path.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore\",\"--lib\"],\"parallel_group\":\"agent-partials-serial\",\"defer_reason\":null},{\"lane\":\"acceptance-denominator\",\"proof_role\":\"Require one passing non-zero proving test or assertion set for every acceptance row before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"parallel_group\":\"agent-partials-final\",\"defer_reason\":null},{\"lane\":\"format-and-diff\",\"proof_role\":\"Reject Rust formatting and committed whitespace defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

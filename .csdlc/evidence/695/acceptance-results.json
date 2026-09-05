@@ -1,7 +1,7 @@
 {
   "schema": "adl.runtime.agent-partial-checkpoint.results.v1",
   "issue": 695,
-  "head_sha": "b0b038ee3456e548f170e3d43ca25cebf5c4030e",
+  "head_sha": "b79b2cfab371b053622ff492759fac6c39f7185b",
   "results": [
     {
       "proof_id": "partial-cadence",

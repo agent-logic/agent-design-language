@@ -1,11 +1,11 @@
 {
   "issue": 695,
-  "expected_generation": 5,
-  "expected_digest": "31efeb59d167901ba495b5ed36656f02734499b325197bed269d7c50c687af4b",
+  "expected_generation": 13,
+  "expected_digest": "eabba18cd1dbc8557bff1a4b6e773a3f2cf2a7c9d37d2c5b843e47524c4580fa",
   "actor": "codex:/root",
   "evidence": {
     "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
-    "reviewed_revision": "git-blake3:dd8fdfd34838bf8da22193296c0f3f853e75cb4d:324479767d64621248cbeaa4e7bc8472daba4a8dc7e21fb96b2e52fad9d9093b",
+    "reviewed_revision": "git-blake3:b79b2cfab371b053622ff492759fac6c39f7185b:5ff283f6869dae45bfd915796a18b6f5c8b439de6b3e72e5dc5beb82e8ca74f6",
     "scope": [
       "five-minute per-agent partial checkpoint cadence",
       "atomic local persistence and bounded retention",

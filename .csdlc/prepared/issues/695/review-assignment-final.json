@@ -10,6 +10,6 @@
     "AWS Terraform archive boundary",
     "focused exact-head validation"
   ],
-  "expected_generation": 11,
-  "expected_digest": "7bcd80627fbe296ca062f6c76b64c5a96407a809f2195adcd1fcea9aac0f23b7"
+  "expected_generation": 13,
+  "expected_digest": "49ed3a84968f08aa164c10fb4d45b5f9d3a50ff4e4a667655b01e43fee672352"
 }
