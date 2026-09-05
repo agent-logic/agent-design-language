@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime][Observatory][bug] Restore complete conversation transcripts from Runtime history",
     "slug": "runtime-observatory-complete-conversation-history",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 12
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Trace the current history and UI restore paths, add a complete bounded Runtime history representation for both roles, invoke restoration during fresh connection, deduplicate replay, and prove the full isolated reload behavior.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -51,7 +51,7 @@
           "acceptance_ids": [
             "AC-7"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [

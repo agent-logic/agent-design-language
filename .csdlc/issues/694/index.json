@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2df28dc037de9b004e3cf607fc4dbd2948157a07a716fb488c1117f97ea83c53",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "04b12389951eb84d9b17805080aec88885c5facefb1d9fd862efd5123b550f0e",
+  "generation": 12,
+  "digest": "f71e4397d58a325aa7633b037c4f2633a8b4c05c125e8622c8cfd977f900e4dd",
   "branch": "codex/694-runtime-observatory-conversation-history",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-694-runtime-observatory-conversation-history",
-  "review_assignment": {
-    "reviewer": "fresh-session:b0c9b537-d59a-4c13-9e11-5f6c1540a306",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:99340386e368536b4a5a36dc1906e0626b545ca1:db0d0ae23891e4f423052230a6aa9e774b2d0a699ecb301f6c1bfdde9745b624",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "demos/html-observatory/app.js",
-      "adl/tools/validate_v092_observatory_transcript_history.mjs",
-      "adl/tools/test_issue694_conversation_history_reload.sh"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "392b04a8574b3036182773ff4688da4b2e94fe429669ce5c9eb5f3c4cc6d20e0",
+      "values_digest": "3bfa56052f0adae48e08870f0e66059116be3cae465cdedec6b6843a09b51291",
       "rendered_digest": "033f37a7804cac2b5139515c5c93527ee4ac58f2168318cfea32b991e6ba24d6",
       "ast_digest": "62d3831158bf1dd966e4861163f5a4182eb65687947d02a4eed9fc535d36a874"
     },
     "stp": {
-      "values_digest": "c2ba2350d2f9f14cef21d6b97b843d1c893024703202b3f41498b8032c91b3a8",
+      "values_digest": "898a5fef70c5c85b3b5bead498a9b8e4bc1701b1dd64bb63063493b37ed6aed0",
       "rendered_digest": "dd65850f8fd52b75ffae6ed9a637aea1a43bea2661cecfc880a228870fd34502",
       "ast_digest": "e2b7dc93f2d456c31dabd60b16fe6cd93ccc88b924bc85150a3d8ffd4cccfbf2"
     },
     "spp": {
-      "values_digest": "d54c9a7bb4dee3a677a7547bc0eaaa979e2a12c0030671aca49a35c81ccec741",
-      "rendered_digest": "f31a79a64bc404fb33218ca10bf4bf4820a651c80c7fb767eb798c183f09226b",
-      "ast_digest": "1e915638a1213cac383940d27783eb8cd6d85858d5447f4422a5df74659f7c49"
+      "values_digest": "62df2780e37a001682b78eca6b4b4cec40f50eff0704e7789f48fbfac509b6db",
+      "rendered_digest": "d2f3b28625239ebf9d5b61bd61b64de17df9c59451a34da3658818f6582dfbd0",
+      "ast_digest": "ef0f50020c9c38621867bbe114791bf6093e2c2d55be43359a08cf10c9e5bf4b"
     },
     "vpp": {
-      "values_digest": "1f49d46df074f7a83a866c242f88b5bad12dd36429c56fe4c92f6e30ddae671b",
+      "values_digest": "0012d4bb12be08caa8f4182de8a029389e36442da028dd500dfbd54c723c1ac6",
       "rendered_digest": "cd28cc5b70d4d1521718c2e49285c1ca85600643e682867427752801a1561672",
       "ast_digest": "8b53e6c6a4920200a6f5f4981d49b86f13a6bd1a0be7ccc70f1f2453c49908e2"
     },
     "srp": {
-      "values_digest": "4c7bdd3cbc5d61f676382d6c678c54c7c977bc0b12d2ddc099752a71c5f268dd",
-      "rendered_digest": "f2dfe20bb93f0527b51240e201c5501707fdd0498e81decf7122a672570fb137",
-      "ast_digest": "31eb0ddbc31b83d0d03d176596dce185814d51a33b496b85f88cd6d68f0b5cf2"
+      "values_digest": "476b57113aa1edc365947dc79cfc19246abf23d3a4ac5354c14780ef2a52a4b6",
+      "rendered_digest": "503b8a799468b5b5aaf17f7727a10be59aa5e712af94c088ef5fadf8dad39d17",
+      "ast_digest": "ad18557905ceac61757f56a0a39ea1ba0aa3eb9becce967563306ddc70d9a1a4"
     },
     "sor": {
-      "values_digest": "4f6a03f58d77cc867cf746acc2ed174722465de8bcdb0ffc4a581d126363765b",
-      "rendered_digest": "64ce3eb93f1c2aab08a4abcffac8e18aac6ea41a595eebca231a65b8131e7a81",
-      "ast_digest": "5e14d38a68f50fbc4d85846cccf780b7d635cced830f83db62449a4f2182e5ba"
+      "values_digest": "6dd7ae552511f1189e8288e09a491fddb48c479b269aef3594bfbabfd12568ba",
+      "rendered_digest": "d22e4b89bdcdfb0f69907b774d8cb72f7f4b84cf970b4c78f220d34caf2c0089",
+      "ast_digest": "2e2fa648f4dfb792e6021b71b76bcc8418b9e05caea822e5ace6ef677cd65f4d"
     }
   },
   "transitions": [
@@ -158,6 +148,41 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "fresh-session:b0c9b537-d59a-4c13-9e11-5f6c1540a306",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root/issue-694",
+      "reason": "Recover exact failed review fresh-session:b0c9b537-d59a-4c13-9e11-5f6c1540a306 before remediating pagination completeness and rendered lifecycle truth findings.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root/issue-694",
+      "reason": "Align SPP step status with implemented execution truth after recorded exact-review finding r1-p2-rendered-lifecycle-truth-contradicts-implemented-state.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"action\":\"Trace production conversation admission completion persistence history serialization and Observatory connection flows; establish stable ordered turn identity and privacy boundaries.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Implement complete conversation_history.v1 production history and wire fresh Observatory reload restoration with exact-once replay handling.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"action\":\"Add and run focused deterministic tests plus the isolated production-path reload/reconnect acceptance until both transcript halves restore exactly once.\",\"id\":\"S3\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Obtain independent exact-head review, fix findings, and publish a non-draft PR without merging.\",\"id\":\"S4\",\"status\":\"in_progress\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"action\":\"Trace production conversation admission completion persistence history serialization and Observatory connection flows; establish stable ordered turn identity and privacy boundaries.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Implement complete conversation_history.v1 production history and wire fresh Observatory reload restoration with exact-once replay handling.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"action\":\"Add and run focused deterministic tests plus the isolated production-path reload/reconnect acceptance until both transcript halves restore exactly once.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Obtain independent exact-head review, fix findings, and publish a non-draft PR without merging.\",\"id\":\"S4\",\"status\":\"pending\"}],\"recovery_generation\":9,\"recovery_sequence\":12}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root/issue-694",
+      "reason": "Align rendered SOR status with implemented execution truth after recorded exact-review finding r1-p2-rendered-lifecycle-truth-contradicts-implemented-state.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root/issue-694",
+      "reason": "Record #694 exact-review remediation execution and refreshed proof after review recovery.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated #694 Runtime-authoritative conversation history restoration for the HTML Observatory. Runtime now serves complete bounded conversation_history.v1 turns for operator outbound and agent reply halves from production conversation history, the Observatory requests the bounded retained-history denominator on fresh authenticated connection/recipient selection and deduplicates restored/live turns by stable role/base-turn identity, and focused proof covers replay bounds, history request schema, more-than-100-record restore, fresh-state reload, privacy/adversarial behavior, and production Runtime history ordering.\",\"changes\":[\"Added Runtime control conversation-history serialization for ordered operator outbound and agent reply turns using the existing production conversation history store.\",\"Added authenticated Observatory WSS conversation-history request handling and bounded page-size behavior without live Runtime mutation or new cloud/provider scope.\",\"Wired the HTML Observatory to request Runtime history on fresh state, recipient selection, and authenticated reconnect, then restore turns without depending on browser-local transcript state.\",\"Hardened transcript rendering deduplication so live turns and restored history variants share stable operator/agent base-turn render keys.\",\"Raised the bounded conversation-history protocol cap to 2048 records and added a 60-turn/120-record Runtime regression so complete retained transcript restoration is not silently capped at 100 records.\",\"Corrected rendered lifecycle truth through typed SPP step-status repair and typed SOR status advancement after recorded-review recovery.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\",\"adl/tools/test_issue694_conversation_history_reload.sh\",\".csdlc/issues/694\",\".csdlc/prepared/issues/694\",\".csdlc/evidence/694\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue694_conversation_history_reload.sh\"],\"purpose\":\"Run the issue-owned #694 proof script covering HTML Observatory history replay bounds plus exact Runtime production conversation-history ordering and the 60-turn/120-record retained-history regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-transcript-history-proof.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Run existing HTML Observatory conversation-session contract tests after history restoration wiring.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-observatory-session-contract.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"purpose\":\"Run existing HTML Observatory security/privacy/adversarial tests after history restoration wiring.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-observatory-security-privacy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify Rust formatting for the touched Runtime kernel package.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify Git patch whitespace hygiene for the #694 issue worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-diff-hygiene.log\"}]}"
     }
   ]
 }

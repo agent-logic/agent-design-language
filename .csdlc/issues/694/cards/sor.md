@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: ready
 
 ## Summary
 
-Implemented #694 Runtime-authoritative conversation history restoration for the HTML Observatory. Runtime now serves complete conversation_history.v1 turns for operator outbound and agent reply halves from production conversation history, the Observatory requests history on fresh authenticated connection/recipient selection and deduplicates restored/live turns by stable role/base-turn identity, and focused proof covers replay bounds, history request schema, fresh-state reload, privacy/adversarial behavior, and production Runtime history ordering.
+Implemented and remediated #694 Runtime-authoritative conversation history restoration for the HTML Observatory. Runtime now serves complete bounded conversation_history.v1 turns for operator outbound and agent reply halves from production conversation history, the Observatory requests the bounded retained-history denominator on fresh authenticated connection/recipient selection and deduplicates restored/live turns by stable role/base-turn identity, and focused proof covers replay bounds, history request schema, more-than-100-record restore, fresh-state reload, privacy/adversarial behavior, and production Runtime history ordering.
 
 ## Artifacts
 
@@ -22,6 +22,7 @@ Implemented #694 Runtime-authoritative conversation history restoration for the 
 - adl/tools/test_issue694_conversation_history_reload.sh
 - .csdlc/issues/694
 - .csdlc/prepared/issues/694
+- .csdlc/evidence/694
 
 ## Execution
 
@@ -29,20 +30,38 @@ Implemented #694 Runtime-authoritative conversation history restoration for the 
 - Added authenticated Observatory WSS conversation-history request handling and bounded page-size behavior without live Runtime mutation or new cloud/provider scope.
 - Wired the HTML Observatory to request Runtime history on fresh state, recipient selection, and authenticated reconnect, then restore turns without depending on browser-local transcript state.
 - Hardened transcript rendering deduplication so live turns and restored history variants share stable operator/agent base-turn render keys.
-- Extended the #694 validator and shell proof to cover request schema, invalid request rejection, role/base-turn dedupe, focused Observatory contract/security tests, and the exact Runtime production-history regression.
+- Raised the bounded conversation-history protocol cap to 2048 records and added a 60-turn/120-record Runtime regression so complete retained transcript restoration is not silently capped at 100 records.
+- Corrected rendered lifecycle truth through typed SPP step-status repair and typed SOR status advancement after recorded-review recovery.
 
 ## Validation
 
 [
   {
     "command": [
-      "git",
-      "diff",
-      "--check"
+      "bash",
+      "adl/tools/test_issue694_conversation_history_reload.sh"
     ],
-    "purpose": "Verify Git patch whitespace hygiene for the #694 issue worktree.",
+    "purpose": "Run the issue-owned #694 proof script covering HTML Observatory history replay bounds plus exact Runtime production conversation-history ordering and the 60-turn/120-record retained-history regression.",
     "outcome": "passed",
-    "evidence_ref": "issue694-diff-hygiene.log"
+    "evidence_ref": "issue694-transcript-history-proof.log"
+  },
+  {
+    "command": [
+      "node",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs"
+    ],
+    "purpose": "Run existing HTML Observatory conversation-session contract tests after history restoration wiring.",
+    "outcome": "passed",
+    "evidence_ref": "issue694-observatory-session-contract.log"
+  },
+  {
+    "command": [
+      "node",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+    ],
+    "purpose": "Run existing HTML Observatory security/privacy/adversarial tests after history restoration wiring.",
+    "outcome": "passed",
+    "evidence_ref": "issue694-observatory-security-privacy.log"
   },
   {
     "command": [
@@ -59,36 +78,19 @@ Implemented #694 Runtime-authoritative conversation history restoration for the 
   },
   {
     "command": [
-      "node",
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+      "git",
+      "diff",
+      "--check"
     ],
-    "purpose": "Run existing HTML Observatory security/privacy/adversarial tests after history restoration wiring.",
+    "purpose": "Verify Git patch whitespace hygiene for the #694 issue worktree.",
     "outcome": "passed",
-    "evidence_ref": "issue694-observatory-security-privacy.log"
-  },
-  {
-    "command": [
-      "node",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs"
-    ],
-    "purpose": "Run existing HTML Observatory conversation-session contract tests after history restoration wiring.",
-    "outcome": "passed",
-    "evidence_ref": "issue694-observatory-session-contract.log"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/test_issue694_conversation_history_reload.sh"
-    ],
-    "purpose": "Run the issue-owned #694 proof script covering HTML Observatory history replay bounds plus exact Runtime production conversation-history ordering.",
-    "outcome": "passed",
-    "evidence_ref": "issue694-transcript-history-proof.log"
+    "evidence_ref": "issue694-diff-hygiene.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

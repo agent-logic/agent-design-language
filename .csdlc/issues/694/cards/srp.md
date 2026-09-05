@@ -8,14 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/control.rs
-demos/html-observatory/app.js
-adl/tools/validate_v092_observatory_transcript_history.mjs
-adl/tools/test_issue694_conversation_history_reload.sh
+
 
 ## Prompts
 

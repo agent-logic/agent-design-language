@@ -92,6 +92,7 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v3";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
 const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA = "adl.runtime_v3.observatory_conversation_history_request.v1";
+const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS = 2048;
 const LARGE_POLIS_LIMITS = Object.freeze({
   maxVisibleAgents: 120,
   maxTranscriptTurns: 300,
@@ -1611,13 +1612,15 @@ function authenticateRuntimeV3ObservatorySocket(socket, token) {
   }));
 }
 
-function requestRuntimeConversationHistory(socket, conversationId, pageSize = 100) {
+function requestRuntimeConversationHistory(socket, conversationId, pageSize = RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
   if (!socket || socket.readyState !== WebSocket.OPEN) {
     throw new Error("Runtime v3 Observatory WebSocket is not open.");
   }
   const boundedConversationId = String(conversationId || "");
   if (!/^[A-Za-z0-9._:-]{1,128}$/.test(boundedConversationId) ||
-      !Number.isSafeInteger(pageSize) || pageSize < 1 || pageSize > 100) {
+      !Number.isSafeInteger(pageSize) ||
+      pageSize < 1 ||
+      pageSize > RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
     throw new Error("Conversation history request is invalid.");
   }
   socket.send(JSON.stringify({
@@ -1740,7 +1743,7 @@ function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
       typeof history.conversation_id !== "string" ||
       history.conversation_id.length === 0 ||
       !Array.isArray(history.records) ||
-      history.records.length > 100) {
+      history.records.length > RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
     return { accepted: false, reason: "invalid_runtime_history" };
   }
   const expectedIncarnation = feed.runtime_incarnation_id || feed.runtimeIncarnationId || "";

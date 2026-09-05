@@ -82,7 +82,7 @@ pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
 pub const OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_history_request.v1";
 const OBSERVATORY_CONVERSATION_HISTORY_SCHEMA: &str = "adl.runtime.conversation_history.v1";
-const OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS: usize = 100;
+const OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS: usize = 2048;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum ObservatoryFeedVersion {
@@ -3998,7 +3998,7 @@ struct ObservatoryConversationHistoryRequest {
 }
 
 fn default_observatory_history_page_size() -> usize {
-    OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS
+    2048
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -5879,7 +5879,7 @@ mod layer8_conversation_ingress_tests {
                 recorder.clone(),
                 FakeLifecycle,
                 ControlAuthority::new(BTreeMap::new()),
-                8,
+                128,
                 ["https://observatory.example.test".to_owned()],
                 population,
             )
@@ -6025,7 +6025,7 @@ mod layer8_conversation_ingress_tests {
         let request = ObservatoryConversationHistoryRequest {
             schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
             conversation_id: intent.conversation_id.clone(),
-            page_size: 100,
+            page_size: 2048,
         };
         let history = service
             .observatory_conversation_history(&request)
@@ -6054,9 +6054,53 @@ mod layer8_conversation_ingress_tests {
                 "history wire frame disclosed {forbidden}"
             );
         }
+        let mut delivered_replies = Vec::new();
+        for index in 0..60_u64 {
+            let multi_turn_intent = ObservatoryConversationIntent {
+                schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
+                conversation_id: "conversation-long-reload".to_owned(),
+                turn_id: format!("turn-long-{index:03}"),
+                recipient_id: "ember".to_owned(),
+                correlation_id: format!("{index:032x}"),
+                message: format!("Restore long history turn {index:03}."),
+            };
+            let delivered = match service.accept_conversation_intent(&multi_turn_intent) {
+                ConversationAcceptance::Dispatch { dispatch, .. } => {
+                    service.complete_conversation_dispatch(dispatch).await
+                }
+                ConversationAcceptance::Response(response) => {
+                    panic!("conversation was not dispatched: {:?}", response.error)
+                }
+            };
+            delivered_replies.push((
+                multi_turn_intent.turn_id,
+                multi_turn_intent.message,
+                delivered.reply.expect("delivered turn includes reply"),
+            ));
+        }
+        let long_history = service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: "conversation-long-reload".to_owned(),
+                page_size: 120,
+            })
+            .expect("production conversation session projects long history");
+        assert_eq!(long_history.records.len(), 120);
+        for (index, (turn_id, message, reply)) in delivered_replies.iter().enumerate() {
+            let outbound = &long_history.records[index * 2];
+            assert_eq!(outbound.message_id, format!("{turn_id}:outbound"));
+            assert_eq!(outbound.speaker_id, "operator");
+            assert_eq!(&outbound.body, message);
+            assert_eq!(outbound.journal_sequence, index as u64 * 2 + 1);
+            let inbound = &long_history.records[index * 2 + 1];
+            assert_eq!(inbound.message_id, format!("{turn_id}:reply"));
+            assert_eq!(inbound.speaker_id, "agent:ember");
+            assert_eq!(&inbound.body, reply);
+            assert_eq!(inbound.journal_sequence, index as u64 * 2 + 2);
+        }
         assert!(service
             .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
-                page_size: 101,
+                page_size: 2049,
                 ..request
             })
             .is_none());

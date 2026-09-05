@@ -40,7 +40,7 @@ api.requestRuntimeConversationHistory({ readyState: 1, send(value) { historyRequ
 assert.deepEqual(historyRequests, [{
   schema: "adl.runtime_v3.observatory_conversation_history_request.v1",
   conversation_id: "conversation-agent-a",
-  page_size: 100
+  page_size: 2048
 }]);
 assert.equal(typeof api.requestRuntimeConversationHistory, "function");
 assert.equal(typeof api.conversationTranscriptRenderKey, "function");
@@ -127,7 +127,7 @@ assert.deepEqual(sent, [{
   page_size: 2
 }]);
 assert.throws(() => api.requestRuntimeConversationHistory({ readyState: 1, send() {} }, "../bad"));
-assert.throws(() => api.requestRuntimeConversationHistory({ readyState: 1, send() {} }, "conversation-shepherd", 101));
+assert.throws(() => api.requestRuntimeConversationHistory({ readyState: 1, send() {} }, "conversation-shepherd", 2049));
 
 const nonMonotonic = api.normalizeRuntimeConversationHistorySnapshot({
   ...history,
@@ -163,7 +163,17 @@ assert.deepEqual(Array.from(freshTranscript.values()), [
 
 assert.equal(api.normalizeRuntimeConversationHistorySnapshot({
   ...productionHistory,
-  records: Array.from({ length: 101 }, (_, index) => ({
+  records: Array.from({ length: 120 }, (_, index) => ({
+    message_id: `m-${index}`,
+    speaker_id: index % 2 === 0 ? "operator" : "agent:ember",
+    body: "bounded complete retained transcript",
+    journal_sequence: index + 1
+  }))
+}).accepted, true);
+
+assert.equal(api.normalizeRuntimeConversationHistorySnapshot({
+  ...productionHistory,
+  records: Array.from({ length: 2049 }, (_, index) => ({
     message_id: `m-${index}`,
     speaker_id: "operator",
     body: "bounded",
