@@ -5,10 +5,20 @@
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
   "phase": "implemented",
   "generation": 7,
-  "digest": "34d64306a0cb86482a9bce270c9f47dd9bfb1360b747ff1801c2b3bb116716b1",
+  "digest": "f557ba0e7e32b733e34c2ab017c05657d36bb3f902c8907af37ef0ade46d61e5",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
+    "assigned_by": "codex:/root/a2a_reliability_fix",
+    "revision": "git-blake3:60ced2f878c669f754f84f0721198145006a39e8:72d799a9d8c583a90b54c308d2f001276d9899b4512da7178f19ae810546e9cf",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/evidence/693"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "fd5a16f14f189634d73b0032e7d21ea016a954c760ff6e40bad0c8e515f95150",
-      "rendered_digest": "28041336a4de454290653d79555c01ae2364ce7e1375c88e3e9f0796974945c1",
-      "ast_digest": "2e95938bd8893aa0dcf1d28393a2f2fa4a9144a96c80ef81038d8bec3c5f9c9d"
+      "values_digest": "f7919aec2669ca1c9d9c6f1dcbd078aa77418e4bc3649f8a1b4635c5d8e0615c",
+      "rendered_digest": "496d81dafb5c830e3c002650f84bc971170f43ac03e500987fc95f0ad3fbb0e3",
+      "ast_digest": "968c225465785323840952066b7f3cf74c56e6d750966635cc69e5e494c006dd"
     },
     "sor": {
       "values_digest": "7e9615e6c7a8b6fad8459a98c224c55c45e51b7ef9e45fe239083bc49ee445a1",
@@ -140,6 +150,13 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "record the final review-corrected behavior and proving validation before exact-head review",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Runtime-owned model-backed A2A selection through Ollama-native tool calls, with governed dispatch, distinct initiating and recipient results, correlated completion observability, and safe ordinary-reply fallback when a model rejects tools.\",\"changes\":[\"Replaced prompt-dependent exact JSON action selection with an Ollama-native initiate_agent tool contract normalized into the existing governed Runtime initiation intent.\",\"Kept Runtime authoritative for identifiers, admission, Layer8 dispatch, replay, cancellation, and terminal outcomes; malformed, unknown, or ambiguous actions fail closed.\",\"Preserved Beacon's operator-facing reply independently from Ember's provider result and emitted a separately correlated agent_to_agent_completed Runtime event.\",\"Added bounded fallback to ordinary Ollama generation for 400/404 tool-unsupported responses without inferring or dispatching A2A.\",\"Added an isolated production-ingress Beacon-to-Ember acceptance using native provider tool output, real governed recipient execution, and correlated initiation/completion observation.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\".csdlc/evidence/693/local-validation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response\",\"--\",\"--exact\"],\"purpose\":\"Prove production-ingress native action selection, governed recipient execution, distinct replies, and correlated terminal observability.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/local-validation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"provider_conversation\"],\"purpose\":\"Prove provider action normalization, failure behavior, and unsupported-tools ordinary-reply fallback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/local-validation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the complete Runtime kernel library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/local-validation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/local-validation.md\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

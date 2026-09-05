@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #693 action selection bridge production conversation ingress governed A2A dispatch focused tests and issue-local lifecycle evidence only.
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/telemetry.rs
+.csdlc/evidence/693
 
 ## Prompts
 
