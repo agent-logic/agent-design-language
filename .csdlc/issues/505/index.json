@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 49,
-  "digest": "41bd104f2bf838e19038d2211a0d2123363f9e2e3969e5e3672b19563f259ab1",
+  "phase": "reviewed",
+  "generation": 50,
+  "digest": "77d82377957ca07a1e0920a3282631a52408171ad9e91cbf5758eaf59db3723f",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
@@ -20,7 +20,24 @@
       "docs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_591_279342fea",
+    "scope": [
+      "AGENTS.md",
+      "adl/tools/test_install_adl_pr_cycle_skill.sh",
+      "csdlc-v3",
+      "docs"
+    ],
+    "reviewed_revision": "git-blake3:4bc63d390e421702607837b2e4193d0e5573321f:208bfe9d3d5b73c129c5ada4ea2f7e0fb32f7aa0ce64933ac7c2b64f9f19ddff",
+    "findings": [],
+    "residual_risks": [
+      "Actual rollback-exercise evidence remains required before operator cutover approval.",
+      "Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.",
+      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "db731ac17476b842ce3a4dbbab451d1d35d30a20f72edfb2e4dc9046e52ad883",
+      "values_digest": "9305d5b7ce4d3506faca52d1898e42f2d381f60b8b606d40d886931c4f1e93ca",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "bf370e2ec7139f64814c4368e4c09236dd42f3bd0a76aa2d0d517d78b192aff7",
+      "values_digest": "5f4be67e6ffa2673c61b8d953ff0e6e79dbd6e8b0f9336d1a1952f9b09d4b745",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "d8e41b15443e76b9eeefbbb2abbbb510dc3890cd8f4ef545c9c7e29b4c362506",
+      "values_digest": "62d36dc91780a35718fa655c91cf1ab44fe487a862176fadf6077d7356add654",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "9b8390f15d7446cf6608b05acd461da01f2a2b394c118ea37791c6baf5a9b682",
+      "values_digest": "422e1e54c25425b2ea1d43133265e80f86114fed1572bd3872afa88bf49e9838",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "bbaea6c865e9ced97b8ac03d9052fbfe705a66e4593172673fc08b10d49914b3",
-      "rendered_digest": "c927fb463004a8ebbf87eb885a937a72147450dbed8f9aeadad8a86c988a455d",
-      "ast_digest": "6102a9b2c097bb72a368213d98050a4f842f0db287c4b49ffcd57e8902c7bc2d"
+      "values_digest": "a0909786896322865f9eaccc60abd2f077b93ec6a2c12e0af4956d281027bd47",
+      "rendered_digest": "7f049e4b3dafb10cb1acdb53d3cd2f5332cdbd931fdcf900950b4790355e7b3c",
+      "ast_digest": "007961a884c9a7d7eef144f27ea364c38c25f39ee52c61295d39ce294909b829"
     },
     "sor": {
-      "values_digest": "4b10a56f359ce358de111d058e6b0e01b4645c669e6d2b5efb326b7fb6945034",
+      "values_digest": "fc3e7ae6b34cb279ac56b8a452d6894b5c6b82966892ad59f5488b745884f88b",
       "rendered_digest": "35edccd499d2e5d6c80d54757c58fe4e5c24cce5939396104a2f0260c277abf4",
       "ast_digest": "bd9d2bdf88a0ea1f48baaace20f0e6c62c5bb520bffc33333553998a9817bf3e"
     }
@@ -296,6 +313,13 @@
       "to": "implemented",
       "actor": "Worker #6",
       "reason": "Recover stale #505 review/publication truth after reconciling PR #591 with current main and retaining terminal V3-H readback plus deferred-cutover evidence."
+    },
+    {
+      "sequence": 34,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -739,6 +763,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 50,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

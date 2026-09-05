@@ -34,12 +34,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Actual rollback-exercise evidence remains required before operator cutover approval.
+- Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.
+- C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4bc63d390e421702607837b2e4193d0e5573321f:208bfe9d3d5b73c129c5ada4ea2f7e0fb32f7aa0ce64933ac7c2b64f9f19ddff")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_591_279342fea")
 
-Result: pre_review
+Result: pass

@@ -147,7 +147,7 @@ assert(pr591_packet["draft"] == false, "PR #591 must not be draft after remediat
 assert(pr591_packet["head_ref"] == "codex/505-v3-f-authority-transition-decision-exec", "PR #591 head branch drift")
 assert(pr591_packet["linked_issue"].nil?, "PR #591 must not declare a closing linked issue before operator approval")
 pr591_body = pr591_packet.fetch("body")
-assert(pr591_body.include?("Part-Of #505"), "PR #591 body missing non-closing #505 linkage")
+assert(pr591_body.include?("Part of #505") || pr591_body.include?("Part-Of #505"), "PR #591 body missing non-closing #505 linkage")
 assert(pr591_body.include?("Sprint 8 #536 is live membership v5"), "PR #591 body missing Sprint 8 readiness truth")
 assert(pr591_body.include?("Sprint 9 #537 is live membership v4"), "PR #591 body missing Sprint 9 readiness truth")
 assert(!pr591_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\b/), "PR #591 body contains an issue-closing keyword for #505")
@@ -155,7 +155,7 @@ assert(!pr591_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\
 defer_body = pr591_defer_update.fetch("body")
 assert(pr591_defer_update["action"] == "pr_update", "current defer-brief PR request must be a typed PR update")
 assert(pr591_defer_update["pull_request"] == 591, "current defer-brief PR request must target #591")
-assert(defer_body.include?("Part-Of #505"), "current defer-brief PR body missing non-closing #505 linkage")
+assert(defer_body.include?("Part of #505"), "current defer-brief PR body missing typed-publication-compatible non-closing #505 linkage")
 assert(defer_body.include?("Remaining approval blockers"), "current defer-brief PR body must keep approval blockers visible")
 assert(!defer_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\b/), "current defer-brief PR body contains a GitHub closing-reference token for #505")
 
