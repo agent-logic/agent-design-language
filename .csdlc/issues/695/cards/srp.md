@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+signed fresh-start genesis continuity lineage and design authority
+first partial cycle and dynamic-agent tombstone after fresh start
+current-main Runtime configuration-generation integration
+five-minute per-agent partial checkpoints and S3 archival
+Runtime API and Observatory continuity projection
+AWS Terraform archive boundary
+complete focused validation and CI remediation
 
 ## Prompts
 
@@ -33,12 +39,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live AWS Terraform apply and permanent Wuji rollout remain explicitly deferred and are not claimed by this PR.
+- The acceptance receipt is bound to the substantive implementation head c45378f835b92d8c1f0138f587ccd93af604f430; subsequent commits contain only acceptance and lifecycle or reviewed design authority metadata.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:02bee39bcc6c7fccebf790312a47374041d2db02:e21030e0ec943018962c5ac4f95290e13cf6d3efacf7eb5e41532fe8a2d852bb")
 
-Reviewer: None
+Reviewer: Some("fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9")
 
-Result: pre_review
+Result: pass

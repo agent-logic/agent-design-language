@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
     "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
     "version": "v0.92.1",
-    "generation": 23
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "signed fresh-start genesis continuity lineage and design authority\nfirst partial cycle and dynamic-agent tombstone after fresh start\ncurrent-main Runtime configuration-generation integration\nfive-minute per-agent partial checkpoints and S3 archival\nRuntime API and Observatory continuity projection\nAWS Terraform archive boundary\ncomplete focused validation and CI remediation",
+      "review_revision": "git-blake3:02bee39bcc6c7fccebf790312a47374041d2db02:e21030e0ec943018962c5ac4f95290e13cf6d3efacf7eb5e41532fe8a2d852bb",
+      "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
       "review_prompts": [
         "Can a slow snapshot or S3 outage block Runtime readiness, conversations, or shutdown?",
         "Does every resident including Shepherd receive one ordered partial per cadence without overlap?",
@@ -25,8 +25,11 @@
         "Does Terraform enforce private encrypted versioned storage and least privilege without live apply?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live AWS Terraform apply and permanent Wuji rollout remain explicitly deferred and are not claimed by this PR.",
+        "The acceptance receipt is bound to the substantive implementation head c45378f835b92d8c1f0138f587ccd93af604f430; subsequent commits contain only acceptance and lifecycle or reviewed design authority metadata."
+      ],
+      "review_result": "pass"
     }
   }
 }
