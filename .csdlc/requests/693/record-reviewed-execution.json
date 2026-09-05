@@ -1,8 +1,8 @@
 {
   "issue": 693,
   "card": "sor",
-  "expected_generation": 6,
-  "expected_digest": "be31e64071c29c3b50483607df44375c1da60cd5729e6545f9f8c9331bbb5d58",
+  "expected_generation": 15,
+  "expected_digest": "6d7d8edbd8bb1a4e66f4e6dbfc6081b35c18f12eaaf69465b8d6f5990d7e8ad2",
   "actor": "codex:/root/a2a_reliability_fix",
   "reason": "record the final review-corrected behavior and proving validation before exact-head review",
   "operation": {
@@ -12,6 +12,8 @@
       "Replaced prompt-dependent exact JSON action selection with an Ollama-native initiate_agent tool contract normalized into the existing governed Runtime initiation intent.",
       "Kept Runtime authoritative for identifiers, admission, Layer8 dispatch, replay, cancellation, and terminal outcomes; malformed, unknown, or ambiguous actions fail closed.",
       "Preserved Beacon's operator-facing reply independently from Ember's provider result and emitted a separately correlated agent_to_agent_completed Runtime event.",
+      "Exposed Ember's provider-generated output as the distinct initiated_reply field on the authoritative conversation result, while retaining Beacon's reply unchanged.",
+      "Emitted agent_to_agent_initiated when governed dispatch is accepted, agent_to_agent_completed only after delivery, and agent_to_agent_failed for terminal non-delivery outcomes.",
       "Added bounded fallback to ordinary Ollama generation for 400/404 tool-unsupported responses without inferring or dispatching A2A.",
       "Added an isolated production-ingress Beacon-to-Ember acceptance using native provider tool output, real governed recipient execution, and correlated initiation/completion observation."
     ],

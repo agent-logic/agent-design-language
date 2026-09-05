@@ -74,6 +74,7 @@ pub enum RuntimeEvent {
     DomainWorkCompleted,
     AgentToAgentInitiated,
     AgentToAgentCompleted,
+    AgentToAgentFailed,
     KernelStarting,
     ComponentsReady,
 }
@@ -91,6 +92,7 @@ impl RuntimeEvent {
             Self::DomainWorkCompleted => "domain_work_completed".to_owned(),
             Self::AgentToAgentInitiated => "agent_to_agent_initiated".to_owned(),
             Self::AgentToAgentCompleted => "agent_to_agent_completed".to_owned(),
+            Self::AgentToAgentFailed => "agent_to_agent_failed".to_owned(),
             Self::KernelStarting => "kernel_starting".to_owned(),
             Self::ComponentsReady => "components_ready".to_owned(),
         }

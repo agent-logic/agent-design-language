@@ -1389,7 +1389,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sender_identity_mismatch",
             ));
         }
-        self.accept_conversation_intent_inner(&conversation_intent, Some(metadata))
+        let accepted = self.accept_conversation_intent_inner(&conversation_intent, Some(metadata));
+        if matches!(accepted, ConversationAcceptance::Dispatch { .. }) {
+            self.recorder.emit_correlated(
+                Some(ComponentId::new("agent_initiation")),
+                RuntimeEvent::AgentToAgentInitiated,
+                Some(&intent.correlation_id),
+            );
+        }
+        accepted
     }
 
     fn accept_conversation_intent_inner(
@@ -1683,6 +1691,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_work_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(sequence),
@@ -1783,6 +1792,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(dispatch.sequence),
@@ -1968,6 +1978,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             initiated_turn_id: Some(intent.turn_id),
                                             initiated_correlation_id: Some(intent.correlation_id),
                                             initiated_work_id: Some(intent.work_id),
+                                            initiated_reply: initiated.reply,
                                             // The initiating agent's operator-facing reply and
                                             // the recipient's governed result are separate facts.
                                             // The latter remains correlated through the initiated
@@ -2012,6 +2023,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.initiated_work_id.clone()),
+                                        initiated_reply: None,
                                         reply: Some(reply),
                                         accepted_sequence: Some(result.accepted_sequence),
                                         turn_sequence: Some(dispatch.sequence),
@@ -2039,12 +2051,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if result.status == "delivered" && dispatch.initiation.is_some() {
             self.recorder.emit_correlated(
                 Some(ComponentId::new("agent_initiation")),
-                RuntimeEvent::AgentToAgentInitiated,
+                RuntimeEvent::AgentToAgentCompleted,
                 Some(&dispatch.intent.correlation_id),
             );
+        } else if dispatch.initiation.is_some() {
             self.recorder.emit_correlated(
                 Some(ComponentId::new("agent_initiation")),
-                RuntimeEvent::AgentToAgentCompleted,
+                RuntimeEvent::AgentToAgentFailed,
                 Some(&dispatch.intent.correlation_id),
             );
         }
@@ -2132,6 +2145,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(turn.sequence),
@@ -2670,6 +2684,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
                     initiated_work_id: None,
+                    initiated_reply: None,
                     reply: turn.reply.clone(),
                     accepted_sequence: turn.accepted_sequence,
                     turn_sequence: turn.turn_sequence,
@@ -4097,6 +4112,8 @@ struct ObservatoryConversationResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     initiated_work_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_reply: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     reply: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     accepted_sequence: Option<u64>,
@@ -4149,6 +4166,7 @@ impl ObservatoryConversationResult {
                 .as_ref()
                 .map(|metadata| metadata.initiated_correlation_id.clone()),
             initiated_work_id: parts.initiation.map(|metadata| metadata.initiated_work_id),
+            initiated_reply: None,
             reply: parts.reply,
             accepted_sequence: parts.accepted_sequence,
             turn_sequence: parts.turn_sequence,
@@ -4170,6 +4188,7 @@ impl ObservatoryConversationResult {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: None,
@@ -4446,6 +4465,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 initiated_turn_id: None,
                                 initiated_correlation_id: None,
                                 initiated_work_id: None,
+                                initiated_reply: None,
                                 reply: None,
                                 accepted_sequence: None,
                                 turn_sequence: None,
@@ -6051,6 +6071,11 @@ mod layer8_conversation_ingress_tests {
             Some("I can ask Ember through the governed action channel."),
             "Beacon's operator reply must remain distinct from Ember's governed result"
         );
+        assert_eq!(
+            delivered.initiated_reply.as_deref(),
+            Some("Ember generated a governed response for Beacon."),
+            "the authoritative result must expose Ember's distinct correlated reply"
+        );
         {
             let requests = provider_requests
                 .lock()
@@ -6232,7 +6257,7 @@ mod layer8_conversation_ingress_tests {
 
     #[tokio::test]
     async fn agent_to_agent_initiation_terminal_failures_are_truthful() {
-        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
+        let (service, kernel, recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::from_millis(75)).await;
         let mut unauthorized = agent_initiation_intent("turn-a2a-unauthorized", "a2a-work-unauth");
         unauthorized.sender_id = "unknown-beacon".to_owned();
@@ -6297,6 +6322,10 @@ mod layer8_conversation_ingress_tests {
         let cancelled = service.complete_conversation_dispatch(dispatch).await;
         assert_eq!(cancelled.status, "cancelled");
         assert_eq!(cancelled.error, Some("conversation_cancelled"));
+        assert!(recorder.events().iter().any(|event| {
+            event.event == "agent_to_agent_failed"
+                && event.correlation_id.as_deref() == Some("abababababababababababababababab")
+        }));
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
 
         let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
@@ -6946,6 +6975,7 @@ mod agent_lifecycle {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_reply: None,
             reply: Some("retained reply".to_owned()),
             accepted_sequence: Some(1),
             turn_sequence: Some(1),
@@ -8248,6 +8278,7 @@ mod conversation_dispatch_gate_tests {
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
                     initiated_work_id: None,
+                    initiated_reply: None,
                     reply: None,
                     accepted_sequence: Some(1),
                     turn_sequence: Some(1),
