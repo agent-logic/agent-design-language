@@ -37,3 +37,5 @@
 {"sequence":37,"generation":27,"actor":"fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":38,"generation":28,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":39,"generation":29,"actor":"codex:/root","reason":"Recover review and publication after exact-head external review found removal versus in-flight snapshot ordering, archive projection concurrency, unbounded AWS CLI child execution, and self-invalidating tracked acceptance receipt defects.","operation":"recover_review"}
+{"sequence":40,"generation":29,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":41,"generation":30,"actor":"fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

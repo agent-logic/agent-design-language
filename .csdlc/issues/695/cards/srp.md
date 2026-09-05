@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+in-flight snapshot removal fencing
+sequence-aware archive projection and degraded-state consistency
+bounded AWS CLI child execution and scheduler cleanup
+non-mutating manifest-owned acceptance evidence
+focused exact-head validation
 
 ## Prompts
 
@@ -33,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live AWS Terraform apply and permanent Wuji rollout remain intentionally deferred and are not claimed as issue #695 proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:466a6da85bc1fabe3165adbcf83c2e59ee5df2e9:2b0238cb99040711e1c6313ec83c309691e8cc1264214b8c358e40579fa47f34")
 
-Reviewer: None
+Reviewer: Some("fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9")
 
-Result: pre_review
+Result: pass
