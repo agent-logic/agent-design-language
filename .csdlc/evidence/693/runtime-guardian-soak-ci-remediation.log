@@ -13,4 +13,3 @@ test pressure_checkpoint_failure_keeps_signal_shutdown_responsive ... ok
 test pressure_closes_ingress_serializes_live_work_and_stops_cleanly ... ok
 
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.05s
-
