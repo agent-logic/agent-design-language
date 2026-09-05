@@ -5,21 +5,6 @@ set -Eeuo pipefail
 # owned by the current-generation Rust `csm runtime-v3` command.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-legacy_runtime_control_refusal() {
-  local command="${1:-default}"
-  printf '%s\n' \
-    "CSMctl status=failed reason=legacy_runtime_control_removed command=$command" \
-    "Use: \"$SCRIPT_DIR/.adl/runtime-v3/current/bin/csm\" runtime-v3 <start|stop|status|reload> --init \"$SCRIPT_DIR/.adl/runtime-v3/live/runtime-init.toml\" --json" >&2
-  exit 2
-}
-
-case "${1-}" in
-  ""|open|start|up|restart|status|stop|logs|urls|rotate-continuity-state)
-    legacy_runtime_control_refusal "${1:-default}"
-    ;;
-esac
-
 REPO_ROOT="${ADL_CSM_REPO_ROOT:-$SCRIPT_DIR}"
 GIT_COMMON_DIR="$(git -C "$REPO_ROOT" rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)"
 PRIMARY_REPO_ROOT="$REPO_ROOT"
@@ -29,6 +14,23 @@ fi
 if [[ ! -d "$PRIMARY_REPO_ROOT/.adl" ]]; then
   PRIMARY_REPO_ROOT="$(git -C "$REPO_ROOT" rev-parse --show-toplevel 2>/dev/null || printf '%s' "$REPO_ROOT")"
 fi
+
+CSM_RUNTIME_BIN="$PRIMARY_REPO_ROOT/.adl/runtime-v3/current/bin/csm"
+CSM_RUNTIME_INIT="$PRIMARY_REPO_ROOT/.adl/runtime-v3/live/runtime-init.toml"
+
+legacy_runtime_control_refusal() {
+  local command="${1:-default}"
+  printf '%s\n' \
+    "CSMctl status=failed reason=legacy_runtime_control_removed command=$command" \
+    "Use: \"$CSM_RUNTIME_BIN\" runtime-v3 <start|stop|status|reload> --init \"$CSM_RUNTIME_INIT\" --json" >&2
+  exit 2
+}
+
+case "${1-}" in
+  ""|open|start|up|restart|status|stop|logs|urls|rotate-continuity-state)
+    legacy_runtime_control_refusal "${1:-default}"
+    ;;
+esac
 
 SERVICE_ROOT="$REPO_ROOT"
 if [[ ! -d "$SERVICE_ROOT/.adl/runtime-v3-service" && -d "$PRIMARY_REPO_ROOT/.adl/runtime-v3-service" ]]; then
@@ -143,8 +145,8 @@ usage() {
     '          or stop Runtime and may point at any configured Runtime API base.' \
     '' \
     'Permanent Runtime control:' \
-    "  \"$SCRIPT_DIR/.adl/runtime-v3/current/bin/csm\" runtime-v3 <start|stop|status|reload> \\" \
-    "    --init \"$SCRIPT_DIR/.adl/runtime-v3/live/runtime-init.toml\" --json"
+    "  \"$CSM_RUNTIME_BIN\" runtime-v3 <start|stop|status|reload> \\" \
+    "    --init \"$CSM_RUNTIME_INIT\" --json"
 }
 
 info() {
