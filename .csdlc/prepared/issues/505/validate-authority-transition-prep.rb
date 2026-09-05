@@ -181,6 +181,7 @@ assert(sprint625_readiness["operational_authority"] == false, "V3-H sprint readi
 assert(sprint625_readiness["status"] == "complete_not_cutover_authority", "V3-H sprint readiness must distinguish completion from authority cutover")
 sprint625 = sprint625_readiness.fetch("sprints").find { |row| row["umbrella_issue"] == 625 }
 assert(sprint625, "V3-H sprint readiness missing umbrella #625")
+assert(sprint625["status"] == "complete_not_cutover_authority", "V3-H per-sprint status must be command-reproducible completion without cutover authority")
 assert(sprint625.dig("umbrella_state", "state") == "closed", "V3-H umbrella #625 must be closed in current readback")
 assert(sprint625.fetch("child_states").map { |row| row.fetch("issue") } == [627, 628, 629, 630, 631, 632], "V3-H child denominator drift")
 assert(sprint625.fetch("child_states").all? { |row| row["state"] == "closed" && row["closed_at"] }, "V3-H child readbacks must all be closed")

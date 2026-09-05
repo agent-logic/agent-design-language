@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 53
+    "generation": 55
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/505/publish-after-review-279342fea-pass.json\n.csdlc/prepared/issues/505/update-pr591-after-defer-brief-reconciliation.json\n.csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
-      "review_revision": "git-blake3:f5621b164ef62c18885b5b57c4eff58a901fbbb2:3f678f7edd989c14b91c34fb740e491d4f7e3f1dcae851293f3bba9193861d66",
-      "reviewer": "subagent:/root/review_591_part_of_publication_fix",
+      "review_scope": "AGENTS.md\nadl/tools/test_install_adl_pr_cycle_skill.sh\ncsdlc-v3\ndocs",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,12 +23,8 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [
-        "Actual rollback-exercise evidence remains required before operator cutover approval.",
-        "Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.",
-        "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 50,
+  "expected_digest": "77d82377957ca07a1e0920a3282631a52408171ad9e91cbf5758eaf59db3723f",
+  "actor": "worker-6",
+  "reason": "Recover the stale review after correcting the non-closing PR #591 linkage wording and publication request evidence to the typed publication-compatible `Part of #505` form."
+}

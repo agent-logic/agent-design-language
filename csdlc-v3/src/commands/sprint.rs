@@ -52,6 +52,7 @@ pub struct SprintReadinessReport {
 #[serde(rename_all = "snake_case")]
 pub enum SprintReadinessStatus {
     Ready,
+    CompleteNotCutoverAuthority,
     Blocked,
     Invalid,
 }
@@ -64,9 +65,18 @@ pub struct SprintReadiness {
     pub execution_mode: SprintExecutionMode,
     pub membership_version: Option<u64>,
     pub declared_children: Vec<u64>,
+    pub umbrella_state: SprintUmbrellaState,
     pub child_states: Vec<SprintChildState>,
     pub status: SprintReadinessStatus,
     pub findings: Vec<SprintReadinessFinding>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SprintUmbrellaState {
+    pub issue: u64,
+    pub title: String,
+    pub state: String,
+    pub closed_at: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -119,9 +129,14 @@ pub fn verify_sprint_readiness(
         SprintReadinessStatus::Invalid
     } else if sprints
         .iter()
-        .any(|sprint| sprint.status != SprintReadinessStatus::Ready)
+        .any(|sprint| sprint.status == SprintReadinessStatus::Blocked)
     {
         SprintReadinessStatus::Blocked
+    } else if sprints
+        .iter()
+        .all(|sprint| sprint.status == SprintReadinessStatus::CompleteNotCutoverAuthority)
+    {
+        SprintReadinessStatus::CompleteNotCutoverAuthority
     } else {
         SprintReadinessStatus::Ready
     };
@@ -166,11 +181,11 @@ fn verify_one_sprint(
             "umbrella readback does not match the requested repository and issue",
         ));
     }
-    if umbrella.state != "open" {
+    if umbrella.state != "open" && umbrella.state != "closed" {
         findings.push(finding(
-            SprintFindingSeverity::Blocking,
-            "umbrella_not_open",
-            "sprint umbrella must be open while readiness is being prepared",
+            SprintFindingSeverity::Invalid,
+            "umbrella_state_unknown",
+            "umbrella readbacks must use open or closed GitHub state",
         ));
     }
     if !umbrella.title.contains(&target.title) {
@@ -253,6 +268,16 @@ fn verify_one_sprint(
             "open children remain in the sprint readiness denominator",
         ));
     }
+    let terminal_sprint = umbrella.state == "closed"
+        && !child_states.is_empty()
+        && child_states.iter().all(|child| child.state == "closed");
+    if umbrella.state == "closed" && !terminal_sprint {
+        findings.push(finding(
+            SprintFindingSeverity::Blocking,
+            "umbrella_closed_before_children_terminal",
+            "closed sprint umbrellas require every declared child readback to be closed",
+        ));
+    }
     let status = if findings
         .iter()
         .any(|finding| finding.severity == SprintFindingSeverity::Invalid)
@@ -263,6 +288,8 @@ fn verify_one_sprint(
         .any(|finding| finding.severity == SprintFindingSeverity::Blocking)
     {
         SprintReadinessStatus::Blocked
+    } else if terminal_sprint {
+        SprintReadinessStatus::CompleteNotCutoverAuthority
     } else {
         SprintReadinessStatus::Ready
     };
@@ -273,6 +300,12 @@ fn verify_one_sprint(
         execution_mode: target.execution_mode,
         membership_version,
         declared_children,
+        umbrella_state: SprintUmbrellaState {
+            issue: umbrella.number,
+            title: umbrella.title,
+            state: umbrella.state,
+            closed_at: umbrella.closed_at,
+        },
         child_states,
         status,
         findings,
@@ -560,6 +593,52 @@ mod tests {
         assert_eq!(report.sprints[0].declared_children, vec![627, 628, 629]);
         assert_eq!(report.sprints[0].membership_version, Some(1));
         assert_eq!(report.status, SprintReadinessStatus::Ready);
+    }
+
+    #[test]
+    fn sprint_readiness_reports_terminal_v3_h_without_cutover_authority() {
+        let dir = fixture_dir("terminal-v3-h");
+        let body = "## Outcome\n\nSet up V3-H.\n\n## Child issues\n\n1. #627 -- denominator.\n2. #628 -- local lifecycle.\n3. #629 -- GitHub routes.\n\n- Membership version: `1`\n";
+        write_issue(
+            &dir,
+            "umbrella.json",
+            625,
+            "[v0.92.1][V3-H] C-SDLC v3 full command replacement sprint",
+            body,
+            "closed",
+        );
+        write_issue(&dir, "627.json", 627, "V3-H.1", "body", "closed");
+        write_issue(&dir, "628.json", 628, "V3-H.2", "body", "closed");
+        write_issue(&dir, "629.json", 629, "V3-H.3", "body", "closed");
+        let request = SprintReadinessRequest {
+            repository: "agent-logic/agent-design-language".into(),
+            version: "v0.92.1".into(),
+            sprints: vec![SprintReadinessTarget {
+                sprint: 6,
+                umbrella_issue: 625,
+                title: "V3-H".into(),
+                execution_mode: SprintExecutionMode::Hybrid,
+                serial_gates: vec!["#629 consumes #628".into()],
+                umbrella_readback_ref: "umbrella.json".into(),
+                child_readback_refs: BTreeMap::from([
+                    ("627".into(), "627.json".into()),
+                    ("628".into(), "628.json".into()),
+                    ("629".into(), "629.json".into()),
+                ]),
+            }],
+        };
+        let report = verify_sprint_readiness(&dir, request).expect("report");
+        assert_eq!(
+            report.status,
+            SprintReadinessStatus::CompleteNotCutoverAuthority
+        );
+        assert_eq!(
+            report.sprints[0].status,
+            SprintReadinessStatus::CompleteNotCutoverAuthority
+        );
+        assert_eq!(report.sprints[0].umbrella_state.state, "closed");
+        assert!(report.sprints[0].findings.is_empty());
+        assert!(!report.operational_authority);
     }
 
     #[test]
