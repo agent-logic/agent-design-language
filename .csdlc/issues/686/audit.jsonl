@@ -43,3 +43,4 @@
 {"sequence":43,"generation":30,"actor":"codex:/root","reason":"Recover #686 r11 review assignment because no findings-first PASS/FAIL review payload was recorded or surfaced after the bounded wait. Preserve the unchanged substantive hosted-fmt remediation head and assign a different fresh reviewer before republication.","operation":"recover_review"}
 {"sequence":44,"generation":30,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":45,"generation":31,"actor":"codex:/root/issue-686","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":46,"generation":32,"actor":"codex:/root/issue-686","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
