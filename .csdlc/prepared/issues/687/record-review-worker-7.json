@@ -1,11 +1,11 @@
 {
   "issue": 687,
-  "expected_generation": 6,
-  "expected_digest": "d7cf362f2e733c865c11f503728ca59650518f6697f448281d12220e476f49e4",
+  "expected_generation": 8,
+  "expected_digest": "101cf55b95d29d7ac42ad625c916e95029d97afec32459bedd656aa180ce4f45",
   "actor": "subagent:/root/review_687_prepr_r1",
   "evidence": {
     "completed": true,
-    "reviewed_revision": "git-blake3:f55daced1854473802de136f342addbb5556bacf:92cd659828bd3124bb70d7609e0a2dc36c3218ee03889c6eb2fa7cf5a2ad6dc2",
+    "reviewed_revision": "git-blake3:011f48f7988db792f35b7ba0483af9a72fb6d949:0cae82e5d995ac465401e7b1a417e3d068cc79979100ec118e0aa1eea4838567",
     "reviewer": "subagent:/root/review_687_prepr_r1",
     "scope": [
       "adl-runtime-kernel/src/agent_roster.rs",
@@ -25,7 +25,8 @@
     ],
     "findings": [],
     "residual_risks": [
-      "GitHub CI remains the publication-time integration readback and has not run before PR publication."
+      "GitHub CI remains the publication-time integration readback and has not run before PR publication.",
+      "The generated .csdlc/issues/687 lifecycle projection is excluded from review-assignment scope by typed self-staling guards; reviewer inspected it separately during exact-head refresh."
     ]
   }
 }

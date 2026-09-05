@@ -3,13 +3,59 @@
   "issue": 687,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5e7a53528833f2592470603f90feb9f44272294b8ca449cc6d4ba06cab4a83c",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "b226baa68a4b58bfaed7ca12871488323a9046aefd7d6f5e79c24ccea4e2141c",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "f6aebfb0017f32363529bf73b3bde8400210c1735f4b6bd257b1160438f9fdb4",
   "branch": "codex/687-provider-inference-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_687_prepr_r1",
+    "assigned_by": "codex:worker-7",
+    "revision": "git-blake3:011f48f7988db792f35b7ba0483af9a72fb6d949:0cae82e5d995ac465401e7b1a417e3d068cc79979100ec118e0aa1eea4838567",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/support/tls.rs",
+      ".csdlc/evidence/687",
+      ".csdlc/prepared/issues/687"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_687_prepr_r1",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/support/tls.rs",
+      ".csdlc/evidence/687",
+      ".csdlc/prepared/issues/687"
+    ],
+    "reviewed_revision": "git-blake3:011f48f7988db792f35b7ba0483af9a72fb6d949:0cae82e5d995ac465401e7b1a417e3d068cc79979100ec118e0aa1eea4838567",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI remains the publication-time integration readback and has not run before PR publication.",
+      "The generated .csdlc/issues/687 lifecycle projection is excluded from review-assignment scope by typed self-staling guards; reviewer inspected it separately during exact-head refresh."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "927a914b94cfee9588054080403fd0051ab32eac394dc33c3af2fd3c795cd989",
+      "values_digest": "14b30da9844f573dae5504151238fe4d37aad675bafeaa87031e999319ca11ce",
       "rendered_digest": "86d07617e386282ba3ae6fc8b95d1287f282d6d7e6c97c91cfcac023257e8646",
       "ast_digest": "3da0d2b206b357ba4c6355e383f4230251c39d0628e56ae91103e6a6cba008fe"
     },
     "stp": {
-      "values_digest": "362e80ba9b030c8e2c209b7bc9100394aae5f9f7952a222793d8fa0d52fce2ef",
+      "values_digest": "cb2d3512fedefea6511a270ec89575c79bdd2df13a3736a6c02460d54478a399",
       "rendered_digest": "b83164581256d4984adbc5eab058899d97ad87dfe567151a35fb08b4f0952d91",
       "ast_digest": "2f700ba5f81e801b3b39fa80a2e4685074d0365b961254e8126c816097a7c537"
     },
     "spp": {
-      "values_digest": "0221ce1612853d3d2179aa7fb5f3d636ffeab3d09673d985c30998d865af150e",
+      "values_digest": "725a6e9d7fabbddd53f866cdee5f5a463d14c7e3f2789d601141304b6c444ad1",
       "rendered_digest": "b1b06e6b31bfdc053559670fe1d72879382fa2d5f51b583c73a589b9f94144dc",
       "ast_digest": "b82ab97a5a27bfe30749d0bc2c24544c417488f4f9c4b9c51c282514fc3ba418"
     },
     "vpp": {
-      "values_digest": "d4f5ec4ceda5963b3babdf6fe035d264b9d9cf91379cf5d25772edeaf3db0203",
+      "values_digest": "f8f281bcda501fb9ce3184a139d52c9314df12ed5c116078fc79b6094e32a745",
       "rendered_digest": "f3330544ff2d20da9a46fc927c64b45b2ad64d922f8c08119b7b04db4861ad31",
       "ast_digest": "be9d32360805cb9dafa00b41204105c5f0ec57c331fa365ec0621c5d2a907d61"
     },
     "srp": {
-      "values_digest": "155039eadb242992e4fd2fc1632e608185ec5d35bd8900cdc04f0401e2eed9e0",
-      "rendered_digest": "d3a82bb8da0d4615736ae59a0efec63ade7333332b53be045318b8f53d2aebc6",
-      "ast_digest": "22b7e4a32205478d18e3a94279d50ef0c9dc941626866aa881637861d64ddb63"
+      "values_digest": "e1ee45f44a4a586681a6c7145b9c395481ffc060e52802092c6cf1f49aea316a",
+      "rendered_digest": "d61e45970bbc2b1ef0de32300c7ef8d52f900edfa3f59064e87b9aa2eaa79f5a",
+      "ast_digest": "8851735c051a04481518a24246d91a4d67241e5d6ffb63b02704aa8f8d877c82"
     },
     "sor": {
-      "values_digest": "19dd390cb10526983e16678d0a4621d021bec61bf13305ca0640059ceb794899",
+      "values_digest": "4b0234004c1de2db53f6c1d73642e246b7a0602d74bc5e025a4011edddd9b642",
       "rendered_digest": "0b413fd53ac8dfb2c6311409fb151f9f26e8b00e250c2c1d2e6ead67edcfd75a",
       "ast_digest": "e3347951ac9a7ff41227b40a4600f569e000bf656d79cdc13ccfdb45d1e47d70"
     }
@@ -89,6 +135,13 @@
       "to": "implemented",
       "actor": "codex:worker-7",
       "reason": "Recover stale reviewed truth after the metadata-only review-record commit moved the publication head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -168,6 +221,20 @@
       "actor": "codex:worker-7",
       "reason": "Recover stale reviewed truth after the metadata-only review-record commit moved the publication head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

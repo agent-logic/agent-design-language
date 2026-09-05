@@ -1,7 +1,7 @@
 {
   "issue": 687,
-  "expected_generation": 6,
-  "expected_digest": "e6e8806bbe7ab6ab2ed11866ae7d7f38914df7cfdff33e86e8c39f478832e7b5",
+  "expected_generation": 8,
+  "expected_digest": "b226baa68a4b58bfaed7ca12871488323a9046aefd7d6f5e79c24ccea4e2141c",
   "reviewer": "subagent:/root/review_687_prepr_r1",
   "assigned_by": "codex:worker-7",
   "scope": [

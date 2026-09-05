@@ -9,3 +9,5 @@
 {"sequence":9,"generation":6,"actor":"codex:worker-7","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":7,"actor":"subagent:/root/review_687_prepr_r1","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":11,"generation":8,"actor":"codex:worker-7","reason":"Recover stale reviewed truth after the metadata-only review-record commit moved the publication head.","operation":"recover_review"}
+{"sequence":12,"generation":8,"actor":"codex:worker-7","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":9,"actor":"subagent:/root/review_687_prepr_r1","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
