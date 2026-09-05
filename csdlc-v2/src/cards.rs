@@ -2767,10 +2767,18 @@ pub(crate) fn execution_readiness_findings_for_cards(
         deliverables,
         &vpp.lanes,
         &vpp.failure_policy,
-        owned_paths_are_valid,
-        matches!(phase, LifecyclePhase::Initialized | LifecyclePhase::Ready),
-        terminal_validation,
+        ExecutionReadinessOptions {
+            owned_paths_are_valid,
+            allow_deferred: matches!(phase, LifecyclePhase::Initialized | LifecyclePhase::Ready),
+            terminal_validation,
+        },
     ))
+}
+
+struct ExecutionReadinessOptions<'a> {
+    owned_paths_are_valid: bool,
+    allow_deferred: bool,
+    terminal_validation: Option<&'a [ValidationResult]>,
 }
 
 fn execution_readiness_findings(
@@ -2779,12 +2787,10 @@ fn execution_readiness_findings(
     deliverables: &[String],
     lanes: &[ValidationLane],
     failure_policy: &str,
-    owned_paths_are_valid: bool,
-    allow_deferred: bool,
-    terminal_validation: Option<&[ValidationResult]>,
+    options: ExecutionReadinessOptions<'_>,
 ) -> Vec<ExecutionReadinessFinding> {
     let mut findings = Vec::new();
-    if !owned_paths_are_valid {
+    if !options.owned_paths_are_valid {
         findings.push(ExecutionReadinessFinding {
             code: "owned_paths_invalid",
             message: "execution readiness requires non-empty safe repository-owned paths".into(),
@@ -2799,7 +2805,7 @@ fn execution_readiness_findings(
                 affected_areas,
                 deliverables,
                 failure_policy,
-                allow_deferred,
+                options.allow_deferred,
             )
         {
             findings.push(ExecutionReadinessFinding {
@@ -2817,7 +2823,8 @@ fn execution_readiness_findings(
     }
     for lane in lanes {
         if !proving_lane_at(root, lane, affected_areas)
-            && !terminal_validation
+            && !options
+                .terminal_validation
                 .is_some_and(|results| terminal_validation_covers_lane(results, lane))
         {
             findings.push(ExecutionReadinessFinding {
@@ -2838,7 +2845,7 @@ fn execution_readiness_findings(
                 affected_areas,
                 deliverables,
                 failure_policy,
-                allow_deferred,
+                options.allow_deferred,
             );
             let intentional_deletion = intentionally_deleted_validator(
                 root,
@@ -2897,7 +2904,7 @@ fn execution_readiness_findings(
                 affected_areas,
                 deliverables,
                 failure_policy,
-                allow_deferred,
+                options.allow_deferred,
             )
         });
         let intentional_deletion = intentionally_deleted_validator(
@@ -3202,8 +3209,8 @@ mod tests {
 
     use super::{
         execution_readiness_findings, owned_path_at, proving_lane_at, terminal_validation_passed,
-        validate_validation_lanes, ErrorCode, EvidenceOutcome, ResourceProfile, ValidationLane,
-        ValidationResult,
+        validate_validation_lanes, ErrorCode, EvidenceOutcome, ExecutionReadinessOptions,
+        ResourceProfile, ValidationLane, ValidationResult,
     };
 
     fn lane(argv: &[&str]) -> ValidationLane {
@@ -3266,9 +3273,11 @@ mod tests {
             &[],
             std::slice::from_ref(&lane),
             "fail closed",
-            true,
-            false,
-            Some(std::slice::from_ref(&passed_terminal_result)),
+            ExecutionReadinessOptions {
+                owned_paths_are_valid: true,
+                allow_deferred: false,
+                terminal_validation: Some(std::slice::from_ref(&passed_terminal_result)),
+            },
         );
         assert!(!findings
             .iter()
@@ -3280,9 +3289,11 @@ mod tests {
             &[],
             std::slice::from_ref(&lane),
             "fail closed",
-            true,
-            false,
-            None,
+            ExecutionReadinessOptions {
+                owned_paths_are_valid: true,
+                allow_deferred: false,
+                terminal_validation: None,
+            },
         );
         assert!(findings_without_terminal
             .iter()
@@ -3298,9 +3309,11 @@ mod tests {
             &[],
             std::slice::from_ref(&lane),
             "fail closed",
-            true,
-            false,
-            Some(std::slice::from_ref(&failed_terminal_result)),
+            ExecutionReadinessOptions {
+                owned_paths_are_valid: true,
+                allow_deferred: false,
+                terminal_validation: Some(std::slice::from_ref(&failed_terminal_result)),
+            },
         );
         assert!(findings_with_failed_terminal
             .iter()
