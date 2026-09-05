@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3/src/commands/terminal.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
+docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md
+docs/csdlc-v3/authority-transition-disposition.json
+.csdlc/evidence/505/pre-cutover-rollback-exercise.json
+.csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json
+.csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json
+.csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json
+.csdlc/evidence/505/cutover-approval-absent-canary-output.json
+.csdlc/prepared/issues/505/validate-authority-transition-prep.rb
 
 ## Prompts
 

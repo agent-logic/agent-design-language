@@ -6,10 +6,27 @@
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "implemented",
   "generation": 66,
-  "digest": "ecbe879fe5471a2a4961e28b0ec391502ce635401234493d2877f7b34fd0c00d",
+  "digest": "a3e27a3d19c5ae651f16f8eebd0331b2738585bebf82549ac20757c9825f7599",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_505_final_findings",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:13ada4d841e0636df7dab646ff0755a54de5d9e1:23d801aaf221b7f445f321ddde6c283c36866127e8fac0735b9bbaf9a32196aa",
+    "scope": [
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "docs/csdlc-v3/authority-transition-disposition.json",
+      ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
+      ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
+      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
+      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json",
+      ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
+      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "270fbd09d23d1858e81250d613abc64a413839ee4b699b9709c9ffb5b0e9ce16",
-      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
-      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
+      "values_digest": "4cbac3dbaada88ade50d92d4fadad53ec378f0730c31ae59a452f441e8a529bf",
+      "rendered_digest": "3479daeb0f06a5d10eedb3bad4d6c33d76bc4a052d4104dcca196415c662b472",
+      "ast_digest": "34ac80498172c79b81e6d97fad09f8bca3077f5342dada92bdaf481746e6961f"
     },
     "sor": {
       "values_digest": "df0972654231d5d2a566f09e48da9d9060ac4f235055717396a9524bd7358e46",
@@ -974,6 +991,13 @@
       "actor": "worker-6",
       "reason": "Recover stale #505 review truth after replacing a hard-coded generation review evidence reference with the live review evidence anchor.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 66,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
