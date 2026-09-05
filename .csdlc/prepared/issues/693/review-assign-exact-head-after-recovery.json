@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 693,
+  "expected_generation": 15,
+  "expected_digest": "c80918433867837abe7cffa698a0ce4ee8a0a5048898e7a6d07c0faea8eddf34",
+  "reviewer": "codex:/root/a2a_reliability_fix/review_693_exact_head_after_recovery",
+  "assigned_by": "codex:/root/a2a_reliability_fix",
+  "scope": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/telemetry.rs",
+    ".csdlc/evidence/693"
+  ]
+}
