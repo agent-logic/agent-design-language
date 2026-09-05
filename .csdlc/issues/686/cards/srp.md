@@ -32,7 +32,18 @@ adl/tests/csm_runtime_v3_generation.rs
 
 ## Findings
 
-[]
+[
+  {
+    "id": "r8-p2-denominator-token-presence-overclaim",
+    "severity": "p2",
+    "summary": "The #686 denominator lane only checks loose literal token presence while the SOR claims it proves the configuration-generation handoff/recovery contract. Tighten the denominator or narrow the validation claim before publication.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -40,12 +51,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Publication remains blocked until the denominator proof/claim mismatch is fixed and freshly reviewed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9438b58bb5eb5950bb693666358c6bb4f93fdf0c:21ace91b6be9b6bc4b1b415c02c68df3d6b6e666551240bad86815eb2f65a1bd")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_686_runtime_config_generation_r8")
 
-Result: pre_review
+Result: changes_required

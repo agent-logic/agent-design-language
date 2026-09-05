@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "d6ff5ee86e224658ef3f713a2872cffa95abb59ad3e987a331b60f74b31fae44",
+  "generation": 22,
+  "digest": "e43fbf3486744f379ca46e63d592831e3ba829673ec428d4f806731a38326b60",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": {
@@ -24,7 +24,38 @@
       ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r8",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ],
+    "reviewed_revision": "git-blake3:9438b58bb5eb5950bb693666358c6bb4f93fdf0c:21ace91b6be9b6bc4b1b415c02c68df3d6b6e666551240bad86815eb2f65a1bd",
+    "findings": [
+      {
+        "id": "r8-p2-denominator-token-presence-overclaim",
+        "severity": "p2",
+        "summary": "The #686 denominator lane only checks loose literal token presence while the SOR claims it proves the configuration-generation handoff/recovery contract. Tighten the denominator or narrow the validation claim before publication.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Publication remains blocked until the denominator proof/claim mismatch is fixed and freshly reviewed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a2795225c33b8986b05313c4ae2073da97da9dbcc09ae77ff1cd76b3bc1f753f",
+      "values_digest": "48fe9d96b8d596079a60d91c74b4384441e81c2683e41186a0d521ea25d66045",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "5ea7001746417be19a0860cfb151cf1061023cb3b18151072adecbec78d20e2b",
+      "values_digest": "1cbc1d5219a55c1515931ac03a7130d09751bdd356ee13f793b221a322141c87",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "14abd79d0e559d0c0e5c9e3888f5e135839496c1b869d4bffd016019bbd862f0",
+      "values_digest": "790dcca81648af482277289556734ae3aa7ad8a3a6f5e3e063fd354c1b004dc8",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "532114186e416c0211a1c0f8ae475855b2ea0027bbe0685b428fb6885e4cfc59",
+      "values_digest": "54324dec0424356196a24787fabf0b1cb86c9ac9d3443f562a4b256d8068347e",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "3da4c8d6b96ca4e3331ab2ace08f5714e084b08cb11238955315041672afee5a",
-      "rendered_digest": "24145ea937cda1822ac3147955d9e327a74b87e4ce2b251da7d65ac5f5616a37",
-      "ast_digest": "7af6190c4b684a655e9e96ba8073976b4a7c234de40367d674560c453b66be0b"
+      "values_digest": "b289e0536459ae60a696d62e88f8ca37cefcf4607f50963b414e6550897da743",
+      "rendered_digest": "98f5abecd46c8079cd558ce087f515d9da95c1fd35b9b803f25c7c96320fb062",
+      "ast_digest": "0ffe165b7c1432dc80773c48e5353be685be25bdae1ad7120292af3908390c9d"
     },
     "sor": {
-      "values_digest": "900b3a94d3c18e5f9cae2d2497e7d06e2fadd6566bd74d0dcc14eb60377f109e",
+      "values_digest": "3c8b14a02cb02820753fe333524d1dc3b0da9efa2d85bd4efdba18531b5dd048",
       "rendered_digest": "10a04226059c24d17c3efcd534140056981bf88736ccafd7281985a167af12de",
       "ast_digest": "77c3be140502396c03c40892006f98608194ea8c03c38de6a4d776974037d9e8"
     }
@@ -337,6 +368,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:/root/issue-686",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

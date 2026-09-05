@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 21
+    "generation": 22
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:9438b58bb5eb5950bb693666358c6bb4f93fdf0c:21ace91b6be9b6bc4b1b415c02c68df3d6b6e666551240bad86815eb2f65a1bd",
+      "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r8",
       "review_prompts": [
         "Can any partial candidate or mutable file become authority without a committed receipt?",
         "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
@@ -23,9 +23,22 @@
         "Does every named failpoint recover deterministically to either the candidate commit or prior generation?",
         "Does validation avoid the live Runtime?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "r8-p2-denominator-token-presence-overclaim",
+          "severity": "p2",
+          "summary": "The #686 denominator lane only checks loose literal token presence while the SOR claims it proves the configuration-generation handoff/recovery contract. Tighten the denominator or narrow the validation claim before publication.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Publication remains blocked until the denominator proof/claim mismatch is fixed and freshly reviewed."
+      ],
+      "review_result": "changes_required"
     }
   }
 }
