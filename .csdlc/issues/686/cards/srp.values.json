@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 32
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/config_reload.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\n.csdlc/evidence/686",
-      "review_revision": "git-blake3:60db7db06a4314597d0aaa1c428f205058e1b7f5:6b5ddddc3dfc72a914ee75ee2629b78bdebd036c7ede26fbd90f4f15d7073ffa",
-      "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r12",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any partial candidate or mutable file become authority without a committed receipt?",
         "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
@@ -24,11 +24,8 @@
         "Does validation avoid the live Runtime?"
       ],
       "findings": [],
-      "residual_risk": [
-        "PR #692 still needs typed republication from the repaired branch head and hosted CI must pass at the republished head before merge.",
-        "No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

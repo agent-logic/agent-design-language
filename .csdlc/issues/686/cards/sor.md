@@ -127,11 +127,11 @@ Implemented and remediated the #686 Runtime v3 configuration-generation handoff 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

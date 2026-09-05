@@ -3,65 +3,14 @@
   "issue": 686,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
-  "phase": "published",
-  "generation": 32,
-  "digest": "4b1bedb52d903fb295ca311cd5f64a18adffa6338166a64609dcfaa645a989e8",
+  "phase": "implemented",
+  "generation": 33,
+  "digest": "cfc3e8fb2de4150b9e67377f0de80401b5f5f9f592f2d1330cbdbb96eaf56419",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r12",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:60db7db06a4314597d0aaa1c428f205058e1b7f5:6b5ddddc3dfc72a914ee75ee2629b78bdebd036c7ede26fbd90f4f15d7073ffa",
-    "scope": [
-      "adl-runtime-kernel/src/config_generation.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
-      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      ".csdlc/evidence/686"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r12",
-    "scope": [
-      "adl-runtime-kernel/src/config_generation.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
-      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      ".csdlc/evidence/686"
-    ],
-    "reviewed_revision": "git-blake3:60db7db06a4314597d0aaa1c428f205058e1b7f5:6b5ddddc3dfc72a914ee75ee2629b78bdebd036c7ede26fbd90f4f15d7073ffa",
-    "findings": [],
-    "residual_risks": [
-      "PR #692 still needs typed republication from the repaired branch head and hosted CI must pass at the republished head before merge.",
-      "No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 686,
-    "pull_request": 692,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/692",
-    "base": "main",
-    "head": "codex/686-runtime-config-generation-handoff",
-    "revision": "git-blake3:486bc815e8eb315b7775deec5ee1941a58cd2cf0:304a47fc35939c7c93785459e69961a91bca8c49a110d3018a2e19ad6ddcc1c8",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fb556188eff7199587e5d206d8d6f29a5ec3d7ad87c13d1386c0c337f35a25f4",
+      "values_digest": "ffb2b7bc96a120caa265463d7f48b60bf671cf8694074732a682858ff6139b58",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "38e544d87d5c4cce427befd63b5ddf468cec66e9e3c8e8b99561a5850bc77ad0",
+      "values_digest": "787c567d0c82a24186b6f3f291c1caf352a29f14cef5b7d197239c2ca50744dc",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "d0e0c305dfbbec1b6efc95f9a870ca0419b590beba38c717db4161c59ce53be8",
+      "values_digest": "eaf340efa03d5732f516b74154c68fc2393dc369849e9869a01cfcc30b8283ca",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "e96a8a56dccb143ec98039f5e17dad738d47c54c054670212be030e942d5021d",
+      "values_digest": "49b809bbb031c599a7aa6fffc7a70f50b0b0e4fff99fb1fd1e6e7178217d413a",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "d95956be41a4ee36cd01e40ce19931a450778fee35c94eb3d47a2c21dc0e824d",
-      "rendered_digest": "01d88919cb613360a3cc97665f0e99f202cf1006b64d8ae5ad90d249ba047015",
-      "ast_digest": "bf25bbcfb52a888599019f2fa0b1fb1037c79f64b288df7584ac19f92275fee3"
+      "values_digest": "f5edb6f112c12df20318c6c3f7bb495a7cb0ea43720f77c95e3a0b256a02deb0",
+      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
+      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "af7ac1b1eff04c74ad3bda8731c5087d48bb95317335bf3063f96a7987cb469a",
-      "rendered_digest": "ad1fb3bbaac8869ff9258feed90c4cc44af9ab1feb8aac7825343a2bfab9b7c2",
-      "ast_digest": "e8062e3dde466fc1489a927c888004c08f622cc84e4c8187881fdc61ef18613e"
+      "values_digest": "618af8e3370b78c508a3ffb49d8da57c9474438886f7c9335b838d2400c46b1f",
+      "rendered_digest": "2976172b17d48a824b969f731b7e4af8ebd1cedd7339b38fb6878f1788a0699d",
+      "ast_digest": "d46be5dcd2e9c8a2a81ea0fd7b650375f279196799799f740cbeeae0f185e7a4"
     }
   },
   "transitions": [
@@ -189,6 +138,13 @@
       "to": "published",
       "actor": "codex:/root/issue-686",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #686 after PR #692 hosted CI at republished head c211a8b4dcca498fa31dd5cf658c2cf1d0ddbc43 failed adl-coverage-runtime-hosted. Exact failures were adl-runtime::guardian_cli::guardian_cli_reports_successful_portable_child_as_json, which now fails because Guardian config-generation validation cannot read an active reference, and adl-runtime::runtime_guardian_lifecycle::guardian_cli_rejects_oversized_durations_before_spawning_the_kernel, which now fails because the fixture lacks the Runtime init schema needed by the new validation boundary. Preserve the hosted failure truth and return to implementation for a narrow test/fixture repair plus refreshed evidence and fresh review."
     }
   ],
   "audit": [
@@ -513,6 +469,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 47,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Recover #686 after PR #692 hosted CI at republished head c211a8b4dcca498fa31dd5cf658c2cf1d0ddbc43 failed adl-coverage-runtime-hosted. Exact failures were adl-runtime::guardian_cli::guardian_cli_reports_successful_portable_child_as_json, which now fails because Guardian config-generation validation cannot read an active reference, and adl-runtime::runtime_guardian_lifecycle::guardian_cli_rejects_oversized_durations_before_spawning_the_kernel, which now fails because the fixture lacks the Runtime init schema needed by the new validation boundary. Preserve the hosted failure truth and return to implementation for a narrow test/fixture repair plus refreshed evidence and fresh review.",
+      "operation": "recover_review"
     }
   ]
 }
