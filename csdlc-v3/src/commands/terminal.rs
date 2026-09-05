@@ -1000,7 +1000,20 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
         )
     })?;
     let binary_digest = blake3::hash(&binary_bytes).to_hex().to_string();
-    write_staged(&destination, &binary_bytes)?;
+    let prior_selector = fs::read(&selector).ok();
+    let prior_install = fs::read(&destination).ok();
+    let prior_selector_digest = prior_selector
+        .as_ref()
+        .map(|bytes| blake3::hash(bytes).to_hex().to_string());
+    let prior_install_digest = prior_install
+        .as_ref()
+        .map(|bytes| blake3::hash(bytes).to_hex().to_string());
+    if receipt.exists() {
+        return Err(finding(
+            "rollback_receipt_exists",
+            "cutover rollback receipt already exists and must be reconciled before retry",
+        ));
+    }
     let permissions = fs::metadata(&selected_binary)
         .map_err(|error| {
             finding(
@@ -1009,12 +1022,6 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
             )
         })?
         .permissions();
-    fs::set_permissions(&destination, permissions).map_err(|error| {
-        finding(
-            "installed_binary_permissions_failed",
-            &format!("could not apply selected binary permissions: {error}"),
-        )
-    })?;
 
     let selector_bytes = serde_json::to_vec_pretty(&serde_json::json!({
         "schema": "csdlc.authority_selector.v1",
@@ -1032,7 +1039,6 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
         "approval": request.approval
     }))
     .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
-    write_staged(&selector, &selector_bytes)?;
 
     let receipt_bytes = serde_json::to_vec_pretty(&serde_json::json!({
         "schema": "csdlc.v3.cutover_receipt.v1",
@@ -1041,6 +1047,8 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
         "installed_binary": ".adl/bin/csdlc",
         "installed_binary_digest": binary_digest,
         "authority_selector": ".csdlc/authority-selector.json",
+        "prior_selector_digest": prior_selector_digest,
+        "prior_install_digest": prior_install_digest,
         "rollback_generation": "v2",
         "rollback_selector": "csdlc-v2/operator/generation-selector.json",
         "rollback_evidence": request.rollback_evidence,
@@ -1049,12 +1057,43 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
     }))
     .map_err(|error| finding("receipt_serialize_failed", &error.to_string()))?;
     write_staged(&receipt, &receipt_bytes)?;
+    if let Err(error) = write_staged(&destination, &binary_bytes) {
+        let _ = fs::remove_file(&receipt);
+        return Err(error);
+    }
+    if let Err(error) = fs::set_permissions(&destination, permissions) {
+        let _ = restore_cutover_file(&destination, prior_install.as_deref());
+        let _ = fs::remove_file(&receipt);
+        return Err(finding(
+            "installed_binary_permissions_failed",
+            &format!("could not apply selected binary permissions: {error}"),
+        ));
+    }
+    if let Err(error) = write_staged(&selector, &selector_bytes) {
+        let _ = restore_cutover_file(&destination, prior_install.as_deref());
+        let _ = restore_cutover_file(&selector, prior_selector.as_deref());
+        let _ = fs::remove_file(&receipt);
+        return Err(error);
+    }
 
     Ok(CutoverExecution {
         authority_selector_path: selector,
         install_destination_path: destination,
         rollback_receipt_path: receipt,
     })
+}
+
+fn restore_cutover_file(path: &Path, prior: Option<&[u8]>) -> Result<(), TerminalFinding> {
+    match prior {
+        Some(bytes) => write_staged(path, bytes),
+        None if path.exists() => fs::remove_file(path).map_err(|error| {
+            finding(
+                "cutover_rollback_failed",
+                &format!("could not remove newly-created cutover file: {error}"),
+            )
+        }),
+        None => Ok(()),
+    }
 }
 
 fn repo_existing_file(
