@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      "review_revision": "git-blake3:a0bd478871b0c7c4dff59c1c8fd703e05a044ebc:5336f92aad0188439397832b76ca0b8ba3ce2b0d0f9a360b02a982345583a236",
-      "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r6",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any partial candidate or mutable file become authority without a committed receipt?",
         "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
@@ -24,10 +24,8 @@
         "Does validation avoid the live Runtime?"
       ],
       "findings": [],
-      "residual_risk": [
-        "No live Runtime service restart, cloud, paid, credential, or deployment action was performed; proof is deterministic local production-path and regression validation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
