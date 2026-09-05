@@ -1,0 +1,12 @@
+{
+  "issue": 689,
+  "base_branch": "main",
+  "branch": "codex/689-runtime-canonical-control-runbook",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook",
+  "actor": "codex:/root",
+  "adopt_existing": true,
+  "expected_generation": 6,
+  "expected_digest": "7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3",
+  "expected_head": "fe48372cba1ca53274fc41ed02ce2c1fbc05e3b1",
+  "expected_repository": "agent-logic/agent-design-language"
+}

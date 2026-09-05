@@ -1,0 +1,459 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 689,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a0087aa888361a1dd039d5ef99d929b3f7bc8a63a27294756b700ee8c37210d6",
+  "phase": "published",
+  "generation": 26,
+  "digest": "dbb2f26bf6551ca68403d1c3e1d0e772f7120502dea80e133fa58e6c96c46b1c",
+  "branch": "codex/689-runtime-canonical-control-runbook",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook",
+  "review_assignment": {
+    "reviewer": "codex:/root/review_689_fixes",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:c894872f9d653e66118432e9c3e5d3f6aac6b364:8dc3355eed6a3be05104e0cdbb083e7d9dada9c122eb24c0b7efc8f06a07a039",
+    "scope": [
+      ".csdlc/prepared/issues/689/recover-after-pr690-review-findings.json",
+      ".csdlc/prepared/issues/689/review-assign-pr690-fixes.json",
+      ".csdlc/prepared/issues/689/review-record-pr690-fixes-pass.json",
+      ".csdlc/prepared/issues/689/publish-pr690-fixes.json",
+      ".csdlc/prepared/issues/689/recover-pr690-metadata-review.json",
+      ".csdlc/prepared/issues/689/review-assign-pr690-metadata.json"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_689_fixes",
+    "scope": [
+      ".csdlc/prepared/issues/689/recover-after-pr690-review-findings.json",
+      ".csdlc/prepared/issues/689/review-assign-pr690-fixes.json",
+      ".csdlc/prepared/issues/689/review-record-pr690-fixes-pass.json",
+      ".csdlc/prepared/issues/689/publish-pr690-fixes.json",
+      ".csdlc/prepared/issues/689/recover-pr690-metadata-review.json",
+      ".csdlc/prepared/issues/689/review-assign-pr690-metadata.json"
+    ],
+    "reviewed_revision": "git-blake3:c894872f9d653e66118432e9c3e5d3f6aac6b364:8dc3355eed6a3be05104e0cdbb083e7d9dada9c122eb24c0b7efc8f06a07a039",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "The live restart validator remains intentionally unexecuted because #689 excludes live Runtime mutation."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:dbcd20d9ffb648f9638d819201d86427d188ff90:a5c3402430b4d40da9b38d72cb4f51bfa6e7468f5e8e1e0f8c1d68e56b04ae2e",
+      "to_revision": "git-blake3:c894872f9d653e66118432e9c3e5d3f6aac6b364:8dc3355eed6a3be05104e0cdbb083e7d9dada9c122eb24c0b7efc8f06a07a039",
+      "from_commit": "dbcd20d9ffb648f9638d819201d86427d188ff90",
+      "to_commit": "c894872f9d653e66118432e9c3e5d3f6aac6b364",
+      "changed_paths": [
+        ".csdlc/issues/689/audit.jsonl",
+        ".csdlc/issues/689/cards/sip.values.json",
+        ".csdlc/issues/689/cards/sor.md",
+        ".csdlc/issues/689/cards/sor.values.json",
+        ".csdlc/issues/689/cards/spp.values.json",
+        ".csdlc/issues/689/cards/srp.md",
+        ".csdlc/issues/689/cards/srp.values.json",
+        ".csdlc/issues/689/cards/stp.values.json",
+        ".csdlc/issues/689/cards/vpp.values.json",
+        ".csdlc/issues/689/index.json",
+        ".csdlc/prepared/issues/689/recover-after-pr690-review-findings.json",
+        ".csdlc/prepared/issues/689/review-assign-pr690-fixes.json",
+        ".csdlc/prepared/issues/689/review-record-pr690-fixes-pass.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 689,
+    "pull_request": 690,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/690",
+    "base": "main",
+    "head": "codex/689-runtime-canonical-control-runbook",
+    "revision": "git-blake3:c894872f9d653e66118432e9c3e5d3f6aac6b364:8dc3355eed6a3be05104e0cdbb083e7d9dada9c122eb24c0b7efc8f06a07a039",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/689/design.md",
+  "diagram_path": ".csdlc/prepared/issues/689/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:3c5e3314-34a7-41b5-bebf-8f5b73bf91b5",
+      "revision": "7069adcc2ed6664ad1582c3ea43340c842b7179f132c98a76b6098b99bee2137"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6a954e373bf5611f1c9f7a735ff1772a143e7e44a9f9f0ac6e9abc8524f1c552",
+      "rendered_digest": "b8143a9b06847f14cdad60c5a22e537498d3a8b64535b4f268f4ef2be3adcc81",
+      "ast_digest": "21f37d078ffb67354c9fb12935fbb6333963c678b0538c40e429ef75c3051601"
+    },
+    "stp": {
+      "values_digest": "657228e8b4ccc3b6fd8a550c8ce20d44999b7a11e3d49e459f8ad32890816c64",
+      "rendered_digest": "d00972b6e802960a768b67adf5326c74b60d17e413cb7ed2f15c9940e40d3ca3",
+      "ast_digest": "9d8979682230b61e5fa3da84c648a03a051da01878b88ae4ac4d577ac8aac266"
+    },
+    "spp": {
+      "values_digest": "f0bb31f4123d44656263da0812db7bfd9ad58953777509387f55c0eba1021cbc",
+      "rendered_digest": "1ce0b2bfffbcd83deb202cffe0b4cc25af4dfc8bb8c5e760ac66e64f508ad4da",
+      "ast_digest": "429985dc83b544f1b6dfc627fd79b62d784b56795886aa9b100ac5a899e84aad"
+    },
+    "vpp": {
+      "values_digest": "26fd77853493242e62396ded5c15a8a9a5595171dd72dc4d1c2a3244af64b982",
+      "rendered_digest": "ffec11c5f13af207ff4187a15afa1539f8e208648a88a690a6a4496ef2cde6cb",
+      "ast_digest": "a0105ec682e369aa2d4bd9a7af04e264afc4814114f3f1244864024dc36fd7b2"
+    },
+    "srp": {
+      "values_digest": "9b00bb260e9a6a40dfced1aa0f12614e5d8559662ec372bf088e109aacf83759",
+      "rendered_digest": "25064fa51a83c1b1c1ddbee32a0cd8bbf5def33f4718272e2fa170fe59581ba5",
+      "ast_digest": "050960af6b2174f2578c6b864d1db436b957a5a23a58ddb79b192ac23756787a"
+    },
+    "sor": {
+      "values_digest": "6d4918f426f08813fd42e69ea5478a09f3404428d6ca3537ad9cdc98c611410d",
+      "rendered_digest": "928ebf381990f8c0997aadef004b74da8e0d94e0e323668a9011e46ad75f6b17",
+      "ast_digest": "f1257a8d225906d6fc4aa2944a666a83342033024673719f741b0dd712e6708e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "advance reviewed executable design after doctor reported ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:/root",
+      "reason": "{\"actor\":\"codex:/root\",\"base_branch\":\"codex/689-bind-prep\",\"branch\":\"codex/689-runtime-canonical-control-runbook\",\"code_repository\":null,\"expected_digest\":\"7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3\",\"expected_generation\":6,\"expected_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":689,\"observed_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "bounded implementation and focused validation are complete; enter exact-head review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "recover the stale review after its tracked request metadata advanced HEAD; require a new exact-head review rather than claiming an ineligible metadata-only proof"
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "recover review and publication truth after a mechanical rustfmt repair required by exact-head CI"
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review truth after repairing all actionable PR #690 findings: retained Runtime validation now uses canonical csm runtime-v3 operations and linked-worktree guidance resolves the primary live installation."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover once for a typed metadata-only review after committing the reviewed PR #690 remediation and its lifecycle projections."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:234d3f03-026d-4f3b-96e7-54d3933297c1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"372a22943f3e24fa1d4676872bd6f7de90537c469feff265d6be49c4215b74da\",\"design_ref\":\".csdlc/prepared/issues/689/design.md\",\"diagram_digest\":\"36966b883f7d8c54c8e812c97ad43c412e33123fb8b8861b82b71ab33597ab8e\",\"diagram_ref\":\".csdlc/prepared/issues/689/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "add the exact-range diff proof required by design review",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_canonical_runtime_route.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Reuse focused Rust ownership and status tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"csm_runtime_v3_cmd\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"shell-syntax\",\"proof_role\":\"Prove legacy shell syntax remains valid.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"bash\",\"-n\",\"CSMctl\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:3c5e3314-34a7-41b5-bebf-8f5b73bf91b5",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "{\"design_digest\":\"7069adcc2ed6664ad1582c3ea43340c842b7179f132c98a76b6098b99bee2137\",\"design_ref\":\".csdlc/prepared/issues/689/design.md\",\"diagram_digest\":\"36966b883f7d8c54c8e812c97ad43c412e33123fb8b8861b82b71ab33597ab8e\",\"diagram_ref\":\".csdlc/prepared/issues/689/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "restrict owned paths to existing safe repository surfaces before binding",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"docs/tooling/START_CSM_RUNBOOK.md\",\"adl/tools/test_csmctl_linux_backend.sh\",\".csdlc/issues/689\",\".csdlc/prepared/issues/689\",\".csdlc/evidence/689\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "add the exact-range diff proof required by design review",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Reuse focused Rust ownership and status tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"csm_runtime_v3_cmd\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "advance reviewed executable design after doctor reported ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "{\"base_branch\":\"codex/689-bind-prep\",\"branch\":\"codex/689-runtime-canonical-control-runbook\",\"expected_digest\":\"7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3\",\"expected_generation\":6,\"expected_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook\"}",
+      "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "replace a zero-test Rust selector with the verified 52-test Runtime v3 service-control lane and restore explicit shell syntax proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Run the actual focused Rust ownership, convergence, status, and transactional reload tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3_cmd::tests::\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"shell-syntax\",\"proof_role\":\"Prove the retained Observatory shell interface remains syntactically valid.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"bash\",\"-n\",\"CSMctl\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "remove the separately classified non-proving shell lane because the governed route test already performs all three shell syntax checks",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove shell syntax, canonical route guidance, and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Run the actual focused Rust ownership, convergence, status, and transactional reload tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3_cmd::tests::\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "record completion of the canonical runbook implementation slice",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "record completion of the legacy refusal and Observatory separation slice",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "record validation complete with fresh exact-head review and publication still active",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "record the bounded worktree implementation and retained focused validation evidence before final review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced retired shell-controller guidance with a production operator runbook for the canonical Runtime v3 service command, made legacy Runtime shell verbs fail with repository-anchored replacement guidance, preserved Observatory-only commands, and added focused non-mutating route guards.\",\"changes\":[\"Documented the sole installed-generation Runtime control route, durable identity, preflight, state interpretation, convergent operations, transactional reload recovery, incident evidence, and post-operation checks.\",\"Rejected every retired CSMctl Runtime verb and empty invocation before configuration loading or external service commands while retaining the local Observatory interface.\",\"Anchored replacement guidance to the script repository root so invocation from another working directory remains correct.\",\"Added a focused guard for shell syntax, legacy refusal, alternate-working-directory routing, absence of service mutation, Observatory separation, and canonical runbook claims.\",\"Corrected the validation plan after proving that its original Rust selector ran zero tests.\"],\"artifacts\":[\"CSMctl\",\"adl/tools/test_csmctl_linux_backend.sh\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/evidence/689/runtime-control-routing-docs.log\",\".csdlc/evidence/689/canonical-runtime-ownership.log\",\".csdlc/evidence/689/exact-range-diff.log\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "bounded implementation and focused validation are complete; enter exact-head review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "record the bounded worktree implementation and retained focused validation evidence before final review",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Replaced retired shell-controller guidance with a production operator runbook for the canonical Runtime v3 service command, made legacy Runtime shell verbs fail with repository-anchored replacement guidance, preserved Observatory-only commands, and added focused non-mutating route guards.\",\"changes\":[\"Documented the sole installed-generation Runtime control route, durable identity, preflight, state interpretation, convergent operations, transactional reload recovery, incident evidence, and post-operation checks.\",\"Rejected every retired CSMctl Runtime verb and empty invocation before configuration loading or external service commands while retaining the local Observatory interface.\",\"Anchored replacement guidance to the script repository root so invocation from another working directory remains correct.\",\"Added a focused guard for shell syntax, legacy refusal, alternate-working-directory routing, absence of service mutation, Observatory separation, and canonical runbook claims.\",\"Corrected the validation plan after proving that its original Rust selector ran zero tests.\"],\"artifacts\":[\"CSMctl\",\"adl/tools/test_csmctl_linux_backend.sh\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/evidence/689/runtime-control-routing-docs.log\",\".csdlc/evidence/689/canonical-runtime-ownership.log\",\".csdlc/evidence/689/exact-range-diff.log\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"purpose\":\"Prove shell syntax, legacy Runtime refusal before external mutation, repository-anchored replacement guidance, and Observatory separation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/689/runtime-control-routing-docs.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3_cmd::tests::\"],\"purpose\":\"Run the actual canonical Runtime service ownership, readiness, convergence, service-manager, and transactional reload tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/689/canonical-runtime-ownership.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/689/exact-range-diff.log\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "recover the stale review after its tracked request metadata advanced HEAD; require a new exact-head review rather than claiming an ineligible metadata-only proof",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "recover review and publication truth after a mechanical rustfmt repair required by exact-head CI",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Recover review truth after repairing all actionable PR #690 findings: retained Runtime validation now uses canonical csm runtime-v3 operations and linked-worktree guidance resolves the primary live installation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Recover once for a typed metadata-only review after committing the reviewed PR #690 remediation and its lifecycle projections.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

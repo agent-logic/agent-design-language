@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 689,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
+    "slug": "runtime-canonical-service-control-runbook",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/prepared/issues/689/recover-after-pr690-review-findings.json\n.csdlc/prepared/issues/689/review-assign-pr690-fixes.json\n.csdlc/prepared/issues/689/review-record-pr690-fixes-pass.json\n.csdlc/prepared/issues/689/publish-pr690-fixes.json\n.csdlc/prepared/issues/689/recover-pr690-metadata-review.json\n.csdlc/prepared/issues/689/review-assign-pr690-metadata.json",
+      "review_revision": "git-blake3:c894872f9d653e66118432e9c3e5d3f6aac6b364:8dc3355eed6a3be05104e0cdbb083e7d9dada9c122eb24c0b7efc8f06a07a039",
+      "reviewer": "codex:/root/review_689_fixes",
+      "review_prompts": [
+        "Does any documentation still present the legacy service root or label as permanent authority?",
+        "Can any legacy Runtime verb still report pass?",
+        "Are Observatory-only commands preserved?",
+        "Do tests avoid launchctl and live ports?",
+        "Is the solution a simple routing correction rather than a second controller?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Hosted CI remains the final integration gate before merge.",
+        "The live restart validator remains intentionally unexecuted because #689 excludes live Runtime mutation."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
