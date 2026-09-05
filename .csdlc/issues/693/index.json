@@ -3,54 +3,14 @@
   "issue": 693,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
-  "phase": "published",
-  "generation": 29,
-  "digest": "fa6ae14e6ed8d3fc0e26c1511b90da1606bafc06dd045ed6f09cd709be74a671",
+  "phase": "implemented",
+  "generation": 32,
+  "digest": "da89f6bb06cee9288c23c491833b89780d6ffbf62b55b223f038924646bcaef5",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
-  "review_assignment": {
-    "reviewer": "codex:/root/issue_693_post_authority_fix_review",
-    "assigned_by": "codex:/root/a2a_reliability_fix",
-    "revision": "git-blake3:4f7c93031f33a68384072d10d601f6638cec58a9:b9f6f2125d1eeb55d1c84a29318a310f2eb64d0b2dc3729597f55d6a878e1165",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693",
-      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
-      "adl-runtime-kernel/tests/production_acip_wss.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/issue_693_post_authority_fix_review",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693",
-      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
-      "adl-runtime-kernel/tests/production_acip_wss.rs"
-    ],
-    "reviewed_revision": "git-blake3:4f7c93031f33a68384072d10d601f6638cec58a9:b9f6f2125d1eeb55d1c84a29318a310f2eb64d0b2dc3729597f55d6a878e1165",
-    "findings": [],
-    "residual_risks": [
-      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 693,
-    "pull_request": 696,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/696",
-    "base": "main",
-    "head": "codex/693-runtime-a2a-action-selection-reliability",
-    "revision": "git-blake3:4f7c93031f33a68384072d10d601f6638cec58a9:b9f6f2125d1eeb55d1c84a29318a310f2eb64d0b2dc3729597f55d6a878e1165",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f3016756dfdee0a1a6f1b61d0d102a31018ca9f2c511f639bfef7a9f6f6010ee",
+      "values_digest": "b029d9224df73e9e71274ce01a330d1b8a7bc2bcb6359ab44b3f6cf996befb2b",
       "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
       "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
     },
     "stp": {
-      "values_digest": "071c02916fc562e8218663539df9457342ec293d87115493fa8233171e5eb894",
+      "values_digest": "1034a93d29cf8ee84c654e4881a2f21f7551d3b60ec17a5849c0020c5bc2827d",
       "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
       "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
     },
     "spp": {
-      "values_digest": "15045d593529f00c7e212a563db00ef98cfe0db99b68b586b91c818318233360",
+      "values_digest": "ef94f2c1ab11507d0857d00ab3adf181f1a5343f58fcd07ad2ed4d46ccf9ca9d",
       "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
       "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
     },
     "vpp": {
-      "values_digest": "38cc98ed09986397abfc949b2d4f48dc9ca0cf45fd1d4f25b18264e3dd8a7c9a",
+      "values_digest": "843a103e427915854f59ccd6c29434fc00ce761b469e339781f3a7d5679fbbed",
       "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "c52349739d7a23987ce0ae06ee2fbb09c524f1196b2f8dc12659c201d093be33",
-      "rendered_digest": "b1d2453e8d2826f080ff958dae50def8a458c6d1dad9100faf881692e48abef1",
-      "ast_digest": "dd5243971450f91a1df0f35d6bb633c2c0b9b2aacb1eff27044587b073674c03"
+      "values_digest": "07275a6960bd48702a6b89d4f7175e20dc0cfa54d875f1cec1c42c5fb62b0715",
+      "rendered_digest": "f3f6c84a334746e94a66f7ce70a6b222a6a3a4637181835ca46b53914e45ed69",
+      "ast_digest": "c369b67c3e739bbdd33cebc1b450d7a49b1157f68488af9fbb740436d7dc48b8"
     },
     "sor": {
-      "values_digest": "e9365357dd3a76dba16ad32f418595266f3315745f52ff33cc7de1d78b0b2ce9",
-      "rendered_digest": "23dbf25553e8ff3e380629abe8a5580a624a0f64f237d17ab245f871bd8a56fa",
-      "ast_digest": "469d3b1467f00aa6dff5a36bbfccc5fadb0e68eef854f971e5582cbd5dcbd1e2"
+      "values_digest": "14f683dece9882122421c458e9b9cf7dc184cc8d6892ebe6a82ff07efc33e395",
+      "rendered_digest": "b2206318bf138894ff5a6ffb79afe9972d412870278ae931fed478473c4428cb",
+      "ast_digest": "5da6522b01fe27eeda28d175e48014b5442ace57c2c2cd41611dfc4c513aa850"
     }
   },
   "transitions": [
@@ -241,6 +201,13 @@
       "to": "published",
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 22,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover stale review and publication truth after PR #696 exact-head review found public Observatory WebSocket agent-initiation sender impersonation requiring a substantive authority fix"
     }
   ],
   "audit": [
@@ -530,6 +497,27 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 30,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover stale review and publication truth after PR #696 exact-head review found public Observatory WebSocket agent-initiation sender impersonation requiring a substantive authority fix",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 31,
+      "actor": "codex:/root/issue-693",
+      "reason": "Reconcile SOR execution truth after exact-head review found public Observatory WebSocket agent-initiation sender impersonation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Runtime-owned model-backed A2A selection through provider-native tool calls, with governed dispatch, sender-bound Layer8 authority for runtime-internal resident A2A, public raw A2A initiation fail-closed, distinct initiating and recipient results, correlated completion observability, safe ordinary-reply fallback when a model rejects tools, and CI-compatible config-generation receipt setup for production-style Runtime v3 subprocess tests.\",\"changes\":[\"Replaced prompt-dependent exact JSON action selection with an Ollama-native initiate_agent tool contract normalized into the existing governed Runtime initiation intent.\",\"Kept Runtime authoritative for identifiers, admission, Layer8 dispatch, replay, cancellation, and terminal outcomes; malformed, unknown, or ambiguous actions fail closed.\",\"Preserved Beacon's operator-facing reply independently from Ember's provider result and emitted a separately correlated agent_to_agent_completed Runtime event.\",\"Exposed Ember's provider-generated output as the distinct initiated_reply field on the authoritative conversation result, while retaining Beacon's reply unchanged.\",\"Emitted agent_to_agent_initiated when governed dispatch is accepted, agent_to_agent_completed only after delivery, and agent_to_agent_failed for terminal non-delivery outcomes.\",\"Added bounded fallback to ordinary Ollama generation for 400/404 tool-unsupported responses without inferring or dispatching A2A.\",\"Added an isolated production-ingress Beacon-to-Ember acceptance using native provider tool output, real governed recipient execution, and correlated initiation/completion observation.\",\"Provisioned Runtime v3 configuration-generation environment in guardian soak subprocess tests so PR CI exercises the real configured runtime entrypoint.\",\"Bound runtime-internal A2A initiation to the active Layer8 signed exchange sender identity and added a mismatch regression so one resident's signer cannot authorize another resident as sender.\",\"Separated public Observatory WebSocket raw agent-initiation input from Runtime-internal model-selected A2A by refusing public payloads with agent_initiation_requires_runtime_authority unless a future verifiable per-agent authority envelope exists.\",\"Added direct configured-signer and authenticated production Observatory WebSocket regressions proving a bearer-token client cannot impersonate the configured resident sender by supplying sender_id.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\".csdlc/evidence/693/ci-red-remediation.md\",\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\",\".csdlc/evidence/693/review-finding-remediation.md\",\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\",\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"agent_to_agent_\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Runtime-owned A2A action selection, runtime-internal resident-pair communication with sender-bound Layer8 authority, mismatch refusal, recipient delivery, and correlated observability.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\",\"observatory_websocket_rejects_public_agent_initiation_sender_impersonation\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the authenticated production Observatory WebSocket path refuses raw public A2A sender impersonation instead of dispatching recipient work.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"guardian_soak\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the CI-red guardian soak subprocess lane after provisioning runtime configuration generation for the real serve entrypoint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"provider_conversation\"],\"purpose\":\"Prove provider action normalization, failure behavior, and unsupported-tools ordinary-reply fallback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/ci-red-remediation.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"}]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 32,
+      "actor": "codex:/root/issue-693",
+      "reason": "Reconcile SOR execution truth after exact-head review found public Observatory WebSocket agent-initiation sender impersonation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Runtime-owned model-backed A2A selection through provider-native tool calls, with governed dispatch, sender-bound Layer8 authority for runtime-internal resident A2A, public raw A2A initiation fail-closed, distinct initiating and recipient results, correlated completion observability, safe ordinary-reply fallback when a model rejects tools, and CI-compatible config-generation receipt setup for production-style Runtime v3 subprocess tests.\",\"changes\":[\"Replaced prompt-dependent exact JSON action selection with an Ollama-native initiate_agent tool contract normalized into the existing governed Runtime initiation intent.\",\"Kept Runtime authoritative for identifiers, admission, Layer8 dispatch, replay, cancellation, and terminal outcomes; malformed, unknown, or ambiguous actions fail closed.\",\"Preserved Beacon's operator-facing reply independently from Ember's provider result and emitted a separately correlated agent_to_agent_completed Runtime event.\",\"Exposed Ember's provider-generated output as the distinct initiated_reply field on the authoritative conversation result, while retaining Beacon's reply unchanged.\",\"Emitted agent_to_agent_initiated when governed dispatch is accepted, agent_to_agent_completed only after delivery, and agent_to_agent_failed for terminal non-delivery outcomes.\",\"Added bounded fallback to ordinary Ollama generation for 400/404 tool-unsupported responses without inferring or dispatching A2A.\",\"Added an isolated production-ingress Beacon-to-Ember acceptance using native provider tool output, real governed recipient execution, and correlated initiation/completion observation.\",\"Provisioned Runtime v3 configuration-generation environment in guardian soak subprocess tests so PR CI exercises the real configured runtime entrypoint.\",\"Bound runtime-internal A2A initiation to the active Layer8 signed exchange sender identity and added a mismatch regression so one resident's signer cannot authorize another resident as sender.\",\"Separated public Observatory WebSocket raw agent-initiation input from Runtime-internal model-selected A2A by refusing public payloads with agent_initiation_requires_runtime_authority unless a future verifiable per-agent authority envelope exists.\",\"Added direct configured-signer and authenticated production Observatory WebSocket regressions proving a bearer-token client cannot impersonate the configured resident sender by supplying sender_id.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\".csdlc/evidence/693/ci-red-remediation.md\",\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\",\".csdlc/evidence/693/review-finding-remediation.md\",\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\",\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"agent_to_agent_\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Runtime-owned A2A action selection, runtime-internal resident-pair communication with sender-bound Layer8 authority, mismatch refusal, recipient delivery, and correlated observability.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\",\"observatory_websocket_rejects_public_agent_initiation_sender_impersonation\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the authenticated production Observatory WebSocket path refuses raw public A2A sender impersonation instead of dispatching recipient work.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Prove the full Runtime kernel lane after the public/raw A2A initiation authority split.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"guardian_soak\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the CI-red guardian soak subprocess lane after provisioning runtime configuration generation for the real serve entrypoint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"provider_conversation\"],\"purpose\":\"Prove provider action normalization, failure behavior, and unsupported-tools ordinary-reply fallback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/ci-red-remediation.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"693\"],\"purpose\":\"Validate typed C-SDLC issue state after the public A2A impersonation remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/public-a2a-impersonation-remediation.md\"}]}"
     }
   ]
 }

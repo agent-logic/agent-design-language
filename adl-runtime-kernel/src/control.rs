@@ -1293,7 +1293,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         intent: &ObservatoryAgentInitiationIntent,
     ) -> ConversationAcceptance {
-        self.accept_agent_initiation_intent_inner(intent, true)
+        self.refuse_public_agent_initiation_intent(
+            intent,
+            "agent_initiation_requires_runtime_authority",
+        )
     }
 
     fn accept_runtime_agent_initiation_intent(
@@ -1398,6 +1401,34 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             );
         }
         accepted
+    }
+
+    fn refuse_public_agent_initiation_intent(
+        &self,
+        intent: &ObservatoryAgentInitiationIntent,
+        error: &'static str,
+    ) -> ConversationAcceptance {
+        ConversationAcceptance::Response(ObservatoryConversationResult::from_parts(
+            ObservatoryConversationResultParts {
+                status: "refused",
+                conversation_id: intent.conversation_id.clone(),
+                turn_id: intent.turn_id.clone(),
+                recipient_id: intent.recipient_id.clone(),
+                correlation_id: intent.correlation_id.clone(),
+                reply: None,
+                accepted_sequence: None,
+                turn_sequence: None,
+                error: Some(error),
+                initiation: Some(AgentInitiationMetadata {
+                    sender_id: intent.sender_id.clone(),
+                    initiated_recipient_id: intent.recipient_id.clone(),
+                    initiated_conversation_id: intent.conversation_id.clone(),
+                    initiated_turn_id: intent.turn_id.clone(),
+                    initiated_correlation_id: intent.correlation_id.clone(),
+                    initiated_work_id: intent.work_id.clone(),
+                }),
+            },
+        ))
     }
 
     fn accept_conversation_intent_inner(
@@ -4359,26 +4390,9 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryAgentInitiationIntent>(&payload) {
                         let result = if bearer_token.is_none() {
-                            ConversationAcceptance::Response(
-                                ObservatoryConversationResult::from_parts(ObservatoryConversationResultParts {
-                                    status: "refused",
-                                    conversation_id: intent.conversation_id.clone(),
-                                    turn_id: intent.turn_id.clone(),
-                                    recipient_id: intent.recipient_id.clone(),
-                                    correlation_id: intent.correlation_id.clone(),
-                                    reply: None,
-                                    accepted_sequence: None,
-                                    turn_sequence: None,
-                                    error: Some("write_authentication_required"),
-                                    initiation: Some(AgentInitiationMetadata {
-                                        sender_id: intent.sender_id.clone(),
-                                        initiated_recipient_id: intent.recipient_id.clone(),
-                                        initiated_conversation_id: intent.conversation_id.clone(),
-                                        initiated_turn_id: intent.turn_id.clone(),
-                                        initiated_correlation_id: intent.correlation_id.clone(),
-                                        initiated_work_id: intent.work_id.clone(),
-                                    }),
-                                }),
+                            service.refuse_public_agent_initiation_intent(
+                                &intent,
+                                "write_authentication_required",
                             )
                         } else {
                             service.accept_agent_initiation_intent(&intent)
@@ -5925,9 +5939,9 @@ mod layer8_conversation_ingress_tests {
     async fn agent_to_agent_initiation_delivers_configured_provider_work_and_activity() {
         let (service, kernel, recorder, observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
-        let accepted = match service
-            .accept_agent_initiation_intent(&agent_initiation_intent("turn-a2a", "a2a-work-001"))
-        {
+        let accepted = match service.accept_runtime_agent_initiation_intent(
+            &agent_initiation_intent("turn-a2a", "a2a-work-001"),
+        ) {
             ConversationAcceptance::Dispatch { accepted, dispatch } => {
                 assert_eq!(dispatch.work_id, "a2a-work-001");
                 let delivered = service.complete_conversation_dispatch(dispatch).await;
@@ -6275,11 +6289,43 @@ mod layer8_conversation_ingress_tests {
     }
 
     #[tokio::test]
+    async fn agent_to_agent_public_initiation_rejects_configured_sender_impersonation() {
+        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+            agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
+                .await;
+        let refused = match service.accept_agent_initiation_intent(&agent_pair_initiation_intent(
+            "beacon",
+            "ember",
+            "turn-public-beacon-ember",
+            "00000000000000000000000000000002",
+            "a2a-work-public-beacon-ember",
+        )) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => {
+                panic!("public A2A initiation dispatched with only caller-supplied sender_id")
+            }
+        };
+        assert_eq!(refused.status, "refused");
+        assert_eq!(
+            refused.error,
+            Some("agent_initiation_requires_runtime_authority")
+        );
+        assert!(
+            observed_tasks
+                .lock()
+                .expect("observed task mutex poisoned")
+                .is_empty(),
+            "public sender impersonation must not enqueue recipient work"
+        );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
     async fn agent_to_agent_initiation_replay_and_conflict_are_explicit() {
         let (service, kernel, _recorder, observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
         let intent = agent_initiation_intent("turn-a2a-replay", "a2a-work-replay");
-        let dispatch = match service.accept_agent_initiation_intent(&intent) {
+        let dispatch = match service.accept_runtime_agent_initiation_intent(&intent) {
             ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
             ConversationAcceptance::Response(response) => {
                 panic!("agent initiation refused: {:?}", response.error)
@@ -6288,7 +6334,7 @@ mod layer8_conversation_ingress_tests {
         let delivered = service.complete_conversation_dispatch(dispatch).await;
         assert_eq!(delivered.status, "delivered");
 
-        let replay = match service.accept_agent_initiation_intent(&intent) {
+        let replay = match service.accept_runtime_agent_initiation_intent(&intent) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("exact replay dispatched again"),
         };
@@ -6298,7 +6344,7 @@ mod layer8_conversation_ingress_tests {
 
         let mut conflict = intent;
         conflict.work_id = "a2a-work-conflict".to_owned();
-        let conflict = match service.accept_agent_initiation_intent(&conflict) {
+        let conflict = match service.accept_runtime_agent_initiation_intent(&conflict) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("conflicting replay dispatched"),
         };
@@ -6313,7 +6359,7 @@ mod layer8_conversation_ingress_tests {
             agent_initiation_service(false, Duration::from_millis(75)).await;
         let mut unauthorized = agent_initiation_intent("turn-a2a-unauthorized", "a2a-work-unauth");
         unauthorized.sender_id = "unknown-beacon".to_owned();
-        let refused = match service.accept_agent_initiation_intent(&unauthorized) {
+        let refused = match service.accept_runtime_agent_initiation_intent(&unauthorized) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("unauthorized sender dispatched"),
         };
@@ -6322,7 +6368,7 @@ mod layer8_conversation_ingress_tests {
 
         let mut forged_sender = agent_initiation_intent("turn-a2a-forged", "a2a-work-forged");
         forged_sender.sender_id = "scribe".to_owned();
-        let refused = match service.accept_agent_initiation_intent(&forged_sender) {
+        let refused = match service.accept_runtime_agent_initiation_intent(&forged_sender) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("forged sender dispatched"),
         };
@@ -6331,7 +6377,7 @@ mod layer8_conversation_ingress_tests {
 
         let mut missing_recipient = agent_initiation_intent("turn-a2a-missing", "a2a-work-missing");
         missing_recipient.recipient_id = "missing-ember".to_owned();
-        let missing = match service.accept_agent_initiation_intent(&missing_recipient) {
+        let missing = match service.accept_runtime_agent_initiation_intent(&missing_recipient) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("missing recipient dispatched"),
         };
@@ -6341,7 +6387,7 @@ mod layer8_conversation_ingress_tests {
         service
             .recorder
             .set_component_state(ComponentId::new("ember"), RunningState::Degraded);
-        let stale = match service.accept_agent_initiation_intent(&agent_initiation_intent(
+        let stale = match service.accept_runtime_agent_initiation_intent(&agent_initiation_intent(
             "turn-a2a-stale",
             "a2a-work-stale",
         )) {
@@ -6354,10 +6400,9 @@ mod layer8_conversation_ingress_tests {
             .recorder
             .set_component_state(ComponentId::new("ember"), RunningState::Running);
 
-        let dispatch = match service.accept_agent_initiation_intent(&agent_initiation_intent(
-            "turn-a2a-cancel",
-            "a2a-work-cancel",
-        )) {
+        let dispatch = match service.accept_runtime_agent_initiation_intent(
+            &agent_initiation_intent("turn-a2a-cancel", "a2a-work-cancel"),
+        ) {
             ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
             ConversationAcceptance::Response(response) => {
                 panic!("agent initiation refused: {:?}", response.error)
@@ -6382,10 +6427,9 @@ mod layer8_conversation_ingress_tests {
 
         let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(true, Duration::ZERO).await;
-        let dispatch = match service.accept_agent_initiation_intent(&agent_initiation_intent(
-            "turn-a2a-provider-fail",
-            "a2a-work-provider-fail",
-        )) {
+        let dispatch = match service.accept_runtime_agent_initiation_intent(
+            &agent_initiation_intent("turn-a2a-provider-fail", "a2a-work-provider-fail"),
+        ) {
             ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
             ConversationAcceptance::Response(response) => {
                 panic!("agent initiation refused: {:?}", response.error)
