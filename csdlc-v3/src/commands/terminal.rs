@@ -1056,11 +1056,6 @@ fn decide_cutover(
         ("missing_operator", "operator", &request.operator),
         ("missing_operator_approval", "approval", &request.approval),
         (
-            "missing_binary_provenance",
-            "selected binary provenance",
-            &request.selected_binary_provenance,
-        ),
-        (
             "missing_rollback_evidence",
             "rollback evidence",
             &request.rollback_evidence,
@@ -1078,6 +1073,14 @@ fn decide_cutover(
             ));
         }
     }
+    if request.operation == CutoverOperation::Apply
+        && request.selected_binary_provenance.trim().is_empty()
+    {
+        findings.push(finding(
+            "missing_binary_provenance",
+            "cutover decision requires explicit selected binary provenance",
+        ));
+    }
     if !request.approval.contains("#505") {
         findings.push(finding(
             "missing_505_approval",
@@ -1093,6 +1096,7 @@ fn decide_cutover(
     if !request.execute {
         if findings.is_empty() {
             return Ok(CutoverDecision {
+                operation: request.operation,
                 approved_by: request.operator.clone(),
                 selected_binary_provenance: request.selected_binary_provenance.clone(),
                 rollback_evidence: request.rollback_evidence.clone(),
@@ -1113,27 +1117,72 @@ fn decide_cutover(
             return Err(findings);
         }
     };
-
-    if findings.is_empty() {
-        Ok(CutoverDecision {
-            approved_by: request.operator.clone(),
-            selected_binary_provenance: request.selected_binary_provenance.clone(),
-            rollback_evidence: request.rollback_evidence.clone(),
-            undo_boundary: request.undo_boundary.clone(),
-            executes_cutover: true,
-            authority_selector_path: Some(execution.authority_selector_path),
-            install_destination_path: Some(execution.install_destination_path),
-            rollback_receipt_path: Some(execution.rollback_receipt_path),
-        })
-    } else {
-        Err(findings)
-    }
+    Ok(CutoverDecision {
+        operation: request.operation,
+        approved_by: request.operator.clone(),
+        selected_binary_provenance: request.selected_binary_provenance.clone(),
+        rollback_evidence: request.rollback_evidence.clone(),
+        undo_boundary: request.undo_boundary.clone(),
+        executes_cutover: request.operation == CutoverOperation::Apply,
+        authority_selector_path: Some(execution.authority_selector_path),
+        install_destination_path: Some(execution.install_destination_path),
+        rollback_receipt_path: Some(execution.rollback_receipt_path),
+    })
 }
 
 struct CutoverExecution {
     authority_selector_path: PathBuf,
     install_destination_path: PathBuf,
     rollback_receipt_path: PathBuf,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+enum CutoverPhase {
+    Prepared,
+    BinaryInstalled,
+    Committed,
+    RolledBack,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+struct CutoverReceipt {
+    schema: String,
+    authority_issue: u64,
+    phase: CutoverPhase,
+    selected_revision: String,
+    selected_binary_digest: String,
+    readiness_evidence_path: PathBuf,
+    readiness_evidence_digest: String,
+    canonical_selector: PathBuf,
+    prior_selector: Vec<u8>,
+    prior_selector_digest: String,
+    cutover_selector_digest: String,
+    approved_by: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct AuthorityReadinessEvidence {
+    schema: String,
+    authority_issue: u64,
+    selected_binary_digest: String,
+    selected_revision: String,
+    route_proofs: BTreeMap<String, ImmutableProofRef>,
+    canary_proof: ImmutableProofRef,
+    review_proof: ImmutableProofRef,
+}
+
+#[derive(Debug, Deserialize)]
+struct ImmutableProofRef {
+    path: PathBuf,
+    digest: String,
+    revision: String,
+}
+
+struct VerifiedCutoverReadiness {
+    selected_revision: String,
+    evidence_path: PathBuf,
+    evidence_digest: String,
 }
 
 fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution, TerminalFinding> {
@@ -1159,13 +1208,6 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
             "executing cutover requires a repository checkout root",
         ));
     }
-    let selected_binary = repo_existing_file(
-        &repository_root,
-        request.selected_binary_path.as_ref(),
-        "missing_selected_binary_path",
-        "executing cutover requires an explicit selected binary path",
-        "selected_binary",
-    )?;
     let selector = repo_output_path(
         &repository_root,
         request.authority_selector_path.as_ref(),
@@ -1193,10 +1235,10 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
             "cutover installs only the stable repo-local .adl/bin/csdlc binary",
         ));
     }
-    if selector != repository_root.join(".csdlc/authority-selector.json") {
+    if selector != repository_root.join("csdlc-v2/operator/generation-selector.json") {
         return Err(finding(
             "authority_selector_not_canonical",
-            "cutover writes only .csdlc/authority-selector.json",
+            "cutover writes only csdlc-v2/operator/generation-selector.json",
         ));
     }
     if !receipt.starts_with(repository_root.join(".csdlc/evidence/505")) {
@@ -1205,7 +1247,17 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
             "cutover rollback receipt must live under .csdlc/evidence/505",
         ));
     }
+    if request.operation == CutoverOperation::Rollback {
+        return execute_rollback(request, selector, destination, receipt);
+    }
 
+    let selected_binary = repo_existing_file(
+        &repository_root,
+        request.selected_binary_path.as_ref(),
+        "missing_selected_binary_path",
+        "executing cutover requires an explicit selected binary path",
+        "selected_binary",
+    )?;
     let binary_bytes = fs::read(&selected_binary).map_err(|error| {
         finding(
             "selected_binary_unreadable",
@@ -1213,21 +1265,7 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
         )
     })?;
     let binary_digest = blake3::hash(&binary_bytes).to_hex().to_string();
-    let prior_selector = fs::read(&selector).ok();
-    let prior_install = fs::read(&destination).ok();
-    let prior_selector_digest = prior_selector
-        .as_ref()
-        .map(|bytes| blake3::hash(bytes).to_hex().to_string());
-    let prior_install_digest = prior_install
-        .as_ref()
-        .map(|bytes| blake3::hash(bytes).to_hex().to_string());
-    if receipt.exists() {
-        return Err(finding(
-            "rollback_receipt_exists",
-            "cutover rollback receipt already exists and must be reconciled before retry",
-        ));
-    }
-    verify_cutover_readiness(request, &repository_root, &binary_digest)?;
+    let readiness = verify_cutover_readiness(request, &repository_root, &binary_digest)?;
     let permissions = fs::metadata(&selected_binary)
         .map_err(|error| {
             finding(
@@ -1237,59 +1275,175 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
         })?
         .permissions();
 
-    let selector_bytes = serde_json::to_vec_pretty(&serde_json::json!({
-        "schema": "csdlc.authority_selector.v1",
-        "authority_issue": 505,
-        "default_generation": "v3",
-        "operational_authority": "csdlc-v3",
-        "binary": ".adl/bin/csdlc",
-        "selected_binary_provenance": request.selected_binary_provenance,
-        "selected_binary_digest": binary_digest,
-        "rollback_generation": "v2",
-        "rollback_selector": "csdlc-v2/operator/generation-selector.json",
-        "rollback_evidence": request.rollback_evidence,
-        "undo_boundary": request.undo_boundary,
-        "approved_by": request.operator,
-        "approval": request.approval
-    }))
-    .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
-
-    let receipt_bytes = serde_json::to_vec_pretty(&serde_json::json!({
-        "schema": "csdlc.v3.cutover_receipt.v1",
-        "authority_issue": 505,
-        "performed_mutation": true,
-        "installed_binary": ".adl/bin/csdlc",
-        "installed_binary_digest": binary_digest,
-        "authority_selector": ".csdlc/authority-selector.json",
-        "prior_selector_digest": prior_selector_digest,
-        "prior_install_digest": prior_install_digest,
-        "rollback_generation": "v2",
-        "rollback_selector": "csdlc-v2/operator/generation-selector.json",
-        "rollback_evidence": request.rollback_evidence,
-        "undo_boundary": request.undo_boundary,
-        "approved_by": request.operator
-    }))
-    .map_err(|error| finding("receipt_serialize_failed", &error.to_string()))?;
-    write_staged(&receipt, &receipt_bytes)?;
-    if let Err(error) = write_staged(&destination, &binary_bytes) {
-        let _ = fs::remove_file(&receipt);
-        return Err(error);
-    }
-    if let Err(error) = fs::set_permissions(&destination, permissions) {
-        let _ = restore_cutover_file(&destination, prior_install.as_deref());
-        let _ = fs::remove_file(&receipt);
+    let mut journal = if receipt.exists() {
+        read_cutover_receipt(&receipt)?
+    } else {
+        if destination.exists() {
+            return Err(finding(
+                "install_destination_preexists",
+                "initial cutover requires the stable v3 binary destination to be absent",
+            ));
+        }
+        let prior_selector = fs::read(&selector).map_err(|error| {
+            finding(
+                "canonical_selector_unreadable",
+                &format!("canonical generation selector must be readable: {error}"),
+            )
+        })?;
+        let mut selector_value: serde_json::Value = serde_json::from_slice(&prior_selector)
+            .map_err(|_| {
+                finding(
+                    "canonical_selector_invalid",
+                    "canonical generation selector must be typed JSON",
+                )
+            })?;
+        if selector_value["schema"] != "csdlc.generation_selector.v1"
+            || selector_value["default_generation"] == "v3"
+        {
+            return Err(finding(
+                "canonical_selector_not_pre_cutover",
+                "initial cutover requires the canonical v1-schema selector to be pre-v3",
+            ));
+        }
+        selector_value["default_generation"] = serde_json::Value::String("v3".into());
+        let selector_bytes = serde_json::to_vec_pretty(&selector_value)
+            .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
+        let journal = CutoverReceipt {
+            schema: "csdlc.v3.cutover_receipt.v2".into(),
+            authority_issue: 505,
+            phase: CutoverPhase::Prepared,
+            selected_revision: readiness.selected_revision.clone(),
+            selected_binary_digest: binary_digest.clone(),
+            readiness_evidence_path: readiness.evidence_path.clone(),
+            readiness_evidence_digest: readiness.evidence_digest.clone(),
+            canonical_selector: PathBuf::from("csdlc-v2/operator/generation-selector.json"),
+            prior_selector_digest: blake3::hash(&prior_selector).to_hex().to_string(),
+            cutover_selector_digest: blake3::hash(&selector_bytes).to_hex().to_string(),
+            prior_selector,
+            approved_by: request.operator.clone(),
+        };
+        write_cutover_receipt(&receipt, &journal)?;
+        journal
+    };
+    validate_cutover_journal(request, &journal, &binary_digest, &readiness)?;
+    if journal.phase == CutoverPhase::RolledBack {
         return Err(finding(
-            "installed_binary_permissions_failed",
-            &format!("could not apply selected binary permissions: {error}"),
+            "cutover_already_rolled_back",
+            "a rolled-back cutover receipt cannot be reused for a new authority transition",
         ));
     }
-    if let Err(error) = write_staged(&selector, &selector_bytes) {
-        let _ = restore_cutover_file(&destination, prior_install.as_deref());
-        let _ = restore_cutover_file(&selector, prior_selector.as_deref());
-        let _ = fs::remove_file(&receipt);
-        return Err(error);
+    let selector_bytes = selector_bytes_from_journal(&journal)?;
+    let selector_digest = digest_file(&selector)?;
+    let binary_state = optional_regular_file_digest(&destination)?;
+    if selector_digest != journal.prior_selector_digest
+        && selector_digest != journal.cutover_selector_digest
+    {
+        return Err(finding(
+            "cutover_selector_stale_digest",
+            "canonical selector differs from both the retained preimage and intended v3 selector",
+        ));
     }
+    if binary_state
+        .as_deref()
+        .is_some_and(|digest| digest != journal.selected_binary_digest)
+    {
+        return Err(finding(
+            "cutover_binary_stale_digest",
+            "stable v3 binary differs from the selected binary digest",
+        ));
+    }
+    if selector_digest == journal.cutover_selector_digest && binary_state.is_none() {
+        return Err(finding(
+            "cutover_split_authority",
+            "canonical selector activates v3 while the selected stable binary is absent",
+        ));
+    }
+    if binary_state.is_none() {
+        write_staged(&destination, &binary_bytes)?;
+        fs::set_permissions(&destination, permissions).map_err(|error| {
+            finding(
+                "installed_binary_permissions_failed",
+                &format!("could not apply selected binary permissions: {error}"),
+            )
+        })?;
+        journal.phase = CutoverPhase::BinaryInstalled;
+        write_cutover_receipt(&receipt, &journal)?;
+    }
+    if selector_digest == journal.prior_selector_digest {
+        write_staged(&selector, &selector_bytes)?;
+    }
+    journal.phase = CutoverPhase::Committed;
+    write_cutover_receipt(&receipt, &journal)?;
+    Ok(CutoverExecution {
+        authority_selector_path: selector,
+        install_destination_path: destination,
+        rollback_receipt_path: receipt,
+    })
+}
 
+fn execute_rollback(
+    request: &CutoverDecisionRequest,
+    selector: PathBuf,
+    destination: PathBuf,
+    receipt: PathBuf,
+) -> Result<CutoverExecution, TerminalFinding> {
+    if !receipt.exists() {
+        return Err(finding(
+            "rollback_receipt_missing",
+            "post-success rollback requires the durable cutover receipt",
+        ));
+    }
+    let mut journal = read_cutover_receipt(&receipt)?;
+    if journal.schema != "csdlc.v3.cutover_receipt.v2"
+        || journal.authority_issue != 505
+        || journal.canonical_selector
+            != PathBuf::from("csdlc-v2/operator/generation-selector.json")
+        || (!request.selected_binary_provenance.is_empty()
+            && request.selected_binary_provenance != format!("git:{}", journal.selected_revision))
+    {
+        return Err(finding(
+            "rollback_receipt_mismatch",
+            "rollback request does not match the typed #505 cutover receipt",
+        ));
+    }
+    let selector_digest = digest_file(&selector)?;
+    if selector_digest != journal.prior_selector_digest
+        && selector_digest != journal.cutover_selector_digest
+    {
+        return Err(finding(
+            "rollback_selector_stale_digest",
+            "rollback refuses a canonical selector that differs from both retained states",
+        ));
+    }
+    let binary_state = optional_regular_file_digest(&destination)?;
+    if binary_state
+        .as_deref()
+        .is_some_and(|digest| digest != journal.selected_binary_digest)
+    {
+        return Err(finding(
+            "rollback_binary_stale_digest",
+            "rollback refuses to remove a stable binary with an unexpected digest",
+        ));
+    }
+    if selector_digest == journal.cutover_selector_digest {
+        write_staged(&selector, &journal.prior_selector)?;
+    }
+    if destination.exists() {
+        fs::remove_file(&destination).map_err(|error| {
+            finding(
+                "rollback_binary_remove_failed",
+                &format!("could not remove the stable v3 binary: {error}"),
+            )
+        })?;
+    }
+    journal.phase = CutoverPhase::RolledBack;
+    write_cutover_receipt(&receipt, &journal)?;
+    if digest_file(&selector)? != journal.prior_selector_digest || destination.exists() {
+        return Err(finding(
+            "rollback_reconciliation_failed",
+            "rollback did not restore the exact v2 selector preimage and remove the v3 binary",
+        ));
+    }
     Ok(CutoverExecution {
         authority_selector_path: selector,
         install_destination_path: destination,
@@ -1301,7 +1455,7 @@ fn verify_cutover_readiness(
     request: &CutoverDecisionRequest,
     repository_root: &Path,
     selected_binary_digest: &str,
-) -> Result<(), TerminalFinding> {
+) -> Result<VerifiedCutoverReadiness, TerminalFinding> {
     const REQUIRED_ROUTES: [&str; 21] = [
         "bind",
         "clean",
@@ -1345,48 +1499,162 @@ fn verify_cutover_readiness(
             "cutover readiness evidence does not match its expected digest",
         ));
     }
-    let evidence: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
+    let evidence: AuthorityReadinessEvidence = serde_json::from_slice(&bytes).map_err(|_| {
         finding(
             "readiness_evidence_invalid",
             "cutover readiness evidence must be typed JSON",
         )
     })?;
-    let routes = evidence["operational_routes"]
-        .as_array()
-        .map(|values| {
-            values
-                .iter()
-                .filter_map(serde_json::Value::as_str)
-                .collect::<Vec<_>>()
-        })
-        .unwrap_or_default();
-    if evidence["schema"] != "csdlc.v3.authority_readiness.v1"
-        || evidence["authority_issue"] != 505
-        || evidence["all_operational"] != true
-        || evidence["v3_only_canary_passed"] != true
-        || evidence["independent_exact_head_review_passed"] != true
-        || evidence["selected_binary_digest"] != selected_binary_digest
-        || REQUIRED_ROUTES.iter().any(|route| !routes.contains(route))
-        || routes.len() != REQUIRED_ROUTES.len()
+    if evidence.schema != "csdlc.v3.authority_readiness.v1"
+        || evidence.authority_issue != 505
+        || evidence.selected_binary_digest != selected_binary_digest
+        || !is_immutable_revision(&evidence.selected_revision)
+        || request.selected_binary_provenance != format!("git:{}", evidence.selected_revision)
+        || evidence.route_proofs.len() != REQUIRED_ROUTES.len()
+        || REQUIRED_ROUTES
+            .iter()
+            .any(|route| !evidence.route_proofs.contains_key(*route))
     {
         return Err(finding(
             "operational_readiness_not_proven",
-            "cutover requires all 21 native routes, a v3-only canary, exact-head review, and the selected binary digest",
+            "cutover requires 21 file-backed route proofs, canary/review proofs, one immutable revision, and the selected binary digest",
+        ));
+    }
+    for proof in evidence
+        .route_proofs
+        .values()
+        .chain([&evidence.canary_proof, &evidence.review_proof])
+    {
+        verify_immutable_proof(repository_root, proof, &evidence.selected_revision)?;
+    }
+    Ok(VerifiedCutoverReadiness {
+        selected_revision: evidence.selected_revision,
+        evidence_path: request
+            .readiness_evidence_path
+            .clone()
+            .expect("path validated above"),
+        evidence_digest: observed_digest,
+    })
+}
+
+fn verify_immutable_proof(
+    repository_root: &Path,
+    proof: &ImmutableProofRef,
+    revision: &str,
+) -> Result<(), TerminalFinding> {
+    if proof.revision != revision || !is_immutable_revision(&proof.revision) {
+        return Err(finding(
+            "proof_revision_mismatch",
+            "every readiness proof must bind the selected immutable revision",
+        ));
+    }
+    let path = repo_existing_file(
+        repository_root,
+        Some(&proof.path),
+        "proof_path_missing",
+        "readiness proof requires an existing repository-contained file",
+        "readiness_proof",
+    )?;
+    if digest_file(&path)? != proof.digest {
+        return Err(finding(
+            "proof_digest_mismatch",
+            "readiness proof bytes do not match the retained digest",
         ));
     }
     Ok(())
 }
 
-fn restore_cutover_file(path: &Path, prior: Option<&[u8]>) -> Result<(), TerminalFinding> {
-    match prior {
-        Some(bytes) => write_staged(path, bytes),
-        None if path.exists() => fs::remove_file(path).map_err(|error| {
+fn is_immutable_revision(value: &str) -> bool {
+    matches!(value.len(), 40 | 64) && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
+
+fn validate_cutover_journal(
+    request: &CutoverDecisionRequest,
+    journal: &CutoverReceipt,
+    binary_digest: &str,
+    readiness: &VerifiedCutoverReadiness,
+) -> Result<(), TerminalFinding> {
+    if journal.schema != "csdlc.v3.cutover_receipt.v2"
+        || journal.authority_issue != 505
+        || journal.selected_binary_digest != binary_digest
+        || journal.selected_revision != readiness.selected_revision
+        || journal.readiness_evidence_path != readiness.evidence_path
+        || journal.readiness_evidence_digest != readiness.evidence_digest
+        || request.selected_binary_provenance != format!("git:{}", journal.selected_revision)
+        || blake3::hash(&journal.prior_selector).to_hex().to_string()
+            != journal.prior_selector_digest
+    {
+        return Err(finding(
+            "cutover_receipt_mismatch",
+            "existing cutover journal does not match the selected binary, revision, readiness proof, or selector preimage",
+        ));
+    }
+    Ok(())
+}
+
+fn selector_bytes_from_journal(journal: &CutoverReceipt) -> Result<Vec<u8>, TerminalFinding> {
+    let mut value: serde_json::Value = serde_json::from_slice(&journal.prior_selector).map_err(|_| {
+        finding(
+            "cutover_receipt_invalid",
+            "retained selector preimage is not typed JSON",
+        )
+    })?;
+    value["default_generation"] = serde_json::Value::String("v3".into());
+    let bytes = serde_json::to_vec_pretty(&value)
+        .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
+    if blake3::hash(&bytes).to_hex().to_string() != journal.cutover_selector_digest {
+        return Err(finding(
+            "cutover_receipt_invalid",
+            "retained selector preimage does not reconstruct the journaled v3 selector",
+        ));
+    }
+    Ok(bytes)
+}
+
+fn read_cutover_receipt(path: &Path) -> Result<CutoverReceipt, TerminalFinding> {
+    serde_json::from_slice(&fs::read(path).map_err(|error| {
+        finding(
+            "cutover_receipt_unreadable",
+            &format!("cutover receipt is unreadable: {error}"),
+        )
+    })?)
+    .map_err(|_| finding("cutover_receipt_invalid", "cutover receipt must be typed JSON"))
+}
+
+fn write_cutover_receipt(
+    path: &Path,
+    receipt: &CutoverReceipt,
+) -> Result<(), TerminalFinding> {
+    let bytes = serde_json::to_vec_pretty(receipt)
+        .map_err(|error| finding("receipt_serialize_failed", &error.to_string()))?;
+    write_staged(path, &bytes)
+}
+
+fn digest_file(path: &Path) -> Result<String, TerminalFinding> {
+    fs::read(path)
+        .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
+        .map_err(|error| {
             finding(
-                "cutover_rollback_failed",
-                &format!("could not remove newly-created cutover file: {error}"),
+                "cutover_file_unreadable",
+                &format!("cutover file is unreadable: {error}"),
             )
-        }),
-        None => Ok(()),
+        })
+}
+
+fn optional_regular_file_digest(path: &Path) -> Result<Option<String>, TerminalFinding> {
+    match path.symlink_metadata() {
+        Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
+            digest_file(path).map(Some)
+        }
+        Ok(_) => Err(finding(
+            "cutover_output_not_regular_file",
+            "cutover output target must be a regular file",
+        )),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(error) => Err(finding(
+            "cutover_file_unreadable",
+            &format!("cutover file metadata is unavailable: {error}"),
+        )),
     }
 }
 
@@ -1466,17 +1734,30 @@ fn write_staged(path: &Path, bytes: &[u8]) -> Result<(), TerminalFinding> {
         ));
     }
     let stage = parent.join(format!(
-        ".{}.stage-{}",
+        ".{}.stage",
         path.file_name()
             .and_then(|name| name.to_str())
-            .unwrap_or("cutover"),
-        std::process::id()
+            .unwrap_or("cutover")
     ));
     if stage.exists() {
-        return Err(finding(
-            "cutover_stage_exists",
-            "stale cutover stage file requires manual reconciliation",
-        ));
+        let staged = fs::read(&stage).map_err(|error| {
+            finding(
+                "cutover_stage_unreadable",
+                &format!("staged cutover file is unreadable: {error}"),
+            )
+        })?;
+        if staged != bytes {
+            return Err(finding(
+                "cutover_stage_conflict",
+                "staged cutover bytes differ from the deterministic retry",
+            ));
+        }
+        return fs::rename(&stage, path).map_err(|error| {
+            finding(
+                "cutover_atomic_replace_failed",
+                &format!("could not reconcile staged cutover output: {error}"),
+            )
+        });
     }
     {
         let mut file = fs::OpenOptions::new()
@@ -1509,6 +1790,24 @@ fn write_staged(path: &Path, bytes: &[u8]) -> Result<(), TerminalFinding> {
             &format!("could not atomically replace cutover output: {error}"),
         )
     })
+}
+
+fn ensure_output_parent_inside_repo(
+    repository_root: &Path,
+    path: &Path,
+    label: &str,
+) -> Result<(), TerminalFinding> {
+    let parent = path
+        .parent()
+        .ok_or_else(|| finding("cutover_output_without_parent", "output path has no parent"))?;
+    let existing = canonical_existing_ancestor(parent)?;
+    if !existing.starts_with(repository_root) {
+        return Err(finding(
+            "cutover_path_escapes_repository",
+            &format!("{label} parent escapes the repository"),
+        ));
+    }
+    Ok(())
 }
 
 fn canonical_dir(path: &Path, label: &str) -> Result<PathBuf, TerminalFinding> {
@@ -1648,6 +1947,7 @@ mod tests {
             expected_head_sha: Some("0123456789012345678901234567890123456789".into()),
             mode: Some(TerminalPublicationMode::Closing),
             public_adapter_receipt: None,
+            terminal_state: None,
             cleanup: None,
             cutover: None,
             credential_names: Vec::new(),

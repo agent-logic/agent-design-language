@@ -2,8 +2,9 @@ use csdlc_v3::{
     adapters::{CommandInvocation, ProcessAdapter, ProcessOutput, ProcessStatus},
     commands::terminal::{
         prepare_terminal_finish_with_github_observation, prepare_terminal_route, CleanupDecision,
-        CleanupRouteRequest, CutoverDecisionRequest, DurableTerminalReceipt, FinishDecision,
-        TerminalPublicationMode, TerminalRouteRequest, TerminalRouteStatus,
+        CleanupRouteRequest, CutoverDecisionRequest, CutoverOperation, DurableTerminalReceipt,
+        FinishDecision, TerminalPublicationMode, TerminalRouteRequest, TerminalRouteStatus,
+        TerminalStateWriteRequest,
     },
 };
 use std::{
@@ -20,6 +21,7 @@ fn base_request() -> TerminalRouteRequest {
         expected_head_sha: Some("0123456789012345678901234567890123456789".into()),
         mode: Some(TerminalPublicationMode::Closing),
         public_adapter_receipt: None,
+        terminal_state: None,
         cleanup: None,
         cutover: None,
         credential_names: Vec::new(),
@@ -454,6 +456,7 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
         selected_binary_provenance: "git:abc".into(),
         rollback_evidence: "".into(),
         undo_boundary: "manual undo".into(),
+        operation: CutoverOperation::Apply,
         execute: false,
         repository_root: None,
         selected_binary_path: None,
@@ -484,6 +487,7 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
         selected_binary_provenance: "git:0123456789012345678901234567890123456789".into(),
         rollback_evidence: "v2 rollback target verified".into(),
         undo_boundary: "fail-closed before any irreversible mutation".into(),
+        operation: CutoverOperation::Apply,
         execute: false,
         repository_root: None,
         selected_binary_path: None,
@@ -531,6 +535,7 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
         selected_binary_provenance: "git:0123456789012345678901234567890123456789".into(),
         rollback_evidence: "typed C-SDLC v2 rollback target verified".into(),
         undo_boundary: "fail-closed before irreversible mutation".into(),
+        operation: CutoverOperation::Apply,
         execute: true,
         repository_root: Some(root.clone()),
         selected_binary_path: Some(PathBuf::from("build/csdlc")),
@@ -541,22 +546,27 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
         readiness_evidence_digest: Some(readiness_digest),
     });
 
+    let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
+    let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
+
     let plan = prepare_terminal_route("cutover", &request).expect("cutover route");
     assert_eq!(plan.status, TerminalRouteStatus::Ready);
     assert!(plan.operational_authority);
     assert!(plan.cutover.expect("cutover decision").executes_cutover);
     assert_eq!(fs::read(root.join(".adl/bin/csdlc")).unwrap(), b"v3-binary");
-    let selector: serde_json::Value =
-        serde_json::from_slice(&fs::read(root.join(".csdlc/authority-selector.json")).unwrap())
-            .unwrap();
+    let selector: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
+    )
+    .unwrap();
     assert_eq!(selector["default_generation"], "v3");
-    assert_eq!(selector["rollback_generation"], "v2");
     let receipt: serde_json::Value = serde_json::from_slice(
         &fs::read(root.join(".csdlc/evidence/505/cutover-receipt.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(receipt["performed_mutation"], true);
-    assert_eq!(receipt["rollback_generation"], "v2");
+    assert_eq!(receipt["phase"], "committed");
+    assert!(receipt["prior_selector"].is_array());
+    let retry = prepare_terminal_route("cutover", &request).expect("idempotent retry");
+    assert_eq!(retry.status, TerminalRouteStatus::Ready);
 }
 
 #[test]
@@ -606,6 +616,7 @@ fn approved_cutover_refuses_existing_receipt_before_mutation() {
         selected_binary_provenance: "git:0123456789012345678901234567890123456789".into(),
         rollback_evidence: "typed C-SDLC v2 rollback target verified".into(),
         undo_boundary: "fail-closed before irreversible mutation".into(),
+        operation: CutoverOperation::Apply,
         execute: true,
         repository_root: Some(root.clone()),
         selected_binary_path: Some(PathBuf::from("build/csdlc")),
@@ -616,12 +627,20 @@ fn approved_cutover_refuses_existing_receipt_before_mutation() {
         readiness_evidence_digest: Some(readiness_digest),
     });
 
+    let readiness_digest = write_cutover_fixture(&root, b"new-v3-binary");
+    fs::write(
+        root.join(".csdlc/evidence/505/cutover-receipt.json"),
+        b"prior-receipt",
+    )
+    .expect("restore invalid receipt");
+    let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
+
     let blocked = prepare_terminal_route("cutover", &request).expect("cutover route");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
     assert!(blocked
         .findings
         .iter()
-        .any(|finding| finding.code == "rollback_receipt_exists"));
+        .any(|finding| finding.code == "cutover_receipt_invalid"));
     assert_eq!(
         fs::read(root.join(".adl/bin/csdlc")).expect("prior binary retained"),
         b"prior-binary"
@@ -831,6 +850,7 @@ fn write_terminal_receipt_at(
         pull_request,
         head_sha: head_sha.into(),
         disposition: "closed_out".into(),
+        state_digest: None,
     };
     let path = repository_root.join(relative_path);
     fs::create_dir_all(path.parent().expect("receipt parent")).expect("receipt directory");

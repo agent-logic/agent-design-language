@@ -89,6 +89,80 @@ fn write_evidence(name: &str, body: &[u8]) -> (PathBuf, String, String) {
     (root, ref_path, blake3::hash(body).to_hex().to_string())
 }
 
+fn repo_ref(path: &std::path::Path) -> String {
+    path.strip_prefix(binary_repo_root())
+        .expect("fixture remains inside repository")
+        .to_string_lossy()
+        .to_string()
+}
+
+fn write_typed_request(name: &str, value: Value) -> String {
+    let path = scratch().join(name);
+    fs::write(&path, serde_json::to_vec_pretty(&value).unwrap()).expect("typed request fixture");
+    repo_ref(&path)
+}
+
+fn v2_doctor_spec(issue_argument: u64) -> Value {
+    let request_ref = write_typed_request(
+        &format!("v2-doctor-{issue_argument}.json"),
+        json!({
+            "schema": "csdlc.v3.shadow_command_request.v1",
+            "issue": 505,
+            "command": "doctor",
+            "generation": "v2"
+        }),
+    );
+    json!({
+        "generation": "v2",
+        "binary_ref": ".adl/bin/csdlc-v2/csdlc-doctor",
+        "argv": ["--repo", ".", "--issue", issue_argument.to_string()],
+        "request_ref": request_ref,
+        "timeout_millis": 10_000,
+        "side_effect_boundary_refs": [".csdlc/issues/505/index.json"],
+        "provider_side_effects": false
+    })
+}
+
+fn v3_doctor_spec() -> Value {
+    let root = binary_repo_root();
+    let request_ref = write_typed_request(
+        "v3-doctor-request.json",
+        json!({
+            "issue": 505,
+            "title": "[v0.92.1][V3-F] C-SDLC v3 authority transition decision",
+            "repository": "agent-logic/agent-design-language",
+            "branch": "codex/505-v3-f-authority-transition-decision-exec",
+            "worktree": root,
+            "registry_version": "1.0.3",
+            "expected_lifecycle_digest": "8da5b5b97a82b309a2ed69f7d6a92aebae55288d3738a5d6cb4a819cf448b2de",
+            "commands": ["issue", "bind", "edit", "validate", "doctor", "schedule", "shepherd", "eligibility"],
+            "card_updates": {}
+        }),
+    );
+    let registrations_ref = write_typed_request(
+        "v3-doctor-registrations.json",
+        json!([{
+            "branch": "codex/505-v3-f-authority-transition-decision-exec",
+            "worktree": binary_repo_root(),
+            "primary": false
+        }]),
+    );
+    json!({
+        "generation": "v3",
+        "binary_ref": repo_ref(std::path::Path::new(env!("CARGO_BIN_EXE_csdlc"))),
+        "argv": [
+            "doctor", "--request", request_ref,
+            "--registry", "docs/templates/prompts/current.json",
+            "--registrations", registrations_ref,
+            "--repo-root", "."
+        ],
+        "request_ref": request_ref,
+        "timeout_millis": 10_000,
+        "side_effect_boundary_refs": [".csdlc/issues/505/index.json"],
+        "provider_side_effects": false
+    })
+}
+
 fn run_route(route: &str, body: &str) -> Value {
     let path = write_request(&format!("{route}.json"), body);
     let request_value: Value = serde_json::from_str(body).expect("request body json");
@@ -156,6 +230,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
         json!({
           "issue": 631,
           "repository": "agent-logic/agent-design-language",
+          "operator_approval": "operator #505 approval text is not typed authority",
           "cutover_issue": 505,
           "evidence_root": root,
           "proof": {
@@ -256,147 +331,94 @@ fn proof_route_retains_a_deterministic_native_receipt() {
 }
 
 #[test]
-fn shadow_route_requires_bounded_matching_observations() {
+fn shadow_route_executes_real_typed_v2_and_v3_doctor_commands() {
     let _scratch = ScratchGuard::new();
-    let (root, v2_ref, digest) = write_evidence("v2.json", br#"{"same":true}"#);
-    let v3_ref = scoped_evidence_ref("v3.json");
-    let v3_path = root.join(&v3_ref);
-    fs::create_dir_all(v3_path.parent().expect("v3 evidence parent")).expect("v3 parent");
-    fs::write(&v3_path, br#"{"same":true}"#).expect("write v3 evidence");
-    assert_ready_value(
-        "shadow",
-        json!({
-          "issue": 631,
-          "repository": "agent-logic/agent-design-language",
-          "evidence_root": root,
-          "shadow": {
-            "v2_observation_ref": v2_ref,
-            "v2_digest": digest,
-            "v3_observation_ref": v3_ref,
-            "v3_digest": digest,
-            "bounded_v2": true,
-            "bounded_v3": true,
-            "broad_equivalence_claim": false
-          }
-        }),
-    );
-    assert_blocked(
-        "shadow",
-        r#"{
-          "issue": 631,
-          "repository": "agent-logic/agent-design-language",
-          "shadow": {
-            "v2_observation_ref": ".csdlc/evidence/631/v2.json",
-            "v2_digest": "old",
-            "v3_observation_ref": ".csdlc/evidence/631/v3.json",
-            "v3_digest": "new",
-            "bounded_v2": true,
-            "bounded_v3": false,
-            "broad_equivalence_claim": true
-          }
-        }"#,
-        "shadow_observation_unbounded",
-    );
-    let (root, v2_ref, digest) = write_evidence("v2-attack.json", br#"{"real":true}"#);
-    let v3_ref = scoped_evidence_ref("v3-attack.json");
-    fs::write(root.join(&v3_ref), br#"{"real":false}"#).expect("write attack v3 evidence");
-    assert_blocked_value(
-        "shadow",
-        json!({
-          "issue": 631,
-          "repository": "agent-logic/agent-design-language",
-          "evidence_root": root,
-          "shadow": {
-            "v2_observation_ref": v2_ref,
-            "v2_digest": digest,
-            "v3_observation_ref": v3_ref,
-            "v3_digest": digest,
-            "bounded_v2": true,
-            "bounded_v3": true,
-            "broad_equivalence_claim": false
-          }
-        }),
-        "shadow_v3_digest_mismatch",
-    );
-}
-
-#[test]
-fn shadow_route_compares_canonical_json_not_incidental_key_order() {
-    let _scratch = ScratchGuard::new();
-    let (_root, v2_ref, v2_digest) = write_evidence("ordered-v2.json", br#"{"a":1,"b":2}"#);
-    let (root, v3_ref, v3_digest) = write_evidence("ordered-v3.json", br#"{"b":2,"a":1}"#);
+    let root = binary_repo_root();
     let value = run_route_value(
         "shadow",
         json!({
-          "issue": 631,
+          "issue": 505,
           "repository": "agent-logic/agent-design-language",
           "evidence_root": root,
           "shadow": {
-            "v2_observation_ref": v2_ref,
-            "v2_digest": v2_digest,
-            "v3_observation_ref": v3_ref,
-            "v3_digest": v3_digest,
-            "bounded_v2": true,
-            "bounded_v3": true,
+            "normalization": "doctor_issue_phase_v1",
+            "v2": v2_doctor_spec(505),
+            "v3": v3_doctor_spec(),
             "broad_equivalence_claim": false
           }
         }),
     );
     assert_eq!(value["status"], "ready");
+    assert_eq!(value["operational_authority"], false);
     assert_eq!(value["performed_mutation"], true);
-    assert_eq!(value["evidence_refs"].as_array().unwrap().len(), 3);
+    assert_eq!(value["evidence_refs"].as_array().unwrap().len(), 4);
+    let v2_receipt = binary_repo_root().join(value["evidence_refs"][1].as_str().unwrap());
+    let receipt: Value = serde_json::from_slice(&fs::read(v2_receipt).unwrap()).unwrap();
+    assert_eq!(receipt["schema"], "csdlc.v3.shadow_execution.v1");
+    assert_eq!(receipt["exit"]["success"], true);
+    assert_eq!(receipt["provider_side_effects"], false);
+    assert_eq!(receipt["operational_authority"], false);
+    assert!(receipt["binary"]["digest"].as_str().unwrap().len() >= 64);
+    assert!(receipt["stdout_digest"].as_str().unwrap().len() >= 64);
+    assert!(receipt["stderr_digest"].as_str().unwrap().len() >= 64);
+    assert_eq!(receipt["normalized_output"]["issue"], 505);
+    assert_eq!(receipt["normalized_output"]["phase"], "published");
+    assert_eq!(receipt["side_effect_boundary"][0]["changed"], false);
 }
 
 #[test]
-fn soak_route_refuses_hidden_state_and_provider_side_effects() {
+fn shadow_route_fails_closed_on_real_lifecycle_mismatch_and_provider_effects() {
     let _scratch = ScratchGuard::new();
-    let (root, soak_ref, _) = write_evidence("soak.json", br#"{"samples":3}"#);
-    assert_ready_value(
-        "soak",
+    let root = binary_repo_root();
+    assert_blocked_value(
+        "shadow",
         json!({
-          "issue": 631,
+          "issue": 505,
           "repository": "agent-logic/agent-design-language",
           "evidence_root": root,
-          "soak": {
-            "evidence_ref": soak_ref,
-            "duration_minutes": 15,
-            "sample_count": 3,
-            "hidden_state": false,
-            "provider_side_effects": false
+          "shadow": {
+            "normalization": "doctor_issue_phase_v1",
+            "v2": v2_doctor_spec(503),
+            "v3": v3_doctor_spec(),
+            "broad_equivalence_claim": false
           }
         }),
+        "shadow_normalized_mismatch",
     );
-    assert_blocked(
-        "soak",
-        r#"{
-          "issue": 631,
+    let mut provider_spec = v3_doctor_spec();
+    provider_spec["provider_side_effects"] = json!(true);
+    assert_blocked_value(
+        "shadow",
+        json!({
+          "issue": 505,
           "repository": "agent-logic/agent-design-language",
-          "soak": {
-            "evidence_ref": ".csdlc/evidence/631/soak.json",
-            "duration_minutes": 15,
-            "sample_count": 3,
-            "hidden_state": true,
-            "provider_side_effects": true
+          "evidence_root": binary_repo_root(),
+          "shadow": {
+            "normalization": "doctor_issue_phase_v1",
+            "v2": v2_doctor_spec(505),
+            "v3": provider_spec,
+            "broad_equivalence_claim": false
           }
-        }"#,
-        "soak_hidden_state",
+        }),
+        "shadow_provider_side_effects",
     );
 }
 
 #[test]
-fn soak_route_executes_the_declared_bounded_repetitions() {
+fn soak_route_observes_real_monotonic_duration_with_bounded_commands() {
     let _scratch = ScratchGuard::new();
-    let (root, soak_ref, _) = write_evidence("native-soak.json", br#"{"sample":true}"#);
+    let root = binary_repo_root();
     let value = run_route_value(
         "soak",
         json!({
-          "issue": 631,
+          "issue": 505,
           "repository": "agent-logic/agent-design-language",
           "evidence_root": root,
           "soak": {
-            "evidence_ref": soak_ref,
-            "duration_minutes": 1,
-            "sample_count": 4,
+            "normalization": "doctor_issue_phase_v1",
+            "command": v2_doctor_spec(505),
+            "duration_millis": 25,
+            "sample_interval_millis": 5,
             "hidden_state": false,
             "provider_side_effects": false
           }
@@ -404,7 +426,13 @@ fn soak_route_executes_the_declared_bounded_repetitions() {
     );
     let receipt = binary_repo_root().join(value["evidence_refs"][0].as_str().unwrap());
     let receipt: Value = serde_json::from_slice(&fs::read(receipt).unwrap()).unwrap();
-    assert_eq!(receipt["samples"].as_array().unwrap().len(), 4);
+    assert!(receipt["observed_elapsed_millis"].as_u64().unwrap() >= 25);
+    assert_eq!(receipt["requested_duration_millis"], 25);
+    assert!(receipt["sample_count"].as_u64().unwrap() >= 1);
+    assert_eq!(receipt["operational_authority"], false);
+    assert_eq!(receipt["provider_side_effects"], false);
+    assert!(receipt["started_unix_millis"].as_u64().unwrap() > 0);
+    assert!(receipt["samples"][0]["execution"]["elapsed_millis"].as_u64().is_some());
 }
 
 #[test]
@@ -613,7 +641,7 @@ fn install_route_is_one_binary_plan_gated_by_505() {
             "executes_install": true
           }
         }),
-        "install_operator_approval_missing",
+        "install_typed_authority_missing",
     );
     let scratch_root = scratch().join("caller-controlled-evidence-root");
     fs::create_dir_all(scratch_root.join(".csdlc/evidence/631/install"))
