@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 25
+    "generation": 26
   },
   "status": "pre_phase",
   "content": {
@@ -117,8 +117,8 @@
           "evidence_ref": ".csdlc/evidence/686/issue686-diff-check.log sha256=c78ae230003ac1b3b218409622ca313b6eea006352da204a670361145f02d80f head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
