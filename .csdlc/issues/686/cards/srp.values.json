@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      "review_revision": "git-blake3:ff92652c4d1537d5d2557ab63f317a2a3a8b2372:48c290d1f395846260e577c1042c5e504fc85b739ced0bcfd6def1bc24493305",
-      "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r5",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any partial candidate or mutable file become authority without a committed receipt?",
         "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
@@ -23,30 +23,9 @@
         "Does every named failpoint recover deterministically to either the candidate commit or prior generation?",
         "Does validation avoid the live Runtime?"
       ],
-      "findings": [
-        {
-          "id": "r5-p1-interrupted-reload-recovery-blocked-by-config-preflight",
-          "severity": "p1",
-          "summary": "Start/reload run active configuration-generation validation before reconcile_interrupted_reload, so a crash after active init replacement but before active-generation ref activation can strand recovery behind a mismatched active ref.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "r5-p2-candidate-receipt-stored-outside-active-generation-store",
-          "severity": "p2",
-          "summary": "Reload provisions a candidate receipt beside the candidate file even though post-activation validation reads the receipt beside the active init path, so candidates from another directory cannot become valid active generations.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }
