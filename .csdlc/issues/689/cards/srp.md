@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #689 canonical Runtime operator routing, legacy CSMctl Runtime refusal, documentation, and focused tests only.
+CSMctl
+adl/tools/test_csmctl_linux_backend.sh
+docs/tooling/START_CSM_RUNBOOK.md
+.csdlc/evidence/689
 
 ## Prompts
 
@@ -32,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The review was intentionally non-mutating and did not exercise the live Runtime, launchd or systemd, network paths, or GitHub publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0dcf2a1a068a3379dbba655172adf40b64e6325c:173d333e19104b76364b1f767fb7cccf8d97ebba18d648853c576afcd5d4cbb2")
 
-Reviewer: None
+Reviewer: Some("codex:/root/issue_689_final_review")
 
-Result: pre_review
+Result: pass
