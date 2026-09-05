@@ -1,7 +1,7 @@
 {
   "schema": "adl.csdlc.issue_687.validation_summary.v1",
   "issue": 687,
-  "head": "8ed2d826072248e65d1cf140bfc8ae4f9899be25",
+  "head": "b39db66224d225d7c340e324b7452163a7e27bb7",
   "cloud_or_provider_calls": false,
   "runtime_restart": false,
   "commands": [
@@ -39,6 +39,11 @@
       "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "control"],
       "outcome": "passed",
       "purpose": "Prove ControlService projection and related Runtime control paths remain green."
+    },
+    {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml"],
+      "outcome": "passed",
+      "purpose": "Reproduce and clear the GitHub adl-runtime-v3-fast lane by proving the full Runtime-kernel test suite, including library A2A ingress tests."
     }
   ],
   "notes": [
