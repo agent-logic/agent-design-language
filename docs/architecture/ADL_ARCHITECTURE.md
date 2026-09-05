@@ -120,6 +120,8 @@ The task bundle lifecycle is:
 7. Typed C-SDLC v2 cleanup removes only the exact registered worktree after
    terminal evidence permits it.
 
+The canonical card sequence is `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.
+
 This split is important for ADL because many failures in prior milestones were
 not code failures. They were truth-model failures: closed GitHub issues with
 stale cards, merged PRs with uncleared worktrees, or local residue that made
@@ -231,7 +233,7 @@ Architecture review uses the same packet-first discipline:
 These invariants are intended to become automated checks where practical:
 
 - Implementation work for tracked issues occurs in issue worktrees.
-- SIP/STP/SPP/SRP/SOR cards exist before issue execution begins.
+- SIP/STP/SPP/VPP/SRP/SOR cards exist before issue execution begins.
 - SOR does not claim merge, closure, or validation that did not happen.
 - Public architecture docs do not contain host-absolute private paths or secret
   markers.

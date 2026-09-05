@@ -65,9 +65,38 @@ construction subcommands are:
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- foundation --repo-root .
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- local --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- doctor --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- edit --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- eligibility --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- issue --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- schedule --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- shepherd --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- github --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- github-issue --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- github-pr --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- pr-state --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- publish --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- review --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- finish --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- clean --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- cutover --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- install --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- proof --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- shadow --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- soak --help
 ```
+
+Those advertised commands are still construction interfaces. They do not grant
+live lifecycle, GitHub, publication, finish, cleanup, install, or cutover
+authority before #505.
 
 For docs and cutover-readiness work, use the issue-owned validators declared by
 the active issue, such as the #570 stale-route and skill-guidance scans. Passing
 v3 construction checks is evidence for the v3 package only; live lifecycle work
 still routes through typed C-SDLC v2 until V3-F/#505.
+
+Operators preparing for the one-binary replacement should read
+`docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md`. That notice is advance guidance,
+not authority cutover.

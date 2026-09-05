@@ -1,0 +1,560 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 632,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b93a95ade0dac40135117b73005e34975df1f0a635a322b41fd2e3554b887290",
+  "phase": "published",
+  "generation": 25,
+  "digest": "59152ad5c61e0c0f6c121793538ad2c8fde2d6624801fe08086159009e7c8096",
+  "branch": "codex/632-v3-h6-canaries-docs-readiness-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_632_after_main_merge_fd786459",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5",
+    "scope": [
+      ".csdlc/prepared/issues/632/design.md",
+      ".csdlc/prepared/issues/632/diagram.mmd",
+      ".csdlc/prepared/issues/632/bootstrap.json",
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/canary-evidence-index.md",
+      ".csdlc/prepared/issues/632/finalize-implementation.json",
+      ".csdlc/prepared/issues/632/replace-execution-after-review-fixes.json",
+      ".csdlc/prepared/issues/632/replace-execution-current-command-surface.json",
+      ".csdlc/prepared/issues/632/recover-review-after-main-merge.json",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "csdlc-v3/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_632_after_main_merge_fd786459",
+    "scope": [
+      ".csdlc/prepared/issues/632/design.md",
+      ".csdlc/prepared/issues/632/diagram.mmd",
+      ".csdlc/prepared/issues/632/bootstrap.json",
+      ".csdlc/prepared/issues/632/command-route-coverage.json",
+      ".csdlc/prepared/issues/632/canary-evidence-index.md",
+      ".csdlc/prepared/issues/632/finalize-implementation.json",
+      ".csdlc/prepared/issues/632/replace-execution-after-review-fixes.json",
+      ".csdlc/prepared/issues/632/replace-execution-current-command-surface.json",
+      ".csdlc/prepared/issues/632/recover-review-after-main-merge.json",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "csdlc-v3/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ],
+    "reviewed_revision": "git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; v2 remains live lifecycle authority before that cutover.",
+      "Merge readiness still depends on the exact live PR #647 checks finishing successfully after the final branch push.",
+      "#505 must consume current #627-#632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 632,
+    "pull_request": 647,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/647",
+    "base": "main",
+    "head": "codex/632-v3-h6-canaries-docs-readiness-exec",
+    "revision": "git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/632/design.md",
+  "diagram_path": ".csdlc/prepared/issues/632/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:worker-6",
+      "revision": "6ff2e30b0473290c866aad33ad1d72c6509adc78c89f7de9167067eb0fce59be"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "14913d8622b97be1882f8e6cfddc45755053178e1a0f997dd7a0b558d291d7de",
+      "rendered_digest": "0fdbc068a9e16b9a34f4c99b5953930b02c525fdddf4be01c8acd33f0a8bf60d",
+      "ast_digest": "ed89ca60d9cce79cf4979853fd6df465539b0f00233e4f03a42decb6a25c16c0"
+    },
+    "stp": {
+      "values_digest": "4d3cc2a5c3e02df5f31967e69cd2897f6ee62e54502f025be1841d3393e4071a",
+      "rendered_digest": "caf0677a955027d962688dc0224133c7c7d4b10c56b4f1d17d551f31f7891779",
+      "ast_digest": "4b130a63d7ec3bd4a4bfe6c1596dcbe0ac07119a4f968f8b48bc5db493babaec"
+    },
+    "spp": {
+      "values_digest": "8928a2165dbafc78e0eff3424cc54ba56b20a011957e9ff14875c6cb70e38db6",
+      "rendered_digest": "ac428c78623cc711bb9a3eee6ae606302cd3136c5dd40130c37aeafbbbb6d14c",
+      "ast_digest": "0654c45b2e0ef0e21df53b9ec506777fc1b26e11ee63dfd8e71da61175637894"
+    },
+    "vpp": {
+      "values_digest": "67acff3d93d76a383b381e2031ce8180284b64d5700a833dea7beac530f75452",
+      "rendered_digest": "a46da483ee55913a32a0ca18e0d7986519dbb3bf24edfb86e71c499b37249825",
+      "ast_digest": "c256ae237568c95bf3dff3aa69018688d49b9d7ff18813e8f2f7a567b7fc6da6"
+    },
+    "srp": {
+      "values_digest": "791f6b8807a2c2aa9f4efb42321b1a3080c33f3e6dcad7e6fa55940794f2309c",
+      "rendered_digest": "7dfdb819a7e37944f70af28716f5be0bb7059cc10c922e9824ef9ca314db836b",
+      "ast_digest": "0da68d7f6bc9bf03eafa66df219102fa387dec9cf83d6eef309c0afa76907084"
+    },
+    "sor": {
+      "values_digest": "071581adc14d90c2239669157184e5a99e7f1603f3e197c93b476504a4e36b7a",
+      "rendered_digest": "7a41012e63b5262f5d043f50e0c56f0a76117dfebdca76a72d101122669ec2c5",
+      "ast_digest": "b2042bda2fdd3b59dde9015943fd2aff4ec846408c1f41c26fe522e95067cf75"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #632 review and publication truth after merging current main and correcting the command-surface readiness packet before fresh exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review truth after the typed review-record metadata tail made the publication guard stale; substantive implementation content remains unchanged and will be reassigned/reviewed at the current clean metadata head before publication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #632 review and publication truth after the exact-head canary topology repair at 2bddd359d8141899efc01e0088c3a33006c50504 before fresh review."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after #631/PR #669 settled green at head 308b489d9238732f056e9d671c5155d0f4f91d2e."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after refreshing readiness docs for #629/#641 title-readback repair at aed2a2db4, including the current #641 head 8ad0d56ae7db6421fcbc2016a2f1c8590094577e and pending final CI state."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after refreshing #631/PR #669 dependency evidence from stale head 308b489d9238732f056e9d671c5155d0f4f91d2e to current green head f43356321108b91031024fc1fccf11233f188bce."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 23,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Recover stale #632 exact-head review/publication truth after merging current origin/main into the already-published PR branch to clear GitHub merge conflicts. The branch-owned diff relative to origin/main remains the #632 V3-H.6 surface; recovery is required because reviewed/published head a8d65a737f89fe77c01f3a34553e6755b23a6549 no longer matches local merge head 220cd014abe34dee0b13d25c8cd9f046132700bc."
+    },
+    {
+      "sequence": 24,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 25,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #632 implementation truth after fixing pre-publication review findings in the v3 canary readiness packet.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, corrected docs/architecture guidance, and strengthened the canary validator so it distinguishes planned v3 routes from the current CLI commands actually advertised before #505.\",\"changes\":[\"Bootstrapped and bound #632 through typed C-SDLC v2 in FastWork prep and execution worktrees.\",\"Captured DEFECT-019 for stacked PR closing-linkage and typed retarget gaps, and DEFECT-020 for fresh-worktree install/bootstrap fragility.\",\"Added a 21-entry command-route coverage matrix that remains explicitly not cutover-ready.\",\"Repaired the route coverage matrix so planned one-binary routes are not treated as current CLI availability unless they name an advertised `foundation` or `local` command.\",\"Strengthened the canary readiness validator to inspect current `csdlc-v3` help output and fail if the matrix claims unavailable commands.\",\"Added a canary evidence index distinguishing real typed observations, non-claims, current CLI exposure, and remaining proof needs.\",\"Added an operator-facing C-SDLC v3 cutover readiness notice and linked it from the v3 README.\",\"Corrected the architecture invariant so the mandatory card lifecycle includes VPP and repaired the cleanup lifecycle sentence.\"],\"artifacts\":[\".csdlc/issues/632\",\".csdlc/prepared/issues/632/design.md\",\".csdlc/prepared/issues/632/diagram.mmd\",\".csdlc/prepared/issues/632/command-route-coverage.json\",\".csdlc/prepared/issues/632/canary-evidence-index.md\",\".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\",\".csdlc/prepared/issues/632/validate-v3-guidance.sh\",\".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\",\".csdlc/prepared/issues/632/replace-execution-after-review-fixes.json\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"csdlc-v3/README.md\",\"docs/architecture/ADL_ARCHITECTURE.md\",\"adl/src/cli/csmctl_cmd.rs\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\"],\"purpose\":\"Prove the #632 route coverage matrix and retained canary defect packet account for the V3-H command replacement surface without claiming cutover readiness, and verify claimed current v3 CLI commands against actual `csdlc-v3 --help` output.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 canary readiness packet: pass\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-v3-guidance.sh\"],\"purpose\":\"Prove docs, AGENTS guidance, architecture lifecycle text, and the v3 readiness notice preserve the pre-cutover and post-cutover authority boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 guidance scan: pass\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\"],\"purpose\":\"Prove the sprint packet still names the six child issues, keeps review out of child issue count, and retains the latest #631 publication-topology defect.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: sprint review readiness: pass\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"632\"],\"purpose\":\"Prove typed #632 lifecycle structure remains valid after review-fix documentation and canary packet repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: status pass, phase implemented\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove the exact current worktree diff has no whitespace hygiene failures.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #632 review and publication truth after merging current main and correcting the command-surface readiness packet before fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #632 SOR truth after merging current main and aligning the canary packet with the full advertised v3 one-binary command surface.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared and repaired the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, corrected docs/architecture guidance, and strengthened the canary validator so it verifies the full advertised v3 one-binary surface while preserving the pre-#505 non-authority boundary.\",\"changes\":[\"Merged current main into the #632 execution worktree and resolved the Runtime csmctl import move to `adl_runtime_kernel::agent_roster::is_canonical_agent_name`.\",\"Captured DEFECT-019 for stacked PR closing-linkage and typed retarget gaps, and DEFECT-020 for fresh-worktree install/bootstrap fragility.\",\"Updated the 21-entry command-route coverage matrix so all v2 entrypoints name their current advertised v3 command while remaining explicitly not cutover-ready.\",\"Strengthened the canary readiness validator to inspect current `csdlc-v3` help output and fail if the matrix omits or misstates advertised commands.\",\"Updated the canary evidence index, v3 cutover readiness notice, and v3 README so operator guidance matches the full advertised one-binary surface without granting live v3 authority.\",\"Preserved the #631 stacked publication topology blocker as a named cutover blocker.\"],\"artifacts\":[\".csdlc/issues/632\",\".csdlc/prepared/issues/632/command-route-coverage.json\",\".csdlc/prepared/issues/632/canary-evidence-index.md\",\".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\",\".csdlc/prepared/issues/632/validate-v3-guidance.sh\",\".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\",\".csdlc/prepared/issues/632/replace-execution-current-command-surface.json\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"csdlc-v3/README.md\",\"adl/src/cli/csmctl_cmd.rs\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\"],\"purpose\":\"Prove the #632 route coverage matrix and retained canary defect packet account for the V3-H command replacement surface without claiming cutover readiness, and verify claimed current v3 CLI commands against actual `csdlc-v3 --help` output.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 canary readiness packet: pass\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-v3-guidance.sh\"],\"purpose\":\"Prove docs, AGENTS guidance, architecture lifecycle text, and the v3 readiness notice preserve the pre-cutover and post-cutover authority boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 guidance scan: pass\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\"],\"purpose\":\"Prove the sprint packet still names the six child issues, keeps review out of child issue count, and retains the latest #631 publication-topology defect.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: sprint review readiness: pass\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove the v3 help surface exposes the one-binary command denominator while remaining non-authoritative before #505.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: 4 passed\"},{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"csmctl\"],\"purpose\":\"Prove the current-main Runtime csmctl import merge compiles.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: Finished dev profile\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"purpose\":\"Prove the exact current range has no whitespace hygiene failures.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review truth after the typed review-record metadata tail made the publication guard stale; substantive implementation content remains unchanged and will be reassigned/reviewed at the current clean metadata head before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #632 review and publication truth after the exact-head canary topology repair at 2bddd359d8141899efc01e0088c3a33006c50504 before fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after #631/PR #669 settled green at head 308b489d9238732f056e9d671c5155d0f4f91d2e.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after refreshing readiness docs for #629/#641 title-readback repair at aed2a2db4, including the current #641 head 8ad0d56ae7db6421fcbc2016a2f1c8590094577e and pending final CI state.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "Recover #632 review/publication truth after refreshing #631/PR #669 dependency evidence from stale head 308b489d9238732f056e9d671c5155d0f4f91d2e to current green head f43356321108b91031024fc1fccf11233f188bce.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:root",
+      "reason": "Recover stale #632 exact-head review/publication truth after merging current origin/main into the already-published PR branch to clear GitHub merge conflicts. The branch-owned diff relative to origin/main remains the #632 V3-H.6 surface; recovery is required because reviewed/published head a8d65a737f89fe77c01f3a34553e6755b23a6549 no longer matches local merge head 220cd014abe34dee0b13d25c8cd9f046132700bc.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 23,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 24,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 25,
+      "actor": "codex:root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
