@@ -5,10 +5,25 @@
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
   "generation": 24,
-  "digest": "5e4f188efaf7d9aef45bcb9e9a5661ef6c748d0b731f08f1801213d90896cf24",
+  "digest": "52a986f3f22df76abb221f7033ec9f763a9a45272ebb5b718e84417a3db28abe",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r9",
+    "assigned_by": "codex:/root/issue-686",
+    "revision": "git-blake3:f4f3a040e993709e579bb83053ef070cd4e8d02d:7d4c1bcab403172d4c2bb2f58510000b6a154994777a167f26fe33efb0658718",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "2786b52e2017bee197f014d67c67e400f8ef6c298a97051ea380f4fdb79d27e5",
-      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
-      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
+      "values_digest": "1ac1b2099789bc8ba7635abee02537f18fefe912cc3803fd5979fdea6eaa6cb4",
+      "rendered_digest": "24145ea937cda1822ac3147955d9e327a74b87e4ce2b251da7d65ac5f5616a37",
+      "ast_digest": "7af6190c4b684a655e9e96ba8073976b4a7c234de40367d674560c453b66be0b"
     },
     "sor": {
       "values_digest": "4c1b807ad1af6cea1c4dd6bf718a3ffb3268d46f79a85228cbf8c43e2b6b164b",
@@ -343,6 +358,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "Record exact-head #686 validation evidence after r8 denominator-overclaim remediation before fresh implementation review",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated the #686 Runtime v3 configuration-generation handoff after exact-head review recovery, current-main resync, and r8 denominator-proof correction. The change creates immutable configuration-generation receipts, validates and activates the active generation reference before Runtime service mutation, carries generation and receipt digest through CSM, Guardian child launch, kernel startup, readiness, and status, reconciles interrupted reload transactions before configuration-generation preflight can reject stranded active/ref mismatches, provisions reload candidate receipts into the active init generation store, and tightens the issue-owned denominator script so it checks named implementation, ordering, propagation, and regression-test anchors instead of loose token presence.\",\"changes\":[\"Added Runtime kernel configuration-generation receipt primitives for immutable receipt construction, digest validation, active-reference activation, and active-generation validation.\",\"Threaded the active configuration generation and receipt digest through CSM Runtime v3 start/reload/status, Guardian child launch environment propagation, kernel startup, and readiness reporting.\",\"Hardened reload recovery so active configuration-generation references are backed up, restored, and committed together with init file replacement, and so interrupted reload reconciliation runs before active configuration-generation preflight.\",\"Provisioned reload candidate configuration-generation receipts into the active init generation store so candidates from a separate directory can become valid active generations after activation.\",\"Merged current origin/main into the issue branch, preserving mainline Runtime v3 command changes and #686's configuration-generation handoff invariants.\",\"Remediated r8-p2-denominator-token-presence-overclaim by expanding the denominator script to verify concrete receipt, active-reference, CSM ordering, Guardian/kernel propagation, readiness, active-store candidate, and regression-test anchors.\",\"Added focused deterministic integration and unit coverage for receipt immutability, secret-path reference redaction, pre-activation non-authority, pointer mismatch rejection, candidate readiness without activation, candidate failure restoration, malformed receipt rejection, cross-binary rejection, cross-directory candidate receipt activation, and pre-reconcile active/ref mismatch recovery.\",\"Kept scope local to Runtime v3 configuration-generation handoff surfaces and did not perform any live Runtime restart, cloud, paid, credential, or deployment action.\"],\"artifacts\":[\"adl-runtime-kernel/src/config_generation.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tests/csm_runtime_v3_generation.rs\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\",\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=ae664e073b399e5c6d4592b434f89efa7fd8c1c71b58178871ee6979a17aff32\",\".csdlc/evidence/686/issue686-denominator.log sha256=bb1c2325224c0219dd4e68c76e0835b0f529aabdb90dbfca9db2df53585d85ce\",\".csdlc/evidence/686/issue686-diff-check.log sha256=c78ae230003ac1b3b218409622ca313b6eea006352da204a670361145f02d80f\",\".csdlc/evidence/686/issue686-fmt-check.log sha256=897f3f04eaf71a3ac03d330fd679ea8e41e0c7f49ae5afce4b0f30c574d90fd7\",\".csdlc/evidence/686/issue686-focused-generation.log sha256=5074f5410731b0024c94386ab3818a9725648df498fdc808bbeac3d66445f688\",\".csdlc/evidence/686/issue686-strict-clippy.log sha256=fcaa1d19936fb0caf537a6ac20f4488835b3220116f47c5a0f29147cf5b18b7f\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"purpose\":\"Prove the issue-owned #686 static denominator checks concrete configuration-generation handoff, recovery-ordering, propagation, active-store candidate, and regression-test anchors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-denominator.log sha256=bb1c2325224c0219dd4e68c76e0835b0f529aabdb90dbfca9db2df53585d85ce head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_v3_cmd\"],\"purpose\":\"Focused csm_runtime_v3_cmd unit proof including interrupted reload reconciliation before configuration-generation preflight.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=ae664e073b399e5c6d4592b434f89efa7fd8c1c71b58178871ee6979a17aff32 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Focused Runtime v3 configuration-generation integration regression suite including active-store candidate receipt validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-focused-generation.log sha256=5074f5410731b0024c94386ab3818a9725648df498fdc808bbeac3d66445f688 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all ADL Cargo targets with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-strict-clippy.log sha256=fcaa1d19936fb0caf537a6ac20f4488835b3220116f47c5a0f29147cf5b18b7f head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for the ADL Cargo workspace.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-fmt-check.log sha256=897f3f04eaf71a3ac03d330fd679ea8e41e0c7f49ae5afce4b0f30c574d90fd7 head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-diff-check.log sha256=c78ae230003ac1b3b218409622ca313b6eea006352da204a670361145f02d80f head=c0bf5380ac027fa31621bec4762cd24ca1af040a status=0\"}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 24,
+      "actor": "codex:/root/issue-686",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
