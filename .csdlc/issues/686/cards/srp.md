@@ -40,12 +40,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted PR CI remains the final integration gate before merge.
+- No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f4f3a040e993709e579bb83053ef070cd4e8d02d:7d4c1bcab403172d4c2bb2f58510000b6a154994777a167f26fe33efb0658718")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_686_runtime_config_generation_r9")
 
-Result: pre_review
+Result: pass

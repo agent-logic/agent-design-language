@@ -3,9 +3,9 @@
   "issue": 686,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
-  "phase": "implemented",
-  "generation": 24,
-  "digest": "52a986f3f22df76abb221f7033ec9f763a9a45272ebb5b718e84417a3db28abe",
+  "phase": "reviewed",
+  "generation": 25,
+  "digest": "1a0211af2523ca8b3521906b702bb4da550251ac66934d58e79dc057b317f946",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": {
@@ -24,7 +24,28 @@
       ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r9",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ],
+    "reviewed_revision": "git-blake3:f4f3a040e993709e579bb83053ef070cd4e8d02d:7d4c1bcab403172d4c2bb2f58510000b6a154994777a167f26fe33efb0658718",
+    "findings": [],
+    "residual_risks": [
+      "Hosted PR CI remains the final integration gate before merge.",
+      "No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1818f9cb5d370428eb959fe736da7d796c3f438f43a7d344a0f016e90d4852a",
+      "values_digest": "f92f398b28cd0c567a25ebf70620b404f750fc1cdec0d5242b6f9fb1a14726ae",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "cbfc33b75587784e967fae42d551cd3ac887428c239535d415c9652c7ba46951",
+      "values_digest": "424b5eecc5bec8e8984a61e6aac9dd4a55bc5c3f513f9096660e3057b21db304",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "eb1d4e65a81d7fa5a9fb23847219cef693330157820103292939560709d4305a",
+      "values_digest": "561c5c9c6c343212e5b767990fd1a844eb63c143dde93e0376c298df3c70850b",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "9081cbca3de87bb5293f4d48fdba72f394d5bc30153c0de4fecb60b73c781aea",
+      "values_digest": "e4b11514a26c3209aec6d734fee5e7d92afc025fcb0f0e91ae06fb07c08cab6a",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "1ac1b2099789bc8ba7635abee02537f18fefe912cc3803fd5979fdea6eaa6cb4",
-      "rendered_digest": "24145ea937cda1822ac3147955d9e327a74b87e4ce2b251da7d65ac5f5616a37",
-      "ast_digest": "7af6190c4b684a655e9e96ba8073976b4a7c234de40367d674560c453b66be0b"
+      "values_digest": "b29c845e219bb6a9b64b6fa8ac5ee7d53b54d616ec00ed18fae7d2ddf5336e7e",
+      "rendered_digest": "f8744536d014c516da03c970fd29e30bade390751c227dcb79c5ed00e3e426ac",
+      "ast_digest": "d9a0d7ffbed4acf28106562749afd06c721cdf374f71298c18bf7095c718062b"
     },
     "sor": {
-      "values_digest": "4c1b807ad1af6cea1c4dd6bf718a3ffb3268d46f79a85228cbf8c43e2b6b164b",
+      "values_digest": "4cd469838ce8e69d8f963558c5a2d23b35acc0b5b9e8a1ceaa81c27ba1ce9c68",
       "rendered_digest": "ec0fe076010f99f9a1184d582039041c629be2365df1b8cc044a43a441373dd8",
       "ast_digest": "4b873f17a1e1d486f424ebbfebdbecdc2fc5cff91fd5560dbf6f20ac4ebf20a0"
     }
@@ -118,6 +139,13 @@
       "to": "implemented",
       "actor": "codex:/root/issue-686",
       "reason": "Recover #686 review authority after typed validate/doctor reported review_publication_dead_end for the r7 PASS metadata-tail record. Source and retained evidence remain clean, but publication requires a fresh exact-head review against the current immutable branch head rather than relying on the rejected non-substantive proof."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-686",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -365,6 +393,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
+      "actor": "codex:/root/issue-686",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
