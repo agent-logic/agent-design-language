@@ -169,11 +169,11 @@ Recovered and remediated #686 after hosted adl-coverage-runtime failed at PR #69
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

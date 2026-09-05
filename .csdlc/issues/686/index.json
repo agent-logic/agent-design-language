@@ -3,70 +3,14 @@
   "issue": 686,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
-  "phase": "published",
-  "generation": 38,
-  "digest": "1cf779240a1fda5e8e981398a14e4a0b94a6c7fc4b747d83fa5b3c127d75f3ac",
+  "phase": "implemented",
+  "generation": 39,
+  "digest": "1c9b27f4fa0778883508761e8d85ebbd7c245aec3935ab2d6a9b3099895f67e7",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r14",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:3e1a625cd3a7ca4349a33f4bd661374119efc640:e0253c0593b881e20df06aad2103d264917718f994fdad4d992c16d567e1ed88",
-    "scope": [
-      "adl-runtime-kernel/src/config_generation.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl-runtime/tests/guardian_cli.rs",
-      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
-      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      ".csdlc/evidence/686"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r14",
-    "scope": [
-      "adl-runtime-kernel/src/config_generation.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl-runtime/tests/guardian_cli.rs",
-      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
-      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      ".csdlc/evidence/686"
-    ],
-    "reviewed_revision": "git-blake3:3e1a625cd3a7ca4349a33f4bd661374119efc640:e0253c0593b881e20df06aad2103d264917718f994fdad4d992c16d567e1ed88",
-    "findings": [],
-    "residual_risks": [
-      "PR #692 still needs typed republication from the repaired branch head and hosted CI must pass at the republished head before merge.",
-      "Validation evidence records source repair head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5; SOR records and r14 accepted source-tail guard proving later commits through review assignment changed only evidence/card/lifecycle surfaces for the reviewed source/test/prepared-denominator scope.",
-      "No live Runtime, launchd/systemd, cloud, credential, deployment, paid execution, or merge was performed; those remain outside issue #686 local implementation proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 686,
-    "pull_request": 692,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/692",
-    "base": "main",
-    "head": "codex/686-runtime-config-generation-handoff",
-    "revision": "git-blake3:19382fd507f5dc29b5a6f495c416462d2fed88b9:a27c70ee27b5e7e81d487186532abb34417ccae98be18adfe9d04ce9fcd49b8c",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d74fcaf96410801b0348b70d7c4dea3a44efa24f7c0c519dd9e4d7f9c4fef064",
+      "values_digest": "2245ae536b83656f554e65343ab65f946f09e138f25db39c5a759cdc0d116fa8",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "396721e7ba20e83d32c3de834191856011f7590de3693d7e3cd9df5d903b8eb3",
+      "values_digest": "a4fea43b465e0dc7ea1ab053b13600436e8e12e1bc60459085446e475d8785cb",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "f637d638bef159677b1e106397a65482e198e8103d3cf14811560891aaafbcbf",
+      "values_digest": "7792e217a2284594a43482101200ac87cef37676becba776c3f1ab935cab1c87",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "e28c3cbdf3f8c548f56d422036b04b6f5b9dd5e464bbd966ac0ed1d9f6c07dce",
+      "values_digest": "06b819e2302cf08932633a898880d8a78fb80cb3c275d63c205bc795eb8200c4",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "874705c24c035b2d3470247c84e4899cfe64e3aa60b44e997894b255397e5398",
-      "rendered_digest": "05e44f850f27c36bf4e7dd893363d649171a02f27aa6045f96823c4e849273a0",
-      "ast_digest": "b5efea260ce25b2f7fb001b6a3d7b1491388dc6bad190df777439b537b39fa7b"
+      "values_digest": "9fff89f84a031da6acfb2e15843cd599de41c88c24158058c763b15a62517049",
+      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
+      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "9df9cd5797d7789db79ced0c6a9a19d52056e46302f29ef16d45afbccbb1c6df",
-      "rendered_digest": "1a04ffed48ea0342e57d78e3b6045c10e2cdbcdeee5f1247640e009cb6bde928",
-      "ast_digest": "db08562ff1c34e7c32664349af9f3a708717ba83b3ee779e0d7c1f8a6de09404"
+      "values_digest": "4198b7f9d8a588faf4e153cda8d96380961a218621c71dae61d635644909a92c",
+      "rendered_digest": "c988d971194ac3747f64d2305685f5baa8fc8ec4e8acfdce4e97945368d12718",
+      "ast_digest": "8b98216ea8a4e777c3b3e4115db16a933380cb7b78e543e7824057dc13574e2c"
     }
   },
   "transitions": [
@@ -215,6 +159,13 @@
       "to": "published",
       "actor": "codex:/root/issue-686",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #686 after exact-head review of PR #692 at 7e1d8bd96b957fde30daa87f219de87f0e794be9 failed P1. The Runtime configuration-generation identity currently derives solely from the init file SHA-256 while the immutable receipt bytes also include compatible_binary_generation. A Runtime binary-generation upgrade or rollback with unchanged init content therefore selects the same receipt filename and conflicts with retained bytes before start. Return to implementation for the narrow identity fix: include compatible binary generation in the immutable receipt identity while retaining content_sha256 separately, then add transition coverage proving gen1 activation, identical-init gen2 provision/activation/validation, and rollback to gen1."
     }
   ],
   "audit": [
@@ -595,6 +546,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 55,
+      "generation": 39,
+      "actor": "codex:/root",
+      "reason": "Recover #686 after exact-head review of PR #692 at 7e1d8bd96b957fde30daa87f219de87f0e794be9 failed P1. The Runtime configuration-generation identity currently derives solely from the init file SHA-256 while the immutable receipt bytes also include compatible_binary_generation. A Runtime binary-generation upgrade or rollback with unchanged init content therefore selects the same receipt filename and conflicts with retained bytes before start. Return to implementation for the narrow identity fix: include compatible binary generation in the immutable receipt identity while retaining content_sha256 separately, then add transition coverage proving gen1 activation, identical-init gen2 provision/activation/validation, and rollback to gen1.",
+      "operation": "recover_review"
     }
   ]
 }
