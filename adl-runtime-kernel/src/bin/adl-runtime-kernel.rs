@@ -26,7 +26,7 @@ use adl_runtime_kernel::{
     CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
     ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
     ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
-    config_generation_identity_from_env,
+    config_generation_identity_from_env, validate_config_generation_identity_matches_active,
     DurableContinuityJournal, FailureClass, Kernel, KernelExit, LiveBindings, LiveContinuity,
     LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
     OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor,
@@ -656,6 +656,21 @@ async fn main() -> ExitCode {
                         return ExitCode::from(78);
                     }
                 };
+            let kernel_binary_generation = match runtime_binary_generation(&init.binaries.kernel_path) {
+                Ok(generation) => generation,
+                Err(error) => {
+                    eprintln!("runtime kernel generation invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            if let Err(error) = validate_config_generation_identity_matches_active(
+                &init_path,
+                &kernel_binary_generation,
+                &config_generation_identity,
+            ) {
+                eprintln!("{error}");
+                return ExitCode::from(78);
+            }
             service = service.with_config_generation(
                 config_generation_identity.generation,
                 config_generation_identity.receipt_digest,
@@ -1354,6 +1369,22 @@ impl ServeArgs {
 
 fn usage() -> &'static str {
     "usage: adl-runtime-kernel serve --init <absolute-runtime-init.toml>"
+}
+
+fn runtime_binary_generation(kernel: &Path) -> Result<String, String> {
+    let generation = kernel
+        .canonicalize()
+        .map_err(|error| format!("resolve Runtime kernel generation: {error}"))?
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| "Runtime kernel generation identity is invalid".to_owned())?
+        .to_owned();
+    if generation.is_empty() {
+        return Err("Runtime kernel generation identity is empty".to_owned());
+    }
+    Ok(generation)
 }
 
 fn canonical_init_path(path: &Path) -> std::io::Result<PathBuf> {

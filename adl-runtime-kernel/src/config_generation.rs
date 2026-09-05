@@ -196,6 +196,20 @@ pub fn config_generation_identity_from_env(
     }
 }
 
+pub fn validate_config_generation_identity_matches_active(
+    init: &Path,
+    compatible_binary_generation: &str,
+    supplied: &ConfigGenerationIdentity,
+) -> Result<(), String> {
+    let expected = validate_active_config_generation(init, compatible_binary_generation)?;
+    if &expected != supplied {
+        return Err(
+            "runtime configuration generation environment does not match active receipt".to_owned(),
+        );
+    }
+    Ok(())
+}
+
 pub fn receipt_digest(receipt: &ConfigGenerationReceipt) -> Result<String, String> {
     serde_json::to_vec(receipt)
         .map(|bytes| blake3::hash(&bytes).to_hex().to_string())

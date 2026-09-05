@@ -5,7 +5,8 @@ use std::process::Command;
 use adl_runtime_kernel::{
     activate_config_generation, active_generation_ref, build_config_generation_receipt,
     config_generation_identity_from_env, generation_store, provision_config_generation,
-    validate_active_config_generation, REDACTED_SECRET_REFERENCE,
+    validate_active_config_generation, validate_config_generation_identity_matches_active,
+    ConfigGenerationIdentity, REDACTED_SECRET_REFERENCE,
 };
 
 fn write_generation_config(
@@ -232,6 +233,45 @@ fn kernel_startup_requires_config_generation_handoff_before_readiness_identity()
     .expect("complete handoff identity");
     assert_eq!(identity.generation, generation);
     assert_eq!(identity.receipt_digest, receipt_digest);
+}
+
+#[test]
+fn kernel_startup_rejects_forged_config_generation_handoff_identity() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+    let active = provision_config_generation(&init, "runtime-generation-one").expect("provision");
+    activate_config_generation(&init, &active).expect("activate");
+
+    validate_config_generation_identity_matches_active(&init, "runtime-generation-one", &active)
+        .expect("active identity matches active receipt");
+
+    let forged_generation = ConfigGenerationIdentity {
+        generation: "a".repeat(64),
+        receipt_digest: active.receipt_digest.clone(),
+    };
+    let forged_generation_error = validate_config_generation_identity_matches_active(
+        &init,
+        "runtime-generation-one",
+        &forged_generation,
+    )
+    .unwrap_err();
+    assert!(forged_generation_error.contains("does not match active receipt"));
+
+    let forged_digest = ConfigGenerationIdentity {
+        generation: active.generation,
+        receipt_digest: "b".repeat(64),
+    };
+    let forged_digest_error = validate_config_generation_identity_matches_active(
+        &init,
+        "runtime-generation-one",
+        &forged_digest,
+    )
+    .unwrap_err();
+    assert!(forged_digest_error.contains("does not match active receipt"));
 }
 
 #[test]
