@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 41,
-  "digest": "362febd0588c78aa4ab05e50fb5f48e01260c3535974cf10143144b00cc3e1c5",
+  "generation": 42,
+  "digest": "cef8a13a85be05c099f80fad525f1b66efb6f5a96b3d11defab611930aa7bab0",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "81e975e7afbd7a4f5987338d4cadbcefd74438cde472bd760d48e0a645c8fc81",
+      "values_digest": "15ed53771d44feb0d733dc028c55393a90fefd304718af86b61321d046344ac9",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "88ecf4c498efa468da76f70ec7d83125e0b285f877d28206ab2ec4ae69da2590",
+      "values_digest": "ab3e22a14b8a078099bed03949bc2ff3ff837d12afaddce838739a8d31d45134",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "9a6186f3486332ccbac40018c22f338c963ad4886eeaaf8d2d336c3c43f9d3be",
+      "values_digest": "915a0be4202e74f2185be86c1f81ca7a39b36bc3ec2f38baacf5a2e4e7219f82",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "d5a58ea261cd0173d1aa36fbe2f4cf827fc3b26fb4dd07a79438d80d17d24b17",
+      "values_digest": "e62db7b598704b99b699d1ad4805030e2aaaf730126174ae3d25f2d3704e3ddb",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "c4b5d75b158ec4dcb322b0f17938c849bfa50e51d5f8028679c770bbdfb3ce70",
+      "values_digest": "96fcab58cbac54d83fcb07a973f124f477e8004e8e0422b73c717c81163524fe",
       "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
       "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "394585ad84b893c513a1318b6a1515fc9764b014a4116532f5b49a3691456f13",
-      "rendered_digest": "15898e134bb22b29055484e8efb546e4f31f42c1fb3615304f2460101cd84cd0",
-      "ast_digest": "cac9ccf930b065c791e90e0e4f5ed0895986d8e8a8c3cf5264e470c76eb3962a"
+      "values_digest": "114ada8b6bbe9144366afbd6ccd941a09bb886d21aea193450770e0cfeef3f60",
+      "rendered_digest": "47d6accb9dcc17dee78e827b32c3db87972771abf854df234d5a51ad827cdef6",
+      "ast_digest": "36c9ed43df180f532b958b35f3533d85ef88060d183b106acbec519c3016f9cc"
     }
   },
   "transitions": [
@@ -574,6 +574,13 @@
       "actor": "codex:/root",
       "reason": "Recover #686 r15 exact-head review failure. The binary-generation-bound receipt identity fixed immutable filename collisions, but production CSM prepare_active_config_generation still only activates the provisioned expected identity when the active reference is missing. With unchanged init content after a Runtime binary-generation upgrade or rollback, an old active ref remains present and validation fails against the new binary generation before CSM start/reload can proceed. Return to implementation to make the production preflight deliberately activate the expected identity for the current init/binary pair while preserving fail-closed receipt validation, and add a CSM-path regression for the transition.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 42,
+      "actor": "codex:/root/issue-686",
+      "reason": "Record exact-head #686 validation evidence after r15 review found the production CSM preflight still did not advance unchanged init content across Runtime binary-generation changes.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered and remediated #686 after r15 exact-head review found that the lower-level binary-generation-bound receipt identity was insufficient: production `prepare_active_config_generation` still refused to advance when an old active ref existed for unchanged init content. The production preflight now validates an existing active receipt read-only against the current init content, advances only when the retained receipt is valid for the same init content but a different compatible binary generation, and still fails closed for content/ref/receipt mismatch. Focused coverage now proves the CSM path can upgrade and roll back unchanged init content across binary generations.\",\"changes\":[\"Preserved typed r15 review-failure truth by recovering #686 from assigned review state back to implemented gen41 before source edits.\",\"Refactored active receipt parsing in `adl-runtime-kernel/src/config_generation.rs` so exact active-generation validation and content-only validation share the same active reference and receipt parsing path.\",\"Added `validate_active_config_generation_content` to prove an existing active receipt is well-formed, digest-bound, schema-bound, and tied to the current init content before CSM may advance to a different binary generation.\",\"Updated `prepare_active_config_generation` in `adl/src/cli/csm_runtime_v3_cmd.rs` to activate the current expected identity when a valid retained receipt matches the init content but not the current binary generation.\",\"Preserved fail-closed behavior for interrupted reload/content mismatch by updating the existing regression to expect the stricter active-receipt content mismatch error.\",\"Added `config_generation_preflight_advances_unchanged_init_for_new_binary_generation` to prove the production preflight upgrades unchanged init content to runtime-generation-two and rolls back to runtime-generation-one.\",\"Updated the issue-owned #686 denominator to require the production preflight transition logic and CSM-path regression anchors.\",\"Re-ran the #686 denominator, focused csm_runtime_v3_cmd unit lane, focused Runtime v3 generation integration suite, both hosted-runtime regression tests, strict Clippy, all-workspace fmt check, and diff-check at source head 1c35cf9c4d2e559ce36f97d68f958c5727e1d1be.\"],\"artifacts\":[\"adl-runtime-kernel/src/config_generation.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tests/csm_runtime_v3_generation.rs\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\",\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=d0de4b282acc8ba23bb06d5cbb3e449ce26c1062070975e2f45575af1415dd23\",\".csdlc/evidence/686/issue686-denominator.log sha256=a4c23244070315fb1fa223acbe97969e4e98c594d60b91b2c78b6fef5e1d85c3\",\".csdlc/evidence/686/issue686-diff-check.log sha256=a035fdb1eaf8c46c3be7029b04b2286fc94b1ff2a01d66e27c7c63028b287fd9\",\".csdlc/evidence/686/issue686-fmt-check.log sha256=24e8152a4ab3427d9712e219598811c804063a196d58e3e3f45573e747805a19\",\".csdlc/evidence/686/issue686-focused-generation.log sha256=e3fda632503f7c57edf382aeb1a177db86b1e4c2c4bddb5d47c10ef97cacb661\",\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=0e547251e05e902d78706af1fc0d6594868929cc8e8b14230b4c603ceb8d0fe5\",\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=518735d1887059952cebb63bd1b6dde1aadb4435206ed4c2589913d3a7f9eb1a\",\".csdlc/evidence/686/issue686-strict-clippy.log sha256=2029784150a53deb7e5d83d3d5ca38ab7e9e61f17ccef1fdedbd5042422cb84d\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"purpose\":\"Prove the issue-owned #686 static denominator now requires production preflight binary-generation transition logic and CSM-path regression anchors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-denominator.log sha256=a4c23244070315fb1fa223acbe97969e4e98c594d60b91b2c78b6fef5e1d85c3 head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_v3_cmd\"],\"purpose\":\"Focused csm_runtime_v3_cmd unit proof including production preflight upgrade/rollback for unchanged init content.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=d0de4b282acc8ba23bb06d5cbb3e449ce26c1062070975e2f45575af1415dd23 head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Focused Runtime v3 configuration-generation integration regression suite including lower-level unchanged-config upgrade and rollback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-focused-generation.log sha256=e3fda632503f7c57edf382aeb1a177db86b1e4c2c4bddb5d47c10ef97cacb661 head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--nocapture\"],\"purpose\":\"Hosted adl-coverage-runtime regression for Guardian portable-child JSON success with valid config-generation authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=518735d1887059952cebb63bd1b6dde1aadb4435206ed4c2589913d3a7f9eb1a head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\",\"guardian_cli_rejects_oversized_durations_before_spawning_the_kernel\",\"--\",\"--nocapture\"],\"purpose\":\"Hosted adl-coverage-runtime regression for Guardian oversized-duration rejection before marker-child spawn.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=0e547251e05e902d78706af1fc0d6594868929cc8e8b14230b4c603ceb8d0fe5 head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all ADL Cargo targets with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-strict-clippy.log sha256=2029784150a53deb7e5d83d3d5ca38ab7e9e61f17ccef1fdedbd5042422cb84d head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Hosted-equivalent Rust formatting check for all ADL Cargo packages and local path dependencies.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-fmt-check.log sha256=24e8152a4ab3427d9712e219598811c804063a196d58e3e3f45573e747805a19 head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-diff-check.log sha256=a035fdb1eaf8c46c3be7029b04b2286fc94b1ff2a01d66e27c7c63028b287fd9 head=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be status=0\"}]}"
     }
   ]
 }

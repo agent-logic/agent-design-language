@@ -1,7 +1,7 @@
-sha=9c5cf807b219fcf170e07d68dd8a796ed8c82031
+sha=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be
 argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo clippy --locked --manifest-path adl/Cargo.toml --all-targets -- -D warnings
 status=0
     Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl-runtime-kernel)
     Checking adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl-runtime)
     Checking adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 27.48s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 25.96s
