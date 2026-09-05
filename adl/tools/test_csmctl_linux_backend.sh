@@ -59,6 +59,13 @@ grep -F "Use: \"$ROOT/.adl/runtime-v3/current/bin/csm\" runtime-v3 <start|stop|s
 grep -F "Use: \"$ROOT/.adl/runtime-v3/current/bin/csm\"" "$SCRATCH/alternate-cwd.out" >/dev/null
 grep -F -- "--init \"$ROOT/.adl/runtime-v3/live/runtime-init.toml\"" "$SCRATCH/alternate-cwd.out" >/dev/null
 
+(
+  cd "$SCRATCH"
+  "$ROOT/CSMctl" --help >"$SCRATCH/alternate-cwd-help.out"
+)
+grep -F "\"$ROOT/.adl/runtime-v3/current/bin/csm\" runtime-v3" "$SCRATCH/alternate-cwd-help.out" >/dev/null
+grep -F -- "--init \"$ROOT/.adl/runtime-v3/live/runtime-init.toml\"" "$SCRATCH/alternate-cwd-help.out" >/dev/null
+
 [[ ! -s "$external_log" ]]
 
 help_output=$("$ROOT/CSMctl" --help)

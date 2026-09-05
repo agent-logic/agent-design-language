@@ -134,18 +134,17 @@ case "$HOST_OS" in
 esac
 
 usage() {
-  cat <<'USAGE'
-Usage: ./CSMctl observatory [start|status|stop|open|urls|logs]
-
-Commands:
-  observatory
-          Control only the static HTML Observatory service. This does not start
-          or stop Runtime and may point at any configured Runtime API base.
-
-Permanent Runtime control:
-  .adl/runtime-v3/current/bin/csm runtime-v3 <start|stop|status|reload> \
-    --init "$PWD/.adl/runtime-v3/live/runtime-init.toml" --json
-USAGE
+  printf '%s\n' \
+    'Usage: ./CSMctl observatory [start|status|stop|open|urls|logs]' \
+    '' \
+    'Commands:' \
+    '  observatory' \
+    '          Control only the static HTML Observatory service. This does not start' \
+    '          or stop Runtime and may point at any configured Runtime API base.' \
+    '' \
+    'Permanent Runtime control:' \
+    "  \"$SCRIPT_DIR/.adl/runtime-v3/current/bin/csm\" runtime-v3 <start|stop|status|reload> \\" \
+    "    --init \"$SCRIPT_DIR/.adl/runtime-v3/live/runtime-init.toml\" --json"
 }
 
 info() {
