@@ -35,6 +35,7 @@ sprint_membership_readback = json("docs/milestones/v0.92.1/evidence/wp-01/sprint
 gemini_receipt = json(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/receipt.json")
 gemini_review = read(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md")
 pr591_state_request = json(".csdlc/prepared/issues/505/pr591-state-after-prep-refresh-request.json")
+pr591_defer_update = json(".csdlc/prepared/issues/505/update-pr591-after-defer-brief-reconciliation.json")
 pr591_after_sprint89 = json(".csdlc/evidence/591/pr-state-after-sprint89-readiness.json")
 sprint89_readiness = json(".csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-report.json")
 sprint89_issue511_local = json(".csdlc/evidence/sprints-8-9-v3-readiness/issue-511-local-readiness-report.json")
@@ -150,6 +151,13 @@ assert(pr591_body.include?("Part-Of #505"), "PR #591 body missing non-closing #5
 assert(pr591_body.include?("Sprint 8 #536 is live membership v5"), "PR #591 body missing Sprint 8 readiness truth")
 assert(pr591_body.include?("Sprint 9 #537 is live membership v4"), "PR #591 body missing Sprint 9 readiness truth")
 assert(!pr591_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\b/), "PR #591 body contains an issue-closing keyword for #505")
+
+defer_body = pr591_defer_update.fetch("body")
+assert(pr591_defer_update["action"] == "pr_update", "current defer-brief PR request must be a typed PR update")
+assert(pr591_defer_update["pull_request"] == 591, "current defer-brief PR request must target #591")
+assert(defer_body.include?("Part-Of #505"), "current defer-brief PR body missing non-closing #505 linkage")
+assert(defer_body.include?("Remaining approval blockers"), "current defer-brief PR body must keep approval blockers visible")
+assert(!defer_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\b/), "current defer-brief PR body contains a GitHub closing-reference token for #505")
 
 assert(command_manifest["schema"] == "csdlc.v3.command_manifest.v1", "v3 command manifest emitted wrong schema")
 assert(command_manifest["one_binary"] == "csdlc", "v3 command manifest must retain one csdlc binary")
