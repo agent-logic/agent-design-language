@@ -1300,7 +1300,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         intent: &ObservatoryAgentInitiationIntent,
     ) -> ConversationAcceptance {
-        self.accept_agent_initiation_intent_inner(intent, false)
+        self.accept_agent_initiation_intent_inner(intent, true)
     }
 
     fn accept_agent_initiation_intent_inner(
@@ -5581,6 +5581,46 @@ mod layer8_conversation_ingress_tests {
             },
         )
         .expect("agent initiation authority profile is valid");
+        let mut recipient_descriptors = BTreeMap::new();
+        recipient_descriptors.insert(
+            sender_id.to_owned(),
+            CommunicationVerifyingDescriptor {
+                principal_id: sender_id.to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: sender_key_id.clone(),
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+        );
+        recipient_descriptors.insert(
+            recipient_id.to_owned(),
+            CommunicationVerifyingDescriptor {
+                principal_id: recipient_id.to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: recipient_key_id,
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+        );
+        recipient_descriptors.insert(
+            "scribe".to_owned(),
+            CommunicationVerifyingDescriptor {
+                principal_id: "scribe".to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: "scribe-key".to_owned(),
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(scribe_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+        );
         let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
             sender: CommunicationKeyDescriptor {
                 principal_id: sender_id.to_owned(),
@@ -5591,44 +5631,28 @@ mod layer8_conversation_ingress_tests {
                 not_before_epoch_secs: 0,
                 expires_at_epoch_secs: u64::MAX,
             },
-            recipients: vec![
-                CommunicationVerifyingDescriptor {
-                    principal_id: sender_id.to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: sender_key_id.clone(),
-                    credential_generation: 1,
-                    verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
-                    revoked: false,
-                    not_before_epoch_secs: 0,
-                    expires_at_epoch_secs: u64::MAX,
-                },
-                CommunicationVerifyingDescriptor {
-                    principal_id: recipient_id.to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: recipient_key_id,
-                    credential_generation: 1,
-                    verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
-                    revoked: false,
-                    not_before_epoch_secs: 0,
-                    expires_at_epoch_secs: u64::MAX,
-                },
-                CommunicationVerifyingDescriptor {
-                    principal_id: "scribe".to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: "scribe-key".to_owned(),
-                    credential_generation: 1,
-                    verifying_key_hex: hex::encode(scribe_key.verifying_key().to_bytes()),
-                    revoked: false,
-                    not_before_epoch_secs: 0,
-                    expires_at_epoch_secs: u64::MAX,
-                },
-            ],
+            recipients: recipient_descriptors.into_values().collect(),
         })
         .expect("agent initiation exchange profile is valid");
         (authority, exchange, root)
     }
 
     async fn agent_initiation_service(
+        fail: bool,
+        delay: Duration,
+    ) -> (
+        Arc<ControlService<FakeLifecycle>>,
+        crate::KernelHandle,
+        RuntimeRecorder,
+        Arc<Mutex<Vec<serde_json::Value>>>,
+        tempfile::TempDir,
+    ) {
+        agent_initiation_service_with_layer8_sender("beacon", "ember", fail, delay).await
+    }
+
+    async fn agent_initiation_service_with_layer8_sender(
+        sender_id: &str,
+        recipient_id: &str,
         fail: bool,
         delay: Duration,
     ) -> (
@@ -5692,7 +5716,8 @@ mod layer8_conversation_ingress_tests {
             reveal_capabilities: false,
             reveal_location: false,
         });
-        let (authority, exchange, layer8_root) = agent_initiation_layer8_fixture("beacon", "ember");
+        let (authority, exchange, layer8_root) =
+            agent_initiation_layer8_fixture(sender_id, recipient_id);
         let observed_tasks = Arc::new(Mutex::new(Vec::new()));
         let adapter = Arc::new(
             crate::OperationalAdapter::new(
@@ -6125,8 +6150,6 @@ mod layer8_conversation_ingress_tests {
 
     #[tokio::test]
     async fn agent_to_agent_runtime_internal_initiation_allows_resident_agent_pairs() {
-        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
-            agent_initiation_service(false, Duration::ZERO).await;
         let resident_ids = ["beacon", "ember", "scribe"];
         let pairs = resident_ids
             .iter()
@@ -6158,6 +6181,14 @@ mod layer8_conversation_ingress_tests {
             let turn_id = turn_id.as_str();
             let correlation_id = correlation_id.as_str();
             let work_id = work_id.as_str();
+            let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+                agent_initiation_service_with_layer8_sender(
+                    sender_id,
+                    recipient_id,
+                    false,
+                    Duration::ZERO,
+                )
+                .await;
             let accepted =
                 match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
                     sender_id,
@@ -6204,10 +6235,8 @@ mod layer8_conversation_ingress_tests {
                 }),
                 "resident pair reply should preserve governed sender and work identity: {accepted:?}"
             );
-        }
-        {
-            let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
-            for (sender_id, recipient_id, _turn_id, correlation_id, work_id) in pairs {
+            {
+                let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
                 assert!(
                     tasks.iter().any(|task| {
                         task["sender_id"] == sender_id
@@ -6218,7 +6247,30 @@ mod layer8_conversation_ingress_tests {
                     "expected governed task for resident pair {sender_id}->{recipient_id}: {tasks:?}"
                 );
             }
+            kernel.shutdown(Duration::from_secs(1)).await.unwrap();
         }
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_runtime_internal_initiation_rejects_sender_identity_mismatch() {
+        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
+            agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
+                .await;
+        let mismatch =
+            match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                "scribe",
+                "ember",
+                "turn-scribe-ember-mismatch",
+                "00000000000000000000000000000001",
+                "a2a-work-scribe-ember-mismatch",
+            )) {
+                ConversationAcceptance::Response(response) => response,
+                ConversationAcceptance::Dispatch { .. } => {
+                    panic!("runtime-internal A2A accepted mismatched signing identity")
+                }
+        };
+        assert_eq!(mismatch.status, "refused");
+        assert_eq!(mismatch.error, Some("sender_identity_mismatch"));
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 

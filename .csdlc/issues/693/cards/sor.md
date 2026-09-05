@@ -8,18 +8,21 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: ready
 
 ## Summary
 
-Implemented Runtime-owned model-backed A2A selection through Ollama-native tool calls, with governed dispatch, distinct initiating and recipient results, correlated completion observability, and safe ordinary-reply fallback when a model rejects tools.
+Implemented Runtime-owned model-backed A2A selection through provider-native tool calls, with governed dispatch, sender-bound Layer8 authority for runtime-internal resident A2A, distinct initiating and recipient results, correlated completion observability, and safe ordinary-reply fallback when a model rejects tools.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/assembly.rs
 - adl-runtime-kernel/src/control.rs
 - adl-runtime-kernel/src/telemetry.rs
-- .csdlc/evidence/693/local-validation.md
+- adl-runtime-kernel/tests/guardian_soak.rs
+- .csdlc/evidence/693/ci-red-remediation.md
+- .csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log
+- .csdlc/evidence/693/review-finding-remediation.md
 
 ## Execution
 
@@ -30,6 +33,8 @@ Implemented Runtime-owned model-backed A2A selection through Ollama-native tool 
 - Emitted agent_to_agent_initiated when governed dispatch is accepted, agent_to_agent_completed only after delivery, and agent_to_agent_failed for terminal non-delivery outcomes.
 - Added bounded fallback to ordinary Ollama generation for 400/404 tool-unsupported responses without inferring or dispatching A2A.
 - Added an isolated production-ingress Beacon-to-Ember acceptance using native provider tool output, real governed recipient execution, and correlated initiation/completion observation.
+- Provisioned Runtime v3 configuration-generation environment in guardian soak subprocess tests so PR CI exercises the real configured runtime entrypoint.
+- Bound runtime-internal A2A initiation to the active Layer8 signed exchange sender identity and added a mismatch regression so one resident's signer cannot authorize another resident as sender.
 
 ## Validation
 
@@ -41,13 +46,28 @@ Implemented Runtime-owned model-backed A2A selection through Ollama-native tool 
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--lib",
-      "control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response",
+      "agent_to_agent_",
       "--",
-      "--exact"
+      "--nocapture"
     ],
-    "purpose": "Prove production-ingress native action selection, governed recipient execution, distinct replies, and correlated terminal observability.",
+    "purpose": "Prove Runtime-owned A2A action selection, runtime-internal resident-pair communication with sender-bound Layer8 authority, mismatch refusal, recipient delivery, and correlated observability.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/693/local-validation.md"
+    "evidence_ref": ".csdlc/evidence/693/review-finding-remediation.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "guardian_soak",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove the CI-red guardian soak subprocess lane after provisioning runtime configuration generation for the real serve entrypoint.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log"
   },
   {
     "command": [
@@ -60,19 +80,18 @@ Implemented Runtime-owned model-backed A2A selection through Ollama-native tool 
     ],
     "purpose": "Prove provider action normalization, failure behavior, and unsupported-tools ordinary-reply fallback.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/693/local-validation.md"
+    "evidence_ref": ".csdlc/evidence/693/ci-red-remediation.md"
   },
   {
     "command": [
       "cargo",
-      "test",
+      "fmt",
       "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--lib"
+      "adl-runtime-kernel/Cargo.toml"
     ],
-    "purpose": "Prove the complete Runtime kernel library surface.",
+    "purpose": "Rust formatting.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/693/local-validation.md"
+    "evidence_ref": ".csdlc/evidence/693/review-finding-remediation.md"
   },
   {
     "command": [
@@ -87,7 +106,17 @@ Implemented Runtime-owned model-backed A2A selection through Ollama-native tool 
     ],
     "purpose": "Strict lint validation.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/693/local-validation.md"
+    "evidence_ref": ".csdlc/evidence/693/review-finding-remediation.md"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/693/review-finding-remediation.md"
   }
 ]
 
