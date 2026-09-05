@@ -4,12 +4,66 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "05fc8467e6341083b774c7a7a8b58e9d53a52a70031944e8511811f8156c541c",
+  "generation": 14,
+  "digest": "d8ba5cf1451edebda191096740013179b21b1bd26c012bfa1c260235f68364f9",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r5",
+    "assigned_by": "codex:/root/issue-686",
+    "revision": "git-blake3:ff92652c4d1537d5d2557ab63f317a2a3a8b2372:48c290d1f395846260e577c1042c5e504fc85b739ced0bcfd6def1bc24493305",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r5",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ],
+    "reviewed_revision": "git-blake3:ff92652c4d1537d5d2557ab63f317a2a3a8b2372:48c290d1f395846260e577c1042c5e504fc85b739ced0bcfd6def1bc24493305",
+    "findings": [
+      {
+        "id": "r5-p1-interrupted-reload-recovery-blocked-by-config-preflight",
+        "severity": "p1",
+        "summary": "Start/reload run active configuration-generation validation before reconcile_interrupted_reload, so a crash after active init replacement but before active-generation ref activation can strand recovery behind a mismatched active ref.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "r5-p2-candidate-receipt-stored-outside-active-generation-store",
+        "severity": "p2",
+        "summary": "Reload provisions a candidate receipt beside the candidate file even though post-activation validation reads the receipt beside the active init path, so candidates from another directory cannot become valid active generations.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +78,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8907fdb9587a431df0b48c5d708de3a2dd2c79090bad850a450a15e58e018bff",
+      "values_digest": "ae0c36133a7564ed0c27bd497efc9a39ebe6b7874586ea21323b4471d48e8fc3",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "1944bd59fdd53fc8059ebffa194bf1798a0e26f12d637b63231b1c887e4f9472",
+      "values_digest": "b00085e762fdff57b9e99d567dd1e885de223abe9ecba917bed8197293b019d0",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "de1b67b44a73ac8031bd1b95e89a6273673c7384fb99ff523393a8b81f28cf4c",
+      "values_digest": "29eafd3fbe7e2832d5b7330edcb8e582f62715fb428014f469d7aaa2e2b64014",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "5534d09a88a36cb429db8d4ed5bcbee2e144e0fd9b7d617795b707e94162c540",
+      "values_digest": "3ec11bd4400726c4f607f6865952a00c6d54a1a0531535f75d3090c48d9e7718",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "a9216413780bf575a3c7ed492e246e3bd751a9b695e441bee96061795f1f451a",
-      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
-      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
+      "values_digest": "f165a7c1a682f3b59548ee5ace77823303cdd023855fb9559e535dc1d51b06f6",
+      "rendered_digest": "7088c011423c62046097d079914edf286fd1d3e6d8ab692727fb35ad2d7016fb",
+      "ast_digest": "c07a3844467d11dd7903a473194272b136c4a3f7c24ff25b1f44d0e973c9c917"
     },
     "sor": {
-      "values_digest": "6c84be45c7a1c114e11b41c86c4e5e0d7662daba77f37444243a6d299169c888",
+      "values_digest": "6d8d6fb2294e8643b4148d1ba58b761959d5da769c9238ee56145f2dd07d3adb",
       "rendered_digest": "f2ff55acd157b8cacb177ec523c6a73feb99655b8b6bb15046072ee306dbe651",
       "ast_digest": "4f8759fbaf7c5e86bf55ce315a6eb2e4a0c566825917bf64fd8e2d6f7844a6b1"
     }
@@ -210,6 +264,20 @@
       "actor": "codex:/root/issue-686",
       "reason": "Recover #686 review authority after exact-head reviewer codex-subagent:/root/review_686_runtime_config_generation_r4 returned P1 r4-p1-kernel-env-not-bound-to-active-receipt. Remediation will make direct kernel startup validate supplied configuration-generation env identity against the active receipt/ref for the init and current kernel binary generation before exposing readiness/status.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root/issue-686",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:/root/issue-686",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

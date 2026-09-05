@@ -1,18 +1,19 @@
-sha=040d3ac82450086030fd3f6c8b034e24dd5546b5
+sha=ff92652c4d1537d5d2557ab63f317a2a3a8b2372
 argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl/Cargo.toml --test csm_runtime_v3_generation
 
-running 8 tests
+running 9 tests
 test kernel_startup_requires_config_generation_handoff_before_readiness_identity ... ok
 test pre_activation_receipt_is_not_authoritative ... ok
 test config_generation_receipt_is_immutable_and_redacts_secret_references ... ok
 test malformed_and_cross_binary_receipts_are_rejected ... ok
+test kernel_startup_rejects_forged_config_generation_handoff_identity ... ok
 test post_pointer_mismatch_fails_closed_before_authority ... ok
 test prior_generation_remains_authoritative_after_candidate_failure ... ok
 test candidate_ready_receipt_does_not_replace_active_without_activation ... ok
 {"artifacts": {"csm": {"file": "bin/csm", "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"}, "guardian": {"file": "bin/adl-runtime-guardian", "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"}, "kernel": {"file": "bin/adl-runtime-kernel", "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"}}, "build_profile": "debug", "generation": "one", "platform": "macos-aarch64", "predecessor_generation": null, "runtime_init_schema": "adl.runtime_v3.init.v1", "schema": "adl.runtime_v3.install_generation.v1", "source_revision": "test-revision"}
 test generation_installer_rejects_mixed_set_and_preserves_current_reference ... ok
 
-test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
 
 status=0
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.57s

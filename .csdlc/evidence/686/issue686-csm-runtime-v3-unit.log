@@ -1,4 +1,4 @@
-sha=040d3ac82450086030fd3f6c8b034e24dd5546b5
+sha=ff92652c4d1537d5d2557ab63f317a2a3a8b2372
 argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl/Cargo.toml csm_runtime_v3_cmd
 
 running 0 tests
@@ -9,8 +9,8 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1839 filtered out; f
 running 47 tests
 test cli::csm_runtime_v3_cmd::tests::convergence_stage_normalization_preserves_non_deadline_errors ... ok
 test cli::csm_runtime_v3_cmd::tests::convergence_true_timeout_reports_exact_stage_and_deadline ... ok
-test cli::csm_runtime_v3_cmd::tests::empty_interrupted_transaction_is_a_noop ... ok
 test cli::csm_runtime_v3_cmd::tests::active_init_hash_is_exact_file_content_identity ... ok
+test cli::csm_runtime_v3_cmd::tests::empty_interrupted_transaction_is_a_noop ... ok
 test cli::csm_runtime_v3_cmd::tests::command_dispatch_covers_help_missing_unknown_and_start_candidate_rejection ... ok
 test cli::csm_runtime_v3_cmd::tests::convergence_rejects_success_observed_after_deadline ... ok
 test cli::csm_runtime_v3_cmd::tests::convergence_listener_open_is_distinct_from_full_readiness ... ok
@@ -20,34 +20,34 @@ test cli::csm_runtime_v3_cmd::tests::installed_plist_uses_service_label ... ok
 test cli::csm_runtime_v3_cmd::tests::committed_candidate_cleanup_removes_backup_and_stale_staging ... ok
 test cli::csm_runtime_v3_cmd::tests::command_runner_reports_success_failure_and_missing_binary ... ok
 test cli::csm_runtime_v3_cmd::tests::failed_candidate_copy_removes_staging_and_restores_active ... ok
-test cli::csm_runtime_v3_cmd::tests::generation_preflight_rejects_direct_generation_kernel_path ... ok
-test cli::csm_runtime_v3_cmd::tests::launchctl_process_identity_parser_is_exact_and_rejects_zero ... ok
-test cli::csm_runtime_v3_cmd::tests::launchctl_state_classifier_accepts_only_running_or_service_not_found ... ok
-test cli::csm_runtime_v3_cmd::tests::interrupted_reload_validation_failure_preserves_last_known_good ... ok
 test cli::csm_runtime_v3_cmd::tests::candidate_install_retains_exact_last_known_good_config ... ok
+test cli::csm_runtime_v3_cmd::tests::generation_preflight_rejects_direct_generation_kernel_path ... ok
+test cli::csm_runtime_v3_cmd::tests::launchctl_state_classifier_accepts_only_running_or_service_not_found ... ok
+test cli::csm_runtime_v3_cmd::tests::launchctl_process_identity_parser_is_exact_and_rejects_zero ... ok
+test cli::csm_runtime_v3_cmd::tests::interrupted_reload_validation_failure_preserves_last_known_good ... ok
 test cli::csm_runtime_v3_cmd::tests::generation_preflight_rejects_non_executable_artifacts_before_mutation ... ok
 test cli::csm_runtime_v3_cmd::tests::parser_accepts_absolute_reload_candidate ... ok
 test cli::csm_runtime_v3_cmd::tests::parser_accepts_explicit_service_identity ... ok
 test cli::csm_runtime_v3_cmd::tests::parser_rejects_missing_values_unknown_options_and_invalid_identity ... ok
 test cli::csm_runtime_v3_cmd::tests::parser_requires_absolute_init ... ok
-test cli::csm_runtime_v3_cmd::tests::convergence_timeout_rolls_back_candidate_and_restarts_last_known_good ... ok
+test cli::csm_runtime_v3_cmd::tests::launchd_semantic_preflight_ignores_commented_program_arguments ... ok
 test cli::csm_runtime_v3_cmd::tests::readiness_requires_runtime_identity_and_full_health ... ok
 test cli::csm_runtime_v3_cmd::tests::generation_preflight_rejects_mixed_artifacts_before_mutation ... ok
 test cli::csm_runtime_v3_cmd::tests::service_definition_preflight_parsers_require_exact_executable_position ... ok
+test cli::csm_runtime_v3_cmd::tests::service_manager_output_is_drained_while_command_runs ... ok
 test cli::csm_runtime_v3_cmd::tests::generation_preflight_requires_atomic_current_symlink ... ok
-test cli::csm_runtime_v3_cmd::tests::launchd_semantic_preflight_ignores_commented_program_arguments ... ok
 test cli::csm_runtime_v3_cmd::tests::systemd_state_parser_distinguishes_stopped_transitional_and_failed_units ... ok
-test cli::csm_runtime_v3_cmd::tests::service_manager_timeout_preserves_non_timeout_command_diagnostics ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_timeout_rolls_back_candidate_and_restarts_last_known_good ... ok
 test cli::csm_runtime_v3_cmd::tests::usage_exposes_all_governed_lifecycle_operations ... ok
 test cli::csm_runtime_v3_cmd::tests::readiness_client_reaches_connection_failure_with_valid_trust_root ... ok
-test cli::csm_runtime_v3_cmd::tests::service_manager_output_is_drained_while_command_runs ... ok
+test cli::csm_runtime_v3_cmd::tests::interrupted_reload_wrapper_rejects_invalid_backup_and_removes_valid_staging ... ok
+test cli::csm_runtime_v3_cmd::tests::service_manager_timeout_preserves_non_timeout_command_diagnostics ... ok
 test cli::csm_runtime_v3_cmd::tests::reload_never_overwrites_an_existing_last_known_good_config ... ok
 test cli::csm_runtime_v3_cmd::tests::transaction_helpers_reject_ambiguous_or_invalid_paths ... ok
-test cli::csm_runtime_v3_cmd::tests::interrupted_reload_commits_candidate_when_owned_readiness_matches_active_hash ... ok
 test cli::csm_runtime_v3_cmd::tests::launchd_preflight_requires_guardian_from_current_generation ... ok
-test cli::csm_runtime_v3_cmd::tests::validated_init_rejects_missing_kernel_and_invalid_toml ... ok
+test cli::csm_runtime_v3_cmd::tests::interrupted_reload_commits_candidate_when_owned_readiness_matches_active_hash ... ok
 test cli::csm_runtime_v3_cmd::tests::generation_preflight_rejects_invalid_receipt_contracts ... ok
-test cli::csm_runtime_v3_cmd::tests::interrupted_reload_wrapper_rejects_invalid_backup_and_removes_valid_staging ... ok
+test cli::csm_runtime_v3_cmd::tests::validated_init_rejects_missing_kernel_and_invalid_toml ... ok
 test cli::csm_runtime_v3_cmd::tests::interrupted_reload_restores_last_known_good_before_next_start ... ok
 test cli::csm_runtime_v3_cmd::tests::generation_preflight_rejects_receipt_paths_and_binary_identity ... ok
 test cli::csm_runtime_v3_cmd::tests::missing_service_is_unloaded_and_has_no_owned_process ... ok
@@ -130,7 +130,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 108 filtered out; fi
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
 
 
 running 0 tests
@@ -246,7 +246,7 @@ status=0
    Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl-runtime-kernel)
    Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl-runtime)
    Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 25.50s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 26.34s
      Running unittests src/lib.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/adl-f9f1499146748811)
      Running unittests src/main.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/adl-667c6ee9f9f1ab84)
      Running unittests src/bin/adl_aws_remote_validation.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/adl_aws_remote_validation-cdfd263a8729d467)
