@@ -4,57 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
-  "phase": "published",
-  "generation": 25,
-  "digest": "7f90cb85073f25074be0c044ada37195d4a2c328237cef2089971edc7194f28b",
+  "phase": "implemented",
+  "generation": 26,
+  "digest": "41e9394604422f83012b4c3da0f8c389a5556047055d01a592a0e950a5453b69",
   "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
-  "review_assignment": {
-    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:02bee39bcc6c7fccebf790312a47374041d2db02:e21030e0ec943018962c5ac4f95290e13cf6d3efacf7eb5e41532fe8a2d852bb",
-    "scope": [
-      "signed fresh-start genesis continuity lineage and design authority",
-      "first partial cycle and dynamic-agent tombstone after fresh start",
-      "current-main Runtime configuration-generation integration",
-      "five-minute per-agent partial checkpoints and S3 archival",
-      "Runtime API and Observatory continuity projection",
-      "AWS Terraform archive boundary",
-      "complete focused validation and CI remediation"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
-    "scope": [
-      "signed fresh-start genesis continuity lineage and design authority",
-      "first partial cycle and dynamic-agent tombstone after fresh start",
-      "current-main Runtime configuration-generation integration",
-      "five-minute per-agent partial checkpoints and S3 archival",
-      "Runtime API and Observatory continuity projection",
-      "AWS Terraform archive boundary",
-      "complete focused validation and CI remediation"
-    ],
-    "reviewed_revision": "git-blake3:02bee39bcc6c7fccebf790312a47374041d2db02:e21030e0ec943018962c5ac4f95290e13cf6d3efacf7eb5e41532fe8a2d852bb",
-    "findings": [],
-    "residual_risks": [
-      "Live AWS Terraform apply and permanent Wuji rollout remain explicitly deferred and are not claimed by this PR.",
-      "The acceptance receipt is bound to the substantive implementation head c45378f835b92d8c1f0138f587ccd93af604f430; subsequent commits contain only acceptance and lifecycle or reviewed design authority metadata."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 695,
-    "pull_request": 706,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/706",
-    "base": "main",
-    "head": "codex/695-runtime-agent-partial-checkpoint-s3",
-    "revision": "git-blake3:bc5b3b46a6e3285b57ccb191d366e091aadb70fe:6f8529c1da6d62d431db11b14f39b3b08d727a57e9ab3fbb43640d0dd670faa1",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "911aa8ec1b807d115c88fd400e7a8bb344ce1d1f2f24f413dfe9c96bf7b64793",
+      "values_digest": "bec42fe78651c95fbc9e152723b1b1e8f59389c9b21070faad6ea294c78d9fcb",
       "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
       "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
     },
     "stp": {
-      "values_digest": "1ee5b1816dc203c714fe3653a08b37ed57bc602a12bd6dbbebf44fe29a3976da",
+      "values_digest": "ecd8ff9b12420e33618d4944d73bda951e470459341ba801c965e425300fde4c",
       "rendered_digest": "2c3c11dd93c7edaf7e4d5e7f3e7a6a77428649b405d2091f6959e1b3a20d924c",
       "ast_digest": "4e98cb924f78d34c5631ea6135da7b04bb9c10c91c726eb865af22fb00028a4c"
     },
     "spp": {
-      "values_digest": "02a3a55e0b76c7b71c15996e840fd72c4292f14adf85b6b6784c4b10b50e7984",
+      "values_digest": "aea9248266acef10e465d775942f92da24352e70839f14dd2d8b25ef72759870",
       "rendered_digest": "daddaa91dced29518ffd145e5198c2a4609f2a7f0f47de65d57802e0739b91cb",
       "ast_digest": "46122db182cbcc3f1c01845b3029ed7ef3b8eb059c014d29704ae30dff5e4ae1"
     },
     "vpp": {
-      "values_digest": "8632f8529dfeedc1a917a0771707104409c0897d6b34a315f8159d4972b93268",
+      "values_digest": "91e617f34cdacb183279dcb43ab041ec7717f31bd6674deaf9dbacadbbeecf39",
       "rendered_digest": "3e9546cce535c699192da26f46a56ae11cb14e3ee45cae3dfa58d306d82c3dcd",
       "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
     },
     "srp": {
-      "values_digest": "a01928d502e71959c13122d8eb02b7cbb4a55134077bde922860444835d6c3db",
-      "rendered_digest": "c0f56cdf442b76a65386eb73d0f516a4150d56c390355e416b067e19ef431c8a",
-      "ast_digest": "f8472954914caf1dda4b64609a5c9ef45697a927aea3ddf8e8f004d8d2d35122"
+      "values_digest": "56174dde590065037f9180913911d192fd36f2c8fc687d1b0a2850117da37ec8",
+      "rendered_digest": "5ed94e79d52fccb9957a25e85d14903ca13fff663eab2b5639a18e1ab4e49aaf",
+      "ast_digest": "06e87c997b3673dfdd23dbeaf31239220030f697afa0b5ebe5b3675616bd1b47"
     },
     "sor": {
-      "values_digest": "e307bd457cf6560eb864aaaafa92e25cfd576702aa79f4cade2fdbc5628c9428",
-      "rendered_digest": "6d11cef9c5043bbda7bc36bed30359c3b1b136c03d6c586bd95d7201243ea603",
-      "ast_digest": "f67bfb43ad40a70d51de0b0c78d8667f8bbdcfa9ec26dd641095f623ddc07c2d"
+      "values_digest": "a17f1a213399d4e0f23a39ca25c0a6b0a268a7a4c3ef5db3cfe9ed209314098b",
+      "rendered_digest": "7be2907d14a291dd67bc9cd00d5c0c7729cb0f85e1e7a2ae803a301c23a68e79",
+      "ast_digest": "aa341d3ff8d56c0c2e575635c8d167e9509870beb4f4a224015ddaa7485e089e"
     }
   },
   "transitions": [
@@ -182,6 +139,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after CI exposed two strict clippy diagnostics; the narrow storage indirection and type alias remediation preserves behavior and passed the exact clippy gate plus focused Runtime tests."
     }
   ],
   "audit": [
@@ -422,6 +386,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after CI exposed two strict clippy diagnostics; the narrow storage indirection and type alias remediation preserves behavior and passed the exact clippy gate plus focused Runtime tests.",
+      "operation": "recover_review"
     }
   ]
 }
