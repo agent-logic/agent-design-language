@@ -807,8 +807,6 @@ impl AgentPartialCheckpointStore {
                 }
             }
             Err(error) if error.kind() == io::ErrorKind::NotFound => {
-                self.prune_local_for(record.agent_id(), tombstone)?;
-                self.prune_global_for_write(bytes.len() as u64)?;
                 persist_bytes_atomically(&destination, bytes)?;
                 created_record = true;
             }
@@ -821,7 +819,14 @@ impl AgentPartialCheckpointStore {
             return Err(error);
         }
         let agent_id = record.agent_id().to_owned();
-        self.clear_archive_degraded(&agent_id)?;
+        if created_record {
+            self.prune_local_after_commit(&agent_id, tombstone)?;
+            self.prune_global_for_write(0)?;
+        }
+        let pending_archive_count = self.reconcile_spool_after_receipt(&record)?;
+        if pending_archive_count == 0 {
+            self.clear_archive_degraded(&agent_id)?;
+        }
         let mut state = self.state.lock().expect("partial store state poisoned");
         let next = state
             .next_sequence
@@ -842,13 +847,76 @@ impl AgentPartialCheckpointStore {
                     projection.last_snapshot_at_unix_millis = Some(partial.created_at_unix_millis);
                     projection.last_archive_at_unix_millis = Some(archived_at_unix_millis);
                     projection.snapshot_sequence = Some(partial.snapshot_sequence);
-                    projection.pending_archive_count = 0;
+                    projection.pending_archive_count = pending_archive_count;
                     projection.snapshot_state = AgentSnapshotState::Current;
-                    projection.archive_state = AgentArchiveState::Current;
+                    projection.archive_state = if pending_archive_count == 0 {
+                        AgentArchiveState::Current
+                    } else {
+                        AgentArchiveState::Pending
+                    };
                 }
             }
         }
         drop(state);
+        Ok(())
+    }
+
+    fn reconcile_spool_after_receipt(
+        &self,
+        archived: &StoredRecord,
+    ) -> Result<u64, AgentPartialError> {
+        let mut pending = 0u64;
+        for path in json_files(&self.spool_root.join(digest_label(archived.agent_id())))? {
+            let bytes = fs::read(&path)?;
+            let Ok(record) = decode_record(&bytes) else {
+                pending = pending.saturating_add(1);
+                continue;
+            };
+            if record.agent_id() == archived.agent_id()
+                && record.sequence() == archived.sequence()
+                && record.digest() == archived.digest()
+            {
+                fs::remove_file(path)?;
+            } else {
+                pending = pending.saturating_add(1);
+            }
+        }
+        Ok(pending)
+    }
+
+    fn prune_local_after_commit(
+        &self,
+        agent_id: &str,
+        incoming_tombstone: bool,
+    ) -> Result<(), AgentPartialError> {
+        let agent_root = self.local_root.join(digest_label(agent_id));
+        let mut partials = Vec::<(u64, PathBuf)>::new();
+        let mut tombstones = Vec::<(u64, PathBuf)>::new();
+        for path in json_files(&agent_root)? {
+            let Ok(record) = fs::read(&path).and_then(|bytes| {
+                decode_record(&bytes).map_err(|error| io::Error::other(error.to_string()))
+            }) else {
+                continue;
+            };
+            match record {
+                StoredRecord::Partial(value) => partials.push((value.snapshot_sequence, path)),
+                StoredRecord::Tombstone(value) => {
+                    tombstones.push((value.snapshot_sequence, path));
+                }
+            }
+        }
+        partials.sort_by_key(|(sequence, _)| *sequence);
+        tombstones.sort_by_key(|(sequence, _)| *sequence);
+        if incoming_tombstone {
+            for (_, path) in tombstones.into_iter().rev().skip(1) {
+                fs::remove_file(path)?;
+            }
+        } else {
+            while partials.len() > self.config.retained_partials_per_agent {
+                let (_, path) = partials.remove(0);
+                fs::remove_file(path)?;
+            }
+        }
         Ok(())
     }
 
@@ -1898,8 +1966,6 @@ mod tests {
         store.write_partial(capture("ember", 1)).unwrap();
         let local = json_files(&store.local_root).unwrap().pop().unwrap();
         let bytes = fs::read(local).unwrap();
-        fs::remove_dir_all(&store.spool_root).unwrap();
-        fs::create_dir_all(&store.spool_root).unwrap();
         drop(store);
         let reopened = AgentPartialCheckpointStore::open(
             temp.path().to_path_buf(),
@@ -1920,6 +1986,7 @@ mod tests {
         assert_eq!(projection.archive_state, AgentArchiveState::Current);
         assert_eq!(projection.last_archive_at_unix_millis, Some(7));
         assert_eq!(projection.pending_archive_count, 0);
+        assert!(json_files(&reopened.spool_root).unwrap().is_empty());
     }
 
     #[cfg(unix)]
