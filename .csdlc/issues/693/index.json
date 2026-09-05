@@ -3,15 +3,15 @@
   "issue": 693,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "86ae68b0f4e7b8cbc575a90d8a03ead3a59a3a3c612f9be4c8df3e03d6efff83",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "0b6f34f315e5a32517f1c0b5c3d1ab041b82bd641284dedd92e31b146cc73673",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
   "review_assignment": {
     "reviewer": "codex:/root/a2a_reliability_fix/review_693_exact_head_after_recovery",
     "assigned_by": "codex:/root/a2a_reliability_fix",
-    "revision": "git-blake3:714dd881d81ed30a90049e241863669edaeaec5b:28b429c529683f81b7533fc34ed1cafcf7a326ebace9d1dfa994ab177aceabfd",
+    "revision": "git-blake3:ab97441ddcc4b3303d1e7c5e23c3565d53391a43:774adf7be7e71ee0938467385abd6efceffcc451367c0861730e168b79cd74bb",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -19,7 +19,22 @@
       ".csdlc/evidence/693"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/a2a_reliability_fix/review_693_exact_head_after_recovery",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/evidence/693"
+    ],
+    "reviewed_revision": "git-blake3:ab97441ddcc4b3303d1e7c5e23c3565d53391a43:774adf7be7e71ee0938467385abd6efceffcc451367c0861730e168b79cd74bb",
+    "findings": [],
+    "residual_risks": [
+      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6266c0b748caf01abda05885d166a5cde69dd63cb43caf6badb956ede5ef42b0",
+      "values_digest": "1568f4abfd24212c798a01a085d066f02487d3c9dc696e13e5f897a299237534",
       "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
       "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
     },
     "stp": {
-      "values_digest": "8051b820312927172b455fe18f38046cfc4f97e71f6cc2d29569a362c4350b57",
+      "values_digest": "7fa2225a321de9d3db7e916564785fa905719ea7fb9fb5e3c8f0144a2ddceaf9",
       "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
       "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
     },
     "spp": {
-      "values_digest": "b7428fca301cda7e994a6cb89cc4dbbefd983c3ba806646bc417dfb618bc38b5",
+      "values_digest": "248c06414ba42d3cd4d57510be760cb3747f8765e3c75406fb33a3354b6d58c5",
       "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
       "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
     },
     "vpp": {
-      "values_digest": "b9b0ea2b537a5b74802ef5b6994823aa5d3dcfb8c18f9bbfb74ca09ca6fb252d",
+      "values_digest": "da92e956f96be67f85f84b21a602efcc223e318dae85a7abf91f2e1175390bfe",
       "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "c9cdbb03586c5816ba0526793cf699a314e3ac0156335ba08fc1d4e4914cb0c0",
-      "rendered_digest": "6e073498ddadad0d5eac669ada52ae4e85ac0737a3b85cf365db5d0b2dad325f",
-      "ast_digest": "01c540b20dc67dc3fd14edd7a603b4edbecfc545b4565998c5782e883e8f15dc"
+      "values_digest": "9d703700d0c786f10ca4e9b95167947d6decae42abd1e9d908912225d3d316eb",
+      "rendered_digest": "ec55d62e4e0428857cc7389b19b28863b8249182cb7b1b72a62d1935ec48a1c0",
+      "ast_digest": "83a5068e6faae972f70e00b426e45a74885def04f4da566e4cdeebddc4d058b1"
     },
     "sor": {
-      "values_digest": "6118bc2ecabc95972126330d25b37ff4386fee42f526f8e7499174350a5ecbf7",
+      "values_digest": "930ec4439673ffdc252e444fa7fd10b26f9a6d0eecd302eafbe314d6169fdee1",
       "rendered_digest": "afa2ddcd5f6c0f2f5dad3d095d5bfec9803188b6dbbcea02be895d7b0db0ccac",
       "ast_digest": "2703ee133887de359ed3665b6181baa182fbcb9a8e8d52f9172e3053caf97005"
     }
@@ -141,6 +156,13 @@
       "to": "implemented",
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "recover review state after final publication-guard metadata made the recorded Git revision stale without changing the reviewed Runtime source scope"
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -311,6 +333,20 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

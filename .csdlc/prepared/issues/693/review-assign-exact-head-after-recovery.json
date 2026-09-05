@@ -2,7 +2,7 @@
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 693,
   "expected_generation": 16,
-  "expected_digest": "07180a3484c03b1b6f3f9ce0b7b6a127189deff4724e26a229ffb6f51ec30512",
+  "expected_digest": "86ae68b0f4e7b8cbc575a90d8a03ead3a59a3a3c612f9be4c8df3e03d6efff83",
   "reviewer": "codex:/root/a2a_reliability_fix/review_693_exact_head_after_recovery",
   "assigned_by": "codex:/root/a2a_reliability_fix",
   "scope": [

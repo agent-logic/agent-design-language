@@ -1,35 +1,22 @@
 {
   "issue": 693,
-  "expected_generation": 13,
-  "expected_digest": "e3a5fdb995e1169d3cc445e4629df6b88a187e81fe4dc9dae709ae592b37f018",
+  "expected_generation": 16,
+  "expected_digest": "40246a11608de8359943d703c072ea5c31d7f7dc073111cb8f1a20738c8a2e51",
   "actor": "codex:/root/a2a_reliability_fix",
   "evidence": {
-    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
+    "reviewer": "codex:/root/a2a_reliability_fix/review_693_exact_head_after_recovery",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/telemetry.rs",
       ".csdlc/evidence/693"
     ],
-    "reviewed_revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
+    "reviewed_revision": "git-blake3:ab97441ddcc4b3303d1e7c5e23c3565d53391a43:774adf7be7e71ee0938467385abd6efceffcc451367c0861730e168b79cd74bb",
     "findings": [],
     "residual_risks": [
       "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
     ],
     "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
-      "to_revision": "git-blake3:158e1707b5a054fd71989605b9f191dd29a57c4e:5f43cdd588079ab146e46a68f827721b55cd94c45c671d7e4375a82f674f67a4",
-      "from_commit": "3f1908d43eb6a355a767a4be68a2bfcfadb7ad83",
-      "to_commit": "158e1707b5a054fd71989605b9f191dd29a57c4e",
-      "changed_paths": [
-        ".csdlc/issues/693/audit.jsonl",
-        ".csdlc/issues/693/cards/srp.md",
-        ".csdlc/issues/693/cards/srp.values.json",
-        ".csdlc/issues/693/index.json",
-        ".csdlc/prepared/issues/693/review-assign-final.json"
-      ]
-    }
+    "non_substantive_proof": null
   }
 }
