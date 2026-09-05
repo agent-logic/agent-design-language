@@ -2358,16 +2358,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             if !resident_ids.contains(&partial.agent_id) {
                 continue;
             }
-            match self
-                .restore_conversation_history(&partial.agent_id, &partial.conversation_history)
-            {
-                Ok(()) => restored += 1,
-                Err(AgentAdmissionFailure::Conflict(_)) => {
-                    // Local restore or live traffic already established this
-                    // conversation. Archived state must never overwrite it.
-                }
-                Err(_) => return Err(ControlError::Internal),
-            }
+            self.restore_conversation_history(&partial.agent_id, &partial.conversation_history)
+                .map_err(|_| ControlError::Internal)?;
+            restored += 1;
         }
         Ok(restored)
     }
@@ -2966,15 +2959,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
-        if conversation_history.iter().any(|conversation| {
-            sessions
-                .sessions
-                .contains_key(&conversation.conversation_id)
-        }) {
-            return Err(AgentAdmissionFailure::Conflict(
-                "conversation_restore_conflict",
-            ));
-        }
         for conversation in conversation_history {
             let mut turns = BTreeMap::new();
             for turn in &conversation.turns {
@@ -3024,6 +3008,37 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 );
             }
             sessions.next_sequence = sessions.next_sequence.max(conversation.session_sequence);
+            if let Some(existing) = sessions.sessions.get_mut(&conversation.conversation_id) {
+                if existing.recipient_id != agent_id
+                    || existing.sequence != conversation.session_sequence
+                    || existing.turns.values().any(|turn| turn.terminal.is_none())
+                {
+                    return Err(AgentAdmissionFailure::Conflict(
+                        "conversation_restore_conflict",
+                    ));
+                }
+                for (turn_id, restored) in turns {
+                    if let Some(current) = existing.turns.get(&turn_id) {
+                        if current.fingerprint != restored.fingerprint
+                            || current.correlation_id != restored.correlation_id
+                            || current.sequence != restored.sequence
+                        {
+                            return Err(AgentAdmissionFailure::Conflict(
+                                "conversation_restore_conflict",
+                            ));
+                        }
+                    } else {
+                        existing.turns.insert(turn_id, restored);
+                    }
+                }
+                if conversation.next_turn_sequence > existing.next_sequence {
+                    existing.next_sequence = conversation.next_turn_sequence;
+                    existing.dispatch_gate = Arc::new(ConversationDispatchGate::at(
+                        conversation.next_turn_sequence.saturating_add(1),
+                    ));
+                }
+                continue;
+            }
             sessions.sessions.insert(
                 conversation.conversation_id.clone(),
                 ConversationSession {
@@ -6894,6 +6909,44 @@ mod agent_lifecycle {
             .configure_dynamic_agent_store(store)
             .expect("configure dynamic store");
         service
+    }
+
+    fn restored_history(turn_count: u64) -> Vec<AgentConversationCheckpoint> {
+        vec![AgentConversationCheckpoint {
+            conversation_id: "conversation-restore".to_owned(),
+            session_sequence: 1,
+            next_turn_sequence: turn_count,
+            turns: (1..=turn_count)
+                .map(|sequence| AgentTurnCheckpoint {
+                    turn_id: format!("turn-{sequence}"),
+                    fingerprint: format!("fingerprint-{sequence}"),
+                    correlation_id: format!("{sequence:032x}"),
+                    sequence,
+                    terminal_status: "delivered".to_owned(),
+                    reply: Some(format!("reply-{sequence}")),
+                    accepted_sequence: Some(sequence),
+                    turn_sequence: Some(sequence),
+                    terminal_error: None,
+                })
+                .collect(),
+        }]
+    }
+
+    #[test]
+    fn archived_restore_monotonically_merges_newer_completed_turns() {
+        let temp = tempfile::tempdir().unwrap();
+        let service = service(temp.path().join("dynamic-agents.json"));
+        service
+            .restore_conversation_history("shepherd", &restored_history(1))
+            .unwrap();
+        service
+            .restore_conversation_history("shepherd", &restored_history(2))
+            .unwrap();
+
+        let restored = service.agent_conversation_checkpoint("shepherd").unwrap();
+        assert_eq!(restored.len(), 1);
+        assert_eq!(restored[0].turns.len(), 2);
+        assert_eq!(restored[0].next_turn_sequence, 2);
     }
 
     async fn ollama() -> (String, tokio::task::JoinHandle<()>) {
