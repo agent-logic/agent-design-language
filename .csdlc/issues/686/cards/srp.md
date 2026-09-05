@@ -44,12 +44,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR #692 still needs typed republication from the repaired branch head and hosted CI must pass at the republished head before merge.
+- Validation evidence records source repair head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5; SOR records and r14 accepted source-tail guard proving later commits through review assignment changed only evidence/card/lifecycle surfaces for the reviewed source/test/prepared-denominator scope.
+- No live Runtime, launchd/systemd, cloud, credential, deployment, paid execution, or merge was performed; those remain outside issue #686 local implementation proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3e1a625cd3a7ca4349a33f4bd661374119efc640:e0253c0593b881e20df06aad2103d264917718f994fdad4d992c16d567e1ed88")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_686_runtime_config_generation_r14")
 
-Result: pre_review
+Result: pass
