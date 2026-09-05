@@ -1,0 +1,121 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 5 tests
+adl_event schema=adl.runtime.event.v1 sequence=0 component=beacon event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=beacon event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=beacon event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=beacon event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=beacon event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=3 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=3 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=3 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=3 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=3 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=4 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=4 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=4 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=5 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=6 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=5 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=6 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=4 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=5 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=6 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=7 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=5 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=4 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=6 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=5 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=8 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=6 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=9 component=agent_runtime event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=7 component=ember event=state:Degraded correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=10 component=agent_runtime event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=8 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=none event=clock_authority_updated correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=7 component=agent_initiation event=agent_to_agent_initiated correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=8 component=canonical_ingress event=domain_work_completed correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=9 component=agent_initiation event=agent_to_agent_initiated correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=7 component=agent_initiation event=agent_to_agent_initiated correlation_id=00000000000000000000000000000001
+adl_event schema=adl.runtime.event.v1 sequence=7 component=agent_initiation event=agent_to_agent_initiated correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=9 component=agent_initiation event=agent_to_agent_completed correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=10 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=11 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=12 component=agent_runtime event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=13 component=agent_runtime event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=10 component=agent_initiation event=agent_to_agent_failed correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=11 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=8 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000001
+adl_event schema=adl.runtime.event.v1 sequence=12 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=9 component=agent_initiation event=agent_to_agent_completed correlation_id=00000000000000000000000000000001
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_delivers_configured_provider_work_and_activity ... adl_event schema=adl.runtime.event.v1 sequence=13 component=agent_runtime event=state:Stopping correlation_id=none
+ok
+adl_event schema=adl.runtime.event.v1 sequence=8 component=canonical_ingress event=domain_work_completed correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=14 component=agent_runtime event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=9 component=agent_initiation event=agent_to_agent_completed correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=0 component=beacon event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=10 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=11 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=12 component=agent_runtime event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=13 component=agent_runtime event=state:Stopped correlation_id=none
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_replay_and_conflict_are_explicit ... ok
+adl_event schema=adl.runtime.event.v1 sequence=3 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=4 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=5 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=6 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=10 component=agent_initiation event=agent_to_agent_initiated correlation_id=00000000000000000000000000000002
+adl_event schema=adl.runtime.event.v1 sequence=7 component=agent_initiation event=agent_to_agent_initiated correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=8 component=agent_initiation event=agent_to_agent_failed correlation_id=abababababababababababababababab
+adl_event schema=adl.runtime.event.v1 sequence=9 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=10 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=11 component=agent_runtime event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=11 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000002
+adl_event schema=adl.runtime.event.v1 sequence=12 component=agent_runtime event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=12 component=agent_initiation event=agent_to_agent_completed correlation_id=00000000000000000000000000000002
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_terminal_failures_are_truthful ... ok
+adl_event schema=adl.runtime.event.v1 sequence=13 component=agent_initiation event=agent_to_agent_initiated correlation_id=00000000000000000000000000000003
+adl_event schema=adl.runtime.event.v1 sequence=14 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000003
+adl_event schema=adl.runtime.event.v1 sequence=15 component=agent_initiation event=agent_to_agent_completed correlation_id=00000000000000000000000000000003
+adl_event schema=adl.runtime.event.v1 sequence=16 component=agent_initiation event=agent_to_agent_initiated correlation_id=00000000000000000000000000000004
+adl_event schema=adl.runtime.event.v1 sequence=17 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000004
+adl_event schema=adl.runtime.event.v1 sequence=18 component=agent_initiation event=agent_to_agent_completed correlation_id=00000000000000000000000000000004
+adl_event schema=adl.runtime.event.v1 sequence=19 component=agent_initiation event=agent_to_agent_initiated correlation_id=00000000000000000000000000000005
+adl_event schema=adl.runtime.event.v1 sequence=20 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000005
+adl_event schema=adl.runtime.event.v1 sequence=21 component=agent_initiation event=agent_to_agent_completed correlation_id=00000000000000000000000000000005
+adl_event schema=adl.runtime.event.v1 sequence=22 component=agent_initiation event=agent_to_agent_initiated correlation_id=00000000000000000000000000000006
+adl_event schema=adl.runtime.event.v1 sequence=23 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000006
+adl_event schema=adl.runtime.event.v1 sequence=24 component=agent_initiation event=agent_to_agent_completed correlation_id=00000000000000000000000000000006
+adl_event schema=adl.runtime.event.v1 sequence=25 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=26 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=27 component=agent_runtime event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=28 component=agent_runtime event=state:Stopped correlation_id=none
+test control::layer8_conversation_ingress_tests::agent_to_agent_runtime_internal_initiation_allows_resident_agent_pairs ... ok
+adl_event schema=adl.runtime.event.v1 sequence=11 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=12 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=13 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=14 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=15 component=canonical_ingress event=domain_work_completed correlation_id=efefefefefefefefefefefefefefefef
+adl_event schema=adl.runtime.event.v1 sequence=16 component=agent_initiation event=agent_to_agent_initiated correlation_id=3b6e059bcd4ed798b5edbd74cf0dc4fd
+adl_event schema=adl.runtime.event.v1 sequence=17 component=canonical_ingress event=domain_work_completed correlation_id=3b6e059bcd4ed798b5edbd74cf0dc4fd
+adl_event schema=adl.runtime.event.v1 sequence=18 component=agent_initiation event=agent_to_agent_completed correlation_id=3b6e059bcd4ed798b5edbd74cf0dc4fd
+adl_event schema=adl.runtime.event.v1 sequence=19 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=20 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=21 component=agent_runtime event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=22 component=agent_runtime event=state:Stopped correlation_id=none
+test control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 139 filtered out; finished in 0.09s
+
