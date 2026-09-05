@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
     "slug": "runtime-provider-inference-readiness",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
@@ -42,8 +42,8 @@
           "evidence_ref": ".csdlc/evidence/687/validation-summary.json"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
