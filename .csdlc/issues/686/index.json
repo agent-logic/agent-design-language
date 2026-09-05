@@ -3,9 +3,9 @@
   "issue": 686,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "78c8856d10993408b764164649f61275a3ed3e8794958a627b806c630826b693",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "1ee01b8f1dd2201e80081cb73142f3ca7db96976af572e2479f7258ee7037405",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": {
@@ -24,7 +24,43 @@
       ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r7",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ],
+    "reviewed_revision": "git-blake3:2393f043d0f063bf6ef612554e42c160c5a1e055:602778f9503502643e95ae03c908ee4dae16c79ad5907ae1027f8cfeae2bc5fc",
+    "findings": [],
+    "residual_risks": [
+      "Hosted PR CI remains the final integration gate before merge.",
+      "No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:2393f043d0f063bf6ef612554e42c160c5a1e055:602778f9503502643e95ae03c908ee4dae16c79ad5907ae1027f8cfeae2bc5fc",
+      "to_revision": "git-blake3:2393f043d0f063bf6ef612554e42c160c5a1e055:602778f9503502643e95ae03c908ee4dae16c79ad5907ae1027f8cfeae2bc5fc",
+      "from_commit": "2393f043d0f063bf6ef612554e42c160c5a1e055",
+      "to_commit": "ff1165f2763fde93e9dfecf25d3951186676fc03",
+      "changed_paths": [
+        ".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log",
+        ".csdlc/evidence/686/issue686-denominator.log",
+        ".csdlc/evidence/686/issue686-diff-check.log",
+        ".csdlc/evidence/686/issue686-fmt-check.log",
+        ".csdlc/evidence/686/issue686-focused-generation.log",
+        ".csdlc/evidence/686/issue686-strict-clippy.log",
+        ".csdlc/issues/686"
+      ]
+    }
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "998c7222079902aade4e55914df485f02e269fc33ad33bc4780c38a3170ec1e8",
+      "values_digest": "58c35e0546cd3ba261d6b72261ed433fefc1964703b71fd040edd8ab0db01246",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "9e7db1ba7437ed1b115b5a0a8ca9076ea35ba03f9bd8ea134ff5fa4826231d3f",
+      "values_digest": "ced17bcd9bea764b1d932d1e131032a273f08b2c6140e29d4d022bbbd4ff4933",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "86b78cf14b525e09aa6f80784e71f16dc45b5fa4e845887b3126a67b089c61ee",
+      "values_digest": "0209b426612acb75ed1aed63e9f9797ba08587d1e67cfcad529cdb3d966bb9bf",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "141e0f79794e65b94b0073508c8fd17436fb30bfef3fe389fdadb29fc241acbb",
+      "values_digest": "f0bf112bb8fb363d998d1f9a3c2d1eaf0efe5628f1d7ab105e2b6070361d4101",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "79845caa4f485caf1f7d9f2c77da8b57d22c03e7f328129d1d64bcea0ca1fa90",
-      "rendered_digest": "24145ea937cda1822ac3147955d9e327a74b87e4ce2b251da7d65ac5f5616a37",
-      "ast_digest": "7af6190c4b684a655e9e96ba8073976b4a7c234de40367d674560c453b66be0b"
+      "values_digest": "0059e1f1da8144aa43dbe35b028961e84b3c4bb1e3fc11e89c48294688479624",
+      "rendered_digest": "c6468d74b5abac990a873386bcbae4cc7ad02ca8953e9ec5566b659a48588d5a",
+      "ast_digest": "5b3e91ea72cfdb7ae22ade1ce66a2c8f82b0c58b0f6ea68b4ab8e7bf3968be8c"
     },
     "sor": {
-      "values_digest": "3db926117428207c3e2e9586cd21eb30d01bafad00410a0ffa0cadf9e78719d4",
+      "values_digest": "ef2b8b63845a0618357f6fb453bf5d8bc87b954bebff937a95a220ae6e5aa0a2",
       "rendered_digest": "10a04226059c24d17c3efcd534140056981bf88736ccafd7281985a167af12de",
       "ast_digest": "77c3be140502396c03c40892006f98608194ea8c03c38de6a4d776974037d9e8"
     }
@@ -104,6 +140,13 @@
       "to": "implemented",
       "actor": "codex:/root/issue-686",
       "reason": "Recover #686 review authority after merging current origin/main into the bound branch changed an assigned source-scope file, adl/src/cli/csm_runtime_v3_cmd.rs. Remediation and r6 review had passed before the resync, but publication now requires exact validation evidence and a fresh independent review at the post-merge head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-686",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -302,6 +345,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:/root/issue-686",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
