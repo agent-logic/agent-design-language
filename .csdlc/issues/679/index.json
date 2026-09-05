@@ -1,0 +1,320 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 679,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f831ecbc7cce804c9b863e376a8ef997bc1caf08c5126652172536117f5b6716",
+  "phase": "published",
+  "generation": 19,
+  "digest": "ef532f7f5a992bf1aa74a7cdc850e7543c079a831766724d5cee7ee4ea2a4945",
+  "branch": "codex/679-s3-deployable-observatory",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-679-s3-deployable-observatory",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:/root/review_679_acl_fix_r1",
+    "scope": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+      ".csdlc/evidence/679",
+      ".csdlc/issues/679"
+    ],
+    "reviewed_revision": "git-blake3:bd8f54f7b75644d0268e957380a8a76b132d0184:cb01f62414352cf8abf38f73a7080c66436d17906f665c0a6486661a92153661",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS plan, apply, and readback remain deferred pending explicit operator authorization.",
+      "GitHub CI must rerun after republishing the repaired PR head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 679,
+    "pull_request": 685,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/685",
+    "base": "main",
+    "head": "codex/679-s3-deployable-observatory",
+    "revision": "git-blake3:a7081ba50f6509bee75fd385a6fef3c091e36f60:ee964d2d8a23e16367556f266ed9e4a51772f4f5bc85bff229e61042b879c312",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/679/design.md",
+  "diagram_path": ".csdlc/prepared/issues/679/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:679-init-design-review",
+      "revision": "a48d95127e20d9603a52e22192f6965feaf89b61b6cde6d0bcedabb22e9c2432"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6fe73a338d6ac07376d7c2efb98f09d363a7aad285c6543179685270d999d6b6",
+      "rendered_digest": "9b18c7084878bd53a8c2428eb3432ea3ff939e2418bacb4b581b9f09b5ec642e",
+      "ast_digest": "dea8b20133b07d191cd5bfc3f94f221eb074e954541aa50228a4bddffede460c"
+    },
+    "stp": {
+      "values_digest": "d7d66270c52b56e15e1b4f034478c2430adea5319fda807c946ef5ff255a4d7f",
+      "rendered_digest": "74ac10784507418bc7bd0432ae43fd2faa551433ed1b0553c491ae233dcff5ff",
+      "ast_digest": "b6f758398471850dfde859c1fa41b0a2774f86283b0036785b517142f21fa4a9"
+    },
+    "spp": {
+      "values_digest": "6d7f1069c91029b572ef899ea564a942416d45535752979002d16017f4e15b49",
+      "rendered_digest": "ce11ec4c16ddc5e0086c13cc03441e3fd3e97cf2c583ab811dfab8bed2216dca",
+      "ast_digest": "0ebe497a44d5997c6fbef97883447dda071cbf5fb499e9f20485c216f459da79"
+    },
+    "vpp": {
+      "values_digest": "86a4786cc3d287004f3876dfea451ea66ee3cd98afbb5e044bead6e124c673f9",
+      "rendered_digest": "4ae192a78008c709eb0e63821779aff8da8394cf82a5fe60a8fb7b0d94dfaff7",
+      "ast_digest": "d19c2ed39d9afbb244e8adbef9b7f33dec8ac1e579ff8fde739d1bb23cab686c"
+    },
+    "srp": {
+      "values_digest": "be51cee6f227f96b7a094a49b126376a68153a899d39452ee191d073e40a4fdd",
+      "rendered_digest": "b1c871007070825d8a90f0e97eca0f237e0b6468016708f1ccddc8007fe316e6",
+      "ast_digest": "a2fb844339eb4948038fe0856150b65cb155c5c8fb1f1540f5f9e5860192c2ea"
+    },
+    "sor": {
+      "values_digest": "2de121c346daf8c57565bb89ea139d2f96bb501e573aa69be916709d696d9b48",
+      "rendered_digest": "0588bddef4dfe45effc8963fe8715727ad9a978cf2fc134e4bcdd57cb32283cc",
+      "ast_digest": "dcb4a88adf5749037ac073305b1347bfdaf12cc6452bff87c7dc98ecf8f71b4b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:679-init",
+      "reason": "Advance #679 to ready after typed doctor passed with the S3 deployable Observatory sidecar boundary, exact validator targets, and no-live-AWS-mutation default recorded."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:679-implementation",
+      "reason": "Issue #679 local no-cloud infrastructure package and focused validation are complete; advance to implemented for exact-head review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-679-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review truth after lifecycle metadata commits moved HEAD beyond the prior substantive review revision."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-679-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #7",
+      "reason": "Recover stale published review after CloudFront legacy logging ACL ordering repair for PR #685."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_679_acl_fix_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "Worker #7",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:679-init",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:679-init",
+      "reason": "Make the issue-specific VPP denominator explicit by owning the exact initialized and implementation validator target files.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/observatory/**\",\"docs/operations/cloud/aws/observatory/**\",\"docs/milestones/v0.92.1/evidence/observatory/s3-deployable-observatory/**\",\".csdlc/prepared/issues/679/**\",\".csdlc/issues/679/**\",\".csdlc/evidence/679/**\",\"demos/html-observatory/**\",\".csdlc/prepared/issues/679/validate_init_package.py\",\".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:679-init",
+      "reason": "Advance #679 to ready after typed doctor passed with the S3 deployable Observatory sidecar boundary, exact validator targets, and no-live-AWS-mutation default recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:679-implementation",
+      "reason": "Record the local no-cloud Observatory static-edge implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a standalone Terraform and operator-documentation package for the private-S3 and CloudFront-hosted Observatory edge without executing AWS changes.\",\"changes\":[\"Added a private versioned S3 origin, CloudFront OAC distribution, us-east-1 ACM certificate, Route53 aliases, and explicit security headers.\",\"Restricted execution to the agent-logic-admin profile and canonical observatory.csm.agent-logic.ai hostname.\",\"Added credential-free Runtime HTTPS/WSS CSP inputs, immutable artifact versioning, invalidation, and S3 object-version rollback guidance.\",\"Strengthened the issue validator to prove concrete resources, controls, redaction, and no-live-mutation policy.\"],\"artifacts\":[\"infra/aws/observatory\",\"docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md\",\".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:679-validation",
+      "reason": "Record the deterministic Observatory deployability contract validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py\"],\"purpose\":\"Prove concrete static-edge resources, CSP, private origin, profile guard, redaction, rollback, and no-live-mutation policy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/679/deployability-validation.json; ok=true\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:679-validation",
+      "reason": "Record local Terraform syntax and provider-schema validation without planning or applying AWS resources.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform\",\"validate\"],\"purpose\":\"Validate the standalone Observatory Terraform root locally.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/679/terraform-validate.log; configuration valid\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:679-validation",
+      "reason": "Record issue-diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors and conflict markers in the issue worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/679/diff-check.log; PASS\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:679-implementation",
+      "reason": "Issue #679 local no-cloud infrastructure package and focused validation are complete; advance to implemented for exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:679-implementation",
+      "reason": "Record completed binding and main-preservation step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:679-implementation",
+      "reason": "Record completed static bundle contract inspection.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:679-implementation",
+      "reason": "Record completed Terraform static-edge implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:679-implementation",
+      "reason": "Record completed profile-gated readback and validation implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:679-implementation",
+      "reason": "Record focused validation and exact-head review as the active final step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:issue-679-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover review truth after lifecycle metadata commits moved HEAD beyond the prior substantive review revision.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:issue-679-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "Worker #7",
+      "reason": "Recover stale published review after CloudFront legacy logging ACL ordering repair for PR #685.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "subagent:/root/review_679_acl_fix_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "Worker #7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

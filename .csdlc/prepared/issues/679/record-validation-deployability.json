@@ -1,0 +1,17 @@
+{
+  "issue": 679,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "a70eeeec3a99113aa6562ba4c1b85d20b3c70a93c0b714a09e883d062ae9cf82",
+  "actor": "codex:679-validation",
+  "reason": "Record the deterministic Observatory deployability contract validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["python3", ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py"],
+      "purpose": "Prove concrete static-edge resources, CSP, private origin, profile guard, redaction, rollback, and no-live-mutation policy.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/679/deployability-validation.json; ok=true"
+    }
+  }
+}
