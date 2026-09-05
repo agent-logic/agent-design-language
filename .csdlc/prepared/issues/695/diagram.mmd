@@ -14,7 +14,8 @@ flowchart LR
   L --> A[Runtime roster and detail API]
   U --> A
   A --> O[Observatory per-agent continuity view]
-  F[Latest full checkpoint] --> X[Validated restore]
+  G[Lineage empty and rollback floor zero] -->|signed startup genesis| F[Latest full checkpoint]
+  F --> X[Validated restore]
   L --> X
   E --> V[Two bounded GetObject reads with restore role and validated digest lineage sequence]
   V --> X

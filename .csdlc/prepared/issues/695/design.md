@@ -35,6 +35,13 @@ differ after restart and is not a rejection condition.
 
 Restore starts with the latest valid full Runtime checkpoint and selects the highest
 valid self-contained partial per agent whose parent generation/integrity matches it.
+On a lineage-empty first start with a zero rollback floor, Runtime creates a signed
+generation-1 full checkpoint with `runtime-v3-live-startup` provenance before it
+serves requests. That genesis checkpoint is the parent authority for the first
+scheduled partial cycle and any agent-removal tombstone. A configured nonzero minimum
+generation still rejects missing history as rollback; genesis creation does not bypass
+the rollback floor. Later shutdown or pressure checkpoints advance the full-checkpoint
+generation normally.
 Per-agent sequences must strictly increase; global cadence gaps are allowed because
 unchanged, slow, removed, or coalesced agents need not produce every cycle. Duplicate
 sequence with identical digest is idempotent; duplicate sequence with different bytes,

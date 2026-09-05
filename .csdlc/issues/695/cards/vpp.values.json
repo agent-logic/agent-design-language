@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
     "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -180,9 +180,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed for invalid configuration, partial integrity or lineage mismatch, unbounded retention, overlapping authority, secret leakage, cloud-coupled readiness, zero-test proof, missing implementation validators, or unresolved exact-head findings. During S3 failure, record degraded archive health while preserving Runtime availability.",
       "design_ref": ".csdlc/prepared/issues/695/design.md",
-      "design_digest": "26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028",
+      "design_digest": "2bb94e45f8196e51920b846e1de50a8c83b60ecfc12a1505be154b3aeb5aeb6a",
       "diagram_ref": ".csdlc/prepared/issues/695/diagram.mmd",
-      "diagram_digest": "cf5a7d6eb45c00e313ccff6451835322835ed1b69f72361b2ce8026805a5fcde"
+      "diagram_digest": "4326f3bec5441bd45699951e2bc7da6847dbe3d7b4d8500ce2e15dc62f6a6b16"
     }
   }
 }
