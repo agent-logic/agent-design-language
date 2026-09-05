@@ -3,14 +3,50 @@
   "issue": 693,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "e86e680aeb8fc52ba5811afd3893deb742e5e1053a22682789aad94784c61a14",
+  "phase": "published",
+  "generation": 25,
+  "digest": "98affdc328f9827e5d287e4f9b32b1c5047a5e4d0350e7902c87ff0a3656ff43",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/issue_693_post_authority_fix_review",
+    "assigned_by": "codex:/root/a2a_reliability_fix",
+    "revision": "git-blake3:f3b433ba2a027c04b8bd83c2a68933495328df17:d0f81cc8b1543f77e12509bbbc6c876a4f2a7a0a302cb9df61e6ace635554608",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/evidence/693"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/issue_693_post_authority_fix_review",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/evidence/693"
+    ],
+    "reviewed_revision": "git-blake3:f3b433ba2a027c04b8bd83c2a68933495328df17:d0f81cc8b1543f77e12509bbbc6c876a4f2a7a0a302cb9df61e6ace635554608",
+    "findings": [],
+    "residual_risks": [
+      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 693,
+    "pull_request": 696,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/696",
+    "base": "main",
+    "head": "codex/693-runtime-a2a-action-selection-reliability",
+    "revision": "git-blake3:f3b433ba2a027c04b8bd83c2a68933495328df17:d0f81cc8b1543f77e12509bbbc6c876a4f2a7a0a302cb9df61e6ace635554608",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +60,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a6e0a6545063869bcb56fc6a003218691f367c32d2b342bca2393c7cce0910e9",
+      "values_digest": "60f257c0581a0780d3cc0cea53220d8a9113184dc0c7111f8cdeec75e0459813",
       "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
       "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
     },
     "stp": {
-      "values_digest": "9b87cb8a771f65bca07db44ecbea431087bf8cf1ed7ff119ef92c6f4ac45f21a",
+      "values_digest": "618af26a7bb16f92a0b64c232928d26438f7d966287f0f8d96a4106367e84e46",
       "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
       "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
     },
     "spp": {
-      "values_digest": "3e6870206b330e32e3a9cc312573735d2df2d807de5109ecadb40b47012c5db3",
+      "values_digest": "37a0bcc1154fa42c0a025e8690e8cc38086a8c9d69848c18ba395cb0b0887b05",
       "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
       "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
     },
     "vpp": {
-      "values_digest": "5a1acc580636ef35204b114d10aa0df0b7e3cbf2229b51ca19540d90650a8d6a",
+      "values_digest": "499bb4cf168d9c679284724b7af3b9d73f2f4f3556570c3e25019d152c5e633d",
       "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "fc0ff694d9040078219e2309c8ab8c3341d0c098f792ac359649f2b6a7b3a9f0",
-      "rendered_digest": "f3f6c84a334746e94a66f7ce70a6b222a6a3a4637181835ca46b53914e45ed69",
-      "ast_digest": "c369b67c3e739bbdd33cebc1b450d7a49b1157f68488af9fbb740436d7dc48b8"
+      "values_digest": "3ed5625183feaba3046c5d3f733a0a56898fbcbf596afe2d47d7534f20bf3024",
+      "rendered_digest": "791c4acb711e61dd4e4e416ab1d4ce13fad4287c1d5c115afc334821616d0ede",
+      "ast_digest": "af8a79083a04d26674965dd0c96f82daf903b27389c9287efab1a879fa2cf2a5"
     },
     "sor": {
-      "values_digest": "697dbe9cf3d96fd1db313b01838b50718cc382adc3fad368524f3c860e1b55a7",
-      "rendered_digest": "c8b24782795bb6f63a2486b5564dde3b47667ac431421b1d0037ec311a341c02",
-      "ast_digest": "d8840deb026582fc8d87823c8368186cceeaeaba4c31a0517bc94e348cf9f2da"
+      "values_digest": "6a99b3621e68fcee7320153045cebc8f22ca45f72266ed29eb256a10f792fe71",
+      "rendered_digest": "95576e2a4217033e054d6a6e4440b13f2d080b2b2b0ea8ab9b523733a3a156a9",
+      "ast_digest": "2a40951693193b70bfceeb85f24a0545ff20fe138b32919ccf42b6fd1bfff5f2"
     }
   },
   "transitions": [
@@ -166,6 +202,20 @@
       "to": "implemented",
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "recover stale review and publication truth after PR #696 CI exposed a source-level guardian soak harness fix at a new substantive commit"
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -399,6 +449,27 @@
       "actor": "codex:/root/issue-693",
       "reason": "Reconcile SOR execution truth after CI remediation and exact-head review finding remediation; remove stale missing local-validation evidence reference.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Runtime-owned model-backed A2A selection through provider-native tool calls, with governed dispatch, sender-bound Layer8 authority for runtime-internal resident A2A, distinct initiating and recipient results, correlated completion observability, and safe ordinary-reply fallback when a model rejects tools.\",\"changes\":[\"Replaced prompt-dependent exact JSON action selection with an Ollama-native initiate_agent tool contract normalized into the existing governed Runtime initiation intent.\",\"Kept Runtime authoritative for identifiers, admission, Layer8 dispatch, replay, cancellation, and terminal outcomes; malformed, unknown, or ambiguous actions fail closed.\",\"Preserved Beacon's operator-facing reply independently from Ember's provider result and emitted a separately correlated agent_to_agent_completed Runtime event.\",\"Exposed Ember's provider-generated output as the distinct initiated_reply field on the authoritative conversation result, while retaining Beacon's reply unchanged.\",\"Emitted agent_to_agent_initiated when governed dispatch is accepted, agent_to_agent_completed only after delivery, and agent_to_agent_failed for terminal non-delivery outcomes.\",\"Added bounded fallback to ordinary Ollama generation for 400/404 tool-unsupported responses without inferring or dispatching A2A.\",\"Added an isolated production-ingress Beacon-to-Ember acceptance using native provider tool output, real governed recipient execution, and correlated initiation/completion observation.\",\"Provisioned Runtime v3 configuration-generation environment in guardian soak subprocess tests so PR CI exercises the real configured runtime entrypoint.\",\"Bound runtime-internal A2A initiation to the active Layer8 signed exchange sender identity and added a mismatch regression so one resident's signer cannot authorize another resident as sender.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\".csdlc/evidence/693/ci-red-remediation.md\",\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\",\".csdlc/evidence/693/review-finding-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"agent_to_agent_\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Runtime-owned A2A action selection, runtime-internal resident-pair communication with sender-bound Layer8 authority, mismatch refusal, recipient delivery, and correlated observability.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"guardian_soak\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the CI-red guardian soak subprocess lane after provisioning runtime configuration generation for the real serve entrypoint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"provider_conversation\"],\"purpose\":\"Prove provider action normalization, failure behavior, and unsupported-tools ordinary-reply fallback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/ci-red-remediation.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"}]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 24,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
