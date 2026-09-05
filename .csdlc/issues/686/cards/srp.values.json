@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/config_reload.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/tests/guardian_cli.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\n.csdlc/evidence/686",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
