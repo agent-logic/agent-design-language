@@ -100,3 +100,5 @@
 {"sequence":100,"generation":74,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":101,"generation":75,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":102,"generation":76,"actor":"codex:worker-8","reason":"Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication.","operation":"recover_review"}
+{"sequence":103,"generation":76,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":104,"generation":77,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

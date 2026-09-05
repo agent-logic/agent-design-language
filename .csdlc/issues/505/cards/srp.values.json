@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 76
+    "generation": 77
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/soak.rs\ncsdlc-v2/tests/gate9.rs\ncsdlc-v3/src/commands/local/mod.rs\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/commands/remote/tests.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/local_commands.rs\ncsdlc-v3/tests/operational_cli_commands.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "review_revision": "git-blake3:f58c19b6d4d7774b282c5ba92e258f52028f65a8:a4baf2b21564b8f454abd2ae738b332c2469d82d33692ed3f430ca9021a7f18c",
+      "reviewer": "local-independent:claude-style+gemini-style:no-provider-attestation",
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,8 +23,13 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted Claude review attempts did not produce usable current provider review authority; retained provider artifacts must not be treated as a Claude pass.",
+        "Hosted Gemini review artifacts are advisory and stale or truncated relative to the reviewed head; retained provider artifacts must not be treated as current typed review authority.",
+        "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
+        "The final hardening exposes local and remote operational CLI paths, plus cutover rollback/cleanup/install gates, but every mutating path remains fail-closed before canonical v3 selector and digest-bound #505 approval evidence."
+      ],
+      "review_result": "pass"
     }
   }
 }

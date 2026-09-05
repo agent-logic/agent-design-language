@@ -4,13 +4,57 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 76,
-  "digest": "d9ad431d02bc0812cde0867dee6df8413c529d9aa5d288f3c75ae566e678d619",
+  "phase": "reviewed",
+  "generation": 77,
+  "digest": "8950d69acf17a2c499c7df63439ce4ae7b1e3e0fd74d9fb583289eb17add30fd",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "local-independent:claude-style+gemini-style:no-provider-attestation",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f58c19b6d4d7774b282c5ba92e258f52028f65a8:a4baf2b21564b8f454abd2ae738b332c2469d82d33692ed3f430ca9021a7f18c",
+    "scope": [
+      "csdlc-v2/src/soak.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/operational_cli_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "local-independent:claude-style+gemini-style:no-provider-attestation",
+    "scope": [
+      "csdlc-v2/src/soak.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      "csdlc-v3/tests/operational_cli_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+    ],
+    "reviewed_revision": "git-blake3:f58c19b6d4d7774b282c5ba92e258f52028f65a8:a4baf2b21564b8f454abd2ae738b332c2469d82d33692ed3f430ca9021a7f18c",
+    "findings": [],
+    "residual_risks": [
+      "Hosted Claude review attempts did not produce usable current provider review authority; retained provider artifacts must not be treated as a Claude pass.",
+      "Hosted Gemini review artifacts are advisory and stale or truncated relative to the reviewed head; retained provider artifacts must not be treated as current typed review authority.",
+      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
+      "The final hardening exposes local and remote operational CLI paths, plus cutover rollback/cleanup/install gates, but every mutating path remains fail-closed before canonical v3 selector and digest-bound #505 approval evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "54171f64e71f101761939a7ef780b64a9fe61b982aa371ce5d23ead40b4478f7",
+      "values_digest": "6fbc6452cb6dd055de16740f5596a59a7905b29b3dc80203ebdb2e72b92a50d1",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "928645c163dceb4530a63cd0efc2890539dcb5e296739f084c4a6c037a01e574",
+      "values_digest": "bb64c949d333df263b7bc1bbb204ba257399f334532cdf9ad107826c040f460b",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "696680852cee34af1766fa342e9f75cabd76b2dc7770b4d8873b45472c3bdb45",
+      "values_digest": "a64f384e5ea59ce4d273c58a77f9009eab6dc94608802288bf2c442876756bfc",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "af6215d27a6c784f0855d6aaf9847653bf5c305b4e8da6040c25afae553ca187",
+      "values_digest": "e11aa59087bfe1e5eb8869b4ee8ae72ea5fe24cb88a47590e7e2c86a8cf5c16d",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "ecff616ae80509769f316ad6ea230a88337f2c3c6329b9529b2ab3eb22d97981",
-      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
-      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
+      "values_digest": "53d5e1769f990ef128c68a9ed6c17faeefc64e515001026cd0a8b1f872a43397",
+      "rendered_digest": "b98228591a1f50500f7ad841098970022fdd4802993638d71075690a9448d45b",
+      "ast_digest": "f6f548c5360aa36d2dbc641e35c86b0f360db387ddce4bd6ebe0d1666124ec35"
     },
     "sor": {
-      "values_digest": "bf4f4175e09cb0241e0029a8c36e890e2370b9dc8f14bd314f9fc6e557d2e802",
+      "values_digest": "4257f155d21efef22a38c478d37e7c9410ed82052dc8ded8a4be9a98be3e6462",
       "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
       "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
@@ -447,6 +491,13 @@
       "to": "implemented",
       "actor": "codex:worker-8",
       "reason": "Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication."
+    },
+    {
+      "sequence": 57,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1163,6 +1214,20 @@
       "actor": "codex:worker-8",
       "reason": "Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 103,
+      "generation": 76,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 104,
+      "generation": 77,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

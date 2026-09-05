@@ -12,7 +12,18 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/soak.rs
+csdlc-v2/tests/gate9.rs
+csdlc-v3/src/commands/local/mod.rs
+csdlc-v3/src/commands/proof.rs
+csdlc-v3/src/commands/remote/mod.rs
+csdlc-v3/src/commands/remote/tests.rs
+csdlc-v3/src/commands/terminal.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/local_commands.rs
+csdlc-v3/tests/operational_cli_commands.rs
+csdlc-v3/tests/proof_parity_install_commands.rs
+csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
 
 ## Prompts
 
@@ -31,12 +42,15 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted Claude review attempts did not produce usable current provider review authority; retained provider artifacts must not be treated as a Claude pass.
+- Hosted Gemini review artifacts are advisory and stale or truncated relative to the reviewed head; retained provider artifacts must not be treated as current typed review authority.
+- C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.
+- The final hardening exposes local and remote operational CLI paths, plus cutover rollback/cleanup/install gates, but every mutating path remains fail-closed before canonical v3 selector and digest-bound #505 approval evidence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f58c19b6d4d7774b282c5ba92e258f52028f65a8:a4baf2b21564b8f454abd2ae738b332c2469d82d33692ed3f430ca9021a7f18c")
 
-Reviewer: None
+Reviewer: Some("local-independent:claude-style+gemini-style:no-provider-attestation")
 
-Result: pre_review
+Result: pass
