@@ -31,3 +31,4 @@
 {"sequence":31,"generation":23,"actor":"fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9","reason":"reapprove changed issue design","operation":"{\"design_digest\":\"2bb94e45f8196e51920b846e1de50a8c83b60ecfc12a1505be154b3aeb5aeb6a\",\"design_ref\":\".csdlc/prepared/issues/695/design.md\",\"diagram_digest\":\"4326f3bec5441bd45699951e2bc7da6847dbe3d7b4d8500ce2e15dc62f6a6b16\",\"diagram_ref\":\".csdlc/prepared/issues/695/diagram.mmd\",\"operation\":\"approve_design\"}"}
 {"sequence":32,"generation":23,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":33,"generation":24,"actor":"fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":34,"generation":25,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
