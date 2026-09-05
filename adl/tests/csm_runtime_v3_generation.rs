@@ -4,8 +4,8 @@ use std::process::Command;
 
 use adl_runtime_kernel::{
     activate_config_generation, active_generation_ref, build_config_generation_receipt,
-    generation_store, provision_config_generation, validate_active_config_generation,
-    REDACTED_SECRET_REFERENCE,
+    config_generation_identity_from_env, generation_store, provision_config_generation,
+    validate_active_config_generation, REDACTED_SECRET_REFERENCE,
 };
 
 fn write_generation_config(
@@ -200,6 +200,38 @@ fn malformed_and_cross_binary_receipts_are_rejected() {
     fs::write(receipt_path, b"{not-json").expect("corrupt receipt");
     let malformed = validate_active_config_generation(&init, "runtime-generation-one").unwrap_err();
     assert!(malformed.contains("parse active Runtime configuration receipt"));
+}
+
+#[test]
+fn kernel_startup_requires_config_generation_handoff_before_readiness_identity() {
+    let generation = "a".repeat(64);
+    let receipt_digest = "b".repeat(64);
+
+    let missing = config_generation_identity_from_env(|_| None).unwrap_err();
+    assert!(missing.contains("configuration generation environment is required"));
+
+    let partial = config_generation_identity_from_env(|name| {
+        (name == "ADL_RUNTIME_V3_CONFIG_GENERATION").then(|| generation.clone())
+    })
+    .unwrap_err();
+    assert!(partial.contains("configuration generation environment is incomplete"));
+
+    let malformed = config_generation_identity_from_env(|name| match name {
+        "ADL_RUNTIME_V3_CONFIG_GENERATION" => Some(generation.clone()),
+        "ADL_RUNTIME_V3_CONFIG_RECEIPT_DIGEST" => Some("not-a-digest".to_owned()),
+        _ => None,
+    })
+    .unwrap_err();
+    assert!(malformed.contains("receipt digest"));
+
+    let identity = config_generation_identity_from_env(|name| match name {
+        "ADL_RUNTIME_V3_CONFIG_GENERATION" => Some(generation.clone()),
+        "ADL_RUNTIME_V3_CONFIG_RECEIPT_DIGEST" => Some(receipt_digest.clone()),
+        _ => None,
+    })
+    .expect("complete handoff identity");
+    assert_eq!(identity.generation, generation);
+    assert_eq!(identity.receipt_digest, receipt_digest);
 }
 
 #[test]

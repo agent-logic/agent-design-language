@@ -25,8 +25,8 @@ use adl_runtime_kernel::{
     verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
     CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
     ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
-    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService, CONFIG_GENERATION_ENV,
-    CONFIG_RECEIPT_DIGEST_ENV,
+    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
+    config_generation_identity_from_env,
     DurableContinuityJournal, FailureClass, Kernel, KernelExit, LiveBindings, LiveContinuity,
     LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
     OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor,
@@ -648,19 +648,18 @@ async fn main() -> ExitCode {
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
             .with_canonical_ingress(assembly.canonical_ingress.clone());
-            match (
-                std::env::var(CONFIG_GENERATION_ENV).ok(),
-                std::env::var(CONFIG_RECEIPT_DIGEST_ENV).ok(),
-            ) {
-                (Some(generation), Some(receipt_digest)) => {
-                    service = service.with_config_generation(generation, receipt_digest);
-                }
-                (None, None) => {}
-                _ => {
-                    eprintln!("runtime configuration generation environment is incomplete");
-                    return ExitCode::from(78);
-                }
-            }
+            let config_generation_identity =
+                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
+                    Ok(identity) => identity,
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            service = service.with_config_generation(
+                config_generation_identity.generation,
+                config_generation_identity.receipt_digest,
+            );
             if let Some((authority, exchange)) = layer8 {
                 service = service
                     .with_layer8_authority(authority)

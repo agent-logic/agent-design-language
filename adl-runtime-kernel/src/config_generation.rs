@@ -174,6 +174,28 @@ pub fn validate_active_config_generation(
     Ok(expected)
 }
 
+pub fn config_generation_identity_from_env(
+    mut get_env: impl FnMut(&str) -> Option<String>,
+) -> Result<ConfigGenerationIdentity, String> {
+    match (
+        get_env(CONFIG_GENERATION_ENV),
+        get_env(CONFIG_RECEIPT_DIGEST_ENV),
+    ) {
+        (Some(generation), Some(receipt_digest)) => {
+            validate_digest("Runtime configuration generation", &generation)?;
+            validate_digest("Runtime configuration receipt digest", &receipt_digest)?;
+            Ok(ConfigGenerationIdentity {
+                generation,
+                receipt_digest,
+            })
+        }
+        (None, None) => {
+            Err("runtime configuration generation environment is required".to_owned())
+        }
+        _ => Err("runtime configuration generation environment is incomplete".to_owned()),
+    }
+}
+
 pub fn receipt_digest(receipt: &ConfigGenerationReceipt) -> Result<String, String> {
     serde_json::to_vec(receipt)
         .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
