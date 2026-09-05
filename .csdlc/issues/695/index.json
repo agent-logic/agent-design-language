@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 695,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 1,
-  "digest": "0144841f427c7bd8987a00cb5dad89cf5f3cdaaa6fd40459f11c9ef6ee0d3aa7",
-  "branch": null,
-  "worktree": null,
+  "digest": "b95d89b80dcd255a69eda8d77b86581020d3e9b2c371deb24d192a7d8c16cccb",
+  "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:agent-partial-checkpoint-s3",
       "reason": "Advance independently reviewed and mechanically valid issue #695 design to execution readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -77,6 +85,13 @@
       "actor": "codex:agent-partial-checkpoint-s3",
       "reason": "Advance independently reviewed and mechanically valid issue #695 design to execution readiness.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
