@@ -4,52 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "published",
-  "generation": 57,
-  "digest": "bdaebd26d11077191c23daed72abc1245a65c8e22342ac6b28ca14651f589a3b",
+  "phase": "implemented",
+  "generation": 59,
+  "digest": "61a2dfddd00be3d204017a37fe43b5e69b34c36e705c5e88ec56ead6d35e4b47",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_591_69612ff17_terminal_sprint_fix",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:69612ff17f9aad93449e4a35bac94eef62fcc1d0:960c95088d0605dd077e322ca080364a5ac2295f925c9f6a326a186a33749a7e",
-    "scope": [
-      "AGENTS.md",
-      "adl/tools/test_install_adl_pr_cycle_skill.sh",
-      "csdlc-v3",
-      "docs"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_591_69612ff17_terminal_sprint_fix",
-    "scope": [
-      "AGENTS.md",
-      "adl/tools/test_install_adl_pr_cycle_skill.sh",
-      "csdlc-v3",
-      "docs"
-    ],
-    "reviewed_revision": "git-blake3:69612ff17f9aad93449e4a35bac94eef62fcc1d0:960c95088d0605dd077e322ca080364a5ac2295f925c9f6a326a186a33749a7e",
-    "findings": [],
-    "residual_risks": [
-      "Actual rollback-exercise evidence remains required before operator cutover approval.",
-      "Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.",
-      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 505,
-    "pull_request": 591,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
-    "base": "main",
-    "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:69612ff17f9aad93449e4a35bac94eef62fcc1d0:960c95088d0605dd077e322ca080364a5ac2295f925c9f6a326a186a33749a7e",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bc5127cf1ed5c2b30081a6421a604c68d236d80681d11fb13fc6327178a85d25",
+      "values_digest": "d12b468eb8aff0093b1d63bd7b55e44dbdc7805b134bca67c1599548c97c57af",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "3dfd0ece1176e06fa29b63cbf24f06f4311e126eb0d4f64ad83aacec2220e8b9",
+      "values_digest": "0edf1dae7064ea6494fa3e1157b400942cf4a81c6a83535bf1b0aa102cf6e255",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "aeb7b17ac956af4c0499abf515af89a3ffa47035ad2b1685e08872563a7d48d7",
+      "values_digest": "0618e95b3558625448727e471c688a753f1e4daeec25f3c5c78068d73fc7f93a",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "16e023e50442ff2a5a03397196f69c4e7c4a8e52dd565d693b6e9660fb596a01",
+      "values_digest": "2e7c0e46a86692aa807b37e0fc67e3b8c0f63d1c4235a3a488fa99f153ace88a",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "518ff6e68ba2a8b2d495de5352815b9aafd7e09516ffe0c12dd5a0384e2bf495",
-      "rendered_digest": "f3b480d560ce9dd3ddbe4962070886babb974a7f7f599f06df2b36cf82416bbf",
-      "ast_digest": "14e273e3a66676b679afae56315e26d64493d8e514a3576fd778ebf4d8addaa0"
+      "values_digest": "63097864ff89a440dda1431baba960ecf26775f87611092843531d2aa7ba6503",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "4fdd27f5c5e5df8d4cd373635ca5abd6ec6852f238ec910a89e3206ddc49afdb",
-      "rendered_digest": "d161e5347c43eba40996634ef457de469b025db025f66a02725c3b834789f2cb",
-      "ast_digest": "59b762ffc75257679905d1f2e93f5ab0b3fe80a4c5e55a29422b44400cf4cf01"
+      "values_digest": "365da484e58f69b7f6514a0aa71b6ed391bf6fb5392d913ec39c3725875be575",
+      "rendered_digest": "11733c7985c5c750a2dd51f731e4ee6f8b16c67f5a853cf8a0ef05458577d890",
+      "ast_digest": "6785aac2a7427de3f443c9e69e36b19bc84f20ebad5675427fa7655bd8dbece8"
     }
   },
   "transitions": [
@@ -373,6 +335,13 @@
       "to": "published",
       "actor": "worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 41,
+      "from": "published",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after refreshing cutover readiness artifacts to remove the no-longer-true exact-head review blocker while preserving rollback/canary approval blockers."
     }
   ],
   "audit": [
@@ -893,6 +862,20 @@
       "actor": "worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 75,
+      "generation": 58,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after refreshing cutover readiness artifacts to remove the no-longer-true exact-head review blocker while preserving rollback/canary approval blockers.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 76,
+      "generation": 59,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after removing stale exact-head-review blockers from the cutover readiness disposition while preserving rollback/canary approval blockers.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof and operator approval, fixed PR #591 non-closing publication wording, made `csdlc sprint` produce terminal completed-sprint evidence without cutover authority, and removed stale exact-head-review blocker wording after generation 57 typed publication.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage and current typed publication from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, stale readiness notice language, stale exact-head-review blocker wording, or a non-command-reproducible V3-H terminal sprint status.\",\"Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.\",\"Changed the PR #591 non-closing relation from `Part-Of #505` to the typed-publication-compatible `Part of #505` form and updated live PR #591 through `csdlc-github-pr`.\",\"Extended `csdlc sprint` with a `complete_not_cutover_authority` status, umbrella-state output, and a regression test for closed V3-H umbrella plus closed child readbacks.\"],\"artifacts\":[\"AGENTS.md\",\"adl/tools/test_install_adl_pr_cycle_skill.sh\",\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/sprint.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after refreshing exact-head review/publication disposition truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:readiness-truth-refresh:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the refreshed readiness truth change.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:readiness-truth-refresh:passed\"}]}"
     }
   ]
 }

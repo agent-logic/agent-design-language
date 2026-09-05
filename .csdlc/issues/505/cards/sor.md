@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof and operator approval, fixed PR #591 non-closing publication wording, and made `csdlc sprint` produce terminal completed-sprint evidence without cutover authority.
+Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof and operator approval, fixed PR #591 non-closing publication wording, made `csdlc sprint` produce terminal completed-sprint evidence without cutover authority, and removed stale exact-head-review blocker wording after generation 57 typed publication.
 
 ## Artifacts
 
@@ -39,9 +39,9 @@ Reconciled PR #591 with current main after the cutover decision brief, consumed 
 - Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.
 - Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.
 - Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.
-- Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, pending exact-head review, and absent operator approval.
-- Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.
-- Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, stale readiness notice language, or a non-command-reproducible V3-H terminal sprint status.
+- Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, and absent operator approval.
+- Updated the cutover readiness notice to distinguish implemented command coverage and current typed publication from deferred authority cutover.
+- Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, stale readiness notice language, stale exact-head-review blocker wording, or a non-command-reproducible V3-H terminal sprint status.
 - Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.
 - Changed the PR #591 non-closing relation from `Part-Of #505` to the typed-publication-compatible `Part of #505` form and updated live PR #591 through `csdlc-github-pr`.
 - Extended `csdlc sprint` with a `complete_not_cutover_authority` status, umbrella-state output, and a regression test for closed V3-H umbrella plus closed child readbacks.
@@ -51,54 +51,12 @@ Reconciled PR #591 with current main after the cutover decision brief, consumed 
 [
   {
     "command": [
-      "cargo",
-      "fmt",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--all",
-      "--check"
-    ],
-    "purpose": "Reject Rust formatting drift after adding terminal sprint-readiness status support.",
-    "outcome": "passed",
-    "evidence_ref": "worktree:post-main-merge-terminal-sprint-fix:passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--all-targets"
-    ],
-    "purpose": "Run the full C-SDLC v3 suite after terminal sprint-readiness support and current-main reconciliation.",
-    "outcome": "passed",
-    "evidence_ref": "worktree:post-main-merge-terminal-sprint-fix:129-passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--all-targets",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Reject warnings across all C-SDLC v3 targets.",
-    "outcome": "passed",
-    "evidence_ref": "worktree:post-main-merge-terminal-sprint-fix:passed"
-  },
-  {
-    "command": [
       "ruby",
       ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
     ],
-    "purpose": "Prove #505 authority-transition gates and v2-live boundary after terminal V3-H command reproducibility, #179/#180 disposition, deferred cutover notice, and current-main merge.",
+    "purpose": "Prove #505 authority-transition gates and v2-live boundary after refreshing exact-head review/publication disposition truth.",
     "outcome": "passed",
-    "evidence_ref": "worktree:post-main-merge-terminal-sprint-fix:status-pass"
+    "evidence_ref": "worktree:readiness-truth-refresh:status-pass"
   },
   {
     "command": [
@@ -107,19 +65,19 @@ Reconciled PR #591 with current main after the cutover decision brief, consumed 
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Verify exact-range whitespace hygiene for the reconciled branch.",
+    "purpose": "Verify exact-range whitespace hygiene for the refreshed readiness truth change.",
     "outcome": "passed",
-    "evidence_ref": "worktree:post-main-merge-terminal-sprint-fix:passed"
+    "evidence_ref": "worktree:readiness-truth-refresh:passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
