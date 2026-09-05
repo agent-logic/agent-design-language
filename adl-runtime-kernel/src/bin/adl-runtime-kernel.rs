@@ -17,11 +17,12 @@ use adl_runtime_kernel::layer8_authority::{
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
-    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
-    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
-    preload_resident_shepherd_model, run_resident_shepherd_recovery,
+    build_production_operation_executors_with_recorder, config_generation_identity_from_env,
+    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
+    monitor_until_stop, preload_resident_shepherd_model, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
-    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
+    start_config_reload_with_applier_and_shutdown,
+    validate_config_generation_identity_matches_active, validate_production_operation_executors,
     verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
     CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
     ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
@@ -647,6 +648,34 @@ async fn main() -> ExitCode {
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
             .with_canonical_ingress(assembly.canonical_ingress.clone());
+            let config_generation_identity =
+                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
+                    Ok(identity) => identity,
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            let kernel_binary_generation =
+                match runtime_binary_generation(&init.binaries.kernel_path) {
+                    Ok(generation) => generation,
+                    Err(error) => {
+                        eprintln!("runtime kernel generation invalid: {error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            if let Err(error) = validate_config_generation_identity_matches_active(
+                &init_path,
+                &kernel_binary_generation,
+                &config_generation_identity,
+            ) {
+                eprintln!("{error}");
+                return ExitCode::from(78);
+            }
+            service = service.with_config_generation(
+                config_generation_identity.generation,
+                config_generation_identity.receipt_digest,
+            );
             if let Some((authority, exchange)) = layer8 {
                 service = service
                     .with_layer8_authority(authority)
@@ -1341,6 +1370,22 @@ impl ServeArgs {
 
 fn usage() -> &'static str {
     "usage: adl-runtime-kernel serve --init <absolute-runtime-init.toml>"
+}
+
+fn runtime_binary_generation(kernel: &Path) -> Result<String, String> {
+    let generation = kernel
+        .canonicalize()
+        .map_err(|error| format!("resolve Runtime kernel generation: {error}"))?
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| "Runtime kernel generation identity is invalid".to_owned())?
+        .to_owned();
+    if generation.is_empty() {
+        return Err("Runtime kernel generation identity is empty".to_owned());
+    }
+    Ok(generation)
 }
 
 fn canonical_init_path(path: &Path) -> std::io::Result<PathBuf> {
