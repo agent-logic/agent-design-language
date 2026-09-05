@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 55,
-  "digest": "58dabb45a98e60e5baaa307578d1c19baa1ddf28b395cfce9c822da086a1b0d6",
+  "phase": "published",
+  "generation": 57,
+  "digest": "bdaebd26d11077191c23daed72abc1245a65c8e22342ac6b28ca14651f589a3b",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_591_post_main_8ed2c4fc",
+    "reviewer": "subagent:/root/review_591_69612ff17_terminal_sprint_fix",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:f8b381c48dd676d6770b14291c0cec890a717858:3c743accf5fdcc962b3b2142f57ca2c2012ea0f122b5b02272c18d3c1321d559",
+    "revision": "git-blake3:69612ff17f9aad93449e4a35bac94eef62fcc1d0:960c95088d0605dd077e322ca080364a5ac2295f925c9f6a326a186a33749a7e",
     "scope": [
       "AGENTS.md",
       "adl/tools/test_install_adl_pr_cycle_skill.sh",
@@ -20,8 +20,36 @@
       "docs"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "subagent:/root/review_591_69612ff17_terminal_sprint_fix",
+    "scope": [
+      "AGENTS.md",
+      "adl/tools/test_install_adl_pr_cycle_skill.sh",
+      "csdlc-v3",
+      "docs"
+    ],
+    "reviewed_revision": "git-blake3:69612ff17f9aad93449e4a35bac94eef62fcc1d0:960c95088d0605dd077e322ca080364a5ac2295f925c9f6a326a186a33749a7e",
+    "findings": [],
+    "residual_risks": [
+      "Actual rollback-exercise evidence remains required before operator cutover approval.",
+      "Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.",
+      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 505,
+    "pull_request": 591,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
+    "base": "main",
+    "head": "codex/505-v3-f-authority-transition-decision-exec",
+    "revision": "git-blake3:69612ff17f9aad93449e4a35bac94eef62fcc1d0:960c95088d0605dd077e322ca080364a5ac2295f925c9f6a326a186a33749a7e",
+    "linkage_mode": "part_of",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -35,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c727add4023e1605111b15d03d354bedd8fb79e0e46c5f699a9ad1b92f7939af",
+      "values_digest": "bc5127cf1ed5c2b30081a6421a604c68d236d80681d11fb13fc6327178a85d25",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "e4f760afeb3372412bb4a071984d165aa3f3fd70e394bda89bcb23cdbd0a89fa",
+      "values_digest": "3dfd0ece1176e06fa29b63cbf24f06f4311e126eb0d4f64ad83aacec2220e8b9",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "a29ddabad216008ec03cc0560cb7f2a5e67903e436c59f1ff3c975bd58893b01",
+      "values_digest": "aeb7b17ac956af4c0499abf515af89a3ffa47035ad2b1685e08872563a7d48d7",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "9f41b294f9afefed46b86b71ef7291f24455a749a50cefffc1d9a09f3ec772d5",
+      "values_digest": "16e023e50442ff2a5a03397196f69c4e7c4a8e52dd565d693b6e9660fb596a01",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "ce8749a9736868a876a302cf657fa6dbafdec78fd406480184600c71e31139fd",
-      "rendered_digest": "c927fb463004a8ebbf87eb885a937a72147450dbed8f9aeadad8a86c988a455d",
-      "ast_digest": "6102a9b2c097bb72a368213d98050a4f842f0db287c4b49ffcd57e8902c7bc2d"
+      "values_digest": "518ff6e68ba2a8b2d495de5352815b9aafd7e09516ffe0c12dd5a0384e2bf495",
+      "rendered_digest": "f3b480d560ce9dd3ddbe4962070886babb974a7f7f599f06df2b36cf82416bbf",
+      "ast_digest": "14e273e3a66676b679afae56315e26d64493d8e514a3576fd778ebf4d8addaa0"
     },
     "sor": {
-      "values_digest": "57a53d5a1a08db71002ab7a34774ec04fcc45c4780b0d187e159fc40ccf9d2f8",
-      "rendered_digest": "9aa78ddf8d349d30ee898ee5c3b0fe54800f167d5ba669740cf059261ef2722f",
-      "ast_digest": "5a52c2377b9a20f51f45cc7fd3e2f1cd2e07602fea9245287cfd8c2f646339b9"
+      "values_digest": "4fdd27f5c5e5df8d4cd373635ca5abd6ec6852f238ec910a89e3206ddc49afdb",
+      "rendered_digest": "d161e5347c43eba40996634ef457de469b025db025f66a02725c3b834789f2cb",
+      "ast_digest": "59b762ffc75257679905d1f2e93f5ab0b3fe80a4c5e55a29422b44400cf4cf01"
     }
   },
   "transitions": [
@@ -331,6 +359,20 @@
       "to": "implemented",
       "actor": "worker-6",
       "reason": "Recover stale #505 review and publication truth after merging current origin/main at 8ed2c4fc into PR #591 without approving cutover."
+    },
+    {
+      "sequence": 39,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 40,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -830,6 +872,27 @@
       "actor": "codex:worker-6",
       "reason": "Refresh #505 SOR after fixing `csdlc sprint` so terminal V3-H evidence is command-reproducible without granting cutover authority.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof and operator approval, fixed PR #591 non-closing publication wording, and made `csdlc sprint` produce terminal completed-sprint evidence without cutover authority.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, pending exact-head review, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, stale readiness notice language, or a non-command-reproducible V3-H terminal sprint status.\",\"Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.\",\"Changed the PR #591 non-closing relation from `Part-Of #505` to the typed-publication-compatible `Part of #505` form and updated live PR #591 through `csdlc-github-pr`.\",\"Extended `csdlc sprint` with a `complete_not_cutover_authority` status, umbrella-state output, and a regression test for closed V3-H umbrella plus closed child readbacks.\"],\"artifacts\":[\"AGENTS.md\",\"adl/tools/test_install_adl_pr_cycle_skill.sh\",\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/sprint.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after adding terminal sprint-readiness status support.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Run the full C-SDLC v3 suite after terminal sprint-readiness support and current-main reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:129-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after terminal V3-H command reproducibility, #179/#180 disposition, deferred cutover notice, and current-main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the reconciled branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:passed\"}]}"
+    },
+    {
+      "sequence": 72,
+      "generation": 55,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 56,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 74,
+      "generation": 57,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
