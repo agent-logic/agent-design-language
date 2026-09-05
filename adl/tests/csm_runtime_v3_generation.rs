@@ -2,6 +2,363 @@ use std::fs;
 use std::os::unix::fs::PermissionsExt;
 use std::process::Command;
 
+use adl_runtime_kernel::{
+    activate_config_generation, active_generation_ref, build_config_generation_receipt,
+    config_generation_identity_from_env, generation_store, provision_config_generation,
+    provision_config_generation_in_store, validate_active_config_generation,
+    validate_config_generation_identity_matches_active, ConfigGenerationIdentity,
+    REDACTED_SECRET_REFERENCE,
+};
+
+fn write_generation_config(
+    root: &std::path::Path,
+    name: &str,
+    secret_ref: &str,
+) -> std::path::PathBuf {
+    let path = root.join(name);
+    fs::write(
+        &path,
+        format!(
+            r#"
+schema = "adl.runtime_v3.init.v1"
+
+[credentials]
+control_public_key_path = "{secret_ref}"
+operation_public_key_path = "{secret_ref}.operation"
+
+[api.tls]
+certificate_chain_path = "{secret_ref}.cert"
+private_key_path = "{secret_ref}.key"
+trust_roots_path = "{secret_ref}.roots"
+"#
+        ),
+    )
+    .expect("write runtime config");
+    path
+}
+
+#[test]
+fn config_generation_receipt_is_immutable_and_redacts_secret_references() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+
+    let (receipt, identity) =
+        build_config_generation_receipt(&init, "runtime-generation-one").expect("receipt");
+    assert_eq!(receipt.schema, "adl.runtime_v3.config_generation.v1");
+    assert_ne!(receipt.generation, receipt.content_sha256);
+    assert_eq!(receipt.generation, identity.generation);
+    assert_eq!(
+        receipt.compatible_binary_generation,
+        "runtime-generation-one"
+    );
+    assert_eq!(receipt.config_schema, "adl.runtime_v3.init.v1");
+    assert_eq!(
+        receipt.secret_references.get("api.tls.private_key_path"),
+        Some(&REDACTED_SECRET_REFERENCE.to_owned())
+    );
+    let receipt_json = serde_json::to_string(&receipt).expect("receipt json");
+    assert!(receipt_json.contains("api.tls.private_key_path"));
+    assert!(!receipt_json.contains("/secret/runtime/control.pub"));
+
+    let provisioned =
+        provision_config_generation(&init, "runtime-generation-one").expect("provision");
+    assert_eq!(provisioned, identity);
+    let receipt_path = generation_store(&init)
+        .expect("store")
+        .join(format!("{}.json", identity.generation));
+    let first_bytes = fs::read(&receipt_path).expect("receipt bytes");
+    fs::write(&receipt_path, b"conflicting retained bytes").expect("tamper retained receipt");
+    let error = provision_config_generation(&init, "runtime-generation-one").unwrap_err();
+    assert!(error.contains("immutable Runtime configuration receipt conflicts"));
+    assert_eq!(
+        fs::read(&receipt_path).expect("retained receipt"),
+        b"conflicting retained bytes"
+    );
+    assert_ne!(first_bytes, b"conflicting retained bytes");
+}
+
+#[test]
+fn unchanged_config_can_upgrade_and_roll_back_binary_generation() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+
+    let generation_one =
+        provision_config_generation(&init, "runtime-generation-one").expect("provision gen1");
+    activate_config_generation(&init, &generation_one).expect("activate gen1");
+    let receipt_one_path = generation_store(&init)
+        .expect("store")
+        .join(format!("{}.json", generation_one.generation));
+    let receipt_one_bytes = fs::read(&receipt_one_path).expect("gen1 receipt");
+
+    let generation_two =
+        provision_config_generation(&init, "runtime-generation-two").expect("provision gen2");
+    assert_ne!(generation_one.generation, generation_two.generation);
+    assert_ne!(generation_one.receipt_digest, generation_two.receipt_digest);
+    let receipt_two_path = generation_store(&init)
+        .expect("store")
+        .join(format!("{}.json", generation_two.generation));
+    assert!(receipt_two_path.exists());
+    assert_ne!(
+        fs::read(&receipt_two_path).expect("gen2 receipt"),
+        receipt_one_bytes
+    );
+
+    activate_config_generation(&init, &generation_two).expect("activate gen2");
+    assert_eq!(
+        validate_active_config_generation(&init, "runtime-generation-two").expect("validate gen2"),
+        generation_two
+    );
+
+    activate_config_generation(&init, &generation_one).expect("roll back to gen1");
+    assert_eq!(
+        validate_active_config_generation(&init, "runtime-generation-one")
+            .expect("validate gen1 rollback"),
+        generation_one
+    );
+}
+
+#[test]
+fn pre_activation_receipt_is_not_authoritative() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+    let identity = provision_config_generation(&init, "runtime-generation-one").expect("provision");
+
+    assert!(!active_generation_ref(&init).expect("active ref").exists());
+    let error = validate_active_config_generation(&init, "runtime-generation-one").unwrap_err();
+    assert!(error.contains("read Runtime configuration active reference"));
+    assert!(!error.contains(&identity.receipt_digest));
+}
+
+#[test]
+fn post_pointer_mismatch_fails_closed_before_authority() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+    let identity = provision_config_generation(&init, "runtime-generation-one").expect("provision");
+    activate_config_generation(&init, &identity).expect("activate");
+    assert_eq!(
+        validate_active_config_generation(&init, "runtime-generation-one").expect("validate"),
+        identity
+    );
+
+    fs::write(
+        active_generation_ref(&init).expect("active ref"),
+        format!("{} {}\n", identity.generation, "0".repeat(64)),
+    )
+    .expect("tamper active ref");
+    let error = validate_active_config_generation(&init, "runtime-generation-one").unwrap_err();
+    assert!(error.contains("active reference does not match init content"));
+}
+
+#[test]
+fn candidate_ready_receipt_does_not_replace_active_without_activation() {
+    let root = tempfile::tempdir().expect("temp root");
+    let active = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/current.pub",
+    );
+    let candidate = write_generation_config(
+        root.path(),
+        "runtime-init.next.toml",
+        "/secret/runtime/next.pub",
+    );
+    let active_identity =
+        provision_config_generation(&active, "runtime-generation-one").expect("provision active");
+    activate_config_generation(&active, &active_identity).expect("activate active");
+    let candidate_identity = provision_config_generation(&candidate, "runtime-generation-one")
+        .expect("provision candidate");
+
+    assert_ne!(active_identity.generation, candidate_identity.generation);
+    assert_eq!(
+        validate_active_config_generation(&active, "runtime-generation-one").expect("active"),
+        active_identity
+    );
+    assert!(!active_generation_ref(&candidate)
+        .expect("candidate ref")
+        .exists());
+}
+
+#[test]
+fn reload_candidate_receipt_is_available_from_active_generation_store() {
+    let active_root = tempfile::tempdir().expect("active temp root");
+    let candidate_root = tempfile::tempdir().expect("candidate temp root");
+    let active = write_generation_config(
+        active_root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/current.pub",
+    );
+    let candidate = write_generation_config(
+        candidate_root.path(),
+        "runtime-init.next.toml",
+        "/secret/runtime/next.pub",
+    );
+    let active_identity =
+        provision_config_generation(&active, "runtime-generation-one").expect("provision active");
+    activate_config_generation(&active, &active_identity).expect("activate active");
+
+    let candidate_identity =
+        provision_config_generation_in_store(&candidate, &active, "runtime-generation-one")
+            .expect("provision candidate in active store");
+    let active_store_receipt = generation_store(&active)
+        .expect("active store")
+        .join(format!("{}.json", candidate_identity.generation));
+    assert!(active_store_receipt.exists());
+    let candidate_store_receipt = generation_store(&candidate)
+        .expect("candidate store")
+        .join(format!("{}.json", candidate_identity.generation));
+    assert!(!candidate_store_receipt.exists());
+
+    fs::copy(&candidate, &active).expect("install candidate as active");
+    activate_config_generation(&active, &candidate_identity).expect("activate candidate");
+    assert_eq!(
+        validate_active_config_generation(&active, "runtime-generation-one")
+            .expect("candidate validates from active store"),
+        candidate_identity
+    );
+}
+
+#[test]
+fn prior_generation_remains_authoritative_after_candidate_failure() {
+    let root = tempfile::tempdir().expect("temp root");
+    let active = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/current.pub",
+    );
+    let candidate = write_generation_config(
+        root.path(),
+        "runtime-init.next.toml",
+        "/secret/runtime/next.pub",
+    );
+    let active_identity =
+        provision_config_generation(&active, "runtime-generation-one").expect("provision active");
+    activate_config_generation(&active, &active_identity).expect("activate active");
+    let candidate_identity =
+        provision_config_generation(&candidate, "runtime-generation-one").expect("candidate");
+    let candidate_receipt = generation_store(&candidate)
+        .expect("candidate store")
+        .join(format!("{}.json", candidate_identity.generation));
+    fs::write(candidate_receipt, b"{not-json").expect("corrupt candidate receipt");
+
+    let error =
+        validate_active_config_generation(&candidate, "runtime-generation-one").unwrap_err();
+    assert!(error.contains("read Runtime configuration active reference"));
+    assert_eq!(
+        validate_active_config_generation(&active, "runtime-generation-one").expect("active"),
+        active_identity
+    );
+}
+
+#[test]
+fn malformed_and_cross_binary_receipts_are_rejected() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+    let identity = provision_config_generation(&init, "runtime-generation-one").expect("provision");
+    activate_config_generation(&init, &identity).expect("activate");
+
+    let cross_binary =
+        validate_active_config_generation(&init, "runtime-generation-two").unwrap_err();
+    assert!(cross_binary.contains("active reference does not match init content"));
+
+    let receipt_path = generation_store(&init)
+        .expect("store")
+        .join(format!("{}.json", identity.generation));
+    fs::write(receipt_path, b"{not-json").expect("corrupt receipt");
+    let malformed = validate_active_config_generation(&init, "runtime-generation-one").unwrap_err();
+    assert!(malformed.contains("parse active Runtime configuration receipt"));
+}
+
+#[test]
+fn kernel_startup_requires_config_generation_handoff_before_readiness_identity() {
+    let generation = "a".repeat(64);
+    let receipt_digest = "b".repeat(64);
+
+    let missing = config_generation_identity_from_env(|_| None).unwrap_err();
+    assert!(missing.contains("configuration generation environment is required"));
+
+    let partial = config_generation_identity_from_env(|name| {
+        (name == "ADL_RUNTIME_V3_CONFIG_GENERATION").then(|| generation.clone())
+    })
+    .unwrap_err();
+    assert!(partial.contains("configuration generation environment is incomplete"));
+
+    let malformed = config_generation_identity_from_env(|name| match name {
+        "ADL_RUNTIME_V3_CONFIG_GENERATION" => Some(generation.clone()),
+        "ADL_RUNTIME_V3_CONFIG_RECEIPT_DIGEST" => Some("not-a-digest".to_owned()),
+        _ => None,
+    })
+    .unwrap_err();
+    assert!(malformed.contains("receipt digest"));
+
+    let identity = config_generation_identity_from_env(|name| match name {
+        "ADL_RUNTIME_V3_CONFIG_GENERATION" => Some(generation.clone()),
+        "ADL_RUNTIME_V3_CONFIG_RECEIPT_DIGEST" => Some(receipt_digest.clone()),
+        _ => None,
+    })
+    .expect("complete handoff identity");
+    assert_eq!(identity.generation, generation);
+    assert_eq!(identity.receipt_digest, receipt_digest);
+}
+
+#[test]
+fn kernel_startup_rejects_forged_config_generation_handoff_identity() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+    let active = provision_config_generation(&init, "runtime-generation-one").expect("provision");
+    activate_config_generation(&init, &active).expect("activate");
+
+    validate_config_generation_identity_matches_active(&init, "runtime-generation-one", &active)
+        .expect("active identity matches active receipt");
+
+    let forged_generation = ConfigGenerationIdentity {
+        generation: "a".repeat(64),
+        receipt_digest: active.receipt_digest.clone(),
+    };
+    let forged_generation_error = validate_config_generation_identity_matches_active(
+        &init,
+        "runtime-generation-one",
+        &forged_generation,
+    )
+    .unwrap_err();
+    assert!(forged_generation_error.contains("does not match active receipt"));
+
+    let forged_digest = ConfigGenerationIdentity {
+        generation: active.generation,
+        receipt_digest: "b".repeat(64),
+    };
+    let forged_digest_error = validate_config_generation_identity_matches_active(
+        &init,
+        "runtime-generation-one",
+        &forged_digest,
+    )
+    .unwrap_err();
+    assert!(forged_digest_error.contains("does not match active receipt"));
+}
+
 #[test]
 fn generation_installer_rejects_mixed_set_and_preserves_current_reference() {
     let root = tempfile::tempdir().expect("temp root");

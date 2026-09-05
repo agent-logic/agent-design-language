@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 686,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
+    "slug": "runtime-governed-config-generation-handoff",
+    "version": "v0.92.1",
+    "generation": 47
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Define the receipt and active-reference contract, wire it through the existing transactional startup/reload path and readiness identity, then prove all interruption boundaries and prior-generation restoration using isolated fixtures.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Define the immutable receipt, redacted secret-reference contract, compatibility checks, and atomic active reference.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Propagate and validate generation identity through CSM, Guardian, kernel, status, and readiness while reusing existing transaction primitives.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add deterministic failpoint and restoration proof, run focused validation, obtain exact-head independent review, and publish a ready PR.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl/tests/csm_runtime_v3_generation.rs",
+        ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+        ".csdlc/issues/686",
+        ".csdlc/prepared/issues/686",
+        ".csdlc/evidence/686"
+      ],
+      "invariants": [
+        "One committed configuration generation is authoritative",
+        "Activation never exposes a partial candidate",
+        "All service participants agree on generation and digest",
+        "Receipts contain no secret values",
+        "Recovery preserves the prior committed generation",
+        "Validation never touches the live Runtime"
+      ],
+      "risks": [
+        "A pointer can advance before candidate state is durable",
+        "Mutable files can diverge from recorded identity",
+        "Secret material can leak into receipts",
+        "Binary/config incompatibility can be detected too late"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Implementation would mutate the live Runtime",
+        "Scope expands into binary installation convergence providers or Observatory",
+        "Secret values would enter retained artifacts",
+        "Primary main becomes tracked dirty"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/686/design.md",
+      "design_digest": "ca33efced30f5574eee1c97e51ed73e21ba0799cdd4a54b41d7fb3167735aad0",
+      "diagram_ref": ".csdlc/prepared/issues/686/diagram.mmd",
+      "diagram_digest": "98c905c37eb98e035fd0c8c4d579e72c6abaff90728fdac3b3e5719d824e115f"
+    }
+  }
+}
