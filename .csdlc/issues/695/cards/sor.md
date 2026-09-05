@@ -54,11 +54,11 @@ Implemented five-minute per-agent partial checkpoints with bounded local retenti
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

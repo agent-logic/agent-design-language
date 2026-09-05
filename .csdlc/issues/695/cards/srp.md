@@ -12,10 +12,7 @@ Status: draft
 
 ## Scope
 
-strict-clippy remediation using boxed partial records and a restore-context type alias
-behavior preservation for partial checkpoint encode, restore, archive, and tombstone paths
-exact cargo clippy all-targets warning-denial gate
-18 focused partial-checkpoint tests and eight guardian soak tests
+
 
 ## Prompts
 
@@ -36,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live AWS Terraform apply and permanent Wuji rollout remain explicitly deferred and are not claimed by this PR.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:36c5fb981159724b0d2867189996df12d95dd881:e5cb91a03d7e006d7dc504b2cd60d30593f3aad5c97abd323645a7121b77b235")
+Revision: None
 
-Reviewer: Some("fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9")
+Reviewer: None
 
-Result: pass
+Result: pre_review
