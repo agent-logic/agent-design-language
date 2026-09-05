@@ -1,47 +1,73 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.15s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
 
-running 8 tests
+running 17 tests
 test agent_partial_checkpoint::tests::object_keys_are_privacy_safe_and_stable ... ok
+test agent_partial_checkpoint::tests::archive_truth_is_never_current_without_a_valid_receipt ... ok
 test agent_partial_checkpoint::tests::default_cadence_is_five_minutes_and_overlap_is_skipped_per_agent ... ok
 test agent_partial_checkpoint::tests::restart_ignores_uncommitted_temporary_partial ... ok
-test agent_partial_checkpoint::tests::later_tombstone_prevents_removed_agent_state_from_restoring ... ok
+test agent_partial_checkpoint::tests::conflicting_records_at_the_same_sequence_fail_closed ... ok
+test agent_partial_checkpoint::tests::spool_saturation_survives_restart ... ok
 test agent_partial_checkpoint::tests::partials_are_atomic_bounded_and_restore_highest_valid_sequence ... ok
+test agent_partial_checkpoint::tests::later_tombstone_prevents_removed_agent_state_from_restoring ... ok
+test agent_partial_checkpoint::tests::archived_receipt_reconciles_state_when_record_already_exists_locally ... ok
+test agent_partial_checkpoint::tests::retention_keeps_partial_budget_plus_latest_tombstone ... ok
+test agent_partial_checkpoint::tests::archive_saturation_does_not_prevent_agent_removal ... ok
 test agent_partial_checkpoint::tests::verified_archive_receipt_survives_store_restart ... ok
-test agent_partial_checkpoint::tests::archived_partial_restores_when_local_copy_is_absent ... ok
 test agent_partial_checkpoint::tests::spool_coalesces_to_newest_and_reports_degraded_history ... ok
+test agent_partial_checkpoint::tests::tampered_receipt_cannot_manufacture_current_archive_state ... ok
+test agent_partial_checkpoint::tests::successful_catchup_preserves_dropped_interval_history ... ok
+test agent_partial_checkpoint::tests::corrupt_spool_record_is_quarantined_without_starving_other_agents ... ok
+test agent_partial_checkpoint::tests::archived_partial_restores_when_local_copy_is_absent ... ok
 
-test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 138 filtered out; finished in 0.14s
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 139 filtered out; finished in 0.38s
 
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 1 test
+test control::agent_lifecycle::archived_restore_monotonically_merges_newer_completed_turns ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 155 filtered out; finished in 0.00s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 10.64s
+     Running tests/agent_roster.rs (adl-runtime-kernel/target/debug/deps/agent_roster-95a4959cac8da0cb)
 
 running 20 tests
-test policy_redacts_capabilities_and_location_without_client_cooperation ... ok
-test resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts ... ok
 test agent_sample_api_serializes_backing_model_and_continuity_truth ... ok
+test resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts ... ok
+test policy_redacts_capabilities_and_location_without_client_cooperation ... ok
 test inference_readiness_taxonomy_is_the_provider_backed_roster_denominator ... ok
-test canonical_name_is_projected_and_old_v1_entries_remain_readable ... ok
 test every_declared_presence_state_round_trips ... ok
+test canonical_name_is_projected_and_old_v1_entries_remain_readable ... ok
 test stale_presence_fails_closed_without_changing_stable_identity ... ok
-test detail_lookup_uses_exact_policy_visible_id_not_search_filter_semantics ... ok
-test shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed ... ok
 test roster_is_policy_filtered_before_serialization_and_never_claims_global_completeness ... ok
 test relocation_preserves_identity_and_advances_the_authoritative_revision ... ok
+test detail_lookup_uses_exact_policy_visible_id_not_search_filter_semantics ... ok
 test tampered_tokens_and_unbounded_queries_fail_closed ... ok
+test shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed ... ok
 test production_public_projection_omits_configured_but_unauthorized_agents_and_redacts_fields ... ok
-test event_cursors_bind_policy_query_and_exact_revision_successor ... ok
 test page_tokens_bind_revision_policy_filter_and_page_size ... ok
+test event_cursors_bind_policy_query_and_exact_revision_successor ... ok
 test production_feed_admits_shepherd_only_from_current_runtime_component_truth ... ok
 test roster_rejects_population_above_the_explicit_resource_bound ... ok
 test first_page_projects_only_the_requested_entries_in_stable_id_order ... ok
-test large_local_roster_remains_page_bounded_and_deterministic ... ok
 test production_shepherd_operation_is_the_admission_authority ... ok
+test large_local_roster_remains_page_bounded_and_deterministic ... ok
 
 test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
 
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.29s
+     Running tests/openapi_contract.rs (adl-runtime-kernel/target/debug/deps/openapi_contract-5c45175c8c0e60b4)
 
 running 9 tests
 test runtime_serves_machine_and_human_readable_openapi_docs ... ok
 test runtime_core_wss_documents_real_bidirectional_acip_boundary ... ok
-test polis_identity_openapi_contract_is_required_and_redacted ... ok
 test canonical_name_is_required_by_agent_roster_openapi_contract ... ok
+test polis_identity_openapi_contract_is_required_and_redacted ... ok
 test agent_continuity_and_backing_model_are_required_by_observatory_contract ... ok
 test observatory_wss_documents_real_bidirectional_frame_boundary ... ok
 test openapi_operations_are_deterministic_client_generation_ready ... ok
@@ -171,25 +197,7 @@ Terraform will perform the following actions:
 
       [32m+[0m[0m statement {
           [32m+[0m[0m actions   = [
-              [32m+[0m[0m "s3:ListBucket",
-              [32m+[0m[0m "s3:ListBucketVersions",
-            ]
-          [32m+[0m[0m resources = [
-              [32m+[0m[0m (known after apply),
-            ]
-
-          [32m+[0m[0m condition {
-              [32m+[0m[0m test     = "StringLike"
-              [32m+[0m[0m values   = [
-                  [32m+[0m[0m "v1/polis/*",
-                ]
-              [32m+[0m[0m variable = "s3:prefix"
-            }
-        }
-      [32m+[0m[0m statement {
-          [32m+[0m[0m actions   = [
               [32m+[0m[0m "s3:GetObject",
-              [32m+[0m[0m "s3:GetObjectVersion",
             ]
           [32m+[0m[0m resources = [
               [32m+[0m[0m (known after apply),
@@ -223,7 +231,6 @@ Terraform will perform the following actions:
       [32m+[0m[0m statement {
           [32m+[0m[0m actions   = [
               [32m+[0m[0m "s3:AbortMultipartUpload",
-              [32m+[0m[0m "s3:GetObject",
               [32m+[0m[0m "s3:PutObject",
             ]
           [32m+[0m[0m resources = [
@@ -454,9 +461,3 @@ Saved the plan to:
 
 To perform exactly these actions, run the following command to apply:
     terraform apply "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3/infra/aws/runtime/agent-checkpoint-archive/agent-checkpoint-archive.tfplan"
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.26s
-     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
-     Running tests/agent_roster.rs (adl-runtime-kernel/target/debug/deps/agent_roster-95a4959cac8da0cb)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
-     Running tests/openapi_contract.rs (adl-runtime-kernel/target/debug/deps/openapi_contract-5c45175c8c0e60b4)

@@ -1,0 +1,62 @@
+{
+  "schema": "adl.runtime.agent-partial-checkpoint.results.v1",
+  "issue": 695,
+  "head_sha": "dd8fdfd34838bf8da22193296c0f3f853e75cb4d",
+  "results": [
+    {
+      "proof_id": "partial-cadence",
+      "outcome": "passed",
+      "test_count": 1
+    },
+    {
+      "proof_id": "production-shape",
+      "outcome": "passed",
+      "assertion_count": 1
+    },
+    {
+      "proof_id": "partial-roster-isolation",
+      "outcome": "passed",
+      "test_count": 1
+    },
+    {
+      "proof_id": "partial-atomic-schema",
+      "outcome": "passed",
+      "test_count": 1
+    },
+    {
+      "proof_id": "partial-crash-atomicity",
+      "outcome": "passed",
+      "test_count": 1
+    },
+    {
+      "proof_id": "partial-bounded-outage",
+      "outcome": "passed",
+      "test_count": 4
+    },
+    {
+      "proof_id": "terraform-policy",
+      "outcome": "passed",
+      "assertion_count": 1
+    },
+    {
+      "proof_id": "partial-restore",
+      "outcome": "passed",
+      "test_count": 5
+    },
+    {
+      "proof_id": "continuity-api",
+      "outcome": "passed",
+      "test_count": 2
+    },
+    {
+      "proof_id": "continuity-observatory",
+      "outcome": "passed",
+      "test_count": 1
+    },
+    {
+      "proof_id": "diff-hygiene",
+      "outcome": "passed",
+      "assertion_count": 1
+    }
+  ]
+}

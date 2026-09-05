@@ -54,7 +54,7 @@ Implemented five-minute per-agent partial checkpoints with bounded local retenti
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

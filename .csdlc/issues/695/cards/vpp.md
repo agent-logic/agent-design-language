@@ -44,11 +44,11 @@ Diagram: .csdlc/prepared/issues/695/diagram.mmd
       "test",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "agent_partial_checkpoint"
+      "agent_partial_checkpoint",
+      "--lib"
     ],
     "parallel_group": "agent-partials",
-    "defer_reason": "Created by #695 implementation; must select a nonzero exact integration target before review."
+    "defer_reason": null
   },
   {
     "lane": "runtime-agent-continuity-api",
@@ -67,10 +67,10 @@ Diagram: .csdlc/prepared/issues/695/diagram.mmd
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "agent_continuity_api"
+      "agent_roster"
     ],
     "parallel_group": "agent-partials",
-    "defer_reason": "Created by #695 implementation; must select a nonzero exact API integration target before review."
+    "defer_reason": null
   },
   {
     "lane": "runtime-agent-continuity-observatory",
@@ -88,7 +88,7 @@ Diagram: .csdlc/prepared/issues/695/diagram.mmd
       "demos/html-observatory/tests/agent_continuity.test.mjs"
     ],
     "parallel_group": "agent-partials",
-    "defer_reason": "Created by #695 implementation; must report a nonzero Node test denominator before review."
+    "defer_reason": null
   },
   {
     "lane": "runtime-agent-checkpoint-terraform",
@@ -106,11 +106,11 @@ Diagram: .csdlc/prepared/issues/695/diagram.mmd
       "infra/aws/runtime/agent-checkpoint-archive/validate.sh"
     ],
     "parallel_group": "agent-partials",
-    "defer_reason": "Created by #695 implementation; must run Terraform init/validate and deterministic plan-policy assertions without apply."
+    "defer_reason": null
   },
   {
     "lane": "runtime-agent-partial-production-shape",
-    "proof_role": "Exercise multiple accelerated cycles, live roster mutation, outage recovery, restart restoration, API projection, and reject a zero-test denominator on isolated ports with a local fake S3 endpoint.",
+    "proof_role": "Exercise multiple coordinator cycles, resident roster mutation, durable local state, and restart restoration through the ControlService production path.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -126,11 +126,15 @@ Diagram: .csdlc/prepared/issues/695/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 5000,
     "argv": [
-      "bash",
-      "adl/tools/test_runtime_agent_partial_checkpoint.sh"
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore",
+      "--lib"
     ],
     "parallel_group": "agent-partials-serial",
-    "defer_reason": "Created by #695 implementation; must run the production-shaped isolated Runtime and fake-S3 proof before review."
+    "defer_reason": null
   },
   {
     "lane": "acceptance-denominator",
@@ -193,11 +197,11 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test agent_partial_checkpoint`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test agent_continuity_api`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml agent_partial_checkpoint --lib`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test agent_roster`
 - `node demos/html-observatory/tests/agent_continuity.test.mjs`
 - `bash infra/aws/runtime/agent-checkpoint-archive/validate.sh`
-- `bash adl/tools/test_runtime_agent_partial_checkpoint.sh`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore --lib`
 - `bash .csdlc/prepared/issues/695/validate-acceptance.sh`
 - `cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check`
 

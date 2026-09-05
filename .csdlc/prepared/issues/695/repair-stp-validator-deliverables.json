@@ -1,0 +1,25 @@
+{
+  "issue": 695,
+  "card": "stp",
+  "expected_generation": 10,
+  "expected_digest": "47c74eb8f7ceb22351fdc7f7f8259eacb5198297c8e4ca655dea3e73833db79d",
+  "actor": "codex:/root",
+  "reason": "Replace three planned validator file paths that were superseded by the exact existing module, integration, and issue-owned validation targets used by implementation proof.",
+  "operation": {
+    "operation": "correct_stp_deliverables_after_recovery",
+    "values": [
+      "Typed bounded periodic coordinator covering Shepherd and dynamic residents",
+      "Versioned integrity-bound partial schema and atomic local store",
+      "Durable bounded asynchronous S3 upload spool and archive worker",
+      "Validated full-checkpoint-plus-partials restore path",
+      "Roster and detail API continuity fields including provider/model and snapshot/archive status",
+      "Observatory per-agent backing-model and snapshot/archive rendering",
+      "Private encrypted versioned S3 Terraform module and least-privilege IAM",
+      "Accelerated deterministic and production-shaped isolated tests",
+      "adl-runtime-kernel/src/agent_partial_checkpoint.rs",
+      "demos/html-observatory/tests/agent_continuity.test.mjs",
+      "infra/aws/runtime/agent-checkpoint-archive/validate.sh",
+      ".csdlc/prepared/issues/695/validate-acceptance.sh"
+    ]
+  }
+}

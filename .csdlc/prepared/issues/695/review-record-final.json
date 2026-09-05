@@ -1,0 +1,24 @@
+{
+  "issue": 695,
+  "expected_generation": 5,
+  "expected_digest": "31efeb59d167901ba495b5ed36656f02734499b325197bed269d7c50c687af4b",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "reviewed_revision": "git-blake3:dd8fdfd34838bf8da22193296c0f3f853e75cb4d:324479767d64621248cbeaa4e7bc8472daba4a8dc7e21fb96b2e52fad9d9093b",
+    "scope": [
+      "five-minute per-agent partial checkpoint cadence",
+      "atomic local persistence and bounded retention",
+      "asynchronous S3 spool, archive, and restore",
+      "Runtime API and Observatory continuity projection",
+      "AWS Terraform archive boundary",
+      "focused exact-head validation"
+    ],
+    "completed": true,
+    "findings": [],
+    "residual_risks": [
+      "Live AWS Terraform apply and permanent Wuji rollout are intentionally deferred and are not claimed as issue #695 proof."
+    ],
+    "non_substantive_proof": null
+  }
+}

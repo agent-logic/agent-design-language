@@ -7,11 +7,14 @@ flowchart LR
   D --> L
   L --> Q[Durable bounded upload spool]
   Q --> U[Asynchronous S3 archive worker]
-  U --> B[(Private encrypted versioned S3)]
+  U --> B[(Immutable sequence objects)]
+  U --> P[Mutable per-agent latest.json pointer]
+  B --> E[(Private encrypted versioned S3)]
+  P --> E
   L --> A[Runtime roster and detail API]
   U --> A
   A --> O[Observatory per-agent continuity view]
   F[Latest full checkpoint] --> X[Validated restore]
   L --> X
-  B --> V[Download with restore role and validate digest lineage sequence]
+  E --> V[Two bounded GetObject reads with restore role and validated digest lineage sequence]
   V --> X

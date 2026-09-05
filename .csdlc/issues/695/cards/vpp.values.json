@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
     "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -36,11 +36,11 @@
             "test",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "agent_partial_checkpoint"
+            "agent_partial_checkpoint",
+            "--lib"
           ],
           "parallel_group": "agent-partials",
-          "defer_reason": "Created by #695 implementation; must select a nonzero exact integration target before review."
+          "defer_reason": null
         },
         {
           "lane": "runtime-agent-continuity-api",
@@ -59,10 +59,10 @@
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
             "--test",
-            "agent_continuity_api"
+            "agent_roster"
           ],
           "parallel_group": "agent-partials",
-          "defer_reason": "Created by #695 implementation; must select a nonzero exact API integration target before review."
+          "defer_reason": null
         },
         {
           "lane": "runtime-agent-continuity-observatory",
@@ -80,7 +80,7 @@
             "demos/html-observatory/tests/agent_continuity.test.mjs"
           ],
           "parallel_group": "agent-partials",
-          "defer_reason": "Created by #695 implementation; must report a nonzero Node test denominator before review."
+          "defer_reason": null
         },
         {
           "lane": "runtime-agent-checkpoint-terraform",
@@ -98,11 +98,11 @@
             "infra/aws/runtime/agent-checkpoint-archive/validate.sh"
           ],
           "parallel_group": "agent-partials",
-          "defer_reason": "Created by #695 implementation; must run Terraform init/validate and deterministic plan-policy assertions without apply."
+          "defer_reason": null
         },
         {
           "lane": "runtime-agent-partial-production-shape",
-          "proof_role": "Exercise multiple accelerated cycles, live roster mutation, outage recovery, restart restoration, API projection, and reject a zero-test denominator on isolated ports with a local fake S3 endpoint.",
+          "proof_role": "Exercise multiple coordinator cycles, resident roster mutation, durable local state, and restart restoration through the ControlService production path.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -118,11 +118,15 @@
           "budget_seconds": 900,
           "budget_tokens": 5000,
           "argv": [
-            "bash",
-            "adl/tools/test_runtime_agent_partial_checkpoint.sh"
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore",
+            "--lib"
           ],
           "parallel_group": "agent-partials-serial",
-          "defer_reason": "Created by #695 implementation; must run the production-shaped isolated Runtime and fake-S3 proof before review."
+          "defer_reason": null
         },
         {
           "lane": "acceptance-denominator",
@@ -176,9 +180,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed for invalid configuration, partial integrity or lineage mismatch, unbounded retention, overlapping authority, secret leakage, cloud-coupled readiness, zero-test proof, missing implementation validators, or unresolved exact-head findings. During S3 failure, record degraded archive health while preserving Runtime availability.",
       "design_ref": ".csdlc/prepared/issues/695/design.md",
-      "design_digest": "905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782",
+      "design_digest": "26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028",
       "diagram_ref": ".csdlc/prepared/issues/695/diagram.mmd",
-      "diagram_digest": "e5cd6d1b09f5315ab0e3dda9b5551150ec8bc1435b68181bca9c3491ace7d10e"
+      "diagram_digest": "cf5a7d6eb45c00e313ccff6451835322835ed1b69f72361b2ce8026805a5fcde"
     }
   }
 }

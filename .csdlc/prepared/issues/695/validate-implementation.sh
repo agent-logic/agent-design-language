@@ -7,6 +7,8 @@ cd "$repo_root"
 cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check
 cargo test --manifest-path adl-runtime-kernel/Cargo.toml agent_partial_checkpoint --lib
 cargo test --manifest-path adl-runtime-kernel/Cargo.toml \
+  agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore --lib
+cargo test --manifest-path adl-runtime-kernel/Cargo.toml \
   agent_lifecycle::archived_restore_monotonically_merges_newer_completed_turns --lib
 cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test agent_roster
 cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract

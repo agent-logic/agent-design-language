@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "ffcb725599e11f5b5bc7e7e82a1f10458d636372725baf7d5fde0e9ffe9f5415",
+  "generation": 13,
+  "digest": "49ed3a84968f08aa164c10fb4d45b5f9d3a50ff4e4a667655b01e43fee672352",
   "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
   "review_assignment": null,
@@ -19,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/695/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:review-695-design",
-      "revision": "905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782"
+      "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "revision": "26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "31b39c680ac95f03ba2a5d0e03508c1cc5dcd313f5c151248802c69efe24552d",
+      "values_digest": "e9bb94fc0d19ed421ec1896e0edbb48229e9acbf6e072453bec00440b6fd28aa",
       "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
       "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
     },
     "stp": {
-      "values_digest": "7a041d98bd2290b431d14b9e1c6b9d321bc82bf3fe2369bc47a69df9a196040b",
-      "rendered_digest": "ce871c7fdc6952daa740b415e8a9bb5315091f12fae9d40d017c8098606f1f62",
-      "ast_digest": "0d2d9ff6ad6aa1162aeeba876ab8ef198664ae64b6bd815ea5e4f5c7bd32f5da"
+      "values_digest": "1ecf02a9318cea7a67bfa18d19c11f70f95d1c6e7dc8e74e068ef227a174b828",
+      "rendered_digest": "2c3c11dd93c7edaf7e4d5e7f3e7a6a77428649b405d2091f6959e1b3a20d924c",
+      "ast_digest": "4e98cb924f78d34c5631ea6135da7b04bb9c10c91c726eb865af22fb00028a4c"
     },
     "spp": {
-      "values_digest": "ee981e7a3f74b6d2bbd59f15cf57c3e737ce719469012992574f8265e57cdd4c",
-      "rendered_digest": "903ffc5aec6fdc0855b9adc4ae3392487a8044d5117ce089bd284656231d1234",
-      "ast_digest": "4a737d764443272bc05c0dff518c29d91a117bafd1e1b7e6a42e99fe3a3b97c8"
+      "values_digest": "10477e7bded3ad00950d1c4a4d89a4fb539edd2f82002f34e5000d1eb1ff192a",
+      "rendered_digest": "d5b51af9610919ae6e51b44288b88b7f88b1f5a9f02080c0432b7d27f9b14164",
+      "ast_digest": "e862f3841fe57c134e2337a28371588754f3d3ec8be15fbcf4531c4f4147f872"
     },
     "vpp": {
-      "values_digest": "6ed9fdfabf0b4c8f6eeac79051e95898891fd47734e613690442045bd7811aef",
-      "rendered_digest": "88516b2b2852a1236305ac69813f9a7d08617227bf98736528f1680d8b0c6026",
-      "ast_digest": "b5c31ad9443b9f891944d92594faf09e94da8c963e0e4f67fe739e1897755921"
+      "values_digest": "6a9c9dcf4205b26067f9a39f6600c5babff1d38a91c7809e891d8595c0a9e7e9",
+      "rendered_digest": "3e9546cce535c699192da26f46a56ae11cb14e3ee45cae3dfa58d306d82c3dcd",
+      "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
     },
     "srp": {
-      "values_digest": "181f46bcdeeb177ed0db2d3a520366e1c80f66cdaa5549aa646ad0cbec31e82e",
-      "rendered_digest": "d494de7d8c18cc1d8ee7fe50244d847c4080cefb6eb058584c1869f340a2ed99",
-      "ast_digest": "b8bf81b8f7111675e0d33583718265d5c0a015e7ca54088c8f84da0f22a595f3"
+      "values_digest": "742a222a8f3b4a5e943f4aa58b98a2c2cafffffc4c5ff2528c0f470ff7b997c2",
+      "rendered_digest": "5ed94e79d52fccb9957a25e85d14903ca13fff663eab2b5639a18e1ab4e49aaf",
+      "ast_digest": "06e87c997b3673dfdd23dbeaf31239220030f697afa0b5ebe5b3675616bd1b47"
     },
     "sor": {
-      "values_digest": "c3813275af8481a1b226de011d8f8d323af871a8259a3de5ba46a8adc1f9aec2",
-      "rendered_digest": "031f513886d14145e9a8037539d7528c395b02958ce3dc28199774293f9aae08",
-      "ast_digest": "0e2875007eeee9bf5b39feb06cadffe72e54cbf88f447d961a31c3cc96c7a273"
+      "values_digest": "14285a6e8bde667de4ccfd66ae3364b1d4cd5ad6f6915a1930a0af070b0e4fa2",
+      "rendered_digest": "7be2907d14a291dd67bc9cd00d5c0c7729cb0f85e1e7a2ae803a301c23a68e79",
+      "ast_digest": "aa341d3ff8d56c0c2e575635c8d167e9509870beb4f4a224015ddaa7485e089e"
     }
   },
   "transitions": [
@@ -76,6 +76,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Repair three stale planned validator argv targets so typed doctor reflects the exact passing commands already recorded in issue evidence."
     }
   ],
   "audit": [
@@ -106,6 +120,97 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "{\"disposition\":\"Invalidate the stale authored tuple and require fresh exact-current design approval before execution review publication.\",\"false_reviewer\":\"codex:review-695-design\",\"previous_approval\":{\"reviewer\":\"codex:review-695-design\",\"revision\":\"905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782\"},\"reason\":\"The committed design and diagram EOF hygiene corrections changed authored identities after the original design approval without changing issue semantics.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Refresh authored design and diagram bindings after the already-reviewed whitespace-only artifact normalization so typed review and publication can proceed.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/695/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/695/diagram.mmd\",\"new_design_digest\":\"26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028\",\"new_diagram_digest\":\"cf5a7d6eb45c00e313ccff6451835322835ed1b69f72361b2ce8026805a5fcde\",\"old_design_digest\":\"905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782\",\"old_diagram_digest\":\"e5cd6d1b09f5315ab0e3dda9b5551150ec8bc1435b68181bca9c3491ace7d10e\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":3,\"recovery_sequence\":5}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028\",\"design_ref\":\".csdlc/prepared/issues/695/design.md\",\"diagram_digest\":\"cf5a7d6eb45c00e313ccff6451835322835ed1b69f72361b2ce8026805a5fcde\",\"diagram_ref\":\".csdlc/prepared/issues/695/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Repair three stale planned validator argv targets so typed doctor reflects the exact passing commands already recorded in issue evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Align planned validator argv with the exact existing targets and passing commands recorded by #695 implementation evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-partial-continuity\",\"proof_role\":\"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-api\",\"proof_role\":\"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-observatory\",\"proof_role\":\"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_continuity.test.mjs\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-checkpoint-terraform\",\"proof_role\":\"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.\",\"acceptance_ids\":[\"AC-5\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-partial-production-shape\",\"proof_role\":\"Exercise accelerated checkpoint, recovery, API, Observatory, Terraform, formatting, and exact acceptance proof through the issue-owned validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-implementation.sh\"],\"parallel_group\":\"agent-partials-serial\",\"defer_reason\":null},{\"lane\":\"acceptance-denominator\",\"proof_role\":\"Require one passing non-zero proving test or assertion set for every acceptance row before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"parallel_group\":\"agent-partials-final\",\"defer_reason\":null},{\"lane\":\"format-and-diff\",\"proof_role\":\"Reject Rust formatting and committed whitespace defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Replace three planned validator file paths that were superseded by the exact existing module, integration, and issue-owned validation targets used by implementation proof.",
+      "operation": "{\"new_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/src/agent_partial_checkpoint.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\".csdlc/prepared/issues/695/validate-implementation.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/tests/agent_partial_checkpoint.rs\",\"adl-runtime-kernel/tests/agent_continuity_api.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\"adl/tools/test_runtime_agent_partial_checkpoint.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"recovery_generation\":7,\"recovery_sequence\":10}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Complete validator-lane repair by selecting the existing nonzero Rust module test directly for the production-shaped checkpoint proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-partial-continuity\",\"proof_role\":\"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-api\",\"proof_role\":\"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-observatory\",\"proof_role\":\"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_continuity.test.mjs\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-checkpoint-terraform\",\"proof_role\":\"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.\",\"acceptance_ids\":[\"AC-5\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-partial-production-shape\",\"proof_role\":\"Exercise the production checkpoint and recovery implementation with its exact nonzero Rust module test surface.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials-serial\",\"defer_reason\":null},{\"lane\":\"acceptance-denominator\",\"proof_role\":\"Require one passing non-zero proving test or assertion set for every acceptance row before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"parallel_group\":\"agent-partials-final\",\"defer_reason\":null},{\"lane\":\"format-and-diff\",\"proof_role\":\"Reject Rust formatting and committed whitespace defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Replace three planned validator file paths that were superseded by the exact existing module, integration, and issue-owned validation targets used by implementation proof.",
+      "operation": "{\"new_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/src/agent_partial_checkpoint.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/src/agent_partial_checkpoint.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\".csdlc/prepared/issues/695/validate-implementation.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"recovery_generation\":7,\"recovery_sequence\":10}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover the superseded review assignment so the new coordinator-cycle and restart proof can be recorded and reviewed at its exact revision.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Complete validator-lane repair by selecting the existing nonzero Rust module test directly for the production-shaped checkpoint proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-partial-continuity\",\"proof_role\":\"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-api\",\"proof_role\":\"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-observatory\",\"proof_role\":\"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_continuity.test.mjs\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-checkpoint-terraform\",\"proof_role\":\"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.\",\"acceptance_ids\":[\"AC-5\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-partial-production-shape\",\"proof_role\":\"Exercise multiple coordinator cycles, resident roster mutation, durable local state, and restart restoration through the ControlService production path.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore\",\"--lib\"],\"parallel_group\":\"agent-partials-serial\",\"defer_reason\":null},{\"lane\":\"acceptance-denominator\",\"proof_role\":\"Require one passing non-zero proving test or assertion set for every acceptance row before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"parallel_group\":\"agent-partials-final\",\"defer_reason\":null},{\"lane\":\"format-and-diff\",\"proof_role\":\"Reject Rust formatting and committed whitespace defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null}]}"
     }
   ]
 }

@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Five-minute per-agent partial checkpoint cadence, local atomic storage and restore, asynchronous S3 spool/archive, per-agent Runtime API fields, Observatory rendering, Terraform security boundary, and focused tests only.
+
 
 ## Prompts
 

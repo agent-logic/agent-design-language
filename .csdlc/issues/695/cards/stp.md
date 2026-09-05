@@ -24,11 +24,9 @@ Implement and prove bounded local five-minute agent partials, asynchronous S3 ar
 - Observatory per-agent backing-model and snapshot/archive rendering
 - Private encrypted versioned S3 Terraform module and least-privilege IAM
 - Accelerated deterministic and production-shaped isolated tests
-- adl-runtime-kernel/tests/agent_partial_checkpoint.rs
-- adl-runtime-kernel/tests/agent_continuity_api.rs
+- adl-runtime-kernel/src/agent_partial_checkpoint.rs
 - demos/html-observatory/tests/agent_continuity.test.mjs
 - infra/aws/runtime/agent-checkpoint-archive/validate.sh
-- adl/tools/test_runtime_agent_partial_checkpoint.sh
 - .csdlc/prepared/issues/695/validate-acceptance.sh
 
 ## Acceptance

@@ -7003,6 +7003,93 @@ mod agent_lifecycle {
         }]
     }
 
+    #[tokio::test]
+    async fn agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore() {
+        let temp = tempfile::tempdir().unwrap();
+        let checkpoint_root = temp.path().join("agent-partials");
+        let recorder = RuntimeRecorder::new(16);
+        recorder.set_continuity_head(crate::ContinuityHead {
+            generation: 7,
+            accepted_through: 11,
+            topology_hash: "1".repeat(64),
+            config_hash: "2".repeat(64),
+            integrity: "3".repeat(64),
+        });
+
+        let mut population = AgentPopulationFeed::resident_shepherd();
+        let mut dynamic = population.sample[0].clone();
+        dynamic.id = "ember".to_owned();
+        dynamic.name = "ember.axioma".to_owned();
+        dynamic.label = "Ember Axioma".to_owned();
+        dynamic.role = "local reasoning agent".to_owned();
+        dynamic.provider = Some("ollama".to_owned());
+        dynamic.model = Some("gemma4:e4b-mlx".to_owned());
+        population.admit_dynamic(dynamic);
+
+        let service = Arc::new(ControlService::new_with_observatory_config_and_agents(
+            "runtime-test",
+            recorder.clone(),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            population,
+        ));
+        service
+            .configure_agent_partial_checkpoints(
+                checkpoint_root.clone(),
+                AgentPartialCheckpointInitConfig::default(),
+            )
+            .unwrap();
+
+        assert_eq!(service.snapshot_all_resident_agents().await, 2);
+        let store = service
+            .agent_partial_store
+            .read()
+            .expect("agent partial store poisoned")
+            .clone()
+            .unwrap();
+        assert_eq!(store.projection("shepherd").snapshot_sequence, Some(1));
+        assert_eq!(store.projection("ember").snapshot_sequence, Some(1));
+
+        service
+            .agent_population
+            .write()
+            .expect("agent population poisoned")
+            .remove_dynamic("ember");
+        assert_eq!(service.snapshot_all_resident_agents().await, 1);
+        assert_eq!(store.projection("shepherd").snapshot_sequence, Some(2));
+        assert_eq!(store.projection("ember").snapshot_sequence, Some(1));
+        drop(service);
+
+        let restarted = ControlService::new_with_observatory_config_and_agents(
+            "runtime-test",
+            recorder,
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            AgentPopulationFeed::resident_shepherd(),
+        );
+        restarted
+            .configure_agent_partial_checkpoints(
+                checkpoint_root,
+                AgentPartialCheckpointInitConfig::default(),
+            )
+            .unwrap();
+        assert_eq!(
+            restarted.restore_local_agent_partial_checkpoints().unwrap(),
+            1
+        );
+        let restored = restarted
+            .agent_partial_store
+            .read()
+            .expect("agent partial store poisoned")
+            .clone()
+            .unwrap();
+        assert_eq!(restored.projection("shepherd").snapshot_sequence, Some(2));
+    }
+
     #[test]
     fn archived_restore_monotonically_merges_newer_completed_turns() {
         let temp = tempfile::tempdir().unwrap();

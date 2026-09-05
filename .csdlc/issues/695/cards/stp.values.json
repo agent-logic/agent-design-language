@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
     "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -23,11 +23,9 @@
         "Observatory per-agent backing-model and snapshot/archive rendering",
         "Private encrypted versioned S3 Terraform module and least-privilege IAM",
         "Accelerated deterministic and production-shaped isolated tests",
-        "adl-runtime-kernel/tests/agent_partial_checkpoint.rs",
-        "adl-runtime-kernel/tests/agent_continuity_api.rs",
+        "adl-runtime-kernel/src/agent_partial_checkpoint.rs",
         "demos/html-observatory/tests/agent_continuity.test.mjs",
         "infra/aws/runtime/agent-checkpoint-archive/validate.sh",
-        "adl/tools/test_runtime_agent_partial_checkpoint.sh",
         ".csdlc/prepared/issues/695/validate-acceptance.sh"
       ],
       "acceptance_criteria": [

@@ -65,10 +65,11 @@ A separate worker uploads immutable objects using workload IAM, exponential back
 from 5 seconds through 5 minutes with jitter, and deterministic idempotency. Object
 keys are privacy-safe digests:
 `v1/polis/<polis-digest>/runtime/<instance-digest>/agent/<agent-digest>/sequence/<20-digit>.json`.
-Each upload requests an S3-managed SHA-256 checksum and the returned checksum is
-matched before a durable archive receipt is committed. A fixed per-agent latest
-pointer makes asynchronous recovery two bounded reads per resident agent instead of
-an archive scan. S3 failure only changes archive freshness and backlog state.
+Sequence objects are immutable. Each upload requests an S3-managed SHA-256 checksum,
+and the returned checksum is matched before a durable archive receipt is committed.
+The worker also updates a deterministic mutable per-agent `latest.json` pointer so
+asynchronous recovery needs two bounded object reads rather than an archive scan.
+S3 failure only changes archive freshness and backlog state.
 
 ## API and Observatory contract
 

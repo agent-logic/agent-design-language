@@ -1,0 +1,15 @@
+{
+  "issue": 695,
+  "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "five-minute per-agent partial checkpoint cadence",
+    "atomic local persistence and bounded retention",
+    "asynchronous S3 spool, archive, and restore",
+    "Runtime API and Observatory continuity projection",
+    "AWS Terraform archive boundary",
+    "focused exact-head validation"
+  ],
+  "expected_generation": 11,
+  "expected_digest": "7bcd80627fbe296ca062f6c76b64c5a96407a809f2195adcd1fcea9aac0f23b7"
+}
