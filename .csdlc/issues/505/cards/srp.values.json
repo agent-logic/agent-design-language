@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "AGENTS.md\nadl/tools/test_install_adl_pr_cycle_skill.sh\ncsdlc-v3\ndocs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

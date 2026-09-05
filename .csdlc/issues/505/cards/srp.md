@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+AGENTS.md
+adl/tools/test_install_adl_pr_cycle_skill.sh
+csdlc-v3
+docs
 
 ## Prompts
 
