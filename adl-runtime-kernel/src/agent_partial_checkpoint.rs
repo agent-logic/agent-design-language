@@ -869,4 +869,37 @@ mod tests {
         store.finish_capture("ember");
         assert!(store.begin_capture("ember"));
     }
+
+    #[test]
+    fn restart_ignores_uncommitted_temporary_partial() {
+        let temp = tempfile::tempdir().unwrap();
+        let store = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(false),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.write_partial(capture("ember", 1)).unwrap();
+        let agent_dir = store.local_root.join(digest_label("ember"));
+        fs::write(
+            agent_dir.join(".00000000000000000002.json.crash.tmp"),
+            b"partial",
+        )
+        .unwrap();
+        drop(store);
+
+        let reopened = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(false),
+            "runtime-a",
+            "polis-a",
+            "incarnation-b",
+        )
+        .unwrap();
+        let restored = reopened.latest_valid(2, &"a".repeat(64)).unwrap();
+        assert_eq!(restored.len(), 1);
+        assert_eq!(restored[0].snapshot_sequence, 1);
+    }
 }
