@@ -1,0 +1,23 @@
+{
+  "issue": 687,
+  "expected_generation": 6,
+  "expected_digest": "e6e8806bbe7ab6ab2ed11866ae7d7f38914df7cfdff33e86e8c39f478832e7b5",
+  "reviewer": "subagent:/root/review_687_prepr_r1",
+  "assigned_by": "codex:worker-7",
+  "scope": [
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/config_reload.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/control/feeds.rs",
+    "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+    "adl-runtime-kernel/src/resident_shepherd.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/assembly.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/shepherd.rs",
+    "adl-runtime-kernel/tests/support/runtime_init.rs",
+    "adl-runtime/tests/support/tls.rs",
+    ".csdlc/evidence/687",
+    ".csdlc/prepared/issues/687"
+  ]
+}
