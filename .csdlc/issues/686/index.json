@@ -5,10 +5,27 @@
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
   "generation": 30,
-  "digest": "5b740f4a67bfd0f784663194e483e938383981851d5090804cd4105cef38a443",
+  "digest": "02995a20bf17e06480d4e2fe1b3ffb82f88345838c6841709365b1335705ac0c",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r12",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:60db7db06a4314597d0aaa1c428f205058e1b7f5:6b5ddddc3dfc72a914ee75ee2629b78bdebd036c7ede26fbd90f4f15d7073ffa",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+      ".csdlc/evidence/686"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +61,9 @@
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "417aea6ef80a9e28c426472879102374190b97a01b9b2a1ae36118f10c48637d",
-      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
-      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
+      "values_digest": "0a13a8c64b08974fa1d8fc3d9877929c43a0795be5949f182e4493fcb89eb724",
+      "rendered_digest": "cd9db31c108568ff94d12fb9be068f80205bfcdf2dcdeb92dbd8a4a783f370f4",
+      "ast_digest": "48bb902b0245b471ed4e62204d7248e7cb630071ca2173d1c6f480c22d024abb"
     },
     "sor": {
       "values_digest": "f3de97c63f234c5caab9abc3d641a78dd1f6acddcaa538b2f0d7b41a863cce0c",
@@ -427,6 +444,13 @@
       "actor": "codex:/root",
       "reason": "Recover #686 r11 review assignment because no findings-first PASS/FAIL review payload was recorded or surfaced after the bounded wait. Preserve the unchanged substantive hosted-fmt remediation head and assign a different fresh reviewer before republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

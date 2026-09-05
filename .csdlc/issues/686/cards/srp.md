@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/config_generation.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/control/feeds.rs
+adl-runtime-kernel/src/config_reload.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+adl/src/cli/csm_runtime_v3_cmd.rs
+adl/tests/csm_runtime_v3_generation.rs
+.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py
+.csdlc/evidence/686
 
 ## Prompts
 
