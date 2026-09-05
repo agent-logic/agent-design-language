@@ -89,9 +89,17 @@ pub fn provision_config_generation(
     init: &Path,
     compatible_binary_generation: &str,
 ) -> Result<ConfigGenerationIdentity, String> {
+    provision_config_generation_in_store(init, init, compatible_binary_generation)
+}
+
+pub fn provision_config_generation_in_store(
+    init: &Path,
+    store_owner_init: &Path,
+    compatible_binary_generation: &str,
+) -> Result<ConfigGenerationIdentity, String> {
     let (receipt, identity) =
         build_config_generation_receipt(init, compatible_binary_generation)?;
-    let store = generation_store(init)?;
+    let store = generation_store(store_owner_init)?;
     fs::create_dir_all(&store)
         .map_err(|error| format!("create Runtime configuration generation store: {error}"))?;
     let receipt_path = store.join(format!("{}.json", identity.generation));

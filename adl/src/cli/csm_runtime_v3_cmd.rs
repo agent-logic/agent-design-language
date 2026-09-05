@@ -9,7 +9,8 @@ use std::time::Duration;
 
 use adl_runtime_kernel::{
     activate_config_generation, active_generation_ref, provision_config_generation,
-    validate_active_config_generation, ConfigGenerationIdentity, RuntimeInitConfig,
+    provision_config_generation_in_store, validate_active_config_generation,
+    ConfigGenerationIdentity, RuntimeInitConfig,
 };
 use anyhow::{anyhow, Context, Result};
 use serde::{Deserialize, Serialize};
@@ -500,6 +501,7 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
     if args.candidate.is_some() {
         return Err(anyhow!("--candidate is valid only with runtime-v3 reload"));
     }
+    reconcile_interrupted_reload(args)?;
     let init = validated_init(&args.init)?;
     run_after_preflight(
         || {
@@ -508,7 +510,6 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
             validate_runtime_service_definition(args, &init)
         },
         || {
-            reconcile_interrupted_reload(args)?;
             if owned_runtime_readiness(args, &init).is_ok() {
                 return emit_status(args, &init, "start", true);
             }
@@ -519,6 +520,7 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 }
 
 fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
+    reconcile_interrupted_reload(args)?;
     let current = validated_init(&args.init)?;
     let candidate = args
         .candidate
@@ -530,8 +532,9 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let candidate_identity = if let Some(candidate) = candidate.as_ref() {
         let candidate_binary_generation = validate_runtime_generation(candidate)?;
         Some(
-            provision_config_generation(
+            provision_config_generation_in_store(
                 args.candidate.as_ref().expect("candidate path"),
+                &args.init,
                 &candidate_binary_generation,
             )
             .map_err(anyhow::Error::msg)?,
@@ -542,7 +545,6 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
     run_after_preflight(
         || validate_runtime_service_definition(args, &current),
         || {
-            reconcile_interrupted_reload(args)?;
             let Some((candidate_path, candidate)) = args.candidate.as_ref().zip(candidate.as_ref())
             else {
                 start_clean(args, &current)?;
@@ -2094,6 +2096,59 @@ mod tests {
             format!("current {}\n", "b".repeat(64))
         );
         assert!(!backup.exists());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn interrupted_reload_reconciles_before_config_generation_preflight() {
+        let root = tempfile::tempdir().unwrap();
+        let (active, _, _) = write_generation_init(root.path());
+        let candidate = root.path().join("runtime-init.next.toml");
+        let candidate_text = fs::read_to_string(&active)
+            .unwrap()
+            .replace("/state", "/candidate-state");
+        fs::write(&candidate, candidate_text).unwrap();
+
+        let active_identity =
+            provision_config_generation(&active, "test-generation").expect("provision active");
+        activate_config_generation(&active, &active_identity).expect("activate active");
+        let candidate_identity =
+            provision_config_generation_in_store(&candidate, &active, "test-generation")
+                .expect("provision candidate in active store");
+        let backup = replace_config_with_candidate(&active, &candidate, &candidate_identity)
+            .expect("install interrupted candidate");
+        let active_ref = active_generation_ref(&active).unwrap();
+        fs::write(
+            &active_ref,
+            format!(
+                "{} {}\n",
+                active_identity.generation, active_identity.receipt_digest
+            ),
+        )
+        .unwrap();
+
+        let pre_reconcile_error =
+            prepare_active_config_generation(&active, "test-generation").unwrap_err();
+        assert!(pre_reconcile_error
+            .to_string()
+            .contains("active reference does not match init content"));
+
+        reconcile_interrupted_reload_with(
+            &active,
+            |path| {
+                assert_eq!(path, backup);
+                validated_init(path).map(|_| ())
+            },
+            || false,
+            || Ok(()),
+        )
+        .unwrap();
+
+        assert_eq!(
+            prepare_active_config_generation(&active, "test-generation")
+                .expect("preflight after reconcile"),
+            active_identity
+        );
     }
 
     #[test]

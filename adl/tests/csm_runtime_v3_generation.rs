@@ -5,8 +5,9 @@ use std::process::Command;
 use adl_runtime_kernel::{
     activate_config_generation, active_generation_ref, build_config_generation_receipt,
     config_generation_identity_from_env, generation_store, provision_config_generation,
-    validate_active_config_generation, validate_config_generation_identity_matches_active,
-    ConfigGenerationIdentity, REDACTED_SECRET_REFERENCE,
+    provision_config_generation_in_store, validate_active_config_generation,
+    validate_config_generation_identity_matches_active, ConfigGenerationIdentity,
+    REDACTED_SECRET_REFERENCE,
 };
 
 fn write_generation_config(
@@ -146,6 +147,45 @@ fn candidate_ready_receipt_does_not_replace_active_without_activation() {
     assert!(!active_generation_ref(&candidate)
         .expect("candidate ref")
         .exists());
+}
+
+#[test]
+fn reload_candidate_receipt_is_available_from_active_generation_store() {
+    let active_root = tempfile::tempdir().expect("active temp root");
+    let candidate_root = tempfile::tempdir().expect("candidate temp root");
+    let active = write_generation_config(
+        active_root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/current.pub",
+    );
+    let candidate = write_generation_config(
+        candidate_root.path(),
+        "runtime-init.next.toml",
+        "/secret/runtime/next.pub",
+    );
+    let active_identity =
+        provision_config_generation(&active, "runtime-generation-one").expect("provision active");
+    activate_config_generation(&active, &active_identity).expect("activate active");
+
+    let candidate_identity =
+        provision_config_generation_in_store(&candidate, &active, "runtime-generation-one")
+            .expect("provision candidate in active store");
+    let active_store_receipt = generation_store(&active)
+        .expect("active store")
+        .join(format!("{}.json", candidate_identity.generation));
+    assert!(active_store_receipt.exists());
+    let candidate_store_receipt = generation_store(&candidate)
+        .expect("candidate store")
+        .join(format!("{}.json", candidate_identity.generation));
+    assert!(!candidate_store_receipt.exists());
+
+    fs::copy(&candidate, &active).expect("install candidate as active");
+    activate_config_generation(&active, &candidate_identity).expect("activate candidate");
+    assert_eq!(
+        validate_active_config_generation(&active, "runtime-generation-one")
+            .expect("candidate validates from active store"),
+        candidate_identity
+    );
 }
 
 #[test]
