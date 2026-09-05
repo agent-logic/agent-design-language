@@ -697,7 +697,7 @@ async fn main() -> ExitCode {
                 eprintln!("runtime agent partial checkpoint store is invalid: {error}");
                 return ExitCode::from(78);
             }
-            if let Err(error) = service.restore_agent_partial_checkpoints() {
+            if let Err(error) = service.restore_agent_partial_checkpoints().await {
                 eprintln!("runtime agent partial checkpoint restore refused: {error}");
                 return ExitCode::from(78);
             }

@@ -20,6 +20,9 @@ spool_max_files = 4096
 region = "us-west-2"
 bucket = "<bucket_name output>"
 kms_key_arn = "<kms_key_arn output>"
+restore_profile = "agent-checkpoint-restore"
 ```
+
+The named AWS CLI profile must assume the separately managed restore role. The Runtime's normal instance role uses only the writer policy; startup uses the restore profile for bounded list/get recovery and falls back to validated local state if S3 is unavailable.
 
 `validate.sh` runs formatting, initialization, validation, a no-refresh plan, and deterministic policy assertions. It never applies resources.

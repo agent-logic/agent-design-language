@@ -111,7 +111,7 @@ resource "aws_s3_bucket_policy" "archive" {
 
 data "aws_iam_policy_document" "writer" {
   statement {
-    actions   = ["s3:PutObject", "s3:AbortMultipartUpload"]
+    actions   = ["s3:PutObject", "s3:AbortMultipartUpload", "s3:GetObject"]
     resources = ["${aws_s3_bucket.archive.arn}/${local.archive_prefix}/*"]
   }
   statement {

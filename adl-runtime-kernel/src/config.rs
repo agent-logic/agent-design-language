@@ -741,6 +741,8 @@ pub struct AgentPartialS3ArchiveInitConfig {
     pub region: String,
     pub bucket: String,
     pub kms_key_arn: String,
+    #[serde(default)]
+    pub restore_profile: Option<String>,
 }
 
 impl AgentPartialCheckpointInitConfig {
@@ -783,6 +785,20 @@ impl AgentPartialCheckpointInitConfig {
                 "agent_partial_checkpoints.s3_archive.region",
                 &archive.region,
             )?;
+            if let Some(profile) = &archive.restore_profile {
+                validate_non_empty_trimmed(
+                    "agent_partial_checkpoints.s3_archive.restore_profile",
+                    profile,
+                )?;
+                if !profile
+                    .bytes()
+                    .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+                {
+                    return Err(RuntimeInitError::Policy(
+                        "agent_partial_checkpoints S3 restore profile is invalid".to_owned(),
+                    ));
+                }
+            }
             validate_non_empty_trimmed(
                 "agent_partial_checkpoints.s3_archive.kms_key_arn",
                 &archive.kms_key_arn,

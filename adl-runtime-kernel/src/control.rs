@@ -2281,7 +2281,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .map(|store| store.interval_seconds())
     }
 
-    pub fn restore_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
+    pub async fn restore_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
         let store = self
             .agent_partial_store
             .read()
@@ -2305,7 +2305,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .map(|agent| agent.id.clone())
             .collect::<BTreeSet<_>>();
         let partials = store
-            .latest_valid(parent.generation, &parent.integrity)
+            .latest_valid_with_archive(parent.generation, &parent.integrity)
+            .await
             .map_err(|error| ControlError::Io(error.to_string()))?;
         let mut restored = 0;
         for partial in partials {
@@ -2434,9 +2435,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 let turns = session
                     .turns
                     .iter()
-                    .map(|(turn_id, turn)| {
-                        let terminal = turn.terminal.clone().ok_or(ControlError::Internal)?;
-                        Ok(AgentTurnCheckpoint {
+                    .filter_map(|(turn_id, turn)| {
+                        let terminal = turn.terminal.clone()?;
+                        Some(AgentTurnCheckpoint {
                             turn_id: turn_id.clone(),
                             fingerprint: turn.fingerprint.clone(),
                             correlation_id: turn.correlation_id.clone(),
@@ -2448,7 +2449,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             terminal_error: terminal.error.map(str::to_owned),
                         })
                     })
-                    .collect::<Result<Vec<_>, ControlError>>()?;
+                    .collect::<Vec<_>>();
                 Ok(AgentConversationCheckpoint {
                     conversation_id: conversation_id.clone(),
                     session_sequence: session.sequence,
@@ -2635,6 +2636,21 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .filter(|agent| agent.id != agent_id)
             .cloned()
             .collect::<Vec<_>>();
+        if let Some(store) = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone()
+        {
+            let parent = self.recorder.snapshot().continuity_head.ok_or(
+                AgentAdmissionFailure::Unavailable("continuity_head_unavailable"),
+            )?;
+            store
+                .write_tombstone(agent_id, parent.generation, parent.integrity)
+                .map_err(|_| {
+                    AgentAdmissionFailure::Unavailable("agent_tombstone_persistence_failed")
+                })?;
+        }
         persist_dynamic_agents(&path, &next)
             .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
         *agents = next;
