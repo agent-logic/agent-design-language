@@ -175,10 +175,22 @@ pub struct AgentRosterEntry {
     pub name: String,
     pub label: String,
     pub role: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub provider: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub model: Option<String>,
+    #[serde(default)]
+    pub last_snapshot_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub last_archive_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub snapshot_sequence: Option<u64>,
+    #[serde(default)]
+    pub pending_archive_count: u64,
+    #[serde(default)]
+    pub snapshot_state: AgentSnapshotState,
+    #[serde(default)]
+    pub archive_state: AgentArchiveState,
     #[serde(default)]
     pub inference_readiness: InferenceReadinessState,
     pub presence: AgentPresence,
@@ -192,6 +204,27 @@ pub struct AgentRosterEntry {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AgentSnapshotState {
+    #[default]
+    NeverSnapshotted,
+    Current,
+    Overdue,
+    Failed,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AgentArchiveState {
+    #[default]
+    Disabled,
+    Current,
+    Pending,
+    Degraded,
+    SpoolSaturated,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -533,6 +566,12 @@ fn project_entry(
         role: item.public_role.clone(),
         provider: item.provider.clone(),
         model: item.model.clone(),
+        last_snapshot_at_unix_millis: None,
+        last_archive_at_unix_millis: None,
+        snapshot_sequence: None,
+        pending_archive_count: 0,
+        snapshot_state: AgentSnapshotState::NeverSnapshotted,
+        archive_state: AgentArchiveState::Disabled,
         inference_readiness: item.inference_readiness,
         presence: if stale {
             AgentPresence::Unknown

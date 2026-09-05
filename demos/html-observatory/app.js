@@ -2220,6 +2220,14 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       id: agent.id,
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
+      provider: agent.provider || null,
+      model: agent.model || null,
+      lastSnapshotAtUnixMillis: Number(agent.last_snapshot_at_unix_millis || 0),
+      lastArchiveAtUnixMillis: Number(agent.last_archive_at_unix_millis || 0),
+      snapshotSequence: agent.snapshot_sequence == null ? null : Number(agent.snapshot_sequence),
+      pendingArchiveCount: Number(agent.pending_archive_count || 0),
+      snapshotState: agent.snapshot_state || "never_snapshotted",
+      archiveState: agent.archive_state || "disabled",
       state: agent.state || primaryState,
       detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`,
       health: agent.health || "unknown",
@@ -2427,7 +2435,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
     <button type="button" class="agent-row roster-row" data-state="${escapeHtml(stateTone(agent.state))}" data-agent-id="${escapeHtml(agent.id)}" aria-pressed="${rosterUiState.selectedId === agent.id ? "true" : "false"}">
       <span class="row-kicker">${escapeHtml(agent.id)}</span>
       <strong>${escapeHtml(agent.label || agent.id)}</strong>
-      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</span>
+      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(agent.provider || "no provider")} / ${escapeHtml(agent.model || "no model")}</span>
     </button>
   `));
 
@@ -2442,6 +2450,11 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
         <div><dt>Health</dt><dd>${escapeHtml(formatLabel(selected.health))}</dd></div>
         <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(selected.availability))}</dd></div>
         <div><dt>Communication</dt><dd>${selected.communicationEligible ? "Eligible" : "Unavailable"}</dd></div>
+        <div><dt>Backing model</dt><dd>${escapeHtml(selected.provider && selected.model ? `${selected.provider} / ${selected.model}` : "Not configured")}</dd></div>
+        <div><dt>Last snapshot</dt><dd>${escapeHtml(selected.lastSnapshotAtUnixMillis ? formatTimestampLabel(selected.lastSnapshotAtUnixMillis) : "Never")}</dd></div>
+        <div><dt>Snapshot state</dt><dd>${escapeHtml(formatLabel(selected.snapshotState))}${selected.snapshotSequence == null ? "" : ` (#${escapeHtml(selected.snapshotSequence)})`}</dd></div>
+        <div><dt>Last S3 archive</dt><dd>${escapeHtml(selected.lastArchiveAtUnixMillis ? formatTimestampLabel(selected.lastArchiveAtUnixMillis) : "Never")}</dd></div>
+        <div><dt>Archive state</dt><dd>${escapeHtml(formatLabel(selected.archiveState))}${selected.pendingArchiveCount ? ` (${escapeHtml(selected.pendingArchiveCount)} pending)` : ""}</dd></div>
         <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
         <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
       </dl>

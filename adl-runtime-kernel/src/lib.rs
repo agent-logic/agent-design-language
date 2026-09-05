@@ -2,6 +2,7 @@
 
 pub mod acip;
 pub mod adaptive_learning;
+pub mod agent_partial_checkpoint;
 pub mod agent_roster;
 pub mod assembly;
 pub mod birth_witness;
@@ -60,6 +61,7 @@ mod conversation_sessions_tests;
 
 pub use acip::*;
 pub use adaptive_learning::*;
+pub use agent_partial_checkpoint::*;
 pub use agent_roster::*;
 pub use assembly::*;
 pub use birth_witness::*;

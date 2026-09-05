@@ -126,6 +126,12 @@ impl AgentPopulationFeed {
                 role: config.office.clone(),
                 provider: Some(config.provider.clone()),
                 model: Some(config.model.clone()),
+                last_snapshot_at_unix_millis: None,
+                last_archive_at_unix_millis: None,
+                snapshot_sequence: None,
+                pending_archive_count: 0,
+                snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+                archive_state: crate::AgentArchiveState::Disabled,
                 inference_readiness: readiness,
                 state: readiness.as_str().to_owned(),
                 detail: "Provider model preload pending".to_owned(),
@@ -169,6 +175,12 @@ impl AgentPopulationFeed {
                 role: role.into(),
                 provider: None,
                 model: None,
+                last_snapshot_at_unix_millis: None,
+                last_archive_at_unix_millis: None,
+                snapshot_sequence: None,
+                pending_archive_count: 0,
+                snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+                archive_state: crate::AgentArchiveState::Disabled,
                 inference_readiness: InferenceReadinessState::Unimplemented,
                 state: "unknown".to_owned(),
                 detail: "Awaiting production Runtime admission".to_owned(),
@@ -484,6 +496,12 @@ impl From<AgentRosterEntry> for AgentSample {
             role: agent.role,
             provider: agent.provider,
             model: agent.model,
+            last_snapshot_at_unix_millis: agent.last_snapshot_at_unix_millis,
+            last_archive_at_unix_millis: agent.last_archive_at_unix_millis,
+            snapshot_sequence: agent.snapshot_sequence,
+            pending_archive_count: agent.pending_archive_count,
+            snapshot_state: agent.snapshot_state,
+            archive_state: agent.archive_state,
             inference_readiness: agent.inference_readiness,
             state,
             detail: "Runtime-authorized local roster projection".to_owned(),
@@ -507,10 +525,22 @@ pub struct AgentSample {
     pub name: String,
     pub label: String,
     pub role: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub provider: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub model: Option<String>,
+    #[serde(default)]
+    pub last_snapshot_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub last_archive_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub snapshot_sequence: Option<u64>,
+    #[serde(default)]
+    pub pending_archive_count: u64,
+    #[serde(default)]
+    pub snapshot_state: crate::AgentSnapshotState,
+    #[serde(default)]
+    pub archive_state: crate::AgentArchiveState,
     #[serde(default)]
     pub inference_readiness: InferenceReadinessState,
     pub state: String,

@@ -381,6 +381,8 @@ pub struct RuntimeInitConfig {
     pub qualification: RuntimeQualificationInitConfig,
     pub observatory: ObservatoryInitConfig,
     pub observability_pipeline: RuntimeObservabilityInitConfig,
+    #[serde(default)]
+    pub agent_partial_checkpoints: AgentPartialCheckpointInitConfig,
     pub weather: WeatherConfig,
 }
 
@@ -605,6 +607,7 @@ impl RuntimeInitConfig {
             ));
         }
         self.observability_pipeline.validate()?;
+        self.agent_partial_checkpoints.validate()?;
         self.weather
             .validate()
             .map_err(|error| RuntimeInitError::Weather(error.to_string()))?;
@@ -697,6 +700,105 @@ impl RuntimeInitConfig {
             }
         }
         Ok(value)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct AgentPartialCheckpointInitConfig {
+    pub enabled: bool,
+    pub interval_seconds: u64,
+    pub snapshot_concurrency: usize,
+    pub max_partial_bytes: u64,
+    pub local_max_bytes: u64,
+    pub local_max_files: usize,
+    pub retained_partials_per_agent: usize,
+    pub spool_max_bytes: u64,
+    pub spool_max_files: usize,
+    pub s3_archive: Option<AgentPartialS3ArchiveInitConfig>,
+}
+
+impl Default for AgentPartialCheckpointInitConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            interval_seconds: 300,
+            snapshot_concurrency: 4,
+            max_partial_bytes: 16 * 1024 * 1024,
+            local_max_bytes: 2 * 1024 * 1024 * 1024,
+            local_max_files: 8_192,
+            retained_partials_per_agent: 12,
+            spool_max_bytes: 512 * 1024 * 1024,
+            spool_max_files: 4_096,
+            s3_archive: None,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AgentPartialS3ArchiveInitConfig {
+    pub region: String,
+    pub bucket: String,
+    pub kms_key_arn: String,
+}
+
+impl AgentPartialCheckpointInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if !(60..=86_400).contains(&self.interval_seconds) {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints.interval_seconds must be between 60 and 86400"
+                    .to_owned(),
+            ));
+        }
+        if self.snapshot_concurrency == 0 || self.snapshot_concurrency > 64 {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints.snapshot_concurrency must be between 1 and 64"
+                    .to_owned(),
+            ));
+        }
+        if self.max_partial_bytes == 0
+            || self.max_partial_bytes > 16 * 1024 * 1024
+            || self.local_max_bytes < self.max_partial_bytes
+            || self.local_max_bytes > 2 * 1024 * 1024 * 1024
+            || self.local_max_files == 0
+            || self.local_max_files > 8_192
+            || self.retained_partials_per_agent == 0
+            || self.retained_partials_per_agent > 12
+            || self.spool_max_bytes < self.max_partial_bytes
+            || self.spool_max_bytes > 512 * 1024 * 1024
+            || self.spool_max_files == 0
+            || self.spool_max_files > 4_096
+        {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints storage bounds exceed the governed limits".to_owned(),
+            ));
+        }
+        if let Some(archive) = &self.s3_archive {
+            validate_s3_bucket_name(
+                "agent_partial_checkpoints.s3_archive.bucket",
+                &archive.bucket,
+            )?;
+            validate_non_empty_trimmed(
+                "agent_partial_checkpoints.s3_archive.region",
+                &archive.region,
+            )?;
+            validate_non_empty_trimmed(
+                "agent_partial_checkpoints.s3_archive.kms_key_arn",
+                &archive.kms_key_arn,
+            )?;
+            if !archive
+                .region
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+                || !archive.kms_key_arn.starts_with("arn:")
+            {
+                return Err(RuntimeInitError::Policy(
+                    "agent_partial_checkpoints S3 region or KMS key ARN is invalid".to_owned(),
+                ));
+            }
+        }
+        Ok(())
     }
 }
 
