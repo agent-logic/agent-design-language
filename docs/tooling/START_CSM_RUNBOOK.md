@@ -178,17 +178,11 @@ changed to the candidate's identity.
 7. Escalate if ownership remains ambiguous. Preserve evidence and leave the
    competing process untouched.
 
-An optional direct API probe can help distinguish transport failure from
-service-manager failure:
-
-```sh
-curl -ks https://127.0.0.1:20997/v1/ready
-```
-
-This probe is diagnostic only. It cannot replace canonical status because it
-does not independently prove service-manager ownership. Public DNS, Caddy, AWS
-edge routing, browser trust, provider inference, and model health are separate
-surfaces and require their own checks.
+Do not substitute a direct HTTPS probe with disabled certificate verification.
+Canonical status uses the init-declared listener and trust roots and also proves
+service-manager ownership. Public DNS, Caddy, AWS edge routing, browser trust,
+provider inference, and model health are separate surfaces and require their
+own authenticated checks.
 
 ### Incident evidence
 

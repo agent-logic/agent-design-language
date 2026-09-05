@@ -1,0 +1,10 @@
+{
+  "issue": 689,
+  "card": "spp",
+  "expected_generation": 10,
+  "expected_digest": "6b57e7a165326766083ddfad20983f6130f277dd3844a24762c02b7ef2b5dbb0",
+  "actor": "codex:/root",
+  "reason": "record validation complete with fresh exact-head review and publication still active",
+  "operation": {"operation": "update_plan_step", "step_id": "S3", "status": "in_progress"},
+  "fail_after_backup": false
+}

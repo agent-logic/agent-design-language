@@ -4,11 +4,13 @@ set -Eeuo pipefail
 # Legacy local Observatory helper. Permanent Runtime v3 lifecycle control is
 # owned by the current-generation Rust `csm runtime-v3` command.
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 legacy_runtime_control_refusal() {
   local command="${1:-default}"
   printf '%s\n' \
     "CSMctl status=failed reason=legacy_runtime_control_removed command=$command" \
-    "Use: .adl/runtime-v3/current/bin/csm runtime-v3 <start|stop|status|reload> --init \"\$PWD/.adl/runtime-v3/live/runtime-init.toml\" --json" >&2
+    "Use: \"$SCRIPT_DIR/.adl/runtime-v3/current/bin/csm\" runtime-v3 <start|stop|status|reload> --init \"$SCRIPT_DIR/.adl/runtime-v3/live/runtime-init.toml\" --json" >&2
   exit 2
 }
 
@@ -18,7 +20,6 @@ case "${1-}" in
     ;;
 esac
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${ADL_CSM_REPO_ROOT:-$SCRIPT_DIR}"
 GIT_COMMON_DIR="$(git -C "$REPO_ROOT" rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)"
 PRIMARY_REPO_ROOT="$REPO_ROOT"

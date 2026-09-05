@@ -39,7 +39,7 @@ for verb in "${runtime_verbs[@]}"; do
     exit 1
   fi
   grep -F "reason=legacy_runtime_control_removed command=$verb" "$output" >/dev/null
-  grep -F '.adl/runtime-v3/current/bin/csm runtime-v3 <start|stop|status|reload>' "$output" >/dev/null
+  grep -F "Use: \"$ROOT/.adl/runtime-v3/current/bin/csm\" runtime-v3 <start|stop|status|reload>" "$output" >/dev/null
 done
 
 if "${common[@]}" "$ROOT/CSMctl" >"$SCRATCH/default.out" 2>&1; then
@@ -47,7 +47,17 @@ if "${common[@]}" "$ROOT/CSMctl" >"$SCRATCH/default.out" 2>&1; then
   exit 1
 fi
 grep -F 'reason=legacy_runtime_control_removed command=default' "$SCRATCH/default.out" >/dev/null
-grep -F '.adl/runtime-v3/current/bin/csm runtime-v3 <start|stop|status|reload>' "$SCRATCH/default.out" >/dev/null
+grep -F "Use: \"$ROOT/.adl/runtime-v3/current/bin/csm\" runtime-v3 <start|stop|status|reload>" "$SCRATCH/default.out" >/dev/null
+
+(
+  cd "$SCRATCH"
+  if "${common[@]}" "$ROOT/CSMctl" status >"$SCRATCH/alternate-cwd.out" 2>&1; then
+    echo "alternate-cwd legacy Runtime status unexpectedly passed" >&2
+    exit 1
+  fi
+)
+grep -F "Use: \"$ROOT/.adl/runtime-v3/current/bin/csm\"" "$SCRATCH/alternate-cwd.out" >/dev/null
+grep -F -- "--init \"$ROOT/.adl/runtime-v3/live/runtime-init.toml\"" "$SCRATCH/alternate-cwd.out" >/dev/null
 
 [[ ! -s "$external_log" ]]
 
