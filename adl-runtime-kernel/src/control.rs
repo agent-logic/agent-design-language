@@ -79,6 +79,10 @@ pub const OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA: &str =
     "adl.runtime_v3.observatory_agent_initiation_intent.v1";
 pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_result.v1";
+pub const OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA: &str =
+    "adl.runtime_v3.observatory_conversation_history_request.v1";
+const OBSERVATORY_CONVERSATION_HISTORY_SCHEMA: &str = "adl.runtime.conversation_history.v1";
+const OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS: usize = 2048;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum ObservatoryFeedVersion {
@@ -689,6 +693,10 @@ struct ConversationTurn {
     cancellation: CancellationToken,
     completion: tokio::sync::watch::Sender<Option<ObservatoryConversationResult>>,
     terminal: Option<ObservatoryConversationResult>,
+    message: String,
+    speaker_id: String,
+    accepted_at_unix_millis: u64,
+    completed_at_unix_millis: Option<u64>,
 }
 
 struct ConversationDispatch {
@@ -1289,6 +1297,80 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.accept_conversation_intent_inner(intent, None)
     }
 
+    fn observatory_conversation_history(
+        &self,
+        request: &ObservatoryConversationHistoryRequest,
+    ) -> Option<ObservatoryConversationHistoryPage> {
+        if request.schema != OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA
+            || !is_safe_identifier(&request.conversation_id)
+            || request.page_size == 0
+            || request.page_size > OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS
+        {
+            return None;
+        }
+        let sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions.sessions.get(&request.conversation_id)?;
+        let mut records = Vec::new();
+        for (turn_id, turn) in &session.turns {
+            let outbound_sequence = turn.sequence.checked_mul(2)?.checked_sub(1)?;
+            if !turn.message.is_empty() {
+                records.push(ObservatoryConversationHistoryRecord {
+                    conversation_id: request.conversation_id.clone(),
+                    message_id: format!("{turn_id}:outbound"),
+                    speaker_id: turn.speaker_id.clone(),
+                    body: turn.message.clone(),
+                    created_at_epoch_ms: turn.accepted_at_unix_millis,
+                    journal_sequence: outbound_sequence,
+                    status: if turn.terminal.is_some() {
+                        "delivered"
+                    } else {
+                        "accepted"
+                    }
+                    .to_owned(),
+                    redacted: false,
+                    redaction_reason: None,
+                });
+            }
+            if let Some(terminal) = &turn.terminal {
+                if terminal.status == "delivered" {
+                    if let Some(reply) = terminal.reply.as_ref() {
+                        records.push(ObservatoryConversationHistoryRecord {
+                            conversation_id: request.conversation_id.clone(),
+                            message_id: format!("{turn_id}:reply"),
+                            speaker_id: terminal
+                                .sender_id
+                                .as_ref()
+                                .map(|sender| format!("agent:{sender}"))
+                                .unwrap_or_else(|| format!("agent:{}", terminal.recipient_id)),
+                            body: reply.clone(),
+                            created_at_epoch_ms: turn
+                                .completed_at_unix_millis
+                                .unwrap_or(turn.accepted_at_unix_millis),
+                            journal_sequence: outbound_sequence.checked_add(1)?,
+                            status: "delivered".to_owned(),
+                            redacted: false,
+                            redaction_reason: None,
+                        });
+                    }
+                }
+            }
+        }
+        records.sort_by_key(|record| record.journal_sequence);
+        if records.len() > request.page_size {
+            records.drain(..records.len() - request.page_size);
+        }
+        Some(ObservatoryConversationHistoryPage {
+            schema: OBSERVATORY_CONVERSATION_HISTORY_SCHEMA,
+            conversation_id: request.conversation_id.clone(),
+            runtime_incarnation_id: self.runtime_incarnation_id.clone(),
+            records,
+            next_cursor: None,
+        })
+    }
+
     fn accept_agent_initiation_intent(
         &self,
         intent: &ObservatoryAgentInitiationIntent,
@@ -1656,6 +1738,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 cancellation: cancellation.clone(),
                 completion,
                 terminal: None,
+                message: intent.message.clone(),
+                speaker_id: initiation
+                    .as_ref()
+                    .map(|metadata| format!("agent:{}", metadata.sender_id))
+                    .unwrap_or_else(|| "operator".to_owned()),
+                accepted_at_unix_millis: now_unix_millis(),
+                completed_at_unix_millis: None,
             },
         );
         let accepted = ObservatoryConversationResult {
@@ -2062,6 +2151,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .and_then(|session| session.turns.get_mut(&dispatch.intent.turn_id))
         {
             turn.terminal = Some(result.clone());
+            turn.completed_at_unix_millis = Some(now_unix_millis());
             turn.completion.send_replace(Some(result.clone()));
         }
         result
@@ -2690,6 +2780,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         cancellation: CancellationToken::new(),
                         completion,
                         terminal: Some(terminal),
+                        message: String::new(),
+                        speaker_id: "operator".to_owned(),
+                        accepted_at_unix_millis: 0,
+                        completed_at_unix_millis: None,
                     },
                 );
             }
@@ -3896,6 +3990,41 @@ struct ObservatoryConversationIntent {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+struct ObservatoryConversationHistoryRequest {
+    schema: String,
+    conversation_id: String,
+    #[serde(default = "default_observatory_history_page_size")]
+    page_size: usize,
+}
+
+fn default_observatory_history_page_size() -> usize {
+    2048
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+struct ObservatoryConversationHistoryRecord {
+    conversation_id: String,
+    message_id: String,
+    speaker_id: String,
+    body: String,
+    created_at_epoch_ms: u64,
+    journal_sequence: u64,
+    status: String,
+    redacted: bool,
+    redaction_reason: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+struct ObservatoryConversationHistoryPage {
+    schema: &'static str,
+    conversation_id: String,
+    runtime_incarnation_id: String,
+    records: Vec<ObservatoryConversationHistoryRecord>,
+    next_cursor: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct ObservatoryAgentInitiationIntent {
     schema: String,
     conversation_id: String,
@@ -4339,6 +4468,49 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         };
                         authentication_generation = next_generation;
                         conversation_attachments.clear();
+                    }
+                    if let Ok(request) = serde_json::from_str::<ObservatoryConversationHistoryRequest>(&payload) {
+                        if bearer_token.is_none() {
+                            let rejected = ObservatoryWsControlResult {
+                                schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                status: "rejected",
+                                command_id: None,
+                                correlation_id: None,
+                                response: None,
+                                error: Some("history_authentication_required"),
+                            };
+                            let Ok(payload) = serde_json::to_string(&rejected) else {
+                                break;
+                            };
+                            if socket.send(Message::Text(payload.into())).await.is_err() {
+                                break;
+                            }
+                            continue;
+                        }
+                        let Some(history) = service.observatory_conversation_history(&request) else {
+                            let rejected = ObservatoryWsControlResult {
+                                schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                status: "rejected",
+                                command_id: None,
+                                correlation_id: None,
+                                response: None,
+                                error: Some("conversation_history_unavailable"),
+                            };
+                            let Ok(payload) = serde_json::to_string(&rejected) else {
+                                break;
+                            };
+                            if socket.send(Message::Text(payload.into())).await.is_err() {
+                                break;
+                            }
+                            continue;
+                        };
+                        let Ok(payload) = serde_json::to_string(&history) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        continue;
                     }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryAgentInitiationIntent>(&payload) {
                         let result = if bearer_token.is_none() {
@@ -5707,7 +5879,7 @@ mod layer8_conversation_ingress_tests {
                 recorder.clone(),
                 FakeLifecycle,
                 ControlAuthority::new(BTreeMap::new()),
-                8,
+                128,
                 ["https://observatory.example.test".to_owned()],
                 population,
             )
@@ -5825,6 +5997,113 @@ mod layer8_conversation_ingress_tests {
             }),
             "Observatory feed should expose authoritative correlated initiation activity: {events:?}"
         );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn production_conversation_history_restores_operator_and_agent_once_in_order() {
+        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        let intent = ObservatoryConversationIntent {
+            schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: "conversation-ember".to_owned(),
+            turn_id: "turn-reload-proof".to_owned(),
+            recipient_id: "ember".to_owned(),
+            correlation_id: "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd".to_owned(),
+            message: "Restore this operator turn after a reload.".to_owned(),
+        };
+        let delivered = match service.accept_conversation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                service.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!("conversation was not dispatched: {:?}", response.error)
+            }
+        };
+        assert_eq!(delivered.status, "delivered");
+
+        let request = ObservatoryConversationHistoryRequest {
+            schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+            conversation_id: intent.conversation_id.clone(),
+            page_size: 2048,
+        };
+        let history = service
+            .observatory_conversation_history(&request)
+            .expect("production conversation session projects history");
+        assert_eq!(history.schema, OBSERVATORY_CONVERSATION_HISTORY_SCHEMA);
+        assert_eq!(history.records.len(), 2);
+        assert_eq!(history.records[0].message_id, "turn-reload-proof:outbound");
+        assert_eq!(history.records[0].speaker_id, "operator");
+        assert_eq!(history.records[0].body, intent.message);
+        assert_eq!(history.records[0].journal_sequence, 1);
+        assert_eq!(history.records[1].message_id, "turn-reload-proof:reply");
+        assert_eq!(history.records[1].speaker_id, "agent:ember");
+        assert_eq!(history.records[1].journal_sequence, 2);
+        assert_eq!(history.records[1].body, delivered.reply.unwrap());
+        let wire = serde_json::to_string(&history).expect("history serializes for WSS");
+        for forbidden in [
+            "bearer_token",
+            "operator_token",
+            "private_key",
+            "signature",
+            "correlation_id",
+            "result_hash",
+        ] {
+            assert!(
+                !wire.contains(forbidden),
+                "history wire frame disclosed {forbidden}"
+            );
+        }
+        let mut delivered_replies = Vec::new();
+        for index in 0..60_u64 {
+            let multi_turn_intent = ObservatoryConversationIntent {
+                schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
+                conversation_id: "conversation-long-reload".to_owned(),
+                turn_id: format!("turn-long-{index:03}"),
+                recipient_id: "ember".to_owned(),
+                correlation_id: format!("{index:032x}"),
+                message: format!("Restore long history turn {index:03}."),
+            };
+            let delivered = match service.accept_conversation_intent(&multi_turn_intent) {
+                ConversationAcceptance::Dispatch { dispatch, .. } => {
+                    service.complete_conversation_dispatch(dispatch).await
+                }
+                ConversationAcceptance::Response(response) => {
+                    panic!("conversation was not dispatched: {:?}", response.error)
+                }
+            };
+            delivered_replies.push((
+                multi_turn_intent.turn_id,
+                multi_turn_intent.message,
+                delivered.reply.expect("delivered turn includes reply"),
+            ));
+        }
+        let long_history = service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: "conversation-long-reload".to_owned(),
+                page_size: 120,
+            })
+            .expect("production conversation session projects long history");
+        assert_eq!(long_history.records.len(), 120);
+        for (index, (turn_id, message, reply)) in delivered_replies.iter().enumerate() {
+            let outbound = &long_history.records[index * 2];
+            assert_eq!(outbound.message_id, format!("{turn_id}:outbound"));
+            assert_eq!(outbound.speaker_id, "operator");
+            assert_eq!(&outbound.body, message);
+            assert_eq!(outbound.journal_sequence, index as u64 * 2 + 1);
+            let inbound = &long_history.records[index * 2 + 1];
+            assert_eq!(inbound.message_id, format!("{turn_id}:reply"));
+            assert_eq!(inbound.speaker_id, "agent:ember");
+            assert_eq!(&inbound.body, reply);
+            assert_eq!(inbound.journal_sequence, index as u64 * 2 + 2);
+        }
+        assert!(service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                page_size: 2049,
+                ..request
+            })
+            .is_none());
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
@@ -6804,6 +7083,10 @@ mod agent_lifecycle {
                             cancellation: CancellationToken::new(),
                             completion,
                             terminal: Some(terminal),
+                            message: "retained operator message".to_owned(),
+                            speaker_id: "operator".to_owned(),
+                            accepted_at_unix_millis: 1,
+                            completed_at_unix_millis: Some(2),
                         },
                     )]),
                 },
@@ -7685,6 +7968,10 @@ mod conversation_dispatch_gate_tests {
                     turn_sequence: Some(1),
                     error: None,
                 }),
+                message: "test message".to_owned(),
+                speaker_id: "operator".to_owned(),
+                accepted_at_unix_millis: 1,
+                completed_at_unix_millis: terminal.then_some(2),
             },
         );
         ConversationSession {
