@@ -169,11 +169,11 @@ Implemented Runtime-owned model-backed A2A selection through provider-native too
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

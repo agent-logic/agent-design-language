@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
     "slug": "runtime-a2a-action-selection-reliability",
     "version": "v0.92.1",
-    "generation": 27
+    "generation": 29
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/telemetry.rs\n.csdlc/evidence/693\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\nadl-runtime-kernel/tests/production_acip_wss.rs",
+      "review_revision": "git-blake3:4f7c93031f33a68384072d10d601f6638cec58a9:b9f6f2125d1eeb55d1c84a29318a310f2eb64d0b2dc3729597f55d6a878e1165",
+      "reviewer": "codex:/root/issue_693_post_authority_fix_review",
       "review_prompts": [
         "Does any path still require exact model-authored JSON?",
         "Can model prose alone cause dispatch?",
@@ -24,8 +24,10 @@
         "Are A2A results distinct from operator replies and observable?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
+      ],
+      "review_result": "pass"
     }
   }
 }
