@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 35,
-  "digest": "2c4be8817ea44eb73b23dc33d4f25a8cc4ff521fb71fce470a0a884fe055f2ee",
+  "generation": 36,
+  "digest": "ef1963f328dce4259605a81e91c46c68706902a8d2bbe346019c303d2fe8d1fa",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "017857b9f2aadbbcc3e84b7655bdcbad89ca14d70da3ac4e52df495424eee365",
+      "values_digest": "7523a869daf8b2459fd97a0b3887ff159fe6f895fd57fa5a6779a6860fd90d62",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "76c8ee047c79e806edee4c9f1180646bd8d8120b6431692f0f0291142b8b1f32",
+      "values_digest": "d923f5a05a7a5e4270cc00fabd7fb6fcfec3084e0a144504aad19e8ba1c20d73",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "3e5da4a879a476869b55edfc14ffe0b0fed226f4b62d4d4edbb8fd36aa15ab64",
+      "values_digest": "4d8dbc5d3b69932903b218d9e45124fd20374760ee52f196a9d8ea1d99ea8428",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "13242574a654e7f923de1f3511429a2ef01579435db559687144c6edca49e594",
+      "values_digest": "3e0969392354c075d519c3f79881e9620f4d5f98c75f784d05fc274446d84352",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "c7d635f2bd13c48862b650e96b4b6c4fa58c7124a34d33b55c57243a1fd5e840",
+      "values_digest": "28a355991c76139c1222e30666868cb25464961c98d5c3e25c249b0eaa770152",
       "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
       "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "2211bd143d4efefd79a1e76b63c2984b2a953c47a532c7b62d225818a518de3b",
-      "rendered_digest": "3389b58bcde442684e944a566c4d04dd365b0a55216465db5e51e80006982d0e",
-      "ast_digest": "ffebb1041fc2eb68328537b9d6730de6eff36b11f9c513ca9e8915c920d79244"
+      "values_digest": "662678effabd69d0ad7e2a9c91e69e58453291ec2813a46588a4126d477c728f",
+      "rendered_digest": "c988d971194ac3747f64d2305685f5baa8fc8ec4e8acfdce4e97945368d12718",
+      "ast_digest": "8b98216ea8a4e777c3b3e4115db16a933380cb7b78e543e7824057dc13574e2c"
     }
   },
   "transitions": [
@@ -497,6 +497,13 @@
       "actor": "codex:/root",
       "reason": "Recover #686 r13 review assignment after reviewer returned a P1 evidence-head strictness finding: retained validation logs were captured at source repair head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5 and then committed in a later evidence/SOR metadata head fa2ae598c279cab7d04176776f0c4fb5f2ccd371. PR publication mismatch was expected pre-publication state, but the evidence-head finding will be remediated by recapturing retained evidence at the committed clean head, refreshing SOR truth, and assigning a different fresh reviewer before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 36,
+      "actor": "codex:/root/issue-686",
+      "reason": "Record #686 r13 evidence-head finding disposition: retained validation ran at source repair head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5, and a source-tail guard proves no source/test/prepared-denominator changes through current lifecycle head 53f3a082c04da8ea1eaecba49b90c7521a8e93fe.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered and remediated #686 after hosted adl-coverage-runtime failed at PR #692 head c211a8b4dcca498fa31dd5cf658c2cf1d0ddbc43. The hosted failures were `guardian_cli_reports_successful_portable_child_as_json`, which lacked an active configuration-generation reference for the Guardian CLI fixture, and `guardian_cli_rejects_oversized_durations_before_spawning_the_kernel`, whose parseable invalid-duration fixtures lacked valid config-generation authority. The production predicate remains strict: Guardian still validates the active config-generation handoff before launch, and the remediation only provisions/activates valid test receipts for fixtures that are intended to reach Guardian policy validation. Validation evidence was captured at source repair head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5; source-tail guard `git diff --quiet 2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe -- adl-runtime adl-runtime-kernel adl .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py` returned status 0, proving subsequent commits before this SOR update changed only evidence/card/lifecycle surfaces.\",\"changes\":[\"Preserved typed hosted-failure truth by recovering #686 from published gen32 back to implemented gen33 before source edits.\",\"Updated `guardian_cli_reports_successful_portable_child_as_json` to provision and activate a Runtime configuration-generation receipt for the generated init file before invoking the non-test Guardian binary.\",\"Updated `guardian_cli_rejects_oversized_durations_before_spawning_the_kernel` to include the Runtime init schema and to provision active-generation authority for parseable invalid-duration fixtures so the test reaches the intended Guardian duration validation without spawning the marker child.\",\"Kept intentionally TOML-unparseable overflow fixtures strict: they do not receive forged active-generation setup and still assert rejection before kernel spawn.\",\"Re-ran the exact hosted failing tests plus the #686 denominator, focused Runtime v3 generation suite, strict Clippy, hosted-equivalent all-workspace fmt check, and diff-check at repaired source head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5.\",\"Dispositioned r13 evidence-head strictness by recording a source-tail guard: no source/test/prepared-denominator file changed between evidence head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5 and recovery head 53f3a082c04da8ea1eaecba49b90c7521a8e93fe.\"],\"artifacts\":[\"adl-runtime/tests/guardian_cli.rs\",\"adl-runtime/tests/runtime_guardian_lifecycle.rs\",\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=613a23be24fef9f87c9c4b56f6e26b1c7160ee21b3ad2ce995546927f7f86d0d\",\".csdlc/evidence/686/issue686-denominator.log sha256=19e346a3780996935360d4147f77cf07f8c85f0e171f4704ff04c34a3ec891a8\",\".csdlc/evidence/686/issue686-diff-check.log sha256=79195601126d731878692c4e489a118f39342ccbb36aecae89d8ae7e1fff5297\",\".csdlc/evidence/686/issue686-fmt-check.log sha256=bf7f29de4cb6d7f26ff29354fe95f9b4e3915f3f134452e8ddfcb17bad27dab0\",\".csdlc/evidence/686/issue686-focused-generation.log sha256=0427527b13b7c3f406eafe33c7a6cba93f82a88b3693d952369fed569cbc58c6\",\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=6aa39e429c1ca5212be29ebc01af189dadaa1e8ead727c5dfd891301943eecd6\",\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=8772680d0683b2b82bdb92060b4b89cbb7befdae8a8731cd74154ae7f85e2e1a\",\".csdlc/evidence/686/issue686-strict-clippy.log sha256=f622379817ca5dc82871d6bd8d6784ac25f74ed2f450e878badf8543fa590ecb\",\"source-tail guard: git diff --quiet 2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe -- adl-runtime adl-runtime-kernel adl .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py status=0\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"purpose\":\"Prove the issue-owned #686 static denominator checks concrete configuration-generation handoff, recovery-ordering, propagation, active-store candidate, and regression-test anchors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-denominator.log sha256=19e346a3780996935360d4147f77cf07f8c85f0e171f4704ff04c34a3ec891a8 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_v3_cmd\"],\"purpose\":\"Focused csm_runtime_v3_cmd unit proof including interrupted reload reconciliation before configuration-generation preflight.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=613a23be24fef9f87c9c4b56f6e26b1c7160ee21b3ad2ce995546927f7f86d0d head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Focused Runtime v3 configuration-generation integration regression suite including active-store candidate receipt validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-focused-generation.log sha256=0427527b13b7c3f406eafe33c7a6cba93f82a88b3693d952369fed569cbc58c6 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--nocapture\"],\"purpose\":\"Exact hosted adl-coverage-runtime regression for Guardian portable-child JSON success with valid config-generation authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=8772680d0683b2b82bdb92060b4b89cbb7befdae8a8731cd74154ae7f85e2e1a head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\",\"guardian_cli_rejects_oversized_durations_before_spawning_the_kernel\",\"--\",\"--nocapture\"],\"purpose\":\"Exact hosted adl-coverage-runtime regression for Guardian oversized-duration rejection before marker-child spawn with valid authority for parseable fixtures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=6aa39e429c1ca5212be29ebc01af189dadaa1e8ead727c5dfd891301943eecd6 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all ADL Cargo targets with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-strict-clippy.log sha256=f622379817ca5dc82871d6bd8d6784ac25f74ed2f450e878badf8543fa590ecb head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Hosted-equivalent Rust formatting check for all ADL Cargo packages and local path dependencies.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-fmt-check.log sha256=bf7f29de4cb6d7f26ff29354fe95f9b4e3915f3f134452e8ddfcb17bad27dab0 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-diff-check.log sha256=79195601126d731878692c4e489a118f39342ccbb36aecae89d8ae7e1fff5297 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0\"},{\"command\":[\"git\",\"diff\",\"--quiet\",\"2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe\",\"--\",\"adl-runtime\",\"adl-runtime-kernel\",\"adl\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"purpose\":\"Prove commits after evidence capture through recovery head were metadata-only for source/test/prepared-denominator scope.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal observed source_tail_clean status=0\"}]}"
     }
   ]
 }

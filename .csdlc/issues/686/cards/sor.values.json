@@ -7,19 +7,20 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 35
+    "generation": 36
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Recovered and remediated #686 after hosted adl-coverage-runtime failed at PR #692 head c211a8b4dcca498fa31dd5cf658c2cf1d0ddbc43. The hosted failures were `guardian_cli_reports_successful_portable_child_as_json`, which lacked an active configuration-generation reference for the Guardian CLI fixture, and `guardian_cli_rejects_oversized_durations_before_spawning_the_kernel`, whose parseable invalid-duration fixtures lacked valid config-generation authority. The production predicate remains strict: Guardian still validates the active config-generation handoff before launch, and the remediation only provisions/activates valid test receipts for fixtures that are intended to reach Guardian policy validation.",
+      "summary": "Recovered and remediated #686 after hosted adl-coverage-runtime failed at PR #692 head c211a8b4dcca498fa31dd5cf658c2cf1d0ddbc43. The hosted failures were `guardian_cli_reports_successful_portable_child_as_json`, which lacked an active configuration-generation reference for the Guardian CLI fixture, and `guardian_cli_rejects_oversized_durations_before_spawning_the_kernel`, whose parseable invalid-duration fixtures lacked valid config-generation authority. The production predicate remains strict: Guardian still validates the active config-generation handoff before launch, and the remediation only provisions/activates valid test receipts for fixtures that are intended to reach Guardian policy validation. Validation evidence was captured at source repair head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5; source-tail guard `git diff --quiet 2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe -- adl-runtime adl-runtime-kernel adl .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py` returned status 0, proving subsequent commits before this SOR update changed only evidence/card/lifecycle surfaces.",
       "actual_changes": [
         "Preserved typed hosted-failure truth by recovering #686 from published gen32 back to implemented gen33 before source edits.",
         "Updated `guardian_cli_reports_successful_portable_child_as_json` to provision and activate a Runtime configuration-generation receipt for the generated init file before invoking the non-test Guardian binary.",
         "Updated `guardian_cli_rejects_oversized_durations_before_spawning_the_kernel` to include the Runtime init schema and to provision active-generation authority for parseable invalid-duration fixtures so the test reaches the intended Guardian duration validation without spawning the marker child.",
         "Kept intentionally TOML-unparseable overflow fixtures strict: they do not receive forged active-generation setup and still assert rejection before kernel spawn.",
-        "Re-ran the exact hosted failing tests plus the #686 denominator, focused Runtime v3 generation suite, strict Clippy, hosted-equivalent all-workspace fmt check, and diff-check at repaired head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5."
+        "Re-ran the exact hosted failing tests plus the #686 denominator, focused Runtime v3 generation suite, strict Clippy, hosted-equivalent all-workspace fmt check, and diff-check at repaired source head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5.",
+        "Dispositioned r13 evidence-head strictness by recording a source-tail guard: no source/test/prepared-denominator file changed between evidence head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5 and recovery head 53f3a082c04da8ea1eaecba49b90c7521a8e93fe."
       ],
       "artifacts": [
         "adl-runtime/tests/guardian_cli.rs",
@@ -31,7 +32,8 @@
         ".csdlc/evidence/686/issue686-focused-generation.log sha256=0427527b13b7c3f406eafe33c7a6cba93f82a88b3693d952369fed569cbc58c6",
         ".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=6aa39e429c1ca5212be29ebc01af189dadaa1e8ead727c5dfd891301943eecd6",
         ".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=8772680d0683b2b82bdb92060b4b89cbb7befdae8a8731cd74154ae7f85e2e1a",
-        ".csdlc/evidence/686/issue686-strict-clippy.log sha256=f622379817ca5dc82871d6bd8d6784ac25f74ed2f450e878badf8543fa590ecb"
+        ".csdlc/evidence/686/issue686-strict-clippy.log sha256=f622379817ca5dc82871d6bd8d6784ac25f74ed2f450e878badf8543fa590ecb",
+        "source-tail guard: git diff --quiet 2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe -- adl-runtime adl-runtime-kernel adl .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py status=0"
       ],
       "actual_validation": [
         {
@@ -142,6 +144,22 @@
           "purpose": "Whitespace and patch hygiene check.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/686/issue686-diff-check.log sha256=79195601126d731878692c4e489a118f39342ccbb36aecae89d8ae7e1fff5297 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--quiet",
+            "2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe",
+            "--",
+            "adl-runtime",
+            "adl-runtime-kernel",
+            "adl",
+            ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+          ],
+          "purpose": "Prove commits after evidence capture through recovery head were metadata-only for source/test/prepared-denominator scope.",
+          "outcome": "passed",
+          "evidence_ref": "terminal observed source_tail_clean status=0"
         }
       ],
       "integration_state": "worktree_only",
