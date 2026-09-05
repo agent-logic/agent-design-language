@@ -40,6 +40,89 @@ pub enum AgentPresence {
     Unknown,
 }
 
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum InferenceReadinessState {
+    #[default]
+    Unimplemented,
+    Unavailable,
+    ModelLoading,
+    Failed,
+    Ready,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct InferenceReadinessProjection {
+    pub presence: AgentPresence,
+    pub health: &'static str,
+    pub availability: &'static str,
+    pub activity: Option<&'static str>,
+    pub communication_eligible: bool,
+}
+
+impl InferenceReadinessState {
+    pub fn from_projection_state(state: &str) -> Self {
+        match state {
+            "ready" => Self::Ready,
+            "model_loading" | "loading" | "starting" => Self::ModelLoading,
+            "failed" | "unhealthy" => Self::Failed,
+            "unavailable" | "degraded" | "recovering" | "unreachable" => Self::Unavailable,
+            "unimplemented" | "unsupported" => Self::Unimplemented,
+            _ => Self::Unimplemented,
+        }
+    }
+
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Unimplemented => "unimplemented",
+            Self::Unavailable => "unavailable",
+            Self::ModelLoading => "model_loading",
+            Self::Failed => "failed",
+            Self::Ready => "ready",
+        }
+    }
+
+    pub fn projection(self) -> InferenceReadinessProjection {
+        match self {
+            Self::Unimplemented => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "unimplemented",
+                availability: "unavailable",
+                activity: Some("adapter_unimplemented"),
+                communication_eligible: false,
+            },
+            Self::Unavailable => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "unavailable",
+                availability: "unavailable",
+                activity: Some("provider_unavailable"),
+                communication_eligible: false,
+            },
+            Self::ModelLoading => InferenceReadinessProjection {
+                presence: AgentPresence::Unknown,
+                health: "loading",
+                availability: "unavailable",
+                activity: Some("model_preload"),
+                communication_eligible: false,
+            },
+            Self::Failed => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "failed",
+                availability: "unavailable",
+                activity: Some("inference_probe_failed"),
+                communication_eligible: false,
+            },
+            Self::Ready => InferenceReadinessProjection {
+                presence: AgentPresence::Ready,
+                health: "healthy",
+                availability: "available",
+                activity: None,
+                communication_eligible: true,
+            },
+        }
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AgentRuntimeEvidence {
     pub agent_id: String,
@@ -48,6 +131,7 @@ pub struct AgentRuntimeEvidence {
     pub public_role: String,
     pub provider: Option<String>,
     pub model: Option<String>,
+    pub inference_readiness: InferenceReadinessState,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -95,6 +179,8 @@ pub struct AgentRosterEntry {
     pub provider: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub model: Option<String>,
+    #[serde(default)]
+    pub inference_readiness: InferenceReadinessState,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -447,6 +533,7 @@ fn project_entry(
         role: item.public_role.clone(),
         provider: item.provider.clone(),
         model: item.model.clone(),
+        inference_readiness: item.inference_readiness,
         presence: if stale {
             AgentPresence::Unknown
         } else {

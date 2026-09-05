@@ -306,6 +306,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
             role: "conversation agent".to_owned(),
             provider: None,
             model: None,
+            inference_readiness: crate::InferenceReadinessState::Ready,
             state: "unknown".to_owned(),
             detail: "Awaiting Runtime projection".to_owned(),
             health: "unknown".to_owned(),
