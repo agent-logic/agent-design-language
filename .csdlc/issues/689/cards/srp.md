@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+CSMctl
+adl/tools/test_csmctl_linux_backend.sh
+docs/tooling/START_CSM_RUNBOOK.md
+adl-runtime-kernel/src/config_reload.rs
+.csdlc/evidence/689
 
 ## Prompts
 
@@ -32,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live Runtime or service-manager mutation was performed; cloud reachability, providers, models, and Observatory UI behavior are outside issue #689.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77")
 
-Reviewer: None
+Reviewer: Some("codex:/root/issue_689_ci_exact_review")
 
-Result: pre_review
+Result: pass

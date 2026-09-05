@@ -3,14 +3,52 @@
   "issue": 689,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "a0087aa888361a1dd039d5ef99d929b3f7bc8a63a27294756b700ee8c37210d6",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "1f4e278ad6e191ce4ad8047074f5e67ca0afed2663624eadffe4650bad609ef4",
+  "phase": "published",
+  "generation": 21,
+  "digest": "fde71d8db83072d81434b62f09fe1888f331e396fb368fce49de8dd76d889ca7",
   "branch": "codex/689-runtime-canonical-control-runbook",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/issue_689_ci_exact_review",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77",
+    "scope": [
+      "CSMctl",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "adl-runtime-kernel/src/config_reload.rs",
+      ".csdlc/evidence/689"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/issue_689_ci_exact_review",
+    "scope": [
+      "CSMctl",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "adl-runtime-kernel/src/config_reload.rs",
+      ".csdlc/evidence/689"
+    ],
+    "reviewed_revision": "git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77",
+    "findings": [],
+    "residual_risks": [
+      "No live Runtime or service-manager mutation was performed; cloud reachability, providers, models, and Observatory UI behavior are outside issue #689."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 689,
+    "pull_request": 690,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/690",
+    "base": "main",
+    "head": "codex/689-runtime-canonical-control-runbook",
+    "revision": "git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +62,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3cc7279258f9b7b868098ad97a3c5f0489bd2939e1ed5d0fec714236f78372f3",
+      "values_digest": "34593adabaa76f652ac46eb2c8093ef3e55d95fb0e2d30933cc854135d2b5d81",
       "rendered_digest": "b8143a9b06847f14cdad60c5a22e537498d3a8b64535b4f268f4ef2be3adcc81",
       "ast_digest": "21f37d078ffb67354c9fb12935fbb6333963c678b0538c40e429ef75c3051601"
     },
     "stp": {
-      "values_digest": "906523a7fd0a8723044e5358e8047763e5a8b94da381afd51faf7209a5eede14",
+      "values_digest": "5703b742bd51cb090385bcdb190e6e634bdc503a9de8dba0da09925b9374065d",
       "rendered_digest": "d00972b6e802960a768b67adf5326c74b60d17e413cb7ed2f15c9940e40d3ca3",
       "ast_digest": "9d8979682230b61e5fa3da84c648a03a051da01878b88ae4ac4d577ac8aac266"
     },
     "spp": {
-      "values_digest": "953032a31f5a52f09118e7bea67f7c082ad8f6d5742b89575f9fe9d803dbd9d0",
+      "values_digest": "e1e8ad502de66110a5329bb22e9da5a5f340ce615661785e3ee334a09fbf8b43",
       "rendered_digest": "1ce0b2bfffbcd83deb202cffe0b4cc25af4dfc8bb8c5e760ac66e64f508ad4da",
       "ast_digest": "429985dc83b544f1b6dfc627fd79b62d784b56795886aa9b100ac5a899e84aad"
     },
     "vpp": {
-      "values_digest": "2c94cd4da98319028d55ecf53edb269dd7b8250ccfff67f5da989091806811d2",
+      "values_digest": "c56a8c25cd46ab5dd849cbd672967c9d4789dd9157867e309328ee81eea082ac",
       "rendered_digest": "ffec11c5f13af207ff4187a15afa1539f8e208648a88a690a6a4496ef2cde6cb",
       "ast_digest": "a0105ec682e369aa2d4bd9a7af04e264afc4814114f3f1244864024dc36fd7b2"
     },
     "srp": {
-      "values_digest": "c9f2ab63672e9a4f01ef086505a420288d5feaaa7ed4e6b60bcd1331b0d8da20",
-      "rendered_digest": "182a1d299082649128d21b972f16193521bf259eac18a3cf4c3699c04e135f8b",
-      "ast_digest": "6f8a559b727a9ebb050bd3cb7b9b9acf0c022801a7e97f2f131e1c062fa503f5"
+      "values_digest": "c87055bd3d9249d2e40027689cf9a979d25b59dac076d4df141383b97052cffb",
+      "rendered_digest": "89007b13c270daa482b940c9dbcf4c384e62fd1a81f93a15f3fcfe77cbb40de1",
+      "ast_digest": "c23639551ea054da542596da50f03c671cd372c4452b4bff8d3a081af147e800"
     },
     "sor": {
-      "values_digest": "4c8a2600c8eb04a076d0e5d7c074b05a54af9efbcd32442a9bfeaf6c78bc72e8",
-      "rendered_digest": "4f095456b0be749011827f65bb4f4e29d3df52e634accd2f69e5df374131c5fb",
-      "ast_digest": "624d2dbab742e34c1ee51884035aa47f55966ad92a6941590213d626bceabb9d"
+      "values_digest": "72d226b87b19ed13036eea2c079786d69853c69bff220fa672aed3d4aaa388d5",
+      "rendered_digest": "928ebf381990f8c0997aadef004b74da8e0d94e0e323668a9011e46ad75f6b17",
+      "ast_digest": "f1257a8d225906d6fc4aa2944a666a83342033024673719f741b0dd712e6708e"
     }
   },
   "transitions": [
@@ -110,6 +148,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "recover review and publication truth after a mechanical rustfmt repair required by exact-head CI"
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -273,6 +325,27 @@
       "actor": "codex:/root",
       "reason": "recover review and publication truth after a mechanical rustfmt repair required by exact-head CI",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
