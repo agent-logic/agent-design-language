@@ -118,4 +118,3 @@ adl_event schema=adl.runtime.event.v1 sequence=22 component=agent_runtime event=
 test control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response ... ok
 
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 139 filtered out; finished in 0.09s
-

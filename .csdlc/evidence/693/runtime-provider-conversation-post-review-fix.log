@@ -14,4 +14,3 @@ test control::provider_conversation_tool_tests::unknown_or_ambiguous_tool_calls_
 test control::provider_conversation_tool_tests::unsupported_tools_fall_back_to_plain_generation_without_a2a ... ok
 
 test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 134 filtered out; finished in 0.00s
-
