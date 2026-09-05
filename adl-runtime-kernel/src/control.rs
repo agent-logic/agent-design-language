@@ -2342,11 +2342,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if !store.enabled() {
             return Ok(None);
         }
-        let parent = self
-            .recorder
-            .snapshot()
-            .continuity_head
-            .ok_or(ControlError::Internal)?;
+        let Some(parent) = self.recorder.snapshot().continuity_head else {
+            // A fresh Runtime has no full-checkpoint lineage to which a partial
+            // could safely attach. Treat that as an empty restore set; the
+            // first full checkpoint establishes the parent for later partials.
+            return Ok(None);
+        };
         let resident_ids = self
             .agent_population
             .read()
