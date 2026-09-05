@@ -56,7 +56,7 @@ pub struct AgentPartialTombstone {
 
 #[derive(Clone)]
 enum StoredRecord {
-    Partial(AgentPartialCheckpoint),
+    Partial(Box<AgentPartialCheckpoint>),
     Tombstone(AgentPartialTombstone),
 }
 
@@ -755,7 +755,7 @@ impl AgentPartialCheckpointStore {
             partials: latest
                 .into_values()
                 .filter_map(|record| match record {
-                    StoredRecord::Partial(partial) => Some(partial),
+                    StoredRecord::Partial(partial) => Some(*partial),
                     StoredRecord::Tombstone(_) => None,
                 })
                 .collect(),
@@ -1395,6 +1395,7 @@ fn decode_record(bytes: &[u8]) -> Result<StoredRecord, AgentPartialError> {
         serde_json::from_slice(bytes).map_err(|_| AgentPartialError::Encoding)?;
     match value["schema"].as_str() {
         Some(AGENT_PARTIAL_CHECKPOINT_SCHEMA) => serde_json::from_value(value)
+            .map(Box::new)
             .map(StoredRecord::Partial)
             .map_err(|_| AgentPartialError::Encoding),
         Some(AGENT_PARTIAL_TOMBSTONE_SCHEMA) => serde_json::from_value(value)
@@ -1420,7 +1421,7 @@ fn select_latest_records(
     )?
     .into_values()
     .filter_map(|record| match record {
-        StoredRecord::Partial(partial) => Some(partial),
+        StoredRecord::Partial(partial) => Some(*partial),
         StoredRecord::Tombstone(_) => None,
     })
     .collect())
@@ -1673,7 +1674,7 @@ mod tests {
             payload_sha256: "b".repeat(64),
             checkpoint_digest: String::new(),
         };
-        let key = StoredRecord::Partial(partial).object_key();
+        let key = StoredRecord::Partial(Box::new(partial)).object_key();
         assert!(!key.contains("secret-agent-id"));
         assert!(key.ends_with("00000000000000000007.json"));
     }

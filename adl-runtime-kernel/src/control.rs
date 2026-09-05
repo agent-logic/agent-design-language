@@ -814,6 +814,13 @@ enum ConversationAcceptance {
     Response(ObservatoryConversationResult),
 }
 
+type AgentPartialRestoreContext = (
+    Arc<AgentPartialCheckpointStore>,
+    u64,
+    String,
+    BTreeSet<String>,
+);
+
 pub struct ControlService<C> {
     instance_id: String,
     runtime_incarnation_id: String,
@@ -2457,15 +2464,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     fn agent_partial_restore_context(
         &self,
-    ) -> Result<
-        Option<(
-            Arc<AgentPartialCheckpointStore>,
-            u64,
-            String,
-            BTreeSet<String>,
-        )>,
-        ControlError,
-    > {
+    ) -> Result<Option<AgentPartialRestoreContext>, ControlError> {
         let store = self
             .agent_partial_store
             .read()
