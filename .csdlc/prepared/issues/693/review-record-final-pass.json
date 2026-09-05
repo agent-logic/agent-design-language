@@ -1,7 +1,7 @@
 {
   "issue": 693,
-  "expected_generation": 11,
-  "expected_digest": "448bb3e8a995bbdeeefc7f053c9bd2e5f596dec54cf6b079de1ece3ddb07e537",
+  "expected_generation": 13,
+  "expected_digest": "e3a5fdb995e1169d3cc445e4629df6b88a187e81fe4dc9dae709ae592b37f018",
   "actor": "codex:/root/a2a_reliability_fix",
   "evidence": {
     "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
@@ -11,7 +11,7 @@
       "adl-runtime-kernel/src/telemetry.rs",
       ".csdlc/evidence/693"
     ],
-    "reviewed_revision": "git-blake3:7691eb985533a302c70ea4f02bf2351f4619af78:724b63c1fe1adeec07486ceca750980def40ea8d5527aab4c6c59e2e8e521cd4",
+    "reviewed_revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
     "findings": [],
     "residual_risks": [
       "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
@@ -19,10 +19,10 @@
     "completed": true,
     "non_substantive_proof": {
       "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:7691eb985533a302c70ea4f02bf2351f4619af78:724b63c1fe1adeec07486ceca750980def40ea8d5527aab4c6c59e2e8e521cd4",
-      "to_revision": "git-blake3:40393c89731b77874aaa5d79e424581e9108092c:724b63c1fe1adeec07486ceca750980def40ea8d5527aab4c6c59e2e8e521cd4",
-      "from_commit": "7691eb985533a302c70ea4f02bf2351f4619af78",
-      "to_commit": "40393c89731b77874aaa5d79e424581e9108092c",
+      "from_revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
+      "to_revision": "git-blake3:158e1707b5a054fd71989605b9f191dd29a57c4e:5f43cdd588079ab146e46a68f827721b55cd94c45c671d7e4375a82f674f67a4",
+      "from_commit": "3f1908d43eb6a355a767a4be68a2bfcfadb7ad83",
+      "to_commit": "158e1707b5a054fd71989605b9f191dd29a57c4e",
       "changed_paths": [
         ".csdlc/issues/693/audit.jsonl",
         ".csdlc/issues/693/cards/srp.md",

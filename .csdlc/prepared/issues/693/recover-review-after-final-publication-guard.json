@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 693,
+  "expected_generation": 14,
+  "expected_digest": "0dea29810c1a589a069afe166f2d293423e216ccfb10c5651ec2b1082d36839f",
+  "actor": "codex:/root/a2a_reliability_fix",
+  "reason": "recover review state after final publication-guard metadata made the recorded Git revision stale without changing the reviewed Runtime source scope"
+}
