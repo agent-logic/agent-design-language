@@ -1,0 +1,184 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 695,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
+    "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-agent-partial-continuity",
+          "proof_role": "Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6",
+            "AC-9",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "agent_partial_checkpoint"
+          ],
+          "parallel_group": "agent-partials",
+          "defer_reason": "Created by #695 implementation; must select a nonzero exact integration target before review."
+        },
+        {
+          "lane": "runtime-agent-continuity-api",
+          "proof_role": "Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "agent_continuity_api"
+          ],
+          "parallel_group": "agent-partials",
+          "defer_reason": "Created by #695 implementation; must select a nonzero exact API integration target before review."
+        },
+        {
+          "lane": "runtime-agent-continuity-observatory",
+          "proof_role": "Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "node",
+            "demos/html-observatory/tests/agent_continuity.test.mjs"
+          ],
+          "parallel_group": "agent-partials",
+          "defer_reason": "Created by #695 implementation; must report a nonzero Node test denominator before review."
+        },
+        {
+          "lane": "runtime-agent-checkpoint-terraform",
+          "proof_role": "Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            "infra/aws/runtime/agent-checkpoint-archive/validate.sh"
+          ],
+          "parallel_group": "agent-partials",
+          "defer_reason": "Created by #695 implementation; must run Terraform init/validate and deterministic plan-policy assertions without apply."
+        },
+        {
+          "lane": "runtime-agent-partial-production-shape",
+          "proof_role": "Exercise multiple accelerated cycles, live roster mutation, outage recovery, restart restoration, API projection, and reject a zero-test denominator on isolated ports with a local fake S3 endpoint.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6",
+            "AC-7",
+            "AC-9",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "bash",
+            "adl/tools/test_runtime_agent_partial_checkpoint.sh"
+          ],
+          "parallel_group": "agent-partials-serial",
+          "defer_reason": "Created by #695 implementation; must run the production-shaped isolated Runtime and fake-S3 proof before review."
+        },
+        {
+          "lane": "acceptance-denominator",
+          "proof_role": "Require one passing non-zero proving test or assertion set for every acceptance row before review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/695/validate-acceptance.sh"
+          ],
+          "parallel_group": "agent-partials-final",
+          "defer_reason": null
+        },
+        {
+          "lane": "format-and-diff",
+          "proof_role": "Reject Rust formatting and committed whitespace defects.",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "parallel_group": "agent-partials",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed for invalid configuration, partial integrity or lineage mismatch, unbounded retention, overlapping authority, secret leakage, cloud-coupled readiness, zero-test proof, missing implementation validators, or unresolved exact-head findings. During S3 failure, record degraded archive health while preserving Runtime availability.",
+      "design_ref": ".csdlc/prepared/issues/695/design.md",
+      "design_digest": "905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782",
+      "diagram_ref": ".csdlc/prepared/issues/695/diagram.mmd",
+      "diagram_digest": "e5cd6d1b09f5315ab0e3dda9b5551150ec8bc1435b68181bca9c3491ace7d10e"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+{"sequence":1,"generation":0,"actor":"codex:agent-partial-checkpoint-s3","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:agent-partial-checkpoint-s3","reason":"Advance independently reviewed and mechanically valid issue #695 design to execution readiness.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}

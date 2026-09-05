@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 695,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
+    "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Five-minute per-agent partial checkpoint cadence, local atomic storage and restore, asynchronous S3 spool/archive, per-agent Runtime API fields, Observatory rendering, Terraform security boundary, and focused tests only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can a slow snapshot or S3 outage block Runtime readiness, conversations, or shutdown?",
+        "Does every resident including Shepherd receive one ordered partial per cadence without overlap?",
+        "Can any partial be replayed or restored across agent, polis, Runtime, or full-checkpoint lineage?",
+        "Can local retention discard the only unarchived recoverable state or grow without bound?",
+        "Do API and Observatory show backing model and truthful snapshot/archive freshness without infrastructure or secret leakage?",
+        "Does Terraform enforce private encrypted versioned storage and least privilege without live apply?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

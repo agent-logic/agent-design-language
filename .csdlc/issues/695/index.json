@@ -1,0 +1,82 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 695,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
+  "phase": "ready",
+  "generation": 1,
+  "digest": "0144841f427c7bd8987a00cb5dad89cf5f3cdaaa6fd40459f11c9ef6ee0d3aa7",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/695/design.md",
+  "diagram_path": ".csdlc/prepared/issues/695/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:review-695-design",
+      "revision": "905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "258b4c3a32bae4c3dd88dd89892f840dbb0a9af1f2ff29f05d900103cc2f860a",
+      "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
+      "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
+    },
+    "stp": {
+      "values_digest": "ec370cab3784bed964d8aeeec4b80c98b2cd15c79a3c304a483ec123aa75df38",
+      "rendered_digest": "ce871c7fdc6952daa740b415e8a9bb5315091f12fae9d40d017c8098606f1f62",
+      "ast_digest": "0d2d9ff6ad6aa1162aeeba876ab8ef198664ae64b6bd815ea5e4f5c7bd32f5da"
+    },
+    "spp": {
+      "values_digest": "b264ddcb1766619e532409ec968fcfa0780b1d453cf7433b57bf67c713bfebd0",
+      "rendered_digest": "903ffc5aec6fdc0855b9adc4ae3392487a8044d5117ce089bd284656231d1234",
+      "ast_digest": "4a737d764443272bc05c0dff518c29d91a117bafd1e1b7e6a42e99fe3a3b97c8"
+    },
+    "vpp": {
+      "values_digest": "aebd8e8fcde4cc3401805fcf4289190c0ac7813277e7dc2f09cc109a17dad0bb",
+      "rendered_digest": "88516b2b2852a1236305ac69813f9a7d08617227bf98736528f1680d8b0c6026",
+      "ast_digest": "b5c31ad9443b9f891944d92594faf09e94da8c963e0e4f67fe739e1897755921"
+    },
+    "srp": {
+      "values_digest": "ca648d11c68d7742b3ce64f490c38b507f08ee4361ecb332d2f2901f591a0d2c",
+      "rendered_digest": "d494de7d8c18cc1d8ee7fe50244d847c4080cefb6eb058584c1869f340a2ed99",
+      "ast_digest": "b8bf81b8f7111675e0d33583718265d5c0a015e7ca54088c8f84da0f22a595f3"
+    },
+    "sor": {
+      "values_digest": "3c9415d2fe13ba38dffebe6b28f3a2db1ee86a1b5db4908cd3d664a188226c7c",
+      "rendered_digest": "5a208b6fd62d9936092e6bc8bf53281cb91a4a95bb2a0ed5658f7bba0720b57d",
+      "ast_digest": "e37f8010f006e65d0c54e950ba840571aa8e73be4de142a32ae14e03ac2c81d9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:agent-partial-checkpoint-s3",
+      "reason": "Advance independently reviewed and mechanically valid issue #695 design to execution readiness."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:agent-partial-checkpoint-s3",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:agent-partial-checkpoint-s3",
+      "reason": "Advance independently reviewed and mechanically valid issue #695 design to execution readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

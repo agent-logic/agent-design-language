@@ -1,0 +1,17 @@
+flowchart LR
+  T[300 second cadence] --> C[Bounded partial coordinator]
+  R[Resident roster] --> C
+  C --> S[Shepherd partial]
+  C --> D[Dynamic agent partials]
+  S --> L[Atomic local partial store]
+  D --> L
+  L --> Q[Durable bounded upload spool]
+  Q --> U[Asynchronous S3 archive worker]
+  U --> B[(Private encrypted versioned S3)]
+  L --> A[Runtime roster and detail API]
+  U --> A
+  A --> O[Observatory per-agent continuity view]
+  F[Latest full checkpoint] --> X[Validated restore]
+  L --> X
+  B --> V[Download with restore role and validate digest lineage sequence]
+  V --> X

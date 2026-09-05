@@ -1,0 +1,17 @@
+{
+  "schema": "adl.runtime.agent-partial-checkpoint.acceptance.v1",
+  "issue": 695,
+  "zero_test_policy": "reject",
+  "rows": [
+    {"id":"AC-1","proof":["partial-cadence","production-shape"]},
+    {"id":"AC-2","proof":["partial-roster-isolation","production-shape"]},
+    {"id":"AC-3","proof":["partial-atomic-schema","partial-crash-atomicity"]},
+    {"id":"AC-4","proof":["partial-bounded-outage","production-shape"]},
+    {"id":"AC-5","proof":["terraform-policy"]},
+    {"id":"AC-6","proof":["partial-restore","production-shape"]},
+    {"id":"AC-7","proof":["continuity-api"]},
+    {"id":"AC-8","proof":["continuity-observatory"]},
+    {"id":"AC-9","proof":["production-shape"]},
+    {"id":"AC-10","proof":["diff-hygiene"]}
+  ]
+}
