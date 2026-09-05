@@ -4,42 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "a7a33ee9e32ca2afc5935c8fbece233b2ac38dd3b95a718f76365a6d32db2542",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "f3ac670fa2855ce151c9c0aeac0d132b3ea52d223c72443c1a88e32fd489b897",
   "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
-  "review_assignment": {
-    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:b79b2cfab371b053622ff492759fac6c39f7185b:5ff283f6869dae45bfd915796a18b6f5c8b439de6b3e72e5dc5beb82e8ca74f6",
-    "scope": [
-      "five-minute per-agent partial checkpoint cadence",
-      "atomic local persistence and bounded retention",
-      "asynchronous S3 spool, archive, and restore",
-      "Runtime API and Observatory continuity projection",
-      "AWS Terraform archive boundary",
-      "focused exact-head validation"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
-    "scope": [
-      "five-minute per-agent partial checkpoint cadence",
-      "atomic local persistence and bounded retention",
-      "asynchronous S3 spool, archive, and restore",
-      "Runtime API and Observatory continuity projection",
-      "AWS Terraform archive boundary",
-      "focused exact-head validation"
-    ],
-    "reviewed_revision": "git-blake3:b79b2cfab371b053622ff492759fac6c39f7185b:5ff283f6869dae45bfd915796a18b6f5c8b439de6b3e72e5dc5beb82e8ca74f6",
-    "findings": [],
-    "residual_risks": [
-      "Live AWS Terraform apply and permanent Wuji rollout are intentionally deferred and are not claimed as issue #695 proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "590eefe948216090eb53b14a3c17f2b0e611245b8b21fa32cc256e93d2b48241",
+      "values_digest": "af6e87e1542858cc8d2ff89881fddb74935094861f4887501f55b8c3edbb14ca",
       "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
       "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
     },
     "stp": {
-      "values_digest": "c33e45468faa22f87ee1c31a8e76601b2356e0c8fdc53986c5f1af94e76128fe",
+      "values_digest": "7de5fc448d3116809d0b1179724f70e69302ee29f4d8e2fad80d991833fd68c9",
       "rendered_digest": "2c3c11dd93c7edaf7e4d5e7f3e7a6a77428649b405d2091f6959e1b3a20d924c",
       "ast_digest": "4e98cb924f78d34c5631ea6135da7b04bb9c10c91c726eb865af22fb00028a4c"
     },
     "spp": {
-      "values_digest": "5a07d29567a0ab26f6f154bbeb246d09993c7a3dc24ccf187f391e5da3dc2181",
+      "values_digest": "238f241a87803ec96ae0ff06f23df3f2c388775cc4166a9e9a7e9d9851e23f52",
       "rendered_digest": "d5b51af9610919ae6e51b44288b88b7f88b1f5a9f02080c0432b7d27f9b14164",
       "ast_digest": "e862f3841fe57c134e2337a28371588754f3d3ec8be15fbcf4531c4f4147f872"
     },
     "vpp": {
-      "values_digest": "2cd0a0873b9bbc62e97880c2a6651fa1f94c8be3ed34b974bbb9079dd0fe83dd",
+      "values_digest": "1463e9eaf92b3fa4ba12343d301ea25ffcf3b86ff630a781ff8484788a85b69f",
       "rendered_digest": "3e9546cce535c699192da26f46a56ae11cb14e3ee45cae3dfa58d306d82c3dcd",
       "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
     },
     "srp": {
-      "values_digest": "c0cec6a137fd76a870a5d711043d1420783c4f401ce29513289ffce0cc748d70",
-      "rendered_digest": "700c43aa4f3fb6eae6c6e86871a5b00485d460b5a17ba69e45fbec92135f4830",
-      "ast_digest": "8cfcfbdabaa95f098b27886514283edbdc93bcba19016916589b2417614829ca"
+      "values_digest": "5406b48847f521a6291e6f7b14b9f4d53d85cd198d6ba6554fa3ce69de5d2415",
+      "rendered_digest": "5ed94e79d52fccb9957a25e85d14903ca13fff663eab2b5639a18e1ab4e49aaf",
+      "ast_digest": "06e87c997b3673dfdd23dbeaf31239220030f697afa0b5ebe5b3675616bd1b47"
     },
     "sor": {
-      "values_digest": "2a8d98623662847720d877dcb9e6e4f3eb535e37bc8dfa0cf6fec7ea2c094512",
+      "values_digest": "7312d65f0b6a940f4829be54ceec5268f6713179201c237f60848794eab6a966",
       "rendered_digest": "7be2907d14a291dd67bc9cd00d5c0c7729cb0f85e1e7a2ae803a301c23a68e79",
       "ast_digest": "aa341d3ff8d56c0c2e575635c8d167e9509870beb4f4a224015ddaa7485e089e"
     }
@@ -126,6 +97,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review so the committed publication request and lifecycle-only commits can receive one final exact-head review before typed publication."
     }
   ],
   "audit": [
@@ -261,6 +239,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover review so the committed publication request and lifecycle-only commits can receive one final exact-head review before typed publication.",
+      "operation": "recover_review"
     }
   ]
 }

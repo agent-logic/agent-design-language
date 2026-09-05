@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
     "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "five-minute per-agent partial checkpoint cadence\natomic local persistence and bounded retention\nasynchronous S3 spool, archive, and restore\nRuntime API and Observatory continuity projection\nAWS Terraform archive boundary\nfocused exact-head validation",
-      "review_revision": "git-blake3:b79b2cfab371b053622ff492759fac6c39f7185b:5ff283f6869dae45bfd915796a18b6f5c8b439de6b3e72e5dc5beb82e8ca74f6",
-      "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can a slow snapshot or S3 outage block Runtime readiness, conversations, or shutdown?",
         "Does every resident including Shepherd receive one ordered partial per cadence without overlap?",
@@ -25,10 +25,8 @@
         "Does Terraform enforce private encrypted versioned storage and least privilege without live apply?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live AWS Terraform apply and permanent Wuji rollout are intentionally deferred and are not claimed as issue #695 proof."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-five-minute per-agent partial checkpoint cadence
-atomic local persistence and bounded retention
-asynchronous S3 spool, archive, and restore
-Runtime API and Observatory continuity projection
-AWS Terraform archive boundary
-focused exact-head validation
+
 
 ## Prompts
 
@@ -38,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live AWS Terraform apply and permanent Wuji rollout are intentionally deferred and are not claimed as issue #695 proof.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b79b2cfab371b053622ff492759fac6c39f7185b:5ff283f6869dae45bfd915796a18b6f5c8b439de6b3e72e5dc5beb82e8ca74f6")
+Revision: None
 
-Reviewer: Some("fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9")
+Reviewer: None
 
-Result: pass
+Result: pre_review
