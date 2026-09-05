@@ -3,51 +3,13 @@
   "issue": 693,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "178dee15f87d0adb9c056b3a6304b7aed3ff5c1d114546bab0fdef368be057cc",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "c80918433867837abe7cffa698a0ce4ee8a0a5048898e7a6d07c0faea8eddf34",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
-  "review_assignment": {
-    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
-    "assigned_by": "codex:/root/a2a_reliability_fix",
-    "revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693"
-    ],
-    "reviewed_revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
-    "findings": [],
-    "residual_risks": [
-      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:3f1908d43eb6a355a767a4be68a2bfcfadb7ad83:049bc0f6b52230535ae349a49a38bd14e0cae9a32d3def0203e60a64fbc3d313",
-      "to_revision": "git-blake3:158e1707b5a054fd71989605b9f191dd29a57c4e:5f43cdd588079ab146e46a68f827721b55cd94c45c671d7e4375a82f674f67a4",
-      "from_commit": "3f1908d43eb6a355a767a4be68a2bfcfadb7ad83",
-      "to_commit": "158e1707b5a054fd71989605b9f191dd29a57c4e",
-      "changed_paths": [
-        ".csdlc/issues/693/audit.jsonl",
-        ".csdlc/issues/693/cards/srp.md",
-        ".csdlc/issues/693/cards/srp.values.json",
-        ".csdlc/issues/693/index.json",
-        ".csdlc/prepared/issues/693/review-assign-final.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -62,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "da3f9ed128ae345389ffb2cb138e0a0f388a8b21f6f0df1a1d89c25784584e62",
+      "values_digest": "dac41a6cd5e7936a50328ecb1ef9ae00bb16b3f67daa449ec126012d7bf9096f",
       "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
       "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
     },
     "stp": {
-      "values_digest": "92278c6168187eae90a4b35b71c6b5ae7ec43658818947137ba62e481fa4ffe8",
+      "values_digest": "6359c287ffd6f314e23927831ead09c3c4d1bbefc4d78275ad4f8d79ac19c2ea",
       "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
       "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
     },
     "spp": {
-      "values_digest": "56888da8d294c09de46d2b4892faf68c360b0a4408b277660639c59fc01d3f9c",
+      "values_digest": "34d23d2853597e346cbfb3a75a60f112e0600e2c131e9801c2b15a16a1148e3b",
       "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
       "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
     },
     "vpp": {
-      "values_digest": "78cae1b5635258b96e2288f47f18583f4076b0f0c6c9a185ed6d42be87992e75",
+      "values_digest": "7db18306d63a1daaadd8f9ad3aee64324cb7f00cc47dcd62d6c8fe0dd4b9abd4",
       "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "511b83a75cc796288f52949cb1168a8a5fd7ac48010fca1316d79bbea7ac4707",
-      "rendered_digest": "113df33e03410c0d0a5de1e556569321f79a31ee236b3d009025985d579204be",
-      "ast_digest": "0095ca526343b6210d4dc1744479e35c689c713df8fb7608e9d0744e208b76d8"
+      "values_digest": "8d86d53714ebb06b099c87a4516085ede0696639f339a02c841618fb2c0a92c0",
+      "rendered_digest": "f3f6c84a334746e94a66f7ce70a6b222a6a3a4637181835ca46b53914e45ed69",
+      "ast_digest": "c369b67c3e739bbdd33cebc1b450d7a49b1157f68488af9fbb740436d7dc48b8"
     },
     "sor": {
-      "values_digest": "60281202e8937ce440c6a27f5b1038498c4ace17538d06202d1e1c571461de6e",
+      "values_digest": "1eeb540b135856b5367703b5b5a96d345f50f91bc0a4a93f4484beb0012876d5",
       "rendered_digest": "dfdf7d3679411430784d22cbf3a9f03b66f231a388d122ba4b4b090c27028d3f",
       "ast_digest": "385bdc1ce0e5a1da445419829574ebd5421e2895d8274367d871cc191adfd6af"
     }
@@ -162,6 +124,13 @@
       "to": "reviewed",
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover review state after final publication-guard metadata made the recorded Git revision stale without changing the reviewed Runtime source scope"
     }
   ],
   "audit": [
@@ -304,6 +273,13 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover review state after final publication-guard metadata made the recorded Git revision stale without changing the reviewed Runtime source scope",
+      "operation": "recover_review"
     }
   ]
 }
