@@ -2302,17 +2302,21 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             return Ok(0);
         };
         let resident_id_list = resident_ids.iter().cloned().collect::<Vec<_>>();
-        let recovery = store
-            .prepare_archive_recovery(generation, &integrity, &resident_id_list)
-            .await
-            .map_err(|error| ControlError::Io(error.to_string()))?;
-        self.apply_archived_agent_partial_restore(
-            &store,
-            recovery,
-            generation,
-            &integrity,
-            &resident_ids,
-        )
+        let mut restored = 0;
+        for agent_id in resident_id_list {
+            let recovery = store
+                .prepare_archive_recovery(generation, &integrity, std::slice::from_ref(&agent_id))
+                .await
+                .map_err(|error| ControlError::Io(error.to_string()))?;
+            restored += self.apply_archived_agent_partial_restore(
+                &store,
+                recovery,
+                generation,
+                &integrity,
+                &BTreeSet::from([agent_id]),
+            )?;
+        }
+        Ok(restored)
     }
 
     fn agent_partial_restore_context(

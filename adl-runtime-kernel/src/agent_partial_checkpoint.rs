@@ -54,6 +54,7 @@ pub struct AgentPartialTombstone {
     pub tombstone_digest: String,
 }
 
+#[derive(Clone)]
 enum StoredRecord {
     Partial(AgentPartialCheckpoint),
     Tombstone(AgentPartialTombstone),
@@ -726,24 +727,38 @@ impl AgentPartialCheckpointStore {
                 }
             }
         }
-        let selected = select_latest_records(
+        let mut latest = select_latest_stored_records(
             paths,
             &self.runtime_instance_id,
             &self.polis_id,
             parent_generation,
             parent_digest,
-        );
+        )?;
+        let resident_ids = resident_agent_ids.iter().collect::<BTreeSet<_>>();
+        latest.retain(|agent_id, _| resident_ids.contains(agent_id));
         let staged_records = downloaded_records
             .iter()
-            .map(|(path, latest)| {
-                fs::read(path)
-                    .map(|bytes| (bytes, latest.archived_at_unix_millis))
-                    .map_err(AgentPartialError::from)
+            .filter_map(|(path, archive_latest)| {
+                let bytes = fs::read(path).ok()?;
+                let record = decode_record(&bytes).ok()?;
+                latest
+                    .get(record.agent_id())
+                    .filter(|selected| {
+                        selected.sequence() == record.sequence()
+                            && selected.digest() == record.digest()
+                    })
+                    .map(|_| (bytes, archive_latest.archived_at_unix_millis))
             })
-            .collect::<Result<Vec<_>, _>>()?;
+            .collect::<Vec<_>>();
         let _ = fs::remove_dir_all(download_root);
         Ok(AgentArchiveRecovery {
-            partials: selected?,
+            partials: latest
+                .into_values()
+                .filter_map(|record| match record {
+                    StoredRecord::Partial(partial) => Some(partial),
+                    StoredRecord::Tombstone(_) => None,
+                })
+                .collect(),
             staged_records,
         })
     }
@@ -779,22 +794,34 @@ impl AgentPartialCheckpointStore {
             Some((parent_generation, parent_digest)),
         )?;
         let tombstone = matches!(&record, StoredRecord::Tombstone(_));
-        self.prune_local_for(record.agent_id(), tombstone)?;
-        self.prune_global_for_write(bytes.len() as u64)?;
         let suffix = if tombstone { "tombstone.json" } else { "json" };
         let destination = self
             .local_root
             .join(digest_label(record.agent_id()))
             .join(format!("{:020}.{suffix}", record.sequence()));
-        if let Ok(existing) = fs::read(&destination) {
-            if existing == bytes {
-                self.write_restored_archive_receipt(&record, archived_at_unix_millis)?;
-                return Ok(());
+        let mut created_record = false;
+        match fs::read(&destination) {
+            Ok(existing) => {
+                if existing != bytes {
+                    return Err(AgentPartialError::InvalidLineage);
+                }
             }
-            return Err(AgentPartialError::InvalidLineage);
+            Err(error) if error.kind() == io::ErrorKind::NotFound => {
+                self.prune_local_for(record.agent_id(), tombstone)?;
+                self.prune_global_for_write(bytes.len() as u64)?;
+                persist_bytes_atomically(&destination, bytes)?;
+                created_record = true;
+            }
+            Err(error) => return Err(error.into()),
         }
-        persist_bytes_atomically(&destination, bytes)?;
-        self.write_restored_archive_receipt(&record, archived_at_unix_millis)?;
+        if let Err(error) = self.write_restored_archive_receipt(&record, archived_at_unix_millis) {
+            if created_record {
+                let _ = fs::remove_file(&destination);
+            }
+            return Err(error);
+        }
+        let agent_id = record.agent_id().to_owned();
+        self.clear_archive_degraded(&agent_id)?;
         let mut state = self.state.lock().expect("partial store state poisoned");
         let next = state
             .next_sequence
@@ -803,7 +830,7 @@ impl AgentPartialCheckpointStore {
         *next = (*next).max(record.sequence().saturating_add(1));
         match record {
             StoredRecord::Tombstone(_) => {
-                state.projections.remove(record.agent_id());
+                state.projections.remove(&agent_id);
             }
             StoredRecord::Partial(partial) => {
                 state.cadence_sequence = state.cadence_sequence.max(partial.cadence_sequence);
@@ -821,6 +848,7 @@ impl AgentPartialCheckpointStore {
                 }
             }
         }
+        drop(state);
         Ok(())
     }
 
@@ -1315,6 +1343,28 @@ fn select_latest_records(
     parent_generation: u64,
     parent_digest: &str,
 ) -> Result<Vec<AgentPartialCheckpoint>, AgentPartialError> {
+    Ok(select_latest_stored_records(
+        paths,
+        runtime_instance_id,
+        polis_id,
+        parent_generation,
+        parent_digest,
+    )?
+    .into_values()
+    .filter_map(|record| match record {
+        StoredRecord::Partial(partial) => Some(partial),
+        StoredRecord::Tombstone(_) => None,
+    })
+    .collect())
+}
+
+fn select_latest_stored_records(
+    paths: Vec<PathBuf>,
+    runtime_instance_id: &str,
+    polis_id: &str,
+    parent_generation: u64,
+    parent_digest: &str,
+) -> Result<BTreeMap<String, StoredRecord>, AgentPartialError> {
     let mut latest = BTreeMap::<String, StoredRecord>::new();
     let mut observed_sequences = BTreeMap::<(String, u64), String>::new();
     for path in paths {
@@ -1347,13 +1397,7 @@ fn select_latest_records(
             latest.insert(record.agent_id().to_owned(), record);
         }
     }
-    Ok(latest
-        .into_values()
-        .filter_map(|record| match record {
-            StoredRecord::Partial(partial) => Some(partial),
-            StoredRecord::Tombstone(_) => None,
-        })
-        .collect())
+    Ok(latest)
 }
 
 fn validate_partial_identity(
@@ -1840,6 +1884,44 @@ mod tests {
         );
     }
 
+    #[test]
+    fn archived_receipt_reconciles_state_when_record_already_exists_locally() {
+        let temp = tempfile::tempdir().unwrap();
+        let store = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.write_partial(capture("ember", 1)).unwrap();
+        let local = json_files(&store.local_root).unwrap().pop().unwrap();
+        let bytes = fs::read(local).unwrap();
+        fs::remove_dir_all(&store.spool_root).unwrap();
+        fs::create_dir_all(&store.spool_root).unwrap();
+        drop(store);
+        let reopened = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-b",
+        )
+        .unwrap();
+        let recovery = AgentArchiveRecovery {
+            partials: Vec::new(),
+            staged_records: vec![(bytes, 7)],
+        };
+        reopened
+            .commit_archive_recovery(&recovery, 2, &"a".repeat(64))
+            .unwrap();
+        let projection = reopened.projection("ember");
+        assert_eq!(projection.archive_state, AgentArchiveState::Current);
+        assert_eq!(projection.last_archive_at_unix_millis, Some(7));
+        assert_eq!(projection.pending_archive_count, 0);
+    }
+
     #[cfg(unix)]
     #[tokio::test]
     async fn corrupt_spool_record_is_quarantined_without_starving_other_agents() {
@@ -1925,11 +2007,15 @@ mod tests {
             .prepare_archive_recovery(2, &"a".repeat(64), &["ember".to_owned()])
             .await
             .unwrap();
-        assert_eq!(recovery.partials.len(), 2);
+        assert_eq!(recovery.partials.len(), 1);
         assert!(recovery
             .partials
             .iter()
             .any(|partial| partial.agent_id == "ember"));
+        assert!(!recovery
+            .partials
+            .iter()
+            .any(|partial| partial.agent_id == "relay"));
         store
             .commit_archive_recovery(&recovery, 2, &"a".repeat(64))
             .unwrap();
