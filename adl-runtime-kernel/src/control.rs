@@ -43,10 +43,10 @@ use crate::{
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
     decode_acip_envelope, is_canonical_agent_name, AgentRosterEntry, AgentRosterQuery,
-    CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError, KernelControl,
-    KernelExit, LiveContinuity, ObservabilityHealth, ResidentShepherdInitConfig, RuntimeEvent,
-    RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
-    ACIP_WEBSOCKET_SCHEMA,
+    CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, InferenceReadinessState,
+    IngressError, KernelControl, KernelExit, LiveContinuity, ObservabilityHealth,
+    ResidentShepherdInitConfig, RuntimeEvent, RuntimeRecorder, RuntimeSnapshot,
+    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -1335,13 +1335,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 return ConversationAcceptance::Response(outcome(
                     "refused",
                     "unauthorized_initiation",
-                ))
+                ));
             }
             Err(_) => {
                 return ConversationAcceptance::Response(outcome(
                     "failed",
                     "agent_roster_unavailable",
-                ))
+                ));
             }
         }
         if self.layer8_authority.is_none() {
@@ -1417,7 +1417,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     "refused",
                     "invalid_conversation_intent",
                     None,
-                ))
+                ));
             }
         };
         let work_id = initiated_work_id.unwrap_or_else(|| {
@@ -1434,7 +1434,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     "failed",
                     "agent_roster_unavailable",
                     None,
-                ))
+                ));
             }
         };
         match recipient {
@@ -1443,14 +1443,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     "refused",
                     "unknown_recipient",
                     None,
-                ))
+                ));
             }
             Some(false) => {
                 return ConversationAcceptance::Response(outcome(
                     "refused",
                     "recipient_unavailable",
                     None,
-                ))
+                ));
             }
             Some(true) => {}
         }
@@ -1501,7 +1501,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             "refused",
                             "invalid_conversation_intent",
                             None,
-                        ))
+                        ));
                     }
                 };
                 let signed_request = match exchange.signed_request(
@@ -1518,7 +1518,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             "failed",
                             "conversation_signing_unavailable",
                             None,
-                        ))
+                        ));
                     }
                 };
                 if exchange
@@ -2233,11 +2233,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 continue;
             }
             checks.spawn(async move {
-                let healthy = verify_ollama_model(&declaration).await.is_ok();
-                (declaration, healthy, now_unix_millis())
+                let (readiness, failure_reason) = match verify_ollama_model(&declaration).await {
+                    Ok(()) => (InferenceReadinessState::Ready, None),
+                    Err(failure) => (
+                        inference_readiness_from_agent_admission_failure(&failure),
+                        Some(agent_admission_failure_reason(&failure).to_owned()),
+                    ),
+                };
+                (declaration, readiness, failure_reason, now_unix_millis())
             });
         }
-        while let Some(Ok((declaration, healthy, observed_at_unix_millis))) =
+        while let Some(Ok((declaration, readiness, failure_reason, observed_at_unix_millis))) =
             checks.join_next().await
         {
             let mut population = self
@@ -2254,12 +2260,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             sample.observed_at_unix_millis = observed_at_unix_millis;
             sample.freshness_deadline_unix_millis =
                 observed_at_unix_millis.saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
-            sample.state = if healthy { "ready" } else { "unavailable" }.to_owned();
-            sample.health = if healthy { "healthy" } else { "unhealthy" }.to_owned();
-            sample.availability = if healthy { "available" } else { "unavailable" }.to_owned();
-            sample.communication_eligible = healthy;
-            sample.detail = if healthy {
+            let projection = readiness.projection();
+            sample.inference_readiness = readiness;
+            sample.state = readiness.as_str().to_owned();
+            sample.health = projection.health.to_owned();
+            sample.availability = projection.availability.to_owned();
+            sample.communication_eligible = projection.communication_eligible;
+            sample.activity = projection.activity.map(str::to_owned);
+            sample.detail = if readiness == InferenceReadinessState::Ready {
                 format!("ollama model {} verified", declaration.model)
+            } else if let Some(reason) = failure_reason {
+                format!("Ollama provider health verification failed: {reason}")
             } else {
                 "Ollama provider health verification failed".to_owned()
             };
@@ -2623,7 +2634,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         _ => {
                             return Err(AgentAdmissionFailure::Invalid(
                                 "conversation_checkpoint_invalid",
-                            ))
+                            ));
                         }
                     },
                     conversation_id: conversation.conversation_id.clone(),
@@ -4675,7 +4686,7 @@ async fn control_handler<C: LifecycleControl + 'static>(
             return control_error_response(
                 ControlError::Encoding("invalid request".into()),
                 allowed_origin,
-            )
+            );
         }
     };
     match service.execute(command).await {
@@ -4714,7 +4725,7 @@ async fn recipient_acknowledgement_handler<C: LifecycleControl + 'static>(
                     "invalid_request",
                 ),
                 allowed_origin,
-            )
+            );
         }
     };
     let response = service.accept_recipient_acknowledgement(request);
@@ -5200,6 +5211,7 @@ mod layer8_conversation_ingress_tests {
                 role: "conversation agent".to_owned(),
                 provider: None,
                 model: None,
+                inference_readiness: InferenceReadinessState::Ready,
                 state: "unknown".to_owned(),
                 detail: "Awaiting Runtime projection".to_owned(),
                 health: "unknown".to_owned(),
@@ -5608,6 +5620,7 @@ mod layer8_conversation_ingress_tests {
                 role: "resident agent".to_owned(),
                 provider,
                 model,
+                inference_readiness: InferenceReadinessState::Unimplemented,
                 state: "unknown".to_owned(),
                 detail: "Awaiting Runtime projection".to_owned(),
                 health: "unknown".to_owned(),
@@ -5779,8 +5792,7 @@ mod layer8_conversation_ingress_tests {
                         .component
                         .as_ref()
                         .is_some_and(|component| component.as_str() == "agent_initiation")
-                    && event.correlation_id.as_deref()
-                        == Some("abababababababababababababababab")
+                    && event.correlation_id.as_deref() == Some("abababababababababababababababab")
             }),
             "Observatory feed should expose authoritative correlated initiation activity: {events:?}"
         );
@@ -6868,6 +6880,34 @@ enum AgentAdmissionFailure {
     Unavailable(&'static str),
 }
 
+fn agent_admission_failure_reason(failure: &AgentAdmissionFailure) -> &'static str {
+    match failure {
+        AgentAdmissionFailure::Invalid(reason)
+        | AgentAdmissionFailure::Conflict(reason)
+        | AgentAdmissionFailure::Unavailable(reason) => reason,
+    }
+}
+
+fn inference_readiness_from_agent_admission_failure(
+    failure: &AgentAdmissionFailure,
+) -> InferenceReadinessState {
+    match agent_admission_failure_reason(failure) {
+        "invalid_agent_declaration" | "resident_shepherd_provider_unsupported" => {
+            InferenceReadinessState::Unimplemented
+        }
+        "provider_unreachable" | "provider_temporarily_unavailable" | "model_not_installed" => {
+            InferenceReadinessState::Unavailable
+        }
+        "provider_response_invalid" => InferenceReadinessState::Failed,
+        _ => match failure {
+            AgentAdmissionFailure::Unavailable(_) => InferenceReadinessState::Unavailable,
+            AgentAdmissionFailure::Invalid(_) | AgentAdmissionFailure::Conflict(_) => {
+                InferenceReadinessState::Failed
+            }
+        },
+    }
+}
+
 fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), ControlError> {
     if request.schema != AGENT_ADMISSION_SCHEMA
         || request.id == "shepherd"
@@ -7395,6 +7435,8 @@ fn validate_vertex_ai_provider_endpoint(endpoint: &str, model: &str) -> Result<(
 
 fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
     let now = now_unix_millis();
+    let readiness = InferenceReadinessState::ModelLoading;
+    let projection = readiness.projection();
     AgentSample {
         id: request.id.clone(),
         name: request.name.clone(),
@@ -7410,14 +7452,18 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
         },
         provider: Some(request.provider.clone()),
         model: Some(request.model.clone()),
-        state: "ready".to_owned(),
-        detail: format!("{} model {}", request.provider, request.model),
-        health: "healthy".to_owned(),
-        availability: "available".to_owned(),
-        activity: None,
+        inference_readiness: readiness,
+        state: readiness.as_str().to_owned(),
+        detail: format!(
+            "{} model {} verification pending",
+            request.provider, request.model
+        ),
+        health: projection.health.to_owned(),
+        availability: projection.availability.to_owned(),
+        activity: projection.activity.map(str::to_owned),
         capabilities: vec!["conversation".to_owned()],
         location: Some("local_runtime".to_owned()),
-        communication_eligible: true,
+        communication_eligible: projection.communication_eligible,
         observed_at_unix_millis: now,
         freshness_deadline_unix_millis: now.saturating_add(30_000),
         source_revision: blake3::hash(

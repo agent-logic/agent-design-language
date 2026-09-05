@@ -51,4 +51,3 @@ The implementation is limited to Runtime-kernel readiness types, roster/control
 projection, resident Shepherd recovery classification, and focused deterministic
 tests. Validation uses no live Runtime, provider credentials, provider calls,
 AWS, or other cloud resources.
-
