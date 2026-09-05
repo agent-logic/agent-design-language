@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 48
+    "generation": 49
   },
   "status": "ready",
   "content": {
@@ -70,7 +70,7 @@
           ],
           "purpose": "Run the full C-SDLC v3 suite after command-surface, readback, cutover-disposition, and scratch-hygiene reconciliation.",
           "outcome": "passed",
-          "evidence_ref": "worktree:pre-publication:132-passed"
+          "evidence_ref": "worktree:pre-publication:128-passed"
         },
         {
           "command": [
@@ -119,7 +119,7 @@
           ],
           "purpose": "Verify typed C-SDLC v2 issue state after stale review/publication recovery.",
           "outcome": "passed",
-          "evidence_ref": "worktree:pre-publication:status-pass-generation-47-ready-false"
+          "evidence_ref": "worktree:pre-publication:status-pass-generation-48-ready-false"
         }
       ],
       "integration_state": "worktree_only",

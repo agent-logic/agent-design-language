@@ -1,8 +1,8 @@
 {
   "issue": 505,
   "card": "sor",
-  "expected_generation": 47,
-  "expected_digest": "a6cb70fbfa99438c86566e92c5f671ba57feabc6d8e3e64a89b4d5f7fa1bc77c",
+  "expected_generation": 48,
+  "expected_digest": "451579db9afe259a95bddca93e33994144682f5a7d1640d764df98561aaff256",
   "actor": "codex:worker-6",
   "reason": "Refresh #505 SOR after adding proof-route scratch-hygiene coverage to keep the cutover reconciliation evidence clean.",
   "operation": {
@@ -64,7 +64,7 @@
         ],
         "purpose": "Run the full C-SDLC v3 suite after command-surface, readback, cutover-disposition, and scratch-hygiene reconciliation.",
         "outcome": "passed",
-        "evidence_ref": "worktree:pre-publication:132-passed"
+        "evidence_ref": "worktree:pre-publication:128-passed"
       },
       {
         "command": [
@@ -113,7 +113,7 @@
         ],
         "purpose": "Verify typed C-SDLC v2 issue state after stale review/publication recovery.",
         "outcome": "passed",
-        "evidence_ref": "worktree:pre-publication:status-pass-generation-47-ready-false"
+        "evidence_ref": "worktree:pre-publication:status-pass-generation-48-ready-false"
       }
     ]
   }

@@ -74,7 +74,7 @@ Reconciled PR #591 with current main after the cutover decision brief, consumed 
     ],
     "purpose": "Run the full C-SDLC v3 suite after command-surface, readback, cutover-disposition, and scratch-hygiene reconciliation.",
     "outcome": "passed",
-    "evidence_ref": "worktree:pre-publication:132-passed"
+    "evidence_ref": "worktree:pre-publication:128-passed"
   },
   {
     "command": [
@@ -123,7 +123,7 @@ Reconciled PR #591 with current main after the cutover decision brief, consumed 
     ],
     "purpose": "Verify typed C-SDLC v2 issue state after stale review/publication recovery.",
     "outcome": "passed",
-    "evidence_ref": "worktree:pre-publication:status-pass-generation-47-ready-false"
+    "evidence_ref": "worktree:pre-publication:status-pass-generation-48-ready-false"
   }
 ]
 
