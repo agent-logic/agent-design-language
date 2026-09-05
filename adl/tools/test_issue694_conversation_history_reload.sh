@@ -13,3 +13,9 @@ cargo test \
   --locked \
   --manifest-path "$repo_root/adl-runtime-kernel/Cargo.toml" \
   --test durable_conversation_history_integration
+cargo test \
+  --locked \
+  --manifest-path "$repo_root/adl-runtime-kernel/Cargo.toml" \
+  control::layer8_conversation_ingress_tests::production_conversation_history_restores_operator_and_agent_once_in_order \
+  -- \
+  --exact
