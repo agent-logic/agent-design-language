@@ -2,7 +2,7 @@
   "schema": "csdlc.v3.authority_transition_disposition.v1",
   "authority_issue": 505,
   "repository": "agent-logic/agent-design-language",
-  "observed_at": "2026-09-05T17:45:14Z",
+  "observed_at": "2026-09-05T18:00:53Z",
   "operational_authority": false,
   "cutover_ready": false,
   "operator_approval": "absent",
@@ -38,8 +38,8 @@
           "status": "missing_or_unwaived"
         },
         {
-          "claim": "Independent exact-head review must cover the reconciled #591 head after merging current main",
-          "status": "stale"
+          "claim": "Independent exact-head review must cover the reconciled #591 head before operator approval",
+          "status": "pending"
         }
       ]
     },
@@ -77,8 +77,7 @@
     }
   ],
   "approval_blockers": [
-    "Merge current main into #591 and publish a reconciled head.",
-    "Rerun the #505 validation DAG against the reconciled head.",
+    "Keep the #505 validation DAG current at the reviewed/published head.",
     "Provide actual rollback-exercise evidence.",
     "Provide terminal v3 finish/cleanup canary evidence or an explicit operator waiver.",
     "Refresh independent exact-head review and publication/readback records.",

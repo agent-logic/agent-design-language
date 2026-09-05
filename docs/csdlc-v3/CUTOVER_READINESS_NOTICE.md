@@ -33,9 +33,10 @@ deferred. The current sprint evidence records:
   21 required v2 entrypoints plus helper/construction routes;
 - those routes remain construction evidence before #505 and do not make v3
   live lifecycle authority;
-- PR #591 must still consume the current V3-H evidence, merge current `main`,
-  rerun the #505 validation DAG, and refresh exact-head review/publication
-  evidence;
+- PR #591 has consumed the current V3-H evidence and has been reconciled with
+  current `main` for pre-approval review;
+- the #505 validation DAG must stay current at the reviewed/published head;
+- PR #591 still needs refreshed exact-head review/publication evidence;
 - rollback exercise evidence, terminal v3 finish/cleanup canary evidence or an
   explicit operator waiver, and evidence-backed #179/#180 and parity
   dispositions remain required before approval.
