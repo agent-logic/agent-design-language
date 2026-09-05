@@ -15,17 +15,17 @@ jq -e '
 ' "$manifest" >/dev/null
 
 jq -e --arg head "$head_sha" --slurpfile manifest "$manifest" '
-  .schema == "adl.runtime.agent-partial-checkpoint.results.v1" and
-  .issue == 695 and
-  .head_sha == $head and
-  ([.results[].proof_id] | length) == ([.results[].proof_id] | unique | length) and
-  . as $results |
-  all($manifest[0].rows[];
-    . as $row |
-    all($row.proof[];
-      . as $proof |
-      any($results.results[];
-        .proof_id == $proof and
-        .outcome == "passed" and
-        ((.test_count // 0) + (.assertion_count // 0)) > 0)))
+  . as $result_doc |
+  ($result_doc.schema == "adl.runtime.agent-partial-checkpoint.results.v1" and
+   $result_doc.issue == 695 and
+   $result_doc.head_sha == $head and
+   ([$result_doc.results[].proof_id] | length) == ([$result_doc.results[].proof_id] | unique | length) and
+   all($manifest[0].rows[];
+     . as $row |
+     all($row.proof[];
+       . as $proof |
+       any($result_doc.results[];
+         .proof_id == $proof and
+         .outcome == "passed" and
+         ((.test_count // 0) + (.assertion_count // 0)) > 0))))
 ' "$results" >/dev/null
