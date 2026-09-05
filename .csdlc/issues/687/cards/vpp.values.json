@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
     "slug": "runtime-provider-inference-readiness",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "ready",
   "content": {
