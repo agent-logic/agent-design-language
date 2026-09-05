@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 44,
-  "digest": "f3f15e125c464c1da38ba395ef361ee3a56c8cd6402aea72ae42d68a310f1b14",
+  "generation": 45,
+  "digest": "34c86436240ee866c69a2db397d90b1b28fe693ff52a0ce4be07ae9abe0a20aa",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2c9f94d7a0404571b35ce12db8c3dfe05fcf09857cc26a740104e2b27ea8cfc9",
+      "values_digest": "2c7d60a470798c8da512aad56228c68868e5354b61c520103eee60f65e5cfa95",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "a84f7829825432d995d92d88c3a4e282c180dc36cdbc268bb60e8408b161cf06",
+      "values_digest": "f9368853e3d1c79cbb195ab6a15e4f60befa05dc09ee00a31c169956cef541d9",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "c9504698360017fc5f0ef29f585bd8784497ac649459839ee3df65571b31c70d",
+      "values_digest": "86ce5b18ccc5357c70af34b2849993f514a18285e2d5758048ba80aa0bd00953",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "432015e16bf46a50ef3fe6bbfd946300aa98ef47c1ba0f34a5e7a936f69f0d2a",
+      "values_digest": "0b4a04ced12e1128789c543969e7a7fde810edf31d521ddbb265ba7bf4197bf8",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "85a627c00050a26396409503123639df087654cddbea9c966ec298f641ddb852",
+      "values_digest": "194ff1f0a2bc1a363feb64a427b43a0f925f9ddeac0aff2205cab51752bfd21a",
       "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
       "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "d93bfb508c3b106f4d1bb28caf8e9e23674113888b076d7e7017e4e6b881b05a",
-      "rendered_digest": "47d6accb9dcc17dee78e827b32c3db87972771abf854df234d5a51ad827cdef6",
-      "ast_digest": "36c9ed43df180f532b958b35f3533d85ef88060d183b106acbec519c3016f9cc"
+      "values_digest": "81a4d901ce43a2fe610c42d273a16800f4f412e4f52b8672e58aef0b3d1ec203",
+      "rendered_digest": "b1671ee04a2032395a492dbe7b7df69ebb8e2578f5bd2c0753bca6bd71c6d48b",
+      "ast_digest": "5d303267323ef1f973af5b7670a204ba1c466b0afcbfa4b5a1592bd128a89bcb"
     }
   },
   "transitions": [
@@ -616,6 +616,13 @@
       "actor": "codex:/root",
       "reason": "Recover #686 after the owner-preserving merge of current origin/main advanced the branch from the r16 reviewed head to ec8f4c75615fa9deb1b0fda3c9e8aea4a243ee2e. Typed doctor reports review_publication_dead_end because reviewed evidence no longer matches the clean current substantive commit. Return to implementation state so evidence, SOR truth, and fresh exact review can be regenerated against the post-resync immutable head before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 45,
+      "actor": "codex:/root/issue-686",
+      "reason": "Record exact-head #686 validation evidence after the owner-preserving merge of current origin/main and typed recover_review returned the issue to implemented gen44.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered and revalidated #686 after merging current origin/main advanced the branch beyond the r16 reviewed head and typed doctor reported review_publication_dead_end. The retained #686 remediation still binds immutable configuration-generation identity to both init content and compatible Runtime binary generation, and the production CSM preflight still advances a valid unchanged init across binary-generation upgrade or rollback while failing closed for content/ref/receipt mismatch. The post-resync evidence bundle passed all eight issue lanes at immutable head 142f90c44e06532cbf727363b22946ba513b4b28.\",\"changes\":[\"Preserved typed post-review resync truth by recovering #686 from reviewed gen43 back to implemented gen44 before publication.\",\"Classified the merge from origin/main as clean: it introduced unrelated runtime-kernel mainline changes and did not directly modify the #686 source, integration-test, denominator, or evidence files.\",\"Retained the #686 production behavior: `ConfigGenerationReceipt.generation` is derived from receipt schema, `content_sha256`, and `compatible_binary_generation`, while `content_sha256` remains separately auditable.\",\"Retained the CSM preflight behavior: an existing active receipt is validated read-only against current init content, then the expected identity is activated only when the retained receipt is valid for the same init content but a different compatible binary generation.\",\"Retained fail-closed behavior for corrupted, mismatched, or same-binary stale active references.\",\"Re-ran the #686 denominator, focused csm_runtime_v3_cmd unit lane, focused Runtime v3 generation integration suite, both hosted-runtime regression tests, strict Clippy, all-workspace fmt check, and diff-check at post-resync source head 142f90c44e06532cbf727363b22946ba513b4b28.\"],\"artifacts\":[\"adl-runtime-kernel/src/config_generation.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tests/csm_runtime_v3_generation.rs\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\",\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=5ee28743a3cb544922637b32bfddb8c2951e66cd5644bbafe929526da6f1cac5\",\".csdlc/evidence/686/issue686-denominator.log sha256=72b4572f068e22486dc526fab9f9b0a49fdb35db2132591f0001f2f8ac86e67f\",\".csdlc/evidence/686/issue686-diff-check.log sha256=c41a50c4d746e513e6291f1b792762e303af49d359f10070924de32617118a54\",\".csdlc/evidence/686/issue686-fmt-check.log sha256=ec2ed70f5a180f54e502d74ec492849de80a6f1ac184dfb271788e8676f92365\",\".csdlc/evidence/686/issue686-focused-generation.log sha256=10106ddec68c7769ddfc5a1426fe5a4b12a3f5b2b1a3582c22e52ea71bfec872\",\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=d101654f244e5caeaeeecf181eeb1f84cb5b7e6bdf7baab03cd787e5627e1bb7\",\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=41680df2213aa546239fc187b89b3b726e8c55b0e1d3e202ab1eca9c7d14d181\",\".csdlc/evidence/686/issue686-strict-clippy.log sha256=097fc4011f358ac1114f44ea37fa10c0d919c2b5fdf8220d8ea67c91af89e67e\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"purpose\":\"Prove the issue-owned #686 static denominator requires binary-generation-bound configuration identity, production preflight transition logic, and upgrade/rollback regression anchors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-denominator.log sha256=72b4572f068e22486dc526fab9f9b0a49fdb35db2132591f0001f2f8ac86e67f head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_v3_cmd\"],\"purpose\":\"Focused csm_runtime_v3_cmd unit proof including production preflight upgrade/rollback for unchanged init content.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=5ee28743a3cb544922637b32bfddb8c2951e66cd5644bbafe929526da6f1cac5 head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Focused Runtime v3 configuration-generation integration regression suite including lower-level unchanged-config upgrade and rollback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-focused-generation.log sha256=10106ddec68c7769ddfc5a1426fe5a4b12a3f5b2b1a3582c22e52ea71bfec872 head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--nocapture\"],\"purpose\":\"Hosted adl-coverage-runtime regression for Guardian portable-child JSON success with valid config-generation authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=41680df2213aa546239fc187b89b3b726e8c55b0e1d3e202ab1eca9c7d14d181 head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\",\"guardian_cli_rejects_oversized_durations_before_spawning_the_kernel\",\"--\",\"--nocapture\"],\"purpose\":\"Hosted adl-coverage-runtime regression for Guardian oversized-duration rejection before marker-child spawn.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=d101654f244e5caeaeeecf181eeb1f84cb5b7e6bdf7baab03cd787e5627e1bb7 head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all ADL Cargo targets with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-strict-clippy.log sha256=097fc4011f358ac1114f44ea37fa10c0d919c2b5fdf8220d8ea67c91af89e67e head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Hosted-equivalent Rust formatting check for all ADL Cargo packages and local path dependencies.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-fmt-check.log sha256=ec2ed70f5a180f54e502d74ec492849de80a6f1ac184dfb271788e8676f92365 head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-diff-check.log sha256=c41a50c4d746e513e6291f1b792762e303af49d359f10070924de32617118a54 head=142f90c44e06532cbf727363b22946ba513b4b28 status=0\"}]}"
     }
   ]
 }

@@ -1,4 +1,4 @@
-sha=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be
+sha=142f90c44e06532cbf727363b22946ba513b4b28
 argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl-runtime/Cargo.toml --test runtime_guardian_lifecycle guardian_cli_rejects_oversized_durations_before_spawning_the_kernel -- --nocapture
 
 running 1 test
@@ -8,5 +8,5 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; fini
 
 status=0
    Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl-runtime)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.68s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.73s
      Running tests/runtime_guardian_lifecycle.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/runtime_guardian_lifecycle-9c10f4df5c2eefe4)

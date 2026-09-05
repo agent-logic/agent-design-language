@@ -1,23 +1,23 @@
-sha=1c35cf9c4d2e559ce36f97d68f958c5727e1d1be
+sha=142f90c44e06532cbf727363b22946ba513b4b28
 argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl/Cargo.toml --test csm_runtime_v3_generation
 
 running 11 tests
 test kernel_startup_requires_config_generation_handoff_before_readiness_identity ... ok
 test pre_activation_receipt_is_not_authoritative ... ok
-test kernel_startup_rejects_forged_config_generation_handoff_identity ... ok
 test config_generation_receipt_is_immutable_and_redacts_secret_references ... ok
+test kernel_startup_rejects_forged_config_generation_handoff_identity ... ok
 test post_pointer_mismatch_fails_closed_before_authority ... ok
 test malformed_and_cross_binary_receipts_are_rejected ... ok
-test prior_generation_remains_authoritative_after_candidate_failure ... ok
 test candidate_ready_receipt_does_not_replace_active_without_activation ... ok
+test prior_generation_remains_authoritative_after_candidate_failure ... ok
 test reload_candidate_receipt_is_available_from_active_generation_store ... ok
-test unchanged_config_can_upgrade_and_roll_back_binary_generation ... ok
 {"artifacts": {"csm": {"file": "bin/csm", "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"}, "guardian": {"file": "bin/adl-runtime-guardian", "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"}, "kernel": {"file": "bin/adl-runtime-kernel", "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb"}}, "build_profile": "debug", "generation": "one", "platform": "macos-aarch64", "predecessor_generation": null, "runtime_init_schema": "adl.runtime_v3.init.v1", "schema": "adl.runtime_v3.install_generation.v1", "source_revision": "test-revision"}
+test unchanged_config_can_upgrade_and_roll_back_binary_generation ... ok
 test generation_installer_rejects_mixed_set_and_preserves_current_reference ... ok
 
-test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
 
 status=0
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.57s
      Running tests/csm_runtime_v3_generation.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/csm_runtime_v3_generation-460549b174eb12be)
 runtime-v3-generation: generation artifact receipt mismatch: adl-runtime-kernel
