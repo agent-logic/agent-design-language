@@ -504,7 +504,7 @@ fn pressure_checkpoint_failure_keeps_signal_shutdown_responsive() {
     let state_root = local_state_root(directory.path(), "pressure-failure-state");
     let continuity_root = state_root.join("continuity");
     std::fs::create_dir_all(&continuity_root).unwrap();
-    std::fs::create_dir(continuity_root.join(".generation-1.pending")).unwrap();
+    std::fs::create_dir(continuity_root.join(".generation-2.pending")).unwrap();
     let probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
     let address = probe.local_addr().unwrap();
     drop(probe);
@@ -578,7 +578,7 @@ fn pressure_checkpoint_failure_keeps_signal_shutdown_responsive() {
         std::net::TcpStream::connect(address).is_ok(),
         "checkpoint failure must leave the control API reachable"
     );
-    std::fs::remove_dir(continuity_root.join(".generation-1.pending")).unwrap();
+    std::fs::remove_dir(continuity_root.join(".generation-2.pending")).unwrap();
     assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
     let deadline = std::time::Instant::now() + Duration::from_secs(15);
     let status = loop {
@@ -719,7 +719,7 @@ async fn pressure_closes_ingress_serializes_live_work_and_stops_cleanly() {
     );
     assert!(stderr.contains("event=resource_pressure_stop"));
     let checkpoint: serde_json::Value = serde_json::from_slice(
-        &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
+        &std::fs::read(continuity_root.join("generation-2/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
     assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
@@ -1099,7 +1099,8 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     forged.signature = hex::encode([0_u8; 64]);
     assert!(request(forged).await.starts_with("HTTP/1.1 401"));
     assert!(child.try_wait().unwrap().is_none());
-    assert!(!continuity_root.join("generation-1").exists());
+    assert!(continuity_root.join("generation-1").exists());
+    assert!(!continuity_root.join("generation-2").exists());
 
     assert!(request(signed(
         "valid-stop",
@@ -1155,7 +1156,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     assert!(String::from_utf8_lossy(&restore_output.stderr)
         .contains("runtime continuity restore refused"));
     let checkpoint: serde_json::Value = serde_json::from_slice(
-        &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
+        &std::fs::read(continuity_root.join("generation-2/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
     assert_eq!(checkpoint["ingress"]["accepted_through"], 1);

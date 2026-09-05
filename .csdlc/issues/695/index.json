@@ -6,10 +6,24 @@
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
   "phase": "implemented",
   "generation": 18,
-  "digest": "bc08d29acc6b72bb7e531ad3722b52271ce342dfa068c7079923c06f1548ba74",
+  "digest": "43bc8d7eb32e370ed634e9b0964344b659e4ec4258fce65968042587078df257",
   "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4d9772b52e01f49eb7a1ade5c7918f3396d32dd3:47eb3db73b08cab539b0d5a0732640e2267c4b6e69ccb6757766320a5cc4af07",
+    "scope": [
+      "fresh Runtime startup before checkpoint lineage exists",
+      "current-main integration and Runtime configuration generation",
+      "five-minute per-agent partial checkpoint cadence",
+      "atomic local persistence and bounded retention",
+      "asynchronous S3 spool, archive, and restore",
+      "Runtime API and Observatory continuity projection",
+      "AWS Terraform archive boundary",
+      "focused CI-remediation validation"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
     },
     "srp": {
-      "values_digest": "401528937a72ce533921ff0fabf9fe9db58b52b085e4a39e660944bcd3c15c43",
-      "rendered_digest": "5ed94e79d52fccb9957a25e85d14903ca13fff663eab2b5639a18e1ab4e49aaf",
-      "ast_digest": "06e87c997b3673dfdd23dbeaf31239220030f697afa0b5ebe5b3675616bd1b47"
+      "values_digest": "02a49a140add320312325d01b7ae3914df1859bd7885df69a708eabb69a41799",
+      "rendered_digest": "8d6a423fcf0f77ccff1e68fca41e888ad1a52d0e3bb0f502782eeb3f52c167b3",
+      "ast_digest": "da555986b0b53c5fe387f1d515bdec8bcc88a600553baa5422fbb6b68a4e2d39"
     },
     "sor": {
       "values_digest": "aa99944eda149c2b3f6c1f750284a8161ad8fd141e30bb775f94db370394bc39",
@@ -295,6 +309,13 @@
       "actor": "codex:/root",
       "reason": "Recover review and publication after CI exposed missing fresh-start continuity handling and the branch incorporated current main Runtime configuration-generation support.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

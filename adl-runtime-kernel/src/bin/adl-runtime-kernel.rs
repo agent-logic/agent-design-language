@@ -555,9 +555,21 @@ async fn main() -> ExitCode {
                 minimum_generation,
             )
             .with_canonical_ingress(assembly.canonical_ingress.clone());
-            if let Err(error) = continuity.restore_latest(&recorder).await {
-                eprintln!("runtime continuity restore refused: {error}");
-                return ExitCode::from(78);
+            match continuity.restore_latest(&recorder).await {
+                Ok(Some(_)) => {}
+                Ok(None) => {
+                    if let Err(error) = continuity
+                        .establish_genesis(&recorder, standard_checkpoint_deadline)
+                        .await
+                    {
+                        eprintln!("runtime continuity genesis checkpoint failed: {error}");
+                        return ExitCode::from(70);
+                    }
+                }
+                Err(error) => {
+                    eprintln!("runtime continuity restore refused: {error}");
+                    return ExitCode::from(78);
+                }
             }
             let authority = ControlAuthority::new(BTreeMap::from([(
                 key_id,

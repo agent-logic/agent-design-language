@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "fresh Runtime startup before checkpoint lineage exists\ncurrent-main integration and Runtime configuration generation\nfive-minute per-agent partial checkpoint cadence\natomic local persistence and bounded retention\nasynchronous S3 spool, archive, and restore\nRuntime API and Observatory continuity projection\nAWS Terraform archive boundary\nfocused CI-remediation validation",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

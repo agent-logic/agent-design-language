@@ -7582,13 +7582,27 @@ mod agent_lifecycle {
         let temp = tempfile::tempdir().unwrap();
         let checkpoint_root = temp.path().join("agent-partials");
         let recorder = RuntimeRecorder::new(16);
-        recorder.set_continuity_head(crate::ContinuityHead {
-            generation: 7,
-            accepted_through: 11,
-            topology_hash: "1".repeat(64),
-            config_hash: "2".repeat(64),
-            integrity: "3".repeat(64),
-        });
+        assert!(recorder.snapshot().continuity_head.is_none());
+        let mut continuity = crate::LiveContinuity::new(
+            temp.path().join("continuity"),
+            "test-continuity-key",
+            &[7_u8; 32],
+            crate::LiveKernelSnapshot::new("1".repeat(64), "2".repeat(64), BTreeMap::new()),
+            0,
+        );
+        let genesis = continuity
+            .establish_genesis(&recorder, Duration::from_secs(1))
+            .await
+            .unwrap();
+        assert_eq!(genesis.generation, 1);
+        assert_eq!(
+            recorder
+                .snapshot()
+                .continuity_head
+                .as_ref()
+                .map(|head| head.generation),
+            Some(1)
+        );
 
         let mut population = AgentPopulationFeed::resident_shepherd();
         let mut dynamic = population.sample[0].clone();
@@ -7634,6 +7648,10 @@ mod agent_lifecycle {
         assert_eq!(service.snapshot_all_resident_agents().await, 1);
         assert_eq!(store.projection("shepherd").snapshot_sequence, Some(2));
         assert_eq!(store.projection("ember").snapshot_sequence, Some(1));
+        let parent = recorder.snapshot().continuity_head.unwrap();
+        store
+            .write_tombstone("ember", parent.generation, parent.integrity)
+            .unwrap();
         drop(service);
 
         let restarted = ControlService::new_with_observatory_config_and_agents(
