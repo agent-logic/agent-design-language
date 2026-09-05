@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 693,
+  "expected_generation": 25,
+  "expected_digest": "98affdc328f9827e5d287e4f9b32b1c5047a5e4d0350e7902c87ff0a3656ff43",
+  "actor": "codex:/root/a2a_reliability_fix",
+  "reason": "recover stale review and publication truth after PR #696 runtime-v3-fast CI exposed additional production-style subprocess tests missing runtime config-generation receipts"
+}

@@ -6268,7 +6268,7 @@ mod layer8_conversation_ingress_tests {
                 ConversationAcceptance::Dispatch { .. } => {
                     panic!("runtime-internal A2A accepted mismatched signing identity")
                 }
-        };
+            };
         assert_eq!(mismatch.status, "refused");
         assert_eq!(mismatch.error, Some("sender_identity_mismatch"));
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();

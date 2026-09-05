@@ -3,50 +3,14 @@
   "issue": 693,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
-  "phase": "published",
-  "generation": 25,
-  "digest": "98affdc328f9827e5d287e4f9b32b1c5047a5e4d0350e7902c87ff0a3656ff43",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "2eaf9fda62c3e1f5c39e180257d8a9e60b82ee95649bef47dece5e7e23849356",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
-  "review_assignment": {
-    "reviewer": "codex:/root/issue_693_post_authority_fix_review",
-    "assigned_by": "codex:/root/a2a_reliability_fix",
-    "revision": "git-blake3:f3b433ba2a027c04b8bd83c2a68933495328df17:d0f81cc8b1543f77e12509bbbc6c876a4f2a7a0a302cb9df61e6ace635554608",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/issue_693_post_authority_fix_review",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693"
-    ],
-    "reviewed_revision": "git-blake3:f3b433ba2a027c04b8bd83c2a68933495328df17:d0f81cc8b1543f77e12509bbbc6c876a4f2a7a0a302cb9df61e6ace635554608",
-    "findings": [],
-    "residual_risks": [
-      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 693,
-    "pull_request": 696,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/696",
-    "base": "main",
-    "head": "codex/693-runtime-a2a-action-selection-reliability",
-    "revision": "git-blake3:f3b433ba2a027c04b8bd83c2a68933495328df17:d0f81cc8b1543f77e12509bbbc6c876a4f2a7a0a302cb9df61e6ace635554608",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -60,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "60f257c0581a0780d3cc0cea53220d8a9113184dc0c7111f8cdeec75e0459813",
+      "values_digest": "a81630d7e43bf52a1f038f1bc87f9fa0557ad6287325d3196b0ca9e1a7292500",
       "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
       "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
     },
     "stp": {
-      "values_digest": "618af26a7bb16f92a0b64c232928d26438f7d966287f0f8d96a4106367e84e46",
+      "values_digest": "b4667157deade9ea55cc47e54f468b8e57daa9ba87d4f28813fac6d59df2b5dc",
       "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
       "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
     },
     "spp": {
-      "values_digest": "37a0bcc1154fa42c0a025e8690e8cc38086a8c9d69848c18ba395cb0b0887b05",
+      "values_digest": "e01e730dfc2c8993c06d4370e7a067ec0791c1c7b519fa77fa93329c3e201de1",
       "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
       "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
     },
     "vpp": {
-      "values_digest": "499bb4cf168d9c679284724b7af3b9d73f2f4f3556570c3e25019d152c5e633d",
+      "values_digest": "7d71f8fc5b1c1db599959b18deb0ee38c67b3b81098cbf568ce77d66c55c5843",
       "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "3ed5625183feaba3046c5d3f733a0a56898fbcbf596afe2d47d7534f20bf3024",
-      "rendered_digest": "791c4acb711e61dd4e4e416ab1d4ce13fad4287c1d5c115afc334821616d0ede",
-      "ast_digest": "af8a79083a04d26674965dd0c96f82daf903b27389c9287efab1a879fa2cf2a5"
+      "values_digest": "666aa27ce4477fa7f5c6e5e6cd48798b5c72df105206e3b8380df5b9b6b7ab96",
+      "rendered_digest": "f3f6c84a334746e94a66f7ce70a6b222a6a3a4637181835ca46b53914e45ed69",
+      "ast_digest": "c369b67c3e739bbdd33cebc1b450d7a49b1157f68488af9fbb740436d7dc48b8"
     },
     "sor": {
-      "values_digest": "6a99b3621e68fcee7320153045cebc8f22ca45f72266ed29eb256a10f792fe71",
-      "rendered_digest": "95576e2a4217033e054d6a6e4440b13f2d080b2b2b0ea8ab9b523733a3a156a9",
-      "ast_digest": "2a40951693193b70bfceeb85f24a0545ff20fe138b32919ccf42b6fd1bfff5f2"
+      "values_digest": "7ce43f923fd18596b645256be65a50fb89a4b58633280f0b0fcba5d631859f9a",
+      "rendered_digest": "598c213ef0419f2fbbf4059a618369e7bdd65c4c952223728975931615a26696",
+      "ast_digest": "540348ff760d8508e7816778537d92e4941a62c3ac9f0bbe8a1583fdb7de1dca"
     }
   },
   "transitions": [
@@ -216,6 +180,13 @@
       "to": "published",
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 19,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover stale review and publication truth after PR #696 runtime-v3-fast CI exposed additional production-style subprocess tests missing runtime config-generation receipts"
     }
   ],
   "audit": [
@@ -470,6 +441,20 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover stale review and publication truth after PR #696 runtime-v3-fast CI exposed additional production-style subprocess tests missing runtime config-generation receipts",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 27,
+      "actor": "codex:/root/issue-693",
+      "reason": "Reconcile SOR execution truth after PR #696 runtime-v3-fast CI exposed additional production-style subprocess tests missing runtime config-generation receipts.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Runtime-owned model-backed A2A selection through provider-native tool calls, with governed dispatch, sender-bound Layer8 authority for runtime-internal resident A2A, distinct initiating and recipient results, correlated completion observability, safe ordinary-reply fallback when a model rejects tools, and CI-compatible config-generation receipt setup for production-style Runtime v3 subprocess tests.\",\"changes\":[\"Replaced prompt-dependent exact JSON action selection with an Ollama-native initiate_agent tool contract normalized into the existing governed Runtime initiation intent.\",\"Kept Runtime authoritative for identifiers, admission, Layer8 dispatch, replay, cancellation, and terminal outcomes; malformed, unknown, or ambiguous actions fail closed.\",\"Preserved Beacon's operator-facing reply independently from Ember's provider result and emitted a separately correlated agent_to_agent_completed Runtime event.\",\"Exposed Ember's provider-generated output as the distinct initiated_reply field on the authoritative conversation result, while retaining Beacon's reply unchanged.\",\"Emitted agent_to_agent_initiated when governed dispatch is accepted, agent_to_agent_completed only after delivery, and agent_to_agent_failed for terminal non-delivery outcomes.\",\"Added bounded fallback to ordinary Ollama generation for 400/404 tool-unsupported responses without inferring or dispatching A2A.\",\"Added an isolated production-ingress Beacon-to-Ember acceptance using native provider tool output, real governed recipient execution, and correlated initiation/completion observation.\",\"Provisioned Runtime v3 configuration-generation environment in guardian soak subprocess tests so PR CI exercises the real configured runtime entrypoint.\",\"Bound runtime-internal A2A initiation to the active Layer8 signed exchange sender identity and added a mismatch regression so one resident's signer cannot authorize another resident as sender.\",\"Provisioned and activated config-generation receipts for the production-style parity-b live kernel and production ACIP WSS subprocess tests before spawning CARGO_BIN_EXE_adl-runtime-kernel.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/parity_b_live_kernel.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\".csdlc/evidence/693/ci-red-remediation.md\",\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\",\".csdlc/evidence/693/review-finding-remediation.md\",\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"agent_to_agent_\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Runtime-owned A2A action selection, runtime-internal resident-pair communication with sender-bound Layer8 authority, mismatch refusal, recipient delivery, and correlated observability.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/review-finding-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"guardian_soak\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the CI-red guardian soak subprocess lane after provisioning runtime configuration generation for the real serve entrypoint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity_b_live_kernel\",\"live_graph_executes_through_guardian_canonical_ingress\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the CI-red parity-b live kernel subprocess starts the real runtime after config-generation receipt provisioning.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"production_binary_acip_wss_produces_observed_receipt\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the sibling production ACIP WSS subprocess starts the real runtime after config-generation receipt provisioning.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Prove the full Runtime kernel lane exercised by the runtime-v3-fast CI job after the production-style subprocess fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"provider_conversation\"],\"purpose\":\"Prove provider action normalization, failure behavior, and unsupported-tools ordinary-reply fallback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/ci-red-remediation.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/693/runtime-v3-fast-ci-remediation.md\"}]}"
     }
   ]
 }
