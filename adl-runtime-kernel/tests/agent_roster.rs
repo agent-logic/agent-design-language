@@ -3,8 +3,9 @@ use std::collections::{BTreeMap, BTreeSet};
 use adl_runtime_kernel::{
     build_production_operation_executors_with_recorder, AdapterKind, AgentPresence, AgentRoster,
     AgentRosterError, AgentRosterPolicy, AgentRosterQuery, AgentRuntimeEvidence, ClockAuthority,
-    ComponentId, ControlAuthority, ControlService, KernelExit, LifecycleControl, OperationRequest,
-    ResidentShepherdInitConfig, RunningState, RuntimeRecorder, OPERATION_REQUEST_SCHEMA,
+    ComponentId, ControlAuthority, ControlService, InferenceReadinessState, KernelExit,
+    LifecycleControl, OperationRequest, ResidentShepherdInitConfig, RunningState, RuntimeRecorder,
+    OPERATION_REQUEST_SCHEMA,
 };
 
 struct NoopLifecycle;
@@ -24,6 +25,7 @@ fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvide
         public_role: "resident agent".to_owned(),
         provider: None,
         model: None,
+        inference_readiness: InferenceReadinessState::Ready,
         presence,
         health: "healthy".to_owned(),
         availability: "available".to_owned(),
@@ -114,10 +116,17 @@ fn shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed()
             },
         ),
     );
-    service.update_resident_shepherd_health("beacon.axioma", "degraded", "retry scheduled");
+    service.update_resident_shepherd_health("beacon.axioma", "unavailable", "retry scheduled");
     let feed = service.observatory_feed();
     let shepherd = &feed.agents.sample[0];
-    assert_eq!(shepherd.state, "degraded");
+    assert_eq!(shepherd.state, "unavailable");
+    assert_eq!(
+        shepherd.inference_readiness,
+        InferenceReadinessState::Unavailable
+    );
+    assert_eq!(shepherd.health, "unavailable");
+    assert_eq!(shepherd.availability, "unavailable");
+    assert_eq!(shepherd.activity.as_deref(), Some("provider_unavailable"));
     assert_eq!(shepherd.provider.as_deref(), Some("ollama"));
     assert_eq!(shepherd.model.as_deref(), Some("qwen3:8b"));
     assert!(!shepherd.communication_eligible);
@@ -126,6 +135,103 @@ fn shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed()
         .degraded_reasons
         .iter()
         .any(|reason| reason.contains("model")));
+}
+
+#[test]
+fn inference_readiness_taxonomy_is_the_provider_backed_roster_denominator() {
+    let cases = [
+        (
+            InferenceReadinessState::Unimplemented,
+            AgentPresence::Degraded,
+            "unimplemented",
+            "unavailable",
+            Some("adapter_unimplemented"),
+            false,
+        ),
+        (
+            InferenceReadinessState::Unavailable,
+            AgentPresence::Degraded,
+            "unavailable",
+            "unavailable",
+            Some("provider_unavailable"),
+            false,
+        ),
+        (
+            InferenceReadinessState::ModelLoading,
+            AgentPresence::Unknown,
+            "loading",
+            "unavailable",
+            Some("model_preload"),
+            false,
+        ),
+        (
+            InferenceReadinessState::Failed,
+            AgentPresence::Degraded,
+            "failed",
+            "unavailable",
+            Some("inference_probe_failed"),
+            false,
+        ),
+        (
+            InferenceReadinessState::Ready,
+            AgentPresence::Ready,
+            "healthy",
+            "available",
+            None,
+            true,
+        ),
+    ];
+
+    for (readiness, presence, health, availability, activity, eligible) in cases {
+        let projection = readiness.projection();
+        assert_eq!(projection.presence, presence);
+        assert_eq!(projection.health, health);
+        assert_eq!(projection.availability, availability);
+        assert_eq!(projection.activity, activity);
+        assert_eq!(projection.communication_eligible, eligible);
+        let encoded = serde_json::to_string(&readiness).unwrap();
+        assert_eq!(encoded, format!("\"{}\"", readiness.as_str()));
+
+        let sample = adl_runtime_kernel::AgentSample {
+            id: "shepherd".to_owned(),
+            name: "beacon.axioma".to_owned(),
+            label: "Beacon".to_owned(),
+            role: "resident shepherd".to_owned(),
+            provider: Some("ollama".to_owned()),
+            model: Some("qwen3:8b".to_owned()),
+            inference_readiness: readiness,
+            state: "ready".to_owned(),
+            detail: "component is running but inference readiness controls eligibility".to_owned(),
+            health: "healthy".to_owned(),
+            availability: "available".to_owned(),
+            activity: Some("legacy_activity".to_owned()),
+            capabilities: vec!["conversation".to_owned()],
+            location: Some("local".to_owned()),
+            communication_eligible: true,
+            observed_at_unix_millis: 1_000,
+            freshness_deadline_unix_millis: 2_000,
+            source_revision: "runtime-revision-7".to_owned(),
+            provenance: "runtime_component_state".to_owned(),
+        };
+        let evidence = AgentRuntimeEvidence::from(&sample);
+        assert_eq!(evidence.inference_readiness, readiness);
+        assert_eq!(evidence.presence, presence);
+        assert_eq!(evidence.health, health);
+        assert_eq!(evidence.availability, availability);
+        assert_eq!(evidence.activity.as_deref(), activity);
+        assert_eq!(evidence.communication_eligible, eligible);
+
+        let roster = AgentRoster::new(1, true, [evidence], [7; 32]).unwrap();
+        let detail = roster
+            .detail(&policy(&["shepherd"]), "shepherd", 1_500)
+            .unwrap();
+        assert_eq!(detail.inference_readiness, readiness);
+        assert_eq!(detail.presence, presence);
+        assert_eq!(detail.health, health);
+        assert_eq!(detail.availability, availability);
+        assert_eq!(detail.activity.as_deref(), activity);
+        assert_eq!(detail.communication_eligible, eligible);
+    }
 }
 
 fn policy(ids: &[&str]) -> AgentRosterPolicy {

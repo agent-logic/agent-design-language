@@ -1,0 +1,173 @@
+{
+  "issue": 687,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:provider-inference-readiness",
+  "design_path": ".csdlc/prepared/issues/687/design.md",
+  "diagram_path": ".csdlc/prepared/issues/687/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
+    "slug": "runtime-provider-inference-readiness",
+    "version": "v0.92.1",
+    "goal": "Expose one truthful provider/model inference-readiness state across Runtime v3 resident agents and public roster projections.",
+    "required_outcome": "Runtime v3 distinguishes unimplemented, unavailable, model_loading, failed, and ready inference states; only real ready adapters are communication-eligible and placeholders receive no production readiness credit.",
+    "declared_scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      ".csdlc/prepared/issues/687",
+      ".csdlc/issues/687"
+    ],
+    "authority_boundary": [
+      "Issue #687 owns only Runtime v3 provider/model inference-readiness taxonomy and projection",
+      "Issues #640/#653 remain authority for model-backed resident Shepherd execution",
+      "Issues #622/#648 remain authority for provider-profile reload ownership",
+      "Production readiness requires a real implemented adapter and successful inference evidence"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Use a bound FastWork issue worktree",
+      "Do not restart, reload, stop, or edit the live Runtime",
+      "Do not call credential-backed providers or mutate cloud resources",
+      "Do not implement a new provider or redesign agent lifecycle"
+    ],
+    "task_boundary": "Implement the residual provider/model inference-readiness truth model and focused deterministic projection proof only.",
+    "deliverables": [
+      "Typed inference-readiness taxonomy",
+      "Consistent resident Shepherd and dynamic-agent roster/API projection",
+      "Typed resident Shepherd attempt-failure classification",
+      "Focused deterministic state-matrix and production-credit tests"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A serialized closed taxonomy defines unimplemented, unavailable, model_loading, failed, and ready",
+      "AC-2: Only ready inference is communication-eligible and receives healthy/available projection",
+      "AC-3: Resident Shepherd recovery distinguishes unsupported adapter, unavailable provider/model, failed probe, loading, and ready",
+      "AC-4: Dynamic-agent refresh retains and projects concrete verification failure semantics instead of a boolean",
+      "AC-5: Agent sample, roster entry, and detail projection preserve one inference state without identity drift",
+      "AC-6: Missing or placeholder production adapters receive no ready credit",
+      "AC-7: Focused deterministic tests, formatting, diff hygiene, and independent exact-head review pass",
+      "AC-8: Validation performs no live Runtime, provider, credential, spend, or cloud mutation"
+    ],
+    "dependencies": [
+      "Issue #640 / PR #653 resident Shepherd model-backed execution baseline",
+      "Issues #622 and #648 provider profile reload baseline",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#687",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs"
+    ],
+    "non_goals": [
+      "No provider implementation or credential changes",
+      "No provider-profile hot reload changes",
+      "No canonical identity or dynamic lifecycle redesign",
+      "No Observatory UI or Runtime v2 changes",
+      "No live deployment, restart, provider inference, or cloud work"
+    ],
+    "plan_summary": "Define one typed readiness state, derive legacy projection fields from it, classify resident and dynamic-agent failures, add focused state-matrix proof, review, and publish without live mutation.",
+    "steps": [
+      {"id":"S1","action":"Define the closed inference-readiness taxonomy and central projection mapping.","acceptance_ids":["AC-1","AC-2","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Wire resident Shepherd recovery and dynamic-agent health refresh to typed classifications.","acceptance_ids":["AC-3","AC-4","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Add focused deterministic tests for every state and API/roster consistency.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Run focused validation and obtain independent exact-head review before typed publication.","acceptance_ids":["AC-7","AC-8"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/shepherd.rs"
+    ],
+    "invariants": [
+      "Only ready inference is communication-eligible",
+      "Unsupported or placeholder adapters never receive production readiness credit",
+      "Canonical agent IDs and names do not change",
+      "Runtime availability is not coupled to one temporarily unavailable inference backend",
+      "No credentials or provider response bodies enter readiness projections"
+    ],
+    "risks": [
+      "Duplicated string mappings could create roster/API disagreement",
+      "Retryable and terminal provider errors could be misclassified",
+      "Adding fields could break backward-compatible deserialization",
+      "Tests could accidentally perform live provider I/O"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The change requires a live Runtime restart or provider call",
+      "Scope expands into provider implementation or credential management",
+      "Canonical agent identity would change",
+      "A placeholder could receive ready credit",
+      "Exact-head review has unresolved findings"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "runtime-provider-readiness-roster",
+        "proof_role": "Prove the state taxonomy, dynamic refresh classification, and roster/API consistency with deterministic local fixtures.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2500,
+        "argv": ["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","agent_roster"],
+        "parallel_group": "runtime-readiness",
+        "defer_reason": null
+      },
+      {
+        "lane": "runtime-provider-readiness-shepherd",
+        "proof_role": "Prove resident Shepherd recovery classification for every inference-readiness state.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-6","AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": ["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","shepherd"],
+        "parallel_group": "runtime-readiness",
+        "defer_reason": null
+      },
+      {
+        "lane": "runtime-provider-readiness-assembly",
+        "proof_role": "Prove missing or placeholder production adapters do not receive production readiness credit.",
+        "acceptance_ids": ["AC-6","AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1200,
+        "argv": ["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","assembly"],
+        "parallel_group": "runtime-readiness",
+        "defer_reason": null
+      },
+      {
+        "lane": "rust-format-diff",
+        "proof_role": "Reject formatting defects and malformed tracked diffs.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 500,
+        "argv": ["cargo","fmt","--manifest-path","adl-runtime-kernel/Cargo.toml","--","--check"],
+        "parallel_group": "runtime-readiness",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on unknown readiness values, any non-ready communication eligibility, placeholder readiness credit, identity drift, live external dependency, or unresolved review finding.",
+    "review_prompts": [
+      "Are all five readiness states mutually exclusive and semantically precise?",
+      "Can any unsupported, unavailable, loading, or failed adapter project ready or communication-eligible?",
+      "Do resident Shepherd and dynamic-agent paths use the same mapping?",
+      "Does production assembly still reject missing/placeholder bindings?",
+      "Are provider/model identifiers and errors redacted appropriately?"
+    ],
+    "review_scope": "Runtime v3 inference-readiness types, resident Shepherd and dynamic-agent classification, roster/API projection, production-credit guard, and focused deterministic tests only."
+  }
+}
