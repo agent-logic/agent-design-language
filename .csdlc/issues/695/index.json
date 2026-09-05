@@ -4,13 +4,38 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "41e9394604422f83012b4c3da0f8c389a5556047055d01a592a0e950a5453b69",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "00904995bdc5825b52b6b479f222b373edaaf93bcb0abcc28821c8ca34fdd561",
   "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:36c5fb981159724b0d2867189996df12d95dd881:e5cb91a03d7e006d7dc504b2cd60d30593f3aad5c97abd323645a7121b77b235",
+    "scope": [
+      "strict-clippy remediation using boxed partial records and a restore-context type alias",
+      "behavior preservation for partial checkpoint encode, restore, archive, and tombstone paths",
+      "exact cargo clippy all-targets warning-denial gate",
+      "18 focused partial-checkpoint tests and eight guardian soak tests"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "scope": [
+      "strict-clippy remediation using boxed partial records and a restore-context type alias",
+      "behavior preservation for partial checkpoint encode, restore, archive, and tombstone paths",
+      "exact cargo clippy all-targets warning-denial gate",
+      "18 focused partial-checkpoint tests and eight guardian soak tests"
+    ],
+    "reviewed_revision": "git-blake3:36c5fb981159724b0d2867189996df12d95dd881:e5cb91a03d7e006d7dc504b2cd60d30593f3aad5c97abd323645a7121b77b235",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS Terraform apply and permanent Wuji rollout remain explicitly deferred and are not claimed by this PR."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bec42fe78651c95fbc9e152723b1b1e8f59389c9b21070faad6ea294c78d9fcb",
+      "values_digest": "05b81408effea0bdf68f76a5a0a706359da2511bbeb5bfac58f89d53e65e090b",
       "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
       "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
     },
     "stp": {
-      "values_digest": "ecd8ff9b12420e33618d4944d73bda951e470459341ba801c965e425300fde4c",
+      "values_digest": "33d28eb139adc754ea42cb3a9cedffcc3205f388df9480ff7f9a372e8d7db7b6",
       "rendered_digest": "2c3c11dd93c7edaf7e4d5e7f3e7a6a77428649b405d2091f6959e1b3a20d924c",
       "ast_digest": "4e98cb924f78d34c5631ea6135da7b04bb9c10c91c726eb865af22fb00028a4c"
     },
     "spp": {
-      "values_digest": "aea9248266acef10e465d775942f92da24352e70839f14dd2d8b25ef72759870",
+      "values_digest": "d247369bf547f74dd54626b7a81ecd7eb99686e908fc3d96e34bf77836ccf737",
       "rendered_digest": "daddaa91dced29518ffd145e5198c2a4609f2a7f0f47de65d57802e0739b91cb",
       "ast_digest": "46122db182cbcc3f1c01845b3029ed7ef3b8eb059c014d29704ae30dff5e4ae1"
     },
     "vpp": {
-      "values_digest": "91e617f34cdacb183279dcb43ab041ec7717f31bd6674deaf9dbacadbbeecf39",
+      "values_digest": "3b9f21445a555d33d39b76bdb4e17f3cfd87234e4e27fcf6401d81043f2c29f7",
       "rendered_digest": "3e9546cce535c699192da26f46a56ae11cb14e3ee45cae3dfa58d306d82c3dcd",
       "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
     },
     "srp": {
-      "values_digest": "56174dde590065037f9180913911d192fd36f2c8fc687d1b0a2850117da37ec8",
-      "rendered_digest": "5ed94e79d52fccb9957a25e85d14903ca13fff663eab2b5639a18e1ab4e49aaf",
-      "ast_digest": "06e87c997b3673dfdd23dbeaf31239220030f697afa0b5ebe5b3675616bd1b47"
+      "values_digest": "b8858a4df854e3c511786892ac6177efedde14a6c354448c5a4673c16bb06741",
+      "rendered_digest": "6b6dd8a72dcf6a9b787e67106f993dda336da5d48100d7f2b7c20130f87da4b8",
+      "ast_digest": "bd2c32f75e56e52f643f2f3294c5f116d1431914edffe1b64a030a44977ef01a"
     },
     "sor": {
-      "values_digest": "a17f1a213399d4e0f23a39ca25c0a6b0a268a7a4c3ef5db3cfe9ed209314098b",
+      "values_digest": "7f15ff306272ca97cdb5aeacd33d32ed1ad1ec8ddd58d5c7144d5e8cd95aa8fb",
       "rendered_digest": "7be2907d14a291dd67bc9cd00d5c0c7729cb0f85e1e7a2ae803a301c23a68e79",
       "ast_digest": "aa341d3ff8d56c0c2e575635c8d167e9509870beb4f4a224015ddaa7485e089e"
     }
@@ -146,6 +171,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover review and publication after CI exposed two strict clippy diagnostics; the narrow storage indirection and type alias remediation preserves behavior and passed the exact clippy gate plus focused Runtime tests."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -393,6 +425,20 @@
       "actor": "codex:/root",
       "reason": "Recover review and publication after CI exposed two strict clippy diagnostics; the narrow storage indirection and type alias remediation preserves behavior and passed the exact clippy gate plus focused Runtime tests.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
