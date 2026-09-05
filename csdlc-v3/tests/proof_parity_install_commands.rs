@@ -1,6 +1,53 @@
-use std::{fs, path::PathBuf, process::Command, str};
+use std::{
+    fs,
+    path::PathBuf,
+    process::Command,
+    str,
+    sync::{Mutex, MutexGuard, OnceLock},
+};
 
 use serde_json::{json, Value};
+
+struct ScratchGuard {
+    _lock: MutexGuard<'static, ()>,
+    evidence_dir: PathBuf,
+    target_dir: PathBuf,
+}
+
+impl ScratchGuard {
+    fn new() -> Self {
+        static LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+        let lock = LOCK
+            .get_or_init(|| Mutex::new(()))
+            .lock()
+            .expect("proof-route scratch lock");
+        let evidence_dir = binary_repo_root()
+            .join(".csdlc")
+            .join("evidence")
+            .join("631")
+            .join("proof-route-tests")
+            .join(std::process::id().to_string());
+        let target_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target")
+            .join("issue-631-proof-route-tests")
+            .join(std::process::id().to_string());
+        let _ = fs::remove_dir_all(&evidence_dir);
+        let _ = fs::remove_dir_all(&target_dir);
+        fs::create_dir_all(&target_dir).expect("target scratch dir");
+        Self {
+            _lock: lock,
+            evidence_dir,
+            target_dir,
+        }
+    }
+}
+
+impl Drop for ScratchGuard {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir_all(&self.evidence_dir);
+        let _ = fs::remove_dir_all(&self.target_dir);
+    }
+}
 
 fn scratch() -> PathBuf {
     let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -103,6 +150,7 @@ fn assert_blocked_value(route: &str, body: Value, code: &str) {
 
 #[test]
 fn proof_route_accepts_fresh_deterministic_manifest_only() {
+    let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("proof.json", br#"{"ok":true}"#);
     assert_ready_value(
         "proof",
@@ -163,6 +211,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
 
 #[test]
 fn shadow_route_requires_bounded_matching_observations() {
+    let _scratch = ScratchGuard::new();
     let (root, v2_ref, digest) = write_evidence("v2.json", br#"{"same":true}"#);
     let v3_ref = scoped_evidence_ref("v3.json");
     let v3_path = root.join(&v3_ref);
@@ -227,6 +276,7 @@ fn shadow_route_requires_bounded_matching_observations() {
 
 #[test]
 fn soak_route_refuses_hidden_state_and_provider_side_effects() {
+    let _scratch = ScratchGuard::new();
     let (root, soak_ref, _) = write_evidence("soak.json", br#"{"samples":3}"#);
     assert_ready_value(
         "soak",
@@ -262,6 +312,7 @@ fn soak_route_refuses_hidden_state_and_provider_side_effects() {
 
 #[test]
 fn install_route_is_one_binary_plan_gated_by_505() {
+    let _scratch = ScratchGuard::new();
     let (root, artifact_ref, artifact_digest) =
         write_evidence("install/csdlc", b"single-binary-artifact");
     let selector_ref = scoped_evidence_ref("install/selector.json");
