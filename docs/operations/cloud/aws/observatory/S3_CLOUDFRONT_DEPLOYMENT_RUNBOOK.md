@@ -17,8 +17,12 @@ rejects any other profile value.
 Release order: provision and validate the certificate/distribution, upload an
 immutable bundle, smoke-test the CloudFront hostname, update/confirm Route53,
 and invalidate changed entry/config paths. CloudFront access logs are retained
-in a private lifecycle-managed bucket for 90 days. Validate first paint, CSP headers,
-HTTPS API access, WSS upgrade, per-polis identity, and failure isolation.
+in a private lifecycle-managed bucket for 90 days. Because the template uses
+CloudFront standard logging's legacy S3 destination, the log bucket must keep
+ACLs enabled before the distribution is created and Terraform must preserve the
+CloudFront `awslogsdelivery` canonical ACL grant. Validate first paint, CSP
+headers, HTTPS API access, WSS upgrade, per-polis identity, and failure
+isolation.
 
 Rollback restores the prior S3 object versions and invalidates `/*`. Preserve
 the distribution, certificate, and DNS record unless the infrastructure change

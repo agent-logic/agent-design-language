@@ -35,6 +35,8 @@ resource "aws_s3_bucket" "logs" {
   tags          = local.tags
 }
 
+data "aws_canonical_user_id" "current" {}
+
 resource "aws_s3_bucket_public_access_block" "logs" {
   bucket                  = aws_s3_bucket.logs.id
   block_public_acls       = true
@@ -53,7 +55,44 @@ resource "aws_s3_bucket_ownership_controls" "logs" {
 resource "aws_s3_bucket_acl" "logs" {
   depends_on = [aws_s3_bucket_ownership_controls.logs]
   bucket     = aws_s3_bucket.logs.id
-  acl        = "log-delivery-write"
+
+  access_control_policy {
+    owner {
+      id = data.aws_canonical_user_id.current.id
+    }
+
+    grant {
+      grantee {
+        id   = data.aws_canonical_user_id.current.id
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+
+    grant {
+      grantee {
+        type = "Group"
+        uri  = "http://acs.amazonaws.com/groups/s3/LogDelivery"
+      }
+      permission = "WRITE"
+    }
+
+    grant {
+      grantee {
+        type = "Group"
+        uri  = "http://acs.amazonaws.com/groups/s3/LogDelivery"
+      }
+      permission = "READ_ACP"
+    }
+
+    grant {
+      grantee {
+        id   = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+  }
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "logs" {
@@ -137,6 +176,11 @@ data "aws_cloudfront_cache_policy" "optimized" { name = "Managed-CachingOptimize
 data "aws_cloudfront_cache_policy" "disabled" { name = "Managed-CachingDisabled" }
 
 resource "aws_cloudfront_distribution" "site" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.logs,
+    aws_s3_bucket_acl.logs,
+  ]
+
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"

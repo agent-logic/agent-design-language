@@ -3,7 +3,8 @@
   "ok": true,
   "checked_paths": [
     "infra/aws/observatory",
-    "docs/operations/cloud/aws/observatory"
+    "docs/operations/cloud/aws/observatory",
+    ".csdlc/evidence/679"
   ],
   "failed": []
 }

@@ -91,6 +91,23 @@ checks = {
             "days = 90",
         )
     ),
+    "has_cloudfront_legacy_logging_acl_guard": all(
+        token in main_tf
+        for token in (
+            'data "aws_canonical_user_id" "current"',
+            'resource "aws_s3_bucket_ownership_controls" "logs"',
+            'object_ownership = "BucketOwnerPreferred"',
+            'resource "aws_s3_bucket_acl" "logs"',
+            "access_control_policy",
+            'id   = data.aws_canonical_user_id.current.id',
+            'uri  = "http://acs.amazonaws.com/groups/s3/LogDelivery"',
+            'id   = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"',
+            'permission = "FULL_CONTROL"',
+            'aws_s3_bucket_ownership_controls.logs',
+            'aws_s3_bucket_acl.logs',
+        )
+    )
+    and 'acl        = "log-delivery-write"' not in main_tf,
     "has_csp_or_response_headers": all(
         token in main_tf
         for token in (

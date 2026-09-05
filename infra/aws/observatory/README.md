@@ -28,6 +28,12 @@ invalidation. Upload hashed assets with long-lived immutable caching and upload
 distribution disables caching by default and enables optimized caching only for
 CSS and JavaScript paths.
 
+CloudFront standard logging uses the legacy S3 logging path. The log bucket
+therefore keeps ACLs enabled with `BucketOwnerPreferred`, Terraform manages the
+bucket owner, S3 log-delivery group, and CloudFront `awslogsdelivery` canonical
+ACL grants explicitly, and the distribution depends on that ACL setup before it
+is created.
+
 `readback.sh` is inert unless passed `--execute` and fails closed unless
 `AWS_PROFILE=agent-logic-admin`. Its fixed projections omit ARNs, account IDs,
 policies, tags, credentials, signed URLs, and Terraform state while reporting
