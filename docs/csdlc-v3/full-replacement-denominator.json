@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.v3.full_replacement_denominator.v1",
   "authority_issue": 505,
-  "source_issue": 604,
-  "status": "pre_cutover_complete",
+  "source_issue": 632,
+  "status": "pre_cutover_implemented_pending_authority_evidence",
   "cutover_ready": false,
   "replacement_rule": "C-SDLC v3 may not replace v2 until the single v3 csdlc binary implements and behaviorally proves every required C-SDLC v2 entrypoint listed here, plus any explicitly approved removals.",
   "current_v3_binary": "csdlc-v3/src/main.rs",
@@ -149,8 +149,8 @@
   "non_claims": [
     "This manifest does not make v3 operational authority.",
     "This manifest does not approve #505 cutover.",
-    "This manifest records the pre-cutover replacement denominator so cutover cannot be claimed without durable v3 readiness evidence.",
-    "All required v2 entrypoints have executable v3 command routes, but v3 remains non-authoritative until #505 approval, merge, finish, and cleanup reconciliation.",
-    "install/proof/shadow/soak are implemented as typed pre-cutover verifiers with mutation disabled; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505."
+    "This manifest records that the 21 required v2 entrypoints have executable v3 routes, but it does not claim authority cutover readiness.",
+    "All required v2 entrypoints have executable v3 command routes, but v3 remains non-authoritative until #505 consumes current V3-H evidence, rollback/canary evidence, exact-head review, approval, merge, finish, and cleanup reconciliation.",
+    "install/proof/shadow/soak are implemented as typed pre-cutover construction proof routes; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505."
   ]
 }

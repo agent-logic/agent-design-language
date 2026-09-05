@@ -371,15 +371,32 @@ mod tests {
         std::env::temp_dir().join(format!("{name}-{unique}-{}", std::process::id()))
     }
 
+    async fn write_config_atomically(path: &Path, content: &str) {
+        let temp_path = path.with_extension(format!(
+            "next-{}",
+            SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
+                .expect("time")
+                .as_nanos()
+        ));
+        fs::write(&temp_path, content).await.expect("write temp config");
+        fs::rename(&temp_path, path).await.expect("publish config");
+    }
+
     #[tokio::test]
     async fn config_reload_debounces_duplicate_same_content_and_shutdown() {
         let path = test_path("config-reload-debounce");
-        fs::write(&path, "one").await.expect("write initial");
+        write_config_atomically(&path, "one").await;
         let parses = Arc::new(AtomicU64::new(0));
         let parser_parses = Arc::clone(&parses);
         let parser: ConfigParser<String> = Arc::new(move |raw| {
             parser_parses.fetch_add(1, Ordering::SeqCst);
-            Ok(raw.to_string())
+            match raw {
+                "one" | "two" => Ok(raw.to_string()),
+                _ => Err(ConfigReloadError::validation(
+                    "transient or unknown config candidate",
+                )),
+            }
         });
 
         let controller = start_config_reload(
@@ -395,15 +412,15 @@ mod tests {
         let mut handle = controller.handle();
         assert_eq!(handle.current().value(), "one");
 
-        fs::write(&path, "two").await.expect("write update");
-        fs::write(&path, "two").await.expect("write duplicate");
+        write_config_atomically(&path, "two").await;
+        write_config_atomically(&path, "two").await;
         let changed = time::timeout(Duration::from_secs(1), handle.changed())
             .await
             .expect("changed")
             .expect("snapshot");
         assert_eq!(changed.value(), "two");
 
-        fs::write(&path, "two").await.expect("rewrite same content");
+        write_config_atomically(&path, "two").await;
         assert!(
             time::timeout(Duration::from_millis(120), handle.changed())
                 .await

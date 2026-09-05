@@ -4,63 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "published",
-  "generation": 44,
-  "digest": "81e395cd60ac392f43c200ec53aabef0e24b729a02e3a4a062216f25809550c1",
+  "phase": "implemented",
+  "generation": 45,
+  "digest": "c9508f9cba623bdd46c02befe3f73490a81ebe1a56c14f23f469869432d3b486",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_591_head_6f668a26",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:6f668a26e08fd4180d2a8c2046e467690e8d1a94:1687e0eae3d906e63e805cb7dc2a4e577b2de1891ed1bbbc3faeb10167b14b3e",
-    "scope": [
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "docs/csdlc-v3/full-replacement-denominator.json",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/505/recover-review-after-merge-main-conflict-fix.json",
-      ".csdlc/prepared/issues/505/review-assign-after-merge-main-conflict-fix.json",
-      ".csdlc/prepared/issues/505/review-record-after-merge-main-conflict-fix-pass.json"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_591_head_6f668a26",
-    "scope": [
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "docs/csdlc-v3/full-replacement-denominator.json",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/prepared/issues/505/recover-review-after-merge-main-conflict-fix.json",
-      ".csdlc/prepared/issues/505/review-assign-after-merge-main-conflict-fix.json",
-      ".csdlc/prepared/issues/505/review-record-after-merge-main-conflict-fix-pass.json"
-    ],
-    "reviewed_revision": "git-blake3:6f668a26e08fd4180d2a8c2046e467690e8d1a94:1687e0eae3d906e63e805cb7dc2a4e577b2de1891ed1bbbc3faeb10167b14b3e",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains non-authoritative construction and cutover-readiness evidence only until explicit #505 operator approval, merge, finish, and cleanup reconciliation.",
-      "PR #591 must remain non-closing until the explicit cutover approval path is exercised; current publication must use part_of linkage only."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 505,
-    "pull_request": 591,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
-    "base": "main",
-    "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:6f668a26e08fd4180d2a8c2046e467690e8d1a94:1687e0eae3d906e63e805cb7dc2a4e577b2de1891ed1bbbc3faeb10167b14b3e",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -74,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f9aa4386b3bd25b0d4ff9486c84c632b4f6db70a8f75bc8e40bdf659694d93f9",
+      "values_digest": "be26931e6fbae890831fa7f72d908fdc41fb9d0144265ba997dc71e0cc1eabf7",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "53a68323f4fe0d37138c9ccd4d36136f10339fa6aea3a7afea2e02f8004ae194",
+      "values_digest": "093784aa9aa152c07ab6d759ed4b45d89fa57d6cee506f0a41722dbb369f92c4",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "1bb36f77274df2f38cfd97a684e7c8f0497512604d0d2a497c6c376be269610a",
+      "values_digest": "2bdd572be0cab19a56a83ca01c9157f1c6f65528a28639432b21184169b0d752",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "164a0b4261f44dbd04169e1c376cc0e9745a335344c825631f4e3583c9a1cc9a",
+      "values_digest": "9fc1e37b965190fbaca7ad1ab5520cea383336bb2c225c49db33a4b974c55f45",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "a3805eacd89754b1b2df283fb55194ac97d13b2005dd5c8b8554f77c161e5a96",
-      "rendered_digest": "413fe103826549c73281ec5423e5326156a76d7c3c0c98b69f3eca537934062d",
-      "ast_digest": "32c4f1f8b590eb85b1f18ae6f051f0b5829ee88c7b19e791fa7249b813dba5e3"
+      "values_digest": "f473fea608b11bb0bfef6c43b8a9822fc9dca031115b452682d9da314c118fb6",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "73ec2573708fe4f63ce5497fd19d9fe82fb423458e99d087836d93cead0c673d",
-      "rendered_digest": "1afeff3a3d1afa80bd3d5c92275c1226112bcb8e9adcf2d57f2122c6e0feb4dc",
-      "ast_digest": "847186aece3ec156f00dbeeb2fbd750ca1bb65094c99fff0b9ae4883ddf47237"
+      "values_digest": "3aa4c4e0ccf1fbb29da14b31341c5e5dae61c8397fa510f077333cfb77e8da93",
+      "rendered_digest": "37a75c2614abecf95ddea4edbfd37cdcc68b82b0ab798213231b9227bd9d125f",
+      "ast_digest": "937d115e0138e775ff81a1c5e5dab8851cf320e6b5e9d2d2fed78bd75885a1fa"
     }
   },
   "transitions": [
@@ -328,6 +279,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 33,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after reconciling PR #591 with current main and retaining terminal V3-H readback plus deferred-cutover evidence."
     }
   ],
   "audit": [
@@ -715,6 +673,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 45,
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after reconciling PR #591 with current main and retaining terminal V3-H readback plus deferred-cutover evidence.",
+      "operation": "recover_review"
     }
   ]
 }

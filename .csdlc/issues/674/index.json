@@ -1,0 +1,219 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 674,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3e719986764c44aa3be5f2960ecc0fb9927833afa70efe587b132f5a3ff03523",
+  "phase": "published",
+  "generation": 7,
+  "digest": "659eb4a2a1ded0101198b7f1d638451c9cd5336a9094a085d4eb97d558218f52",
+  "branch": "codex/674-welcome-package-docs",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package",
+  "review_assignment": {
+    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+    "scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+    "scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+    ],
+    "reviewed_revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+    "findings": [],
+    "residual_risks": [
+      "This documentation does not prove live delivery or Runtime behavior and may require revision if the governed contracts change."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 674,
+    "pull_request": 681,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/681",
+    "base": "main",
+    "head": "codex/674-welcome-package-docs",
+    "revision": "git-blake3:98949523a917d68b9ff8f5c0a27db218ba4984a7:04e67ac9bcff90267cbf64025aacbc2f518da188abe684e7a68e0f03bcc6dce6",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/674/design.md",
+  "diagram_path": ".csdlc/prepared/issues/674/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "revision": "f023d034a3e65718f81897b43967afad4ad0300936d8a79350f63fb675e83a92"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7bd909fed6eaa1ebf8cc29bdf61b57351a3334d9aa10e5477be1c5521ad7bf8a",
+      "rendered_digest": "1aebc584354c0ee60d8599bd7abc775a5d68bc04430b573cc9433bccd7f7191a",
+      "ast_digest": "672fa64f2ff8040019066e4431fab1f14841a388139b3307d0b99eb588565b05"
+    },
+    "stp": {
+      "values_digest": "c61edca73d843a6a0f7eeab9dfa707bd699b5a6df1d6efbad2f710f752d7aa6a",
+      "rendered_digest": "6312895eb13c3651abaf81b7a362222bbc9aa0525cef6585bf564af79296b79e",
+      "ast_digest": "5628503bbba86f1e784cfe69353934d1308d2d069aa9fec7f08235dbf8c436d2"
+    },
+    "spp": {
+      "values_digest": "c31c7e6849f5790dcc7abb9ccd50d462f790968ae510843acc329358fa8c87ba",
+      "rendered_digest": "3fd2ba8a141ad299b35d32351b401f95120e8a26bfe812da25b4216e21ffc283",
+      "ast_digest": "2e45e7af897b30102836929ae7213aee891ec43e9bb6320035e352231e5e7c8a"
+    },
+    "vpp": {
+      "values_digest": "fd3743192d606f1f6b58d424e46af0f362824fee6c734ac56f45930925097e47",
+      "rendered_digest": "2f70b3d678181a6a90b3afadf18d75801c58437876fd1ddb38bcedabdfa96030",
+      "ast_digest": "b99f890269fc3fbc6243b1ab021298aa8ac4381e730c16e575043ae939722a8a"
+    },
+    "srp": {
+      "values_digest": "f63dcdffd29ffdd59a240dbb4ffbfcb5585e26a814d6b397dfa7eb79df2904e7",
+      "rendered_digest": "af765df8811457d9b988863144e742139b1af44d2175caf3045e28d570f6f8a1",
+      "ast_digest": "24f2462c24638b8824d13f32f54d619d93143b0b220414958a18c07bae9e9be9"
+    },
+    "sor": {
+      "values_digest": "8779afa8d881fbc0eac6eb61d529bad0952c6403e84fdcd195308c7f8128eaae",
+      "rendered_digest": "0f7ec0d44406591f0432281d2acbf681a9b7ec4747b4924a04237181fc319e73",
+      "ast_digest": "c7083db7ed2863d153e8b7aaaa6b7b2653a44daa109e64394d500378ca19103c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"f023d034a3e65718f81897b43967afad4ad0300936d8a79350f63fb675e83a92\",\"design_ref\":\".csdlc/prepared/issues/674/design.md\",\"diagram_digest\":\"600ab04e631c91e18ff47616f5f1342ab94f4073e5318dcdf2c02118b02dbb50\",\"diagram_ref\":\".csdlc/prepared/issues/674/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

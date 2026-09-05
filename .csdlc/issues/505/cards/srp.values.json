@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 44
+    "generation": 45
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/local_commands.rs\ndocs/csdlc-v3/full-replacement-denominator.json\ndocs/csdlc-v3/v3-command-manifest.json\n.csdlc/prepared/issues/505/recover-review-after-merge-main-conflict-fix.json\n.csdlc/prepared/issues/505/review-assign-after-merge-main-conflict-fix.json\n.csdlc/prepared/issues/505/review-record-after-merge-main-conflict-fix-pass.json",
-      "review_revision": "git-blake3:6f668a26e08fd4180d2a8c2046e467690e8d1a94:1687e0eae3d906e63e805cb7dc2a4e577b2de1891ed1bbbc3faeb10167b14b3e",
-      "reviewer": "subagent:/root/review_591_head_6f668a26",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,11 +23,8 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [
-        "C-SDLC v3 remains non-authoritative construction and cutover-readiness evidence only until explicit #505 operator approval, merge, finish, and cleanup reconciliation.",
-        "PR #591 must remain non-closing until the explicit cutover approval path is exercised; current publication must use part_of linkage only."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

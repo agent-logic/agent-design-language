@@ -1,0 +1,102 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 678,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Route stable CSM commands through the active Runtime generation",
+    "slug": "stable-csm-active-runtime-generation-route",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Bootstrap the issue, bind a FastWork worktree, change the generation installer so .adl/bin/csm is a launcher to .adl/runtime-v3/current/bin/csm, add isolated fixture regression tests, update concise docs, validate, review, and publish.",
+      "steps": [
+        {
+          "id": "inspect-generation-installer",
+          "action": "Inspect current Runtime v3 generation installer, stable .adl/bin/csm behavior, and existing installer tests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "implement-stable-launcher",
+          "action": "Make the installer write .adl/bin/csm as a runtime-generation launcher that execs .adl/runtime-v3/current/bin/csm.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "add-regressions",
+          "action": "Add isolated fixture tests for stale stable binary repair, activation, rollback, and missing generation failure.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "docs-and-proof",
+          "action": "Update concise operator docs and retain issue-local validation evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/tools/install_runtime_v3_generation.sh",
+        "adl/tools/runtime_v3_generation.py",
+        "adl/tools/test_runtime_v3_generation_install.sh",
+        ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+      ],
+      "invariants": [
+        "The active Runtime generation remains the single source of truth for CSM, Guardian, and kernel artifacts.",
+        "Activation and rollback switch the stable route atomically through .adl/runtime-v3/current.",
+        "Missing or incomplete active generations fail before service mutation.",
+        "Local validation must not restart, reload, or stop the live Runtime."
+      ],
+      "risks": [
+        "A copied stable binary can drift from the active generation and reject a healthy service.",
+        "A launcher can be too path-fragile if it assumes the caller's current working directory instead of resolving from its own path.",
+        "Tests can accidentally exercise the live Runtime if fixture boundaries are not explicit."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The implementation requires live Runtime restart, reload, or stop.",
+        "The installer cannot determine the repository-local current generation path safely.",
+        "Existing stable command semantics outside CSM would be changed.",
+        "Validation requires provider, model, agent, or Observatory mutation."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/678/design.md",
+      "design_digest": "c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e",
+      "diagram_ref": ".csdlc/prepared/issues/678/diagram.mmd",
+      "diagram_digest": "ae358d55ee65dfd2ff5ef4d65a4bf5a37bb81031096f6b58faf57b4f52a88fdf"
+    }
+  }
+}

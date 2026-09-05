@@ -1,0 +1,127 @@
+{
+  "issue": 674,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root",
+  "design_path": ".csdlc/prepared/issues/674/design.md",
+  "diagram_path": ".csdlc/prepared/issues/674/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][Runtime] Add New Polis citizen Welcome Package for resident agents",
+    "slug": "runtime-new-polis-citizen-welcome-package",
+    "version": "v0.92.1",
+    "goal": "Write one versioned, agent-readable Welcome Package that helps newly admitted residents understand Axioma Polis and its governed boundaries.",
+    "required_outcome": "A concise source-grounded Welcome Package explains Polis context, resident identity, the Shepherd help path, Layer 8 communication, conditional agent-to-agent actions, forbidden actions, privacy, credentials, and safe escalation without claiming new Runtime behavior.",
+    "declared_scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh",
+      ".csdlc/prepared/issues/674",
+      ".csdlc/issues/674"
+    ],
+    "authority_boundary": [
+      "The document describes current governed behavior and grants no authority",
+      "Runtime admission, communication eligibility, Layer 8 authority, and provider availability remain authoritative",
+      "Documentation cannot prove live delivery to an agent or implement onboarding automation"
+    ],
+    "operator_constraints": [
+      "Issue #674 is docs-only",
+      "Never write tracked work on main",
+      "Use a bound FastWork issue worktree for the document",
+      "Do not modify or restart the live Runtime",
+      "Do not change Rust, APIs, OpenAPI, Observatory, providers, configuration, or cloud resources"
+    ],
+    "task_boundary": "Author the single Welcome Package document and its lightweight documentation contract only.",
+    "deliverables": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh",
+      "Focused documentation validation evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The document is explicitly versioned and addresses a newly admitted model-backed resident agent",
+      "AC-2: It explains Axioma Polis, resident identity, other residents, the Polis Shepherd, and Layer 8 in plain language",
+      "AC-3: It describes agent-to-agent communication only as conditional on Runtime admission, communication eligibility, Layer 8 authority, and provider availability",
+      "AC-4: It forbids unrestricted autonomous messaging, credential access, external side effects, unbounded loops, private-data disclosure, and invented capabilities",
+      "AC-5: It directs the resident to ask the Shepherd or operator, request a governed action, clarify uncertainty, or decline when policy is missing",
+      "AC-6: Its tone is welcoming and supportive without lore, personhood claims, or capability fantasy",
+      "AC-7: Lightweight offline documentation checks and exact-head independent review pass"
+    ],
+    "dependencies": [
+      "Current Runtime resident-agent, Shepherd, Layer 8, and governed A2A contracts are read-only source evidence"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#674",
+      "adl/src/csm_shepherd_agent.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/layer8_authority/mod.rs"
+    ],
+    "non_goals": [
+      "No Runtime implementation or delivery mechanism",
+      "No Rust, API, OpenAPI, Observatory, provider, configuration, or cloud change",
+      "No live model or Runtime validation",
+      "No grant of autonomous powers",
+      "No broad Polis lore rewrite"
+    ],
+    "plan_summary": "Draft one source-grounded versioned Welcome Package, validate its required sections and safety language offline, obtain exact-head documentation review, and publish without merging.",
+    "steps": [
+      {"id":"S1","action":"Draft the versioned Welcome Package from current resident-agent, Shepherd, Layer 8, and governed communication source evidence.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S2","action":"Run the issue-owned documentation validator and Markdown/diff hygiene checks.","acceptance_ids":["AC-7"],"status":"pending"},
+      {"id":"S3","action":"Obtain independent exact-head documentation review and publish the PR without merging.","acceptance_ids":["AC-7"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+    ],
+    "invariants": [
+      "Documentation claims only current governed capabilities",
+      "The package grants no authority",
+      "No credentials, private state, or machine-local paths appear",
+      "No live Runtime or provider proof is implied"
+    ],
+    "risks": [
+      "Friendly language could overstate capability or personhood",
+      "Static documentation could drift from Runtime policy",
+      "Readers could mistake future onboarding automation for delivered behavior"
+    ],
+    "planning_profile": "small",
+    "stop_conditions": [
+      "A claim cannot be grounded in current repository evidence",
+      "The document would imply new Runtime behavior",
+      "Scope expands beyond the one document and validator",
+      "Exact-head review finds unresolved overclaims"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "welcome-package-docs",
+        "proof_role": "Check that the versioned document exists; contains required orientation, governance, safety, help, welcome, and support markers; and excludes specified secret, host-path, lore, personhood, and capability-fantasy markers. Exact-head review confirms qualitative tone in context.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 800,
+        "argv": ["bash", ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"],
+        "parallel_group": "docs",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check", "origin/main...HEAD"],
+        "parallel_group": "docs",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on unsupported capability claims, missing governance conditions, secret or host-path content, missing required sections, or scope beyond documentation.",
+    "review_prompts": [
+      "Is every capability statement grounded and conditional on current Runtime gates?",
+      "Does the package clearly state forbidden actions and help paths?",
+      "Is the tone supportive without personhood or capability fantasy?",
+      "Is this strictly one documentation artifact plus its lightweight validator?"
+    ],
+    "review_scope": "The Welcome Package document, source-grounding, tone, governance boundaries, and lightweight docs validation only."
+  }
+}

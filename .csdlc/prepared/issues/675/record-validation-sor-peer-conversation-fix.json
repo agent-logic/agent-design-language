@@ -1,0 +1,23 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "feef1154d558d248d542c8300131e91e1324cca2508011cf06769a540de7e732",
+  "actor": "codex:/root",
+  "reason": "Record focused and broader validation after correcting provider A2A peer conversation identity.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--lib"
+      ],
+      "outcome": "passed",
+      "purpose": "Prove provider-valid A2A peer conversation identifiers no longer collide with the active operator conversation and the full Runtime kernel library still passes.",
+      "evidence_ref": "terminal://2026-09-03#issue-675-peer-conversation-fix-runtime-kernel-lib-137-passed"
+    }
+  }
+}

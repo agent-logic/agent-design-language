@@ -4,7 +4,7 @@
   "issue": {
     "assignees": [],
     "body": "Part of #625. Depends on the V3-H.1 command denominator mapping.\n\n## Outcome\n\nImplement and test authenticated v3 GitHub, PR-state, review-publication linkage, and PR creation/update/readback routes under one `csdlc` binary.\n\n## Command routes\n\n- `csdlc github`\n- `csdlc github-issue`\n- `csdlc github-pr`\n- `csdlc pr-state`\n- `csdlc publish`\n- `csdlc review`\n\n## Acceptance criteria\n\n- v3 records exact-head review assignment and review result with self-review protection.\n- v3 publication refuses missing/stale review truth.\n- PR creation/update visibly includes `Closes #xxx` when closing linkage is intended.\n- PR state readback authenticates live GitHub state instead of trusting caller-supplied strings.\n- Tests cover closing-vs-part-of linkage, stale PR event recovery, raw-credential redaction, caller-forged readback rejection, and review-authority denial.\n- A real issue canary reaches an open PR through v3.\n- No raw `gh` lifecycle writes and no v2 operational fallback.\n- No v2 source changes.\n\n## Non-goals\n\n- No merge, finish, cleanup, or cutover in this issue.\n- Do not merge or close #505.\n\n<!-- csdlc-github-operation:worker-6-v0921-v3h-child-github-publication-20260902 -->",
-    "closed_at": null,
+    "closed_at": "2026-09-04T03:03:02Z",
     "created_at": "2026-09-02T06:48:29Z",
     "labels": [
       "track:roadmap",
@@ -17,7 +17,7 @@
     "number": 629,
     "repository": "agent-logic/agent-design-language",
     "schema": "csdlc.github_issue.v1",
-    "state": "open",
+    "state": "closed",
     "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes"
   },
   "operation_key": null,

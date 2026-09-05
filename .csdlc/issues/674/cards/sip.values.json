@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 674,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add New Polis citizen Welcome Package for resident agents",
+    "slug": "runtime-new-polis-citizen-welcome-package",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Write one versioned, agent-readable Welcome Package that helps newly admitted residents understand Axioma Polis and its governed boundaries.",
+      "required_outcome": "A concise source-grounded Welcome Package explains Polis context, resident identity, the Shepherd help path, Layer 8 communication, conditional agent-to-agent actions, forbidden actions, privacy, credentials, and safe escalation without claiming new Runtime behavior.",
+      "declared_scope": [
+        "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+        ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh",
+        ".csdlc/prepared/issues/674",
+        ".csdlc/issues/674"
+      ],
+      "authority_boundary": [
+        "The document describes current governed behavior and grants no authority",
+        "Runtime admission, communication eligibility, Layer 8 authority, and provider availability remain authoritative",
+        "Documentation cannot prove live delivery to an agent or implement onboarding automation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Issue #674 is docs-only",
+        "Never write tracked work on main",
+        "Use a bound FastWork issue worktree for the document",
+        "Do not modify or restart the live Runtime",
+        "Do not change Rust, APIs, OpenAPI, Observatory, providers, configuration, or cloud resources"
+      ]
+    }
+  }
+}

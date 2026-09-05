@@ -1,0 +1,87 @@
+{
+  "schema": "csdlc.v3.authority_transition_disposition.v1",
+  "authority_issue": 505,
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-05T17:45:14Z",
+  "operational_authority": false,
+  "cutover_ready": false,
+  "operator_approval": "absent",
+  "source_requirements": [
+    {
+      "issue": 179,
+      "title": "[v0.92.1][V3-16] Prove Parity, Run Canary Migration, And Cut Over Authority",
+      "live_state": "closed",
+      "closed_at": "2026-08-10T22:12:30Z",
+      "required_disposition": "Cutover may be approved only after parity, canary migration, rollback, observation-window, exact-review, and operator-approval evidence are current at #591 head.",
+      "current_disposition": "deferred_pending_authority_evidence",
+      "satisfied_evidence": [
+        {
+          "claim": "21 required v2 entrypoints have executable v3 command routes behind one csdlc surface",
+          "evidence_ref": "docs/csdlc-v3/full-replacement-denominator.json"
+        },
+        {
+          "claim": "V3-H umbrella and six child issues are closed in live GitHub state",
+          "evidence_ref": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json"
+        },
+        {
+          "claim": "Real issue local-readiness canaries for #604, Sprint 8 #511, and Sprint 9 #515 completed under the three-minute target",
+          "evidence_ref": ".csdlc/evidence/505/issue-604-local-canary-report.json"
+        }
+      ],
+      "blocking_evidence": [
+        {
+          "claim": "Rollback exercise evidence must show an actual successful rollback path, not only planned rollback language",
+          "status": "missing"
+        },
+        {
+          "claim": "Terminal v3 finish/cleanup canary must be proven after an authorized canary merge, or an explicit operator waiver must be recorded",
+          "status": "missing_or_unwaived"
+        },
+        {
+          "claim": "Independent exact-head review must cover the reconciled #591 head after merging current main",
+          "status": "stale"
+        }
+      ]
+    },
+    {
+      "issue": 180,
+      "title": "[v0.92.1][V3-R01] Retire V2 After The Rollback Window",
+      "live_state": "closed",
+      "closed_at": "2026-08-10T22:12:34Z",
+      "required_disposition": "V2 retirement may occur only after cutover approval, successful stability/rollback window, deletion eligibility, fresh-install proof, historical-evidence readability, and no-v2-authority audit.",
+      "current_disposition": "not_started_before_cutover",
+      "satisfied_evidence": [
+        {
+          "claim": "Current #505 artifacts preserve v2 as live authority and do not remove v2 binaries, skills, selector routes, or historical evidence",
+          "evidence_ref": "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md"
+        },
+        {
+          "claim": "The v3 command denominator is implemented without claiming v2 retirement authority",
+          "evidence_ref": "docs/csdlc-v3/v3-command-manifest.json"
+        }
+      ],
+      "blocking_evidence": [
+        {
+          "claim": "Operator approval for v3 authority cutover is absent",
+          "status": "missing"
+        },
+        {
+          "claim": "Rollback window has not started or expired because #505 is not merged and terminally reconciled",
+          "status": "not_applicable_yet"
+        },
+        {
+          "claim": "Deletion inventory, fresh install without v2 artifacts, and final no-v2-authority audit are not part of this pre-approval #505 state",
+          "status": "deferred_to_post_cutover_retirement"
+        }
+      ]
+    }
+  ],
+  "approval_blockers": [
+    "Merge current main into #591 and publish a reconciled head.",
+    "Rerun the #505 validation DAG against the reconciled head.",
+    "Provide actual rollback-exercise evidence.",
+    "Provide terminal v3 finish/cleanup canary evidence or an explicit operator waiver.",
+    "Refresh independent exact-head review and publication/readback records.",
+    "Keep v2 as live authority until explicit operator approval, merge, finish, and cleanup reconciliation."
+  ]
+}

@@ -44,6 +44,11 @@ sprint89_timed_stderr = read(".csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-
 issue604_readback = json(".csdlc/evidence/505/issue-604-readback.json")
 issue604_local = json(".csdlc/evidence/505/issue-604-local-canary-report.json")
 issue604_timing = read(".csdlc/evidence/505/issue-604-local-canary-timing.stderr")
+sprint625_readiness = json("docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json")
+command_manifest = json("docs/csdlc-v3/v3-command-manifest.json")
+replacement_denominator = json("docs/csdlc-v3/full-replacement-denominator.json")
+cutover_notice = read("docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md")
+authority_disposition = json("docs/csdlc-v3/authority-transition-disposition.json")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
@@ -145,6 +150,58 @@ assert(pr591_body.include?("Part-Of #505"), "PR #591 body missing non-closing #5
 assert(pr591_body.include?("Sprint 8 #536 is live membership v5"), "PR #591 body missing Sprint 8 readiness truth")
 assert(pr591_body.include?("Sprint 9 #537 is live membership v4"), "PR #591 body missing Sprint 9 readiness truth")
 assert(!pr591_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\b/), "PR #591 body contains an issue-closing keyword for #505")
+
+assert(command_manifest["schema"] == "csdlc.v3.command_manifest.v1", "v3 command manifest emitted wrong schema")
+assert(command_manifest["one_binary"] == "csdlc", "v3 command manifest must retain one csdlc binary")
+assert(command_manifest["operational_authority"] == false, "v3 command manifest must not claim live authority")
+assert(command_manifest.dig("denominator", "v2_entrypoints") == 21, "v3 command manifest v2 denominator drift")
+assert(command_manifest.dig("denominator", "current_v3_commands") == 25, "v3 command manifest current command count drift")
+assert(command_manifest.dig("denominator", "implemented_commands") == 25, "v3 command manifest implemented command count drift")
+assert(command_manifest.dig("denominator", "remaining_replacement_routes") == 0, "v3 command manifest still claims replacement routes remain")
+assert(command_manifest.fetch("commands").length == 25, "v3 command manifest must enumerate every current command")
+assert(command_manifest.fetch("commands").all? { |row| row["authority_status"].to_s.include?("not_live") || row["authority_status"] == "read_only_construction" }, "v3 command manifest must preserve non-live authority for every command")
+
+assert(replacement_denominator["schema"] == "csdlc.v3.full_replacement_denominator.v1", "full replacement denominator emitted wrong schema")
+assert(replacement_denominator["status"] == "pre_cutover_implemented_pending_authority_evidence", "full replacement denominator must distinguish implementation from cutover approval")
+assert(replacement_denominator["cutover_ready"] == false, "full replacement denominator must not claim cutover readiness")
+assert(replacement_denominator.fetch("required_v2_entrypoints").length == 21, "full replacement denominator entrypoint count drift")
+assert(replacement_denominator.fetch("current_v3_commands").length == 25, "full replacement denominator command count drift")
+assert(replacement_denominator.fetch("non_claims").any? { |claim| claim.include?("does not claim authority cutover readiness") }, "full replacement denominator missing deferred-cutover non-claim")
+
+assert(sprint625_readiness["schema"] == "csdlc.v3.sprint_readiness.v1", "V3-H sprint readiness emitted wrong schema")
+assert(sprint625_readiness["operational_authority"] == false, "V3-H sprint readiness must remain non-authoritative")
+assert(sprint625_readiness["status"] == "complete_not_cutover_authority", "V3-H sprint readiness must distinguish completion from authority cutover")
+sprint625 = sprint625_readiness.fetch("sprints").find { |row| row["umbrella_issue"] == 625 }
+assert(sprint625, "V3-H sprint readiness missing umbrella #625")
+assert(sprint625.dig("umbrella_state", "state") == "closed", "V3-H umbrella #625 must be closed in current readback")
+assert(sprint625.fetch("child_states").map { |row| row.fetch("issue") } == [627, 628, 629, 630, 631, 632], "V3-H child denominator drift")
+assert(sprint625.fetch("child_states").all? { |row| row["state"] == "closed" && row["closed_at"] }, "V3-H child readbacks must all be closed")
+assert(sprint625_readiness.dig("cutover_disposition", "cutover_ready") == false, "V3-H readiness must not approve cutover")
+
+cutover_notice_inline = cutover_notice.gsub(/\s+/, " ")
+assert(cutover_notice_inline.include?("authority cutover is deferred"), "cutover readiness notice must state deferred authority")
+assert(cutover_notice.include?("#625") && cutover_notice.include?("#627-#632 closed"), "cutover readiness notice must consume terminal V3-H evidence")
+assert(!cutover_notice.match?(/#629\/#641|fail-closed #631|fresh-worktree install\/startup defect|open children remain/i), "cutover readiness notice contains stale pre-terminal V3-H findings")
+
+assert(authority_disposition["schema"] == "csdlc.v3.authority_transition_disposition.v1", "authority disposition emitted wrong schema")
+assert(authority_disposition["authority_issue"] == 505, "authority disposition must be bound to #505")
+assert(authority_disposition["operational_authority"] == false, "authority disposition must not claim v3 authority")
+assert(authority_disposition["cutover_ready"] == false, "authority disposition must defer cutover")
+assert(authority_disposition["operator_approval"] == "absent", "authority disposition must record absent operator approval")
+source_dispositions = authority_disposition.fetch("source_requirements")
+assert(source_dispositions.map { |row| row.fetch("issue") }.sort == [179, 180], "authority disposition must cover #179 and #180 exactly")
+issue179 = source_dispositions.find { |row| row["issue"] == 179 }
+issue180 = source_dispositions.find { |row| row["issue"] == 180 }
+assert(issue179["live_state"] == "closed" && issue179["closed_at"] == "2026-08-10T22:12:30Z", "#179 live disposition drift")
+assert(issue180["live_state"] == "closed" && issue180["closed_at"] == "2026-08-10T22:12:34Z", "#180 live disposition drift")
+assert(issue179["current_disposition"] == "deferred_pending_authority_evidence", "#179 must remain deferred pending authority evidence")
+assert(issue180["current_disposition"] == "not_started_before_cutover", "#180 must remain not-started before cutover")
+assert(issue179.fetch("satisfied_evidence").any? { |row| row["evidence_ref"] == "docs/csdlc-v3/full-replacement-denominator.json" }, "#179 missing command-denominator evidence ref")
+assert(issue179.fetch("blocking_evidence").any? { |row| row["claim"].include?("Rollback exercise evidence") && row["status"] == "missing" }, "#179 missing rollback blocker")
+assert(issue179.fetch("blocking_evidence").any? { |row| row["claim"].include?("Terminal v3 finish/cleanup canary") && row["status"] == "missing_or_unwaived" }, "#179 missing terminal canary blocker")
+assert(issue180.fetch("blocking_evidence").any? { |row| row["claim"].include?("Operator approval") && row["status"] == "missing" }, "#180 missing operator approval blocker")
+assert(authority_disposition.fetch("approval_blockers").any? { |row| row.include?("actual rollback-exercise evidence") }, "authority disposition missing rollback approval blocker")
+assert(authority_disposition.fetch("approval_blockers").any? { |row| row.include?("terminal v3 finish/cleanup canary evidence") }, "authority disposition missing terminal canary approval blocker")
 
 assert(sprint89_readiness["schema"] == "csdlc.v3.sprint_readiness.v1", "Sprint 8/9 readiness emitted wrong schema")
 assert(sprint89_readiness["read_only"] == true, "Sprint 8/9 readiness must be read-only")
@@ -348,6 +405,11 @@ puts JSON.generate(
       "sprint_8_9_issue_local_canaries",
       "sprint_8_9_readiness_under_three_minutes",
       "issue_604_v3_local_canary_under_three_minutes",
+      "cutover_readiness_notice_deferred_authority",
+      "authority_disposition_179_180_evidence_backed",
+      "full_replacement_denominator_21_routes",
+      "full_command_denominator_25_surface",
+      "v3_h_terminal_sprint_readback",
       "single_prebind_validator_lane",
       "bound_execution_topology"
     ]

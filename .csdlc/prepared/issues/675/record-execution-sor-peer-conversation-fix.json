@@ -1,0 +1,23 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "f44f5c511642d794288d54b22bca865985f2040b9417280dd6445776e2d23d76",
+  "actor": "codex:/root",
+  "reason": "Record the pre-PR review finding and corrective fix for provider-emitted A2A conversation identity.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Corrected the provider action-envelope contract so a resident model initiates a new governed peer conversation instead of reusing the operator conversation identity and colliding with the active recipient session.",
+    "changes": [
+      "Stopped requiring provider-emitted A2A conversation_id, turn_id, and correlation_id to equal the active operator turn identifiers.",
+      "Updated the provider-facing prompt contract to show active operator-turn context separately from the new peer conversation identifiers the A2A action should mint.",
+      "Kept the Runtime-owned sender binding by deriving sender_id from the active recipient agent rather than from provider output.",
+      "Added fail-closed validation for self-targeting provider actions before they reach Runtime dispatch.",
+      "Updated provider-envelope tests to prove the provider-valid peer conversation shape matches the nested control dispatch regression."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs"
+    ]
+  }
+}

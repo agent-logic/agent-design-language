@@ -1,0 +1,166 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 675
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Corrected the provider action-envelope contract so a resident model initiates a new governed peer conversation instead of reusing the operator conversation identity and colliding with the active recipient session.
+
+## Artifacts
+
+- adl-runtime-kernel/src/ingress.rs
+- adl-runtime-kernel/src/control.rs
+- demos/html-observatory/app.js
+- adl-runtime-kernel/src/assembly.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/ingress.rs
+- demos/html-observatory/app.js
+- adl-runtime-kernel/src/assembly.rs
+- adl-runtime-kernel/src/control.rs
+
+## Execution
+
+- Projected structured agent_to_agent_initiation requests from local agent execution public output while preserving existing conversation_reply projection.
+- Converted provider A2A action requests into ObservatoryAgentInitiationIntent with sender_id inferred from the active recipient agent, not trusted from provider text.
+- Released the initiating conversation queue slot before awaiting the nested peer dispatch to avoid self-deadlock.
+- Rendered sender_id and initiated_work_id metadata in the Observatory conversation transcript.
+- Added deterministic operator-to-Beacon-to-Ember regression coverage alongside the existing direct #662 primitive tests.
+- Passed conversation_id, turn_id, and correlation_id into conversation work so provider-emitted actions are bound to the active turn.
+- Prompted provider-backed resident agents with a shared action-envelope contract instead of relying on roleplay or Shepherd-specific behavior.
+- Parsed only schema-tagged provider action envelopes into agent_to_agent_initiation output while preserving ordinary plain-text and untagged JSON replies as normal messages.
+- Rejected schema-tagged A2A action envelopes whose conversation, turn, or correlation identifiers do not match the active Runtime task.
+- Added focused provider-envelope tests that prove the prompt contract, action projection, plain JSON fallback, and fail-closed context mismatch behavior.
+- Stopped requiring provider-emitted A2A conversation_id, turn_id, and correlation_id to equal the active operator turn identifiers.
+- Updated the provider-facing prompt contract to show active operator-turn context separately from the new peer conversation identifiers the A2A action should mint.
+- Kept the Runtime-owned sender binding by deriving sender_id from the active recipient agent rather than from provider output.
+- Added fail-closed validation for self-targeting provider actions before they reach Runtime dispatch.
+- Updated provider-envelope tests to prove the provider-valid peer conversation shape matches the nested control dispatch regression.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "agent_to_agent"
+    ],
+    "purpose": "Prove direct A2A semantics and the new operator-to-Beacon-to-Ember model-action bridge without live provider access.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-runtime-a2a-4-passed"
+  },
+  {
+    "command": [
+      "node",
+      "--check",
+      "demos/html-observatory/app.js"
+    ],
+    "purpose": "Prove the Observatory conversation UI remains syntactically valid after preserving sender and initiated-work metadata.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-node-check"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Prove whitespace/diff hygiene for the #675 implementation branch.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-git-diff-check"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "agent_initiation_action"
+    ],
+    "purpose": "Prove local-agent conversation output projects well-formed agent_to_agent_initiation actions and rejects malformed action payloads before Runtime treats them as governed A2A work.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-projection-boundary-2-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the Runtime control/ingress changes compile cleanly under strict Clippy before pre-PR review.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-clippy-strict-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "provider_conversation_action"
+    ],
+    "purpose": "Prove provider conversation prompts advertise the governed A2A envelope and schema-tagged provider output projects an agent_to_agent_initiation while malformed context fails closed.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-provider-conversation-action-4-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "Prove the provider-envelope correction, existing A2A behavior, ingress projection, control dispatch, and adjacent Runtime kernel library tests pass together.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-runtime-kernel-lib-137-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "Prove provider-valid A2A peer conversation identifiers no longer collide with the active operator conversation and the full Runtime kernel library still passes.",
+    "outcome": "passed",
+    "evidence_ref": "terminal://2026-09-03#issue-675-peer-conversation-fix-runtime-kernel-lib-137-passed"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

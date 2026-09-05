@@ -245,7 +245,10 @@ fn full_replacement_denominator_blocks_cutover_until_operator_approval() {
         "csdlc.v3.full_replacement_denominator.v1"
     );
     assert_eq!(denominator["authority_issue"], 505);
-    assert_eq!(denominator["status"], "pre_cutover_complete");
+    assert_eq!(
+        denominator["status"],
+        "pre_cutover_implemented_pending_authority_evidence"
+    );
     assert_eq!(denominator["cutover_ready"], false);
 
     let manifest_entrypoints = denominator["required_v2_entrypoints"]
@@ -305,6 +308,7 @@ fn full_replacement_denominator_blocks_cutover_until_operator_approval() {
         .all(
             |entry| entry["replacement_status"] == "implemented_pre_cutover_bridge"
                 || entry["replacement_status"] == "implemented"
+                || entry["replacement_status"] == "implemented_construction"
         ));
     assert!(denominator["non_claims"]
         .as_array()

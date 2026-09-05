@@ -1,7 +1,7 @@
 {
   "issue": 505,
-  "expected_generation": 16,
-  "expected_digest": "768943a43841c42fd13b8d0fb3adb6cde4c896e715f0bd50dd1e6c0517d9d21b",
+  "expected_generation": 44,
+  "expected_digest": "81e395cd60ac392f43c200ec53aabef0e24b729a02e3a4a062216f25809550c1",
   "actor": "Worker #6",
-  "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence."
+  "reason": "Recover stale #505 review/publication truth after reconciling PR #591 with current main and retaining terminal V3-H readback plus deferred-cutover evidence."
 }

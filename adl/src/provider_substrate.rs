@@ -139,7 +139,7 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
                 "bedrock" => return "aws_bedrock".to_string(),
                 "openrouter" => return "openrouter".to_string(),
                 "z_ai" | "zai" | "zhipu" => return "z_ai".to_string(),
-                "kimi" => return "kimi".to_string(),
+                "kimi" | "moonshot" => return "kimi".to_string(),
                 "minimax" => return "minimax".to_string(),
                 "qwen" => return "qwen".to_string(),
                 "xai" => return "xai".to_string(),
@@ -203,6 +203,7 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
         "openai" => "openai".to_string(),
         "anthropic" => "anthropic".to_string(),
         "deepseek" => "deepseek".to_string(),
+        "kimi" | "moonshot" => "kimi".to_string(),
         "bedrock" | "aws_bedrock" => "aws_bedrock".to_string(),
         "openrouter" => "openrouter".to_string(),
         "vertex_ai_gemini" | "vertex_ai" | "vertex" => "google_vertex_ai".to_string(),
@@ -223,14 +224,21 @@ fn infer_transport(spec: &adl::ProviderSpec) -> Result<ProviderTransportV1> {
                 Ok(ProviderTransportV1::LocalCli)
             }
         }
-        "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "openrouter" | "bedrock"
-        | "aws_bedrock" | "z_ai" | "zai" | "zhipu" | "deepgram" | "vertex_ai_gemini"
-        | "vertex_ai" | "vertex" => Ok(ProviderTransportV1::Http),
+        "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "kimi" | "moonshot"
+        | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai" | "zai" | "zhipu" | "deepgram"
+        | "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(ProviderTransportV1::Http),
         "local_ollama" => Ok(ProviderTransportV1::LocalCli),
         "mock" => Ok(ProviderTransportV1::InProcess),
         other => Err(anyhow!(
             "unsupported provider kind '{other}' for provider substrate v1"
         )),
+    }
+}
+
+fn normalized_provider_kind(kind: &str) -> String {
+    match kind.trim() {
+        "moonshot" => "kimi".to_string(),
+        other => other.to_string(),
     }
 }
 
@@ -334,6 +342,7 @@ fn infer_capability_defaults(
 
     if matches!(transport, ProviderTransportV1::Http)
         && (vendor == "deepseek"
+            || vendor == "kimi"
             || vendor == "openrouter"
             || vendor == "aws_bedrock"
             || vendor == "z_ai")
@@ -467,7 +476,7 @@ pub fn provider_substrate_v1(
     let default_model_ref = default_model_ref(spec);
     Ok(ProviderSubstrateV1 {
         provider_id: provider_id.to_string(),
-        provider_kind: spec.kind.trim().to_string(),
+        provider_kind: normalized_provider_kind(&spec.kind),
         vendor: vendor.clone(),
         transport: transport.clone(),
         profile: spec.profile.clone(),

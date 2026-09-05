@@ -68,9 +68,34 @@ construction subcommands are:
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- foundation --repo-root .
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- local --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
-cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- remote --repo-root . --request <request.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- doctor --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- edit --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- eligibility --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- issue --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- schedule --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- shepherd --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- github --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- github-issue --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- github-pr --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- pr-state --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- publish --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- review --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- remote --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- finish --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- clean --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- cutover --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- install --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- proof --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- shadow --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- soak --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- sprint --repo-root . --request <request.json>
 ```
+
+Those advertised commands are still construction interfaces. They do not grant
+live lifecycle, GitHub, publication, finish, cleanup, install, or cutover
+authority before #505.
 
 The Sprint 8/9 pre-cutover canary is:
 
@@ -92,3 +117,7 @@ explicitly approved, merged, and terminally reconciled, v3 remains
 non-authoritative construction and cutover evidence. Operators must receive the
 pre-change notice in `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before any
 default route changes from v2 to v3.
+
+Operators preparing for the one-binary replacement should read
+`docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md`. That notice is advance guidance,
+not authority cutover.

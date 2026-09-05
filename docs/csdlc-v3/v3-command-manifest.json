@@ -128,7 +128,7 @@
         "csdlc-install"
       ],
       "owner_issue": 631,
-      "implementation_status": "implemented",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
@@ -155,7 +155,7 @@
         "csdlc-proof"
       ],
       "owner_issue": 631,
-      "implementation_status": "implemented",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
@@ -198,7 +198,7 @@
         "csdlc-shadow"
       ],
       "owner_issue": 631,
-      "implementation_status": "implemented",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
@@ -216,7 +216,7 @@
         "csdlc-soak"
       ],
       "owner_issue": 631,
-      "implementation_status": "implemented",
+      "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
@@ -243,7 +243,7 @@
     "Implemented pre-cutover bridge routes parse typed repo-local evidence and remain non-authoritative until #505 cutover.",
     "Visible helper routes with no v2 entrypoint replacement are implemented, included in the command-surface denominator, and excluded from replacement-route counts.",
     "Each command route has one owning V3-H child issue.",
-    "install/proof/shadow/soak execute typed pre-cutover verifier envelopes with mutation_allowed=false before #505 approval; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505.",
-    "All 21 v2 entrypoints now have visible v3 replacement routes, but cutover_ready remains false until operator approval and terminal reconciliation."
+    "install/proof/shadow/soak execute typed pre-cutover construction proof routes before #505 approval; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505.",
+    "All 21 v2 entrypoints now have executable v3 replacement routes, but cutover_ready remains false until current evidence consumption, rollback/canary proof, exact-head review, operator approval, and terminal reconciliation."
   ]
 }

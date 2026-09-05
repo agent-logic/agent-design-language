@@ -44,6 +44,35 @@ def sync_directory(path: Path) -> None:
         os.close(directory)
 
 
+def install_stable_csm_launcher(root: Path) -> None:
+    stable_bin = root.parent / "bin"
+    stable_bin.mkdir(parents=True, exist_ok=True)
+    launcher = stable_bin / "csm"
+    temporary = stable_bin / f".csm.{os.getpid()}"
+    temporary.write_text(
+        "\n".join(
+            [
+                "#!/usr/bin/env bash",
+                "set -euo pipefail",
+                'self_dir="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"',
+                'target="$self_dir/../runtime-v3/current/bin/csm"',
+                'if [ ! -x "$target" ]; then',
+                '  echo "stable csm route missing executable active Runtime v3 generation CSM: $target" >&2',
+                "  exit 127",
+                "fi",
+                'exec "$target" "$@"',
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    temporary.chmod(0o755)
+    with temporary.open("rb") as launcher_file:
+        os.fsync(launcher_file.fileno())
+    os.replace(temporary, launcher)
+    sync_directory(stable_bin)
+
+
 def load_receipt(generation: Path) -> dict:
     receipt_path = generation / "receipt.json"
     try:
@@ -162,6 +191,7 @@ def stage(args: argparse.Namespace) -> dict:
         staging.rename(final)
         sync_directory(generations)
         load_receipt(final)
+        install_stable_csm_launcher(root)
         atomic_link(root, "current", f"generations/{args.generation}")
         verify_current(root)
         return receipt
@@ -180,6 +210,7 @@ def rollback(root: Path) -> dict:
         raise ValueError("current generation has no verified predecessor")
     previous = resolve_generation(root, predecessor)
     receipt = load_receipt(previous)
+    install_stable_csm_launcher(root)
     atomic_link(root, "current", f"generations/{previous.name}")
     verify_current(root)
     return receipt

@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 631,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
+    "slug": "v3-h5-proof-parity-soak-shadow-install",
+    "version": "v0.92.1",
+    "generation": 31
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement and test v3 proof, shadow, soak, and install routes under the one csdlc binary.",
+      "required_outcome": "The v3 proof, shadow, soak, and install routes have typed fail-closed behavior, focused regression tests, and no v2 source changes.",
+      "declared_scope": [
+        "csdlc-v3/src",
+        "csdlc-v3/tests",
+        "docs/csdlc-v3",
+        ".csdlc/prepared/issues/631",
+        ".csdlc/evidence/631"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains live operational authority until #505 cutover",
+        "v3 routes are construction evidence only",
+        "No hidden v2 fallback in v3 proof",
+        "No selector or cutover mutation before #505",
+        "No provider or long-running soak side effects before cutover",
+        "No v2 source changes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not merge #505",
+        "Do not perform cutover",
+        "Do not use raw gh",
+        "Do not use /private/tmp",
+        "Work only from a bound FastWork issue worktree"
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "13f8921f0457ade7f4b3cf7bb76b37f8e46e1325dfab41855f6270d15e8f98ec",
+  "actor": "codex:/root",
+  "reason": "Record broader Runtime kernel library validation after the provider-backed A2A action-envelope correction.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--lib"
+      ],
+      "outcome": "passed",
+      "purpose": "Prove the provider-envelope correction, existing A2A behavior, ingress projection, control dispatch, and adjacent Runtime kernel library tests pass together.",
+      "evidence_ref": "terminal://2026-09-03#issue-675-runtime-kernel-lib-137-passed"
+    }
+  }
+}

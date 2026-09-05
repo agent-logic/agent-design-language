@@ -1,0 +1,196 @@
+{
+  "issue": 632,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:worker-6",
+  "design_path": ".csdlc/prepared/issues/632/design.md",
+  "diagram_path": ".csdlc/prepared/issues/632/diagram.mmd",
+  "design_reviewer": "codex:worker-6",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
+    "slug": "v3-h6-real-canaries-docs-readiness",
+    "version": "v0.92.1",
+    "goal": "Prove the v3 replacement workflow with real issue canaries and update operator-facing readiness guidance before #505 cutover.",
+    "required_outcome": "A reviewable canary/readiness packet maps every v3 command-equivalent route to real issue proof, deterministic fixture proof, or an explicit cutover-blocking finding, and docs/skills/AGENTS guidance truthfully describe the pre-cutover and post-cutover authority boundary.",
+    "declared_scope": [
+      "Real issue canary coverage for v3 issue/init through PR publication",
+      "Terminal finish and cleanup canary planning with proof after an authorized merge",
+      "Defect capture and disposition for every v3 function failure discovered",
+      "Docs, skills, AGENTS, onboarding, and changeover notice updates",
+      "Sprint Execution Packet and sprint-end evidence index updates for #625"
+    ],
+    "authority_boundary": [
+      "v2 remains live lifecycle authority until explicit #505 cutover",
+      "v3 is construction and canary evidence only before #505",
+      "No raw gh lifecycle writes",
+      "No hidden v2 operational fallback in v3 proof",
+      "Do not merge or close #505 from this issue"
+    ],
+    "operator_constraints": [
+      "Use typed v2 for live GitHub publication, finish, cleanup, and issue comments before #505",
+      "Keep scratch request artifacts under .git/csdlc-v2/requests",
+      "Do not use /private/tmp",
+      "Do not touch green sibling PRs unless a fresh gate requires it"
+    ],
+    "task_boundary": "Prepare and execute the V3-H.6 canary/docs/readiness lane without merging #505 or claiming v3 live authority.",
+    "deliverables": [
+      "V3 real issue canary evidence index",
+      "Command-equivalent route coverage matrix",
+      "Defect register with fixed, follow-up, or cutover-blocking disposition",
+      "Docs, skills, AGENTS, and onboarding updates for the v3 cutover boundary",
+      "Operator changeover notification draft",
+      "Sprint #625 review/closeout input packet",
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every v3 command-equivalent route is exercised by a real issue canary, a focused deterministic fixture, or an explicit cutover-blocking finding.",
+      "AC-2: At least one real issue reaches PR through v3 before #505 closes.",
+      "AC-3: Terminal finish and cleanup are proven after an authorized canary merge, or #505 remains blocked with the exact reason.",
+      "AC-4: All found defects are fixed in-sprint or recorded as cutover blockers/follow-ons with ownership.",
+      "AC-5: Docs and skills do not teach v2 as the future route after cutover, and do not teach v3 as current authority before #505.",
+      "AC-6: Final sprint review packet is ready for independent exact-head review.",
+      "AC-7: No raw gh lifecycle writes and no hidden v2 operational fallback are used as proof."
+    ],
+    "dependencies": [
+      "#625 sprint umbrella",
+      "#627 command denominator and one-binary CLI shell",
+      "#628 local lifecycle command routes",
+      "#629 GitHub, PR, and publication routes",
+      "#630 finish, cleanup, and cutover routes",
+      "#631 proof, parity, soak, shadow, and install routes",
+      "#505 final cutover decision remains open until proof is complete"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs",
+      "csdlc-v2/operator/skills",
+      ".git/csdlc-v2/requests/v0921-v3-full-command-sprint/SPRINT_EXECUTION_PACKET.md",
+      ".git/csdlc-v2/requests/v0921-v3-full-command-sprint/DEFECTS.md"
+    ],
+    "non_goals": [
+      "Do not merge #505",
+      "Do not retire v2 authority in this issue",
+      "Do not merge sibling PRs",
+      "Do not perform raw gh lifecycle writes"
+    ],
+    "plan_summary": "Bootstrap #632, bind an execution worktree, assemble and run canary/docs/readiness proof, update operator guidance, record defect dispositions, and stop for independent sprint review.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bootstrap #632 local typed lifecycle records from the existing GitHub issue and current sprint packet.",
+        "acceptance_ids": ["AC-4", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Bind the #632 execution worktree after bootstrap validation passes.",
+        "acceptance_ids": ["AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Create the route coverage matrix and real issue canary evidence index.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Update docs, skills, AGENTS, onboarding, and changeover notice guidance for the v3 cutover boundary.",
+        "acceptance_ids": ["AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Validate canary/docs/readiness evidence and prepare final sprint review inputs.",
+        "acceptance_ids": ["AC-1", "AC-4", "AC-6", "AC-7"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+      ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+      ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+      "adl/src/cli/csmctl_cmd.rs",
+      "csdlc-v3",
+      "docs",
+      "AGENTS.md"
+    ],
+    "invariants": [
+      "v2 remains the sole live authority until #505",
+      "v3 proof cannot rely on hidden v2 fallback",
+      "GitHub closeout authority requires live closing relation and successful terminal state",
+      "Defects discovered by canaries are not silently ignored"
+    ],
+    "risks": [
+      "Some terminal canaries require an authorized merge before proof can complete",
+      "Stacked PR topology can prevent GitHub closing-linkage readback",
+      "Docs may contain stale route language outside the obvious files"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "A v3 route fails without a safe typed repair path",
+      "A required terminal canary needs operator merge authority",
+      "A docs/skills update would claim v3 live authority before #505"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "typed-issue-632",
+        "proof_role": "Validate canonical #632 typed lifecycle record and six cards.",
+        "acceptance_ids": ["AC-4", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 500,
+        "argv": [".adl/bin/csdlc-v2/csdlc-validate", "--root", ".", "issue", "--issue", "632"],
+        "parallel_group": "bootstrap",
+        "defer_reason": null
+      },
+      {
+        "lane": "route-coverage-matrix",
+        "proof_role": "Prove every v3 command-equivalent route has real canary, deterministic fixture, or cutover-blocking disposition.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["bash", ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh"],
+        "parallel_group": "readiness",
+        "defer_reason": "Run after canary evidence and docs updates exist."
+      },
+      {
+        "lane": "docs-route-scan",
+        "proof_role": "Prove docs, skills, AGENTS, and onboarding guidance preserve the pre-cutover and post-cutover route boundary.",
+        "acceptance_ids": ["AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["bash", ".csdlc/prepared/issues/632/validate-v3-guidance.sh"],
+        "parallel_group": "readiness",
+        "defer_reason": "Run after guidance updates exist."
+      },
+      {
+        "lane": "sprint-review-readiness",
+        "proof_role": "Prove the final sprint review packet is complete enough for independent exact-head review.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["bash", ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh"],
+        "parallel_group": "readiness",
+        "defer_reason": "Run after canary evidence, defect dispositions, and guidance updates exist."
+      }
+    ],
+    "failure_policy": "Fail closed: any missing real canary proof, unowned defect, stale v2/v3 authority guidance, or raw gh lifecycle write blocks #505 cutover.",
+    "review_prompts": [
+      "Does the coverage matrix account for every v3 command-equivalent route without hidden v2 fallback?",
+      "Do docs and skills warn operators before cutover while avoiding premature v3 authority claims?",
+      "Are canary defects fixed or clearly owned as cutover blockers/follow-ons?"
+    ],
+    "review_scope": "Review #632 canary evidence, defect dispositions, docs/skills/AGENTS changes, and sprint review packet readiness for #505 cutover gating."
+  }
+}
