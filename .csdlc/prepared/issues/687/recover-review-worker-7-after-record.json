@@ -1,0 +1,7 @@
+{
+  "issue": 687,
+  "expected_generation": 7,
+  "expected_digest": "031830bfebfc2782963b8e9a7d27b9b09c2a2903d05587e25711a59950065d9d",
+  "actor": "codex:worker-7",
+  "reason": "Recover stale reviewed truth after the metadata-only review-record commit moved the publication head."
+}

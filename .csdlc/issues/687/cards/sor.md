@@ -49,7 +49,7 @@ Implemented a provider/model inference-readiness taxonomy and routed resident Sh
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
