@@ -831,6 +831,7 @@ pub struct ControlService<C> {
     agent_population: RwLock<AgentPopulationFeed>,
     dynamic_agent_store: Mutex<Option<PathBuf>>,
     agent_partial_store: RwLock<Option<Arc<AgentPartialCheckpointStore>>>,
+    agent_archive_operation: tokio::sync::Mutex<()>,
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
     dynamic_agent_admission: Mutex<()>,
@@ -941,6 +942,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             agent_population: RwLock::new(agent_population),
             dynamic_agent_store: Mutex::new(None),
             agent_partial_store: RwLock::new(None),
+            agent_archive_operation: tokio::sync::Mutex::new(()),
             dynamic_agents: Mutex::new(Vec::new()),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
             dynamic_agent_admission: Mutex::new(()),
@@ -2296,6 +2298,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub async fn restore_archived_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
+        let _archive_operation = self.agent_archive_operation.lock().await;
         let Some((store, generation, integrity, resident_ids)) =
             self.agent_partial_restore_context()?
         else {
@@ -2476,6 +2479,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub async fn archive_pending_agent_partials(&self) -> Result<usize, ControlError> {
+        let _archive_operation = self.agent_archive_operation.lock().await;
         let store = self
             .agent_partial_store
             .read()
