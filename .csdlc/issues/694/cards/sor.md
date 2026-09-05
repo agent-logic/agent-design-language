@@ -90,11 +90,11 @@ Implemented and remediated #694 Runtime-authoritative conversation history resto
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
