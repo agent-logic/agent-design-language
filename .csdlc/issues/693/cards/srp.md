@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:60ced2f878c669f754f84f0721198145006a39e8:72d799a9d8c583a90b54c308d2f001276d9899b4512da7178f19ae810546e9cf")
 
-Reviewer: None
+Reviewer: Some("codex:/root/a2a_reliability_fix/review_693_prepr")
 
-Result: pre_review
+Result: pass

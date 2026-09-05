@@ -3,9 +3,9 @@
   "issue": 693,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "f557ba0e7e32b733e34c2ab017c05657d36bb3f902c8907af37ef0ade46d61e5",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "68bb789a9353c612e8ad877118ea00a597a910ab9c0b94a230b06814990317bb",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
   "review_assignment": {
@@ -19,7 +19,22 @@
       ".csdlc/evidence/693"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/evidence/693"
+    ],
+    "reviewed_revision": "git-blake3:60ced2f878c669f754f84f0721198145006a39e8:72d799a9d8c583a90b54c308d2f001276d9899b4512da7178f19ae810546e9cf",
+    "findings": [],
+    "residual_risks": [
+      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9596ae588b350f12f2e06416dd2fe4ecd7f227601acf9b93d913fa012d72a435",
+      "values_digest": "6ea2b96c4fd1d24aa3bbe5a0d57a2d51a5529ea6dd0a2dcf9cefdbb6ee9026ba",
       "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
       "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
     },
     "stp": {
-      "values_digest": "664c9c46ac4ef71b5a0c3f1ba6490d2557110d4127f32b486422cf4f9c74f670",
+      "values_digest": "9234325ef89be9cf99ed89258569abf86fff4abce03b54b6dde18e977d4f400f",
       "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
       "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
     },
     "spp": {
-      "values_digest": "19afdd7694f8b5b60eb62f5fab6d8c30bca9e0fe20b216494a6a3c15a9f57d5f",
+      "values_digest": "41b6946cbd146f36e893a71a75ac93d6aea574a7eec68ae1fd3bfbea75852cd1",
       "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
       "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
     },
     "vpp": {
-      "values_digest": "1225762a436fb876799384a68161f64ee98f612efb63ae45e44d6381f0f907a8",
+      "values_digest": "f2bd9eb04b405a58a48e16b668d0eb4d39622fd8c79f74f66adc1a02c14e9c59",
       "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "f7919aec2669ca1c9d9c6f1dcbd078aa77418e4bc3649f8a1b4635c5d8e0615c",
-      "rendered_digest": "496d81dafb5c830e3c002650f84bc971170f43ac03e500987fc95f0ad3fbb0e3",
-      "ast_digest": "968c225465785323840952066b7f3cf74c56e6d750966635cc69e5e494c006dd"
+      "values_digest": "bb8a4f464abf366dc0653534c395f11ad0eadcfe009435688bc66e93e64008fe",
+      "rendered_digest": "204d1dc135b502761cc5e4c7f68416c4f0377a497cc75881ee4aa16afe703c97",
+      "ast_digest": "21c513b2e1ca3dbd3ddeda7c2944eaa0d49fafbd9aac5dfffda7ac5deaefcc42"
     },
     "sor": {
-      "values_digest": "7e9615e6c7a8b6fad8459a98c224c55c45e51b7ef9e45fe239083bc49ee445a1",
+      "values_digest": "c6b8d525e32aa30635086ee76d7ed9992cb5175119e535ab797706770f6a33df",
       "rendered_digest": "7a568a9a1f58b002e97deafb4c2edc065c24dbe7faf8577ffe0d48efca5e16f6",
       "ast_digest": "2efd7dd760566b97683390acf7e8c5d255bd4ab733da5f8841af00b55defd04d"
     }
@@ -85,6 +100,13 @@
       "to": "implemented",
       "actor": "codex:/root/issue-693",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -157,6 +179,13 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
