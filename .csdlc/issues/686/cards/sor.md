@@ -154,11 +154,11 @@ Recovered and revalidated #686 after merging current origin/main advanced the br
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
