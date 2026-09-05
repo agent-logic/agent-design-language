@@ -12,15 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/config_generation.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/control/feeds.rs
-adl-runtime/src/bin/adl-runtime-guardian.rs
-adl/src/cli/csm_runtime_v3_cmd.rs
-adl/tests/csm_runtime_v3_generation.rs
-.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py
+
 
 ## Prompts
 
@@ -40,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted PR CI remains the final integration gate before merge.
-- No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:2393f043d0f063bf6ef612554e42c160c5a1e055:602778f9503502643e95ae03c908ee4dae16c79ad5907ae1027f8cfeae2bc5fc")
+Revision: None
 
-Reviewer: Some("codex-subagent:/root/review_686_runtime_config_generation_r7")
+Reviewer: None
 
-Result: pass
+Result: pre_review
