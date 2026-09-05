@@ -129,11 +129,11 @@ Reconciled PR #591 with current main after the cutover decision brief, consumed 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

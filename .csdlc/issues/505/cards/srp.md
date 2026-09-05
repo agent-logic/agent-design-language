@@ -12,10 +12,9 @@ Status: draft
 
 ## Scope
 
-AGENTS.md
-adl/tools/test_install_adl_pr_cycle_skill.sh
-csdlc-v3
-docs
+.csdlc/prepared/issues/505/publish-after-review-279342fea-pass.json
+.csdlc/prepared/issues/505/update-pr591-after-defer-brief-reconciliation.json
+.csdlc/prepared/issues/505/validate-authority-transition-prep.rb
 
 ## Prompts
 
@@ -40,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:4bc63d390e421702607837b2e4193d0e5573321f:208bfe9d3d5b73c129c5ada4ea2f7e0fb32f7aa0ce64933ac7c2b64f9f19ddff")
+Revision: Some("git-blake3:f5621b164ef62c18885b5b57c4eff58a901fbbb2:3f678f7edd989c14b91c34fb740e491d4f7e3f1dcae851293f3bba9193861d66")
 
-Reviewer: Some("subagent:/root/review_591_279342fea")
+Reviewer: Some("subagent:/root/review_591_part_of_publication_fix")
 
 Result: pass
