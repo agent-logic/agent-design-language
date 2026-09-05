@@ -1,13 +1,12 @@
-//! Non-authoritative proof, shadow, soak, and install route models.
-//!
-//! These routes are construction evidence for the one-binary v3 command
-//! surface. They classify typed request packets and intentionally do not
-//! execute lifecycle authority, provider calls, selector mutation, binary
-//! installation, GitHub mutation, finish, cleanup, or #505 cutover.
+//! Native proof, shadow, soak, and stable-install operations.
 
 use std::{
+    collections::BTreeMap,
     fs,
+    io::Write,
+    os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
+    sync::atomic::{AtomicU64, Ordering},
 };
 
 use serde::{Deserialize, Serialize};
@@ -80,6 +79,8 @@ pub struct ProofRouteReport {
     pub repository: String,
     pub read_only: bool,
     pub operational_authority: bool,
+    pub performed_mutation: bool,
+    pub evidence_refs: Vec<String>,
     pub status: ProofRouteStatus,
     pub findings: Vec<ProofRouteFinding>,
 }
@@ -103,10 +104,21 @@ pub fn classify_route(
     repository_root: Option<&Path>,
 ) -> ProofRouteReport {
     let mut findings = common_findings(&request, repository_root);
+    let mut evidence_refs = Vec::new();
+    let mut performed_mutation = false;
     match route {
         "proof" => match request.proof.as_ref() {
             Some(manifest) => {
-                validate_proof_manifest(request.evidence_root.as_deref(), manifest, &mut findings)
+                validate_proof_manifest(request.evidence_root.as_deref(), manifest, &mut findings);
+                if findings.is_empty() {
+                    match retain_proof_receipt(&request, manifest) {
+                        Ok(reference) => {
+                            performed_mutation = true;
+                            evidence_refs.push(reference);
+                        }
+                        Err(code) => findings.push(code),
+                    }
+                }
             }
             None => findings.push(finding(
                 "proof_manifest_missing",
@@ -115,7 +127,16 @@ pub fn classify_route(
         },
         "shadow" => match request.shadow.as_ref() {
             Some(shadow) => {
-                validate_shadow(request.evidence_root.as_deref(), shadow, &mut findings)
+                validate_shadow(request.evidence_root.as_deref(), shadow, &mut findings);
+                if findings.is_empty() {
+                    match execute_shadow(&request, shadow) {
+                        Ok(references) => {
+                            performed_mutation = true;
+                            evidence_refs.extend(references);
+                        }
+                        Err(code) => findings.push(code),
+                    }
+                }
             }
             None => findings.push(finding(
                 "shadow_comparison_missing",
@@ -123,7 +144,18 @@ pub fn classify_route(
             )),
         },
         "soak" => match request.soak.as_ref() {
-            Some(soak) => validate_soak(request.evidence_root.as_deref(), soak, &mut findings),
+            Some(soak) => {
+                validate_soak(request.evidence_root.as_deref(), soak, &mut findings);
+                if findings.is_empty() {
+                    match execute_soak(&request, soak) {
+                        Ok(reference) => {
+                            performed_mutation = true;
+                            evidence_refs.push(reference);
+                        }
+                        Err(code) => findings.push(code),
+                    }
+                }
+            }
             None => findings.push(finding(
                 "soak_evidence_missing",
                 "soak route requires bounded soak evidence",
@@ -143,13 +175,30 @@ pub fn classify_route(
         },
         _ => findings.push(finding("route_unknown", "unsupported proof route")),
     }
+    if route == "install" && findings.is_empty() {
+        if let Some(install) = request
+            .install
+            .as_ref()
+            .filter(|value| value.executes_install)
+        {
+            match execute_install(&request, install) {
+                Ok(reference) => {
+                    performed_mutation = true;
+                    evidence_refs.push(reference);
+                }
+                Err(code) => findings.push(code),
+            }
+        }
+    }
     ProofRouteReport {
         schema: "csdlc.v3.proof_route.v1",
         route: route.to_owned(),
         issue: request.issue,
         repository: request.repository,
-        read_only: true,
-        operational_authority: false,
+        read_only: !performed_mutation,
+        operational_authority: findings.is_empty(),
+        performed_mutation,
+        evidence_refs,
         status: if findings.is_empty() {
             ProofRouteStatus::Ready
         } else {
@@ -335,12 +384,6 @@ fn validate_shadow(
             "v3 shadow digest must match the referenced observation file",
         ));
     }
-    if shadow.v2_digest != shadow.v3_digest {
-        findings.push(finding(
-            "shadow_digest_mismatch",
-            "v2 and v3 shadow digests must match",
-        ));
-    }
 }
 
 fn validate_soak(
@@ -485,12 +528,300 @@ fn validate_install(
             "install destination must be stable and outside Cargo target output",
         ));
     }
-    if install.executes_install {
+    if install.executes_install && install.destination != ".adl/bin/csdlc" {
         findings.push(finding(
-            "install_attempts_mutation",
-            "install route is plan-only before #505 cutover",
+            "install_destination_not_canonical",
+            "executing install requires the canonical .adl/bin/csdlc destination",
         ));
     }
+}
+
+fn retain_proof_receipt(
+    request: &ProofRouteRequest,
+    manifest: &ProofManifest,
+) -> Result<String, ProofRouteFinding> {
+    let reference = format!(
+        ".csdlc/evidence/{}/v3-proof/{}.json",
+        request.issue,
+        safe_component(&manifest.manifest_id)?
+    );
+    let receipt = serde_json::json!({
+        "schema": "csdlc.v3.proof_receipt.v1",
+        "issue": request.issue,
+        "repository": request.repository,
+        "manifest_id": manifest.manifest_id,
+        "lane": manifest.lane,
+        "deterministic": true,
+        "source_evidence_ref": manifest.evidence_ref,
+        "source_evidence_digest": manifest.observed_digest,
+    });
+    write_canonical_evidence(request, &reference, &receipt)?;
+    Ok(reference)
+}
+
+fn execute_shadow(
+    request: &ProofRouteRequest,
+    shadow: &ShadowComparison,
+) -> Result<Vec<String>, ProofRouteFinding> {
+    let root = request_root(request)?;
+    let v2 = read_json(&root.join(&shadow.v2_observation_ref))?;
+    let v3 = read_json(&root.join(&shadow.v3_observation_ref))?;
+    let v2 = canonical_json(&v2);
+    let v3 = canonical_json(&v3);
+    if v2 != v3 {
+        return Err(finding(
+            "shadow_normalized_mismatch",
+            "normalized v2 and v3 observations must match",
+        ));
+    }
+    let base = format!(".csdlc/evidence/{}/v3-shadow", request.issue);
+    let v2_ref = format!("{base}/v2.normalized.json");
+    let v3_ref = format!("{base}/v3.normalized.json");
+    let receipt_ref = format!("{base}/comparison.json");
+    write_bytes_atomic(&root.join(&v2_ref), &v2)?;
+    write_bytes_atomic(&root.join(&v3_ref), &v3)?;
+    let digest = blake3::hash(&v2).to_hex().to_string();
+    write_canonical_evidence(
+        request,
+        &receipt_ref,
+        &serde_json::json!({
+            "schema": "csdlc.v3.shadow_receipt.v1",
+            "issue": request.issue,
+            "bounded": true,
+            "normalized_digest": digest,
+            "v2_observation_ref": shadow.v2_observation_ref,
+            "v3_observation_ref": shadow.v3_observation_ref,
+            "v2_normalized_ref": v2_ref,
+            "v3_normalized_ref": v3_ref,
+        }),
+    )?;
+    Ok(vec![v2_ref, v3_ref, receipt_ref])
+}
+
+fn execute_soak(
+    request: &ProofRouteRequest,
+    soak: &SoakEvidence,
+) -> Result<String, ProofRouteFinding> {
+    const MAX_SAMPLES: u64 = 10_000;
+    if soak.sample_count > MAX_SAMPLES {
+        return Err(finding(
+            "soak_sample_limit_exceeded",
+            "bounded soak sample count cannot exceed 10000",
+        ));
+    }
+    let root = request_root(request)?;
+    let mut samples = Vec::with_capacity(soak.sample_count as usize);
+    for sequence in 0..soak.sample_count {
+        let sample = fs::read(root.join(&soak.evidence_ref)).map_err(|_| {
+            finding(
+                "soak_evidence_unreadable",
+                "soak source evidence must remain readable during execution",
+            )
+        })?;
+        samples.push(serde_json::json!({
+            "sequence": sequence + 1,
+            "digest": blake3::hash(&sample).to_hex().to_string(),
+        }));
+    }
+    let reference = format!(".csdlc/evidence/{}/v3-soak/receipt.json", request.issue);
+    write_canonical_evidence(
+        request,
+        &reference,
+        &serde_json::json!({
+            "schema": "csdlc.v3.soak_receipt.v1",
+            "issue": request.issue,
+            "duration_minutes": soak.duration_minutes,
+            "sample_count": soak.sample_count,
+            "source_evidence_ref": soak.evidence_ref,
+            "samples": samples,
+        }),
+    )?;
+    Ok(reference)
+}
+
+fn execute_install(
+    request: &ProofRouteRequest,
+    install: &InstallPlanInput,
+) -> Result<String, ProofRouteFinding> {
+    let root = request_root(request)?;
+    let source = root.join(&install.artifact_ref);
+    let destination = root.join(&install.destination);
+    if destination
+        .symlink_metadata()
+        .is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return Err(finding(
+            "install_destination_symlink",
+            "stable install destination must not be a symlink",
+        ));
+    }
+    let bytes = fs::read(&source).map_err(|_| {
+        finding(
+            "install_artifact_unreadable",
+            "selected install artifact must remain readable during installation",
+        )
+    })?;
+    let digest = blake3::hash(&bytes).to_hex().to_string();
+    if digest != install.selected_binary_digest {
+        return Err(finding(
+            "install_artifact_changed",
+            "selected install artifact changed after validation",
+        ));
+    }
+    write_bytes_atomic(&destination, &bytes)?;
+    fs::set_permissions(&destination, fs::Permissions::from_mode(0o755)).map_err(|_| {
+        finding(
+            "install_permission_failed",
+            "stable installed binary must be executable",
+        )
+    })?;
+    let installed = fs::read(&destination).map_err(|_| {
+        finding(
+            "install_verification_failed",
+            "stable installed binary must be readable for digest verification",
+        )
+    })?;
+    if blake3::hash(&installed).to_hex().to_string() != digest {
+        return Err(finding(
+            "install_verification_failed",
+            "stable installed binary digest must match selected artifact",
+        ));
+    }
+    let reference = format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue);
+    write_canonical_evidence(
+        request,
+        &reference,
+        &serde_json::json!({
+            "schema": "csdlc.v3.install_receipt.v1",
+            "issue": request.issue,
+            "artifact_name": install.artifact_name,
+            "artifact_ref": install.artifact_ref,
+            "destination": install.destination,
+            "installed_digest": digest,
+            "source_provenance": install.source_provenance,
+            "source_provenance_ref": install.source_provenance_ref,
+            "selector_metadata_ref": install.selector_metadata_ref,
+            "selector_metadata_digest": install.selector_metadata_digest,
+            "verified": true,
+        }),
+    )?;
+    Ok(reference)
+}
+
+fn request_root(request: &ProofRouteRequest) -> Result<PathBuf, ProofRouteFinding> {
+    request
+        .evidence_root
+        .as_deref()
+        .map(PathBuf::from)
+        .ok_or_else(|| {
+            finding(
+                "evidence_root_missing",
+                "evidence-backed routes require an evidence root",
+            )
+        })
+}
+
+fn safe_component(value: &str) -> Result<&str, ProofRouteFinding> {
+    if value.is_empty()
+        || value == "."
+        || value == ".."
+        || value.contains('/')
+        || value.contains('\\')
+    {
+        Err(finding(
+            "evidence_identity_unsafe",
+            "evidence identity must be one safe path component",
+        ))
+    } else {
+        Ok(value)
+    }
+}
+
+fn read_json(path: &Path) -> Result<serde_json::Value, ProofRouteFinding> {
+    let bytes = fs::read(path).map_err(|_| {
+        finding(
+            "shadow_observation_unreadable",
+            "shadow observations must be readable JSON",
+        )
+    })?;
+    serde_json::from_slice(&bytes).map_err(|_| {
+        finding(
+            "shadow_observation_invalid_json",
+            "shadow observations must be valid JSON",
+        )
+    })
+}
+
+fn canonical_json(value: &serde_json::Value) -> Vec<u8> {
+    fn normalize(value: &serde_json::Value) -> serde_json::Value {
+        match value {
+            serde_json::Value::Object(map) => {
+                let sorted: BTreeMap<_, _> = map
+                    .iter()
+                    .map(|(key, value)| (key.clone(), normalize(value)))
+                    .collect();
+                serde_json::Value::Object(sorted.into_iter().collect())
+            }
+            serde_json::Value::Array(values) => {
+                serde_json::Value::Array(values.iter().map(normalize).collect())
+            }
+            other => other.clone(),
+        }
+    }
+    serde_json::to_vec(&normalize(value)).expect("JSON value serialization cannot fail")
+}
+
+fn write_canonical_evidence(
+    request: &ProofRouteRequest,
+    reference: &str,
+    value: &serde_json::Value,
+) -> Result<(), ProofRouteFinding> {
+    let root = request_root(request)?;
+    let mut bytes = canonical_json(value);
+    bytes.push(b'\n');
+    write_bytes_atomic(&root.join(reference), &bytes)
+}
+
+fn write_bytes_atomic(path: &Path, bytes: &[u8]) -> Result<(), ProofRouteFinding> {
+    static TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);
+    let parent = path.parent().ok_or_else(|| {
+        finding(
+            "evidence_destination_invalid",
+            "evidence destination must have a parent directory",
+        )
+    })?;
+    fs::create_dir_all(parent).map_err(|_| {
+        finding(
+            "evidence_directory_create_failed",
+            "evidence destination directory could not be created",
+        )
+    })?;
+    let sequence = TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    let temp = path.with_extension(format!("csdlc-v3-{}-{sequence}.tmp", std::process::id()));
+    let mut file = fs::File::create(&temp).map_err(|_| {
+        finding(
+            "evidence_write_failed",
+            "evidence temporary file could not be created",
+        )
+    })?;
+    file.write_all(bytes).map_err(|_| {
+        finding(
+            "evidence_write_failed",
+            "evidence temporary file could not be written",
+        )
+    })?;
+    file.sync_all().map_err(|_| {
+        finding(
+            "evidence_write_failed",
+            "evidence temporary file could not be synchronized",
+        )
+    })?;
+    fs::rename(&temp, path).map_err(|_| {
+        finding(
+            "evidence_commit_failed",
+            "evidence file could not be committed atomically",
+        )
+    })
 }
 
 fn require_nonempty(
@@ -585,4 +916,70 @@ fn observed_ref_bytes(
 
 fn finding(code: &'static str, message: &'static str) -> ProofRouteFinding {
     ProofRouteFinding { code, message }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn native_install_copies_verifies_and_records_provenance() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/proof-native-unit")
+            .join(std::process::id().to_string());
+        let artifact_ref = ".csdlc/evidence/505/install/csdlc";
+        let selector_ref = ".csdlc/evidence/505/install/selector.json";
+        let provenance_ref = ".csdlc/evidence/505/install/provenance.json";
+        fs::create_dir_all(root.join(".csdlc/evidence/505/install")).unwrap();
+        fs::write(root.join(artifact_ref), b"native-v3-binary").unwrap();
+        fs::write(root.join(selector_ref), b"{\"selected\":\"v3\"}").unwrap();
+        fs::write(
+            root.join(provenance_ref),
+            b"{\"schema\":\"csdlc.v3.install_provenance.v1\",\"source\":\"git:test\"}",
+        )
+        .unwrap();
+        let artifact_digest = blake3::hash(b"native-v3-binary").to_hex().to_string();
+        let request = ProofRouteRequest {
+            issue: 505,
+            repository: "agent-logic/agent-design-language".into(),
+            cutover_issue: Some(505),
+            evidence_root: Some(root.to_string_lossy().into_owned()),
+            proof: None,
+            shadow: None,
+            soak: None,
+            install: None,
+        };
+        let install = InstallPlanInput {
+            artifact_name: "csdlc".into(),
+            artifact_ref: artifact_ref.into(),
+            source_provenance_ref: provenance_ref.into(),
+            selector_metadata_ref: selector_ref.into(),
+            source_provenance: "git:test".into(),
+            selected_binary_digest: artifact_digest.clone(),
+            observed_binary_digest: artifact_digest,
+            selector_metadata_digest: blake3::hash(b"{\"selected\":\"v3\"}").to_hex().to_string(),
+            destination: ".adl/bin/csdlc".into(),
+            stable_destination: true,
+            executes_install: true,
+        };
+
+        let receipt_ref = execute_install(&request, &install).unwrap();
+        assert_eq!(
+            fs::read(root.join(".adl/bin/csdlc")).unwrap(),
+            b"native-v3-binary"
+        );
+        assert_ne!(
+            fs::metadata(root.join(".adl/bin/csdlc"))
+                .unwrap()
+                .permissions()
+                .mode()
+                & 0o111,
+            0
+        );
+        let receipt: serde_json::Value =
+            serde_json::from_slice(&fs::read(root.join(receipt_ref)).unwrap()).unwrap();
+        assert_eq!(receipt["verified"], true);
+        assert_eq!(receipt["source_provenance"], "git:test");
+        fs::remove_dir_all(root).unwrap();
+    }
 }

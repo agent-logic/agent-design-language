@@ -122,8 +122,7 @@ fn assert_ready_value(route: &str, body: Value) {
     let value = run_route_value(route, body);
     assert_eq!(value["schema"], "csdlc.v3.proof_route.v1");
     assert_eq!(value["route"], route);
-    assert_eq!(value["read_only"], true);
-    assert_eq!(value["operational_authority"], false);
+    assert_eq!(value["operational_authority"], true);
     assert_eq!(value["status"], "ready");
     assert!(value["findings"].as_array().unwrap().is_empty());
 }
@@ -210,6 +209,53 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
 }
 
 #[test]
+fn proof_route_retains_a_deterministic_native_receipt() {
+    let _scratch = ScratchGuard::new();
+    let (root, proof_ref, digest) = write_evidence("native-proof.json", br#"{"ok":true}"#);
+    let value = run_route_value(
+        "proof",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "proof": {
+            "manifest_id": "native-proof",
+            "lane": "deterministic",
+            "deterministic": true,
+            "evidence_ref": proof_ref,
+            "evidence_digest": digest,
+            "observed_digest": digest,
+            "stale": false
+          }
+        }),
+    );
+    assert_eq!(value["performed_mutation"], true);
+    let receipt = binary_repo_root().join(value["evidence_refs"][0].as_str().unwrap());
+    let first = fs::read(&receipt).expect("native proof receipt");
+    let rerun = run_route_value(
+        "proof",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": binary_repo_root(),
+          "proof": {
+            "manifest_id": "native-proof",
+            "lane": "deterministic",
+            "deterministic": true,
+            "evidence_ref": scoped_evidence_ref("native-proof.json"),
+            "evidence_digest": digest,
+            "observed_digest": digest,
+            "stale": false
+          }
+        }),
+    );
+    assert_eq!(rerun["status"], "ready");
+    assert_eq!(fs::read(receipt).unwrap(), first);
+}
+
+#[test]
 fn shadow_route_requires_bounded_matching_observations() {
     let _scratch = ScratchGuard::new();
     let (root, v2_ref, digest) = write_evidence("v2.json", br#"{"same":true}"#);
@@ -275,6 +321,33 @@ fn shadow_route_requires_bounded_matching_observations() {
 }
 
 #[test]
+fn shadow_route_compares_canonical_json_not_incidental_key_order() {
+    let _scratch = ScratchGuard::new();
+    let (_root, v2_ref, v2_digest) = write_evidence("ordered-v2.json", br#"{"a":1,"b":2}"#);
+    let (root, v3_ref, v3_digest) = write_evidence("ordered-v3.json", br#"{"b":2,"a":1}"#);
+    let value = run_route_value(
+        "shadow",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "evidence_root": root,
+          "shadow": {
+            "v2_observation_ref": v2_ref,
+            "v2_digest": v2_digest,
+            "v3_observation_ref": v3_ref,
+            "v3_digest": v3_digest,
+            "bounded_v2": true,
+            "bounded_v3": true,
+            "broad_equivalence_claim": false
+          }
+        }),
+    );
+    assert_eq!(value["status"], "ready");
+    assert_eq!(value["performed_mutation"], true);
+    assert_eq!(value["evidence_refs"].as_array().unwrap().len(), 3);
+}
+
+#[test]
 fn soak_route_refuses_hidden_state_and_provider_side_effects() {
     let _scratch = ScratchGuard::new();
     let (root, soak_ref, _) = write_evidence("soak.json", br#"{"samples":3}"#);
@@ -308,6 +381,30 @@ fn soak_route_refuses_hidden_state_and_provider_side_effects() {
         }"#,
         "soak_hidden_state",
     );
+}
+
+#[test]
+fn soak_route_executes_the_declared_bounded_repetitions() {
+    let _scratch = ScratchGuard::new();
+    let (root, soak_ref, _) = write_evidence("native-soak.json", br#"{"sample":true}"#);
+    let value = run_route_value(
+        "soak",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "evidence_root": root,
+          "soak": {
+            "evidence_ref": soak_ref,
+            "duration_minutes": 1,
+            "sample_count": 4,
+            "hidden_state": false,
+            "provider_side_effects": false
+          }
+        }),
+    );
+    let receipt = binary_repo_root().join(value["evidence_refs"][0].as_str().unwrap());
+    let receipt: Value = serde_json::from_slice(&fs::read(receipt).unwrap()).unwrap();
+    assert_eq!(receipt["samples"].as_array().unwrap().len(), 4);
 }
 
 #[test]

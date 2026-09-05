@@ -9,6 +9,7 @@ use std::{
 use std::os::unix::fs::OpenOptionsExt;
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
+const GITHUB_OPERATIONAL_ADAPTER: &str = "github-api-operational";
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct CommandInvocation {
@@ -271,7 +272,10 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
             None => None,
         };
         let Some((credential_name, credential_value)) = credential else {
-            if invocation.program == GITHUB_READ_ONLY_ADAPTER {
+            if matches!(
+                invocation.program.as_str(),
+                GITHUB_READ_ONLY_ADAPTER | GITHUB_OPERATIONAL_ADAPTER
+            ) {
                 return ProcessOutput {
                     status: ProcessStatus::Exit(126),
                     stdout: String::new(),
@@ -289,15 +293,17 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
                 truncated: false,
             };
         }
-        let (process_invocation, curl_config_required) =
-            if invocation.program == GITHUB_READ_ONLY_ADAPTER {
-                match github_read_only_curl_invocation(&invocation) {
-                    Ok(curl) => (curl, true),
-                    Err(output) => return output,
-                }
-            } else {
-                (invocation, false)
-            };
+        let (process_invocation, curl_config_required) = match invocation.program.as_str() {
+            GITHUB_READ_ONLY_ADAPTER => match github_read_only_curl_invocation(&invocation) {
+                Ok(curl) => (curl, true),
+                Err(output) => return output,
+            },
+            GITHUB_OPERATIONAL_ADAPTER => match github_operational_curl_invocation(&invocation) {
+                Ok(curl) => (curl, true),
+                Err(output) => return output,
+            },
+            _ => (invocation, false),
+        };
         let curl_config = if curl_config_required || process_invocation.program == "curl" {
             match write_private_curl_config(&credential_value) {
                 Ok(path) => Some(path),
@@ -369,6 +375,68 @@ fn github_read_only_curl_invocation(
         status: ProcessStatus::Exit(2),
         stdout: String::new(),
         stderr: "github read-only adapter rejected unsafe request".into(),
+        truncated: false,
+    })
+}
+
+fn github_operational_curl_invocation(
+    invocation: &CommandInvocation,
+) -> Result<CommandInvocation, ProcessOutput> {
+    let [method, endpoint, input_path] = invocation.argv() else {
+        return Err(ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github operational adapter requires method, endpoint, and input path".into(),
+            truncated: false,
+        });
+    };
+    if !matches!(method.as_str(), "POST" | "PATCH")
+        || !endpoint.starts_with("repos/")
+        || endpoint.contains("..")
+        || endpoint
+            .chars()
+            .any(|ch| !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/')))
+    {
+        return Err(ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github operational adapter received unsupported request".into(),
+            truncated: false,
+        });
+    }
+    let input = Path::new(input_path);
+    if !input.is_absolute() || !input.is_file() {
+        return Err(ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github operational adapter requires an existing absolute input file".into(),
+            truncated: false,
+        });
+    }
+    CommandInvocation::new(
+        "curl",
+        [
+            "--fail-with-body".to_owned(),
+            "--silent".to_owned(),
+            "--show-error".to_owned(),
+            "--location".to_owned(),
+            "--request".to_owned(),
+            method.clone(),
+            "--header".to_owned(),
+            "Accept: application/vnd.github+json".to_owned(),
+            "--header".to_owned(),
+            "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+            "--header".to_owned(),
+            "Content-Type: application/json".to_owned(),
+            "--data-binary".to_owned(),
+            format!("@{input_path}"),
+            format!("https://api.github.com/{endpoint}"),
+        ],
+    )
+    .map_err(|_| ProcessOutput {
+        status: ProcessStatus::Exit(2),
+        stdout: String::new(),
+        stderr: "github operational adapter rejected unsafe request".into(),
         truncated: false,
     })
 }

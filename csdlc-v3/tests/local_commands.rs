@@ -38,6 +38,7 @@ fn request() -> LocalPreparationRequest {
         registry_version: "1.0.3".into(),
         expected_lifecycle_digest: None,
         commands: required_local_commands().to_vec(),
+        card_updates: BTreeMap::new(),
     }
 }
 
@@ -112,6 +113,17 @@ fn contract_commands_are_typed_and_non_authoritative() {
     assert!(is_v3d_local_preparation_predecessor(173));
     assert!(!is_v3d_local_preparation_predecessor(170));
     assert!(!is_v3d_local_preparation_predecessor(174));
+}
+
+#[test]
+fn contract_rejects_malformed_repository_identity() {
+    let mut req = request();
+    req.repository = "agent-logic/agent-design-language/issues/505".into();
+
+    let findings = validate_contract(&req).expect_err("malformed repository blocks contract");
+    assert!(findings
+        .iter()
+        .any(|finding| finding.code == "repository_invalid"));
 }
 
 #[test]

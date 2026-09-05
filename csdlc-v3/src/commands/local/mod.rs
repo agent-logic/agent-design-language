@@ -8,7 +8,8 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     fs,
-    path::Path,
+    path::{Path, PathBuf},
+    process::Command,
 };
 
 use serde::{Deserialize, Serialize};
@@ -52,6 +53,33 @@ pub struct LocalPreparationRequest {
     #[serde(default)]
     pub expected_lifecycle_digest: Option<String>,
     pub commands: Vec<LocalCommand>,
+    /// Values merged by the native `edit` route, keyed by card kind.
+    #[serde(default)]
+    pub card_updates: BTreeMap<String, Value>,
+}
+
+/// Filesystem authority supplied to the native local command executor.
+///
+/// The explicit roots keep writes reviewable and make root-main denial and
+/// worktree containment independently testable.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct OperationalLocalContext {
+    pub repository_root: PathBuf,
+    pub state_root: PathBuf,
+    pub allowed_worktree_parent: PathBuf,
+}
+
+/// Result of a native local mutation or diagnostic.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct OperationalLocalResult {
+    pub route: String,
+    pub issue: u64,
+    pub mutated: bool,
+    pub phase: Option<String>,
+    pub generation: Option<u64>,
+    pub digest: Option<String>,
+    pub next_route: Option<String>,
+    pub findings: Vec<DoctorFinding>,
 }
 
 /// Exact Git worktree registration observed by a caller-owned adapter.
@@ -304,6 +332,15 @@ pub fn validate_contract(request: &LocalPreparationRequest) -> Result<(), Vec<Do
             findings.push(finding(PlanStatus::Failed, code, "typed field is required"));
         }
     }
+    if !request.repository.trim().is_empty()
+        && !is_valid_github_repository_name(&request.repository)
+    {
+        findings.push(finding(
+            PlanStatus::Failed,
+            "repository_invalid",
+            "repository must use owner/name GitHub syntax",
+        ));
+    }
     let unique = request.commands.iter().copied().collect::<BTreeSet<_>>();
     for required in required_local_commands() {
         if !unique.contains(&required) {
@@ -319,6 +356,20 @@ pub fn validate_contract(request: &LocalPreparationRequest) -> Result<(), Vec<Do
     } else {
         Err(findings)
     }
+}
+
+fn is_valid_github_repository_name(repository: &str) -> bool {
+    let Some((owner, name)) = repository.split_once('/') else {
+        return false;
+    };
+    !owner.is_empty()
+        && !name.is_empty()
+        && !name.contains('/')
+        && [owner, name].into_iter().all(|component| {
+            component
+                .chars()
+                .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.'))
+        })
 }
 
 /// Build the card-rendering plan from an active registry observation.
@@ -971,6 +1022,699 @@ fn read_local_lifecycle_index(index_path: &Path) -> Result<LocalLifecycleIndex, 
             .filter(|digest| !digest.trim().is_empty())
             .map(str::to_string),
     })
+}
+
+/// Execute one local route with native v3 state and Git operations.
+///
+/// This entry point deliberately has no v2 subprocess fallback. Callers may
+/// expose it only after the v3 writer fence is active.
+pub fn execute_operational_local_route(
+    route: &str,
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    context: &OperationalLocalContext,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    validate_contract(request)?;
+    plan_cards(request.issue, &request.registry_version, registry)?;
+    validate_context(context)?;
+    let issue_root = context.state_root.join(format!("issues/{}", request.issue));
+    let before = inspect_lifecycle_issue_root(&issue_root, request.issue, "v3");
+    require_operational_cas(route, request, &before)?;
+
+    match route {
+        "issue" => initialize_operational_issue(request, registry, &issue_root),
+        "bind" => bind_operational_issue(request, context, &issue_root),
+        "edit" => edit_operational_cards(request, registry, &issue_root),
+        "validate" => validate_operational_issue(request, registry, &issue_root),
+        "doctor" | "eligibility" => diagnose_operational_issue(route, request, registry, context),
+        "schedule" | "shepherd" => route_operational_issue(route, request, registry, context),
+        _ => Err(vec![finding(
+            PlanStatus::Failed,
+            "unknown_local_route",
+            "unknown native v3 local route",
+        )]),
+    }
+}
+
+fn validate_context(context: &OperationalLocalContext) -> Result<(), Vec<DoctorFinding>> {
+    if context.repository_root == context.allowed_worktree_parent
+        || context
+            .repository_root
+            .starts_with(&context.allowed_worktree_parent)
+    {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "invalid_operational_roots",
+            "repository root and worktree parent must be distinct",
+        )]);
+    }
+    fs::create_dir_all(&context.state_root).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "state_root_create_failed",
+            &error.to_string(),
+        )]
+    })
+}
+
+fn require_operational_cas(
+    route: &str,
+    request: &LocalPreparationRequest,
+    observed: &LocalLifecycleStateObservation,
+) -> Result<(), Vec<DoctorFinding>> {
+    if observed.code == "missing_local_lifecycle_state" {
+        if route == "issue" && request.expected_lifecycle_digest.is_none() {
+            return Ok(());
+        }
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "missing_local_lifecycle_state",
+            "only issue initialization may operate without existing lifecycle state",
+        )]);
+    }
+    let expected = request
+        .expected_lifecycle_digest
+        .as_deref()
+        .ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "local_lifecycle_digest_required",
+                "an existing lifecycle record requires expected_lifecycle_digest",
+            )]
+        })?;
+    if observed.digest.as_deref() != Some(expected) {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "stale_local_lifecycle_digest",
+            "observed local lifecycle digest does not match the typed request",
+        )]);
+    }
+    Ok(())
+}
+
+fn initialize_operational_issue(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    issue_root: &Path,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    if issue_root.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "issue_already_initialized",
+            "native issue initialization is create-only",
+        )]);
+    }
+    let cards_root = issue_root.join("cards");
+    fs::create_dir_all(&cards_root).map_err(io_finding("issue_state_create_failed"))?;
+    for kind in REQUIRED_CARD_KINDS {
+        let values = initial_card_values(request, registry, kind);
+        let template_path = registry
+            .template_paths
+            .get(kind)
+            .expect("registry validated");
+        let template =
+            fs::read_to_string(template_path).map_err(io_finding("template_read_failed"))?;
+        let rendered = render_template(&template, &values);
+        atomic_write_json(&cards_root.join(format!("{kind}.values.json")), &values)?;
+        atomic_write(&cards_root.join(format!("{kind}.md")), rendered.as_bytes())?;
+    }
+    let (generation, digest) = persist_index(issue_root, request, registry, "ready", 1)?;
+    Ok(operational_result(
+        "issue",
+        request.issue,
+        true,
+        "ready",
+        generation,
+        digest,
+        Some("bind"),
+        vec![],
+    ))
+}
+
+fn initial_card_values(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    kind: &str,
+) -> Value {
+    serde_json::json!({
+        "schema": "csdlc.v3.card_values.v1",
+        "issue": request.issue,
+        "issue_padded": format!("{:04}", request.issue),
+        "issue_url": format!("https://github.com/{}/issues/{}", request.repository, request.issue),
+        "title": request.title,
+        "branch": request.branch,
+        "version": registry.version,
+        "card": kind,
+        "card_status": "ready",
+        "repository": request.repository,
+        "worktree": request.worktree
+    })
+}
+
+fn bind_operational_issue(
+    request: &LocalPreparationRequest,
+    context: &OperationalLocalContext,
+    issue_root: &Path,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    let observed = inspect_lifecycle_issue_root(issue_root, request.issue, "v3");
+    if observed.phase.as_deref() != Some("ready") {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "bind_phase_invalid",
+            "bind requires ready lifecycle state",
+        )]);
+    }
+    let target = PathBuf::from(&request.worktree);
+    if !target.is_absolute() || !target.starts_with(&context.allowed_worktree_parent) {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "worktree_outside_policy",
+            "operational bind requires an absolute path below the allowed worktree parent",
+        )]);
+    }
+    if target == context.repository_root {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "primary_worktree_denied",
+            "bind cannot target the primary checkout",
+        )]);
+    }
+    let registration =
+        git_worktree_registration(&context.repository_root, &request.branch, &target)?;
+    if !registration {
+        if target.exists() {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "unregistered_worktree_exists",
+                "target path exists but is not registered for the requested branch",
+            )]);
+        }
+        let output = Command::new("git")
+            .arg("-C")
+            .arg(&context.repository_root)
+            .args(["worktree", "add", "-b"])
+            .arg(&request.branch)
+            .arg(&target)
+            .arg("HEAD")
+            .output()
+            .map_err(io_finding("git_worktree_add_failed"))?;
+        if !output.status.success() {
+            return Err(vec![finding(
+                PlanStatus::Failed,
+                "git_worktree_add_failed",
+                String::from_utf8_lossy(&output.stderr).trim(),
+            )]);
+        }
+    }
+    atomic_write_json(
+        &issue_root.join("binding.json"),
+        &serde_json::json!({
+            "schema": "csdlc.v3.binding.v1",
+            "issue": request.issue,
+            "branch": request.branch,
+            "worktree": request.worktree
+        }),
+    )?;
+    let index = read_index_value(issue_root)?;
+    let registry_version = index["template_registry_version"]
+        .as_str()
+        .unwrap_or(&request.registry_version);
+    let registry = PromptRegistry {
+        version: registry_version.to_owned(),
+        card_kinds: BTreeSet::new(),
+        template_paths: BTreeMap::new(),
+    };
+    let generation = observed.generation.unwrap_or(1) + 1;
+    let (generation, digest) = persist_index(issue_root, request, &registry, "bound", generation)?;
+    Ok(operational_result(
+        "bind",
+        request.issue,
+        true,
+        "bound",
+        generation,
+        digest,
+        Some("edit"),
+        vec![],
+    ))
+}
+
+fn edit_operational_cards(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    issue_root: &Path,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    if request.card_updates.is_empty() {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "card_updates_missing",
+            "edit requires at least one typed card update",
+        )]);
+    }
+    for (kind, update) in &request.card_updates {
+        if !REQUIRED_CARD_KINDS.contains(&kind.as_str()) || !update.is_object() {
+            return Err(vec![finding(
+                PlanStatus::Failed,
+                "card_update_invalid",
+                "card updates must be objects keyed by canonical card kind",
+            )]);
+        }
+        let values_path = issue_root.join(format!("cards/{kind}.values.json"));
+        let mut values: Value = serde_json::from_slice(
+            &fs::read(&values_path).map_err(io_finding("card_values_read_failed"))?,
+        )
+        .map_err(|error| {
+            vec![finding(
+                PlanStatus::Failed,
+                "card_values_invalid",
+                &error.to_string(),
+            )]
+        })?;
+        merge_json_object(&mut values, update);
+        let template = fs::read_to_string(
+            registry
+                .template_paths
+                .get(kind)
+                .expect("registry validated"),
+        )
+        .map_err(io_finding("template_read_failed"))?;
+        atomic_write_json(&values_path, &values)?;
+        atomic_write(
+            &issue_root.join(format!("cards/{kind}.md")),
+            render_template(&template, &values).as_bytes(),
+        )?;
+    }
+    let observed = inspect_lifecycle_issue_root(issue_root, request.issue, "v3");
+    let phase = observed.phase.as_deref().unwrap_or("ready");
+    let (generation, digest) = persist_index(
+        issue_root,
+        request,
+        registry,
+        phase,
+        observed.generation.unwrap_or(1) + 1,
+    )?;
+    Ok(operational_result(
+        "edit",
+        request.issue,
+        true,
+        phase,
+        generation,
+        digest,
+        Some("validate"),
+        vec![],
+    ))
+}
+
+fn validate_operational_issue(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    issue_root: &Path,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    let findings = validation_findings(request, registry, issue_root);
+    if findings
+        .iter()
+        .any(|item| item.status != PlanStatus::Passed)
+    {
+        return Err(findings);
+    }
+    let observed = inspect_lifecycle_issue_root(issue_root, request.issue, "v3");
+    Ok(operational_result(
+        "validate",
+        request.issue,
+        false,
+        observed.phase.as_deref().unwrap_or("unknown"),
+        observed.generation.unwrap_or(0),
+        observed.digest.unwrap_or_default(),
+        Some(if observed.phase.as_deref() == Some("bound") {
+            "shepherd"
+        } else {
+            "bind"
+        }),
+        findings,
+    ))
+}
+
+fn diagnose_operational_issue(
+    route: &str,
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    context: &OperationalLocalContext,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    let issue_root = context.state_root.join(format!("issues/{}", request.issue));
+    let mut findings = validation_findings(request, registry, &issue_root);
+    let observed = inspect_lifecycle_issue_root(&issue_root, request.issue, "v3");
+    if observed.phase.as_deref() == Some("bound") {
+        let target = PathBuf::from(&request.worktree);
+        if git_worktree_registration(&context.repository_root, &request.branch, &target)? {
+            findings.push(finding(
+                PlanStatus::Passed,
+                "binding_live",
+                "exact Git worktree registration is live",
+            ));
+        } else {
+            findings.push(finding(
+                PlanStatus::Blocked,
+                "binding_not_live",
+                "recorded binding is absent from live Git worktree topology",
+            ));
+        }
+    }
+    let ready = !findings
+        .iter()
+        .any(|item| matches!(item.status, PlanStatus::Blocked | PlanStatus::Failed));
+    Ok(operational_result(
+        route,
+        request.issue,
+        false,
+        observed.phase.as_deref().unwrap_or("unknown"),
+        observed.generation.unwrap_or(0),
+        observed.digest.unwrap_or_default(),
+        if ready {
+            Some(if observed.phase.as_deref() == Some("bound") {
+                "shepherd"
+            } else {
+                "bind"
+            })
+        } else {
+            None
+        },
+        findings,
+    ))
+}
+
+fn route_operational_issue(
+    route: &str,
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    context: &OperationalLocalContext,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    let mut result = diagnose_operational_issue(route, request, registry, context)?;
+    let blocked = result
+        .findings
+        .iter()
+        .any(|item| matches!(item.status, PlanStatus::Blocked | PlanStatus::Failed));
+    result.next_route = if blocked {
+        Some("doctor".into())
+    } else if result.phase.as_deref() == Some("ready") {
+        Some("bind".into())
+    } else if request.card_updates.is_empty() {
+        Some("edit".into())
+    } else {
+        Some("validate".into())
+    };
+    Ok(result)
+}
+
+fn validation_findings(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    issue_root: &Path,
+) -> Vec<DoctorFinding> {
+    let mut findings = Vec::new();
+    let index = match read_index_value(issue_root) {
+        Ok(index) => index,
+        Err(mut errors) => {
+            return {
+                findings.append(&mut errors);
+                findings
+            }
+        }
+    };
+    let recorded_digest = index.get("digest").and_then(Value::as_str).unwrap_or("");
+    match lifecycle_digest(issue_root, &index) {
+        Ok(actual) if actual == recorded_digest => findings.push(finding(
+            PlanStatus::Passed,
+            "lifecycle_digest_valid",
+            "lifecycle digest matches canonical state",
+        )),
+        Ok(_) => findings.push(finding(
+            PlanStatus::Blocked,
+            "lifecycle_digest_mismatch",
+            "lifecycle digest does not match canonical state",
+        )),
+        Err(mut errors) => findings.append(&mut errors),
+    }
+    for kind in REQUIRED_CARD_KINDS {
+        let values_path = issue_root.join(format!("cards/{kind}.values.json"));
+        let rendered_path = issue_root.join(format!("cards/{kind}.md"));
+        let values: Value = match fs::read(&values_path)
+            .ok()
+            .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+        {
+            Some(value) if value.is_object() => value,
+            _ => {
+                findings.push(finding(
+                    PlanStatus::Blocked,
+                    "card_values_invalid",
+                    &format!("{kind} values are missing or invalid"),
+                ));
+                continue;
+            }
+        };
+        let template = match registry
+            .template_paths
+            .get(kind)
+            .and_then(|path| fs::read_to_string(path).ok())
+        {
+            Some(template) => template,
+            None => {
+                findings.push(finding(
+                    PlanStatus::Blocked,
+                    "template_read_failed",
+                    &format!("{kind} template is unavailable"),
+                ));
+                continue;
+            }
+        };
+        let expected = render_template(&template, &values);
+        let actual = fs::read_to_string(&rendered_path).unwrap_or_default();
+        if expected != actual {
+            findings.push(finding(
+                PlanStatus::Blocked,
+                "rendered_card_drift",
+                &format!("{kind} rendered card differs from typed values"),
+            ));
+            continue;
+        }
+        if !structure_valid(registry, kind, &actual) {
+            findings.push(finding(
+                PlanStatus::Blocked,
+                "card_structure_invalid",
+                &format!("{kind} rendered card violates its structure schema"),
+            ));
+        }
+    }
+    if findings.len() == 1 && findings[0].status == PlanStatus::Passed {
+        findings.push(finding(
+            PlanStatus::Passed,
+            "six_card_validation_passed",
+            &format!(
+                "issue #{} has valid values, renders, structures, and digest",
+                request.issue
+            ),
+        ));
+    }
+    findings
+}
+
+fn structure_valid(registry: &PromptRegistry, kind: &str, markdown: &str) -> bool {
+    let Some(template_path) = registry.template_paths.get(kind) else {
+        return false;
+    };
+    let schema_path = PathBuf::from(template_path)
+        .parent()
+        .and_then(Path::parent)
+        .map(|root| root.join(format!("schemas/{kind}.structure.json")));
+    let Some(schema_path) = schema_path else {
+        return false;
+    };
+    let Ok(bytes) = fs::read(schema_path) else {
+        return false;
+    };
+    let Ok(schema) = serde_json::from_slice::<Value>(&bytes) else {
+        return false;
+    };
+    schema
+        .get("scaffold_lines")
+        .and_then(Value::as_array)
+        .is_some_and(|lines| {
+            lines
+                .iter()
+                .filter_map(Value::as_str)
+                .all(|line| markdown.lines().any(|candidate| candidate.trim() == line))
+        })
+}
+
+fn persist_index(
+    issue_root: &Path,
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    phase: &str,
+    generation: u64,
+) -> Result<(u64, String), Vec<DoctorFinding>> {
+    let mut index = serde_json::json!({
+        "schema": "csdlc.v3.local_state.v1",
+        "issue": request.issue,
+        "phase": phase,
+        "generation": generation,
+        "repository": request.repository,
+        "branch": request.branch,
+        "worktree": request.worktree,
+        "template_registry_version": registry.version,
+        "operational_authority": true
+    });
+    let digest = lifecycle_digest(issue_root, &index)?;
+    index["digest"] = Value::String(digest.clone());
+    atomic_write_json(&issue_root.join("index.json"), &index)?;
+    Ok((generation, digest))
+}
+
+fn lifecycle_digest(issue_root: &Path, index: &Value) -> Result<String, Vec<DoctorFinding>> {
+    let mut canonical_index = index.clone();
+    canonical_index
+        .as_object_mut()
+        .map(|object| object.remove("digest"));
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&serde_json::to_vec(&canonical_index).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "index_serialize_failed",
+            &error.to_string(),
+        )]
+    })?);
+    for kind in REQUIRED_CARD_KINDS {
+        for suffix in ["values.json", "md"] {
+            let path = issue_root.join(format!("cards/{kind}.{suffix}"));
+            hasher.update(&fs::read(path).map_err(io_finding("card_read_failed"))?);
+        }
+    }
+    let binding = issue_root.join("binding.json");
+    if binding.is_file() {
+        hasher.update(&fs::read(binding).map_err(io_finding("binding_read_failed"))?);
+    }
+    Ok(hasher.finalize().to_hex().to_string())
+}
+
+fn read_index_value(issue_root: &Path) -> Result<Value, Vec<DoctorFinding>> {
+    serde_json::from_slice(
+        &fs::read(issue_root.join("index.json")).map_err(io_finding("index_read_failed"))?,
+    )
+    .map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "index_invalid",
+            &error.to_string(),
+        )]
+    })
+}
+
+fn render_template(template: &str, values: &Value) -> String {
+    let mut output = template.to_owned();
+    if let Some(object) = values.as_object() {
+        for (key, value) in object {
+            let rendered = value
+                .as_str()
+                .map(str::to_owned)
+                .unwrap_or_else(|| value.to_string());
+            output = output.replace(&format!("<{key}>"), &rendered);
+        }
+    }
+    output
+}
+
+fn merge_json_object(target: &mut Value, update: &Value) {
+    if let (Some(target), Some(update)) = (target.as_object_mut(), update.as_object()) {
+        for (key, value) in update {
+            target.insert(key.clone(), value.clone());
+        }
+    }
+}
+
+fn git_worktree_registration(
+    repo: &Path,
+    branch: &str,
+    target: &Path,
+) -> Result<bool, Vec<DoctorFinding>> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(repo)
+        .args(["worktree", "list", "--porcelain"])
+        .output()
+        .map_err(io_finding("git_worktree_list_failed"))?;
+    if !output.status.success() {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "git_worktree_list_failed",
+            String::from_utf8_lossy(&output.stderr).trim(),
+        )]);
+    }
+    let text = String::from_utf8_lossy(&output.stdout);
+    let branch_ref = format!("refs/heads/{branch}");
+    Ok(text.split("\n\n").any(|record| {
+        record
+            .lines()
+            .any(|line| line == format!("worktree {}", target.display()))
+            && record
+                .lines()
+                .any(|line| line == format!("branch {branch_ref}"))
+    }))
+}
+
+fn atomic_write_json(path: &Path, value: &Value) -> Result<(), Vec<DoctorFinding>> {
+    let bytes = serde_json::to_vec_pretty(value).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "json_serialize_failed",
+            &error.to_string(),
+        )]
+    })?;
+    atomic_write(path, &bytes)
+}
+
+fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), Vec<DoctorFinding>> {
+    let parent = path.parent().ok_or_else(|| {
+        vec![finding(
+            PlanStatus::Failed,
+            "write_parent_missing",
+            "target has no parent",
+        )]
+    })?;
+    fs::create_dir_all(parent).map_err(io_finding("write_parent_create_failed"))?;
+    let temporary = parent.join(format!(
+        ".{}.tmp-{}",
+        path.file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or("state"),
+        std::process::id()
+    ));
+    fs::write(&temporary, bytes).map_err(io_finding("temporary_write_failed"))?;
+    fs::rename(&temporary, path).map_err(io_finding("atomic_rename_failed"))
+}
+
+fn io_finding(code: &'static str) -> impl FnOnce(std::io::Error) -> Vec<DoctorFinding> {
+    move |error| vec![finding(PlanStatus::Failed, code, &error.to_string())]
+}
+
+#[allow(clippy::too_many_arguments)]
+fn operational_result(
+    route: &str,
+    issue: u64,
+    mutated: bool,
+    phase: &str,
+    generation: u64,
+    digest: String,
+    next_route: Option<&str>,
+    findings: Vec<DoctorFinding>,
+) -> OperationalLocalResult {
+    OperationalLocalResult {
+        route: route.into(),
+        issue,
+        mutated,
+        phase: Some(phase.into()),
+        generation: Some(generation),
+        digest: Some(digest),
+        next_route: next_route.map(str::to_string),
+        findings,
+    }
 }
 
 pub fn finding(status: PlanStatus, code: &str, message: &str) -> DoctorFinding {

@@ -11,9 +11,11 @@ use crate::review::{
     ReviewRejectReason, ReviewTarget,
 };
 use serde::{Deserialize, Serialize};
+use std::fs;
 use std::path::{Path, PathBuf};
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
+const GITHUB_OPERATIONAL_ADAPTER: &str = "github-api-operational";
 
 pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [
     "github",
@@ -130,6 +132,79 @@ pub struct ObservedRemoteRouteRequest {
     pub request: RemoteRouteRequest,
     pub receipts: RemoteRouteReceipts,
     pub invocation: CommandInvocation,
+}
+
+/// A bounded GitHub mutation owned by the v3 remote route.  Arbitrary URLs,
+/// shell strings and credential values are deliberately not representable.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "action", rename_all = "snake_case")]
+pub enum GithubMutation {
+    IssueComment {
+        body: String,
+    },
+    IssueEdit {
+        title: Option<String>,
+        body: Option<String>,
+    },
+    PullRequestCreate {
+        base: String,
+        head: String,
+        title: String,
+        body: String,
+        #[serde(default)]
+        draft: bool,
+    },
+    PullRequestUpdate {
+        title: Option<String>,
+        body: Option<String>,
+    },
+    PullRequestReady,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GithubMutationRequest {
+    pub repository: String,
+    pub issue: u64,
+    #[serde(default)]
+    pub pull_request: Option<u64>,
+    pub expected_head_sha: String,
+    pub credential_names: Vec<String>,
+    pub mutation: GithubMutation,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GithubMutationReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: Option<u64>,
+    pub expected_head_sha: String,
+    pub operation_digest: String,
+    pub response_digest: String,
+    pub readback_digest: Option<String>,
+    pub adapter: String,
+    pub authenticated: bool,
+    pub idempotent_replay: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct GithubMutationResult {
+    pub receipt: GithubMutationReceipt,
+    pub readback: Option<ObservedRemoteRouteRequest>,
+    pub invocation: CommandInvocation,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PublicationStateReceipt {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: u64,
+    pub head_sha: String,
+    pub mode: RemotePublicationMode,
+    pub review_receipt_digest: String,
+    pub mutation_operation_digest: String,
+    pub github_readback_digest: String,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -644,6 +719,437 @@ pub fn observe_github_pr_readback(
         },
         invocation,
     })
+}
+
+pub fn execute_github_mutation(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<GithubMutationResult, RemoteRouteFinding> {
+    validate_repository_name(&request.repository)?;
+    let credential_name = match request.credential_names.as_slice() {
+        [name] if !name.trim().is_empty() => name.clone(),
+        [] => {
+            return Err(remote_finding(
+                "github_credential_missing",
+                "authenticated GitHub mutation requires exactly one credential name",
+            ))
+        }
+        _ => {
+            return Err(remote_finding(
+                "github_credential_ambiguous",
+                "authenticated GitHub mutation requires one unambiguous credential name",
+            ))
+        }
+    };
+    validate_mutation(request)?;
+    let operation_digest = github_mutation_operation_digest(request);
+    let receipt_path = github_mutation_receipt_path(repo_root, &operation_digest)?;
+    if receipt_path.exists() {
+        let bytes = fs::read(&receipt_path).map_err(|_| {
+            remote_finding(
+                "github_mutation_receipt_unreadable",
+                "existing mutation receipt cannot be read",
+            )
+        })?;
+        let mut receipt: GithubMutationReceipt = serde_json::from_slice(&bytes).map_err(|_| {
+            remote_finding(
+                "github_mutation_receipt_invalid",
+                "existing mutation receipt is not valid typed JSON",
+            )
+        })?;
+        if receipt.operation_digest != operation_digest
+            || !receipt.authenticated
+            || receipt.adapter != GITHUB_OPERATIONAL_ADAPTER
+        {
+            return Err(remote_finding(
+                "github_mutation_receipt_mismatch",
+                "existing mutation receipt does not authorize this exact operation",
+            ));
+        }
+        receipt.idempotent_replay = true;
+        let readback = observe_after_mutation(request, process)?;
+        if let Some(observed) = readback.as_ref() {
+            receipt.readback_digest = observed.request.readback_receipt_digest.clone();
+        }
+        return Ok(GithubMutationResult {
+            receipt,
+            readback,
+            invocation: CommandInvocation::new("true", std::iter::empty::<String>())
+                .expect("static no-op invocation"),
+        });
+    }
+
+    let input_path = write_mutation_input(repo_root, &operation_digest, request)?;
+    let invocation = github_mutation_invocation(request, &input_path)?
+        .with_child_credential(credential_name)
+        .map_err(|_| {
+            remote_finding(
+                "github_credential_scope_invalid",
+                "GitHub credential name is not safe for child-process injection",
+            )
+        })?;
+    let output = process.run(invocation.clone());
+    let _ = fs::remove_file(&input_path);
+    if output.truncated {
+        return Err(remote_finding(
+            "github_mutation_truncated",
+            "GitHub mutation output was truncated; state is indeterminate and requires readback",
+        ));
+    }
+    if output.status != ProcessStatus::Exit(0) {
+        return Err(remote_finding(
+            "github_mutation_failed",
+            "GitHub mutation adapter did not complete successfully",
+        ));
+    }
+    validate_mutation_response(request, &output.stdout)?;
+    let readback = observe_after_mutation(request, process)?;
+    let readback_digest = readback
+        .as_ref()
+        .and_then(|value| value.request.readback_receipt_digest.clone());
+    let receipt = GithubMutationReceipt {
+        schema: "csdlc.v3.github_mutation_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request: request.pull_request,
+        expected_head_sha: request.expected_head_sha.clone(),
+        operation_digest,
+        response_digest: stable_digest(&[output.stdout.as_str()]),
+        readback_digest,
+        adapter: GITHUB_OPERATIONAL_ADAPTER.into(),
+        authenticated: true,
+        idempotent_replay: false,
+    };
+    persist_json_create_new(&receipt_path, &receipt)?;
+    Ok(GithubMutationResult {
+        receipt,
+        readback,
+        invocation,
+    })
+}
+
+pub fn github_mutation_operation_digest(request: &GithubMutationRequest) -> String {
+    let mutation = serde_json::to_string(&request.mutation).unwrap_or_default();
+    stable_digest(&[
+        "csdlc.v3.github_mutation.v1",
+        &request.repository,
+        &request.issue.to_string(),
+        &request.pull_request.unwrap_or_default().to_string(),
+        &request.expected_head_sha,
+        &mutation,
+    ])
+}
+
+fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteFinding> {
+    if request.issue == 0 {
+        return Err(remote_finding(
+            "github_issue_invalid",
+            "issue number must be non-zero",
+        ));
+    }
+    match &request.mutation {
+        GithubMutation::IssueComment { body } if body.trim().is_empty() => Err(remote_finding(
+            "github_body_missing",
+            "issue comment body must not be empty",
+        )),
+        GithubMutation::IssueEdit { title, body } if title.is_none() && body.is_none() => {
+            Err(remote_finding(
+                "github_issue_edit_empty",
+                "issue edit must change title or body",
+            ))
+        }
+        GithubMutation::PullRequestCreate {
+            base, head, title, ..
+        } if base.trim().is_empty()
+            || head.trim().is_empty()
+            || title.trim().is_empty()
+            || request.pull_request.is_some() =>
+        {
+            Err(remote_finding(
+                "github_pr_create_invalid",
+                "PR create requires non-empty base/head/title and no existing PR number",
+            ))
+        }
+        GithubMutation::PullRequestUpdate { title, body }
+            if request.pull_request.is_none() || (title.is_none() && body.is_none()) =>
+        {
+            Err(remote_finding(
+                "github_pr_update_invalid",
+                "PR update requires a PR number and title or body",
+            ))
+        }
+        GithubMutation::PullRequestReady if request.pull_request.is_none() => Err(remote_finding(
+            "github_pr_ready_invalid",
+            "PR ready requires a PR number",
+        )),
+        mutation
+            if matches!(
+                mutation,
+                GithubMutation::PullRequestUpdate { .. } | GithubMutation::PullRequestReady
+            ) && request.expected_head_sha.trim().is_empty() =>
+        {
+            Err(remote_finding(
+                "github_expected_head_missing",
+                "PR mutation requires an exact expected head SHA",
+            ))
+        }
+        _ => Ok(()),
+    }
+}
+
+fn github_mutation_invocation(
+    request: &GithubMutationRequest,
+    input_path: &Path,
+) -> Result<CommandInvocation, RemoteRouteFinding> {
+    let endpoint = match request.mutation {
+        GithubMutation::IssueComment { .. } => format!(
+            "repos/{}/issues/{}/comments",
+            request.repository, request.issue
+        ),
+        GithubMutation::IssueEdit { .. } => {
+            format!("repos/{}/issues/{}", request.repository, request.issue)
+        }
+        GithubMutation::PullRequestCreate { .. } => format!("repos/{}/pulls", request.repository),
+        GithubMutation::PullRequestUpdate { .. } => format!(
+            "repos/{}/pulls/{}",
+            request.repository,
+            request.pull_request.unwrap_or_default()
+        ),
+        GithubMutation::PullRequestReady => {
+            return CommandInvocation::new(
+                GITHUB_OPERATIONAL_ADAPTER,
+                [
+                    "POST".into(),
+                    format!(
+                        "repos/{}/pulls/{}/ready_for_review",
+                        request.repository,
+                        request.pull_request.unwrap_or_default()
+                    ),
+                    input_path.to_string_lossy().into_owned(),
+                ],
+            )
+            .map_err(|_| {
+                remote_finding(
+                    "github_mutation_invocation_rejected",
+                    "GitHub mutation must use structured argv",
+                )
+            })
+        }
+    };
+    let method = if matches!(
+        request.mutation,
+        GithubMutation::IssueEdit { .. } | GithubMutation::PullRequestUpdate { .. }
+    ) {
+        "PATCH"
+    } else {
+        "POST"
+    };
+    CommandInvocation::new(
+        GITHUB_OPERATIONAL_ADAPTER,
+        [
+            method.into(),
+            endpoint,
+            input_path.to_string_lossy().into_owned(),
+        ],
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_mutation_invocation_rejected",
+            "GitHub mutation must use structured argv and a private JSON input file",
+        )
+    })
+}
+
+fn write_mutation_input(
+    repo_root: &Path,
+    digest: &str,
+    request: &GithubMutationRequest,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let dir = git_control_dir(repo_root)
+        .ok_or_else(|| {
+            remote_finding(
+                "git_control_dir_unavailable",
+                "Git control directory is required for private mutation input",
+            )
+        })?
+        .join("csdlc-v3/runtime");
+    fs::create_dir_all(&dir).map_err(|_| {
+        remote_finding(
+            "github_mutation_input_failed",
+            "private mutation directory could not be created",
+        )
+    })?;
+    let path = dir.join(format!("github-mutation-{digest}.json"));
+    let value = match &request.mutation {
+        GithubMutation::IssueComment { body } => serde_json::json!({"body": body}),
+        GithubMutation::IssueEdit { title, body }
+        | GithubMutation::PullRequestUpdate { title, body } => {
+            serde_json::json!({"title": title, "body": body})
+        }
+        GithubMutation::PullRequestCreate {
+            base,
+            head,
+            title,
+            body,
+            draft,
+        } => {
+            serde_json::json!({"base": base, "head": head, "title": title, "body": body, "draft": draft})
+        }
+        GithubMutation::PullRequestReady => serde_json::json!({}),
+    };
+    let bytes = serde_json::to_vec(&value).map_err(|_| {
+        remote_finding(
+            "github_mutation_input_failed",
+            "mutation input could not be serialized",
+        )
+    })?;
+    write_private_create_new(&path, &bytes)?;
+    Ok(path)
+}
+
+fn validate_mutation_response(
+    request: &GithubMutationRequest,
+    stdout: &str,
+) -> Result<(), RemoteRouteFinding> {
+    if matches!(request.mutation, GithubMutation::PullRequestReady) {
+        return Ok(());
+    }
+    let value: serde_json::Value = serde_json::from_str(stdout).map_err(|_| {
+        remote_finding(
+            "github_mutation_invalid_json",
+            "GitHub mutation returned non-JSON output",
+        )
+    })?;
+    match request.mutation {
+        GithubMutation::IssueComment { .. } if value["id"].as_u64().is_none() => {
+            Err(remote_finding(
+                "github_comment_readback_missing",
+                "created comment response did not include its immutable id",
+            ))
+        }
+        GithubMutation::IssueEdit { .. } if value["number"].as_u64() != Some(request.issue) => {
+            Err(remote_finding(
+                "github_issue_readback_mismatch",
+                "edited issue response did not match the requested issue",
+            ))
+        }
+        GithubMutation::PullRequestCreate { .. } if value["number"].as_u64().is_none() => {
+            Err(remote_finding(
+                "github_pr_readback_missing",
+                "created PR response did not include its number",
+            ))
+        }
+        GithubMutation::PullRequestUpdate { .. }
+            if value["number"].as_u64() != request.pull_request =>
+        {
+            Err(remote_finding(
+                "github_pr_readback_mismatch",
+                "updated PR response did not match the requested PR",
+            ))
+        }
+        _ => Ok(()),
+    }
+}
+
+fn observe_after_mutation(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<Option<ObservedRemoteRouteRequest>, RemoteRouteFinding> {
+    let Some(pull_request) = request.pull_request else {
+        return Ok(None);
+    };
+    let observation = RemoteRouteRequest {
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request: Some(pull_request),
+        actor: None,
+        implementer: None,
+        reviewer: None,
+        review_revision: None,
+        expected_head_sha: Some(request.expected_head_sha.clone()),
+        head_sha: None,
+        mode: None,
+        title: None,
+        body: None,
+        review_present: false,
+        typed_review_receipt_path: None,
+        typed_review_receipt_digest: None,
+        readback_source: None,
+        readback_receipt_path: None,
+        readback_receipt_digest: None,
+        adapter_receipt_path: None,
+        adapter_receipt_digest: None,
+        closes_issue: None,
+        closing_issues: vec![],
+        part_of_issue: None,
+        credential_names: request.credential_names.clone(),
+    };
+    let observed = observe_github_pr_readback(&observation, process)?;
+    if observed.request.head_sha.as_deref() != Some(request.expected_head_sha.as_str()) {
+        return Err(remote_finding(
+            "github_post_mutation_head_mismatch",
+            "post-mutation readback did not match the expected exact head",
+        ));
+    }
+    Ok(Some(observed))
+}
+
+fn github_mutation_receipt_path(
+    repo_root: &Path,
+    digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let git_dir = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git control directory is required for mutation receipts",
+        )
+    })?;
+    Ok(git_dir
+        .join("csdlc-v3/remote/mutations")
+        .join(format!("{digest}.json")))
+}
+
+fn persist_json_create_new(path: &Path, value: &impl Serialize) -> Result<(), RemoteRouteFinding> {
+    let bytes = serde_json::to_vec_pretty(value).map_err(|_| {
+        remote_finding(
+            "receipt_serialization_failed",
+            "typed receipt could not be serialized",
+        )
+    })?;
+    write_private_create_new(path, &bytes)
+}
+
+fn write_private_create_new(path: &Path, bytes: &[u8]) -> Result<(), RemoteRouteFinding> {
+    use std::io::Write;
+    fs::create_dir_all(
+        path.parent()
+            .ok_or_else(|| remote_finding("receipt_path_invalid", "receipt path has no parent"))?,
+    )
+    .map_err(|_| {
+        remote_finding(
+            "receipt_write_failed",
+            "receipt parent could not be created",
+        )
+    })?;
+    let mut options = fs::OpenOptions::new();
+    options.write(true).create_new(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600);
+    }
+    let mut file = options
+        .open(path)
+        .map_err(|_| remote_finding("receipt_write_failed", "create-only receipt write failed"))?;
+    file.write_all(bytes)
+        .and_then(|_| file.sync_all())
+        .map_err(|_| {
+            remote_finding(
+                "receipt_write_failed",
+                "receipt could not be durably written",
+            )
+        })
 }
 
 fn typed_review_receipt_matches(

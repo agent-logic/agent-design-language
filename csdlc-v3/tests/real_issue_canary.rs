@@ -1,3 +1,4 @@
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::{fs, process::Command};
 
@@ -127,6 +128,7 @@ fn real_issue_request(
         registry_version: registry.version.clone(),
         expected_lifecycle_digest: index["digest"].as_str().map(str::to_owned),
         commands: required_local_commands().to_vec(),
+        card_updates: BTreeMap::new(),
     }
 }
 
