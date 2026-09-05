@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      "review_revision": "git-blake3:0452ae5019effeee12cd4109b79ed4bb840ca6d4:12418d7c26b6df545b796332d677ef4d235e3edffe567b306677150cf26e1e54",
-      "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r3",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any partial candidate or mutable file become authority without a committed receipt?",
         "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
@@ -23,20 +23,9 @@
         "Does every named failpoint recover deterministically to either the candidate commit or prior generation?",
         "Does validation avoid the live Runtime?"
       ],
-      "findings": [
-        {
-          "id": "r3-p1-csm-readiness-config-generation-not-authoritative",
-          "severity": "p1",
-          "summary": "CSM readiness/status validation accepts arbitrary 64-hex config_generation and config_receipt_digest values without comparing them to validate_active_config_generation for the active init and current binary generation.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }
