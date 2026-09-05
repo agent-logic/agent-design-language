@@ -3,7 +3,7 @@
   "issue": 695,
   "evidence_binding": {
     "schema": "adl.runtime.agent-partial-checkpoint.content-digest.v1",
-    "implementation_digest": "f2daf9e2d7ce1595f1c91b3ec1704b6bd1e9ec27"
+    "implementation_digest": "04dfd9533e98c4d9dbf10bb5f24039e167d2f877"
   },
   "implementation_paths": [
     ".csdlc/prepared/issues/695/acceptance-manifest.json",

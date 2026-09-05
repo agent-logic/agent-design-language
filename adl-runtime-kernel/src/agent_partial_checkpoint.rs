@@ -654,11 +654,16 @@ impl AgentPartialCheckpointStore {
                 Err(error) => return Err(error.into()),
             }
             let pending = json_files(&self.spool_root.join(digest_label(record.agent_id())))?.len();
+            let archive_degraded = self
+                .read_archive_degraded(record.agent_id())?
+                .is_some_and(|marker| marker.active_degradation);
             let mut state = self.state.lock().expect("partial store state poisoned");
             if let Some(projection) = state.projections.get_mut(record.agent_id()) {
                 projection.last_archive_at_unix_millis = Some(receipt.archived_at_unix_millis);
                 projection.pending_archive_count = pending as u64;
-                projection.archive_state = if pending == 0
+                projection.archive_state = if archive_degraded && pending > 0 {
+                    AgentArchiveState::Degraded
+                } else if pending == 0
                     && projection
                         .snapshot_sequence
                         .is_some_and(|sequence| sequence <= record.sequence())
@@ -2180,8 +2185,22 @@ mod tests {
         let projection = store.projection("ember");
         assert_eq!(projection.snapshot_sequence, Some(2));
         assert_eq!(projection.pending_archive_count, 1);
-        assert_eq!(projection.archive_state, AgentArchiveState::Pending);
+        assert_eq!(projection.archive_state, AgentArchiveState::Degraded);
         assert_eq!(json_files(&store.spool_root).unwrap().len(), 1);
+        drop(store);
+        let reopened = AgentPartialCheckpointStore::open(
+            temp.path().join("state"),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-b",
+        )
+        .unwrap();
+        assert_eq!(
+            reopened.projection("ember").archive_state,
+            AgentArchiveState::Degraded
+        );
+        assert_eq!(reopened.projection("ember").pending_archive_count, 1);
     }
 
     #[cfg(unix)]
