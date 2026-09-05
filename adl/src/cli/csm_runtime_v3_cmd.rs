@@ -974,13 +974,23 @@ fn owned_runtime_readiness_with_timeout(
     }
     let readiness = runtime_readiness_with_timeout(init, remaining)?;
     let active_init_hash = file_hash(&args.init)?;
-    validate_owned_readiness(service_process_id, &active_init_hash, &readiness)?;
+    let binary_generation = validate_runtime_generation(init)?;
+    let active_config_generation =
+        validate_active_config_generation(&args.init, &binary_generation)
+            .map_err(anyhow::Error::msg)?;
+    validate_owned_readiness(
+        service_process_id,
+        &active_init_hash,
+        &active_config_generation,
+        &readiness,
+    )?;
     Ok(readiness)
 }
 
 fn validate_owned_readiness(
     service_process_id: u32,
     active_init_hash: &str,
+    active_config_generation: &ConfigGenerationIdentity,
     readiness: &RuntimeReadinessProbe,
 ) -> Result<()> {
     if readiness.guardian_process_id != service_process_id {
@@ -993,6 +1003,13 @@ fn validate_owned_readiness(
     if readiness.active_init_hash != active_init_hash {
         return Err(anyhow!(
             "Runtime v3 readiness config identity does not match active init"
+        ));
+    }
+    if readiness.config_generation != active_config_generation.generation
+        || readiness.config_receipt_digest != active_config_generation.receipt_digest
+    {
+        return Err(anyhow!(
+            "Runtime v3 readiness config generation does not match active receipt"
         ));
     }
     Ok(())
@@ -2538,10 +2555,43 @@ mod tests {
             config_generation: "b".repeat(64),
             config_receipt_digest: "c".repeat(64),
         };
+        let active_config_generation = ConfigGenerationIdentity {
+            generation: "b".repeat(64),
+            receipt_digest: "c".repeat(64),
+        };
         assert!(validate_readiness_probe(&healthy).is_ok());
-        assert!(validate_owned_readiness(41, &"a".repeat(64), &healthy).is_ok());
-        assert!(validate_owned_readiness(99, &"a".repeat(64), &healthy).is_err());
-        assert!(validate_owned_readiness(41, &"b".repeat(64), &healthy).is_err());
+        assert!(
+            validate_owned_readiness(41, &"a".repeat(64), &active_config_generation, &healthy)
+                .is_ok()
+        );
+        assert!(
+            validate_owned_readiness(99, &"a".repeat(64), &active_config_generation, &healthy)
+                .is_err()
+        );
+        assert!(
+            validate_owned_readiness(41, &"b".repeat(64), &active_config_generation, &healthy)
+                .is_err()
+        );
+        assert!(validate_owned_readiness(
+            41,
+            &"a".repeat(64),
+            &ConfigGenerationIdentity {
+                generation: "d".repeat(64),
+                receipt_digest: "c".repeat(64),
+            },
+            &healthy
+        )
+        .is_err());
+        assert!(validate_owned_readiness(
+            41,
+            &"a".repeat(64),
+            &ConfigGenerationIdentity {
+                generation: "b".repeat(64),
+                receipt_digest: "d".repeat(64),
+            },
+            &healthy
+        )
+        .is_err());
         assert!(!is_blake3_hex("short"));
         assert!(!is_blake3_hex(&"z".repeat(64)));
 
