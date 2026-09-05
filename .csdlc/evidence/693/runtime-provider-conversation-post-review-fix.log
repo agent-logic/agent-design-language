@@ -1,0 +1,16 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 10 tests
+test assembly::provider_conversation_action_tests::provider_conversation_prompt_teaches_first_class_agent_action_contract ... ok
+test assembly::provider_conversation_action_tests::provider_plain_json_reply_remains_plain_message_without_action_schema ... ok
+test control::provider_conversation_tool_tests::native_tool_call_accepts_json_encoded_arguments ... ok
+test control::provider_conversation_tool_tests::native_tool_call_is_a_typed_action_separate_from_prose ... ok
+test control::provider_conversation_tool_tests::ordinary_assistant_content_stays_an_operator_reply ... ok
+test assembly::provider_conversation_action_tests::provider_action_envelope_fails_closed_on_self_target ... ok
+test assembly::provider_conversation_action_tests::provider_native_action_projects_agent_initiation_envelope ... ok
+test assembly::provider_conversation_action_tests::provider_legacy_action_envelope_remains_compatible ... ok
+test control::provider_conversation_tool_tests::unknown_or_ambiguous_tool_calls_fail_closed ... ok
+test control::provider_conversation_tool_tests::unsupported_tools_fall_back_to_plain_generation_without_a2a ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 134 filtered out; finished in 0.00s

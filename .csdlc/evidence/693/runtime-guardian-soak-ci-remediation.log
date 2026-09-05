@@ -1,0 +1,15 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.33s
+     Running tests/guardian_soak.rs (adl-runtime-kernel/target/debug/deps/guardian_soak-91b8fb6fe3e189d5)
+
+running 8 tests
+test production_like_soak_rollback_packet_retains_cutover_boundaries ... ok
+test serve_requires_init_declared_state_root_before_live_adapters_start ... ok
+test serve_refuses_reused_continuity_and_operation_keys ... ok
+test missing_vector_keeps_the_real_runtime_available_until_operator_shutdown ... ok
+test guardian_lease_loss_checkpoints_and_stops_the_real_kernel ... ok
+test signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process ... ok
+test pressure_checkpoint_failure_keeps_signal_shutdown_responsive ... ok
+test pressure_closes_ingress_serializes_live_work_and_stops_cleanly ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.05s

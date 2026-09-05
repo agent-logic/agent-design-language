@@ -1375,14 +1375,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         intent: &ObservatoryAgentInitiationIntent,
     ) -> ConversationAcceptance {
-        self.accept_agent_initiation_intent_inner(intent, true)
+        self.refuse_public_agent_initiation_intent(
+            intent,
+            "agent_initiation_requires_runtime_authority",
+        )
     }
 
     fn accept_runtime_agent_initiation_intent(
         &self,
         intent: &ObservatoryAgentInitiationIntent,
     ) -> ConversationAcceptance {
-        self.accept_agent_initiation_intent_inner(intent, false)
+        self.accept_agent_initiation_intent_inner(intent, true)
     }
 
     fn accept_agent_initiation_intent_inner(
@@ -1471,7 +1474,43 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sender_identity_mismatch",
             ));
         }
-        self.accept_conversation_intent_inner(&conversation_intent, Some(metadata))
+        let accepted = self.accept_conversation_intent_inner(&conversation_intent, Some(metadata));
+        if matches!(accepted, ConversationAcceptance::Dispatch { .. }) {
+            self.recorder.emit_correlated(
+                Some(ComponentId::new("agent_initiation")),
+                RuntimeEvent::AgentToAgentInitiated,
+                Some(&intent.correlation_id),
+            );
+        }
+        accepted
+    }
+
+    fn refuse_public_agent_initiation_intent(
+        &self,
+        intent: &ObservatoryAgentInitiationIntent,
+        error: &'static str,
+    ) -> ConversationAcceptance {
+        ConversationAcceptance::Response(ObservatoryConversationResult::from_parts(
+            ObservatoryConversationResultParts {
+                status: "refused",
+                conversation_id: intent.conversation_id.clone(),
+                turn_id: intent.turn_id.clone(),
+                recipient_id: intent.recipient_id.clone(),
+                correlation_id: intent.correlation_id.clone(),
+                reply: None,
+                accepted_sequence: None,
+                turn_sequence: None,
+                error: Some(error),
+                initiation: Some(AgentInitiationMetadata {
+                    sender_id: intent.sender_id.clone(),
+                    initiated_recipient_id: intent.recipient_id.clone(),
+                    initiated_conversation_id: intent.conversation_id.clone(),
+                    initiated_turn_id: intent.turn_id.clone(),
+                    initiated_correlation_id: intent.correlation_id.clone(),
+                    initiated_work_id: intent.work_id.clone(),
+                }),
+            },
+        ))
     }
 
     fn accept_conversation_intent_inner(
@@ -1772,6 +1811,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_work_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(sequence),
@@ -1872,6 +1912,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(dispatch.sequence),
@@ -2057,19 +2098,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             initiated_turn_id: Some(intent.turn_id),
                                             initiated_correlation_id: Some(intent.correlation_id),
                                             initiated_work_id: Some(intent.work_id),
-                                            reply: if initiated.status == "delivered" {
-                                                initiated
-                                                    .reply
-                                                    .map(|initiated_reply| {
-                                                        format!(
-                                                            "A2A delivered to {}: {}",
-                                                            initiated.recipient_id, initiated_reply
-                                                        )
-                                                    })
-                                                    .or(Some(reply))
-                                            } else {
-                                                None
-                                            },
+                                            initiated_reply: initiated.reply,
+                                            // The initiating agent's operator-facing reply and
+                                            // the recipient's governed result are separate facts.
+                                            // The latter remains correlated through the initiated
+                                            // identifiers and Runtime events; do not replace the
+                                            // former with peer output.
+                                            reply: Some(reply),
                                             accepted_sequence: initiated
                                                 .accepted_sequence
                                                 .or(Some(result.accepted_sequence)),
@@ -2108,6 +2143,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.initiated_work_id.clone()),
+                                        initiated_reply: None,
                                         reply: Some(reply),
                                         accepted_sequence: Some(result.accepted_sequence),
                                         turn_sequence: Some(dispatch.sequence),
@@ -2135,7 +2171,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if result.status == "delivered" && dispatch.initiation.is_some() {
             self.recorder.emit_correlated(
                 Some(ComponentId::new("agent_initiation")),
-                RuntimeEvent::AgentToAgentInitiated,
+                RuntimeEvent::AgentToAgentCompleted,
+                Some(&dispatch.intent.correlation_id),
+            );
+        } else if dispatch.initiation.is_some() {
+            self.recorder.emit_correlated(
+                Some(ComponentId::new("agent_initiation")),
+                RuntimeEvent::AgentToAgentFailed,
                 Some(&dispatch.intent.correlation_id),
             );
         }
@@ -2224,6 +2266,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: Some(turn.sequence),
@@ -2762,6 +2805,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
                     initiated_work_id: None,
+                    initiated_reply: None,
                     reply: turn.reply.clone(),
                     accepted_sequence: turn.accepted_sequence,
                     turn_sequence: turn.turn_sequence,
@@ -4228,6 +4272,8 @@ struct ObservatoryConversationResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     initiated_work_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_reply: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     reply: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     accepted_sequence: Option<u64>,
@@ -4280,6 +4326,7 @@ impl ObservatoryConversationResult {
                 .as_ref()
                 .map(|metadata| metadata.initiated_correlation_id.clone()),
             initiated_work_id: parts.initiation.map(|metadata| metadata.initiated_work_id),
+            initiated_reply: None,
             reply: parts.reply,
             accepted_sequence: parts.accepted_sequence,
             turn_sequence: parts.turn_sequence,
@@ -4301,6 +4348,7 @@ impl ObservatoryConversationResult {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_reply: None,
             reply: None,
             accepted_sequence: None,
             turn_sequence: None,
@@ -4514,26 +4562,9 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryAgentInitiationIntent>(&payload) {
                         let result = if bearer_token.is_none() {
-                            ConversationAcceptance::Response(
-                                ObservatoryConversationResult::from_parts(ObservatoryConversationResultParts {
-                                    status: "refused",
-                                    conversation_id: intent.conversation_id.clone(),
-                                    turn_id: intent.turn_id.clone(),
-                                    recipient_id: intent.recipient_id.clone(),
-                                    correlation_id: intent.correlation_id.clone(),
-                                    reply: None,
-                                    accepted_sequence: None,
-                                    turn_sequence: None,
-                                    error: Some("write_authentication_required"),
-                                    initiation: Some(AgentInitiationMetadata {
-                                        sender_id: intent.sender_id.clone(),
-                                        initiated_recipient_id: intent.recipient_id.clone(),
-                                        initiated_conversation_id: intent.conversation_id.clone(),
-                                        initiated_turn_id: intent.turn_id.clone(),
-                                        initiated_correlation_id: intent.correlation_id.clone(),
-                                        initiated_work_id: intent.work_id.clone(),
-                                    }),
-                                }),
+                            service.refuse_public_agent_initiation_intent(
+                                &intent,
+                                "write_authentication_required",
                             )
                         } else {
                             service.accept_agent_initiation_intent(&intent)
@@ -4620,6 +4651,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 initiated_turn_id: None,
                                 initiated_correlation_id: None,
                                 initiated_work_id: None,
+                                initiated_reply: None,
                                 reply: None,
                                 accepted_sequence: None,
                                 turn_sequence: None,
@@ -5735,6 +5767,46 @@ mod layer8_conversation_ingress_tests {
             },
         )
         .expect("agent initiation authority profile is valid");
+        let mut recipient_descriptors = BTreeMap::new();
+        recipient_descriptors.insert(
+            sender_id.to_owned(),
+            CommunicationVerifyingDescriptor {
+                principal_id: sender_id.to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: sender_key_id.clone(),
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+        );
+        recipient_descriptors.insert(
+            recipient_id.to_owned(),
+            CommunicationVerifyingDescriptor {
+                principal_id: recipient_id.to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: recipient_key_id,
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+        );
+        recipient_descriptors.insert(
+            "scribe".to_owned(),
+            CommunicationVerifyingDescriptor {
+                principal_id: "scribe".to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: "scribe-key".to_owned(),
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(scribe_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+        );
         let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
             sender: CommunicationKeyDescriptor {
                 principal_id: sender_id.to_owned(),
@@ -5745,44 +5817,28 @@ mod layer8_conversation_ingress_tests {
                 not_before_epoch_secs: 0,
                 expires_at_epoch_secs: u64::MAX,
             },
-            recipients: vec![
-                CommunicationVerifyingDescriptor {
-                    principal_id: sender_id.to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: sender_key_id.clone(),
-                    credential_generation: 1,
-                    verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
-                    revoked: false,
-                    not_before_epoch_secs: 0,
-                    expires_at_epoch_secs: u64::MAX,
-                },
-                CommunicationVerifyingDescriptor {
-                    principal_id: recipient_id.to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: recipient_key_id,
-                    credential_generation: 1,
-                    verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
-                    revoked: false,
-                    not_before_epoch_secs: 0,
-                    expires_at_epoch_secs: u64::MAX,
-                },
-                CommunicationVerifyingDescriptor {
-                    principal_id: "scribe".to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: "scribe-key".to_owned(),
-                    credential_generation: 1,
-                    verifying_key_hex: hex::encode(scribe_key.verifying_key().to_bytes()),
-                    revoked: false,
-                    not_before_epoch_secs: 0,
-                    expires_at_epoch_secs: u64::MAX,
-                },
-            ],
+            recipients: recipient_descriptors.into_values().collect(),
         })
         .expect("agent initiation exchange profile is valid");
         (authority, exchange, root)
     }
 
     async fn agent_initiation_service(
+        fail: bool,
+        delay: Duration,
+    ) -> (
+        Arc<ControlService<FakeLifecycle>>,
+        crate::KernelHandle,
+        RuntimeRecorder,
+        Arc<Mutex<Vec<serde_json::Value>>>,
+        tempfile::TempDir,
+    ) {
+        agent_initiation_service_with_layer8_sender("beacon", "ember", fail, delay).await
+    }
+
+    async fn agent_initiation_service_with_layer8_sender(
+        sender_id: &str,
+        recipient_id: &str,
         fail: bool,
         delay: Duration,
     ) -> (
@@ -5846,7 +5902,8 @@ mod layer8_conversation_ingress_tests {
             reveal_capabilities: false,
             reveal_location: false,
         });
-        let (authority, exchange, layer8_root) = agent_initiation_layer8_fixture("beacon", "ember");
+        let (authority, exchange, layer8_root) =
+            agent_initiation_layer8_fixture(sender_id, recipient_id);
         let observed_tasks = Arc::new(Mutex::new(Vec::new()));
         let adapter = Arc::new(
             crate::OperationalAdapter::new(
@@ -5945,13 +6002,118 @@ mod layer8_conversation_ingress_tests {
         (service, kernel, recorder, observed_tasks, layer8_root)
     }
 
+    async fn live_style_ollama_a2a_provider() -> (
+        String,
+        Arc<Mutex<Vec<serde_json::Value>>>,
+        tokio::task::JoinHandle<()>,
+    ) {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0")
+            .await
+            .expect("bind isolated live-style Ollama fixture");
+        let address = listener.local_addr().expect("fixture address");
+        let observed = Arc::new(Mutex::new(Vec::new()));
+        let requests = observed.clone();
+        let task = tokio::spawn(async move {
+            loop {
+                let Ok((mut socket, _)) = listener.accept().await else {
+                    return;
+                };
+                let mut request = Vec::with_capacity(8_192);
+                while request.len() < 65_536
+                    && !request.windows(4).any(|window| window == b"\r\n\r\n")
+                {
+                    let mut chunk = [0_u8; 2_048];
+                    let read = socket.read(&mut chunk).await.unwrap_or_default();
+                    if read == 0 {
+                        break;
+                    }
+                    request.extend_from_slice(&chunk[..read]);
+                }
+                let header_end = request
+                    .windows(4)
+                    .position(|window| window == b"\r\n\r\n")
+                    .map(|index| index + 4)
+                    .unwrap_or(request.len());
+                let content_length = String::from_utf8_lossy(&request[..header_end])
+                    .lines()
+                    .find_map(|line| {
+                        let (name, value) = line.split_once(':')?;
+                        name.eq_ignore_ascii_case("content-length")
+                            .then(|| value.trim().parse::<usize>().ok())
+                            .flatten()
+                    })
+                    .unwrap_or_default();
+                while request.len() < header_end.saturating_add(content_length) {
+                    let mut chunk = [0_u8; 2_048];
+                    let read = socket.read(&mut chunk).await.unwrap_or_default();
+                    if read == 0 {
+                        break;
+                    }
+                    request.extend_from_slice(&chunk[..read]);
+                }
+                let request_line = String::from_utf8_lossy(&request[..header_end])
+                    .lines()
+                    .next()
+                    .unwrap_or_default()
+                    .to_owned();
+                let body = serde_json::from_slice::<serde_json::Value>(
+                    request
+                        .get(header_end..header_end.saturating_add(content_length))
+                        .unwrap_or_default(),
+                )
+                .unwrap_or(serde_json::Value::Null);
+                requests
+                    .lock()
+                    .expect("fixture requests poisoned")
+                    .push(serde_json::json!({"request_line": request_line, "body": body}));
+                let response_body = if request_line.starts_with("POST /api/chat ") {
+                    serde_json::json!({
+                        "model": "beacon-model",
+                        "message": {
+                            "role": "assistant",
+                            "content": "I can ask Ember through the governed action channel.",
+                            "tool_calls": [{
+                                "function": {
+                                    "name": "initiate_agent",
+                                    "arguments": {
+                                        "recipient_id": "ember",
+                                        "message": "Ember, please answer Beacon through governed A2A."
+                                    }
+                                }
+                            }]
+                        },
+                        "done": true
+                    })
+                } else if request_line.starts_with("POST /api/generate ") {
+                    serde_json::json!({
+                        "model": "ember-model",
+                        "response": "Ember generated a governed response for Beacon.",
+                        "done": true
+                    })
+                } else {
+                    serde_json::json!({"error": "unexpected fixture route"})
+                };
+                let encoded = serde_json::to_vec(&response_body).expect("encode fixture response");
+                let headers = format!(
+                    "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+                    encoded.len()
+                );
+                let _ = socket.write_all(headers.as_bytes()).await;
+                let _ = socket.write_all(&encoded).await;
+            }
+        });
+        (format!("http://{address}"), observed, task)
+    }
+
     #[tokio::test]
     async fn agent_to_agent_initiation_delivers_configured_provider_work_and_activity() {
         let (service, kernel, recorder, observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
-        let accepted = match service
-            .accept_agent_initiation_intent(&agent_initiation_intent("turn-a2a", "a2a-work-001"))
-        {
+        let accepted = match service.accept_runtime_agent_initiation_intent(
+            &agent_initiation_intent("turn-a2a", "a2a-work-001"),
+        ) {
             ConversationAcceptance::Dispatch { accepted, dispatch } => {
                 assert_eq!(dispatch.work_id, "a2a-work-001");
                 let delivered = service.complete_conversation_dispatch(dispatch).await;
@@ -6109,8 +6271,66 @@ mod layer8_conversation_ingress_tests {
 
     #[tokio::test]
     async fn agent_to_agent_model_action_from_conversation_delivers_peer_response() {
-        let (service, kernel, recorder, observed_tasks, _layer8_root) =
+        let (mut service, old_kernel, recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
+        old_kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+        let (endpoint, provider_requests, provider_task) = live_style_ollama_a2a_provider().await;
+        for agent in service
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .iter_mut()
+        {
+            agent.endpoint = endpoint.clone();
+            agent.model = if agent.id == "beacon" {
+                "beacon-model".to_owned()
+            } else {
+                "ember-model".to_owned()
+            };
+        }
+        let fixture_root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/tmp");
+        std::fs::create_dir_all(&fixture_root).expect("create repository-local fixture root");
+        let state = tempfile::tempdir_in(fixture_root).expect("create production executor state");
+        let agent_executor = Arc::new(crate::assembly::InProcessOperationExecutor::with_state_dir(
+            crate::AdapterKind::Agent,
+            state.path(),
+        ));
+        let adapter = Arc::new(
+            crate::OperationalAdapter::new(
+                crate::AdapterKind::Agent,
+                crate::AdapterPolicy {
+                    capacity: 4,
+                    max_in_flight: 2,
+                    shutdown_grace_millis: 1_000,
+                    max_attempts: 1,
+                    idempotency_entries: 16,
+                    authority: AuthorityMode::Internal,
+                },
+                agent_executor,
+            )
+            .expect("production agent adapter"),
+        );
+        let operation = crate::OperationalFactory::new(adapter, vec![]);
+        let ingress = CanonicalIngress::new(
+            4,
+            recorder.clone(),
+            BTreeMap::from([("agent_runtime".to_owned(), operation.clone())]),
+        );
+        Arc::get_mut(&mut service)
+            .expect("service has no other owners")
+            .canonical_ingress = Some(ingress.clone());
+        let mut registry = crate::ComponentRegistry::new();
+        registry.register(operation);
+        registry.register(ingress);
+        let kernel = crate::Kernel::new(
+            registry
+                .validate()
+                .expect("valid production-ingress registry"),
+            recorder.clone(),
+        )
+        .start()
+        .await
+        .expect("production-ingress kernel starts");
         let intent = ObservatoryConversationIntent {
             schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
             conversation_id: "conversation-operator-beacon".to_owned(),
@@ -6164,37 +6384,41 @@ mod layer8_conversation_ingress_tests {
                 .is_some_and(|value| value.starts_with("a2a-work-") && is_safe_identifier(value)),
             "operator-visible result should structurally expose the governed peer work id: {delivered:?}"
         );
-        assert!(
-            delivered.reply.as_deref().is_some_and(|reply| {
-                reply.contains("A2A delivered to ember")
-                    && reply.contains("ember handled initiated work a2a-work-")
-                    && reply.contains("from beacon")
-            }),
-            "operator-visible Beacon turn should contain the governed Ember response: {delivered:?}"
+        assert_eq!(
+            delivered.reply.as_deref(),
+            Some("I can ask Ember through the governed action channel."),
+            "Beacon's operator reply must remain distinct from Ember's governed result"
+        );
+        assert_eq!(
+            delivered.initiated_reply.as_deref(),
+            Some("Ember generated a governed response for Beacon."),
+            "the authoritative result must expose Ember's distinct correlated reply"
         );
         {
-            let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
-            assert_eq!(tasks.len(), 2);
-            assert_eq!(tasks[0]["recipient_id"], "beacon");
-            assert!(tasks[0].get("sender_id").is_none() || tasks[0]["sender_id"].is_null());
-            assert_eq!(tasks[1]["recipient_id"], "ember");
-            assert_eq!(tasks[1]["sender_id"], "beacon");
+            let requests = provider_requests
+                .lock()
+                .expect("provider request fixture poisoned");
             assert_eq!(
-                tasks[1]["conversation_id"].as_str(),
-                delivered.initiated_conversation_id.as_deref()
+                requests.len(),
+                2,
+                "initiator and recipient must both execute"
             );
+            assert_eq!(requests[0]["request_line"], "POST /api/chat HTTP/1.1");
             assert_eq!(
-                tasks[1]["turn_id"].as_str(),
-                delivered.initiated_turn_id.as_deref()
+                requests[0]["body"]["tools"][0]["function"]["name"],
+                "initiate_agent"
             );
-            assert_eq!(
-                tasks[1]["correlation_id"].as_str(),
-                delivered.initiated_correlation_id.as_deref()
-            );
-            assert_eq!(
-                tasks[1]["initiated_work_id"].as_str(),
-                delivered.initiated_work_id.as_deref()
-            );
+            assert!(requests[0]["body"]["messages"][0]["content"]
+                .as_str()
+                .is_some_and(|prompt| {
+                    prompt.contains("provided `initiate_agent` tool")
+                        && !prompt.contains("adl.runtime.agent_conversation_response.v1")
+                }));
+            assert_eq!(requests[1]["request_line"], "POST /api/generate HTTP/1.1");
+            assert_eq!(requests[1]["body"]["model"], "ember-model");
+            assert!(requests[1]["body"]["prompt"]
+                .as_str()
+                .is_some_and(|prompt| prompt.contains("Ember, please answer Beacon")));
         }
         let events = recorder.events();
         assert!(
@@ -6205,13 +6429,20 @@ mod layer8_conversation_ingress_tests {
             }),
             "A2A model action should emit correlated initiation activity: {events:?}"
         );
+        assert!(
+            events.iter().any(|event| {
+                event.event == "agent_to_agent_completed"
+                    && event.correlation_id.as_deref()
+                        == delivered.initiated_correlation_id.as_deref()
+            }),
+            "recipient completion must be separately observable and correlated: {events:?}"
+        );
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+        provider_task.abort();
     }
 
     #[tokio::test]
     async fn agent_to_agent_runtime_internal_initiation_allows_resident_agent_pairs() {
-        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
-            agent_initiation_service(false, Duration::ZERO).await;
         let resident_ids = ["beacon", "ember", "scribe"];
         let pairs = resident_ids
             .iter()
@@ -6243,6 +6474,14 @@ mod layer8_conversation_ingress_tests {
             let turn_id = turn_id.as_str();
             let correlation_id = correlation_id.as_str();
             let work_id = work_id.as_str();
+            let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+                agent_initiation_service_with_layer8_sender(
+                    sender_id,
+                    recipient_id,
+                    false,
+                    Duration::ZERO,
+                )
+                .await;
             let accepted =
                 match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
                     sender_id,
@@ -6289,10 +6528,8 @@ mod layer8_conversation_ingress_tests {
                 }),
                 "resident pair reply should preserve governed sender and work identity: {accepted:?}"
             );
-        }
-        {
-            let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
-            for (sender_id, recipient_id, _turn_id, correlation_id, work_id) in pairs {
+            {
+                let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
                 assert!(
                     tasks.iter().any(|task| {
                         task["sender_id"] == sender_id
@@ -6303,7 +6540,62 @@ mod layer8_conversation_ingress_tests {
                     "expected governed task for resident pair {sender_id}->{recipient_id}: {tasks:?}"
                 );
             }
+            kernel.shutdown(Duration::from_secs(1)).await.unwrap();
         }
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_runtime_internal_initiation_rejects_sender_identity_mismatch() {
+        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
+            agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
+                .await;
+        let mismatch =
+            match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                "scribe",
+                "ember",
+                "turn-scribe-ember-mismatch",
+                "00000000000000000000000000000001",
+                "a2a-work-scribe-ember-mismatch",
+            )) {
+                ConversationAcceptance::Response(response) => response,
+                ConversationAcceptance::Dispatch { .. } => {
+                    panic!("runtime-internal A2A accepted mismatched signing identity")
+                }
+            };
+        assert_eq!(mismatch.status, "refused");
+        assert_eq!(mismatch.error, Some("sender_identity_mismatch"));
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn agent_to_agent_public_initiation_rejects_configured_sender_impersonation() {
+        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+            agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
+                .await;
+        let refused = match service.accept_agent_initiation_intent(&agent_pair_initiation_intent(
+            "beacon",
+            "ember",
+            "turn-public-beacon-ember",
+            "00000000000000000000000000000002",
+            "a2a-work-public-beacon-ember",
+        )) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => {
+                panic!("public A2A initiation dispatched with only caller-supplied sender_id")
+            }
+        };
+        assert_eq!(refused.status, "refused");
+        assert_eq!(
+            refused.error,
+            Some("agent_initiation_requires_runtime_authority")
+        );
+        assert!(
+            observed_tasks
+                .lock()
+                .expect("observed task mutex poisoned")
+                .is_empty(),
+            "public sender impersonation must not enqueue recipient work"
+        );
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
@@ -6312,7 +6604,7 @@ mod layer8_conversation_ingress_tests {
         let (service, kernel, _recorder, observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
         let intent = agent_initiation_intent("turn-a2a-replay", "a2a-work-replay");
-        let dispatch = match service.accept_agent_initiation_intent(&intent) {
+        let dispatch = match service.accept_runtime_agent_initiation_intent(&intent) {
             ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
             ConversationAcceptance::Response(response) => {
                 panic!("agent initiation refused: {:?}", response.error)
@@ -6321,7 +6613,7 @@ mod layer8_conversation_ingress_tests {
         let delivered = service.complete_conversation_dispatch(dispatch).await;
         assert_eq!(delivered.status, "delivered");
 
-        let replay = match service.accept_agent_initiation_intent(&intent) {
+        let replay = match service.accept_runtime_agent_initiation_intent(&intent) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("exact replay dispatched again"),
         };
@@ -6331,7 +6623,7 @@ mod layer8_conversation_ingress_tests {
 
         let mut conflict = intent;
         conflict.work_id = "a2a-work-conflict".to_owned();
-        let conflict = match service.accept_agent_initiation_intent(&conflict) {
+        let conflict = match service.accept_runtime_agent_initiation_intent(&conflict) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("conflicting replay dispatched"),
         };
@@ -6342,11 +6634,11 @@ mod layer8_conversation_ingress_tests {
 
     #[tokio::test]
     async fn agent_to_agent_initiation_terminal_failures_are_truthful() {
-        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
+        let (service, kernel, recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::from_millis(75)).await;
         let mut unauthorized = agent_initiation_intent("turn-a2a-unauthorized", "a2a-work-unauth");
         unauthorized.sender_id = "unknown-beacon".to_owned();
-        let refused = match service.accept_agent_initiation_intent(&unauthorized) {
+        let refused = match service.accept_runtime_agent_initiation_intent(&unauthorized) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("unauthorized sender dispatched"),
         };
@@ -6355,7 +6647,7 @@ mod layer8_conversation_ingress_tests {
 
         let mut forged_sender = agent_initiation_intent("turn-a2a-forged", "a2a-work-forged");
         forged_sender.sender_id = "scribe".to_owned();
-        let refused = match service.accept_agent_initiation_intent(&forged_sender) {
+        let refused = match service.accept_runtime_agent_initiation_intent(&forged_sender) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("forged sender dispatched"),
         };
@@ -6364,7 +6656,7 @@ mod layer8_conversation_ingress_tests {
 
         let mut missing_recipient = agent_initiation_intent("turn-a2a-missing", "a2a-work-missing");
         missing_recipient.recipient_id = "missing-ember".to_owned();
-        let missing = match service.accept_agent_initiation_intent(&missing_recipient) {
+        let missing = match service.accept_runtime_agent_initiation_intent(&missing_recipient) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => panic!("missing recipient dispatched"),
         };
@@ -6374,7 +6666,7 @@ mod layer8_conversation_ingress_tests {
         service
             .recorder
             .set_component_state(ComponentId::new("ember"), RunningState::Degraded);
-        let stale = match service.accept_agent_initiation_intent(&agent_initiation_intent(
+        let stale = match service.accept_runtime_agent_initiation_intent(&agent_initiation_intent(
             "turn-a2a-stale",
             "a2a-work-stale",
         )) {
@@ -6387,10 +6679,9 @@ mod layer8_conversation_ingress_tests {
             .recorder
             .set_component_state(ComponentId::new("ember"), RunningState::Running);
 
-        let dispatch = match service.accept_agent_initiation_intent(&agent_initiation_intent(
-            "turn-a2a-cancel",
-            "a2a-work-cancel",
-        )) {
+        let dispatch = match service.accept_runtime_agent_initiation_intent(
+            &agent_initiation_intent("turn-a2a-cancel", "a2a-work-cancel"),
+        ) {
             ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
             ConversationAcceptance::Response(response) => {
                 panic!("agent initiation refused: {:?}", response.error)
@@ -6407,14 +6698,17 @@ mod layer8_conversation_ingress_tests {
         let cancelled = service.complete_conversation_dispatch(dispatch).await;
         assert_eq!(cancelled.status, "cancelled");
         assert_eq!(cancelled.error, Some("conversation_cancelled"));
+        assert!(recorder.events().iter().any(|event| {
+            event.event == "agent_to_agent_failed"
+                && event.correlation_id.as_deref() == Some("abababababababababababababababab")
+        }));
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
 
         let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(true, Duration::ZERO).await;
-        let dispatch = match service.accept_agent_initiation_intent(&agent_initiation_intent(
-            "turn-a2a-provider-fail",
-            "a2a-work-provider-fail",
-        )) {
+        let dispatch = match service.accept_runtime_agent_initiation_intent(
+            &agent_initiation_intent("turn-a2a-provider-fail", "a2a-work-provider-fail"),
+        ) {
             ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
             ConversationAcceptance::Response(response) => {
                 panic!("agent initiation refused: {:?}", response.error)
@@ -7056,6 +7350,7 @@ mod agent_lifecycle {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_reply: None,
             reply: Some("retained reply".to_owned()),
             accepted_sequence: Some(1),
             turn_sequence: Some(1),
@@ -7605,6 +7900,405 @@ pub(crate) async fn invoke_ollama_model(
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct ProviderConversationOutput {
+    pub message: String,
+    pub agent_to_agent: Option<ProviderAgentToAgentAction>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct ProviderAgentToAgentAction {
+    pub recipient_id: String,
+    pub message: String,
+}
+
+pub(crate) async fn invoke_provider_conversation(
+    provider: &str,
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<ProviderConversationOutput, &'static str> {
+    match provider {
+        "ollama" => match invoke_ollama_conversation(endpoint, model, prompt, cancellation).await {
+            Ok(output) => Ok(output),
+            Err("agent_provider_tools_unsupported") => {
+                invoke_ollama_model(endpoint, model, prompt, cancellation)
+                    .await
+                    .map(|message| ProviderConversationOutput {
+                        message,
+                        agent_to_agent: None,
+                    })
+            }
+            Err(error) => Err(error),
+        },
+        "vertex_ai" => {
+            validate_vertex_ai_provider_endpoint(endpoint, model)
+                .map_err(|_| "agent_provider_binding_invalid")?;
+            Err("agent_provider_live_call_deferred")
+        }
+        _ => Err("agent_provider_binding_invalid"),
+    }
+}
+
+async fn invoke_ollama_conversation(
+    endpoint: &str,
+    model: &str,
+    prompt: &str,
+    cancellation: &CancellationToken,
+) -> Result<ProviderConversationOutput, &'static str> {
+    let request = AgentAdmissionRequest {
+        schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+        id: "conversation-probe".to_owned(),
+        name: "conversation.probe".to_owned(),
+        display_name: "Conversation Probe".to_owned(),
+        office: "provider execution".to_owned(),
+        role: String::new(),
+        provider: "ollama".to_owned(),
+        model: model.to_owned(),
+        endpoint: endpoint.to_owned(),
+    };
+    validate_agent_admission(&request).map_err(|_| "agent_provider_binding_invalid")?;
+    let operation = async {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+        let (host, port) = parse_private_provider_endpoint(endpoint)
+            .map_err(|_| "agent_provider_binding_invalid")?;
+        let address = tokio::net::lookup_host((host.as_str(), port))
+            .await
+            .map_err(|_| "agent_provider_unreachable")?
+            .find(|address| match address.ip() {
+                std::net::IpAddr::V4(ip) => ip.is_loopback() || ip.is_private(),
+                std::net::IpAddr::V6(ip) => ip.is_loopback() || ip.is_unique_local(),
+            })
+            .ok_or("agent_provider_unreachable")?;
+        let mut stream = tokio::net::TcpStream::connect(address)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let body = serde_json::to_vec(&serde_json::json!({
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "tools": [{
+                "type": "function",
+                "function": {
+                    "name": "initiate_agent",
+                    "description": "Request a bounded governed message to another admitted resident agent. The Runtime decides whether it is authorized and delivered.",
+                    "parameters": {
+                        "type": "object",
+                        "required": ["recipient_id", "message"],
+                        "properties": {
+                            "recipient_id": {
+                                "type": "string",
+                                "description": "Canonical id of the resident recipient"
+                            },
+                            "message": {
+                                "type": "string",
+                                "description": "Bounded message for the recipient"
+                            }
+                        }
+                    }
+                }
+            }],
+            "stream": false,
+            "keep_alive": -1
+        }))
+        .map_err(|_| "agent_provider_request_invalid")?;
+        let headers = format!(
+            "POST /api/chat HTTP/1.1\r\nHost: {host}:{port}\r\nConnection: close\r\nContent-Type: application/json\r\nAccept: application/json\r\nContent-Length: {}\r\n\r\n",
+            body.len()
+        );
+        stream
+            .write_all(headers.as_bytes())
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        stream
+            .write_all(&body)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        let mut bytes = Vec::new();
+        stream
+            .take(4_194_305)
+            .read_to_end(&mut bytes)
+            .await
+            .map_err(|_| "agent_provider_unreachable")?;
+        if bytes.len() > 4_194_304 {
+            return Err("agent_provider_response_invalid");
+        }
+        let split = bytes
+            .windows(4)
+            .position(|window| window == b"\r\n\r\n")
+            .ok_or("agent_provider_response_invalid")?;
+        let response_headers =
+            std::str::from_utf8(&bytes[..split]).map_err(|_| "agent_provider_response_invalid")?;
+        let status_line = response_headers.lines().next().unwrap_or_default();
+        if status_line.contains(" 400 ") || status_line.contains(" 404 ") {
+            return Err("agent_provider_tools_unsupported");
+        }
+        if !status_line.contains(" 200 ") {
+            return Err("agent_provider_failed");
+        }
+        let decoded = decode_http_response_body(response_headers, &bytes[split + 4..])
+            .ok_or("agent_provider_response_invalid")?;
+        let response: serde_json::Value =
+            serde_json::from_slice(&decoded).map_err(|_| "agent_provider_response_invalid")?;
+        normalize_ollama_conversation_response(&response)
+    };
+    tokio::select! {
+        _ = cancellation.cancelled() => Err("operation cancelled"),
+        result = tokio::time::timeout(AGENT_PROVIDER_EXECUTION_TIMEOUT, operation) => {
+            result.map_err(|_| "agent_provider_timed_out")?
+        }
+    }
+}
+
+fn normalize_ollama_conversation_response(
+    response: &serde_json::Value,
+) -> Result<ProviderConversationOutput, &'static str> {
+    let message = response
+        .get("message")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("agent_provider_response_invalid")?;
+    let content = message
+        .get("content")
+        .and_then(serde_json::Value::as_str)
+        .unwrap_or_default();
+    let tool_calls = message
+        .get("tool_calls")
+        .and_then(serde_json::Value::as_array)
+        .map(Vec::as_slice)
+        .unwrap_or_default();
+    if tool_calls.is_empty() {
+        if content.trim().is_empty() {
+            return Err("agent_provider_response_invalid");
+        }
+        return Ok(ProviderConversationOutput {
+            message: content.to_owned(),
+            agent_to_agent: None,
+        });
+    }
+    if tool_calls.len() != 1 {
+        return Err("agent_provider_action_invalid");
+    }
+    let function = tool_calls[0]
+        .get("function")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("agent_provider_action_invalid")?;
+    if function.get("name").and_then(serde_json::Value::as_str) != Some("initiate_agent") {
+        return Err("agent_provider_action_invalid");
+    }
+    let parsed_arguments;
+    let arguments = match function.get("arguments") {
+        Some(serde_json::Value::Object(arguments)) => arguments,
+        Some(serde_json::Value::String(arguments)) => {
+            parsed_arguments = serde_json::from_str::<serde_json::Value>(arguments)
+                .map_err(|_| "agent_provider_action_invalid")?;
+            parsed_arguments
+                .as_object()
+                .ok_or("agent_provider_action_invalid")?
+        }
+        _ => return Err("agent_provider_action_invalid"),
+    };
+    let recipient_id = arguments
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty() && value.len() <= 128)
+        .ok_or("agent_provider_action_invalid")?;
+    let peer_message = arguments
+        .get("message")
+        .and_then(serde_json::Value::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty() && value.len() <= 4_096)
+        .ok_or("agent_provider_action_invalid")?;
+    let operator_message = if content.trim().is_empty() {
+        format!("Requested governed contact with {recipient_id}.")
+    } else {
+        content.to_owned()
+    };
+    Ok(ProviderConversationOutput {
+        message: operator_message,
+        agent_to_agent: Some(ProviderAgentToAgentAction {
+            recipient_id: recipient_id.to_owned(),
+            message: peer_message.to_owned(),
+        }),
+    })
+}
+
+#[cfg(test)]
+mod provider_conversation_tool_tests {
+    use super::*;
+
+    async fn read_fixture_request(socket: &mut tokio::net::TcpStream) -> String {
+        use tokio::io::AsyncReadExt;
+        let mut request = Vec::new();
+        while request.len() < 65_536 {
+            let mut chunk = [0_u8; 2_048];
+            let read = socket.read(&mut chunk).await.unwrap_or_default();
+            if read == 0 {
+                break;
+            }
+            request.extend_from_slice(&chunk[..read]);
+            let Some(header_end) = request
+                .windows(4)
+                .position(|window| window == b"\r\n\r\n")
+                .map(|index| index + 4)
+            else {
+                continue;
+            };
+            let content_length = String::from_utf8_lossy(&request[..header_end])
+                .lines()
+                .find_map(|line| {
+                    let (name, value) = line.split_once(':')?;
+                    name.eq_ignore_ascii_case("content-length")
+                        .then(|| value.trim().parse::<usize>().ok())
+                        .flatten()
+                })
+                .unwrap_or_default();
+            if request.len() >= header_end + content_length {
+                break;
+            }
+        }
+        String::from_utf8_lossy(&request)
+            .lines()
+            .next()
+            .unwrap_or_default()
+            .to_owned()
+    }
+
+    #[test]
+    fn ordinary_assistant_content_stays_an_operator_reply() {
+        let output = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {"role": "assistant", "content": "I can help directly."}
+        }))
+        .expect("ordinary reply");
+        assert_eq!(output.message, "I can help directly.");
+        assert!(output.agent_to_agent.is_none());
+    }
+
+    #[test]
+    fn native_tool_call_is_a_typed_action_separate_from_prose() {
+        let output = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {
+                "role": "assistant",
+                "content": "I will request governed contact.",
+                "tool_calls": [{
+                    "function": {
+                        "name": "initiate_agent",
+                        "arguments": {
+                            "recipient_id": "ember",
+                            "message": "Please report your current state."
+                        }
+                    }
+                }]
+            }
+        }))
+        .expect("native action");
+        assert_eq!(output.message, "I will request governed contact.");
+        assert_eq!(
+            output.agent_to_agent,
+            Some(ProviderAgentToAgentAction {
+                recipient_id: "ember".to_owned(),
+                message: "Please report your current state.".to_owned(),
+            })
+        );
+    }
+
+    #[test]
+    fn native_tool_call_accepts_json_encoded_arguments() {
+        let output = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {
+                "role": "assistant",
+                "content": "I will ask Ember.",
+                "tool_calls": [{
+                    "function": {
+                        "name": "initiate_agent",
+                        "arguments": "{\"recipient_id\":\"ember\",\"message\":\"Please reply through governed A2A.\"}"
+                    }
+                }]
+            }
+        }))
+        .expect("JSON-encoded Ollama tool arguments should remain first-class");
+        assert_eq!(output.message, "I will ask Ember.");
+        assert_eq!(
+            output.agent_to_agent,
+            Some(ProviderAgentToAgentAction {
+                recipient_id: "ember".to_owned(),
+                message: "Please reply through governed A2A.".to_owned(),
+            })
+        );
+    }
+
+    #[test]
+    fn unknown_or_ambiguous_tool_calls_fail_closed() {
+        for tool_calls in [
+            serde_json::json!([{"function":{"name":"send_unchecked","arguments":{}}}]),
+            serde_json::json!([
+                {"function":{"name":"initiate_agent","arguments":{"recipient_id":"ember","message":"one"}}},
+                {"function":{"name":"initiate_agent","arguments":{"recipient_id":"scribe","message":"two"}}}
+            ]),
+        ] {
+            let error = normalize_ollama_conversation_response(&serde_json::json!({
+                "message": {
+                    "role": "assistant",
+                    "content": "This must not dispatch.",
+                    "tool_calls": tool_calls
+                }
+            }))
+            .expect_err("unrecognized or multiple tools must fail closed");
+            assert_eq!(error, "agent_provider_action_invalid");
+        }
+    }
+
+    #[tokio::test]
+    async fn unsupported_tools_fall_back_to_plain_generation_without_a2a() {
+        use tokio::io::AsyncWriteExt;
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0")
+            .await
+            .expect("bind fallback fixture");
+        let endpoint = format!("http://{}", listener.local_addr().unwrap());
+        let fixture = tokio::spawn(async move {
+            let (mut chat, _) = listener.accept().await.expect("chat request");
+            assert_eq!(
+                read_fixture_request(&mut chat).await,
+                "POST /api/chat HTTP/1.1"
+            );
+            chat.write_all(
+                b"HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\nConnection: close\r\n\r\n",
+            )
+            .await
+            .unwrap();
+            drop(chat);
+
+            let (mut generate, _) = listener.accept().await.expect("generate fallback");
+            assert_eq!(
+                read_fixture_request(&mut generate).await,
+                "POST /api/generate HTTP/1.1"
+            );
+            let body = br#"{"response":"A normal reply from a model without tools."}"#;
+            let headers = format!(
+                "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+                body.len()
+            );
+            generate.write_all(headers.as_bytes()).await.unwrap();
+            generate.write_all(body).await.unwrap();
+        });
+
+        let output = invoke_provider_conversation(
+            "ollama",
+            &endpoint,
+            "plain-model",
+            "answer normally",
+            &CancellationToken::new(),
+        )
+        .await
+        .expect("plain generation fallback");
+        assert_eq!(output.message, "A normal reply from a model without tools.");
+        assert!(output.agent_to_agent.is_none());
+        fixture.await.unwrap();
+    }
+}
+
 async fn invoke_openai_compatible_model(
     endpoint: &str,
     model: &str,
@@ -7963,6 +8657,7 @@ mod conversation_dispatch_gate_tests {
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
                     initiated_work_id: None,
+                    initiated_reply: None,
                     reply: None,
                     accepted_sequence: Some(1),
                     turn_sequence: Some(1),
