@@ -1,0 +1,271 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 694,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "2df28dc037de9b004e3cf607fc4dbd2948157a07a716fb488c1117f97ea83c53",
+  "phase": "published",
+  "generation": 14,
+  "digest": "6b376722cc01a92cb17d18a710da3d4ed23cece92a5c64e8549e1af1b4991054",
+  "branch": "codex/694-runtime-observatory-conversation-history",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-694-runtime-observatory-conversation-history",
+  "review_assignment": {
+    "reviewer": "fresh-session:4b42960b-e80d-4b4b-8aa8-661c40266ed1",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:fdaf9f5ca6a62dd72832477e8a7287b84077ccd8:2f7a7f294d50d6c81c2abaf1fca428fbd4c37d40b1e673e893ace5873ce38e52",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "demos/html-observatory/app.js",
+      "adl/tools/validate_v092_observatory_transcript_history.mjs",
+      "adl/tools/test_issue694_conversation_history_reload.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:4b42960b-e80d-4b4b-8aa8-661c40266ed1",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "demos/html-observatory/app.js",
+      "adl/tools/validate_v092_observatory_transcript_history.mjs",
+      "adl/tools/test_issue694_conversation_history_reload.sh"
+    ],
+    "reviewed_revision": "git-blake3:fdaf9f5ca6a62dd72832477e8a7287b84077ccd8:2f7a7f294d50d6c81c2abaf1fca428fbd4c37d40b1e673e893ace5873ce38e52",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 694,
+    "pull_request": 697,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/697",
+    "base": "main",
+    "head": "codex/694-runtime-observatory-conversation-history",
+    "revision": "git-blake3:bb0fc7221e3aee7cfb900ec7b8d4e8474a867c8d:a74b69792ab10b0847dbb87f5eb64be96db6b6cb700b0cc83eed8ba0ccfb5687",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/694/design.md",
+  "diagram_path": ".csdlc/prepared/issues/694/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:07badbf0-ec57-4fb7-a31d-cb28270fc1e1",
+      "revision": "3f5f4563b2ba93b5e22d80d68fe03e02f2166ed02ec06c128aa041065722cb02"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4b77f3b8df0c3d762fd4e5622a5ab9dca170a1a7be6b007dd9c61161c7d07952",
+      "rendered_digest": "033f37a7804cac2b5139515c5c93527ee4ac58f2168318cfea32b991e6ba24d6",
+      "ast_digest": "62d3831158bf1dd966e4861163f5a4182eb65687947d02a4eed9fc535d36a874"
+    },
+    "stp": {
+      "values_digest": "7d193affbadb7839a759f19bc57990a06d56cd32f86508e92c3a8aefb8118d5e",
+      "rendered_digest": "dd65850f8fd52b75ffae6ed9a637aea1a43bea2661cecfc880a228870fd34502",
+      "ast_digest": "e2b7dc93f2d456c31dabd60b16fe6cd93ccc88b924bc85150a3d8ffd4cccfbf2"
+    },
+    "spp": {
+      "values_digest": "8caf92044097e17a36dc1dc229965a75c7524e690d2a242b24e585ef66a32c0f",
+      "rendered_digest": "d2f3b28625239ebf9d5b61bd61b64de17df9c59451a34da3658818f6582dfbd0",
+      "ast_digest": "ef0f50020c9c38621867bbe114791bf6093e2c2d55be43359a08cf10c9e5bf4b"
+    },
+    "vpp": {
+      "values_digest": "5ebd74e115e7c3721a38a73767f4a0797bebafda6969ecea2191f632c77459cb",
+      "rendered_digest": "cd28cc5b70d4d1521718c2e49285c1ca85600643e682867427752801a1561672",
+      "ast_digest": "8b53e6c6a4920200a6f5f4981d49b86f13a6bd1a0be7ccc70f1f2453c49908e2"
+    },
+    "srp": {
+      "values_digest": "1269a94daa9fa2fac98752868cf56be5e777b45eb97deacd37ac145001bdd3f8",
+      "rendered_digest": "5054b9b1ed15de67d9dfa06401a6ab1f08957acac43f7fd0e4fadc90c67e156b",
+      "ast_digest": "926aa1457f9bc4939ea9fb0bdecf9f544caa0c2b1a7afdd620a602a4db26bc35"
+    },
+    "sor": {
+      "values_digest": "4f8e882490a63f0b938e2aa2c923e2f6d712b0639c913a1d7d42d7da5bedc660",
+      "rendered_digest": "03131aeffe8305c9f48dcfbb189a1dfdc3b8b5ebf6d357a1347930a183e2ef6f",
+      "ast_digest": "9427208b204aea74ddcee7344eceb8c1d56f423da597bb7c40be10fe16762bf1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "advance #694 after non-duplicate issue creation, approved design, governed issue-owned validation denominator, and doctor readiness PASS"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/issue-694",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:4b42960b-e80d-4b4b-8aa8-661c40266ed1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:07badbf0-ec57-4fb7-a31d-cb28270fc1e1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"3f5f4563b2ba93b5e22d80d68fe03e02f2166ed02ec06c128aa041065722cb02\",\"design_ref\":\".csdlc/prepared/issues/694/design.md\",\"diagram_digest\":\"a8b041a57cad8d3bf4f80c9b0302c5b5e4e53eca9459baa5fa5d346228f017dd\",\"diagram_ref\":\".csdlc/prepared/issues/694/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "replace unavailable pre-bind test target with existing governed Runtime and Observatory history targets that this issue will extend",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-conversation-history\",\"proof_role\":\"Prove complete ordered bounded authorized history records for operator and agent turns.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"observatory-history-restore\",\"proof_role\":\"Prove fresh UI restoration exact-once replay and privacy behavior through the governed transcript-history validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"quality\",\"proof_role\":\"Prove formatting contracts exact-range diff hygiene and exact-head review publication readiness.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":800,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"694-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "route the full issue acceptance through a dedicated executable issue-owned validator while retaining the focused component lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-694-complete-history-reload\",\"proof_role\":\"Prove complete ordered authorized history and fresh Observatory restoration through the issue-owned production-path validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_issue694_conversation_history_reload.sh\"],\"parallel_group\":\"694-e2e\",\"defer_reason\":null},{\"lane\":\"runtime-conversation-history\",\"proof_role\":\"Prove complete ordered bounded authorized history records for operator and agent turns.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"observatory-history-restore\",\"proof_role\":\"Prove fresh UI restoration exact-once replay and privacy behavior through the governed transcript-history validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "declare the issue-owned executable reload validator as an exact affected path",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src\",\"adl-runtime-kernel/tests/durable_conversation_history_integration.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\",\"adl/tools/test_issue694_conversation_history_reload.sh\",\".csdlc/issues/694\",\".csdlc/prepared/issues/694\",\".csdlc/evidence/694\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "invoke the executable issue-owned validator directly so readiness can prove the governed denominator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-694-complete-history-reload\",\"proof_role\":\"Prove complete ordered authorized history and fresh Observatory restoration through the issue-owned production-path validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_issue694_conversation_history_reload.sh\"],\"parallel_group\":\"694-e2e\",\"defer_reason\":null},{\"lane\":\"runtime-conversation-history\",\"proof_role\":\"Prove complete ordered bounded authorized history records for operator and agent turns.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"observatory-history-restore\",\"proof_role\":\"Prove fresh UI restoration exact-once replay and privacy behavior through the governed transcript-history validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "advance #694 after non-duplicate issue creation, approved design, governed issue-owned validation denominator, and doctor readiness PASS",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/issue-694",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "fresh-session:b0c9b537-d59a-4c13-9e11-5f6c1540a306",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root/issue-694",
+      "reason": "Recover exact failed review fresh-session:b0c9b537-d59a-4c13-9e11-5f6c1540a306 before remediating pagination completeness and rendered lifecycle truth findings.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root/issue-694",
+      "reason": "Align SPP step status with implemented execution truth after recorded exact-review finding r1-p2-rendered-lifecycle-truth-contradicts-implemented-state.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"action\":\"Trace production conversation admission completion persistence history serialization and Observatory connection flows; establish stable ordered turn identity and privacy boundaries.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Implement complete conversation_history.v1 production history and wire fresh Observatory reload restoration with exact-once replay handling.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"action\":\"Add and run focused deterministic tests plus the isolated production-path reload/reconnect acceptance until both transcript halves restore exactly once.\",\"id\":\"S3\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Obtain independent exact-head review, fix findings, and publish a non-draft PR without merging.\",\"id\":\"S4\",\"status\":\"in_progress\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"action\":\"Trace production conversation admission completion persistence history serialization and Observatory connection flows; establish stable ordered turn identity and privacy boundaries.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Implement complete conversation_history.v1 production history and wire fresh Observatory reload restoration with exact-once replay handling.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"action\":\"Add and run focused deterministic tests plus the isolated production-path reload/reconnect acceptance until both transcript halves restore exactly once.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Obtain independent exact-head review, fix findings, and publish a non-draft PR without merging.\",\"id\":\"S4\",\"status\":\"pending\"}],\"recovery_generation\":9,\"recovery_sequence\":12}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root/issue-694",
+      "reason": "Align rendered SOR status with implemented execution truth after recorded exact-review finding r1-p2-rendered-lifecycle-truth-contradicts-implemented-state.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root/issue-694",
+      "reason": "Record #694 exact-review remediation execution and refreshed proof after review recovery.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated #694 Runtime-authoritative conversation history restoration for the HTML Observatory. Runtime now serves complete bounded conversation_history.v1 turns for operator outbound and agent reply halves from production conversation history, the Observatory requests the bounded retained-history denominator on fresh authenticated connection/recipient selection and deduplicates restored/live turns by stable role/base-turn identity, and focused proof covers replay bounds, history request schema, more-than-100-record restore, fresh-state reload, privacy/adversarial behavior, and production Runtime history ordering.\",\"changes\":[\"Added Runtime control conversation-history serialization for ordered operator outbound and agent reply turns using the existing production conversation history store.\",\"Added authenticated Observatory WSS conversation-history request handling and bounded page-size behavior without live Runtime mutation or new cloud/provider scope.\",\"Wired the HTML Observatory to request Runtime history on fresh state, recipient selection, and authenticated reconnect, then restore turns without depending on browser-local transcript state.\",\"Hardened transcript rendering deduplication so live turns and restored history variants share stable operator/agent base-turn render keys.\",\"Raised the bounded conversation-history protocol cap to 2048 records and added a 60-turn/120-record Runtime regression so complete retained transcript restoration is not silently capped at 100 records.\",\"Corrected rendered lifecycle truth through typed SPP step-status repair and typed SOR status advancement after recorded-review recovery.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\",\"adl/tools/test_issue694_conversation_history_reload.sh\",\".csdlc/issues/694\",\".csdlc/prepared/issues/694\",\".csdlc/evidence/694\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_issue694_conversation_history_reload.sh\"],\"purpose\":\"Run the issue-owned #694 proof script covering HTML Observatory history replay bounds plus exact Runtime production conversation-history ordering and the 60-turn/120-record retained-history regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-transcript-history-proof.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Run existing HTML Observatory conversation-session contract tests after history restoration wiring.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-observatory-session-contract.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"purpose\":\"Run existing HTML Observatory security/privacy/adversarial tests after history restoration wiring.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-observatory-security-privacy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify Rust formatting for the touched Runtime kernel package.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify Git patch whitespace hygiene for the #694 issue worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue694-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "fresh-session:4b42960b-e80d-4b4b-8aa8-661c40266ed1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
