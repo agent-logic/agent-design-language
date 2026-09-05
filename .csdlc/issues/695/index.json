@@ -5,25 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "43bc8d7eb32e370ed634e9b0964344b659e4ec4258fce65968042587078df257",
+  "generation": 19,
+  "digest": "18eb743147859d7dc7800cb31fad1f3c92bd8aa6edaf9ecb2e8d5bd2761d35b4",
   "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
-  "review_assignment": {
-    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:4d9772b52e01f49eb7a1ade5c7918f3396d32dd3:47eb3db73b08cab539b0d5a0732640e2267c4b6e69ccb6757766320a5cc4af07",
-    "scope": [
-      "fresh Runtime startup before checkpoint lineage exists",
-      "current-main integration and Runtime configuration generation",
-      "five-minute per-agent partial checkpoint cadence",
-      "atomic local persistence and bounded retention",
-      "asynchronous S3 spool, archive, and restore",
-      "Runtime API and Observatory continuity projection",
-      "AWS Terraform archive boundary",
-      "focused CI-remediation validation"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a39a8348df1203ee8dfd0bce34c189012bf529b74a66de354f92aa5d2e2bbbed",
+      "values_digest": "597b5c8338636baf9c73a39da518d16370335e1b3cc086c5d285c78aa88f2d37",
       "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
       "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
     },
     "stp": {
-      "values_digest": "80fd9828758c4a1f19221e272d78018add26d018f7f55d13328fb06db9f21b7c",
+      "values_digest": "0e9ae5eb0cb0b9c9312b3a20e79ed7bd5c99466163ed0a0fe79854146494d333",
       "rendered_digest": "2c3c11dd93c7edaf7e4d5e7f3e7a6a77428649b405d2091f6959e1b3a20d924c",
       "ast_digest": "4e98cb924f78d34c5631ea6135da7b04bb9c10c91c726eb865af22fb00028a4c"
     },
     "spp": {
-      "values_digest": "703ea5b17f0e9a31b07ff18c9f58938dacc379750e279cab3d8932417b96fb8d",
+      "values_digest": "5a819399dbe4c4a35e8ea1bf2541e36c304059a4d1675bba4eee9dc487927e55",
       "rendered_digest": "d5b51af9610919ae6e51b44288b88b7f88b1f5a9f02080c0432b7d27f9b14164",
       "ast_digest": "e862f3841fe57c134e2337a28371588754f3d3ec8be15fbcf4531c4f4147f872"
     },
     "vpp": {
-      "values_digest": "24ff05d1e170c09d1008ee0a6640a4ec8b14f35d47338fdd580e9569ff124379",
+      "values_digest": "fdc4612b9f03fe3eb06dacef52f135a385b6fa8c6d8dc28e63c5c19b807363a8",
       "rendered_digest": "3e9546cce535c699192da26f46a56ae11cb14e3ee45cae3dfa58d306d82c3dcd",
       "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
     },
     "srp": {
-      "values_digest": "02a49a140add320312325d01b7ae3914df1859bd7885df69a708eabb69a41799",
-      "rendered_digest": "8d6a423fcf0f77ccff1e68fca41e888ad1a52d0e3bb0f502782eeb3f52c167b3",
-      "ast_digest": "da555986b0b53c5fe387f1d515bdec8bcc88a600553baa5422fbb6b68a4e2d39"
+      "values_digest": "da6677172f2551d40cb68a58b2a2fb2583ffe93ed328ae7ff1d301b58bb05afb",
+      "rendered_digest": "5ed94e79d52fccb9957a25e85d14903ca13fff663eab2b5639a18e1ab4e49aaf",
+      "ast_digest": "06e87c997b3673dfdd23dbeaf31239220030f697afa0b5ebe5b3675616bd1b47"
     },
     "sor": {
-      "values_digest": "aa99944eda149c2b3f6c1f750284a8161ad8fd141e30bb775f94db370394bc39",
+      "values_digest": "1db1a55310e3c97e2964af4e7a78993bebd428d02310c81e704a86bf03d5fd77",
       "rendered_digest": "7be2907d14a291dd67bc9cd00d5c0c7729cb0f85e1e7a2ae803a301c23a68e79",
       "ast_digest": "aa341d3ff8d56c0c2e575635c8d167e9509870beb4f4a224015ddaa7485e089e"
     }
@@ -316,6 +302,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover the failed review assignment after implementing signed startup genesis lineage and fresh-start partial and tombstone proof.",
+      "operation": "recover_review"
     }
   ]
 }

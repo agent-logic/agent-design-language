@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-fresh Runtime startup before checkpoint lineage exists
-current-main integration and Runtime configuration generation
-five-minute per-agent partial checkpoint cadence
-atomic local persistence and bounded retention
-asynchronous S3 spool, archive, and restore
-Runtime API and Observatory continuity projection
-AWS Terraform archive boundary
-focused CI-remediation validation
+
 
 ## Prompts
 

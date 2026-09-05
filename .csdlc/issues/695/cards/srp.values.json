@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
     "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "fresh Runtime startup before checkpoint lineage exists\ncurrent-main integration and Runtime configuration generation\nfive-minute per-agent partial checkpoint cadence\natomic local persistence and bounded retention\nasynchronous S3 spool, archive, and restore\nRuntime API and Observatory continuity projection\nAWS Terraform archive boundary\nfocused CI-remediation validation",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
