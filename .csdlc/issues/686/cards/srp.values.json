@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+      "review_revision": "git-blake3:040d3ac82450086030fd3f6c8b034e24dd5546b5:84273a639a9f0cb7c30930e098d3d498332199ffba40e73948ab1c3afaaf58eb",
+      "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r4",
       "review_prompts": [
         "Can any partial candidate or mutable file become authority without a committed receipt?",
         "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
@@ -23,9 +23,20 @@
         "Does every named failpoint recover deterministically to either the candidate commit or prior generation?",
         "Does validation avoid the live Runtime?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "r4-p1-kernel-env-not-bound-to-active-receipt",
+          "severity": "p1",
+          "summary": "Direct kernel startup validates configuration-generation env presence and hex shape but does not compare the supplied generation/digest to validate_active_config_generation for the active init and binary generation before exposing readiness/status.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
