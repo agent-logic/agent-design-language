@@ -4,28 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "01728ab9f726f48bb97d604d8f88c7476480dc8a5a8f1ac1459ed64f8ce5982a",
+  "generation": 29,
+  "digest": "bbd91598914e238bb58d631857568c813ec9c40a18540caa9796dc392e4b5207",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r10",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:a1248401a950eb2957f2a2c0aa7ee4c0d66dfd01:cb4514d1286991729beb3b5696927ce02b8425dfb9591cc1fb2e2bdb3fc76a7a",
-    "scope": [
-      "adl-runtime-kernel/src/config_generation.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
-      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      ".csdlc/evidence/686"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "28afc29de30bbec67e97387c82a126072a32633d49b5d4f007f15617574e5a6b",
+      "values_digest": "6ca8f96173d4a4a7509477164f15a2ac73aa5f310df4acfe583214bafbe3a3f4",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "99456b180063c61a8f0d57636a6c1c56b300215f77bf60b58fe9944f9df0b89d",
+      "values_digest": "87dd4b2fc73e6acf41c1ba18d051f73f961a70b5463e4a7f81ac50f87a6f1db1",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "5fe38e43234e4dbaf613adac7ae74646e1295d555a8b0f20e2dbcff0d5a80509",
+      "values_digest": "cd0b046f18379b5e43099ceb19c689d563123bc29febd07f506cd83edbcb6fdf",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "5c8b0612574082917593744edb18e479461b38420ee7807669fa2fa3609b30e6",
+      "values_digest": "14218568505da9b7ad63c78c26ae6f1b4e6f9ef5e39c85259da74025b6b04fa8",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "8983254a281bc8f7cbb376c903609e0867649d60ccc8bbc4c8ceb8118f7f02be",
-      "rendered_digest": "cd9db31c108568ff94d12fb9be068f80205bfcdf2dcdeb92dbd8a4a783f370f4",
-      "ast_digest": "48bb902b0245b471ed4e62204d7248e7cb630071ca2173d1c6f480c22d024abb"
+      "values_digest": "3ec499966e2f56cb6fc1ee9555b3e9ccdd9b120e7441187efa4e2381a01659f7",
+      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
+      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "e8b335688064e85c939395d42bf1182737061a3799f7f5e18584e5fe1e496352",
+      "values_digest": "aa4c8fcd04d062020bfa70cb0ec9d1f34372ec3c85a598f6f6ca4313fddf8aae",
       "rendered_digest": "2976172b17d48a824b969f731b7e4af8ebd1cedd7339b38fb6878f1788a0699d",
       "ast_digest": "d46be5dcd2e9c8a2a81ea0fd7b650375f279196799799f740cbeeae0f185e7a4"
     }
@@ -423,6 +406,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover #686 r10 review assignment because codex-subagent:/root/review_686_runtime_config_generation_r10 returned only state/progress information and no findings-first PASS/FAIL review payload. Preserve the unchanged substantive remediation head and assign a different fresh reviewer before republication.",
+      "operation": "recover_review"
     }
   ]
 }
