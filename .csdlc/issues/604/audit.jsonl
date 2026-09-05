@@ -31,3 +31,4 @@
 {"sequence":31,"generation":22,"actor":"codex:/root/worker-6/issue-604","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":32,"generation":23,"actor":"codex:/root/worker-6/issue-604","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":33,"generation":24,"actor":"codex:/root/worker-6/issue-604","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":34,"generation":25,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #604 from repaired retained historical terminal PR #610.","operation":"materialize_derived_terminal"}
