@@ -1,0 +1,11 @@
+sha=2f5b0b9ade9a3d48a9cb448f03b01470659448b5
+argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl-runtime/Cargo.toml --test guardian_cli guardian_cli_reports_successful_portable_child_as_json -- --nocapture
+
+running 1 test
+test guardian_cli_reports_successful_portable_child_as_json ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.44s
+
+status=0
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running tests/guardian_cli.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/guardian_cli-3911305139f8f9cb)
