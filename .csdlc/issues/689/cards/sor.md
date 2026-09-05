@@ -73,11 +73,11 @@ Replaced retired shell-controller guidance with a production operator runbook fo
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
