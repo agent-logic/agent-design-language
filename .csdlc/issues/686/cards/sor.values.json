@@ -7,33 +7,33 @@
     "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
     "slug": "runtime-governed-config-generation-handoff",
     "version": "v0.92.1",
-    "generation": 39
+    "generation": 40
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Recovered and remediated #686 after hosted adl-coverage-runtime failed at PR #692 head c211a8b4dcca498fa31dd5cf658c2cf1d0ddbc43. The hosted failures were `guardian_cli_reports_successful_portable_child_as_json`, which lacked an active configuration-generation reference for the Guardian CLI fixture, and `guardian_cli_rejects_oversized_durations_before_spawning_the_kernel`, whose parseable invalid-duration fixtures lacked valid config-generation authority. The production predicate remains strict: Guardian still validates the active config-generation handoff before launch, and the remediation only provisions/activates valid test receipts for fixtures that are intended to reach Guardian policy validation. Validation evidence was captured at source repair head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5; source-tail guard `git diff --quiet 2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe -- adl-runtime adl-runtime-kernel adl .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py` returned status 0, proving subsequent commits before this SOR update changed only evidence/card/lifecycle surfaces.",
+      "summary": "Recovered and remediated #686 after exact-head review found that configuration-generation identity used only init content SHA-256 while immutable receipt bytes also included compatible_binary_generation. The fix makes the immutable configuration-generation identity include both content_sha256 and compatible_binary_generation, while retaining content_sha256 as a separate receipt field. Focused regression coverage now proves an unchanged init can provision and activate runtime-generation-one, provision the identical init for runtime-generation-two, activate and validate generation two, and roll back to the generation-one receipt.",
       "actual_changes": [
-        "Preserved typed hosted-failure truth by recovering #686 from published gen32 back to implemented gen33 before source edits.",
-        "Updated `guardian_cli_reports_successful_portable_child_as_json` to provision and activate a Runtime configuration-generation receipt for the generated init file before invoking the non-test Guardian binary.",
-        "Updated `guardian_cli_rejects_oversized_durations_before_spawning_the_kernel` to include the Runtime init schema and to provision active-generation authority for parseable invalid-duration fixtures so the test reaches the intended Guardian duration validation without spawning the marker child.",
-        "Kept intentionally TOML-unparseable overflow fixtures strict: they do not receive forged active-generation setup and still assert rejection before kernel spawn.",
-        "Re-ran the exact hosted failing tests plus the #686 denominator, focused Runtime v3 generation suite, strict Clippy, hosted-equivalent all-workspace fmt check, and diff-check at repaired source head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5.",
-        "Dispositioned r13 evidence-head strictness by recording a source-tail guard: no source/test/prepared-denominator file changed between evidence head 2f5b0b9ade9a3d48a9cb448f03b01470659448b5 and recovery head 53f3a082c04da8ea1eaecba49b90c7521a8e93fe."
+        "Preserved typed review-failure truth by recovering #686 from published gen38 back to implemented gen39 before source edits.",
+        "Changed `adl-runtime-kernel/src/config_generation.rs` so `ConfigGenerationReceipt.generation` is a SHA-256 digest over the receipt schema, retained `content_sha256`, and `compatible_binary_generation`, instead of aliasing generation to the init content hash.",
+        "Kept `content_sha256` in the receipt as the stable configuration-content digest for audit and comparison.",
+        "Added `unchanged_config_can_upgrade_and_roll_back_binary_generation` to prove identical init content can create distinct immutable receipts for two Runtime binary generations, validate generation two after upgrade, and re-activate/validate generation one for rollback.",
+        "Updated the issue-owned #686 denominator to require the binary-generation-bound identity helper and the upgrade/rollback regression anchors.",
+        "Re-ran the #686 denominator, focused csm_runtime_v3_cmd unit lane, focused Runtime v3 generation integration suite, both hosted-runtime regression tests, strict Clippy, all-workspace fmt check, and diff-check at source head 9c5cf807b219fcf170e07d68dd8a796ed8c82031."
       ],
       "artifacts": [
-        "adl-runtime/tests/guardian_cli.rs",
-        "adl-runtime/tests/runtime_guardian_lifecycle.rs",
-        ".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=613a23be24fef9f87c9c4b56f6e26b1c7160ee21b3ad2ce995546927f7f86d0d",
-        ".csdlc/evidence/686/issue686-denominator.log sha256=19e346a3780996935360d4147f77cf07f8c85f0e171f4704ff04c34a3ec891a8",
-        ".csdlc/evidence/686/issue686-diff-check.log sha256=79195601126d731878692c4e489a118f39342ccbb36aecae89d8ae7e1fff5297",
-        ".csdlc/evidence/686/issue686-fmt-check.log sha256=bf7f29de4cb6d7f26ff29354fe95f9b4e3915f3f134452e8ddfcb17bad27dab0",
-        ".csdlc/evidence/686/issue686-focused-generation.log sha256=0427527b13b7c3f406eafe33c7a6cba93f82a88b3693d952369fed569cbc58c6",
-        ".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=6aa39e429c1ca5212be29ebc01af189dadaa1e8ead727c5dfd891301943eecd6",
-        ".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=8772680d0683b2b82bdb92060b4b89cbb7befdae8a8731cd74154ae7f85e2e1a",
-        ".csdlc/evidence/686/issue686-strict-clippy.log sha256=f622379817ca5dc82871d6bd8d6784ac25f74ed2f450e878badf8543fa590ecb",
-        "source-tail guard: git diff --quiet 2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe -- adl-runtime adl-runtime-kernel adl .csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py status=0"
+        "adl-runtime-kernel/src/config_generation.rs",
+        "adl/tests/csm_runtime_v3_generation.rs",
+        ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+        ".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=799396c961bfaae0beb581bb121edb55a108d1f24885457ffaeccc81cd5679fd",
+        ".csdlc/evidence/686/issue686-denominator.log sha256=58228c3d075a16922e7d3a20250d75d9d53d6e0e6bfc9e626fe6b0703d359995",
+        ".csdlc/evidence/686/issue686-diff-check.log sha256=34940f5adc404d49647969ab0511c866df5b4074fa9c60b137990fd02d118cdc",
+        ".csdlc/evidence/686/issue686-fmt-check.log sha256=317426c7ee5b6ccc749a44e0d911b69b2c88a0e9bda3bfe1f2fe70681817e23a",
+        ".csdlc/evidence/686/issue686-focused-generation.log sha256=5612ab4cf6cbb1da5eb6a269d88096ad6fa7ea05563343b5f86fe29635c2d778",
+        ".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=0afe4379b7b0a6a9a2e7f3014037b6e1eb2cc60ae7f6549284b5f7e8bc856455",
+        ".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=42cfc6e9ba8cdd52b557c42a9fc91f9696a0c158bca67ab91ee0bb2944f45e40",
+        ".csdlc/evidence/686/issue686-strict-clippy.log sha256=b7725162ff33f7068a0ba17409f4169680e6398f5c890db900faf2b8bb892658"
       ],
       "actual_validation": [
         {
@@ -41,9 +41,9 @@
             "python3",
             ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
           ],
-          "purpose": "Prove the issue-owned #686 static denominator checks concrete configuration-generation handoff, recovery-ordering, propagation, active-store candidate, and regression-test anchors.",
+          "purpose": "Prove the issue-owned #686 static denominator now requires binary-generation-bound configuration identity and upgrade/rollback regression anchors.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-denominator.log sha256=19e346a3780996935360d4147f77cf07f8c85f0e171f4704ff04c34a3ec891a8 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-denominator.log sha256=58228c3d075a16922e7d3a20250d75d9d53d6e0e6bfc9e626fe6b0703d359995 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         },
         {
           "command": [
@@ -54,9 +54,9 @@
             "adl/Cargo.toml",
             "csm_runtime_v3_cmd"
           ],
-          "purpose": "Focused csm_runtime_v3_cmd unit proof including interrupted reload reconciliation before configuration-generation preflight.",
+          "purpose": "Focused csm_runtime_v3_cmd unit proof for Runtime v3 command behavior touched by the configuration-generation handoff.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=613a23be24fef9f87c9c4b56f6e26b1c7160ee21b3ad2ce995546927f7f86d0d head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=799396c961bfaae0beb581bb121edb55a108d1f24885457ffaeccc81cd5679fd head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         },
         {
           "command": [
@@ -68,9 +68,9 @@
             "--test",
             "csm_runtime_v3_generation"
           ],
-          "purpose": "Focused Runtime v3 configuration-generation integration regression suite including active-store candidate receipt validation.",
+          "purpose": "Focused Runtime v3 configuration-generation integration regression suite, including unchanged-config binary upgrade and rollback.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-focused-generation.log sha256=0427527b13b7c3f406eafe33c7a6cba93f82a88b3693d952369fed569cbc58c6 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-focused-generation.log sha256=5612ab4cf6cbb1da5eb6a269d88096ad6fa7ea05563343b5f86fe29635c2d778 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         },
         {
           "command": [
@@ -85,9 +85,9 @@
             "--",
             "--nocapture"
           ],
-          "purpose": "Exact hosted adl-coverage-runtime regression for Guardian portable-child JSON success with valid config-generation authority.",
+          "purpose": "Hosted adl-coverage-runtime regression for Guardian portable-child JSON success with valid config-generation authority.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=8772680d0683b2b82bdb92060b4b89cbb7befdae8a8731cd74154ae7f85e2e1a head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=42cfc6e9ba8cdd52b557c42a9fc91f9696a0c158bca67ab91ee0bb2944f45e40 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         },
         {
           "command": [
@@ -102,9 +102,9 @@
             "--",
             "--nocapture"
           ],
-          "purpose": "Exact hosted adl-coverage-runtime regression for Guardian oversized-duration rejection before marker-child spawn with valid authority for parseable fixtures.",
+          "purpose": "Hosted adl-coverage-runtime regression for Guardian oversized-duration rejection before marker-child spawn.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=6aa39e429c1ca5212be29ebc01af189dadaa1e8ead727c5dfd891301943eecd6 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=0afe4379b7b0a6a9a2e7f3014037b6e1eb2cc60ae7f6549284b5f7e8bc856455 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         },
         {
           "command": [
@@ -120,7 +120,7 @@
           ],
           "purpose": "Strict Clippy over all ADL Cargo targets with warnings denied.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-strict-clippy.log sha256=f622379817ca5dc82871d6bd8d6784ac25f74ed2f450e878badf8543fa590ecb head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-strict-clippy.log sha256=b7725162ff33f7068a0ba17409f4169680e6398f5c890db900faf2b8bb892658 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         },
         {
           "command": [
@@ -133,7 +133,7 @@
           ],
           "purpose": "Hosted-equivalent Rust formatting check for all ADL Cargo packages and local path dependencies.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-fmt-check.log sha256=bf7f29de4cb6d7f26ff29354fe95f9b4e3915f3f134452e8ddfcb17bad27dab0 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-fmt-check.log sha256=317426c7ee5b6ccc749a44e0d911b69b2c88a0e9bda3bfe1f2fe70681817e23a head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         },
         {
           "command": [
@@ -143,23 +143,7 @@
           ],
           "purpose": "Whitespace and patch hygiene check.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/686/issue686-diff-check.log sha256=79195601126d731878692c4e489a118f39342ccbb36aecae89d8ae7e1fff5297 head=2f5b0b9ade9a3d48a9cb448f03b01470659448b5 status=0"
-        },
-        {
-          "command": [
-            "git",
-            "diff",
-            "--quiet",
-            "2f5b0b9ade9a3d48a9cb448f03b01470659448b5..53f3a082c04da8ea1eaecba49b90c7521a8e93fe",
-            "--",
-            "adl-runtime",
-            "adl-runtime-kernel",
-            "adl",
-            ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
-          ],
-          "purpose": "Prove commits after evidence capture through recovery head were metadata-only for source/test/prepared-denominator scope.",
-          "outcome": "passed",
-          "evidence_ref": "terminal observed source_tail_clean status=0"
+          "evidence_ref": ".csdlc/evidence/686/issue686-diff-check.log sha256=34940f5adc404d49647969ab0511c866df5b4074fa9c60b137990fd02d118cdc head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0"
         }
       ],
       "integration_state": "worktree_only",

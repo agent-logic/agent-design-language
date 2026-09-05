@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 39,
-  "digest": "1c9b27f4fa0778883508761e8d85ebbd7c245aec3935ab2d6a9b3099895f67e7",
+  "generation": 40,
+  "digest": "7897f972e387571c3d9dab5e1ac406127c1334df66d108966151792e167e2700",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2245ae536b83656f554e65343ab65f946f09e138f25db39c5a759cdc0d116fa8",
+      "values_digest": "26e77e8749cdde4adbb95ff06541c41a713e9e159a2df7d8f1f4404d5afa64ab",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "a4fea43b465e0dc7ea1ab053b13600436e8e12e1bc60459085446e475d8785cb",
+      "values_digest": "ca2b61f22bb3e9a3f1d76e41d4cea39f707a86e547c88980bacca81ee3745f72",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "7792e217a2284594a43482101200ac87cef37676becba776c3f1ab935cab1c87",
+      "values_digest": "92e2276dc5b5dbe2e57c30ec3359575d10a134367566887bf12164f904f09994",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "06b819e2302cf08932633a898880d8a78fb80cb3c275d63c205bc795eb8200c4",
+      "values_digest": "aeb67eed7339ccea911e5178cdc2c4f79e5ce4ae104430bbfb88ecba685c66f3",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "9fff89f84a031da6acfb2e15843cd599de41c88c24158058c763b15a62517049",
+      "values_digest": "6b663204c2acf4086be6204493ddc39eb8831015139ef19964a0bc7076ce5833",
       "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
       "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "4198b7f9d8a588faf4e153cda8d96380961a218621c71dae61d635644909a92c",
-      "rendered_digest": "c988d971194ac3747f64d2305685f5baa8fc8ec4e8acfdce4e97945368d12718",
-      "ast_digest": "8b98216ea8a4e777c3b3e4115db16a933380cb7b78e543e7824057dc13574e2c"
+      "values_digest": "88eb80f3bf769f999d45816fa99d0346b4ab5b09592c8fa932bd794a11170133",
+      "rendered_digest": "15898e134bb22b29055484e8efb546e4f31f42c1fb3615304f2460101cd84cd0",
+      "ast_digest": "cac9ccf930b065c791e90e0e4f5ed0895986d8e8a8c3cf5264e470c76eb3962a"
     }
   },
   "transitions": [
@@ -553,6 +553,13 @@
       "actor": "codex:/root",
       "reason": "Recover #686 after exact-head review of PR #692 at 7e1d8bd96b957fde30daa87f219de87f0e794be9 failed P1. The Runtime configuration-generation identity currently derives solely from the init file SHA-256 while the immutable receipt bytes also include compatible_binary_generation. A Runtime binary-generation upgrade or rollback with unchanged init content therefore selects the same receipt filename and conflicts with retained bytes before start. Return to implementation for the narrow identity fix: include compatible binary generation in the immutable receipt identity while retaining content_sha256 separately, then add transition coverage proving gen1 activation, identical-init gen2 provision/activation/validation, and rollback to gen1.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 40,
+      "actor": "codex:/root/issue-686",
+      "reason": "Record exact-head #686 validation evidence after exact-head PR #692 review at 7e1d8bd96b957fde30daa87f219de87f0e794be9 failed P1 for unchanged Runtime configuration across binary-generation upgrade or rollback.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered and remediated #686 after exact-head review found that configuration-generation identity used only init content SHA-256 while immutable receipt bytes also included compatible_binary_generation. The fix makes the immutable configuration-generation identity include both content_sha256 and compatible_binary_generation, while retaining content_sha256 as a separate receipt field. Focused regression coverage now proves an unchanged init can provision and activate runtime-generation-one, provision the identical init for runtime-generation-two, activate and validate generation two, and roll back to the generation-one receipt.\",\"changes\":[\"Preserved typed review-failure truth by recovering #686 from published gen38 back to implemented gen39 before source edits.\",\"Changed `adl-runtime-kernel/src/config_generation.rs` so `ConfigGenerationReceipt.generation` is a SHA-256 digest over the receipt schema, retained `content_sha256`, and `compatible_binary_generation`, instead of aliasing generation to the init content hash.\",\"Kept `content_sha256` in the receipt as the stable configuration-content digest for audit and comparison.\",\"Added `unchanged_config_can_upgrade_and_roll_back_binary_generation` to prove identical init content can create distinct immutable receipts for two Runtime binary generations, validate generation two after upgrade, and re-activate/validate generation one for rollback.\",\"Updated the issue-owned #686 denominator to require the binary-generation-bound identity helper and the upgrade/rollback regression anchors.\",\"Re-ran the #686 denominator, focused csm_runtime_v3_cmd unit lane, focused Runtime v3 generation integration suite, both hosted-runtime regression tests, strict Clippy, all-workspace fmt check, and diff-check at source head 9c5cf807b219fcf170e07d68dd8a796ed8c82031.\"],\"artifacts\":[\"adl-runtime-kernel/src/config_generation.rs\",\"adl/tests/csm_runtime_v3_generation.rs\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\",\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=799396c961bfaae0beb581bb121edb55a108d1f24885457ffaeccc81cd5679fd\",\".csdlc/evidence/686/issue686-denominator.log sha256=58228c3d075a16922e7d3a20250d75d9d53d6e0e6bfc9e626fe6b0703d359995\",\".csdlc/evidence/686/issue686-diff-check.log sha256=34940f5adc404d49647969ab0511c866df5b4074fa9c60b137990fd02d118cdc\",\".csdlc/evidence/686/issue686-fmt-check.log sha256=317426c7ee5b6ccc749a44e0d911b69b2c88a0e9bda3bfe1f2fe70681817e23a\",\".csdlc/evidence/686/issue686-focused-generation.log sha256=5612ab4cf6cbb1da5eb6a269d88096ad6fa7ea05563343b5f86fe29635c2d778\",\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=0afe4379b7b0a6a9a2e7f3014037b6e1eb2cc60ae7f6549284b5f7e8bc856455\",\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=42cfc6e9ba8cdd52b557c42a9fc91f9696a0c158bca67ab91ee0bb2944f45e40\",\".csdlc/evidence/686/issue686-strict-clippy.log sha256=b7725162ff33f7068a0ba17409f4169680e6398f5c890db900faf2b8bb892658\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\"],\"purpose\":\"Prove the issue-owned #686 static denominator now requires binary-generation-bound configuration identity and upgrade/rollback regression anchors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-denominator.log sha256=58228c3d075a16922e7d3a20250d75d9d53d6e0e6bfc9e626fe6b0703d359995 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_v3_cmd\"],\"purpose\":\"Focused csm_runtime_v3_cmd unit proof for Runtime v3 command behavior touched by the configuration-generation handoff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-csm-runtime-v3-unit.log sha256=799396c961bfaae0beb581bb121edb55a108d1f24885457ffaeccc81cd5679fd head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"csm_runtime_v3_generation\"],\"purpose\":\"Focused Runtime v3 configuration-generation integration regression suite, including unchanged-config binary upgrade and rollback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-focused-generation.log sha256=5612ab4cf6cbb1da5eb6a269d88096ad6fa7ea05563343b5f86fe29635c2d778 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--nocapture\"],\"purpose\":\"Hosted adl-coverage-runtime regression for Guardian portable-child JSON success with valid config-generation authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-portable-child.log sha256=42cfc6e9ba8cdd52b557c42a9fc91f9696a0c158bca67ab91ee0bb2944f45e40 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\",\"guardian_cli_rejects_oversized_durations_before_spawning_the_kernel\",\"--\",\"--nocapture\"],\"purpose\":\"Hosted adl-coverage-runtime regression for Guardian oversized-duration rejection before marker-child spawn.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-guardian-cli-bounds.log sha256=0afe4379b7b0a6a9a2e7f3014037b6e1eb2cc60ae7f6549284b5f7e8bc856455 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all ADL Cargo targets with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-strict-clippy.log sha256=b7725162ff33f7068a0ba17409f4169680e6398f5c890db900faf2b8bb892658 head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Hosted-equivalent Rust formatting check for all ADL Cargo packages and local path dependencies.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-fmt-check.log sha256=317426c7ee5b6ccc749a44e0d911b69b2c88a0e9bda3bfe1f2fe70681817e23a head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/686/issue686-diff-check.log sha256=34940f5adc404d49647969ab0511c866df5b4074fa9c60b137990fd02d118cdc head=9c5cf807b219fcf170e07d68dd8a796ed8c82031 status=0\"}]}"
     }
   ]
 }
