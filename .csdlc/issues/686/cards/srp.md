@@ -44,12 +44,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR #692 still needs typed republication from the repaired and resynced branch head and hosted CI must pass at the republished head before merge.
+- Validation evidence records post-resync source/evidence head 142f90c44e06532cbf727363b22946ba513b4b28 and SOR/evidence commit 17bd7c74bd9269489727c99e36cebbae765a0aa0; r17 classified the later review-assignment tail 5b139808f2312a837793e990be1f1074862808f3 as metadata only.
+- Live Runtime restart, launchd/systemd mutation, cloud, credential, deployment, paid execution, and merge were not performed as part of local #686 proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:17bd7c74bd9269489727c99e36cebbae765a0aa0:18a353c065b3810cba1a8d1c757443c90a7cfcb089dd76aa051c8efaaf500ae8")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_686_runtime_config_generation_r17")
 
-Result: pre_review
+Result: pass

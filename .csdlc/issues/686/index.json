@@ -3,9 +3,9 @@
   "issue": 686,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
-  "phase": "implemented",
-  "generation": 45,
-  "digest": "b320b37b965c1f8cb908dfcde088ab83b80511d69d21b39eec47a0ba56c0ea4d",
+  "phase": "reviewed",
+  "generation": 46,
+  "digest": "a3120a97d8ddc98a76526b27a2f151bf01f07234be6a194de584f232a1ac53f4",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": {
@@ -28,7 +28,33 @@
       ".csdlc/evidence/686"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r17",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+      ".csdlc/evidence/686"
+    ],
+    "reviewed_revision": "git-blake3:17bd7c74bd9269489727c99e36cebbae765a0aa0:18a353c065b3810cba1a8d1c757443c90a7cfcb089dd76aa051c8efaaf500ae8",
+    "findings": [],
+    "residual_risks": [
+      "PR #692 still needs typed republication from the repaired and resynced branch head and hosted CI must pass at the republished head before merge.",
+      "Validation evidence records post-resync source/evidence head 142f90c44e06532cbf727363b22946ba513b4b28 and SOR/evidence commit 17bd7c74bd9269489727c99e36cebbae765a0aa0; r17 classified the later review-assignment tail 5b139808f2312a837793e990be1f1074862808f3 as metadata only.",
+      "Live Runtime restart, launchd/systemd mutation, cloud, credential, deployment, paid execution, and merge were not performed as part of local #686 proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2c7d60a470798c8da512aad56228c68868e5354b61c520103eee60f65e5cfa95",
+      "values_digest": "26ddcd9a82a560ceb1131c0647c4fb72e1ad540616ca08dc9ebad5b61caac858",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "f9368853e3d1c79cbb195ab6a15e4f60befa05dc09ee00a31c169956cef541d9",
+      "values_digest": "36cbe911a7716ff0ab988f4436c9627608219acb28691ef69b0fff35eee12d2e",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "86ce5b18ccc5357c70af34b2849993f514a18285e2d5758048ba80aa0bd00953",
+      "values_digest": "801df7a763d5ce8528879ca5835a032f43374a6f25c4534b5466b156264710bb",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "0b4a04ced12e1128789c543969e7a7fde810edf31d521ddbb265ba7bf4197bf8",
+      "values_digest": "51a5708533bda85ee125ab40f291ef68a1e116b8e268e71005a459adf70222b5",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "45f24e5f53049c6a144988eadba53de2c3b45bbe8d3be1c64449d077b5ec2f1d",
-      "rendered_digest": "b08128136e19289d0091312bbaaa89c648c06b53be57580e2267fd748154e3ea",
-      "ast_digest": "c9cf7cff02a2865b4f9b86526fd5857517e2b36b5e87541894b3aa6998f3117c"
+      "values_digest": "1d193c9d67a3ecc7cc2d9607e95f2b3492660d26bffa21179165c01d9b7f4436",
+      "rendered_digest": "c31fda7a9a3612f5b5c8d89735945debd665f623caf275fdf6c861d393de17a6",
+      "ast_digest": "6c15772b90268e67d7b043808ed0b48b389868844ebdb085d618acf2d9e87062"
     },
     "sor": {
-      "values_digest": "81a4d901ce43a2fe610c42d273a16800f4f412e4f52b8672e58aef0b3d1ec203",
+      "values_digest": "2fb5de49962b516b1a37f24c8904d04010d35e580da30bc710811d2286c4a39b",
       "rendered_digest": "b1671ee04a2032395a492dbe7b7df69ebb8e2578f5bd2c0753bca6bd71c6d48b",
       "ast_digest": "5d303267323ef1f973af5b7670a204ba1c466b0afcbfa4b5a1592bd128a89bcb"
     }
@@ -199,6 +225,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #686 after the owner-preserving merge of current origin/main advanced the branch from the r16 reviewed head to ec8f4c75615fa9deb1b0fda3c9e8aea4a243ee2e. Typed doctor reports review_publication_dead_end because reviewed evidence no longer matches the clean current substantive commit. Return to implementation state so evidence, SOR truth, and fresh exact review can be regenerated against the post-resync immutable head before publication."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-686",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -649,6 +682,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 46,
+      "actor": "codex:/root/issue-686",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
