@@ -10,7 +10,9 @@ use std::{
     fs::{self, File, OpenOptions},
     io::{self, Write},
     path::{Path, PathBuf},
+    process::{Output, Stdio},
     sync::Mutex,
+    time::Duration,
 };
 use thiserror::Error;
 
@@ -18,6 +20,7 @@ pub const AGENT_PARTIAL_CHECKPOINT_SCHEMA: &str = "adl.runtime_v3.agent_partial_
 pub const AGENT_PARTIAL_TOMBSTONE_SCHEMA: &str = "adl.runtime_v3.agent_partial_tombstone.v1";
 const ARCHIVE_RECEIPT_SCHEMA: &str = "adl.runtime_v3.agent_partial_archive_receipt.v1";
 const ARCHIVE_LATEST_SCHEMA: &str = "adl.runtime_v3.agent_partial_archive_latest.v1";
+const AWS_CLI_PROCESS_TIMEOUT: Duration = Duration::from_secs(30);
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentPartialCheckpoint {
@@ -182,7 +185,8 @@ struct StoreState {
     next_sequence: BTreeMap<String, u64>,
     projections: BTreeMap<String, AgentContinuityProjection>,
     cadence_sequence: u64,
-    in_flight: BTreeSet<String>,
+    capture_epoch: BTreeMap<String, u64>,
+    in_flight: BTreeMap<String, u64>,
     archive_failures: u32,
     archive_retry_after_unix_millis: u64,
 }
@@ -199,6 +203,8 @@ pub enum AgentPartialError {
     SpoolSaturated,
     #[error("partial checkpoint identity or lineage is invalid")]
     InvalidLineage,
+    #[error("partial checkpoint capture was superseded by agent removal")]
+    CaptureSuperseded,
     #[error("partial checkpoint I/O failed: {0}")]
     Io(#[from] io::Error),
     #[error("S3 archive command failed")]
@@ -217,7 +223,9 @@ pub struct AgentPartialCheckpointStore {
     polis_id: String,
     runtime_incarnation_id: String,
     state: Mutex<StoreState>,
+    commit_lock: Mutex<()>,
     archive_command: PathBuf,
+    archive_command_timeout: Duration,
 }
 
 impl AgentPartialCheckpointStore {
@@ -250,7 +258,9 @@ impl AgentPartialCheckpointStore {
             polis_id: polis_id.into(),
             runtime_incarnation_id: runtime_incarnation_id.into(),
             state: Mutex::new(StoreState::default()),
+            commit_lock: Mutex::new(()),
             archive_command: PathBuf::from("aws"),
+            archive_command_timeout: AWS_CLI_PROCESS_TIMEOUT,
         };
         store.rebuild_state()?;
         Ok(store)
@@ -259,6 +269,11 @@ impl AgentPartialCheckpointStore {
     #[cfg(any(test, feature = "test-support"))]
     pub fn set_archive_command(&mut self, command: PathBuf) {
         self.archive_command = command;
+    }
+
+    #[cfg(any(test, feature = "test-support"))]
+    pub fn set_archive_command_timeout(&mut self, timeout: Duration) {
+        self.archive_command_timeout = timeout;
     }
 
     pub fn enabled(&self) -> bool {
@@ -292,30 +307,31 @@ impl AgentPartialCheckpointStore {
             .snapshot_state = AgentSnapshotState::Overdue;
     }
 
-    pub fn begin_capture(&self, agent_id: &str) -> bool {
+    pub fn begin_capture(&self, agent_id: &str) -> Option<u64> {
         let mut state = self.state.lock().expect("partial store state poisoned");
-        if !state.in_flight.insert(agent_id.to_owned()) {
+        if state.in_flight.contains_key(agent_id) {
             state
                 .projections
                 .entry(agent_id.to_owned())
                 .or_default()
                 .snapshot_state = AgentSnapshotState::Overdue;
-            return false;
+            return None;
         }
+        let epoch = *state.capture_epoch.entry(agent_id.to_owned()).or_default();
+        state.in_flight.insert(agent_id.to_owned(), epoch);
         state
             .projections
             .entry(agent_id.to_owned())
             .or_default()
             .snapshot_state = AgentSnapshotState::Overdue;
-        true
+        Some(epoch)
     }
 
-    pub fn finish_capture(&self, agent_id: &str) {
-        self.state
-            .lock()
-            .expect("partial store state poisoned")
-            .in_flight
-            .remove(agent_id);
+    pub fn finish_capture(&self, agent_id: &str, epoch: u64) {
+        let mut state = self.state.lock().expect("partial store state poisoned");
+        if state.in_flight.get(agent_id) == Some(&epoch) {
+            state.in_flight.remove(agent_id);
+        }
     }
 
     pub fn mark_failed(&self, agent_id: &str) {
@@ -332,7 +348,44 @@ impl AgentPartialCheckpointStore {
         state.projections.get(agent_id).cloned().unwrap_or_default()
     }
 
+    #[cfg(any(test, feature = "test-support"))]
     pub fn write_partial(
+        &self,
+        capture: AgentPartialCapture,
+    ) -> Result<AgentContinuityProjection, AgentPartialError> {
+        let _commit = self
+            .commit_lock
+            .lock()
+            .expect("partial commit lock poisoned");
+        self.write_partial_inner(capture)
+    }
+
+    pub fn write_captured_partial(
+        &self,
+        capture: AgentPartialCapture,
+        epoch: u64,
+    ) -> Result<AgentContinuityProjection, AgentPartialError> {
+        let _commit = self
+            .commit_lock
+            .lock()
+            .expect("partial commit lock poisoned");
+        {
+            let state = self.state.lock().expect("partial store state poisoned");
+            if state
+                .capture_epoch
+                .get(&capture.agent_id)
+                .copied()
+                .unwrap_or_default()
+                != epoch
+                || state.in_flight.get(&capture.agent_id) != Some(&epoch)
+            {
+                return Err(AgentPartialError::CaptureSuperseded);
+            }
+        }
+        self.write_partial_inner(capture)
+    }
+
+    fn write_partial_inner(
         &self,
         capture: AgentPartialCapture,
     ) -> Result<AgentContinuityProjection, AgentPartialError> {
@@ -448,8 +501,15 @@ impl AgentPartialCheckpointStore {
         if !self.enabled() {
             return Ok(());
         }
+        let _commit = self
+            .commit_lock
+            .lock()
+            .expect("partial commit lock poisoned");
         let sequence = {
             let mut state = self.state.lock().expect("partial store state poisoned");
+            let epoch = state.capture_epoch.entry(agent_id.to_owned()).or_default();
+            *epoch = epoch.saturating_add(1);
+            state.in_flight.remove(agent_id);
             let next = state.next_sequence.entry(agent_id.to_owned()).or_insert(1);
             let sequence = *next;
             *next = next.saturating_add(1);
@@ -584,22 +644,35 @@ impl AgentPartialCheckpointStore {
             let receipt_bytes =
                 serde_json::to_vec(&receipt).map_err(|_| AgentPartialError::Encoding)?;
             persist_bytes_atomically(&receipt_path, &receipt_bytes)?;
-            fs::remove_file(&path)?;
+            let _commit = self
+                .commit_lock
+                .lock()
+                .expect("partial commit lock poisoned");
+            match fs::remove_file(&path) {
+                Ok(()) => {}
+                Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+                Err(error) => return Err(error.into()),
+            }
+            let pending = json_files(&self.spool_root.join(digest_label(record.agent_id())))?.len();
             let mut state = self.state.lock().expect("partial store state poisoned");
-            let projection = state
-                .projections
-                .entry(record.agent_id().to_owned())
-                .or_default();
-            projection.last_archive_at_unix_millis = Some(receipt.archived_at_unix_millis);
-            projection.pending_archive_count = projection.pending_archive_count.saturating_sub(1);
-            projection.archive_state = if projection.pending_archive_count == 0 {
-                AgentArchiveState::Current
-            } else {
-                AgentArchiveState::Pending
-            };
+            if let Some(projection) = state.projections.get_mut(record.agent_id()) {
+                projection.last_archive_at_unix_millis = Some(receipt.archived_at_unix_millis);
+                projection.pending_archive_count = pending as u64;
+                projection.archive_state = if pending == 0
+                    && projection
+                        .snapshot_sequence
+                        .is_some_and(|sequence| sequence <= record.sequence())
+                {
+                    AgentArchiveState::Current
+                } else {
+                    AgentArchiveState::Pending
+                };
+            }
             archived += 1;
             drop(state);
-            self.clear_archive_degraded(record.agent_id())?;
+            if pending == 0 {
+                self.clear_archive_degraded(record.agent_id())?;
+            }
         }
         if archived > 0 {
             let mut state = self.state.lock().expect("partial store state poisoned");
@@ -652,21 +725,18 @@ impl AgentPartialCheckpointStore {
             add_restore_profile(&mut get, archive);
             get.env("AWS_CLI_CONNECT_TIMEOUT", "3")
                 .env("AWS_CLI_READ_TIMEOUT", "10");
-            let Ok(downloaded) = get
-                .args([
-                    "s3api",
-                    "get-object",
-                    "--region",
-                    &archive.region,
-                    "--bucket",
-                    &archive.bucket,
-                    "--key",
-                    &latest_key,
-                ])
-                .arg(&latest_path)
-                .output()
-                .await
-            else {
+            get.args([
+                "s3api",
+                "get-object",
+                "--region",
+                &archive.region,
+                "--bucket",
+                &archive.bucket,
+                "--key",
+                &latest_key,
+            ])
+            .arg(&latest_path);
+            let Ok(downloaded) = self.run_archive_command(&mut get).await else {
                 continue;
             };
             if !downloaded.status.success() {
@@ -697,7 +767,7 @@ impl AgentPartialCheckpointStore {
             get_record
                 .env("AWS_CLI_CONNECT_TIMEOUT", "3")
                 .env("AWS_CLI_READ_TIMEOUT", "10");
-            if let Ok(result) = get_record
+            get_record
                 .args([
                     "s3api",
                     "get-object",
@@ -708,10 +778,8 @@ impl AgentPartialCheckpointStore {
                     "--key",
                     &latest.object_key,
                 ])
-                .arg(&destination)
-                .output()
-                .await
-            {
+                .arg(&destination);
+            if let Ok(result) = self.run_archive_command(&mut get_record).await {
                 if result.status.success()
                     && fs::read(&destination)
                         .ok()
@@ -1107,7 +1175,8 @@ impl AgentPartialCheckpointStore {
     ) -> Result<bool, AgentPartialError> {
         let bytes = fs::read(path)?;
         let expected_checksum = BASE64_STANDARD.encode(Sha256::digest(&bytes));
-        let output = tokio::process::Command::new(&self.archive_command)
+        let mut command = tokio::process::Command::new(&self.archive_command);
+        command
             .env("AWS_CLI_CONNECT_TIMEOUT", "3")
             .env("AWS_CLI_READ_TIMEOUT", "10")
             .args([
@@ -1131,14 +1200,33 @@ impl AgentPartialCheckpointStore {
                 "SHA256",
                 "--output",
                 "json",
-            ])
-            .output()
-            .await?;
+            ]);
+        let output = self.run_archive_command(&mut command).await?;
         Ok(output.status.success()
             && serde_json::from_slice::<serde_json::Value>(&output.stdout)
                 .ok()
                 .and_then(|value| value["ChecksumSHA256"].as_str().map(str::to_owned))
                 .is_some_and(|checksum| checksum == expected_checksum))
+    }
+
+    async fn run_archive_command(
+        &self,
+        command: &mut tokio::process::Command,
+    ) -> Result<Output, AgentPartialError> {
+        command
+            .env("AWS_PAGER", "")
+            .env("AWS_CLI_PAGER", "")
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .kill_on_drop(true);
+        let child = command.spawn()?;
+        match tokio::time::timeout(self.archive_command_timeout, child.wait_with_output()).await {
+            Ok(result) => Ok(result?),
+            Err(_) => Err(AgentPartialError::Io(io::Error::new(
+                io::ErrorKind::TimedOut,
+                "AWS CLI archive command timed out",
+            ))),
+        }
     }
 
     fn quarantine_spool_record(&self, path: &Path, reason: &str) -> Result<(), AgentPartialError> {
@@ -1753,14 +1841,44 @@ mod tests {
         )
         .unwrap();
         assert_eq!(store.interval_seconds(), 300);
-        assert!(store.begin_capture("ember"));
-        assert!(!store.begin_capture("ember"));
+        let epoch = store.begin_capture("ember").expect("capture begins");
+        assert!(store.begin_capture("ember").is_none());
         assert_eq!(
             store.projection("ember").snapshot_state,
             AgentSnapshotState::Overdue
         );
-        store.finish_capture("ember");
-        assert!(store.begin_capture("ember"));
+        store.finish_capture("ember", epoch);
+        assert!(store.begin_capture("ember").is_some());
+    }
+
+    #[test]
+    fn removal_fences_capture_that_started_before_tombstone() {
+        let temp = tempfile::tempdir().unwrap();
+        let store = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        let epoch = store.begin_capture("ember").expect("capture begins");
+        let stale_capture = capture("ember", 1);
+
+        store.write_tombstone("ember", 2, "a".repeat(64)).unwrap();
+        assert!(matches!(
+            store.write_captured_partial(stale_capture, epoch),
+            Err(AgentPartialError::CaptureSuperseded)
+        ));
+        store.finish_capture("ember", epoch);
+
+        assert!(store.latest_valid(2, &"a".repeat(64)).unwrap().is_empty());
+        let records = json_files(&store.spool_root).unwrap();
+        assert_eq!(records.len(), 1);
+        assert!(matches!(
+            decode_record(&fs::read(&records[0]).unwrap()).unwrap(),
+            StoredRecord::Tombstone(_)
+        ));
     }
 
     #[test]
@@ -2014,6 +2132,85 @@ mod tests {
         assert_eq!(store.archive_pending().await.unwrap(), 1);
         assert_eq!(json_files(&store.quarantine_root).unwrap().len(), 1);
         assert!(json_files(&store.spool_root).unwrap().is_empty());
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn concurrent_newer_snapshot_remains_pending_after_older_upload() {
+        let temp = tempfile::tempdir().unwrap();
+        let started = temp.path().join("started");
+        let release = temp.path().join("release");
+        let script = temp.path().join("blocking-aws");
+        fs::write(
+            &script,
+            format!(
+                "#!/bin/sh\nbody=''\nprevious=''\nfor arg in \"$@\"; do if [ \"$previous\" = \"--body\" ]; then body=\"$arg\"; fi; previous=\"$arg\"; done\nchecksum=$(openssl dgst -sha256 -binary \"$body\" | openssl base64 -A)\ntouch '{}'\nwhile [ ! -f '{}' ]; do sleep 0.01; done\nprintf '{{\"ChecksumSHA256\":\"%s\"}}' \"$checksum\"\n",
+                started.display(),
+                release.display(),
+            ),
+        )
+        .unwrap();
+        fs::set_permissions(&script, fs::Permissions::from_mode(0o700)).unwrap();
+        let mut store = AgentPartialCheckpointStore::open(
+            temp.path().join("state"),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.set_archive_command(script);
+        store.set_archive_command_timeout(Duration::from_secs(5));
+        store.write_partial(capture("ember", 1)).unwrap();
+        let store = std::sync::Arc::new(store);
+        let archiver = {
+            let store = std::sync::Arc::clone(&store);
+            tokio::spawn(async move { store.archive_pending().await })
+        };
+        tokio::time::timeout(Duration::from_secs(2), async {
+            while !started.exists() {
+                tokio::task::yield_now().await;
+            }
+        })
+        .await
+        .expect("archive command starts");
+        store.write_partial(capture("ember", 2)).unwrap();
+        fs::write(release, b"go").unwrap();
+        assert_eq!(archiver.await.unwrap().unwrap(), 1);
+        let projection = store.projection("ember");
+        assert_eq!(projection.snapshot_sequence, Some(2));
+        assert_eq!(projection.pending_archive_count, 1);
+        assert_eq!(projection.archive_state, AgentArchiveState::Pending);
+        assert_eq!(json_files(&store.spool_root).unwrap().len(), 1);
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn wedged_archive_command_is_killed_by_whole_process_timeout() {
+        let temp = tempfile::tempdir().unwrap();
+        let script = temp.path().join("wedged-aws");
+        fs::write(&script, "#!/bin/sh\nsleep 60\n").unwrap();
+        fs::set_permissions(&script, fs::Permissions::from_mode(0o700)).unwrap();
+        let mut store = AgentPartialCheckpointStore::open(
+            temp.path().join("state"),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.set_archive_command(script);
+        store.set_archive_command_timeout(Duration::from_millis(250));
+        store.write_partial(capture("ember", 1)).unwrap();
+
+        let error = tokio::time::timeout(Duration::from_secs(2), store.archive_pending())
+            .await
+            .expect("whole-process timeout returns")
+            .unwrap_err();
+        assert!(
+            matches!(error, AgentPartialError::Io(ref io) if io.kind() == io::ErrorKind::TimedOut)
+        );
+        assert_eq!(store.projection("ember").pending_archive_count, 1);
     }
 
     #[cfg(unix)]

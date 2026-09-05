@@ -1,7 +1,38 @@
 {
   "schema": "adl.runtime.agent-partial-checkpoint.results.v1",
   "issue": 695,
-  "head_sha": "c45378f835b92d8c1f0138f587ccd93af604f430",
+  "evidence_binding": {
+    "schema": "adl.runtime.agent-partial-checkpoint.content-digest.v1",
+    "implementation_digest": "f2daf9e2d7ce1595f1c91b3ec1704b6bd1e9ec27"
+  },
+  "implementation_paths": [
+    ".csdlc/prepared/issues/695/acceptance-manifest.json",
+    ".csdlc/prepared/issues/695/validate-acceptance.sh",
+    ".csdlc/prepared/issues/695/validate-implementation.sh",
+    "adl-runtime-kernel/src/agent_partial_checkpoint.rs",
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/control/feeds.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/src/live_continuity.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/tests/agent_continuity.test.mjs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "infra/aws/runtime/agent-checkpoint-archive/.terraform.lock.hcl",
+    "infra/aws/runtime/agent-checkpoint-archive/README.md",
+    "infra/aws/runtime/agent-checkpoint-archive/locals.tf",
+    "infra/aws/runtime/agent-checkpoint-archive/main.tf",
+    "infra/aws/runtime/agent-checkpoint-archive/outputs.tf",
+    "infra/aws/runtime/agent-checkpoint-archive/terraform.tfvars.example",
+    "infra/aws/runtime/agent-checkpoint-archive/validate.sh",
+    "infra/aws/runtime/agent-checkpoint-archive/variables.tf",
+    "infra/aws/runtime/agent-checkpoint-archive/versions.tf",
+    "infra/runtime-v3/runtime-init.toml"
+  ],
   "results": [
     {
       "proof_id": "partial-cadence",

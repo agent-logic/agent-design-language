@@ -46,6 +46,14 @@ use tokio::net::TcpStream;
 const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
 
+struct ArchiveInFlightGuard(Arc<AtomicBool>);
+
+impl Drop for ArchiveInFlightGuard {
+    fn drop(&mut self) {
+        self.0.store(false, Ordering::Release);
+    }
+}
+
 #[tokio::main]
 async fn main() -> ExitCode {
     let mut args = std::env::args().skip(1);
@@ -1158,6 +1166,7 @@ async fn main() -> ExitCode {
                             let archive_service = Arc::clone(&service);
                             let archive_flag = Arc::clone(&archive_in_flight);
                             tokio::spawn(async move {
+                                let _archive_guard = ArchiveInFlightGuard(archive_flag);
                                 if let Err(error) = archive_service.archive_pending_agent_partials().await {
                                     tracing::warn!(
                                         target: "adl_runtime_kernel",
@@ -1167,7 +1176,6 @@ async fn main() -> ExitCode {
                                         "agent partial archive remains pending"
                                     );
                                 }
-                                archive_flag.store(false, Ordering::Release);
                             });
                         }
                     },
@@ -1707,8 +1715,18 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability,
+        preserve_runtime_result_after_observability, ArchiveInFlightGuard,
     };
+    use std::sync::{atomic::AtomicBool, Arc};
+
+    #[test]
+    fn archive_in_flight_guard_always_releases_scheduler_slot() {
+        let flag = Arc::new(AtomicBool::new(true));
+        {
+            let _guard = ArchiveInFlightGuard(Arc::clone(&flag));
+        }
+        assert!(!flag.load(std::sync::atomic::Ordering::Acquire));
+    }
 
     #[test]
     fn config_reload_diagnostics_are_bounded_and_redacted() {

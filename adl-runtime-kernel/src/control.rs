@@ -2584,24 +2584,26 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             let service = Arc::clone(self);
             let store = Arc::clone(&store);
             async move {
-                if !store.begin_capture(&agent_id) {
+                let Some(capture_epoch) = store.begin_capture(&agent_id) else {
                     return false;
-                }
+                };
                 let capture = service.capture_agent_partial(&agent_id, cadence_sequence);
                 let result = match capture {
                     Ok(capture) => {
                         let writer = Arc::clone(&store);
-                        tokio::task::spawn_blocking(move || writer.write_partial(capture))
-                            .await
-                            .map_err(|_| ())
-                            .and_then(|result| result.map_err(|_| ()))
+                        tokio::task::spawn_blocking(move || {
+                            writer.write_captured_partial(capture, capture_epoch)
+                        })
+                        .await
+                        .map_err(|_| ())
+                        .and_then(|result| result.map_err(|_| ()))
                     }
                     Err(_) => Err(()),
                 };
                 if result.is_err() {
                     store.mark_failed(&agent_id);
                 }
-                store.finish_capture(&agent_id);
+                store.finish_capture(&agent_id, capture_epoch);
                 result.is_ok()
             }
         }))
