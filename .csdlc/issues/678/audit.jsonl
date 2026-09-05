@@ -12,3 +12,4 @@
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":10,"actor":"fresh-session:efe65191-215a-4132-bbe4-565769e1ea92","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":14,"generation":11,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":15,"generation":12,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #678 from retained derived terminal PR #682.","operation":"materialize_derived_terminal"}

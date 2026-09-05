@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
     "slug": "runtime-provider-inference-readiness",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-4",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -47,7 +47,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -56,7 +56,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

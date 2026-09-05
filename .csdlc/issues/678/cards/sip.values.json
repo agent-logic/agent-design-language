@@ -7,7 +7,7 @@
     "title": "Route stable CSM commands through the active Runtime generation",
     "slug": "stable-csm-active-runtime-generation-route",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
   "status": "ready",
   "content": {

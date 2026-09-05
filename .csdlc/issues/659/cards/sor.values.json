@@ -7,9 +7,9 @@
     "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
     "slug": "runtime-configurable-convergence",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 19
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -94,10 +94,10 @@
           "evidence_ref": "runtime-convergence-service-control.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

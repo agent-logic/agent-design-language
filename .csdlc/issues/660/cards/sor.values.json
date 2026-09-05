@@ -7,9 +7,9 @@
     "title": "Remove unintended public /podcast/ exposure and keep show under _preview",
     "slug": "podcast-public-exposure-emergency",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -17,10 +17,10 @@
       "actual_changes": [],
       "artifacts": [],
       "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

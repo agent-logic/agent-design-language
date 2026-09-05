@@ -28,3 +28,4 @@
 {"sequence":28,"generation":19,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":29,"generation":20,"actor":"fresh-session:fddca265-27c7-4a97-ba90-9d33754a2b01","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":30,"generation":21,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":31,"generation":22,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #495 from repaired retained historical terminal PR #590.","operation":"materialize_derived_terminal"}
