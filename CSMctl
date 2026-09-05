@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# Start or diagnose the real repo-local CSM / Runtime v3 service.
-# This script does not print credentials. It uses the existing local service
-# package and stable repo binaries, and writes only local runtime state.
+# Legacy local Observatory helper. Permanent Runtime v3 lifecycle control is
+# owned by the current-generation Rust `csm runtime-v3` command.
+
+legacy_runtime_control_refusal() {
+  local command="${1:-default}"
+  printf '%s\n' \
+    "CSMctl status=failed reason=legacy_runtime_control_removed command=$command" \
+    "Use: .adl/runtime-v3/current/bin/csm runtime-v3 <start|stop|status|reload> --init \"\$PWD/.adl/runtime-v3/live/runtime-init.toml\" --json" >&2
+  exit 2
+}
+
+case "${1-}" in
+  ""|open|start|up|restart|status|stop|logs|urls|rotate-continuity-state)
+    legacy_runtime_control_refusal "${1:-default}"
+    ;;
+esac
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${ADL_CSM_REPO_ROOT:-$SCRIPT_DIR}"
@@ -121,26 +134,16 @@ esac
 
 usage() {
   cat <<'USAGE'
-Usage: ./CSMctl [open|start|up|restart|status|stop|logs|urls|rotate-continuity-state]
-       ./CSMctl observatory [start|status|stop|open|urls|logs]
+Usage: ./CSMctl observatory [start|status|stop|open|urls|logs]
 
 Commands:
-  open    Local demo convenience: start Runtime, start Observatory, and open it.
-  start   Start the real Runtime v3 service if absent, probe it, and print URLs.
-  up      Same as start.
-  restart Gracefully stop the owned Runtime service, then start it again.
-  status  Probe the Runtime v3 service without starting anything.
-  stop    Gracefully stop the owned Runtime service and wait for it to exit.
-  logs    Show recent service logs from this script.
-  urls    Print Runtime and Observatory URLs/paths.
   observatory
           Control only the static HTML Observatory service. This does not start
           or stop Runtime and may point at any configured Runtime API base.
-  rotate-continuity-state
-          Gracefully stop, preserve old continuity state in quarantine, and
-          prepare a fresh continuity state for a deliberate signing-key change.
 
-This helper never force-kills, surprise-restarts, or replaces Runtime.
+Permanent Runtime control:
+  .adl/runtime-v3/current/bin/csm runtime-v3 <start|stop|status|reload> \
+    --init "$PWD/.adl/runtime-v3/live/runtime-init.toml" --json
 USAGE
 }
 
@@ -1165,17 +1168,8 @@ observatory_cmd() {
   esac
 }
 
-case "${1:-up}" in
-  open) open_cmd ;;
+case "${1:-help}" in
   observatory) shift; observatory_cmd "$@" ;;
-  start) up_cmd ;;
-  up) up_cmd ;;
-  restart) restart_cmd ;;
-  status) status_cmd ;;
-  stop) stop_cmd ;;
-  logs) logs_cmd ;;
-  urls) urls_cmd ;;
-  rotate-continuity-state) rotate_continuity_state_cmd ;;
   -h|--help|help) usage ;;
   *) usage >&2; fail "unknown_command=$1" ;;
 esac

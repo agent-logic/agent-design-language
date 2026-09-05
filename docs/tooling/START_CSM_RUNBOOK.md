@@ -1,515 +1,262 @@
-# CSM / Runtime v3 startup runbook
+# Runtime v3 service-control runbook
 
-This runbook is the operator path for starting or diagnosing the real CSM /
-Runtime v3 service and for running the HTML Observatory as a separate local
-static service that can point at any configured Runtime API.
+## Purpose and authority
 
-The intended operator behavior is deliberately simple:
-
-```sh
-./CSMctl start
-./CSMctl observatory open
-```
-
-`./CSMctl start` starts only the Runtime service if it is absent and probes the
-documented Runtime v3 `/v1` endpoints. On macOS, launchd owns the generated
-runner. On Linux, `CSMctl` owns a detached runner with an isolated supervisor
-  PID file and verifies its `/proc` command line and start time before signaling
-  it through a Linux pidfd.
-
-`./CSMctl observatory open` starts only the local HTML Observatory static server
-and opens it with the Runtime API base from `CSMctl.observatory.conf`. That
-Runtime may be local, on another machine, or in AWS.
-
-It does not create a throwaway Runtime. It does not invent a second
-Runtime. It does not print credential values. It does not force-kill,
-surprise-restart, replace, or take over an existing Runtime.
-
-## What `CSMctl` controls
-
-`CSMctl start|status|stop|logs` controls only the Runtime v3 service process:
-
-- Default Runtime API base: `https://localhost:20997`
-- Runtime binary: `.adl/runtime-v3-service/generated/bin/adl-runtime-kernel`
-- Service package: `.adl/runtime-v3-service/`
-- Local service config generated under `.adl/runtime-v3-service/generated/`
-- macOS backend: launchd label `com.agentlogic.start-csm`
-- Linux backend: bounded process supervisor recorded at
-  `.adl/runtime-v3-service/state/start_CSM.supervisor.pid`
-- Runtime process log: `.adl/runtime-v3-service/state/start_CSM.log`
-
-`CSMctl observatory start|status|stop|open|logs` controls only the local static
-HTML Observatory server:
-
-- Default Observatory base: `https://localhost:8765`
-- Fixed local port: `8765`
-- Static document root: `demos/html-observatory/`
-- Runtime API target: `ADL_CSM_OBSERVATORY_RUNTIME_BASE` from
-  `CSMctl.observatory.conf`
-- macOS launchd label: `com.agentlogic.csm-observatory`
-
-The Runtime and Observatory do not need to be on the same machine. For normal
-local testing they can both run here. For AWS or another remote CSM, leave the
-remote Runtime under its Linux `CSMctl` process backend and run only the
-Observatory commands on a macOS operator machine:
-
-```sh
-./CSMctl observatory open
-```
-
-The HTML Observatory is in the repo at:
+This runbook is for operators starting, stopping, inspecting, or reloading the
+permanent Runtime v3 service on a host. The current-generation Rust command is
+the sole Runtime service-control authority:
 
 ```text
-demos/html-observatory/index.html
+.adl/runtime-v3/current/bin/csm runtime-v3
 ```
 
-The static server opens it with:
+It owns init validation, launchd or systemd service control, Guardian process
+ownership, listener convergence, readiness identity, and transactional reload.
+The stable `current/bin/csm` path follows the installed Runtime generation; a
+Cargo build-output binary or a binary from another worktree does not.
 
-```text
-?runtime=v3&runtimeApiBase=<configured-runtime-api-base>&live=1
-```
+The root `CSMctl` shell does **not** control Runtime. It remains only for the
+separate local Observatory static server. The retired shell-controller paths
+`.adl/runtime-v3-service/` and `com.agentlogic.start-csm` are not evidence of
+the permanent Runtime's state.
 
-The Runtime API root itself is not the Observatory UI. A browser pointed at
-`https://localhost:20997/` may correctly see HTTP 404 because the Runtime API
-serves the `/v1/*` endpoints, not an HTML dashboard at `/`.
+## Operator contract
 
-## One-command flow
+- Run commands from the primary repository root containing the live install.
+- Use the absolute active-init path. `csm runtime-v3` rejects a relative path.
+- Run `status` before any state-changing command.
+- Treat canonical JSON output and the command exit status together. A JSON
+  status document followed by a nonzero exit remains a failed operation.
+- Never infer ownership from an open port or an HTTP response alone.
+- Never force-kill, manually bootstrap, or replace a service that canonical
+  status cannot prove it owns.
+- Never print credentials, copy them into command arguments, or collect them
+  in an incident packet.
 
-From the repository root:
+These examples define paths once to reduce transcription errors:
 
 ```sh
-./CSMctl start
-./CSMctl observatory open
+REPO_ROOT="$PWD"
+CSM="$REPO_ROOT/.adl/runtime-v3/current/bin/csm"
+RUNTIME_INIT="$REPO_ROOT/.adl/runtime-v3/live/runtime-init.toml"
 ```
 
-Successful Runtime output includes:
-
-```text
-CSMctl status=pass runtime_base=https://localhost:20997
-CSMctl runtime=https://localhost:20997
-```
-
-If a compatible Runtime is already running, the script accepts it and prints
-the same URLs. It does not try to start a duplicate service on the same port.
-If any Runtime endpoint is responding but the three required probes are not all
-HTTP 200, the script fails closed and refuses to kill or replace that Runtime.
-
-Successful Observatory output includes a browser URL similar to:
-
-```text
-CSMctl observatory_server=running url=https://localhost:8765/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
-CSMctl opening=https://localhost:8765/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
-```
-
-The Observatory port is fixed at `8765`. If that port is already occupied,
-`CSMctl observatory start` fails closed instead of serving the dashboard on a
-different local port.
-
-## Commands
+Before proceeding, confirm that both files exist and that the init is the one
+intended for this host:
 
 ```sh
-./CSMctl start
+test -x "$CSM"
+test -f "$RUNTIME_INIT"
 ```
 
-Start the real Runtime v3 service if needed, probe it, and print the Runtime
-base plus Observatory path.
+## Canonical identity
+
+The normal Wuji installation has this identity:
+
+| Surface | Canonical value |
+| --- | --- |
+| Service command | `.adl/runtime-v3/current/bin/csm runtime-v3` |
+| Active init | `.adl/runtime-v3/live/runtime-init.toml` |
+| macOS launchd label | `com.agentlogic.adl-runtime-v3` |
+| Local API | `https://127.0.0.1:20997` |
+
+Do not pin automation to a transient process ID, resolved IP address, Cargo
+target directory, or issue worktree. Process IDs legitimately change across a
+restart; the service label, installed-generation path, and active-init identity
+are the durable control surfaces.
+
+## First response: establish state
+
+Always begin with the read-only canonical status command:
 
 ```sh
-./CSMctl up
+"$CSM" runtime-v3 status --init "$RUNTIME_INIT" --json
 ```
 
-Alias for `start`.
+A healthy managed service exits zero and reports all of the following:
+
+- `service_manager` is `launchd` on macOS or `systemd` on Linux;
+- `label` is the configured service label;
+- `config_valid` is `true`;
+- `service_loaded` and `listener_ready` are both `true`;
+- `guardian_process_id` and `runtime_process_id` are nonzero;
+- `active_init_hash` is present and matches the active init; and
+- `observability_ready` is `true`.
+
+The command verifies that the service-manager process is the Guardian reported
+by `/v1/ready` and that the responding Runtime reports the active init's hash.
+An unrelated Runtime on the configured listener therefore cannot satisfy
+canonical readiness.
+
+### State interpretation
+
+| Observed state | Meaning | Operator action |
+| --- | --- | --- |
+| Loaded, listener ready, identities agree | Healthy permanent service | No mutation; record status if needed. |
+| Loaded, listener not ready | Managed service failed to converge or identity proof failed | Inspect the exact service and its configured logs; do not start a second Runtime. |
+| Not loaded, listener not ready | Service is stopped or not installed | After verifying paths and config, use canonical `start`. |
+| Not loaded, listener responds | Unowned or conflicting listener | Stop. Identify the listener without taking it over or killing it. |
+| Incomplete reload reported | Transaction artifacts require reconciliation | Run canonical `start`; it owns commit-or-rollback recovery. |
+| Config, generation, plist, or unit validation fails | Control inputs are invalid or inconsistent | Correct the named input; do not bypass preflight. |
+
+## Normal operations
+
+### Start or converge
 
 ```sh
-./CSMctl status
+"$CSM" runtime-v3 start --init "$RUNTIME_INIT" --json
 ```
 
-Probe the Runtime without starting anything.
+`start` validates the full init and installed generation before mutation. It
+reconciles an interrupted reload, then either reports an already owned and ready
+service or cleanly starts the configured service and waits for owned readiness.
+It is the normal recovery command after an interrupted reload.
+
+Use `--plist <absolute-plist>` or `--label <label>` only for an intentionally
+configured non-default service. Do not use those flags to work around a
+canonical service that fails validation.
+
+### Stop gracefully
 
 ```sh
-./CSMctl urls
+"$CSM" runtime-v3 stop --init "$RUNTIME_INIT" --json
 ```
 
-Print the Runtime base and configured Observatory URL without probing.
+`stop` acts through the configured service manager and waits for the Guardian,
+Runtime listener, and managed service to stop. The Guardian coordinates Runtime
+shutdown and continuity handling. A stopped result should report
+`service_loaded: false` and `listener_ready: false`.
+
+### Reload configuration transactionally
+
+Do not edit the active init in place. Create and review a separate candidate,
+then provide its absolute path:
 
 ```sh
-./CSMctl logs
+RUNTIME_CANDIDATE="/absolute/path/to/runtime-init.candidate.toml"
+"$CSM" runtime-v3 reload \
+  --init "$RUNTIME_INIT" \
+  --candidate "$RUNTIME_CANDIDATE" \
+  --json
 ```
 
-Show recent log lines for the Runtime process started by this script.
+Reload validates the active and candidate configurations before service
+mutation. It stops the current service, preserves the last-known-good init,
+starts the candidate through the service manager, and commits only after owned
+readiness succeeds. An ordinary candidate failure stops the candidate, restores
+the last-known-good init, and starts it again. A later `start` reconciles durable
+transaction artifacts left by interruption.
+
+After any start, stop, or reload, rerun canonical `status --json` and compare the
+result with the intended state. For reload, also confirm that `active_init_hash`
+changed to the candidate's identity.
+
+## Diagnosis and recovery
+
+1. Capture canonical `status --json` and its exit status.
+2. Classify the result with the state table above.
+3. Inspect only the configured service-manager unit.
+
+   macOS:
+
+   ```sh
+   launchctl print "gui/$(id -u)/com.agentlogic.adl-runtime-v3"
+   ```
+
+   Linux:
+
+   ```sh
+   systemctl status com.agentlogic.adl-runtime-v3.service
+   ```
+
+4. Compare the service-manager process identity, Guardian PID, Runtime PID,
+   active-init hash, and listener state. A PID by itself is not authority.
+5. Correct a concrete path, config, generation, plist, or unit defect before
+   retrying. Do not repeatedly restart an unexplained failure.
+6. Use canonical `start` to reconcile an interrupted transaction or start a
+   verified stopped service.
+7. Escalate if ownership remains ambiguous. Preserve evidence and leave the
+   competing process untouched.
+
+An optional direct API probe can help distinguish transport failure from
+service-manager failure:
 
 ```sh
-./CSMctl stop
+curl -ks https://127.0.0.1:20997/v1/ready
 ```
 
-Gracefully stop the CSMctl-owned Runtime. The generated runner forwards TERM
-to the kernel and waits for the Runtime checkpoint shutdown path so agent state
-can dehydrate before the process exits. On Linux, the same TERM path is sent
-only after the recorded supervisor PID is proven to execute the exact generated
-runner; a stale or foreign PID fails closed.
+This probe is diagnostic only. It cannot replace canonical status because it
+does not independently prove service-manager ownership. Public DNS, Caddy, AWS
+edge routing, browser trust, provider inference, and model health are separate
+surfaces and require their own checks.
 
-## Linux Runtime control
+### Incident evidence
 
-Linux supports `start`, `up`, `restart`, `status`, `stop`, `logs`, `urls`, and
-`rotate-continuity-state`. It does not require systemd and is suitable for the
-bounded Amazon Linux qualification host used by #268. The generated runner and
-all Runtime configuration remain under `ADL_CSM_SERVICE_DIR`; secrets remain in
-the mode-0600 `runtime.env` file.
+Record the minimum useful, non-secret evidence:
 
-```sh
-./start_CSM.sh start
-./start_CSM.sh status
-./start_CSM.sh restart
-./start_CSM.sh stop
-```
+- UTC timestamp and host identity;
+- invoked operation and command exit status;
+- canonical status JSON;
+- configured service label and active-init path;
+- exact installed `csm` provenance if available;
+- exact service-manager status for the configured unit; and
+- the first concrete error, not only later retry failures.
 
-Linux refuses a supervisor PID unless `/proc/<pid>/cmdline` identifies the
-exact generated runner and `/proc/<pid>/stat` retains the recorded start time.
-It opens a pidfd before the final identity check and sends TERM through that
-stable process handle, preventing PID reuse between validation and signaling.
-Unsupported operating systems fail before lifecycle
-control. The local HTML Observatory backend remains macOS/launchd-only; point a
-macOS Observatory at the Linux Runtime with
-`ADL_CSM_OBSERVATORY_RUNTIME_BASE`.
+Do not attach credential files, environment dumps, private keys, tokens, or an
+unfiltered process listing. Do not mutate the service merely to gather evidence.
+
+## Persistence expectations
+
+The installed launchd service uses `KeepAlive` and `RunAtLoad`; the equivalent
+Linux installation is managed by systemd. Persistence is proven by canonical
+status reporting both the loaded service and matching owned readiness. An HTTP
+200 response alone does not prove that the permanent service is installed or
+that it will survive logout, reboot, or process failure.
+
+## Local Observatory
+
+The Observatory is a browser client, not the Runtime or its supervisor. These
+are the only supported root-shell commands:
 
 ```sh
 ./CSMctl observatory start
-```
-
-Start only the local HTML Observatory static server. This does not start,
-stop, probe, or mutate Runtime. Use this when the Runtime is already running
-elsewhere, including AWS.
-
-```sh
-./CSMctl observatory open
-```
-
-Start only the local HTML Observatory static server and open the selected local
-Observatory URL in the browser.
-
-```sh
 ./CSMctl observatory status
-./CSMctl observatory stop
+./CSMctl observatory open
+./CSMctl observatory urls
 ./CSMctl observatory logs
-```
-
-Inspect, gracefully stop, or tail the local Observatory static server.
-
-## Runtime endpoint contract
-
-The script probes:
-
-```text
-GET https://localhost:20997/v1/ready
-GET https://localhost:20997/v1/observatory
-GET https://localhost:20997/v1/health
-```
-
-The local service is considered usable when:
-
-- `/v1/observatory` returns HTTP 200;
-- `/v1/health` returns HTTP 200; and
-- `/v1/ready` returns HTTP 200.
-
-`/v1/ready` is the strict gate. A 503 is not accepted as a successful startup.
-During boot the script may print transitional 503s, but it reports success only
-after all three endpoints return HTTP 200.
-
-## Files used
-
-The script reads:
-
-- `.adl/runtime-v3-service/runtime.env`
-- `.adl/runtime-v3-service/CSMctl.conf`
-- `.adl/runtime-v3-service/CSMctl.observatory.conf`
-- `adl-runtime/tests/support/tls-fixtures/server-cert.pem`
-- `adl-runtime/tests/support/tls-fixtures/server-key.pem`
-- `adl-runtime/tests/support/tls-fixtures/root-ca.pem`
-- `.adl/runtime-v3-service/generated/bin/adl-runtime-kernel`
-- `.adl/bin/vector`
-
-The script may generate local operational artifacts under:
-
-- `.adl/runtime-v3-service/generated/`
-- `.adl/runtime-v3-service/state/`
-
-Do not commit generated credential fragments, token files, PID files, probe
-files, or logs.
-
-When run from a FastWork issue worktree that lacks ignored `.adl/bin` or
-`.adl/runtime-v3-service` artifacts, the script falls back to the primary
-checkout's repo-local service package and stable binaries through Git common-dir
-discovery.
-
-## Runtime config
-
-Use `.adl/runtime-v3-service/CSMctl.conf` for ordinary local service settings,
-including browser-trusted TLS paths. This is intentionally like an Apache
-startup config: paths and simple settings live in one local file, not in the
-script. This config is Runtime-only.
-
-Start by copying the complete template:
-
-```sh
-cp docs/tooling/CSMctl.conf.example .adl/runtime-v3-service/CSMctl.conf
-chmod 600 .adl/runtime-v3-service/CSMctl.conf
-```
-
-The Runtime template lists the normal operator-changeable surface:
-
-- repository and service package paths;
-- state, generated, TLS, credential, continuity, quarantine, log, PID, lease,
-  probe, runner, and plist paths;
-- Runtime API port, bind address, public URL, and server name;
-- launchd label, domain, and working directory;
-- Runtime kernel, Vector, and Python paths;
-- browser-facing API TLS cert/key/trust-root paths;
-- private Runtime continuity TLS paths; and
-- probe/recovery policy toggles.
-
-Minimal local example:
-
-```sh
-ADL_CSM_RUNTIME_PORT=20997
-ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997
-ADL_CSM_RUNTIME_BASE=https://localhost:20997
-ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://localhost:20997
-ADL_CSM_RUNTIME_SERVER_NAME=localhost
-
-ADL_CSM_API_TLS_CERT=/Users/daniel/cert/localhost.pem
-ADL_CSM_API_TLS_KEY=/Users/daniel/cert/localhost-key.pem
-ADL_CSM_API_TLS_TRUST_ROOTS='/Users/daniel/Library/Application Support/mkcert/rootCA.pem'
-```
-
-Keep credential values out of `CSMctl.conf`. Secret tokens and signing keys
-belong only in `.adl/runtime-v3-service/runtime.env`, and that file should not
-be printed.
-
-`CSMctl` copies the configured TLS material into local runtime state before
-starting the service. If `ADL_CSM_API_TLS_TRUST_ROOTS` is present, probes use
-that trust root instead of `curl -k`, so a normal browser and normal `curl`
-should agree about the localhost certificate.
-
-## Observatory config
-
-Use `.adl/runtime-v3-service/CSMctl.observatory.conf` for the local static
-Observatory server and the Runtime API URL it should call. This is separate on
-purpose: a laptop Observatory can point at a CSM running in AWS, and a Runtime
-machine does not need to host the Observatory.
-
-Start by copying the complete template:
-
-```sh
-cp docs/tooling/CSMctl.observatory.conf.example .adl/runtime-v3-service/CSMctl.observatory.conf
-chmod 600 .adl/runtime-v3-service/CSMctl.observatory.conf
-```
-
-For local testing:
-
-```sh
-ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://localhost:20997
-```
-
-For AWS or another remote CSM:
-
-```sh
-ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://runtime.example.com
-```
-
-For the local Observatory static server:
-
-```sh
-ADL_CSM_OBSERVATORY_DIR=/path/to/agent-design-language/demos/html-observatory
-ADL_CSM_OBSERVATORY_ENTRY=/path/to/agent-design-language/demos/html-observatory/index.html
-ADL_CSM_OBSERVATORY_HOST=127.0.0.1
-ADL_CSM_OBSERVATORY_PORT=8765
-ADL_CSM_OBSERVATORY_PORTS='8765'
-ADL_CSM_OBSERVATORY_TLS_CERT=/Users/daniel/cert/localhost.pem
-ADL_CSM_OBSERVATORY_TLS_KEY=/Users/daniel/cert/localhost-key.pem
-ADL_CSM_OBSERVATORY_LAUNCH_LABEL=com.agentlogic.csm-observatory
-```
-
-Changing certs or ports is just a config edit plus:
-
-```sh
 ./CSMctl observatory stop
-./CSMctl observatory start
 ```
 
-## TLS and browser note
+No Observatory command may start, stop, reload, replace, or claim ownership of
+Runtime.
 
-The local Runtime uses HTTPS on `localhost`. For local browser trust, put the
-mkcert certificate, key, and CA root paths in `CSMctl.conf` as shown above.
+## Migration from the retired shell interface
 
-For public or investor-demo hosting with real DNS, use the externally issued
-certificate and exact DNS names for the Runtime API host. The local Observatory
-config should point at that HTTPS origin. This local script does not prove
-public DNS, ingress, browser trust-store setup, Unity, or cloud reachability.
+Legacy Runtime invocations intentionally fail before touching service state and
+print the canonical replacement. Use these mappings:
 
-## Overrides
+| Retired invocation | Canonical replacement |
+| --- | --- |
+| `./CSMctl`, `./CSMctl open` | Runtime: canonical `status`; UI: `./CSMctl observatory open` |
+| `./CSMctl start`, `./CSMctl up`, `./CSMctl restart` | `csm runtime-v3 start` |
+| `./CSMctl status` | `csm runtime-v3 status` |
+| `./CSMctl stop` | `csm runtime-v3 stop` |
+| `./CSMctl rotate-continuity-state` | No shell replacement; use the governed Runtime lifecycle path |
+| `./CSMctl logs`, `./CSMctl urls` | Use canonical status and the configured service/observability surfaces |
 
-Prefer `CSMctl.conf` for repeated local settings. One-shot environment
-overrides are still available:
+Do not translate a legacy `restart` into an unconditional stop followed by
+start. Canonical `start` is convergent and preserves the ownership checks.
 
-```sh
-ADL_CSM_RUNTIME_PORT=20997 ./CSMctl start
-ADL_CSM_RUNTIME_BASE=https://localhost:20997 ./CSMctl status
-ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997 ./CSMctl start
-ADL_CSM_SERVICE_DIR=/path/to/.adl/runtime-v3-service ./CSMctl start
-ADL_CSM_KERNEL_BIN=/path/to/adl-runtime-kernel ./CSMctl start
-ADL_CSM_API_TLS_CERT=/path/to/fullchain.pem ADL_CSM_API_TLS_KEY=/path/to/privkey.pem ADL_CSM_API_TLS_TRUST_ROOTS=/path/to/ca.pem ./CSMctl start
-ADL_CSM_OBSERVATORY_CONFIG_FILE=/path/to/CSMctl.observatory.conf ./CSMctl observatory open
-ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://runtime.example.com ./CSMctl observatory open
-```
+## Post-operation checklist
 
-Do not put credential values in command arguments or reusable shell history.
+- The canonical command exited with the expected status.
+- `service_loaded` and `listener_ready` match the intended state.
+- Guardian and Runtime process identities are present when running.
+- `active_init_hash` matches the intended active init.
+- `observability_ready` is true when running.
+- No unowned listener or second Runtime was created.
+- No credential or secret material was emitted or copied.
 
-## Cert and key rotation
-
-For Runtime certificate rotation, edit the three TLS path values in
-`.adl/runtime-v3-service/CSMctl.conf`, then run:
-
-```sh
-./CSMctl stop
-./CSMctl start
-```
-
-For Observatory certificate rotation, edit the two Observatory TLS path values
-in `.adl/runtime-v3-service/CSMctl.observatory.conf`, then run:
-
-```sh
-./CSMctl observatory stop
-./CSMctl observatory start
-```
-
-For continuity signing-key rotation, update the key in `runtime.env` without
-printing it, then preserve the old signed continuity stores and prepare fresh
-state:
-
-```sh
-./CSMctl rotate-continuity-state
-./CSMctl start
-```
-
-The rotation command moves the old continuity directories into
-`.adl/runtime-v3-service/state/quarantine/`; it does not delete them.
-
-## Troubleshooting
-
-### `missing_service_env`
-
-The service package is missing or incomplete. Confirm the file exists without
-printing it:
-
-```sh
-ls .adl/runtime-v3-service/runtime.env
-```
-
-### `missing_or_not_executable_kernel_binary`
-
-The generated Runtime kernel binary is absent. Build or install the current
-Runtime kernel into `.adl/runtime-v3-service/generated/bin/adl-runtime-kernel`,
-then retry.
-
-### `runtime_present_but_not_all_200`
-
-Something is already answering on one or more Runtime endpoints, but startup is
-not healthy. The script will not replace it. Inspect:
-
-```sh
-./CSMctl status
-./CSMctl logs
-```
-
-### `runtime_not_ready_or_not_serving`
-
-The Runtime did not satisfy the endpoint contract. Run:
-
-```sh
-./CSMctl logs
-./CSMctl status
-```
-
-If another service owns port `20997`, stop that service or choose another
-Runtime port with `ADL_CSM_RUNTIME_PORT`.
-
-### Browser opens but dashboard is not live
-
-First confirm the Runtime API that the Observatory config points at:
-
-```sh
-./CSMctl status
-```
-
-For a remote Runtime, use a direct probe against that configured origin instead
-of starting local Runtime:
-
-```sh
-curl https://runtime.example.com/v1/ready
-curl https://runtime.example.com/v1/observatory
-curl https://runtime.example.com/v1/health
-```
-
-Then confirm the local Observatory static server:
-
-```sh
-./CSMctl observatory status
-./CSMctl observatory urls
-```
-
-If Runtime probes pass but the browser is not live, the remaining issue is the
-static Observatory serving path, browser TLS trust, or CORS/origin setup.
-
-### Browser shows HTTP 404 at `https://localhost:20997/`
-
-That URL is the Runtime API origin, not the Observatory page. Open the URL
-printed by:
-
-```sh
-./CSMctl observatory open
-```
-
-or:
-
-```sh
-./CSMctl observatory urls
-```
-
-### Browser shows HTTP 404 at `https://localhost:8765/`
-
-Another local service may already own the first configured Observatory port.
-Ask `CSMctl` for the selected live URL:
-
-```sh
-./CSMctl observatory urls
-```
-
-If the script reports `observatory_port_unavailable port=8765`, stop the
-conflicting local process and restart the Observatory. ADL software must not
-serve the local Observatory on port `8000` or fallback to port `8766`.
-
-## Validation used while authoring
-
-The branch validated:
-
-```sh
-bash -n CSMctl
-bash adl/tools/test_csmctl_linux_backend.sh
-./CSMctl status
-./CSMctl start
-./CSMctl observatory start
-./CSMctl observatory status
-git diff --check
-```
-
-Observed local endpoint state during authoring:
-
-```text
-/v1/ready        HTTP 200
-/v1/observatory  HTTP 200
-/v1/health       HTTP 200
-```
-
-That proves the local Runtime v3 service was serving the Runtime API contract
-and that the local static Observatory server could serve the HTML entrypoint.
-It does not claim public deployment, Unity, or provider proof.
+This runbook controls one host-local permanent Runtime service. It does not by
+itself validate remote reachability, cloud infrastructure, provider execution,
+agent admission, model preloading, or agent-to-agent behavior.

@@ -25,13 +25,14 @@ Diagram: .csdlc/prepared/issues/689/diagram.mmd
 [
   {
     "lane": "runtime-control-routing-docs",
-    "proof_role": "Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.",
+    "proof_role": "Prove shell syntax, canonical route guidance, and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -46,7 +47,7 @@ Diagram: .csdlc/prepared/issues/689/diagram.mmd
   },
   {
     "lane": "canonical-runtime-ownership",
-    "proof_role": "Reuse focused Rust ownership and status tests for the unchanged canonical controller.",
+    "proof_role": "Run the actual focused Rust ownership, convergence, status, and transactional reload tests for the unchanged canonical controller.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -60,8 +61,9 @@ Diagram: .csdlc/prepared/issues/689/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl/Cargo.toml",
-      "--lib",
-      "csm_runtime_v3_cmd"
+      "--bin",
+      "adl",
+      "csm_runtime_v3_cmd::tests::"
     ],
     "parallel_group": "689-focused",
     "defer_reason": null
@@ -100,7 +102,7 @@ Tokens: 10000
 ## Commands
 
 - `bash adl/tools/test_csmctl_linux_backend.sh`
-- `cargo test --locked --manifest-path adl/Cargo.toml --lib csm_runtime_v3_cmd`
+- `cargo test --locked --manifest-path adl/Cargo.toml --bin adl csm_runtime_v3_cmd::tests::`
 - `git diff --check origin/main...HEAD`
 
 ## Failure Semantics

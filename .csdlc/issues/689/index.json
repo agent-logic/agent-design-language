@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "a0087aa888361a1dd039d5ef99d929b3f7bc8a63a27294756b700ee8c37210d6",
   "phase": "bound",
-  "generation": 6,
-  "digest": "80de1b4de59359653f75f7ab32a46f5629bb5459e1f18ebcc85b0522f1ed8d4c",
+  "generation": 8,
+  "digest": "c8fabad3d56c114bf2f97f24ba2ab523bfda57e3489917e556154172bfa31f38",
   "branch": "codex/689-runtime-canonical-control-runbook",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "baa87e50cd3c69a53d9535172db9480e28421ae0b96f2eaef2a759f0c35505f9",
+      "values_digest": "b42cfe4ffc00b495fa0aed2cd1a829447cd4d6e5c0aa754879e32fa3a08f1ba9",
       "rendered_digest": "b8143a9b06847f14cdad60c5a22e537498d3a8b64535b4f268f4ef2be3adcc81",
       "ast_digest": "21f37d078ffb67354c9fb12935fbb6333963c678b0538c40e429ef75c3051601"
     },
     "stp": {
-      "values_digest": "a80589bffdfcf9cdaf1b889472080c27071595908384541137a43bde751ebe58",
+      "values_digest": "56eb578af6f6bc646b8fbd88324ff0df71c1ad3dea33c7c322367ac16e172e5e",
       "rendered_digest": "d00972b6e802960a768b67adf5326c74b60d17e413cb7ed2f15c9940e40d3ca3",
       "ast_digest": "9d8979682230b61e5fa3da84c648a03a051da01878b88ae4ac4d577ac8aac266"
     },
     "spp": {
-      "values_digest": "cf0bd33c4d2750e1eafbb743b083235aa6e6f24b41be869fca224772e0ae316f",
+      "values_digest": "c2096dad6265fd586dff03dba6e10f9bf0c2a30cc19a407748eea24f9ce8ea36",
       "rendered_digest": "ba6ca2e13e0011b1eba336b040e918091cd05cdcf7cd5369d03fd8df2f25e205",
       "ast_digest": "4239df6b7c4e8f305161cdaeeaa69d37d884beff8a3c4956cf8ab649c7cce5fa"
     },
     "vpp": {
-      "values_digest": "ec17e6eddb310fb7ec24baf6b5c1c6f93b1eb86fd9f0142ee809a7bbef1a2f7c",
-      "rendered_digest": "f778cd8e26cf48d1145ec733d42ebada181c43488426bb4100218adf3d95b689",
-      "ast_digest": "cd1c88ac7d1a1b7699f9615bd449caa381be70fc991d24e384d67fd5974f0c69"
+      "values_digest": "5033b0a08e59919be3fa8854725f20ad88c79357300ca8a5f0f12c3d34355075",
+      "rendered_digest": "ffec11c5f13af207ff4187a15afa1539f8e208648a88a690a6a4496ef2cde6cb",
+      "ast_digest": "a0105ec682e369aa2d4bd9a7af04e264afc4814114f3f1244864024dc36fd7b2"
     },
     "srp": {
-      "values_digest": "787c799b9f1e4def75cc3e3a66349bab202883fafbe1655dcca49c2705012f56",
+      "values_digest": "f095be4ac263d66a257969164deb229e4aa159cc2aa73cdbdfd4a15ecb7ae48a",
       "rendered_digest": "64af0ff4d9a6c9908e97e4c0d12fcdaf43c6df1b8ca513a63f7e57ac186fcf17",
       "ast_digest": "9584bf8360abcf8fe50c22b4539ef35cf76a31486332db88140d5070539094ba"
     },
     "sor": {
-      "values_digest": "d1914488113e6f834255066278cfd0c7ec63a3eecc3a08f29561e92f4113ce38",
+      "values_digest": "cd4aea4675722250aa6fad0612f615ec21dc94fccda5d5dd45bf361d4216cc6f",
       "rendered_digest": "fcef6e7924f1e8bf1274f139af6ec3232a39b767e9ecc6cf1ac2751e390d8043",
       "ast_digest": "bc23b05aeca32089853d80e4e56d2eba82f98c2a4a128f1a3bc461d13676bef2"
     }
@@ -126,6 +126,20 @@
       "actor": "codex:/root",
       "reason": "{\"base_branch\":\"codex/689-bind-prep\",\"branch\":\"codex/689-runtime-canonical-control-runbook\",\"expected_digest\":\"7e2a6bf22700592f657ab1440d6f2a0227eb0aa4c601d72ce886f88b428f2ef3\",\"expected_generation\":6,\"expected_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"1b52272c106b6e98e1aa7f4cde69646d7311e9ec\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook\"}",
       "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "replace a zero-test Rust selector with the verified 52-test Runtime v3 service-control lane and restore explicit shell syntax proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Run the actual focused Rust ownership, convergence, status, and transactional reload tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3_cmd::tests::\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"shell-syntax\",\"proof_role\":\"Prove the retained Observatory shell interface remains syntactically valid.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"bash\",\"-n\",\"CSMctl\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "remove the separately classified non-proving shell lane because the governed route test already performs all three shell syntax checks",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-control-routing-docs\",\"proof_role\":\"Prove shell syntax, canonical route guidance, and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"canonical-runtime-ownership\",\"proof_role\":\"Run the actual focused Rust ownership, convergence, status, and transactional reload tests for the unchanged canonical controller.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3_cmd::tests::\"],\"parallel_group\":\"689-focused\",\"defer_reason\":null},{\"lane\":\"exact-range-diff\",\"proof_role\":\"Reject whitespace and conflict-marker defects across the exact issue range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"689-quality\",\"defer_reason\":null}]}"
     }
   ]
 }

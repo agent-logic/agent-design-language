@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
     "slug": "runtime-canonical-service-control-runbook",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -17,13 +17,14 @@
       "lanes": [
         {
           "lane": "runtime-control-routing-docs",
-          "proof_role": "Prove canonical route guidance and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.",
+          "proof_role": "Prove shell syntax, canonical route guidance, and refusal of all legacy Runtime routes, including open and empty invocation, while retaining Observatory commands.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-7"
           ],
           "deterministic": true,
           "resource_profile": "small",
@@ -38,7 +39,7 @@
         },
         {
           "lane": "canonical-runtime-ownership",
-          "proof_role": "Reuse focused Rust ownership and status tests for the unchanged canonical controller.",
+          "proof_role": "Run the actual focused Rust ownership, convergence, status, and transactional reload tests for the unchanged canonical controller.",
           "acceptance_ids": [
             "AC-6"
           ],
@@ -52,8 +53,9 @@
             "--locked",
             "--manifest-path",
             "adl/Cargo.toml",
-            "--lib",
-            "csm_runtime_v3_cmd"
+            "--bin",
+            "adl",
+            "csm_runtime_v3_cmd::tests::"
           ],
           "parallel_group": "689-focused",
           "defer_reason": null
