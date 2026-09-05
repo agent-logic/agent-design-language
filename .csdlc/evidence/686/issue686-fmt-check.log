@@ -1,3 +1,3 @@
-sha=ff92652c4d1537d5d2557ab63f317a2a3a8b2372
+sha=c41a48ee406ed74e2489b995b5f7eb5778f7fcc7
 argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo fmt --manifest-path adl/Cargo.toml --check
 status=0
