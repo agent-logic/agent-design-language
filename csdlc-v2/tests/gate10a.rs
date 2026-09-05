@@ -1047,6 +1047,59 @@ fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
     );
 }
 
+#[test]
+fn install_refreshes_when_existing_receipt_has_stale_source_set_digest() {
+    let _repo_forbidden_path_guard = REPO_FORBIDDEN_PATH_TEST_LOCK.lock().unwrap();
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let parent = tempfile::tempdir().unwrap();
+    let destination = parent.path().join("csdlc-v2");
+    install_binaries(prebuilt_binaries(), &destination).unwrap();
+    stamp_current_revision(&repo, &destination);
+
+    let receipt_path = destination.join("install-receipt.json");
+    let mut stale_receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    stale_receipt["source_set_digest"] =
+        serde_json::Value::String("stale-source-set-digest".into());
+    fs::write(
+        &receipt_path,
+        serde_json::to_vec_pretty(&stale_receipt).unwrap(),
+    )
+    .unwrap();
+    let coexistence =
+        verify_coexistence(&repo, &destination, &CoexistenceInventory::load().unwrap())
+            .expect_err("stale receipt setup must be detected before install refresh");
+    assert!(
+        coexistence
+            .message
+            .contains("installed source set stale-source-set-digest differs from current"),
+        "{coexistence:?}"
+    );
+
+    let cargo_target = parent.path().join("cargo-target");
+    fs::create_dir_all(&cargo_target).unwrap();
+    let cargo_target = fs::canonicalize(cargo_target).unwrap();
+    let install = Command::new(env!("CARGO_BIN_EXE_csdlc-install"))
+        .args(["install", "--repo"])
+        .arg(&repo)
+        .arg("--destination")
+        .arg(&destination)
+        .env("CARGO_TARGET_DIR", &cargo_target)
+        .output()
+        .unwrap();
+    assert!(
+        install.status.success(),
+        "install should refresh stale source-set receipts: {}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    let refreshed: csdlc_v2::InstallReceipt = serde_json::from_slice(&install.stdout).unwrap();
+    assert_eq!(
+        refreshed.source_set_digest,
+        csdlc_v2::owner_source_set_digest(&repo).unwrap()
+    );
+    assert_ne!(refreshed.source_set_digest, "stale-source-set-digest");
+}
+
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");
     let manifest = root.join("csdlc-v2/operator/native-card-shape.json");
