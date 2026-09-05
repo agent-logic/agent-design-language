@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #694 complete Runtime conversation history source, Observatory fresh-state restoration, exact-once replay, privacy bounds, and isolated end-to-end acceptance only.
+adl-runtime-kernel/src/control.rs
+demos/html-observatory/app.js
+adl/tools/validate_v092_observatory_transcript_history.mjs
+adl/tools/test_issue694_conversation_history_reload.sh
 
 ## Prompts
 

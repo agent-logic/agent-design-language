@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #694 complete Runtime conversation history source, Observatory fresh-state restoration, exact-once replay, privacy bounds, and isolated end-to-end acceptance only.",
+      "review_scope": "adl-runtime-kernel/src/control.rs\ndemos/html-observatory/app.js\nadl/tools/validate_v092_observatory_transcript_history.mjs\nadl/tools/test_issue694_conversation_history_reload.sh",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
