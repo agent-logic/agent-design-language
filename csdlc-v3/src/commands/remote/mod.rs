@@ -167,6 +167,10 @@ pub struct GithubMutationRequest {
     pub issue: u64,
     #[serde(default)]
     pub pull_request: Option<u64>,
+    #[serde(default)]
+    pub cutover_issue: Option<u64>,
+    #[serde(default)]
+    pub operator_approval: Option<String>,
     pub expected_head_sha: String,
     pub credential_names: Vec<String>,
     pub mutation: GithubMutation,
@@ -842,6 +846,14 @@ pub fn github_mutation_operation_digest(request: &GithubMutationRequest) -> Stri
 }
 
 fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteFinding> {
+    if request.cutover_issue != Some(505)
+        || !has_explicit_505_operator_approval(request.operator_approval.as_deref())
+    {
+        return Err(remote_finding(
+            "github_mutation_cutover_approval_missing",
+            "GitHub mutation requires explicit #505 operator approval",
+        ));
+    }
     if request.issue == 0 {
         return Err(remote_finding(
             "github_issue_invalid",
@@ -896,6 +908,15 @@ fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteF
         }
         _ => Ok(()),
     }
+}
+
+fn has_explicit_505_operator_approval(approval: Option<&str>) -> bool {
+    approval.is_some_and(|value| {
+        let normalized = value.to_ascii_lowercase();
+        normalized.contains("operator")
+            && normalized.contains("#505")
+            && normalized.contains("approval")
+    })
 }
 
 fn github_mutation_invocation(

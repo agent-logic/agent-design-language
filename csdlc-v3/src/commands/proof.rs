@@ -1,4 +1,7 @@
-//! Native proof, shadow, soak, and stable-install operations.
+//! Native proof, shadow, soak, and stable-install readiness operations.
+//!
+//! These routes may retain bounded evidence, but they do not grant live
+//! lifecycle authority before explicit #505 cutover approval.
 
 use std::{
     collections::BTreeMap,
@@ -18,6 +21,8 @@ pub struct ProofRouteRequest {
     pub issue: u64,
     pub repository: String,
     pub cutover_issue: Option<u64>,
+    #[serde(default)]
+    pub operator_approval: Option<String>,
     pub evidence_root: Option<String>,
     pub proof: Option<ProofManifest>,
     pub shadow: Option<ShadowComparison>,
@@ -181,12 +186,19 @@ pub fn classify_route(
             .as_ref()
             .filter(|value| value.executes_install)
         {
-            match execute_install(&request, install) {
-                Ok(reference) => {
-                    performed_mutation = true;
-                    evidence_refs.push(reference);
+            if !has_explicit_505_operator_approval(request.operator_approval.as_deref()) {
+                findings.push(finding(
+                    "install_operator_approval_missing",
+                    "executing install requires explicit #505 operator approval",
+                ));
+            } else {
+                match execute_install(&request, install) {
+                    Ok(reference) => {
+                        performed_mutation = true;
+                        evidence_refs.push(reference);
+                    }
+                    Err(code) => findings.push(code),
                 }
-                Err(code) => findings.push(code),
             }
         }
     }
@@ -196,7 +208,7 @@ pub fn classify_route(
         issue: request.issue,
         repository: request.repository,
         read_only: !performed_mutation,
-        operational_authority: findings.is_empty(),
+        operational_authority: false,
         performed_mutation,
         evidence_refs,
         status: if findings.is_empty() {
@@ -206,6 +218,15 @@ pub fn classify_route(
         },
         findings,
     }
+}
+
+fn has_explicit_505_operator_approval(approval: Option<&str>) -> bool {
+    approval.is_some_and(|value| {
+        let normalized = value.to_ascii_lowercase();
+        normalized.contains("operator")
+            && normalized.contains("#505")
+            && normalized.contains("approval")
+    })
 }
 
 fn common_findings(
@@ -943,6 +964,7 @@ mod tests {
             issue: 505,
             repository: "agent-logic/agent-design-language".into(),
             cutover_issue: Some(505),
+            operator_approval: Some("operator #505 approval".into()),
             evidence_root: Some(root.to_string_lossy().into_owned()),
             proof: None,
             shadow: None,

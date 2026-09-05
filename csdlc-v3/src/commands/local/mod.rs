@@ -67,6 +67,7 @@ pub struct OperationalLocalContext {
     pub repository_root: PathBuf,
     pub state_root: PathBuf,
     pub allowed_worktree_parent: PathBuf,
+    pub cutover_approved: bool,
 }
 
 /// Result of a native local mutation or diagnostic.
@@ -1057,6 +1058,13 @@ pub fn execute_operational_local_route(
 }
 
 fn validate_context(context: &OperationalLocalContext) -> Result<(), Vec<DoctorFinding>> {
+    if !context.cutover_approved {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "cutover_approval_missing",
+            "native v3 local lifecycle writes require explicit #505 cutover approval",
+        )]);
+    }
     if context.repository_root == context.allowed_worktree_parent
         || context
             .repository_root
