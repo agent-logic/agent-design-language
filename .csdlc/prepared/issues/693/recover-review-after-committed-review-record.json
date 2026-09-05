@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 693,
+  "expected_generation": 17,
+  "expected_digest": "0b6f34f315e5a32517f1c0b5c3d1ab041b82bd641284dedd92e31b146cc73673",
+  "actor": "codex:/root/a2a_reliability_fix",
+  "reason": "recover reviewed metadata after the exact-head review record was committed before publication and therefore made the publication review stale"
+}

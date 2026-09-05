@@ -12,10 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/telemetry.rs
-.csdlc/evidence/693
+
 
 ## Prompts
 
@@ -35,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:ab97441ddcc4b3303d1e7c5e23c3565d53391a43:774adf7be7e71ee0938467385abd6efceffcc451367c0861730e168b79cd74bb")
+Revision: None
 
-Reviewer: Some("codex:/root/a2a_reliability_fix/review_693_exact_head_after_recovery")
+Reviewer: None
 
-Result: pass
+Result: pre_review
