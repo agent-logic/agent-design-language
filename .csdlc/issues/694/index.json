@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2df28dc037de9b004e3cf607fc4dbd2948157a07a716fb488c1117f97ea83c53",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "9b2719140583d0cea3c820d93d57abdbbd8a971e87b2c2df6ef13fbfd88ae598",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "754ec24be837d74b587e309a608a3bd72d6ea31895ba36dd769995b6e3fcd297",
   "branch": "codex/694-runtime-observatory-conversation-history",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-694-runtime-observatory-conversation-history",
   "review_assignment": {
@@ -20,7 +20,20 @@
       "adl/tools/test_issue694_conversation_history_reload.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:4b42960b-e80d-4b4b-8aa8-661c40266ed1",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "demos/html-observatory/app.js",
+      "adl/tools/validate_v092_observatory_transcript_history.mjs",
+      "adl/tools/test_issue694_conversation_history_reload.sh"
+    ],
+    "reviewed_revision": "git-blake3:fdaf9f5ca6a62dd72832477e8a7287b84077ccd8:2f7a7f294d50d6c81c2abaf1fca428fbd4c37d40b1e673e893ace5873ce38e52",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3bfa56052f0adae48e08870f0e66059116be3cae465cdedec6b6843a09b51291",
+      "values_digest": "50c57db86b711cbab685cde91dc2ad021e5a0cd75dbc0488021eb2186145a06c",
       "rendered_digest": "033f37a7804cac2b5139515c5c93527ee4ac58f2168318cfea32b991e6ba24d6",
       "ast_digest": "62d3831158bf1dd966e4861163f5a4182eb65687947d02a4eed9fc535d36a874"
     },
     "stp": {
-      "values_digest": "898a5fef70c5c85b3b5bead498a9b8e4bc1701b1dd64bb63063493b37ed6aed0",
+      "values_digest": "15f21fd2f568d0ee0726c3e238b7d16212d1e286ff929d8a1c9dbe5fcb23a381",
       "rendered_digest": "dd65850f8fd52b75ffae6ed9a637aea1a43bea2661cecfc880a228870fd34502",
       "ast_digest": "e2b7dc93f2d456c31dabd60b16fe6cd93ccc88b924bc85150a3d8ffd4cccfbf2"
     },
     "spp": {
-      "values_digest": "62df2780e37a001682b78eca6b4b4cec40f50eff0704e7789f48fbfac509b6db",
+      "values_digest": "1d02ced5a07e65b8a2addc556ad660cd2752c44bc551552a7a58148b7f178e2a",
       "rendered_digest": "d2f3b28625239ebf9d5b61bd61b64de17df9c59451a34da3658818f6582dfbd0",
       "ast_digest": "ef0f50020c9c38621867bbe114791bf6093e2c2d55be43359a08cf10c9e5bf4b"
     },
     "vpp": {
-      "values_digest": "0012d4bb12be08caa8f4182de8a029389e36442da028dd500dfbd54c723c1ac6",
+      "values_digest": "50b3bda55b027b8f18723cce1f98fa90c2351f66203498ebf8a35b0824f9d777",
       "rendered_digest": "cd28cc5b70d4d1521718c2e49285c1ca85600643e682867427752801a1561672",
       "ast_digest": "8b53e6c6a4920200a6f5f4981d49b86f13a6bd1a0be7ccc70f1f2453c49908e2"
     },
     "srp": {
-      "values_digest": "8c9c4add5602d13be5540ed670c2155446b7701b5360b9dcaa0017df2bf460a6",
-      "rendered_digest": "e30932667c2a93a3a8a4e2daaf0533fa962f354f894ef2d05f4ab583450bbcaf",
-      "ast_digest": "36e55d5c1b2b8c145c98766d1e7b02843197be0dd6966b357d9899b4d8594904"
+      "values_digest": "a917c93d577bf55d56126834b4ac23845735b9a1f5b142b67b558fa42455c7ff",
+      "rendered_digest": "5054b9b1ed15de67d9dfa06401a6ab1f08957acac43f7fd0e4fadc90c67e156b",
+      "ast_digest": "926aa1457f9bc4939ea9fb0bdecf9f544caa0c2b1a7afdd620a602a4db26bc35"
     },
     "sor": {
-      "values_digest": "6dd7ae552511f1189e8288e09a491fddb48c479b269aef3594bfbabfd12568ba",
+      "values_digest": "5bab6adaf7f65dda1d2cd0c01d3f22282ec22e328459e1defbfa8e8cfce893ae",
       "rendered_digest": "d22e4b89bdcdfb0f69907b774d8cb72f7f4b84cf970b4c78f220d34caf2c0089",
       "ast_digest": "2e2fa648f4dfb792e6021b71b76bcc8418b9e05caea822e5ace6ef677cd65f4d"
     }
@@ -86,6 +99,13 @@
       "to": "implemented",
       "actor": "codex:/root/issue-694",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:4b42960b-e80d-4b4b-8aa8-661c40266ed1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -214,6 +234,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "fresh-session:4b42960b-e80d-4b4b-8aa8-661c40266ed1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
