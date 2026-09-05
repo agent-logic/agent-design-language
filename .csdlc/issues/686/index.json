@@ -3,58 +3,13 @@
   "issue": 686,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
-  "phase": "reviewed",
-  "generation": 43,
-  "digest": "b46ddf86ef6a9c80c6e8e3a7fd51b73704d9b3eb64034858438b04ddf1e4a991",
+  "phase": "implemented",
+  "generation": 44,
+  "digest": "f3f15e125c464c1da38ba395ef361ee3a56c8cd6402aea72ae42d68a310f1b14",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r16",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:e99b4883bd7f5714aa8e050b725da4a1a6dfcca7:98d7b8a0cc2a7b18ddf762e3c7b02e86485b59327805ce61e33eced40ccdffa4",
-    "scope": [
-      "adl-runtime-kernel/src/config_generation.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl-runtime/tests/guardian_cli.rs",
-      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
-      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      ".csdlc/evidence/686"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r16",
-    "scope": [
-      "adl-runtime-kernel/src/config_generation.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl-runtime/tests/guardian_cli.rs",
-      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
-      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
-      ".csdlc/evidence/686"
-    ],
-    "reviewed_revision": "git-blake3:e99b4883bd7f5714aa8e050b725da4a1a6dfcca7:98d7b8a0cc2a7b18ddf762e3c7b02e86485b59327805ce61e33eced40ccdffa4",
-    "findings": [],
-    "residual_risks": [
-      "PR #692 still needs typed republication from the repaired branch head and hosted CI must pass at the republished head before merge.",
-      "Validation evidence records source repair head 1c35cf9c4d2e559ce36f97d68f958c5727e1d1be; r16 classified later commits through the review assignment as evidence/lifecycle/review metadata only for the scoped source/test/prepared/evidence surfaces.",
-      "No live Runtime, launchd/systemd, cloud, credential, deployment, paid execution, or merge was performed; those remain outside issue #686 local implementation proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -69,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9313250148b3979813bff296731404ae5f93892549a4e40ce65db44e5e883781",
+      "values_digest": "2c9f94d7a0404571b35ce12db8c3dfe05fcf09857cc26a740104e2b27ea8cfc9",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "30fcd2648cf7767b428f8263c777ff10d45119110741903977000f9d1e77774e",
+      "values_digest": "a84f7829825432d995d92d88c3a4e282c180dc36cdbc268bb60e8408b161cf06",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "7242fe11ba4a460e3675b702a80d0f7406f43c99ec1fb3aa1195ab5b81746296",
+      "values_digest": "c9504698360017fc5f0ef29f585bd8784497ac649459839ee3df65571b31c70d",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "101e69d99713ba279cab94cd9e7669e1ec316f84daaeda4ab77b5a19fe0ba4d3",
+      "values_digest": "432015e16bf46a50ef3fe6bbfd946300aa98ef47c1ba0f34a5e7a936f69f0d2a",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "e112867fa33426d0bdc9950988b104df33f96cd0567c2d710b78f07397efce62",
-      "rendered_digest": "f6fc70e75b38ac01c703c745d210e422c0c954fb62d9cc2206b3f6fe172c09aa",
-      "ast_digest": "69e45b778e6f39049cb2eeb4592f8a4b802bc81c4b4eb7b9b7b07ed99337d722"
+      "values_digest": "85a627c00050a26396409503123639df087654cddbea9c966ec298f641ddb852",
+      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
+      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
     },
     "sor": {
-      "values_digest": "aef56e8c745c5a3e5911b19745bc0b8773100720259b46cd74a0159346c42544",
+      "values_digest": "d93bfb508c3b106f4d1bb28caf8e9e23674113888b076d7e7017e4e6b881b05a",
       "rendered_digest": "47d6accb9dcc17dee78e827b32c3db87972771abf854df234d5a51ad827cdef6",
       "ast_digest": "36c9ed43df180f532b958b35f3533d85ef88060d183b106acbec519c3016f9cc"
     }
@@ -218,6 +173,13 @@
       "to": "reviewed",
       "actor": "codex:/root/issue-686",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #686 after the owner-preserving merge of current origin/main advanced the branch from the r16 reviewed head to ec8f4c75615fa9deb1b0fda3c9e8aea4a243ee2e. Typed doctor reports review_publication_dead_end because reviewed evidence no longer matches the clean current substantive commit. Return to implementation state so evidence, SOR truth, and fresh exact review can be regenerated against the post-resync immutable head before publication."
     }
   ],
   "audit": [
@@ -647,6 +609,13 @@
       "actor": "codex:/root/issue-686",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 44,
+      "actor": "codex:/root",
+      "reason": "Recover #686 after the owner-preserving merge of current origin/main advanced the branch from the r16 reviewed head to ec8f4c75615fa9deb1b0fda3c9e8aea4a243ee2e. Typed doctor reports review_publication_dead_end because reviewed evidence no longer matches the clean current substantive commit. Return to implementation state so evidence, SOR truth, and fresh exact review can be regenerated against the post-resync immutable head before publication.",
+      "operation": "recover_review"
     }
   ]
 }
