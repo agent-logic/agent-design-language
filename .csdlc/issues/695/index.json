@@ -1,0 +1,520 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 695,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b1c82a0af23bc091659d5125c2f6739caeeee12955e4a88094030a94d103f11b",
+  "phase": "published",
+  "generation": 31,
+  "digest": "a053ed525324df8e9f0cfb543d5964f798f6425c0a9f1ac5c6c52ecaca9608c7",
+  "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
+  "review_assignment": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:466a6da85bc1fabe3165adbcf83c2e59ee5df2e9:2b0238cb99040711e1c6313ec83c309691e8cc1264214b8c358e40579fa47f34",
+    "scope": [
+      "in-flight snapshot removal fencing",
+      "sequence-aware archive projection and degraded-state consistency",
+      "bounded AWS CLI child execution and scheduler cleanup",
+      "non-mutating manifest-owned acceptance evidence",
+      "focused exact-head validation"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+    "scope": [
+      "in-flight snapshot removal fencing",
+      "sequence-aware archive projection and degraded-state consistency",
+      "bounded AWS CLI child execution and scheduler cleanup",
+      "non-mutating manifest-owned acceptance evidence",
+      "focused exact-head validation"
+    ],
+    "reviewed_revision": "git-blake3:466a6da85bc1fabe3165adbcf83c2e59ee5df2e9:2b0238cb99040711e1c6313ec83c309691e8cc1264214b8c358e40579fa47f34",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS Terraform apply and permanent Wuji rollout remain intentionally deferred and are not claimed as issue #695 proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 695,
+    "pull_request": 706,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/706",
+    "base": "main",
+    "head": "codex/695-runtime-agent-partial-checkpoint-s3",
+    "revision": "git-blake3:09a651a05ef2fe8670a846923b76d375e897e6a1:16e3a158f00ab6bd4e2d6c76121fb4b87d3756131f246bec4b40f9f325f2c49c",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/695/design.md",
+  "diagram_path": ".csdlc/prepared/issues/695/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "revision": "2bb94e45f8196e51920b846e1de50a8c83b60ecfc12a1505be154b3aeb5aeb6a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f18c574d6aab11f73a68a9d7256728bc42c811961af18ca0085393a5171de478",
+      "rendered_digest": "26f1590620d04f070b67bf02e202a75ae3e3f84edfae5b0e3e0c9e7cd8c70baf",
+      "ast_digest": "96b41cf3c929c13827d5ae50e2ede163cc006411056aa7882c3e038ae580db9d"
+    },
+    "stp": {
+      "values_digest": "5359440af6b5386e29fbdf456514456545f29262226a6f1a5116571d00aa90d0",
+      "rendered_digest": "2c3c11dd93c7edaf7e4d5e7f3e7a6a77428649b405d2091f6959e1b3a20d924c",
+      "ast_digest": "4e98cb924f78d34c5631ea6135da7b04bb9c10c91c726eb865af22fb00028a4c"
+    },
+    "spp": {
+      "values_digest": "88579d9c38906703098e04754287d1945f352ac94282a00c6d310bde49408e99",
+      "rendered_digest": "daddaa91dced29518ffd145e5198c2a4609f2a7f0f47de65d57802e0739b91cb",
+      "ast_digest": "46122db182cbcc3f1c01845b3029ed7ef3b8eb059c014d29704ae30dff5e4ae1"
+    },
+    "vpp": {
+      "values_digest": "3d67a2761018fc947ec1fa8a16fafaee1cf444dfb62dfc497041e2c389305e80",
+      "rendered_digest": "3e9546cce535c699192da26f46a56ae11cb14e3ee45cae3dfa58d306d82c3dcd",
+      "ast_digest": "5d4d73519490c5c88d7c8b2d1fe8bb35f370a19db659116a4925a739feb6b7e8"
+    },
+    "srp": {
+      "values_digest": "cce54f0bd524428345bf74f8e369c34495b0350a9637fd7f75ec58797d7a4913",
+      "rendered_digest": "7a883d25f32a906f4aacb3c45e4e5573fcaace23eaf906cb54a229a6e44022a6",
+      "ast_digest": "0423786cff8c4496b73a5351953fd8750c8e2cd1cdeb33c8005ad935b2d7e718"
+    },
+    "sor": {
+      "values_digest": "931ecbc1f46599d359670abb5c25ac7240c4a771f132ad5c104c5a4e21182d90",
+      "rendered_digest": "6d11cef9c5043bbda7bc36bed30359c3b1b136c03d6c586bd95d7201243ea603",
+      "ast_digest": "f67bfb43ad40a70d51de0b0c78d8667f8bbdcfa9ec26dd641095f623ddc07c2d"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:agent-partial-checkpoint-s3",
+      "reason": "Advance independently reviewed and mechanically valid issue #695 design to execution readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Repair three stale planned validator argv targets so typed doctor reflects the exact passing commands already recorded in issue evidence."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review so the committed publication request and lifecycle-only commits can receive one final exact-head review before typed publication."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after CI exposed missing fresh-start continuity handling and the branch incorporated current main Runtime configuration-generation support."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after CI exposed two strict clippy diagnostics; the narrow storage indirection and type alias remediation preserves behavior and passed the exact clippy gate plus focused Runtime tests."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after exact-head external review found removal versus in-flight snapshot ordering, archive projection concurrency, unbounded AWS CLI child execution, and self-invalidating tracked acceptance receipt defects."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:agent-partial-checkpoint-s3",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:agent-partial-checkpoint-s3",
+      "reason": "Advance independently reviewed and mechanically valid issue #695 design to execution readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "{\"disposition\":\"Invalidate the stale authored tuple and require fresh exact-current design approval before execution review publication.\",\"false_reviewer\":\"codex:review-695-design\",\"previous_approval\":{\"reviewer\":\"codex:review-695-design\",\"revision\":\"905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782\"},\"reason\":\"The committed design and diagram EOF hygiene corrections changed authored identities after the original design approval without changing issue semantics.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Refresh authored design and diagram bindings after the already-reviewed whitespace-only artifact normalization so typed review and publication can proceed.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/695/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/695/diagram.mmd\",\"new_design_digest\":\"26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028\",\"new_diagram_digest\":\"cf5a7d6eb45c00e313ccff6451835322835ed1b69f72361b2ce8026805a5fcde\",\"old_design_digest\":\"905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782\",\"old_diagram_digest\":\"e5cd6d1b09f5315ab0e3dda9b5551150ec8bc1435b68181bca9c3491ace7d10e\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":3,\"recovery_sequence\":5}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028\",\"design_ref\":\".csdlc/prepared/issues/695/design.md\",\"diagram_digest\":\"cf5a7d6eb45c00e313ccff6451835322835ed1b69f72361b2ce8026805a5fcde\",\"diagram_ref\":\".csdlc/prepared/issues/695/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Repair three stale planned validator argv targets so typed doctor reflects the exact passing commands already recorded in issue evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Align planned validator argv with the exact existing targets and passing commands recorded by #695 implementation evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-partial-continuity\",\"proof_role\":\"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-api\",\"proof_role\":\"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-observatory\",\"proof_role\":\"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_continuity.test.mjs\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-checkpoint-terraform\",\"proof_role\":\"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.\",\"acceptance_ids\":[\"AC-5\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-partial-production-shape\",\"proof_role\":\"Exercise accelerated checkpoint, recovery, API, Observatory, Terraform, formatting, and exact acceptance proof through the issue-owned validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-implementation.sh\"],\"parallel_group\":\"agent-partials-serial\",\"defer_reason\":null},{\"lane\":\"acceptance-denominator\",\"proof_role\":\"Require one passing non-zero proving test or assertion set for every acceptance row before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"parallel_group\":\"agent-partials-final\",\"defer_reason\":null},{\"lane\":\"format-and-diff\",\"proof_role\":\"Reject Rust formatting and committed whitespace defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Replace three planned validator file paths that were superseded by the exact existing module, integration, and issue-owned validation targets used by implementation proof.",
+      "operation": "{\"new_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/src/agent_partial_checkpoint.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\".csdlc/prepared/issues/695/validate-implementation.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/tests/agent_partial_checkpoint.rs\",\"adl-runtime-kernel/tests/agent_continuity_api.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\"adl/tools/test_runtime_agent_partial_checkpoint.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"recovery_generation\":7,\"recovery_sequence\":10}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Complete validator-lane repair by selecting the existing nonzero Rust module test directly for the production-shaped checkpoint proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-partial-continuity\",\"proof_role\":\"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-api\",\"proof_role\":\"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-observatory\",\"proof_role\":\"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_continuity.test.mjs\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-checkpoint-terraform\",\"proof_role\":\"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.\",\"acceptance_ids\":[\"AC-5\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-partial-production-shape\",\"proof_role\":\"Exercise the production checkpoint and recovery implementation with its exact nonzero Rust module test surface.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials-serial\",\"defer_reason\":null},{\"lane\":\"acceptance-denominator\",\"proof_role\":\"Require one passing non-zero proving test or assertion set for every acceptance row before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"parallel_group\":\"agent-partials-final\",\"defer_reason\":null},{\"lane\":\"format-and-diff\",\"proof_role\":\"Reject Rust formatting and committed whitespace defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Replace three planned validator file paths that were superseded by the exact existing module, integration, and issue-owned validation targets used by implementation proof.",
+      "operation": "{\"new_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/src/agent_partial_checkpoint.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Typed bounded periodic coordinator covering Shepherd and dynamic residents\",\"Versioned integrity-bound partial schema and atomic local store\",\"Durable bounded asynchronous S3 upload spool and archive worker\",\"Validated full-checkpoint-plus-partials restore path\",\"Roster and detail API continuity fields including provider/model and snapshot/archive status\",\"Observatory per-agent backing-model and snapshot/archive rendering\",\"Private encrypted versioned S3 Terraform module and least-privilege IAM\",\"Accelerated deterministic and production-shaped isolated tests\",\"adl-runtime-kernel/src/agent_partial_checkpoint.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"demos/html-observatory/tests/agent_continuity.test.mjs\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\",\".csdlc/prepared/issues/695/validate-implementation.sh\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"recovery_generation\":7,\"recovery_sequence\":10}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover the superseded review assignment so the new coordinator-cycle and restart proof can be recorded and reviewed at its exact revision.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Complete validator-lane repair by selecting the existing nonzero Rust module test directly for the production-shaped checkpoint proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-agent-partial-continuity\",\"proof_role\":\"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint\",\"--lib\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-api\",\"proof_role\":\"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-continuity-observatory\",\"proof_role\":\"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_continuity.test.mjs\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-checkpoint-terraform\",\"proof_role\":\"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.\",\"acceptance_ids\":[\"AC-5\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"infra/aws/runtime/agent-checkpoint-archive/validate.sh\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null},{\"lane\":\"runtime-agent-partial-production-shape\",\"proof_role\":\"Exercise multiple coordinator cycles, resident roster mutation, durable local state, and restart restoration through the ControlService production path.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore\",\"--lib\"],\"parallel_group\":\"agent-partials-serial\",\"defer_reason\":null},{\"lane\":\"acceptance-denominator\",\"proof_role\":\"Require one passing non-zero proving test or assertion set for every acceptance row before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/695/validate-acceptance.sh\"],\"parallel_group\":\"agent-partials-final\",\"defer_reason\":null},{\"lane\":\"format-and-diff\",\"proof_role\":\"Reject Rust formatting and committed whitespace defects.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"agent-partials\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover review so the committed publication request and lifecycle-only commits can receive one final exact-head review before typed publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after CI exposed missing fresh-start continuity handling and the branch incorporated current main Runtime configuration-generation support.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover the failed review assignment after implementing signed startup genesis lineage and fresh-start partial and tombstone proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover the failed review assignment to align design authority with the signed fresh-start genesis implementation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "{\"disposition\":\"Invalidate the prior design approval and require exact-current approval of the startup genesis authority rule.\",\"false_reviewer\":\"fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9\",\"previous_approval\":{\"reviewer\":\"fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9\",\"revision\":\"26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028\"},\"reason\":\"The fresh-start remediation adds signed generation-1 startup lineage and requires the design authority to state that rule and preserve rollback-floor behavior.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Bind the authored design and diagram to the reviewed fresh-start genesis authority correction.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/695/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/695/diagram.mmd\",\"new_design_digest\":\"2bb94e45f8196e51920b846e1de50a8c83b60ecfc12a1505be154b3aeb5aeb6a\",\"new_diagram_digest\":\"4326f3bec5441bd45699951e2bc7da6847dbe3d7b4d8500ce2e15dc62f6a6b16\",\"old_design_digest\":\"26a88c74585ce1d9eddf508adb195d0ba99b2add70cf7257b6b94a5628694028\",\"old_diagram_digest\":\"cf5a7d6eb45c00e313ccff6451835322835ed1b69f72361b2ce8026805a5fcde\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":20,\"recovery_sequence\":28}"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"2bb94e45f8196e51920b846e1de50a8c83b60ecfc12a1505be154b3aeb5aeb6a\",\"design_ref\":\".csdlc/prepared/issues/695/design.md\",\"diagram_digest\":\"4326f3bec5441bd45699951e2bc7da6847dbe3d7b4d8500ce2e15dc62f6a6b16\",\"diagram_ref\":\".csdlc/prepared/issues/695/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after CI exposed two strict clippy diagnostics; the narrow storage indirection and type alias remediation preserves behavior and passed the exact clippy gate plus focused Runtime tests.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after exact-head external review found removal versus in-flight snapshot ordering, archive projection concurrency, unbounded AWS CLI child execution, and self-invalidating tracked acceptance receipt defects.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

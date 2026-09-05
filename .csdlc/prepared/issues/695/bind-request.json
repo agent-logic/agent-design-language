@@ -1,0 +1,10 @@
+{
+  "issue": 695,
+  "base_branch": "codex/695-bootstrap-base",
+  "branch": "codex/695-runtime-agent-partial-checkpoint-s3",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
+  "code_repository": "agent-logic/agent-design-language",
+  "expected_repository": "agent-logic/agent-design-language",
+  "expected_generation": 1,
+  "expected_digest": "0144841f427c7bd8987a00cb5dad89cf5f3cdaaa6fd40459f11c9ef6ee0d3aa7"
+}

@@ -23,6 +23,7 @@ use axum::{
     Json, Router,
 };
 use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
+use futures::{stream, StreamExt};
 use lru::LruCache;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -42,11 +43,12 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, is_canonical_agent_name, AgentRosterEntry, AgentRosterQuery,
-    CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, InferenceReadinessState,
-    IngressError, KernelControl, KernelExit, LiveContinuity, ObservabilityHealth,
-    ResidentShepherdInitConfig, RuntimeEvent, RuntimeRecorder, RuntimeSnapshot,
-    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    decode_acip_envelope, is_canonical_agent_name, AgentArchiveRecovery, AgentPartialCapture,
+    AgentPartialCheckpointInitConfig, AgentPartialCheckpointStore, AgentRosterEntry,
+    AgentRosterQuery, CanonicalIngress, CheckpointManifest, DomainResult, DomainWork,
+    InferenceReadinessState, IngressError, KernelControl, KernelExit, LiveContinuity,
+    ObservabilityHealth, ResidentShepherdInitConfig, RuntimeEvent, RuntimeRecorder,
+    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -563,12 +565,13 @@ struct IdempotencyState {
     admission_open: bool,
 }
 
-#[derive(Default)]
+#[derive(Clone, Default)]
 struct ConversationSessions {
     sessions: BTreeMap<String, ConversationSession>,
     next_sequence: u64,
 }
 
+#[derive(Clone)]
 struct ConversationSession {
     sequence: u64,
     recipient_id: String,
@@ -686,6 +689,7 @@ impl ConversationDispatchGate {
     }
 }
 
+#[derive(Clone)]
 struct ConversationTurn {
     fingerprint: String,
     correlation_id: String,
@@ -810,6 +814,13 @@ enum ConversationAcceptance {
     Response(ObservatoryConversationResult),
 }
 
+type AgentPartialRestoreContext = (
+    Arc<AgentPartialCheckpointStore>,
+    u64,
+    String,
+    BTreeSet<String>,
+);
+
 pub struct ControlService<C> {
     instance_id: String,
     runtime_incarnation_id: String,
@@ -834,6 +845,8 @@ pub struct ControlService<C> {
     readiness_time: Option<Arc<dyn crate::TrustedTime>>,
     agent_population: RwLock<AgentPopulationFeed>,
     dynamic_agent_store: Mutex<Option<PathBuf>>,
+    agent_partial_store: RwLock<Option<Arc<AgentPartialCheckpointStore>>>,
+    agent_archive_operation: tokio::sync::Mutex<()>,
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
     dynamic_agent_admission: Mutex<()>,
@@ -943,6 +956,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             readiness_time: None,
             agent_population: RwLock::new(agent_population),
             dynamic_agent_store: Mutex::new(None),
+            agent_partial_store: RwLock::new(None),
+            agent_archive_operation: tokio::sync::Mutex::new(()),
             dynamic_agents: Mutex::new(Vec::new()),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
             dynamic_agent_admission: Mutex::new(()),
@@ -2374,6 +2389,354 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Ok(())
     }
 
+    pub fn configure_agent_partial_checkpoints(
+        &self,
+        root: PathBuf,
+        config: AgentPartialCheckpointInitConfig,
+    ) -> Result<(), ControlError> {
+        let polis_id = self
+            .runtime_presentation
+            .read()
+            .expect("runtime presentation state poisoned")
+            .polis_identity
+            .polis_id
+            .clone();
+        let store = AgentPartialCheckpointStore::open(
+            root,
+            config,
+            self.instance_id.clone(),
+            polis_id,
+            self.runtime_incarnation_id.clone(),
+        )
+        .map_err(|error| ControlError::Io(error.to_string()))?;
+        *self
+            .agent_partial_store
+            .write()
+            .expect("agent partial store state poisoned") = Some(Arc::new(store));
+        Ok(())
+    }
+
+    pub fn agent_partial_checkpoint_interval_seconds(&self) -> Option<u64> {
+        self.agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .as_ref()
+            .filter(|store| store.enabled())
+            .map(|store| store.interval_seconds())
+    }
+
+    pub fn restore_local_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
+        let Some((store, generation, integrity, resident_ids)) =
+            self.agent_partial_restore_context()?
+        else {
+            return Ok(0);
+        };
+        let partials = store
+            .latest_valid(generation, &integrity)
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        self.apply_agent_partial_restore(partials, &resident_ids)
+    }
+
+    pub async fn restore_archived_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
+        let _archive_operation = self.agent_archive_operation.lock().await;
+        let Some((store, generation, integrity, resident_ids)) =
+            self.agent_partial_restore_context()?
+        else {
+            return Ok(0);
+        };
+        let resident_id_list = resident_ids.iter().cloned().collect::<Vec<_>>();
+        let mut restored = 0;
+        for agent_id in resident_id_list {
+            let recovery = store
+                .prepare_archive_recovery(generation, &integrity, std::slice::from_ref(&agent_id))
+                .await
+                .map_err(|error| ControlError::Io(error.to_string()))?;
+            restored += self.apply_archived_agent_partial_restore(
+                &store,
+                recovery,
+                generation,
+                &integrity,
+                &BTreeSet::from([agent_id]),
+            )?;
+        }
+        Ok(restored)
+    }
+
+    fn agent_partial_restore_context(
+        &self,
+    ) -> Result<Option<AgentPartialRestoreContext>, ControlError> {
+        let store = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone()
+            .ok_or(ControlError::Internal)?;
+        if !store.enabled() {
+            return Ok(None);
+        }
+        let Some(parent) = self.recorder.snapshot().continuity_head else {
+            // A fresh Runtime has no full-checkpoint lineage to which a partial
+            // could safely attach. Treat that as an empty restore set; the
+            // first full checkpoint establishes the parent for later partials.
+            return Ok(None);
+        };
+        let resident_ids = self
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .map(|agent| agent.id.clone())
+            .collect::<BTreeSet<_>>();
+        Ok(Some((
+            store,
+            parent.generation,
+            parent.integrity,
+            resident_ids,
+        )))
+    }
+
+    fn apply_agent_partial_restore(
+        &self,
+        partials: Vec<crate::AgentPartialCheckpoint>,
+        resident_ids: &BTreeSet<String>,
+    ) -> Result<usize, ControlError> {
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let mut staged = sessions.clone();
+        let mut restored = 0;
+        for partial in partials {
+            if !resident_ids.contains(&partial.agent_id) {
+                continue;
+            }
+            Self::merge_conversation_history(
+                &mut staged,
+                &partial.agent_id,
+                &partial.conversation_history,
+            )
+            .map_err(|_| ControlError::Internal)?;
+            restored += 1;
+        }
+        *sessions = staged;
+        Ok(restored)
+    }
+
+    fn apply_archived_agent_partial_restore(
+        &self,
+        store: &AgentPartialCheckpointStore,
+        recovery: AgentArchiveRecovery,
+        parent_generation: u64,
+        parent_digest: &str,
+        resident_ids: &BTreeSet<String>,
+    ) -> Result<usize, ControlError> {
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let mut staged = sessions.clone();
+        let mut restored = 0;
+        for partial in &recovery.partials {
+            if !resident_ids.contains(&partial.agent_id) {
+                continue;
+            }
+            Self::merge_conversation_history(
+                &mut staged,
+                &partial.agent_id,
+                &partial.conversation_history,
+            )
+            .map_err(|_| ControlError::Internal)?;
+            restored += 1;
+        }
+        store
+            .commit_archive_recovery(&recovery, parent_generation, parent_digest)
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        *sessions = staged;
+        Ok(restored)
+    }
+
+    pub async fn snapshot_all_resident_agents(self: &Arc<Self>) -> usize {
+        let Some(store) = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone()
+        else {
+            return 0;
+        };
+        if !store.enabled() {
+            return 0;
+        }
+        let cadence_sequence = store.next_cadence_sequence();
+        let mut ids = self
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .map(|agent| agent.id.clone())
+            .collect::<Vec<_>>();
+        ids.sort();
+        ids.dedup();
+        let concurrency = store.snapshot_concurrency();
+        let results = stream::iter(ids.into_iter().map(|agent_id| {
+            let service = Arc::clone(self);
+            let store = Arc::clone(&store);
+            async move {
+                let Some(capture_epoch) = store.begin_capture(&agent_id) else {
+                    return false;
+                };
+                let capture = service.capture_agent_partial(&agent_id, cadence_sequence);
+                let result = match capture {
+                    Ok(capture) => {
+                        let writer = Arc::clone(&store);
+                        tokio::task::spawn_blocking(move || {
+                            writer.write_captured_partial(capture, capture_epoch)
+                        })
+                        .await
+                        .map_err(|_| ())
+                        .and_then(|result| result.map_err(|_| ()))
+                    }
+                    Err(_) => Err(()),
+                };
+                if result.is_err() {
+                    store.mark_failed(&agent_id);
+                }
+                store.finish_capture(&agent_id, capture_epoch);
+                result.is_ok()
+            }
+        }))
+        .buffer_unordered(concurrency)
+        .collect::<Vec<_>>()
+        .await;
+        results.into_iter().filter(|success| *success).count()
+    }
+
+    pub async fn archive_pending_agent_partials(&self) -> Result<usize, ControlError> {
+        let _archive_operation = self.agent_archive_operation.lock().await;
+        let store = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone();
+        match store {
+            Some(store) => store
+                .archive_pending()
+                .await
+                .map_err(|error| ControlError::Io(error.to_string())),
+            None => Ok(0),
+        }
+    }
+
+    fn capture_agent_partial(
+        &self,
+        agent_id: &str,
+        cadence_sequence: u64,
+    ) -> Result<AgentPartialCapture, ControlError> {
+        let runtime = self.recorder.snapshot();
+        let parent = runtime.continuity_head.ok_or(ControlError::Internal)?;
+        let sample = self
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .find(|agent| agent.id == agent_id)
+            .cloned()
+            .ok_or(ControlError::InvalidIdentifier)?;
+        let conversation_history = self.agent_conversation_checkpoint(agent_id)?;
+        Ok(AgentPartialCapture {
+            agent_id: sample.id.clone(),
+            agent_name: sample.name.clone(),
+            provider: sample.provider.clone(),
+            model: sample.model.clone(),
+            cadence_sequence,
+            parent_checkpoint_generation: parent.generation,
+            parent_checkpoint_digest: parent.integrity,
+            created_at_unix_millis: now_unix_millis(),
+            roster_state: sample.into(),
+            conversation_history,
+        })
+    }
+
+    fn agent_conversation_checkpoint(
+        &self,
+        agent_id: &str,
+    ) -> Result<Vec<AgentConversationCheckpoint>, ControlError> {
+        self.conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned")
+            .sessions
+            .iter()
+            .filter(|(_, session)| session.recipient_id == agent_id)
+            .map(|(conversation_id, session)| {
+                let turns = session
+                    .turns
+                    .iter()
+                    .filter_map(|(turn_id, turn)| {
+                        let terminal = turn.terminal.clone()?;
+                        Some(AgentTurnCheckpoint {
+                            turn_id: turn_id.clone(),
+                            fingerprint: turn.fingerprint.clone(),
+                            correlation_id: turn.correlation_id.clone(),
+                            sequence: turn.sequence,
+                            terminal_status: terminal.status.to_owned(),
+                            reply: terminal.reply,
+                            accepted_sequence: terminal.accepted_sequence,
+                            turn_sequence: terminal.turn_sequence,
+                            terminal_error: terminal.error.map(str::to_owned),
+                        })
+                    })
+                    .collect::<Vec<_>>();
+                Ok(AgentConversationCheckpoint {
+                    conversation_id: conversation_id.clone(),
+                    session_sequence: session.sequence,
+                    next_turn_sequence: session.next_sequence,
+                    turns,
+                })
+            })
+            .collect()
+    }
+
+    fn decorate_agent_continuity(&self, agents: &mut AgentPopulationFeed) {
+        let store = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone();
+        let Some(store) = store else {
+            return;
+        };
+        for agent in &mut agents.sample {
+            let projection = store.projection(&agent.id);
+            agent.last_snapshot_at_unix_millis = projection.last_snapshot_at_unix_millis;
+            agent.last_archive_at_unix_millis = projection.last_archive_at_unix_millis;
+            agent.snapshot_sequence = projection.snapshot_sequence;
+            agent.pending_archive_count = projection.pending_archive_count;
+            agent.snapshot_state = projection.snapshot_state;
+            agent.archive_state = projection.archive_state;
+        }
+    }
+
+    fn decorate_agent_detail(&self, agent: &mut AgentRosterEntry) {
+        let store = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone();
+        let Some(store) = store else {
+            return;
+        };
+        let projection = store.projection(&agent.id);
+        agent.last_snapshot_at_unix_millis = projection.last_snapshot_at_unix_millis;
+        agent.last_archive_at_unix_millis = projection.last_archive_at_unix_millis;
+        agent.snapshot_sequence = projection.snapshot_sequence;
+        agent.pending_archive_count = projection.pending_archive_count;
+        agent.snapshot_state = projection.snapshot_state;
+        agent.archive_state = projection.archive_state;
+    }
+
     pub async fn refresh_dynamic_agent_health(&self) {
         let declarations = self
             .dynamic_agents
@@ -2512,6 +2875,21 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .filter(|agent| agent.id != agent_id)
             .cloned()
             .collect::<Vec<_>>();
+        if let Some(store) = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone()
+        {
+            let parent = self.recorder.snapshot().continuity_head.ok_or(
+                AgentAdmissionFailure::Unavailable("continuity_head_unavailable"),
+            )?;
+            store
+                .write_tombstone(agent_id, parent.generation, parent.integrity)
+                .map_err(|_| {
+                    AgentAdmissionFailure::Unavailable("agent_tombstone_persistence_failed")
+                })?;
+        }
         persist_dynamic_agents(&path, &next)
             .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
         *agents = next;
@@ -2760,25 +3138,33 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         bundle: &FreezeDriedAgent,
     ) -> Result<(), AgentAdmissionFailure> {
+        self.restore_conversation_history(
+            &bundle.declaration.id,
+            &bundle.checkpoint.conversation_history,
+        )
+    }
+
+    fn restore_conversation_history(
+        &self,
+        agent_id: &str,
+        conversation_history: &[AgentConversationCheckpoint],
+    ) -> Result<(), AgentAdmissionFailure> {
         let mut sessions = self
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
-        if bundle
-            .checkpoint
-            .conversation_history
-            .iter()
-            .any(|conversation| {
-                sessions
-                    .sessions
-                    .contains_key(&conversation.conversation_id)
-            })
-        {
-            return Err(AgentAdmissionFailure::Conflict(
-                "conversation_restore_conflict",
-            ));
-        }
-        for conversation in &bundle.checkpoint.conversation_history {
+        let mut staged = sessions.clone();
+        Self::merge_conversation_history(&mut staged, agent_id, conversation_history)?;
+        *sessions = staged;
+        Ok(())
+    }
+
+    fn merge_conversation_history(
+        sessions: &mut ConversationSessions,
+        agent_id: &str,
+        conversation_history: &[AgentConversationCheckpoint],
+    ) -> Result<(), AgentAdmissionFailure> {
+        for conversation in conversation_history {
             let mut turns = BTreeMap::new();
             for turn in &conversation.turns {
                 let terminal = ObservatoryConversationResult {
@@ -2797,7 +3183,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     },
                     conversation_id: conversation.conversation_id.clone(),
                     turn_id: turn.turn_id.clone(),
-                    recipient_id: bundle.declaration.id.clone(),
+                    recipient_id: agent_id.to_owned(),
                     correlation_id: turn.correlation_id.clone(),
                     sender_id: None,
                     initiated_recipient_id: None,
@@ -2832,11 +3218,43 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 );
             }
             sessions.next_sequence = sessions.next_sequence.max(conversation.session_sequence);
+            if let Some(existing) = sessions.sessions.get_mut(&conversation.conversation_id) {
+                if existing.recipient_id != agent_id
+                    || existing.sequence != conversation.session_sequence
+                    || existing.turns.values().any(|turn| turn.terminal.is_none())
+                {
+                    return Err(AgentAdmissionFailure::Conflict(
+                        "conversation_restore_conflict",
+                    ));
+                }
+                for (turn_id, restored) in turns {
+                    if let Some(current) = existing.turns.get(&turn_id) {
+                        if current.fingerprint != restored.fingerprint
+                            || current.correlation_id != restored.correlation_id
+                            || current.sequence != restored.sequence
+                            || current.terminal != restored.terminal
+                        {
+                            return Err(AgentAdmissionFailure::Conflict(
+                                "conversation_restore_conflict",
+                            ));
+                        }
+                    } else {
+                        existing.turns.insert(turn_id, restored);
+                    }
+                }
+                if conversation.next_turn_sequence > existing.next_sequence {
+                    existing.next_sequence = conversation.next_turn_sequence;
+                    existing.dispatch_gate = Arc::new(ConversationDispatchGate::at(
+                        conversation.next_turn_sequence.saturating_add(1),
+                    ));
+                }
+                continue;
+            }
             sessions.sessions.insert(
                 conversation.conversation_id.clone(),
                 ConversationSession {
                     sequence: conversation.session_sequence,
-                    recipient_id: bundle.declaration.id.clone(),
+                    recipient_id: agent_id.to_owned(),
                     next_sequence: conversation.next_turn_sequence,
                     dispatch_gate: Arc::new(ConversationDispatchGate::at(
                         conversation.next_turn_sequence.saturating_add(1),
@@ -3051,7 +3469,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 stale: age_millis > stale_after_millis,
             }
         });
-        let agents = self
+        let mut agents = self
             .agent_population
             .read()
             .expect("agent population state poisoned")
@@ -3068,6 +3486,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     filter: None,
                 },
             );
+        self.decorate_agent_continuity(&mut agents);
         let runtime_presentation = self
             .runtime_presentation
             .read()
@@ -3256,7 +3675,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     ) -> Result<AgentPopulationFeed, ControlError> {
         let snapshot = self.recorder.snapshot();
         let now = now_unix_millis();
-        self.agent_population
+        let mut page = self
+            .agent_population
             .read()
             .expect("agent population state poisoned")
             .try_with_runtime_snapshot_query(
@@ -3273,13 +3693,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 },
                 event_cursor.as_deref(),
             )
-            .map_err(|_| ControlError::InvalidBounds)
+            .map_err(|_| ControlError::InvalidBounds)?;
+        self.decorate_agent_continuity(&mut page);
+        Ok(page)
     }
 
     pub fn agent_roster_detail(&self, agent_id: &str) -> Result<AgentRosterEntry, ControlError> {
         let snapshot = self.recorder.snapshot();
         let now = now_unix_millis();
-        self.agent_population
+        let mut detail = self
+            .agent_population
             .read()
             .expect("agent population state poisoned")
             .agent_detail(
@@ -3291,7 +3714,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .expect("agent roster token key mutex poisoned"),
                 agent_id,
             )
-            .map_err(|_| ControlError::InvalidBounds)
+            .map_err(|_| ControlError::InvalidBounds)?;
+        self.decorate_agent_detail(&mut detail);
+        Ok(detail)
     }
 
     pub fn update_resident_shepherd_health(&self, name: &str, state: &str, detail: &str) {
@@ -4251,7 +4676,7 @@ impl RuntimeRecipientAcknowledgementResponse {
     }
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
 struct ObservatoryConversationResult {
     schema: &'static str,
     status: &'static str,
@@ -5442,6 +5867,12 @@ mod layer8_conversation_ingress_tests {
                 role: "conversation agent".to_owned(),
                 provider: None,
                 model: None,
+                last_snapshot_at_unix_millis: None,
+                last_archive_at_unix_millis: None,
+                snapshot_sequence: None,
+                pending_archive_count: 0,
+                snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+                archive_state: crate::AgentArchiveState::Disabled,
                 inference_readiness: InferenceReadinessState::Ready,
                 state: "unknown".to_owned(),
                 detail: "Awaiting Runtime projection".to_owned(),
@@ -5877,6 +6308,12 @@ mod layer8_conversation_ingress_tests {
                 role: "resident agent".to_owned(),
                 provider,
                 model,
+                last_snapshot_at_unix_millis: None,
+                last_archive_at_unix_millis: None,
+                snapshot_sequence: None,
+                pending_archive_count: 0,
+                snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+                archive_state: crate::AgentArchiveState::Disabled,
                 inference_readiness,
                 state: "ready".to_owned(),
                 detail: "Configured test provider ready for deterministic A2A work".to_owned(),
@@ -7118,6 +7555,161 @@ mod agent_lifecycle {
             .configure_dynamic_agent_store(store)
             .expect("configure dynamic store");
         service
+    }
+
+    fn restored_history(turn_count: u64) -> Vec<AgentConversationCheckpoint> {
+        vec![AgentConversationCheckpoint {
+            conversation_id: "conversation-restore".to_owned(),
+            session_sequence: 1,
+            next_turn_sequence: turn_count,
+            turns: (1..=turn_count)
+                .map(|sequence| AgentTurnCheckpoint {
+                    turn_id: format!("turn-{sequence}"),
+                    fingerprint: format!("fingerprint-{sequence}"),
+                    correlation_id: format!("{sequence:032x}"),
+                    sequence,
+                    terminal_status: "delivered".to_owned(),
+                    reply: Some(format!("reply-{sequence}")),
+                    accepted_sequence: Some(sequence),
+                    turn_sequence: Some(sequence),
+                    terminal_error: None,
+                })
+                .collect(),
+        }]
+    }
+
+    #[tokio::test]
+    async fn agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore() {
+        let temp = tempfile::tempdir().unwrap();
+        let checkpoint_root = temp.path().join("agent-partials");
+        let recorder = RuntimeRecorder::new(16);
+        assert!(recorder.snapshot().continuity_head.is_none());
+        let mut continuity = crate::LiveContinuity::new(
+            temp.path().join("continuity"),
+            "test-continuity-key",
+            &[7_u8; 32],
+            crate::LiveKernelSnapshot::new("1".repeat(64), "2".repeat(64), BTreeMap::new()),
+            0,
+        );
+        let genesis = continuity
+            .establish_genesis(&recorder, Duration::from_secs(1))
+            .await
+            .unwrap();
+        assert_eq!(genesis.generation, 1);
+        assert_eq!(
+            recorder
+                .snapshot()
+                .continuity_head
+                .as_ref()
+                .map(|head| head.generation),
+            Some(1)
+        );
+
+        let mut population = AgentPopulationFeed::resident_shepherd();
+        let mut dynamic = population.sample[0].clone();
+        dynamic.id = "ember".to_owned();
+        dynamic.name = "ember.axioma".to_owned();
+        dynamic.label = "Ember Axioma".to_owned();
+        dynamic.role = "local reasoning agent".to_owned();
+        dynamic.provider = Some("ollama".to_owned());
+        dynamic.model = Some("gemma4:e4b-mlx".to_owned());
+        population.admit_dynamic(dynamic);
+
+        let service = Arc::new(ControlService::new_with_observatory_config_and_agents(
+            "runtime-test",
+            recorder.clone(),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            population,
+        ));
+        service
+            .configure_agent_partial_checkpoints(
+                checkpoint_root.clone(),
+                AgentPartialCheckpointInitConfig::default(),
+            )
+            .unwrap();
+
+        assert_eq!(service.snapshot_all_resident_agents().await, 2);
+        let store = service
+            .agent_partial_store
+            .read()
+            .expect("agent partial store poisoned")
+            .clone()
+            .unwrap();
+        assert_eq!(store.projection("shepherd").snapshot_sequence, Some(1));
+        assert_eq!(store.projection("ember").snapshot_sequence, Some(1));
+
+        service
+            .agent_population
+            .write()
+            .expect("agent population poisoned")
+            .remove_dynamic("ember");
+        assert_eq!(service.snapshot_all_resident_agents().await, 1);
+        assert_eq!(store.projection("shepherd").snapshot_sequence, Some(2));
+        assert_eq!(store.projection("ember").snapshot_sequence, Some(1));
+        let parent = recorder.snapshot().continuity_head.unwrap();
+        store
+            .write_tombstone("ember", parent.generation, parent.integrity)
+            .unwrap();
+        drop(service);
+
+        let restarted = ControlService::new_with_observatory_config_and_agents(
+            "runtime-test",
+            recorder,
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            AgentPopulationFeed::resident_shepherd(),
+        );
+        restarted
+            .configure_agent_partial_checkpoints(
+                checkpoint_root,
+                AgentPartialCheckpointInitConfig::default(),
+            )
+            .unwrap();
+        assert_eq!(
+            restarted.restore_local_agent_partial_checkpoints().unwrap(),
+            1
+        );
+        let restored = restarted
+            .agent_partial_store
+            .read()
+            .expect("agent partial store poisoned")
+            .clone()
+            .unwrap();
+        assert_eq!(restored.projection("shepherd").snapshot_sequence, Some(2));
+    }
+
+    #[test]
+    fn archived_restore_monotonically_merges_newer_completed_turns() {
+        let temp = tempfile::tempdir().unwrap();
+        let service = service(temp.path().join("dynamic-agents.json"));
+        service
+            .restore_conversation_history("shepherd", &restored_history(1))
+            .unwrap();
+        let mut conflicting = restored_history(2);
+        conflicting[0].turns[0].reply = Some("conflicting-reply".to_owned());
+        assert!(service
+            .restore_conversation_history("shepherd", &conflicting)
+            .is_err());
+        assert_eq!(
+            service.agent_conversation_checkpoint("shepherd").unwrap()[0]
+                .turns
+                .len(),
+            1,
+            "a failed merge must leave the entire session unchanged"
+        );
+        service
+            .restore_conversation_history("shepherd", &restored_history(2))
+            .unwrap();
+
+        let restored = service.agent_conversation_checkpoint("shepherd").unwrap();
+        assert_eq!(restored.len(), 1);
+        assert_eq!(restored[0].turns.len(), 2);
+        assert_eq!(restored[0].next_turn_sequence, 2);
     }
 
     async fn ollama() -> (String, tokio::task::JoinHandle<()>) {
@@ -8458,6 +9050,12 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
         },
         provider: Some(request.provider.clone()),
         model: Some(request.model.clone()),
+        last_snapshot_at_unix_millis: None,
+        last_archive_at_unix_millis: None,
+        snapshot_sequence: None,
+        pending_archive_count: 0,
+        snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+        archive_state: crate::AgentArchiveState::Disabled,
         inference_readiness: readiness,
         state: readiness.as_str().to_owned(),
         detail: format!(

@@ -17,6 +17,46 @@ impl LifecycleControl for NoopLifecycle {
     }
 }
 
+#[test]
+fn agent_sample_api_serializes_backing_model_and_continuity_truth() {
+    let sample = adl_runtime_kernel::AgentSample {
+        id: "ember".to_owned(),
+        name: "ember.axioma".to_owned(),
+        label: "Ember Axioma".to_owned(),
+        role: "reasoning agent".to_owned(),
+        provider: Some("ollama".to_owned()),
+        model: Some("gemma4:e4b-mlx".to_owned()),
+        last_snapshot_at_unix_millis: Some(1_786_000_000_000),
+        last_archive_at_unix_millis: Some(1_786_000_001_000),
+        snapshot_sequence: Some(12),
+        pending_archive_count: 1,
+        snapshot_state: adl_runtime_kernel::AgentSnapshotState::Current,
+        archive_state: adl_runtime_kernel::AgentArchiveState::Pending,
+        inference_readiness: adl_runtime_kernel::InferenceReadinessState::Ready,
+        state: "ready".to_owned(),
+        detail: "ready".to_owned(),
+        health: "healthy".to_owned(),
+        availability: "available".to_owned(),
+        activity: None,
+        capabilities: vec!["conversation".to_owned()],
+        location: Some("local".to_owned()),
+        communication_eligible: true,
+        observed_at_unix_millis: 1_786_000_001_000,
+        freshness_deadline_unix_millis: 1_786_000_031_000,
+        source_revision: "test".to_owned(),
+        provenance: "runtime_component_state".to_owned(),
+    };
+    let value = serde_json::to_value(sample).unwrap();
+    assert_eq!(value["provider"], "ollama");
+    assert_eq!(value["model"], "gemma4:e4b-mlx");
+    assert_eq!(value["last_snapshot_at_unix_millis"], 1_786_000_000_000u64);
+    assert_eq!(value["last_archive_at_unix_millis"], 1_786_000_001_000u64);
+    assert_eq!(value["snapshot_sequence"], 12);
+    assert_eq!(value["pending_archive_count"], 1);
+    assert_eq!(value["snapshot_state"], "current");
+    assert_eq!(value["archive_state"], "pending");
+}
+
 fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvidence {
     AgentRuntimeEvidence {
         agent_id: id.to_owned(),
@@ -199,6 +239,12 @@ fn inference_readiness_taxonomy_is_the_provider_backed_roster_denominator() {
             role: "resident shepherd".to_owned(),
             provider: Some("ollama".to_owned()),
             model: Some("qwen3:8b".to_owned()),
+            last_snapshot_at_unix_millis: None,
+            last_archive_at_unix_millis: None,
+            snapshot_sequence: None,
+            pending_archive_count: 0,
+            snapshot_state: adl_runtime_kernel::AgentSnapshotState::NeverSnapshotted,
+            archive_state: adl_runtime_kernel::AgentArchiveState::Disabled,
             inference_readiness: readiness,
             state: "ready".to_owned(),
             detail: "component is running but inference readiness controls eligibility".to_owned(),

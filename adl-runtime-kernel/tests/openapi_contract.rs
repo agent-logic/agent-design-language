@@ -41,6 +41,34 @@ fn canonical_name_is_required_by_agent_roster_openapi_contract() {
 }
 
 #[test]
+fn agent_continuity_and_backing_model_are_required_by_observatory_contract() {
+    let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    for schema_name in ["AgentRosterEntry", "AgentSample"] {
+        let schema = &observatory["components"]["schemas"][schema_name];
+        let required = schema["required"].as_array().unwrap();
+        for field in [
+            "provider",
+            "model",
+            "last_snapshot_at_unix_millis",
+            "last_archive_at_unix_millis",
+            "snapshot_sequence",
+            "pending_archive_count",
+            "snapshot_state",
+            "archive_state",
+        ] {
+            assert!(
+                required.iter().any(|value| value == field),
+                "{schema_name}.{field}"
+            );
+            assert!(
+                schema["properties"].get(field).is_some(),
+                "{schema_name}.{field}"
+            );
+        }
+    }
+}
+
+#[test]
 fn polis_identity_openapi_contract_is_required_and_redacted() {
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
     let feed = &observatory["components"]["schemas"]["ObservatoryFeed"];

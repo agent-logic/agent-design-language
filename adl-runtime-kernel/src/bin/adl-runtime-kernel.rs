@@ -4,7 +4,10 @@ use std::{
     path::{Path, PathBuf},
     pin::Pin,
     process::ExitCode,
-    sync::Arc,
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc,
+    },
 };
 
 #[path = "../observability.rs"]
@@ -42,6 +45,14 @@ use tokio::net::TcpStream;
 
 const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
+
+struct ArchiveInFlightGuard(Arc<AtomicBool>);
+
+impl Drop for ArchiveInFlightGuard {
+    fn drop(&mut self) {
+        self.0.store(false, Ordering::Release);
+    }
+}
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -552,9 +563,21 @@ async fn main() -> ExitCode {
                 minimum_generation,
             )
             .with_canonical_ingress(assembly.canonical_ingress.clone());
-            if let Err(error) = continuity.restore_latest(&recorder).await {
-                eprintln!("runtime continuity restore refused: {error}");
-                return ExitCode::from(78);
+            match continuity.restore_latest(&recorder).await {
+                Ok(Some(_)) => {}
+                Ok(None) => {
+                    if let Err(error) = continuity
+                        .establish_genesis(&recorder, standard_checkpoint_deadline)
+                        .await
+                    {
+                        eprintln!("runtime continuity genesis checkpoint failed: {error}");
+                        return ExitCode::from(70);
+                    }
+                }
+                Err(error) => {
+                    eprintln!("runtime continuity restore refused: {error}");
+                    return ExitCode::from(78);
+                }
             }
             let authority = ControlAuthority::new(BTreeMap::from([(
                 key_id,
@@ -687,7 +710,33 @@ async fn main() -> ExitCode {
                 eprintln!("runtime dynamic agent store is invalid: {error}");
                 return ExitCode::from(78);
             }
+            if let Err(error) = service.configure_agent_partial_checkpoints(
+                operation_state_identity.join("agent-partial-checkpoints"),
+                init.agent_partial_checkpoints.clone(),
+            ) {
+                eprintln!("runtime agent partial checkpoint store is invalid: {error}");
+                return ExitCode::from(78);
+            }
+            if let Err(error) = service.restore_local_agent_partial_checkpoints() {
+                eprintln!("runtime agent partial checkpoint restore refused: {error}");
+                return ExitCode::from(78);
+            }
             let service = Arc::new(service);
+            let archive_restore_service = Arc::clone(&service);
+            tokio::spawn(async move {
+                if let Err(error) = archive_restore_service
+                    .restore_archived_agent_partial_checkpoints()
+                    .await
+                {
+                    tracing::warn!(
+                        target: "adl_runtime_kernel",
+                        schema = "adl.runtime_v3.agent_partial_restore.v1",
+                        event = "agent_partial_archive_restore_degraded",
+                        error = %error,
+                        "archived agent partial restore degraded; Runtime remains available"
+                    );
+                }
+            });
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
                 &continuity_secret,
@@ -994,6 +1043,22 @@ async fn main() -> ExitCode {
             let mut cloud_health_heartbeat =
                 tokio::time::interval(std::time::Duration::from_secs(30));
             cloud_health_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let agent_partial_interval = std::time::Duration::from_secs(
+                service
+                    .agent_partial_checkpoint_interval_seconds()
+                    .unwrap_or(86_400),
+            );
+            let mut agent_partial_tick = tokio::time::interval_at(
+                tokio::time::Instant::now() + agent_partial_interval,
+                agent_partial_interval,
+            );
+            agent_partial_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+            let mut agent_archive_tick = tokio::time::interval_at(
+                tokio::time::Instant::now() + std::time::Duration::from_secs(5),
+                std::time::Duration::from_secs(5),
+            );
+            agent_archive_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+            let archive_in_flight = Arc::new(AtomicBool::new(false));
             let serve_result = 'serve: loop {
                 if let Some(observability) = observability.as_mut() {
                     if let Err(error) = observability.poll_health() {
@@ -1079,6 +1144,40 @@ async fn main() -> ExitCode {
                             saturated_queues = health.saturated_queues.len(),
                             "runtime health heartbeat"
                         );
+                    },
+                    _ = agent_partial_tick.tick() => {
+                        let partial_service = Arc::clone(&service);
+                        tokio::spawn(async move {
+                            let completed = partial_service.snapshot_all_resident_agents().await;
+                            tracing::info!(
+                                target: "adl_runtime_kernel",
+                                schema = "adl.runtime_v3.agent_partial_cycle.v1",
+                                event = "agent_partial_cycle_completed",
+                                completed_agents = completed,
+                                "agent partial checkpoint cycle completed"
+                            );
+                        });
+                    },
+                    _ = agent_archive_tick.tick() => {
+                        if archive_in_flight
+                            .compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
+                            .is_ok()
+                        {
+                            let archive_service = Arc::clone(&service);
+                            let archive_flag = Arc::clone(&archive_in_flight);
+                            tokio::spawn(async move {
+                                let _archive_guard = ArchiveInFlightGuard(archive_flag);
+                                if let Err(error) = archive_service.archive_pending_agent_partials().await {
+                                    tracing::warn!(
+                                        target: "adl_runtime_kernel",
+                                        schema = "adl.runtime_v3.agent_partial_archive.v1",
+                                        event = "agent_partial_archive_degraded",
+                                        error = %error,
+                                        "agent partial archive remains pending"
+                                    );
+                                }
+                            });
+                        }
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {
@@ -1616,8 +1715,18 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability,
+        preserve_runtime_result_after_observability, ArchiveInFlightGuard,
     };
+    use std::sync::{atomic::AtomicBool, Arc};
+
+    #[test]
+    fn archive_in_flight_guard_always_releases_scheduler_slot() {
+        let flag = Arc::new(AtomicBool::new(true));
+        {
+            let _guard = ArchiveInFlightGuard(Arc::clone(&flag));
+        }
+        assert!(!flag.load(std::sync::atomic::Ordering::Acquire));
+    }
 
     #[test]
     fn config_reload_diagnostics_are_bounded_and_redacted() {

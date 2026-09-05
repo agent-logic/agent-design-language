@@ -141,6 +141,19 @@ region = "us-west-2"
 log_group = "/agent-logic/runtime-v3/axioma-wuji-dev"
 log_stream = "wuji"
 
+[agent_partial_checkpoints]
+enabled = true
+interval_seconds = 300
+snapshot_concurrency = 4
+max_partial_bytes = 16777216
+local_max_bytes = 2147483648
+local_max_files = 8192
+retained_partials_per_agent = 12
+spool_max_bytes = 536870912
+spool_max_files = 4096
+# S3 archive values come from infra/aws/runtime/agent-checkpoint-archive outputs.
+# Add [agent_partial_checkpoints.s3_archive] during the separately authorized deploy.
+
 [weather]
 sample_millis = 1000
 history_capacity = 60

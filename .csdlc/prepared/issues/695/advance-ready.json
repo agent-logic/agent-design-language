@@ -1,0 +1,9 @@
+{
+  "issue": 695,
+  "actor": "codex:agent-partial-checkpoint-s3",
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "80c33f78ca6a6f19d5eb533a930504296c0ceddd7f7d4499037b88f26aa7bc22",
+  "reason": "Advance independently reviewed and mechanically valid issue #695 design to execution readiness.",
+  "operation": {"operation": "advance_phase", "phase": "ready"}
+}
