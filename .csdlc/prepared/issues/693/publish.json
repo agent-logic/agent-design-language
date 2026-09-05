@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 693,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 8,
+  "expected_digest": "68bb789a9353c612e8ad877118ea00a597a910ab9c0b94a230b06814990317bb",
+  "actor": "codex:/root/a2a_reliability_fix",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/693-runtime-a2a-action-selection-reliability",
+  "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+  "body": "Closes #693\n\nReplaces brittle prompt-dependent exact JSON A2A selection with a first-class Ollama-native `initiate_agent` tool action. Runtime remains authoritative for action validation, identifiers, Layer8 admission, dispatch, replay, cancellation, and terminal outcomes. Beacon's operator reply remains distinct from Ember's governed provider result, with separately correlated initiation and completion events.\n\nModels that reject tool-enabled chat with 400/404 retain ordinary conversation through a bounded plain-generation fallback which cannot infer A2A. Malformed, unknown, ambiguous, and self-target actions fail closed.\n\nFocused validation passed: the exact isolated production-ingress Beacon-to-Ember acceptance, 10 provider-conversation tests, all 144 Runtime kernel library tests, strict all-target Clippy, formatting, and range diff hygiene. Independent exact-head review passed with no findings.",
+  "draft": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}
