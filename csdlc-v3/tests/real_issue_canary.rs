@@ -396,13 +396,16 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
 }
 
 #[test]
-fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_authority() {
+fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_without_v3_authority() {
     let root = repo_root();
     let index = read_issue_index(&root, 629);
     let phase = index["phase"].as_str().expect("real #629 phase");
     assert!(
-        matches!(phase, "implemented" | "reviewed" | "published"),
-        "real #629 must be in a post-recovery pre-terminal phase, got {phase}"
+        matches!(
+            phase,
+            "implemented" | "reviewed" | "published" | "closed_out"
+        ),
+        "real #629 must be in a post-recovery publication/terminal phase, got {phase}"
     );
     assert!(index["transitions"]
         .as_array()
@@ -413,12 +416,19 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
             && transition["reason"]
                 .as_str()
                 .is_some_and(|reason| reason.contains("Recover #629"))));
-    if phase == "published" {
+    if matches!(phase, "published" | "closed_out") {
         assert_eq!(index["publication"]["pull_request"], 641);
         assert_eq!(index["publication"]["linkage_mode"], "closing");
         assert_eq!(index["publication"]["base"], "main");
     } else {
         assert!(index["publication"].is_null());
+    }
+    if phase == "closed_out" {
+        assert_eq!(index["terminal"]["pull_request"], 641);
+        assert_eq!(index["terminal"]["disposition"], "merged");
+        assert_eq!(index["terminal"]["observed_state"], "merged");
+    } else {
+        assert!(index["terminal"].is_null());
     }
 
     let revision = index["branch"]
