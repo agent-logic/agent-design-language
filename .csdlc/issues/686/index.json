@@ -3,9 +3,9 @@
   "issue": 686,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "02995a20bf17e06480d4e2fe1b3ffb82f88345838c6841709365b1335705ac0c",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "0f28e732fe85f8259e9619bdc8cc29e61faf12c3a9ef9eb2cda8620503935476",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
   "review_assignment": {
@@ -26,7 +26,30 @@
       ".csdlc/evidence/686"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r12",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+      ".csdlc/evidence/686"
+    ],
+    "reviewed_revision": "git-blake3:60db7db06a4314597d0aaa1c428f205058e1b7f5:6b5ddddc3dfc72a914ee75ee2629b78bdebd036c7ede26fbd90f4f15d7073ffa",
+    "findings": [],
+    "residual_risks": [
+      "PR #692 still needs typed republication from the repaired branch head and hosted CI must pass at the republished head before merge.",
+      "No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "42dfbc5555b67c8b5020eead473f2393744c897f02ec321aa9e15640db8d2c86",
+      "values_digest": "7316530440fb4a24e6276e35fd4208fb9921f5431dd70180b702a62c92b18f8a",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "5e7d2d24fff124f11c29ed7155533c8a9c35d3ee2b4e95cc57323cf1b254a2dd",
+      "values_digest": "b91e5eff0f3c7c10d4c03e70272dbb50f9715ab7d205130987936e2ddc0f30aa",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "d4ca377bbacc645fafaad2b23eb9883876ffca4a71ca55044000ecee75c977cd",
+      "values_digest": "9f8003e5ca1f262e7918c410f4e8a655501aa672224302658c8d5f33cff31c73",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "7e7795fade59e6536e44e120e4b4ab733674305755997a8319315591505e669c",
+      "values_digest": "58b35d391417c10373b3eb6f8a9ad93116dfdec7a5cd5cb2e0c2994522b18cba",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "0a13a8c64b08974fa1d8fc3d9877929c43a0795be5949f182e4493fcb89eb724",
-      "rendered_digest": "cd9db31c108568ff94d12fb9be068f80205bfcdf2dcdeb92dbd8a4a783f370f4",
-      "ast_digest": "48bb902b0245b471ed4e62204d7248e7cb630071ca2173d1c6f480c22d024abb"
+      "values_digest": "cc97a883ec179403ff95f93453570256c42a06f7a3e8e86bd5f7fe3cc8b284c2",
+      "rendered_digest": "01d88919cb613360a3cc97665f0e99f202cf1006b64d8ae5ad90d249ba047015",
+      "ast_digest": "bf25bbcfb52a888599019f2fa0b1fb1037c79f64b288df7584ac19f92275fee3"
     },
     "sor": {
-      "values_digest": "f3de97c63f234c5caab9abc3d641a78dd1f6acddcaa538b2f0d7b41a863cce0c",
+      "values_digest": "63934b5ca5a25d1836f6eaa22eae46e7fa1f594e2e4bf12532e8a7c6c9d3cb09",
       "rendered_digest": "2976172b17d48a824b969f731b7e4af8ebd1cedd7339b38fb6878f1788a0699d",
       "ast_digest": "d46be5dcd2e9c8a2a81ea0fd7b650375f279196799799f740cbeeae0f185e7a4"
     }
@@ -141,6 +164,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #686 after PR #692 hosted CI at published head a134c3a96d2f6e269306f5d5544c8b18e117f4bd failed adl-rust-fmt-clippy because cargo fmt --all -- --check found source formatting drift. Preserve the published failure truth and return to implementation for a formatting-only repair, refreshed evidence, fresh exact-head review, and republication."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-686",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -451,6 +481,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 31,
+      "actor": "codex:/root/issue-686",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -42,12 +42,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR #692 still needs typed republication from the repaired branch head and hosted CI must pass at the republished head before merge.
+- No live Runtime, launchd/systemd, cloud, credential, deployment, or paid execution was performed; those remain outside issue #686 local implementation proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:60db7db06a4314597d0aaa1c428f205058e1b7f5:6b5ddddc3dfc72a914ee75ee2629b78bdebd036c7ede26fbd90f4f15d7073ffa")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_686_runtime_config_generation_r12")
 
-Result: pre_review
+Result: pass
