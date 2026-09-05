@@ -19,13 +19,13 @@ jq -e --arg head "$head_sha" --slurpfile manifest "$manifest" '
   .issue == 695 and
   .head_sha == $head and
   ([.results[].proof_id] | length) == ([.results[].proof_id] | unique | length) and
-  all($manifest[0].rows[] as $row;
-    all($row.proof[] as $proof;
-      any(.results[];
+  . as $results |
+  all($manifest[0].rows[];
+    . as $row |
+    all($row.proof[];
+      . as $proof |
+      any($results.results[];
         .proof_id == $proof and
         .outcome == "passed" and
-        ((.test_count // 0) + (.assertion_count // 0)) > 0
-      )
-    )
-  )
+        ((.test_count // 0) + (.assertion_count // 0)) > 0)))
 ' "$results" >/dev/null
