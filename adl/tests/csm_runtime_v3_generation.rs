@@ -49,7 +49,8 @@ fn config_generation_receipt_is_immutable_and_redacts_secret_references() {
     let (receipt, identity) =
         build_config_generation_receipt(&init, "runtime-generation-one").expect("receipt");
     assert_eq!(receipt.schema, "adl.runtime_v3.config_generation.v1");
-    assert_eq!(receipt.generation, receipt.content_sha256);
+    assert_ne!(receipt.generation, receipt.content_sha256);
+    assert_eq!(receipt.generation, identity.generation);
     assert_eq!(
         receipt.compatible_binary_generation,
         "runtime-generation-one"
@@ -78,6 +79,50 @@ fn config_generation_receipt_is_immutable_and_redacts_secret_references() {
         b"conflicting retained bytes"
     );
     assert_ne!(first_bytes, b"conflicting retained bytes");
+}
+
+#[test]
+fn unchanged_config_can_upgrade_and_roll_back_binary_generation() {
+    let root = tempfile::tempdir().expect("temp root");
+    let init = write_generation_config(
+        root.path(),
+        "runtime-init.toml",
+        "/secret/runtime/control.pub",
+    );
+
+    let generation_one =
+        provision_config_generation(&init, "runtime-generation-one").expect("provision gen1");
+    activate_config_generation(&init, &generation_one).expect("activate gen1");
+    let receipt_one_path = generation_store(&init)
+        .expect("store")
+        .join(format!("{}.json", generation_one.generation));
+    let receipt_one_bytes = fs::read(&receipt_one_path).expect("gen1 receipt");
+
+    let generation_two =
+        provision_config_generation(&init, "runtime-generation-two").expect("provision gen2");
+    assert_ne!(generation_one.generation, generation_two.generation);
+    assert_ne!(generation_one.receipt_digest, generation_two.receipt_digest);
+    let receipt_two_path = generation_store(&init)
+        .expect("store")
+        .join(format!("{}.json", generation_two.generation));
+    assert!(receipt_two_path.exists());
+    assert_ne!(
+        fs::read(&receipt_two_path).expect("gen2 receipt"),
+        receipt_one_bytes
+    );
+
+    activate_config_generation(&init, &generation_two).expect("activate gen2");
+    assert_eq!(
+        validate_active_config_generation(&init, "runtime-generation-two").expect("validate gen2"),
+        generation_two
+    );
+
+    activate_config_generation(&init, &generation_one).expect("roll back to gen1");
+    assert_eq!(
+        validate_active_config_generation(&init, "runtime-generation-one")
+            .expect("validate gen1 rollback"),
+        generation_one
+    );
 }
 
 #[test]

@@ -55,7 +55,7 @@ pub fn build_config_generation_receipt(
     validate_identifier("compatible binary generation", compatible_binary_generation)?;
     let bytes = fs::read(init).map_err(|error| format!("read Runtime init: {error}"))?;
     let content_sha256 = format!("{:x}", Sha256::digest(&bytes));
-    let generation = content_sha256.clone();
+    let generation = config_generation_digest(&content_sha256, compatible_binary_generation);
     let text = std::str::from_utf8(&bytes)
         .map_err(|error| format!("Runtime init is not UTF-8: {error}"))?;
     let document: toml::Value = toml::from_str(text)
@@ -271,6 +271,16 @@ fn validate_digest(name: &str, value: &str) -> Result<(), String> {
         return Err(format!("{name} is invalid"));
     }
     Ok(())
+}
+
+fn config_generation_digest(content_sha256: &str, compatible_binary_generation: &str) -> String {
+    let mut digest = Sha256::new();
+    digest.update(CONFIG_GENERATION_RECEIPT_SCHEMA.as_bytes());
+    digest.update(b"\0content_sha256\0");
+    digest.update(content_sha256.as_bytes());
+    digest.update(b"\0compatible_binary_generation\0");
+    digest.update(compatible_binary_generation.as_bytes());
+    format!("{:x}", digest.finalize())
 }
 
 fn sync_directory(path: &Path) -> Result<(), String> {
