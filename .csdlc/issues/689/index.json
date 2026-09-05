@@ -3,52 +3,44 @@
   "issue": 689,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "a0087aa888361a1dd039d5ef99d929b3f7bc8a63a27294756b700ee8c37210d6",
-  "phase": "published",
-  "generation": 21,
-  "digest": "fde71d8db83072d81434b62f09fe1888f331e396fb368fce49de8dd76d889ca7",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "5eaa688aa94ce14ef975166f5f20602fda1fe2c45e62376460a26dab8391726e",
   "branch": "codex/689-runtime-canonical-control-runbook",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook",
   "review_assignment": {
-    "reviewer": "codex:/root/issue_689_ci_exact_review",
+    "reviewer": "codex:/root/review_689_fixes",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77",
+    "revision": "git-blake3:dbcd20d9ffb648f9638d819201d86427d188ff90:a5c3402430b4d40da9b38d72cb4f51bfa6e7468f5e8e1e0f8c1d68e56b04ae2e",
     "scope": [
       "CSMctl",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
       "adl/tools/test_csmctl_linux_backend.sh",
-      "docs/tooling/START_CSM_RUNBOOK.md",
-      "adl-runtime-kernel/src/config_reload.rs",
-      ".csdlc/evidence/689"
+      "adl/tools/test_csmctl_observatory_origins.sh",
+      "adl/tools/validate_v092_observatory_restart_reconnect.sh"
     ]
   },
   "review": {
-    "reviewer": "codex:/root/issue_689_ci_exact_review",
+    "reviewer": "codex:/root/review_689_fixes",
     "scope": [
       "CSMctl",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
       "adl/tools/test_csmctl_linux_backend.sh",
-      "docs/tooling/START_CSM_RUNBOOK.md",
-      "adl-runtime-kernel/src/config_reload.rs",
-      ".csdlc/evidence/689"
+      "adl/tools/test_csmctl_observatory_origins.sh",
+      "adl/tools/validate_v092_observatory_restart_reconnect.sh"
     ],
-    "reviewed_revision": "git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77",
+    "reviewed_revision": "git-blake3:dbcd20d9ffb648f9638d819201d86427d188ff90:a5c3402430b4d40da9b38d72cb4f51bfa6e7468f5e8e1e0f8c1d68e56b04ae2e",
     "findings": [],
     "residual_risks": [
-      "No live Runtime or service-manager mutation was performed; cloud reachability, providers, models, and Observatory UI behavior are outside issue #689."
+      "The live restart validator was migrated but not executed because issue #689 explicitly excludes live Runtime and service-manager mutation.",
+      "The separately observed Observatory schema-v2 contract mismatch remains outside the PR #690 remediation scope."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 689,
-    "pull_request": 690,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/690",
-    "base": "main",
-    "head": "codex/689-runtime-canonical-control-runbook",
-    "revision": "git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +54,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "34593adabaa76f652ac46eb2c8093ef3e55d95fb0e2d30933cc854135d2b5d81",
+      "values_digest": "987f9efc61f41d5511c972e479e4715ec8dea8b54ca1c88ea08ce851d3dbfc19",
       "rendered_digest": "b8143a9b06847f14cdad60c5a22e537498d3a8b64535b4f268f4ef2be3adcc81",
       "ast_digest": "21f37d078ffb67354c9fb12935fbb6333963c678b0538c40e429ef75c3051601"
     },
     "stp": {
-      "values_digest": "5703b742bd51cb090385bcdb190e6e634bdc503a9de8dba0da09925b9374065d",
+      "values_digest": "4c07f9ccdb06ada9970100a13c6594602a2411708d9cc1c0bbd8734967832c43",
       "rendered_digest": "d00972b6e802960a768b67adf5326c74b60d17e413cb7ed2f15c9940e40d3ca3",
       "ast_digest": "9d8979682230b61e5fa3da84c648a03a051da01878b88ae4ac4d577ac8aac266"
     },
     "spp": {
-      "values_digest": "e1e8ad502de66110a5329bb22e9da5a5f340ce615661785e3ee334a09fbf8b43",
+      "values_digest": "27236878bc171035e0a51c26e47249d111620a8527d670027cd088d3fb6367c3",
       "rendered_digest": "1ce0b2bfffbcd83deb202cffe0b4cc25af4dfc8bb8c5e760ac66e64f508ad4da",
       "ast_digest": "429985dc83b544f1b6dfc627fd79b62d784b56795886aa9b100ac5a899e84aad"
     },
     "vpp": {
-      "values_digest": "c56a8c25cd46ab5dd849cbd672967c9d4789dd9157867e309328ee81eea082ac",
+      "values_digest": "7d6655a54e0a9f93c30b2ab9b0d9dfc704867d5f5636d99901393e1e0c2f380f",
       "rendered_digest": "ffec11c5f13af207ff4187a15afa1539f8e208648a88a690a6a4496ef2cde6cb",
       "ast_digest": "a0105ec682e369aa2d4bd9a7af04e264afc4814114f3f1244864024dc36fd7b2"
     },
     "srp": {
-      "values_digest": "c87055bd3d9249d2e40027689cf9a979d25b59dac076d4df141383b97052cffb",
-      "rendered_digest": "89007b13c270daa482b940c9dbcf4c384e62fd1a81f93a15f3fcfe77cbb40de1",
-      "ast_digest": "c23639551ea054da542596da50f03c671cd372c4452b4bff8d3a081af147e800"
+      "values_digest": "0ddbc1cea0aa1ee976c9b13a0e2bcc157811e2692dbc5e3cbd576277fc279a53",
+      "rendered_digest": "9fc48c36043622a7464e26b9f09f19066a891280f901ac004e373ce0c1ed995f",
+      "ast_digest": "3778dc48e27dcc3a259999e8ef2fd6f9bab483800f86eee5e5778d4c5410ddec"
     },
     "sor": {
-      "values_digest": "72d226b87b19ed13036eea2c079786d69853c69bff220fa672aed3d4aaa388d5",
-      "rendered_digest": "928ebf381990f8c0997aadef004b74da8e0d94e0e323668a9011e46ad75f6b17",
-      "ast_digest": "f1257a8d225906d6fc4aa2944a666a83342033024673719f741b0dd712e6708e"
+      "values_digest": "7a5da92422dc33b1643f26719611a359c5cb981cbc85cb40d384ad55bf798047",
+      "rendered_digest": "4f095456b0be749011827f65bb4f4e29d3df52e634accd2f69e5df374131c5fb",
+      "ast_digest": "624d2dbab742e34c1ee51884035aa47f55966ad92a6941590213d626bceabb9d"
     }
   },
   "transitions": [
@@ -162,6 +154,20 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review truth after repairing all actionable PR #690 findings: retained Runtime validation now uses canonical csm runtime-v3 operations and linked-worktree guidance resolves the primary live installation."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -346,6 +352,27 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Recover review truth after repairing all actionable PR #690 findings: retained Runtime validation now uses canonical csm runtime-v3 operations and linked-worktree guidance resolves the primary live installation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

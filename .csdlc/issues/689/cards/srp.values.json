@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
     "slug": "runtime-canonical-service-control-runbook",
     "version": "v0.92.1",
-    "generation": 21
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "CSMctl\nadl/tools/test_csmctl_linux_backend.sh\ndocs/tooling/START_CSM_RUNBOOK.md\nadl-runtime-kernel/src/config_reload.rs\n.csdlc/evidence/689",
-      "review_revision": "git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77",
-      "reviewer": "codex:/root/issue_689_ci_exact_review",
+      "review_scope": "CSMctl\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime/tests/runtime_api_wss.rs\nadl/tools/test_csmctl_linux_backend.sh\nadl/tools/test_csmctl_observatory_origins.sh\nadl/tools/validate_v092_observatory_restart_reconnect.sh",
+      "review_revision": "git-blake3:dbcd20d9ffb648f9638d819201d86427d188ff90:a5c3402430b4d40da9b38d72cb4f51bfa6e7468f5e8e1e0f8c1d68e56b04ae2e",
+      "reviewer": "codex:/root/review_689_fixes",
       "review_prompts": [
         "Does any documentation still present the legacy service root or label as permanent authority?",
         "Can any legacy Runtime verb still report pass?",
@@ -25,7 +25,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "No live Runtime or service-manager mutation was performed; cloud reachability, providers, models, and Observatory UI behavior are outside issue #689."
+        "The live restart validator was migrated but not executed because issue #689 explicitly excludes live Runtime and service-manager mutation.",
+        "The separately observed Observatory schema-v2 contract mismatch remains outside the PR #690 remediation scope."
       ],
       "review_result": "pass"
     }

@@ -13,10 +13,11 @@ Status: draft
 ## Scope
 
 CSMctl
+adl-runtime-kernel/tests/configuration.rs
+adl-runtime/tests/runtime_api_wss.rs
 adl/tools/test_csmctl_linux_backend.sh
-docs/tooling/START_CSM_RUNBOOK.md
-adl-runtime-kernel/src/config_reload.rs
-.csdlc/evidence/689
+adl/tools/test_csmctl_observatory_origins.sh
+adl/tools/validate_v092_observatory_restart_reconnect.sh
 
 ## Prompts
 
@@ -36,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No live Runtime or service-manager mutation was performed; cloud reachability, providers, models, and Observatory UI behavior are outside issue #689.
+- The live restart validator was migrated but not executed because issue #689 explicitly excludes live Runtime and service-manager mutation.
+- The separately observed Observatory schema-v2 contract mismatch remains outside the PR #690 remediation scope.
 
 ## Review Result
 
-Revision: Some("git-blake3:bc4c88a54cc25b5533eb2e1adaf82574f5e3398f:abba41ca39ea1677553268bd9729d0cfd0da4e2a8ca03b725609eeb829282a77")
+Revision: Some("git-blake3:dbcd20d9ffb648f9638d819201d86427d188ff90:a5c3402430b4d40da9b38d72cb4f51bfa6e7468f5e8e1e0f8c1d68e56b04ae2e")
 
-Reviewer: Some("codex:/root/issue_689_ci_exact_review")
+Reviewer: Some("codex:/root/review_689_fixes")
 
 Result: pass
