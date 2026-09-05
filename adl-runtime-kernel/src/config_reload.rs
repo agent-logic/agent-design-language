@@ -379,7 +379,9 @@ mod tests {
                 .expect("time")
                 .as_nanos()
         ));
-        fs::write(&temp_path, content).await.expect("write temp config");
+        fs::write(&temp_path, content)
+            .await
+            .expect("write temp config");
         fs::rename(&temp_path, path).await.expect("publish config");
     }
 

@@ -1,0 +1,123 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 687,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
+    "slug": "runtime-provider-inference-readiness",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-provider-readiness-roster",
+          "proof_role": "Prove the state taxonomy, dynamic refresh classification, and roster/API consistency with deterministic local fixtures.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "agent_roster"
+          ],
+          "parallel_group": "runtime-readiness",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-provider-readiness-shepherd",
+          "proof_role": "Prove resident Shepherd recovery classification for every inference-readiness state.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "shepherd"
+          ],
+          "parallel_group": "runtime-readiness",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-provider-readiness-assembly",
+          "proof_role": "Prove missing or placeholder production adapters do not receive production readiness credit.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "assembly"
+          ],
+          "parallel_group": "runtime-readiness",
+          "defer_reason": null
+        },
+        {
+          "lane": "rust-format-diff",
+          "proof_role": "Reject formatting defects and malformed tracked diffs.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "parallel_group": "runtime-readiness",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on unknown readiness values, any non-ready communication eligibility, placeholder readiness credit, identity drift, live external dependency, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/687/design.md",
+      "design_digest": "8ac58078fa6608ada8d851d54f7b686840ca7aef5cc8def1c405e4eb1a039bb2",
+      "diagram_ref": ".csdlc/prepared/issues/687/diagram.mmd",
+      "diagram_digest": "4613d1499893bcb0f7590c0473f30f44424a5b6aca6607cd837ed6fa0b41e42e"
+    }
+  }
+}

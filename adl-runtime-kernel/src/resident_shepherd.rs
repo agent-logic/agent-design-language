@@ -10,8 +10,9 @@ use tokio_util::sync::CancellationToken;
 
 use crate::{
     invoke_resident_shepherd_provider, shepherd::decode_request, ExecutorError, FailureClass,
-    OperationExecutor, OperationRequest, ResidentShepherdInitConfig, ShepherdExecutionClass,
-    ShepherdProvenance, ShepherdRequest, ShepherdResponse, SHEPHERD_RESPONSE_SCHEMA,
+    InferenceReadinessState, OperationExecutor, OperationRequest, ResidentShepherdInitConfig,
+    ShepherdExecutionClass, ShepherdProvenance, ShepherdRequest, ShepherdResponse,
+    SHEPHERD_RESPONSE_SCHEMA,
 };
 
 /// Provider adapters that are compiled into this Runtime build. Configuration
@@ -67,9 +68,11 @@ impl ResidentShepherdReadiness {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ResidentShepherdRecoveryState {
+    Unimplemented,
+    Unavailable,
     ModelLoading,
+    Failed,
     Ready,
-    Degraded,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -80,17 +83,49 @@ pub struct ResidentShepherdRecoveryPolicy {
 }
 
 impl ResidentShepherdRecoveryState {
+    pub fn inference_readiness(self) -> InferenceReadinessState {
+        match self {
+            Self::Unimplemented => InferenceReadinessState::Unimplemented,
+            Self::Unavailable => InferenceReadinessState::Unavailable,
+            Self::ModelLoading => InferenceReadinessState::ModelLoading,
+            Self::Failed => InferenceReadinessState::Failed,
+            Self::Ready => InferenceReadinessState::Ready,
+        }
+    }
+
     pub fn health(self) -> (&'static str, &'static str) {
         match self {
+            Self::Unimplemented => (
+                "unimplemented",
+                "Configured provider has no production resident Shepherd adapter",
+            ),
+            Self::Unavailable => (
+                "unavailable",
+                "Provider model unavailable; recovery retry scheduled",
+            ),
             Self::ModelLoading => ("model_loading", "Provider model preload in progress"),
+            Self::Failed => (
+                "failed",
+                "Governed inference probe failed; recovery retry scheduled",
+            ),
             Self::Ready => (
                 "ready",
                 "Configured provider model loaded; governed inference probe passed",
             ),
-            Self::Degraded => (
-                "degraded",
-                "Provider model unavailable; recovery retry scheduled",
-            ),
+        }
+    }
+
+    fn from_attempt_error(error: &'static str) -> Self {
+        match error {
+            "resident_shepherd_provider_unsupported" => Self::Unimplemented,
+            "provider_unreachable"
+            | "provider_temporarily_unavailable"
+            | "model_not_installed"
+            | "operation cancelled" => Self::Unavailable,
+            "provider_response_invalid"
+            | "agent_provider_failed"
+            | "resident_shepherd_governed_probe_failed" => Self::Failed,
+            _ => Self::Failed,
         }
     }
 }
@@ -130,7 +165,12 @@ pub async fn run_resident_shepherd_recovery<Attempt, AttemptFuture, Observe>(
         }
 
         readiness.mark_unready(name);
-        observe(ResidentShepherdRecoveryState::Degraded);
+        let state = match result {
+            Ok(Err(error)) => ResidentShepherdRecoveryState::from_attempt_error(error),
+            Err(_) => ResidentShepherdRecoveryState::Unavailable,
+            Ok(Ok(())) => unreachable!("successful attempt handled above"),
+        };
+        observe(state);
         was_ready = false;
         tokio::select! {
             _ = shutdown.cancelled() => break,
