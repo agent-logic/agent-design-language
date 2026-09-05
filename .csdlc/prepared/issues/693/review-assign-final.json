@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 693,
-  "expected_generation": 9,
-  "expected_digest": "04b4d0b1773c392cb6db9ee4ff6c6ed9ad3f4f87b07eb576a3c97c2d40ec5867",
+  "expected_generation": 11,
+  "expected_digest": "308e95accc4ffab85112ea4db418f616b4f9f0b539254c419a2fbce78ba2a3fc",
   "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
   "assigned_by": "codex:/root/a2a_reliability_fix",
   "scope": [
