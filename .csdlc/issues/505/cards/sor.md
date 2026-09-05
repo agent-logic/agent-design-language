@@ -12,31 +12,39 @@ Status: ready
 
 ## Summary
 
-Tested the non-authoritative v3 sprint readiness route against the live V3-H sprint umbrella and child issue denominator, repaired the parser for the current umbrella body shape, and retained typed v2 as the only operational authority before #505 cutover.
+Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, and kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof, exact-head review, and operator approval.
 
 ## Artifacts
 
-- commit 15cf11215b29959379ead339b1d3a4aabfcf01f4
-- csdlc-v3/src/commands/sprint.rs
-- .csdlc/prepared/issues/505/v3-sprint-readiness/sprint-625-readiness-request.json
-- .csdlc/prepared/issues/505/v3-sprint-readiness/issue-625-add-membership-version-request.json
+- commit 0a9b12232c8e9d23222eff4ccbbfb721655f2223
+- csdlc-v3/README.md
+- csdlc-v3/src/main.rs
+- csdlc-v3/src/commands/mod.rs
+- csdlc-v3/src/commands/proof.rs
+- csdlc-v3/tests/command_manifest.rs
+- csdlc-v3/tests/proof_parity_install_commands.rs
+- csdlc-v3/tests/real_issue_canary.rs
+- docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md
+- docs/csdlc-v3/authority-transition-disposition.json
+- docs/csdlc-v3/full-replacement-denominator.json
+- docs/csdlc-v3/v3-command-manifest.json
 - docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json
 - docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json
-- docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-627-readback.json
-- docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-628-readback.json
 - docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json
 - docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json
 - docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json
 - docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json
+- .csdlc/prepared/issues/505/validate-authority-transition-prep.rb
 
 ## Execution
 
-- Added v3 sprint membership parsing support for the live `## Child issues` umbrella section used by #625.
-- Added support for numbered child issue rows such as `1. #627` while preserving the existing bullet-row parser path.
-- Added a regression test proving the V3-H child issue heading, numbered rows, membership version, and readiness status are parsed together.
-- Captured typed v2 issue readbacks for #625 and child issues #627 through #632 as repo-local evidence for the v3 sprint readiness canary.
-- Used the typed v2 GitHub issue owner to add `Membership version: 1` to #625 after the v3 canary exposed the missing sprint membership-version defect.
-- Recorded the v3 sprint readiness report showing `read_only: true`, `operational_authority: false`, `status: ready`, declared children #627 through #632, closed children #627 and #628, and open children #629 through #632.
+- Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.
+- Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.
+- Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.
+- Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.
+- Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, stale exact-head review, and absent operator approval.
+- Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.
+- Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, or stale readiness notice language.
 
 ## Validation
 
@@ -48,12 +56,11 @@ Tested the non-authoritative v3 sprint readiness route against the live V3-H spr
       "--manifest-path",
       "csdlc-v3/Cargo.toml",
       "--all",
-      "--",
       "--check"
     ],
-    "purpose": "Reject Rust formatting drift after the v3 sprint parser repair.",
+    "purpose": "Reject Rust formatting drift after resolving #591 main-merge conflicts.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed"
+    "evidence_ref": "exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:passed"
   },
   {
     "command": [
@@ -62,85 +69,60 @@ Tested the non-authoritative v3 sprint readiness route against the live V3-H spr
       "--locked",
       "--manifest-path",
       "csdlc-v3/Cargo.toml",
-      "sprint_readiness",
+      "--all-targets"
+    ],
+    "purpose": "Run the full C-SDLC v3 suite after command-surface, readback, and cutover-disposition reconciliation.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:132-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--all-targets",
       "--",
-      "--nocapture"
+      "-D",
+      "warnings"
     ],
-    "purpose": "Prove the sprint-readiness parser rejects escaping evidence, rejects missing child readbacks, preserves existing live membership parsing, and accepts the V3-H `## Child issues` numbered-list shape.",
+    "purpose": "Reject warnings across all C-SDLC v3 targets.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:4-passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--test",
-      "command_manifest"
-    ],
-    "purpose": "Verify the one-binary command manifest and cutover-boundary tests remain green after adding the sprint parser regression.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:13-passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--test",
-      "real_issue_canary"
-    ],
-    "purpose": "Verify real-issue v3 canaries still pass after adding live sprint-readiness evidence.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:5-passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml"
-    ],
-    "purpose": "Run the complete C-SDLC v3 test suite after the sprint-readiness parser repair.",
-    "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:104-passed"
+    "evidence_ref": "exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:passed"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
     ],
-    "purpose": "Prove #505 authority-transition gates and v2-live boundary still hold after the v3 sprint-readiness canary work.",
+    "purpose": "Prove #505 authority-transition gates and v2-live boundary after adding terminal V3-H evidence, #179/#180 disposition, and deferred cutover notice checks.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass"
+    "evidence_ref": "exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:status-pass"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
-    "purpose": "Verify whitespace hygiene for the current #505 worktree diff before lifecycle reconciliation.",
+    "purpose": "Verify exact-range whitespace hygiene for the reconciled branch.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed"
+    "evidence_ref": "exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:passed"
   },
   {
     "command": [
       "csdlc-validate",
       "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
+      ".",
       "issue",
       "--issue",
       "505"
     ],
-    "purpose": "Verify typed C-SDLC v2 issue state before recovering stale review/publication truth for this new slice.",
+    "purpose": "Verify typed C-SDLC v2 issue state after stale review/publication recovery.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass-generation-35-ready-false"
+    "evidence_ref": "exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:status-pass-generation-45-ready-false"
   }
 ]
 
