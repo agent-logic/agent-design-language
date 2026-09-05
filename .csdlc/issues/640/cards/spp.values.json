@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
     "slug": "runtime-model-backed-resident-shepherd",
     "version": "v0.92.1",
-    "generation": 32
+    "generation": 33
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
             "AC-6",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-2",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -44,7 +44,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -54,7 +54,7 @@
             "AC-5",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -69,7 +69,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

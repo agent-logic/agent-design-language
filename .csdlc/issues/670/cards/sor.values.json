@@ -7,9 +7,9 @@
     "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
     "slug": "gcp-warm-polis-live-qualification",
     "version": "v0.92.1",
-    "generation": 35
+    "generation": 36
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -114,10 +114,10 @@
           "evidence_ref": ".csdlc/evidence/670/live/launch-g670b.json"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

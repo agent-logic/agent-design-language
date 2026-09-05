@@ -29,3 +29,4 @@
 {"sequence":29,"generation":23,"actor":"codex:/root:issue-675-first-class-a2a","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":24,"actor":"codex:/root:exact-head-review-after-atomic-config-reload-ci-fix","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":31,"generation":25,"actor":"codex:/root:issue-675-first-class-a2a","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":32,"generation":26,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #675 from retained derived terminal PR #677.","operation":"materialize_derived_terminal"}

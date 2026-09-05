@@ -676,10 +676,12 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
             .map(|report| report.pass)
             .unwrap_or(false)
         {
-            return serde_json::from_slice(
+            let receipt: InstallReceipt = serde_json::from_slice(
                 &fs::read(destination.join("install-receipt.json")).map_err(io_error)?,
-            )
-            .map_err(Into::into);
+            )?;
+            if receipt.source_set_digest == owner_source_set_digest(repo)? {
+                return Ok(receipt);
+            }
         }
     }
     let target = external_cargo_target(repo)?;

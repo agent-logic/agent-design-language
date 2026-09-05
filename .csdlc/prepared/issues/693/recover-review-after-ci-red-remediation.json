@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 693,
+  "expected_generation": 20,
+  "expected_digest": "83e913cd3c4d9c8ba1a94503e1f82381a7f7f68694d3b81fe1891543ab451ff7",
+  "actor": "codex:/root/a2a_reliability_fix",
+  "reason": "recover stale review and publication truth after PR #696 CI exposed a source-level guardian soak harness fix at a new substantive commit"
+}

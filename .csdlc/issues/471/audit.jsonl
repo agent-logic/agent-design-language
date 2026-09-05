@@ -38,3 +38,4 @@
 {"sequence":38,"generation":30,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":31,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":40,"generation":32,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":41,"generation":33,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #471 from retained derived terminal PR #475.","operation":"materialize_derived_terminal"}

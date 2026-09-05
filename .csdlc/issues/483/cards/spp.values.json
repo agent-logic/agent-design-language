@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-B] Corporate account custody register",
     "slug": "v0-92-1-corp-b-corporate-account-custody-register",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-3",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

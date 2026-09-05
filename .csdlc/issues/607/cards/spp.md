@@ -82,7 +82,7 @@ Revision 14
     "acceptance_ids": [
       "AC-12"
     ],
-    "status": "in_progress"
+    "status": "completed"
   }
 ]
 

@@ -7,7 +7,7 @@
     "title": "Podcast directory submission runbooks and operator preflight",
     "slug": "podcast-directory-runbooks",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-1"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "implement",
@@ -34,7 +34,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "validate-review",
@@ -42,7 +42,7 @@
           "acceptance_ids": [
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

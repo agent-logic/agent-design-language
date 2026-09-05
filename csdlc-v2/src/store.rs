@@ -910,7 +910,7 @@ impl Store {
         }
         crate::finish::validate_envelope(envelope)?;
         let mut cards = self.load_cards(issue)?;
-        verify_cards(self, &record, &cards)?;
+        verify_cards_without_authored_tuple(self, &record, &cards)?;
         verify_canonical_projection_bytes(self, &record, &cards)?;
         let terminal_cards_complete = terminal_cards_match_disposition(
             &cards,
@@ -934,33 +934,6 @@ impl Store {
         let rollback_record = record.clone();
         let rollback_cards = cards.clone();
 
-        let branch = record.branch.clone();
-        let worktree = record.worktree.clone();
-        match envelope.disposition {
-            crate::finish::FinishDisposition::Merged
-            | crate::finish::FinishDisposition::ClosedUnmerged => {
-                let publication = record.publication.as_ref().ok_or_else(|| {
-                    V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "PR terminal materialization requires publication evidence",
-                    )
-                })?;
-                if Some(publication.pull_request) != envelope.pull_request {
-                    return Err(V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "terminal materialization PR does not match publication evidence",
-                    ));
-                }
-            }
-            crate::finish::FinishDisposition::ClosedNoPr => {
-                if record.publication.is_some() || envelope.pull_request.is_some() {
-                    return Err(V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "closed-no-PR materialization cannot contain publication evidence",
-                    ));
-                }
-            }
-        }
         let design_bytes = fs::read(self.root.join(&record.design_path))?;
         let diagram_bytes = fs::read(self.root.join(&record.diagram_path))?;
         let design_digest = digest(&design_bytes);
@@ -974,20 +947,61 @@ impl Store {
                 values.design_digest = design_digest.clone();
                 values.diagram_ref = record.diagram_path.clone();
                 values.diagram_digest = diagram_digest.clone();
-                for step in &mut values.steps {
-                    step.status = StepStatus::Completed;
-                }
             }
             _ => unreachable!("SPP"),
         }
         match &mut cards.get_mut(&CardKind::Vpp).expect("VPP").content {
             CardContent::Vpp(values) => {
                 values.design_ref = record.design_path.clone();
-                values.design_digest = design_digest;
+                values.design_digest = design_digest.clone();
                 values.diagram_ref = record.diagram_path.clone();
-                values.diagram_digest = diagram_digest;
+                values.diagram_digest = diagram_digest.clone();
             }
             _ => unreachable!("VPP"),
+        }
+        crate::cards::validate_cross_card(
+            &cards,
+            &record.design_path,
+            &design_digest,
+            &record.diagram_path,
+            &diagram_digest,
+        )?;
+
+        let branch = record.branch.clone();
+        let worktree = record.worktree.clone();
+        match envelope.disposition {
+            crate::finish::FinishDisposition::Merged
+            | crate::finish::FinishDisposition::ClosedUnmerged => {
+                if let Some(publication) = record.publication.as_ref() {
+                    if Some(publication.pull_request) != envelope.pull_request {
+                        return Err(V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            "terminal materialization PR does not match publication evidence",
+                        ));
+                    }
+                } else if envelope.source != "live_github_historical_reconciliation" {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "PR terminal materialization requires publication evidence",
+                    ));
+                }
+            }
+            crate::finish::FinishDisposition::ClosedNoPr => {
+                if record.publication.is_some() || envelope.pull_request.is_some() {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "closed-no-PR materialization cannot contain publication evidence",
+                    ));
+                }
+            }
+        }
+        match &mut cards.get_mut(&CardKind::Spp).expect("SPP").content {
+            CardContent::Spp(values) => {
+                for step in &mut values.steps {
+                    step.status = StepStatus::Completed;
+                }
+            }
+            _ => unreachable!("SPP"),
         }
 
         let (terminal_disposition, observed_state, integration_state, merge_state) =
@@ -1061,6 +1075,9 @@ impl Store {
                     "observed exact PR merged",
                 ),
                 LifecyclePhase::Merged | LifecyclePhase::ClosedOut => {}
+                LifecyclePhase::Ready
+                    if record.publication.is_none()
+                        && envelope.source == "live_github_historical_reconciliation" => {}
                 _ => {
                     return Err(V2Error::new(
                         ErrorCode::InvalidTransition,
@@ -6053,6 +6070,7 @@ fn verify_record_with_options(record: &IssueRecord, allow_pre_topology_bound: bo
                 | (LifecyclePhase::MergeReady, LifecyclePhase::Merged)
                 | (LifecyclePhase::Merged, LifecyclePhase::ClosedOut)
                 | (LifecyclePhase::Reviewed, LifecyclePhase::ClosedOut)
+                | (LifecyclePhase::Ready, LifecyclePhase::ClosedOut)
         );
         let topology_migration_transition = event.actor == "csdlc-topology-migrate"
             && event.reason == "migrate pre-topology bound record"

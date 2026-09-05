@@ -7,9 +7,9 @@
     "title": "[v0.92.1][DRT-D] GCP portability qualification",
     "slug": "v0-92-1-drt-d-gcp-portability-qualification",
     "version": "v0.92.1",
-    "generation": 21
+    "generation": 22
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -68,10 +68,10 @@
           "evidence_ref": "manual:r7-proof-surface-diff-check"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

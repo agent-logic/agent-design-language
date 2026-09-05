@@ -28,7 +28,7 @@ Revision 2
       "AC-1",
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "implement-stable-launcher",
@@ -39,7 +39,7 @@ Revision 2
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "add-regressions",
@@ -52,7 +52,7 @@ Revision 2
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "docs-and-proof",
@@ -65,7 +65,7 @@ Revision 2
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
