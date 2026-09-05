@@ -35,3 +35,4 @@
 {"sequence":35,"generation":24,"actor":"codex:/root/issue-686","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":36,"generation":25,"actor":"codex:/root/issue-686","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":37,"generation":26,"actor":"codex:/root/issue-686","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":38,"generation":27,"actor":"codex:/root","reason":"Recover #686 after PR #692 hosted CI at published head a134c3a96d2f6e269306f5d5544c8b18e117f4bd failed adl-rust-fmt-clippy because cargo fmt --all -- --check found source formatting drift. Preserve the published failure truth and return to implementation for a formatting-only repair, refreshed evidence, fresh exact-head review, and republication.","operation":"recover_review"}
