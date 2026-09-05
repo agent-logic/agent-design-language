@@ -447,6 +447,15 @@ fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_withou
         .expect("git head is utf8")
         .trim()
         .to_owned();
+    let readback_head = if phase == "closed_out" {
+        index["terminal"]["observed_sha"]
+            .as_str()
+            .expect("real #629 terminal observed sha")
+            .to_owned()
+    } else {
+        head.clone()
+    };
+    let readback_merged = phase == "closed_out";
 
     let request = RemoteRouteRequest {
         repository: index["repository"]
@@ -458,8 +467,8 @@ fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_withou
         actor: Some("worker-6".into()),
         implementer: Some("worker-6".into()),
         reviewer: Some("reviewer-629".into()),
-        review_revision: Some(head.clone()),
-        expected_head_sha: Some(head.clone()),
+        review_revision: Some(readback_head.clone()),
+        expected_head_sha: Some(readback_head.clone()),
         head_sha: Some("caller-forged-head".into()),
         mode: Some(RemotePublicationMode::Closing),
         title: Some("[caller-forged-title]".into()),
@@ -482,8 +491,8 @@ fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_withou
         stdout: serde_json::json!({
             "number": 641,
             "title": "[v0.92.1][V3-H.3] GitHub publication route",
-            "head": {"sha": head},
-            "merged": false,
+            "head": {"sha": readback_head},
+            "merged": readback_merged,
             "body": "Closes #629\n\nPart of #625"
         })
         .to_string(),

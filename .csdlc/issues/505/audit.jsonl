@@ -90,3 +90,4 @@
 {"sequence":90,"generation":68,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":91,"generation":69,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":92,"generation":70,"actor":"worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":93,"generation":71,"actor":"Worker #6","reason":"Recover stale #505 review/publication truth after merging current main and updating the #629 real-issue canary to consume current terminal truth at exact head 9cbb44c855653b75e0163c5b5391eff807f49f50.","operation":"recover_review"}

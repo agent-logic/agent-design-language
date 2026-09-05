@@ -4,69 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "published",
-  "generation": 70,
-  "digest": "8c934bbd088a1b8b8155bffbc71e3b934de3e848f8fa1917b6c335b58d48db8f",
+  "phase": "implemented",
+  "generation": 71,
+  "digest": "9f8327ce83b4c02da0044c1454cafe4548e1d57088f1804f279548a2c719f9cc",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_505_metadata_head",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:bc0347c31058fd57c1b6aed7aeead88ded9c4b78:7270a0f6f5f03b9755d4da5fe86c6f48c0a8f2b37ecf69506f2274eedca7d3a1",
-    "scope": [
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
-      "docs/csdlc-v3/authority-transition-disposition.json",
-      "docs/csdlc-v3/full-replacement-denominator.json",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
-      ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json",
-      ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
-      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_505_metadata_head",
-    "scope": [
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
-      "docs/csdlc-v3/authority-transition-disposition.json",
-      "docs/csdlc-v3/full-replacement-denominator.json",
-      "docs/csdlc-v3/v3-command-manifest.json",
-      ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
-      ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
-      ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json",
-      ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
-      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
-    ],
-    "reviewed_revision": "git-blake3:bc0347c31058fd57c1b6aed7aeead88ded9c4b78:7270a0f6f5f03b9755d4da5fe86c6f48c0a8f2b37ecf69506f2274eedca7d3a1",
-    "findings": [],
-    "residual_risks": [
-      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
-      "C-SDLC v2 remains the live lifecycle and rollback authority until that cutover completes."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 505,
-    "pull_request": 591,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
-    "base": "main",
-    "head": "codex/505-v3-f-authority-transition-decision-exec",
-    "revision": "git-blake3:97999eca3f3f2a5940e9c3088d93105ebf90024a:0c3e1eea8ee767209cb6c826e16cabc77e9a80d9a70eb67df58b806b4be27ed6",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a4e5024792c3af566e0f567703c43d531f783917d3f4f33dc6e1417bf1ad3664",
+      "values_digest": "ace0a9923909bb7c02ee23be5817ac74e980811ab4e46af1435275b4ab3e3340",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "e7e2137611df6930027b71ae39b68b396e2816cab4b42e8cf858337c71c2ed57",
+      "values_digest": "3ac11e276c0484eb8bcad428d91fa1451d0bd539759be3efff1f8ebf0587f3e1",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "cb70a8197afa2b78a469631152120af459e29e59a54dc1c46cbae375413998dc",
+      "values_digest": "1ee594242286d9490484bfc240a918121804c09533ae9a00f6b7ae188079c3ad",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "a788c72e48d690fe2b0406b9a807cc9507c228831fb61c0e57d828d0e2bb9649",
+      "values_digest": "62b6f69c9592536a9d87c8c52f3c0f73599f2795798fd0f80ef46f0eccd1ca5e",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "c4dcdcc122841ec085fe10f0c0a6632c3c932d4fbb8d88c59c390357109fa12a",
-      "rendered_digest": "18fddf21275eae38675f1568c9f2d4ff753c366d2bbb4e2daa73fe9bcd4d63bd",
-      "ast_digest": "8d9fb882e2f112cdebe10a9e11314fae2d20d3a8497568179e171206750216d0"
+      "values_digest": "431ada23817157aeb7efd9a34fa9fd6e31ffed2f9bed46c90b7aa87be1256432",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "bd9062c2fb392523e504a34a4b8974b314fae6b65174114d4ee25b8676ed855c",
-      "rendered_digest": "4e28d54dbc8b70760e8272d99f1e4a6555b0556c340c85cc4a8eb70b6e33fdb3",
-      "ast_digest": "26dcd5c23e26526b3525cad3fbeda2e5b4240c4d4ed9ec196019a5fcaf35bd6c"
+      "values_digest": "bb9b0ada80d267e4643d714d9953e0576fa4abf2f2fce94002ec78d5effeefa5",
+      "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
+      "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
   },
   "transitions": [
@@ -460,6 +405,13 @@
       "to": "published",
       "actor": "worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 51,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after merging current main and updating the #629 real-issue canary to consume current terminal truth at exact head 9cbb44c855653b75e0163c5b5391eff807f49f50."
     }
   ],
   "audit": [
@@ -1106,6 +1058,13 @@
       "actor": "worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 93,
+      "generation": 71,
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after merging current main and updating the #629 real-issue canary to consume current terminal truth at exact head 9cbb44c855653b75e0163c5b5391eff807f49f50.",
+      "operation": "recover_review"
     }
   ]
 }
