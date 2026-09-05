@@ -90,6 +90,10 @@ pub struct CutoverDecisionRequest {
     pub install_destination_path: Option<PathBuf>,
     #[serde(default)]
     pub rollback_receipt_path: Option<PathBuf>,
+    #[serde(default)]
+    pub readiness_evidence_path: Option<PathBuf>,
+    #[serde(default)]
+    pub readiness_evidence_digest: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -1014,6 +1018,7 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
             "cutover rollback receipt already exists and must be reconciled before retry",
         ));
     }
+    verify_cutover_readiness(request, &repository_root, &binary_digest)?;
     let permissions = fs::metadata(&selected_binary)
         .map_err(|error| {
             finding(
@@ -1081,6 +1086,86 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
         install_destination_path: destination,
         rollback_receipt_path: receipt,
     })
+}
+
+fn verify_cutover_readiness(
+    request: &CutoverDecisionRequest,
+    repository_root: &Path,
+    selected_binary_digest: &str,
+) -> Result<(), TerminalFinding> {
+    const REQUIRED_ROUTES: [&str; 21] = [
+        "bind",
+        "clean",
+        "cutover",
+        "doctor",
+        "edit",
+        "eligibility",
+        "finish",
+        "github",
+        "github-issue",
+        "github-pr",
+        "install",
+        "issue",
+        "pr-state",
+        "proof",
+        "publish",
+        "review",
+        "schedule",
+        "shadow",
+        "shepherd",
+        "soak",
+        "validate",
+    ];
+    let path = repo_existing_file(
+        repository_root,
+        request.readiness_evidence_path.as_ref(),
+        "missing_readiness_evidence_path",
+        "executing cutover requires exact operational-readiness evidence",
+        "readiness_evidence",
+    )?;
+    let bytes = fs::read(&path).map_err(|error| {
+        finding(
+            "readiness_evidence_unreadable",
+            &format!("could not read cutover readiness evidence: {error}"),
+        )
+    })?;
+    let observed_digest = blake3::hash(&bytes).to_hex().to_string();
+    if request.readiness_evidence_digest.as_deref() != Some(observed_digest.as_str()) {
+        return Err(finding(
+            "readiness_evidence_digest_mismatch",
+            "cutover readiness evidence does not match its expected digest",
+        ));
+    }
+    let evidence: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
+        finding(
+            "readiness_evidence_invalid",
+            "cutover readiness evidence must be typed JSON",
+        )
+    })?;
+    let routes = evidence["operational_routes"]
+        .as_array()
+        .map(|values| {
+            values
+                .iter()
+                .filter_map(serde_json::Value::as_str)
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+    if evidence["schema"] != "csdlc.v3.authority_readiness.v1"
+        || evidence["authority_issue"] != 505
+        || evidence["all_operational"] != true
+        || evidence["v3_only_canary_passed"] != true
+        || evidence["independent_exact_head_review_passed"] != true
+        || evidence["selected_binary_digest"] != selected_binary_digest
+        || REQUIRED_ROUTES.iter().any(|route| !routes.contains(route))
+        || routes.len() != REQUIRED_ROUTES.len()
+    {
+        return Err(finding(
+            "operational_readiness_not_proven",
+            "cutover requires all 21 native routes, a v3-only canary, exact-head review, and the selected binary digest",
+        ));
+    }
+    Ok(())
 }
 
 fn restore_cutover_file(path: &Path, prior: Option<&[u8]>) -> Result<(), TerminalFinding> {

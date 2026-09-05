@@ -460,6 +460,8 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
         authority_selector_path: None,
         install_destination_path: None,
         rollback_receipt_path: None,
+        readiness_evidence_path: None,
+        readiness_evidence_digest: None,
     });
     let blocked = prepare_terminal_route("cutover", &request).expect("cutover plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
@@ -488,6 +490,8 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
         authority_selector_path: None,
         install_destination_path: None,
         rollback_receipt_path: None,
+        readiness_evidence_path: None,
+        readiness_evidence_digest: None,
     });
     let ready = prepare_terminal_route("cutover", &request).expect("cutover plan");
     assert_eq!(ready.status, TerminalRouteStatus::Ready);
@@ -500,6 +504,24 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
     fs::create_dir_all(root.join(".git")).expect("git marker");
     fs::create_dir_all(root.join("build")).expect("build directory");
     fs::write(root.join("build/csdlc"), b"v3-binary").expect("selected binary");
+    let binary_digest = blake3::hash(b"v3-binary").to_hex().to_string();
+    let readiness = serde_json::to_vec(&serde_json::json!({
+        "schema": "csdlc.v3.authority_readiness.v1",
+        "authority_issue": 505,
+        "all_operational": true,
+        "v3_only_canary_passed": true,
+        "independent_exact_head_review_passed": true,
+        "selected_binary_digest": binary_digest,
+        "operational_routes": [
+            "bind", "clean", "cutover", "doctor", "edit", "eligibility", "finish",
+            "github", "github-issue", "github-pr", "install", "issue", "pr-state",
+            "proof", "publish", "review", "schedule", "shadow", "shepherd", "soak",
+            "validate"
+        ]
+    }))
+    .unwrap();
+    fs::write(root.join("build/readiness.json"), &readiness).expect("readiness evidence");
+    let readiness_digest = blake3::hash(&readiness).to_hex().to_string();
 
     let mut request = base_request();
     request.issue = 505;
@@ -515,6 +537,8 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
         authority_selector_path: Some(PathBuf::from(".csdlc/authority-selector.json")),
         install_destination_path: Some(PathBuf::from(".adl/bin/csdlc")),
         rollback_receipt_path: Some(PathBuf::from(".csdlc/evidence/505/cutover-receipt.json")),
+        readiness_evidence_path: Some(PathBuf::from("build/readiness.json")),
+        readiness_evidence_digest: Some(readiness_digest),
     });
 
     let plan = prepare_terminal_route("cutover", &request).expect("cutover route");
@@ -533,6 +557,84 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
     .unwrap();
     assert_eq!(receipt["performed_mutation"], true);
     assert_eq!(receipt["rollback_generation"], "v2");
+}
+
+#[test]
+fn approved_cutover_refuses_existing_receipt_before_mutation() {
+    let root = fixture_root("cutover_existing_receipt");
+    fs::create_dir_all(root.join(".git")).expect("git marker");
+    fs::create_dir_all(root.join("build")).expect("build directory");
+    fs::write(root.join("build/csdlc"), b"new-v3-binary").expect("selected binary");
+    let binary_digest = blake3::hash(b"new-v3-binary").to_hex().to_string();
+    let readiness = serde_json::to_vec(&serde_json::json!({
+        "schema": "csdlc.v3.authority_readiness.v1",
+        "authority_issue": 505,
+        "all_operational": true,
+        "v3_only_canary_passed": true,
+        "independent_exact_head_review_passed": true,
+        "selected_binary_digest": binary_digest,
+        "operational_routes": [
+            "bind", "clean", "cutover", "doctor", "edit", "eligibility", "finish",
+            "github", "github-issue", "github-pr", "install", "issue", "pr-state",
+            "proof", "publish", "review", "schedule", "shadow", "shepherd", "soak",
+            "validate"
+        ]
+    }))
+    .unwrap();
+    fs::write(root.join("build/readiness.json"), &readiness).expect("readiness evidence");
+    let readiness_digest = blake3::hash(&readiness).to_hex().to_string();
+    fs::create_dir_all(root.join(".adl/bin")).expect("install parent");
+    fs::write(root.join(".adl/bin/csdlc"), b"prior-binary").expect("prior binary");
+    fs::create_dir_all(root.join(".csdlc")).expect("selector parent");
+    fs::write(
+        root.join(".csdlc/authority-selector.json"),
+        b"prior-selector",
+    )
+    .expect("prior selector");
+    fs::create_dir_all(root.join(".csdlc/evidence/505")).expect("receipt parent");
+    fs::write(
+        root.join(".csdlc/evidence/505/cutover-receipt.json"),
+        b"prior-receipt",
+    )
+    .expect("prior receipt");
+
+    let mut request = base_request();
+    request.issue = 505;
+    request.cutover = Some(CutoverDecisionRequest {
+        operator: "operator".into(),
+        approval: "#505 operator-reviewed approval".into(),
+        selected_binary_provenance: "git:0123456789012345678901234567890123456789".into(),
+        rollback_evidence: "typed C-SDLC v2 rollback target verified".into(),
+        undo_boundary: "fail-closed before irreversible mutation".into(),
+        execute: true,
+        repository_root: Some(root.clone()),
+        selected_binary_path: Some(PathBuf::from("build/csdlc")),
+        authority_selector_path: Some(PathBuf::from(".csdlc/authority-selector.json")),
+        install_destination_path: Some(PathBuf::from(".adl/bin/csdlc")),
+        rollback_receipt_path: Some(PathBuf::from(".csdlc/evidence/505/cutover-receipt.json")),
+        readiness_evidence_path: Some(PathBuf::from("build/readiness.json")),
+        readiness_evidence_digest: Some(readiness_digest),
+    });
+
+    let blocked = prepare_terminal_route("cutover", &request).expect("cutover route");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "rollback_receipt_exists"));
+    assert_eq!(
+        fs::read(root.join(".adl/bin/csdlc")).expect("prior binary retained"),
+        b"prior-binary"
+    );
+    assert_eq!(
+        fs::read(root.join(".csdlc/authority-selector.json")).expect("prior selector retained"),
+        b"prior-selector"
+    );
+    assert_eq!(
+        fs::read(root.join(".csdlc/evidence/505/cutover-receipt.json"))
+            .expect("prior receipt retained"),
+        b"prior-receipt"
+    );
 }
 
 fn cleanup_plan(
