@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::{
     fs,
+    io::Write,
     path::{Component, Path, PathBuf},
 };
 
@@ -77,6 +78,18 @@ pub struct CutoverDecisionRequest {
     pub selected_binary_provenance: String,
     pub rollback_evidence: String,
     pub undo_boundary: String,
+    #[serde(default)]
+    pub execute: bool,
+    #[serde(default)]
+    pub repository_root: Option<PathBuf>,
+    #[serde(default)]
+    pub selected_binary_path: Option<PathBuf>,
+    #[serde(default)]
+    pub authority_selector_path: Option<PathBuf>,
+    #[serde(default)]
+    pub install_destination_path: Option<PathBuf>,
+    #[serde(default)]
+    pub rollback_receipt_path: Option<PathBuf>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -157,6 +170,12 @@ pub struct CutoverDecision {
     pub rollback_evidence: String,
     pub undo_boundary: String,
     pub executes_cutover: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub authority_selector_path: Option<PathBuf>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub install_destination_path: Option<PathBuf>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rollback_receipt_path: Option<PathBuf>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -262,12 +281,15 @@ pub fn prepare_terminal_route(
             reason: "public finish route has no authenticated adapter receipt".into(),
         });
     }
+    let operational_authority = cutover
+        .as_ref()
+        .is_some_and(|decision| decision.executes_cutover);
     Ok(TerminalRoutePlan {
         route: route.to_owned(),
         issue: request.issue,
         repository: request.repository.clone(),
         status,
-        operational_authority: false,
+        operational_authority,
         findings,
         finish,
         cleanup,
@@ -855,17 +877,305 @@ fn decide_cutover(
             "cutover undo boundary must be fail-closed",
         ));
     }
+    if !request.execute {
+        if findings.is_empty() {
+            return Ok(CutoverDecision {
+                approved_by: request.operator.clone(),
+                selected_binary_provenance: request.selected_binary_provenance.clone(),
+                rollback_evidence: request.rollback_evidence.clone(),
+                undo_boundary: request.undo_boundary.clone(),
+                executes_cutover: false,
+                authority_selector_path: None,
+                install_destination_path: None,
+                rollback_receipt_path: None,
+            });
+        }
+        return Err(findings);
+    }
+
+    let execution = match execute_cutover(request) {
+        Ok(execution) => execution,
+        Err(finding) => {
+            findings.push(finding);
+            return Err(findings);
+        }
+    };
+
     if findings.is_empty() {
         Ok(CutoverDecision {
             approved_by: request.operator.clone(),
             selected_binary_provenance: request.selected_binary_provenance.clone(),
             rollback_evidence: request.rollback_evidence.clone(),
             undo_boundary: request.undo_boundary.clone(),
-            executes_cutover: false,
+            executes_cutover: true,
+            authority_selector_path: Some(execution.authority_selector_path),
+            install_destination_path: Some(execution.install_destination_path),
+            rollback_receipt_path: Some(execution.rollback_receipt_path),
         })
     } else {
         Err(findings)
     }
+}
+
+struct CutoverExecution {
+    authority_selector_path: PathBuf,
+    install_destination_path: PathBuf,
+    rollback_receipt_path: PathBuf,
+}
+
+fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution, TerminalFinding> {
+    let repository_root = request
+        .repository_root
+        .as_ref()
+        .ok_or_else(|| {
+            finding(
+                "missing_repository_root",
+                "executing cutover requires an explicit repository root",
+            )
+        })?
+        .canonicalize()
+        .map_err(|error| {
+            finding(
+                "repository_root_unavailable",
+                &format!("repository root must be an existing canonical directory: {error}"),
+            )
+        })?;
+    if !repository_root.join(".git").exists() {
+        return Err(finding(
+            "repository_root_not_git_checkout",
+            "executing cutover requires a repository checkout root",
+        ));
+    }
+    let selected_binary = repo_existing_file(
+        &repository_root,
+        request.selected_binary_path.as_ref(),
+        "missing_selected_binary_path",
+        "executing cutover requires an explicit selected binary path",
+        "selected_binary",
+    )?;
+    let selector = repo_output_path(
+        &repository_root,
+        request.authority_selector_path.as_ref(),
+        "missing_authority_selector_path",
+        "executing cutover requires an authority selector output path",
+        "authority_selector",
+    )?;
+    let destination = repo_output_path(
+        &repository_root,
+        request.install_destination_path.as_ref(),
+        "missing_install_destination_path",
+        "executing cutover requires a stable install destination path",
+        "install_destination",
+    )?;
+    let receipt = repo_output_path(
+        &repository_root,
+        request.rollback_receipt_path.as_ref(),
+        "missing_rollback_receipt_path",
+        "executing cutover requires a rollback receipt output path",
+        "rollback_receipt",
+    )?;
+    if destination != repository_root.join(".adl/bin/csdlc") {
+        return Err(finding(
+            "install_destination_not_stable_csdlc_binary",
+            "cutover installs only the stable repo-local .adl/bin/csdlc binary",
+        ));
+    }
+    if selector != repository_root.join(".csdlc/authority-selector.json") {
+        return Err(finding(
+            "authority_selector_not_canonical",
+            "cutover writes only .csdlc/authority-selector.json",
+        ));
+    }
+    if !receipt.starts_with(repository_root.join(".csdlc/evidence/505")) {
+        return Err(finding(
+            "rollback_receipt_not_issue_evidence",
+            "cutover rollback receipt must live under .csdlc/evidence/505",
+        ));
+    }
+
+    let binary_bytes = fs::read(&selected_binary).map_err(|error| {
+        finding(
+            "selected_binary_unreadable",
+            &format!("selected binary must be readable: {error}"),
+        )
+    })?;
+    let binary_digest = blake3::hash(&binary_bytes).to_hex().to_string();
+    write_staged(&destination, &binary_bytes)?;
+    let permissions = fs::metadata(&selected_binary)
+        .map_err(|error| {
+            finding(
+                "selected_binary_metadata_unavailable",
+                &format!("selected binary metadata must be available: {error}"),
+            )
+        })?
+        .permissions();
+    fs::set_permissions(&destination, permissions).map_err(|error| {
+        finding(
+            "installed_binary_permissions_failed",
+            &format!("could not apply selected binary permissions: {error}"),
+        )
+    })?;
+
+    let selector_bytes = serde_json::to_vec_pretty(&serde_json::json!({
+        "schema": "csdlc.authority_selector.v1",
+        "authority_issue": 505,
+        "default_generation": "v3",
+        "operational_authority": "csdlc-v3",
+        "binary": ".adl/bin/csdlc",
+        "selected_binary_provenance": request.selected_binary_provenance,
+        "selected_binary_digest": binary_digest,
+        "rollback_generation": "v2",
+        "rollback_selector": "csdlc-v2/operator/generation-selector.json",
+        "rollback_evidence": request.rollback_evidence,
+        "undo_boundary": request.undo_boundary,
+        "approved_by": request.operator,
+        "approval": request.approval
+    }))
+    .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
+    write_staged(&selector, &selector_bytes)?;
+
+    let receipt_bytes = serde_json::to_vec_pretty(&serde_json::json!({
+        "schema": "csdlc.v3.cutover_receipt.v1",
+        "authority_issue": 505,
+        "performed_mutation": true,
+        "installed_binary": ".adl/bin/csdlc",
+        "installed_binary_digest": binary_digest,
+        "authority_selector": ".csdlc/authority-selector.json",
+        "rollback_generation": "v2",
+        "rollback_selector": "csdlc-v2/operator/generation-selector.json",
+        "rollback_evidence": request.rollback_evidence,
+        "undo_boundary": request.undo_boundary,
+        "approved_by": request.operator
+    }))
+    .map_err(|error| finding("receipt_serialize_failed", &error.to_string()))?;
+    write_staged(&receipt, &receipt_bytes)?;
+
+    Ok(CutoverExecution {
+        authority_selector_path: selector,
+        install_destination_path: destination,
+        rollback_receipt_path: receipt,
+    })
+}
+
+fn repo_existing_file(
+    repository_root: &Path,
+    path: Option<&PathBuf>,
+    missing_code: &str,
+    missing_message: &str,
+    label: &str,
+) -> Result<PathBuf, TerminalFinding> {
+    let path = path.ok_or_else(|| finding(missing_code, missing_message))?;
+    let joined = checked_repo_relative(repository_root, path, label)?;
+    let canonical = fs::canonicalize(&joined).map_err(|error| {
+        finding(
+            "cutover_path_unavailable",
+            &format!("{label} path must exist and be canonical: {error}"),
+        )
+    })?;
+    if !canonical.starts_with(repository_root) || !canonical.is_file() {
+        return Err(finding(
+            "cutover_path_escapes_repository",
+            &format!("{label} must be a file inside the repository"),
+        ));
+    }
+    Ok(canonical)
+}
+
+fn repo_output_path(
+    repository_root: &Path,
+    path: Option<&PathBuf>,
+    missing_code: &str,
+    missing_message: &str,
+    label: &str,
+) -> Result<PathBuf, TerminalFinding> {
+    let path = path.ok_or_else(|| finding(missing_code, missing_message))?;
+    checked_repo_relative(repository_root, path, label)
+}
+
+fn checked_repo_relative(
+    repository_root: &Path,
+    path: &Path,
+    label: &str,
+) -> Result<PathBuf, TerminalFinding> {
+    if path.is_absolute()
+        || path
+            .components()
+            .any(|part| !matches!(part, Component::Normal(_)))
+    {
+        return Err(finding(
+            "cutover_path_not_repo_relative",
+            &format!("{label} must be a normalized repository-relative path"),
+        ));
+    }
+    Ok(repository_root.join(path))
+}
+
+fn write_staged(path: &Path, bytes: &[u8]) -> Result<(), TerminalFinding> {
+    let parent = path.parent().ok_or_else(|| {
+        finding(
+            "cutover_output_without_parent",
+            "cutover output path must have a parent directory",
+        )
+    })?;
+    fs::create_dir_all(parent).map_err(|error| {
+        finding(
+            "cutover_output_parent_failed",
+            &format!("could not create cutover output parent: {error}"),
+        )
+    })?;
+    if path
+        .symlink_metadata()
+        .is_ok_and(|metadata| metadata.file_type().is_symlink() || metadata.is_dir())
+    {
+        return Err(finding(
+            "cutover_output_not_regular_file",
+            "cutover output target must not be a symlink or directory",
+        ));
+    }
+    let stage = parent.join(format!(
+        ".{}.stage-{}",
+        path.file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or("cutover"),
+        std::process::id()
+    ));
+    if stage.exists() {
+        return Err(finding(
+            "cutover_stage_exists",
+            "stale cutover stage file requires manual reconciliation",
+        ));
+    }
+    {
+        let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&stage)
+            .map_err(|error| {
+                finding(
+                    "cutover_stage_create_failed",
+                    &format!("could not create cutover stage file: {error}"),
+                )
+            })?;
+        file.write_all(bytes).map_err(|error| {
+            finding(
+                "cutover_stage_write_failed",
+                &format!("could not write cutover stage file: {error}"),
+            )
+        })?;
+        file.sync_all().map_err(|error| {
+            finding(
+                "cutover_stage_sync_failed",
+                &format!("could not sync cutover stage file: {error}"),
+            )
+        })?;
+    }
+    fs::rename(&stage, path).map_err(|error| {
+        let _ = fs::remove_file(&stage);
+        finding(
+            "cutover_atomic_replace_failed",
+            &format!("could not atomically replace cutover output: {error}"),
+        )
+    })
 }
 
 fn canonical_dir(path: &Path, label: &str) -> Result<PathBuf, TerminalFinding> {

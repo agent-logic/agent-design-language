@@ -454,6 +454,12 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
         selected_binary_provenance: "git:abc".into(),
         rollback_evidence: "".into(),
         undo_boundary: "manual undo".into(),
+        execute: false,
+        repository_root: None,
+        selected_binary_path: None,
+        authority_selector_path: None,
+        install_destination_path: None,
+        rollback_receipt_path: None,
     });
     let blocked = prepare_terminal_route("cutover", &request).expect("cutover plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
@@ -476,10 +482,57 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
         selected_binary_provenance: "git:0123456789012345678901234567890123456789".into(),
         rollback_evidence: "v2 rollback target verified".into(),
         undo_boundary: "fail-closed before any irreversible mutation".into(),
+        execute: false,
+        repository_root: None,
+        selected_binary_path: None,
+        authority_selector_path: None,
+        install_destination_path: None,
+        rollback_receipt_path: None,
     });
     let ready = prepare_terminal_route("cutover", &request).expect("cutover plan");
     assert_eq!(ready.status, TerminalRouteStatus::Ready);
     assert!(!ready.cutover.unwrap().executes_cutover);
+}
+
+#[test]
+fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
+    let root = fixture_root("approved_cutover_execution");
+    fs::create_dir_all(root.join(".git")).expect("git marker");
+    fs::create_dir_all(root.join("build")).expect("build directory");
+    fs::write(root.join("build/csdlc"), b"v3-binary").expect("selected binary");
+
+    let mut request = base_request();
+    request.issue = 505;
+    request.cutover = Some(CutoverDecisionRequest {
+        operator: "operator".into(),
+        approval: "#505 operator-reviewed approval".into(),
+        selected_binary_provenance: "git:0123456789012345678901234567890123456789".into(),
+        rollback_evidence: "typed C-SDLC v2 rollback target verified".into(),
+        undo_boundary: "fail-closed before irreversible mutation".into(),
+        execute: true,
+        repository_root: Some(root.clone()),
+        selected_binary_path: Some(PathBuf::from("build/csdlc")),
+        authority_selector_path: Some(PathBuf::from(".csdlc/authority-selector.json")),
+        install_destination_path: Some(PathBuf::from(".adl/bin/csdlc")),
+        rollback_receipt_path: Some(PathBuf::from(".csdlc/evidence/505/cutover-receipt.json")),
+    });
+
+    let plan = prepare_terminal_route("cutover", &request).expect("cutover route");
+    assert_eq!(plan.status, TerminalRouteStatus::Ready);
+    assert!(plan.operational_authority);
+    assert!(plan.cutover.expect("cutover decision").executes_cutover);
+    assert_eq!(fs::read(root.join(".adl/bin/csdlc")).unwrap(), b"v3-binary");
+    let selector: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(".csdlc/authority-selector.json")).unwrap())
+            .unwrap();
+    assert_eq!(selector["default_generation"], "v3");
+    assert_eq!(selector["rollback_generation"], "v2");
+    let receipt: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".csdlc/evidence/505/cutover-receipt.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(receipt["performed_mutation"], true);
+    assert_eq!(receipt["rollback_generation"], "v2");
 }
 
 fn cleanup_plan(

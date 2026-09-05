@@ -266,17 +266,26 @@ fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
         prepare_terminal_route(command, &request)
             .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?
     };
+    let performed_mutation = result
+        .cutover
+        .as_ref()
+        .is_some_and(|decision| decision.executes_cutover);
+    let operational_authority = result.operational_authority;
     let report = TerminalCommandReport {
         schema: "csdlc.v3.terminal_cleanup_cutover.v1",
         command: command.to_owned(),
-        read_only: true,
+        read_only: !performed_mutation,
         requested_mutation: command == "clean"
             && request
                 .cleanup
                 .as_ref()
-                .is_some_and(|cleanup| cleanup.remove),
-        performed_mutation: false,
-        operational_authority: false,
+                .is_some_and(|cleanup| cleanup.remove)
+            || request
+                .cutover
+                .as_ref()
+                .is_some_and(|cutover| cutover.execute),
+        performed_mutation,
+        operational_authority,
         cutover_issue: 505,
         result,
     };
