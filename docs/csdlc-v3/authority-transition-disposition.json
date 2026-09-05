@@ -28,8 +28,8 @@
           "evidence_ref": ".csdlc/evidence/505/issue-604-local-canary-report.json"
         },
         {
-          "claim": "Independent exact-head review and non-closing publication were refreshed after current-main reconciliation",
-          "evidence_ref": ".csdlc/issues/505/index.json#generation-57"
+          "claim": "Independent exact-head review was refreshed after rollback and terminal canary evidence, including cleanup candidate HEAD binding",
+          "evidence_ref": ".csdlc/issues/505/index.json#review"
         },
         {
           "claim": "Pre-cutover rollback exercise was run: v3 terminal/cutover paths stayed non-authoritative, pre-cutover removal was denied, and typed v2 validation still passed afterward",
