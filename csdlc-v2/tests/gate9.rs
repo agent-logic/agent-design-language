@@ -72,7 +72,7 @@ fn passing_parity() -> ParityEvidence {
 }
 
 #[test]
-fn selector_requires_opt_in_before_cutover_and_supports_v1_override_after_cutover() {
+fn selector_requires_opt_in_and_rejects_explicit_v3_before_canonical_cutover() {
     let selector = GenerationSelector {
         schema: "csdlc.generation_selector.v1".into(),
         default_generation: Generation::V1,
@@ -87,6 +87,7 @@ fn selector_requires_opt_in_before_cutover_and_supports_v1_override_after_cutove
         Generation::V2
     );
     assert!(select_generation(&selector, 9_002, Some(Generation::V2)).is_err());
+    assert!(select_generation(&selector, 9_002, Some(Generation::V3)).is_err());
 
     let cutover_default = GenerationSelector {
         default_generation: Generation::V2,
@@ -99,6 +100,19 @@ fn selector_requires_opt_in_before_cutover_and_supports_v1_override_after_cutove
     assert_eq!(
         select_generation(&cutover_default, 9_002, Some(Generation::V1)).unwrap(),
         Generation::V1
+    );
+
+    let v3_cutover_default = GenerationSelector {
+        default_generation: Generation::V3,
+        ..cutover_default
+    };
+    assert_eq!(
+        select_generation(&v3_cutover_default, 9_002, None).unwrap(),
+        Generation::V3
+    );
+    assert_eq!(
+        select_generation(&v3_cutover_default, 9_002, Some(Generation::V2)).unwrap(),
+        Generation::V2
     );
 }
 

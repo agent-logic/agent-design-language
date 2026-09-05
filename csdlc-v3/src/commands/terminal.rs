@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::BTreeMap,
     fs,
     io::Write,
     path::{Component, Path, PathBuf},
@@ -23,6 +24,8 @@ pub struct TerminalRouteRequest {
     pub mode: Option<TerminalPublicationMode>,
     #[serde(default)]
     pub public_adapter_receipt: Option<AdapterReceipt>,
+    #[serde(default)]
+    pub terminal_state: Option<TerminalStateWriteRequest>,
     #[serde(default)]
     pub cleanup: Option<CleanupRouteRequest>,
     #[serde(default)]
@@ -69,6 +72,17 @@ pub struct DurableTerminalReceipt {
     pub pull_request: u64,
     pub head_sha: String,
     pub disposition: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub state_digest: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TerminalStateWriteRequest {
+    pub repository_root: PathBuf,
+    pub state_path: PathBuf,
+    pub receipt_path: PathBuf,
+    #[serde(default)]
+    pub expected_state_digest: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -78,6 +92,8 @@ pub struct CutoverDecisionRequest {
     pub selected_binary_provenance: String,
     pub rollback_evidence: String,
     pub undo_boundary: String,
+    #[serde(default)]
+    pub operation: CutoverOperation,
     #[serde(default)]
     pub execute: bool,
     #[serde(default)]
@@ -94,6 +110,19 @@ pub struct CutoverDecisionRequest {
     pub readiness_evidence_path: Option<PathBuf>,
     #[serde(default)]
     pub readiness_evidence_digest: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CutoverOperation {
+    Apply,
+    Rollback,
+}
+
+impl Default for CutoverOperation {
+    fn default() -> Self {
+        Self::Apply
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -160,6 +189,10 @@ pub enum CleanupDecision {
         path: PathBuf,
         receipt_digest: String,
     },
+    Removed {
+        path: PathBuf,
+        receipt_digest: String,
+    },
     RemovalDeniedPreCutover {
         path: PathBuf,
         receipt_digest: String,
@@ -169,6 +202,7 @@ pub enum CleanupDecision {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct CutoverDecision {
+    pub operation: CutoverOperation,
     pub approved_by: String,
     pub selected_binary_provenance: String,
     pub rollback_evidence: String,
@@ -308,6 +342,10 @@ pub fn prepare_terminal_finish_with_github_observation(
     let mut findings = Vec::new();
     let finish = match observe_terminal_github_readback(request, process)
         .and_then(|readback| derive_finish_from_verified(request, readback))
+        .and_then(|decision| {
+            persist_terminal_finish(request, &decision)?;
+            Ok(decision)
+        })
     {
         Ok(decision) => Some(decision),
         Err(finding) => {
@@ -711,12 +749,19 @@ fn classify_cleanup_from_git(
                 "cleanup removal requires a preview receipt for the same Git registration",
             ));
         }
-        Ok(CleanupDecision::RemovalDeniedPreCutover {
+        if !canonical_v3_authority(&repository_root)? {
+            return Ok(CleanupDecision::RemovalDeniedPreCutover {
+                path: candidate,
+                receipt_digest,
+                reason:
+                    "v3 clean is non-authoritative before #505 cutover and must not remove worktrees"
+                        .into(),
+            });
+        }
+        remove_registered_worktree(&repository_root, &candidate)?;
+        Ok(CleanupDecision::Removed {
             path: candidate,
             receipt_digest,
-            reason:
-                "v3 clean is non-authoritative before #505 cutover and must not remove worktrees"
-                    .into(),
         })
     } else {
         Ok(CleanupDecision::Removable {
@@ -724,6 +769,170 @@ fn classify_cleanup_from_git(
             receipt_digest,
         })
     }
+}
+
+fn persist_terminal_finish(
+    request: &TerminalRouteRequest,
+    decision: &FinishDecision,
+) -> Result<(), TerminalFinding> {
+    let Some(write_request) = request.terminal_state.as_ref() else {
+        return Ok(());
+    };
+    let repository_root = canonical_dir(&write_request.repository_root, "repository_root")?;
+    if !canonical_v3_authority(&repository_root)? {
+        return Err(finding(
+            "terminal_persistence_denied_pre_cutover",
+            "v3 finish cannot persist terminal state before the canonical selector activates v3",
+        ));
+    }
+    let FinishDecision::TerminalClosedOut {
+        pull_request,
+        issue,
+        head_sha,
+    } = decision
+    else {
+        return Err(finding(
+            "terminal_state_requires_closeout",
+            "only a verified terminal closeout may be persisted",
+        ));
+    };
+    let state_path =
+        checked_repo_relative(&repository_root, &write_request.state_path, "terminal_state")?;
+    let receipt_path = checked_repo_relative(
+        &repository_root,
+        &write_request.receipt_path,
+        "terminal_receipt",
+    )?;
+    if state_path != repository_root.join(format!(".csdlc/v3/issues/{issue}/terminal.json"))
+        || receipt_path
+            != repository_root.join(format!(".csdlc/evidence/{issue}/terminal-receipt.json"))
+    {
+        return Err(finding(
+            "terminal_output_path_not_canonical",
+            "v3 terminal state and receipt must use their canonical issue-scoped paths",
+        ));
+    }
+    ensure_output_parent_inside_repo(&repository_root, &state_path, "terminal_state")?;
+    ensure_output_parent_inside_repo(&repository_root, &receipt_path, "terminal_receipt")?;
+    let state_bytes = serde_json::to_vec_pretty(&serde_json::json!({
+        "schema": "csdlc.v3.terminal_state.v1",
+        "repository": request.repository,
+        "issue": issue,
+        "pull_request": pull_request,
+        "head_sha": head_sha,
+        "disposition": "closed_out"
+    }))
+    .map_err(|error| finding("terminal_state_serialize_failed", &error.to_string()))?;
+    let state_digest = blake3::hash(&state_bytes).to_hex().to_string();
+    if let Ok(existing) = fs::read(&state_path) {
+        let existing_digest = blake3::hash(&existing).to_hex().to_string();
+        if existing != state_bytes
+            && write_request.expected_state_digest.as_deref() != Some(existing_digest.as_str())
+        {
+            return Err(finding(
+                "terminal_state_stale_digest",
+                "existing v3 terminal state changed since the caller's expected digest",
+            ));
+        }
+    }
+    write_staged(&state_path, &state_bytes)?;
+    let receipt = DurableTerminalReceipt {
+        schema: "csdlc.v3.terminal_receipt.v1".into(),
+        repository: request.repository.clone(),
+        issue: *issue,
+        pull_request: *pull_request,
+        head_sha: head_sha.clone(),
+        disposition: "closed_out".into(),
+        state_digest: Some(state_digest),
+    };
+    let receipt_bytes = serde_json::to_vec_pretty(&receipt)
+        .map_err(|error| finding("terminal_receipt_serialize_failed", &error.to_string()))?;
+    if let Ok(existing) = fs::read(&receipt_path) {
+        if existing != receipt_bytes {
+            return Err(finding(
+                "terminal_receipt_conflict",
+                "existing terminal receipt does not match the verified closeout state",
+            ));
+        }
+        return Ok(());
+    }
+    write_staged(&receipt_path, &receipt_bytes)
+}
+
+fn canonical_v3_authority(repository_root: &Path) -> Result<bool, TerminalFinding> {
+    let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
+    let metadata = match selector_path.symlink_metadata() {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(false),
+        Err(error) => {
+            return Err(finding(
+                "generation_selector_unreadable",
+                &format!("canonical generation selector metadata is unavailable: {error}"),
+            ))
+        }
+    };
+    if !metadata.is_file() || metadata.file_type().is_symlink() {
+        return Err(finding(
+            "generation_selector_not_regular_file",
+            "canonical generation selector must be a regular file",
+        ));
+    }
+    let selector: serde_json::Value = serde_json::from_slice(
+        &fs::read(&selector_path).map_err(|error| {
+            finding(
+                "generation_selector_unreadable",
+                &format!("canonical generation selector is unreadable: {error}"),
+            )
+        })?,
+    )
+    .map_err(|_| {
+        finding(
+            "generation_selector_invalid",
+            "canonical generation selector must be typed JSON",
+        )
+    })?;
+    if selector["schema"] != "csdlc.generation_selector.v1" {
+        return Err(finding(
+            "generation_selector_invalid",
+            "canonical generation selector schema must be csdlc.generation_selector.v1",
+        ));
+    }
+    Ok(selector["default_generation"] == "v3")
+}
+
+fn remove_registered_worktree(
+    repository_root: &Path,
+    candidate: &Path,
+) -> Result<(), TerminalFinding> {
+    let output = std::process::Command::new("git")
+        .arg("-C")
+        .arg(repository_root)
+        .args(["worktree", "remove", "--"])
+        .arg(candidate)
+        .output()
+        .map_err(|error| {
+            finding(
+                "cleanup_remove_failed",
+                &format!("could not invoke git worktree remove: {error}"),
+            )
+        })?;
+    if !output.status.success() {
+        return Err(finding(
+            "cleanup_remove_failed",
+            "git refused removal of the exact clean registered terminal worktree",
+        ));
+    }
+    if candidate.exists()
+        || git_worktree_paths(repository_root)?
+            .iter()
+            .any(|registered| registered == candidate)
+    {
+        return Err(finding(
+            "cleanup_remove_unreconciled",
+            "worktree removal did not reconcile both filesystem and Git registration state",
+        ));
+    }
+    Ok(())
 }
 
 fn verify_terminal_receipt(

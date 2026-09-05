@@ -21,7 +21,7 @@ macro_rules! closed_enum {
     };
 }
 
-closed_enum!(Generation { V1, V2 });
+closed_enum!(Generation { V1, V2, V3 });
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct GenerationSelector {
@@ -42,6 +42,12 @@ pub fn select_generation(
         ));
     }
     let selected = requested.unwrap_or(selector.default_generation);
+    if selector.default_generation != Generation::V3 && selected == Generation::V3 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "explicit v3 generation selection is forbidden before the canonical v3 cutover",
+        ));
+    }
     if selector.default_generation == Generation::V1
         && selected == Generation::V2
         && !selector.opted_in_issues.contains(&issue)
