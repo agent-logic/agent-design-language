@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 694,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][Observatory][bug] Restore complete conversation transcripts from Runtime history",
+    "slug": "runtime-observatory-complete-conversation-history",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair complete conversation restoration only; preserve provider, agent-to-agent, and live deployment behavior.",
+      "deliverables": [
+        "authoritative complete conversation_history.v1 source",
+        "Observatory reload/reconnect restoration wiring",
+        "privacy redaction pagination replay and deduplication enforcement",
+        "focused deterministic Runtime and Observatory tests",
+        "isolated end-to-end reload/reconnect acceptance"
+      ],
+      "acceptance_criteria": [
+        "AC-1: conversation_history.v1 exposes the operator outbound turn and corresponding generated reply in deterministic order with stable identity.",
+        "AC-2: A fresh Observatory load invokes Runtime history restoration and renders both ordered halves exactly once.",
+        "AC-3: Replay from history and live frames cannot duplicate restored turns.",
+        "AC-4: Authorization revocation privacy redaction and bounded page/history limits fail closed.",
+        "AC-5: An isolated end-to-end acceptance submits operator text, obtains an agent reply through production paths, discards UI state, restores from conversation_history.v1, and proves both halves exactly once.",
+        "AC-6: Focused Runtime and Observatory tests, formatter, contract checks, and exact-range diff hygiene pass.",
+        "AC-7: Independent exact-head review passes and a non-draft PR is published without merge."
+      ],
+      "dependencies": [
+        "#276 durable journal foundation",
+        "#277 watermarks replay and receipts",
+        "#278 history API and Observatory restoration intent",
+        "#661 model-backed Shepherd replies",
+        "#662 and #675 agent-to-agent behavior preserved"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#694",
+        "agent-logic/agent-design-language#278",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/conversation_sessions.rs",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "adl-runtime/tests/runtime_api_wss.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/app.test.js"
+      ],
+      "non_goals": [
+        "Agent-to-agent initiation redesign",
+        "Provider or model configuration changes",
+        "Permanent Wuji Runtime restart or mutation",
+        "Cloud spend or deployment",
+        "Durable-history architecture replacement"
+      ]
+    }
+  }
+}

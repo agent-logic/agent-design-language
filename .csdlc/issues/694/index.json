@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 694,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "2df28dc037de9b004e3cf607fc4dbd2948157a07a716fb488c1117f97ea83c53",
+  "phase": "ready",
+  "generation": 6,
+  "digest": "b21c0b5a34ab21bd059a8359838205aab1bc813425f21d16bcdfa058b1dc6f39",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/694/design.md",
+  "diagram_path": ".csdlc/prepared/issues/694/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:07badbf0-ec57-4fb7-a31d-cb28270fc1e1",
+      "revision": "3f5f4563b2ba93b5e22d80d68fe03e02f2166ed02ec06c128aa041065722cb02"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "262ba84d507b28dce6427fe01c1c0f1078472904b8ab5fb074d3b2920f02e2ae",
+      "rendered_digest": "033f37a7804cac2b5139515c5c93527ee4ac58f2168318cfea32b991e6ba24d6",
+      "ast_digest": "62d3831158bf1dd966e4861163f5a4182eb65687947d02a4eed9fc535d36a874"
+    },
+    "stp": {
+      "values_digest": "7023a9c7af6118805627a6d126c6fc4d357f1ba19922ab59b2755de13f48d177",
+      "rendered_digest": "dd65850f8fd52b75ffae6ed9a637aea1a43bea2661cecfc880a228870fd34502",
+      "ast_digest": "e2b7dc93f2d456c31dabd60b16fe6cd93ccc88b924bc85150a3d8ffd4cccfbf2"
+    },
+    "spp": {
+      "values_digest": "bf72878a00843818543ff104de71f53b9ae4ad46c0314579c9910cb16819bf9f",
+      "rendered_digest": "f31a79a64bc404fb33218ca10bf4bf4820a651c80c7fb767eb798c183f09226b",
+      "ast_digest": "1e915638a1213cac383940d27783eb8cd6d85858d5447f4422a5df74659f7c49"
+    },
+    "vpp": {
+      "values_digest": "bb8a79e85461f0caad013cccfada2c0e88c9ec51213dd23a560aad936e3941c8",
+      "rendered_digest": "cd28cc5b70d4d1521718c2e49285c1ca85600643e682867427752801a1561672",
+      "ast_digest": "8b53e6c6a4920200a6f5f4981d49b86f13a6bd1a0be7ccc70f1f2453c49908e2"
+    },
+    "srp": {
+      "values_digest": "5d3701d011b6ce1839a3eb5be14b59e54f6959f91a5ed2215a83556eed146f50",
+      "rendered_digest": "6e41ef9634aaf92a5b1bc69476706aab31aa8280a27d6d1a7400e25763438d11",
+      "ast_digest": "4182ed248bcbdb727c25448bb23cd7bf9097c9432b8459275d1cc2b2e5e07911"
+    },
+    "sor": {
+      "values_digest": "35fbb8b33e948a5d4d304b4edb6f91b1e71431ab56aca5711403860fb08009f3",
+      "rendered_digest": "46708bba426ad206c4a054c70d09596afe438202561a47d696b4d53029ea91ad",
+      "ast_digest": "a022c9a916bf840c5c2f38141aa8c3b57cf81361fe2de49d1a9b8ec9565f4bc4"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "advance #694 after non-duplicate issue creation, approved design, governed issue-owned validation denominator, and doctor readiness PASS"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:07badbf0-ec57-4fb7-a31d-cb28270fc1e1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"3f5f4563b2ba93b5e22d80d68fe03e02f2166ed02ec06c128aa041065722cb02\",\"design_ref\":\".csdlc/prepared/issues/694/design.md\",\"diagram_digest\":\"a8b041a57cad8d3bf4f80c9b0302c5b5e4e53eca9459baa5fa5d346228f017dd\",\"diagram_ref\":\".csdlc/prepared/issues/694/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "replace unavailable pre-bind test target with existing governed Runtime and Observatory history targets that this issue will extend",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-conversation-history\",\"proof_role\":\"Prove complete ordered bounded authorized history records for operator and agent turns.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"observatory-history-restore\",\"proof_role\":\"Prove fresh UI restoration exact-once replay and privacy behavior through the governed transcript-history validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"quality\",\"proof_role\":\"Prove formatting contracts exact-range diff hygiene and exact-head review publication readiness.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":800,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"694-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "route the full issue acceptance through a dedicated executable issue-owned validator while retaining the focused component lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-694-complete-history-reload\",\"proof_role\":\"Prove complete ordered authorized history and fresh Observatory restoration through the issue-owned production-path validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_issue694_conversation_history_reload.sh\"],\"parallel_group\":\"694-e2e\",\"defer_reason\":null},{\"lane\":\"runtime-conversation-history\",\"proof_role\":\"Prove complete ordered bounded authorized history records for operator and agent turns.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"observatory-history-restore\",\"proof_role\":\"Prove fresh UI restoration exact-once replay and privacy behavior through the governed transcript-history validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "declare the issue-owned executable reload validator as an exact affected path",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src\",\"adl-runtime-kernel/tests/durable_conversation_history_integration.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\",\"adl/tools/test_issue694_conversation_history_reload.sh\",\".csdlc/issues/694\",\".csdlc/prepared/issues/694\",\".csdlc/evidence/694\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "invoke the executable issue-owned validator directly so readiness can prove the governed denominator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-694-complete-history-reload\",\"proof_role\":\"Prove complete ordered authorized history and fresh Observatory restoration through the issue-owned production-path validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_issue694_conversation_history_reload.sh\"],\"parallel_group\":\"694-e2e\",\"defer_reason\":null},{\"lane\":\"runtime-conversation-history\",\"proof_role\":\"Prove complete ordered bounded authorized history records for operator and agent turns.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null},{\"lane\":\"observatory-history-restore\",\"proof_role\":\"Prove fresh UI restoration exact-once replay and privacy behavior through the governed transcript-history validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"694-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root/conversation_history_fix",
+      "reason": "advance #694 after non-duplicate issue creation, approved design, governed issue-owned validation denominator, and doctor readiness PASS",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
