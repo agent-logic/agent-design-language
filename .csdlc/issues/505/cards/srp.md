@@ -41,12 +41,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.
+- C-SDLC v2 remains the live lifecycle and rollback authority until that cutover completes.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e1c02d2c584b2071427653f648f5185a34ae80d5:cc219462cda11eeaf6df76dd9f837df6cd9efe361fb85ce74d85daa5c136a9bd")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_505_quick_final")
 
-Result: pre_review
+Result: pass

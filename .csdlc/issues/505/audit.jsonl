@@ -84,3 +84,5 @@
 {"sequence":84,"generation":65,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":85,"generation":66,"actor":"worker-6","reason":"Recover stale #505 review truth after replacing a hard-coded generation review evidence reference with the live review evidence anchor.","operation":"recover_review"}
 {"sequence":86,"generation":66,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":87,"generation":66,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":88,"generation":67,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
