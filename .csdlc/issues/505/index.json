@@ -5,20 +5,22 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "reviewed",
-  "generation": 67,
-  "digest": "fce423460f01678980be57c93fc41142bb0859a345ccba39ec8a14a8a2b7fdbc",
+  "generation": 69,
+  "digest": "87907c73f16b4dd2007a5c3151b94106baf19239200c08a4e83271ec452e18c7",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_505_quick_final",
+    "reviewer": "subagent:/root/review_505_metadata_head",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:e1c02d2c584b2071427653f648f5185a34ae80d5:cc219462cda11eeaf6df76dd9f837df6cd9efe361fb85ce74d85daa5c136a9bd",
+    "revision": "git-blake3:bc0347c31058fd57c1b6aed7aeead88ded9c4b78:7270a0f6f5f03b9755d4da5fe86c6f48c0a8f2b37ecf69506f2274eedca7d3a1",
     "scope": [
       "csdlc-v3/src/commands/terminal.rs",
       "csdlc-v3/src/main.rs",
       "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
       "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
       "docs/csdlc-v3/authority-transition-disposition.json",
+      "docs/csdlc-v3/full-replacement-denominator.json",
+      "docs/csdlc-v3/v3-command-manifest.json",
       ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
       ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
       ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
@@ -28,13 +30,15 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_505_quick_final",
+    "reviewer": "subagent:/root/review_505_metadata_head",
     "scope": [
       "csdlc-v3/src/commands/terminal.rs",
       "csdlc-v3/src/main.rs",
       "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
       "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
       "docs/csdlc-v3/authority-transition-disposition.json",
+      "docs/csdlc-v3/full-replacement-denominator.json",
+      "docs/csdlc-v3/v3-command-manifest.json",
       ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
       ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
       ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
@@ -42,7 +46,7 @@
       ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
       ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
     ],
-    "reviewed_revision": "git-blake3:e1c02d2c584b2071427653f648f5185a34ae80d5:cc219462cda11eeaf6df76dd9f837df6cd9efe361fb85ce74d85daa5c136a9bd",
+    "reviewed_revision": "git-blake3:bc0347c31058fd57c1b6aed7aeead88ded9c4b78:7270a0f6f5f03b9755d4da5fe86c6f48c0a8f2b37ecf69506f2274eedca7d3a1",
     "findings": [],
     "residual_risks": [
       "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation.",
@@ -65,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fa007d984f88ea045f0deb91befeee6459f2d392b15f325853d04e9e8874cddf",
+      "values_digest": "761c128f2bb2f506524622d2e2b1dca25912d34da3f9ee7a5ee37a73f33bb3a9",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "f5124b5a60b289483d3f6f9671a5b6aae64917073b31b9fd6d0c8dfa89f55b8e",
+      "values_digest": "d1acb976582c84b410638e162c70e1b8c250979e1f800c77c9bce7637d8efb6c",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "a3e2ff1c0abbe417f56bf92105374917b3f26f579ac447579ac74a2638dcb386",
+      "values_digest": "37f7d6dc631b32c4ef5889d9c1e04de99ac7b5b2222463f2c40cb16c02d215a9",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "9939efc046aeb64ba46be9a17030c63a1387af6bd247dcd0d8e1c5e4f0e389df",
+      "values_digest": "eed7b7c00a622a11e0814c5ae8a54a01d231e73b35bd5e6800371c861d6d8f4a",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "3e0d9c6075f6db2dafdbaa09c4d565fc36c80407641fa20442019c901d181b93",
-      "rendered_digest": "ec7578521c918a981af24eb5b114672bff27f5f6ed98a6c93c75e4a4717e9229",
-      "ast_digest": "fd6040653ef85d2db6714a9b43509cc6639631217275dbe40e70965a03d99263"
+      "values_digest": "a81d0244ec461f31034de44170860550e3c3dd2cd5471603b083fdbeebf86127",
+      "rendered_digest": "18fddf21275eae38675f1568c9f2d4ff753c366d2bbb4e2daa73fe9bcd4d63bd",
+      "ast_digest": "8d9fb882e2f112cdebe10a9e11314fae2d20d3a8497568179e171206750216d0"
     },
     "sor": {
-      "values_digest": "81aeac99d2037f4fa96cb6d64b2f0a04f56aab5511adfbb6a4ab9c4392fef489",
+      "values_digest": "10cc402d5bd325fc57796e812635a19360f6881f43f2d6cbffa65d6cae635964",
       "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
       "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
@@ -420,6 +424,20 @@
     },
     {
       "sequence": 47,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 48,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after the publication guard rejected a history range that temporarily contained prepared review request artifacts; re-review the current clean metadata head before republishing."
+    },
+    {
+      "sequence": 49,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:worker-6",
@@ -1039,6 +1057,27 @@
     {
       "sequence": 88,
       "generation": 67,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 89,
+      "generation": 68,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after the publication guard rejected a history range that temporarily contained prepared review request artifacts; re-review the current clean metadata head before republishing.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 90,
+      "generation": 68,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 69,
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

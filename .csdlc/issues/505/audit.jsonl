@@ -86,3 +86,6 @@
 {"sequence":86,"generation":66,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":87,"generation":66,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":88,"generation":67,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":89,"generation":68,"actor":"worker-6","reason":"Recover stale #505 review truth after the publication guard rejected a history range that temporarily contained prepared review request artifacts; re-review the current clean metadata head before republishing.","operation":"recover_review"}
+{"sequence":90,"generation":68,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":91,"generation":69,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

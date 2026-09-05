@@ -17,6 +17,8 @@ csdlc-v3/src/main.rs
 csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
 docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md
 docs/csdlc-v3/authority-transition-disposition.json
+docs/csdlc-v3/full-replacement-denominator.json
+docs/csdlc-v3/v3-command-manifest.json
 .csdlc/evidence/505/pre-cutover-rollback-exercise.json
 .csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json
 .csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json
@@ -46,8 +48,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:e1c02d2c584b2071427653f648f5185a34ae80d5:cc219462cda11eeaf6df76dd9f837df6cd9efe361fb85ce74d85daa5c136a9bd")
+Revision: Some("git-blake3:bc0347c31058fd57c1b6aed7aeead88ded9c4b78:7270a0f6f5f03b9755d4da5fe86c6f48c0a8f2b37ecf69506f2274eedca7d3a1")
 
-Reviewer: Some("subagent:/root/review_505_quick_final")
+Reviewer: Some("subagent:/root/review_505_metadata_head")
 
 Result: pass
