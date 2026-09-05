@@ -73,7 +73,7 @@ Replaced retired shell-controller guidance with a production operator runbook fo
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

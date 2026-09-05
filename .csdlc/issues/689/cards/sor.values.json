@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
     "slug": "runtime-canonical-service-control-runbook",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -66,7 +66,7 @@
           "evidence_ref": ".csdlc/evidence/689/exact-range-diff.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

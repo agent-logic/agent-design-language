@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
     "slug": "runtime-canonical-service-control-runbook",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "CSMctl\nadl/tools/test_csmctl_linux_backend.sh\ndocs/tooling/START_CSM_RUNBOOK.md\n.csdlc/evidence/689",
-      "review_revision": "git-blake3:0dcf2a1a068a3379dbba655172adf40b64e6325c:173d333e19104b76364b1f767fb7cccf8d97ebba18d648853c576afcd5d4cbb2",
-      "reviewer": "codex:/root/issue_689_final_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does any documentation still present the legacy service root or label as permanent authority?",
         "Can any legacy Runtime verb still report pass?",
@@ -24,10 +24,8 @@
         "Is the solution a simple routing correction rather than a second controller?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The review was intentionally non-mutating and did not exercise the live Runtime, launchd or systemd, network paths, or GitHub publication."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -3,38 +3,13 @@
   "issue": 689,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "a0087aa888361a1dd039d5ef99d929b3f7bc8a63a27294756b700ee8c37210d6",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "8b5aa7cd1d698f9373cb4766502980299838736061828ed4c1d47628b3a5f1ce",
+  "phase": "implemented",
+  "generation": 16,
+  "digest": "e980a4bcc1c9d626063cb60635db00d7a46aa149b55535ed231eee06b0340331",
   "branch": "codex/689-runtime-canonical-control-runbook",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-689-runtime-canonical-control-runbook",
-  "review_assignment": {
-    "reviewer": "codex:/root/issue_689_final_review",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:0dcf2a1a068a3379dbba655172adf40b64e6325c:173d333e19104b76364b1f767fb7cccf8d97ebba18d648853c576afcd5d4cbb2",
-    "scope": [
-      "CSMctl",
-      "adl/tools/test_csmctl_linux_backend.sh",
-      "docs/tooling/START_CSM_RUNBOOK.md",
-      ".csdlc/evidence/689"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/issue_689_final_review",
-    "scope": [
-      "CSMctl",
-      "adl/tools/test_csmctl_linux_backend.sh",
-      "docs/tooling/START_CSM_RUNBOOK.md",
-      ".csdlc/evidence/689"
-    ],
-    "reviewed_revision": "git-blake3:0dcf2a1a068a3379dbba655172adf40b64e6325c:173d333e19104b76364b1f767fb7cccf8d97ebba18d648853c576afcd5d4cbb2",
-    "findings": [],
-    "residual_risks": [
-      "The review was intentionally non-mutating and did not exercise the live Runtime, launchd or systemd, network paths, or GitHub publication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e9c837bf5b7e6d1bc7de4e6f9030249c61c1a533209d3cdbc9ec4dc786fb27d",
+      "values_digest": "10a82b4d94d954d8a1b4aa022429ed024b75497aca54f477adce016560c3f15d",
       "rendered_digest": "b8143a9b06847f14cdad60c5a22e537498d3a8b64535b4f268f4ef2be3adcc81",
       "ast_digest": "21f37d078ffb67354c9fb12935fbb6333963c678b0538c40e429ef75c3051601"
     },
     "stp": {
-      "values_digest": "1bbad853d18fd4e7ca7f955976842a97220283d60b0ac98c33fbd9a34371ec4b",
+      "values_digest": "10b827ff0d739595cb92332a6031aff9ce0c422ef70337e1716215ac2d59d7f6",
       "rendered_digest": "d00972b6e802960a768b67adf5326c74b60d17e413cb7ed2f15c9940e40d3ca3",
       "ast_digest": "9d8979682230b61e5fa3da84c648a03a051da01878b88ae4ac4d577ac8aac266"
     },
     "spp": {
-      "values_digest": "248947c0d01451c5d5318a85e4fa913a1487290586ea3c93826a6ae1c9bd6b14",
+      "values_digest": "abc44aca199fe70b9c0ac22f55019218a0553950087795996e63906cf05889aa",
       "rendered_digest": "1ce0b2bfffbcd83deb202cffe0b4cc25af4dfc8bb8c5e760ac66e64f508ad4da",
       "ast_digest": "429985dc83b544f1b6dfc627fd79b62d784b56795886aa9b100ac5a899e84aad"
     },
     "vpp": {
-      "values_digest": "3df18a3f5739123af29348b46d9bfd9cd496f7410a6a94ce10d68068f65bae6c",
+      "values_digest": "0b2de94e3befcc072e1912088812103666749426890468f67a17c9d98c73cc57",
       "rendered_digest": "ffec11c5f13af207ff4187a15afa1539f8e208648a88a690a6a4496ef2cde6cb",
       "ast_digest": "a0105ec682e369aa2d4bd9a7af04e264afc4814114f3f1244864024dc36fd7b2"
     },
     "srp": {
-      "values_digest": "948bc4505c1a9a305e187514bcf279ec908b7a8bfe0e82081b10e2b9638d9eba",
-      "rendered_digest": "81aa16160c2df664ea5c0d229a84bdd92771a1130d814288f1922a36fd56009e",
-      "ast_digest": "5f8b867d75ce7a5654e32eafdf8c727fb99609b6a1101ab6d606f9614e4773a6"
+      "values_digest": "2f126463346e8d2df8d6bcadcb008b44d8b9534d01597b0a3f123d1ddc983d3b",
+      "rendered_digest": "182a1d299082649128d21b972f16193521bf259eac18a3cf4c3699c04e135f8b",
+      "ast_digest": "6f8a559b727a9ebb050bd3cb7b9b9acf0c022801a7e97f2f131e1c062fa503f5"
     },
     "sor": {
-      "values_digest": "3e50ae97bf70b5709864887f00420e778671a7ed1646efb30fabe92d964ea1db",
-      "rendered_digest": "c9326b6d355d0cabd33ff8400c840366a4a28c6c2f974009f2b824d0ef4133c1",
-      "ast_digest": "dd2a2cd330ee099d446291cde511ebc4464a681c69eb5d48ebbfbb356b7213cf"
+      "values_digest": "53d6a18e1d7e298be97e7b304300bf3b5890931c513cc869929f897b2bc71564",
+      "rendered_digest": "4f095456b0be749011827f65bb4f4e29d3df52e634accd2f69e5df374131c5fb",
+      "ast_digest": "624d2dbab742e34c1ee51884035aa47f55966ad92a6941590213d626bceabb9d"
     }
   },
   "transitions": [
@@ -107,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "recover the stale review after its tracked request metadata advanced HEAD; require a new exact-head review rather than claiming an ineligible metadata-only proof"
     }
   ],
   "audit": [
@@ -235,6 +217,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "recover the stale review after its tracked request metadata advanced HEAD; require a new exact-head review rather than claiming an ineligible metadata-only proof",
+      "operation": "recover_review"
     }
   ]
 }
