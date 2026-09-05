@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.review_recovery_request.v1",
   "issue": 693,
-  "expected_generation": 10,
-  "expected_digest": "93cf52c28b2c6568bdef8e438c199250f7814fad6f2621812fc462d3605323cd",
+  "expected_generation": 12,
+  "expected_digest": "ab5ffad5c712b43f9bf0ea63e7e37415fe8cc7b762522d4f04d74a4585bb74e8",
   "actor": "codex:/root/a2a_reliability_fix",
   "reason": "recover review state after review and publication-request metadata commits made the recorded Git revision stale without changing the reviewed Runtime source scope"
 }

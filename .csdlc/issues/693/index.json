@@ -3,51 +3,13 @@
   "issue": 693,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1d323c728129a8afb4088cb25c3b0f0b35b2a64da4c3bb36250c87b78b2e5553",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "ab5ffad5c712b43f9bf0ea63e7e37415fe8cc7b762522d4f04d74a4585bb74e8",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "f3f2e3b80af68d3357dbd0fe5049087df419ddd2163c59a6445af8f425c9a28e",
   "branch": "codex/693-runtime-a2a-action-selection-reliability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability",
-  "review_assignment": {
-    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
-    "assigned_by": "codex:/root/a2a_reliability_fix",
-    "revision": "git-blake3:7691eb985533a302c70ea4f02bf2351f4619af78:724b63c1fe1adeec07486ceca750980def40ea8d5527aab4c6c59e2e8e521cd4",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/a2a_reliability_fix/review_693_prepr",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      ".csdlc/evidence/693"
-    ],
-    "reviewed_revision": "git-blake3:7691eb985533a302c70ea4f02bf2351f4619af78:724b63c1fe1adeec07486ceca750980def40ea8d5527aab4c6c59e2e8e521cd4",
-    "findings": [],
-    "residual_risks": [
-      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:7691eb985533a302c70ea4f02bf2351f4619af78:724b63c1fe1adeec07486ceca750980def40ea8d5527aab4c6c59e2e8e521cd4",
-      "to_revision": "git-blake3:40393c89731b77874aaa5d79e424581e9108092c:724b63c1fe1adeec07486ceca750980def40ea8d5527aab4c6c59e2e8e521cd4",
-      "from_commit": "7691eb985533a302c70ea4f02bf2351f4619af78",
-      "to_commit": "40393c89731b77874aaa5d79e424581e9108092c",
-      "changed_paths": [
-        ".csdlc/issues/693/audit.jsonl",
-        ".csdlc/issues/693/cards/srp.md",
-        ".csdlc/issues/693/cards/srp.values.json",
-        ".csdlc/issues/693/index.json",
-        ".csdlc/prepared/issues/693/review-assign-final.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -62,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6b4c3be76655eb53c62381c14d713af910c2b9ea5ac4e8ed5f048ece80365f6e",
+      "values_digest": "891fecd228193f5cc553b0cf7b2e23b67f5197b0aa91e84c7ae67518d6ebd895",
       "rendered_digest": "955991fff723dedbfaa7960ecb63b4649a90d34596e6640a1d0553a1d64a8db6",
       "ast_digest": "7c635f424532f7e20611dfe09810bad073d9e29de82624390e37138ca84c25fb"
     },
     "stp": {
-      "values_digest": "2ba4a787e80954e13a2c0971101d8022ea8967ced80cb99bb8ace0228ff07d32",
+      "values_digest": "c24fa09868758ae72f5689408fb9f9634eca105a396d81e17faa5b0882ebabc0",
       "rendered_digest": "f4f572111740e9c38d0123ab6892d204099b07850153c8b4b4ce07f588de5676",
       "ast_digest": "25fa65683d6bcab7fb44a02e9979b7ee8ed734a7986be6463c99438667927a68"
     },
     "spp": {
-      "values_digest": "2b1a660bfd629ec95579ecfc7c5ef8de6199dfa6fda5c1784decf1bc50e3ff91",
+      "values_digest": "ada55f4c060385bf50df41126e077dfca1a5b50a4ebb46d6075ed1ce35896171",
       "rendered_digest": "27ebb9f9360f53101b31502f4a7a7b87f71340372dfc232a1ff29b16dbf16132",
       "ast_digest": "06aadbcc9610e39c8a0d3be871a3a95f91efe282af94b68d697fce9190d2bc06"
     },
     "vpp": {
-      "values_digest": "528ae0ce1fd49e6c2a7aa7411c1e1a9874a244985c117d2bdd3a078ab236e643",
+      "values_digest": "40c9745f953bf759d25b7d326cb350ee0ccead65cb05e40d2fd761147226c907",
       "rendered_digest": "955ce890c0c10c8e72a3b802c08b8cdd5bc4aea53282a341e3382c2b6a16190f",
       "ast_digest": "bb8af9917a31ad9867c4c4a9cda22ed1179b3518f4d635373134083a7247b8f3"
     },
     "srp": {
-      "values_digest": "2fe5ae1cca137d4eb6df8bcbaf643798ac791a786810f9172e7561a36e5d5833",
-      "rendered_digest": "7a40a876518f79f67737751122203ba23f220e0d13f844d440473b2bef448c1f",
-      "ast_digest": "55eceaa69f08c9b084765d79b098508bc342aee52168db03ddcd234886307fe7"
+      "values_digest": "b2c77d9ecffdffbf645664aafb7d4832bf177c912b0656c6572eede68973b114",
+      "rendered_digest": "f3f6c84a334746e94a66f7ce70a6b222a6a3a4637181835ca46b53914e45ed69",
+      "ast_digest": "c369b67c3e739bbdd33cebc1b450d7a49b1157f68488af9fbb740436d7dc48b8"
     },
     "sor": {
-      "values_digest": "8b862004e06c4126ed92747839170a580a4b0f7795a56f52e45d712a571cbfdf",
+      "values_digest": "f59f27561c6ff2bf41d2a2aa36f20807729bf31d9530aff2225fdee4b8b71a40",
       "rendered_digest": "dfdf7d3679411430784d22cbf3a9f03b66f231a388d122ba4b4b090c27028d3f",
       "ast_digest": "385bdc1ce0e5a1da445419829574ebd5421e2895d8274367d871cc191adfd6af"
     }
@@ -148,6 +110,13 @@
       "to": "reviewed",
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover review state after review and publication-request metadata commits made the recorded Git revision stale without changing the reviewed Runtime source scope"
     }
   ],
   "audit": [
@@ -269,6 +238,13 @@
       "actor": "codex:/root/a2a_reliability_fix",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root/a2a_reliability_fix",
+      "reason": "recover review state after review and publication-request metadata commits made the recorded Git revision stale without changing the reviewed Runtime source scope",
+      "operation": "recover_review"
     }
   ]
 }
