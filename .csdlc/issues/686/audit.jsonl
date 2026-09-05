@@ -11,3 +11,5 @@
 {"sequence":11,"generation":7,"actor":"codex:/root/issue-686","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":8,"actor":"codex:/root/issue-686","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":13,"generation":9,"actor":"codex:/root/issue-686","reason":"Recover #686 review authority after exact-head reviewer codex-subagent:/root/review_686_runtime_config_generation_r2 returned P1 r2-p1-kernel-missing-config-generation-env. Remediation will require the kernel startup boundary to receive both configuration-generation handoff environment variables and reject missing or partial authority before readiness/status can expose synthetic defaults.","operation":"recover_review"}
+{"sequence":14,"generation":9,"actor":"codex:/root/issue-686","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":15,"generation":10,"actor":"codex:/root/issue-686","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

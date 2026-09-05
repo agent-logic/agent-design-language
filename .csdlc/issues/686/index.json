@@ -4,12 +4,56 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d444034f572eab8aa42110293cfd2db78498970bd61827174b209971c7f4d4f2",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "ffafd948999547ac4530585895322a3236440838e6a2b4370e25322cae3972cd",
+  "generation": 10,
+  "digest": "dba8c4128d3a9e705f89a916fd9d1c58c3e0880634cb9f97cf5e083b0f488e3d",
   "branch": "codex/686-runtime-config-generation-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r3",
+    "assigned_by": "codex:/root/issue-686",
+    "revision": "git-blake3:0452ae5019effeee12cd4109b79ed4bb840ca6d4:12418d7c26b6df545b796332d677ef4d235e3edffe567b306677150cf26e1e54",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r3",
+    "scope": [
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py"
+    ],
+    "reviewed_revision": "git-blake3:0452ae5019effeee12cd4109b79ed4bb840ca6d4:12418d7c26b6df545b796332d677ef4d235e3edffe567b306677150cf26e1e54",
+    "findings": [
+      {
+        "id": "r3-p1-csm-readiness-config-generation-not-authoritative",
+        "severity": "p1",
+        "summary": "CSM readiness/status validation accepts arbitrary 64-hex config_generation and config_receipt_digest values without comparing them to validate_active_config_generation for the active init and current binary generation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dc5dbdcd42ff22d177bd87e1b9008ae82a052dda63cc808b99dfd40e6c4214eb",
+      "values_digest": "3a28d08fe5034d959671e34f0ff5f99e0e022c24348eb621f98c6b8c99e890ee",
       "rendered_digest": "4f81350cc312f32be37154223fd52fae912155107a2651c9e46ee1c6bca966a8",
       "ast_digest": "b9a8d652f952b6550898e87259963b3977e3c8b09ceee99d8c1fd21c5e68807a"
     },
     "stp": {
-      "values_digest": "772572141a3910c3fd3c66bee10f018b9c38fe75860bf24bb1e490e7ddd794b4",
+      "values_digest": "a602e8fca933a2493fec5723abffddb7ab488350eab0c32599930fff66860bee",
       "rendered_digest": "db9446aaeffb61057f52838c09319038d0fe7813a0f68707fa24af077474360e",
       "ast_digest": "bc66cf5a985915ec3fd157343eae4553821e30f8c9253e8d3e1b31d33eceee9a"
     },
     "spp": {
-      "values_digest": "12e144c8da4b6bdcf398cef94f2d02fe9d90544d5ef343acd7f24a3ae4072903",
+      "values_digest": "1f44bf2fe83664c2d9cce7ee1faef2aaed77e390484a70f8aef9f1c1ecf8d206",
       "rendered_digest": "e70250e267a4addc29592b402f3ee88590745c688218e4dab090dc4adcf606bb",
       "ast_digest": "88a64c95813da1d6fda847f82169abf6da548fe7e7ae7d61ff191c4864b3fcb2"
     },
     "vpp": {
-      "values_digest": "0ec50dbe33fb30c11e4b6d1813e0b345898f35eeccea284a145a90e19d137cfd",
+      "values_digest": "85170318bc1bfb580dde13a823e3e37401f427e2e103df79e888315b8f8b14ca",
       "rendered_digest": "39397526f66d37f702c052ae50df10c53dca1113fbb14c24cd567c3a0cb33c81",
       "ast_digest": "1183f60f45dcbef27c29eb6ee8dc693d27a1eb7473cbf6c1a6951f13c9a19599"
     },
     "srp": {
-      "values_digest": "3975392f9482763f26ecd7fe6212379499191e8ea69377a7332606996e6ff218",
-      "rendered_digest": "cf306e3d0f746e965a50ab5c2a96ee8bc8765d48722d271f16c25e45f7e04a96",
-      "ast_digest": "54a4ef9141605f4111e509380dfd168062a3ed9222df8902be11bb234d6c764a"
+      "values_digest": "fe95924fd3fba82cb14bb2e187a16e16b232adca7b4647bade5b452c3a4ec593",
+      "rendered_digest": "1cc7906fea1bf70f412c8758cbff1c74852a537cd8b7a70cb7cfe613936a9de2",
+      "ast_digest": "e6831e7a122d78af642f4fa8cd380d59c84b09e773d55fe9447690175610aa37"
     },
     "sor": {
-      "values_digest": "677b8f66f756090923e28bda790f279b6cae0a8cfa773d790a3831b6534a97e3",
+      "values_digest": "fa0edd85afd183b106bf57ee52b94b29e651c3afd5126df2dc073bbff483beff",
       "rendered_digest": "f2ff55acd157b8cacb177ec523c6a73feb99655b8b6bb15046072ee306dbe651",
       "ast_digest": "4f8759fbaf7c5e86bf55ce315a6eb2e4a0c566825917bf64fd8e2d6f7844a6b1"
     }
@@ -168,6 +212,20 @@
       "actor": "codex:/root/issue-686",
       "reason": "Recover #686 review authority after exact-head reviewer codex-subagent:/root/review_686_runtime_config_generation_r2 returned P1 r2-p1-kernel-missing-config-generation-env. Remediation will require the kernel startup boundary to receive both configuration-generation handoff environment variables and reject missing or partial authority before readiness/status can expose synthetic defaults.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root/issue-686",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root/issue-686",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
