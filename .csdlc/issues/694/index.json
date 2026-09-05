@@ -6,13 +6,13 @@
   "initialization_digest": "2df28dc037de9b004e3cf607fc4dbd2948157a07a716fb488c1117f97ea83c53",
   "phase": "implemented",
   "generation": 12,
-  "digest": "1ba8dd5ef9575dda233216a916bc552b353d646865f725d4875c75bd70d85dfe",
+  "digest": "b29590c3129fd5fdcb1d6d865376f44c5165b35c108b1855ea9d7a7b72585f53",
   "branch": "codex/694-runtime-observatory-conversation-history",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-694-runtime-observatory-conversation-history",
   "review_assignment": {
-    "reviewer": "fresh-session:9a829085-78c7-4d47-ab06-88cc8f205dbd",
+    "reviewer": "fresh-session:a83cb49e-49eb-4141-8608-14164d48f5b7",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:6d09e4f9fee7dd0d2af5b88a3769342e4fe3507e:11180b372d3330941a0bb85b3e22bd8d3292c14b313ecc73f1aa122db7c9133a",
+    "revision": "git-blake3:640a580a71a3dfe81a1f0ec4accf148c32546dc6:d4ef671ab314188a8b8588b1d6eb706b1877c56adb4a566a5d1e30d445af3d5b",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       "demos/html-observatory/app.js",
@@ -196,6 +196,13 @@
     },
     {
       "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
       "generation": 12,
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
