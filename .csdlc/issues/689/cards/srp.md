@@ -12,12 +12,12 @@ Status: draft
 
 ## Scope
 
-CSMctl
-adl-runtime-kernel/tests/configuration.rs
-adl-runtime/tests/runtime_api_wss.rs
-adl/tools/test_csmctl_linux_backend.sh
-adl/tools/test_csmctl_observatory_origins.sh
-adl/tools/validate_v092_observatory_restart_reconnect.sh
+.csdlc/prepared/issues/689/recover-after-pr690-review-findings.json
+.csdlc/prepared/issues/689/review-assign-pr690-fixes.json
+.csdlc/prepared/issues/689/review-record-pr690-fixes-pass.json
+.csdlc/prepared/issues/689/publish-pr690-fixes.json
+.csdlc/prepared/issues/689/recover-pr690-metadata-review.json
+.csdlc/prepared/issues/689/review-assign-pr690-metadata.json
 
 ## Prompts
 
@@ -37,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The live restart validator was migrated but not executed because issue #689 explicitly excludes live Runtime and service-manager mutation.
-- The separately observed Observatory schema-v2 contract mismatch remains outside the PR #690 remediation scope.
+- Hosted CI remains the final integration gate before merge.
+- The live restart validator remains intentionally unexecuted because #689 excludes live Runtime mutation.
 
 ## Review Result
 
-Revision: Some("git-blake3:dbcd20d9ffb648f9638d819201d86427d188ff90:a5c3402430b4d40da9b38d72cb4f51bfa6e7468f5e8e1e0f8c1d68e56b04ae2e")
+Revision: Some("git-blake3:c894872f9d653e66118432e9c3e5d3f6aac6b364:8dc3355eed6a3be05104e0cdbb083e7d9dada9c122eb24c0b7efc8f06a07a039")
 
 Reviewer: Some("codex:/root/review_689_fixes")
 
