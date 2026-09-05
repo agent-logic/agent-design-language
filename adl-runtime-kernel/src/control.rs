@@ -5613,6 +5613,8 @@ mod layer8_conversation_ingress_tests {
                 now + 30_000,
                 "1111111111111111111111111111111111111111",
             ));
+            let inference_readiness = InferenceReadinessState::Ready;
+            let projection = inference_readiness.projection();
             population.sample.push(AgentSample {
                 id: id.to_owned(),
                 name: format!("{id}.runtime"),
@@ -5620,15 +5622,15 @@ mod layer8_conversation_ingress_tests {
                 role: "resident agent".to_owned(),
                 provider,
                 model,
-                inference_readiness: InferenceReadinessState::Unimplemented,
-                state: "unknown".to_owned(),
-                detail: "Awaiting Runtime projection".to_owned(),
-                health: "unknown".to_owned(),
-                availability: "unknown".to_owned(),
-                activity: None,
+                inference_readiness,
+                state: "ready".to_owned(),
+                detail: "Configured test provider ready for deterministic A2A work".to_owned(),
+                health: projection.health.to_owned(),
+                availability: projection.availability.to_owned(),
+                activity: projection.activity.map(str::to_owned),
                 capabilities: vec!["conversation".to_owned()],
                 location: Some("local_runtime".to_owned()),
-                communication_eligible: false,
+                communication_eligible: projection.communication_eligible,
                 observed_at_unix_millis: 0,
                 freshness_deadline_unix_millis: 0,
                 source_revision: "unobserved".to_owned(),

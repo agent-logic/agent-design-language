@@ -366,18 +366,27 @@ fn project_agent_evidence(
             false,
         ),
     };
+    let provider_backed = agent.provider.is_some() || agent.model.is_some();
     let readiness_projection = agent.inference_readiness.projection();
-    let (presence, health, availability, eligible) =
-        if agent.provider.is_some() || agent.model.is_some() {
+    let (presence, health, availability, eligible) = if provider_backed {
+        if !runtime_projection.3 {
+            runtime_projection
+        } else {
             (
                 readiness_projection.presence,
                 readiness_projection.health,
                 readiness_projection.availability,
                 readiness_projection.communication_eligible,
             )
-        } else {
-            runtime_projection
-        };
+        }
+    } else {
+        runtime_projection
+    };
+    let activity = if provider_backed && runtime_projection.3 {
+        readiness_projection.activity.map(str::to_owned)
+    } else {
+        agent.activity.clone()
+    };
     Some(AgentRuntimeEvidence {
         agent_id: agent.id.clone(),
         name: agent.name.clone(),
@@ -389,7 +398,7 @@ fn project_agent_evidence(
         presence,
         health: health.to_owned(),
         availability: availability.to_owned(),
-        activity: agent.activity.clone(),
+        activity,
         capabilities: agent.capabilities.clone(),
         location: agent.location.clone(),
         communication_eligible: eligible,
