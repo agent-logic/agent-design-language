@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
     "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "ready",
   "content": {
