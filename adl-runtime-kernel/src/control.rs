@@ -807,6 +807,8 @@ pub struct ControlService<C> {
     runtime_incarnation_id: String,
     guardian_process_id: u32,
     active_init_hash: String,
+    config_generation: String,
+    config_receipt_digest: String,
     recorder: RuntimeRecorder,
     lifecycle: C,
     authority: ControlAuthority,
@@ -908,6 +910,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
             guardian_process_id: std::process::id(),
             active_init_hash: blake3::hash(b"").to_hex().to_string(),
+            config_generation: blake3::hash(b"").to_hex().to_string(),
+            config_receipt_digest: blake3::hash(b"").to_hex().to_string(),
             recorder,
             lifecycle,
             authority,
@@ -967,6 +971,27 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         );
         self.guardian_process_id = guardian_process_id;
         self.active_init_hash = active_init_hash;
+        self
+    }
+
+    pub fn with_config_generation(
+        mut self,
+        generation: impl Into<String>,
+        receipt_digest: impl Into<String>,
+    ) -> Self {
+        let generation = generation.into();
+        let receipt_digest = receipt_digest.into();
+        assert!(
+            generation.len() == 64 && generation.bytes().all(|byte| byte.is_ascii_hexdigit()),
+            "Runtime configuration generation must be a hex digest"
+        );
+        assert!(
+            receipt_digest.len() == 64
+                && receipt_digest.bytes().all(|byte| byte.is_ascii_hexdigit()),
+            "Runtime configuration receipt digest must be a hex digest"
+        );
+        self.config_generation = generation;
+        self.config_receipt_digest = receipt_digest;
         self
     }
 
@@ -3069,6 +3094,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             runtime_process_id: feed.runtime_process_id,
             guardian_process_id: self.guardian_process_id,
             active_init_hash: self.active_init_hash.clone(),
+            config_generation: self.config_generation.clone(),
+            config_receipt_digest: self.config_receipt_digest.clone(),
             weather_freshness,
             degraded_reasons,
         }

@@ -1,0 +1,13 @@
+sha=142f90c44e06532cbf727363b22946ba513b4b28
+argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --locked --manifest-path adl-runtime/Cargo.toml --test guardian_cli guardian_cli_reports_successful_portable_child_as_json -- --nocapture
+
+running 1 test
+test guardian_cli_reports_successful_portable_child_as_json ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.40s
+
+status=0
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-686-runtime-config-generation-handoff/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 24.31s
+     Running tests/guardian_cli.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/guardian_cli-3911305139f8f9cb)
