@@ -65,8 +65,10 @@ A separate worker uploads immutable objects using workload IAM, exponential back
 from 5 seconds through 5 minutes with jitter, and deterministic idempotency. Object
 keys are privacy-safe digests:
 `v1/polis/<polis-digest>/runtime/<instance-digest>/agent/<agent-digest>/sequence/<20-digit>.json`.
-The content digest is stored as metadata and verified before a durable archive receipt
-is committed. S3 failure only changes archive freshness and backlog state.
+Each upload requests an S3-managed SHA-256 checksum and the returned checksum is
+matched before a durable archive receipt is committed. A fixed per-agent latest
+pointer makes asynchronous recovery two bounded reads per resident agent instead of
+an archive scan. S3 failure only changes archive freshness and backlog state.
 
 ## API and Observatory contract
 
@@ -99,7 +101,7 @@ rotation, a TLS-only deny policy, and lifecycle rules that expire current partia
 after 30 days, noncurrent versions after 7 days, and incomplete multipart uploads after
 one day. The writer role receives only `s3:PutObject`, `s3:AbortMultipartUpload`, and
 KMS encrypt/data-key permissions constrained to the exact archive prefix and encryption
-context; the restore role separately receives prefix-scoped list/get-version and KMS
+context; the restore role separately receives prefix-scoped object read and KMS
 decrypt. Bucket policy requires the declared KMS key and TLS. Repository work produces
 plans and deterministic fixtures only; live AWS apply and permanent Wuji rollout remain
 separate operator-authorized operations.

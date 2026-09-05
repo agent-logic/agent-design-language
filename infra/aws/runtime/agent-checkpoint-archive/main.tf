@@ -111,7 +111,7 @@ resource "aws_s3_bucket_policy" "archive" {
 
 data "aws_iam_policy_document" "writer" {
   statement {
-    actions   = ["s3:PutObject", "s3:AbortMultipartUpload", "s3:GetObject"]
+    actions   = ["s3:PutObject", "s3:AbortMultipartUpload"]
     resources = ["${aws_s3_bucket.archive.arn}/${local.archive_prefix}/*"]
   }
   statement {
@@ -133,16 +133,7 @@ resource "aws_iam_role_policy" "writer" {
 
 data "aws_iam_policy_document" "restore" {
   statement {
-    actions   = ["s3:ListBucket", "s3:ListBucketVersions"]
-    resources = [aws_s3_bucket.archive.arn]
-    condition {
-      test     = "StringLike"
-      variable = "s3:prefix"
-      values   = ["${local.archive_prefix}/*"]
-    }
-  }
-  statement {
-    actions   = ["s3:GetObject", "s3:GetObjectVersion"]
+    actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.archive.arn}/${local.archive_prefix}/*"]
   }
   statement {

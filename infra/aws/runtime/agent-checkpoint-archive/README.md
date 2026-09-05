@@ -23,6 +23,6 @@ kms_key_arn = "<kms_key_arn output>"
 restore_profile = "agent-checkpoint-restore"
 ```
 
-The named AWS CLI profile must assume the separately managed restore role. The Runtime's normal instance role uses only the writer policy; startup uses the restore profile for bounded list/get recovery and falls back to validated local state if S3 is unavailable.
+The named AWS CLI profile must assume the separately managed restore role. The Runtime's normal instance role remains write-only and verifies each upload from the SHA-256 checksum returned by `PutObject`. After local startup, an asynchronous recovery pass fetches only the fixed latest pointer and referenced record for each resident agent; S3 delay or failure never gates Runtime availability.
 
 `validate.sh` runs formatting, initialization, validation, a no-refresh plan, and deterministic policy assertions. It never applies resources.

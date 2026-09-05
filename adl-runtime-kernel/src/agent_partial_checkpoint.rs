@@ -2,6 +2,7 @@ use crate::{
     AgentArchiveState, AgentConversationCheckpoint, AgentPartialCheckpointInitConfig,
     AgentSnapshotState, CheckpointAgentSample,
 };
+use base64::{engine::general_purpose::STANDARD as BASE64_STANDARD, Engine as _};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{
@@ -15,6 +16,8 @@ use thiserror::Error;
 
 pub const AGENT_PARTIAL_CHECKPOINT_SCHEMA: &str = "adl.runtime_v3.agent_partial_checkpoint.v1";
 pub const AGENT_PARTIAL_TOMBSTONE_SCHEMA: &str = "adl.runtime_v3.agent_partial_tombstone.v1";
+const ARCHIVE_RECEIPT_SCHEMA: &str = "adl.runtime_v3.agent_partial_archive_receipt.v1";
+const ARCHIVE_LATEST_SCHEMA: &str = "adl.runtime_v3.agent_partial_archive_latest.v1";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentPartialCheckpoint {
@@ -145,6 +148,25 @@ struct ArchiveDegradedMarker {
     dropped_archive_intervals: u64,
     consecutive_failures: u32,
     retry_after_unix_millis: u64,
+    spool_saturated: bool,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ArchiveReceipt {
+    schema: String,
+    agent_id: String,
+    snapshot_sequence: u64,
+    checkpoint_digest: String,
+    archived_at_unix_millis: u64,
+    receipt_digest: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ArchiveLatest {
+    schema: String,
+    object_key: String,
+    checkpoint_digest: String,
+    snapshot_sequence: u64,
 }
 
 #[derive(Default)]
@@ -181,6 +203,7 @@ pub struct AgentPartialCheckpointStore {
     spool_root: PathBuf,
     receipts_root: PathBuf,
     archive_state_root: PathBuf,
+    quarantine_root: PathBuf,
     config: AgentPartialCheckpointInitConfig,
     runtime_instance_id: String,
     polis_id: String,
@@ -201,16 +224,19 @@ impl AgentPartialCheckpointStore {
         let spool_root = root.join("spool");
         let receipts_root = root.join("receipts");
         let archive_state_root = root.join("archive-state");
+        let quarantine_root = root.join("quarantine");
         fs::create_dir_all(&local_root)?;
         fs::create_dir_all(&spool_root)?;
         fs::create_dir_all(&receipts_root)?;
         fs::create_dir_all(&archive_state_root)?;
+        fs::create_dir_all(&quarantine_root)?;
         let store = Self {
             root,
             local_root,
             spool_root,
             receipts_root,
             archive_state_root,
+            quarantine_root,
             config,
             runtime_instance_id: runtime_instance_id.into(),
             polis_id: polis_id.into(),
@@ -295,13 +321,7 @@ impl AgentPartialCheckpointStore {
 
     pub fn projection(&self, agent_id: &str) -> AgentContinuityProjection {
         let state = self.state.lock().expect("partial store state poisoned");
-        let mut projection = state.projections.get(agent_id).cloned().unwrap_or_default();
-        if self.config.s3_archive.is_some()
-            && projection.archive_state == AgentArchiveState::Disabled
-        {
-            projection.archive_state = AgentArchiveState::Current;
-        }
-        projection
+        state.projections.get(agent_id).cloned().unwrap_or_default()
     }
 
     pub fn write_partial(
@@ -344,7 +364,7 @@ impl AgentPartialCheckpointStore {
             self.mark_failed(&partial.agent_id);
             return Err(AgentPartialError::TooLarge);
         }
-        self.prune_local_for(&partial.agent_id)?;
+        self.prune_local_for(&partial.agent_id, false)?;
         self.prune_global_for_write(bytes.len() as u64)?;
         if !fits(
             &self.local_root,
@@ -386,6 +406,7 @@ impl AgentPartialCheckpointStore {
                 pending = 1;
             } else {
                 archive_state = AgentArchiveState::SpoolSaturated;
+                self.persist_spool_saturated(&partial.agent_id)?;
             }
         }
         let projection = AgentContinuityProjection {
@@ -440,7 +461,7 @@ impl AgentPartialCheckpointStore {
         };
         tombstone.tombstone_digest = canonical_tombstone_digest(&tombstone)?;
         let bytes = serde_json::to_vec(&tombstone).map_err(|_| AgentPartialError::Encoding)?;
-        self.prune_local_for(agent_id)?;
+        self.prune_local_for(agent_id, true)?;
         self.prune_global_for_write(bytes.len() as u64)?;
         let agent_digest = digest_label(agent_id);
         let filename = format!("{:020}.tombstone.json", sequence);
@@ -448,7 +469,7 @@ impl AgentPartialCheckpointStore {
         if self.config.s3_archive.is_some() {
             let coalesced = self.coalesce_spool_for(&agent_digest)?;
             if coalesced > 0 {
-                self.persist_archive_degraded(agent_id, true)?;
+                self.persist_spool_saturated(agent_id)?;
             }
             if !fits(
                 &self.spool_root,
@@ -492,82 +513,60 @@ impl AgentPartialCheckpointStore {
         let mut paths = json_files(&self.spool_root)?;
         paths.sort();
         for path in paths {
-            let bytes = fs::read(&path)?;
-            let record = decode_record(&bytes)?;
-            record.validate(&self.runtime_instance_id, &self.polis_id, None)?;
+            let bytes = match fs::read(&path) {
+                Ok(bytes) => bytes,
+                Err(_) => {
+                    self.quarantine_spool_record(&path, "read-invalid")?;
+                    continue;
+                }
+            };
+            let record = match decode_record(&bytes).and_then(|record| {
+                record.validate(&self.runtime_instance_id, &self.polis_id, None)?;
+                Ok(record)
+            }) {
+                Ok(record) => record,
+                Err(_) => {
+                    self.quarantine_spool_record(&path, "record-invalid")?;
+                    continue;
+                }
+            };
             let key = record.object_key();
-            let mut upload = tokio::process::Command::new(&self.archive_command);
-            upload
-                .env("AWS_CLI_CONNECT_TIMEOUT", "3")
-                .env("AWS_CLI_READ_TIMEOUT", "10");
-            let output = upload
-                .args([
-                    "s3api",
-                    "put-object",
-                    "--region",
-                    &archive.region,
-                    "--bucket",
-                    &archive.bucket,
-                    "--key",
-                    &key,
-                    "--body",
-                ])
-                .arg(&path)
-                .args([
-                    "--server-side-encryption",
-                    "aws:kms",
-                    "--ssekms-key-id",
-                    &archive.kms_key_arn,
-                    "--metadata",
-                    &format!("sha256={}", record.digest()),
-                ])
-                .output()
-                .await?;
-            if !output.status.success() {
+            if !self.put_archive_object(archive, &key, &path).await? {
                 self.mark_archive_degraded(record.agent_id());
                 self.schedule_archive_retry(record.agent_id())?;
                 return Err(AgentPartialError::ArchiveCommand);
             }
-            let mut verify = tokio::process::Command::new(&self.archive_command);
-            verify
-                .env("AWS_CLI_CONNECT_TIMEOUT", "3")
-                .env("AWS_CLI_READ_TIMEOUT", "10");
-            let verified = verify
-                .args([
-                    "s3api",
-                    "head-object",
-                    "--region",
-                    &archive.region,
-                    "--bucket",
-                    &archive.bucket,
-                    "--key",
-                    &key,
-                    "--output",
-                    "json",
-                ])
-                .output()
+            let latest = ArchiveLatest {
+                schema: ARCHIVE_LATEST_SCHEMA.to_owned(),
+                object_key: key,
+                checkpoint_digest: record.digest().to_owned(),
+                snapshot_sequence: record.sequence(),
+            };
+            let latest_bytes =
+                serde_json::to_vec(&latest).map_err(|_| AgentPartialError::Encoding)?;
+            let latest_path = self
+                .root
+                .join(format!(".latest-{}.json", digest_label(record.agent_id())));
+            persist_bytes_atomically(&latest_path, &latest_bytes)?;
+            let latest_key = self.latest_key(record.agent_id());
+            let latest_uploaded = self
+                .put_archive_object(archive, &latest_key, &latest_path)
                 .await?;
-            let metadata_matches = verified.status.success()
-                && serde_json::from_slice::<serde_json::Value>(&verified.stdout)
-                    .ok()
-                    .and_then(|value| {
-                        value["Metadata"]["sha256"]
-                            .as_str()
-                            .map(|digest| digest == record.digest())
-                    })
-                    .unwrap_or(false);
-            if !metadata_matches {
+            let _ = fs::remove_file(&latest_path);
+            if !latest_uploaded {
                 self.mark_archive_degraded(record.agent_id());
                 self.schedule_archive_retry(record.agent_id())?;
                 return Err(AgentPartialError::ArchiveCommand);
             }
-            let receipt = serde_json::json!({
-                "schema": "adl.runtime_v3.agent_partial_archive_receipt.v1",
-                "agent_id": record.agent_id(),
-                "snapshot_sequence": record.sequence(),
-                "checkpoint_digest": record.digest(),
-                "archived_at_unix_millis": now_unix_millis(),
-            });
+            let mut receipt = ArchiveReceipt {
+                schema: ARCHIVE_RECEIPT_SCHEMA.to_owned(),
+                agent_id: record.agent_id().to_owned(),
+                snapshot_sequence: record.sequence(),
+                checkpoint_digest: record.digest().to_owned(),
+                archived_at_unix_millis: now_unix_millis(),
+                receipt_digest: String::new(),
+            };
+            receipt.receipt_digest = canonical_receipt_digest(&receipt)?;
             let receipt_path = self
                 .receipts_root
                 .join(digest_label(record.agent_id()))
@@ -581,7 +580,7 @@ impl AgentPartialCheckpointStore {
                 .projections
                 .entry(record.agent_id().to_owned())
                 .or_default();
-            projection.last_archive_at_unix_millis = receipt["archived_at_unix_millis"].as_u64();
+            projection.last_archive_at_unix_millis = Some(receipt.archived_at_unix_millis);
             projection.pending_archive_count = projection.pending_archive_count.saturating_sub(1);
             projection.archive_state = if projection.pending_archive_count == 0 {
                 AgentArchiveState::Current
@@ -618,6 +617,7 @@ impl AgentPartialCheckpointStore {
         &self,
         parent_generation: u64,
         parent_digest: &str,
+        resident_agent_ids: &[String],
     ) -> Result<Vec<AgentPartialCheckpoint>, AgentPartialError> {
         let mut paths = json_files(&self.local_root)?;
         let Some(archive) = self.config.s3_archive.as_ref() else {
@@ -629,70 +629,11 @@ impl AgentPartialCheckpointStore {
                 parent_digest,
             );
         };
-        let prefix = format!(
-            "v1/polis/{}/runtime/{}/agent/",
-            digest_label(&self.polis_id),
-            digest_label(&self.runtime_instance_id)
-        );
-        let mut list = tokio::process::Command::new(&self.archive_command);
-        add_restore_profile(&mut list, archive);
-        list.env("AWS_CLI_CONNECT_TIMEOUT", "3")
-            .env("AWS_CLI_READ_TIMEOUT", "10");
-        let listed = match list
-            .args([
-                "s3api",
-                "list-objects-v2",
-                "--region",
-                &archive.region,
-                "--bucket",
-                &archive.bucket,
-                "--prefix",
-                &prefix,
-                "--output",
-                "json",
-            ])
-            .output()
-            .await
-        {
-            Ok(output) => output,
-            Err(_) => {
-                return select_latest_records(
-                    paths,
-                    &self.runtime_instance_id,
-                    &self.polis_id,
-                    parent_generation,
-                    parent_digest,
-                );
-            }
-        };
-        if !listed.status.success() {
-            return select_latest_records(
-                paths,
-                &self.runtime_instance_id,
-                &self.polis_id,
-                parent_generation,
-                parent_digest,
-            );
-        }
-        let Ok(listing) = serde_json::from_slice::<serde_json::Value>(&listed.stdout) else {
-            return select_latest_records(
-                paths,
-                &self.runtime_instance_id,
-                &self.polis_id,
-                parent_generation,
-                parent_digest,
-            );
-        };
         let download_root = self.root.join("restore-downloads");
         fs::create_dir_all(&download_root)?;
-        for key in listing["Contents"]
-            .as_array()
-            .into_iter()
-            .flatten()
-            .filter_map(|entry| entry["Key"].as_str())
-            .filter(|key| key.ends_with(".json"))
-        {
-            let destination = download_root.join(format!("{}.json", digest_label(key)));
+        for agent_id in resident_agent_ids {
+            let latest_key = self.latest_key(agent_id);
+            let latest_path = download_root.join(format!("{}-latest.json", digest_label(agent_id)));
             let mut get = tokio::process::Command::new(&self.archive_command);
             add_restore_profile(&mut get, archive);
             get.env("AWS_CLI_CONNECT_TIMEOUT", "3")
@@ -706,16 +647,68 @@ impl AgentPartialCheckpointStore {
                     "--bucket",
                     &archive.bucket,
                     "--key",
-                    key,
+                    &latest_key,
                 ])
-                .arg(&destination)
+                .arg(&latest_path)
                 .output()
                 .await
             else {
                 continue;
             };
-            if downloaded.status.success() {
-                paths.push(destination);
+            if !downloaded.status.success() {
+                continue;
+            }
+            let Ok(latest) = fs::read(&latest_path)
+                .map_err(AgentPartialError::from)
+                .and_then(|bytes| {
+                    serde_json::from_slice::<ArchiveLatest>(&bytes)
+                        .map_err(|_| AgentPartialError::Encoding)
+                })
+            else {
+                continue;
+            };
+            let expected_prefix =
+                latest_key.trim_end_matches("latest.json").to_owned() + "sequence/";
+            if latest.schema != ARCHIVE_LATEST_SCHEMA
+                || !latest.object_key.starts_with(&expected_prefix)
+                || latest.snapshot_sequence == 0
+                || latest.checkpoint_digest.len() != 64
+            {
+                continue;
+            }
+            let destination = download_root.join(format!("{}-record.json", digest_label(agent_id)));
+            let mut get_record = tokio::process::Command::new(&self.archive_command);
+            add_restore_profile(&mut get_record, archive);
+            get_record
+                .env("AWS_CLI_CONNECT_TIMEOUT", "3")
+                .env("AWS_CLI_READ_TIMEOUT", "10");
+            if let Ok(result) = get_record
+                .args([
+                    "s3api",
+                    "get-object",
+                    "--region",
+                    &archive.region,
+                    "--bucket",
+                    &archive.bucket,
+                    "--key",
+                    &latest.object_key,
+                ])
+                .arg(&destination)
+                .output()
+                .await
+            {
+                if result.status.success()
+                    && fs::read(&destination)
+                        .ok()
+                        .and_then(|bytes| decode_record(&bytes).ok())
+                        .is_some_and(|record| {
+                            record.agent_id() == agent_id
+                                && record.sequence() == latest.snapshot_sequence
+                                && record.digest() == latest.checkpoint_digest
+                        })
+                {
+                    paths.push(destination);
+                }
             }
         }
         let selected = select_latest_records(
@@ -731,6 +724,7 @@ impl AgentPartialCheckpointStore {
 
     fn rebuild_state(&self) -> Result<(), AgentPartialError> {
         let mut state = self.state.lock().expect("partial store state poisoned");
+        let mut local_record_digests = BTreeMap::<(String, u64), String>::new();
         let mut local_paths = json_files(&self.local_root)?;
         local_paths.sort();
         for path in local_paths {
@@ -744,6 +738,10 @@ impl AgentPartialCheckpointStore {
             {
                 continue;
             }
+            local_record_digests.insert(
+                (record.agent_id().to_owned(), record.sequence()),
+                record.digest().to_owned(),
+            );
             if let StoredRecord::Tombstone(tombstone) = record {
                 let next = state
                     .next_sequence
@@ -771,7 +769,7 @@ impl AgentPartialCheckpointStore {
                 projection.last_snapshot_at_unix_millis = Some(partial.created_at_unix_millis);
                 projection.snapshot_state = AgentSnapshotState::Current;
                 projection.archive_state = if self.config.s3_archive.is_some() {
-                    AgentArchiveState::Pending
+                    AgentArchiveState::Degraded
                 } else {
                     AgentArchiveState::Disabled
                 };
@@ -788,21 +786,24 @@ impl AgentPartialCheckpointStore {
         }
         for path in json_files(&self.receipts_root)? {
             let bytes = fs::read(path)?;
-            let Ok(receipt) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+            let Ok(receipt) = serde_json::from_slice::<ArchiveReceipt>(&bytes) else {
                 continue;
             };
-            let (Some(agent_id), Some(sequence), Some(archived_at)) = (
-                receipt["agent_id"].as_str(),
-                receipt["snapshot_sequence"].as_u64(),
-                receipt["archived_at_unix_millis"].as_u64(),
-            ) else {
+            if receipt.schema != ARCHIVE_RECEIPT_SCHEMA
+                || receipt.snapshot_sequence == 0
+                || canonical_receipt_digest(&receipt).ok().as_deref()
+                    != Some(receipt.receipt_digest.as_str())
+                || local_record_digests
+                    .get(&(receipt.agent_id.clone(), receipt.snapshot_sequence))
+                    .is_none_or(|digest| digest != &receipt.checkpoint_digest)
+            {
                 continue;
-            };
-            let projection = state.projections.entry(agent_id.to_owned()).or_default();
-            if projection.snapshot_sequence == Some(sequence)
+            }
+            let projection = state.projections.entry(receipt.agent_id).or_default();
+            if projection.snapshot_sequence == Some(receipt.snapshot_sequence)
                 && projection.pending_archive_count == 0
             {
-                projection.last_archive_at_unix_millis = Some(archived_at);
+                projection.last_archive_at_unix_millis = Some(receipt.archived_at_unix_millis);
                 projection.archive_state = AgentArchiveState::Current;
             }
         }
@@ -815,7 +816,11 @@ impl AgentPartialCheckpointStore {
                 .projections
                 .entry(marker.agent_id.clone())
                 .or_default();
-            projection.archive_state = AgentArchiveState::Degraded;
+            projection.archive_state = if marker.spool_saturated {
+                AgentArchiveState::SpoolSaturated
+            } else {
+                AgentArchiveState::Degraded
+            };
             state.archive_failures = state.archive_failures.max(marker.consecutive_failures);
             state.archive_retry_after_unix_millis = state
                 .archive_retry_after_unix_millis
@@ -824,15 +829,117 @@ impl AgentPartialCheckpointStore {
         Ok(())
     }
 
-    fn prune_local_for(&self, agent_id: &str) -> Result<(), AgentPartialError> {
+    fn prune_local_for(
+        &self,
+        agent_id: &str,
+        incoming_tombstone: bool,
+    ) -> Result<(), AgentPartialError> {
         let agent_root = self.local_root.join(digest_label(agent_id));
-        let mut files = json_files(&agent_root)?;
-        files.sort();
-        while files.len() >= self.config.retained_partials_per_agent {
-            if let Some(path) = files.first().cloned() {
-                fs::remove_file(path)?;
-                files.remove(0);
+        let mut partials = Vec::<(u64, PathBuf)>::new();
+        let mut tombstones = Vec::<(u64, PathBuf)>::new();
+        for path in json_files(&agent_root)? {
+            let Ok(record) = fs::read(&path).and_then(|bytes| {
+                decode_record(&bytes).map_err(|error| io::Error::other(error.to_string()))
+            }) else {
+                continue;
+            };
+            match record {
+                StoredRecord::Partial(value) => partials.push((value.snapshot_sequence, path)),
+                StoredRecord::Tombstone(value) => {
+                    tombstones.push((value.snapshot_sequence, path));
+                }
             }
+        }
+        partials.sort_by_key(|(sequence, _)| *sequence);
+        tombstones.sort_by_key(|(sequence, _)| *sequence);
+        if incoming_tombstone {
+            for (_, path) in tombstones {
+                fs::remove_file(path)?;
+            }
+        } else {
+            while partials.len() >= self.config.retained_partials_per_agent {
+                let (_, path) = partials.remove(0);
+                fs::remove_file(path)?;
+            }
+        }
+        Ok(())
+    }
+
+    fn latest_key(&self, agent_id: &str) -> String {
+        format!(
+            "v1/polis/{}/runtime/{}/agent/{}/latest.json",
+            digest_label(&self.polis_id),
+            digest_label(&self.runtime_instance_id),
+            digest_label(agent_id),
+        )
+    }
+
+    async fn put_archive_object(
+        &self,
+        archive: &crate::AgentPartialS3ArchiveInitConfig,
+        key: &str,
+        path: &Path,
+    ) -> Result<bool, AgentPartialError> {
+        let bytes = fs::read(path)?;
+        let expected_checksum = BASE64_STANDARD.encode(Sha256::digest(&bytes));
+        let output = tokio::process::Command::new(&self.archive_command)
+            .env("AWS_CLI_CONNECT_TIMEOUT", "3")
+            .env("AWS_CLI_READ_TIMEOUT", "10")
+            .args([
+                "s3api",
+                "put-object",
+                "--region",
+                &archive.region,
+                "--bucket",
+                &archive.bucket,
+                "--key",
+                key,
+                "--body",
+            ])
+            .arg(path)
+            .args([
+                "--server-side-encryption",
+                "aws:kms",
+                "--ssekms-key-id",
+                &archive.kms_key_arn,
+                "--checksum-algorithm",
+                "SHA256",
+                "--output",
+                "json",
+            ])
+            .output()
+            .await?;
+        Ok(output.status.success()
+            && serde_json::from_slice::<serde_json::Value>(&output.stdout)
+                .ok()
+                .and_then(|value| value["ChecksumSHA256"].as_str().map(str::to_owned))
+                .is_some_and(|checksum| checksum == expected_checksum))
+    }
+
+    fn quarantine_spool_record(&self, path: &Path, reason: &str) -> Result<(), AgentPartialError> {
+        let name = path
+            .file_name()
+            .and_then(|value| value.to_str())
+            .unwrap_or("invalid.json");
+        let destination =
+            self.quarantine_root
+                .join(format!("{}-{}-{}", now_unix_millis(), reason, name));
+        fs::rename(path, destination)?;
+        let agent_digest = path
+            .parent()
+            .and_then(Path::file_name)
+            .and_then(|value| value.to_str());
+        if let Some(agent_id) = agent_digest.and_then(|digest| {
+            self.state
+                .lock()
+                .expect("partial store state poisoned")
+                .projections
+                .keys()
+                .find(|agent_id| digest_label(agent_id) == digest)
+                .cloned()
+        }) {
+            self.mark_archive_degraded(&agent_id);
+            self.persist_archive_degraded(&agent_id, true)?;
         }
         Ok(())
     }
@@ -847,23 +954,30 @@ impl AgentPartialCheckpointStore {
             )? {
                 return Ok(());
             }
-            let mut by_parent = BTreeMap::<PathBuf, Vec<PathBuf>>::new();
+            let mut by_agent = BTreeMap::<String, Vec<(u64, PathBuf)>>::new();
             for path in json_files(&self.local_root)? {
-                if let Some(parent) = path.parent() {
-                    by_parent
-                        .entry(parent.to_path_buf())
-                        .or_default()
-                        .push(path);
-                }
+                let Ok(record) = fs::read(&path).and_then(|bytes| {
+                    decode_record(&bytes).map_err(|error| io::Error::other(error.to_string()))
+                }) else {
+                    continue;
+                };
+                by_agent
+                    .entry(record.agent_id().to_owned())
+                    .or_default()
+                    .push((record.sequence(), path));
             }
-            let mut candidates = Vec::new();
-            for files in by_parent.values_mut() {
-                files.sort();
+            let mut candidates = Vec::<(u64, String, PathBuf)>::new();
+            for (agent_id, files) in &mut by_agent {
+                files.sort_by_key(|(sequence, _)| *sequence);
                 files.pop();
-                candidates.extend(files.iter().cloned());
+                candidates.extend(
+                    files
+                        .iter()
+                        .map(|(sequence, path)| (*sequence, agent_id.clone(), path.clone())),
+                );
             }
             candidates.sort();
-            let Some(oldest_superseded) = candidates.first() else {
+            let Some((_, _, oldest_superseded)) = candidates.first() else {
                 return Err(AgentPartialError::LocalStoreSaturated);
             };
             fs::remove_file(oldest_superseded)?;
@@ -928,6 +1042,14 @@ impl AgentPartialCheckpointStore {
         }
         self.write_archive_degraded(&marker)?;
         Ok(())
+    }
+
+    fn persist_spool_saturated(&self, agent_id: &str) -> Result<(), AgentPartialError> {
+        let mut marker = self.read_archive_degraded(agent_id)?.unwrap_or_default();
+        marker.agent_id = agent_id.to_owned();
+        marker.dropped_archive_intervals = marker.dropped_archive_intervals.saturating_add(1);
+        marker.spool_saturated = true;
+        self.write_archive_degraded(&marker)
     }
 
     fn read_archive_degraded(
@@ -1008,6 +1130,13 @@ fn canonical_tombstone_digest(
 ) -> Result<String, AgentPartialError> {
     let mut value = serde_json::to_value(tombstone).map_err(|_| AgentPartialError::Encoding)?;
     value["tombstone_digest"] = serde_json::Value::String(String::new());
+    let bytes = serde_jcs::to_vec(&value).map_err(|_| AgentPartialError::Encoding)?;
+    Ok(hex::encode(Sha256::digest(bytes)))
+}
+
+fn canonical_receipt_digest(receipt: &ArchiveReceipt) -> Result<String, AgentPartialError> {
+    let mut value = serde_json::to_value(receipt).map_err(|_| AgentPartialError::Encoding)?;
+    value["receipt_digest"] = serde_json::Value::String(String::new());
     let bytes = serde_jcs::to_vec(&value).map_err(|_| AgentPartialError::Encoding)?;
     Ok(hex::encode(Sha256::digest(bytes)))
 }
@@ -1253,6 +1382,16 @@ mod tests {
         }
     }
 
+    #[cfg(unix)]
+    fn install_successful_fake_aws(path: &Path) {
+        fs::write(
+            path,
+            "#!/bin/sh\nbody=''\nprevious=''\nfor arg in \"$@\"; do if [ \"$previous\" = \"--body\" ]; then body=\"$arg\"; fi; previous=\"$arg\"; done\nchecksum=$(openssl dgst -sha256 -binary \"$body\" | openssl base64 -A)\nprintf '{\"ChecksumSHA256\":\"%s\"}' \"$checksum\"\n",
+        )
+        .unwrap();
+        fs::set_permissions(path, fs::Permissions::from_mode(0o700)).unwrap();
+    }
+
     #[test]
     fn object_keys_are_privacy_safe_and_stable() {
         let partial = AgentPartialCheckpoint {
@@ -1496,6 +1635,105 @@ mod tests {
         assert!(store.read_archive_degraded("ember").unwrap().is_some());
     }
 
+    #[test]
+    fn archive_truth_is_never_current_without_a_valid_receipt() {
+        let temp = tempfile::tempdir().unwrap();
+        let store = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        assert_ne!(
+            store.projection("ember").archive_state,
+            AgentArchiveState::Current
+        );
+    }
+
+    #[test]
+    fn spool_saturation_survives_restart() {
+        let temp = tempfile::tempdir().unwrap();
+        let mut config = store_config(true);
+        config.spool_max_bytes = 1;
+        let store = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            config.clone(),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.write_partial(capture("ember", 1)).unwrap();
+        drop(store);
+        let reopened = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            config,
+            "runtime-a",
+            "polis-a",
+            "incarnation-b",
+        )
+        .unwrap();
+        assert_eq!(
+            reopened.projection("ember").archive_state,
+            AgentArchiveState::SpoolSaturated
+        );
+    }
+
+    #[test]
+    fn retention_keeps_partial_budget_plus_latest_tombstone() {
+        let temp = tempfile::tempdir().unwrap();
+        let store = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(false),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        for created_at in 1..=3 {
+            store.write_partial(capture("ember", created_at)).unwrap();
+        }
+        store.write_tombstone("ember", 2, "a".repeat(64)).unwrap();
+        let records = json_files(&store.local_root).unwrap();
+        assert_eq!(records.len(), 3);
+        assert_eq!(
+            records
+                .iter()
+                .filter_map(|path| decode_record(&fs::read(path).unwrap()).ok())
+                .filter(|record| matches!(record, StoredRecord::Tombstone(_)))
+                .count(),
+            1
+        );
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn corrupt_spool_record_is_quarantined_without_starving_other_agents() {
+        let temp = tempfile::tempdir().unwrap();
+        let mut store = AgentPartialCheckpointStore::open(
+            temp.path().join("state"),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.write_partial(capture("ember", 1)).unwrap();
+        store.write_partial(capture("relay", 1)).unwrap();
+        let mut spool = json_files(&store.spool_root).unwrap();
+        spool.sort();
+        fs::write(&spool[0], b"corrupt").unwrap();
+        let script = temp.path().join("fake-aws");
+        install_successful_fake_aws(&script);
+        store.set_archive_command(script);
+
+        assert_eq!(store.archive_pending().await.unwrap(), 1);
+        assert_eq!(json_files(&store.quarantine_root).unwrap().len(), 1);
+        assert!(json_files(&store.spool_root).unwrap().is_empty());
+    }
+
     #[cfg(unix)]
     #[tokio::test]
     async fn archived_partial_restores_when_local_copy_is_absent() {
@@ -1514,14 +1752,23 @@ mod tests {
         fs::copy(&local_path, &fixture).unwrap();
         let record = decode_record(&fs::read(&fixture).unwrap()).unwrap();
         let key = record.object_key();
+        let latest = ArchiveLatest {
+            schema: ARCHIVE_LATEST_SCHEMA.to_owned(),
+            object_key: key,
+            checkpoint_digest: record.digest().to_owned(),
+            snapshot_sequence: record.sequence(),
+        };
+        let latest_fixture = temp.path().join("latest.json");
+        fs::write(&latest_fixture, serde_json::to_vec(&latest).unwrap()).unwrap();
         fs::remove_dir_all(&store.local_root).unwrap();
         fs::create_dir_all(&store.local_root).unwrap();
         let script = temp.path().join("fake-aws");
         fs::write(
             &script,
             format!(
-                "#!/bin/sh\nif [ \"$2\" = \"list-objects-v2\" ]; then printf '%s' '{{\"Contents\":[{{\"Key\":\"{key}\"}}]}}'; exit 0; fi\nlast=''\nfor arg in \"$@\"; do last=\"$arg\"; done\ncp '{}' \"$last\"\nprintf '%s' '{{}}'\n",
-                fixture.display()
+                "#!/bin/sh\nkey=''\nlast=''\nprevious=''\nfor arg in \"$@\"; do if [ \"$previous\" = \"--key\" ]; then key=\"$arg\"; fi; previous=\"$arg\"; last=\"$arg\"; done\ncase \"$key\" in */latest.json) cp '{}' \"$last\" ;; *) cp '{}' \"$last\" ;; esac\nprintf '%s' '{{}}'\n",
+                latest_fixture.display(),
+                fixture.display(),
             ),
         )
         .unwrap();
@@ -1529,7 +1776,7 @@ mod tests {
         store.set_archive_command(script);
 
         let restored = store
-            .latest_valid_with_archive(2, &"a".repeat(64))
+            .latest_valid_with_archive(2, &"a".repeat(64), &["ember".to_owned()])
             .await
             .unwrap();
         assert_eq!(restored.len(), 1);
@@ -1549,18 +1796,8 @@ mod tests {
         )
         .unwrap();
         store.write_partial(capture("ember", 1)).unwrap();
-        let spool = json_files(&store.spool_root).unwrap().pop().unwrap();
-        let record = decode_record(&fs::read(spool).unwrap()).unwrap();
         let script = temp.path().join("fake-aws");
-        fs::write(
-            &script,
-            format!(
-                "#!/bin/sh\nif [ \"$2\" = \"head-object\" ]; then printf '%s' '{{\"Metadata\":{{\"sha256\":\"{}\"}}}}'; fi\nexit 0\n",
-                record.digest()
-            ),
-        )
-        .unwrap();
-        fs::set_permissions(&script, fs::Permissions::from_mode(0o700)).unwrap();
+        install_successful_fake_aws(&script);
         store.set_archive_command(script);
         assert_eq!(store.archive_pending().await.unwrap(), 1);
         let before = store.projection("ember");
@@ -1577,5 +1814,42 @@ mod tests {
         )
         .unwrap();
         assert_eq!(reopened.projection("ember"), before);
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn tampered_receipt_cannot_manufacture_current_archive_state() {
+        let temp = tempfile::tempdir().unwrap();
+        let mut store = AgentPartialCheckpointStore::open(
+            temp.path().join("state"),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.write_partial(capture("ember", 1)).unwrap();
+        let script = temp.path().join("fake-aws");
+        install_successful_fake_aws(&script);
+        store.set_archive_command(script);
+        store.archive_pending().await.unwrap();
+        let receipt_path = json_files(&store.receipts_root).unwrap().pop().unwrap();
+        let mut receipt: serde_json::Value =
+            serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+        receipt["checkpoint_digest"] = serde_json::Value::String("0".repeat(64));
+        fs::write(receipt_path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+        drop(store);
+
+        let reopened = AgentPartialCheckpointStore::open(
+            temp.path().join("state"),
+            store_config(true),
+            "runtime-a",
+            "polis-a",
+            "incarnation-b",
+        )
+        .unwrap();
+        let projection = reopened.projection("ember");
+        assert_ne!(projection.archive_state, AgentArchiveState::Current);
+        assert!(projection.last_archive_at_unix_millis.is_none());
     }
 }

@@ -2281,7 +2281,43 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .map(|store| store.interval_seconds())
     }
 
-    pub async fn restore_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
+    pub fn restore_local_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
+        let Some((store, generation, integrity, resident_ids)) =
+            self.agent_partial_restore_context()?
+        else {
+            return Ok(0);
+        };
+        let partials = store
+            .latest_valid(generation, &integrity)
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        self.apply_agent_partial_restore(partials, &resident_ids)
+    }
+
+    pub async fn restore_archived_agent_partial_checkpoints(&self) -> Result<usize, ControlError> {
+        let Some((store, generation, integrity, resident_ids)) =
+            self.agent_partial_restore_context()?
+        else {
+            return Ok(0);
+        };
+        let resident_id_list = resident_ids.iter().cloned().collect::<Vec<_>>();
+        let partials = store
+            .latest_valid_with_archive(generation, &integrity, &resident_id_list)
+            .await
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        self.apply_agent_partial_restore(partials, &resident_ids)
+    }
+
+    fn agent_partial_restore_context(
+        &self,
+    ) -> Result<
+        Option<(
+            Arc<AgentPartialCheckpointStore>,
+            u64,
+            String,
+            BTreeSet<String>,
+        )>,
+        ControlError,
+    > {
         let store = self
             .agent_partial_store
             .read()
@@ -2289,7 +2325,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .clone()
             .ok_or(ControlError::Internal)?;
         if !store.enabled() {
-            return Ok(0);
+            return Ok(None);
         }
         let parent = self
             .recorder
@@ -2304,18 +2340,34 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .map(|agent| agent.id.clone())
             .collect::<BTreeSet<_>>();
-        let partials = store
-            .latest_valid_with_archive(parent.generation, &parent.integrity)
-            .await
-            .map_err(|error| ControlError::Io(error.to_string()))?;
+        Ok(Some((
+            store,
+            parent.generation,
+            parent.integrity,
+            resident_ids,
+        )))
+    }
+
+    fn apply_agent_partial_restore(
+        &self,
+        partials: Vec<crate::AgentPartialCheckpoint>,
+        resident_ids: &BTreeSet<String>,
+    ) -> Result<usize, ControlError> {
         let mut restored = 0;
         for partial in partials {
             if !resident_ids.contains(&partial.agent_id) {
                 continue;
             }
-            self.restore_conversation_history(&partial.agent_id, &partial.conversation_history)
-                .map_err(|_| ControlError::Internal)?;
-            restored += 1;
+            match self
+                .restore_conversation_history(&partial.agent_id, &partial.conversation_history)
+            {
+                Ok(()) => restored += 1,
+                Err(AgentAdmissionFailure::Conflict(_)) => {
+                    // Local restore or live traffic already established this
+                    // conversation. Archived state must never overwrite it.
+                }
+                Err(_) => return Err(ControlError::Internal),
+            }
         }
         Ok(restored)
     }

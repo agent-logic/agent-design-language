@@ -697,11 +697,26 @@ async fn main() -> ExitCode {
                 eprintln!("runtime agent partial checkpoint store is invalid: {error}");
                 return ExitCode::from(78);
             }
-            if let Err(error) = service.restore_agent_partial_checkpoints().await {
+            if let Err(error) = service.restore_local_agent_partial_checkpoints() {
                 eprintln!("runtime agent partial checkpoint restore refused: {error}");
                 return ExitCode::from(78);
             }
             let service = Arc::new(service);
+            let archive_restore_service = Arc::clone(&service);
+            tokio::spawn(async move {
+                if let Err(error) = archive_restore_service
+                    .restore_archived_agent_partial_checkpoints()
+                    .await
+                {
+                    tracing::warn!(
+                        target: "adl_runtime_kernel",
+                        schema = "adl.runtime_v3.agent_partial_restore.v1",
+                        event = "agent_partial_archive_restore_degraded",
+                        error = %error,
+                        "archived agent partial restore degraded; Runtime remains available"
+                    );
+                }
+            });
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
                 &continuity_secret,
