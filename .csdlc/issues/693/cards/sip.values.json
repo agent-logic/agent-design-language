@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 693,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+    "slug": "runtime-a2a-action-selection-reliability",
+    "version": "v0.92.1",
+    "generation": 34
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make model-backed A2A initiation a reliable first-class Runtime action rather than an exact-JSON roleplay convention.",
+      "required_outcome": "Production conversation ingress selects a typed bounded A2A action from ordinary model-style provider output, the Runtime validates and dispatches it through existing authority, the recipient executes, and correlated activity is observable.",
+      "declared_scope": [
+        "Runtime provider conversation prompt and output boundary",
+        "governed A2A initiation bridge",
+        "isolated live-style end-to-end acceptance",
+        "focused compatibility tests"
+      ],
+      "authority_boundary": [
+        "Runtime constructs and validates initiation authority",
+        "Preserve Layer8 admission eligibility replay cancellation and correlation semantics",
+        "No live Runtime mutation",
+        "No cloud or paid provider execution",
+        "No tracked edits on main"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2",
+        "Bind beneath /Volumes/FastWork/adl-worktrees",
+        "Test until production-ingress behavior works reliably",
+        "Do not overlap #686 or #689"
+      ]
+    }
+  }
+}

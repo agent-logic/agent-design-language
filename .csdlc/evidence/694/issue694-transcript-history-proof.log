@@ -1,0 +1,588 @@
+PASS #694 production transcript reload and replay bounds validator
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 1 test
+adl_event schema=adl.runtime.event.v1 sequence=0 component=beacon event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=ember event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=3 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=4 component=agent_runtime event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=5 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=6 component=agent_runtime event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=7 component=canonical_ingress event=domain_work_completed correlation_id=cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd
+adl_event schema=adl.runtime.event.v1 sequence=8 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000000
+adl_event schema=adl.runtime.event.v1 sequence=9 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000001
+adl_event schema=adl.runtime.event.v1 sequence=10 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000002
+adl_event schema=adl.runtime.event.v1 sequence=11 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000003
+adl_event schema=adl.runtime.event.v1 sequence=12 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000004
+adl_event schema=adl.runtime.event.v1 sequence=13 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000005
+adl_event schema=adl.runtime.event.v1 sequence=14 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000006
+adl_event schema=adl.runtime.event.v1 sequence=15 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000007
+adl_event schema=adl.runtime.event.v1 sequence=16 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000008
+adl_event schema=adl.runtime.event.v1 sequence=17 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000009
+adl_event schema=adl.runtime.event.v1 sequence=18 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000000a
+adl_event schema=adl.runtime.event.v1 sequence=19 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000000b
+adl_event schema=adl.runtime.event.v1 sequence=20 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000000c
+adl_event schema=adl.runtime.event.v1 sequence=21 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000000d
+adl_event schema=adl.runtime.event.v1 sequence=22 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000000e
+adl_event schema=adl.runtime.event.v1 sequence=23 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000000f
+adl_event schema=adl.runtime.event.v1 sequence=24 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000010
+adl_event schema=adl.runtime.event.v1 sequence=25 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000011
+adl_event schema=adl.runtime.event.v1 sequence=26 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000012
+adl_event schema=adl.runtime.event.v1 sequence=27 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000013
+adl_event schema=adl.runtime.event.v1 sequence=28 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000014
+adl_event schema=adl.runtime.event.v1 sequence=29 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000015
+adl_event schema=adl.runtime.event.v1 sequence=30 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000016
+adl_event schema=adl.runtime.event.v1 sequence=31 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000017
+adl_event schema=adl.runtime.event.v1 sequence=32 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000018
+adl_event schema=adl.runtime.event.v1 sequence=33 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000019
+adl_event schema=adl.runtime.event.v1 sequence=34 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000001a
+adl_event schema=adl.runtime.event.v1 sequence=35 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000001b
+adl_event schema=adl.runtime.event.v1 sequence=36 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000001c
+adl_event schema=adl.runtime.event.v1 sequence=37 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000001d
+adl_event schema=adl.runtime.event.v1 sequence=38 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000001e
+adl_event schema=adl.runtime.event.v1 sequence=39 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000001f
+adl_event schema=adl.runtime.event.v1 sequence=40 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000020
+adl_event schema=adl.runtime.event.v1 sequence=41 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000021
+adl_event schema=adl.runtime.event.v1 sequence=42 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000022
+adl_event schema=adl.runtime.event.v1 sequence=43 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000023
+adl_event schema=adl.runtime.event.v1 sequence=44 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000024
+adl_event schema=adl.runtime.event.v1 sequence=45 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000025
+adl_event schema=adl.runtime.event.v1 sequence=46 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000026
+adl_event schema=adl.runtime.event.v1 sequence=47 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000027
+adl_event schema=adl.runtime.event.v1 sequence=48 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000028
+adl_event schema=adl.runtime.event.v1 sequence=49 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000029
+adl_event schema=adl.runtime.event.v1 sequence=50 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000002a
+adl_event schema=adl.runtime.event.v1 sequence=51 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000002b
+adl_event schema=adl.runtime.event.v1 sequence=52 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000002c
+adl_event schema=adl.runtime.event.v1 sequence=53 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000002d
+adl_event schema=adl.runtime.event.v1 sequence=54 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000002e
+adl_event schema=adl.runtime.event.v1 sequence=55 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000002f
+adl_event schema=adl.runtime.event.v1 sequence=56 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000030
+adl_event schema=adl.runtime.event.v1 sequence=57 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000031
+adl_event schema=adl.runtime.event.v1 sequence=58 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000032
+adl_event schema=adl.runtime.event.v1 sequence=59 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000033
+adl_event schema=adl.runtime.event.v1 sequence=60 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000034
+adl_event schema=adl.runtime.event.v1 sequence=61 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000035
+adl_event schema=adl.runtime.event.v1 sequence=62 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000036
+adl_event schema=adl.runtime.event.v1 sequence=63 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000037
+adl_event schema=adl.runtime.event.v1 sequence=64 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000038
+adl_event schema=adl.runtime.event.v1 sequence=65 component=canonical_ingress event=domain_work_completed correlation_id=00000000000000000000000000000039
+adl_event schema=adl.runtime.event.v1 sequence=66 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000003a
+adl_event schema=adl.runtime.event.v1 sequence=67 component=canonical_ingress event=domain_work_completed correlation_id=0000000000000000000000000000003b
+adl_event schema=adl.runtime.event.v1 sequence=68 component=canonical_ingress event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=69 component=canonical_ingress event=state:Stopped correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=70 component=agent_runtime event=state:Stopping correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=71 component=agent_runtime event=state:Stopped correlation_id=none
+test control::layer8_conversation_ingress_tests::production_conversation_history_restores_operator_and_agent_once_in_order ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 138 filtered out; finished in 0.43s
+
+     Running unittests src/bin/adl-runtime-governed-operations.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_governed_operations-467011d06629654e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl-runtime-kernel.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-bc947e915a7004e7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl-runtime-shadow-fixture.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_shadow_fixture-95dc125f89cb19f8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adaptive_learning.rs (adl-runtime-kernel/target/debug/deps/adaptive_learning-a0dcd4e90ade891b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+     Running tests/agent_roster.rs (adl-runtime-kernel/target/debug/deps/agent_roster-95a4959cac8da0cb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+     Running tests/assembly.rs (adl-runtime-kernel/target/debug/deps/assembly-32ab0685f48fe5fc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests/birth_witness.rs (adl-runtime-kernel/target/debug/deps/birth_witness-b750c19997fc0fec)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/birthday.rs (adl-runtime-kernel/target/debug/deps/birthday-a591fd2fee477b3f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests/capability_envelope.rs (adl-runtime-kernel/target/debug/deps/capability_envelope-b8055e5a96461283)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/cognition.rs (adl-runtime-kernel/target/debug/deps/cognition-4957d0aa8f770eb2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/cognitive_profile.rs (adl-runtime-kernel/target/debug/deps/cognitive_profile-9af9adc9e9c9afeb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/configuration.rs (adl-runtime-kernel/target/debug/deps/configuration-0cf75076401dbbde)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 0.00s
+
+     Running tests/continuity.rs (adl-runtime-kernel/target/debug/deps/continuity-48447a0a0537965a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/contracts.rs (adl-runtime-kernel/target/debug/deps/contracts-effa8ca08808c851)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/control.rs (adl-runtime-kernel/target/debug/deps/control-f9e8f949fbdb8103)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+
+     Running tests/conversation_continuity.rs (adl-runtime-kernel/target/debug/deps/conversation_continuity-d7bd8a9cf47df725)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+     Running tests/conversation_history.rs (adl-runtime-kernel/target/debug/deps/conversation_history-837e7a589b742006)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/conversation_journal.rs (adl-runtime-kernel/target/debug/deps/conversation_journal-6f2c45d65130a539)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/durable_conversation_history_integration.rs (adl-runtime-kernel/target/debug/deps/durable_conversation_history_integration-7b3e0233bb47b89b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/durable_state.rs (adl-runtime-kernel/target/debug/deps/durable_state-db5dc7b60a866340)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/governance.rs (adl-runtime-kernel/target/debug/deps/governance-b885778642a1865b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests/governed_operations.rs (adl-runtime-kernel/target/debug/deps/governed_operations-7a5ef8e6ba94abe0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+
+     Running tests/guardian_soak.rs (adl-runtime-kernel/target/debug/deps/guardian_soak-91b8fb6fe3e189d5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/identity_memory.rs (adl-runtime-kernel/target/debug/deps/identity_memory-d91ac6bd4c07fc1b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests/kernel.rs (adl-runtime-kernel/target/debug/deps/kernel-a89fffaf22cde75b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 25 filtered out; finished in 0.00s
+
+     Running tests/kernel_continuity_control.rs (adl-runtime-kernel/target/debug/deps/kernel_continuity_control-6fac1ac65b761dbc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 35 filtered out; finished in 0.00s
+
+     Running tests/layer8_authority.rs (adl-runtime-kernel/target/debug/deps/layer8_authority-f9c31c5c032866ed)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/live_continuity.rs (adl-runtime-kernel/target/debug/deps/live_continuity-1690476c0584992b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/memory_palace.rs (adl-runtime-kernel/target/debug/deps/memory_palace-13bd34465149e279)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.00s
+
+     Running tests/observability.rs (adl-runtime-kernel/target/debug/deps/observability-e1f040bfc2be7dfc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 36 filtered out; finished in 0.00s
+
+     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.00s
+
+     Running tests/openapi_contract.rs (adl-runtime-kernel/target/debug/deps/openapi_contract-5c45175c8c0e60b4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/parity.rs (adl-runtime-kernel/target/debug/deps/parity-a8a05ca73bfb83dd)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 32 filtered out; finished in 0.00s
+
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 27 filtered out; finished in 0.00s
+
+     Running tests/private_state.rs (adl-runtime-kernel/target/debug/deps/private_state-da9d7f84de5ca180)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/production_acip_wss.rs (adl-runtime-kernel/target/debug/deps/production_acip_wss-ebc2ffe8b5d9e472)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/production_birthday.rs (adl-runtime-kernel/target/debug/deps/production_birthday-e1c3b0e67965655c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/protocol_adapters.rs (adl-runtime-kernel/target/debug/deps/protocol_adapters-3a88c9d9a1d91692)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/reasoning.rs (adl-runtime-kernel/target/debug/deps/reasoning-78fc8f2a443b2730)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/shepherd.rs (adl-runtime-kernel/target/debug/deps/shepherd-b78461e9260d456e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+
+     Running tests/time.rs (adl-runtime-kernel/target/debug/deps/time-ce298205d1bb9ac0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/durable_conversation_history_integration.rs (adl-runtime-kernel/target/debug/deps/durable_conversation_history_integration-7b3e0233bb47b89b)
+
+running 1 test
+test durable_history_parent_chain_survives_restart_and_deletion_coherently ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 1 test
+test control::layer8_conversation_ingress_tests::production_conversation_history_restores_operator_and_agent_once_in_order ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 138 filtered out; finished in 0.43s
+
+     Running unittests src/bin/adl-runtime-governed-operations.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_governed_operations-467011d06629654e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl-runtime-kernel.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-bc947e915a7004e7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl-runtime-shadow-fixture.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_shadow_fixture-95dc125f89cb19f8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adaptive_learning.rs (adl-runtime-kernel/target/debug/deps/adaptive_learning-a0dcd4e90ade891b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+     Running tests/agent_roster.rs (adl-runtime-kernel/target/debug/deps/agent_roster-95a4959cac8da0cb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+     Running tests/assembly.rs (adl-runtime-kernel/target/debug/deps/assembly-32ab0685f48fe5fc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests/birth_witness.rs (adl-runtime-kernel/target/debug/deps/birth_witness-b750c19997fc0fec)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/birthday.rs (adl-runtime-kernel/target/debug/deps/birthday-a591fd2fee477b3f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests/capability_envelope.rs (adl-runtime-kernel/target/debug/deps/capability_envelope-b8055e5a96461283)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/cognition.rs (adl-runtime-kernel/target/debug/deps/cognition-4957d0aa8f770eb2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/cognitive_profile.rs (adl-runtime-kernel/target/debug/deps/cognitive_profile-9af9adc9e9c9afeb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/configuration.rs (adl-runtime-kernel/target/debug/deps/configuration-0cf75076401dbbde)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 0.00s
+
+     Running tests/continuity.rs (adl-runtime-kernel/target/debug/deps/continuity-48447a0a0537965a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/contracts.rs (adl-runtime-kernel/target/debug/deps/contracts-effa8ca08808c851)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/control.rs (adl-runtime-kernel/target/debug/deps/control-f9e8f949fbdb8103)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+
+     Running tests/conversation_continuity.rs (adl-runtime-kernel/target/debug/deps/conversation_continuity-d7bd8a9cf47df725)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+     Running tests/conversation_history.rs (adl-runtime-kernel/target/debug/deps/conversation_history-837e7a589b742006)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/conversation_journal.rs (adl-runtime-kernel/target/debug/deps/conversation_journal-6f2c45d65130a539)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/durable_conversation_history_integration.rs (adl-runtime-kernel/target/debug/deps/durable_conversation_history_integration-7b3e0233bb47b89b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/durable_state.rs (adl-runtime-kernel/target/debug/deps/durable_state-db5dc7b60a866340)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/governance.rs (adl-runtime-kernel/target/debug/deps/governance-b885778642a1865b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests/governed_operations.rs (adl-runtime-kernel/target/debug/deps/governed_operations-7a5ef8e6ba94abe0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+
+     Running tests/guardian_soak.rs (adl-runtime-kernel/target/debug/deps/guardian_soak-91b8fb6fe3e189d5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/identity_memory.rs (adl-runtime-kernel/target/debug/deps/identity_memory-d91ac6bd4c07fc1b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests/kernel.rs (adl-runtime-kernel/target/debug/deps/kernel-a89fffaf22cde75b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 25 filtered out; finished in 0.00s
+
+     Running tests/kernel_continuity_control.rs (adl-runtime-kernel/target/debug/deps/kernel_continuity_control-6fac1ac65b761dbc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 35 filtered out; finished in 0.00s
+
+     Running tests/layer8_authority.rs (adl-runtime-kernel/target/debug/deps/layer8_authority-f9c31c5c032866ed)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/live_continuity.rs (adl-runtime-kernel/target/debug/deps/live_continuity-1690476c0584992b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/memory_palace.rs (adl-runtime-kernel/target/debug/deps/memory_palace-13bd34465149e279)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.00s
+
+     Running tests/observability.rs (adl-runtime-kernel/target/debug/deps/observability-e1f040bfc2be7dfc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 36 filtered out; finished in 0.00s
+
+     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.00s
+
+     Running tests/openapi_contract.rs (adl-runtime-kernel/target/debug/deps/openapi_contract-5c45175c8c0e60b4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/parity.rs (adl-runtime-kernel/target/debug/deps/parity-a8a05ca73bfb83dd)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 32 filtered out; finished in 0.00s
+
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 27 filtered out; finished in 0.00s
+
+     Running tests/private_state.rs (adl-runtime-kernel/target/debug/deps/private_state-da9d7f84de5ca180)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/production_acip_wss.rs (adl-runtime-kernel/target/debug/deps/production_acip_wss-ebc2ffe8b5d9e472)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/production_birthday.rs (adl-runtime-kernel/target/debug/deps/production_birthday-e1c3b0e67965655c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/protocol_adapters.rs (adl-runtime-kernel/target/debug/deps/protocol_adapters-3a88c9d9a1d91692)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/reasoning.rs (adl-runtime-kernel/target/debug/deps/reasoning-78fc8f2a443b2730)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/shepherd.rs (adl-runtime-kernel/target/debug/deps/shepherd-b78461e9260d456e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+
+     Running tests/time.rs (adl-runtime-kernel/target/debug/deps/time-ce298205d1bb9ac0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s

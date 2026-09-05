@@ -1,0 +1,22 @@
+{
+  "issue": 693,
+  "expected_generation": 16,
+  "expected_digest": "40246a11608de8359943d703c072ea5c31d7f7dc073111cb8f1a20738c8a2e51",
+  "actor": "codex:/root/a2a_reliability_fix",
+  "evidence": {
+    "reviewer": "codex:/root/a2a_reliability_fix/review_693_exact_head_after_recovery",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/evidence/693"
+    ],
+    "reviewed_revision": "git-blake3:ab97441ddcc4b3303d1e7c5e23c3565d53391a43:774adf7be7e71ee0938467385abd6efceffcc451367c0861730e168b79cd74bb",
+    "findings": [],
+    "residual_risks": [
+      "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
