@@ -73,11 +73,11 @@ Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
