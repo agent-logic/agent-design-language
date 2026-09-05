@@ -6,13 +6,13 @@
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "implemented",
   "generation": 47,
-  "digest": "b6202711bc6e4a4d792c9618585d88e4d1e35800cef1919c020646c84264976e",
+  "digest": "a6cb70fbfa99438c86566e92c5f671ba57feabc6d8e3e64a89b4d5f7fa1bc77c",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_591_adbf4b921",
+    "reviewer": "subagent:/root/review_591_3662fb4a8",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:adbf4b9211b999379781b95e3fcaca56e31be821:f9f68c585897cca610b62f570594d21e905a0b48bc7242318c41fb2a6dd1af0b",
+    "revision": "git-blake3:3662fb4a8d16de12175e660fc0d72bc03a03ae50:301608e3822abc50419e6d924756d7fee5f693b311278d79c155239d80fa19b8",
     "scope": [
       "AGENTS.md",
       "adl/tools/test_install_adl_pr_cycle_skill.sh",
@@ -707,6 +707,13 @@
     },
     {
       "sequence": 59,
+      "generation": 47,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 60,
       "generation": 47,
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
