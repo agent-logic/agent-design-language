@@ -480,7 +480,8 @@ async fn timeout_releases_capacity_and_runtime_remains_usable() {
         "recover",
         &format!(
             "if [ ! -e '{}' ]; then touch '{}'; exec sleep 5; fi\nread prompt\nprintf 'recovered:%s' \"$prompt\"",
-            marker.display(), marker.display()
+            marker.display(),
+            marker.display()
         ),
     );
     let executor =
@@ -688,7 +689,8 @@ async fn cancellation_is_bounded_and_releases_capacity() {
         "pending",
         &format!(
             "if [ ! -e '{}' ]; then touch '{}'; exec sleep 5; fi\nread prompt\nprintf 'recovered:%s' \"$prompt\"",
-            marker.display(), marker.display()
+            marker.display(),
+            marker.display()
         ),
     );
     let executor = LocalShepherdExecutor::configured(config(&script, vec![])).unwrap();
@@ -1213,7 +1215,7 @@ async fn resident_shepherd_lifetime_recovery_retries_and_recovers() {
         observed_states.lock().unwrap().as_slice(),
         &[
             ResidentShepherdRecoveryState::ModelLoading,
-            ResidentShepherdRecoveryState::Degraded,
+            ResidentShepherdRecoveryState::Unavailable,
             ResidentShepherdRecoveryState::ModelLoading,
             ResidentShepherdRecoveryState::Ready,
         ]

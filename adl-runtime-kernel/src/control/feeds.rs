@@ -4,9 +4,9 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy, AgentRosterQuery,
-    AgentRuntimeEvidence, BootstrapEvent, ComponentId, LifecycleState, ResidentShepherdInitConfig,
-    ResidentShepherdSetInitConfig, RunningState, RuntimeSnapshot, WeatherHealthReport,
-    AGENT_ROSTER_PAGE_SCHEMA,
+    AgentRuntimeEvidence, BootstrapEvent, ComponentId, InferenceReadinessState, LifecycleState,
+    ResidentShepherdInitConfig, ResidentShepherdSetInitConfig, RunningState, RuntimeSnapshot,
+    WeatherHealthReport, AGENT_ROSTER_PAGE_SCHEMA,
 };
 
 pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
@@ -115,6 +115,8 @@ impl AgentPopulationFeed {
             } else {
                 format!("shepherd:{}", config.name)
             };
+            let readiness = InferenceReadinessState::ModelLoading;
+            let projection = readiness.projection();
             feed.sample.push(AgentSample {
                 id: id.clone(),
                 name: config.name.clone(),
@@ -122,14 +124,15 @@ impl AgentPopulationFeed {
                 role: config.office.clone(),
                 provider: Some(config.provider.clone()),
                 model: Some(config.model.clone()),
-                state: "model_loading".to_owned(),
+                inference_readiness: readiness,
+                state: readiness.as_str().to_owned(),
                 detail: "Provider model preload pending".to_owned(),
-                health: "loading".to_owned(),
-                availability: "unavailable".to_owned(),
-                activity: Some("model_preload".to_owned()),
+                health: projection.health.to_owned(),
+                availability: projection.availability.to_owned(),
+                activity: projection.activity.map(str::to_owned),
                 capabilities: vec!["conversation".to_owned()],
                 location: Some("local_runtime".to_owned()),
-                communication_eligible: false,
+                communication_eligible: projection.communication_eligible,
                 observed_at_unix_millis: 0,
                 freshness_deadline_unix_millis: 0,
                 source_revision: "configured".to_owned(),
@@ -164,6 +167,7 @@ impl AgentPopulationFeed {
                 role: role.into(),
                 provider: None,
                 model: None,
+                inference_readiness: InferenceReadinessState::Unimplemented,
                 state: "unknown".to_owned(),
                 detail: "Awaiting production Runtime admission".to_owned(),
                 health: "unknown".to_owned(),
@@ -223,24 +227,15 @@ impl AgentPopulationFeed {
             .as_millis()
             .try_into()
             .unwrap_or(u64::MAX);
-        agent.state = state.to_owned();
+        let readiness = InferenceReadinessState::from_projection_state(state);
+        let projection = readiness.projection();
+        agent.inference_readiness = readiness;
+        agent.state = readiness.as_str().to_owned();
         agent.detail = detail.to_owned();
-        agent.health = if state == "ready" {
-            "healthy"
-        } else if state == "model_loading" {
-            "loading"
-        } else {
-            "degraded"
-        }
-        .to_owned();
-        agent.availability = if state == "ready" {
-            "available"
-        } else {
-            "unavailable"
-        }
-        .to_owned();
-        agent.communication_eligible = state == "ready";
-        agent.activity = (state != "ready").then(|| "model_preload".to_owned());
+        agent.health = projection.health.to_owned();
+        agent.availability = projection.availability.to_owned();
+        agent.communication_eligible = projection.communication_eligible;
+        agent.activity = projection.activity.map(str::to_owned);
         agent.observed_at_unix_millis = now;
         agent.freshness_deadline_unix_millis = now.saturating_add(5 * 60 * 1_000);
         agent.source_revision = self.revision.saturating_add(1).to_string();
@@ -357,7 +352,7 @@ fn project_agent_evidence(
     }
     let state = snapshot.components.get(&ComponentId::new(&agent.id))?;
     let admission = snapshot.agent_admissions.get(&agent.id)?;
-    let (presence, health, availability, eligible) = match state {
+    let runtime_projection = match state {
         RunningState::Running => (AgentPresence::Ready, "healthy", "available", true),
         RunningState::Starting | RunningState::Ready => {
             (AgentPresence::Unknown, "starting", "unavailable", false)
@@ -371,6 +366,27 @@ fn project_agent_evidence(
             false,
         ),
     };
+    let provider_backed = agent.provider.is_some() || agent.model.is_some();
+    let readiness_projection = agent.inference_readiness.projection();
+    let (presence, health, availability, eligible) = if provider_backed {
+        if !runtime_projection.3 {
+            runtime_projection
+        } else {
+            (
+                readiness_projection.presence,
+                readiness_projection.health,
+                readiness_projection.availability,
+                readiness_projection.communication_eligible,
+            )
+        }
+    } else {
+        runtime_projection
+    };
+    let activity = if provider_backed && runtime_projection.3 {
+        readiness_projection.activity.map(str::to_owned)
+    } else {
+        agent.activity.clone()
+    };
     Some(AgentRuntimeEvidence {
         agent_id: agent.id.clone(),
         name: agent.name.clone(),
@@ -378,10 +394,11 @@ fn project_agent_evidence(
         public_role: agent.role.clone(),
         provider: agent.provider.clone(),
         model: agent.model.clone(),
+        inference_readiness: agent.inference_readiness,
         presence,
         health: health.to_owned(),
         availability: availability.to_owned(),
-        activity: agent.activity.clone(),
+        activity,
         capabilities: agent.capabilities.clone(),
         location: agent.location.clone(),
         communication_eligible: eligible,
@@ -394,6 +411,8 @@ fn project_agent_evidence(
 
 impl From<&AgentSample> for AgentRuntimeEvidence {
     fn from(agent: &AgentSample) -> Self {
+        let readiness_projection = agent.inference_readiness.projection();
+        let provider_backed = agent.provider.is_some() || agent.model.is_some();
         Self {
             agent_id: agent.id.clone(),
             name: agent.name.clone(),
@@ -401,21 +420,42 @@ impl From<&AgentSample> for AgentRuntimeEvidence {
             public_role: agent.role.clone(),
             provider: agent.provider.clone(),
             model: agent.model.clone(),
-            presence: match agent.state.as_str() {
-                "ready" => AgentPresence::Ready,
-                "busy" => AgentPresence::Busy,
-                "sleeping" => AgentPresence::Sleeping,
-                "degraded" => AgentPresence::Degraded,
-                "unreachable" => AgentPresence::Unreachable,
-                "migrating" => AgentPresence::Migrating,
-                _ => AgentPresence::Unknown,
+            inference_readiness: agent.inference_readiness,
+            presence: if provider_backed {
+                readiness_projection.presence
+            } else {
+                match agent.state.as_str() {
+                    "ready" => AgentPresence::Ready,
+                    "busy" => AgentPresence::Busy,
+                    "sleeping" => AgentPresence::Sleeping,
+                    "degraded" => AgentPresence::Degraded,
+                    "unreachable" => AgentPresence::Unreachable,
+                    "migrating" => AgentPresence::Migrating,
+                    _ => AgentPresence::Unknown,
+                }
             },
-            health: agent.health.clone(),
-            availability: agent.availability.clone(),
-            activity: agent.activity.clone(),
+            health: if provider_backed {
+                readiness_projection.health.to_owned()
+            } else {
+                agent.health.clone()
+            },
+            availability: if provider_backed {
+                readiness_projection.availability.to_owned()
+            } else {
+                agent.availability.clone()
+            },
+            activity: if provider_backed {
+                readiness_projection.activity.map(str::to_owned)
+            } else {
+                agent.activity.clone()
+            },
             capabilities: agent.capabilities.clone(),
             location: agent.location.clone(),
-            communication_eligible: agent.communication_eligible,
+            communication_eligible: if provider_backed {
+                readiness_projection.communication_eligible
+            } else {
+                agent.communication_eligible
+            },
             observed_at_unix_millis: agent.observed_at_unix_millis,
             freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
             source_revision: agent.source_revision.clone(),
@@ -426,10 +466,15 @@ impl From<&AgentSample> for AgentRuntimeEvidence {
 
 impl From<AgentRosterEntry> for AgentSample {
     fn from(agent: AgentRosterEntry) -> Self {
-        let state = serde_json::to_value(agent.presence)
-            .ok()
-            .and_then(|value| value.as_str().map(str::to_owned))
-            .unwrap_or_else(|| "unknown".to_owned());
+        let provider_backed = agent.provider.is_some() || agent.model.is_some();
+        let state = if provider_backed {
+            agent.inference_readiness.as_str().to_owned()
+        } else {
+            serde_json::to_value(agent.presence)
+                .ok()
+                .and_then(|value| value.as_str().map(str::to_owned))
+                .unwrap_or_else(|| "unknown".to_owned())
+        };
         Self {
             id: agent.id,
             name: agent.name,
@@ -437,6 +482,7 @@ impl From<AgentRosterEntry> for AgentSample {
             role: agent.role,
             provider: agent.provider,
             model: agent.model,
+            inference_readiness: agent.inference_readiness,
             state,
             detail: "Runtime-authorized local roster projection".to_owned(),
             health: agent.health,
@@ -463,6 +509,8 @@ pub struct AgentSample {
     pub provider: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub model: Option<String>,
+    #[serde(default)]
+    pub inference_readiness: InferenceReadinessState,
     pub state: String,
     pub detail: String,
     pub health: String,
