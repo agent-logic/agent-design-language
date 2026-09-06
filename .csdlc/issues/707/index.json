@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 707,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "67ad230ca41fe5451ab3c64ef33526b2cd36ad6b6f4681464680b4efbfadf9e1",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 2,
-  "digest": "67980614829c8b521b68186001a9139be7195d3e01a2ba8896724566e4682a38",
-  "branch": null,
-  "worktree": null,
+  "digest": "5e8d2bba2213f1b22e6dfcd5683e4186c8514282df182d58cbdab99de5eba60b",
+  "branch": "codex/707-runtime-generation-coherence-a2a-deploy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-707-runtime-generation-coherence-a2a-deploy",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:runtime-generation-a2a-repair",
       "reason": "Advance the operator-approved bounded repair design to execution readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -84,6 +92,13 @@
       "actor": "codex:runtime-generation-a2a-repair",
       "reason": "Keep pre-bind validation lanes limited to executable governed targets; the live Wuji proof script is an implementation deliverable and cannot be a pre-bind target.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"config-generation-cross-binary\",\"proof_role\":\"Prove deterministic install-generation handling and fail-closed artifact mismatch behavior; extend this retained target with cross-binary config identity coverage during implementation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null},{\"lane\":\"format-diff\",\"proof_role\":\"Reject formatting and exact-range whitespace defects before review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
