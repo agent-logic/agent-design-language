@@ -7,7 +7,7 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 36
+    "generation": 40
   },
   "status": "pre_phase",
   "content": {
@@ -344,8 +344,8 @@
           "evidence_ref": "terminal:183 tests passed; formerly failing shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress passed"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

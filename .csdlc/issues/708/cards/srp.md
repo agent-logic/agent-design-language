@@ -33,12 +33,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review confirmed the duplicate in-flight test repair is deterministic and does not change source semantics beyond removing the sleep-timed race.
+- The full hosted adl-runtime-v3-fast lane remains deferred to GitHub CI after republish.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8f6e0daf9cc0e8e0260a8592255079bd6d6ba25e:b5fa5325ad11ead2005f21674901bb1bac3e77cc61e48300a471a6ef4d86eb63")
 
-Reviewer: None
+Reviewer: Some("codex:issue-708-ci-race-final-review")
 
-Result: pre_review
+Result: pass
