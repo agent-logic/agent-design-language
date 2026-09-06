@@ -1446,6 +1446,42 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
     let rollback_ref =
         write_proof_command_fixture(root, "rollback-readiness", "rollback-readiness", &revision);
     let rollback_digest = rollback_ref["digest"].as_str().unwrap().to_owned();
+    let review_value: serde_json::Value = serde_json::from_slice(&review).unwrap();
+    let reviewer = review_value["review"]["reviewer"].as_str().unwrap();
+    let attestation_root = root.join(".git/csdlc-v2/attestations/505").join(&revision);
+    fs::create_dir_all(&attestation_root).expect("external attestation parent");
+    let review_attestation = serde_json::to_vec(&serde_json::json!({
+        "schema": "csdlc.review.attestation.v1",
+        "producer": "csdlc-review",
+        "repository": "agent-logic/agent-design-language",
+        "issue": 505,
+        "implementer": "operator",
+        "reviewer": reviewer,
+        "reviewed_revision": revision,
+        "review_record_digest": review_record_digest
+    }))
+    .unwrap();
+    fs::write(attestation_root.join("review.json"), &review_attestation)
+        .expect("external review attestation");
+    let review_attestation_digest = blake3::hash(&review_attestation).to_hex().to_string();
+    let approval_attestation = serde_json::to_vec(&serde_json::json!({
+        "schema": "csdlc.cutover_approval.attestation.v1",
+        "producer": "csdlc-cutover-approval",
+        "repository": "agent-logic/agent-design-language",
+        "issue": 505,
+        "approved_by": "operator",
+        "exact_head": revision,
+        "selected_binary_digest": selected_binary_digest,
+        "rollback_evidence_digest": rollback_digest,
+        "review_attestation_digest": review_attestation_digest
+    }))
+    .unwrap();
+    fs::write(
+        attestation_root.join("approval.json"),
+        &approval_attestation,
+    )
+    .expect("external approval attestation");
+    let approval_attestation_digest = blake3::hash(&approval_attestation).to_hex().to_string();
     let approval = serde_json::to_vec(&serde_json::json!({
         "schema": "csdlc.v3.cutover_approval.v1",
         "authority_issue": 505,
@@ -1456,6 +1492,8 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
         "selector_metadata_digest": "pre-cutover-selector",
         "rollback_evidence_digest": rollback_digest,
         "review_record_digest": review_record_digest,
+        "review_attestation_digest": review_attestation_digest,
+        "approval_attestation_digest": approval_attestation_digest,
         "approved_by": "operator"
     }))
     .unwrap();

@@ -1284,12 +1284,40 @@ struct AuthorityCutoverApproval {
     selected_binary_digest: String,
     rollback_evidence_digest: String,
     review_record_digest: String,
+    review_attestation_digest: String,
+    approval_attestation_digest: String,
     approved_by: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ExternalReviewAttestation {
+    schema: String,
+    producer: String,
+    repository: String,
+    issue: u64,
+    implementer: String,
+    reviewer: String,
+    reviewed_revision: String,
+    review_record_digest: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ExternalApprovalAttestation {
+    schema: String,
+    producer: String,
+    repository: String,
+    issue: u64,
+    approved_by: String,
+    exact_head: String,
+    selected_binary_digest: String,
+    rollback_evidence_digest: String,
+    review_attestation_digest: String,
 }
 
 struct VerifiedReviewAuthority {
     record_digest: String,
     assigned_by: String,
+    attestation_digest: String,
 }
 
 struct VerifiedCutoverReadiness {
@@ -1998,9 +2026,46 @@ fn verify_independent_review(
         ));
     }
     let assignment = assignment.expect("assignment verified above");
+    let review = review.expect("review verified above");
+    let attestation_path = git_control_dir(repository_root)
+        .ok_or_else(|| {
+            finding(
+                "review_attestation_control_dir_missing",
+                "independent review attestation requires canonical Git-control storage",
+            )
+        })?
+        .join(format!("csdlc-v2/attestations/505/{revision}/review.json"));
+    let attestation_bytes = fs::read(&attestation_path).map_err(|_| {
+        finding(
+            "review_attestation_missing",
+            "cutover requires an external typed review attestation outside the tracked tree",
+        )
+    })?;
+    let attestation: ExternalReviewAttestation = serde_json::from_slice(&attestation_bytes)
+        .map_err(|_| {
+            finding(
+                "review_attestation_invalid",
+                "external review attestation must be typed JSON",
+            )
+        })?;
+    if attestation.schema != "csdlc.review.attestation.v1"
+        || attestation.producer != "csdlc-review"
+        || attestation.repository != "agent-logic/agent-design-language"
+        || attestation.issue != 505
+        || attestation.implementer != operator
+        || attestation.reviewer != review.reviewer
+        || attestation.reviewed_revision != revision
+        || attestation.review_record_digest != record.digest
+    {
+        return Err(finding(
+            "review_attestation_not_exact",
+            "external review attestation must bind producer, actors, repository, issue, exact head, and review record",
+        ));
+    }
     Ok(VerifiedReviewAuthority {
         record_digest: record.digest,
         assigned_by: assignment.assigned_by.clone(),
+        attestation_digest: blake3::hash(&attestation_bytes).to_hex().to_string(),
     })
 }
 
@@ -2060,12 +2125,55 @@ fn verify_cutover_approval(
         || approval.selected_binary_digest != selected_binary_digest
         || approval.rollback_evidence_digest != rollback_proof.digest
         || approval.review_record_digest != review_authority.record_digest
+        || approval.review_attestation_digest != review_authority.attestation_digest
         || approval.approved_by != review_authority.assigned_by
         || request.operator != review_authority.assigned_by
     {
         return Err(finding(
             "cutover_approval_not_exact",
             "typed #505 approval must bind repository, exact head, selected binary, and operator",
+        ));
+    }
+    let approval_attestation_path = git_control_dir(repository_root)
+        .ok_or_else(|| {
+            finding(
+                "approval_attestation_control_dir_missing",
+                "operator approval attestation requires canonical Git-control storage",
+            )
+        })?
+        .join(format!(
+            "csdlc-v2/attestations/505/{revision}/approval.json"
+        ));
+    let approval_attestation_bytes = fs::read(&approval_attestation_path).map_err(|_| {
+        finding(
+            "approval_attestation_missing",
+            "cutover requires an external typed operator approval attestation outside the tracked tree",
+        )
+    })?;
+    let approval_attestation: ExternalApprovalAttestation =
+        serde_json::from_slice(&approval_attestation_bytes).map_err(|_| {
+            finding(
+                "approval_attestation_invalid",
+                "external operator approval attestation must be typed JSON",
+            )
+        })?;
+    let approval_attestation_digest = blake3::hash(&approval_attestation_bytes)
+        .to_hex()
+        .to_string();
+    if approval_attestation.schema != "csdlc.cutover_approval.attestation.v1"
+        || approval_attestation.producer != "csdlc-cutover-approval"
+        || approval_attestation.repository != "agent-logic/agent-design-language"
+        || approval_attestation.issue != 505
+        || approval_attestation.approved_by != review_authority.assigned_by
+        || approval_attestation.exact_head != revision
+        || approval_attestation.selected_binary_digest != selected_binary_digest
+        || approval_attestation.rollback_evidence_digest != rollback_proof.digest
+        || approval_attestation.review_attestation_digest != review_authority.attestation_digest
+        || approval.approval_attestation_digest != approval_attestation_digest
+    {
+        return Err(finding(
+            "approval_attestation_not_exact",
+            "external operator approval attestation must bind producer, operator, repository, issue, exact head, binary, rollback, and review",
         ));
     }
     verify_proof_command_receipt(
