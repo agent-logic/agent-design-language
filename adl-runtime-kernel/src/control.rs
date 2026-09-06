@@ -879,6 +879,7 @@ pub struct ControlService<C> {
     runtime_agent_delegation_key: Mutex<[u8; 32]>,
     runtime_agent_delegation_sequences: Mutex<BTreeMap<String, u64>>,
     runtime_agent_authority_store: Option<Arc<Layer8AuthorityStore>>,
+    runtime_agent_polis_actions: RwLock<BTreeSet<Layer8Action>>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
     #[cfg(test)]
     conversation_attachment_test_hook: Mutex<Option<Arc<ConversationAttachmentTestHook>>>,
@@ -1000,6 +1001,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             )),
             runtime_agent_delegation_sequences: Mutex::new(BTreeMap::new()),
             runtime_agent_authority_store: None,
+            runtime_agent_polis_actions: RwLock::new(BTreeSet::from([
+                Layer8Action::Contact,
+                Layer8Action::Continue,
+            ])),
             api_policy: Mutex::new(None),
             #[cfg(test)]
             conversation_attachment_test_hook: Mutex::new(None),
@@ -1161,6 +1166,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Ok(self)
     }
 
+    #[cfg(test)]
+    fn set_runtime_agent_polis_actions(&self, actions: BTreeSet<Layer8Action>) {
+        *self
+            .runtime_agent_polis_actions
+            .write()
+            .expect("runtime agent Polis policy lock poisoned") = actions;
+    }
+
     fn set_api_policy(&self, policy: ControlApiPolicy) {
         *self
             .api_policy
@@ -1230,21 +1243,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Err(ControlError::InvalidBounds) => Ok(None),
             Err(error) => Err(error),
         }
-    }
-
-    fn has_conversation_capability(&self, agent_id: &str) -> bool {
-        self.agent_population
-            .read()
-            .expect("agent population state poisoned")
-            .sample
-            .iter()
-            .find(|agent| agent.id == agent_id)
-            .is_some_and(|agent| {
-                agent
-                    .capabilities
-                    .iter()
-                    .any(|capability| capability == "conversation")
-            })
     }
 
     fn governed_room_refusal(
@@ -1514,12 +1512,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     )
                 }
             };
-        if !self.has_conversation_capability(&intent.sender_id) {
-            return self.refuse_public_agent_initiation_intent(intent, "unauthorized_initiation");
-        }
-        if !self.has_conversation_capability(&intent.recipient_id) {
-            return self.refuse_public_agent_initiation_intent(intent, "unknown_recipient");
-        }
         if carried.intent != *intent
             || envelope.message_id != intent.work_id
             || envelope.source != intent.sender_id
@@ -1597,13 +1589,43 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         } else {
             Layer8Action::Contact
         };
-        let scope = AuthorityScope {
-            polis_id: self.instance_id.clone(),
-            action: action.clone(),
-            conversation_id: Some(intent.conversation_id.clone()),
-            recipients: BTreeSet::from([intent.recipient_id.clone()]),
-            attachment_id: None,
-        };
+        let population = self
+            .agent_population
+            .read()
+            .expect("agent population state poisoned");
+        let sender_conversation_enabled = population.sample.iter().any(|agent| {
+            agent.id == intent.sender_id
+                && agent
+                    .capabilities
+                    .iter()
+                    .any(|capability| capability == "conversation")
+        });
+        let configured_recipients = population
+            .sample
+            .iter()
+            .filter(|agent| {
+                agent
+                    .capabilities
+                    .iter()
+                    .any(|capability| capability == "conversation")
+            })
+            .map(|agent| agent.id.clone())
+            .collect::<BTreeSet<_>>();
+        drop(population);
+        let polis_actions = self
+            .runtime_agent_polis_actions
+            .read()
+            .expect("runtime agent Polis policy lock poisoned")
+            .clone();
+        let scopes = [Layer8Action::Contact, Layer8Action::Continue].map(|configured_action| {
+            AuthorityScope {
+                polis_id: self.instance_id.clone(),
+                action: configured_action,
+                conversation_id: None,
+                recipients: configured_recipients.clone(),
+                attachment_id: None,
+            }
+        });
         let profile = ConversationAuthorityProfile {
             evidence: RuntimeIdentityEvidence {
                 principal_id: identity.principal_id.clone(),
@@ -1616,26 +1638,35 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 revoked: false,
                 authenticated: true,
             },
-            capabilities: vec![Layer8Capability {
-                capability_id: format!("runtime-a2a:{}", intent.sender_id),
-                principal_id: identity.principal_id.clone(),
-                scope: scope.clone(),
-                epoch: 1,
-                expires_at_epoch_secs: identity.expires_at_epoch_secs,
-                revoked: false,
-            }],
-            agent_policies: vec![Layer8Policy {
-                policy_id: format!("runtime-agent:{}", intent.sender_id),
-                available: true,
-                scope: scope.clone(),
-                epoch: 1,
-            }],
-            polis_policies: vec![Layer8Policy {
-                policy_id: format!("runtime-polis:{}", self.instance_id),
-                available: true,
-                scope,
-                epoch: 1,
-            }],
+            capabilities: scopes
+                .iter()
+                .map(|scope| Layer8Capability {
+                    capability_id: format!("runtime-a2a:{}:{:?}", intent.sender_id, scope.action),
+                    principal_id: identity.principal_id.clone(),
+                    scope: scope.clone(),
+                    epoch: 1,
+                    expires_at_epoch_secs: identity.expires_at_epoch_secs,
+                    revoked: !sender_conversation_enabled,
+                })
+                .collect(),
+            agent_policies: scopes
+                .iter()
+                .map(|scope| Layer8Policy {
+                    policy_id: format!("runtime-agent:{}:{:?}", intent.sender_id, scope.action),
+                    available: sender_conversation_enabled,
+                    scope: scope.clone(),
+                    epoch: 1,
+                })
+                .collect(),
+            polis_policies: scopes
+                .iter()
+                .map(|scope| Layer8Policy {
+                    policy_id: format!("runtime-polis:{}:{:?}", self.instance_id, scope.action),
+                    available: polis_actions.contains(&scope.action),
+                    scope: scope.clone(),
+                    epoch: 1,
+                })
+                .collect(),
         };
         if !matches!(
             authorize_with_profile(
@@ -7437,6 +7468,122 @@ mod layer8_conversation_ingress_tests {
     }
 
     #[tokio::test]
+    async fn agent_to_agent_layer8_uses_roster_and_polis_policy_for_denials() {
+        let (service, kernel, _recorder, observed_tasks, layer8_root) =
+            agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
+                .await;
+
+        service
+            .agent_population
+            .write()
+            .expect("agent population state poisoned")
+            .sample
+            .iter_mut()
+            .find(|agent| agent.id == "beacon")
+            .expect("configured sender")
+            .capabilities
+            .clear();
+        let sender_denied =
+            service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                "beacon",
+                "ember",
+                "turn-policy-sender",
+                "66666666666666666666666666666666",
+                "a2a-work-policy-sender",
+            ));
+        assert!(matches!(sender_denied, ConversationAcceptance::Response(_)));
+
+        let mut population = service
+            .agent_population
+            .write()
+            .expect("agent population state poisoned");
+        population
+            .sample
+            .iter_mut()
+            .find(|agent| agent.id == "beacon")
+            .expect("configured sender")
+            .capabilities = vec!["conversation".to_owned()];
+        population
+            .sample
+            .iter_mut()
+            .find(|agent| agent.id == "ember")
+            .expect("configured recipient")
+            .capabilities
+            .clear();
+        drop(population);
+        let recipient_denied =
+            service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                "beacon",
+                "ember",
+                "turn-policy-recipient",
+                "77777777777777777777777777777777",
+                "a2a-work-policy-recipient",
+            ));
+        assert!(matches!(
+            recipient_denied,
+            ConversationAcceptance::Response(_)
+        ));
+
+        service
+            .agent_population
+            .write()
+            .expect("agent population state poisoned")
+            .sample
+            .iter_mut()
+            .find(|agent| agent.id == "ember")
+            .expect("configured recipient")
+            .capabilities = vec!["conversation".to_owned()];
+        service.set_runtime_agent_polis_actions(BTreeSet::from([Layer8Action::Continue]));
+        let contact_denied =
+            service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                "beacon",
+                "ember",
+                "turn-policy-contact",
+                "88888888888888888888888888888888",
+                "a2a-work-policy-contact",
+            ));
+        assert!(matches!(
+            contact_denied,
+            ConversationAcceptance::Response(_)
+        ));
+
+        service.set_runtime_agent_polis_actions(BTreeSet::from([
+            Layer8Action::Contact,
+            Layer8Action::Continue,
+        ]));
+        let first = agent_pair_initiation_intent(
+            "beacon",
+            "ember",
+            "turn-policy-first",
+            "99999999999999999999999999999999",
+            "a2a-work-policy-first",
+        );
+        assert!(matches!(
+            service.accept_runtime_agent_initiation_intent(&first),
+            ConversationAcceptance::Dispatch { .. }
+        ));
+        service.set_runtime_agent_polis_actions(BTreeSet::from([Layer8Action::Contact]));
+        let continue_denied =
+            service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                "beacon",
+                "ember",
+                "turn-policy-continue",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "a2a-work-policy-continue",
+            ));
+        assert!(matches!(
+            continue_denied,
+            ConversationAcceptance::Response(_)
+        ));
+
+        assert!(observed_tasks.lock().expect("observed tasks").is_empty());
+        let audit = std::fs::read_to_string(layer8_root.path().join("runtime-a2a.audit"))
+            .expect("runtime A2A audit");
+        assert_eq!(audit.matches("\"authorized\":false").count(), 4);
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
     async fn agent_to_agent_rejects_tampered_carrier_context() {
         use prost::Message as _;
 
@@ -7589,7 +7736,7 @@ mod layer8_conversation_ingress_tests {
             ConversationAcceptance::Dispatch { .. } => panic!("unauthorized sender dispatched"),
         };
         assert_eq!(refused.status, "refused");
-        assert_eq!(refused.error, Some("unauthorized_initiation"));
+        assert_eq!(refused.error, Some("conversation_authority_refused"));
 
         let mut second_sender = agent_initiation_intent("turn-a2a-scribe", "a2a-work-scribe");
         second_sender.sender_id = "scribe".to_owned();
@@ -7609,7 +7756,7 @@ mod layer8_conversation_ingress_tests {
             ConversationAcceptance::Dispatch { .. } => panic!("missing recipient dispatched"),
         };
         assert_eq!(missing.status, "refused");
-        assert_eq!(missing.error, Some("unknown_recipient"));
+        assert_eq!(missing.error, Some("conversation_authority_refused"));
 
         service
             .recorder
