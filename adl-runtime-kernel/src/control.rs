@@ -147,7 +147,39 @@ pub struct AgentAdmissionResponse {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 struct DynamicAgentStore {
     schema: String,
-    agents: Vec<AgentAdmissionRequest>,
+    agents: Vec<DynamicAgentStoreEntry>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+enum DynamicAgentStoreEntry {
+    Current {
+        declaration: AgentAdmissionRequest,
+        orientation: AgentOrientationResource,
+    },
+    Legacy(AgentAdmissionRequest),
+}
+
+impl DynamicAgentStoreEntry {
+    fn declaration(&self) -> &AgentAdmissionRequest {
+        match self {
+            Self::Current { declaration, .. } => declaration,
+            Self::Legacy(declaration) => declaration,
+        }
+    }
+
+    fn orientation(&self) -> Option<&AgentOrientationResource> {
+        match self {
+            Self::Current { orientation, .. } => Some(orientation),
+            Self::Legacy(_) => None,
+        }
+    }
+}
+
+impl From<AgentAdmissionRequest> for DynamicAgentStoreEntry {
+    fn from(declaration: AgentAdmissionRequest) -> Self {
+        Self::Legacy(declaration)
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -773,16 +805,8 @@ impl ConversationAttachmentTestHook {
         }
     }
 
-    pub(crate) async fn wait_for_duplicate(&self) {
-        self.duplicate_observed.notified().await;
-    }
-
     pub(crate) fn permit_duplicate(&self) {
         self.allow_duplicate.add_permits(1);
-    }
-
-    pub(crate) async fn wait_for_attachment(&self) {
-        self.attachment_ready.notified().await;
     }
 
     fn attachment_ready(&self) {
@@ -2527,6 +2551,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Vec::new()
         };
         let mut seen = BTreeSet::new();
+        let agents = agents
+            .into_iter()
+            .map(|entry| {
+                let declaration = entry.declaration().clone();
+                let orientation = entry.orientation().cloned();
+                (declaration, orientation)
+            })
+            .collect::<Vec<_>>();
         let mut population = self
             .agent_population
             .write()
@@ -2536,23 +2568,30 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .agent_orientation_deliveries
             .lock()
             .expect("agent orientation delivery state poisoned");
-        for agent in &agents {
+        for (agent, persisted_orientation) in &agents {
             validate_persisted_agent_admission(agent)?;
+            if let Some(orientation) = persisted_orientation {
+                orientation
+                    .validate_persisted()
+                    .map_err(|_| ControlError::InvalidIdentifier)?;
+            }
             if !seen.insert(agent.id.clone()) {
                 return Err(ControlError::InvalidIdentifier);
             }
             let mut sample = agent_sample(agent);
             sample.name = persisted_agent_canonical_name(agent);
-            let resource = deliveries
-                .entry(sample.id.clone())
-                .or_insert_with(|| active_orientation.clone());
+            let resource = persisted_orientation
+                .clone()
+                .unwrap_or_else(|| active_orientation.clone());
+            deliveries.insert(sample.id.clone(), resource.clone());
             sample.orientation = Some(resource.delivery());
             population.admit_dynamic(sample);
         }
         *self
             .dynamic_agents
             .lock()
-            .expect("dynamic agents state poisoned") = agents;
+            .expect("dynamic agents state poisoned") =
+            agents.iter().map(|(agent, _)| agent.clone()).collect();
         *self
             .dynamic_agent_store
             .lock()
@@ -2999,9 +3038,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             None => {
                 agents.push(request.clone());
                 agents.sort_by(|left, right| left.id.cmp(&right.id));
-                persist_dynamic_agents(&path, &agents)
-                    .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
                 let orientation = self.active_agent_orientation();
+                let mut orientation_by_agent = self
+                    .agent_orientation_deliveries
+                    .lock()
+                    .expect("agent orientation delivery state poisoned")
+                    .clone();
+                orientation_by_agent.insert(request.id.clone(), orientation.clone());
+                persist_dynamic_agents(&path, &agents, &orientation_by_agent)
+                    .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
                 let mut sample = agent_sample(&request);
                 sample.orientation = Some(orientation.delivery());
                 self.agent_orientation_deliveries
@@ -3068,7 +3113,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     AgentAdmissionFailure::Unavailable("agent_tombstone_persistence_failed")
                 })?;
         }
-        persist_dynamic_agents(&path, &next)
+        let orientation_by_agent = self
+            .agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation delivery state poisoned")
+            .clone();
+        persist_dynamic_agents(&path, &next, &orientation_by_agent)
             .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
         *agents = next;
         self.agent_population
@@ -8991,9 +9041,8 @@ fn normalize_ollama_conversation_response(
     } else {
         Vec::new()
     };
-    let assembled_peer_message =
-        assemble_agent_conversation_message(peer_message, &peer_message_parts)
-            .ok_or("agent_provider_action_invalid")?;
+    assemble_agent_conversation_message(peer_message, &peer_message_parts)
+        .ok_or("agent_provider_action_invalid")?;
     let operator_message = if content.trim().is_empty() {
         format!("Requested governed contact with {recipient_id}.")
     } else {
@@ -9003,9 +9052,7 @@ fn normalize_ollama_conversation_response(
         message: operator_message,
         agent_to_agent: Some(ProviderAgentToAgentAction {
             recipient_id: recipient_id.to_owned(),
-            message: peer_message
-                .map(str::to_owned)
-                .unwrap_or(assembled_peer_message),
+            message: peer_message.map(str::to_owned).unwrap_or_default(),
             message_parts: peer_message_parts,
         }),
     })
@@ -9151,6 +9198,74 @@ mod provider_conversation_tool_tests {
             action.message_parts[1],
             "Please include your welcome-package receipt in the reply."
         );
+    }
+
+    #[test]
+    fn native_tool_call_parts_only_arguments_do_not_duplicate_payload_into_message() {
+        let output = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {
+                "role": "assistant",
+                "content": "I will ask Ember with parts only.",
+                "tool_calls": [{
+                    "function": {
+                        "name": "initiate_agent",
+                        "arguments": {
+                            "recipient_id": "ember",
+                            "message_parts": [
+                                "First governed handoff part.",
+                                "Second governed handoff part."
+                            ]
+                        }
+                    }
+                }]
+            }
+        }))
+        .expect("parts-only Ollama tool arguments should normalize");
+
+        assert_eq!(output.message, "I will ask Ember with parts only.");
+        assert_eq!(
+            output.agent_to_agent,
+            Some(ProviderAgentToAgentAction {
+                recipient_id: "ember".to_owned(),
+                message: String::new(),
+                message_parts: vec![
+                    "First governed handoff part.".to_owned(),
+                    "Second governed handoff part.".to_owned(),
+                ],
+            })
+        );
+    }
+
+    #[test]
+    fn native_tool_call_parts_only_32k_arguments_keep_each_part_bounded() {
+        let max_part = "a".repeat(32 * 1024);
+        let output = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [{
+                    "function": {
+                        "name": "initiate_agent",
+                        "arguments": {
+                            "recipient_id": "ember",
+                            "message_parts": [
+                                max_part,
+                                "final bounded part"
+                            ]
+                        }
+                    }
+                }]
+            }
+        }))
+        .expect("parts-only 32 KiB tool arguments should remain part-bounded");
+        let action = output
+            .agent_to_agent
+            .expect("parts-only tool call should remain first-class");
+
+        assert_eq!(action.message, "");
+        assert_eq!(action.message_parts.len(), 2);
+        assert_eq!(action.message_parts[0].len(), 32 * 1024);
+        assert_eq!(action.message_parts[1], "final bounded part");
     }
 
     #[test]
@@ -9463,12 +9578,26 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
 fn persist_dynamic_agents(
     path: &Path,
     agents: &[AgentAdmissionRequest],
+    orientation_by_agent: &BTreeMap<String, AgentOrientationResource>,
 ) -> Result<(), ControlError> {
+    let agents = agents
+        .iter()
+        .map(|declaration| {
+            let orientation = orientation_by_agent
+                .get(&declaration.id)
+                .cloned()
+                .ok_or(ControlError::InvalidIdentifier)?;
+            Ok(DynamicAgentStoreEntry::Current {
+                declaration: declaration.clone(),
+                orientation,
+            })
+        })
+        .collect::<Result<Vec<_>, ControlError>>()?;
     persist_json_atomically(
         path,
         &DynamicAgentStore {
             schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
-            agents: agents.to_vec(),
+            agents,
         },
     )
 }
@@ -9716,7 +9845,7 @@ mod orientation_tests {
             &store_path,
             serde_json::to_vec_pretty(&DynamicAgentStore {
                 schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
-                agents: vec![admission("ember", "ember.axioma")],
+                agents: vec![admission("ember", "ember.axioma").into()],
             })
             .expect("store serializes"),
         )
@@ -9750,6 +9879,65 @@ mod orientation_tests {
         assert_eq!(
             service.active_agent_orientation().digest,
             v2_delivery.digest
+        );
+    }
+
+    #[test]
+    fn dynamic_agent_restart_preserves_admission_time_orientation_provenance() {
+        let admission_time_orientation = AgentOrientationResource::bundled_default();
+        let restarted = service_with_resident();
+        let v2_delivery = restarted
+            .replace_agent_orientation_for_test(
+                "v2",
+                "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V2.md",
+                "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nRuntime restart active orientation.",
+            )
+            .expect("valid replacement orientation loads");
+        assert_ne!(v2_delivery.digest, admission_time_orientation.digest);
+
+        let root = tempfile::tempdir().expect("test tempdir");
+        let store_path = root.path().join("dynamic-agents.json");
+        std::fs::write(
+            &store_path,
+            serde_json::to_vec_pretty(&DynamicAgentStore {
+                schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                agents: vec![DynamicAgentStoreEntry::Current {
+                    declaration: admission("ember", "ember.axioma"),
+                    orientation: admission_time_orientation.clone(),
+                }],
+            })
+            .expect("store serializes"),
+        )
+        .expect("store writes");
+
+        restarted
+            .configure_dynamic_agent_store(store_path)
+            .expect("dynamic store configures");
+
+        let ember_orientation = restarted
+            .orientation_for_agent("ember")
+            .expect("restored dynamic agent keeps persisted orientation");
+        assert_eq!(
+            ember_orientation.version,
+            admission_time_orientation.version
+        );
+        assert_eq!(ember_orientation.digest, admission_time_orientation.digest);
+        assert_ne!(ember_orientation.digest, v2_delivery.digest);
+        let ember = restarted
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .find(|agent| agent.id == "ember")
+            .cloned()
+            .expect("dynamic agent is restored");
+        assert_eq!(
+            ember
+                .orientation
+                .as_ref()
+                .map(|delivery| delivery.digest.as_str()),
+            Some(admission_time_orientation.digest.as_str())
         );
     }
 

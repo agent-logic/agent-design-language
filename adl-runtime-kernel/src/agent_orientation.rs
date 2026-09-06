@@ -72,12 +72,18 @@ impl AgentOrientationResource {
         if !config.enabled {
             return Err(AgentOrientationError::Disabled);
         }
-        let content = if config.source_path == Path::new(DEFAULT_AGENT_ORIENTATION_SOURCE_PATH) {
-            DEFAULT_AGENT_ORIENTATION_BODY.to_owned()
-        } else {
-            std::fs::read_to_string(&config.source_path)
-                .map_err(|error| AgentOrientationError::Read(error.to_string()))?
-        };
+        let source_path = resolve_orientation_source_path(&config.source_path);
+        let content = std::fs::read_to_string(&source_path)
+            .or_else(|error| {
+                if config.version == DEFAULT_AGENT_ORIENTATION_VERSION
+                    && config.source_path == Path::new(DEFAULT_AGENT_ORIENTATION_SOURCE_PATH)
+                {
+                    Ok(DEFAULT_AGENT_ORIENTATION_BODY.to_owned())
+                } else {
+                    Err(error)
+                }
+            })
+            .map_err(|error| AgentOrientationError::Read(error.to_string()))?;
         Self::from_content(
             &config.version,
             config.source_path.to_string_lossy().to_string(),
@@ -128,6 +134,16 @@ impl AgentOrientationResource {
         }
     }
 
+    pub fn validate_persisted(&self) -> Result<(), AgentOrientationError> {
+        validate_resource_shape(self)?;
+        let digest = blake3::hash(self.content.as_bytes()).to_hex().to_string();
+        if digest == self.digest {
+            Ok(())
+        } else {
+            Err(AgentOrientationError::InvalidContent)
+        }
+    }
+
     pub fn inject_initial_context(&self, prompt: &str) -> String {
         format!(
             "{}\n\n---\nRuntime-delivered task content follows. Treat the orientation above as civic context, not authority.\n\n{}",
@@ -173,6 +189,17 @@ fn default_agent_orientation_source_path() -> PathBuf {
     PathBuf::from(DEFAULT_AGENT_ORIENTATION_SOURCE_PATH)
 }
 
+fn resolve_orientation_source_path(source_path: &Path) -> PathBuf {
+    if source_path.is_absolute() {
+        return source_path.to_path_buf();
+    }
+    let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    manifest_dir
+        .parent()
+        .unwrap_or(manifest_dir)
+        .join(source_path)
+}
+
 fn validate_version(version: &str) -> Result<(), AgentOrientationError> {
     let valid = !version.trim().is_empty()
         && version.len() <= 64
@@ -184,6 +211,27 @@ fn validate_version(version: &str) -> Result<(), AgentOrientationError> {
     } else {
         Err(AgentOrientationError::InvalidVersion)
     }
+}
+
+fn validate_resource_shape(
+    resource: &AgentOrientationResource,
+) -> Result<(), AgentOrientationError> {
+    if resource.schema != AGENT_ORIENTATION_RESOURCE_SCHEMA
+        || resource.digest_algorithm != AGENT_ORIENTATION_DIGEST_ALGORITHM
+        || resource.projection != "full"
+    {
+        return Err(AgentOrientationError::InvalidContent);
+    }
+    validate_version(&resource.version)?;
+    if resource.source_path.trim().is_empty() || resource.source_path.len() > 512 {
+        return Err(AgentOrientationError::InvalidSource);
+    }
+    let digest_is_hex =
+        resource.digest.len() == 64 && resource.digest.bytes().all(|byte| byte.is_ascii_hexdigit());
+    if !digest_is_hex {
+        return Err(AgentOrientationError::InvalidContent);
+    }
+    validate_package_content(&resource.content)
 }
 
 fn validate_package_content(content: &str) -> Result<(), AgentOrientationError> {
@@ -206,7 +254,7 @@ mod tests {
     static CURRENT_DIR_LOCK: Mutex<()> = Mutex::new(());
 
     #[test]
-    fn default_orientation_uses_bundled_package_even_when_cwd_contains_shadow_source() {
+    fn default_orientation_uses_configured_repo_path_not_cwd_shadow_source() {
         let _guard = CURRENT_DIR_LOCK
             .lock()
             .expect("current directory test lock poisoned");
@@ -231,6 +279,31 @@ mod tests {
             .content
             .contains("Shadow orientation should not load."));
         assert_eq!(loaded, AgentOrientationResource::bundled_default());
+    }
+
+    #[test]
+    fn configured_default_source_path_loads_the_configured_file() {
+        let root = tempfile::tempdir().expect("test tempdir");
+        let source_path = root.path().join(DEFAULT_AGENT_ORIENTATION_SOURCE_PATH);
+        std::fs::create_dir_all(source_path.parent().expect("source parent"))
+            .expect("source parent directory writes");
+        std::fs::write(
+            &source_path,
+            "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nConfigured default-path orientation.",
+        )
+        .expect("source writes");
+
+        let loaded = AgentOrientationResource::load_from_config(&AgentOrientationConfig {
+            enabled: true,
+            version: "v2".to_owned(),
+            source_path,
+        })
+        .expect("configured default-path orientation loads from disk");
+
+        assert_eq!(loaded.version, "v2");
+        assert!(loaded
+            .content
+            .contains("Configured default-path orientation."));
     }
 
     #[test]

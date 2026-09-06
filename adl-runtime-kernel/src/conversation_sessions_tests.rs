@@ -110,6 +110,16 @@ fn runtime_delivered_task_content(prompt: &str) -> &str {
         .unwrap_or(prompt)
 }
 
+async fn wait_for_barrier_dispatch(
+    barrier_started: &Notify,
+    dispatches: &AtomicUsize,
+    previous_dispatches: usize,
+) {
+    while dispatches.load(Ordering::SeqCst) <= previous_dispatches {
+        barrier_started.notified().await;
+    }
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -491,6 +501,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
         "correlation_id": "23232323232323232323232323232323",
         "message": "barrier cleanup"
     });
+    let bounded_duplicate_dispatches = dispatches.load(Ordering::SeqCst);
     socket
         .send(Message::Text(bounded_duplicate.to_string().into()))
         .await
@@ -498,9 +509,12 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
-    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-        .await
-        .expect("bounded duplicate fixture did not enter in-flight execution");
+    tokio::time::timeout(
+        Duration::from_secs(1),
+        wait_for_barrier_dispatch(&barrier_started, &dispatches, bounded_duplicate_dispatches),
+    )
+    .await
+    .expect("bounded duplicate fixture did not enter in-flight execution");
     for _ in 0..64 {
         socket
             .send(Message::Text(bounded_duplicate.to_string().into()))
@@ -964,6 +978,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
         execution_released: false,
         completed: false,
     };
+    let cleanup_dispatches = dispatches.load(Ordering::SeqCst);
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
@@ -971,9 +986,12 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
-    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-        .await
-        .expect("old-generation execution did not reach the completion barrier");
+    tokio::time::timeout(
+        Duration::from_secs(1),
+        wait_for_barrier_dispatch(&barrier_started, &dispatches, cleanup_dispatches),
+    )
+    .await
+    .expect("old-generation execution did not reach the completion barrier");
     let scheduling_pressure = (0..64)
         .map(|_| {
             tokio::spawn(async {
@@ -1000,22 +1018,24 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
     // trip. The server still processes these frames in order, so the proof
     // retains the generation transition while deterministically attaching to
     // the barrier-held turn before its bounded execution deadline.
+    cleanup_hook.permit_duplicate();
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
         .unwrap();
-    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_duplicate())
-        .await
-        .expect("server did not observe the cleanup duplicate");
-    cleanup_hook.permit_duplicate();
-    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_attachment())
-        .await
-        .expect("server did not install the current-generation attachment");
-    let authenticated =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    let authenticated = tokio::time::timeout(
+        Duration::from_secs(10),
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA),
+    )
+    .await
+    .expect("server did not acknowledge cleanup-race reauthentication");
     assert_eq!(authenticated["status"], "authenticated");
-    let attached =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let attached = tokio::time::timeout(
+        Duration::from_secs(10),
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA),
+    )
+    .await
+    .expect("server did not attach to the current-generation in-flight turn");
     assert_eq!(attached["status"], "accepted", "{attached}");
     assert_eq!(attached["error"], "conversation_in_flight", "{attached}");
 
@@ -1092,6 +1112,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
 
     for index in 0..8 {
         let turn_id = format!("turn-in-flight-{index}");
+        let capacity_dispatches = dispatches.load(Ordering::SeqCst);
         socket
             .send(Message::Text(
                 serde_json::json!({
@@ -1111,9 +1132,12 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
             next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
         assert_eq!(accepted["status"], "accepted", "{accepted}");
         if index == 0 {
-            tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-                .await
-                .expect("capacity fixture did not enter in-flight execution");
+            tokio::time::timeout(
+                Duration::from_secs(1),
+                wait_for_barrier_dispatch(&barrier_started, &dispatches, capacity_dispatches),
+            )
+            .await
+            .expect("capacity fixture did not enter in-flight execution");
         }
     }
     socket
