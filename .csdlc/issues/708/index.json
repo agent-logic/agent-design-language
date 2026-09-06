@@ -6,10 +6,19 @@
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
   "phase": "implemented",
   "generation": 45,
-  "digest": "8c7a805725660b6ef21739307493910a41c7051968a71ad466a8ed033722b8e0",
+  "digest": "5b003b334bc8623de07a5fd9b043e2785c66bb20560ef41ae93b3e15dd0ad066",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:issue-708-final-review-blocker-fix-review",
+    "assigned_by": "codex:issue-708-runtime-orientation",
+    "revision": "git-blake3:f3fe957f3993fcbd0720316bb31cad5fde017a5f:faf973509dceb1132dddfbd9a659892ef0fc31da25fe01e7417859273d9feec7",
+    "scope": [
+      "adl-runtime-kernel/src/agent_orientation.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +54,9 @@
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "2e7b4418de12e2be9762f40fca6b7b0ba855744fdf8dd8d60d60920312a6bd21",
-      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
-      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
+      "values_digest": "de57d58d4ebaa50187dee11bcde64261e67bc4c0d20a5c8a58feb6b1990f4fa6",
+      "rendered_digest": "4c0b6529e4e48a629767a46ed4ce383327a722989057784e82b17bf12c5f6ec9",
+      "ast_digest": "1e72291e818101b7fefde3bb48fbbc5dee25310aadf4bad0377abcedbd26e7d2"
     },
     "sor": {
       "values_digest": "23356e379f1dbe2d5757d16128339e725fe5fc69482906cedf76c4ec94aba698",
@@ -673,6 +682,13 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Recover stale review truth after removing transient prepared request files before the final exact-head review and republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 45,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
