@@ -7,7 +7,6 @@ use std::{
     collections::BTreeMap,
     fs,
     io::{Read, Write},
-    os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
     process::{Command, Stdio},
     sync::atomic::{AtomicU64, Ordering},
@@ -691,6 +690,12 @@ fn execute_soak(
             ));
         }
         let execution = execute_shadow_command(&root, &soak.command, soak.normalization)?;
+        if execution.exit_code != Some(0) {
+            return Err(finding(
+                "soak_command_not_successful",
+                "a non-successful command cannot establish soak readiness",
+            ));
+        }
         samples.push(serde_json::json!({
             "sequence": samples.len() + 1,
             "observed_elapsed_millis": started.elapsed().as_millis(),
@@ -1132,12 +1137,7 @@ fn execute_install(
         ));
     }
     write_bytes_atomic(&destination, &bytes)?;
-    fs::set_permissions(&destination, fs::Permissions::from_mode(0o755)).map_err(|_| {
-        finding(
-            "install_permission_failed",
-            "stable installed binary must be executable",
-        )
-    })?;
+    set_installed_binary_executable(&destination)?;
     let installed = fs::read(&destination).map_err(|_| {
         finding(
             "install_verification_failed",
@@ -1169,6 +1169,25 @@ fn execute_install(
         }),
     )?;
     Ok(reference)
+}
+
+#[cfg(unix)]
+fn set_installed_binary_executable(path: &Path) -> Result<(), ProofRouteFinding> {
+    use std::os::unix::fs::PermissionsExt;
+    fs::set_permissions(path, fs::Permissions::from_mode(0o755)).map_err(|_| {
+        finding(
+            "install_permission_failed",
+            "stable installed binary must be executable",
+        )
+    })
+}
+
+#[cfg(not(unix))]
+fn set_installed_binary_executable(_path: &Path) -> Result<(), ProofRouteFinding> {
+    Err(finding(
+        "install_unsupported_platform",
+        "executable stable install is fail-closed on unsupported platforms",
+    ))
 }
 
 fn authorize_install_execution(
@@ -1444,8 +1463,10 @@ fn finding(code: &'static str, message: &'static str) -> ProofRouteFinding {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::os::unix::fs::symlink;
+    #[cfg(unix)]
+    use std::os::unix::fs::{symlink, PermissionsExt};
 
+    #[cfg(unix)]
     #[test]
     fn native_install_copies_verifies_and_records_provenance() {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -1556,6 +1577,7 @@ mod tests {
         fs::remove_dir_all(root).unwrap();
     }
 
+    #[cfg(unix)]
     #[test]
     fn shadow_paths_reject_symlink_escapes_for_existing_and_future_targets() {
         let base = PathBuf::from(env!("CARGO_MANIFEST_DIR"))

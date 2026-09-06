@@ -1150,6 +1150,8 @@ struct CutoverReceipt {
     selected_binary_digest: String,
     readiness_evidence_path: PathBuf,
     readiness_evidence_digest: String,
+    approval_evidence_path: PathBuf,
+    approval_evidence_digest: String,
     canonical_selector: PathBuf,
     prior_selector: Vec<u8>,
     prior_selector_digest: String,
@@ -1166,6 +1168,8 @@ struct AuthorityReadinessEvidence {
     route_proofs: BTreeMap<String, ImmutableProofRef>,
     canary_proof: ImmutableProofRef,
     review_proof: ImmutableProofRef,
+    approval_proof: ImmutableProofRef,
+    rollback_proof: ImmutableProofRef,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1175,10 +1179,60 @@ struct ImmutableProofRef {
     revision: String,
 }
 
+#[derive(Debug, Deserialize)]
+struct IndependentReviewEvidence {
+    schema: String,
+    authority_issue: u64,
+    reviewer: String,
+    reviewed_revision: String,
+    verdict: String,
+    independent: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct RouteReadinessEvidence {
+    schema: String,
+    route: String,
+    revision: String,
+    result: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct V3OnlyCanaryEvidence {
+    schema: String,
+    authority_issue: u64,
+    revision: String,
+    result: String,
+    v3_only: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct RollbackReadinessEvidence {
+    schema: String,
+    authority_issue: u64,
+    selected_revision: String,
+    result: String,
+    fail_closed: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct AuthorityCutoverApproval {
+    schema: String,
+    authority_issue: u64,
+    repository: String,
+    decision: String,
+    exact_head: String,
+    selected_binary_digest: String,
+    rollback_evidence_digest: String,
+    approved_by: String,
+}
+
 struct VerifiedCutoverReadiness {
     selected_revision: String,
     evidence_path: PathBuf,
     evidence_digest: String,
+    approval_evidence_path: PathBuf,
+    approval_evidence_digest: String,
 }
 
 fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution, TerminalFinding> {
@@ -1301,7 +1355,12 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
                 "initial cutover requires the canonical v1-schema selector to be pre-v3",
             ));
         }
-        selector_value["default_generation"] = serde_json::Value::String("v3".into());
+        apply_v3_authority_fields(
+            &mut selector_value,
+            &readiness.selected_revision,
+            &readiness.evidence_digest,
+            &readiness.approval_evidence_digest,
+        );
         let selector_bytes = serde_json::to_vec_pretty(&selector_value)
             .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
         let journal = CutoverReceipt {
@@ -1312,6 +1371,8 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
             selected_binary_digest: binary_digest.clone(),
             readiness_evidence_path: readiness.evidence_path.clone(),
             readiness_evidence_digest: readiness.evidence_digest.clone(),
+            approval_evidence_path: readiness.approval_evidence_path.clone(),
+            approval_evidence_digest: readiness.approval_evidence_digest.clone(),
             canonical_selector: PathBuf::from("csdlc-v2/operator/generation-selector.json"),
             prior_selector_digest: blake3::hash(&prior_selector).to_hex().to_string(),
             cutover_selector_digest: blake3::hash(&selector_bytes).to_hex().to_string(),
@@ -1356,15 +1417,15 @@ fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution,
     }
     if binary_state.is_none() {
         write_staged(&destination, &binary_bytes)?;
-        fs::set_permissions(&destination, permissions).map_err(|error| {
-            finding(
-                "installed_binary_permissions_failed",
-                &format!("could not apply selected binary permissions: {error}"),
-            )
-        })?;
         journal.phase = CutoverPhase::BinaryInstalled;
         write_cutover_receipt(&receipt, &journal)?;
     }
+    fs::set_permissions(&destination, permissions).map_err(|error| {
+        finding(
+            "installed_binary_permissions_failed",
+            &format!("could not apply selected binary permissions: {error}"),
+        )
+    })?;
     if selector_digest == journal.prior_selector_digest {
         write_staged(&selector, &selector_bytes)?;
     }
@@ -1515,13 +1576,36 @@ fn verify_cutover_readiness(
             "cutover requires 21 file-backed route proofs, canary/review proofs, one immutable revision, and the selected binary digest",
         ));
     }
-    for proof in evidence
-        .route_proofs
-        .values()
-        .chain([&evidence.canary_proof, &evidence.review_proof])
-    {
+    for proof in evidence.route_proofs.values().chain([
+        &evidence.canary_proof,
+        &evidence.review_proof,
+        &evidence.approval_proof,
+        &evidence.rollback_proof,
+    ]) {
         verify_immutable_proof(repository_root, proof, &evidence.selected_revision)?;
     }
+    for (route, proof) in &evidence.route_proofs {
+        verify_route_readiness(repository_root, route, proof, &evidence.selected_revision)?;
+    }
+    verify_v3_only_canary(
+        repository_root,
+        &evidence.canary_proof,
+        &evidence.selected_revision,
+    )?;
+    verify_independent_review(
+        repository_root,
+        &evidence.review_proof,
+        &evidence.selected_revision,
+        &request.operator,
+    )?;
+    let (approval_evidence_path, approval_evidence_digest) = verify_cutover_approval(
+        request,
+        repository_root,
+        &evidence.selected_revision,
+        selected_binary_digest,
+        &evidence.approval_proof,
+        &evidence.rollback_proof,
+    )?;
     Ok(VerifiedCutoverReadiness {
         selected_revision: evidence.selected_revision,
         evidence_path: request
@@ -1529,7 +1613,161 @@ fn verify_cutover_readiness(
             .clone()
             .expect("path validated above"),
         evidence_digest: observed_digest,
+        approval_evidence_path,
+        approval_evidence_digest,
     })
+}
+
+fn read_proof_json<T: for<'de> Deserialize<'de>>(
+    repository_root: &Path,
+    proof: &ImmutableProofRef,
+    code: &str,
+) -> Result<T, TerminalFinding> {
+    let path = repo_existing_file(
+        repository_root,
+        Some(&proof.path),
+        code,
+        "cutover proof file is missing",
+        "cutover_proof",
+    )?;
+    serde_json::from_slice(&fs::read(path).map_err(|error| finding(code, &error.to_string()))?)
+        .map_err(|_| finding(code, "cutover proof must be typed JSON evidence"))
+}
+
+fn verify_route_readiness(
+    repository_root: &Path,
+    route: &str,
+    proof: &ImmutableProofRef,
+    revision: &str,
+) -> Result<(), TerminalFinding> {
+    let evidence: RouteReadinessEvidence =
+        read_proof_json(repository_root, proof, "route_proof_invalid")?;
+    if evidence.schema != "csdlc.v3.route_readiness.v1"
+        || evidence.route != route
+        || evidence.revision != revision
+        || evidence.result != "pass"
+    {
+        return Err(finding(
+            "route_readiness_not_proven",
+            "every required route proof must name the route, exact revision, and pass result",
+        ));
+    }
+    Ok(())
+}
+
+fn verify_v3_only_canary(
+    repository_root: &Path,
+    proof: &ImmutableProofRef,
+    revision: &str,
+) -> Result<(), TerminalFinding> {
+    let evidence: V3OnlyCanaryEvidence =
+        read_proof_json(repository_root, proof, "canary_proof_invalid")?;
+    if evidence.schema != "csdlc.v3.v3_only_canary.v1"
+        || evidence.authority_issue != 505
+        || evidence.revision != revision
+        || evidence.result != "pass"
+        || !evidence.v3_only
+    {
+        return Err(finding(
+            "v3_only_canary_not_proven",
+            "cutover requires a passing exact-revision v3-only canary proof",
+        ));
+    }
+    Ok(())
+}
+
+fn verify_independent_review(
+    repository_root: &Path,
+    proof: &ImmutableProofRef,
+    revision: &str,
+    operator: &str,
+) -> Result<(), TerminalFinding> {
+    let path = repo_existing_file(
+        repository_root,
+        Some(&proof.path),
+        "review_proof_path_missing",
+        "cutover requires retained independent review evidence",
+        "review_proof",
+    )?;
+    let review: IndependentReviewEvidence = serde_json::from_slice(
+        &fs::read(path).map_err(|error| finding("review_proof_unreadable", &error.to_string()))?,
+    )
+    .map_err(|_| {
+        finding(
+            "independent_review_invalid",
+            "review proof must be typed independent exact-head review evidence",
+        )
+    })?;
+    if review.schema != "csdlc.v3.independent_review.v1"
+        || review.authority_issue != 505
+        || review.reviewer.trim().is_empty()
+        || review.reviewer == operator
+        || review.reviewed_revision != revision
+        || review.verdict != "pass"
+        || !review.independent
+    {
+        return Err(finding(
+            "independent_review_not_proven",
+            "cutover requires a distinct independent reviewer, pass verdict, and exact reviewed revision",
+        ));
+    }
+    Ok(())
+}
+
+fn verify_cutover_approval(
+    request: &CutoverDecisionRequest,
+    repository_root: &Path,
+    revision: &str,
+    selected_binary_digest: &str,
+    approval_proof: &ImmutableProofRef,
+    rollback_proof: &ImmutableProofRef,
+) -> Result<(PathBuf, String), TerminalFinding> {
+    let approval_path = PathBuf::from(request.approval.trim());
+    if approval_path != approval_proof.path
+        || rollback_proof.path.as_path() != Path::new(request.rollback_evidence.trim())
+    {
+        return Err(finding(
+            "cutover_evidence_path_mismatch",
+            "approval and rollback paths must match the digest-bound readiness references",
+        ));
+    }
+    let path = repo_existing_file(
+        repository_root,
+        Some(&approval_path),
+        "cutover_approval_path_missing",
+        "executing cutover requires retained typed approval evidence",
+        "cutover_approval",
+    )?;
+    let bytes = fs::read(&path)
+        .map_err(|error| finding("cutover_approval_unreadable", &error.to_string()))?;
+    let approval: AuthorityCutoverApproval = serde_json::from_slice(&bytes).map_err(|_| {
+        finding(
+            "cutover_approval_invalid",
+            "cutover approval must be typed JSON evidence",
+        )
+    })?;
+    let rollback: RollbackReadinessEvidence =
+        read_proof_json(repository_root, rollback_proof, "rollback_proof_invalid")?;
+    if approval.schema != "csdlc.v3.cutover_approval.v1"
+        || approval.authority_issue != 505
+        || approval.repository != "agent-logic/agent-design-language"
+        || approval.decision != "approved"
+        || approval.exact_head != revision
+        || approval.selected_binary_digest != selected_binary_digest
+        || approval.rollback_evidence_digest != rollback_proof.digest
+        || approval.approved_by != request.operator
+        || rollback.schema != "csdlc.v3.rollback_readiness.v1"
+        || rollback.authority_issue != 505
+        || rollback.selected_revision != revision
+        || rollback.result != "pass"
+        || !rollback.fail_closed
+    {
+        return Err(finding(
+            "cutover_approval_not_exact",
+            "typed #505 approval must bind repository, exact head, selected binary, and operator",
+        ));
+    }
+    Ok((approval_path, approval_proof.digest.clone()))
 }
 
 fn verify_immutable_proof(
@@ -1575,6 +1813,8 @@ fn validate_cutover_journal(
         || journal.selected_revision != readiness.selected_revision
         || journal.readiness_evidence_path != readiness.evidence_path
         || journal.readiness_evidence_digest != readiness.evidence_digest
+        || journal.approval_evidence_path != readiness.approval_evidence_path
+        || journal.approval_evidence_digest != readiness.approval_evidence_digest
         || request.selected_binary_provenance != format!("git:{}", journal.selected_revision)
         || blake3::hash(&journal.prior_selector).to_hex().to_string()
             != journal.prior_selector_digest
@@ -1595,7 +1835,12 @@ fn selector_bytes_from_journal(journal: &CutoverReceipt) -> Result<Vec<u8>, Term
                 "retained selector preimage is not typed JSON",
             )
         })?;
-    value["default_generation"] = serde_json::Value::String("v3".into());
+    apply_v3_authority_fields(
+        &mut value,
+        &journal.selected_revision,
+        &journal.readiness_evidence_digest,
+        &journal.approval_evidence_digest,
+    );
     let bytes = serde_json::to_vec_pretty(&value)
         .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
     if blake3::hash(&bytes).to_hex().to_string() != journal.cutover_selector_digest {
@@ -1605,6 +1850,22 @@ fn selector_bytes_from_journal(journal: &CutoverReceipt) -> Result<Vec<u8>, Term
         ));
     }
     Ok(bytes)
+}
+
+fn apply_v3_authority_fields(
+    value: &mut serde_json::Value,
+    exact_review_sha: &str,
+    readiness_evidence_digest: &str,
+    approval_evidence_digest: &str,
+) {
+    value["schema"] = serde_json::Value::String("csdlc.generation_selector.v2".into());
+    value["default_generation"] = serde_json::Value::String("v3".into());
+    value["operational_authority"] = serde_json::Value::String("csdlc-v3".into());
+    value["authority_issue"] = serde_json::Value::from(505);
+    value["exact_review_sha"] = serde_json::Value::String(exact_review_sha.into());
+    value["readiness_evidence_digest"] =
+        serde_json::Value::String(readiness_evidence_digest.into());
+    value["approval_evidence_digest"] = serde_json::Value::String(approval_evidence_digest.into());
 }
 
 fn read_cutover_receipt(path: &Path) -> Result<CutoverReceipt, TerminalFinding> {
@@ -1688,7 +1949,9 @@ fn repo_output_path(
     label: &str,
 ) -> Result<PathBuf, TerminalFinding> {
     let path = path.ok_or_else(|| finding(missing_code, missing_message))?;
-    checked_repo_relative(repository_root, path, label)
+    let output = checked_repo_relative(repository_root, path, label)?;
+    ensure_output_parent_inside_repo(repository_root, &output, label)?;
+    Ok(output)
 }
 
 fn checked_repo_relative(

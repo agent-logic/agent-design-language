@@ -901,6 +901,7 @@ fn operational_authority_fixture(
         expected_head_sha: exact_head,
         expected_lifecycle_digest: None,
     };
+    fs::create_dir_all(&context.allowed_worktree_parent).expect("allowed worktree parent");
     let registry = operational_registry(&fixture);
     (repository_root, generation.to_owned(), context, registry)
 }
@@ -975,6 +976,25 @@ fn operational_local_authority_rejects_stale_lifecycle_digest() {
 }
 
 #[test]
+fn operational_local_cas_recomputes_card_bytes_before_mutation() {
+    let (_, _, mut context, registry) = operational_authority_fixture("card-byte-tamper", "v3");
+    let initialized = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect("initialize authoritative lifecycle state");
+    fs::write(
+        context.state_root.join("issues/503/cards/SIP.md"),
+        "tampered after persisted digest",
+    )
+    .expect("tamper retained card bytes");
+    let mut guarded = request();
+    guarded.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+
+    let findings = execute_operational_local_route("validate", &guarded, &registry, &context)
+        .expect_err("card tampering must invalidate operational CAS");
+    assert_eq!(findings[0].code, "stale_local_lifecycle_digest");
+}
+
+#[test]
 fn canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initialization() {
     let (_, _, context, registry) = operational_authority_fixture("v3-authorizes", "v3");
     let result = execute_operational_local_route("issue", &request(), &registry, &context)
@@ -982,4 +1002,20 @@ fn canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initializat
     assert!(result.mutated);
     assert_eq!(result.phase.as_deref(), Some("ready"));
     assert!(context.state_root.join("issues/503/index.json").is_file());
+}
+
+#[test]
+fn operational_local_authority_rejects_state_root_symlink_escape() {
+    let (repository_root, _, mut context, registry) =
+        operational_authority_fixture("state-root-symlink-escape", "v3");
+    let outside = repository_root.parent().unwrap().join("outside-state");
+    fs::create_dir_all(&outside).expect("outside state directory");
+    let state_link = repository_root.join(".csdlc/escaped-state");
+    #[cfg(unix)]
+    std::os::unix::fs::symlink(&outside, &state_link).expect("state symlink");
+    context.state_root = state_link;
+
+    let findings = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect_err("state root symlink escape must fail closed");
+    assert_eq!(findings[0].code, "state_root_outside_repository");
 }

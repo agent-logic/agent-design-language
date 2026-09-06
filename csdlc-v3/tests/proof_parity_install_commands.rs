@@ -1,11 +1,13 @@
 use std::{
     fs,
-    os::unix::fs::PermissionsExt,
     path::PathBuf,
     process::Command,
     str,
     sync::{Mutex, MutexGuard, OnceLock},
 };
+
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 
 use serde_json::{json, Value};
 
@@ -125,12 +127,44 @@ fn repo_local_v3_binary_ref() -> String {
     let source = PathBuf::from(env!("CARGO_BIN_EXE_csdlc"));
     let destination = scratch().join("csdlc-v3-shadow-bin");
     fs::copy(&source, &destination).expect("copy v3 binary into repo-local scratch");
-    let mut permissions = fs::metadata(&destination)
-        .expect("v3 binary metadata")
-        .permissions();
-    permissions.set_mode(0o755);
-    fs::set_permissions(&destination, permissions).expect("v3 binary executable");
+    #[cfg(unix)]
+    {
+        let mut permissions = fs::metadata(&destination)
+            .expect("v3 binary metadata")
+            .permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&destination, permissions).expect("v3 binary executable");
+    }
     repo_ref(&destination)
+}
+
+fn repo_local_v2_doctor_binary_ref() -> String {
+    static BINARY: OnceLock<PathBuf> = OnceLock::new();
+    let binary = BINARY.get_or_init(|| {
+        let target = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target")
+            .join("issue-631-v2-shadow-bin")
+            .join(std::process::id().to_string());
+        let status = Command::new("cargo")
+            .current_dir(binary_repo_root())
+            .args([
+                "build",
+                "--locked",
+                "--manifest-path",
+                "csdlc-v2/Cargo.toml",
+                "--bin",
+                "csdlc-doctor",
+                "--target-dir",
+            ])
+            .arg(&target)
+            .status()
+            .expect("build real v2 doctor for shadow execution");
+        assert!(status.success(), "real v2 doctor build must succeed");
+        target
+            .join("debug")
+            .join(format!("csdlc-doctor{}", std::env::consts::EXE_SUFFIX))
+    });
+    repo_ref(binary)
 }
 
 fn write_typed_request(name: &str, value: Value) -> String {
@@ -151,7 +185,7 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
     );
     json!({
         "generation": "v2",
-        "binary_ref": ".adl/bin/csdlc-v2/csdlc-doctor",
+        "binary_ref": repo_local_v2_doctor_binary_ref(),
         "argv": ["--repo", ".", "--issue", issue_argument.to_string()],
         "request_ref": request_ref,
         "timeout_millis": 10_000,

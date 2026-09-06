@@ -938,7 +938,7 @@ fn inspect_lifecycle_issue_root(
             };
         }
     };
-    let phase = index.phase;
+    let phase = index.phase.clone();
     let mut cards_present = Vec::new();
     let mut missing_cards = Vec::new();
     for card in REQUIRED_CARD_KINDS {
@@ -954,6 +954,35 @@ fn inspect_lifecycle_issue_root(
             cards_present.push(card.to_owned());
         } else {
             missing_cards.push(card.to_owned());
+        }
+    }
+    if missing_cards.is_empty() && index.operational_authority {
+        let index_value = match fs::read(&index_path)
+            .ok()
+            .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+        {
+            Some(value) => value,
+            None => {
+                return invalid_lifecycle_observation(
+                    issue,
+                    "local lifecycle index could not be recomputed",
+                );
+            }
+        };
+        let computed = match lifecycle_digest(issue_root, &index_value) {
+            Ok(digest) => digest,
+            Err(_) => {
+                return invalid_lifecycle_observation(
+                    issue,
+                    "local lifecycle digest could not be recomputed from index and cards",
+                );
+            }
+        };
+        if index.digest.as_deref() != Some(computed.as_str()) {
+            return invalid_lifecycle_observation(
+                issue,
+                "stored lifecycle digest does not match the current index and card bytes",
+            );
         }
     }
     if !matches!(phase.as_str(), "ready" | "bound") {
@@ -1003,6 +1032,21 @@ fn inspect_lifecycle_issue_root(
     }
 }
 
+fn invalid_lifecycle_observation(issue: u64, message: &str) -> LocalLifecycleStateObservation {
+    LocalLifecycleStateObservation {
+        issue,
+        phase: None,
+        generation: None,
+        digest: None,
+        status: PlanStatus::Blocked,
+        code: "invalid_local_lifecycle_digest".into(),
+        message: message.into(),
+        cards_present: Vec::new(),
+        missing_cards: Vec::new(),
+        ready_to_execute: false,
+    }
+}
+
 fn write_json(path: &Path, value: &Value) -> Result<(), Vec<DoctorFinding>> {
     let bytes = serde_json::to_vec_pretty(value).map_err(|error| {
         vec![finding(
@@ -1024,6 +1068,7 @@ struct LocalLifecycleIndex {
     phase: String,
     generation: Option<u64>,
     digest: Option<String>,
+    operational_authority: bool,
 }
 
 fn read_local_lifecycle_index(index_path: &Path) -> Result<LocalLifecycleIndex, String> {
@@ -1045,6 +1090,10 @@ fn read_local_lifecycle_index(index_path: &Path) -> Result<LocalLifecycleIndex, 
             .and_then(Value::as_str)
             .filter(|digest| !digest.trim().is_empty())
             .map(str::to_string),
+        operational_authority: value
+            .get("operational_authority")
+            .and_then(Value::as_bool)
+            .unwrap_or(false),
     })
 }
 
@@ -1084,10 +1133,31 @@ fn validate_context(
     request: &LocalPreparationRequest,
     context: &OperationalLocalContext,
 ) -> Result<(), Vec<DoctorFinding>> {
-    if context.repository_root == context.allowed_worktree_parent
-        || context
-            .repository_root
-            .starts_with(&context.allowed_worktree_parent)
+    let repository_root = context.repository_root.canonicalize().map_err(|_| {
+        vec![finding(
+            PlanStatus::Failed,
+            "repository_root_unavailable",
+            "operational repository root must be an existing canonical directory",
+        )]
+    })?;
+    let state_root = &context.state_root;
+    if state_root.components().any(|component| {
+        matches!(
+            component,
+            std::path::Component::ParentDir | std::path::Component::Prefix(_)
+        )
+    }) || !state_root.starts_with(repository_root.join(".csdlc"))
+        || !canonical_existing_ancestor_local(state_root)
+            .is_some_and(|ancestor| ancestor.starts_with(&repository_root))
+    {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "state_root_outside_repository",
+            "operational state root must resolve beneath the repository .csdlc directory",
+        )]);
+    }
+    if repository_root == context.allowed_worktree_parent
+        || repository_root.starts_with(&context.allowed_worktree_parent)
     {
         return Err(vec![finding(
             PlanStatus::Failed,
@@ -1130,8 +1200,10 @@ fn validate_context(
             "canonical generation selector must be typed JSON",
         )]
     })?;
-    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.generation_selector.v1")
-        || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
+    if !matches!(
+        selector.get("schema").and_then(Value::as_str),
+        Some("csdlc.generation_selector.v1" | "csdlc.generation_selector.v2")
+    ) || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
     {
         return Err(vec![finding(
             PlanStatus::Blocked,
@@ -1158,13 +1230,6 @@ fn validate_context(
             "cutover approval evidence must be a repository-relative #505 evidence path",
         )]);
     }
-    let repository_root = context.repository_root.canonicalize().map_err(|_| {
-        vec![finding(
-            PlanStatus::Failed,
-            "repository_root_unavailable",
-            "operational repository root must be an existing canonical directory",
-        )]
-    })?;
     let approval_evidence_root = repository_root
         .join(".csdlc/evidence/505")
         .canonicalize()
@@ -1213,12 +1278,25 @@ fn validate_context(
             )]
         })?;
     let expected_head = context.expected_head_sha.trim();
+    let selector_is_v2 =
+        selector.get("schema").and_then(Value::as_str) == Some("csdlc.generation_selector.v2");
+    let selector_authority_exact = selector
+        .get("operational_authority")
+        .and_then(Value::as_str)
+        == Some("csdlc-v3")
+        && selector.get("authority_issue").and_then(Value::as_u64) == Some(505)
+        && selector.get("exact_review_sha").and_then(Value::as_str) == Some(expected_head)
+        && selector
+            .get("approval_evidence_digest")
+            .and_then(Value::as_str)
+            == Some(approval_digest.as_str());
     if approval.schema != "csdlc.v3.cutover_approval.v1"
         || approval.authority_issue != 505
         || approval.repository != request.repository
         || approval.decision != "approved"
         || approval.exact_head != expected_head
-        || approval.selector_metadata_digest != selector_digest
+        || (!selector_is_v2 && approval.selector_metadata_digest != selector_digest)
+        || (selector_is_v2 && !selector_authority_exact)
         || expected_head.len() != 40
         || !expected_head.bytes().all(|byte| byte.is_ascii_hexdigit())
     {
@@ -1359,7 +1437,30 @@ fn bind_operational_issue(
         )]);
     }
     let target = PathBuf::from(&request.worktree);
-    if !target.is_absolute() || !target.starts_with(&context.allowed_worktree_parent) {
+    let allowed_parent = context
+        .allowed_worktree_parent
+        .canonicalize()
+        .map_err(|_| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "worktree_parent_unavailable",
+                "allowed worktree parent must be an existing canonical directory",
+            )]
+        })?;
+    let target_parent_inside_policy = target
+        .parent()
+        .and_then(canonical_existing_ancestor_local)
+        .is_some_and(|ancestor| ancestor.starts_with(&allowed_parent));
+    if !target.is_absolute()
+        || target.components().any(|component| {
+            matches!(
+                component,
+                std::path::Component::ParentDir | std::path::Component::Prefix(_)
+            )
+        })
+        || !target.starts_with(&context.allowed_worktree_parent)
+        || !target_parent_inside_policy
+    {
         return Err(vec![finding(
             PlanStatus::Blocked,
             "worktree_outside_policy",
@@ -1432,6 +1533,16 @@ fn bind_operational_issue(
     ))
 }
 
+fn canonical_existing_ancestor_local(path: &Path) -> Option<PathBuf> {
+    let mut candidate = path;
+    loop {
+        if let Ok(canonical) = candidate.canonicalize() {
+            return Some(canonical);
+        }
+        candidate = candidate.parent()?;
+    }
+}
+
 fn edit_operational_cards(
     request: &LocalPreparationRequest,
     registry: &PromptRegistry,
@@ -1444,6 +1555,7 @@ fn edit_operational_cards(
             "edit requires at least one typed card update",
         )]);
     }
+    let mut prepared = Vec::new();
     for (kind, update) in &request.card_updates {
         if !REQUIRED_CARD_KINDS.contains(&kind.as_str()) || !update.is_object() {
             return Err(vec![finding(
@@ -1471,21 +1583,47 @@ fn edit_operational_cards(
                 .expect("registry validated"),
         )
         .map_err(io_finding("template_read_failed"))?;
-        atomic_write_json(&values_path, &values)?;
-        atomic_write(
-            &issue_root.join(format!("cards/{kind}.md")),
-            render_template(&template, &values).as_bytes(),
-        )?;
+        let rendered_path = issue_root.join(format!("cards/{kind}.md"));
+        let old_values = fs::read(&values_path).map_err(io_finding("card_values_read_failed"))?;
+        let old_rendered =
+            fs::read(&rendered_path).map_err(io_finding("card_render_read_failed"))?;
+        let new_values = serde_json::to_vec_pretty(&values).map_err(|error| {
+            vec![finding(
+                PlanStatus::Failed,
+                "card_values_serialize_failed",
+                &error.to_string(),
+            )]
+        })?;
+        let new_rendered = render_template(&template, &values).into_bytes();
+        prepared.push((values_path, old_values, new_values));
+        prepared.push((rendered_path, old_rendered, new_rendered));
+    }
+    for (applied, (path, _, bytes)) in prepared.iter().enumerate() {
+        if let Err(findings) = atomic_write(path, bytes) {
+            for (rollback_path, old_bytes, _) in prepared[..applied].iter().rev() {
+                let _ = atomic_write(rollback_path, old_bytes);
+            }
+            return Err(findings);
+        }
     }
     let observed = inspect_lifecycle_issue_root(issue_root, request.issue, "v3");
     let phase = observed.phase.as_deref().unwrap_or("ready");
-    let (generation, digest) = persist_index(
+    let persisted = persist_index(
         issue_root,
         request,
         registry,
         phase,
         observed.generation.unwrap_or(1) + 1,
-    )?;
+    );
+    let (generation, digest) = match persisted {
+        Ok(result) => result,
+        Err(findings) => {
+            for (path, old_bytes, _) in prepared.iter().rev() {
+                let _ = atomic_write(path, old_bytes);
+            }
+            return Err(findings);
+        }
+    };
     Ok(operational_result(
         "edit",
         request.issue,
