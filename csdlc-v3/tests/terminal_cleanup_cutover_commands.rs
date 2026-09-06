@@ -1166,19 +1166,7 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
         serde_json::from_slice(&fs::read(&selector_path).unwrap()).unwrap();
     assert_eq!(rolled_back_selector["default_generation"], "v2");
     assert!(!root.join(".adl/bin/csdlc").exists());
-    let mut retry = prepare_terminal_route("cutover", &rollback).expect("idempotent rollback");
-    for _ in 0..3 {
-        if retry.status != TerminalRouteStatus::Blocked
-            || !retry
-                .findings
-                .iter()
-                .any(|finding| finding.code == "cutover_mutation_locked")
-        {
-            break;
-        }
-        std::thread::sleep(std::time::Duration::from_millis(10));
-        retry = prepare_terminal_route("cutover", &rollback).expect("retry idempotent rollback");
-    }
+    let retry = prepare_terminal_route("cutover", &rollback).expect("idempotent rollback");
     assert_eq!(retry.status, TerminalRouteStatus::Ready, "{retry:#?}");
 }
 
@@ -1192,10 +1180,13 @@ fn rollback_fails_closed_on_stale_selector_digest() {
     let rollback = cutover_request(&root, readiness_digest, CutoverOperation::Rollback);
     let blocked = prepare_terminal_route("cutover", &rollback).expect("rollback plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
-    assert!(blocked
-        .findings
-        .iter()
-        .any(|finding| finding.code == "rollback_requires_selector_revert"));
+    assert!(
+        blocked
+            .findings
+            .iter()
+            .any(|finding| finding.code == "rollback_requires_selector_revert"),
+        "{blocked:#?}"
+    );
     assert!(root.join(".adl/bin/csdlc").exists());
 }
 

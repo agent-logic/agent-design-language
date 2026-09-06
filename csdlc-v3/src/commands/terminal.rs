@@ -1543,7 +1543,7 @@ fn execute_cutover_platform(
 }
 
 struct CutoverMutationLock {
-    _file: fs::File,
+    file: fs::File,
 }
 
 impl CutoverMutationLock {
@@ -1590,7 +1590,13 @@ impl CutoverMutationLock {
                     &format!("could not record cutover lock holder: {error}"),
                 )
             })?;
-        Ok(Self { _file: file })
+        Ok(Self { file })
+    }
+}
+
+impl Drop for CutoverMutationLock {
+    fn drop(&mut self) {
+        let _ = FileExt::unlock(&self.file);
     }
 }
 
