@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant A as Agent A
+    participant R as Runtime and ACIP
+    participant B as Agent B
+    participant H as Durable history
+    participant O as Observatory
+    A->>R: Signed A2A message
+    R->>B: Governed delivery
+    B-->>R: Correlated reply
+    R->>H: Persist complete causal turn
+    O->>R: Authenticated history request
+    R-->>O: Restored A2A transcript
+

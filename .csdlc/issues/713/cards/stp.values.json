@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 713,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Retain and restore complete agent-to-agent conversation history",
+    "slug": "runtime-a2a-conversation-history",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Persist and restore complete, causally correlated A2A transcript records through Runtime API and Observatory.",
+      "deliverables": [
+        "durable A2A transcript model",
+        "authenticated history projection",
+        "Observatory recovery",
+        "restart and rehydration proof",
+        "live bidirectional acceptance",
+        "reviewed PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Record sender, recipient, both message bodies, status, timestamps, and causal IDs",
+        "AC-2: Distinguish A2A from operator conversations",
+        "AC-3: Use one symmetric ACIP-governed path for every agent",
+        "AC-4: Survive reconnect, restart, checkpoint, and rehydration without duplication",
+        "AC-5: Expose a bounded authenticated API projection with correct redaction",
+        "AC-6: Observatory restores correct attribution",
+        "AC-7: Focused negative and recovery tests pass",
+        "AC-8: Live Wuji proof captures and validates raw redacted bidirectional A2A evidence"
+      ],
+      "dependencies": [
+        "#707 / PR #711 first-class A2A delivery behavior"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#713",
+        "adl-runtime-kernel conversation and A2A paths",
+        "Observatory conversation history recovery"
+      ],
+      "non_goals": [
+        "No naming redesign",
+        "No provider redesign",
+        "No general UI redesign",
+        "No Shepherd-only shortcut"
+      ]
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 713,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "fbac5e3d9c82ff699bfcf2f6d77accb3468354591a29d9b5578530c77e3d0c7e",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "20d2a0f6436c2a80cd3247fd86b49f8a0803330a769e886f0c2183e41b85acdb",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/713/design.md",
+  "diagram_path": ".csdlc/prepared/issues/713/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:direct-a2a-history-contract",
+      "revision": "adad7d9a926a1644bdc559143556f5d9645f6ef943c819a7b6505195dee72286"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "08e7ea09203d29de1f77c88bc5fa0756a4d6d478cdf611044cce71e7b0035c34",
+      "rendered_digest": "679f30a3e786c007ad215683ad418ef2782d80456d9ed9377d70cde514f118dc",
+      "ast_digest": "9928e55f88db6775a83e9df2b049a848bba9dd887f2f8f42bb55d048025610db"
+    },
+    "stp": {
+      "values_digest": "680c46578f8294a2868f6a2042808744ee995a1c5b9be3c86dc85c6e969693f9",
+      "rendered_digest": "475d8d27500333c9b06fae09931124de38a201f49483e5d0c72ef37299684d08",
+      "ast_digest": "a1b65c29ad56329c8ef4d8d23bf09fee04cc5e336823ec4ec69049c7910c69f1"
+    },
+    "spp": {
+      "values_digest": "56dcad0f0e9002c1db162c49aab8f2d8fe7dc89a8be5e29acecc6746aa2e4c65",
+      "rendered_digest": "eb468d0ae0cc6a93a1b7aa67db9a0dab0d3993e9f20c564968e85e99550e3f61",
+      "ast_digest": "5564d62be7c259e9a4cd00580ceea2d1789712249b3c227affaf19ad342e6488"
+    },
+    "vpp": {
+      "values_digest": "2671f5048d6f50e04781323a22aee58ba1da770c0ee7be733c05df4b31cab92f",
+      "rendered_digest": "ddf64b34b52855c0884a9d0b9c4e69e35d248e859293367354235c61ebdd2ade",
+      "ast_digest": "9229df9af5aa5af7ac52ed14ba0d20f780ebda4e094c151f8732141f3efc3a7a"
+    },
+    "srp": {
+      "values_digest": "ccf8b82a4f9a7b945fe90707912020401c89575914aeded6ae11b001d205ff1d",
+      "rendered_digest": "b36777ad558d3759ab8ef6d5b277a2eb877145d4698e160fa6edabe4d196ad7f",
+      "ast_digest": "63c096e622d4862adc9ff415a8e83c99eddf63f8df986e96dfe5027c100700b6"
+    },
+    "sor": {
+      "values_digest": "1c37d75a9e490e1e7cde89e497cae20a464d92d59cfb95033e34b2759848b2b6",
+      "rendered_digest": "23e1cf7b56f6a1df381a746054cc66ff605db707374ebd73e4ac83586f39dc26",
+      "ast_digest": "017b16a212e2e8ab7b2889ab478dc0a5acc4b7af088e6b57cb0ef45132e0f8c6"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "Worker #7",
+      "reason": "Repair #713 execution readiness by replacing prose affected areas with concrete repo-owned Runtime, API, Observatory, validator, and evidence paths while preserving #707 ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation_history.rs\",\"adl-runtime-kernel/src/conversation_journal.rs\",\"adl-runtime-kernel/src/conversation_continuity.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/test_support.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime/tests/kernel_continuity_client.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"adl/tools/test_issue713_a2a_history.sh\",\"adl/tools/test_issue713_live_a2a_history.sh\",\".csdlc/prepared/issues/713/validate-live-a2a-history.sh\",\".csdlc/evidence/713\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "Worker #7",
+      "reason": "Repair #713 validation readiness by selecting issue-owned executable wrappers for deterministic and explicitly-authorized live A2A history proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"a2a-history-focused\",\"proof_role\":\"Prove verbatim causal A2A transcript persistence, replay handling, redaction, API projection, Observatory restore, restart, checkpoint, and rehydration in deterministic local proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_issue713_a2a_history.sh\"],\"parallel_group\":\"a2a-history-local\",\"defer_reason\":null},{\"lane\":\"live-wuji-a2a\",\"proof_role\":\"Prove raw redacted bidirectional non-Shepherd Wuji A2A exchange and recovered verbatim transcript after reconnect/restart when explicitly operator-authorized.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/713/validate-live-a2a-history.sh\"],\"parallel_group\":\"a2a-live-serial\",\"defer_reason\":\"Live Wuji Runtime/ACIP proof requires explicit operator authorization; the wrapper fails closed unless ADL_LIVE_WUJI_A2A_HISTORY=1 is set.\"}]}"
+    }
+  ]
+}
