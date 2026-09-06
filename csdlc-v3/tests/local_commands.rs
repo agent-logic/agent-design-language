@@ -1193,6 +1193,8 @@ fn operational_local_authority_rejects_state_root_symlink_escape() {
     let outside = repository_root.parent().unwrap().join("outside-state");
     fs::create_dir_all(&outside).expect("outside state directory");
     let state_link = repository_root.join(".csdlc/escaped-state");
+    fs::create_dir_all(state_link.parent().expect("state link parent"))
+        .expect("state link parent directory");
     std::os::unix::fs::symlink(&outside, &state_link).expect("state symlink");
     context.state_root = state_link;
 
