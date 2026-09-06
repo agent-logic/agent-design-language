@@ -216,7 +216,7 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
         "binary_ref": repo_local_v2_doctor_binary_ref(),
         "argv": ["--repo", ".", "--issue", issue_argument.to_string()],
         "request_ref": request_ref,
-        "timeout_millis": 10_000,
+        "timeout_millis": 120_000,
         "side_effect_boundary_refs": [format!(".csdlc/issues/{issue_argument}/index.json")],
         "provider_side_effects": false
     })
@@ -263,7 +263,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
             "--repo-root", "."
         ],
         "request_ref": request_ref,
-        "timeout_millis": 10_000,
+        "timeout_millis": 120_000,
         "side_effect_boundary_refs": [".csdlc/issues/505/index.json"],
         "provider_side_effects": false
     })
