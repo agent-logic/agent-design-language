@@ -241,6 +241,8 @@ pub struct AgentTurnCheckpoint {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub initiated_work_id: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_message: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub initiated_reply: Option<String>,
     pub reply: Option<String>,
     pub accepted_sequence: Option<u64>,
@@ -1381,14 +1383,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             if let Some(terminal) = &turn.terminal {
                 if terminal.status == "delivered" {
                     if let Some(reply) = terminal.reply.as_ref() {
-                        records.push(ObservatoryConversationHistoryRecord {
-                            conversation_id: request.conversation_id.clone(),
-                            message_id: format!("{turn_id}:reply"),
-                            speaker_id: terminal
+                        let reply_speaker_id = if turn.speaker_id.starts_with("agent:") {
+                            format!("agent:{}", terminal.recipient_id)
+                        } else {
+                            terminal
                                 .sender_id
                                 .as_ref()
                                 .map(|sender| format!("agent:{sender}"))
-                                .unwrap_or_else(|| format!("agent:{}", terminal.recipient_id)),
+                                .unwrap_or_else(|| format!("agent:{}", terminal.recipient_id))
+                        };
+                        records.push(ObservatoryConversationHistoryRecord {
+                            conversation_id: request.conversation_id.clone(),
+                            message_id: format!("{turn_id}:reply"),
+                            speaker_id: reply_speaker_id,
                             body: reply.clone(),
                             created_at_epoch_ms: turn
                                 .completed_at_unix_millis
@@ -1422,19 +1429,32 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     terminal.initiated_recipient_id.as_ref(),
                     terminal.initiated_work_id.as_ref(),
                 ) {
+                    if initiated_conversation_id == &request.conversation_id {
+                        continue;
+                    }
                     let initiated_turn = sessions.sessions.get(initiated_conversation_id).and_then(
                         |initiated_session| initiated_session.turns.get(initiated_turn_id),
                     );
-                    if let Some(initiated_turn) = initiated_turn {
+                    let initiated_message = initiated_turn
+                        .map(|turn| (turn.message.as_str(), turn.accepted_at_unix_millis))
+                        .or_else(|| {
+                            terminal
+                                .initiated_message
+                                .as_ref()
+                                .map(|message| (message.as_str(), turn.accepted_at_unix_millis))
+                        });
+                    if let Some((initiated_message, initiated_accepted_at_unix_millis)) =
+                        initiated_message
+                    {
                         let causal_id =
                             format!("{initiated_conversation_id}:{initiated_turn_id}:{work_id}");
-                        if !initiated_turn.message.is_empty() {
+                        if !initiated_message.is_empty() {
                             records.push(ObservatoryConversationHistoryRecord {
                                 conversation_id: request.conversation_id.clone(),
                                 message_id: format!("{turn_id}:a2a-outbound"),
                                 speaker_id: format!("agent:{sender_id}"),
-                                body: initiated_turn.message.clone(),
-                                created_at_epoch_ms: initiated_turn.accepted_at_unix_millis,
+                                body: initiated_message.to_owned(),
+                                created_at_epoch_ms: initiated_accepted_at_unix_millis,
                                 journal_sequence: outbound_sequence.checked_add(2)?,
                                 status: "a2a_delivered".to_owned(),
                                 redacted: false,
@@ -1451,14 +1471,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             });
                         }
                         if let Some(initiated_reply) = terminal.initiated_reply.as_ref() {
+                            let initiated_completed_at_unix_millis = initiated_turn
+                                .and_then(|turn| turn.completed_at_unix_millis)
+                                .unwrap_or_else(|| {
+                                    turn.completed_at_unix_millis
+                                        .unwrap_or(turn.accepted_at_unix_millis)
+                                });
                             records.push(ObservatoryConversationHistoryRecord {
                                 conversation_id: request.conversation_id.clone(),
                                 message_id: format!("{turn_id}:a2a-reply"),
                                 speaker_id: format!("agent:{recipient_id}"),
                                 body: initiated_reply.clone(),
-                                created_at_epoch_ms: initiated_turn
-                                    .completed_at_unix_millis
-                                    .unwrap_or(initiated_turn.accepted_at_unix_millis),
+                                created_at_epoch_ms: initiated_completed_at_unix_millis,
                                 journal_sequence: outbound_sequence.checked_add(3)?,
                                 status: "a2a_delivered".to_owned(),
                                 redacted: false,
@@ -1931,6 +1955,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_work_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_message: Some(intent.message.clone())
+                .filter(|value| initiation.is_some() && !value.is_empty()),
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -2032,6 +2058,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_message: Some(dispatch.intent.message.clone())
+                .filter(|value| dispatch.initiation.is_some() && !value.is_empty()),
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -2218,6 +2246,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             initiated_turn_id: Some(intent.turn_id),
                                             initiated_correlation_id: Some(intent.correlation_id),
                                             initiated_work_id: Some(intent.work_id),
+                                            initiated_message: Some(intent.message),
                                             initiated_reply: initiated.reply,
                                             // The initiating agent's operator-facing reply and
                                             // the recipient's governed result are separate facts.
@@ -2263,6 +2292,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.initiated_work_id.clone()),
+                                        initiated_message: Some(dispatch.intent.message.clone())
+                                            .filter(|value| {
+                                                dispatch.initiation.is_some() && !value.is_empty()
+                                            }),
                                         initiated_reply: None,
                                         reply: Some(reply),
                                         accepted_sequence: Some(result.accepted_sequence),
@@ -2386,6 +2419,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_message: None,
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -2794,6 +2828,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             initiated_turn_id: terminal.initiated_turn_id.clone(),
                             initiated_correlation_id: terminal.initiated_correlation_id.clone(),
                             initiated_work_id: terminal.initiated_work_id.clone(),
+                            initiated_message: terminal.initiated_message.clone(),
                             initiated_reply: terminal.initiated_reply.clone(),
                             reply: terminal.reply,
                             accepted_sequence: terminal.accepted_sequence,
@@ -3130,6 +3165,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             initiated_turn_id: terminal.initiated_turn_id.clone(),
                             initiated_correlation_id: terminal.initiated_correlation_id.clone(),
                             initiated_work_id: terminal.initiated_work_id.clone(),
+                            initiated_message: terminal.initiated_message.clone(),
                             initiated_reply: terminal.initiated_reply.clone(),
                             reply: terminal.reply,
                             accepted_sequence: terminal.accepted_sequence,
@@ -3328,6 +3364,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     initiated_turn_id: turn.initiated_turn_id.clone(),
                     initiated_correlation_id: turn.initiated_correlation_id.clone(),
                     initiated_work_id: turn.initiated_work_id.clone(),
+                    initiated_message: turn.initiated_message.clone(),
                     initiated_reply: turn.initiated_reply.clone(),
                     reply: turn.reply.clone(),
                     accepted_sequence: turn.accepted_sequence,
@@ -4855,6 +4892,8 @@ struct ObservatoryConversationResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     initiated_work_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_message: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     initiated_reply: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     reply: Option<String>,
@@ -4909,6 +4948,7 @@ impl ObservatoryConversationResult {
                 .as_ref()
                 .map(|metadata| metadata.initiated_correlation_id.clone()),
             initiated_work_id: parts.initiation.map(|metadata| metadata.initiated_work_id),
+            initiated_message: None,
             initiated_reply: None,
             reply: parts.reply,
             accepted_sequence: parts.accepted_sequence,
@@ -4931,6 +4971,7 @@ impl ObservatoryConversationResult {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_message: None,
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -5234,6 +5275,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 initiated_turn_id: None,
                                 initiated_correlation_id: None,
                                 initiated_work_id: None,
+                                initiated_message: None,
                                 initiated_reply: None,
                                 reply: None,
                                 accepted_sequence: None,
@@ -7035,6 +7077,31 @@ mod layer8_conversation_ingress_tests {
             history.records[2].causal_id, history.records[3].causal_id,
             "A2A outbound and reply must share a stable causal id"
         );
+        let initiated_history = service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: delivered
+                    .initiated_conversation_id
+                    .clone()
+                    .expect("initiated conversation id"),
+                page_size: 16,
+            })
+            .expect("initiated conversation projects its own transcript history");
+        assert_eq!(initiated_history.records.len(), 2);
+        assert_eq!(initiated_history.records[0].speaker_id, "agent:beacon");
+        assert_eq!(
+            initiated_history.records[0].body,
+            "Ember, please answer Beacon through governed A2A."
+        );
+        assert_eq!(initiated_history.records[1].speaker_id, "agent:ember");
+        assert_eq!(
+            initiated_history.records[1].body,
+            "Ember generated a governed response for Beacon."
+        );
+        assert_eq!(
+            initiated_history.records[0].causal_id, initiated_history.records[1].causal_id,
+            "direct initiated history must preserve one causal id across outbound and reply"
+        );
         let history_wire = serde_json::to_string(&history).expect("A2A history serializes");
         for forbidden in [
             "bearer_token",
@@ -7794,6 +7861,7 @@ mod agent_lifecycle {
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
                     initiated_work_id: None,
+                    initiated_message: None,
                     initiated_reply: None,
                     reply: Some(format!("reply-{sequence}")),
                     accepted_sequence: Some(sequence),
@@ -7806,11 +7874,8 @@ mod agent_lifecycle {
         }]
     }
 
-    fn restored_a2a_history() -> (
-        Vec<AgentConversationCheckpoint>,
-        Vec<AgentConversationCheckpoint>,
-    ) {
-        let parent = vec![AgentConversationCheckpoint {
+    fn restored_a2a_history() -> Vec<AgentConversationCheckpoint> {
+        vec![AgentConversationCheckpoint {
             conversation_id: "conversation-operator-beacon".to_owned(),
             session_sequence: 1,
             next_turn_sequence: 1,
@@ -7827,6 +7892,7 @@ mod agent_lifecycle {
                 initiated_turn_id: Some("turn-a2a".to_owned()),
                 initiated_correlation_id: Some("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".to_owned()),
                 initiated_work_id: Some("a2a-work-beacon-ember".to_owned()),
+                initiated_message: Some("Ember, please answer Beacon.".to_owned()),
                 initiated_reply: Some("Ember replied verbatim.".to_owned()),
                 reply: Some("Beacon will ask Ember.".to_owned()),
                 accepted_sequence: Some(1),
@@ -7835,34 +7901,7 @@ mod agent_lifecycle {
                 accepted_at_unix_millis: Some(10),
                 completed_at_unix_millis: Some(20),
             }],
-        }];
-        let initiated = vec![AgentConversationCheckpoint {
-            conversation_id: "a2a-beacon-ember".to_owned(),
-            session_sequence: 2,
-            next_turn_sequence: 1,
-            turns: vec![AgentTurnCheckpoint {
-                turn_id: "turn-a2a".to_owned(),
-                fingerprint: "fingerprint-a2a".to_owned(),
-                correlation_id: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".to_owned(),
-                sequence: 1,
-                terminal_status: "delivered".to_owned(),
-                message: Some("Ember, please answer Beacon.".to_owned()),
-                speaker_id: Some("agent:beacon".to_owned()),
-                initiated_recipient_id: None,
-                initiated_conversation_id: None,
-                initiated_turn_id: None,
-                initiated_correlation_id: None,
-                initiated_work_id: None,
-                initiated_reply: None,
-                reply: Some("Ember replied verbatim.".to_owned()),
-                accepted_sequence: Some(2),
-                turn_sequence: Some(1),
-                terminal_error: None,
-                accepted_at_unix_millis: Some(11),
-                completed_at_unix_millis: Some(19),
-            }],
-        }];
-        (parent, initiated)
+        }]
     }
 
     #[tokio::test]
@@ -8003,13 +8042,10 @@ mod agent_lifecycle {
     fn archived_restore_rehydrates_complete_a2a_transcript_history() {
         let temp = tempfile::tempdir().unwrap();
         let service = service(temp.path().join("dynamic-agents.json"));
-        let (parent, initiated) = restored_a2a_history();
+        let parent = restored_a2a_history();
         service
             .restore_conversation_history("beacon", &parent)
             .expect("restore parent Beacon checkpoint");
-        service
-            .restore_conversation_history("ember", &initiated)
-            .expect("restore initiated Ember checkpoint");
 
         let history = service
             .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
@@ -8264,6 +8300,7 @@ mod agent_lifecycle {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_message: None,
             initiated_reply: None,
             reply: Some("retained reply".to_owned()),
             accepted_sequence: Some(1),
@@ -9577,6 +9614,7 @@ mod conversation_dispatch_gate_tests {
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
                     initiated_work_id: None,
+                    initiated_message: None,
                     initiated_reply: None,
                     reply: None,
                     accepted_sequence: Some(1),
