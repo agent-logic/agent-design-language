@@ -1,0 +1,8 @@
+flowchart LR
+  S[Tracked welcome package] --> L[Validated versioned Runtime resource]
+  L --> A[Admission snapshot]
+  A --> C[Initial system context before first model turn]
+  A --> R[Agent record: delivered version and digest]
+  R --> P[Runtime projection]
+  P --> O[Observatory provenance display]
+  N[Invalid reload] -->|preserve last valid| L

@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 708,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
+    "slug": "runtime-versioned-agent-orientation-resource",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review admission ordering, exact delivered-byte provenance, reload semantics, authority separation, Runtime projection, Observatory rendering, and source immutability.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any admitted agent reach its first model turn without the active orientation snapshot?",
+        "Does the recorded digest cover the exact delivered bytes rather than a mutable source or global resource?",
+        "Can reload misreport the package delivered to an existing agent?",
+        "Can invalid content replace the last valid active package?",
+        "Does any wording or control path let orientation enlarge authority?",
+        "Is the implementation smaller than a general prompt framework?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 708,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
+    "slug": "runtime-versioned-agent-orientation-resource",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Deliver the exact versioned Polis welcome package to every newly admitted agent before its first model turn and expose per-agent delivery provenance.",
+      "required_outcome": "A first-class Runtime orientation resource is validated, admission-injected, retained per agent by version and digest, and visible through Runtime and Observatory projections.",
+      "declared_scope": [
+        "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/agent_roster.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/tests/agent_orientation.test.mjs",
+        ".csdlc/prepared/issues/708/design.md",
+        ".csdlc/prepared/issues/708/diagram.mmd",
+        ".csdlc/prepared/issues/708/validate-orientation-plan.sh",
+        ".csdlc/issues/708",
+        ".csdlc/evidence/708"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#708",
+        "The welcome package is orientation only and grants no authority",
+        "Runtime policy, admission, Layer 8, and operator authority remain controlling",
+        "The source welcome-package document is not modified by this issue"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Schedule and label as v0.92.1 for ASAP execution",
+        "Do not modify docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+        "Do not perform tracked work on main",
+        "Keep the implementation simple and bounded"
+      ]
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 708,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
+  "phase": "ready",
+  "generation": 2,
+  "digest": "f5f1077146d5eb611bc0fb8f9ae0e8ab4e412411b737e34e92984ca4af0e330c",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/708/design.md",
+  "diagram_path": ".csdlc/prepared/issues/708/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:planning-1:bounded-design-review",
+      "revision": "8ae95c9e3004c2770afe6e6b9b3ff8986881e9ecc1c8e2e70cb0cdb478a7f919"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e5258ef3f507670c552fd9e64844704904feb6e29a42e23593a5e5583502bfaa",
+      "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
+      "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
+    },
+    "stp": {
+      "values_digest": "5c0a44b57463df0779f981d3fc43d13fb99f73d81eae235d3855213a23ec2f57",
+      "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
+      "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
+    },
+    "spp": {
+      "values_digest": "17e0e7666a8d381e39a21b75021f7e38dce33b19a792fd32229294bc9e8a7a4f",
+      "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
+      "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
+    },
+    "vpp": {
+      "values_digest": "a96964dd8580181b64de0f57dccc9c844bba49fd3c4ba82dc1b09cf75b35675a",
+      "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
+      "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
+    },
+    "srp": {
+      "values_digest": "2963cdc74091c7f2e288f015e61f061bb9dd5e2e13316a07152c4c0b36622ba9",
+      "rendered_digest": "6d6cd314fccb5b904ca4126398e80192ae185da5b1d2fb076755ce511cbcb9b5",
+      "ast_digest": "a84b5cea078ecd61e06beab46e4bfee17f44ffedbc85cbdce6d5c4faf7871c8c"
+    },
+    "sor": {
+      "values_digest": "7baee8704192a7d9d1e5334909e8a32939ace6c5f948b7d775982e0e879d5143",
+      "rendered_digest": "067b7f8c0155056b458dfc62a71a6608d613b4142822a111d3608c6213a6057e",
+      "ast_digest": "0ca98e9b2c336e83bfc4fe61dbe7eab0f77d0526e57b4eff8ecd4ad89620609c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:planning-1",
+      "reason": "Advance the operator-approved, doctor-clean #708 execution design to ready."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning-1",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:planning-1",
+      "reason": "Express the deferred issue-owned Observatory validator as a direct governed Node target so typed readiness can resolve its denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-orientation-contract\",\"proof_role\":\"Prove resource validation, delivered-byte digesting, admission ordering, per-agent retention, and reload semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"orientation\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"The issue-owned focused Runtime test selector will be added during implementation before PVF execution.\"},{\"lane\":\"runtime-projection-observatory\",\"proof_role\":\"Prove Runtime projection and Observatory rendering of exact per-agent orientation provenance.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"node\",\"demos/html-observatory/tests/agent_orientation.test.mjs\"],\"parallel_group\":\"observatory\",\"defer_reason\":\"The issue-owned Observatory test target will be added during implementation before PVF execution.\"},{\"lane\":\"planning-contract\",\"proof_role\":\"Prove the issue-owned design, diagram, source input, and typed lifecycle records are present and structurally clean.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"bash\",\".csdlc/prepared/issues/708/validate-orientation-plan.sh\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"source-immutability\",\"proof_role\":\"Prove the canonical welcome-package source document is unchanged by the implementation.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--exit-code\",\"origin/main...HEAD\",\"--\",\"docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:planning-1",
+      "reason": "Advance the operator-approved, doctor-clean #708 execution design to ready.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
