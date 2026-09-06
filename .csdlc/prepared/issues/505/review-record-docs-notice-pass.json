@@ -1,0 +1,34 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 505,
+  "expected_generation": 6,
+  "expected_digest": "4a38dc2ca7377c16bd61b81692bdba7af80d696effa35b7493e956d013f6df49",
+  "actor": "codex:worker-6",
+  "evidence": {
+    "reviewer": "review_issue_505_notice_docs_readonly_verdict",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates"
+    ],
+    "reviewed_revision": "git-blake3:3653c889beeced98bfb0bd6f92df7877257f1fa4:b3050fb680b43bb9c4557b774c3fbeccfd3f8aea0689cbda6d5935e031e79350",
+    "findings": [],
+    "residual_risks": [
+      "No PR body existed at review time; publication must still include visible `Closes #505`."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

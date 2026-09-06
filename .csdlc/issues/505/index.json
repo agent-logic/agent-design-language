@@ -1,0 +1,1412 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 505,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
+  "phase": "published",
+  "generation": 88,
+  "digest": "8178a820c504b64c59aa12418a9273ce0495d49d5f32764be32640d3d142cc56",
+  "branch": "codex/505-v3-f-authority-transition-decision-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
+  "review_assignment": {
+    "reviewer": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
+    "assigned_by": "codex:worker-8",
+    "revision": "git-blake3:9d0918ea6ba4a90ec674d29bc030878c0b22527f:767767068873bafe43204700c18380282bc196b41e8a96cf288ddd7b3a9c3850",
+    "scope": [
+      "exact PR #591 head 9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+      "csdlc-v3/src/commands/proof.rs sanitized child PATH preservation",
+      "csdlc-v3/tests/proof_parity_install_commands.rs stable #631 parity denominator and dynamic boundary",
+      "120-second bounded cold-build timeout",
+      "format-only delta from semantic parent aeb7cbb27260b422ada11743e18e88f40b5eb437"
+    ]
+  },
+  "review": {
+    "reviewer": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
+    "scope": [
+      "exact PR #591 head 9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+      "csdlc-v3/src/commands/proof.rs sanitized child PATH preservation",
+      "csdlc-v3/tests/proof_parity_install_commands.rs stable #631 parity denominator and dynamic boundary",
+      "120-second bounded cold-build timeout",
+      "format-only delta from semantic parent aeb7cbb27260b422ada11743e18e88f40b5eb437"
+    ],
+    "reviewed_revision": "git-blake3:9d0918ea6ba4a90ec674d29bc030878c0b22527f:767767068873bafe43204700c18380282bc196b41e8a96cf288ddd7b3a9c3850",
+    "findings": [],
+    "residual_risks": [
+      "Inherited PATH is operator-controlled and is not recorded in the receipt.",
+      "The declared side-effect boundary observes the issue index rather than every repository path.",
+      "No dedicated test seeds provider credentials and inspects the child environment.",
+      "No dedicated test exercises timeout expiry, descendant process-tree termination, or rejection above the 300-second ceiling."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 505,
+    "pull_request": 591,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/591",
+    "base": "main",
+    "head": "codex/505-v3-f-authority-transition-decision-exec",
+    "revision": "git-blake3:641b575cb5bbbbc423c964764c5f800dc90eba32:959770258e9ef610b0442dd7f9496bad5c14c1ba1ac142462d33c3a44e14d325",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/505/design.md",
+  "diagram_path": ".csdlc/prepared/issues/505/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:201f7751-3804-4235-aa1c-edf6ccbcae42",
+      "revision": "8a1fccb205c7ed4511fccc1b027bcecaedc257f65197fe7dfc8a9ec35d643d8a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "db19611462fc197b91ee2b71dc000a78808a65ba614501f39f6d1280705b2efc",
+      "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
+      "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
+    },
+    "stp": {
+      "values_digest": "d49dd5b12857e1dca3566c4870390fdaf3622f2ddf56f579dd51eb0ac60b80a7",
+      "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
+      "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
+    },
+    "spp": {
+      "values_digest": "f0e5073b276fc68ee41e8ace804508268533efd9212e40ba45ad34cdffaa9062",
+      "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
+      "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
+    },
+    "vpp": {
+      "values_digest": "e2e143e02b9edab477fca2b896fc12c14625ed2d1045a608c11db668bc1d3cf6",
+      "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
+      "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
+    },
+    "srp": {
+      "values_digest": "ca242aa16819bef26d0a18ce4acd95ff55797371a0b0a2241ce1510874e8c4ac",
+      "rendered_digest": "191f5d458c725b61d4281efba6226de6ebbf474830daca67bfd22879baee21de",
+      "ast_digest": "efdfad3dd191beca56a5ffed146491d3e608e8fbb6ec1151367a2a6898f39601"
+    },
+    "sor": {
+      "values_digest": "96b3411a41b14ca66fc7d043b97907521c4ef1d4b2bc95f32dd7e2910d773211",
+      "rendered_digest": "4e28d54dbc8b70760e8272d99f1e4a6555b0556c340c85cc4a8eb70b6e33fdb3",
+      "ast_digest": "26dcd5c23e26526b3525cad3fbeda2e5b4240c4d4ed9ec196019a5fcaf35bd6c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #505 to ready/unbound after design approval, doctor readiness, preparation validator proof, and explicit #504 terminal dependency. Stop before bind or implementation while #504 remains open."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review truth after a final docs-template wording fix changed the substantive reviewed revision before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after cutover-prep evidence and template/editor notice updates at clean commit c28cf29c7."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #505 review truth after transient prepared review request artifacts were mistakenly committed, making the publication review guard fail closed as review_stale."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after merging current origin/main into the cutover branch at 04c9de57b; the branch is conflict-resolved but must receive fresh exact-head review before any renewed publication or cutover claim."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 19,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after implementing executable pre-cutover replacement verifier routes for cutover/install/proof/shadow/soak at exact head 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452; the branch must receive refreshed execution truth, exact-head review, and renewed non-closing publication before any cutover claim."
+    },
+    {
+      "sequence": 20,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 21,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 22,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review/publication truth after commit eec95bd3cd2d639898603766001ce9e7d32e6d4b removed the last partial-command label from the visible v3 command surface."
+    },
+    {
+      "sequence": 23,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 24,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 25,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after testing v3 sprint readiness against live V3-H issue #625 and repairing the parser at commit 15cf11215."
+    },
+    {
+      "sequence": 26,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 27,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 28,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review/publication truth after merging current main into PR #591, resolving v3 command-route conflicts, and aligning the replacement denominator cutover route without approving cutover."
+    },
+    {
+      "sequence": 29,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 30,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #505 review/publication truth after deleting stale committed review request artifacts and retaining the current v3 command-denominator merge resolution without approving cutover."
+    },
+    {
+      "sequence": 31,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 32,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 33,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after reconciling PR #591 with current main and retaining terminal V3-H readback plus deferred-cutover evidence."
+    },
+    {
+      "sequence": 34,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 35,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover the stale review after correcting the non-closing PR #591 linkage wording and publication request evidence to the typed publication-compatible `Part of #505` form."
+    },
+    {
+      "sequence": 36,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 37,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 38,
+      "from": "published",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after merging current origin/main at 8ed2c4fc into PR #591 without approving cutover."
+    },
+    {
+      "sequence": 39,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 40,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 41,
+      "from": "published",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after refreshing cutover readiness artifacts to remove the no-longer-true exact-head review blocker while preserving rollback/canary approval blockers."
+    },
+    {
+      "sequence": 42,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 43,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 44,
+      "from": "published",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after adding rollback exercise and terminal finish/cleanup canary evidence."
+    },
+    {
+      "sequence": 45,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 46,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after replacing a hard-coded generation review evidence reference with the live review evidence anchor."
+    },
+    {
+      "sequence": 47,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 48,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after the publication guard rejected a history range that temporarily contained prepared review request artifacts; re-review the current clean metadata head before republishing."
+    },
+    {
+      "sequence": 49,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 50,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 51,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after merging current main and updating the #629 real-issue canary to consume current terminal truth at exact head 9cbb44c855653b75e0163c5b5391eff807f49f50."
+    },
+    {
+      "sequence": 52,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 53,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 54,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale #505 review/publication truth after committing final v2/v3 cutover-operation replay hardening at 84ef26dde; a fresh exact-head review is required before republishing PR #591."
+    },
+    {
+      "sequence": 55,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 56,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-8",
+      "reason": "Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication."
+    },
+    {
+      "sequence": 57,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 58,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 59,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale #505 review/publication truth after committing the proof shadow CI portability fix at ad395e0d2; a fresh exact-head review is required before republishing PR #591."
+    },
+    {
+      "sequence": 60,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 61,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-8",
+      "reason": "Recover concurrent invalid non-independent review evidence at generation 80. The recorded reviewer explicitly lacks provider attestation and cannot authorize publication; a genuine independent exact-head review is required after CI is green."
+    },
+    {
+      "sequence": 62,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 63,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-8",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 64,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-8",
+      "reason": "Recover stale #505 review and publication truth after exact-head commit 62e6a873a6e0934c590b120d5887d2da6cb1505c raised only the bounded cold-build timeout in the realistic v3 doctor proof fixtures."
+    },
+    {
+      "sequence": 65,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 66,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-8",
+      "reason": "Recover stale #505 review truth after exact-head commits aeb7cbb27260b422ada11743e18e88f40b5eb437 and 9d0918ea6ba4a90ec674d29bc030878c0b22527f preserved the sanitized child toolchain PATH and decoupled shadow parity from live reviewed issue state."
+    },
+    {
+      "sequence": 67,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 68,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-8",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:201f7751-3804-4235-aa1c-edf6ccbcae42",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"8a1fccb205c7ed4511fccc1b027bcecaedc257f65197fe7dfc8a9ec35d643d8a\",\"design_ref\":\".csdlc/prepared/issues/505/design.md\",\"diagram_digest\":\"72b7875592231b8ecf51ff326181c7b4b93ab5dd13080ff8a9353c70d8ad67ff\",\"diagram_ref\":\".csdlc/prepared/issues/505/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Advance #505 to ready/unbound after design approval, doctor readiness, preparation validator proof, and explicit #504 terminal dependency. Stop before bind or implementation while #504 remains open.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "Make the Sprint 6 #570/#571 cutover-readiness gates explicit before #505 execution can start.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"V3-E: #504 must be closed by merged PR and typed terminal closeout before #505 execution starts.\",\"V3-G: #570 docs/skill cutover-readiness PR must be merged and the issue closed before #505 execution starts.\",\"V3-A follow-up: #571 predecessor-proof/lifecycle-gate corrective PR must be merged and the issue closed before #505 execution starts.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Make #570/#571 open or unmerged gate state an explicit #505 execution stop condition.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#504 is not terminal, reconciled, and ancestral when implementation would begin.\",\"#570 is not closed by its merged docs/skill cutover-readiness PR when #505 execution would begin.\",\"#571 is not closed by its merged predecessor-proof/lifecycle-gate corrective PR when #505 execution would begin.\",\"Parity is incomplete or lacks a machine-readable denominator.\",\"Rollback fails or is not exercised.\",\"Operator cutover approval is absent.\",\"The slice silently retires v2 or claims unsupported platform parity.\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Make the #505 prebind validation lane prove the explicit #570/#571 Sprint 6 gate denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-v3-f-preparation\",\"proof_role\":\"Prove the initialized #505 preparation packet preserves the #504 terminal dependency, the #570/#571 cutover-readiness gates, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"parallel_group\":\"505-prebind-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover review truth after a final docs-template wording fix changed the substantive reviewed revision before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after cutover-prep evidence and template/editor notice updates at clean commit c28cf29c7.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "worker-6",
+      "reason": "Align the output card status with implemented-phase execution truth while preserving not-published, not-merged, and not-closeout states before explicit cutover approval.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "Recover #505 review truth after transient prepared review request artifacts were mistakenly committed, making the publication review guard fail closed as review_stale.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after refreshing PR #591 onto current main and retaining current Sprint 8/9 live-readback evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after merging current origin/main into the cutover branch at 04c9de57b; the branch is conflict-resolved but must receive fresh exact-head review before any renewed publication or cutover claim.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 execution truth after hardening the v3 single-binary remote bridge aliases and command denominator at exact head 9e93d5c507d388a38d3ace14e85fd988006ea345.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Hardened the C-SDLC v3 single-binary remote alias routes and replacement denominator before #505 cutover while preserving C-SDLC v2 as live authority.\",\"changes\":[\"Implemented pre-cutover top-level v3 bridge aliases for GitHub, review, publication, finish, and cleanup route families without granting v3 operational authority.\",\"Split publication derivation from terminal delivery so `csdlc publish` accepts a publish-stage evidence envelope without requiring merged PR, closed issue, or cleanup artifacts.\",\"Made `csdlc finish` fail closed when remote readback derives `OperatorRequired` instead of terminal or checkpoint completion.\",\"Made `csdlc clean` cleanup-preview-only before cutover and allowed it to consume a cleanup-only evidence envelope.\",\"Made generic bridge verification parse the full typed bridge evidence set before reporting ready, so schema and identity mismatches fail closed.\",\"Updated the tracked v3 command manifest and full replacement denominator to reflect 23 visible commands, 21 v2 entrypoints, 17 implemented commands, 2 partial commands, 4 fail-closed commands, and 5 remaining replacement gaps.\"],\"artifacts\":[\"commit 9e93d5c507d388a38d3ace14e85fd988006ea345\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, operation-specific remote alias semantics, minimal publish/cleanup request shapes, identity mismatch rejection, and manifest-denominator consistency.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:12-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the full C-SDLC v3 suite after remote alias hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:101-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after command-denominator changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:status-pass\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after remote alias hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace hygiene for the current #505 worktree diff.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state remains valid in implemented phase before review and publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9e93d5c507d388a38d3ace14e85fd988006ea345:status-pass-generation-21-ready-false\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 execution truth after aligning the visible v3 command denominator at exact head 517d39b5cb8637e049ed41f9a4e46690edd1898e.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Hardened the C-SDLC v3 single-binary remote alias routes and aligned the visible command-surface denominator before #505 cutover while preserving C-SDLC v2 as live authority.\",\"changes\":[\"Implemented pre-cutover top-level v3 bridge aliases for GitHub, review, publication, finish, and cleanup route families without granting v3 operational authority.\",\"Split publication derivation from terminal delivery so `csdlc publish` accepts a publish-stage evidence envelope without requiring merged PR, closed issue, or cleanup artifacts.\",\"Made `csdlc finish` fail closed when remote readback derives `OperatorRequired` instead of terminal or checkpoint completion.\",\"Made `csdlc clean` cleanup-preview-only before cutover and allowed it to consume a cleanup-only evidence envelope.\",\"Made generic bridge verification parse the full typed bridge evidence set before reporting ready, so schema and identity mismatches fail closed.\",\"Updated the tracked v3 command manifest and full replacement denominator to reflect 25 visible commands, 21 v2 entrypoints, 19 implemented commands, 2 partial commands, 4 fail-closed commands, and 5 remaining replacement gaps.\",\"Recorded `remote` and `sprint` as visible helper/canary routes with no v2 entrypoint replacement so command-surface counts and replacement-route counts remain distinct.\"],\"artifacts\":[\"commit 9e93d5c507d388a38d3ace14e85fd988006ea345\",\"commit 517d39b5cb8637e049ed41f9a4e46690edd1898e\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, operation-specific remote alias semantics, minimal publish/cleanup request shapes, identity mismatch rejection, and bidirectional manifest-denominator consistency for the visible command surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:12-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the full C-SDLC v3 suite after remote alias hardening and visible-denominator alignment.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:101-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after command-denominator changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after remote alias hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the current #505 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state remains valid in implemented phase before review and publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:517d39b5cb8637e049ed41f9a4e46690edd1898e:status-pass-generation-22-ready-false\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after implementing executable pre-cutover replacement verifier routes for cutover/install/proof/shadow/soak at exact head 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452; the branch must receive refreshed execution truth, exact-head review, and renewed non-closing publication before any cutover claim.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 execution truth after implementing executable pre-cutover replacement verifier routes at exact head 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replacement commands while preserving v2 as live authority until explicit #505 cutover approval.\",\"changes\":[\"Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.\",\"Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.\",\"Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when evidence is valid.\",\"Made bad evidence fail as structured `blocked_by_evidence` verifier output and made route/request command mismatches fail closed.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 24 implemented visible commands, 1 helper/local partial command, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.\",\"Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.\"],\"artifacts\":[\"commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452\",\"csdlc-v3/src/commands/replacement.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, and executable non-authoritative replacement-verifier routes.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:12-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\",\"full_replacement_denominator_blocks_cutover_until_operator_approval\"],\"purpose\":\"Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:1-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the complete C-SDLC v3 test suite after replacement-verifier implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:102-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after replacement-verifier implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the current #505 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9db781e0b42f0915e3d238bc0b9c7b6a28dd9452:passed\"}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 execution truth after hardening replacement-verifier readiness against caller-forged approval at exact head 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed pre-cutover verifier routes for the remaining C-SDLC v3 replacement commands and hardened cutover-readiness derivation so caller-provided booleans cannot manufacture approval.\",\"changes\":[\"Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.\",\"Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.\",\"Required every replacement verifier route to include command-specific repo-local proof evidence with the expected schema before it can move past `blocked_by_evidence`.\",\"Required separate durable operator approval evidence at `.csdlc/evidence/csdlc-v3/operator-cutover-approval.json` with schema `csdlc.v3.operator_cutover_approval.v1` and `approved: true` before any route may emit `ready_for_cutover_decision`.\",\"Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when proof and approval evidence are valid.\",\"Updated tests so a bare `operator_cutover_approved: true` request with no durable evidence remains `blocked_by_evidence` and cannot manufacture readiness.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 24 implemented visible commands, 1 helper/local partial command, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.\",\"Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.\"],\"artifacts\":[\"commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452\",\"commit 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7\",\"csdlc-v3/src/commands/replacement.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, and anti-forged-readiness behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:13-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\",\"full_replacement_denominator_blocks_cutover_until_operator_approval\"],\"purpose\":\"Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:1-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the complete C-SDLC v3 test suite after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:103-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the current #505 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state remains valid in implemented phase before refreshed review and publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:status-pass-generation-27-ready-false\"}]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 29,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 38,
+      "generation": 31,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review/publication truth after commit eec95bd3cd2d639898603766001ce9e7d32e6d4b removed the last partial-command label from the visible v3 command surface.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "Record #505 execution truth after removing the last partial-command label from the visible v3 command surface.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement command, hardened cutover-readiness derivation so caller-provided booleans cannot manufacture approval, and removed the last partial-command label from the visible v3 command surface.\",\"changes\":[\"Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.\",\"Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.\",\"Required every replacement verifier route to include command-specific repo-local proof evidence with the expected schema before it can move past `blocked_by_evidence`.\",\"Required separate durable operator approval evidence at `.csdlc/evidence/csdlc-v3/operator-cutover-approval.json` with schema `csdlc.v3.operator_cutover_approval.v1` and `approved: true` before any route may emit `ready_for_cutover_decision`.\",\"Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when proof and approval evidence are valid.\",\"Updated tests so a bare `operator_cutover_approved: true` request with no durable evidence remains `blocked_by_evidence` and cannot manufacture readiness.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 25 implemented visible commands, 0 partial commands, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.\",\"Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.\",\"Marked the executable `local` helper route as implemented while preserving its `read_only_construction` authority boundary and its exclusion from the v2 replacement-route denominator.\"],\"artifacts\":[\"commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452\",\"commit 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7\",\"commit eec95bd3cd2d639898603766001ce9e7d32e6d4b\",\"csdlc-v3/src/commands/replacement.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/local_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, zero partial-command rows, and anti-forged-readiness behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:eec95bd3cd2d639898603766001ce9e7d32e6d4b:13-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"local_commands\"],\"purpose\":\"Prove the local helper route and all implemented local command aliases remain typed, non-authoritative, route-specific, and fail-closed after the partial-command label was removed.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:eec95bd3cd2d639898603766001ce9e7d32e6d4b:23-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\",\"full_replacement_denominator_blocks_cutover_until_operator_approval\"],\"purpose\":\"Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:1-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the complete C-SDLC v3 test suite after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:103-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the current #505 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state remains valid before refreshed review and publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:740e476f86d4799858d7206b8fc3e986c64ee4b6:status-pass-generation-30-ready-false\"}]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Record #505 execution truth after removing the last partial-command label from the visible v3 command surface.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented typed pre-cutover verifier routes for every C-SDLC v3 replacement command, hardened cutover-readiness derivation so caller-provided booleans cannot manufacture approval, and removed the last partial-command label from the visible v3 command surface.\",\"changes\":[\"Added `csdlc cutover`, `csdlc install`, `csdlc proof`, `csdlc shadow`, and `csdlc soak` as executable typed replacement-verifier routes instead of inert placeholders.\",\"Each replacement verifier parses a schema-tagged request, binds issue identity to #505 authority, verifies repo identity, canonicalizes repo-local evidence paths, validates BLAKE3 evidence digests, and emits a machine-readable readiness/blocker report.\",\"Required every replacement verifier route to include command-specific repo-local proof evidence with the expected schema before it can move past `blocked_by_evidence`.\",\"Required separate durable operator approval evidence at `.csdlc/evidence/csdlc-v3/operator-cutover-approval.json` with schema `csdlc.v3.operator_cutover_approval.v1` and `approved: true` before any route may emit `ready_for_cutover_decision`.\",\"Kept all replacement-verifier routes non-mutating before cutover by emitting `mutation_allowed: false` and `operational_authority: false` even when proof and approval evidence are valid.\",\"Updated tests so a bare `operator_cutover_approved: true` request with no durable evidence remains `blocked_by_evidence` and cannot manufacture readiness.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 25 implemented visible commands, 0 partial commands, 21 implemented replacement routes, and zero remaining v2-entrypoint replacement gaps.\",\"Corrected `csdlc-shadow` denominator mapping to the executable `shadow` route and retained `cutover_ready: false` pending explicit operator approval, merge, finish, and cleanup reconciliation.\",\"Marked the executable `local` helper route as implemented while preserving its `read_only_construction` authority boundary and its exclusion from the v2 replacement-route denominator.\"],\"artifacts\":[\"commit 9db781e0b42f0915e3d238bc0b9c7b6a28dd9452\",\"commit 7461bf78cc8e55e8fd9a0cda5518dafeb5d0ddd7\",\"commit eec95bd1a9ab36bd19720c379368119f87e3df81\",\"commit 9bcce0f4a7e389030b254240a2f973f0fc928e73\",\"csdlc-v3/src/commands/replacement.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/local_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Prove one-binary route table, manifest/denominator consistency, remote bridge behavior, executable non-authoritative replacement-verifier routes, zero partial-command rows, and anti-forged-readiness behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:13-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"local_commands\"],\"purpose\":\"Prove the local helper route and all implemented local command aliases remain typed, non-authoritative, route-specific, and fail-closed after the partial-command label was removed.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:23-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\",\"full_replacement_denominator_blocks_cutover_until_operator_approval\"],\"purpose\":\"Prove the full replacement denominator records zero v2-entrypoint replacement gaps while still blocking cutover before operator approval.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:1-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the complete C-SDLC v3 test suite after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:103-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after replacement-verifier hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the current #505 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state remains valid before refreshed review and publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:9bcce0f4a7e389030b254240a2f973f0fc928e73:status-pass-generation-32-ready-false\"}]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 34,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 35,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 44,
+      "generation": 36,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review and publication truth after testing v3 sprint readiness against live V3-H issue #625 and repairing the parser at commit 15cf11215.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 37,
+      "actor": "codex:worker-6",
+      "reason": "Record #505 execution truth after testing v3 sprint readiness against live V3-H issue #625 at exact head 15cf11215.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Tested the non-authoritative v3 sprint readiness route against the live V3-H sprint umbrella and child issue denominator, repaired the parser for the current umbrella body shape, and retained typed v2 as the only operational authority before #505 cutover.\",\"changes\":[\"Added v3 sprint membership parsing support for the live `## Child issues` umbrella section used by #625.\",\"Added support for numbered child issue rows such as `1. #627` while preserving the existing bullet-row parser path.\",\"Added a regression test proving the V3-H child issue heading, numbered rows, membership version, and readiness status are parsed together.\",\"Captured typed v2 issue readbacks for #625 and child issues #627 through #632 as repo-local evidence for the v3 sprint readiness canary.\",\"Used the typed v2 GitHub issue owner to add `Membership version: 1` to #625 after the v3 canary exposed the missing sprint membership-version defect.\",\"Recorded the v3 sprint readiness report showing `read_only: true`, `operational_authority: false`, `status: ready`, declared children #627 through #632, closed children #627 and #628, and open children #629 through #632.\"],\"artifacts\":[\"commit 15cf11215b29959379ead339b1d3a4aabfcf01f4\",\"csdlc-v3/src/commands/sprint.rs\",\".csdlc/prepared/issues/505/v3-sprint-readiness/sprint-625-readiness-request.json\",\".csdlc/prepared/issues/505/v3-sprint-readiness/issue-625-add-membership-version-request.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-627-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-628-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the v3 sprint parser repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"sprint_readiness\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the sprint-readiness parser rejects escaping evidence, rejects missing child readbacks, preserves existing live membership parsing, and accepts the V3-H `## Child issues` numbered-list shape.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:4-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\"],\"purpose\":\"Verify the one-binary command manifest and cutover-boundary tests remain green after adding the sprint parser regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:13-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Verify real-issue v3 canaries still pass after adding live sprint-readiness evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:5-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the complete C-SDLC v3 test suite after the sprint-readiness parser repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:104-passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary still hold after the v3 sprint-readiness canary work.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace hygiene for the current #505 worktree diff before lifecycle reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state before recovering stale review/publication truth for this new slice.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:15cf11215b29959379ead339b1d3a4aabfcf01f4:status-pass-generation-35-ready-false\"}]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 37,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 38,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 39,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 49,
+      "generation": 40,
+      "actor": "codex:worker-6",
+      "reason": "Recover stale #505 review/publication truth after merging current main into PR #591, resolving v3 command-route conflicts, and aligning the replacement denominator cutover route without approving cutover.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 40,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 41,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 42,
+      "actor": "codex:worker-6",
+      "reason": "Recover #505 review/publication truth after deleting stale committed review request artifacts and retaining the current v3 command-denominator merge resolution without approving cutover.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 42,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 43,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 44,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 45,
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after reconciling PR #591 with current main and retaining terminal V3-H readback plus deferred-cutover evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 46,
+      "actor": "codex:worker-6",
+      "reason": "Replace stale #505 SOR execution truth after reconciling PR #591 with current main and recording terminal V3-H/deferred-cutover evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, and kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof, exact-head review, and operator approval.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, stale exact-head review, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, or stale readiness notice language.\"],\"artifacts\":[\"commit 0a9b12232c8e9d23222eff4ccbbfb721655f2223\",\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after resolving #591 main-merge conflicts.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Run the full C-SDLC v3 suite after command-surface, readback, and cutover-disposition reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:132-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after adding terminal V3-H evidence, #179/#180 disposition, and deferred cutover notice checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the reconciled branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state after stale review/publication recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:0a9b12232c8e9d23222eff4ccbbfb721655f2223:status-pass-generation-45-ready-false\"}]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 47,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR execution truth after removing the invalid finalize draft and clarifying PR #591's deferred cutover blockers at pushed head 130c2e157.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, removed a noisy invalid finalize draft, and kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof, exact-head review, renewed publication, and operator approval.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, pending exact-head review, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover after PR #591 was reconciled with current main.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, or stale readiness notice language.\",\"Deleted .csdlc/prepared/issues/505/finalize-after-defer-brief-reconciliation.json because it was an invalid drafted finalize request, not an authorized lifecycle step.\"],\"artifacts\":[\"source-equivalent reconciled head c0809b3d20be0c6486125e659afb7b3256ec0c52\",\"cleanup/status head 130c2e157b4205ee208722b9cdc657cb13a1126d\",\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-627-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-628-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\",\".csdlc/prepared/issues/505/replace-sor-after-cleanup-head-130c2e157.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after resolving #591 main-merge conflicts.\",\"outcome\":\"passed\",\"evidence_ref\":\"source-equivalent-head:c0809b3d20be0c6486125e659afb7b3256ec0c52:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Run the full C-SDLC v3 suite after command-surface, readback, and cutover-disposition reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"source-equivalent-head:c0809b3d20be0c6486125e659afb7b3256ec0c52:132-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"source-equivalent-head:c0809b3d20be0c6486125e659afb7b3256ec0c52:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates, terminal V3-H evidence, full command denominator, deferred cutover notice, and #179/#180 dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:130c2e157b4205ee208722b9cdc657cb13a1126d:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the reconciled branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:130c2e157b4205ee208722b9cdc657cb13a1126d:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state after stale review/publication recovery and cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:130c2e157b4205ee208722b9cdc657cb13a1126d:status-pass-generation-46-ready-false\"}]}"
+    },
+    {
+      "sequence": 59,
+      "generation": 47,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 47,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 48,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after adding proof-route scratch-hygiene coverage to keep the cutover reconciliation evidence clean.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof, exact-head review, and operator approval, and added proof-route test cleanup so validation does not leave repo-local scratch residue.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, pending exact-head review, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, or stale readiness notice language.\",\"Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.\"],\"artifacts\":[\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the proof-route scratch-hygiene test change.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:scratch-hygiene:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Run the full C-SDLC v3 suite after command-surface, readback, cutover-disposition, and scratch-hygiene reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:132-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after terminal V3-H evidence, #179/#180 disposition, deferred cutover notice, and scratch-hygiene checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the reconciled branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:passed\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state after stale review/publication recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:status-pass-generation-47-ready-false\"}]}"
+    },
+    {
+      "sequence": 62,
+      "generation": 49,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after adding proof-route scratch-hygiene coverage to keep the cutover reconciliation evidence clean.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof, exact-head review, and operator approval, and added proof-route test cleanup so validation does not leave repo-local scratch residue.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, pending exact-head review, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, or stale readiness notice language.\",\"Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.\"],\"artifacts\":[\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after the proof-route scratch-hygiene test change.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:scratch-hygiene:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Run the full C-SDLC v3 suite after command-surface, readback, cutover-disposition, and scratch-hygiene reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:128-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after terminal V3-H evidence, #179/#180 disposition, deferred cutover notice, and scratch-hygiene checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the reconciled branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:passed\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed C-SDLC v2 issue state after stale review/publication recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:pre-publication:status-pass-generation-48-ready-false\"}]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 49,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 50,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 51,
+      "actor": "worker-6",
+      "reason": "Recover the stale review after correcting the non-closing PR #591 linkage wording and publication request evidence to the typed publication-compatible `Part of #505` form.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 66,
+      "generation": 51,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 52,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 53,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 69,
+      "generation": 54,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after merging current origin/main at 8ed2c4fc into PR #591 without approving cutover.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 54,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 55,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after fixing `csdlc sprint` so terminal V3-H evidence is command-reproducible without granting cutover authority.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main after the cutover decision brief, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof and operator approval, fixed PR #591 non-closing publication wording, and made `csdlc sprint` produce terminal completed-sprint evidence without cutover authority.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, pending exact-head review, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, stale readiness notice language, or a non-command-reproducible V3-H terminal sprint status.\",\"Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.\",\"Changed the PR #591 non-closing relation from `Part-Of #505` to the typed-publication-compatible `Part of #505` form and updated live PR #591 through `csdlc-github-pr`.\",\"Extended `csdlc sprint` with a `complete_not_cutover_authority` status, umbrella-state output, and a regression test for closed V3-H umbrella plus closed child readbacks.\"],\"artifacts\":[\"AGENTS.md\",\"adl/tools/test_install_adl_pr_cycle_skill.sh\",\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/sprint.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Reject Rust formatting drift after adding terminal sprint-readiness status support.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Run the full C-SDLC v3 suite after terminal sprint-readiness support and current-main reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:129-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all C-SDLC v3 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after terminal V3-H command reproducibility, #179/#180 disposition, deferred cutover notice, and current-main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the reconciled branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:post-main-merge-terminal-sprint-fix:passed\"}]}"
+    },
+    {
+      "sequence": 72,
+      "generation": 55,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 56,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 74,
+      "generation": 57,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 75,
+      "generation": 58,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after refreshing cutover readiness artifacts to remove the no-longer-true exact-head review blocker while preserving rollback/canary approval blockers.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 76,
+      "generation": 59,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after removing stale exact-head-review blockers from the cutover readiness disposition while preserving rollback/canary approval blockers.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, kept C-SDLC v3 deferred as non-authoritative pending rollback/canary proof and operator approval, fixed PR #591 non-closing publication wording, made `csdlc sprint` produce terminal completed-sprint evidence without cutover authority, and removed stale exact-head-review blocker wording after generation 57 typed publication.\",\"changes\":[\"Merged current origin/main into the #505/#591 branch and resolved v3 command-surface conflicts without changing root main.\",\"Kept the newer #631 proof/install/shadow/soak implementation and removed the superseded replacement-verifier module from the active v3 command surface.\",\"Updated the v3 command manifest and full replacement denominator to record 25 visible commands, 21 implemented v2 replacement routes, zero remaining replacement gaps, and cutover_ready=false.\",\"Replaced stale V3-H readiness evidence that showed #625 and #629 through #632 open with current live readback showing #625 and all six children #627 through #632 closed.\",\"Added a machine-readable #179/#180 authority-transition disposition that maps satisfied evidence and explicitly blocks approval on missing rollback exercise evidence, missing or unwaived terminal finish/cleanup canary evidence, and absent operator approval.\",\"Updated the cutover readiness notice to distinguish implemented command coverage and current typed publication from deferred authority cutover.\",\"Strengthened the #505 validator so future runs fail on stale V3-H evidence, missing 25-command/21-entrypoint denominator proof, missing #179/#180 dispositions, stale readiness notice language, stale exact-head-review blocker wording, or a non-command-reproducible V3-H terminal sprint status.\",\"Added a scoped proof-route test scratch guard so `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` removes repo-local `.csdlc/evidence/631/proof-route-tests/` fixtures after the proof, preserving clean-worktree validation.\",\"Changed the PR #591 non-closing relation from `Part-Of #505` to the typed-publication-compatible `Part of #505` form and updated live PR #591 through `csdlc-github-pr`.\",\"Extended `csdlc sprint` with a `complete_not_cutover_authority` status, umbrella-state output, and a regression test for closed V3-H umbrella plus closed child readbacks.\"],\"artifacts\":[\"AGENTS.md\",\"adl/tools/test_install_adl_pr_cycle_skill.sh\",\"csdlc-v3/README.md\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/sprint.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates and v2-live boundary after refreshing exact-head review/publication disposition truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:readiness-truth-refresh:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Verify exact-range whitespace hygiene for the refreshed readiness truth change.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:readiness-truth-refresh:passed\"}]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 59,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 60,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 79,
+      "generation": 61,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 80,
+      "generation": 62,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review and publication truth after adding rollback exercise and terminal finish/cleanup canary evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 81,
+      "generation": 63,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after adding rollback exercise and terminal finish/cleanup canary evidence while preserving the absent operator approval gate.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, proved the pre-cutover rollback and terminal finish/cleanup canary lanes, kept C-SDLC v3 deferred as non-authoritative pending explicit operator approval, and strengthened the #505 validator so the evidence cannot silently regress.\",\"changes\":[\"Added `csdlc finish --observe-github`, which uses a constrained read-only GitHub adapter with child-process credential injection to observe merged PR and closed issue truth instead of accepting caller-authored terminal readbacks.\",\"Ran the observed finish canary against merged PR #641 and closed issue #629 at exact head `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`, deriving `terminal_closed_out` with `performed_mutation=false`.\",\"Created a registered clean detached cleanup canary worktree at `/Volumes/FastWork/adl-worktrees/adl-issue-629-terminal-cleanup-canary` from PR #641's exact head to exercise cleanup against actual Git worktree registration.\",\"Ran v3 clean preview with a durable terminal receipt under `.csdlc/evidence/505/`, producing a removable decision and cleanup receipt digest without deleting anything.\",\"Ran v3 clean with `remove=true` and the preview digest, proving removal is denied before #505 cutover authority and the worktree remains present at the exact #641 head.\",\"Ran the v3 cutover route with an explicit no-approval request, proving it blocks on missing operator, missing approval, and missing #505 approval while staying read-only.\",\"Ran typed C-SDLC v2 validation after the v3 canaries, proving the pre-cutover rollback target remains usable as live lifecycle authority.\",\"Updated `docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md` and `docs/csdlc-v3/authority-transition-disposition.json` so rollback and terminal canary evidence are satisfied and explicit operator approval is the remaining pre-merge authority gate.\",\"Strengthened `.csdlc/prepared/issues/505/validate-authority-transition-prep.rb` to require the rollback exercise, terminal finish canary, cleanup preview, cleanup removal-denial canary, and cutover approval-denial canary.\",\"Kept PR #591 non-closing for #505; this work does not approve cutover, merge, finish #505, clean worktrees, or retire v2.\"],\"artifacts\":[\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\".csdlc/evidence/505/pre-cutover-rollback-exercise.json\",\".csdlc/evidence/505/cutover-approval-absent-canary-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-receipt.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\",\".csdlc/prepared/issues/505/cutover-approval-absent-canary-request.json\",\".csdlc/prepared/issues/505/terminal-finish-canary-issue-629-pr641-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"ADL_GITHUB_TOKEN_FILE=/Users/daniel/keys/github.token\",\"./csdlc-v3/target/debug/csdlc\",\"finish\",\"--request\",\".csdlc/prepared/issues/505/terminal-finish-canary-issue-629-pr641-request.json\",\"--observe-github\"],\"purpose\":\"Live GitHub-observed terminal finish canary for merged PR #641 closing issue #629 at exact head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\"],\"purpose\":\"Preview cleanup from Git worktree registration and durable terminal receipt without removal.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\"],\"purpose\":\"Prove cleanup removal remains blocked before #505 cutover authority even with a valid preview receipt.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"cutover\",\"--request\",\".csdlc/prepared/issues/505/cutover-approval-absent-canary-request.json\"],\"purpose\":\"Prove v3 cutover refuses to execute without explicit #505 operator approval.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/505/cutover-approval-absent-canary-output.json\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"505\"],\"purpose\":\"Verify typed v2 remains the live rollback/lifecycle authority after the v3 canaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/pre-cutover-rollback-exercise.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Full v3 command/test regression after terminal observer and cleanup canary additions.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:131-tests\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Rust lint validation for the terminal observer and cleanup canary changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:clippy-pass\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Rust formatting check for touched v3 source and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:fmt-pass\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"purpose\":\"Prove #505 authority-transition gates, rollback evidence, terminal canary evidence, and v2-live boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:status-pass\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace hygiene after the rollback and terminal canary update.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:terminal-canary-refresh:passed\"}]}"
+    },
+    {
+      "sequence": 82,
+      "generation": 64,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #505 SOR after independent review found the cleanup canary needed candidate worktree HEAD enforcement.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled PR #591 with current main, consumed terminal V3-H readback evidence, proved the pre-cutover rollback and terminal finish/cleanup canary lanes, tightened cleanup so registered candidates must match the terminal exact head, kept C-SDLC v3 deferred as non-authoritative pending explicit operator approval, and strengthened the #505 validator so the evidence cannot silently regress.\",\"changes\":[\"Added `csdlc finish --observe-github`, which uses a constrained read-only GitHub adapter with child-process credential injection to observe merged PR and closed issue truth instead of accepting caller-authored terminal readbacks.\",\"Ran the observed finish canary against merged PR #641 and closed issue #629 at exact head `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`, deriving `terminal_closed_out` with `performed_mutation=false`.\",\"Created a registered clean detached cleanup canary worktree at `/Volumes/FastWork/adl-worktrees/adl-issue-629-terminal-cleanup-canary` from PR #641's exact head to exercise cleanup against actual Git worktree registration.\",\"Tightened v3 cleanup so it reads the registered candidate worktree HEAD, rejects `candidate_head_mismatch`, and binds the candidate HEAD into the cleanup preview receipt digest.\",\"Ran v3 clean preview with a durable terminal receipt under `.csdlc/evidence/505/`, producing a removable decision and HEAD-bound cleanup receipt digest without deleting anything.\",\"Ran v3 clean with `remove=true` and the HEAD-bound preview digest, proving removal is denied before #505 cutover authority and the worktree remains present at the exact #641 head.\",\"Ran the v3 cutover route with an explicit no-approval request, proving it blocks on missing operator, missing approval, and missing #505 approval while staying read-only.\",\"Ran typed C-SDLC v2 validation after the v3 canaries, proving the pre-cutover rollback target remains usable as live lifecycle authority.\",\"Updated `docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md` and `docs/csdlc-v3/authority-transition-disposition.json` so rollback and terminal canary evidence are satisfied and explicit operator approval is the remaining pre-merge authority gate.\",\"Strengthened `.csdlc/prepared/issues/505/validate-authority-transition-prep.rb` to require the rollback exercise, terminal finish canary, cleanup preview, cleanup removal-denial canary, cutover approval-denial canary, and the cleanup candidate's actual HEAD.\",\"Kept PR #591 non-closing for #505; this work does not approve cutover, merge, finish #505, clean worktrees, or retire v2.\"],\"artifacts\":[\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\",\"docs/csdlc-v3/authority-transition-disposition.json\",\".csdlc/evidence/505/pre-cutover-rollback-exercise.json\",\".csdlc/evidence/505/cutover-approval-absent-canary-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json\",\".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-receipt.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\",\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\",\".csdlc/prepared/issues/505/cutover-approval-absent-canary-request.json\",\".csdlc/prepared/issues/505/terminal-finish-canary-issue-629-pr641-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"terminal_cleanup_cutover_commands\"],\"purpose\":\"Prove terminal finish/cleanup/cutover behavior including candidate HEAD mismatch rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:cleanup-head-binding:17-tests\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json\"],\"purpose\":\"Preview cleanup from Git worktree registration, actual candidate HEAD, and durable terminal receipt without removal.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json\"},{\"command\":[\"./csdlc-v3/target/debug/csdlc\",\"clean\",\"--request\",\".csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json\"],\"purpose\":\"Prove cleanup removal remains blocked before #505 cutover authority even with a valid HEAD-bound preview receipt.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--check\"],\"purpose\":\"Rust formatting check for touched v3 source and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"worktree:cleanup-head-binding:fmt-pass\"}]}"
+    },
+    {
+      "sequence": 83,
+      "generation": 64,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 84,
+      "generation": 65,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 85,
+      "generation": 66,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after replacing a hard-coded generation review evidence reference with the live review evidence anchor.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 66,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 87,
+      "generation": 66,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 88,
+      "generation": 67,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 89,
+      "generation": 68,
+      "actor": "worker-6",
+      "reason": "Recover stale #505 review truth after the publication guard rejected a history range that temporarily contained prepared review request artifacts; re-review the current clean metadata head before republishing.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 90,
+      "generation": 68,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 69,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 92,
+      "generation": 70,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 93,
+      "generation": 71,
+      "actor": "Worker #6",
+      "reason": "Recover stale #505 review/publication truth after merging current main and updating the #629 real-issue canary to consume current terminal truth at exact head 9cbb44c855653b75e0163c5b5391eff807f49f50.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 71,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 95,
+      "generation": 71,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 96,
+      "generation": 71,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 97,
+      "generation": 72,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 98,
+      "generation": 73,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 99,
+      "generation": 74,
+      "actor": "codex:/root",
+      "reason": "Recover stale #505 review/publication truth after committing final v2/v3 cutover-operation replay hardening at 84ef26dde; a fresh exact-head review is required before republishing PR #591.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 100,
+      "generation": 74,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 101,
+      "generation": 75,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 102,
+      "generation": 76,
+      "actor": "codex:worker-8",
+      "reason": "Recover invalid non-independent review evidence recorded at generation 75. The recorded reviewer had no provider attestation, the reviewed source head did not include user-facing csdlc CLI wiring, and a fresh independent exact-head review is required before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 103,
+      "generation": 76,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 104,
+      "generation": 77,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 105,
+      "generation": 78,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 106,
+      "generation": 79,
+      "actor": "codex:/root",
+      "reason": "Recover stale #505 review/publication truth after committing the proof shadow CI portability fix at ad395e0d2; a fresh exact-head review is required before republishing PR #591.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 107,
+      "generation": 79,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 108,
+      "generation": 80,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 109,
+      "generation": 81,
+      "actor": "codex:worker-8",
+      "reason": "Recover concurrent invalid non-independent review evidence at generation 80. The recorded reviewer explicitly lacks provider attestation and cannot authorize publication; a genuine independent exact-head review is required after CI is green.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 110,
+      "generation": 81,
+      "actor": "codex:worker-8",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 111,
+      "generation": 82,
+      "actor": "collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 112,
+      "generation": 83,
+      "actor": "codex:worker-8",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 113,
+      "generation": 84,
+      "actor": "codex:worker-8",
+      "reason": "Recover stale #505 review and publication truth after exact-head commit 62e6a873a6e0934c590b120d5887d2da6cb1505c raised only the bounded cold-build timeout in the realistic v3 doctor proof fixtures.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 114,
+      "generation": 84,
+      "actor": "codex:worker-8",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 115,
+      "generation": 85,
+      "actor": "collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 116,
+      "generation": 86,
+      "actor": "codex:worker-8",
+      "reason": "Recover stale #505 review truth after exact-head commits aeb7cbb27260b422ada11743e18e88f40b5eb437 and 9d0918ea6ba4a90ec674d29bc030878c0b22527f preserved the sanitized child toolchain PATH and decoupled shadow parity from live reviewed issue state.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 117,
+      "generation": 86,
+      "actor": "codex:worker-8",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 118,
+      "generation": 87,
+      "actor": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 119,
+      "generation": 88,
+      "actor": "codex:worker-8",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

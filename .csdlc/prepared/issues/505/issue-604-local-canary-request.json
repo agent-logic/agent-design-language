@@ -1,0 +1,14 @@
+{
+  "issue": 604,
+  "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/604-v2-publish-ready-reconciliation",
+  "worktree": "adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation",
+  "registry_version": "1.0.3",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "plan_pvf",
+    "doctor"
+  ]
+}

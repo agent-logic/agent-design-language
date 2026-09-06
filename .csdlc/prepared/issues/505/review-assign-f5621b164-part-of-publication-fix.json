@@ -1,0 +1,12 @@
+{
+  "issue": 505,
+  "expected_generation": 51,
+  "expected_digest": "fe9fc8d2e8209cc1d8ddc941ed5857d8558146e4fe83fc717c1d440d493a095d",
+  "reviewer": "subagent:/root/review_591_part_of_publication_fix",
+  "assigned_by": "codex:worker-6",
+  "scope": [
+    ".csdlc/prepared/issues/505/publish-after-review-279342fea-pass.json",
+    ".csdlc/prepared/issues/505/update-pr591-after-defer-brief-reconciliation.json",
+    ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+  ]
+}

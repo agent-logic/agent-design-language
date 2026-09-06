@@ -47,7 +47,7 @@ For this implementation:
 Issue-local C-SDLC work uses this lifecycle:
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 | Card | Meaning | Question |
@@ -55,6 +55,7 @@ SIP -> STP -> SPP -> SRP -> SOR
 | `SIP` | Structured Issue Prompt | What issue, scope, context, and acceptance boundary are we addressing? |
 | `STP` | Structured Task Prompt | What selected task or solution will resolve it? |
 | `SPP` | Structured Plan Prompt | How will the selected solution be executed? |
+| `VPP` | Validation Planning Prompt | What proof lanes, validation profile, and fail-closed rules apply? |
 | `SRP` | Structured Review Prompt | What review applies, what did review find, and how were findings handled? |
 | `SOR` | Structured Outcome Record | What changed, what was validated, and what is now true? |
 

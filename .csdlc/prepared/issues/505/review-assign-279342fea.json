@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 505,
+  "expected_generation": 49,
+  "expected_digest": "3e3b5d0dccf49e63ea829a0f768f35b2a3ef9993432835fc9f7c386374d614ec",
+  "reviewer": "subagent:/root/review_591_279342fea",
+  "assigned_by": "codex:worker-6",
+  "scope": [
+    "AGENTS.md",
+    "adl/tools/test_install_adl_pr_cycle_skill.sh",
+    "csdlc-v3",
+    "docs"
+  ]
+}

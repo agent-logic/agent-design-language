@@ -1,0 +1,77 @@
+{
+  "schema": "csdlc.v3.sprint_readiness.v1",
+  "repository": "agent-logic/agent-design-language",
+  "version": "v0.92.1",
+  "read_only": true,
+  "operational_authority": false,
+  "status": "complete_not_cutover_authority",
+  "observed_at": "2026-09-05T17:45:14Z",
+  "observation_command": "gh issue view 625 627 628 629 630 631 632 --repo agent-logic/agent-design-language --json number,title,state,closedAt",
+  "sprints": [
+    {
+      "sprint": 6,
+      "umbrella_issue": 625,
+      "title": "V3-H",
+      "execution_mode": "hybrid",
+      "membership_version": 1,
+      "declared_children": [
+        627,
+        628,
+        629,
+        630,
+        631,
+        632
+      ],
+      "umbrella_state": {
+        "issue": 625,
+        "title": "[v0.92.1][V3-H] C-SDLC v3 full command replacement sprint",
+        "state": "closed",
+        "closed_at": "2026-09-04T23:52:39Z"
+      },
+      "child_states": [
+        {
+          "issue": 627,
+          "title": "[v0.92.1][V3-H.1] Define v3 command denominator and one-binary CLI shell",
+          "state": "closed",
+          "closed_at": "2026-09-02T19:10:59Z"
+        },
+        {
+          "issue": 628,
+          "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
+          "state": "closed",
+          "closed_at": "2026-09-02T20:12:14Z"
+        },
+        {
+          "issue": 629,
+          "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
+          "state": "closed",
+          "closed_at": "2026-09-04T03:03:02Z"
+        },
+        {
+          "issue": 630,
+          "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
+          "state": "closed",
+          "closed_at": "2026-09-04T03:38:36Z"
+        },
+        {
+          "issue": 631,
+          "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
+          "state": "closed",
+          "closed_at": "2026-09-04T23:23:46Z"
+        },
+        {
+          "issue": 632,
+          "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
+          "state": "closed",
+          "closed_at": "2026-09-04T23:50:22Z"
+        }
+      ],
+      "status": "complete_not_cutover_authority",
+      "findings": []
+    }
+  ],
+  "cutover_disposition": {
+    "cutover_ready": false,
+    "reason": "V3-H child completion is satisfied, but #505/#591 still requires current-main reconciliation, validation DAG rerun, rollback exercise evidence, terminal finish/cleanup canary evidence or operator waiver, evidence-backed #179/#180 parity dispositions, exact-head independent review, and operator approval before v3 may become authority."
+  }
+}

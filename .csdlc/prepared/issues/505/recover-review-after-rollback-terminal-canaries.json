@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 61,
+  "expected_digest": "52adbcb2832b9d7b24336b660ded67315f7079e22865438d573e7e3adb997a82",
+  "actor": "worker-6",
+  "reason": "Recover stale #505 review and publication truth after adding rollback exercise and terminal finish/cleanup canary evidence."
+}

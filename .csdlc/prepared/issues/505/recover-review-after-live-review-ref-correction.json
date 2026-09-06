@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 65,
+  "expected_digest": "59baea8d33fc91227e1851f9ff0a3c68ae7dfc2eda8dd3acd0b1d62f0519296f",
+  "actor": "worker-6",
+  "reason": "Recover stale #505 review truth after replacing a hard-coded generation review evidence reference with the live review evidence anchor."
+}

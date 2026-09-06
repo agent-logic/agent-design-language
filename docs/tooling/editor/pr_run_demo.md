@@ -1,6 +1,8 @@
 # `pr run` Demo
 
-This is the bounded historical proof surface for the supported `pr run` path.
+This is a bounded historical proof surface for the retired `pr run` path.
+C-SDLC v2 remains the live lifecycle authority until explicit V3-F/#505
+cutover; do not use this demo for live lifecycle routing.
 
 What it proves:
 
@@ -9,9 +11,10 @@ What it proves:
 - the command resolves and executes a bounded ADL workflow over the runtime primitives
 - the command leaves behind canonical run artifacts that can be inspected deterministically
 
-Current limitation:
+Historical limitation:
 
-- `pr run` is the supported control-plane run surface today
+- `pr run` was the supported control-plane run surface when this demo was
+  written
 - browser/editor direct invocation remains follow-on work
 
 Demo command:
@@ -29,7 +32,8 @@ Expected proof surface:
 Demo note:
 
 - the demo uses an isolated temporary `--runs-root` so it does not leave behind repo-local run artifacts
-- `pr run` defaults to the canonical repo-local `.adl/runs/` root when `--runs-root` is not supplied
+- historical `pr run` defaulted to the canonical repo-local `.adl/runs/` root
+  when `--runs-root` was not supplied
 
 Expected command behavior:
 

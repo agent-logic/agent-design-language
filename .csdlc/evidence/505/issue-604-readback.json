@@ -1,0 +1,27 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "## Problem\n\nThe live v2 publication skill explicitly permits bounded reconciliation of an existing governed draft PR to ready state, but the current authoritative `csdlc-publish` command exposes only `publish`, `status`, and `schema`. The previously implemented typed `ready` and `reconcile-ready` commands are absent.\n\n## Reproduction\n\nAt current main and the installed v2 generation:\n\n```text\n.adl/bin/csdlc-v2/csdlc-publish --help\nCommands: publish, status, schema\n```\n\nHistorical commit `167e8b9b4` contains the typed ready and reconciliation implementation and tests. Current `csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md` still refers to bounded ready reconciliation commands.\n\n## Impact\n\nA correctly governed draft publication such as PR #598 cannot advance to ready state through the sole authoritative typed v2 command surface. Raw GitHub mutation is prohibited except through audited break-glass, so otherwise complete exact-head work becomes stranded.\n\n## Acceptance criteria\n\n- Restore a typed, exact-identity draft-to-ready operation under the authoritative v2 publication owner.\n- Re-observe the exact repository, PR, head SHA, open state, and draft state before and after mutation.\n- Record ready publication truth atomically and provide reconciliation after an uncertain remote response.\n- Reject mismatched repository, PR, head, non-draft pre-state, closed state, stale generation, or stale digest without lifecycle mutation.\n- Align the publication skill text and installed binary inventory with the implemented command surface.\n- Add focused tests for success, remote uncertainty, recovery, identity drift, and zero-write failure paths.\n\n## Scope boundary\n\nThis is lifecycle tooling only. It does not change Runtime v3 behavior or absorb Issue #589 implementation scope.\n\n<!-- csdlc-github-operation:issue-589-ready-reconciliation-regression-20260901 -->\n",
+    "closed_at": null,
+    "created_at": "2026-09-01T10:47:07Z",
+    "labels": [
+      "type:task",
+      "area:tooling",
+      "version:v0.92.1"
+    ],
+    "marker_present": false,
+    "milestone": null,
+    "number": 604,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation"
+  },
+  "operation_key": "worker-6-v3-canary-live-issue-604-20260901",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

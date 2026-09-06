@@ -14,7 +14,7 @@ outcome.
 The canonical card lifecycle is:
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 Tooling may create `srp.md` as an early scaffold for path stability. That file

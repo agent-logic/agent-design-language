@@ -1,0 +1,28 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "version": "v0.92.1",
+  "sprints": [
+    {
+      "sprint": 6,
+      "umbrella_issue": 625,
+      "title": "V3-H",
+      "execution_mode": "hybrid",
+      "serial_gates": [
+        "#627 defines the denominator before dependent implementation lanes",
+        "#629 consumes local lifecycle state from #628 where GitHub routes need prepared issue state",
+        "#630 depends on #629 publication truth and #627 command naming",
+        "#632 final canary/readiness documentation depends on #628, #629, #630, and #631",
+        "#505 remains open until V3-H children and sprint review are complete"
+      ],
+      "umbrella_readback_ref": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-625-readback.json",
+      "child_readback_refs": {
+        "627": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-627-readback.json",
+        "628": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-628-readback.json",
+        "629": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-629-readback.json",
+        "630": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-630-readback.json",
+        "631": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-631-readback.json",
+        "632": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/readbacks/issue-632-readback.json"
+      }
+    }
+  ]
+}

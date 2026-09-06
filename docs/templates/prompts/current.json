@@ -4,6 +4,7 @@
   "semver": "1.0.3",
   "status": "active",
   "object_kind": "csdlc_prompt_template_set",
+  "authority_notice": "V3-F/#505 is the pending tooling changeover decision; until that operator-reviewed cutover is approved, merged, and terminally reconciled, C-SDLC v2 remains live authority.",
   "lifecycle": ["SIP", "STP", "SPP", "VPP", "SRP", "SOR"],
   "templates": {
     "sip": {

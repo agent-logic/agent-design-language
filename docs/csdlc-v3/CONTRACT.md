@@ -115,8 +115,10 @@ digest choreography are not acceptable as the default operator experience.
   a non-authoritative construction artifact.
 - Rollback must preserve exact revision identity, audit provenance, publication
   linkage, terminal finish truth, and cleanup safety.
-- Windows mutation remains fail-closed/read-only unless equivalently proven by
-  the approved platform commit matrix.
+- macOS and Linux are the required #505 cutover platforms. Windows operational
+  portability is deferred to #710 and is not part of the #505 proof denominator;
+  unsupported Windows mutation remains fail-closed where the current binary
+  exposes a mutation fence.
 - Any unsupported platform, unsupported output filter, missing predecessor
   disposition, or ambiguous authority boundary blocks later execution rather
   than silently weakening the contract.

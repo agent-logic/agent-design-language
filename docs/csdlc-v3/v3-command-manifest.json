@@ -8,11 +8,14 @@
   "one_binary": "csdlc",
   "denominator": {
     "v2_entrypoints": 21,
-    "already_present_v3_construction_surfaces": [
-      "foundation",
-      "local"
-    ],
-    "remaining_replacement_routes": 19
+    "current_v3_commands": 25,
+    "implemented_commands": 25,
+    "partial_commands": 0,
+    "fail_closed_commands": 0,
+    "implemented_replacement_routes": 21,
+    "partial_replacement_routes": 0,
+    "fail_closed_replacement_routes": 0,
+    "remaining_replacement_routes": 0
   },
   "commands": [
     {
@@ -26,152 +29,208 @@
       "command": "local",
       "replaces": [],
       "owner_issue": 503,
-      "implementation_status": "partial",
+      "implementation_status": "implemented",
       "authority_status": "read_only_construction"
     },
     {
       "command": "bind",
-      "replaces": ["csdlc-bind"],
+      "replaces": [
+        "csdlc-bind"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "clean",
-      "replaces": ["csdlc-clean"],
+      "replaces": [
+        "csdlc-clean"
+      ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "non_authoritative_construction"
+      "authority_status": "not_live"
     },
     {
       "command": "cutover",
-      "replaces": ["csdlc-cutover"],
+      "replaces": [
+        "csdlc-cutover"
+      ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "non_authoritative_construction"
+      "authority_status": "not_live"
     },
     {
       "command": "doctor",
-      "replaces": ["csdlc-doctor"],
+      "replaces": [
+        "csdlc-doctor"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "edit",
-      "replaces": ["csdlc-edit"],
+      "replaces": [
+        "csdlc-edit"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "eligibility",
-      "replaces": ["csdlc-eligibility"],
+      "replaces": [
+        "csdlc-eligibility"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "finish",
-      "replaces": ["csdlc-finish"],
+      "replaces": [
+        "csdlc-finish"
+      ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "non_authoritative_construction"
+      "authority_status": "not_live"
     },
     {
       "command": "github",
-      "replaces": ["csdlc-github"],
+      "replaces": [
+        "csdlc-github"
+      ],
       "owner_issue": 629,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "github-issue",
-      "replaces": ["csdlc-github-issue"],
+      "replaces": [
+        "csdlc-github-issue"
+      ],
       "owner_issue": 629,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "github-pr",
-      "replaces": ["csdlc-github-pr"],
+      "replaces": [
+        "csdlc-github-pr"
+      ],
       "owner_issue": 629,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "install",
-      "replaces": ["csdlc-install"],
+      "replaces": [
+        "csdlc-install"
+      ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
       "command": "issue",
-      "replaces": ["csdlc-issue"],
+      "replaces": [
+        "csdlc-issue"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "pr-state",
-      "replaces": ["csdlc-pr-state"],
+      "replaces": [
+        "csdlc-pr-state"
+      ],
       "owner_issue": 629,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "proof",
-      "replaces": ["csdlc-proof"],
+      "replaces": [
+        "csdlc-proof"
+      ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
       "command": "publish",
-      "replaces": ["csdlc-publish"],
+      "replaces": [
+        "csdlc-publish"
+      ],
       "owner_issue": 629,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "review",
-      "replaces": ["csdlc-review"],
+      "replaces": [
+        "csdlc-review"
+      ],
       "owner_issue": 629,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
+      "command": "remote",
+      "replaces": [],
+      "owner_issue": 504,
+      "implementation_status": "implemented",
+      "authority_status": "not_live_helper"
+    },
+    {
       "command": "schedule",
-      "replaces": ["csdlc-schedule"],
+      "replaces": [
+        "csdlc-schedule"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "shadow",
-      "replaces": ["csdlc-shadow"],
+      "replaces": [
+        "csdlc-shadow"
+      ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
       "command": "shepherd",
-      "replaces": ["csdlc-shepherd"],
+      "replaces": [
+        "csdlc-shepherd"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
     },
     {
       "command": "soak",
-      "replaces": ["csdlc-soak"],
+      "replaces": [
+        "csdlc-soak"
+      ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
       "authority_status": "not_live"
     },
     {
+      "command": "sprint",
+      "replaces": [],
+      "owner_issue": 632,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_construction"
+    },
+    {
       "command": "validate",
-      "replaces": ["csdlc-validate"],
+      "replaces": [
+        "csdlc-validate"
+      ],
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "not_live"
@@ -181,6 +240,10 @@
     "C-SDLC v2 remains live operational authority until #505 cutover is explicitly approved.",
     "The v3 replacement target is one csdlc binary.",
     "Not-yet-implemented live-authority routes fail closed and do not invoke v2 binaries, raw gh, v1 wrappers, or shell commands.",
-    "Each command route has one owning V3-H child issue."
+    "Implemented pre-cutover bridge routes parse typed repo-local evidence and remain non-authoritative until #505 cutover.",
+    "Visible helper routes with no v2 entrypoint replacement are implemented, included in the command-surface denominator, and excluded from replacement-route counts.",
+    "Each command route has one owning V3-H child issue.",
+    "install/proof/shadow/soak execute typed pre-cutover construction proof routes before #505 approval; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505.",
+    "All 21 v2 entrypoints now have executable v3 replacement routes, but cutover_ready remains false until current evidence consumption, rollback/canary proof, exact-head review, operator approval, and terminal reconciliation."
   ]
 }

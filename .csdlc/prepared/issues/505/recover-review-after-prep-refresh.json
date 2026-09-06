@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 10,
+  "expected_digest": "0e484cdb0d4ae88b38ea1a4f59a46e308d8c0e8814071d8b5d1b995d6575a406",
+  "actor": "Worker #6",
+  "reason": "Recover stale #505 review/publication truth after cutover-prep evidence and template/editor notice updates at clean commit c28cf29c7."
+}

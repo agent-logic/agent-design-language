@@ -21,6 +21,9 @@ until the explicit V3-F/#505 cutover decision approves the transition.
   `csdlc local` proof surface. It must remain non-authoritative until V3-F.
 - V3-E/#504 adds remote delivery, review, publication, finish, and cleanup
   models. They are cutover-readiness proof surfaces only until V3-F.
+- V3-F/#505 now includes a read-only `csdlc sprint` readiness verifier for
+  testing upcoming sprint umbrellas against typed issue readback evidence before
+  cutover. It is planning evidence only and does not start child execution.
 - V3-G/#570 repaired v2-first documentation and skill guidance for advance
   notice. The live route still remains typed v2 until V3-F/#505.
 
@@ -79,6 +82,7 @@ cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- github-pr 
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- pr-state --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- publish --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- review --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- remote --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- finish --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- clean --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- cutover --help
@@ -86,16 +90,42 @@ cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- install --
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- proof --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- shadow --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- soak --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- sprint --repo-root . --request <request.json>
 ```
+
+After the canonical evidence-bound v2 selector activates v3 authority for the
+exact reviewed #505 head, named local routes automatically enter native
+operational mode from `--repo-root`, the canonical selector, retained cutover
+approval, typed request, and requested worktree. There is no caller-controlled
+authority switch. Operational `schedule` requests must provide all six
+`schedule_readiness` dimensions. Operational `shepherd` requests must provide
+`shepherd_routing`, which deterministically classifies waiting, retryable,
+repair-required, operator-required, or ready state.
 
 Those advertised commands are still construction interfaces. They do not grant
 live lifecycle, GitHub, publication, finish, cleanup, install, or cutover
 authority before #505.
 
+The Sprint 8/9 pre-cutover canary is:
+
+```sh
+bash .csdlc/prepared/issues/505/run-v3-sprint-8-9-readiness-trial.sh
+```
+
+That canary reads live issue state through typed C-SDLC v2 issue transport,
+parses the current umbrella membership for #536 and #537, and then verifies the
+result through non-authoritative v3 sprint readiness.
+
 For docs and cutover-readiness work, use the issue-owned validators declared by
 the active issue, such as the #570 stale-route and skill-guidance scans. Passing
 v3 construction checks is evidence for the v3 package only; live lifecycle work
 still routes through typed C-SDLC v2 until V3-F/#505.
+
+Issue #505 is the pending V3-F authority-transition decision. Until #505 is
+explicitly approved, merged, and terminally reconciled, v3 remains
+non-authoritative construction and cutover evidence. Operators must receive the
+pre-change notice in `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before any
+default route changes from v2 to v3.
 
 Operators preparing for the one-binary replacement should read
 `docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md`. That notice is advance guidance,

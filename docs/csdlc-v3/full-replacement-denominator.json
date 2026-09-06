@@ -1,12 +1,16 @@
 {
   "schema": "csdlc.v3.full_replacement_denominator.v1",
   "authority_issue": 505,
-  "source_issue": 631,
-  "status": "incomplete",
+  "source_issue": 632,
+  "status": "pre_cutover_implemented_pending_authority_evidence",
   "cutover_ready": false,
+  "required_cutover_platforms": ["macos", "linux"],
+  "deferred_platform_work": {"windows": 710},
   "replacement_rule": "C-SDLC v3 may not replace v2 until the single v3 csdlc binary implements and behaviorally proves every required C-SDLC v2 entrypoint listed here, plus any explicitly approved removals.",
   "current_v3_binary": "csdlc-v3/src/main.rs",
   "current_v3_commands": [
+    "foundation",
+    "local",
     "bind",
     "clean",
     "cutover",
@@ -14,128 +18,128 @@
     "edit",
     "eligibility",
     "finish",
-    "foundation",
     "github",
     "github-issue",
     "github-pr",
     "install",
     "issue",
-    "local",
     "pr-state",
     "proof",
     "publish",
     "review",
+    "remote",
     "schedule",
     "shadow",
     "shepherd",
     "soak",
+    "sprint",
     "validate"
   ],
   "required_v2_entrypoints": [
     {
       "entrypoint": "csdlc-bind",
       "v3_command": "bind",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-clean",
       "v3_command": "clean",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-cutover",
       "v3_command": "cutover",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-doctor",
       "v3_command": "doctor",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-edit",
       "v3_command": "edit",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-eligibility",
       "v3_command": "eligibility",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-finish",
       "v3_command": "finish",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-github",
       "v3_command": "github",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-github-issue",
       "v3_command": "github-issue",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-github-pr",
       "v3_command": "github-pr",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-install",
       "v3_command": "install",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-issue",
       "v3_command": "issue",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-pr-state",
       "v3_command": "pr-state",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-proof",
       "v3_command": "proof",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-publish",
       "v3_command": "publish",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-review",
       "v3_command": "review",
-      "replacement_status": "fail_closed_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-schedule",
       "v3_command": "schedule",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-shadow",
       "v3_command": "shadow",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-shepherd",
       "v3_command": "shepherd",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     },
     {
       "entrypoint": "csdlc-soak",
       "v3_command": "soak",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented_pre_cutover_bridge"
     },
     {
       "entrypoint": "csdlc-validate",
       "v3_command": "validate",
-      "replacement_status": "implemented_construction"
+      "replacement_status": "implemented"
     }
   ],
   "proof_required_before_cutover": [
@@ -147,6 +151,8 @@
   "non_claims": [
     "This manifest does not make v3 operational authority.",
     "This manifest does not approve #505 cutover.",
-    "This manifest records the current replacement gap so cutover cannot be claimed from partial v3 readiness evidence."
+    "This manifest records that the 21 required v2 entrypoints have executable v3 routes, but it does not claim authority cutover readiness.",
+    "All required v2 entrypoints have executable v3 command routes, but v3 remains non-authoritative until #505 consumes current V3-H evidence, rollback/canary evidence, exact-head review, approval, merge, finish, and cleanup reconciliation.",
+    "install/proof/shadow/soak are implemented as typed pre-cutover construction proof routes; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505."
   ]
 }

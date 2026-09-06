@@ -1,0 +1,15 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "issue": 505,
+  "pull_request": 591,
+  "head_sha": "0ccbc4ad70a92092cad36b38d4efcd750746ee83",
+  "trial_scope": "retained_precommit_bridge_fixture_not_live_authority",
+  "mode": "part_of",
+  "operation": "verify_bridge_evidence",
+  "pvf_evidence_ref": ".csdlc/evidence/505/v3-remote-pvf-result.json",
+  "typed_review_ref": ".csdlc/evidence/505/v3-remote-accepted-review.json",
+  "publication_intent_ref": ".csdlc/evidence/505/v3-remote-publication-intent.json",
+  "pr_readback_ref": ".csdlc/evidence/505/v3-remote-pr-readback.json",
+  "issue_readback_ref": ".csdlc/evidence/505/v3-remote-issue-readback.json",
+  "cleanup_inspection_ref": ".csdlc/evidence/505/v3-remote-cleanup-inspection.json"
+}

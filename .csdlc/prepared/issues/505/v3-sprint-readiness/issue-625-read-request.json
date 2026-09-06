@@ -1,0 +1,20 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_read",
+  "operation_key": null,
+  "token_file": null,
+  "issue": 625,
+  "pull_request": null,
+  "title": null,
+  "body": null,
+  "base": null,
+  "head": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

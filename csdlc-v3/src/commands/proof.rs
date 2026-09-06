@@ -1,13 +1,17 @@
-//! Non-authoritative proof, shadow, soak, and install route models.
+//! Native proof, shadow, soak, and stable-install readiness operations.
 //!
-//! These routes are construction evidence for the one-binary v3 command
-//! surface. They classify typed request packets and intentionally do not
-//! execute lifecycle authority, provider calls, selector mutation, binary
-//! installation, GitHub mutation, finish, cleanup, or #505 cutover.
+//! These routes may retain bounded evidence, but they do not grant live
+//! lifecycle authority before explicit #505 cutover approval.
 
 use std::{
+    collections::BTreeMap,
     fs,
+    io::{Read, Write},
     path::{Path, PathBuf},
+    process::{Command, Stdio},
+    sync::atomic::{AtomicU64, Ordering},
+    thread,
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
 use serde::{Deserialize, Serialize};
@@ -19,6 +23,8 @@ pub struct ProofRouteRequest {
     pub issue: u64,
     pub repository: String,
     pub cutover_issue: Option<u64>,
+    #[serde(default)]
+    pub operator_approval: Option<String>,
     pub evidence_root: Option<String>,
     pub proof: Option<ProofManifest>,
     pub shadow: Option<ShadowComparison>,
@@ -35,25 +41,50 @@ pub struct ProofManifest {
     pub evidence_digest: String,
     pub observed_digest: String,
     pub stale: bool,
+    pub normalization: ShadowNormalizationContract,
+    pub command: ShadowCommandSpec,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 pub struct ShadowComparison {
-    pub v2_observation_ref: String,
-    pub v2_digest: String,
-    pub v3_observation_ref: String,
-    pub v3_digest: String,
-    pub bounded_v2: bool,
-    pub bounded_v3: bool,
+    pub normalization: ShadowNormalizationContract,
+    pub v2: ShadowCommandSpec,
+    pub v3: ShadowCommandSpec,
     pub broad_equivalence_claim: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 pub struct SoakEvidence {
-    pub evidence_ref: String,
-    pub duration_minutes: u64,
-    pub sample_count: u64,
+    pub normalization: ShadowNormalizationContract,
+    pub command: ShadowCommandSpec,
+    pub duration_millis: u64,
+    pub sample_interval_millis: u64,
     pub hidden_state: bool,
+    pub provider_side_effects: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ShadowNormalizationContract {
+    DoctorIssuePhaseV1,
+    RoutePreviewV1,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ShadowGeneration {
+    V2,
+    V3,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+pub struct ShadowCommandSpec {
+    pub generation: ShadowGeneration,
+    pub binary_ref: String,
+    pub argv: Vec<String>,
+    pub request_ref: String,
+    pub timeout_millis: u64,
+    pub side_effect_boundary_refs: Vec<String>,
     pub provider_side_effects: bool,
 }
 
@@ -70,6 +101,12 @@ pub struct InstallPlanInput {
     pub destination: String,
     pub stable_destination: bool,
     pub executes_install: bool,
+    #[serde(default)]
+    pub exact_head: String,
+    #[serde(default)]
+    pub cutover_approval_ref: Option<String>,
+    #[serde(default)]
+    pub cutover_approval_digest: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -80,6 +117,8 @@ pub struct ProofRouteReport {
     pub repository: String,
     pub read_only: bool,
     pub operational_authority: bool,
+    pub performed_mutation: bool,
+    pub evidence_refs: Vec<String>,
     pub status: ProofRouteStatus,
     pub findings: Vec<ProofRouteFinding>,
 }
@@ -103,10 +142,21 @@ pub fn classify_route(
     repository_root: Option<&Path>,
 ) -> ProofRouteReport {
     let mut findings = common_findings(&request, repository_root);
+    let mut evidence_refs = Vec::new();
+    let mut performed_mutation = false;
     match route {
         "proof" => match request.proof.as_ref() {
             Some(manifest) => {
-                validate_proof_manifest(request.evidence_root.as_deref(), manifest, &mut findings)
+                validate_proof_manifest(request.evidence_root.as_deref(), manifest, &mut findings);
+                if findings.is_empty() {
+                    match retain_proof_receipt(&request, manifest) {
+                        Ok(reference) => {
+                            performed_mutation = true;
+                            evidence_refs.push(reference);
+                        }
+                        Err(code) => findings.push(code),
+                    }
+                }
             }
             None => findings.push(finding(
                 "proof_manifest_missing",
@@ -115,7 +165,16 @@ pub fn classify_route(
         },
         "shadow" => match request.shadow.as_ref() {
             Some(shadow) => {
-                validate_shadow(request.evidence_root.as_deref(), shadow, &mut findings)
+                validate_shadow(request.evidence_root.as_deref(), shadow, &mut findings);
+                if findings.is_empty() {
+                    match execute_shadow(&request, shadow) {
+                        Ok(references) => {
+                            performed_mutation = true;
+                            evidence_refs.extend(references);
+                        }
+                        Err(code) => findings.push(code),
+                    }
+                }
             }
             None => findings.push(finding(
                 "shadow_comparison_missing",
@@ -123,7 +182,18 @@ pub fn classify_route(
             )),
         },
         "soak" => match request.soak.as_ref() {
-            Some(soak) => validate_soak(request.evidence_root.as_deref(), soak, &mut findings),
+            Some(soak) => {
+                validate_soak(request.evidence_root.as_deref(), soak, &mut findings);
+                if findings.is_empty() {
+                    match execute_soak(&request, soak) {
+                        Ok(reference) => {
+                            performed_mutation = true;
+                            evidence_refs.push(reference);
+                        }
+                        Err(code) => findings.push(code),
+                    }
+                }
+            }
             None => findings.push(finding(
                 "soak_evidence_missing",
                 "soak route requires bounded soak evidence",
@@ -143,13 +213,33 @@ pub fn classify_route(
         },
         _ => findings.push(finding("route_unknown", "unsupported proof route")),
     }
+    if route == "install" && findings.is_empty() {
+        if let Some(install) = request
+            .install
+            .as_ref()
+            .filter(|value| value.executes_install)
+        {
+            match authorize_install_execution(&request, install) {
+                Ok(()) => match execute_install(&request, install) {
+                    Ok(reference) => {
+                        performed_mutation = true;
+                        evidence_refs.push(reference);
+                    }
+                    Err(code) => findings.push(code),
+                },
+                Err(code) => findings.push(code),
+            }
+        }
+    }
     ProofRouteReport {
         schema: "csdlc.v3.proof_route.v1",
         route: route.to_owned(),
         issue: request.issue,
         repository: request.repository,
-        read_only: true,
+        read_only: !performed_mutation,
         operational_authority: false,
+        performed_mutation,
+        evidence_refs,
         status: if findings.is_empty() {
             ProofRouteStatus::Ready
         } else {
@@ -222,6 +312,7 @@ fn validate_proof_manifest(
     manifest: &ProofManifest,
     findings: &mut Vec<ProofRouteFinding>,
 ) {
+    validate_command_spec(&manifest.command, ShadowGeneration::V3, findings);
     require_nonempty(
         &manifest.manifest_id,
         "proof_manifest_id_missing",
@@ -275,89 +366,36 @@ fn validate_proof_manifest(
 }
 
 fn validate_shadow(
-    evidence_root: Option<&str>,
+    _evidence_root: Option<&str>,
     shadow: &ShadowComparison,
     findings: &mut Vec<ProofRouteFinding>,
 ) {
-    require_nonempty(
-        &shadow.v2_observation_ref,
-        "shadow_v2_ref_missing",
-        "v2 shadow observation ref is required",
-        findings,
-    );
-    require_nonempty(
-        &shadow.v3_observation_ref,
-        "shadow_v3_ref_missing",
-        "v3 shadow observation ref is required",
-        findings,
-    );
-    require_nonempty(
-        &shadow.v2_digest,
-        "shadow_v2_digest_missing",
-        "v2 shadow digest is required",
-        findings,
-    );
-    require_nonempty(
-        &shadow.v3_digest,
-        "shadow_v3_digest_missing",
-        "v3 shadow digest is required",
-        findings,
-    );
-    if !shadow.bounded_v2 || !shadow.bounded_v3 {
-        findings.push(finding(
-            "shadow_observation_unbounded",
-            "shadow comparison requires bounded v2 and v3 observations",
-        ));
-    }
+    validate_command_spec(&shadow.v2, ShadowGeneration::V2, findings);
+    validate_command_spec(&shadow.v3, ShadowGeneration::V3, findings);
     if shadow.broad_equivalence_claim {
         findings.push(finding(
             "shadow_broad_equivalence_claim",
             "shadow route refuses broad equivalence claims",
         ));
     }
-    let observed_v2 = observed_ref_digest(evidence_root, &shadow.v2_observation_ref, findings);
-    let observed_v3 = observed_ref_digest(evidence_root, &shadow.v3_observation_ref, findings);
-    if observed_v2
-        .as_ref()
-        .is_some_and(|observed| observed != &shadow.v2_digest)
-    {
-        findings.push(finding(
-            "shadow_v2_digest_mismatch",
-            "v2 shadow digest must match the referenced observation file",
-        ));
-    }
-    if observed_v3
-        .as_ref()
-        .is_some_and(|observed| observed != &shadow.v3_digest)
-    {
-        findings.push(finding(
-            "shadow_v3_digest_mismatch",
-            "v3 shadow digest must match the referenced observation file",
-        ));
-    }
-    if shadow.v2_digest != shadow.v3_digest {
-        findings.push(finding(
-            "shadow_digest_mismatch",
-            "v2 and v3 shadow digests must match",
-        ));
-    }
 }
 
 fn validate_soak(
-    evidence_root: Option<&str>,
+    _evidence_root: Option<&str>,
     soak: &SoakEvidence,
     findings: &mut Vec<ProofRouteFinding>,
 ) {
-    require_nonempty(
-        &soak.evidence_ref,
-        "soak_evidence_ref_missing",
-        "soak evidence ref is required",
-        findings,
-    );
-    if soak.duration_minutes == 0 || soak.sample_count == 0 {
+    validate_command_spec(&soak.command, soak.command.generation, findings);
+    if soak.duration_millis == 0 || soak.sample_interval_millis == 0 {
         findings.push(finding(
             "soak_sample_missing",
-            "soak evidence requires non-zero duration and sample count",
+            "soak evidence requires non-zero observed duration and sample interval",
+        ));
+    }
+    if soak.sample_interval_millis > soak.duration_millis {
+        findings.push(finding(
+            "soak_interval_exceeds_duration",
+            "soak sample interval cannot exceed the requested observed duration",
         ));
     }
     if soak.hidden_state {
@@ -372,7 +410,55 @@ fn validate_soak(
             "soak route cannot perform provider side effects before cutover",
         ));
     }
-    let _ = observed_ref_digest(evidence_root, &soak.evidence_ref, findings);
+}
+
+fn validate_command_spec(
+    spec: &ShadowCommandSpec,
+    expected_generation: ShadowGeneration,
+    findings: &mut Vec<ProofRouteFinding>,
+) {
+    if spec.generation != expected_generation {
+        findings.push(finding(
+            "shadow_generation_mismatch",
+            "shadow command generation must match its typed lane",
+        ));
+    }
+    require_nonempty(
+        &spec.binary_ref,
+        "shadow_binary_missing",
+        "shadow command requires a repository-relative binary reference",
+        findings,
+    );
+    require_nonempty(
+        &spec.request_ref,
+        "shadow_request_missing",
+        "shadow command requires typed request evidence",
+        findings,
+    );
+    if spec.argv.is_empty() {
+        findings.push(finding(
+            "shadow_argv_missing",
+            "shadow command requires explicit shell-free argv",
+        ));
+    }
+    if spec.timeout_millis == 0 || spec.timeout_millis > 300_000 {
+        findings.push(finding(
+            "shadow_timeout_invalid",
+            "shadow command timeout must be between 1 and 300000 milliseconds",
+        ));
+    }
+    if spec.side_effect_boundary_refs.is_empty() {
+        findings.push(finding(
+            "shadow_side_effect_boundary_missing",
+            "shadow command requires explicit side-effect boundary observations",
+        ));
+    }
+    if spec.provider_side_effects {
+        findings.push(finding(
+            "shadow_provider_side_effects",
+            "shadow and soak commands cannot perform provider side effects before cutover",
+        ));
+    }
 }
 
 fn validate_install(
@@ -485,12 +571,842 @@ fn validate_install(
             "install destination must be stable and outside Cargo target output",
         ));
     }
-    if install.executes_install {
+    if install.executes_install && install.destination != ".adl/bin/csdlc" {
         findings.push(finding(
-            "install_attempts_mutation",
-            "install route is plan-only before #505 cutover",
+            "install_destination_not_canonical",
+            "executing install requires the canonical .adl/bin/csdlc destination",
         ));
     }
+}
+
+fn retain_proof_receipt(
+    request: &ProofRouteRequest,
+    manifest: &ProofManifest,
+) -> Result<String, ProofRouteFinding> {
+    let root = request_root(request)?;
+    let execution = execute_shadow_command(&root, &manifest.command, manifest.normalization)?;
+    if execution.exit_code != Some(0) {
+        return Err(finding(
+            "proof_command_not_successful",
+            "a non-successful command cannot establish proof readiness",
+        ));
+    }
+    if execution
+        .normalized_output
+        .get("issue")
+        .and_then(serde_json::Value::as_u64)
+        != Some(request.issue)
+    {
+        return Err(finding(
+            "proof_command_issue_mismatch",
+            "executed proof output must bind the requested issue",
+        ));
+    }
+    let reference = format!(
+        ".csdlc/evidence/{}/v3-proof/{}.json",
+        request.issue,
+        safe_component(&manifest.manifest_id)?
+    );
+    let receipt = serde_json::json!({
+        "schema": "csdlc.v3.proof_receipt.v2",
+        "issue": request.issue,
+        "repository": request.repository,
+        "manifest_id": manifest.manifest_id,
+        "lane": manifest.lane,
+        "deterministic": true,
+        "source_evidence_ref": manifest.evidence_ref,
+        "source_evidence_digest": manifest.observed_digest,
+        "normalization": manifest.normalization,
+        "command": execution.spec,
+        "request_evidence": {
+            "ref": execution.spec.request_ref,
+            "digest": execution.request_digest,
+        },
+        "binary": {
+            "identity": execution.spec.binary_ref,
+            "digest": execution.binary_digest,
+        },
+        "exit": {
+            "code": execution.exit_code,
+            "success": true,
+        },
+        "stdout_digest": execution.stdout_digest,
+        "stderr_digest": execution.stderr_digest,
+        "normalized_output": execution.normalized_output,
+        "side_effect_boundary": execution.side_effect_boundary,
+        "environment": "cleared_no_provider_credentials",
+        "provider_side_effects": false,
+    });
+    write_canonical_evidence(request, &reference, &receipt)?;
+    Ok(reference)
+}
+
+fn execute_shadow(
+    request: &ProofRouteRequest,
+    shadow: &ShadowComparison,
+) -> Result<Vec<String>, ProofRouteFinding> {
+    let root = request_root(request)?;
+    let v2 = execute_shadow_command(&root, &shadow.v2, shadow.normalization)?;
+    let v3 = execute_shadow_command(&root, &shadow.v3, shadow.normalization)?;
+    if v2.normalized_output != v3.normalized_output {
+        return Err(finding(
+            "shadow_normalized_mismatch",
+            "normalized outputs from executed v2 and v3 commands must match",
+        ));
+    }
+    if v2.exit_code != Some(0) || v3.exit_code != Some(0) {
+        return Err(finding(
+            "shadow_command_not_successful",
+            "matching diagnostic output from non-successful commands cannot establish ready parity",
+        ));
+    }
+    let base = format!(".csdlc/evidence/{}/v3-shadow", request.issue);
+    let request_ref = format!("{base}/request.json");
+    let v2_ref = format!("{base}/v2.execution.json");
+    let v3_ref = format!("{base}/v3.execution.json");
+    let receipt_ref = format!("{base}/comparison.json");
+    let request_value = serde_json::to_value(shadow).map_err(|_| {
+        finding(
+            "shadow_request_serialize_failed",
+            "typed shadow request must serialize for retained evidence",
+        )
+    })?;
+    write_canonical_evidence(request, &request_ref, &request_value)?;
+    write_canonical_evidence(request, &v2_ref, &v2.to_receipt(request.issue))?;
+    write_canonical_evidence(request, &v3_ref, &v3.to_receipt(request.issue))?;
+    let digest = blake3::hash(&canonical_json(&v2.normalized_output))
+        .to_hex()
+        .to_string();
+    write_canonical_evidence(
+        request,
+        &receipt_ref,
+        &serde_json::json!({
+            "schema": "csdlc.v3.shadow_receipt.v1",
+            "issue": request.issue,
+            "bounded": true,
+            "operational_authority": false,
+            "provider_side_effects": false,
+            "normalization": shadow.normalization,
+            "normalized_digest": digest,
+            "request_ref": request_ref,
+            "v2_execution_ref": v2_ref,
+            "v3_execution_ref": v3_ref,
+        }),
+    )?;
+    Ok(vec![request_ref, v2_ref, v3_ref, receipt_ref])
+}
+
+fn execute_soak(
+    request: &ProofRouteRequest,
+    soak: &SoakEvidence,
+) -> Result<String, ProofRouteFinding> {
+    const MAX_DURATION_MILLIS: u64 = 86_400_000;
+    const MAX_SAMPLES: usize = 10_000;
+    if soak.duration_millis > MAX_DURATION_MILLIS {
+        return Err(finding(
+            "soak_duration_limit_exceeded",
+            "bounded soak duration cannot exceed 24 hours",
+        ));
+    }
+    let root = request_root(request)?;
+    let requested = Duration::from_millis(soak.duration_millis);
+    let interval = Duration::from_millis(soak.sample_interval_millis);
+    let started_unix_millis = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|_| {
+            finding(
+                "soak_clock_invalid",
+                "system clock must be after the Unix epoch",
+            )
+        })?
+        .as_millis();
+    let started = Instant::now();
+    let mut samples = Vec::new();
+    loop {
+        if started.elapsed() >= requested && !samples.is_empty() {
+            break;
+        }
+        if samples.len() >= MAX_SAMPLES {
+            return Err(finding(
+                "soak_sample_limit_exceeded",
+                "bounded soak sample count cannot exceed 10000",
+            ));
+        }
+        let execution = execute_shadow_command(&root, &soak.command, soak.normalization)?;
+        if execution.exit_code != Some(0) {
+            return Err(finding(
+                "soak_command_not_successful",
+                "a non-successful command cannot establish soak readiness",
+            ));
+        }
+        samples.push(serde_json::json!({
+            "sequence": samples.len() + 1,
+            "observed_elapsed_millis": started.elapsed().as_millis(),
+            "execution": execution.to_receipt(request.issue),
+        }));
+        let next_sample = interval.saturating_mul(samples.len() as u32);
+        let deadline = next_sample.min(requested);
+        if started.elapsed() < deadline {
+            thread::sleep(deadline - started.elapsed());
+        }
+    }
+    let elapsed_millis = started.elapsed().as_millis();
+    if elapsed_millis < soak.duration_millis as u128 {
+        return Err(finding(
+            "soak_duration_not_observed",
+            "soak cannot retain a duration that was not actually observed monotonically",
+        ));
+    }
+    let reference = format!(".csdlc/evidence/{}/v3-soak/receipt.json", request.issue);
+    write_canonical_evidence(
+        request,
+        &reference,
+        &serde_json::json!({
+            "schema": "csdlc.v3.soak_receipt.v1",
+            "issue": request.issue,
+            "operational_authority": false,
+            "provider_side_effects": false,
+            "normalization": soak.normalization,
+            "started_unix_millis": started_unix_millis,
+            "requested_duration_millis": soak.duration_millis,
+            "observed_elapsed_millis": elapsed_millis,
+            "sample_interval_millis": soak.sample_interval_millis,
+            "sample_count": samples.len(),
+            "request": soak,
+            "samples": samples,
+        }),
+    )?;
+    Ok(reference)
+}
+
+#[derive(Debug)]
+struct ShadowExecution {
+    spec: ShadowCommandSpec,
+    request_digest: String,
+    request_value: serde_json::Value,
+    binary_digest: String,
+    exit_code: Option<i32>,
+    stdout_digest: String,
+    stderr_digest: String,
+    stdout_len: usize,
+    stderr_len: usize,
+    normalized_output: serde_json::Value,
+    elapsed_millis: u128,
+    side_effect_boundary: Vec<serde_json::Value>,
+}
+
+impl ShadowExecution {
+    fn to_receipt(&self, issue: u64) -> serde_json::Value {
+        serde_json::json!({
+            "schema": "csdlc.v3.shadow_execution.v1",
+            "issue": issue,
+            "request": self.spec,
+            "request_evidence": {
+                "ref": self.spec.request_ref,
+                "digest": self.request_digest,
+                "value": self.request_value,
+            },
+            "argv": self.spec.argv,
+            "binary": {"identity": self.spec.binary_ref, "digest": self.binary_digest},
+            "exit": {"code": self.exit_code, "success": self.exit_code == Some(0), "timed_out": false},
+            "stdout_digest": self.stdout_digest,
+            "stderr_digest": self.stderr_digest,
+            "stdout_len": self.stdout_len,
+            "stderr_len": self.stderr_len,
+            "normalized_output": self.normalized_output,
+            "elapsed_millis": self.elapsed_millis,
+            "side_effect_boundary": self.side_effect_boundary,
+            "environment": "cleared_no_provider_credentials",
+            "provider_side_effects": false,
+            "operational_authority": false,
+        })
+    }
+}
+
+fn execute_shadow_command(
+    root: &Path,
+    spec: &ShadowCommandSpec,
+    normalization: ShadowNormalizationContract,
+) -> Result<ShadowExecution, ProofRouteFinding> {
+    let binary = resolve_repo_path(root, &spec.binary_ref, true)?;
+    let request_path = resolve_repo_path(root, &spec.request_ref, true)?;
+    let binary_bytes = fs::read(&binary).map_err(|_| {
+        finding(
+            "shadow_binary_unreadable",
+            "shadow command binary must be readable",
+        )
+    })?;
+    let request_bytes = fs::read(&request_path).map_err(|_| {
+        finding(
+            "shadow_request_unreadable",
+            "shadow request evidence must be readable",
+        )
+    })?;
+    let request_value: serde_json::Value =
+        serde_json::from_slice(&request_bytes).map_err(|_| {
+            finding(
+                "shadow_request_invalid",
+                "shadow request evidence must be typed JSON",
+            )
+        })?;
+    let request_issue = request_value
+        .get("issue")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| {
+            finding(
+                "shadow_request_issue_missing",
+                "shadow request evidence must bind the executed issue",
+            )
+        })?;
+    let before = snapshot_boundaries(root, &spec.side_effect_boundary_refs)?;
+    let started = Instant::now();
+    let tool_path =
+        std::env::var_os("PATH").unwrap_or_else(|| std::ffi::OsString::from("/usr/bin:/bin"));
+    let mut child = Command::new(&binary)
+        .current_dir(root)
+        .args(&spec.argv)
+        .env_clear()
+        .env("PATH", tool_path)
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|_| {
+            finding(
+                "shadow_command_spawn_failed",
+                "shadow command could not start",
+            )
+        })?;
+    let mut stdout = child.stdout.take().ok_or_else(|| {
+        finding(
+            "shadow_stdout_unavailable",
+            "shadow stdout must be captured",
+        )
+    })?;
+    let mut stderr = child.stderr.take().ok_or_else(|| {
+        finding(
+            "shadow_stderr_unavailable",
+            "shadow stderr must be captured",
+        )
+    })?;
+    let stdout_reader = thread::spawn(move || {
+        let mut bytes = Vec::new();
+        stdout.read_to_end(&mut bytes).map(|_| bytes)
+    });
+    let stderr_reader = thread::spawn(move || {
+        let mut bytes = Vec::new();
+        stderr.read_to_end(&mut bytes).map(|_| bytes)
+    });
+    let timeout = Duration::from_millis(spec.timeout_millis);
+    let status = loop {
+        if let Some(status) = child.try_wait().map_err(|_| {
+            finding(
+                "shadow_command_wait_failed",
+                "shadow command status could not be observed",
+            )
+        })? {
+            break status;
+        }
+        if started.elapsed() >= timeout {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err(finding(
+                "shadow_command_timeout",
+                "shadow command exceeded its typed bounded timeout",
+            ));
+        }
+        thread::sleep(Duration::from_millis(5));
+    };
+    let stdout = stdout_reader
+        .join()
+        .ok()
+        .and_then(Result::ok)
+        .ok_or_else(|| finding("shadow_stdout_unreadable", "shadow stdout capture failed"))?;
+    let stderr = stderr_reader
+        .join()
+        .ok()
+        .and_then(Result::ok)
+        .ok_or_else(|| finding("shadow_stderr_unreadable", "shadow stderr capture failed"))?;
+    let normalized_output =
+        normalize_shadow_output(spec.generation, normalization, spec, request_issue, &stdout)?;
+    if normalized_output
+        .get("issue")
+        .and_then(serde_json::Value::as_u64)
+        != Some(request_issue)
+    {
+        return Err(finding(
+            "shadow_request_issue_mismatch",
+            "shadow request evidence must match the executed issue observed in typed output",
+        ));
+    }
+    let after = snapshot_boundaries(root, &spec.side_effect_boundary_refs)?;
+    let side_effect_boundary = spec.side_effect_boundary_refs.iter().map(|reference| {
+        let before_digest = before.get(reference).cloned().flatten();
+        let after_digest = after.get(reference).cloned().flatten();
+        serde_json::json!({"ref": reference, "before_digest": before_digest, "after_digest": after_digest, "changed": before_digest != after_digest})
+    }).collect::<Vec<_>>();
+    if side_effect_boundary
+        .iter()
+        .any(|entry| entry["changed"] == true)
+    {
+        return Err(finding(
+            "shadow_side_effect_boundary_changed",
+            "shadow command changed a declared read-only side-effect boundary",
+        ));
+    }
+    Ok(ShadowExecution {
+        spec: spec.clone(),
+        request_digest: blake3::hash(&request_bytes).to_hex().to_string(),
+        request_value,
+        binary_digest: blake3::hash(&binary_bytes).to_hex().to_string(),
+        exit_code: status.code(),
+        stdout_digest: blake3::hash(&stdout).to_hex().to_string(),
+        stderr_digest: blake3::hash(&stderr).to_hex().to_string(),
+        stdout_len: stdout.len(),
+        stderr_len: stderr.len(),
+        normalized_output,
+        elapsed_millis: started.elapsed().as_millis(),
+        side_effect_boundary,
+    })
+}
+
+fn normalize_shadow_output(
+    generation: ShadowGeneration,
+    contract: ShadowNormalizationContract,
+    spec: &ShadowCommandSpec,
+    request_issue: u64,
+    stdout: &[u8],
+) -> Result<serde_json::Value, ProofRouteFinding> {
+    if contract == ShadowNormalizationContract::RoutePreviewV1 {
+        let [route, help] = spec.argv.as_slice() else {
+            return Err(finding(
+                "route_preview_argv_invalid",
+                "route preview must execute exactly one named route with --help",
+            ));
+        };
+        if generation != ShadowGeneration::V3 || help != "--preview" || stdout.is_empty() {
+            return Err(finding(
+                "route_preview_output_invalid",
+                "route preview requires successful non-empty help output from the selected v3 binary",
+            ));
+        }
+        let value: serde_json::Value = serde_json::from_slice(stdout).map_err(|_| {
+            finding(
+                "route_preview_output_invalid",
+                "route preview output must be typed JSON",
+            )
+        })?;
+        if value["schema"] != "csdlc.v3.route_semantic_preview.v1"
+            || value["command"] != *route
+            || value["performed_mutation"] != false
+            || value["category"].as_str().is_none()
+            || value["effect"].as_str().is_none()
+            || value["authority_required"].as_bool().is_none()
+        {
+            return Err(finding(
+                "route_preview_semantics_invalid",
+                "route preview must expose the selected route's typed category, effect, and authority contract without mutation",
+            ));
+        }
+        return Ok(serde_json::json!({
+            "contract": "route_preview.v1",
+            "command": route,
+            "issue": request_issue,
+            "mode": "preview",
+            "category": value["category"],
+            "effect": value["effect"],
+            "authority_required": value["authority_required"]
+        }));
+    }
+    let value: serde_json::Value = serde_json::from_slice(stdout).map_err(|_| {
+        finding(
+            "shadow_output_not_json",
+            "shadow stdout must be one typed JSON document",
+        )
+    })?;
+    let (issue, phase) = match (generation, contract) {
+        (ShadowGeneration::V2, ShadowNormalizationContract::DoctorIssuePhaseV1) => {
+            if value["schema"] != "csdlc.doctor.report.v1" {
+                return Err(finding(
+                    "shadow_output_schema_mismatch",
+                    "v2 doctor output must use the typed doctor report schema",
+                ));
+            }
+            (value.get("issue"), value.get("phase"))
+        }
+        (ShadowGeneration::V3, ShadowNormalizationContract::DoctorIssuePhaseV1) => {
+            if value["schema"] != "csdlc.v3.local_preparation.v1" || value["command"] != "doctor" {
+                return Err(finding(
+                    "shadow_output_schema_mismatch",
+                    "v3 doctor output must use the typed local preparation schema",
+                ));
+            }
+            (
+                value.pointer("/result/issue"),
+                value.pointer("/result/lifecycle_state/phase"),
+            )
+        }
+        (_, ShadowNormalizationContract::RoutePreviewV1) => unreachable!("handled above"),
+    };
+    let issue = issue.and_then(serde_json::Value::as_u64).ok_or_else(|| {
+        finding(
+            "shadow_normalization_issue_missing",
+            "doctor normalization requires a typed issue identity",
+        )
+    })?;
+    let phase = phase.and_then(serde_json::Value::as_str).ok_or_else(|| {
+        finding(
+            "shadow_normalization_phase_missing",
+            "doctor normalization requires an observed lifecycle phase",
+        )
+    })?;
+    Ok(
+        serde_json::json!({"contract": "doctor_issue_phase.v1", "command": "doctor", "issue": issue, "phase": phase}),
+    )
+}
+
+fn snapshot_boundaries(
+    root: &Path,
+    references: &[String],
+) -> Result<BTreeMap<String, Option<String>>, ProofRouteFinding> {
+    references
+        .iter()
+        .map(|reference| {
+            let path = resolve_repo_path(root, reference, false)?;
+            Ok((reference.clone(), digest_path(&path)?))
+        })
+        .collect()
+}
+
+fn resolve_repo_path(
+    root: &Path,
+    reference: &str,
+    must_exist: bool,
+) -> Result<PathBuf, ProofRouteFinding> {
+    let relative = Path::new(reference);
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+    {
+        return Err(finding(
+            "shadow_path_not_repo_relative",
+            "shadow paths must be repository-relative and cannot traverse parents",
+        ));
+    }
+    let path = root.join(relative);
+    if must_exist && !path.is_file() {
+        return Err(finding(
+            "shadow_path_unavailable",
+            "shadow command input must exist as a repository file",
+        ));
+    }
+    let canonical_root = root.canonicalize().map_err(|_| {
+        finding(
+            "shadow_repository_root_unavailable",
+            "shadow repository root must be an existing canonical directory",
+        )
+    })?;
+    let containment_target = if path.exists() {
+        path.canonicalize()
+    } else {
+        path.parent()
+            .ok_or_else(|| {
+                finding(
+                    "shadow_path_parent_unavailable",
+                    "shadow path must have a repository-contained parent",
+                )
+            })?
+            .canonicalize()
+    }
+    .map_err(|_| {
+        finding(
+            "shadow_path_unavailable",
+            "shadow path or its nearest parent must be canonically resolvable",
+        )
+    })?;
+    if !containment_target.starts_with(&canonical_root) {
+        return Err(finding(
+            "shadow_path_escapes_repository",
+            "shadow paths must not escape the repository through symlinks",
+        ));
+    }
+    Ok(if path.exists() {
+        containment_target
+    } else {
+        path
+    })
+}
+
+fn digest_path(path: &Path) -> Result<Option<String>, ProofRouteFinding> {
+    if !path.exists() {
+        return Ok(None);
+    }
+    let metadata = path.symlink_metadata().map_err(|_| {
+        finding(
+            "shadow_boundary_unreadable",
+            "shadow side-effect boundary must be readable",
+        )
+    })?;
+    if metadata.file_type().is_symlink() {
+        return Err(finding(
+            "shadow_boundary_symlink",
+            "shadow side-effect boundaries cannot be symlinks",
+        ));
+    }
+    if metadata.is_file() {
+        return fs::read(path)
+            .map(|bytes| Some(blake3::hash(&bytes).to_hex().to_string()))
+            .map_err(|_| {
+                finding(
+                    "shadow_boundary_unreadable",
+                    "shadow side-effect boundary must be readable",
+                )
+            });
+    }
+    let mut entries = fs::read_dir(path)
+        .map_err(|_| {
+            finding(
+                "shadow_boundary_unreadable",
+                "shadow boundary directory must be readable",
+            )
+        })?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|_| {
+            finding(
+                "shadow_boundary_unreadable",
+                "shadow boundary directory must be readable",
+            )
+        })?;
+    entries.sort_by_key(|entry| entry.file_name());
+    let mut manifest = BTreeMap::new();
+    for entry in entries {
+        manifest.insert(
+            entry.file_name().to_string_lossy().to_string(),
+            digest_path(&entry.path())?,
+        );
+    }
+    let value = serde_json::to_value(manifest).map_err(|_| {
+        finding(
+            "shadow_boundary_digest_failed",
+            "shadow boundary digest could not be serialized",
+        )
+    })?;
+    Ok(Some(
+        blake3::hash(&canonical_json(&value)).to_hex().to_string(),
+    ))
+}
+
+fn execute_install(
+    request: &ProofRouteRequest,
+    install: &InstallPlanInput,
+) -> Result<String, ProofRouteFinding> {
+    let root = request_root(request)?;
+    let source = root.join(&install.artifact_ref);
+    let destination = root.join(&install.destination);
+    if destination
+        .symlink_metadata()
+        .is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return Err(finding(
+            "install_destination_symlink",
+            "stable install destination must not be a symlink",
+        ));
+    }
+    let bytes = fs::read(&source).map_err(|_| {
+        finding(
+            "install_artifact_unreadable",
+            "selected install artifact must remain readable during installation",
+        )
+    })?;
+    let digest = blake3::hash(&bytes).to_hex().to_string();
+    if digest != install.selected_binary_digest {
+        return Err(finding(
+            "install_artifact_changed",
+            "selected install artifact changed after validation",
+        ));
+    }
+    write_bytes_atomic(&destination, &bytes)?;
+    set_installed_binary_executable(&destination)?;
+    let installed = fs::read(&destination).map_err(|_| {
+        finding(
+            "install_verification_failed",
+            "stable installed binary must be readable for digest verification",
+        )
+    })?;
+    if blake3::hash(&installed).to_hex().to_string() != digest {
+        return Err(finding(
+            "install_verification_failed",
+            "stable installed binary digest must match selected artifact",
+        ));
+    }
+    let reference = format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue);
+    write_canonical_evidence(
+        request,
+        &reference,
+        &serde_json::json!({
+            "schema": "csdlc.v3.install_receipt.v1",
+            "issue": request.issue,
+            "artifact_name": install.artifact_name,
+            "artifact_ref": install.artifact_ref,
+            "destination": install.destination,
+            "installed_digest": digest,
+            "source_provenance": install.source_provenance,
+            "source_provenance_ref": install.source_provenance_ref,
+            "selector_metadata_ref": install.selector_metadata_ref,
+            "selector_metadata_digest": install.selector_metadata_digest,
+            "verified": true,
+        }),
+    )?;
+    Ok(reference)
+}
+
+#[cfg(unix)]
+fn set_installed_binary_executable(path: &Path) -> Result<(), ProofRouteFinding> {
+    use std::os::unix::fs::PermissionsExt;
+    fs::set_permissions(path, fs::Permissions::from_mode(0o755)).map_err(|_| {
+        finding(
+            "install_permission_failed",
+            "stable installed binary must be executable",
+        )
+    })
+}
+
+#[cfg(not(unix))]
+fn set_installed_binary_executable(_path: &Path) -> Result<(), ProofRouteFinding> {
+    Err(finding(
+        "install_unsupported_platform",
+        "executable stable install is fail-closed on unsupported platforms",
+    ))
+}
+
+fn authorize_install_execution(
+    request: &ProofRouteRequest,
+    install: &InstallPlanInput,
+) -> Result<(), ProofRouteFinding> {
+    let root = request_root(request)?;
+    if active_canonical_v3_selector(&root, install)? {
+        return Ok(());
+    }
+    Err(finding(
+        "install_typed_authority_missing",
+        "stable install requires active canonical v3 authority or the merge-gated cutover route",
+    ))
+}
+
+fn active_canonical_v3_selector(
+    root: &Path,
+    _install: &InstallPlanInput,
+) -> Result<bool, ProofRouteFinding> {
+    crate::authority::canonical_v3_authority(root)
+        .map(|authority| authority.is_some())
+        .map_err(|_| {
+            finding(
+                "install_canonical_selector_invalid",
+                "canonical v3 selector is invalid or cannot be read from origin/main",
+            )
+        })
+}
+
+fn request_root(request: &ProofRouteRequest) -> Result<PathBuf, ProofRouteFinding> {
+    request
+        .evidence_root
+        .as_deref()
+        .map(PathBuf::from)
+        .ok_or_else(|| {
+            finding(
+                "evidence_root_missing",
+                "evidence-backed routes require an evidence root",
+            )
+        })
+}
+
+fn safe_component(value: &str) -> Result<&str, ProofRouteFinding> {
+    if value.is_empty()
+        || value == "."
+        || value == ".."
+        || value.contains('/')
+        || value.contains('\\')
+    {
+        Err(finding(
+            "evidence_identity_unsafe",
+            "evidence identity must be one safe path component",
+        ))
+    } else {
+        Ok(value)
+    }
+}
+
+fn canonical_json(value: &serde_json::Value) -> Vec<u8> {
+    fn normalize(value: &serde_json::Value) -> serde_json::Value {
+        match value {
+            serde_json::Value::Object(map) => {
+                let sorted: BTreeMap<_, _> = map
+                    .iter()
+                    .map(|(key, value)| (key.clone(), normalize(value)))
+                    .collect();
+                serde_json::Value::Object(sorted.into_iter().collect())
+            }
+            serde_json::Value::Array(values) => {
+                serde_json::Value::Array(values.iter().map(normalize).collect())
+            }
+            other => other.clone(),
+        }
+    }
+    serde_json::to_vec(&normalize(value)).expect("JSON value serialization cannot fail")
+}
+
+fn write_canonical_evidence(
+    request: &ProofRouteRequest,
+    reference: &str,
+    value: &serde_json::Value,
+) -> Result<(), ProofRouteFinding> {
+    let root = request_root(request)?;
+    let mut bytes = canonical_json(value);
+    bytes.push(b'\n');
+    write_bytes_atomic(&root.join(reference), &bytes)
+}
+
+fn write_bytes_atomic(path: &Path, bytes: &[u8]) -> Result<(), ProofRouteFinding> {
+    static TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);
+    let parent = path.parent().ok_or_else(|| {
+        finding(
+            "evidence_destination_invalid",
+            "evidence destination must have a parent directory",
+        )
+    })?;
+    fs::create_dir_all(parent).map_err(|_| {
+        finding(
+            "evidence_directory_create_failed",
+            "evidence destination directory could not be created",
+        )
+    })?;
+    let sequence = TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    let temp = path.with_extension(format!("csdlc-v3-{}-{sequence}.tmp", std::process::id()));
+    let mut file = fs::File::create(&temp).map_err(|_| {
+        finding(
+            "evidence_write_failed",
+            "evidence temporary file could not be created",
+        )
+    })?;
+    file.write_all(bytes).map_err(|_| {
+        finding(
+            "evidence_write_failed",
+            "evidence temporary file could not be written",
+        )
+    })?;
+    file.sync_all().map_err(|_| {
+        finding(
+            "evidence_write_failed",
+            "evidence temporary file could not be synchronized",
+        )
+    })?;
+    fs::rename(&temp, path).map_err(|_| {
+        finding(
+            "evidence_commit_failed",
+            "evidence file could not be committed atomically",
+        )
+    })
 }
 
 fn require_nonempty(
@@ -585,4 +1501,178 @@ fn observed_ref_bytes(
 
 fn finding(code: &'static str, message: &'static str) -> ProofRouteFinding {
     ProofRouteFinding { code, message }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[cfg(unix)]
+    use std::os::unix::fs::{symlink, PermissionsExt};
+
+    #[cfg(unix)]
+    #[test]
+    fn native_install_copies_verifies_and_records_provenance() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/proof-native-unit")
+            .join(std::process::id().to_string());
+        let artifact_ref = ".csdlc/evidence/505/install/csdlc";
+        let selector_ref = ".csdlc/evidence/505/install/selector.json";
+        let provenance_ref = ".csdlc/evidence/505/install/provenance.json";
+        fs::create_dir_all(root.join(".csdlc/evidence/505/install")).unwrap();
+        fs::write(root.join(artifact_ref), b"native-v3-binary").unwrap();
+        fs::write(root.join(selector_ref), b"{\"selected\":\"v3\"}").unwrap();
+        fs::write(
+            root.join(provenance_ref),
+            b"{\"schema\":\"csdlc.v3.install_provenance.v1\",\"source\":\"git:test\"}",
+        )
+        .unwrap();
+        let artifact_digest = blake3::hash(b"native-v3-binary").to_hex().to_string();
+        let request = ProofRouteRequest {
+            issue: 505,
+            repository: "agent-logic/agent-design-language".into(),
+            cutover_issue: Some(505),
+            operator_approval: Some("operator #505 approval".into()),
+            evidence_root: Some(root.to_string_lossy().into_owned()),
+            proof: None,
+            shadow: None,
+            soak: None,
+            install: None,
+        };
+        let install = InstallPlanInput {
+            artifact_name: "csdlc".into(),
+            artifact_ref: artifact_ref.into(),
+            source_provenance_ref: provenance_ref.into(),
+            selector_metadata_ref: selector_ref.into(),
+            source_provenance: "git:test".into(),
+            selected_binary_digest: artifact_digest.clone(),
+            observed_binary_digest: artifact_digest,
+            selector_metadata_digest: blake3::hash(b"{\"selected\":\"v3\"}").to_hex().to_string(),
+            destination: ".adl/bin/csdlc".into(),
+            stable_destination: true,
+            executes_install: true,
+            exact_head: "git:test".into(),
+            cutover_approval_ref: Some("#505 operator approval".into()),
+            cutover_approval_digest: Some(
+                blake3::hash(b"#505 operator approval").to_hex().to_string(),
+            ),
+        };
+
+        let receipt_ref = execute_install(&request, &install).unwrap();
+        assert_eq!(
+            fs::read(root.join(".adl/bin/csdlc")).unwrap(),
+            b"native-v3-binary"
+        );
+        assert_ne!(
+            fs::metadata(root.join(".adl/bin/csdlc"))
+                .unwrap()
+                .permissions()
+                .mode()
+                & 0o111,
+            0
+        );
+        let receipt: serde_json::Value =
+            serde_json::from_slice(&fs::read(root.join(receipt_ref)).unwrap()).unwrap();
+        assert_eq!(receipt["verified"], true);
+        assert_eq!(receipt["source_provenance"], "git:test");
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn active_install_authority_uses_only_the_canonical_generation_selector() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/proof-selector-unit")
+            .join(std::process::id().to_string());
+        if root.exists() {
+            fs::remove_dir_all(&root).unwrap();
+        }
+        fs::create_dir_all(root.join("csdlc-v2/operator")).unwrap();
+        fs::create_dir_all(root.join(".csdlc")).unwrap();
+        let git = |args: &[&str]| {
+            let output = std::process::Command::new("git")
+                .arg("-C")
+                .arg(&root)
+                .args(args)
+                .output()
+                .unwrap();
+            assert!(output.status.success(), "git {args:?}: {output:?}");
+        };
+        git(&["init", "-q"]);
+        git(&["config", "user.email", "csdlc-v3@example.invalid"]);
+        git(&["config", "user.name", "C-SDLC v3 tests"]);
+        fs::write(
+            root.join(".csdlc/authority-selector.json"),
+            br#"{"schema":"csdlc.authority_selector.v1","default_generation":"v3"}"#,
+        )
+        .unwrap();
+        fs::write(
+            root.join("csdlc-v2/operator/generation-selector.json"),
+            br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[]}"#,
+        )
+        .unwrap();
+        let install = InstallPlanInput {
+            artifact_name: "csdlc".into(),
+            artifact_ref: "artifact".into(),
+            source_provenance_ref: "provenance".into(),
+            selector_metadata_ref: "selector".into(),
+            source_provenance: "git:test".into(),
+            selected_binary_digest: "binary".into(),
+            observed_binary_digest: "binary".into(),
+            selector_metadata_digest: "selector".into(),
+            destination: ".adl/bin/csdlc".into(),
+            stable_destination: true,
+            executes_install: true,
+            exact_head: "0123456789012345678901234567890123456789".into(),
+            cutover_approval_ref: None,
+            cutover_approval_digest: None,
+        };
+        git(&["add", "csdlc-v2/operator/generation-selector.json"]);
+        git(&["commit", "-q", "-m", "v2 selector"]);
+        git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
+        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
+        fs::write(
+            root.join("csdlc-v2/operator/generation-selector.json"),
+            br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v3","opted_in_issues":[]}"#,
+        )
+        .unwrap();
+        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
+        fs::write(
+            root.join("csdlc-v2/operator/generation-selector.json"),
+            br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-v2-exact-head","approval_authority":"merged-pr-591-closed-issue-505"}"#,
+        )
+        .unwrap();
+        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
+        git(&["add", "csdlc-v2/operator/generation-selector.json"]);
+        git(&["commit", "-q", "-m", "v3 selector"]);
+        git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
+        assert!(active_canonical_v3_selector(&root, &install).unwrap());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn shadow_paths_reject_symlink_escapes_for_existing_and_future_targets() {
+        let base = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/proof-path-unit")
+            .join(std::process::id().to_string());
+        let root = base.join("root");
+        let outside = base.join("outside");
+        fs::create_dir_all(&root).unwrap();
+        fs::create_dir_all(&outside).unwrap();
+        fs::write(outside.join("command"), b"outside").unwrap();
+        symlink(&outside, root.join("escape")).unwrap();
+
+        assert_eq!(
+            resolve_repo_path(&root, "escape/command", true)
+                .unwrap_err()
+                .code,
+            "shadow_path_escapes_repository"
+        );
+        assert_eq!(
+            resolve_repo_path(&root, "escape/future", false)
+                .unwrap_err()
+                .code,
+            "shadow_path_escapes_repository"
+        );
+        fs::remove_dir_all(base).unwrap();
+    }
 }

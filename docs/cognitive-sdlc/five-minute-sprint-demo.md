@@ -24,7 +24,7 @@ the serial coordination fraction while preserving governance.
 A credible demo must show:
 
 - transition identity
-- issue-local `SIP -> STP -> SPP -> SRP -> SOR`, with `SPP` as Structured
+- issue-local `SIP -> STP -> SPP -> VPP -> SRP -> SOR`, with `SPP` as Structured
   Plan Prompt
 - shard plan or transition DAG
 - explicit writable-path ownership

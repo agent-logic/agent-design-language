@@ -1,0 +1,61 @@
+{
+  "schema": "csdlc.v3.rollback_exercise.v1",
+  "authority_issue": 505,
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-05T20:52:00Z",
+  "exercise_type": "pre_cutover_fail_closed_rollback",
+  "operational_authority": false,
+  "operator_approval": "absent",
+  "rollback_target": "typed C-SDLC v2 remains the live lifecycle authority",
+  "v3_actions": [
+    {
+      "command": "csdlc finish --observe-github --request .csdlc/prepared/issues/505/terminal-finish-canary-issue-629-pr641-request.json",
+      "evidence_ref": ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json",
+      "status": "ready",
+      "performed_mutation": false
+    },
+    {
+      "command": "csdlc clean --request .csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-preview-request.json",
+      "evidence_ref": ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-preview-output.json",
+      "status": "ready",
+      "performed_mutation": false
+    },
+    {
+      "command": "csdlc clean --request .csdlc/prepared/issues/505/terminal-clean-canary-issue-629-pr641-removal-denied-request.json",
+      "evidence_ref": ".csdlc/evidence/505/terminal-clean-canary-issue-629-pr641-removal-denied-output.json",
+      "status": "blocked",
+      "performed_mutation": false,
+      "required_finding": "cleanup_removal_denied_pre_cutover"
+    },
+    {
+      "command": "csdlc cutover --request .csdlc/prepared/issues/505/cutover-approval-absent-canary-request.json",
+      "evidence_ref": ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
+      "status": "blocked",
+      "performed_mutation": false,
+      "required_findings": [
+        "missing_operator",
+        "missing_operator_approval",
+        "missing_505_approval"
+      ]
+    }
+  ],
+  "rollback_verification": {
+    "command": ".adl/bin/csdlc-v2/csdlc-validate --root . issue --issue 505",
+    "output": {
+      "schema": "csdlc.doctor.report.v1",
+      "status": "pass",
+      "issue": 505,
+      "phase": "published",
+      "generation": 61,
+      "ready": false,
+      "findings": []
+    }
+  },
+  "conclusion": "The pre-cutover rollback path is exercised: v3 terminal and cleanup canaries remain non-authoritative, removal and cutover execution fail closed before #505 approval, and typed v2 remains usable as the live lifecycle authority afterward.",
+  "non_claims": [
+    "This is not operator approval for #505.",
+    "This does not merge PR #591.",
+    "This does not retire v2.",
+    "This does not perform post-cutover rollback after a live authority transfer."
+  ]
+}

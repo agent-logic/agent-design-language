@@ -61,7 +61,7 @@ Planned scope:
 
 ## Execution Policy
 
-- Each tracked issue follows `SIP -> STP -> SPP -> SRP -> SOR`.
+- Each tracked issue follows `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.
 - Keep changes scoped per issue; use draft PRs until checks pass.
 - Run the smallest meaningful validation for each touched surface.
 - Record proof truthfully in issue-local output records or review docs.

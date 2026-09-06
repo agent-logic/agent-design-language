@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 57,
+  "expected_digest": "bdaebd26d11077191c23daed72abc1245a65c8e22342ac6b28ca14651f589a3b",
+  "actor": "worker-6",
+  "reason": "Recover stale #505 review and publication truth after refreshing cutover readiness artifacts to remove the no-longer-true exact-head review blocker while preserving rollback/canary approval blockers."
+}

@@ -1,0 +1,83 @@
+{
+  "schema": "csdlc.v3.authority_transition_disposition.v1",
+  "authority_issue": 505,
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-06T06:45:00Z",
+  "operational_authority": false,
+  "cutover_ready": false,
+  "operator_approval": "expressed_by_merging_pr_591",
+  "source_requirements": [
+    {
+      "issue": 179,
+      "title": "[v0.92.1][V3-16] Prove Parity, Run Canary Migration, And Cut Over Authority",
+      "live_state": "closed",
+      "closed_at": "2026-08-10T22:12:30Z",
+      "required_disposition": "Cutover may be approved only after parity, canary migration, rollback, observation-window, exact-review, and operator-approval evidence are current at #591 head.",
+      "current_disposition": "implementation_complete_pending_current_exact_head_review_and_merge",
+      "satisfied_evidence": [
+        {
+          "claim": "21 required v2 entrypoints have executable v3 command routes behind one csdlc surface",
+          "evidence_ref": "docs/csdlc-v3/full-replacement-denominator.json"
+        },
+        {
+          "claim": "V3-H umbrella and six child issues are closed in live GitHub state",
+          "evidence_ref": "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/sprint-625-readiness-report.json"
+        },
+        {
+          "claim": "Real issue local-readiness canaries for #604, Sprint 8 #511, and Sprint 9 #515 completed under the three-minute target",
+          "evidence_ref": ".csdlc/evidence/505/issue-604-local-canary-report.json"
+        },
+        {
+          "claim": "Exact-head review remains a required pre-merge gate and is not claimed by this pre-review disposition",
+          "evidence_ref": ".csdlc/issues/505/index.json#review"
+        },
+        {
+          "claim": "Pre-cutover rollback exercise was run: v3 terminal/cutover paths stayed non-authoritative, pre-cutover removal was denied, and typed v2 validation still passed afterward",
+          "evidence_ref": ".csdlc/evidence/505/pre-cutover-rollback-exercise.json"
+        },
+        {
+          "claim": "Terminal v3 finish/cleanup canary consumed live GitHub PR #641 and issue #629 readbacks, then previewed cleanup against a registered exact-head worktree without removing it",
+          "evidence_ref": ".csdlc/evidence/505/terminal-finish-canary-issue-629-pr641-output.json"
+        }
+      ],
+      "blocking_evidence": [
+        {
+          "claim": "Current exact-head review and required hosted checks must pass before merge",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "issue": 180,
+      "title": "[v0.92.1][V3-R01] Retire V2 After The Rollback Window",
+      "live_state": "closed",
+      "closed_at": "2026-08-10T22:12:34Z",
+      "required_disposition": "V2 retirement may occur only after cutover approval, successful stability/rollback window, deletion eligibility, fresh-install proof, historical-evidence readability, and no-v2-authority audit.",
+      "current_disposition": "not_started_before_cutover",
+      "satisfied_evidence": [
+        {
+          "claim": "Current #505 artifacts preserve v2 as live authority and do not remove v2 binaries, skills, selector routes, or historical evidence",
+          "evidence_ref": "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md"
+        },
+        {
+          "claim": "The v3 command denominator is implemented without claiming v2 retirement authority",
+          "evidence_ref": "docs/csdlc-v3/v3-command-manifest.json"
+        }
+      ],
+      "blocking_evidence": [
+        {
+          "claim": "Rollback window has not started because PR #591 is not merged; terminal reconciliation records the transition after merge",
+          "status": "not_applicable_yet"
+        },
+        {
+          "claim": "Deletion inventory, fresh install without v2 artifacts, and final no-v2-authority audit are not part of this pre-approval #505 state",
+          "status": "deferred_to_post_cutover_retirement"
+        }
+      ]
+    }
+  ],
+  "approval_blockers": [
+    "Obtain a passing exact-head review and green required hosted checks.",
+    "Keep v2 as live authority until PR #591 is merged; merging PR #591 is the operator's cutover approval."
+  ]
+}

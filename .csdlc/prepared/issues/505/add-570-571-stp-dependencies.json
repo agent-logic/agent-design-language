@@ -1,0 +1,19 @@
+{
+  "issue": 505,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "8ca157097a8b3e8e20d152a93048f55eebd5408e8bed7697ab0d7613c532d078",
+  "claim_id": "claim-505-add-sprint6-cutover-gates-stp",
+  "actor": "codex:worker-6",
+  "reason": "Make the Sprint 6 #570/#571 cutover-readiness gates explicit before #505 execution can start.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "V3-E: #504 must be closed by merged PR and typed terminal closeout before #505 execution starts.",
+      "V3-G: #570 docs/skill cutover-readiness PR must be merged and the issue closed before #505 execution starts.",
+      "V3-A follow-up: #571 predecessor-proof/lifecycle-gate corrective PR must be merged and the issue closed before #505 execution starts."
+    ]
+  },
+  "fail_after_backup": false
+}

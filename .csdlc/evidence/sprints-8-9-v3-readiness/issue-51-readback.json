@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "## Summary\n\nCoordinate and integrate the bounded podcast launch children. This parent no longer owns child implementation or external provider actions. It remains open until the four children have truthful terminal outcomes and the integrated launch evidence is reconciled.\n\n## Child Issues\n\n1. #261 — 51.a: finalize show identity, artwork, rights, metadata, and company-mailbox readiness.\n2. #262 — 51.b: publish and validate production hosting, RSS, enclosures, HTTP byte-range playback, and desktop/mobile feed proof. Depends on terminal #261 and terminal episode-package input from agent-logic/agent-design-language#342.\n3. #263 — 51.c: prepare Apple, Spotify, Amazon, and YouTube directory submission runbooks and operator preflight. Depends on terminal #261 and #262. No submission.\n4. #264 — 51.d: execute only explicitly operator-authorized directory submissions, retain canonical IDs/status, monitor, correct, and roll back truthfully. Depends on terminal #263 and a separate future operator authorization. Execution is blocked until that authorization is recorded.\n\n## Dependency Order\n\n`#261 -> #262 -> #263 -> #264`, with the additional terminal episode-package dependency on #262 and explicit operator gate on #264.\n\n## Parent Responsibilities\n\n- Preserve exact child ownership and dependency order.\n- Reconcile terminal child evidence into one launch-status view without duplicating implementation.\n- Keep directory submission and public launch blocked unless the operator explicitly authorizes them.\n- Prevent credentials, verification codes, private account data, and unsupported provider-acceptance claims from entering retained evidence.\n- Require one integrated review after child completion before parent closeout.\n\n## Exit Criteria\n\n- #261, #262, and #263 are terminally truthful.\n- #264 has either a terminal operator-authorized outcome or a truthful operator-blocked disposition that the operator explicitly accepts for parent routing.\n- Canonical show identity, artwork, rights, feed, enclosures, playback proof, directory runbooks, provider IDs/status, monitoring, corrections, and rollback evidence agree exactly where applicable.\n- No directory or launch claim exceeds live provider state.\n- Integrated exact-head review has no unresolved actionable findings.\n\n## Non-Goals\n\n- No episode writing, recording, or mastering.\n- No child implementation in this parent.\n- No automatic provider submission, account mutation, or public launch.\n- No credential or verification-code storage.\n- No paid subscriptions, advertising, dynamic insertion, or monetization.\n\n## Graph\n\nCoordination parent for #261, #262, #263, and #264. Retains dependency inputs agent-logic/agent-design-language#342 and agent-logic/agent-design-language#19 as read-only upstream evidence.\n\n<!-- csdlc-github-operation:v092-decompose-p51-parent-update-v1 -->\n<!-- csdlc-github-operation:issue-migration-routing-51-wp24a-342-v1 -->\n\n## Sprint 8 readiness note\n\nSprint 8 podcast execution proceeds under the operator-directed working show name `The Cognitive Stack`. Current readiness order is:\n\n1. #261 and #342 may be prepared first in parallel if their write surfaces remain separated: #261 owns show identity/artwork/rights/mailbox readiness; #342 owns episode-package preparation under `demos/podcast/episode-packages/**`.\n2. #262 remains gated on terminal #261 and terminal/review-ready #342 episode-package input.\n3. #263 remains gated on terminal #261 and #262, and must refresh provider runbooks from current official instructions immediately before review.\n4. #264 remains blocked on terminal #263 plus explicit future operator authorization for each directory submission/public-launch action.\n\nThe working name is not legal/trademark clearance, directory availability proof, mailbox proof, or public-launch approval.\n\n<!-- csdlc-github-operation:v0921-sprint8-podcast-readiness-51-v1 -->\n",
+    "closed_at": null,
+    "created_at": "2026-08-08T16:13:06Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "area:demo",
+      "version:v0.92.1"
+    ],
+    "marker_present": false,
+    "milestone": 1,
+    "number": 51,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children"
+  },
+  "operation_key": "worker-6-v3-sprint-readiness-live-issue-51-20260901",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

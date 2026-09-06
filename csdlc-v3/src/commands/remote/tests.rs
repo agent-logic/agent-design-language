@@ -103,6 +103,16 @@ fn cleanup_at(path: PathBuf) -> CleanupCandidate {
         .join("worktrees")
         .join(worktree_name);
     fs::create_dir_all(&git_common_dir).expect("create git common dir fixture");
+    fs::write(
+        path.join(".git"),
+        format!("gitdir: {}\n", git_common_dir.display()),
+    )
+    .expect("write worktree gitdir pointer");
+    fs::write(
+        git_common_dir.join("gitdir"),
+        format!("{}/.git\n", path.display()),
+    )
+    .expect("write common gitdir pointer");
     let registration = GitWorktreeRegistration {
         repository_root,
         worktree_path: path.clone(),
@@ -754,4 +764,350 @@ fn cleanup_constructor_rejects_self_made_git_directory_registration() {
         ),
         Err(CleanupRejectReason::MissingRegistrationReceipt)
     );
+}
+
+#[derive(Debug)]
+struct SequencedProcessAdapter {
+    outputs: std::collections::VecDeque<crate::adapters::ProcessOutput>,
+    invocations: Vec<crate::adapters::CommandInvocation>,
+    intent_path: Option<PathBuf>,
+}
+
+impl SequencedProcessAdapter {
+    fn new(outputs: Vec<crate::adapters::ProcessOutput>) -> Self {
+        Self {
+            outputs: outputs.into(),
+            invocations: Vec::new(),
+            intent_path: None,
+        }
+    }
+
+    fn requiring_intent(mut self, intent_path: PathBuf) -> Self {
+        self.intent_path = Some(intent_path);
+        self
+    }
+}
+
+impl crate::adapters::ProcessAdapter for SequencedProcessAdapter {
+    fn run(
+        &mut self,
+        invocation: crate::adapters::CommandInvocation,
+    ) -> crate::adapters::ProcessOutput {
+        if invocation.program == super::GITHUB_OPERATIONAL_ADAPTER {
+            assert!(
+                self.intent_path.as_ref().is_some_and(|path| path.exists()),
+                "durable intent must exist before external mutation"
+            );
+        }
+        self.invocations.push(invocation);
+        self.outputs.pop_front().expect("scripted process output")
+    }
+}
+
+fn process_output(
+    status: crate::adapters::ProcessStatus,
+    value: serde_json::Value,
+) -> crate::adapters::ProcessOutput {
+    crate::adapters::ProcessOutput {
+        status,
+        stdout: value.to_string(),
+        stderr: String::new(),
+        truncated: false,
+    }
+}
+
+fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
+    let id = NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst);
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("target")
+        .join(format!(
+            "remote-mutation-{name}-{}-{id}",
+            std::process::id()
+        ));
+    if root.exists() {
+        fs::remove_dir_all(&root).expect("remove stale mutation fixture");
+    }
+    let git = |args: &[&str]| {
+        let output = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&root)
+            .args(args)
+            .output()
+            .expect("run fixture git");
+        assert!(output.status.success(), "git {args:?}: {output:?}");
+    };
+    fs::create_dir_all(&root).expect("mutation fixture root");
+    git(&["init", "-q"]);
+    git(&["config", "user.email", "csdlc-v3@example.invalid"]);
+    git(&["config", "user.name", "C-SDLC v3 tests"]);
+    let selector_path = root.join(super::CANONICAL_AUTHORITY_SELECTOR_PATH);
+    fs::create_dir_all(selector_path.parent().expect("selector parent")).expect("selector parent");
+    let selector = if active {
+        serde_json::json!({
+            "schema": "csdlc.generation_selector.v2",
+            "default_generation": "v3",
+            "operational_authority": "csdlc-v3",
+            "authority_issue": 505,
+            "authority_pull_request": 591,
+            "review_authority": "typed-v2-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505"
+        })
+    } else {
+        serde_json::json!({
+            "schema": "csdlc.generation_selector.v1",
+            "default_generation": "v2",
+            "opted_in_issues": []
+        })
+    };
+    fs::write(
+        selector_path,
+        serde_json::to_vec_pretty(&selector).expect("selector JSON"),
+    )
+    .expect("write selector");
+    git(&["add", super::CANONICAL_AUTHORITY_SELECTOR_PATH]);
+    git(&["commit", "-q", "-m", "fixture selector"]);
+    if active {
+        git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
+    }
+    let _ = exact_review_sha;
+    root
+}
+
+fn mutation_request(mutation: super::GithubMutation) -> super::GithubMutationRequest {
+    super::GithubMutationRequest {
+        repository: "agent-logic/agent-design-language".into(),
+        issue: 505,
+        pull_request: None,
+        cutover_issue: None,
+        operator_approval: Some("caller-forged operator approval for #505".into()),
+        expected_head_sha: REVISION.into(),
+        credential_names: vec!["GITHUB_TOKEN".into()],
+        mutation,
+    }
+}
+
+#[test]
+fn mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles() {
+    let root = mutation_repo("comment", REVISION, true);
+    let request = mutation_request(super::GithubMutation::IssueComment {
+        body: "durable comment".into(),
+    });
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let intent_path =
+        super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Cancelled,
+            serde_json::json!({}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!([{
+                "id": 991,
+                "body": format!("durable comment\n\n{marker}")
+            }]),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+
+    let result = super::execute_github_mutation(&root, &request, &mut process)
+        .expect("uncertain response reconciles by authenticated marker readback");
+    assert!(intent_path.exists());
+    assert_eq!(process.invocations.len(), 2);
+    assert_eq!(
+        process.invocations[0].program,
+        super::GITHUB_OPERATIONAL_ADAPTER
+    );
+    assert_eq!(
+        process.invocations[1].program,
+        super::GITHUB_READ_ONLY_ADAPTER
+    );
+    assert_eq!(
+        result.receipt.response_digest,
+        Some(super::stable_digest(&["{}"]))
+    );
+    assert_eq!(result.reconciliation.remote_object_id, Some(991));
+    assert!(!result.receipt.idempotent_replay);
+    assert!(
+        super::github_mutation_receipt_path(&root, &operation_digest)
+            .expect("receipt path")
+            .exists()
+    );
+}
+
+#[test]
+fn restart_reconciles_pr_create_without_replaying_mutation() {
+    let root = mutation_repo("pr-create", REVISION, true);
+    let request = mutation_request(super::GithubMutation::PullRequestCreate {
+        base: "main".into(),
+        head: "codex/505".into(),
+        title: "Issue 505".into(),
+        body: "Closes #505".into(),
+        draft: false,
+    });
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let intent_path =
+        super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
+    let mut first = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+    let finding = super::execute_github_mutation(&root, &request, &mut first)
+        .expect_err("unavailable readback leaves durable uncertain intent");
+    assert_eq!(finding.code, "github_mutation_reconciliation_pending");
+    assert!(intent_path.exists());
+    assert!(
+        !super::github_mutation_receipt_path(&root, &operation_digest)
+            .expect("receipt path")
+            .exists()
+    );
+
+    let mut restart = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        serde_json::json!([{
+            "number": 591,
+            "head": {"sha": REVISION, "ref": "codex/505"},
+            "base": {"ref": "main"},
+            "title": "Issue 505",
+            "body": format!("Closes #505\n\n{marker}"),
+            "draft": false
+        }]),
+    )]);
+    let result = super::execute_github_mutation(&root, &request, &mut restart)
+        .expect("restart reconciles exact PR without mutation replay");
+    assert_eq!(restart.invocations.len(), 1);
+    assert_eq!(
+        restart.invocations[0].program,
+        super::GITHUB_READ_ONLY_ADAPTER
+    );
+    assert_eq!(result.receipt.pull_request, Some(591));
+    assert!(result.receipt.idempotent_replay);
+    assert_eq!(result.receipt.response_digest, None);
+}
+
+#[test]
+fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
+    let issue_edit = mutation_request(super::GithubMutation::IssueEdit {
+        title: Some("updated issue".into()),
+        body: Some("updated body".into()),
+    });
+    let issue_digest = super::github_mutation_operation_digest(&issue_edit);
+    let issue_marker = super::github_mutation_operation_marker(&issue_digest);
+    assert_eq!(
+        super::match_reconciled_mutation(
+            &issue_edit,
+            &issue_marker,
+            &serde_json::json!({
+                "number": 505,
+                "title": "updated issue",
+                "body": format!("updated body\n\n{issue_marker}")
+            })
+        ),
+        Ok((None, None))
+    );
+
+    let mut update = mutation_request(super::GithubMutation::PullRequestUpdate {
+        title: Some("updated PR".into()),
+        body: None,
+    });
+    update.pull_request = Some(591);
+    let update_digest = super::github_mutation_operation_digest(&update);
+    let update_marker = super::github_mutation_operation_marker(&update_digest);
+    assert_eq!(
+        super::match_reconciled_mutation(
+            &update,
+            &update_marker,
+            &serde_json::json!({
+                "number": 591,
+                "head": {"sha": REVISION},
+                "title": "updated PR",
+                "body": "unchanged",
+                "draft": true
+            })
+        ),
+        Ok((Some(591), Some(591)))
+    );
+
+    update.mutation = super::GithubMutation::PullRequestReady;
+    assert_eq!(
+        super::match_reconciled_mutation(
+            &update,
+            &super::github_mutation_operation_marker(&super::github_mutation_operation_digest(
+                &update
+            )),
+            &serde_json::json!({
+                "number": 591,
+                "head": {"sha": REVISION},
+                "draft": false
+            })
+        ),
+        Ok((Some(591), Some(591)))
+    );
+}
+
+#[test]
+fn operational_dispatcher_fails_pre_cutover_and_serializes_review_result() {
+    let blocked_root = mutation_repo("dispatcher-blocked", REVISION, false);
+    let route_request = super::RemoteRouteRequest {
+        repository: "agent-logic/agent-design-language".into(),
+        issue: 505,
+        pull_request: Some(591),
+        actor: Some("worker-8".into()),
+        implementer: Some("worker-8".into()),
+        reviewer: Some("independent-reviewer".into()),
+        review_revision: Some(REVISION.into()),
+        expected_head_sha: Some(REVISION.into()),
+        head_sha: Some(REVISION.into()),
+        mode: Some(super::RemotePublicationMode::Closing),
+        title: Some("Issue 505".into()),
+        body: Some("Closes #505".into()),
+        review_present: true,
+        typed_review_receipt_path: None,
+        typed_review_receipt_digest: None,
+        readback_source: None,
+        readback_receipt_path: None,
+        readback_receipt_digest: None,
+        adapter_receipt_path: None,
+        adapter_receipt_digest: None,
+        closes_issue: Some(505),
+        closing_issues: vec![505],
+        part_of_issue: None,
+        credential_names: vec!["GITHUB_TOKEN".into()],
+    };
+    let blocked = super::OperationalRemoteDispatchRequest {
+        expected_lifecycle_digest: super::canonical_authority_selector_digest(&blocked_root)
+            .expect("selector digest"),
+        exact_review_sha: REVISION.into(),
+        operation: super::OperationalRemoteOperation::Review(route_request.clone()),
+    };
+    let mut no_process = SequencedProcessAdapter::new(vec![]);
+    assert_eq!(
+        super::dispatch_operational_remote(&blocked_root, &blocked, &mut no_process)
+            .expect_err("v2 selector fails closed")
+            .code,
+        "canonical_v3_authority_inactive"
+    );
+
+    let active_root = mutation_repo("dispatcher-active", REVISION, true);
+    let dispatch = super::OperationalRemoteDispatchRequest {
+        expected_lifecycle_digest: super::canonical_authority_selector_digest(&active_root)
+            .expect("selector digest"),
+        exact_review_sha: REVISION.into(),
+        operation: super::OperationalRemoteOperation::Review(route_request),
+    };
+    let result = super::dispatch_operational_remote(&active_root, &dispatch, &mut no_process)
+        .expect("active canonical selector dispatches review");
+    let value = serde_json::to_value(result).expect("typed dispatcher result serializes");
+    assert_eq!(value["schema"], "csdlc.v3.operational_remote_dispatch.v1");
+    assert_eq!(value["authority"]["authority_issue"], 505);
+    assert_eq!(value["outcome"]["kind"], "review");
 }

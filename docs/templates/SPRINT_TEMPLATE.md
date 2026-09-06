@@ -32,7 +32,7 @@
 | 3 | {{work_item_3}} | {{issue_3}} | {{owner_3}} | {{status_3}} |
 
 ## Cadence Expectations
-- Use issue cards (`SIP -> STP -> SPP -> SRP -> SOR`) for each tracked item.
+- Use issue cards (`SIP -> STP -> SPP -> VPP -> SRP -> SOR`) for each tracked item.
 - Keep changes scoped per issue; use draft PRs until checks pass.
 - Run the smallest truthful validation for each touched surface.
 - Record whether the sprint runs `sequential`, `parallel`, or `hybrid`, and
