@@ -189,20 +189,10 @@ jobs:
         run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings
 
   csdlc_v3_standalone:
-    name: csdlc-v3-standalone-${{ matrix.platform }}
+    name: csdlc-v3-standalone
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.csdlc_v3_standalone_required == 'true'
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: linux
-            os: ubuntu-latest
-            validation: full
-          - platform: windows-fence
-            os: windows-latest
-            validation: compile
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -214,29 +204,25 @@ jobs:
         uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
         with:
           components: rustfmt, clippy
+          targets: x86_64-pc-windows-gnu
 
       - name: Prepare external Cargo build root
-        if: matrix.validation == 'full'
         run: |
           build_root="$RUNNER_TEMP/adl-csdlc-v3"
           mkdir -p "$build_root"
           echo "ADL_CARGO_BUILD_ROOT=$build_root" >> "$GITHUB_ENV"
 
       - name: C-SDLC v3 tests
-        if: matrix.validation == 'full'
         run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v3/Cargo.toml
 
       - name: C-SDLC v3 format
-        if: matrix.validation == 'full'
         run: bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check
 
       - name: C-SDLC v3 strict Clippy
-        if: matrix.validation == 'full'
         run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings
 
-      - name: C-SDLC v3 Windows mutation-fence compile
-        if: matrix.validation == 'compile'
-        run: cargo check --locked --manifest-path csdlc-v3/Cargo.toml --all-targets
+      - name: C-SDLC v3 Windows mutation-fence cross-check
+        run: cargo check --locked --manifest-path csdlc-v3/Cargo.toml --all-targets --target x86_64-pc-windows-gnu
 
   adl_v2_standalone:
     name: adl-v2-standalone
