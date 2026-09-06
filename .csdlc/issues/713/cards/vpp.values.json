@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Retain and restore complete agent-to-agent conversation history",
     "slug": "runtime-a2a-conversation-history",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -62,9 +62,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on identity, causal-chain, replay, authorization, or redaction mismatch; never manufacture missing transcript content.",
       "design_ref": ".csdlc/prepared/issues/713/design.md",
-      "design_digest": "adad7d9a926a1644bdc559143556f5d9645f6ef943c819a7b6505195dee72286",
+      "design_digest": "a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3",
       "diagram_ref": ".csdlc/prepared/issues/713/diagram.mmd",
-      "diagram_digest": "11880d2638e636d21fbe24fcd43d3be5705abd7e03f72faec42c72f62967f657"
+      "diagram_digest": "0130ada9fadf6f4b748d59a8040eb2c97ed4496fff77c960f7c709fed1808c64"
     }
   }
 }

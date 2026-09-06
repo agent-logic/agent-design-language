@@ -12,4 +12,3 @@ The path is symmetric for every admitted agent and remains governed by signed AC
 - Do not add Shepherd-specific behavior.
 - Do not expose secrets, hidden prompts, credentials, or provider-private data.
 - Preserve #707 delivery behavior and keep #713 changes independently reviewable.
-

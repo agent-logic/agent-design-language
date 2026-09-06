@@ -4,58 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fbac5e3d9c82ff699bfcf2f6d77accb3468354591a29d9b5578530c77e3d0c7e",
-  "phase": "published",
-  "generation": 7,
-  "digest": "86976e246586d8762a81d443b2434c3b3c8dbfdee9de65049f858dd5f1e313bb",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "c3fb1a9c4e4780596f6aabcd8f1640edfdee50d1b8c139f3dacc78733d821318",
   "branch": "codex/713-runtime-a2a-conversation-history",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-713-runtime-a2a-conversation-history",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_713_a2a_history_r1",
-    "assigned_by": "codex:worker-7-r3",
-    "revision": "git-blake3:577a2f10a6c44195907b352487f47d4939a37b32:27dc98640f4514326175200321e191b5e5031bdb02f78dc071f391ee06d9fdb1",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_history.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/conversation_history.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      "adl/tools/test_issue713_a2a_history.sh",
-      ".csdlc/evidence/713"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_713_a2a_history_r1",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_history.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/conversation_history.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      "adl/tools/test_issue713_a2a_history.sh",
-      ".csdlc/evidence/713"
-    ],
-    "reviewed_revision": "git-blake3:577a2f10a6c44195907b352487f47d4939a37b32:27dc98640f4514326175200321e191b5e5031bdb02f78dc071f391ee06d9fdb1",
-    "findings": [],
-    "residual_risks": [
-      "Live Wuji Runtime/ACIP proof remains deferred unless explicitly operator-authorized with ADL_LIVE_WUJI_A2A_HISTORY=1."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 713,
-    "pull_request": 714,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/714",
-    "base": "main",
-    "head": "codex/713-runtime-a2a-conversation-history",
-    "revision": "git-blake3:8e4864b9b02fda7b28dd82e1f085b5160375e263:20f782ec45ba1321ca6234d90f17842da705e6d6cbe42efdfd036a5fdb9c2ec2",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/713/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:direct-a2a-history-contract",
-      "revision": "adad7d9a926a1644bdc559143556f5d9645f6ef943c819a7b6505195dee72286"
+      "reviewer": "fresh-session:99aef44c-2b7c-4a82-afde-330ba1abc844",
+      "revision": "a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "7e056afb217384178ae1d498881a71ea6105122e01d73b38be5bfd9a5e9fc175",
+      "values_digest": "ec2cd137ae15f341b3e0b80777fc3f7110dc539d2ec2d5e6e9bd3ca9021b0f84",
       "rendered_digest": "679f30a3e786c007ad215683ad418ef2782d80456d9ed9377d70cde514f118dc",
       "ast_digest": "9928e55f88db6775a83e9df2b049a848bba9dd887f2f8f42bb55d048025610db"
     },
     "stp": {
-      "values_digest": "f285a75f95d9f77f0ef48b3e769be14cc7c3baae735fd2daccdd72380fb49750",
+      "values_digest": "62f8efc72d543c3f23796505752aea8e24e6ccc4f38b1eecd440fa5d5fd61a9a",
       "rendered_digest": "475d8d27500333c9b06fae09931124de38a201f49483e5d0c72ef37299684d08",
       "ast_digest": "a1b65c29ad56329c8ef4d8d23bf09fee04cc5e336823ec4ec69049c7910c69f1"
     },
     "spp": {
-      "values_digest": "e19724ab87f9ed3a5a1b3b13700e9e30210fc5ec72fda179652339433953920c",
-      "rendered_digest": "eb468d0ae0cc6a93a1b7aa67db9a0dab0d3993e9f20c564968e85e99550e3f61",
-      "ast_digest": "5564d62be7c259e9a4cd00580ceea2d1789712249b3c227affaf19ad342e6488"
+      "values_digest": "f51f03feefbbf7253e0f588f3342c033a856e94044cd50a0f25da06983c5c10c",
+      "rendered_digest": "bca9c2267eb81b40d2f3ee747578d6ae91cd11096e14a253da0b4f99819eb64b",
+      "ast_digest": "337a417c962c683c7394a55b432f54239ee4898fc6470d41760c9a76e84b2b90"
     },
     "vpp": {
-      "values_digest": "8abbb48adb88a4019d426251fe0df6713ddedf6c35871f49557032ee5d16e100",
+      "values_digest": "0f3b56953189d2833ccd1827bef8a7260b4d79dab69eda530028193719d6e0cf",
       "rendered_digest": "ddf64b34b52855c0884a9d0b9c4e69e35d248e859293367354235c61ebdd2ade",
       "ast_digest": "9229df9af5aa5af7ac52ed14ba0d20f780ebda4e094c151f8732141f3efc3a7a"
     },
     "srp": {
-      "values_digest": "b4f70a46463d56adf53cdecca591d055ea99a3dd832e3de25a86890438c1ca66",
-      "rendered_digest": "f3214e300e08aa8e0527b9cdce00b7164a4866ee7d1938f0231ef8d03db5ddf7",
-      "ast_digest": "4b5408065d963dd7ea32ba334d490045ad58d06a9d7bfe504fc9d4ecb8b39d20"
+      "values_digest": "3491e3536a71b130201c21ff99efd45b11ca51ab16aec31d50fae82bd8e9fec9",
+      "rendered_digest": "36a4dd72c72ea74abda3748383894c77ec4df299900c8d9397820f30ba5d16ce",
+      "ast_digest": "6fd12a0daf18c99001eeed39db4d9421d074f17347d3f490a1dfd8a91afb47a3"
     },
     "sor": {
-      "values_digest": "886bf09913a78afe2a405060888d604f0cf060e81a324f5c0cdfc64814c5c1e0",
-      "rendered_digest": "54cbcbe0a5d7b093b9cfcaad702904c9b303ff96ba0f095b474b10191e81f418",
-      "ast_digest": "cae44ab83e1a120d4fce16bae16a43dc36bc961c82628cef7f9f96e92d52b8cf"
+      "values_digest": "4b3082c2fd5da4e2f914e644c55c174e049aa2a32d67148cab47d2fce9ce3234",
+      "rendered_digest": "bdc9a8eecf2ce55d8b9ee5eefd98c91cb588388fe9843304a0e1c6b13b56b6d0",
+      "ast_digest": "20aaa7563dda32837952fdf40b227e56f8432e2419ba1b8840dbb506348eb81a"
     }
   },
   "transitions": [
@@ -148,6 +104,13 @@
       "to": "published",
       "actor": "codex:worker-7",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-7",
+      "reason": "Recover #713 from published to implemented so a post-publication prepared-artifact whitespace hygiene correction can refresh authored design/diagram digests through typed lifecycle authority before re-review and republication."
     }
   ],
   "audit": [
@@ -234,6 +197,27 @@
       "actor": "codex:worker-7",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-7",
+      "reason": "Recover #713 from published to implemented so a post-publication prepared-artifact whitespace hygiene correction can refresh authored design/diagram digests through typed lifecycle authority before re-review and republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:worker-7",
+      "reason": "Refresh #713 authored design and diagram digests after removing trailing blank lines from prepared artifacts during post-publication review recovery.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/713/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/713/diagram.mmd\",\"new_design_digest\":\"a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3\",\"new_diagram_digest\":\"0130ada9fadf6f4b748d59a8040eb2c97ed4496fff77c960f7c709fed1808c64\",\"old_design_digest\":\"adad7d9a926a1644bdc559143556f5d9645f6ef943c819a7b6505195dee72286\",\"old_diagram_digest\":\"11880d2638e636d21fbe24fcd43d3be5705abd7e03f72faec42c72f62967f657\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"operator:direct-a2a-history-contract\",\"revision\":\"adad7d9a926a1644bdc559143556f5d9645f6ef943c819a7b6505195dee72286\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":8,\"recovery_sequence\":13}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "fresh-session:99aef44c-2b7c-4a82-afde-330ba1abc844",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3\",\"design_ref\":\".csdlc/prepared/issues/713/design.md\",\"diagram_digest\":\"0130ada9fadf6f4b748d59a8040eb2c97ed4496fff77c960f7c709fed1808c64\",\"diagram_ref\":\".csdlc/prepared/issues/713/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
