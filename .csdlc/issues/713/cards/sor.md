@@ -59,7 +59,7 @@ Implemented durable verbatim causal agent-to-agent conversation history for Runt
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

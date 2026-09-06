@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Retain and restore complete agent-to-agent conversation history",
     "slug": "runtime-a2a-conversation-history",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/conversation_history.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/conversation_history.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/conversation_sessions.test.mjs\ndemos/html-observatory/tests/security_privacy_adversarial.test.mjs\nadl/tools/test_issue713_a2a_history.sh\n.csdlc/evidence/713",
-      "review_revision": "git-blake3:631a1c13b6b6ed296f40ef46b5a31fe9e615444e:113a664132401435831f259f8226ea7da837eefc42f8be8463e558c4dcceb684",
-      "reviewer": "subagent:/root/review_713_a2a_history_r1",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can both halves be reconstructed from Runtime-authoritative evidence?",
         "Is the path identical for all agents?",
@@ -23,10 +23,8 @@
         "Does the API redact private provider and prompt data?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live Wuji Runtime/ACIP proof remains deferred unless explicitly operator-authorized with ADL_LIVE_WUJI_A2A_HISTORY=1."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
