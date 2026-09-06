@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 81
+    "generation": 82
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "exact PR #591 head ce92cdfbc3897cb6ad049275a5888fad999ac745\ncsdlc-v2/src/soak.rs canonical v3 authority contract\ncsdlc-v2/src/operator.rs origin/main activation boundary\ncsdlc-v2/tests/gate10a.rs pre-merge v2 resolution\ncsdlc-v3/src/authority.rs canonical v3 authority contract\ncsdlc-v3/tests/local_commands.rs process-isolated authority fixtures\nlive PR #591 body closing linkage and merge-as-cutover wording",
+      "review_revision": "git-blake3:ce92cdfbc3897cb6ad049275a5888fad999ac745:f85012e9b002d5b8ea6182d95c2c1c0316ad9b9f4c9b952525e846a337f1cbed",
+      "reviewer": "collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e",
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

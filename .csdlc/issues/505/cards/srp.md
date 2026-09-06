@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+exact PR #591 head ce92cdfbc3897cb6ad049275a5888fad999ac745
+csdlc-v2/src/soak.rs canonical v3 authority contract
+csdlc-v2/src/operator.rs origin/main activation boundary
+csdlc-v2/tests/gate10a.rs pre-merge v2 resolution
+csdlc-v3/src/authority.rs canonical v3 authority contract
+csdlc-v3/tests/local_commands.rs process-isolated authority fixtures
+live PR #591 body closing linkage and merge-as-cutover wording
 
 ## Prompts
 
@@ -35,8 +41,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ce92cdfbc3897cb6ad049275a5888fad999ac745:f85012e9b002d5b8ea6182d95c2c1c0316ad9b9f4c9b952525e846a337f1cbed")
 
-Reviewer: None
+Reviewer: Some("collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e")
 
-Result: pre_review
+Result: pass
