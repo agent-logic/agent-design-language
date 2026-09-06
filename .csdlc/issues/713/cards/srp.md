@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-A2A transcript persistence, causal correlation, API recovery, Observatory attribution, and bounded proof only.
+adl-runtime-kernel/src/conversation_history.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/tests/conversation_history.rs
+demos/html-observatory/app.js
+demos/html-observatory/tests/conversation_sessions.test.mjs
+demos/html-observatory/tests/security_privacy_adversarial.test.mjs
+adl/tools/test_issue713_a2a_history.sh
+.csdlc/evidence/713
 
 ## Prompts
 

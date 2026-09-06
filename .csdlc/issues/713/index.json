@@ -6,10 +6,24 @@
   "initialization_digest": "fbac5e3d9c82ff699bfcf2f6d77accb3468354591a29d9b5578530c77e3d0c7e",
   "phase": "implemented",
   "generation": 3,
-  "digest": "6a307acaa2ef3a0adc1444a0dd6554227d9fcec1d4ca467cb9007e40b0673d19",
+  "digest": "ae39be53be9235a26a530330bca08a5e77d634ff06ff14fd4952c5ff84b6507f",
   "branch": "codex/713-runtime-a2a-conversation-history",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-713-runtime-a2a-conversation-history",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_713_a2a_history_r1",
+    "assigned_by": "codex:worker-7",
+    "revision": "git-blake3:08962230aaddc3b057db9138b29be2ee9e41fc64:2f18aeede4203087b9d116723294a54f57e24a957d38ffae54eb9b7f61e3b2f0",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_history.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/conversation_history.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      "adl/tools/test_issue713_a2a_history.sh",
+      ".csdlc/evidence/713"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "9229df9af5aa5af7ac52ed14ba0d20f780ebda4e094c151f8732141f3efc3a7a"
     },
     "srp": {
-      "values_digest": "a1509813670eada13daea9e519ec1c1525f9569cf237c41f5e65ce037a9761fe",
-      "rendered_digest": "b36777ad558d3759ab8ef6d5b277a2eb877145d4698e160fa6edabe4d196ad7f",
-      "ast_digest": "63c096e622d4862adc9ff415a8e83c99eddf63f8df986e96dfe5027c100700b6"
+      "values_digest": "021968ca07f69c112037fcac245ba8d03eefd0c56ef21a4937f297af10f88882",
+      "rendered_digest": "9484bf8e4834a7e4d8218fc724b6c021334e671dcefd51cb062aa1b2ea67f394",
+      "ast_digest": "d7d4a8575fa1731a92974206bb0921108bc8378af94c61f3b74272155de50191"
     },
     "sor": {
       "values_digest": "afbf80e489731602a9e77456a8146a3a842d61c7112f360cc38801bfb10c40ca",
@@ -113,6 +127,13 @@
       "actor": "codex:worker-7",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
