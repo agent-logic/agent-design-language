@@ -1580,8 +1580,23 @@ mod tests {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("target/proof-selector-unit")
             .join(std::process::id().to_string());
+        if root.exists() {
+            fs::remove_dir_all(&root).unwrap();
+        }
         fs::create_dir_all(root.join("csdlc-v2/operator")).unwrap();
         fs::create_dir_all(root.join(".csdlc")).unwrap();
+        let git = |args: &[&str]| {
+            let output = std::process::Command::new("git")
+                .arg("-C")
+                .arg(&root)
+                .args(args)
+                .output()
+                .unwrap();
+            assert!(output.status.success(), "git {args:?}: {output:?}");
+        };
+        git(&["init", "-q"]);
+        git(&["config", "user.email", "csdlc-v3@example.invalid"]);
+        git(&["config", "user.name", "C-SDLC v3 tests"]);
         fs::write(
             root.join(".csdlc/authority-selector.json"),
             br#"{"schema":"csdlc.authority_selector.v1","default_generation":"v3"}"#,
@@ -1608,18 +1623,25 @@ mod tests {
             cutover_approval_ref: None,
             cutover_approval_digest: None,
         };
-        assert!(active_canonical_v3_selector(&root, &install).is_err());
+        git(&["add", "csdlc-v2/operator/generation-selector.json"]);
+        git(&["commit", "-q", "-m", "v2 selector"]);
+        git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
+        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
         fs::write(
             root.join("csdlc-v2/operator/generation-selector.json"),
             br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v3","opted_in_issues":[]}"#,
         )
         .unwrap();
-        assert!(active_canonical_v3_selector(&root, &install).is_err());
+        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
         fs::write(
             root.join("csdlc-v2/operator/generation-selector.json"),
-            br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"exact_review_sha":"0123456789012345678901234567890123456789","readiness_evidence_digest":"readiness","approval_evidence_digest":"approval"}"#,
+            br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-v2-exact-head","approval_authority":"merged-pr-591-closed-issue-505"}"#,
         )
         .unwrap();
+        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
+        git(&["add", "csdlc-v2/operator/generation-selector.json"]);
+        git(&["commit", "-q", "-m", "v3 selector"]);
+        git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
         assert!(active_canonical_v3_selector(&root, &install).unwrap());
         fs::remove_dir_all(root).unwrap();
     }

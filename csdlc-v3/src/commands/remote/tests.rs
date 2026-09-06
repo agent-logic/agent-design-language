@@ -827,7 +827,19 @@ fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
     if root.exists() {
         fs::remove_dir_all(&root).expect("remove stale mutation fixture");
     }
-    fs::create_dir_all(root.join(".git")).expect("git control fixture");
+    let git = |args: &[&str]| {
+        let output = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&root)
+            .args(args)
+            .output()
+            .expect("run fixture git");
+        assert!(output.status.success(), "git {args:?}: {output:?}");
+    };
+    fs::create_dir_all(&root).expect("mutation fixture root");
+    git(&["init", "-q"]);
+    git(&["config", "user.email", "csdlc-v3@example.invalid"]);
+    git(&["config", "user.name", "C-SDLC v3 tests"]);
     let selector_path = root.join(super::CANONICAL_AUTHORITY_SELECTOR_PATH);
     fs::create_dir_all(selector_path.parent().expect("selector parent")).expect("selector parent");
     let selector = if active {
@@ -836,9 +848,9 @@ fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
             "default_generation": "v3",
             "operational_authority": "csdlc-v3",
             "authority_issue": 505,
-            "exact_review_sha": exact_review_sha,
-            "readiness_evidence_digest": "readiness-digest",
-            "approval_evidence_digest": "approval-digest"
+            "authority_pull_request": 591,
+            "review_authority": "typed-v2-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505"
         })
     } else {
         serde_json::json!({
@@ -852,6 +864,12 @@ fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
         serde_json::to_vec_pretty(&selector).expect("selector JSON"),
     )
     .expect("write selector");
+    git(&["add", super::CANONICAL_AUTHORITY_SELECTOR_PATH]);
+    git(&["commit", "-q", "-m", "fixture selector"]);
+    if active {
+        git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
+    }
+    let _ = exact_review_sha;
     root
 }
 
