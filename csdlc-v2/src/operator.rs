@@ -649,6 +649,19 @@ pub fn resolve_operator_generation(
     let selector_bytes = fs::read(selector_path).map_err(io_error)?;
     let mut selector: GenerationSelector = serde_json::from_slice(&selector_bytes)?;
     if selector.default_generation == Generation::V3 {
+        let value: serde_json::Value = serde_json::from_slice(&selector_bytes)?;
+        let contract_valid = value["schema"] == "csdlc.generation_selector.v2"
+            && value["operational_authority"] == "csdlc-v3"
+            && value["authority_issue"] == 505
+            && value["authority_pull_request"] == 591
+            && value["review_authority"] == "typed-v2-exact-head"
+            && value["approval_authority"] == "merged-pr-591-closed-issue-505";
+        if !contract_valid {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                "v3 generation selector does not satisfy the canonical #505/#591 authority contract",
+            ));
+        }
         let remote = std::process::Command::new("git")
             .arg("-C")
             .arg(repo)
@@ -1092,21 +1105,33 @@ mod tests {
             &["update-ref", "refs/remotes/origin/main", &v2_head],
         );
 
+        let canonical_v3 = br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-v2-exact-head","approval_authority":"merged-pr-591-closed-issue-505","opted_in_issues":[]}"#;
+        fs::write(&path, canonical_v3).unwrap();
+        assert_eq!(
+            resolve_operator_generation(repo.path(), 505, None).unwrap(),
+            Generation::V2
+        );
         fs::write(
             &path,
             br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","opted_in_issues":[]}"#,
         )
         .unwrap();
-        assert_eq!(
-            resolve_operator_generation(repo.path(), 505, None).unwrap(),
-            Generation::V2
-        );
         git(repo.path(), &["add", "."]);
-        git(repo.path(), &["commit", "-m", "v3 selector"]);
-        let v3_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
+        git(repo.path(), &["commit", "-m", "malformed v3 selector"]);
+        let malformed_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
         git(
             repo.path(),
-            &["update-ref", "refs/remotes/origin/main", &v3_head],
+            &["update-ref", "refs/remotes/origin/main", &malformed_head],
+        );
+        assert!(resolve_operator_generation(repo.path(), 505, None).is_err());
+
+        fs::write(&path, canonical_v3).unwrap();
+        git(repo.path(), &["add", "."]);
+        git(repo.path(), &["commit", "-m", "canonical v3 selector"]);
+        let canonical_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
+        git(
+            repo.path(),
+            &["update-ref", "refs/remotes/origin/main", &canonical_head],
         );
         assert_eq!(
             resolve_operator_generation(repo.path(), 505, None).unwrap(),
