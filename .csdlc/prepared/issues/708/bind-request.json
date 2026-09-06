@@ -1,0 +1,7 @@
+{
+  "issue": 708,
+  "base_branch": "codex/708-bootstrap-base-r3",
+  "branch": "codex/708-runtime-agent-orientation-resource",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
+  "code_repository": "agent-logic/agent-design-language"
+}

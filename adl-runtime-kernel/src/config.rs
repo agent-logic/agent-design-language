@@ -8,8 +8,8 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 use crate::{
-    candidate_digest, BirthWitnessAttestation, BirthWitnessError, BirthWitnessPacket,
-    BirthWitnessRole, BirthdayCandidate, BirthdayDecision, ComponentId,
+    candidate_digest, AgentOrientationConfig, BirthWitnessAttestation, BirthWitnessError,
+    BirthWitnessPacket, BirthWitnessRole, BirthdayCandidate, BirthdayDecision, ComponentId,
     RuntimeBirthWitnessAuthority, RuntimeBirthWitnessService, VerifiedBirthWitnessBinding,
 };
 
@@ -383,6 +383,8 @@ pub struct RuntimeInitConfig {
     pub observability_pipeline: RuntimeObservabilityInitConfig,
     #[serde(default)]
     pub agent_partial_checkpoints: AgentPartialCheckpointInitConfig,
+    #[serde(default)]
+    pub agent_orientation: AgentOrientationConfig,
     pub weather: WeatherConfig,
 }
 
@@ -608,6 +610,9 @@ impl RuntimeInitConfig {
         }
         self.observability_pipeline.validate()?;
         self.agent_partial_checkpoints.validate()?;
+        self.agent_orientation
+            .validate()
+            .map_err(|error| RuntimeInitError::Policy(error.to_string()))?;
         self.weather
             .validate()
             .map_err(|error| RuntimeInitError::Weather(error.to_string()))?;
