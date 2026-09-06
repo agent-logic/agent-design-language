@@ -7437,6 +7437,59 @@ mod layer8_conversation_ingress_tests {
     }
 
     #[tokio::test]
+    async fn agent_to_agent_rejects_tampered_carrier_context() {
+        use prost::Message as _;
+
+        let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
+            agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
+                .await;
+        let intent = agent_pair_initiation_intent(
+            "beacon",
+            "ember",
+            "turn-tamper",
+            "55555555555555555555555555555555",
+            "a2a-work-tamper",
+        );
+        let original = service
+            .runtime_delegate_agent_intent(intent.clone(), "parent-correlation", 1)
+            .unwrap();
+        for field in [
+            "route",
+            "capability",
+            "trace",
+            "replay",
+            "sequence",
+            "payload",
+        ] {
+            let mut envelope = decode_acip_envelope(&original.carrier).unwrap();
+            match field {
+                "route" => envelope.route = "shepherd".to_owned(),
+                "capability" => envelope.capability = "other".to_owned(),
+                "trace" => envelope.trace_id = "other".to_owned(),
+                "replay" => envelope.replay_id = "other".to_owned(),
+                "sequence" => envelope.monotonic_sequence = 2,
+                "payload" => {
+                    let mut payload: RuntimeDelegatedAgentPayload =
+                        serde_json::from_str(&envelope.payload_json).unwrap();
+                    payload.delegation.causation_id = "other".to_owned();
+                    envelope.payload_json = serde_jcs::to_string(&payload).unwrap();
+                }
+                _ => unreachable!(),
+            }
+            let tampered = RuntimeAgentInitiation {
+                intent: intent.clone(),
+                carrier: envelope.encode_to_vec(),
+            };
+            let refused = match service.accept_runtime_delegated_agent_initiation(&tampered) {
+                ConversationAcceptance::Response(response) => response,
+                ConversationAcceptance::Dispatch { .. } => panic!("tampered {field} dispatched"),
+            };
+            assert_eq!(refused.status, "refused", "{field}: {refused:?}");
+        }
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
     async fn agent_to_agent_runtime_internal_initiation_accepts_every_resident_sender() {
         let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
