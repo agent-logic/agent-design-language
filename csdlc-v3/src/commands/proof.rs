@@ -612,6 +612,12 @@ fn execute_shadow(
             "normalized outputs from executed v2 and v3 commands must match",
         ));
     }
+    if v2.exit_code != Some(0) || v3.exit_code != Some(0) {
+        return Err(finding(
+            "shadow_command_not_successful",
+            "matching diagnostic output from non-successful commands cannot establish ready parity",
+        ));
+    }
     let base = format!(".csdlc/evidence/{}/v3-shadow", request.issue);
     let request_ref = format!("{base}/request.json");
     let v2_ref = format!("{base}/v2.execution.json");
@@ -1000,7 +1006,41 @@ fn resolve_repo_path(
             "shadow command input must exist as a repository file",
         ));
     }
-    Ok(path)
+    let canonical_root = root.canonicalize().map_err(|_| {
+        finding(
+            "shadow_repository_root_unavailable",
+            "shadow repository root must be an existing canonical directory",
+        )
+    })?;
+    let containment_target = if path.exists() {
+        path.canonicalize()
+    } else {
+        path.parent()
+            .ok_or_else(|| {
+                finding(
+                    "shadow_path_parent_unavailable",
+                    "shadow path must have a repository-contained parent",
+                )
+            })?
+            .canonicalize()
+    }
+    .map_err(|_| {
+        finding(
+            "shadow_path_unavailable",
+            "shadow path or its nearest parent must be canonically resolvable",
+        )
+    })?;
+    if !containment_target.starts_with(&canonical_root) {
+        return Err(finding(
+            "shadow_path_escapes_repository",
+            "shadow paths must not escape the repository through symlinks",
+        ));
+    }
+    Ok(if path.exists() {
+        containment_target
+    } else {
+        path
+    })
 }
 
 fn digest_path(path: &Path) -> Result<Option<String>, ProofRouteFinding> {
@@ -1186,9 +1226,9 @@ fn authorize_install_execution(
 
 fn active_canonical_v3_selector(
     root: &Path,
-    install: &InstallPlanInput,
+    _install: &InstallPlanInput,
 ) -> Result<bool, ProofRouteFinding> {
-    let Ok(bytes) = fs::read(root.join(".csdlc/authority-selector.json")) else {
+    let Ok(bytes) = fs::read(root.join("csdlc-v2/operator/generation-selector.json")) else {
         return Ok(false);
     };
     let selector: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
@@ -1197,19 +1237,13 @@ fn active_canonical_v3_selector(
             "canonical v3 authority selector must be typed valid JSON",
         )
     })?;
-    if selector["schema"] != "csdlc.authority_selector.v1"
-        || selector["authority_issue"] != 505
-        || selector["default_generation"] != "v3"
-        || selector["operational_authority"] != "csdlc-v3"
-        || selector["binary"] != ".adl/bin/csdlc"
-        || selector["selected_binary_digest"] != install.selected_binary_digest
-    {
+    if selector["schema"] != "csdlc.generation_selector.v1" {
         return Err(finding(
             "install_canonical_selector_mismatch",
-            "canonical selector does not grant v3 authority for the selected binary digest",
+            "canonical selector must use the live csdlc.generation_selector.v1 schema",
         ));
     }
-    Ok(true)
+    Ok(selector["default_generation"] == "v3")
 }
 
 fn request_root(request: &ProofRouteRequest) -> Result<PathBuf, ProofRouteFinding> {
@@ -1410,6 +1444,7 @@ fn finding(code: &'static str, message: &'static str) -> ProofRouteFinding {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::os::unix::fs::symlink;
 
     #[test]
     fn native_install_copies_verifies_and_records_provenance() {
@@ -1476,5 +1511,75 @@ mod tests {
         assert_eq!(receipt["verified"], true);
         assert_eq!(receipt["source_provenance"], "git:test");
         fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn active_install_authority_uses_only_the_canonical_generation_selector() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/proof-selector-unit")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(root.join("csdlc-v2/operator")).unwrap();
+        fs::create_dir_all(root.join(".csdlc")).unwrap();
+        fs::write(
+            root.join(".csdlc/authority-selector.json"),
+            br#"{"schema":"csdlc.authority_selector.v1","default_generation":"v3"}"#,
+        )
+        .unwrap();
+        fs::write(
+            root.join("csdlc-v2/operator/generation-selector.json"),
+            br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[]}"#,
+        )
+        .unwrap();
+        let install = InstallPlanInput {
+            artifact_name: "csdlc".into(),
+            artifact_ref: "artifact".into(),
+            source_provenance_ref: "provenance".into(),
+            selector_metadata_ref: "selector".into(),
+            source_provenance: "git:test".into(),
+            selected_binary_digest: "binary".into(),
+            observed_binary_digest: "binary".into(),
+            selector_metadata_digest: "selector".into(),
+            destination: ".adl/bin/csdlc".into(),
+            stable_destination: true,
+            executes_install: true,
+            exact_head: "0123456789012345678901234567890123456789".into(),
+            cutover_approval_ref: None,
+            cutover_approval_digest: None,
+        };
+        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
+        fs::write(
+            root.join("csdlc-v2/operator/generation-selector.json"),
+            br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v3","opted_in_issues":[]}"#,
+        )
+        .unwrap();
+        assert!(active_canonical_v3_selector(&root, &install).unwrap());
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn shadow_paths_reject_symlink_escapes_for_existing_and_future_targets() {
+        let base = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/proof-path-unit")
+            .join(std::process::id().to_string());
+        let root = base.join("root");
+        let outside = base.join("outside");
+        fs::create_dir_all(&root).unwrap();
+        fs::create_dir_all(&outside).unwrap();
+        fs::write(outside.join("command"), b"outside").unwrap();
+        symlink(&outside, root.join("escape")).unwrap();
+
+        assert_eq!(
+            resolve_repo_path(&root, "escape/command", true)
+                .unwrap_err()
+                .code,
+            "shadow_path_escapes_repository"
+        );
+        assert_eq!(
+            resolve_repo_path(&root, "escape/future", false)
+                .unwrap_err()
+                .code,
+            "shadow_path_escapes_repository"
+        );
+        fs::remove_dir_all(base).unwrap();
     }
 }
