@@ -32,8 +32,9 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::layer8_authority::{
-    AuthorityDecision, Layer8Action, Layer8ConversationAuthority, Layer8SignedExchange,
-    RefusalReason, SignedIdentityMessage,
+    verify_signed_identity_message, AuthorityDecision, CommunicationVerifyingIdentity,
+    IdentityMessageKind, Layer8Action, Layer8ConversationAuthority, Layer8SignedExchange,
+    RefusalReason, SignedIdentityMessage, ACIP_IDENTITY_MESSAGE_SCHEMA,
 };
 
 use crate::ComponentId;
@@ -43,12 +44,13 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, encode_acip_envelope, is_canonical_agent_name, AgentArchiveRecovery,
-    AgentPartialCapture, AgentPartialCheckpointInitConfig, AgentPartialCheckpointStore,
-    AgentRosterEntry, AgentRosterQuery, CanonicalIngress, CheckpointManifest, DomainResult,
-    DomainWork, InferenceReadinessState, IngressError, KernelControl, KernelExit, LiveContinuity,
-    ObservabilityHealth, ResidentShepherdInitConfig, RuntimeEvent, RuntimeRecorder,
-    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    decode_acip_envelope, encode_acip_envelope_with_context, is_canonical_agent_name,
+    AgentArchiveRecovery, AgentPartialCapture, AgentPartialCheckpointInitConfig,
+    AgentPartialCheckpointStore, AgentRosterEntry, AgentRosterQuery, CanonicalIngress,
+    CheckpointManifest, DomainResult, DomainWork, InferenceReadinessState, IngressError,
+    KernelControl, KernelExit, LiveContinuity, ObservabilityHealth, ResidentShepherdInitConfig,
+    ResidentShepherdSetInitConfig, RuntimeEvent, RuntimeRecorder, RuntimeSnapshot,
+    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -848,6 +850,7 @@ pub struct ControlService<C> {
     agent_partial_store: RwLock<Option<Arc<AgentPartialCheckpointStore>>>,
     agent_archive_operation: tokio::sync::Mutex<()>,
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
+    resident_agent_bindings: RwLock<BTreeMap<String, AgentAdmissionRequest>>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
     dynamic_agent_admission: Mutex<()>,
     control_addr: Mutex<SocketAddr>,
@@ -959,6 +962,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             agent_partial_store: RwLock::new(None),
             agent_archive_operation: tokio::sync::Mutex::new(()),
             dynamic_agents: Mutex::new(Vec::new()),
+            resident_agent_bindings: RwLock::new(BTreeMap::new()),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
             dynamic_agent_admission: Mutex::new(()),
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
@@ -1129,6 +1133,39 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
         self.canonical_ingress = Some(ingress);
+        self
+    }
+
+    pub fn with_resident_agent_bindings(self, configs: &ResidentShepherdSetInitConfig) -> Self {
+        let bindings = configs
+            .iter()
+            .enumerate()
+            .map(|(index, config)| {
+                let id = if index == 0 {
+                    "shepherd".to_owned()
+                } else {
+                    format!("shepherd:{}", config.name)
+                };
+                (
+                    id.clone(),
+                    AgentAdmissionRequest {
+                        schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+                        id,
+                        name: config.name.clone(),
+                        display_name: config.display_name.clone(),
+                        office: config.office.clone(),
+                        role: String::new(),
+                        provider: config.provider.clone(),
+                        model: config.model.clone(),
+                        endpoint: config.endpoint.clone(),
+                    },
+                )
+            })
+            .collect();
+        *self
+            .resident_agent_bindings
+            .write()
+            .expect("resident agent bindings lock poisoned") = bindings;
         self
     }
 
@@ -1403,6 +1440,56 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.accept_agent_initiation_intent_inner(intent, true)
     }
 
+    fn verify_runtime_delegated_agent_sender(
+        &self,
+        intent: &ObservatoryAgentInitiationIntent,
+    ) -> Result<(), RefusalReason> {
+        let secret = *self
+            .agent_roster_token_key
+            .lock()
+            .map_err(|_| RefusalReason::IdentityUnavailable)?;
+        let signing_key = SigningKey::from_bytes(&secret);
+        let now = now_unix_millis() / 1_000;
+        let key_id = format!("runtime-a2a-{}", self.runtime_incarnation_id);
+        let payload_json =
+            serde_jcs::to_string(intent).map_err(|_| RefusalReason::InvalidRequest)?;
+        let mut signed = SignedIdentityMessage {
+            schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+            message_kind: IdentityMessageKind::Request,
+            message_id: intent.work_id.clone(),
+            sender_id: intent.sender_id.clone(),
+            recipient_id: intent.recipient_id.clone(),
+            polis_id: self.instance_id.clone(),
+            conversation_id: intent.conversation_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            causation_id: intent.work_id.clone(),
+            replay_id: intent.work_id.clone(),
+            monotonic_sequence: 1,
+            issued_at_epoch_secs: now,
+            expires_at_epoch_secs: now.saturating_add(60),
+            payload_json,
+            signing_key_id: key_id.clone(),
+            credential_generation: 1,
+            signature: String::new(),
+        };
+        signed.signature = hex::encode(signing_key.sign(&signed.signing_bytes()?).to_bytes());
+        verify_signed_identity_message(
+            &signed,
+            &CommunicationVerifyingIdentity {
+                principal_id: intent.sender_id.clone(),
+                polis_id: self.instance_id.clone(),
+                signing_key_id: key_id,
+                credential_generation: 1,
+                verifying_key: signing_key.verifying_key(),
+                revoked: false,
+                not_before_epoch_secs: now,
+                expires_at_epoch_secs: now.saturating_add(60),
+            },
+            &intent.recipient_id,
+            now,
+        )
+    }
+
     fn accept_agent_initiation_intent_inner(
         &self,
         intent: &ObservatoryAgentInitiationIntent,
@@ -1469,24 +1556,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 ));
             }
         }
-        if self.layer8_authority.is_none() {
-            return ConversationAcceptance::Response(outcome(
-                "failed",
-                "agent_initiation_authority_unavailable",
-            ));
-        }
-        let Some(exchange) = self.layer8_signed_exchange.as_ref() else {
-            return ConversationAcceptance::Response(outcome(
-                "failed",
-                "conversation_signing_unavailable",
-            ));
-        };
         if require_sender_signing_identity
-            && exchange.sender_verifying_identity().principal_id != intent.sender_id
+            && self.verify_runtime_delegated_agent_sender(intent).is_err()
         {
             return ConversationAcceptance::Response(outcome(
                 "refused",
-                "sender_identity_mismatch",
+                "conversation_request_signature_invalid",
             ));
         }
         let accepted = self.accept_conversation_intent_inner(&conversation_intent, Some(metadata));
@@ -1638,75 +1713,81 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             } else {
                 Layer8Action::Contact
             };
-            if let Some(authority) = self.layer8_authority.as_ref() {
-                let Some(exchange) = self.layer8_signed_exchange.as_ref() else {
-                    return ConversationAcceptance::Response(outcome(
-                        "failed",
-                        "conversation_signing_unavailable",
-                        None,
-                    ));
-                };
-                let now_epoch_secs = now_unix_millis() / 1_000;
-                let replay_id = format!(
-                    "{}:{}:{}",
-                    self.instance_id, intent.conversation_id, intent.turn_id
-                );
-                let payload_json = match serde_jcs::to_string(&serde_json::json!({
-                    "action": action.clone(),
-                    "message": intent.message,
-                    "recipient_id": intent.recipient_id,
-                })) {
-                    Ok(payload) => payload,
-                    Err(_) => {
-                        return ConversationAcceptance::Response(outcome(
-                            "refused",
-                            "invalid_conversation_intent",
-                            None,
-                        ));
-                    }
-                };
-                let signed_request = match exchange.signed_request(
-                    &intent.recipient_id,
-                    &intent.conversation_id,
-                    &intent.correlation_id,
-                    &replay_id,
-                    payload_json,
-                    now_epoch_secs,
-                ) {
-                    Ok(request) => request,
-                    Err(_) => {
+            // Runtime-originated A2A has already been roster-bound and signed
+            // by the Runtime's per-incarnation delegated authority above.
+            // External/operator conversation ingress retains the configured
+            // Layer-8 authority profile path.
+            if initiation.is_none() {
+                if let Some(authority) = self.layer8_authority.as_ref() {
+                    let Some(exchange) = self.layer8_signed_exchange.as_ref() else {
                         return ConversationAcceptance::Response(outcome(
                             "failed",
                             "conversation_signing_unavailable",
                             None,
                         ));
+                    };
+                    let now_epoch_secs = now_unix_millis() / 1_000;
+                    let replay_id = format!(
+                        "{}:{}:{}",
+                        self.instance_id, intent.conversation_id, intent.turn_id
+                    );
+                    let payload_json = match serde_jcs::to_string(&serde_json::json!({
+                        "action": action.clone(),
+                        "message": intent.message,
+                        "recipient_id": intent.recipient_id,
+                    })) {
+                        Ok(payload) => payload,
+                        Err(_) => {
+                            return ConversationAcceptance::Response(outcome(
+                                "refused",
+                                "invalid_conversation_intent",
+                                None,
+                            ));
+                        }
+                    };
+                    let signed_request = match exchange.signed_request(
+                        &intent.recipient_id,
+                        &intent.conversation_id,
+                        &intent.correlation_id,
+                        &replay_id,
+                        payload_json,
+                        now_epoch_secs,
+                    ) {
+                        Ok(request) => request,
+                        Err(_) => {
+                            return ConversationAcceptance::Response(outcome(
+                                "failed",
+                                "conversation_signing_unavailable",
+                                None,
+                            ));
+                        }
+                    };
+                    if exchange
+                        .verify_request(&signed_request, now_epoch_secs)
+                        .is_err()
+                    {
+                        return ConversationAcceptance::Response(outcome(
+                            "refused",
+                            "conversation_request_signature_invalid",
+                            None,
+                        ));
                     }
-                };
-                if exchange
-                    .verify_request(&signed_request, now_epoch_secs)
-                    .is_err()
-                {
-                    return ConversationAcceptance::Response(outcome(
-                        "refused",
-                        "conversation_request_signature_invalid",
-                        None,
-                    ));
-                }
-                let decision = authority.authorize(
-                    &exchange.sender_verifying_identity(),
-                    action,
-                    intent.conversation_id.clone(),
-                    intent.recipient_id.clone(),
-                    replay_id,
-                    intent.correlation_id.clone(),
-                    now_epoch_secs,
-                );
-                if !matches!(decision, AuthorityDecision::Authorized(_)) {
-                    return ConversationAcceptance::Response(outcome(
-                        "refused",
-                        "conversation_authority_refused",
-                        None,
-                    ));
+                    let decision = authority.authorize(
+                        &exchange.sender_verifying_identity(),
+                        action,
+                        intent.conversation_id.clone(),
+                        intent.recipient_id.clone(),
+                        replay_id,
+                        intent.correlation_id.clone(),
+                        now_epoch_secs,
+                    );
+                    if !matches!(decision, AuthorityDecision::Authorized(_)) {
+                        return ConversationAcceptance::Response(outcome(
+                            "refused",
+                            "conversation_authority_refused",
+                            None,
+                        ));
+                    }
                 }
             }
         }
@@ -1846,6 +1927,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     fn agent_initiation_intent_from_public_output(
+        &self,
         dispatch: &ConversationDispatch,
         output: &serde_json::Value,
     ) -> Result<Option<ObservatoryAgentInitiationIntent>, &'static str> {
@@ -1898,13 +1980,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let payload =
             serde_json::to_value(&intent).map_err(|_| "invalid_agent_initiation_action")?;
         let route = crate::AdapterKind::Agent.service_name();
-        let encoded = encode_acip_envelope(
+        let encoded = encode_acip_envelope_with_context(
             &intent.work_id,
             &intent.sender_id,
             &intent.recipient_id,
             route,
             &payload,
             dispatch.sequence,
+            &self.instance_id,
+            &intent.correlation_id,
+            &dispatch.intent.correlation_id,
+            &dispatch.intent.correlation_id,
+            "runtime-delegated-agent",
         )
         .map_err(|_| "invalid_agent_initiation_action")?;
         let envelope =
@@ -1913,6 +2000,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             || envelope.source != intent.sender_id
             || envelope.target != intent.recipient_id
             || envelope.route != route
+            || envelope.runtime_id != self.instance_id
+            || envelope.correlation_id != intent.correlation_id
+            || envelope.causation_id != dispatch.intent.correlation_id
+            || envelope.trace_id != dispatch.intent.correlation_id
+            || envelope.authority != "runtime-delegated-agent"
         {
             return Err("invalid_agent_initiation_action");
         }
@@ -1967,24 +2059,20 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             error: Some(error),
         };
         let mut dispatch_gate_completed = false;
-        let shepherd_name = self
-            .agent_population
-            .read()
-            .expect("agent population lock poisoned")
-            .sample
-            .iter()
-            .find(|agent| {
-                agent.id == dispatch.intent.recipient_id
-                    && (agent.id == "shepherd" || agent.id.starts_with("shepherd:"))
-            })
-            .map(|agent| agent.name.clone());
         let dynamic_binding = self
             .dynamic_agents
             .lock()
             .expect("dynamic agents state poisoned")
             .iter()
             .find(|agent| agent.id == dispatch.intent.recipient_id)
-            .cloned();
+            .cloned()
+            .or_else(|| {
+                self.resident_agent_bindings
+                    .read()
+                    .expect("resident agent bindings lock poisoned")
+                    .get(&dispatch.intent.recipient_id)
+                    .cloned()
+            });
         let agent_task = match dynamic_binding {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
@@ -2010,27 +2098,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
             }),
         };
-        let (work_kind, payload) = if let Some(shepherd_name) = shepherd_name {
-            (
-                "shepherd",
-                serde_json::to_vec(&crate::ShepherdRequest {
-                    schema: crate::SHEPHERD_REQUEST_SCHEMA.to_owned(),
-                    correlation_id: dispatch.intent.correlation_id.clone(),
-                    runtime_id: self.instance_id.clone(),
-                    shepherd_name: Some(shepherd_name),
-                    conversation_recipient_id: Some(dispatch.intent.recipient_id.clone()),
-                    prompt: dispatch.intent.message.clone(),
-                }),
-            )
-        } else {
-            (
-                "agent_runtime",
-                serde_json::to_vec(&serde_json::json!({
-                    "schema": "adl.runtime.local_agent_work.v1",
-                    "tasks": [agent_task],
-                })),
-            )
-        };
+        let work_kind = crate::AdapterKind::Agent.service_name();
+        let payload = serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [agent_task],
+        }));
         // Conversation execution is not an authentication handshake. Give local
         // models enough room for cold starts while preserving explicit operator
         // cancellation and bounded shutdown behavior.
@@ -2104,7 +2176,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             let requested_agent_initiation = if dispatch.initiation.is_none() {
                                 public_output
                                     .map(|output| {
-                                        Self::agent_initiation_intent_from_public_output(
+                                        self.agent_initiation_intent_from_public_output(
                                             &dispatch, output,
                                         )
                                     })
@@ -7015,11 +7087,11 @@ mod layer8_conversation_ingress_tests {
     }
 
     #[tokio::test]
-    async fn agent_to_agent_runtime_internal_initiation_rejects_sender_identity_mismatch() {
+    async fn agent_to_agent_runtime_internal_initiation_accepts_every_resident_sender() {
         let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
                 .await;
-        let mismatch =
+        let accepted =
             match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
                 "scribe",
                 "ember",
@@ -7027,13 +7099,14 @@ mod layer8_conversation_ingress_tests {
                 "00000000000000000000000000000001",
                 "a2a-work-scribe-ember-mismatch",
             )) {
-                ConversationAcceptance::Response(response) => response,
-                ConversationAcceptance::Dispatch { .. } => {
-                    panic!("runtime-internal A2A accepted mismatched signing identity")
-                }
+                ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+                ConversationAcceptance::Response(response) => panic!(
+                    "resident sender should use Runtime-delegated identity: {:?}",
+                    response.error
+                ),
             };
-        assert_eq!(mismatch.status, "refused");
-        assert_eq!(mismatch.error, Some("sender_identity_mismatch"));
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.sender_id.as_deref(), Some("scribe"));
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
@@ -7115,14 +7188,16 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(refused.status, "refused");
         assert_eq!(refused.error, Some("unauthorized_initiation"));
 
-        let mut forged_sender = agent_initiation_intent("turn-a2a-forged", "a2a-work-forged");
-        forged_sender.sender_id = "scribe".to_owned();
-        let refused = match service.accept_runtime_agent_initiation_intent(&forged_sender) {
-            ConversationAcceptance::Response(response) => response,
-            ConversationAcceptance::Dispatch { .. } => panic!("forged sender dispatched"),
+        let mut second_sender = agent_initiation_intent("turn-a2a-scribe", "a2a-work-scribe");
+        second_sender.sender_id = "scribe".to_owned();
+        let accepted = match service.accept_runtime_agent_initiation_intent(&second_sender) {
+            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Response(response) => {
+                panic!("second resident sender refused: {:?}", response.error)
+            }
         };
-        assert_eq!(refused.status, "refused");
-        assert_eq!(refused.error, Some("sender_identity_mismatch"));
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.sender_id.as_deref(), Some("scribe"));
 
         let mut missing_recipient = agent_initiation_intent("turn-a2a-missing", "a2a-work-missing");
         missing_recipient.recipient_id = "missing-ember".to_owned();
@@ -8533,7 +8608,7 @@ pub(crate) struct ProviderConversationOutput {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct ProviderAgentToAgentAction {
+pub(crate) struct ProviderAgentToAgentAction {
     pub recipient_id: String,
     pub message: String,
 }

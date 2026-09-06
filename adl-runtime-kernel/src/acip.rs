@@ -73,6 +73,35 @@ pub fn encode_acip_envelope(
     payload: &Value,
     monotonic_sequence: u64,
 ) -> Result<Vec<u8>, String> {
+    encode_acip_envelope_with_context(
+        message_id,
+        source,
+        target,
+        route,
+        payload,
+        monotonic_sequence,
+        "local-runtime",
+        message_id,
+        message_id,
+        message_id,
+        "runtime-api-authenticated",
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn encode_acip_envelope_with_context(
+    message_id: &str,
+    source: &str,
+    target: &str,
+    route: &str,
+    payload: &Value,
+    monotonic_sequence: u64,
+    runtime_id: &str,
+    correlation_id: &str,
+    causation_id: &str,
+    trace_id: &str,
+    authority: &str,
+) -> Result<Vec<u8>, String> {
     let replay_id = format!("{source}:{monotonic_sequence}");
     let envelope = AcipEnvelope {
         schema: ACIP_PROTOBUF_SCHEMA.to_owned(),
@@ -86,13 +115,13 @@ pub fn encode_acip_envelope(
         protocol_family: ACIP_PROTOCOL_FAMILY.to_owned(),
         version_major: ACIP_VERSION_MAJOR,
         version_minor: ACIP_VERSION_MINOR,
-        runtime_id: "local-runtime".to_owned(),
-        correlation_id: message_id.to_owned(),
-        causation_id: message_id.to_owned(),
-        trace_id: message_id.to_owned(),
+        runtime_id: required(runtime_id, "runtime_id")?.to_owned(),
+        correlation_id: required(correlation_id, "correlation_id")?.to_owned(),
+        causation_id: required(causation_id, "causation_id")?.to_owned(),
+        trace_id: required(trace_id, "trace_id")?.to_owned(),
         replay_id,
         capability: route.to_owned(),
-        authority: "runtime-api-authenticated".to_owned(),
+        authority: required(authority, "authority")?.to_owned(),
         payload_type: "application/json".to_owned(),
         acknowledgement_requested: true,
         error_code: None,

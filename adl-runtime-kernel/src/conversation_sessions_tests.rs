@@ -213,7 +213,6 @@ impl OperationExecutor for ShepherdConversationExecutor {
             elapsed_millis: 1,
             response_sha256: "5".repeat(64),
             response,
-            agent_to_agent_initiation: None,
         })
         .map_err(|error| ExecutorError {
             class: FailureClass::Fatal,
@@ -223,7 +222,7 @@ impl OperationExecutor for ShepherdConversationExecutor {
 }
 
 #[tokio::test]
-async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress() {
+async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() {
     let recorder = RuntimeRecorder::new(32);
     let dispatches = Arc::new(AtomicUsize::new(0));
     let completions = Arc::new(AtomicUsize::new(0));
@@ -583,7 +582,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
     let delivered =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered");
-    assert_eq!(delivered["reply"], "Beacon generated: Hello");
+    assert_eq!(delivered["reply"], "shepherd received your message.");
     assert_eq!(
         delivered["schema"],
         OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA
@@ -1143,11 +1142,12 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
         .unwrap();
     let accepted = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
-    let failed = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
-    assert_eq!(failed["status"], "failed", "{failed}");
-    assert_eq!(failed["error"], "conversation_failed", "{failed}");
-    assert!(failed["reply"].is_null(), "{failed}");
-    assert!(!failed.to_string().contains("received your message"));
+    let delivered = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
+    assert_eq!(delivered["status"], "delivered", "{delivered}");
+    assert_eq!(
+        delivered["reply"], "shepherd received your message.",
+        "resident roles use the same agent-runtime conversation executor"
+    );
 
     socket.close(None).await.unwrap();
     server.abort();

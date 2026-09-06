@@ -670,6 +670,7 @@ async fn main() -> ExitCode {
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
+            .with_resident_agent_bindings(&init.resident_shepherd)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
             let config_generation_identity =
                 match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
