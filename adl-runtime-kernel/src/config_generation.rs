@@ -182,10 +182,12 @@ pub fn validate_active_config_generation_content(
         Sha256::digest(fs::read(init).map_err(|error| format!("read Runtime init: {error}"))?)
     );
     let (generation, digest, receipt) = read_active_config_generation_receipt(init)?;
+    let canonical_digest = receipt_digest(&receipt)?;
+    let legacy_digest = legacy_receipt_digest(&receipt)?;
     if receipt.schema != CONFIG_GENERATION_RECEIPT_SCHEMA
         || receipt.generation != generation
         || receipt.content_sha256 != content_sha256
-        || receipt_digest(&receipt)? != digest
+        || (canonical_digest != digest && legacy_digest != digest)
     {
         return Err("Runtime configuration active receipt does not match init content".to_owned());
     }
@@ -230,6 +232,12 @@ pub fn receipt_digest(receipt: &ConfigGenerationReceipt) -> Result<String, Strin
     serde_jcs::to_vec(receipt)
         .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
         .map_err(|error| format!("encode Runtime configuration receipt digest: {error}"))
+}
+
+fn legacy_receipt_digest(receipt: &ConfigGenerationReceipt) -> Result<String, String> {
+    serde_json::to_vec(receipt)
+        .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
+        .map_err(|error| format!("encode legacy Runtime configuration receipt digest: {error}"))
 }
 
 fn read_active_config_generation_receipt(
@@ -359,6 +367,48 @@ mod tests {
         assert_eq!(
             receipt_digest(&receipt).expect("receipt digest"),
             "3c0c73f1a3d82a01bc0f983e70b5441e0941f9a99ed746b52fc227fc747d3217"
+        );
+    }
+
+    #[test]
+    fn unchanged_legacy_receipt_can_advance_to_canonical_generation() {
+        let directory = tempfile::tempdir().expect("temporary config root");
+        let init = directory.path().join("runtime-init.toml");
+        fs::write(
+            &init,
+            concat!(
+                "schema = \"adl.runtime_v3.init.v1\"\n",
+                "[credentials]\n",
+                "operation_public_key_path = \"credentials/operation.hex\"\n"
+            ),
+        )
+        .expect("write init");
+        let (receipt, identity) =
+            build_config_generation_receipt(&init, "legacy-generation").expect("build receipt");
+        let store = generation_store(&init).expect("generation store");
+        fs::create_dir_all(&store).expect("create store");
+        fs::write(
+            store.join(format!("{}.json", receipt.generation)),
+            serde_json::to_vec_pretty(&receipt).expect("legacy receipt bytes"),
+        )
+        .expect("write receipt");
+        fs::write(
+            active_generation_ref(&init).expect("active ref"),
+            format!(
+                "{} {}\n",
+                receipt.generation,
+                legacy_receipt_digest(&receipt).expect("legacy digest")
+            ),
+        )
+        .expect("write active ref");
+
+        assert_ne!(
+            identity.receipt_digest,
+            legacy_receipt_digest(&receipt).expect("legacy digest")
+        );
+        assert_eq!(
+            validate_active_config_generation_content(&init).expect("legacy content remains valid"),
+            receipt
         );
     }
 }
