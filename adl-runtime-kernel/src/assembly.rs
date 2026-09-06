@@ -1666,7 +1666,8 @@ fn assemble_multipart_text(input: Option<&str>, parts: &[serde_json::Value]) -> 
         let input = input?;
         return bounded_conversation_text(input).map(str::to_owned);
     }
-    if parts.len() > AGENT_CONVERSATION_INPUT_MAX_PARTS {
+    let scalar_part_count = usize::from(input.is_some_and(|value| !value.trim().is_empty()));
+    if parts.len() + scalar_part_count > AGENT_CONVERSATION_INPUT_MAX_PARTS {
         return None;
     }
     let mut assembled = String::new();
@@ -1915,6 +1916,15 @@ mod provider_conversation_action_tests {
         assert!(assembled.contains("Operator summary."));
         assert!(assembled.contains("First governed handoff chunk."));
         assert!(assembled.contains("Second governed handoff chunk."));
+
+        let too_many_logical_parts = serde_json::json!({
+            "input": "Scalar chunk.",
+            "input_parts": vec!["part"; AGENT_CONVERSATION_INPUT_MAX_PARTS]
+        });
+        assert!(
+            conversation_task_input(&too_many_logical_parts).is_none(),
+            "scalar input plus multipart chunks must share the same 64-part cap"
+        );
     }
 
     #[test]

@@ -4663,7 +4663,8 @@ fn assemble_agent_conversation_message(
         let message = message?;
         return bounded_agent_conversation_part(message).map(str::to_owned);
     }
-    if message_parts.len() > AGENT_CONVERSATION_MESSAGE_MAX_PARTS {
+    let scalar_part_count = usize::from(message.is_some_and(|value| !value.trim().is_empty()));
+    if message_parts.len() + scalar_part_count > AGENT_CONVERSATION_MESSAGE_MAX_PARTS {
         return None;
     }
     let mut assembled = String::new();
@@ -9172,6 +9173,28 @@ mod provider_conversation_tool_tests {
             }
         }))
         .expect_err("oversized multipart chunks must fail closed");
+        assert_eq!(error, "agent_provider_action_invalid");
+    }
+
+    #[test]
+    fn native_tool_call_rejects_more_than_64_logical_message_parts() {
+        let error = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {
+                "role": "assistant",
+                "content": "This must not dispatch.",
+                "tool_calls": [{
+                    "function": {
+                        "name": "initiate_agent",
+                        "arguments": {
+                            "recipient_id": "ember",
+                            "message": "Scalar chunk.",
+                            "message_parts": vec!["part"; AGENT_CONVERSATION_MESSAGE_MAX_PARTS]
+                        }
+                    }
+                }]
+            }
+        }))
+        .expect_err("scalar plus 64 multipart chunks must exceed the logical part cap");
         assert_eq!(error, "agent_provider_action_invalid");
     }
 

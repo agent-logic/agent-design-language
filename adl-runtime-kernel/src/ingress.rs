@@ -528,7 +528,8 @@ fn valid_multipart_agent_message(
             !value.trim().is_empty() && value.len() <= AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES
         });
     }
-    if parts.len() > AGENT_CONVERSATION_MESSAGE_MAX_PARTS {
+    let scalar_part_count = usize::from(message.is_some_and(|value| !value.trim().is_empty()));
+    if parts.len() + scalar_part_count > AGENT_CONVERSATION_MESSAGE_MAX_PARTS {
         return false;
     }
     let mut total = message
@@ -667,6 +668,31 @@ mod tests {
                 "message_parts": [
                     "x".repeat((32 * 1024) + 1)
                 ]
+            }
+        }));
+
+        assert_eq!(
+            project_public_output(&work, &operation),
+            Err(IngressError::ExecutionFailed)
+        );
+    }
+
+    #[test]
+    fn too_many_agent_initiation_logical_message_parts_are_not_projected() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": "ember",
+                "message": "Scalar chunk.",
+                "message_parts": vec!["part"; AGENT_CONVERSATION_MESSAGE_MAX_PARTS]
             }
         }));
 
