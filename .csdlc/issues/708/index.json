@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
-  "phase": "implemented",
-  "generation": 34,
-  "digest": "4c4b722d33b118b283f15eef32a5417d6d303ef16db5410c26757bea4254f9c9",
+  "phase": "reviewed",
+  "generation": 35,
+  "digest": "ce6ac981854fd6f7835873386967739c08bf689144c78951eb4bff0eb74af820",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
   "review_assignment": {
@@ -17,7 +17,20 @@
       "adl-runtime-kernel/src/conversation_sessions_tests.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:issue-708-ci-race-fix-review",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:400c337e1dfbf47c9be981e38accba3b34e77b1d:6d2b652e806437ce8c94306a81d3105673c2c1a1ed391bf2f8c0cc1852798af1",
+    "findings": [],
+    "residual_risks": [
+      "Review was focused on the deterministic duplicate conversation in-flight test repair and did not run live provider inference, paid Runtime execution, external communications, or broad non-runtime validation.",
+      "The reviewer ran the formerly failing focused test with worktree-local TMPDIR and confirmed 1 passed, 0 failed, 182 filtered out; the full adl-runtime-v3-fast hosted lane remains deferred to GitHub CI after republish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -32,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1d424d6c2c40fd5ebab88a4e2f474ff59e29fd9183ace949b04f081b6ab44de3",
+      "values_digest": "f834b7a3556df1b2624805e1bbb3c5f6396ddac53c40a056a7934809c88ea5e0",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "1921fe086f9582131e15dd9b7ead0c2089860454372e4e8fcf76a10886e20661",
+      "values_digest": "fe3fbd761e11f837ce1b3afab757ac3359b862eba2af6115a7876f9f3f5308a6",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "6253fd3b571b1e7ff571d2b4e599c7fd03adfc3117fe0a8feb036bcb274cbe2f",
+      "values_digest": "3e722a18fffe86dd3f5a6631c2d3de66a6e152a1b2d918fd2d74f0cdfe4814a8",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "4a7381031415252068773a5713de13736fd19ba6e6bbe79ad8ef32dc191740a5",
+      "values_digest": "b5f6ba7c7310d4343fb128ab717359110131a3363ad54f5a05a14eb3d144f8d2",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "8c6aa6c20315172c1485f7b030db6236a342662c86ce555bb919508d63480ed8",
-      "rendered_digest": "438d5dbbf7b3468013e8df41d73d92624f2bc39594c913ad13be1c301a52e392",
-      "ast_digest": "c5278218adc72917239c158ab994d234cafa46ddf7e568a13a5bc3a814881bb3"
+      "values_digest": "bc71fc919c6807605492608dbdedcdf60236e5e0ef9ec63cbc399020dedb10d3",
+      "rendered_digest": "f8e97e74cb61545ab7b0366041006d9b3d03e26dfd17a8b4be1f3664f53e3bfa",
+      "ast_digest": "8aa93d92002f17b674525be630bfd8c9ca7ebb7ad87913e103a1a67f7a203541"
     },
     "sor": {
-      "values_digest": "90cae5ff22b5498804c0824e47564202751d4533516c08effe4faeebdf15d11e",
+      "values_digest": "62d9089a1e4d66fac4a92bb215ff75a86514204e63753a9f0f5e23ef15ffbca5",
       "rendered_digest": "443743fdff55541b2efe0fd843395a44d11ed8499dd3c147d89c7a6ddf1b991c",
       "ast_digest": "561f5eab0dc0d145d62d9390e120b5ba54b5b6bcb5e42c4e78049bcf6a018528"
     }
@@ -188,6 +201,13 @@
       "to": "implemented",
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Recover stale publication truth after making the duplicate conversation in-flight regression test deterministic for the red adl-runtime-v3-fast CI failure."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-708-ci-race-fix-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -512,6 +532,13 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 35,
+      "actor": "codex:issue-708-ci-race-fix-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
