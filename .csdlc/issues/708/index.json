@@ -5,20 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
   "phase": "implemented",
-  "generation": 44,
-  "digest": "82cf690cfad2a241e83571c9749908d6ac3d6cffe9f22de25ff39ce33472ead1",
+  "generation": 45,
+  "digest": "8c7a805725660b6ef21739307493910a41c7051968a71ad466a8ed033722b8e0",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
-  "review_assignment": {
-    "reviewer": "codex:issue-708-review-blocker-current-head-review",
-    "assigned_by": "codex:issue-708-runtime-orientation",
-    "revision": "git-blake3:5a5165ad86ff9012e494c6823033eb2db282d87f:ddc9fb6eda5c0a50b151e044c68e357c02dea6b70e566336483cce00819902da",
-    "scope": [
-      "adl-runtime-kernel/src/agent_orientation.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -34,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1a495cff8a94168a8967ab7473e5e475f25e1e69756d313d0b59765ec5a6b9a",
+      "values_digest": "d380aa1e43f015445b1ea975e9389f9b37bb5bf9bd77752fb933963a473822f1",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "3644a4d7fe95df9e79ad599bef3e85315c086b72095b6d6c87f9bcaf57ac2f5f",
+      "values_digest": "c97684e47c6dac1a4ab0bece0bbc194018dd8e694c932e27ff923431870b72f5",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "90aa190ebba9da3dfc7581f811e82f6d2047ccb926222ea04fc1693b9cc13801",
+      "values_digest": "37b97560141deee09753ed879ac5a47945f54b5602393a3bbd88e55ff3f0ccd0",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "c5af0254f02eee2dd61968605a3fbfb7687a1424472728dbd740f013874d08f7",
+      "values_digest": "e9c5d6d081c42c1051362bb3c4887449536a5737a8a4c97593c82e5e51884390",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "65bea699f274df6c2d71eb5aae4a58457387312b56f7bfbd01b67c3e59721730",
-      "rendered_digest": "4c0b6529e4e48a629767a46ed4ce383327a722989057784e82b17bf12c5f6ec9",
-      "ast_digest": "1e72291e818101b7fefde3bb48fbbc5dee25310aadf4bad0377abcedbd26e7d2"
+      "values_digest": "2e7b4418de12e2be9762f40fca6b7b0ba855744fdf8dd8d60d60920312a6bd21",
+      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
+      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
     },
     "sor": {
-      "values_digest": "576e16f93a504578c99443c4e4d56c8621dc3dbee9a927d5c04043149f8535a3",
+      "values_digest": "23356e379f1dbe2d5757d16128339e725fe5fc69482906cedf76c4ec94aba698",
       "rendered_digest": "bea6e7a64646263f47981c7a381bfc626b3f125717c1fa241130de81a82f7b98",
       "ast_digest": "002ee819c9cd238da6d800b8e8fe5c96b743228ce56e9919bc9ee888b0822ed3"
     }
@@ -675,6 +666,13 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 45,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "Recover stale review truth after removing transient prepared request files before the final exact-head review and republication.",
+      "operation": "recover_review"
     }
   ]
 }

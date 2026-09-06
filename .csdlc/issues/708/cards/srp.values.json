@@ -7,13 +7,13 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 44
+    "generation": 45
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/agent_orientation.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
