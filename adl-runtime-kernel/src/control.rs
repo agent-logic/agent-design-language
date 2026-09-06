@@ -2065,6 +2065,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .find(|agent| agent.id == dispatch.intent.recipient_id)
             .cloned();
+        let orientation_context = self
+            .orientation_for_agent(&dispatch.intent.recipient_id)
+            .map(|orientation| orientation.content);
         let oriented_message =
             self.inject_agent_orientation(&dispatch.intent.recipient_id, &dispatch.intent.message);
         let agent_task = match dynamic_binding {
@@ -2074,7 +2077,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
-                "input": oriented_message.clone(),
+                "input": dispatch.intent.message,
+                "orientation_context": orientation_context,
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
                 "provider": agent.provider,
@@ -2087,7 +2091,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
-                "input": oriented_message.clone(),
+                "input": dispatch.intent.message,
+                "orientation_context": orientation_context,
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
             }),
@@ -6985,14 +6990,21 @@ mod layer8_conversation_ingress_tests {
             assert!(requests[0]["body"]["messages"][0]["content"]
                 .as_str()
                 .is_some_and(|prompt| {
-                    prompt.contains("provided `initiate_agent` tool")
+                    prompt.starts_with("Axioma Polis agent orientation package")
+                        && prompt.contains("Runtime-delivered task content follows")
+                        && prompt.contains("provided `initiate_agent` tool")
                         && !prompt.contains("adl.runtime.agent_conversation_response.v1")
+                        && prompt.contains("Please ask Ember for a governed response.")
                 }));
             assert_eq!(requests[1]["request_line"], "POST /api/generate HTTP/1.1");
             assert_eq!(requests[1]["body"]["model"], "ember-model");
             assert!(requests[1]["body"]["prompt"]
                 .as_str()
-                .is_some_and(|prompt| prompt.contains("Ember, please answer Beacon")));
+                .is_some_and(|prompt| {
+                    prompt.starts_with("Axioma Polis agent orientation package")
+                        && prompt.contains("Runtime-delivered task content follows")
+                        && prompt.contains("Ember, please answer Beacon")
+                }));
         }
         let events = recorder.events();
         assert!(
