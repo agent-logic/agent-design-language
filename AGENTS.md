@@ -21,9 +21,11 @@ dependencies are satisfied, while preserving typed v2 guards and review truth.
 ## Pending C-SDLC tooling changeover notice
 
 Issue #505 is the sole V3-F transition-decision lane for this change. Until
-#505 is reviewed, explicitly operator-approved, merged, and terminally
-reconciled, C-SDLC v2 remains the live authority described above. C-SDLC v3 is
-construction and cutover evidence only.
+#505 is reviewed and PR #591 is explicitly operator-approved and merged,
+C-SDLC v2 remains the live authority described above. Merging PR #591 is the
+atomic authority cutover; terminal reconciliation records the completed
+transition afterward. Before that merge, C-SDLC v3 is construction and
+cutover evidence only.
 
 Before changing the default lifecycle route, operators and agents must be
 notified through `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and the typed
