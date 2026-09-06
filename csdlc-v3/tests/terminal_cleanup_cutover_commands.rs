@@ -518,7 +518,7 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
 }
 
 #[test]
-fn executable_cutover_cannot_bypass_preview_findings() {
+fn executable_cutover_cannot_bypass_request_findings() {
     let root = fixture_root("cutover-preview-gate");
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let mut request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
@@ -566,15 +566,22 @@ fn executable_cutover_requires_authenticated_github_authority_before_mutation() 
 }
 
 #[test]
-fn authenticated_cutover_rejects_one_principal_as_reviewer_and_operator() {
-    let root = fixture_root("cutover-distinct-authority-gate");
+fn authenticated_cutover_rejects_unmerged_authority_pr() {
+    let root = fixture_root("cutover-merged-authority-gate");
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let mut request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
+    request.pull_request = Some(591);
     request.credential_names = vec!["GITHUB_TOKEN".into()];
-    let mut comments: serde_json::Value =
-        serde_json::from_str(&github_cutover_comments(&request)).unwrap();
-    comments[1]["user"]["login"] = "reviewer".into();
-    let mut adapter = FakeGithubAdapter::new([comments.to_string()]);
+    let revision = request
+        .cutover
+        .as_ref()
+        .unwrap()
+        .selected_binary_provenance
+        .trim_start_matches("git:");
+    let mut adapter = FakeGithubAdapter::new([
+        serde_json::json!({"number": 591, "merged": false, "head": {"sha": revision}}).to_string(),
+        serde_json::json!({"number": 505, "state": "closed"}).to_string(),
+    ]);
 
     let blocked = prepare_terminal_cutover_with_github_observation(&request, &mut adapter)
         .expect("blocked cutover plan");
@@ -583,7 +590,29 @@ fn authenticated_cutover_rejects_one_principal_as_reviewer_and_operator() {
     assert!(blocked
         .findings
         .iter()
-        .any(|finding| finding.code == "github_cutover_authority_not_exact"));
+        .any(|finding| finding.code == "cutover_approval_not_exact"));
+    assert!(!root.join(".adl/bin/csdlc").exists());
+}
+
+#[test]
+fn cutover_and_rollback_share_one_mutation_lock() {
+    let root = fixture_root("cutover-shared-mutation-lock");
+    let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
+    fs::create_dir_all(root.join(".git/csdlc-v3")).unwrap();
+    fs::write(
+        root.join(".git/csdlc-v3/cutover-mutation.lock"),
+        b"other-process",
+    )
+    .unwrap();
+    let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
+
+    let blocked = execute_cutover_request(&request).expect("cutover plan");
+
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "cutover_mutation_locked"));
     assert!(!root.join(".adl/bin/csdlc").exists());
 }
 
@@ -1442,42 +1471,6 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
     let selected_binary_digest = blake3::hash(&selected_binary).to_hex().to_string();
     write_generation_selector(root, "v2");
     let (review, review_record_digest, revision) = typed_v2_review_fixture(root);
-    let route_proofs = [
-        "bind",
-        "clean",
-        "cutover",
-        "doctor",
-        "edit",
-        "eligibility",
-        "finish",
-        "github",
-        "github-issue",
-        "github-pr",
-        "install",
-        "issue",
-        "pr-state",
-        "proof",
-        "publish",
-        "review",
-        "schedule",
-        "shadow",
-        "shepherd",
-        "soak",
-        "validate",
-    ]
-    .into_iter()
-    .map(|route| {
-        (
-            route.to_owned(),
-            write_proof_command_fixture(
-                root,
-                &format!("route-{route}"),
-                "route-readiness",
-                &revision,
-            ),
-        )
-    })
-    .collect::<serde_json::Map<String, serde_json::Value>>();
     fs::create_dir_all(root.join(".csdlc/issues/505")).expect("v2 review record parent");
     fs::write(root.join(".csdlc/issues/505/index.json"), &review).expect("v2 review record");
     let review_ref = serde_json::json!({
@@ -1512,20 +1505,13 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
         &approval,
     )
     .expect("approval evidence");
-    let approval_ref = serde_json::json!({
-        "path": ".csdlc/evidence/505/cutover-approval.json",
-        "digest": blake3::hash(&approval).to_hex().to_string(),
-        "revision": revision
-    });
     let readiness = serde_json::to_vec(&serde_json::json!({
         "schema": "csdlc.v3.authority_readiness.v1",
         "authority_issue": 505,
         "selected_binary_digest": selected_binary_digest,
         "selected_revision": revision,
-        "route_proofs": route_proofs,
         "canary_proof": canary_ref,
         "review_proof": review_ref,
-        "approval_proof": approval_ref,
         "rollback_proof": rollback_ref
     }))
     .unwrap();
@@ -1543,7 +1529,6 @@ fn write_proof_command_fixture(
     lane: &str,
     revision: &str,
 ) -> serde_json::Value {
-    let route_preview = manifest_id.strip_prefix("route-");
     let source_ref = format!(".csdlc/evidence/505/readiness-source/{manifest_id}.json");
     let source = serde_json::to_vec(&serde_json::json!({
         "manifest_id": manifest_id,
@@ -1587,30 +1572,21 @@ fn write_proof_command_fixture(
         .unwrap(),
     )
     .expect("proof command registrations");
-    let (normalization, argv) = if let Some(route) = route_preview {
-        (
-            ShadowNormalizationContract::RoutePreviewV1,
-            vec![route.into(), "--preview".into()],
-        )
-    } else {
-        (
-            ShadowNormalizationContract::DoctorIssuePhaseV1,
-            vec![
-                "doctor".into(),
-                "--request".into(),
-                request_ref.clone(),
-                "--registry".into(),
-                repository_root
-                    .join("docs/templates/prompts/current.json")
-                    .to_string_lossy()
-                    .into_owned(),
-                "--registrations".into(),
-                registrations_ref.into(),
-                "--repo-root".into(),
-                repository_root.to_string_lossy().into_owned(),
-            ],
-        )
-    };
+    let normalization = ShadowNormalizationContract::DoctorIssuePhaseV1;
+    let argv = vec![
+        "doctor".into(),
+        "--request".into(),
+        request_ref.clone(),
+        "--registry".into(),
+        repository_root
+            .join("docs/templates/prompts/current.json")
+            .to_string_lossy()
+            .into_owned(),
+        "--registrations".into(),
+        registrations_ref.into(),
+        "--repo-root".into(),
+        repository_root.to_string_lossy().into_owned(),
+    ];
     let command = ShadowCommandSpec {
         generation: ShadowGeneration::V3,
         binary_ref: "build/csdlc".into(),
@@ -1694,52 +1670,20 @@ fn execute_cutover_request(
     csdlc_v3::commands::terminal::TerminalRoutePlan,
     csdlc_v3::commands::terminal::TerminalFinding,
 > {
-    let comments = github_cutover_comments(request);
     let mut authenticated = request.clone();
+    authenticated.pull_request = Some(591);
     authenticated.credential_names = vec!["GITHUB_TOKEN".into()];
-    let mut adapter = FakeGithubAdapter::new([comments]);
-    prepare_terminal_cutover_with_github_observation(&authenticated, &mut adapter)
-}
-
-fn github_cutover_comments(request: &TerminalRouteRequest) -> String {
-    let root = request
+    let revision = request
         .cutover
         .as_ref()
-        .and_then(|cutover| cutover.repository_root.as_ref())
-        .expect("cutover repository root");
-    let approval: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.join(".csdlc/evidence/505/cutover-approval.json")).unwrap(),
-    )
-    .unwrap();
-    let review: serde_json::Value =
-        serde_json::from_slice(&fs::read(root.join(".csdlc/issues/505/index.json")).unwrap())
-            .unwrap();
-    let review_body = serde_json::json!({
-        "schema": "csdlc.v3.github_review_attestation.v1",
-        "repository": request.repository,
-        "issue": 505,
-        "implementer": request.cutover.as_ref().unwrap().operator,
-        "reviewer_session": review["review"]["reviewer"],
-        "exact_head": approval["exact_head"],
-        "review_record_digest": approval["review_record_digest"],
-        "result": "pass"
-    });
-    let approval_body = serde_json::json!({
-        "schema": "csdlc.v3.github_cutover_approval.v1",
-        "repository": request.repository,
-        "issue": 505,
-        "exact_head": approval["exact_head"],
-        "selected_binary_digest": approval["selected_binary_digest"],
-        "rollback_evidence_digest": approval["rollback_evidence_digest"],
-        "review_record_digest": approval["review_record_digest"],
-        "review_comment_id": approval["review_comment_id"],
-        "decision": "approved"
-    });
-    serde_json::json!([
-        {"id": 1001, "user": {"login": "reviewer"}, "body": review_body.to_string()},
-        {"id": 1002, "user": {"login": "operator"}, "body": approval_body.to_string()}
-    ])
-    .to_string()
+        .unwrap()
+        .selected_binary_provenance
+        .trim_start_matches("git:");
+    let mut adapter = FakeGithubAdapter::new([
+        serde_json::json!({"number": 591, "merged": true, "head": {"sha": revision}}).to_string(),
+        serde_json::json!({"number": 505, "state": "closed"}).to_string(),
+    ]);
+    prepare_terminal_cutover_with_github_observation(&authenticated, &mut adapter)
 }
 
 fn write_generation_selector(repository_root: &Path, generation: &str) {

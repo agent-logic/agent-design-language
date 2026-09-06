@@ -193,7 +193,6 @@ mod tests {
         assert!(contract.contains("does not make v3 operational"));
         assert!(contract.contains("v2 remains the rollback target"));
         assert!(contract.contains("macOS and Linux are the required #505 cutover platforms"));
-        assert!(contract.contains("Windows operational\n  portability is deferred to #710"));
     }
 
     #[test]

@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 use std::{
-    collections::BTreeMap,
     fs,
     io::Write,
     path::{Component, Path, PathBuf},
@@ -268,7 +267,7 @@ pub fn prepare_terminal_route(
 fn prepare_terminal_route_with_cutover_authority(
     route: &str,
     request: &TerminalRouteRequest,
-    cutover_comments: Option<&[GithubIssueComment]>,
+    cutover_authority: Option<&CutoverRemoteAuthority>,
 ) -> Result<TerminalRoutePlan, TerminalFinding> {
     if !TERMINAL_ROUTE_NAMES.contains(&route) {
         return Err(finding(
@@ -301,7 +300,7 @@ fn prepare_terminal_route_with_cutover_authority(
             )),
         },
         "cutover" => match request.cutover.as_ref() {
-            Some(cutover_request) => match decide_cutover(cutover_request, cutover_comments) {
+            Some(cutover_request) => match decide_cutover(cutover_request, cutover_authority) {
                 Ok(decision) => cutover = Some(decision),
                 Err(route_findings) => findings.extend(route_findings),
             },
@@ -350,20 +349,39 @@ pub fn prepare_terminal_cutover_with_github_observation(
     }
     validate_repository_name(&request.repository)?;
     let credential_name = single_credential_name(request)?;
-    let value = run_github_observation(
+    let pull_request = request.pull_request.ok_or_else(|| {
+        finding(
+            "cutover_pull_request_missing",
+            "cutover requires the canonical authority PR #591",
+        )
+    })?;
+    if pull_request != 591 {
+        return Err(finding(
+            "cutover_pull_request_mismatch",
+            "cutover authority is restricted to PR #591",
+        ));
+    }
+    let pr = run_github_observation(
         process,
         &credential_name,
-        "issue-comments",
+        "pull-request",
+        &request.repository,
+        pull_request,
+    )?;
+    let issue = run_github_observation(
+        process,
+        &credential_name,
+        "issue",
         &request.repository,
         request.issue,
     )?;
-    let comments: Vec<GithubIssueComment> = serde_json::from_value(value).map_err(|_| {
-        finding(
-            "github_cutover_comments_invalid",
-            "authenticated GitHub issue comments must be a typed JSON array",
-        )
-    })?;
-    prepare_terminal_route_with_cutover_authority("cutover", request, Some(&comments))
+    let authority = CutoverRemoteAuthority {
+        pull_request,
+        head_sha: pr["head"]["sha"].as_str().unwrap_or_default().to_owned(),
+        merged: pr["merged"].as_bool().unwrap_or(false),
+        issue_closed: issue["state"].as_str() == Some("closed"),
+    };
+    prepare_terminal_route_with_cutover_authority("cutover", request, Some(&authority))
 }
 
 pub fn prepare_terminal_finish_with_github_observation(
@@ -1097,7 +1115,7 @@ fn git_common_dir(git_dir: &Path) -> Option<PathBuf> {
 
 fn decide_cutover(
     request: &CutoverDecisionRequest,
-    cutover_comments: Option<&[GithubIssueComment]>,
+    cutover_authority: Option<&CutoverRemoteAuthority>,
 ) -> Result<CutoverDecision, Vec<TerminalFinding>> {
     let mut findings = Vec::new();
     for (code, label, value) in [
@@ -1158,7 +1176,7 @@ fn decide_cutover(
         });
     }
 
-    if request.operation == CutoverOperation::Apply && cutover_comments.is_none() {
+    if request.operation == CutoverOperation::Apply && cutover_authority.is_none() {
         findings.push(finding(
             "authenticated_cutover_observation_required",
             "executing authority cutover requires authenticated GitHub review and operator approval readback",
@@ -1166,7 +1184,7 @@ fn decide_cutover(
         return Err(findings);
     }
 
-    let execution = match execute_cutover(request, cutover_comments) {
+    let execution = match execute_cutover(request, cutover_authority) {
         Ok(execution) => execution,
         Err(finding) => {
             findings.push(finding);
@@ -1225,10 +1243,8 @@ struct AuthorityReadinessEvidence {
     authority_issue: u64,
     selected_binary_digest: String,
     selected_revision: String,
-    route_proofs: BTreeMap<String, ImmutableProofRef>,
     canary_proof: ImmutableProofRef,
     review_proof: ImmutableProofRef,
-    approval_proof: ImmutableProofRef,
     rollback_proof: ImmutableProofRef,
 }
 
@@ -1319,71 +1335,22 @@ struct ProofBoundaryEvidence {
     changed: bool,
 }
 
-#[derive(Debug, Deserialize)]
-struct AuthorityCutoverApproval {
-    schema: String,
-    authority_issue: u64,
-    repository: String,
-    decision: String,
-    exact_head: String,
-    selected_binary_digest: String,
-    rollback_evidence_digest: String,
-    review_record_digest: String,
-    reviewer_github_login: String,
-    review_comment_id: u64,
-    approval_comment_id: u64,
-    approved_by: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct GithubReviewAttestation {
-    schema: String,
-    repository: String,
-    issue: u64,
-    implementer: String,
-    reviewer_session: String,
-    exact_head: String,
-    review_record_digest: String,
-    result: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct GithubApprovalAttestation {
-    schema: String,
-    repository: String,
-    issue: u64,
-    exact_head: String,
-    selected_binary_digest: String,
-    rollback_evidence_digest: String,
-    review_record_digest: String,
-    review_comment_id: u64,
-    decision: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct GithubIssueComment {
-    id: u64,
-    body: String,
-    user: GithubCommentAuthor,
-}
-
-#[derive(Debug, Deserialize)]
-struct GithubCommentAuthor {
-    login: String,
+struct CutoverRemoteAuthority {
+    pull_request: u64,
+    head_sha: String,
+    merged: bool,
+    issue_closed: bool,
 }
 
 struct VerifiedReviewAuthority {
     record_digest: String,
     assigned_by: String,
-    reviewer_session: String,
 }
 
 struct CutoverApprovalEvidence<'a> {
     revision: &'a str,
-    selected_binary_digest: &'a str,
-    approval_proof: &'a ImmutableProofRef,
     rollback_proof: &'a ImmutableProofRef,
-    comments: &'a [GithubIssueComment],
+    remote: &'a CutoverRemoteAuthority,
 }
 
 struct VerifiedCutoverReadiness {
@@ -1396,15 +1363,15 @@ struct VerifiedCutoverReadiness {
 
 fn execute_cutover(
     request: &CutoverDecisionRequest,
-    cutover_comments: Option<&[GithubIssueComment]>,
+    cutover_authority: Option<&CutoverRemoteAuthority>,
 ) -> Result<CutoverExecution, TerminalFinding> {
-    execute_cutover_platform(request, cutover_comments)
+    execute_cutover_platform(request, cutover_authority)
 }
 
 #[cfg(not(unix))]
 fn execute_cutover_platform(
     _request: &CutoverDecisionRequest,
-    _cutover_comments: Option<&[GithubIssueComment]>,
+    _cutover_authority: Option<&CutoverRemoteAuthority>,
 ) -> Result<CutoverExecution, TerminalFinding> {
     Err(finding(
         "cutover_unsupported_platform",
@@ -1415,7 +1382,7 @@ fn execute_cutover_platform(
 #[cfg(unix)]
 fn execute_cutover_platform(
     request: &CutoverDecisionRequest,
-    cutover_comments: Option<&[GithubIssueComment]>,
+    cutover_authority: Option<&CutoverRemoteAuthority>,
 ) -> Result<CutoverExecution, TerminalFinding> {
     let repository_root = request
         .repository_root
@@ -1439,6 +1406,7 @@ fn execute_cutover_platform(
             "executing cutover requires a repository checkout root",
         ));
     }
+    let _mutation_lock = CutoverMutationLock::acquire(&repository_root)?;
     let selector = repo_output_path(
         &repository_root,
         request.authority_selector_path.as_ref(),
@@ -1500,7 +1468,7 @@ fn execute_cutover_platform(
         request,
         &repository_root,
         &binary_digest,
-        cutover_comments.ok_or_else(|| {
+        cutover_authority.ok_or_else(|| {
             finding(
                 "authenticated_cutover_observation_required",
                 "executing authority cutover requires authenticated GitHub evidence",
@@ -1629,6 +1597,41 @@ fn execute_cutover_platform(
     })
 }
 
+struct CutoverMutationLock(PathBuf);
+
+impl CutoverMutationLock {
+    fn acquire(repository_root: &Path) -> Result<Self, TerminalFinding> {
+        let path = repository_root.join(".git/csdlc-v3/cutover-mutation.lock");
+        fs::create_dir_all(path.parent().expect("static lock parent")).map_err(|error| {
+            finding(
+                "cutover_lock_failed",
+                &format!("could not create cutover lock directory: {error}"),
+            )
+        })?;
+        fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&path)
+            .and_then(|mut file| {
+                file.write_all(std::process::id().to_string().as_bytes())?;
+                file.sync_all()
+            })
+            .map_err(|_| {
+                finding(
+                    "cutover_mutation_locked",
+                    "another cutover or rollback mutation is already active",
+                )
+            })?;
+        Ok(Self(path))
+    }
+}
+
+impl Drop for CutoverMutationLock {
+    fn drop(&mut self) {
+        let _ = fs::remove_file(&self.0);
+    }
+}
+
 fn execute_rollback(
     request: &CutoverDecisionRequest,
     selector: PathBuf,
@@ -1702,31 +1705,8 @@ fn verify_cutover_readiness(
     request: &CutoverDecisionRequest,
     repository_root: &Path,
     selected_binary_digest: &str,
-    cutover_comments: &[GithubIssueComment],
+    cutover_authority: &CutoverRemoteAuthority,
 ) -> Result<VerifiedCutoverReadiness, TerminalFinding> {
-    const REQUIRED_ROUTES: [&str; 21] = [
-        "bind",
-        "clean",
-        "cutover",
-        "doctor",
-        "edit",
-        "eligibility",
-        "finish",
-        "github",
-        "github-issue",
-        "github-pr",
-        "install",
-        "issue",
-        "pr-state",
-        "proof",
-        "publish",
-        "review",
-        "schedule",
-        "shadow",
-        "shepherd",
-        "soak",
-        "validate",
-    ];
     if request.readiness_evidence_path.as_deref()
         != Some(Path::new(".csdlc/evidence/505/authority-readiness.json"))
     {
@@ -1766,32 +1746,18 @@ fn verify_cutover_readiness(
         || evidence.selected_binary_digest != selected_binary_digest
         || !is_immutable_revision(&evidence.selected_revision)
         || request.selected_binary_provenance != format!("git:{}", evidence.selected_revision)
-        || evidence.route_proofs.len() != REQUIRED_ROUTES.len()
-        || REQUIRED_ROUTES
-            .iter()
-            .any(|route| !evidence.route_proofs.contains_key(*route))
     {
         return Err(finding(
             "operational_readiness_not_proven",
-            "cutover requires 21 file-backed route proofs, canary/review proofs, one immutable revision, and the selected binary digest",
+            "cutover requires the selected binary, immutable revision, direct canary, typed review, rollback proof, and merged authority readback",
         ));
     }
-    for proof in evidence.route_proofs.values().chain([
+    for proof in [
         &evidence.canary_proof,
         &evidence.review_proof,
-        &evidence.approval_proof,
         &evidence.rollback_proof,
-    ]) {
+    ] {
         verify_immutable_proof(repository_root, proof, &evidence.selected_revision)?;
-    }
-    for (route, proof) in &evidence.route_proofs {
-        verify_route_readiness(
-            repository_root,
-            route,
-            proof,
-            &evidence.selected_revision,
-            selected_binary_digest,
-        )?;
     }
     verify_v3_only_canary(
         repository_root,
@@ -1811,10 +1777,8 @@ fn verify_cutover_readiness(
         &review_authority,
         CutoverApprovalEvidence {
             revision: &evidence.selected_revision,
-            selected_binary_digest,
-            approval_proof: &evidence.approval_proof,
             rollback_proof: &evidence.rollback_proof,
-            comments: cutover_comments,
+            remote: cutover_authority,
         },
     )?;
     Ok(VerifiedCutoverReadiness {
@@ -1843,23 +1807,6 @@ fn read_proof_json<T: for<'de> Deserialize<'de>>(
     )?;
     serde_json::from_slice(&fs::read(path).map_err(|error| finding(code, &error.to_string()))?)
         .map_err(|_| finding(code, "cutover proof must be typed JSON evidence"))
-}
-
-fn verify_route_readiness(
-    repository_root: &Path,
-    route: &str,
-    proof: &ImmutableProofRef,
-    revision: &str,
-    selected_binary_digest: &str,
-) -> Result<(), TerminalFinding> {
-    verify_proof_command_receipt(
-        repository_root,
-        proof,
-        revision,
-        &format!("route-{route}"),
-        "route-readiness",
-        selected_binary_digest,
-    )
 }
 
 fn verify_v3_only_canary(
@@ -1923,24 +1870,10 @@ fn verify_proof_command_receipt(
             "proof readiness source must be retained beneath issue #505 evidence with a digest",
         ));
     }
-    let route_preview = manifest_id.strip_prefix("route-");
-    let command_identity_valid = if let Some(route) = route_preview {
-        evidence.normalization
-            == crate::commands::proof::ShadowNormalizationContract::RoutePreviewV1
-            && evidence.command.argv == [route, "--preview"]
-            && evidence.normalized_output["command"] == route
-            && evidence.normalized_output["mode"] == "preview"
-            && evidence.normalized_output["category"].as_str().is_some()
-            && evidence.normalized_output["effect"].as_str().is_some()
-            && evidence.normalized_output["authority_required"]
-                .as_bool()
-                .is_some()
-    } else {
-        evidence.normalization
-            == crate::commands::proof::ShadowNormalizationContract::DoctorIssuePhaseV1
-            && evidence.command.argv.first().map(String::as_str) == Some("doctor")
-            && evidence.normalized_output["command"] == "doctor"
-    };
+    let command_identity_valid = evidence.normalization
+        == crate::commands::proof::ShadowNormalizationContract::DoctorIssuePhaseV1
+        && evidence.command.argv.first().map(String::as_str) == Some("doctor")
+        && evidence.normalized_output["command"] == "doctor";
     if evidence.command.generation != crate::commands::proof::ShadowGeneration::V3
         || evidence.command.provider_side_effects
         || evidence.provider_side_effects
@@ -1948,7 +1881,7 @@ fn verify_proof_command_receipt(
     {
         return Err(finding(
             "proof_command_identity_invalid",
-            "proof readiness requires the exact credential-cleared v3 route preview or declared doctor command",
+            "proof readiness requires the exact credential-cleared v3 doctor command",
         ));
     }
     if Path::new(&evidence.command.request_ref) != evidence.request_evidence.reference
@@ -2116,11 +2049,9 @@ fn verify_independent_review(
         ));
     }
     let assignment = assignment.expect("assignment verified above");
-    let review = review.expect("review verified above");
     Ok(VerifiedReviewAuthority {
         record_digest: record.digest,
         assigned_by: assignment.assigned_by.clone(),
-        reviewer_session: review.reviewer.clone(),
     })
 }
 
@@ -2146,121 +2077,59 @@ fn verify_cutover_approval(
 ) -> Result<(PathBuf, String), TerminalFinding> {
     let CutoverApprovalEvidence {
         revision,
-        selected_binary_digest,
-        approval_proof,
         rollback_proof,
-        comments: cutover_comments,
+        remote,
     } = evidence;
-    let approval_path = PathBuf::from(request.approval.trim());
-    if approval_path != Path::new(".csdlc/evidence/505/cutover-approval.json")
-        || approval_path != approval_proof.path
-        || rollback_proof.path.as_path() != Path::new(request.rollback_evidence.trim())
-    {
+    let approval_path = proof_path(repository_root, &review_authority.record_digest)?;
+    if rollback_proof.path.as_path() != Path::new(request.rollback_evidence.trim()) {
         return Err(finding(
             "cutover_evidence_path_mismatch",
-            "approval and rollback paths must match the digest-bound readiness references",
+            "rollback path must match the digest-bound readiness reference",
         ));
     }
-    let path = repo_existing_file(
-        repository_root,
-        Some(&approval_path),
-        "cutover_approval_path_missing",
-        "executing cutover requires retained typed approval evidence",
-        "cutover_approval",
-    )?;
-    let bytes = fs::read(&path)
-        .map_err(|error| finding("cutover_approval_unreadable", &error.to_string()))?;
-    let approval: AuthorityCutoverApproval = serde_json::from_slice(&bytes).map_err(|_| {
-        finding(
-            "cutover_approval_invalid",
-            "cutover approval must be typed JSON evidence",
-        )
-    })?;
-    if approval.schema != "csdlc.v3.cutover_approval.v1"
-        || approval.authority_issue != 505
-        || approval.repository != "agent-logic/agent-design-language"
-        || approval.decision != "approved"
-        || approval.exact_head != revision
-        || approval.selected_binary_digest != selected_binary_digest
-        || approval.rollback_evidence_digest != rollback_proof.digest
-        || approval.review_record_digest != review_authority.record_digest
-        || approval.approved_by != review_authority.assigned_by
+    if remote.pull_request != 591
+        || !remote.merged
+        || !remote.issue_closed
+        || remote.head_sha != revision
         || request.operator != review_authority.assigned_by
-        || approval.reviewer_github_login.trim().is_empty()
-        || approval.review_comment_id == approval.approval_comment_id
     {
         return Err(finding(
             "cutover_approval_not_exact",
-            "typed #505 approval must bind repository, exact head, selected binary, and operator",
+            "cutover requires authenticated readback proving PR #591 merged at the exact reviewed head and issue #505 closed",
         ));
     }
-    let review_comment = cutover_comments
-        .iter()
-        .find(|comment| comment.id == approval.review_comment_id)
-        .ok_or_else(|| {
-            finding(
-                "github_review_attestation_missing",
-                "authenticated GitHub review attestation comment is missing",
-            )
-        })?;
-    let approval_comment = cutover_comments
-        .iter()
-        .find(|comment| comment.id == approval.approval_comment_id)
-        .ok_or_else(|| {
-            finding(
-                "github_approval_attestation_missing",
-                "authenticated GitHub operator approval comment is missing",
-            )
-        })?;
-    let review_attestation: GithubReviewAttestation = serde_json::from_str(&review_comment.body)
-        .map_err(|_| {
-            finding(
-                "github_review_attestation_invalid",
-                "GitHub review attestation comment must be typed JSON",
-            )
-        })?;
-    let approval_attestation: GithubApprovalAttestation =
-        serde_json::from_str(&approval_comment.body).map_err(|_| {
-            finding(
-                "github_approval_attestation_invalid",
-                "GitHub approval attestation comment must be typed JSON",
-            )
-        })?;
-    if review_comment.user.login != approval.reviewer_github_login
-        || review_comment.user.login == approval_comment.user.login
-        || review_attestation.schema != "csdlc.v3.github_review_attestation.v1"
-        || review_attestation.repository != "agent-logic/agent-design-language"
-        || review_attestation.issue != 505
-        || review_attestation.implementer != request.operator
-        || review_attestation.reviewer_session != review_authority.reviewer_session
-        || review_attestation.exact_head != revision
-        || review_attestation.review_record_digest != review_authority.record_digest
-        || review_attestation.result != "pass"
-        || approval_comment.user.login != approval.approved_by
-        || approval_attestation.schema != "csdlc.v3.github_cutover_approval.v1"
-        || approval_attestation.repository != "agent-logic/agent-design-language"
-        || approval_attestation.issue != 505
-        || approval_attestation.exact_head != revision
-        || approval_attestation.selected_binary_digest != selected_binary_digest
-        || approval_attestation.rollback_evidence_digest != rollback_proof.digest
-        || approval_attestation.review_record_digest != review_authority.record_digest
-        || approval_attestation.review_comment_id != approval.review_comment_id
-        || approval_attestation.decision != "approved"
-    {
-        return Err(finding(
-            "github_cutover_authority_not_exact",
-            "authenticated GitHub attestations must have distinct reviewer/operator authors and bind the exact review, head, binary, and rollback proof",
-        ));
-    }
-    verify_proof_command_receipt(
+    verify_immutable_proof(repository_root, rollback_proof, revision)?;
+    Ok((
+        approval_path,
+        stable_digest(&["github", "pr-591", revision, "merged", "issue-505-closed"]),
+    ))
+}
+
+fn proof_path(repository_root: &Path, expected_digest: &str) -> Result<PathBuf, TerminalFinding> {
+    let path = PathBuf::from(".csdlc/issues/505/index.json");
+    let _absolute = repo_existing_file(
         repository_root,
-        rollback_proof,
-        revision,
-        "rollback-readiness",
-        "rollback-readiness",
-        selected_binary_digest,
+        Some(&path),
+        "review_proof_path_missing",
+        "cutover requires retained typed v2 review state",
+        "review_proof",
     )?;
-    Ok((approval_path, approval_proof.digest.clone()))
+    if expected_digest.trim().is_empty() {
+        return Err(finding(
+            "review_proof_digest_missing",
+            "typed v2 review state is missing its canonical digest",
+        ));
+    }
+    Ok(path)
+}
+
+fn stable_digest(values: &[&str]) -> String {
+    let mut hasher = blake3::Hasher::new();
+    for value in values {
+        hasher.update(value.as_bytes());
+        hasher.update(b"\0");
+    }
+    hasher.finalize().to_hex().to_string()
 }
 
 fn verify_immutable_proof(
