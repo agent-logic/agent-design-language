@@ -9,10 +9,9 @@ use std::{
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    invoke_resident_shepherd_provider, shepherd::decode_request, ExecutorError, FailureClass,
-    InferenceReadinessState, OperationExecutor, OperationRequest, ResidentShepherdInitConfig,
-    ShepherdExecutionClass, ShepherdProvenance, ShepherdRequest, ShepherdResponse,
-    SHEPHERD_RESPONSE_SCHEMA,
+    shepherd::decode_request, ExecutorError, FailureClass, InferenceReadinessState,
+    OperationExecutor, OperationRequest, ResidentShepherdInitConfig, ShepherdExecutionClass,
+    ShepherdProvenance, ShepherdRequest, ShepherdResponse, SHEPHERD_RESPONSE_SCHEMA,
 };
 
 /// Provider adapters that are compiled into this Runtime build. Configuration
@@ -249,7 +248,7 @@ impl ResidentShepherdExecutor {
             });
         }
         let started = Instant::now();
-        let response = invoke_resident_shepherd_provider(
+        let response = crate::control::invoke_provider_conversation(
             &config.provider,
             &config.endpoint,
             &config.model,
@@ -265,7 +264,7 @@ impl ResidentShepherdExecutor {
             },
             message: message.to_owned(),
         })?;
-        let response_sha256 = sha256(response.as_bytes());
+        let response_sha256 = sha256(response.message.as_bytes());
         serde_json::to_vec(&ShepherdResponse {
             schema: SHEPHERD_RESPONSE_SCHEMA.to_owned(),
             correlation_id: shepherd_request.correlation_id,
@@ -282,8 +281,9 @@ impl ResidentShepherdExecutor {
             ),
             runner_nonce_sha256: None,
             elapsed_millis: started.elapsed().as_millis().try_into().unwrap_or(u64::MAX),
-            response: response.clone(),
+            response: response.message,
             response_sha256,
+            agent_to_agent_initiation: response.agent_to_agent,
         })
         .map_err(|_| Self::invalid("shepherd_response_encoding_failed"))
     }

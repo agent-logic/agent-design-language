@@ -43,10 +43,10 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, is_canonical_agent_name, AgentArchiveRecovery, AgentPartialCapture,
-    AgentPartialCheckpointInitConfig, AgentPartialCheckpointStore, AgentRosterEntry,
-    AgentRosterQuery, CanonicalIngress, CheckpointManifest, DomainResult, DomainWork,
-    InferenceReadinessState, IngressError, KernelControl, KernelExit, LiveContinuity,
+    decode_acip_envelope, encode_acip_envelope, is_canonical_agent_name, AgentArchiveRecovery,
+    AgentPartialCapture, AgentPartialCheckpointInitConfig, AgentPartialCheckpointStore,
+    AgentRosterEntry, AgentRosterQuery, CanonicalIngress, CheckpointManifest, DomainResult,
+    DomainWork, InferenceReadinessState, IngressError, KernelControl, KernelExit, LiveContinuity,
     ObservabilityHealth, ResidentShepherdInitConfig, RuntimeEvent, RuntimeRecorder,
     RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
@@ -1880,7 +1880,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let seed_bytes =
             serde_json::to_vec(&seed).map_err(|_| "invalid_agent_initiation_action")?;
         let digest = blake3::hash(&seed_bytes).to_hex().to_string();
-        Ok(Some(ObservatoryAgentInitiationIntent {
+        let intent = ObservatoryAgentInitiationIntent {
             schema: OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA.to_owned(),
             conversation_id: format!("a2a-{}-{}-{}", sender_id, recipient_id, &digest[..16]),
             turn_id: format!("turn-a2a-{}", &digest[16..32]),
@@ -1889,7 +1889,40 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             correlation_id: digest[..32].to_owned(),
             work_id: format!("a2a-work-{}", &digest[32..48]),
             message,
-        }))
+        };
+
+        // Every provider-backed agent uses the same ACIP carrier before the
+        // Runtime applies Layer-8 authority and dispatches to the peer. This is
+        // an in-process carrier boundary today and remains the wire contract
+        // when peers are placed on separate Runtime nodes.
+        let payload =
+            serde_json::to_value(&intent).map_err(|_| "invalid_agent_initiation_action")?;
+        let route = crate::AdapterKind::Agent.service_name();
+        let encoded = encode_acip_envelope(
+            &intent.work_id,
+            &intent.sender_id,
+            &intent.recipient_id,
+            route,
+            &payload,
+            dispatch.sequence,
+        )
+        .map_err(|_| "invalid_agent_initiation_action")?;
+        let envelope =
+            decode_acip_envelope(&encoded).map_err(|_| "invalid_agent_initiation_action")?;
+        if envelope.message_id != intent.work_id
+            || envelope.source != intent.sender_id
+            || envelope.target != intent.recipient_id
+            || envelope.route != route
+        {
+            return Err("invalid_agent_initiation_action");
+        }
+        let decoded =
+            serde_json::from_str::<ObservatoryAgentInitiationIntent>(&envelope.payload_json)
+                .map_err(|_| "invalid_agent_initiation_action")?;
+        if decoded != intent {
+            return Err("invalid_agent_initiation_action");
+        }
+        Ok(Some(decoded))
     }
 
     async fn complete_conversation_dispatch(
@@ -8498,8 +8531,9 @@ pub(crate) struct ProviderConversationOutput {
     pub agent_to_agent: Option<ProviderAgentToAgentAction>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub(crate) struct ProviderAgentToAgentAction {
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProviderAgentToAgentAction {
     pub recipient_id: String,
     pub message: String,
 }

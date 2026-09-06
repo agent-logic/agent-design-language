@@ -307,6 +307,8 @@ pub struct ShepherdResponse {
     pub elapsed_millis: u64,
     pub response: String,
     pub response_sha256: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub agent_to_agent_initiation: Option<crate::control::ProviderAgentToAgentAction>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -617,6 +619,7 @@ impl LocalShepherdExecutor {
             elapsed_millis: u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX),
             response,
             response_sha256,
+            agent_to_agent_initiation: None,
         };
         serde_json::to_vec(&response).map_err(|_| ShepherdError::MalformedOutput)
     }

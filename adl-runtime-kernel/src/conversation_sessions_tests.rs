@@ -213,6 +213,7 @@ impl OperationExecutor for ShepherdConversationExecutor {
             elapsed_millis: 1,
             response_sha256: "5".repeat(64),
             response,
+            agent_to_agent_initiation: None,
         })
         .map_err(|error| ExecutorError {
             class: FailureClass::Fatal,

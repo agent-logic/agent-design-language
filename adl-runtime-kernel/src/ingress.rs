@@ -437,11 +437,26 @@ fn project_public_output(
         {
             return Err(IngressError::ExecutionFailed);
         }
-        return Ok(Some(serde_json::json!({
+        let mut projected = serde_json::json!({
             "schema": "adl.runtime.conversation_reply.v1",
             "recipient_id": recipient_id,
             "message": response.response,
-        })));
+        });
+        if let Some(action) = response.agent_to_agent_initiation {
+            if action.recipient_id.is_empty()
+                || action.recipient_id.len() > 128
+                || action.message.trim().is_empty()
+                || action.message.len() > 4_096
+            {
+                return Err(IngressError::ExecutionFailed);
+            }
+            projected["agent_to_agent_initiation"] = serde_json::json!({
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": action.recipient_id,
+                "message": action.message,
+            });
+        }
+        return Ok(Some(projected));
     }
     let Ok(command) = serde_json::from_slice::<serde_json::Value>(&work.payload) else {
         return Ok(None);
@@ -539,6 +554,60 @@ mod tests {
             }))
             .expect("operation payload serializes"),
         }
+    }
+
+    #[test]
+    fn shepherd_public_output_projects_the_same_agent_initiation_action() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Shepherd.service_name().to_owned(),
+            payload: serde_json::to_vec(&crate::ShepherdRequest {
+                schema: crate::SHEPHERD_REQUEST_SCHEMA.to_owned(),
+                correlation_id: "11111111111111111111111111111111".to_owned(),
+                runtime_id: "runtime-test".to_owned(),
+                shepherd_name: Some("beacon.axioma".to_owned()),
+                conversation_recipient_id: Some("shepherd".to_owned()),
+                prompt: "Contact Ember.".to_owned(),
+            })
+            .expect("shepherd request serializes"),
+        };
+        let response = crate::ShepherdResponse {
+            schema: crate::SHEPHERD_RESPONSE_SCHEMA.to_owned(),
+            correlation_id: "11111111111111111111111111111111".to_owned(),
+            runtime_id: "runtime-test".to_owned(),
+            execution_class: crate::ShepherdExecutionClass::RealLocalModel,
+            provenance: crate::ShepherdProvenance::LiveExecution,
+            retained: false,
+            backend_identity_sha256: None,
+            model_identity_sha256: "1".repeat(64),
+            model_artifact_sha256: None,
+            runner_program_sha256: "2".repeat(64),
+            runner_launch_sha256: "3".repeat(64),
+            runner_nonce_sha256: None,
+            elapsed_millis: 1,
+            response: "I will contact Ember.".to_owned(),
+            response_sha256: "4".repeat(64),
+            agent_to_agent_initiation: Some(crate::control::ProviderAgentToAgentAction {
+                recipient_id: "ember".to_owned(),
+                message: "Please report your current state.".to_owned(),
+            }),
+        };
+        let operation = crate::OperationResult {
+            schema: crate::OPERATION_RESULT_SCHEMA.to_owned(),
+            request_id: "work-beacon".to_owned(),
+            adapter: crate::AdapterKind::Shepherd,
+            attempts: 1,
+            payload: serde_json::to_vec(&response).expect("shepherd response serializes"),
+        };
+
+        let projected = project_public_output(&work, &operation)
+            .expect("projection succeeds")
+            .expect("shepherd conversation output projects");
+        assert_eq!(
+            projected["agent_to_agent_initiation"]["recipient_id"],
+            "ember"
+        );
     }
 
     #[test]
