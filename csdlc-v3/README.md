@@ -94,11 +94,10 @@ cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- sprint --r
 ```
 
 After the canonical evidence-bound v2 selector activates v3 authority for the
-exact reviewed #505 head, local routes use `--operational-context <path>` to
-enter native operational mode. The context binds the canonical selector,
-cutover approval, exact head, state root, repository root, and allowed
-worktree parent; omitting it remains construction-only and performs no live
-lifecycle mutation. Operational `schedule` requests must provide all six
+exact reviewed #505 head, named local routes automatically enter native
+operational mode from `--repo-root`, the canonical selector, retained cutover
+approval, typed request, and requested worktree. There is no caller-controlled
+authority switch. Operational `schedule` requests must provide all six
 `schedule_readiness` dimensions. Operational `shepherd` requests must provide
 `shepherd_routing`, which deterministically classifies waiting, retryable,
 repair-required, operator-required, or ready state.

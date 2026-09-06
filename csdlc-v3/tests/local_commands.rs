@@ -1134,6 +1134,45 @@ fn operational_shepherd_preserves_v2_state_priority_and_operations() {
     assert_eq!(report.eligible_operations, ["operator_decision"]);
 
     shepherded.shepherd_routing = Some(ShepherdRoutingInput {
+        validation: Some("failed".into()),
+        dependency_wait: false,
+        retryable_failure: false,
+        repair_needed: true,
+        operator_decision_needed: false,
+    });
+    let repair = execute_operational_local_route("shepherd", &shepherded, &registry, &context)
+        .expect("repair-required shepherd report");
+    let report = repair.routing.expect("typed repair shepherd report");
+    assert_eq!(report.state, "repair_required");
+    assert_eq!(report.eligible_operations, ["repair"]);
+
+    shepherded.shepherd_routing = Some(ShepherdRoutingInput {
+        validation: Some("failed".into()),
+        dependency_wait: false,
+        retryable_failure: true,
+        repair_needed: false,
+        operator_decision_needed: false,
+    });
+    let retryable = execute_operational_local_route("shepherd", &shepherded, &registry, &context)
+        .expect("retryable shepherd report");
+    let report = retryable.routing.expect("typed retryable shepherd report");
+    assert_eq!(report.state, "retryable");
+    assert_eq!(report.eligible_operations, ["retry"]);
+
+    shepherded.shepherd_routing = Some(ShepherdRoutingInput {
+        validation: None,
+        dependency_wait: false,
+        retryable_failure: false,
+        repair_needed: false,
+        operator_decision_needed: false,
+    });
+    let waiting = execute_operational_local_route("shepherd", &shepherded, &registry, &context)
+        .expect("waiting shepherd report");
+    let report = waiting.routing.expect("typed waiting shepherd report");
+    assert_eq!(report.state, "waiting");
+    assert!(report.eligible_operations.is_empty());
+
+    shepherded.shepherd_routing = Some(ShepherdRoutingInput {
         validation: Some("passed".into()),
         dependency_wait: false,
         retryable_failure: false,

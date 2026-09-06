@@ -204,7 +204,6 @@ jobs:
         uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
         with:
           components: rustfmt, clippy
-          targets: x86_64-pc-windows-gnu
 
       - name: Prepare external Cargo build root
         run: |
@@ -220,14 +219,6 @@ jobs:
 
       - name: C-SDLC v3 strict Clippy
         run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings
-
-      - name: Install Windows cross compiler
-        run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y gcc-mingw-w64-x86-64
-
-      - name: C-SDLC v3 Windows mutation-fence cross-check
-        run: cargo check --locked --manifest-path csdlc-v3/Cargo.toml --all-targets --target x86_64-pc-windows-gnu
 
   adl_v2_standalone:
     name: adl-v2-standalone

@@ -897,6 +897,12 @@ pub fn execute_github_mutation(
     request: &GithubMutationRequest,
     process: &mut impl ProcessAdapter,
 ) -> Result<GithubMutationResult, RemoteRouteFinding> {
+    #[cfg(not(unix))]
+    return Err(remote_finding(
+        "operational_remote_unsupported_platform",
+        "native v3 operational remote mutation is supported only on Unix platforms",
+    ));
+
     validate_repository_name(&request.repository)?;
     let credential_name = mutation_credential_name(request)?;
     validate_mutation(request)?;

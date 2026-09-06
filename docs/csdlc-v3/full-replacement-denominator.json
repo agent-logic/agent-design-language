@@ -4,6 +4,8 @@
   "source_issue": 632,
   "status": "pre_cutover_implemented_pending_authority_evidence",
   "cutover_ready": false,
+  "required_cutover_platforms": ["macos", "linux"],
+  "deferred_platform_work": {"windows": 710},
   "replacement_rule": "C-SDLC v3 may not replace v2 until the single v3 csdlc binary implements and behaviorally proves every required C-SDLC v2 entrypoint listed here, plus any explicitly approved removals.",
   "current_v3_binary": "csdlc-v3/src/main.rs",
   "current_v3_commands": [

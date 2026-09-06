@@ -4,10 +4,10 @@ use csdlc_v3::{
     adapters::{EnvironmentCredentialResolver, RealProcessAdapter},
     application::FoundationState,
     commands::local::{
-        execute_local_route, execute_operational_local_route, finding, initialize_v3_local_state,
-        inspect_local_lifecycle_state, inspect_v3_local_state, local_route_command,
-        local_route_status, prepare_local_workflow, LocalPreparationRequest,
-        OperationalLocalContext, PlanStatus, WorktreeRegistration, LOCAL_ROUTE_NAMES,
+        discover_operational_local_context, execute_local_route, execute_operational_local_route,
+        finding, initialize_v3_local_state, inspect_local_lifecycle_state, inspect_v3_local_state,
+        local_route_command, local_route_status, prepare_local_workflow, LocalPreparationRequest,
+        PlanStatus, WorktreeRegistration, LOCAL_ROUTE_NAMES,
     },
     commands::proof::{classify_route, ProofRouteRequest, ProofRouteStatus, PROOF_ROUTE_NAMES},
     commands::remote::{
@@ -29,7 +29,8 @@ use serde::Serialize;
 const ROOT_USAGE: &str =
     "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github]\n  github-issue --request <path> [--observe-github]\n  github-pr --request <path> [--observe-github]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
-const LOCAL_USAGE: &str = "usage: csdlc local --request <path> --registry <path> --registrations <path> [--operational-context <path>]";
+const LOCAL_USAGE: &str =
+    "usage: csdlc local --request <path> --registry <path> --registrations <path>";
 const REMOTE_USAGE: &str =
     "usage: csdlc <github|github-issue|github-pr|pr-state|publish|review> --request <path> [--observe-github] [--execute]";
 const TERMINAL_USAGE: &str =
@@ -125,27 +126,30 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
             ));
         }
     }
-    if let Some(context_path) = args
-        .operational_context
-        .as_ref()
-        .filter(|_| route != "local")
-    {
-        let context_bytes = fs::read(context_path)
-            .map_err(|error| format!("failed to read operational context: {error}"))?;
-        let context: OperationalLocalContext = serde_json::from_slice(&context_bytes)
-            .map_err(|error| format!("typed_operational_local_context_invalid_json: {error}"))?;
-        let operational = execute_operational_local_route(route, &request, &registry, &context)
-            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
-        return serde_json::to_string(&serde_json::json!({
-            "schema": "csdlc.v3.operational_local.v1",
-            "command": route,
-            "read_only": !operational.mutated,
-            "operational_read_only": !operational.mutated,
-            "operational_authority": true,
-            "writes_v3_state": operational.mutated,
-            "result": operational,
-        }))
-        .map_err(|error| error.to_string());
+    if route != "local" {
+        let repository_root = args
+            .repo_root
+            .clone()
+            .or_else(|| env::current_dir().ok())
+            .ok_or_else(|| "operational repository root is unavailable".to_string())?;
+        if let Some(context) = discover_operational_local_context(&repository_root, &request)
+            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?
+        {
+            let operational = execute_operational_local_route(route, &request, &registry, &context)
+                .map_err(|findings| {
+                    serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
+                })?;
+            return serde_json::to_string(&serde_json::json!({
+                "schema": "csdlc.v3.operational_local.v1",
+                "command": route,
+                "read_only": !operational.mutated,
+                "operational_read_only": !operational.mutated,
+                "operational_authority": true,
+                "writes_v3_state": operational.mutated,
+                "result": operational,
+            }))
+            .map_err(|error| error.to_string());
+        }
     }
     let mut result = prepare_local_workflow(&request, &registry, &registrations)
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
@@ -513,7 +517,6 @@ struct LocalArgs {
     registrations: PathBuf,
     repo_root: Option<PathBuf>,
     v3_state_root: Option<PathBuf>,
-    operational_context: Option<PathBuf>,
 }
 
 #[derive(Debug)]
@@ -632,14 +635,13 @@ impl TerminalArgs {
 impl LocalArgs {
     fn parse(args: &[String], route: &str) -> Result<Self, String> {
         let usage = format!(
-            "usage: csdlc {route} --request <path> --registry <path> --registrations <path> [--operational-context <path>]"
+            "usage: csdlc {route} --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]"
         );
         let mut request = None;
         let mut registry = None;
         let mut registrations = None;
         let mut repo_root = None;
         let mut v3_state_root = None;
-        let mut operational_context = None;
         let mut iter = args.iter();
         while let Some(arg) = iter.next() {
             let target = match arg.as_str() {
@@ -648,7 +650,6 @@ impl LocalArgs {
                 "--registrations" => &mut registrations,
                 "--repo-root" => &mut repo_root,
                 "--v3-state-root" => &mut v3_state_root,
-                "--operational-context" => &mut operational_context,
                 _ => return Err(format!("{usage}; unexpected argument {arg}")),
             };
             if target.is_some() {
@@ -665,7 +666,6 @@ impl LocalArgs {
             registrations: registrations.ok_or(usage)?,
             repo_root,
             v3_state_root,
-            operational_context,
         })
     }
 }

@@ -6,7 +6,7 @@ use std::{
 };
 
 use csdlc_v3::commands::{
-    local::{required_local_commands, LocalPreparationRequest, OperationalLocalContext},
+    local::{required_local_commands, LocalPreparationRequest},
     remote::{
         canonical_authority_selector_digest, OperationalRemoteDispatchRequest,
         OperationalRemoteOperation, RemoteRouteRequest,
@@ -57,7 +57,6 @@ fn run(args: &[&str], cwd: &std::path::Path) -> std::process::Output {
 struct OperationalFixture {
     root: PathBuf,
     request_path: PathBuf,
-    context_path: PathBuf,
     registrations_path: PathBuf,
     request: LocalPreparationRequest,
 }
@@ -110,7 +109,6 @@ fn operational_fixture(name: &str) -> OperationalFixture {
     }))
     .unwrap();
     fs::write(&selector_path, &selector).unwrap();
-    let selector_digest = blake3::hash(&selector).to_hex().to_string();
     fs::create_dir_all(root.join("worktrees")).unwrap();
     let request = LocalPreparationRequest {
         issue: 505,
@@ -128,26 +126,13 @@ fn operational_fixture(name: &str) -> OperationalFixture {
         commands: required_local_commands().to_vec(),
         card_updates: BTreeMap::new(),
     };
-    let context = OperationalLocalContext {
-        repository_root: root.clone(),
-        state_root: root.join(".csdlc"),
-        allowed_worktree_parent: root.join("worktrees"),
-        expected_authority_selector_digest: selector_digest,
-        cutover_approval_path: ".csdlc/evidence/505/cutover-approval.json".into(),
-        expected_cutover_approval_digest: approval_digest,
-        expected_head_sha: exact_head,
-        expected_lifecycle_digest: None,
-    };
     let request_path = root.join("operational-request.json");
-    let context_path = root.join("operational-context.json");
     let registrations_path = root.join("registrations.json");
     fs::write(&request_path, serde_json::to_vec(&request).unwrap()).unwrap();
-    fs::write(&context_path, serde_json::to_vec(&context).unwrap()).unwrap();
     fs::write(&registrations_path, b"[]").unwrap();
     OperationalFixture {
         root,
         request_path,
-        context_path,
         registrations_path,
         request,
     }
@@ -169,8 +154,8 @@ fn run_operational(
         .arg(registry)
         .arg("--registrations")
         .arg(&fixture.registrations_path)
-        .arg("--operational-context")
-        .arg(&fixture.context_path);
+        .arg("--repo-root")
+        .arg(&fixture.root);
     if let Some(point) = crash {
         command.env("CSDLC_V3_TEST_CRASH_POINT", point);
     }
@@ -187,15 +172,11 @@ fn initialize_operational_fixture(fixture: &mut OperationalFixture) -> String {
     let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
     let digest = value["result"]["digest"].as_str().unwrap().to_owned();
     fixture.request.expected_lifecycle_digest = Some(digest.clone());
-    let mut context: OperationalLocalContext =
-        serde_json::from_slice(&fs::read(&fixture.context_path).unwrap()).unwrap();
-    context.expected_lifecycle_digest = Some(digest.clone());
     fs::write(
         &fixture.request_path,
         serde_json::to_vec(&fixture.request).unwrap(),
     )
     .unwrap();
-    fs::write(&fixture.context_path, serde_json::to_vec(&context).unwrap()).unwrap();
     digest
 }
 
@@ -289,29 +270,11 @@ fn local_operational_route_is_reachable_and_fails_closed_under_v2_selector() {
     };
     let request_path = fixture.join("local.json");
     let registrations_path = fixture.join("registrations.json");
-    let context_path = fixture.join("operational-context.json");
     fs::write(&request_path, serde_json::to_vec(&request).unwrap()).unwrap();
     fs::write(&registrations_path, b"[]").unwrap();
 
     let registry = repo_root().join("docs/templates/prompts/current.json");
     let state_root = fixture.join(".csdlc/v3");
-    let local_selector_digest = blake3::hash(
-        &fs::read(fixture.join("csdlc-v2/operator/generation-selector.json"))
-            .expect("selector bytes"),
-    )
-    .to_hex()
-    .to_string();
-    let context = OperationalLocalContext {
-        repository_root: fixture.clone(),
-        state_root: state_root.clone(),
-        allowed_worktree_parent: fixture.join("worktrees"),
-        expected_authority_selector_digest: local_selector_digest,
-        cutover_approval_path: ".csdlc/evidence/505/cutover-approval.json".into(),
-        expected_cutover_approval_digest: "0".repeat(64),
-        expected_head_sha: "0123456789012345678901234567890123456789".into(),
-        expected_lifecycle_digest: None,
-    };
-    fs::write(&context_path, serde_json::to_vec(&context).unwrap()).unwrap();
     let output = run(
         &[
             "issue",
@@ -325,8 +288,6 @@ fn local_operational_route_is_reachable_and_fails_closed_under_v2_selector() {
             fixture.to_str().unwrap(),
             "--v3-state-root",
             state_root.to_str().unwrap(),
-            "--operational-context",
-            context_path.to_str().unwrap(),
         ],
         &repo_root(),
     );

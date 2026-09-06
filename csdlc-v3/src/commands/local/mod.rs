@@ -119,6 +119,93 @@ pub struct OperationalLocalContext {
     pub expected_lifecycle_digest: Option<String>,
 }
 
+pub fn discover_operational_local_context(
+    repository_root: &Path,
+    request: &LocalPreparationRequest,
+) -> Result<Option<OperationalLocalContext>, Vec<DoctorFinding>> {
+    let repository_root = repository_root.canonicalize().map_err(|_| {
+        vec![finding(
+            PlanStatus::Failed,
+            "repository_root_unavailable",
+            "operational repository root must be an existing canonical directory",
+        )]
+    })?;
+    let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
+    let selector_bytes = match fs::read(&selector_path) {
+        Ok(bytes) => bytes,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => {
+            return Err(vec![finding(
+                PlanStatus::Failed,
+                "canonical_authority_selector_unreadable",
+                &error.to_string(),
+            )])
+        }
+    };
+    let selector: Value = serde_json::from_slice(&selector_bytes).map_err(|_| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "canonical_authority_selector_invalid",
+            "canonical generation selector must be typed JSON",
+        )]
+    })?;
+    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.generation_selector.v2")
+        || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
+        || selector
+            .get("operational_authority")
+            .and_then(Value::as_str)
+            != Some("csdlc-v3")
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "canonical_v3_authority_inactive",
+            "named operational routes remain denied until the canonical selector activates v3",
+        )]);
+    }
+    let expected_head_sha = selector
+        .get("exact_review_sha")
+        .and_then(Value::as_str)
+        .filter(|value| !value.trim().is_empty())
+        .ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "canonical_authority_exact_head_missing",
+                "active v3 authority must bind an exact reviewed head",
+            )]
+        })?
+        .to_owned();
+    let approval_path = PathBuf::from(".csdlc/evidence/505/cutover-approval.json");
+    let approval_bytes = fs::read(repository_root.join(&approval_path))
+        .map_err(io_finding("cutover_approval_unreadable"))?;
+    let allowed_worktree_parent = Path::new(&request.worktree)
+        .parent()
+        .ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "worktree_parent_missing",
+                "operational worktree must have an approved parent",
+            )]
+        })?
+        .canonicalize()
+        .map_err(|_| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "worktree_parent_unavailable",
+                "operational worktree parent must already exist",
+            )]
+        })?;
+    Ok(Some(OperationalLocalContext {
+        state_root: repository_root.join(".csdlc"),
+        allowed_worktree_parent,
+        expected_authority_selector_digest: blake3::hash(&selector_bytes).to_hex().to_string(),
+        cutover_approval_path: approval_path,
+        expected_cutover_approval_digest: blake3::hash(&approval_bytes).to_hex().to_string(),
+        expected_head_sha,
+        expected_lifecycle_digest: request.expected_lifecycle_digest.clone(),
+        repository_root,
+    }))
+}
+
 #[derive(Debug, Deserialize)]
 struct CutoverApprovalEvidence {
     schema: String,
@@ -2289,7 +2376,7 @@ fn route_operational_issue(
             "repair_required"
         } else if routing.retryable_failure {
             "retryable"
-        } else if routing.dependency_wait {
+        } else if routing.dependency_wait || routing.validation.is_none() {
             "waiting"
         } else if diagnostics_blocked {
             "repair_required"
