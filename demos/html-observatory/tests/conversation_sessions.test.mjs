@@ -41,7 +41,9 @@ const {
   conversationFrameProvesAcceptance,
   conversationFrameTransition,
   conversationReconnectIntent,
-  conversationReplyFromFrame
+  conversationReplyFromFrame,
+  normalizeRuntimeConversationHistorySnapshot,
+  restoreConversationTranscriptFromRuntimeHistory
 } = globalThis.AdlHtmlObservatory;
 
 for (const id of [
@@ -143,6 +145,83 @@ assert.equal(conversationFrameTransition({ ...delivered, turn_id: "turn-other" }
 assert.equal(conversationFrameTransition({ ...delivered, recipient_id: "agent-0002" }, pending), null);
 assert.equal(conversationFrameTransition({ ...delivered, correlation_id: "f".repeat(32) }, pending), null);
 assert.equal(conversationFrameTransition({ ...delivered, reply: "" }, pending), null);
+
+const a2aHistory = normalizeRuntimeConversationHistorySnapshot({
+  schema: "adl.runtime.conversation_history.v1",
+  conversation_id: "conversation-agent-0001",
+  runtime_incarnation_id: "incarnation-a",
+  records: [
+    {
+      journal_sequence: 1,
+      message_id: "turn-1:outbound",
+      speaker_id: "operator",
+      body: "Please ask Beacon.",
+      status: "delivered"
+    },
+    {
+      journal_sequence: 2,
+      message_id: "turn-1:reply",
+      speaker_id: "agent:beacon",
+      body: "I can ask Ember.",
+      status: "delivered"
+    },
+    {
+      journal_sequence: 3,
+      history_kind: "agent_to_agent_turn",
+      message_id: "turn-1:a2a-outbound",
+      turn_id: "turn-a2a-1",
+      causal_id: "a2a-beacon-ember-1:turn-a2a-1:a2a-work-1",
+      sender_id: "beacon",
+      recipient_id: "ember",
+      work_id: "a2a-work-1",
+      parent_conversation_id: "conversation-agent-0001",
+      parent_turn_id: "turn-1",
+      a2a_role: "outbound",
+      speaker_id: "agent:beacon",
+      body: "Ember, please answer Beacon.",
+      status: "a2a_delivered"
+    },
+    {
+      journal_sequence: 4,
+      history_kind: "agent_to_agent_turn",
+      message_id: "turn-1:a2a-reply",
+      turn_id: "turn-a2a-1",
+      causal_id: "a2a-beacon-ember-1:turn-a2a-1:a2a-work-1",
+      sender_id: "beacon",
+      recipient_id: "ember",
+      work_id: "a2a-work-1",
+      parent_conversation_id: "conversation-agent-0001",
+      parent_turn_id: "turn-1",
+      a2a_role: "reply",
+      speaker_id: "agent:ember",
+      body: "Ember generated a governed response for Beacon.",
+      status: "a2a_delivered"
+    }
+  ]
+}, {
+  runtime_incarnation_id: "incarnation-a"
+});
+assert.equal(a2aHistory.accepted, true);
+assert.deepEqual(a2aHistory.records.map((record) => record.body), [
+  "Please ask Beacon.",
+  "I can ask Ember.",
+  "Ember, please answer Beacon.",
+  "Ember generated a governed response for Beacon."
+]);
+assert.equal(a2aHistory.records[2].history_kind, "agent_to_agent_turn");
+assert.equal(a2aHistory.records[2].a2a_role, "outbound");
+assert.equal(a2aHistory.records[2].causal_id, a2aHistory.records[3].causal_id);
+const restoredTurns = [];
+const restoredHistory = restoreConversationTranscriptFromRuntimeHistory(a2aHistory, {
+  runtime_incarnation_id: "incarnation-a"
+}, (...args) => restoredTurns.push(args));
+assert.equal(restoredHistory.accepted, true);
+assert.deepEqual(restoredTurns.map((turn) => turn.slice(0, 4)), [
+  ["operator", "Please ask Beacon.", "turn-1:outbound", "delivered"],
+  ["agent:beacon", "I can ask Ember.", "turn-1:reply", "delivered"],
+  ["agent:beacon", "Ember, please answer Beacon.", "turn-1:a2a-outbound", "a2a_delivered"],
+  ["agent:ember", "Ember generated a governed response for Beacon.", "turn-1:a2a-reply", "a2a_delivered"]
+]);
 
 pending.cancelRequested = true;
 assert.deepEqual(conversationFrameTransition({

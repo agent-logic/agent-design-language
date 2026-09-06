@@ -1,9 +1,10 @@
 use std::collections::BTreeSet;
 
 use adl_runtime_kernel::{
-    ConversationDeletionMarker, ConversationHistoryAccessPolicy, ConversationHistoryError,
-    ConversationHistoryMessage, ConversationHistoryPageRequest, ConversationHistorySearchRequest,
-    ConversationHistoryStore, ConversationJournal, ConversationJournalEvent,
+    ConversationDeletionMarker, ConversationHistoryA2aExchange, ConversationHistoryAccessPolicy,
+    ConversationHistoryError, ConversationHistoryMessage, ConversationHistoryPageRequest,
+    ConversationHistorySearchRequest, ConversationHistoryStore, ConversationJournal,
+    ConversationJournalEvent, CONVERSATION_HISTORY_A2A_EXCHANGE_SCHEMA,
     CONVERSATION_HISTORY_SCHEMA,
 };
 
@@ -48,6 +49,25 @@ fn append(
         .unwrap();
 }
 
+fn a2a_exchange(conversation: &str, exchange_id: &str) -> ConversationHistoryA2aExchange {
+    ConversationHistoryA2aExchange {
+        schema: CONVERSATION_HISTORY_A2A_EXCHANGE_SCHEMA.to_string(),
+        conversation_id: conversation.to_string(),
+        exchange_id: exchange_id.to_string(),
+        sender_id: "beacon".to_string(),
+        recipient_id: "ember".to_string(),
+        outbound_message_id: format!("{exchange_id}:outbound"),
+        outbound_body: "Ember, please answer Beacon verbatim.".to_string(),
+        outbound_created_at_epoch_ms: 10,
+        reply_message_id: format!("{exchange_id}:reply"),
+        reply_body: "Beacon, here is Ember's verbatim reply.".to_string(),
+        reply_created_at_epoch_ms: 11,
+        status: "delivered".to_string(),
+        causal_id: format!("{conversation}:{exchange_id}:a2a-work-001"),
+        work_id: "a2a-work-001".to_string(),
+    }
+}
+
 #[test]
 fn authorized_pagination_rejects_stale_cursor_after_restart() {
     let root = tempfile::tempdir().unwrap();
@@ -80,6 +100,72 @@ fn authorized_pagination_rejects_stale_cursor_after_restart() {
         ),
         Err(ConversationHistoryError::StaleCursor)
     ));
+}
+
+#[test]
+fn a2a_exchange_restores_verbatim_causal_records_after_restart() {
+    let root = tempfile::tempdir().unwrap();
+    let store = ConversationHistoryStore::open(root.path()).unwrap();
+    store
+        .append_a2a_exchange(
+            "operator-a",
+            H,
+            a2a_exchange("conversation-a", "exchange-1"),
+        )
+        .unwrap();
+
+    let restored = ConversationHistoryStore::open(root.path())
+        .unwrap()
+        .restore_observatory_transcript(&policy("conversation-a"), "conversation-a")
+        .unwrap();
+    assert_eq!(restored.len(), 2);
+    assert_eq!(
+        restored[0].history_kind.as_deref(),
+        Some("agent_to_agent_turn")
+    );
+    assert_eq!(restored[0].a2a_role.as_deref(), Some("outbound"));
+    assert_eq!(restored[0].speaker_id, "agent:beacon");
+    assert_eq!(restored[0].body, "Ember, please answer Beacon verbatim.");
+    assert_eq!(restored[1].a2a_role.as_deref(), Some("reply"));
+    assert_eq!(restored[1].speaker_id, "agent:ember");
+    assert_eq!(restored[1].body, "Beacon, here is Ember's verbatim reply.");
+    assert_eq!(restored[0].causal_id, restored[1].causal_id);
+    assert_eq!(restored[0].sender_id.as_deref(), Some("beacon"));
+    assert_eq!(restored[0].recipient_id.as_deref(), Some("ember"));
+    assert_eq!(restored[0].work_id.as_deref(), Some("a2a-work-001"));
+}
+
+#[test]
+fn a2a_exchange_replay_does_not_duplicate_and_redaction_still_applies() {
+    let root = tempfile::tempdir().unwrap();
+    let store = ConversationHistoryStore::open(root.path()).unwrap();
+    let exchange = a2a_exchange("conversation-a", "exchange-1");
+    store
+        .append_a2a_exchange("operator-a", H, exchange.clone())
+        .unwrap();
+    store
+        .append_a2a_exchange("operator-a", H, exchange)
+        .unwrap();
+    store
+        .redact(
+            &policy("conversation-a"),
+            "conversation-a",
+            "exchange-1:reply",
+            "operator redaction",
+            12,
+        )
+        .unwrap();
+
+    let restored = store
+        .restore_observatory_transcript(&policy("conversation-a"), "conversation-a")
+        .unwrap();
+    assert_eq!(restored.len(), 2, "replayed A2A receipt must not duplicate");
+    assert_eq!(restored[0].body, "Ember, please answer Beacon verbatim.");
+    assert_eq!(restored[1].body, "[redacted]");
+    assert_eq!(
+        restored[1].redaction_reason.as_deref(),
+        Some("operator redaction")
+    );
 }
 
 #[test]

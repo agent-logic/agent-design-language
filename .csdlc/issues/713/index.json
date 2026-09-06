@@ -1,0 +1,291 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 713,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "fbac5e3d9c82ff699bfcf2f6d77accb3468354591a29d9b5578530c77e3d0c7e",
+  "phase": "published",
+  "generation": 12,
+  "digest": "c87af944dfcc85d7c46d8726e2a58c44cab71e29c59c9d6bece81e4e6c5d0b19",
+  "branch": "codex/713-runtime-a2a-conversation-history",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-713-runtime-a2a-conversation-history",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_713_a2a_history_r1",
+    "assigned_by": "codex:worker-7-r4",
+    "revision": "git-blake3:2e629b108c6795a5b9636dc222dd88fe3f92a30b:bd6e420197c3ebf19955b54ab7357beabdfc5a042c83f167ce54481144d9f3d2",
+    "scope": [
+      ".csdlc/prepared/issues/713/design.md",
+      ".csdlc/prepared/issues/713/diagram.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_713_a2a_history_r1",
+    "scope": [
+      ".csdlc/prepared/issues/713/design.md",
+      ".csdlc/prepared/issues/713/diagram.mmd"
+    ],
+    "reviewed_revision": "git-blake3:2e629b108c6795a5b9636dc222dd88fe3f92a30b:bd6e420197c3ebf19955b54ab7357beabdfc5a042c83f167ce54481144d9f3d2",
+    "findings": [],
+    "residual_risks": [
+      "Live Wuji Runtime/ACIP proof remains deferred unless explicitly operator-authorized with ADL_LIVE_WUJI_A2A_HISTORY=1.",
+      "The re-review scope is limited to prepared artifact whitespace cleanup and typed lifecycle metadata recovery; Runtime/Observatory product behavior was previously reviewed and unchanged by this hygiene tail."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 713,
+    "pull_request": 714,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/714",
+    "base": "main",
+    "head": "codex/713-runtime-a2a-conversation-history",
+    "revision": "git-blake3:8b007da3bc1575e8ccb0ff5a6944a9cf6b07c821:a28d55f7acb84bf27f2b7f04cf1246ac9bd9ab404d6acc7f20f8c56ac1daa94b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/713/design.md",
+  "diagram_path": ".csdlc/prepared/issues/713/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:99aef44c-2b7c-4a82-afde-330ba1abc844",
+      "revision": "a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "daf79c4ac3f2d91704430719783fa311973b5829aac42d225263b0219fb706f2",
+      "rendered_digest": "679f30a3e786c007ad215683ad418ef2782d80456d9ed9377d70cde514f118dc",
+      "ast_digest": "9928e55f88db6775a83e9df2b049a848bba9dd887f2f8f42bb55d048025610db"
+    },
+    "stp": {
+      "values_digest": "88fce96bd5177606bd9ede29ee8972bd8e70338948cd99c9af78f32c66cb99b7",
+      "rendered_digest": "475d8d27500333c9b06fae09931124de38a201f49483e5d0c72ef37299684d08",
+      "ast_digest": "a1b65c29ad56329c8ef4d8d23bf09fee04cc5e336823ec4ec69049c7910c69f1"
+    },
+    "spp": {
+      "values_digest": "fae5476b7cd3930321227516b6fbe1a4efb57b30a054458fbfd4c7cfc7d5e089",
+      "rendered_digest": "bca9c2267eb81b40d2f3ee747578d6ae91cd11096e14a253da0b4f99819eb64b",
+      "ast_digest": "337a417c962c683c7394a55b432f54239ee4898fc6470d41760c9a76e84b2b90"
+    },
+    "vpp": {
+      "values_digest": "9aea8831ab910965e4d54ce261d4ae1e8e9a3a15806d7e0709382a336a8fe430",
+      "rendered_digest": "ddf64b34b52855c0884a9d0b9c4e69e35d248e859293367354235c61ebdd2ade",
+      "ast_digest": "9229df9af5aa5af7ac52ed14ba0d20f780ebda4e094c151f8732141f3efc3a7a"
+    },
+    "srp": {
+      "values_digest": "ece1ff290ba216a845341d69aa4e1f777b98a5e77f23c3032d8b964e917e4d3d",
+      "rendered_digest": "5e731d54e9a125d446e0eb1bf49714a26291982b72b59940004803ad30475095",
+      "ast_digest": "45d90d8dd326a7c854b756b991733c7c1e5a2aa872ce6a352193058bf5cd06de"
+    },
+    "sor": {
+      "values_digest": "535875945103d072d30582145e6378cc4d174eb5859f12b50da97f97743bbc82",
+      "rendered_digest": "54cbcbe0a5d7b093b9cfcaad702904c9b303ff96ba0f095b474b10191e81f418",
+      "ast_digest": "cae44ab83e1a120d4fce16bae16a43dc36bc961c82628cef7f9f96e92d52b8cf"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-7",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_713_a2a_history_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-7",
+      "reason": "Recover reviewed #713 after typed review recording created a lifecycle metadata tail beyond the assigned substantive A2A history remediation; no product, test, tool, or evidence files changed after the PASS-reviewed runtime scope."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_713_a2a_history_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-7",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-7",
+      "reason": "Recover #713 from published to implemented so a post-publication prepared-artifact whitespace hygiene correction can refresh authored design/diagram digests through typed lifecycle authority before re-review and republication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_713_a2a_history_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-7",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "Worker #7",
+      "reason": "Repair #713 execution readiness by replacing prose affected areas with concrete repo-owned Runtime, API, Observatory, validator, and evidence paths while preserving #707 ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation_history.rs\",\"adl-runtime-kernel/src/conversation_journal.rs\",\"adl-runtime-kernel/src/conversation_continuity.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/test_support.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime/tests/kernel_continuity_client.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"adl/tools/test_issue713_a2a_history.sh\",\"adl/tools/test_issue713_live_a2a_history.sh\",\".csdlc/prepared/issues/713/validate-live-a2a-history.sh\",\".csdlc/evidence/713\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "Worker #7",
+      "reason": "Repair #713 validation readiness by selecting issue-owned executable wrappers for deterministic and explicitly-authorized live A2A history proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"a2a-history-focused\",\"proof_role\":\"Prove verbatim causal A2A transcript persistence, replay handling, redaction, API projection, Observatory restore, restart, checkpoint, and rehydration in deterministic local proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_issue713_a2a_history.sh\"],\"parallel_group\":\"a2a-history-local\",\"defer_reason\":null},{\"lane\":\"live-wuji-a2a\",\"proof_role\":\"Prove raw redacted bidirectional non-Shepherd Wuji A2A exchange and recovered verbatim transcript after reconnect/restart when explicitly operator-authorized.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/713/validate-live-a2a-history.sh\"],\"parallel_group\":\"a2a-live-serial\",\"defer_reason\":\"Live Wuji Runtime/ACIP proof requires explicit operator authorization; the wrapper fails closed unless ADL_LIVE_WUJI_A2A_HISTORY=1 is set.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-7",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:worker-7-r2",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "subagent:/root/review_713_a2a_history_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:worker-7",
+      "reason": "Recover reviewed #713 after typed review recording created a lifecycle metadata tail beyond the assigned substantive A2A history remediation; no product, test, tool, or evidence files changed after the PASS-reviewed runtime scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:worker-7-r3",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "subagent:/root/review_713_a2a_history_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:worker-7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-7",
+      "reason": "Recover #713 from published to implemented so a post-publication prepared-artifact whitespace hygiene correction can refresh authored design/diagram digests through typed lifecycle authority before re-review and republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:worker-7",
+      "reason": "Refresh #713 authored design and diagram digests after removing trailing blank lines from prepared artifacts during post-publication review recovery.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/713/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/713/diagram.mmd\",\"new_design_digest\":\"a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3\",\"new_diagram_digest\":\"0130ada9fadf6f4b748d59a8040eb2c97ed4496fff77c960f7c709fed1808c64\",\"old_design_digest\":\"adad7d9a926a1644bdc559143556f5d9645f6ef943c819a7b6505195dee72286\",\"old_diagram_digest\":\"11880d2638e636d21fbe24fcd43d3be5705abd7e03f72faec42c72f62967f657\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"operator:direct-a2a-history-contract\",\"revision\":\"adad7d9a926a1644bdc559143556f5d9645f6ef943c819a7b6505195dee72286\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":8,\"recovery_sequence\":13}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "fresh-session:99aef44c-2b7c-4a82-afde-330ba1abc844",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3\",\"design_ref\":\".csdlc/prepared/issues/713/design.md\",\"diagram_digest\":\"0130ada9fadf6f4b748d59a8040eb2c97ed4496fff77c960f7c709fed1808c64\",\"diagram_ref\":\".csdlc/prepared/issues/713/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:worker-7-r4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "subagent:/root/review_713_a2a_history_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:worker-7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

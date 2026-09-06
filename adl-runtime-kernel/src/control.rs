@@ -226,10 +226,32 @@ pub struct AgentTurnCheckpoint {
     pub correlation_id: String,
     pub sequence: u64,
     pub terminal_status: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub message: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub speaker_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_recipient_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_conversation_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_turn_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_correlation_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_work_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_message: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_reply: Option<String>,
     pub reply: Option<String>,
     pub accepted_sequence: Option<u64>,
     pub turn_sequence: Option<u64>,
     pub terminal_error: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub accepted_at_unix_millis: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub completed_at_unix_millis: Option<u64>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1330,7 +1352,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let session = sessions.sessions.get(&request.conversation_id)?;
         let mut records = Vec::new();
         for (turn_id, turn) in &session.turns {
-            let outbound_sequence = turn.sequence.checked_mul(2)?.checked_sub(1)?;
+            let outbound_sequence = turn.sequence.checked_mul(4)?.checked_sub(3)?;
             if !turn.message.is_empty() {
                 records.push(ObservatoryConversationHistoryRecord {
                     conversation_id: request.conversation_id.clone(),
@@ -1347,19 +1369,33 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .to_owned(),
                     redacted: false,
                     redaction_reason: None,
+                    history_kind: Some("conversation_turn".to_owned()),
+                    turn_id: Some(turn_id.clone()),
+                    causal_id: Some(format!("{}:{turn_id}", request.conversation_id)),
+                    sender_id: None,
+                    recipient_id: Some(session.recipient_id.clone()),
+                    work_id: None,
+                    parent_conversation_id: None,
+                    parent_turn_id: None,
+                    a2a_role: None,
                 });
             }
             if let Some(terminal) = &turn.terminal {
                 if terminal.status == "delivered" {
                     if let Some(reply) = terminal.reply.as_ref() {
-                        records.push(ObservatoryConversationHistoryRecord {
-                            conversation_id: request.conversation_id.clone(),
-                            message_id: format!("{turn_id}:reply"),
-                            speaker_id: terminal
+                        let reply_speaker_id = if turn.speaker_id.starts_with("agent:") {
+                            format!("agent:{}", terminal.recipient_id)
+                        } else {
+                            terminal
                                 .sender_id
                                 .as_ref()
                                 .map(|sender| format!("agent:{sender}"))
-                                .unwrap_or_else(|| format!("agent:{}", terminal.recipient_id)),
+                                .unwrap_or_else(|| format!("agent:{}", terminal.recipient_id))
+                        };
+                        records.push(ObservatoryConversationHistoryRecord {
+                            conversation_id: request.conversation_id.clone(),
+                            message_id: format!("{turn_id}:reply"),
+                            speaker_id: reply_speaker_id,
                             body: reply.clone(),
                             created_at_epoch_ms: turn
                                 .completed_at_unix_millis
@@ -1368,7 +1404,100 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             status: "delivered".to_owned(),
                             redacted: false,
                             redaction_reason: None,
+                            history_kind: Some("conversation_turn".to_owned()),
+                            turn_id: Some(turn_id.clone()),
+                            causal_id: Some(format!("{}:{turn_id}", request.conversation_id)),
+                            sender_id: terminal.sender_id.clone(),
+                            recipient_id: Some(terminal.recipient_id.clone()),
+                            work_id: None,
+                            parent_conversation_id: None,
+                            parent_turn_id: None,
+                            a2a_role: None,
                         });
+                    }
+                }
+                if let (
+                    Some(initiated_conversation_id),
+                    Some(initiated_turn_id),
+                    Some(sender_id),
+                    Some(recipient_id),
+                    Some(work_id),
+                ) = (
+                    terminal.initiated_conversation_id.as_ref(),
+                    terminal.initiated_turn_id.as_ref(),
+                    terminal.sender_id.as_ref(),
+                    terminal.initiated_recipient_id.as_ref(),
+                    terminal.initiated_work_id.as_ref(),
+                ) {
+                    if initiated_conversation_id == &request.conversation_id {
+                        continue;
+                    }
+                    let initiated_turn = sessions.sessions.get(initiated_conversation_id).and_then(
+                        |initiated_session| initiated_session.turns.get(initiated_turn_id),
+                    );
+                    let initiated_message = initiated_turn
+                        .map(|turn| (turn.message.as_str(), turn.accepted_at_unix_millis))
+                        .or_else(|| {
+                            terminal
+                                .initiated_message
+                                .as_ref()
+                                .map(|message| (message.as_str(), turn.accepted_at_unix_millis))
+                        });
+                    if let Some((initiated_message, initiated_accepted_at_unix_millis)) =
+                        initiated_message
+                    {
+                        let causal_id =
+                            format!("{initiated_conversation_id}:{initiated_turn_id}:{work_id}");
+                        if !initiated_message.is_empty() {
+                            records.push(ObservatoryConversationHistoryRecord {
+                                conversation_id: request.conversation_id.clone(),
+                                message_id: format!("{turn_id}:a2a-outbound"),
+                                speaker_id: format!("agent:{sender_id}"),
+                                body: initiated_message.to_owned(),
+                                created_at_epoch_ms: initiated_accepted_at_unix_millis,
+                                journal_sequence: outbound_sequence.checked_add(2)?,
+                                status: "a2a_delivered".to_owned(),
+                                redacted: false,
+                                redaction_reason: None,
+                                history_kind: Some("agent_to_agent_turn".to_owned()),
+                                turn_id: Some(initiated_turn_id.clone()),
+                                causal_id: Some(causal_id.clone()),
+                                sender_id: Some(sender_id.clone()),
+                                recipient_id: Some(recipient_id.clone()),
+                                work_id: Some(work_id.clone()),
+                                parent_conversation_id: Some(request.conversation_id.clone()),
+                                parent_turn_id: Some(turn_id.clone()),
+                                a2a_role: Some("outbound".to_owned()),
+                            });
+                        }
+                        if let Some(initiated_reply) = terminal.initiated_reply.as_ref() {
+                            let initiated_completed_at_unix_millis = initiated_turn
+                                .and_then(|turn| turn.completed_at_unix_millis)
+                                .unwrap_or_else(|| {
+                                    turn.completed_at_unix_millis
+                                        .unwrap_or(turn.accepted_at_unix_millis)
+                                });
+                            records.push(ObservatoryConversationHistoryRecord {
+                                conversation_id: request.conversation_id.clone(),
+                                message_id: format!("{turn_id}:a2a-reply"),
+                                speaker_id: format!("agent:{recipient_id}"),
+                                body: initiated_reply.clone(),
+                                created_at_epoch_ms: initiated_completed_at_unix_millis,
+                                journal_sequence: outbound_sequence.checked_add(3)?,
+                                status: "a2a_delivered".to_owned(),
+                                redacted: false,
+                                redaction_reason: None,
+                                history_kind: Some("agent_to_agent_turn".to_owned()),
+                                turn_id: Some(initiated_turn_id.clone()),
+                                causal_id: Some(causal_id),
+                                sender_id: Some(sender_id.clone()),
+                                recipient_id: Some(recipient_id.clone()),
+                                work_id: Some(work_id.clone()),
+                                parent_conversation_id: Some(request.conversation_id.clone()),
+                                parent_turn_id: Some(turn_id.clone()),
+                                a2a_role: Some("reply".to_owned()),
+                            });
+                        }
                     }
                 }
             }
@@ -1826,6 +1955,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_work_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_message: Some(intent.message.clone())
+                .filter(|value| initiation.is_some() && !value.is_empty()),
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -1927,6 +2058,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
+            initiated_message: Some(dispatch.intent.message.clone())
+                .filter(|value| dispatch.initiation.is_some() && !value.is_empty()),
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -2113,6 +2246,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             initiated_turn_id: Some(intent.turn_id),
                                             initiated_correlation_id: Some(intent.correlation_id),
                                             initiated_work_id: Some(intent.work_id),
+                                            initiated_message: Some(intent.message),
                                             initiated_reply: initiated.reply,
                                             // The initiating agent's operator-facing reply and
                                             // the recipient's governed result are separate facts.
@@ -2158,6 +2292,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.initiated_work_id.clone()),
+                                        initiated_message: Some(dispatch.intent.message.clone())
+                                            .filter(|value| {
+                                                dispatch.initiation.is_some() && !value.is_empty()
+                                            }),
                                         initiated_reply: None,
                                         reply: Some(reply),
                                         accepted_sequence: Some(result.accepted_sequence),
@@ -2281,6 +2419,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_message: None,
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -2682,10 +2821,21 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             correlation_id: turn.correlation_id.clone(),
                             sequence: turn.sequence,
                             terminal_status: terminal.status.to_owned(),
+                            message: Some(turn.message.clone()).filter(|value| !value.is_empty()),
+                            speaker_id: Some(turn.speaker_id.clone()),
+                            initiated_recipient_id: terminal.initiated_recipient_id.clone(),
+                            initiated_conversation_id: terminal.initiated_conversation_id.clone(),
+                            initiated_turn_id: terminal.initiated_turn_id.clone(),
+                            initiated_correlation_id: terminal.initiated_correlation_id.clone(),
+                            initiated_work_id: terminal.initiated_work_id.clone(),
+                            initiated_message: terminal.initiated_message.clone(),
+                            initiated_reply: terminal.initiated_reply.clone(),
                             reply: terminal.reply,
                             accepted_sequence: terminal.accepted_sequence,
                             turn_sequence: terminal.turn_sequence,
                             terminal_error: terminal.error.map(str::to_owned),
+                            accepted_at_unix_millis: Some(turn.accepted_at_unix_millis),
+                            completed_at_unix_millis: turn.completed_at_unix_millis,
                         })
                     })
                     .collect::<Vec<_>>();
@@ -2984,43 +3134,56 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .find(|agent| agent.id == agent_id)
             .cloned()
             .ok_or(AgentAdmissionFailure::Invalid("agent_not_found"))?;
-        let conversation_history =
-            self.conversation_sessions
-                .lock()
-                .expect("conversation sessions mutex poisoned")
-                .sessions
-                .iter()
-                .filter(|(_, session)| session.recipient_id == agent_id)
-                .map(|(conversation_id, session)| {
-                    let turns =
-                        session
-                            .turns
-                            .iter()
-                            .map(|(turn_id, turn)| {
-                                let terminal = turn.terminal.clone().ok_or(
-                                    AgentAdmissionFailure::Conflict("agent_conversation_in_flight"),
-                                )?;
-                                Ok(AgentTurnCheckpoint {
-                                    turn_id: turn_id.clone(),
-                                    fingerprint: turn.fingerprint.clone(),
-                                    correlation_id: turn.correlation_id.clone(),
-                                    sequence: turn.sequence,
-                                    terminal_status: terminal.status.to_owned(),
-                                    reply: terminal.reply,
-                                    accepted_sequence: terminal.accepted_sequence,
-                                    turn_sequence: terminal.turn_sequence,
-                                    terminal_error: terminal.error.map(str::to_owned),
-                                })
-                            })
-                            .collect::<Result<Vec<_>, AgentAdmissionFailure>>()?;
-                    Ok(AgentConversationCheckpoint {
-                        conversation_id: conversation_id.clone(),
-                        session_sequence: session.sequence,
-                        next_turn_sequence: session.next_sequence,
-                        turns,
+        let conversation_history = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned")
+            .sessions
+            .iter()
+            .filter(|(_, session)| session.recipient_id == agent_id)
+            .map(|(conversation_id, session)| {
+                let turns = session
+                    .turns
+                    .iter()
+                    .map(|(turn_id, turn)| {
+                        let terminal =
+                            turn.terminal
+                                .clone()
+                                .ok_or(AgentAdmissionFailure::Conflict(
+                                    "agent_conversation_in_flight",
+                                ))?;
+                        Ok(AgentTurnCheckpoint {
+                            turn_id: turn_id.clone(),
+                            fingerprint: turn.fingerprint.clone(),
+                            correlation_id: turn.correlation_id.clone(),
+                            sequence: turn.sequence,
+                            terminal_status: terminal.status.to_owned(),
+                            message: Some(turn.message.clone()).filter(|value| !value.is_empty()),
+                            speaker_id: Some(turn.speaker_id.clone()),
+                            initiated_recipient_id: terminal.initiated_recipient_id.clone(),
+                            initiated_conversation_id: terminal.initiated_conversation_id.clone(),
+                            initiated_turn_id: terminal.initiated_turn_id.clone(),
+                            initiated_correlation_id: terminal.initiated_correlation_id.clone(),
+                            initiated_work_id: terminal.initiated_work_id.clone(),
+                            initiated_message: terminal.initiated_message.clone(),
+                            initiated_reply: terminal.initiated_reply.clone(),
+                            reply: terminal.reply,
+                            accepted_sequence: terminal.accepted_sequence,
+                            turn_sequence: terminal.turn_sequence,
+                            terminal_error: terminal.error.map(str::to_owned),
+                            accepted_at_unix_millis: Some(turn.accepted_at_unix_millis),
+                            completed_at_unix_millis: turn.completed_at_unix_millis,
+                        })
                     })
+                    .collect::<Result<Vec<_>, AgentAdmissionFailure>>()?;
+                Ok(AgentConversationCheckpoint {
+                    conversation_id: conversation_id.clone(),
+                    session_sequence: session.sequence,
+                    next_turn_sequence: session.next_sequence,
+                    turns,
                 })
-                .collect::<Result<Vec<_>, AgentAdmissionFailure>>()?;
+            })
+            .collect::<Result<Vec<_>, AgentAdmissionFailure>>()?;
         let mut checkpoint = AgentCheckpoint {
             schema: AGENT_CHECKPOINT_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
@@ -3185,13 +3348,24 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     turn_id: turn.turn_id.clone(),
                     recipient_id: agent_id.to_owned(),
                     correlation_id: turn.correlation_id.clone(),
-                    sender_id: None,
-                    initiated_recipient_id: None,
-                    initiated_conversation_id: None,
-                    initiated_turn_id: None,
-                    initiated_correlation_id: None,
-                    initiated_work_id: None,
-                    initiated_reply: None,
+                    sender_id: if turn.initiated_conversation_id.is_some()
+                        || turn.initiated_turn_id.is_some()
+                        || turn.initiated_work_id.is_some()
+                    {
+                        Some(agent_id.to_owned())
+                    } else {
+                        turn.speaker_id
+                            .as_deref()
+                            .and_then(|speaker| speaker.strip_prefix("agent:"))
+                            .map(str::to_owned)
+                    },
+                    initiated_recipient_id: turn.initiated_recipient_id.clone(),
+                    initiated_conversation_id: turn.initiated_conversation_id.clone(),
+                    initiated_turn_id: turn.initiated_turn_id.clone(),
+                    initiated_correlation_id: turn.initiated_correlation_id.clone(),
+                    initiated_work_id: turn.initiated_work_id.clone(),
+                    initiated_message: turn.initiated_message.clone(),
+                    initiated_reply: turn.initiated_reply.clone(),
                     reply: turn.reply.clone(),
                     accepted_sequence: turn.accepted_sequence,
                     turn_sequence: turn.turn_sequence,
@@ -3210,10 +3384,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         cancellation: CancellationToken::new(),
                         completion,
                         terminal: Some(terminal),
-                        message: String::new(),
-                        speaker_id: "operator".to_owned(),
-                        accepted_at_unix_millis: 0,
-                        completed_at_unix_millis: None,
+                        message: turn.message.clone().unwrap_or_default(),
+                        speaker_id: turn
+                            .speaker_id
+                            .clone()
+                            .unwrap_or_else(|| "operator".to_owned()),
+                        accepted_at_unix_millis: turn.accepted_at_unix_millis.unwrap_or(0),
+                        completed_at_unix_millis: turn.completed_at_unix_millis,
                     },
                 );
             }
@@ -4481,6 +4658,24 @@ struct ObservatoryConversationHistoryRecord {
     status: String,
     redacted: bool,
     redaction_reason: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    history_kind: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    turn_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    causal_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sender_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recipient_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    work_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    parent_conversation_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    parent_turn_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    a2a_role: Option<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -4697,6 +4892,8 @@ struct ObservatoryConversationResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     initiated_work_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_message: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     initiated_reply: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     reply: Option<String>,
@@ -4751,6 +4948,7 @@ impl ObservatoryConversationResult {
                 .as_ref()
                 .map(|metadata| metadata.initiated_correlation_id.clone()),
             initiated_work_id: parts.initiation.map(|metadata| metadata.initiated_work_id),
+            initiated_message: None,
             initiated_reply: None,
             reply: parts.reply,
             accepted_sequence: parts.accepted_sequence,
@@ -4773,6 +4971,7 @@ impl ObservatoryConversationResult {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_message: None,
             initiated_reply: None,
             reply: None,
             accepted_sequence: None,
@@ -5076,6 +5275,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 initiated_turn_id: None,
                                 initiated_correlation_id: None,
                                 initiated_work_id: None,
+                                initiated_message: None,
                                 initiated_reply: None,
                                 reply: None,
                                 accepted_sequence: None,
@@ -6690,12 +6890,12 @@ mod layer8_conversation_ingress_tests {
             assert_eq!(outbound.message_id, format!("{turn_id}:outbound"));
             assert_eq!(outbound.speaker_id, "operator");
             assert_eq!(&outbound.body, message);
-            assert_eq!(outbound.journal_sequence, index as u64 * 2 + 1);
+            assert_eq!(outbound.journal_sequence, index as u64 * 4 + 1);
             let inbound = &long_history.records[index * 2 + 1];
             assert_eq!(inbound.message_id, format!("{turn_id}:reply"));
             assert_eq!(inbound.speaker_id, "agent:ember");
             assert_eq!(&inbound.body, reply);
-            assert_eq!(inbound.journal_sequence, index as u64 * 2 + 2);
+            assert_eq!(inbound.journal_sequence, index as u64 * 4 + 2);
         }
         assert!(service
             .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
@@ -6831,6 +7031,91 @@ mod layer8_conversation_ingress_tests {
             Some("Ember generated a governed response for Beacon."),
             "the authoritative result must expose Ember's distinct correlated reply"
         );
+        let history = service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: intent.conversation_id.clone(),
+                page_size: 16,
+            })
+            .expect("parent conversation projects A2A transcript history");
+        assert_eq!(history.records.len(), 4);
+        assert_eq!(
+            history.records[0].message_id,
+            "turn-operator-asks-beacon:outbound"
+        );
+        assert_eq!(history.records[0].speaker_id, "operator");
+        assert_eq!(history.records[0].body, intent.message);
+        assert_eq!(
+            history.records[1].message_id,
+            "turn-operator-asks-beacon:reply"
+        );
+        assert_eq!(history.records[1].speaker_id, "agent:beacon");
+        assert_eq!(
+            history.records[1].body,
+            "I can ask Ember through the governed action channel."
+        );
+        assert_eq!(
+            history.records[2].history_kind.as_deref(),
+            Some("agent_to_agent_turn")
+        );
+        assert_eq!(history.records[2].a2a_role.as_deref(), Some("outbound"));
+        assert_eq!(history.records[2].speaker_id, "agent:beacon");
+        assert_eq!(history.records[2].sender_id.as_deref(), Some("beacon"));
+        assert_eq!(history.records[2].recipient_id.as_deref(), Some("ember"));
+        assert_eq!(history.records[2].work_id, delivered.initiated_work_id);
+        assert_eq!(
+            history.records[2].body,
+            "Ember, please answer Beacon through governed A2A."
+        );
+        assert_eq!(history.records[3].a2a_role.as_deref(), Some("reply"));
+        assert_eq!(history.records[3].speaker_id, "agent:ember");
+        assert_eq!(
+            history.records[3].body,
+            "Ember generated a governed response for Beacon."
+        );
+        assert_eq!(
+            history.records[2].causal_id, history.records[3].causal_id,
+            "A2A outbound and reply must share a stable causal id"
+        );
+        let initiated_history = service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: delivered
+                    .initiated_conversation_id
+                    .clone()
+                    .expect("initiated conversation id"),
+                page_size: 16,
+            })
+            .expect("initiated conversation projects its own transcript history");
+        assert_eq!(initiated_history.records.len(), 2);
+        assert_eq!(initiated_history.records[0].speaker_id, "agent:beacon");
+        assert_eq!(
+            initiated_history.records[0].body,
+            "Ember, please answer Beacon through governed A2A."
+        );
+        assert_eq!(initiated_history.records[1].speaker_id, "agent:ember");
+        assert_eq!(
+            initiated_history.records[1].body,
+            "Ember generated a governed response for Beacon."
+        );
+        assert_eq!(
+            initiated_history.records[0].causal_id, initiated_history.records[1].causal_id,
+            "direct initiated history must preserve one causal id across outbound and reply"
+        );
+        let history_wire = serde_json::to_string(&history).expect("A2A history serializes");
+        for forbidden in [
+            "bearer_token",
+            "operator_token",
+            "private_key",
+            "signature",
+            "result_hash",
+            "provider_payload",
+        ] {
+            assert!(
+                !history_wire.contains(forbidden),
+                "A2A history wire frame disclosed {forbidden}"
+            );
+        }
         {
             let requests = provider_requests
                 .lock()
@@ -7569,12 +7854,53 @@ mod agent_lifecycle {
                     correlation_id: format!("{sequence:032x}"),
                     sequence,
                     terminal_status: "delivered".to_owned(),
+                    message: Some(format!("message-{sequence}")),
+                    speaker_id: Some("operator".to_owned()),
+                    initiated_recipient_id: None,
+                    initiated_conversation_id: None,
+                    initiated_turn_id: None,
+                    initiated_correlation_id: None,
+                    initiated_work_id: None,
+                    initiated_message: None,
+                    initiated_reply: None,
                     reply: Some(format!("reply-{sequence}")),
                     accepted_sequence: Some(sequence),
                     turn_sequence: Some(sequence),
                     terminal_error: None,
+                    accepted_at_unix_millis: Some(sequence),
+                    completed_at_unix_millis: Some(sequence + 1),
                 })
                 .collect(),
+        }]
+    }
+
+    fn restored_a2a_history() -> Vec<AgentConversationCheckpoint> {
+        vec![AgentConversationCheckpoint {
+            conversation_id: "conversation-operator-beacon".to_owned(),
+            session_sequence: 1,
+            next_turn_sequence: 1,
+            turns: vec![AgentTurnCheckpoint {
+                turn_id: "turn-parent".to_owned(),
+                fingerprint: "fingerprint-parent".to_owned(),
+                correlation_id: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".to_owned(),
+                sequence: 1,
+                terminal_status: "delivered".to_owned(),
+                message: Some("Please ask Ember.".to_owned()),
+                speaker_id: Some("operator".to_owned()),
+                initiated_recipient_id: Some("ember".to_owned()),
+                initiated_conversation_id: Some("a2a-beacon-ember".to_owned()),
+                initiated_turn_id: Some("turn-a2a".to_owned()),
+                initiated_correlation_id: Some("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".to_owned()),
+                initiated_work_id: Some("a2a-work-beacon-ember".to_owned()),
+                initiated_message: Some("Ember, please answer Beacon.".to_owned()),
+                initiated_reply: Some("Ember replied verbatim.".to_owned()),
+                reply: Some("Beacon will ask Ember.".to_owned()),
+                accepted_sequence: Some(1),
+                turn_sequence: Some(1),
+                terminal_error: None,
+                accepted_at_unix_millis: Some(10),
+                completed_at_unix_millis: Some(20),
+            }],
         }]
     }
 
@@ -7710,6 +8036,38 @@ mod agent_lifecycle {
         assert_eq!(restored.len(), 1);
         assert_eq!(restored[0].turns.len(), 2);
         assert_eq!(restored[0].next_turn_sequence, 2);
+    }
+
+    #[test]
+    fn archived_restore_rehydrates_complete_a2a_transcript_history() {
+        let temp = tempfile::tempdir().unwrap();
+        let service = service(temp.path().join("dynamic-agents.json"));
+        let parent = restored_a2a_history();
+        service
+            .restore_conversation_history("beacon", &parent)
+            .expect("restore parent Beacon checkpoint");
+
+        let history = service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: "conversation-operator-beacon".to_owned(),
+                page_size: 16,
+            })
+            .expect("rehydrated A2A history projects");
+        assert_eq!(history.records.len(), 4);
+        assert_eq!(history.records[0].body, "Please ask Ember.");
+        assert_eq!(history.records[1].body, "Beacon will ask Ember.");
+        assert_eq!(
+            history.records[2].history_kind.as_deref(),
+            Some("agent_to_agent_turn")
+        );
+        assert_eq!(history.records[2].a2a_role.as_deref(), Some("outbound"));
+        assert_eq!(history.records[2].speaker_id, "agent:beacon");
+        assert_eq!(history.records[2].body, "Ember, please answer Beacon.");
+        assert_eq!(history.records[3].a2a_role.as_deref(), Some("reply"));
+        assert_eq!(history.records[3].speaker_id, "agent:ember");
+        assert_eq!(history.records[3].body, "Ember replied verbatim.");
+        assert_eq!(history.records[2].causal_id, history.records[3].causal_id);
     }
 
     async fn ollama() -> (String, tokio::task::JoinHandle<()>) {
@@ -7942,6 +8300,7 @@ mod agent_lifecycle {
             initiated_turn_id: None,
             initiated_correlation_id: None,
             initiated_work_id: None,
+            initiated_message: None,
             initiated_reply: None,
             reply: Some("retained reply".to_owned()),
             accepted_sequence: Some(1),
@@ -9255,6 +9614,7 @@ mod conversation_dispatch_gate_tests {
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
                     initiated_work_id: None,
+                    initiated_message: None,
                     initiated_reply: None,
                     reply: None,
                     accepted_sequence: Some(1),
