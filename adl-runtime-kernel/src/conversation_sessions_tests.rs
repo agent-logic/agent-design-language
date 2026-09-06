@@ -144,6 +144,11 @@ impl OperationExecutor for ConversationExecutor {
                 .await
                 .expect("barrier release semaphore closed")
                 .forget();
+        } else if work["tasks"][0]["input"] == "provider failure" {
+            return Err(ExecutorError {
+                class: FailureClass::Retryable,
+                message: "provider failed".to_owned(),
+            });
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
         serde_json::to_vec(&serde_json::json!({
@@ -152,7 +157,7 @@ impl OperationExecutor for ConversationExecutor {
                 "unit": 0,
                 "output": {
                     "recipient_id": projected_recipient,
-                    "message": format!("{recipient_id} received your message."),
+                    "message": format!("{recipient_id} generated a model-backed reply."),
                     "adapter_secret": "must-not-cross-public-boundary"
                 }
             }]
@@ -582,7 +587,10 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
     let delivered =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered");
-    assert_eq!(delivered["reply"], "shepherd received your message.");
+    assert_eq!(
+        delivered["reply"],
+        "shepherd generated a model-backed reply."
+    );
     assert_eq!(
         delivered["schema"],
         OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA
@@ -1142,11 +1150,12 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
         .unwrap();
     let accepted = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
-    let delivered = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
-    assert_eq!(delivered["status"], "delivered", "{delivered}");
-    assert_eq!(
-        delivered["reply"], "shepherd received your message.",
-        "resident roles use the same agent-runtime conversation executor"
+    let failed = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
+    assert_eq!(failed["status"], "failed", "{failed}");
+    assert_eq!(failed["error"], "conversation_failed", "{failed}");
+    assert!(
+        failed["reply"].is_null(),
+        "provider failure must not synthesize a reply: {failed}"
     );
 
     socket.close(None).await.unwrap();

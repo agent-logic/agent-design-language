@@ -113,7 +113,7 @@ fn resident_shepherd_construction_uses_configured_canonical_name_and_truthful_co
     let feed = adl_runtime_kernel::AgentPopulationFeed::resident_shepherd_from_config(&config);
     let shepherd = &feed.sample[0];
 
-    assert_eq!(shepherd.id, "shepherd");
+    assert_eq!(shepherd.id, "beacon");
     assert_eq!(shepherd.name, config.name);
     assert_eq!(shepherd.label, config.display_name);
     assert_eq!(shepherd.role, config.office);

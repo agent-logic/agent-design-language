@@ -742,6 +742,10 @@ async fn main() -> ExitCode {
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
                 &continuity_secret,
             ));
+            service.set_runtime_agent_delegation_key(blake3::derive_key(
+                "adl.runtime_v3.agent_delegation.continuity.v1",
+                &continuity_secret,
+            ));
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
                 std::time::Duration::from_millis(init.api.websocket_auth_timeout_millis),
