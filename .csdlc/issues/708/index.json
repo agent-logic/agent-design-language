@@ -4,13 +4,37 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "aab41993df1f47bb0821047e7fcda656b81a1e13551d80b37f7e37b0143da25d",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "bfbef5fb57c955ecd65d434570b39e52320ad981b56c354af774fefbf50ba088",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:issue-708-logical-part-cap-review",
+    "assigned_by": "codex:issue-708-runtime-orientation",
+    "revision": "git-blake3:bd653fbed169d2072882900d85b50f2b81a33aae:c30cae2aebf0cad30e19b8305b775e28ac0de659de36cdd23c4fe89b533f87d4",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:issue-708-logical-part-cap-review",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs"
+    ],
+    "reviewed_revision": "git-blake3:bd653fbed169d2072882900d85b50f2b81a33aae:c30cae2aebf0cad30e19b8305b775e28ac0de659de36cdd23c4fe89b533f87d4",
+    "findings": [],
+    "residual_risks": [
+      "Review was focused on the multipart logical-part cap fix in assembly/control/ingress and did not run live provider inference, paid Runtime execution, external communications, or broad kernel validation.",
+      "The prior exact-head reviewer found that scalar message/input plus 64 multipart entries exceeded the declared logical-part cap; this review verified the fix and focused multipart validation only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b82423ae2ed994e9e96ffaa1285143a1bf9e5f296d523e2c607f55cf70f61e4d",
+      "values_digest": "308052cfc7039fc4daf77eaecf094e1e6a03ab3ff28258dfc3333f5ceef92d3b",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "6452443553ebc9c497e48639d5c1f978aa2d65e6ad17fd47493b58c2a5cca4bc",
+      "values_digest": "619a929da9106cc3a998adec53ad2b09a7be5a4044fa0a255031a1ad6e5aa9d1",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "59106a6f137690dfdd5ce9968ca640c2817dbd6535341a0bcc9cd11bb811f829",
+      "values_digest": "249c5204bd811498464ee3d0dabc5ec0381203521fbda0e9170e6675994fa0df",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "66c668d8af0ce7df6b23523f831a034009899da445bb56c7e88b5a701afb86a0",
+      "values_digest": "2f499c3cb1842051a465d201c11ebd1b8fa9ea46a4ada47190fef806a67c97b4",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "11eb017d343512cb0fbc53538ec144ba020dea3435ed98ea2e85b3cfa3b5ed9b",
-      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
-      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
+      "values_digest": "32071771ec094a3d9b5234941b6d430cd13e18562886fb467995392b05f7d3e4",
+      "rendered_digest": "7932fd16d99aa8b1b4a774df4eb1e0c6cdfeaba9101252e4e489d508fc6226b2",
+      "ast_digest": "06eb82064209aef914eff32bf6d4f581b8d9be96e0c12f476bf3f572b59ecf8c"
     },
     "sor": {
-      "values_digest": "5967416bfbb0a80b41016b90576a4cede4fe904ec2b288c9b80920d11d3cfd0f",
+      "values_digest": "5851a4a8f7796d92715db977ac2e8567a410bf764f8c60ff6be57c4d66b71285",
       "rendered_digest": "61865d354881b9951ff6d176caa162c2a290c160fc3270453e0017771e3f43bc",
       "ast_digest": "b6827f6faa03e5680f51e9696e595d2fd4ff8ad90e097fa7cb7b7361f16735df"
     }
@@ -160,6 +184,13 @@
       "to": "implemented",
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Recover stale review truth after fixing the multipart logical part-count cap found by the current-head reviewer."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-708-logical-part-cap-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -442,6 +473,20 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Reconcile SOR execution and validation truth after final local validation reruns.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the Runtime agent orientation resource path: the Axioma Polis welcome package is loaded as a typed versioned resource, stamped per admitted agent with blake3 delivery provenance, injected ahead of model-facing task content, retained per existing agent across orientation reloads, exposed through the Runtime roster/read model, and rendered by the Observatory as non-authoritative orientation metadata.\",\"changes\":[\"Added a first-class Runtime agent-orientation resource with schema, version, source path, deterministic full projection, blake3 digest over exact injected bytes, and validation that rejects disabled, malformed, unreadable, or non-welcome-package content.\",\"Made the default canonical welcome-package path load the bundled trusted package unconditionally, so process cwd cannot shadow the default orientation source; explicit custom source paths continue to load and validate from disk.\",\"Routed resident Shepherd preload through the same per-agent orientation injection path so the READY preload prompt cannot be the first model-facing call without the welcome package.\",\"Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.\",\"Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.\",\"Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.\",\"Routed the governed resident Shepherd recovery/readiness probe through the same retained per-agent welcome package before the READY instruction, closing the remaining production path that could reach a model without orientation.\",\"Raised the resident Shepherd oriented request decode limit so Runtime-generated welcome-package prompts are accepted without weakening the original user-message bound.\",\"Moved provider-backed agent_runtime orientation delivery into a first-class internal task envelope so the original 4 KiB user-message bound remains intact while the model-facing prompt still receives the welcome package before task content.\",\"Raised bounded Runtime agent-conversation single-message and per-part payloads from 4 KiB to 32 KiB, while retaining a finite 64-part and 256 KiB aggregate cap.\",\"Added first-class multipart `input_parts` and `message_parts` handling across Runtime conversation tasks, provider-selected A2A tool actions, and public output projection so larger governed resident handoffs do not flatten into an undersized single string.\",\"Tightened multipart validation so an optional scalar `input` or `message` counts as one logical part against the shared 64-part cap, preventing scalar-plus-64 requests from slipping past the declared bound.\",\"Kept provider-selected A2A `message` as the summary/single-message field and `message_parts` as the separate multipart chunks so runtime-derived dispatch does not duplicate multipart task content when forwarding to the recipient.\",\"Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.\",\"Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.\"],\"artifacts\":[\"adl-runtime-kernel/src/agent_orientation.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/agent_orientation.test.mjs\"],\"validation\":[{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--bin\",\"adl-runtime-kernel\",\"resident_shepherd_governed_probe_prompt_includes_orientation_before_ready\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for the production resident Shepherd governed READY probe so each model-facing resident agent request receives the welcome package before the readiness task.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/708/runtime-orientation-shepherd-governed-probe.log\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"shepherd\",\"resident_shepherd_model_health_gates_inference_and_recovers\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for the resident Shepherd orientation-aware request decode limit and health-gated recovery path.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/708/runtime-orientation-shepherd-governed-probe.log\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for provider-backed A2A delivery after moving the orientation package out of the 4 KiB user-input field and into a separate internal task envelope.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/708/runtime-orientation-a2a-envelope.log\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_to_agent_model_action_from_conversation_delivers_peer_response\"],\"purpose\":\"Regression for runtime-derived provider A2A multipart forwarding: the recipient prompt receives orientation before task content, and each multipart task chunk appears exactly once after provider tool-call normalization.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 1 test; 1 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"provider_conversation_action_tests\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for 32 KiB single agent conversation inputs, multipart Runtime input assembly, and provider-projected multipart governed A2A envelopes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 7 tests; 7 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"logical_message_parts\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for the current-head review finding: scalar message plus 64 multipart entries must fail because the scalar counts as one logical part.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 2 tests; 2 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"conversation_task_input_accepts_32k_single_part_and_multipart_input\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for Runtime task input assembly: scalar input and multipart input_parts share the same 64 logical-part cap while 32 KiB accepted parts remain valid.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 1 test; 1 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"provider_conversation_tool_tests\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for native provider A2A tool-call normalization accepting 32 KiB multipart message parts and rejecting over-limit parts.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 7 tests; 7 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"agent_initiation\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for public output projection preserving multipart A2A initiation actions and rejecting over-limit multipart chunks while existing governed initiation behavior still passes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 8 tests; 8 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"orientation_tests\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for integration-test compilation after adding required orientation fields to public roster/feed structs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/708/runtime-orientation-integration-compile.log\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"orientation\"],\"purpose\":\"Issue 708 Runtime orientation contract validation: delivered package ordering, per-agent provenance, startup initialization, reload retention, future-admission update, fail-closed invalid reload, explicit custom package loading, cwd-shadow rejection for the default bundled package, and resident Shepherd preload orientation before READY probe.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 7 tests; 7 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--bins\"],\"purpose\":\"Issue 708 Runtime binary compile validation after startup orientation wiring.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:cargo check --bins finished\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Full adl-runtime-kernel regression validation after orienting provider-backed A2A envelopes and the governed resident Shepherd READY probe.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:all adl-runtime-kernel unit, integration, and doc tests passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint validation for the touched Runtime library, binary, and test surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:cargo clippy --lib --bins --tests -D warnings finished\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"node\",\"demos/html-observatory/tests/agent_orientation.test.mjs\"],\"purpose\":\"Issue 708 Observatory orientation display and normalization validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:2 tests passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"bash\",\".csdlc/prepared/issues/708/validate-orientation-plan.sh\"],\"purpose\":\"Issue 708 prepared planning contract validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:validate-orientation-plan.sh exited 0\"},{\"command\":[\"git\",\"diff\",\"--exit-code\",\"origin/main...HEAD\",\"--\",\"docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\"],\"purpose\":\"Issue 708 welcome-package source immutability validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:no diff for source welcome package\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Issue 708 diff hygiene validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:git diff --check exited 0\"}]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 31,
+      "actor": "codex:issue-708-logical-part-cap-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
