@@ -25,11 +25,14 @@ Diagram: .csdlc/prepared/issues/707/diagram.mmd
 [
   {
     "lane": "config-generation-cross-binary",
-    "proof_role": "Prove deterministic identity and fail-closed mismatch handling across production binary manifests.",
+    "proof_role": "Prove deterministic install-generation handling and fail-closed artifact mismatch behavior; extend this retained target with cross-binary config identity coverage during implementation.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-3"
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -43,47 +46,8 @@ Diagram: .csdlc/prepared/issues/707/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "runtime-focused",
-    "proof_role": "Prove touched Runtime packages compile and focused tests pass.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-6"
-    ],
-    "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 900,
-    "budget_tokens": 3000,
-    "argv": [
-      "bash",
-      "adl/tools/run_owner_validation_lane.sh",
-      "runtime"
-    ],
-    "parallel_group": "runtime-generation",
-    "defer_reason": null
-  },
-  {
-    "lane": "live-wuji-a2a",
-    "proof_role": "Prove owned readiness and a distinct Beacon-to-Ember delivery after generation install.",
-    "acceptance_ids": [
-      "AC-3",
-      "AC-4",
-      "AC-5"
-    ],
-    "deterministic": false,
-    "resource_profile": "small",
-    "budget_seconds": 1200,
-    "budget_tokens": 2000,
-    "argv": [
-      "bash",
-      ".csdlc/prepared/issues/707/validate-live-wuji-a2a.sh"
-    ],
-    "parallel_group": "runtime-generation-serial",
-    "defer_reason": "Created during implementation and run only after local proof and review."
-  },
-  {
     "lane": "format-diff",
-    "proof_role": "Reject formatting and range-diff hygiene defects.",
+    "proof_role": "Reject formatting and exact-range whitespace defects before review.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -115,8 +79,6 @@ Tokens: 50000
 ## Commands
 
 - `bash adl/tools/test_runtime_v3_generation_install.sh`
-- `bash adl/tools/run_owner_validation_lane.sh runtime`
-- `bash .csdlc/prepared/issues/707/validate-live-wuji-a2a.sh`
 - `git diff --check origin/main...HEAD`
 
 ## Failure Semantics

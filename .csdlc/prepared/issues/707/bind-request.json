@@ -1,0 +1,12 @@
+{
+  "issue": 707,
+  "base_branch": "codex/707-bootstrap-base",
+  "branch": "codex/707-runtime-generation-coherence-a2a-deploy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-707-runtime-generation-coherence-a2a-deploy",
+  "code_repository": "agent-logic/agent-design-language",
+  "expected_repository": "agent-logic/agent-design-language",
+  "expected_generation": 1,
+  "expected_digest": "c4aa89f61a717b4dbbdd2a0d918bd5ae86e8ff58d7e3960ac38e4a85a84646a7",
+  "expected_head": "6efdd407a",
+  "actor": "codex:runtime-generation-a2a-repair"
+}
