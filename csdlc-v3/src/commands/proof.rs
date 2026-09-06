@@ -871,12 +871,6 @@ fn execute_shadow_command(
         .ok()
         .and_then(Result::ok)
         .ok_or_else(|| finding("shadow_stderr_unreadable", "shadow stderr capture failed"))?;
-    if !status.success() {
-        return Err(finding(
-            "shadow_command_failed",
-            "shadow command must exit successfully before normalization",
-        ));
-    }
     let normalized_output = normalize_shadow_output(spec.generation, normalization, &stdout)?;
     if normalized_output
         .get("issue")

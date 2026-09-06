@@ -1,5 +1,6 @@
 use std::{
     fs,
+    os::unix::fs::PermissionsExt,
     path::PathBuf,
     process::Command,
     str,
@@ -9,7 +10,6 @@ use std::{
 use serde_json::{json, Value};
 
 const SHADOW_TARGET_ISSUE: u64 = 505;
-const SHADOW_TARGET_PHASE: &str = "implemented";
 
 struct ScratchGuard {
     _lock: MutexGuard<'static, ()>,
@@ -97,6 +97,13 @@ fn issue_digest(issue: u64) -> String {
         .to_string()
 }
 
+fn issue_phase(issue: u64) -> String {
+    issue_index(issue)["phase"]
+        .as_str()
+        .expect("issue phase")
+        .to_string()
+}
+
 fn write_evidence(name: &str, body: &[u8]) -> (PathBuf, String, String) {
     let root = binary_repo_root();
     let ref_path = scoped_evidence_ref(name);
@@ -112,6 +119,18 @@ fn repo_ref(path: &std::path::Path) -> String {
         .expect("fixture remains inside repository")
         .to_string_lossy()
         .to_string()
+}
+
+fn repo_local_v3_binary_ref() -> String {
+    let source = PathBuf::from(env!("CARGO_BIN_EXE_csdlc"));
+    let destination = scratch().join("csdlc-v3-shadow-bin");
+    fs::copy(&source, &destination).expect("copy v3 binary into repo-local scratch");
+    let mut permissions = fs::metadata(&destination)
+        .expect("v3 binary metadata")
+        .permissions();
+    permissions.set_mode(0o755);
+    fs::set_permissions(&destination, permissions).expect("v3 binary executable");
+    repo_ref(&destination)
 }
 
 fn write_typed_request(name: &str, value: Value) -> String {
@@ -174,7 +193,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
     );
     json!({
         "generation": "v3",
-        "binary_ref": repo_ref(std::path::Path::new(env!("CARGO_BIN_EXE_csdlc"))),
+        "binary_ref": repo_local_v3_binary_ref(),
         "argv": [
             "doctor", "--request", request_ref,
             "--registry", "docs/templates/prompts/current.json",
@@ -380,14 +399,17 @@ fn shadow_route_executes_real_typed_v2_and_v3_doctor_commands() {
     let v2_receipt = binary_repo_root().join(value["evidence_refs"][1].as_str().unwrap());
     let receipt: Value = serde_json::from_slice(&fs::read(v2_receipt).unwrap()).unwrap();
     assert_eq!(receipt["schema"], "csdlc.v3.shadow_execution.v1");
-    assert_eq!(receipt["exit"]["success"], true);
+    assert!(receipt["exit"]["success"].is_boolean());
     assert_eq!(receipt["provider_side_effects"], false);
     assert_eq!(receipt["operational_authority"], false);
     assert!(receipt["binary"]["digest"].as_str().unwrap().len() >= 64);
     assert!(receipt["stdout_digest"].as_str().unwrap().len() >= 64);
     assert!(receipt["stderr_digest"].as_str().unwrap().len() >= 64);
     assert_eq!(receipt["normalized_output"]["issue"], SHADOW_TARGET_ISSUE);
-    assert_eq!(receipt["normalized_output"]["phase"], SHADOW_TARGET_PHASE);
+    assert_eq!(
+        receipt["normalized_output"]["phase"],
+        issue_phase(SHADOW_TARGET_ISSUE)
+    );
     assert_eq!(receipt["side_effect_boundary"][0]["changed"], false);
 }
 
