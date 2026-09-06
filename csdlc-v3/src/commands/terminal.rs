@@ -1376,7 +1376,7 @@ fn execute_cutover_platform(
         "executing cutover requires a stable install destination path",
         "install_destination",
     )?;
-    let receipt = repo_output_path(
+    let requested_receipt = repo_output_path(
         &repository_root,
         request.rollback_receipt_path.as_ref(),
         "missing_rollback_receipt_path",
@@ -1395,12 +1395,26 @@ fn execute_cutover_platform(
             "cutover writes only csdlc-v2/operator/generation-selector.json",
         ));
     }
-    if !receipt.starts_with(repository_root.join(".csdlc/evidence/505")) {
+    if requested_receipt != repository_root.join(".csdlc/evidence/505/cutover-receipt.json") {
         return Err(finding(
             "rollback_receipt_not_issue_evidence",
             "cutover rollback receipt must live under .csdlc/evidence/505",
         ));
     }
+    let receipt = git_control_dir(&repository_root)
+        .ok_or_else(|| {
+            finding(
+                "cutover_git_common_dir_missing",
+                "cutover requires a resolved Git common directory",
+            )
+        })?
+        .join("csdlc-v3/cutover-receipt.json");
+    fs::create_dir_all(receipt.parent().expect("static receipt parent")).map_err(|error| {
+        finding(
+            "cutover_receipt_parent_failed",
+            &format!("could not create durable cutover receipt directory: {error}"),
+        )
+    })?;
     if request.operation == CutoverOperation::Rollback {
         return execute_rollback(request, selector, destination, receipt);
     }
@@ -1604,13 +1618,18 @@ fn execute_rollback(
             "rollback request does not match the typed #505 cutover receipt",
         ));
     }
-    let selector_digest = digest_file(&selector)?;
-    if selector_digest != journal.prior_selector_digest
-        && selector_digest != journal.cutover_selector_digest
+    if !crate::authority::canonical_v2_rollback(
+        selector
+            .parent()
+            .and_then(Path::parent)
+            .and_then(Path::parent)
+            .unwrap_or(Path::new(".")),
+    )
+    .map_err(|error| finding("rollback_selector_invalid", &error))?
     {
         return Err(finding(
-            "rollback_selector_stale_digest",
-            "rollback refuses a canonical selector that differs from both retained states",
+            "rollback_requires_selector_revert",
+            "rollback requires the tracked selector revert to be present on canonical origin/main",
         ));
     }
     let binary_state = optional_regular_file_digest(&destination)?;
@@ -1623,9 +1642,6 @@ fn execute_rollback(
             "rollback refuses to remove a stable binary with an unexpected digest",
         ));
     }
-    if selector_digest == journal.cutover_selector_digest {
-        write_staged(&selector, &journal.prior_selector)?;
-    }
     if destination.exists() {
         fs::remove_file(&destination).map_err(|error| {
             finding(
@@ -1636,10 +1652,10 @@ fn execute_rollback(
     }
     journal.phase = CutoverPhase::RolledBack;
     write_cutover_receipt(&receipt, &journal)?;
-    if digest_file(&selector)? != journal.prior_selector_digest || destination.exists() {
+    if destination.exists() {
         return Err(finding(
             "rollback_reconciliation_failed",
-            "rollback did not restore the exact v2 selector preimage and remove the v3 binary",
+            "rollback did not remove the stable v3 binary after the tracked selector revert",
         ));
     }
     Ok(CutoverExecution {

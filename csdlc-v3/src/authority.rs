@@ -51,3 +51,20 @@ pub fn canonical_v3_authority(root: &Path) -> Result<Option<CanonicalV3Authority
     }
     Ok(Some(selector))
 }
+
+pub fn canonical_v2_rollback(root: &Path) -> Result<bool, String> {
+    let local = std::fs::read(root.join(SELECTOR_PATH)).map_err(|error| error.to_string())?;
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["show", &format!("refs/remotes/origin/main:{SELECTOR_PATH}")])
+        .output()
+        .map_err(|error| error.to_string())?;
+    if !output.status.success() || output.stdout != local {
+        return Ok(false);
+    }
+    let selector: serde_json::Value =
+        serde_json::from_slice(&local).map_err(|error| error.to_string())?;
+    Ok(selector["schema"] == "csdlc.generation_selector.v1"
+        && selector["default_generation"] == "v2")
+}

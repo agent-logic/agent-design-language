@@ -693,10 +693,9 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
         selector["approval_authority"],
         "merged-pr-591-closed-issue-505"
     );
-    let receipt: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.join(".csdlc/evidence/505/cutover-receipt.json")).unwrap(),
-    )
-    .unwrap();
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(".git/csdlc-v3/cutover-receipt.json")).unwrap())
+            .unwrap();
     assert_eq!(receipt["phase"], "committed");
     assert!(receipt["prior_selector"].is_array());
     let retry = execute_cutover_request(&request).expect("idempotent retry");
@@ -735,9 +734,9 @@ fn approved_cutover_refuses_existing_receipt_before_mutation() {
         b"prior-selector",
     )
     .expect("prior selector");
-    fs::create_dir_all(root.join(".csdlc/evidence/505")).expect("receipt parent");
+    fs::create_dir_all(root.join(".git/csdlc-v3")).expect("receipt parent");
     fs::write(
-        root.join(".csdlc/evidence/505/cutover-receipt.json"),
+        root.join(".git/csdlc-v3/cutover-receipt.json"),
         b"prior-receipt",
     )
     .expect("prior receipt");
@@ -762,8 +761,9 @@ fn approved_cutover_refuses_existing_receipt_before_mutation() {
     });
 
     let readiness_digest = write_cutover_fixture(&root, b"new-v3-binary");
+    fs::create_dir_all(root.join(".git/csdlc-v3")).expect("durable receipt parent");
     fs::write(
-        root.join(".csdlc/evidence/505/cutover-receipt.json"),
+        root.join(".git/csdlc-v3/cutover-receipt.json"),
         b"prior-receipt",
     )
     .expect("restore invalid receipt");
@@ -784,8 +784,7 @@ fn approved_cutover_refuses_existing_receipt_before_mutation() {
         b"prior-selector"
     );
     assert_eq!(
-        fs::read(root.join(".csdlc/evidence/505/cutover-receipt.json"))
-            .expect("prior receipt retained"),
+        fs::read(root.join(".git/csdlc-v3/cutover-receipt.json")).expect("prior receipt retained"),
         b"prior-receipt"
     );
 }
@@ -1130,7 +1129,7 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let apply = cutover_request(&root, readiness_digest.clone(), CutoverOperation::Apply);
     execute_cutover_request(&apply).expect("initial apply");
-    let receipt_path = root.join(".csdlc/evidence/505/cutover-receipt.json");
+    let receipt_path = root.join(".git/csdlc-v3/cutover-receipt.json");
     let selector_path = root.join("csdlc-v2/operator/generation-selector.json");
     let mut receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
@@ -1159,10 +1158,13 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
     execute_cutover_request(&apply).expect("recover after selector");
 
     fs::write(&selector_path, &prior_selector).unwrap();
+    publish_v2_rollback(&root);
     let rollback = cutover_request(&root, readiness_digest, CutoverOperation::Rollback);
     let rolled_back = prepare_terminal_route("cutover", &rollback).expect("interrupted rollback");
     assert_eq!(rolled_back.status, TerminalRouteStatus::Ready);
-    assert_eq!(fs::read(&selector_path).unwrap(), prior_selector);
+    let rolled_back_selector: serde_json::Value =
+        serde_json::from_slice(&fs::read(&selector_path).unwrap()).unwrap();
+    assert_eq!(rolled_back_selector["default_generation"], "v2");
     assert!(!root.join(".adl/bin/csdlc").exists());
     let retry = prepare_terminal_route("cutover", &rollback).expect("idempotent rollback");
     assert_eq!(retry.status, TerminalRouteStatus::Ready);
@@ -1174,19 +1176,39 @@ fn rollback_fails_closed_on_stale_selector_digest() {
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let apply = cutover_request(&root, readiness_digest.clone(), CutoverOperation::Apply);
     execute_cutover_request(&apply).expect("apply");
-    fs::write(
-        root.join("csdlc-v2/operator/generation-selector.json"),
-        br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[999]}"#,
-    )
-    .unwrap();
+    write_generation_selector(&root, "v2");
     let rollback = cutover_request(&root, readiness_digest, CutoverOperation::Rollback);
     let blocked = prepare_terminal_route("cutover", &rollback).expect("rollback plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
     assert!(blocked
         .findings
         .iter()
-        .any(|finding| finding.code == "rollback_selector_stale_digest"));
+        .any(|finding| finding.code == "rollback_requires_selector_revert"));
     assert!(root.join(".adl/bin/csdlc").exists());
+}
+
+#[test]
+fn tracked_selector_revert_rolls_back_from_fresh_worktree() {
+    let root = fixture_root("rollback_fresh_worktree");
+    let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
+    let apply = cutover_request(&root, readiness_digest.clone(), CutoverOperation::Apply);
+    execute_cutover_request(&apply).expect("apply cutover");
+    publish_v2_rollback(&root);
+
+    let fresh = root.parent().unwrap().join(format!(
+        "{}-fresh",
+        root.file_name().unwrap().to_string_lossy()
+    ));
+    git(&root, &["worktree", "add", fresh.to_str().unwrap()]);
+    fs::create_dir_all(fresh.join(".adl/bin")).unwrap();
+    fs::copy(root.join(".adl/bin/csdlc"), fresh.join(".adl/bin/csdlc")).unwrap();
+
+    let mut rollback = cutover_request(&root, readiness_digest, CutoverOperation::Rollback);
+    rollback.cutover.as_mut().unwrap().repository_root = Some(fresh.clone());
+    let plan = prepare_terminal_route("cutover", &rollback).expect("fresh worktree rollback");
+    assert_eq!(plan.status, TerminalRouteStatus::Ready, "{plan:#?}");
+    assert!(!fresh.join(".adl/bin/csdlc").exists());
+    assert!(root.join(".git/csdlc-v3/cutover-receipt.json").exists());
 }
 
 fn typed_v2_review_fixture(root: &Path) -> (Vec<u8>, String, String) {
@@ -1726,6 +1748,23 @@ fn write_generation_selector(repository_root: &Path, generation: &str) {
             &["update-ref", "refs/remotes/origin/main", &head],
         );
     }
+}
+
+fn publish_v2_rollback(repository_root: &Path) {
+    write_generation_selector(repository_root, "v2");
+    git(
+        repository_root,
+        &["add", "csdlc-v2/operator/generation-selector.json"],
+    );
+    git(
+        repository_root,
+        &["commit", "-m", "revert tracked selector to v2"],
+    );
+    let head = git_stdout(repository_root, &["rev-parse", "HEAD"]);
+    git(
+        repository_root,
+        &["update-ref", "refs/remotes/origin/main", &head],
+    );
 }
 
 struct FakeGithubAdapter {
