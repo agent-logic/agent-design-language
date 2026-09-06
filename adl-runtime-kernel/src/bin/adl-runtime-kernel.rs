@@ -63,6 +63,61 @@ async fn main() -> ExitCode {
     };
 
     match command.as_str() {
+        "config-identity-check" => {
+            let args = match ServeArgs::parse(args) {
+                Ok(args) => args,
+                Err(error) => {
+                    eprintln!("{error}");
+                    return ExitCode::from(64);
+                }
+            };
+            let init_path = match canonical_init_path(&args.init_path) {
+                Ok(path) => path,
+                Err(error) => {
+                    eprintln!("runtime init path invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let init = match RuntimeInitConfig::load(Some(init_path.clone())) {
+                Ok(config) => config,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let supplied =
+                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
+                    Ok(identity) => identity,
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            let binary_generation = match runtime_binary_generation(&init.binaries.kernel_path) {
+                Ok(generation) => generation,
+                Err(error) => {
+                    eprintln!("runtime kernel generation invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            if let Err(error) = validate_config_generation_identity_matches_active(
+                &init_path,
+                &binary_generation,
+                &supplied,
+            ) {
+                eprintln!("{error}");
+                return ExitCode::from(78);
+            }
+            println!(
+                "{}",
+                serde_json::json!({
+                    "schema": "adl.runtime_v3.kernel_config_identity_probe.v1",
+                    "generation": supplied.generation,
+                    "receipt_digest": supplied.receipt_digest,
+                })
+            );
+            ExitCode::SUCCESS
+        }
         "serve" => {
             let serve_args = match ServeArgs::parse(args) {
                 Ok(args) => args,
