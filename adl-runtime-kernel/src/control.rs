@@ -59,6 +59,9 @@ pub const PREVIOUS_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_f
 pub const OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v3";
 pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
 const AGENT_PROVIDER_EXECUTION_TIMEOUT: Duration = Duration::from_secs(15 * 60);
+const AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES: usize = 32 * 1024;
+const AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
+const AGENT_CONVERSATION_MESSAGE_MAX_PARTS: usize = 64;
 pub const API_DOCS_PATH: &str = "/v1/docs/";
 pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
 pub const RUNTIME_OPENAPI_PATH: &str = "/v1/openapi.json";
@@ -1521,6 +1524,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         intent: &ObservatoryAgentInitiationIntent,
         require_sender_signing_identity: bool,
     ) -> ConversationAcceptance {
+        let Some(message) =
+            assemble_agent_conversation_message(intent.message.as_deref(), &intent.message_parts)
+        else {
+            return self
+                .refuse_public_agent_initiation_intent(intent, "invalid_agent_initiation_intent");
+        };
         let metadata = AgentInitiationMetadata {
             sender_id: intent.sender_id.clone(),
             initiated_recipient_id: intent.recipient_id.clone(),
@@ -1535,7 +1544,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_id: intent.turn_id.clone(),
             recipient_id: intent.recipient_id.clone(),
             correlation_id: intent.correlation_id.clone(),
-            message: intent.message.clone(),
+            message: Some(message),
+            message_parts: intent.message_parts.clone(),
         };
         let outcome = |status, error| {
             ObservatoryConversationResult::from_parts(ObservatoryConversationResultParts {
@@ -1559,8 +1569,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             || !is_safe_identifier(&intent.work_id)
             || !is_correlation_id(&intent.correlation_id)
             || intent.sender_id == intent.recipient_id
-            || intent.message.trim().is_empty()
-            || intent.message.len() > 4_096
         {
             return ConversationAcceptance::Response(outcome(
                 "refused",
@@ -1663,6 +1671,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let initiated_work_id = initiation
             .as_ref()
             .map(|metadata| metadata.initiated_work_id.clone());
+        let Some(message) =
+            assemble_agent_conversation_message(intent.message.as_deref(), &intent.message_parts)
+        else {
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "invalid_conversation_intent",
+                None,
+            ));
+        };
         let fingerprint_source = serde_json::json!({
             "intent": intent,
             "initiation": initiation,
@@ -1675,8 +1692,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             || !is_safe_identifier(&intent.turn_id)
             || !is_safe_identifier(&intent.recipient_id)
             || !is_correlation_id(&intent.correlation_id)
-            || intent.message.trim().is_empty()
-            || intent.message.len() > 4_096
         {
             return ConversationAcceptance::Response(outcome(
                 "refused",
@@ -1766,7 +1781,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 );
                 let payload_json = match serde_jcs::to_string(&serde_json::json!({
                     "action": action.clone(),
-                    "message": intent.message,
+                    "message": message,
                     "recipient_id": intent.recipient_id,
                 })) {
                     Ok(payload) => payload,
@@ -1905,7 +1920,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 cancellation: cancellation.clone(),
                 completion,
                 terminal: None,
-                message: intent.message.clone(),
+                message: message.clone(),
                 speaker_id: initiation
                     .as_ref()
                     .map(|metadata| format!("agent:{}", metadata.sender_id))
@@ -1979,7 +1994,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .ok_or("invalid_agent_initiation_action")
         };
         let recipient_id = field("recipient_id")?;
-        let message = field("message")?;
+        let message = action
+            .get("message")
+            .and_then(serde_json::Value::as_str)
+            .map(str::to_owned);
+        let message_parts = if let Some(parts) = action
+            .get("message_parts")
+            .and_then(serde_json::Value::as_array)
+        {
+            parts
+                .iter()
+                .map(|part| part.as_str().map(str::to_owned))
+                .collect::<Option<Vec<_>>>()
+                .ok_or("invalid_agent_initiation_action")?
+        } else {
+            Vec::new()
+        };
+        let assembled_message =
+            assemble_agent_conversation_message(message.as_deref(), &message_parts)
+                .ok_or("invalid_agent_initiation_action")?;
         let sender_id = dispatch.intent.recipient_id.clone();
         let seed = serde_json::json!({
             "schema": "adl.runtime.agent_to_agent_runtime_derived_ids.v1",
@@ -1988,7 +2021,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "parent_correlation_id": dispatch.intent.correlation_id,
             "sender_id": sender_id,
             "recipient_id": recipient_id,
-            "message": message,
+            "message": assembled_message,
+            "message_parts": message_parts,
         });
         let seed_bytes =
             serde_json::to_vec(&seed).map_err(|_| "invalid_agent_initiation_action")?;
@@ -2001,7 +2035,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             recipient_id,
             correlation_id: digest[..32].to_owned(),
             work_id: format!("a2a-work-{}", &digest[32..48]),
-            message,
+            message: Some(assembled_message),
+            message_parts,
         }))
     }
 
@@ -2068,8 +2103,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let orientation_context = self
             .orientation_for_agent(&dispatch.intent.recipient_id)
             .map(|orientation| orientation.content);
+        let message = assemble_agent_conversation_message(
+            dispatch.intent.message.as_deref(),
+            &dispatch.intent.message_parts,
+        )
+        .unwrap_or_default();
         let oriented_message =
-            self.inject_agent_orientation(&dispatch.intent.recipient_id, &dispatch.intent.message);
+            self.inject_agent_orientation(&dispatch.intent.recipient_id, &message);
         let agent_task = match dynamic_binding {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
@@ -2077,7 +2117,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
-                "input": dispatch.intent.message,
+                "input": dispatch.intent.message.clone(),
+                "input_parts": dispatch.intent.message_parts.clone(),
                 "orientation_context": orientation_context,
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
@@ -2091,7 +2132,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
-                "input": dispatch.intent.message,
+                "input": dispatch.intent.message.clone(),
+                "input_parts": dispatch.intent.message_parts.clone(),
                 "orientation_context": orientation_context,
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
@@ -4594,7 +4636,10 @@ struct ObservatoryConversationIntent {
     turn_id: String,
     recipient_id: String,
     correlation_id: String,
-    message: String,
+    #[serde(default)]
+    message: Option<String>,
+    #[serde(default)]
+    message_parts: Vec<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -4608,6 +4653,39 @@ struct ObservatoryConversationHistoryRequest {
 
 fn default_observatory_history_page_size() -> usize {
     2048
+}
+
+fn assemble_agent_conversation_message(
+    message: Option<&str>,
+    message_parts: &[String],
+) -> Option<String> {
+    if message_parts.is_empty() {
+        let message = message?;
+        return bounded_agent_conversation_part(message).map(str::to_owned);
+    }
+    if message_parts.len() > AGENT_CONVERSATION_MESSAGE_MAX_PARTS {
+        return None;
+    }
+    let mut assembled = String::new();
+    if let Some(message) = message.filter(|value| !value.trim().is_empty()) {
+        assembled.push_str(bounded_agent_conversation_part(message)?);
+    }
+    for part in message_parts {
+        let part = bounded_agent_conversation_part(part)?;
+        if !assembled.is_empty() {
+            assembled.push_str("\n\n");
+        }
+        assembled.push_str(part);
+        if assembled.len() > AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES {
+            return None;
+        }
+    }
+    (!assembled.trim().is_empty()).then_some(assembled)
+}
+
+fn bounded_agent_conversation_part(value: &str) -> Option<&str> {
+    (!value.trim().is_empty() && value.len() <= AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES)
+        .then_some(value)
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -4642,7 +4720,10 @@ struct ObservatoryAgentInitiationIntent {
     recipient_id: String,
     correlation_id: String,
     work_id: String,
-    message: String,
+    #[serde(default)]
+    message: Option<String>,
+    #[serde(default)]
+    message_parts: Vec<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
@@ -6220,7 +6301,8 @@ mod layer8_conversation_ingress_tests {
             recipient_id: "ember".to_owned(),
             correlation_id: "abababababababababababababababab".to_owned(),
             work_id: work_id.to_owned(),
-            message: "please summarize the governed state".to_owned(),
+            message: Some("please summarize the governed state".to_owned()),
+            message_parts: Vec::new(),
         }
     }
 
@@ -6239,7 +6321,10 @@ mod layer8_conversation_ingress_tests {
             recipient_id: recipient_id.to_owned(),
             correlation_id: correlation_id.to_owned(),
             work_id: work_id.to_owned(),
-            message: format!("{recipient_id}, please answer {sender_id} through governed A2A."),
+            message: Some(format!(
+                "{recipient_id}, please answer {sender_id} through governed A2A."
+            )),
+            message_parts: Vec::new(),
         }
     }
 
@@ -6658,7 +6743,11 @@ mod layer8_conversation_ingress_tests {
                                     "name": "initiate_agent",
                                     "arguments": {
                                         "recipient_id": "ember",
-                                        "message": "Ember, please answer Beacon through governed A2A."
+                                        "message": "Multipart governed handoff follows.",
+                                        "message_parts": [
+                                            "Ember, please answer Beacon through governed A2A.",
+                                            "Include the welcome-package orientation receipt in your reasoning context."
+                                        ]
                                     }
                                 }
                             }]
@@ -6751,7 +6840,8 @@ mod layer8_conversation_ingress_tests {
             turn_id: "turn-reload-proof".to_owned(),
             recipient_id: "ember".to_owned(),
             correlation_id: "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd".to_owned(),
-            message: "Restore this operator turn after a reload.".to_owned(),
+            message: Some("Restore this operator turn after a reload.".to_owned()),
+            message_parts: Vec::new(),
         };
         let delivered = match service.accept_conversation_intent(&intent) {
             ConversationAcceptance::Dispatch { dispatch, .. } => {
@@ -6775,7 +6865,7 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(history.records.len(), 2);
         assert_eq!(history.records[0].message_id, "turn-reload-proof:outbound");
         assert_eq!(history.records[0].speaker_id, "operator");
-        assert_eq!(history.records[0].body, intent.message);
+        assert_eq!(history.records[0].body, intent.message.as_deref().unwrap());
         assert_eq!(history.records[0].journal_sequence, 1);
         assert_eq!(history.records[1].message_id, "turn-reload-proof:reply");
         assert_eq!(history.records[1].speaker_id, "agent:ember");
@@ -6803,7 +6893,8 @@ mod layer8_conversation_ingress_tests {
                 turn_id: format!("turn-long-{index:03}"),
                 recipient_id: "ember".to_owned(),
                 correlation_id: format!("{index:032x}"),
-                message: format!("Restore long history turn {index:03}."),
+                message: Some(format!("Restore long history turn {index:03}.")),
+                message_parts: Vec::new(),
             };
             let delivered = match service.accept_conversation_intent(&multi_turn_intent) {
                 ConversationAcceptance::Dispatch { dispatch, .. } => {
@@ -6815,7 +6906,7 @@ mod layer8_conversation_ingress_tests {
             };
             delivered_replies.push((
                 multi_turn_intent.turn_id,
-                multi_turn_intent.message,
+                multi_turn_intent.message.unwrap(),
                 delivered.reply.expect("delivered turn includes reply"),
             ));
         }
@@ -6916,7 +7007,8 @@ mod layer8_conversation_ingress_tests {
             turn_id: "turn-operator-asks-beacon".to_owned(),
             recipient_id: "beacon".to_owned(),
             correlation_id: "efefefefefefefefefefefefefefefef".to_owned(),
-            message: "Please ask Ember for a governed response.".to_owned(),
+            message: Some("Please ask Ember for a governed response.".to_owned()),
+            message_parts: Vec::new(),
         };
         let delivered = match service.accept_conversation_intent(&intent) {
             ConversationAcceptance::Dispatch { dispatch, .. } => {
@@ -7004,6 +7096,7 @@ mod layer8_conversation_ingress_tests {
                     prompt.starts_with("Axioma Polis agent orientation package")
                         && prompt.contains("Runtime-delivered task content follows")
                         && prompt.contains("Ember, please answer Beacon")
+                        && prompt.contains("welcome-package orientation receipt")
                 }));
         }
         let events = recorder.events();
@@ -7313,14 +7406,15 @@ mod layer8_conversation_ingress_tests {
             turn_id: "turn-layer8".to_owned(),
             recipient_id: "shepherd".to_owned(),
             correlation_id: "12121212121212121212121212121212".to_owned(),
-            message: "Hello".to_owned(),
+            message: Some("Hello".to_owned()),
+            message_parts: Vec::new(),
         }
     }
 
     fn continue_intent(turn_id: &str) -> ObservatoryConversationIntent {
         ObservatoryConversationIntent {
             turn_id: turn_id.to_owned(),
-            message: format!("Continue with {turn_id}"),
+            message: Some(format!("Continue with {turn_id}")),
             ..intent()
         }
     }
@@ -8653,6 +8747,7 @@ pub(crate) struct ProviderConversationOutput {
 pub(crate) struct ProviderAgentToAgentAction {
     pub recipient_id: String,
     pub message: String,
+    pub message_parts: Vec<String>,
 }
 
 pub(crate) async fn invoke_provider_conversation(
@@ -8728,7 +8823,7 @@ async fn invoke_ollama_conversation(
                     "description": "Request a bounded governed message to another admitted resident agent. The Runtime decides whether it is authorized and delivered.",
                     "parameters": {
                         "type": "object",
-                        "required": ["recipient_id", "message"],
+                        "required": ["recipient_id"],
                         "properties": {
                             "recipient_id": {
                                 "type": "string",
@@ -8736,7 +8831,12 @@ async fn invoke_ollama_conversation(
                             },
                             "message": {
                                 "type": "string",
-                                "description": "Bounded message for the recipient"
+                                "description": "Bounded single-part message or short summary for the recipient"
+                            },
+                            "message_parts": {
+                                "type": "array",
+                                "description": "Optional multipart message chunks for larger governed resident handoffs",
+                                "items": { "type": "string" }
                             }
                         }
                     }
@@ -8850,9 +8950,22 @@ fn normalize_ollama_conversation_response(
     let peer_message = arguments
         .get("message")
         .and_then(serde_json::Value::as_str)
-        .map(str::trim)
-        .filter(|value| !value.is_empty() && value.len() <= 4_096)
-        .ok_or("agent_provider_action_invalid")?;
+        .map(str::trim);
+    let peer_message_parts = if let Some(parts) = arguments
+        .get("message_parts")
+        .and_then(serde_json::Value::as_array)
+    {
+        parts
+            .iter()
+            .map(|part| part.as_str().map(str::trim).map(str::to_owned))
+            .collect::<Option<Vec<_>>>()
+            .ok_or("agent_provider_action_invalid")?
+    } else {
+        Vec::new()
+    };
+    let assembled_peer_message =
+        assemble_agent_conversation_message(peer_message, &peer_message_parts)
+            .ok_or("agent_provider_action_invalid")?;
     let operator_message = if content.trim().is_empty() {
         format!("Requested governed contact with {recipient_id}.")
     } else {
@@ -8862,7 +8975,8 @@ fn normalize_ollama_conversation_response(
         message: operator_message,
         agent_to_agent: Some(ProviderAgentToAgentAction {
             recipient_id: recipient_id.to_owned(),
-            message: peer_message.to_owned(),
+            message: assembled_peer_message,
+            message_parts: peer_message_parts,
         }),
     })
 }
@@ -8942,6 +9056,7 @@ mod provider_conversation_tool_tests {
             Some(ProviderAgentToAgentAction {
                 recipient_id: "ember".to_owned(),
                 message: "Please report your current state.".to_owned(),
+                message_parts: Vec::new(),
             })
         );
     }
@@ -8967,8 +9082,67 @@ mod provider_conversation_tool_tests {
             Some(ProviderAgentToAgentAction {
                 recipient_id: "ember".to_owned(),
                 message: "Please reply through governed A2A.".to_owned(),
+                message_parts: Vec::new(),
             })
         );
+    }
+
+    #[test]
+    fn native_tool_call_accepts_32k_multipart_arguments() {
+        let max_part = "a".repeat(32 * 1024);
+        let output = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {
+                "role": "assistant",
+                "content": "I will ask Ember with a multipart governed handoff.",
+                "tool_calls": [{
+                    "function": {
+                        "name": "initiate_agent",
+                        "arguments": {
+                            "recipient_id": "ember",
+                            "message": "Multipart handoff summary.",
+                            "message_parts": [
+                                max_part,
+                                "Please include your welcome-package receipt in the reply."
+                            ]
+                        }
+                    }
+                }]
+            }
+        }))
+        .expect("32 KiB multipart Ollama tool arguments should normalize");
+        let action = output
+            .agent_to_agent
+            .expect("multipart tool call should remain a first-class A2A action");
+        assert_eq!(action.recipient_id, "ember");
+        assert!(action.message.starts_with("Multipart handoff summary."));
+        assert!(action
+            .message
+            .contains("Please include your welcome-package receipt"));
+        assert_eq!(action.message_parts.len(), 2);
+        assert_eq!(action.message_parts[0].len(), 32 * 1024);
+    }
+
+    #[test]
+    fn native_tool_call_rejects_over_32k_message_part() {
+        let error = normalize_ollama_conversation_response(&serde_json::json!({
+            "message": {
+                "role": "assistant",
+                "content": "This must not dispatch.",
+                "tool_calls": [{
+                    "function": {
+                        "name": "initiate_agent",
+                        "arguments": {
+                            "recipient_id": "ember",
+                            "message_parts": [
+                                "x".repeat((32 * 1024) + 1)
+                            ]
+                        }
+                    }
+                }]
+            }
+        }))
+        .expect_err("oversized multipart chunks must fail closed");
+        assert_eq!(error, "agent_provider_action_invalid");
     }
 
     #[test]

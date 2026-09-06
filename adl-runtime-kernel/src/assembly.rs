@@ -55,7 +55,9 @@ const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
 const LOCAL_WRITER_START_SCHEMA: &str = "adl.runtime.local_writer_start.v1";
 const PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA: &str =
     "adl.runtime.agent_conversation_response.v1";
-const AGENT_CONVERSATION_INPUT_LIMIT_BYTES: usize = 4_096;
+const AGENT_CONVERSATION_INPUT_LIMIT_BYTES: usize = 32 * 1024;
+const AGENT_CONVERSATION_INPUT_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
+const AGENT_CONVERSATION_INPUT_MAX_PARTS: usize = 64;
 const AGENT_ORIENTATION_CONTEXT_LIMIT_BYTES: usize = 132_096;
 
 pub struct LiveBindings {
@@ -1351,7 +1353,7 @@ impl InProcessOperationExecutor {
                     }
                 }
                 "conversation_message" => {
-                    let input = task["input"].as_str().ok_or_else(|| {
+                    let input = conversation_task_input(task).ok_or_else(|| {
                         adapter_error(FailureClass::Fatal, "agent_conversation_malformed")
                     })?;
                     let recipient_id = task["recipient_id"].as_str().ok_or_else(|| {
@@ -1360,11 +1362,8 @@ impl InProcessOperationExecutor {
                     let orientation_context = task
                         .get("orientation_context")
                         .and_then(serde_json::Value::as_str);
-                    if input.trim().is_empty()
-                        || input.len() > AGENT_CONVERSATION_INPUT_LIMIT_BYTES
-                        || orientation_context.is_some_and(|value| {
-                            value.len() > AGENT_ORIENTATION_CONTEXT_LIMIT_BYTES
-                        })
+                    if orientation_context
+                        .is_some_and(|value| value.len() > AGENT_ORIENTATION_CONTEXT_LIMIT_BYTES)
                         || recipient_id.is_empty()
                         || recipient_id.len() > 128
                     {
@@ -1379,7 +1378,7 @@ impl InProcessOperationExecutor {
                     match (provider, model, endpoint) {
                         (None, None, None) => return_output(recipient_id),
                         (Some(provider), Some(model), Some(endpoint)) => {
-                            let prompt = provider_conversation_prompt(task, recipient_id, input);
+                            let prompt = provider_conversation_prompt(task, recipient_id, &input);
                             let response = if task
                                 .get("sender_id")
                                 .is_none_or(serde_json::Value::is_null)
@@ -1652,6 +1651,59 @@ fn return_output(recipient_id: &str) -> serde_json::Value {
     })
 }
 
+fn conversation_task_input(task: &serde_json::Value) -> Option<String> {
+    let input = task.get("input").and_then(serde_json::Value::as_str);
+    let parts = task
+        .get("input_parts")
+        .and_then(serde_json::Value::as_array)
+        .map(Vec::as_slice)
+        .unwrap_or_default();
+    assemble_multipart_text(input, parts)
+}
+
+fn assemble_multipart_text(input: Option<&str>, parts: &[serde_json::Value]) -> Option<String> {
+    if parts.is_empty() {
+        let input = input?;
+        return bounded_conversation_text(input).map(str::to_owned);
+    }
+    if parts.len() > AGENT_CONVERSATION_INPUT_MAX_PARTS {
+        return None;
+    }
+    let mut assembled = String::new();
+    if let Some(input) = input.filter(|value| !value.trim().is_empty()) {
+        let input = bounded_conversation_text(input)?;
+        assembled.push_str(input);
+    }
+    for part in parts {
+        let text = part.as_str().or_else(|| {
+            part.as_object().and_then(|object| {
+                let kind = object
+                    .get("type")
+                    .or_else(|| object.get("kind"))
+                    .and_then(serde_json::Value::as_str)
+                    .unwrap_or("text");
+                (kind == "text")
+                    .then(|| object.get("text").and_then(serde_json::Value::as_str))
+                    .flatten()
+            })
+        })?;
+        let text = bounded_conversation_text(text)?;
+        if !assembled.is_empty() {
+            assembled.push_str("\n\n");
+        }
+        assembled.push_str(text);
+        if assembled.len() > AGENT_CONVERSATION_INPUT_TOTAL_LIMIT_BYTES {
+            return None;
+        }
+    }
+    (!assembled.trim().is_empty()).then_some(assembled)
+}
+
+fn bounded_conversation_text(value: &str) -> Option<&str> {
+    (!value.trim().is_empty() && value.len() <= AGENT_CONVERSATION_INPUT_LIMIT_BYTES)
+        .then_some(value)
+}
+
 fn provider_conversation_prompt(
     task: &serde_json::Value,
     recipient_id: &str,
@@ -1701,6 +1753,7 @@ fn provider_conversation_output(
             "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
             "recipient_id": action.recipient_id,
             "message": action.message,
+            "message_parts": action.message_parts,
         });
         validate_provider_agent_initiation_action(task, &action)?;
         return Ok(serde_json::json!({
@@ -1729,7 +1782,10 @@ fn provider_conversation_output(
     let message = value
         .get("message")
         .and_then(serde_json::Value::as_str)
-        .filter(|message| !message.trim().is_empty() && message.len() <= 4_096)
+        .filter(|message| {
+            !message.trim().is_empty()
+                && message.len() <= AGENT_CONVERSATION_INPUT_TOTAL_LIMIT_BYTES
+        })
         .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed"))?;
     let mut output = serde_json::json!({
         "recipient_id": recipient_id,
@@ -1769,10 +1825,13 @@ fn validate_provider_agent_initiation_action(
             "agent_conversation_action_self_target",
         ));
     }
-    action
-        .get("message")
-        .and_then(serde_json::Value::as_str)
-        .filter(|message| !message.trim().is_empty() && message.len() <= 4_096)
+    let message = action.get("message").and_then(serde_json::Value::as_str);
+    let parts = action
+        .get("message_parts")
+        .and_then(serde_json::Value::as_array)
+        .map(Vec::as_slice)
+        .unwrap_or_default();
+    assemble_multipart_text(message, parts)
         .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed"))?;
     Ok(())
 }
@@ -1821,6 +1880,44 @@ mod provider_conversation_action_tests {
     }
 
     #[test]
+    fn conversation_task_input_accepts_32k_single_part_and_multipart_input() {
+        let single_part = "s".repeat(32 * 1024);
+        let single = serde_json::json!({
+            "input": single_part
+        });
+        assert_eq!(
+            conversation_task_input(&single)
+                .expect("32 KiB single message remains accepted")
+                .len(),
+            32 * 1024
+        );
+
+        let oversized_single = serde_json::json!({
+            "input": "s".repeat((32 * 1024) + 1)
+        });
+        assert!(
+            conversation_task_input(&oversized_single).is_none(),
+            "single-message bound remains finite"
+        );
+
+        let multipart = serde_json::json!({
+            "input": "Operator summary.",
+            "input_parts": [
+                "First governed handoff chunk.",
+                {
+                    "type": "text",
+                    "text": "Second governed handoff chunk."
+                }
+            ]
+        });
+        let assembled =
+            conversation_task_input(&multipart).expect("multipart task content should assemble");
+        assert!(assembled.contains("Operator summary."));
+        assert!(assembled.contains("First governed handoff chunk."));
+        assert!(assembled.contains("Second governed handoff chunk."));
+    }
+
+    #[test]
     fn provider_native_action_projects_agent_initiation_envelope() {
         let output = provider_conversation_output(
             &task(),
@@ -1830,6 +1927,7 @@ mod provider_conversation_action_tests {
                 agent_to_agent: Some(crate::control::ProviderAgentToAgentAction {
                     recipient_id: "ember".to_owned(),
                     message: "Ember, please answer through the governed A2A path.".to_owned(),
+                    message_parts: Vec::new(),
                 }),
             },
         )
@@ -1839,6 +1937,35 @@ mod provider_conversation_action_tests {
         assert_eq!(
             output["agent_to_agent_initiation"]["message"],
             "Ember, please answer through the governed A2A path."
+        );
+    }
+
+    #[test]
+    fn provider_native_action_projects_multipart_agent_initiation_envelope() {
+        let output = provider_conversation_output(
+            &task(),
+            "beacon",
+            crate::control::ProviderConversationOutput {
+                message: "Beacon is initiating a multipart governed handoff.".to_owned(),
+                agent_to_agent: Some(crate::control::ProviderAgentToAgentAction {
+                    recipient_id: "ember".to_owned(),
+                    message: "Multipart summary.".to_owned(),
+                    message_parts: vec![
+                        "Ember, please process the first governed chunk.".to_owned(),
+                        "Then reply with your orientation receipt.".to_owned(),
+                    ],
+                }),
+            },
+        )
+        .expect("schema-tagged multipart provider action should project");
+        assert_eq!(output["agent_to_agent_initiation"]["recipient_id"], "ember");
+        assert_eq!(
+            output["agent_to_agent_initiation"]["message"],
+            "Multipart summary."
+        );
+        assert_eq!(
+            output["agent_to_agent_initiation"]["message_parts"][1],
+            "Then reply with your orientation receipt."
         );
     }
 
@@ -1893,6 +2020,7 @@ mod provider_conversation_action_tests {
                 agent_to_agent: Some(crate::control::ProviderAgentToAgentAction {
                     recipient_id: "beacon".to_owned(),
                     message: "Beacon, please answer yourself.".to_owned(),
+                    message_parts: Vec::new(),
                 }),
             },
         )

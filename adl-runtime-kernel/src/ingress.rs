@@ -24,6 +24,9 @@ pub const DOMAIN_WORK_SCHEMA: &str = "adl.runtime.domain_work.v1";
 pub const DOMAIN_RESULT_SCHEMA: &str = "adl.runtime.domain_result.v1";
 pub const AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA: &str =
     "adl.runtime.agent_to_agent_initiation_request.v1";
+const AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES: usize = 32 * 1024;
+const AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
+const AGENT_CONVERSATION_MESSAGE_MAX_PARTS: usize = 64;
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -484,7 +487,9 @@ fn project_public_output(
     let message = output
         .get("message")
         .and_then(serde_json::Value::as_str)
-        .filter(|value| !value.is_empty() && value.len() <= 4_096)
+        .filter(|value| {
+            !value.is_empty() && value.len() <= AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES
+        })
         .ok_or(IngressError::ExecutionFailed)?;
     let mut projected = serde_json::json!({
         "schema": "adl.runtime.conversation_reply.v1",
@@ -494,18 +499,57 @@ fn project_public_output(
     if let Some(action) = output.get("agent_to_agent_initiation") {
         let valid_action = action.get("schema").and_then(serde_json::Value::as_str)
             == Some(AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
-            && ["recipient_id", "message"].into_iter().all(|field| {
+            && action
+                .get("recipient_id")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|value| !value.is_empty() && value.len() <= 128)
+            && valid_multipart_agent_message(
+                action.get("message").and_then(serde_json::Value::as_str),
                 action
-                    .get(field)
-                    .and_then(serde_json::Value::as_str)
-                    .is_some_and(|value| !value.is_empty() && value.len() <= 4_096)
-            });
+                    .get("message_parts")
+                    .and_then(serde_json::Value::as_array)
+                    .map(Vec::as_slice),
+            );
         if !valid_action {
             return Err(IngressError::ExecutionFailed);
         }
         projected["agent_to_agent_initiation"] = action.clone();
     }
     Ok(Some(projected))
+}
+
+fn valid_multipart_agent_message(
+    message: Option<&str>,
+    message_parts: Option<&[serde_json::Value]>,
+) -> bool {
+    let parts = message_parts.unwrap_or_default();
+    if parts.is_empty() {
+        return message.is_some_and(|value| {
+            !value.trim().is_empty() && value.len() <= AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES
+        });
+    }
+    if parts.len() > AGENT_CONVERSATION_MESSAGE_MAX_PARTS {
+        return false;
+    }
+    let mut total = message
+        .filter(|value| !value.trim().is_empty())
+        .map(|value| {
+            (value.len() <= AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES).then_some(value.len())
+        })
+        .unwrap_or(Some(0));
+    for part in parts {
+        let Some(part) = part.as_str() else {
+            return false;
+        };
+        if part.trim().is_empty() || part.len() > AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES {
+            return false;
+        }
+        total = total.and_then(|value| value.checked_add(part.len()));
+        if total.is_none_or(|value| value > AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES) {
+            return false;
+        }
+    }
+    total.is_some_and(|value| value > 0)
 }
 
 #[cfg(test)]
@@ -555,7 +599,11 @@ mod tests {
             "agent_to_agent_initiation": {
                 "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
                 "recipient_id": "ember",
-                "message": "Ember, please reply through governed A2A."
+                "message": "Multipart governed handoff follows.",
+                "message_parts": [
+                    "Ember, please reply through governed A2A.",
+                    "Include your welcome-package orientation receipt."
+                ]
             }
         }));
 
@@ -568,6 +616,14 @@ mod tests {
                 .and_then(|action| action.get("recipient_id"))
                 .and_then(serde_json::Value::as_str),
             Some("ember")
+        );
+        assert_eq!(
+            projected
+                .get("agent_to_agent_initiation")
+                .and_then(|action| action.get("message_parts"))
+                .and_then(serde_json::Value::as_array)
+                .map(Vec::len),
+            Some(2)
         );
     }
 
@@ -585,6 +641,32 @@ mod tests {
             "agent_to_agent_initiation": {
                 "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
                 "recipient_id": "ember"
+            }
+        }));
+
+        assert_eq!(
+            project_public_output(&work, &operation),
+            Err(IngressError::ExecutionFailed)
+        );
+    }
+
+    #[test]
+    fn oversized_agent_initiation_message_part_is_not_projected() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": "ember",
+                "message_parts": [
+                    "x".repeat((32 * 1024) + 1)
+                ]
             }
         }));
 

@@ -40,6 +40,8 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 - Routed the governed resident Shepherd recovery/readiness probe through the same retained per-agent welcome package before the READY instruction, closing the remaining production path that could reach a model without orientation.
 - Raised the resident Shepherd oriented request decode limit so Runtime-generated welcome-package prompts are accepted without weakening the original user-message bound.
 - Moved provider-backed agent_runtime orientation delivery into a first-class internal task envelope so the original 4 KiB user-message bound remains intact while the model-facing prompt still receives the welcome package before task content.
+- Raised bounded Runtime agent-conversation single-message and per-part payloads from 4 KiB to 32 KiB, while retaining a finite 64-part and 256 KiB aggregate cap.
+- Added first-class multipart `input_parts` and `message_parts` handling across Runtime conversation tasks, provider-selected A2A tool actions, and public output projection so larger governed resident handoffs do not flatten into an undersized single string.
 - Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.
 - Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.
 
@@ -101,6 +103,57 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
     "purpose": "Regression for provider-backed A2A delivery after moving the orientation package out of the 4 KiB user-input field and into a separate internal task envelope.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/708/runtime-orientation-a2a-envelope.log"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "provider_conversation_action_tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Regression for 32 KiB single agent conversation inputs, multipart Runtime input assembly, and provider-projected multipart governed A2A envelopes.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:running 7 tests; 7 passed"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "provider_conversation_tool_tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Regression for native provider A2A tool-call normalization accepting 32 KiB multipart message parts and rejecting over-limit parts.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:running 7 tests; 7 passed"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "agent_initiation",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Regression for public output projection preserving multipart A2A initiation actions and rejecting over-limit multipart chunks while existing governed initiation behavior still passes.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:running 8 tests; 8 passed"
   },
   {
     "command": [
@@ -232,11 +285,11 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
