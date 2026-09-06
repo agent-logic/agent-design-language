@@ -6,10 +6,17 @@
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
   "phase": "implemented",
   "generation": 36,
-  "digest": "de19eeff7d4feead5f8dd06f419887452329ca1a4d226c71bb44a0771f99d36e",
+  "digest": "bbefe7a36bb7f4b9cbb76dc773bb3921a986ea2b875adc4173f667cc7907193f",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:issue-708-ci-race-current-head-review",
+    "assigned_by": "codex:issue-708-runtime-orientation",
+    "revision": "git-blake3:0fb11fa79023726765f61b6df5163313e2bec6ed:7fc0a1820b68e0577fd5886c53df300e488e4f2361725249217860a36fd68cae",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +52,9 @@
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "821fadc2e4c0724b275411c8e0aa5db51e55d4d8572eec957c3263d7899389d0",
-      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
-      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
+      "values_digest": "754fea69187efd8aaa9cf8ba7b507a1d2cc3c9b5109c9e4d83cbe5161429b3e6",
+      "rendered_digest": "438d5dbbf7b3468013e8df41d73d92624f2bc39594c913ad13be1c301a52e392",
+      "ast_digest": "c5278218adc72917239c158ab994d234cafa46ddf7e568a13a5bc3a814881bb3"
     },
     "sor": {
       "values_digest": "c07326abfd4be9014a843a6e2b400314acd251fdc0435b18b9867635b5ba5e0a",
@@ -533,6 +540,13 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Clear stale review after the CI-race repair review metadata tail so #708 can record a current-head review before republishing PR #709.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 36,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

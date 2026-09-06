@@ -1,0 +1,10 @@
+{
+  "issue": 708,
+  "expected_generation": 36,
+  "expected_digest": "de19eeff7d4feead5f8dd06f419887452329ca1a4d226c71bb44a0771f99d36e",
+  "reviewer": "codex:issue-708-ci-race-current-head-review",
+  "assigned_by": "codex:issue-708-runtime-orientation",
+  "scope": [
+    "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+  ]
+}
