@@ -4,45 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
-  "phase": "published",
-  "generation": 40,
-  "digest": "0d9d0cafbdc9e83f84e3b650b5dd2b562b8528081d9906ccc6a8f339db02a9df",
+  "phase": "implemented",
+  "generation": 41,
+  "digest": "975b5e0777563dc9b3301bfd8f92c28be86f33c7d429da9ea5b592470a28d19b",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
-  "review_assignment": {
-    "reviewer": "codex:issue-708-ci-race-final-review",
-    "assigned_by": "codex:issue-708-runtime-orientation",
-    "revision": "git-blake3:8f6e0daf9cc0e8e0260a8592255079bd6d6ba25e:b5fa5325ad11ead2005f21674901bb1bac3e77cc61e48300a471a6ef4d86eb63",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:issue-708-ci-race-final-review",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
-    ],
-    "reviewed_revision": "git-blake3:8f6e0daf9cc0e8e0260a8592255079bd6d6ba25e:b5fa5325ad11ead2005f21674901bb1bac3e77cc61e48300a471a6ef4d86eb63",
-    "findings": [],
-    "residual_risks": [
-      "Review confirmed the duplicate in-flight test repair is deterministic and does not change source semantics beyond removing the sleep-timed race.",
-      "The full hosted adl-runtime-v3-fast lane remains deferred to GitHub CI after republish."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 708,
-    "pull_request": 709,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/709",
-    "base": "main",
-    "head": "codex/708-runtime-agent-orientation-resource",
-    "revision": "git-blake3:8f6e0daf9cc0e8e0260a8592255079bd6d6ba25e:b5fa5325ad11ead2005f21674901bb1bac3e77cc61e48300a471a6ef4d86eb63",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -56,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e473d13576051d9622fe2ca574d117aae80117dcc0b3f2b825365e3a16cb6575",
+      "values_digest": "92452cfb1f2b78ffb236a486c503416c6d4015a895db26a94f6ecf0ef87d9969",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "9d9949122701c50197f2699bb52b5343ba08a37ed18517d15d16560feb93a67b",
+      "values_digest": "2cf71540515a91fe8defe3bc0c877011a3073313247b5437b4626d93e52138be",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "a9ea4c0796c7e04e37add4ddb084713af0be31ed1ef627af86bb3f25372a3574",
+      "values_digest": "871bf8269c6eafb1e7a0df7717091383096d12322cb3489332c49e8db25b4f1a",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "3091b6c8e3cafaf4c28b6b792ee09e6289fa81f004a175807ba04a3942d249ff",
+      "values_digest": "d61fc6ee6105200ffc9680c9cc9f095225d3f5c02fb27d91da7036741d311384",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "42eca96621d87da2b12bd552da056e6a2ea6a8dc89e95d991c7e5d2d30de945e",
-      "rendered_digest": "70664cf6aba27462cdc4ad812d2a93af026215b83bba1f55db73050d0e68c8b5",
-      "ast_digest": "5c5a892028a71434255facc87eaff285706e7bfaa64a33869645ecd59bde739a"
+      "values_digest": "f3ab0ab246333deb9ee3b883ae00582d2e87c290a1f08fd833d631f275349a43",
+      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
+      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
     },
     "sor": {
-      "values_digest": "453c99de2c0396122e913319c910897e9c8fc01e17c45a884dfb88330e28d02a",
-      "rendered_digest": "5e65fd86fca8d7d15e7789f97cf1df5bccd310a9a886ec13fad8531f246bd339",
-      "ast_digest": "11be20d4e1871ef4bc39339c1ff42ed25359c255d32c4466a8efc516a5e4f876"
+      "values_digest": "ab0191954bb5b2579e7c85d151b98d5802b694d87c73bfdc2f3cf558cc1017fd",
+      "rendered_digest": "443743fdff55541b2efe0fd843395a44d11ed8499dd3c147d89c7a6ddf1b991c",
+      "ast_digest": "561f5eab0dc0d145d62d9390e120b5ba54b5b6bcb5e42c4e78049bcf6a018528"
     }
   },
   "transitions": [
@@ -254,6 +223,13 @@
       "to": "published",
       "actor": "codex:issue-708-runtime-agent-orientation-resource",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 25,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "Recover stale publication truth after fixing exact-head PR #709 review blockers for durable per-agent orientation provenance, parts-only A2A normalization, configured default-source loading, and full-suite cleanup-race test stability."
     }
   ],
   "audit": [
@@ -634,6 +610,13 @@
       "actor": "codex:issue-708-runtime-agent-orientation-resource",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 55,
+      "generation": 41,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "Recover stale publication truth after fixing exact-head PR #709 review blockers for durable per-agent orientation provenance, parts-only A2A normalization, configured default-source loading, and full-suite cleanup-race test stability.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 40
+    "generation": 41
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      "review_revision": "git-blake3:8f6e0daf9cc0e8e0260a8592255079bd6d6ba25e:b5fa5325ad11ead2005f21674901bb1bac3e77cc61e48300a471a6ef4d86eb63",
-      "reviewer": "codex:issue-708-ci-race-final-review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any admitted agent reach its first model turn without the active orientation snapshot?",
         "Does the recorded digest cover the exact delivered bytes rather than a mutable source or global resource?",
@@ -25,11 +25,8 @@
         "Is the implementation smaller than a general prompt framework?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Review confirmed the duplicate in-flight test repair is deterministic and does not change source semantics beyond removing the sleep-timed race.",
-        "The full hosted adl-runtime-v3-fast lane remains deferred to GitHub CI after republish."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

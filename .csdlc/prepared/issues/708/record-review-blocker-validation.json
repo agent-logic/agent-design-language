@@ -1,0 +1,26 @@
+{
+  "issue": 708,
+  "expected_generation": 41,
+  "expected_digest": "975b5e0777563dc9b3301bfd8f92c28be86f33c7d429da9ea5b592470a28d19b",
+  "actor": "codex:issue-708-runtime-orientation",
+  "card": "sor",
+  "reason": "Record local proof for exact-head PR #709 review-blocker fixes before fresh review and republication.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "env",
+        "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--lib"
+      ],
+      "purpose": "CI-matching Runtime kernel library validation after fixing durable per-agent orientation persistence, parts-only provider A2A multipart normalization, configured default-source loading, and cleanup-race synchronization.",
+      "outcome": "passed",
+      "evidence_ref": "terminal:187 tests passed; orientation provenance, provider_conversation_tool_tests, and shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress passed"
+    }
+  }
+}

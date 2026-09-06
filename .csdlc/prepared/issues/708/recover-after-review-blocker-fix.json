@@ -1,0 +1,7 @@
+{
+  "issue": 708,
+  "expected_generation": 40,
+  "expected_digest": "0d9d0cafbdc9e83f84e3b650b5dd2b562b8528081d9906ccc6a8f339db02a9df",
+  "actor": "codex:issue-708-runtime-orientation",
+  "reason": "Recover stale publication truth after fixing exact-head PR #709 review blockers for durable per-agent orientation provenance, parts-only A2A normalization, configured default-source loading, and full-suite cleanup-race test stability."
+}

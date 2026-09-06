@@ -52,3 +52,4 @@
 {"sequence":52,"generation":38,"actor":"codex:issue-708-runtime-orientation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":53,"generation":39,"actor":"codex:issue-708-ci-race-final-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":54,"generation":40,"actor":"codex:issue-708-runtime-agent-orientation-resource","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":55,"generation":41,"actor":"codex:issue-708-runtime-orientation","reason":"Recover stale publication truth after fixing exact-head PR #709 review blockers for durable per-agent orientation provenance, parts-only A2A normalization, configured default-source loading, and full-suite cleanup-race test stability.","operation":"recover_review"}
