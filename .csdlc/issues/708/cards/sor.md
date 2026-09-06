@@ -176,11 +176,11 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
