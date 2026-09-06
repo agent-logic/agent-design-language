@@ -7,15 +7,15 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:557f3779142bcf26cb3bc8e24bf5483619968112:0c3ec1f95d5d3f2c7a121aaf41e71b1f6410a80b1ff4ddb2f1c6b715218f4615",
+      "reviewer": "codex:issue-708-multipart-exact-head-review-r2",
       "review_prompts": [
         "Can any admitted agent reach its first model turn without the active orientation snapshot?",
         "Does the recorded digest cover the exact delivered bytes rather than a mutable source or global resource?",
@@ -25,8 +25,11 @@
         "Is the implementation smaller than a general prompt framework?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was focused on local Runtime assembly/control/ingress multipart behavior and did not perform live provider inference, paid Runtime execution, or external communication tests.",
+        "Current branch head differs from reviewed source revision by generated C-SDLC review-assignment metadata only; v2 publication readiness must verify that metadata-only tail before publication."
+      ],
+      "review_result": "pass"
     }
   }
 }
