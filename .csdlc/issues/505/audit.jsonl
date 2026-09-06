@@ -103,3 +103,7 @@
 {"sequence":103,"generation":76,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":104,"generation":77,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":105,"generation":78,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":106,"generation":79,"actor":"codex:/root","reason":"Recover stale #505 review/publication truth after committing the proof shadow CI portability fix at ad395e0d2; a fresh exact-head review is required before republishing PR #591.","operation":"recover_review"}
+{"sequence":107,"generation":79,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":108,"generation":80,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":109,"generation":81,"actor":"codex:worker-8","reason":"Recover concurrent invalid non-independent review evidence at generation 80. The recorded reviewer explicitly lacks provider attestation and cannot authorize publication; a genuine independent exact-head review is required after CI is green.","operation":"recover_review"}
