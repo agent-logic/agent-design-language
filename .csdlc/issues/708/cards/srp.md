@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/agent_orientation.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/conversation_sessions_tests.rs
 
 ## Prompts
 
