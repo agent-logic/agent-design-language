@@ -9,3 +9,4 @@
 {"sequence":9,"generation":5,"actor":"codex:worker-7","reason":"Recover reviewed #713 after typed review recording created a lifecycle metadata tail beyond the assigned substantive A2A history remediation; no product, test, tool, or evidence files changed after the PASS-reviewed runtime scope.","operation":"recover_review"}
 {"sequence":10,"generation":5,"actor":"codex:worker-7-r3","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":6,"actor":"subagent:/root/review_713_a2a_history_r1","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":7,"actor":"codex:worker-7","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
