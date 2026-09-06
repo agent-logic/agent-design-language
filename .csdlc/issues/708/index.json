@@ -4,33 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
-  "phase": "reviewed",
-  "generation": 35,
-  "digest": "ce6ac981854fd6f7835873386967739c08bf689144c78951eb4bff0eb74af820",
+  "phase": "implemented",
+  "generation": 36,
+  "digest": "de19eeff7d4feead5f8dd06f419887452329ca1a4d226c71bb44a0771f99d36e",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
-  "review_assignment": {
-    "reviewer": "codex:issue-708-ci-race-fix-review",
-    "assigned_by": "codex:issue-708-runtime-orientation",
-    "revision": "git-blake3:400c337e1dfbf47c9be981e38accba3b34e77b1d:6d2b652e806437ce8c94306a81d3105673c2c1a1ed391bf2f8c0cc1852798af1",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:issue-708-ci-race-fix-review",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
-    ],
-    "reviewed_revision": "git-blake3:400c337e1dfbf47c9be981e38accba3b34e77b1d:6d2b652e806437ce8c94306a81d3105673c2c1a1ed391bf2f8c0cc1852798af1",
-    "findings": [],
-    "residual_risks": [
-      "Review was focused on the deterministic duplicate conversation in-flight test repair and did not run live provider inference, paid Runtime execution, external communications, or broad non-runtime validation.",
-      "The reviewer ran the formerly failing focused test with worktree-local TMPDIR and confirmed 1 passed, 0 failed, 182 filtered out; the full adl-runtime-v3-fast hosted lane remains deferred to GitHub CI after republish."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f834b7a3556df1b2624805e1bbb3c5f6396ddac53c40a056a7934809c88ea5e0",
+      "values_digest": "87925770f85256235c77041418f1a8eaa65b838cd3f079355700d73cad700636",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "fe3fbd761e11f837ce1b3afab757ac3359b862eba2af6115a7876f9f3f5308a6",
+      "values_digest": "f6c208d03e4a0f59c1b44858217f9be280424fff57aeee2f62d2f279c6a4cb37",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "3e722a18fffe86dd3f5a6631c2d3de66a6e152a1b2d918fd2d74f0cdfe4814a8",
+      "values_digest": "f5cd721cf337a5701e3515cd831c263d83b0159b934e54da7a5dbf403e15bca3",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "b5f6ba7c7310d4343fb128ab717359110131a3363ad54f5a05a14eb3d144f8d2",
+      "values_digest": "46c4ba5eec7d6e6456213f24635b3884f26a6220c7ec05f09a9e587178f85322",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "bc71fc919c6807605492608dbdedcdf60236e5e0ef9ec63cbc399020dedb10d3",
-      "rendered_digest": "f8e97e74cb61545ab7b0366041006d9b3d03e26dfd17a8b4be1f3664f53e3bfa",
-      "ast_digest": "8aa93d92002f17b674525be630bfd8c9ca7ebb7ad87913e103a1a67f7a203541"
+      "values_digest": "821fadc2e4c0724b275411c8e0aa5db51e55d4d8572eec957c3263d7899389d0",
+      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
+      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
     },
     "sor": {
-      "values_digest": "62d9089a1e4d66fac4a92bb215ff75a86514204e63753a9f0f5e23ef15ffbca5",
+      "values_digest": "c07326abfd4be9014a843a6e2b400314acd251fdc0435b18b9867635b5ba5e0a",
       "rendered_digest": "443743fdff55541b2efe0fd843395a44d11ed8499dd3c147d89c7a6ddf1b991c",
       "ast_digest": "561f5eab0dc0d145d62d9390e120b5ba54b5b6bcb5e42c4e78049bcf6a018528"
     }
@@ -208,6 +188,13 @@
       "to": "reviewed",
       "actor": "codex:issue-708-ci-race-fix-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 20,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "Clear stale review after the CI-race repair review metadata tail so #708 can record a current-head review before republishing PR #709."
     }
   ],
   "audit": [
@@ -539,6 +526,13 @@
       "actor": "codex:issue-708-ci-race-fix-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 36,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "Clear stale review after the CI-race repair review metadata tail so #708 can record a current-head review before republishing PR #709.",
+      "operation": "recover_review"
     }
   ]
 }
