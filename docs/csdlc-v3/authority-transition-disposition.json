@@ -2,10 +2,10 @@
   "schema": "csdlc.v3.authority_transition_disposition.v1",
   "authority_issue": 505,
   "repository": "agent-logic/agent-design-language",
-  "observed_at": "2026-09-05T20:52:00Z",
+  "observed_at": "2026-09-06T06:45:00Z",
   "operational_authority": false,
   "cutover_ready": false,
-  "operator_approval": "absent",
+  "operator_approval": "expressed_by_merging_pr_591",
   "source_requirements": [
     {
       "issue": 179,
@@ -13,7 +13,7 @@
       "live_state": "closed",
       "closed_at": "2026-08-10T22:12:30Z",
       "required_disposition": "Cutover may be approved only after parity, canary migration, rollback, observation-window, exact-review, and operator-approval evidence are current at #591 head.",
-      "current_disposition": "satisfied_pending_operator_approval",
+      "current_disposition": "implementation_complete_pending_current_exact_head_review_and_merge",
       "satisfied_evidence": [
         {
           "claim": "21 required v2 entrypoints have executable v3 command routes behind one csdlc surface",
@@ -28,7 +28,7 @@
           "evidence_ref": ".csdlc/evidence/505/issue-604-local-canary-report.json"
         },
         {
-          "claim": "Independent exact-head review was refreshed after rollback and terminal canary evidence, including cleanup candidate HEAD binding",
+          "claim": "Exact-head review remains a required pre-merge gate and is not claimed by this pre-review disposition",
           "evidence_ref": ".csdlc/issues/505/index.json#review"
         },
         {
@@ -42,8 +42,8 @@
       ],
       "blocking_evidence": [
         {
-          "claim": "Explicit operator approval for #505 authority cutover remains absent",
-          "status": "missing"
+          "claim": "Current exact-head review and required hosted checks must pass before merge",
+          "status": "pending"
         }
       ]
     },
@@ -66,10 +66,6 @@
       ],
       "blocking_evidence": [
         {
-          "claim": "Operator approval for v3 authority cutover is absent",
-          "status": "missing"
-        },
-        {
           "claim": "Rollback window has not started or expired because #505 is not merged and terminally reconciled",
           "status": "not_applicable_yet"
         },
@@ -81,7 +77,7 @@
     }
   ],
   "approval_blockers": [
-    "Obtain explicit operator approval for #505 authority cutover.",
-    "Keep v2 as live authority until explicit operator approval, merge, finish, and cleanup reconciliation."
+    "Obtain a passing exact-head review and green required hosted checks.",
+    "Keep v2 as live authority until PR #591 is merged; merging PR #591 is the operator's cutover approval."
   ]
 }
