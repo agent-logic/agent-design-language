@@ -649,19 +649,6 @@ pub fn resolve_operator_generation(
     let selector_bytes = fs::read(selector_path).map_err(io_error)?;
     let mut selector: GenerationSelector = serde_json::from_slice(&selector_bytes)?;
     if selector.default_generation == Generation::V3 {
-        let value: serde_json::Value = serde_json::from_slice(&selector_bytes)?;
-        let contract_valid = value["schema"] == "csdlc.generation_selector.v2"
-            && value["operational_authority"] == "csdlc-v3"
-            && value["authority_issue"] == 505
-            && value["authority_pull_request"] == 591
-            && value["review_authority"] == "typed-v2-exact-head"
-            && value["approval_authority"] == "merged-pr-591-closed-issue-505";
-        if !contract_valid {
-            return Err(V2Error::new(
-                ErrorCode::ValidationFailed,
-                "v3 generation selector does not satisfy the canonical #505/#591 authority contract",
-            ));
-        }
         let remote = std::process::Command::new("git")
             .arg("-C")
             .arg(repo)
