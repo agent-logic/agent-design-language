@@ -38,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live Wuji Runtime/ACIP proof remains deferred unless explicitly operator-authorized with ADL_LIVE_WUJI_A2A_HISTORY=1.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:577a2f10a6c44195907b352487f47d4939a37b32:27dc98640f4514326175200321e191b5e5031bdb02f78dc071f391ee06d9fdb1")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_713_a2a_history_r1")
 
-Result: pre_review
+Result: pass
