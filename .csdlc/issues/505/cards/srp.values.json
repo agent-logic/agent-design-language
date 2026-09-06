@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 83
+    "generation": 85
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "exact PR #591 head ce92cdfbc3897cb6ad049275a5888fad999ac745\ncsdlc-v2/src/soak.rs canonical v3 authority contract\ncsdlc-v2/src/operator.rs origin/main activation boundary\ncsdlc-v2/tests/gate10a.rs pre-merge v2 resolution\ncsdlc-v3/src/authority.rs canonical v3 authority contract\ncsdlc-v3/tests/local_commands.rs process-isolated authority fixtures\nlive PR #591 body closing linkage and merge-as-cutover wording",
-      "review_revision": "git-blake3:ce92cdfbc3897cb6ad049275a5888fad999ac745:f85012e9b002d5b8ea6182d95c2c1c0316ad9b9f4c9b952525e846a337f1cbed",
-      "reviewer": "collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e",
+      "review_scope": "exact PR #591 head 62e6a873a6e0934c590b120d5887d2da6cb1505c\ncsdlc-v3/tests/proof_parity_install_commands.rs bounded cold-build doctor fixture timeouts\nfail-closed timeout and nonzero child-exit behavior\npre-existing timeout-expiry proof gap classification",
+      "review_revision": "git-blake3:62e6a873a6e0934c590b120d5887d2da6cb1505c:f45f49738600044db851016022c9bd4d6677600d8cf44a64c020e6de96f8d333",
+      "reviewer": "collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57",
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,7 +23,9 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [],
+      "residual_risk": [
+        "No dedicated test directly exercises timeout expiry, child termination, or rejection above the 300-second ceiling; this is a pre-existing non-blocking gap."
+      ],
       "review_result": "pass"
     }
   }

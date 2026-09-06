@@ -110,3 +110,6 @@
 {"sequence":110,"generation":81,"actor":"codex:worker-8","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":111,"generation":82,"actor":"collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":112,"generation":83,"actor":"codex:worker-8","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":113,"generation":84,"actor":"codex:worker-8","reason":"Recover stale #505 review and publication truth after exact-head commit 62e6a873a6e0934c590b120d5887d2da6cb1505c raised only the bounded cold-build timeout in the realistic v3 doctor proof fixtures.","operation":"recover_review"}
+{"sequence":114,"generation":84,"actor":"codex:worker-8","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":115,"generation":85,"actor":"collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

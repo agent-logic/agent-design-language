@@ -12,13 +12,10 @@ Status: draft
 
 ## Scope
 
-exact PR #591 head ce92cdfbc3897cb6ad049275a5888fad999ac745
-csdlc-v2/src/soak.rs canonical v3 authority contract
-csdlc-v2/src/operator.rs origin/main activation boundary
-csdlc-v2/tests/gate10a.rs pre-merge v2 resolution
-csdlc-v3/src/authority.rs canonical v3 authority contract
-csdlc-v3/tests/local_commands.rs process-isolated authority fixtures
-live PR #591 body closing linkage and merge-as-cutover wording
+exact PR #591 head 62e6a873a6e0934c590b120d5887d2da6cb1505c
+csdlc-v3/tests/proof_parity_install_commands.rs bounded cold-build doctor fixture timeouts
+fail-closed timeout and nonzero child-exit behavior
+pre-existing timeout-expiry proof gap classification
 
 ## Prompts
 
@@ -37,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No dedicated test directly exercises timeout expiry, child termination, or rejection above the 300-second ceiling; this is a pre-existing non-blocking gap.
 
 ## Review Result
 
-Revision: Some("git-blake3:ce92cdfbc3897cb6ad049275a5888fad999ac745:f85012e9b002d5b8ea6182d95c2c1c0316ad9b9f4c9b952525e846a337f1cbed")
+Revision: Some("git-blake3:62e6a873a6e0934c590b120d5887d2da6cb1505c:f45f49738600044db851016022c9bd4d6677600d8cf44a64c020e6de96f8d333")
 
-Reviewer: Some("collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e")
+Reviewer: Some("collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57")
 
 Result: pass
