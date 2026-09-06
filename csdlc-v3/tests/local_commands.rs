@@ -872,23 +872,7 @@ fn operational_authority_fixture(
     fs::write(repository_root.join("tracked"), b"fixture\n").expect("tracked fixture");
     run_git(&repository_root, &["add", "tracked"]);
     run_git(&repository_root, &["commit", "--quiet", "-m", "fixture"]);
-    let exact_head = run_git(&repository_root, &["rev-parse", "HEAD"]);
-
-    let approval_path = PathBuf::from(".csdlc/evidence/505/cutover-approval.json");
-    let approval_file = repository_root.join(&approval_path);
-    fs::create_dir_all(approval_file.parent().expect("approval parent"))
-        .expect("approval directory");
-    let approval_bytes = serde_json::to_vec_pretty(&serde_json::json!({
-        "schema": "csdlc.v3.cutover_approval.v1",
-        "authority_issue": 505,
-        "repository": "agent-logic/agent-design-language",
-        "decision": "approved",
-        "exact_head": exact_head,
-        "selector_metadata_digest": "pre-cutover-selector"
-    }))
-    .expect("approval JSON");
-    fs::write(&approval_file, &approval_bytes).expect("approval evidence");
-    let approval_digest = blake3::hash(&approval_bytes).to_hex().to_string();
+    let approval_path = PathBuf::from("csdlc-v2/operator/generation-selector.json");
     let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
     fs::create_dir_all(selector_path.parent().expect("selector parent"))
         .expect("selector parent directory");
@@ -898,9 +882,10 @@ fn operational_authority_fixture(
             "default_generation": "v3",
             "operational_authority": "csdlc-v3",
             "authority_issue": 505,
-            "exact_review_sha": exact_head,
-            "readiness_evidence_digest": "fixture-readiness",
-            "approval_evidence_digest": approval_digest
+            "authority_pull_request": 591,
+            "review_authority": "typed-v2-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505",
+            "opted_in_issues": []
         })
     } else {
         serde_json::json!({
@@ -911,15 +896,29 @@ fn operational_authority_fixture(
     };
     let selector_bytes = serde_json::to_vec_pretty(&selector).expect("selector JSON");
     fs::write(&selector_path, &selector_bytes).expect("canonical selector");
+    run_git(
+        &repository_root,
+        &["add", "csdlc-v2/operator/generation-selector.json"],
+    );
+    run_git(
+        &repository_root,
+        &["commit", "--quiet", "-m", "canonical selector"],
+    );
+    let exact_head = run_git(&repository_root, &["rev-parse", "HEAD"]);
+    run_git(
+        &repository_root,
+        &["update-ref", "refs/remotes/origin/main", &exact_head],
+    );
     let selector_digest = blake3::hash(&selector_bytes).to_hex().to_string();
+    fs::create_dir_all(repository_root.join(".csdlc")).expect("state root");
 
     let context = OperationalLocalContext {
         repository_root: repository_root.clone(),
         state_root: repository_root.join(".csdlc"),
         allowed_worktree_parent: fixture.join("worktrees"),
-        expected_authority_selector_digest: selector_digest,
+        expected_authority_selector_digest: selector_digest.clone(),
         cutover_approval_path: approval_path,
-        expected_cutover_approval_digest: approval_digest,
+        expected_cutover_approval_digest: selector_digest.clone(),
         expected_head_sha: exact_head,
         expected_lifecycle_digest: None,
     };
@@ -975,13 +974,13 @@ fn operational_local_authority_rejects_stale_selector_approval_and_head_digests(
     stale_approval.expected_cutover_approval_digest = "1".repeat(64);
     let findings = execute_operational_local_route("issue", &request, &registry, &stale_approval)
         .expect_err("stale approval digest must fail closed");
-    assert_eq!(findings[0].code, "cutover_approval_digest_mismatch");
+    assert_eq!(findings[0].code, "cutover_authority_mismatch");
 
     let mut stale_head = context;
     stale_head.expected_head_sha = "2".repeat(40);
     let findings = execute_operational_local_route("issue", &request, &registry, &stale_head)
         .expect_err("stale head must fail closed");
-    assert_eq!(findings[0].code, "cutover_approval_not_exact");
+    assert_eq!(findings[0].code, "operational_exact_head_mismatch");
 }
 
 #[test]
