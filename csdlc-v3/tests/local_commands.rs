@@ -23,6 +23,7 @@ fn repo_root() -> PathBuf {
 fn fixture_dir(name: &str) -> PathBuf {
     let dir = repo_root()
         .join("csdlc-v3/target/local-command-fixtures")
+        .join(std::process::id().to_string())
         .join(name);
     let _ = fs::remove_dir_all(&dir);
     fs::create_dir_all(&dir).expect("fixture directory");
