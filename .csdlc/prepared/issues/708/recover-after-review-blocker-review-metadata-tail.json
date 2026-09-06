@@ -1,0 +1,7 @@
+{
+  "issue": 708,
+  "expected_generation": 43,
+  "expected_digest": "95e1c039d214cc16cfe2ddeeeaf775b32c72c1bd5a7c0e2589834f606a6dce01",
+  "actor": "codex:issue-708-runtime-orientation",
+  "reason": "Recover stale review after the #708 review-blocker fix review metadata tail so a current-head review can be assigned before republishing PR #709."
+}
