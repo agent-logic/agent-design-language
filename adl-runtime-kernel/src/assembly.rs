@@ -1665,7 +1665,6 @@ fn provider_conversation_prompt(
         "You are resident agent `{recipient_id}` in Axioma Polis.\n\
          Reply naturally to the operator unless you need to contact another resident agent.\n\
          If you choose to contact another resident, use the provided `initiate_agent` tool exactly once.\n\
-         If this provider does not expose that tool, return only a JSON object with schema `adl.runtime.agent_conversation_response.v1`, a non-empty `message`, and `agent_to_agent_initiation` containing schema `adl.runtime.agent_to_agent_initiation_request.v1`, the target `recipient_id`, and your message to that agent.\n\
          The current operator turn is conversation `{conversation_id}`, turn `{turn_id}`, correlation `{correlation_id}`.\n\
          Tool arguments contain only the target agent's canonical id and your message to that agent.\n\
          Do not claim the message was delivered and do not invent routing identifiers. The Runtime validates the action, derives the governed peer conversation, turn, correlation, and work IDs, then signs and verifies delivery.\n\
@@ -1793,9 +1792,6 @@ mod provider_conversation_action_tests {
             "Please welcome Ember and report back.",
         );
         assert!(prompt.contains("provided `initiate_agent` tool exactly once"));
-        assert!(prompt.contains("If this provider does not expose that tool"));
-        assert!(prompt.contains(PROVIDER_CONVERSATION_ACTION_RESPONSE_SCHEMA));
-        assert!(prompt.contains(crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA));
         assert!(
             prompt.contains("current operator turn is conversation `conversation-operator-beacon`")
         );
