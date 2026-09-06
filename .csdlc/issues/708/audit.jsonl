@@ -29,3 +29,4 @@
 {"sequence":29,"generation":21,"actor":"codex:issue-708-exact-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":30,"generation":22,"actor":"codex:issue-708-runtime-orientation","reason":"Clear stale review after the typed C-SDLC review/projection metadata tail so #708 can record an exact current-head review and publish without changing Runtime code.","operation":"recover_review"}
 {"sequence":31,"generation":23,"actor":"codex:issue-708-runtime-orientation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":32,"generation":24,"actor":"codex:issue-708-runtime-orientation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
