@@ -109,3 +109,4 @@
 {"sequence":109,"generation":81,"actor":"codex:worker-8","reason":"Recover concurrent invalid non-independent review evidence at generation 80. The recorded reviewer explicitly lacks provider attestation and cannot authorize publication; a genuine independent exact-head review is required after CI is green.","operation":"recover_review"}
 {"sequence":110,"generation":81,"actor":"codex:worker-8","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":111,"generation":82,"actor":"collab-agent:01a07599-3e3b-7a31-b19a-8e7359c31d6e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":112,"generation":83,"actor":"codex:worker-8","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
