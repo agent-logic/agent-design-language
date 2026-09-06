@@ -4,13 +4,34 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "301bd05bde2adbd47783a8993aae6ddaafd5bc6eb67346a98ed8a8c5c50b4d05",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "c576c10034171cc0033eb5b7f4d8354801da3cad0a13a0c460ce40a34bcbefab",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:issue-708-current-agent-exact-head-audit",
+    "scope": [
+      "adl-runtime-kernel/src/agent_orientation.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/agent_orientation.test.mjs"
+    ],
+    "reviewed_revision": "git-blake3:abe71ef382645ba5ee9e6fc98da8e49d0338afae:5800b22dbbd647c9c1bf0ed036b21045e2e7d4099cb542cb68566fbc408afd10",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +46,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c0a2e0333ab126089a433b0fe6fb18e400de9456e7db7c64399351ea358a9990",
+      "values_digest": "0533f89c63213fc94a0e887ee323cc37f36853cea8da527906cf67cea23c26a2",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "bc9ca674edfacffec50cc50f5afb847dded3e3922e3866bbc27360850c7e74a9",
+      "values_digest": "c93b5009c47734c02a5e99a8a702ca68fcd0424f78e182dce8ffba70540f925a",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "b3163c616e5e6c93c9c52a9fa9c2c7f7dc3ba5b7144f5c50b11d87c821f9be09",
+      "values_digest": "a9f500c42a626c3d1cb4867e1a1df7572047aa16dc2bdbbcb66b32fe195ed091",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "e2db6a159c27c1d16663b3813ddf493571dac2420237757f66c82c15b129541b",
+      "values_digest": "52ebfd72b1c5c13aefe0391c01500e07b1c8968c1ed59fbacca0326272c51e73",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "7a5ee07343fa8cee10d276ef09182e32463f533a2b78fa40368eb11850c83b81",
-      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
-      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
+      "values_digest": "b2f863be7e987fdfa88fac3dddb25ed255e747f500ad6c7cd4f89ce6fe5cd15a",
+      "rendered_digest": "7ea5070ab5ebb46f14ca2d9aa8ed0edcbc1c7615584820817288c18562d39be3",
+      "ast_digest": "c59ffe50f09fd967c06d309fcbc98cba6f17a19d017318a8a182210e20b502db"
     },
     "sor": {
-      "values_digest": "fdf1db48a682d70f39ef620bb5a971460965cceb8c7fe87a2bfa4138a04afcd8",
+      "values_digest": "d4b09875758cf16df37dd6db32f596611c377ab5f44354da96b5471898b028f5",
       "rendered_digest": "bb3bc90450c0a107f08718972b674c5e4810b79439141f241b212d515a4a64c1",
       "ast_digest": "6f63142c141bd73957735cfaffeb6a54d5c8c127dc8a8a31c94bbe917205459e"
     }
@@ -76,6 +97,13 @@
       "to": "implemented",
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -183,6 +211,27 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Reconcile SOR execution and validation truth after final local validation reruns.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the Runtime agent orientation resource path: the Axioma Polis welcome package is loaded as a typed versioned resource, stamped per admitted agent with blake3 delivery provenance, injected ahead of model-facing task content, retained per existing agent across orientation reloads, exposed through the Runtime roster/read model, and rendered by the Observatory as non-authoritative orientation metadata.\",\"changes\":[\"Added a first-class Runtime agent-orientation resource with schema, version, source path, deterministic full projection, blake3 digest over exact injected bytes, and validation that rejects disabled, malformed, unreadable, or non-welcome-package content.\",\"Made the default canonical welcome-package path load the bundled trusted package unconditionally, so process cwd cannot shadow the default orientation source; explicit custom source paths continue to load and validate from disk.\",\"Routed resident Shepherd preload through the same per-agent orientation injection path so the READY preload prompt cannot be the first model-facing call without the welcome package.\",\"Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.\",\"Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.\",\"Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.\",\"Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.\",\"Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.\"],\"artifacts\":[\"adl-runtime-kernel/src/agent_orientation.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/agent_orientation.test.mjs\"],\"validation\":[{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"orientation_tests\",\"--\",\"--nocapture\"],\"purpose\":\"Regression for integration-test compilation after adding required orientation fields to public roster/feed structs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/708/runtime-orientation-integration-compile.log\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"orientation\"],\"purpose\":\"Issue 708 Runtime orientation contract validation: delivered package ordering, per-agent provenance, startup initialization, reload retention, future-admission update, fail-closed invalid reload, explicit custom package loading, cwd-shadow rejection for the default bundled package, and resident Shepherd preload orientation before READY probe.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:running 7 tests; 7 passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--bins\"],\"purpose\":\"Issue 708 Runtime binary compile validation after startup orientation wiring.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:cargo check --bins finished\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint validation for the touched Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:cargo clippy --lib -D warnings finished\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"node\",\"demos/html-observatory/tests/agent_orientation.test.mjs\"],\"purpose\":\"Issue 708 Observatory orientation display and normalization validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:2 tests passed\"},{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"bash\",\".csdlc/prepared/issues/708/validate-orientation-plan.sh\"],\"purpose\":\"Issue 708 prepared planning contract validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:validate-orientation-plan.sh exited 0\"},{\"command\":[\"git\",\"diff\",\"--exit-code\",\"origin/main...HEAD\",\"--\",\"docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\"],\"purpose\":\"Issue 708 welcome-package source immutability validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:no diff for source welcome package\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Issue 708 diff hygiene validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:git diff --check exited 0\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "Recover unavailable exact-head review assignment so direct exact-head fallback evidence can be recorded without spoofing the assigned reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
