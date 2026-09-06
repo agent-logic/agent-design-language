@@ -5,33 +5,38 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "reviewed",
-  "generation": 85,
-  "digest": "9a62d61fec041aae4bca379417005b1acb1abb7ca7018f7ff6f5f7b7c7b29951",
+  "generation": 87,
+  "digest": "fabcb940e469d6bdb00ebe19ccdeba7cfe0c999525be3141aef4cf9784ef7e47",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": {
-    "reviewer": "collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57",
+    "reviewer": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
     "assigned_by": "codex:worker-8",
-    "revision": "git-blake3:62e6a873a6e0934c590b120d5887d2da6cb1505c:f45f49738600044db851016022c9bd4d6677600d8cf44a64c020e6de96f8d333",
+    "revision": "git-blake3:9d0918ea6ba4a90ec674d29bc030878c0b22527f:767767068873bafe43204700c18380282bc196b41e8a96cf288ddd7b3a9c3850",
     "scope": [
-      "exact PR #591 head 62e6a873a6e0934c590b120d5887d2da6cb1505c",
-      "csdlc-v3/tests/proof_parity_install_commands.rs bounded cold-build doctor fixture timeouts",
-      "fail-closed timeout and nonzero child-exit behavior",
-      "pre-existing timeout-expiry proof gap classification"
+      "exact PR #591 head 9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+      "csdlc-v3/src/commands/proof.rs sanitized child PATH preservation",
+      "csdlc-v3/tests/proof_parity_install_commands.rs stable #631 parity denominator and dynamic boundary",
+      "120-second bounded cold-build timeout",
+      "format-only delta from semantic parent aeb7cbb27260b422ada11743e18e88f40b5eb437"
     ]
   },
   "review": {
-    "reviewer": "collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57",
+    "reviewer": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
     "scope": [
-      "exact PR #591 head 62e6a873a6e0934c590b120d5887d2da6cb1505c",
-      "csdlc-v3/tests/proof_parity_install_commands.rs bounded cold-build doctor fixture timeouts",
-      "fail-closed timeout and nonzero child-exit behavior",
-      "pre-existing timeout-expiry proof gap classification"
+      "exact PR #591 head 9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+      "csdlc-v3/src/commands/proof.rs sanitized child PATH preservation",
+      "csdlc-v3/tests/proof_parity_install_commands.rs stable #631 parity denominator and dynamic boundary",
+      "120-second bounded cold-build timeout",
+      "format-only delta from semantic parent aeb7cbb27260b422ada11743e18e88f40b5eb437"
     ],
-    "reviewed_revision": "git-blake3:62e6a873a6e0934c590b120d5887d2da6cb1505c:f45f49738600044db851016022c9bd4d6677600d8cf44a64c020e6de96f8d333",
+    "reviewed_revision": "git-blake3:9d0918ea6ba4a90ec674d29bc030878c0b22527f:767767068873bafe43204700c18380282bc196b41e8a96cf288ddd7b3a9c3850",
     "findings": [],
     "residual_risks": [
-      "No dedicated test directly exercises timeout expiry, child termination, or rejection above the 300-second ceiling; this is a pre-existing non-blocking gap."
+      "Inherited PATH is operator-controlled and is not recorded in the receipt.",
+      "The declared side-effect boundary observes the issue index rather than every repository path.",
+      "No dedicated test seeds provider credentials and inspects the child environment.",
+      "No dedicated test exercises timeout expiry, descendant process-tree termination, or rejection above the 300-second ceiling."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -50,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b71cd5b459e136c4b30c0bfb02d15ad0dcb3fa7b19b848f9f1b1a8c3e3bb3b4e",
+      "values_digest": "057e93d68c5fd8fd0f85e30870cbb4cb8db04fd5c21691d134609e44da9b598d",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "95e3f8643ae232c11aa9547283491ed80845351e4c7b2aea0565e597fb6c74e3",
+      "values_digest": "bfd0487652313c7ed61ce95ae9ff47d82078465db2e20f4285864d584d563ea8",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "05872a398c7bb2221a6b01fcff594be4caaeef048e5aed8f42cd831e04f10764",
+      "values_digest": "62b812bbc32d97eb291abe30606d16c13ed0d9100548260d4bcd599d92b132c9",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "e24909fd6b3c95077c8600b425d6874f23e4f293a6df66809d157bf88a411c01",
+      "values_digest": "378f2411b46923691af5ad1a6fa714a99ad8cc7dbf70bed61b5d9b6af033bbce",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "ac17853fb99fb71c80444fd37517df3151503ae3f8a653dbfce0a8cb0a7bf423",
-      "rendered_digest": "22816d737042668ae8eea2f6e913dd6b26c695f62f0a9a84520748e82bad2893",
-      "ast_digest": "740cb43d9f2fa954de11923d52f13622e212f32090000eca916b48ae7219891c"
+      "values_digest": "792e3127ce09d40a18479f806e4fd03a6d8a28bf076d344a8c574268d75eb60b",
+      "rendered_digest": "191f5d458c725b61d4281efba6226de6ebbf474830daca67bfd22879baee21de",
+      "ast_digest": "efdfad3dd191beca56a5ffed146491d3e608e8fbb6ec1151367a2a6898f39601"
     },
     "sor": {
-      "values_digest": "99310ebe26682e598929f9522bf1a362699bd868cc06d6873a54edbc3df80f64",
+      "values_digest": "35c6022f7dde53919a8c358083bb8bd5fe37077b3edf603a4b0a631b6e37ebba",
       "rendered_digest": "d7625c31c97bb1961b73cfa952bec9fff7f5d658f1598a6717474e9a178c819c",
       "ast_digest": "5f349adb66582e26df14dee0452812d3c4e95f296ac46e14d8c04b6e4e0a3124"
     }
@@ -534,6 +539,20 @@
       "from": "implemented",
       "to": "reviewed",
       "actor": "collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 66,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-8",
+      "reason": "Recover stale #505 review truth after exact-head commits aeb7cbb27260b422ada11743e18e88f40b5eb437 and 9d0918ea6ba4a90ec674d29bc030878c0b22527f preserved the sanitized child toolchain PATH and decoupled shadow parity from live reviewed issue state."
+    },
+    {
+      "sequence": 67,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
       "reason": "exact scoped review passed"
     }
   ],
@@ -1340,6 +1359,27 @@
       "sequence": 115,
       "generation": 85,
       "actor": "collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 116,
+      "generation": 86,
+      "actor": "codex:worker-8",
+      "reason": "Recover stale #505 review truth after exact-head commits aeb7cbb27260b422ada11743e18e88f40b5eb437 and 9d0918ea6ba4a90ec674d29bc030878c0b22527f preserved the sanitized child toolchain PATH and decoupled shadow parity from live reviewed issue state.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 117,
+      "generation": 86,
+      "actor": "codex:worker-8",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 118,
+      "generation": 87,
+      "actor": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
     }

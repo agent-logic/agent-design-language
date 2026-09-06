@@ -113,3 +113,6 @@
 {"sequence":113,"generation":84,"actor":"codex:worker-8","reason":"Recover stale #505 review and publication truth after exact-head commit 62e6a873a6e0934c590b120d5887d2da6cb1505c raised only the bounded cold-build timeout in the realistic v3 doctor proof fixtures.","operation":"recover_review"}
 {"sequence":114,"generation":84,"actor":"codex:worker-8","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":115,"generation":85,"actor":"collab-agent:01a075bf-563e-70d3-b1d2-7b05b51f0c57","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":116,"generation":86,"actor":"codex:worker-8","reason":"Recover stale #505 review truth after exact-head commits aeb7cbb27260b422ada11743e18e88f40b5eb437 and 9d0918ea6ba4a90ec674d29bc030878c0b22527f preserved the sanitized child toolchain PATH and decoupled shadow parity from live reviewed issue state.","operation":"recover_review"}
+{"sequence":117,"generation":86,"actor":"codex:worker-8","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":118,"generation":87,"actor":"collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
