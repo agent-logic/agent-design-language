@@ -155,23 +155,35 @@ pub fn validate_active_config_generation(
     init: &Path,
     compatible_binary_generation: &str,
 ) -> Result<ConfigGenerationIdentity, String> {
-    let expected = build_config_generation_receipt(init, compatible_binary_generation)?.1;
+    validate_identifier("compatible binary generation", compatible_binary_generation)?;
+    let content_sha256 = format!(
+        "{:x}",
+        Sha256::digest(fs::read(init).map_err(|error| format!("read Runtime init: {error}"))?)
+    );
+    let expected_generation =
+        config_generation_digest(&content_sha256, compatible_binary_generation);
     let (generation, digest, receipt) = read_active_config_generation_receipt(init)?;
-    if generation != expected.generation || digest != expected.receipt_digest {
+    if generation != expected_generation {
         return Err(
             "Runtime configuration active reference does not match init content".to_owned(),
         );
     }
+    let canonical_digest = receipt_digest(&receipt)?;
+    let legacy_digest = legacy_receipt_digest(&receipt)?;
     if receipt.schema != CONFIG_GENERATION_RECEIPT_SCHEMA
         || receipt.generation != generation
+        || receipt.content_sha256 != content_sha256
         || receipt.compatible_binary_generation != compatible_binary_generation
-        || receipt_digest(&receipt)? != digest
+        || (canonical_digest != digest && legacy_digest != digest)
     {
         return Err(
             "Runtime configuration receipt identity or compatibility is invalid".to_owned(),
         );
     }
-    Ok(expected)
+    Ok(ConfigGenerationIdentity {
+        generation,
+        receipt_digest: digest,
+    })
 }
 
 pub fn validate_active_config_generation_content(
