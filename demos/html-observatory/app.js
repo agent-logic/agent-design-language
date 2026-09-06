@@ -1724,7 +1724,9 @@ const FORBIDDEN_CONVERSATION_HISTORY_FIELDS = [
   "private_key",
   "signature",
   "correlation_id",
-  "result_hash"
+  "result_hash",
+  "provider_payload",
+  "raw_provider_payload"
 ];
 
 function safeConversationHistoryText(value, fallback = "[redacted]") {
@@ -1735,6 +1737,18 @@ function safeConversationHistoryText(value, fallback = "[redacted]") {
     return fallback;
   }
   return text.slice(0, 4096);
+}
+
+function safeConversationHistoryId(value, fallback = null) {
+  const text = typeof value === "string" ? value : "";
+  if (!text.trim()) return fallback;
+  const normalized = text.slice(0, 256);
+  if (!/^[A-Za-z0-9:._@/-]+$/.test(normalized)) return fallback;
+  const lower = normalized.toLowerCase();
+  if (FORBIDDEN_CONVERSATION_HISTORY_FIELDS.some((field) => lower.includes(field))) {
+    return fallback;
+  }
+  return normalized;
 }
 
 function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
@@ -1760,16 +1774,31 @@ function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
       return { accepted: false, reason: "non_monotonic_runtime_history" };
     }
     lastSequence = sequence;
-    records.push({
+    const normalized = {
       conversation_id: history.conversation_id,
-      message_id: String(record.message_id || record.turn_id || `history-${sequence}`),
+      message_id: safeConversationHistoryId(record.message_id || record.turn_id || `history-${sequence}`, `history-${sequence}`),
       speaker_id: safeConversationHistoryText(record.speaker_id || "runtime"),
       body: record.redacted ? "[redacted]" : safeConversationHistoryText(record.body),
       status: record.redacted ? "redacted" : safeConversationHistoryText(record.status || "restored"),
       turn_sequence: sequence,
       redacted: record.redacted === true,
       redaction_reason: record.redaction_reason ? safeConversationHistoryText(record.redaction_reason) : null
-    });
+    };
+    for (const [target, source] of [
+      ["history_kind", record.history_kind],
+      ["turn_id", record.turn_id],
+      ["causal_id", record.causal_id],
+      ["sender_id", record.sender_id],
+      ["recipient_id", record.recipient_id],
+      ["work_id", record.work_id],
+      ["parent_conversation_id", record.parent_conversation_id],
+      ["parent_turn_id", record.parent_turn_id],
+      ["a2a_role", record.a2a_role]
+    ]) {
+      const safe = safeConversationHistoryId(source);
+      if (safe) normalized[target] = safe;
+    }
+    records.push(normalized);
   }
   return {
     accepted: true,
@@ -3859,6 +3888,7 @@ globalThis.AdlHtmlObservatory = {
   normalizeRuntimeConversationHistorySnapshot,
   restoreConversationTranscriptFromRuntimeHistory,
   safeConversationHistoryText,
+  safeConversationHistoryId,
   isSafeGovernedRoomIdentifier,
   normalizeGovernedRoomParticipants,
   normalizeExplicitGovernedRoomRecipients,
