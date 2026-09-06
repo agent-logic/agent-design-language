@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/prepared/issues/713/design.md\n.csdlc/prepared/issues/713/diagram.mmd",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

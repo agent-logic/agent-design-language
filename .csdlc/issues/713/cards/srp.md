@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/713/design.md
+.csdlc/prepared/issues/713/diagram.mmd
 
 ## Prompts
 

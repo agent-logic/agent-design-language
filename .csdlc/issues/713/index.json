@@ -6,10 +6,18 @@
   "initialization_digest": "fbac5e3d9c82ff699bfcf2f6d77accb3468354591a29d9b5578530c77e3d0c7e",
   "phase": "implemented",
   "generation": 10,
-  "digest": "c3fb1a9c4e4780596f6aabcd8f1640edfdee50d1b8c139f3dacc78733d821318",
+  "digest": "8bf94bf70d7d1db7a0519eb2a1072b11eeb45c80f3c4233bfd09962a920ff583",
   "branch": "codex/713-runtime-a2a-conversation-history",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-713-runtime-a2a-conversation-history",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_713_a2a_history_r1",
+    "assigned_by": "codex:worker-7-r4",
+    "revision": "git-blake3:2e629b108c6795a5b9636dc222dd88fe3f92a30b:bd6e420197c3ebf19955b54ab7357beabdfc5a042c83f167ce54481144d9f3d2",
+    "scope": [
+      ".csdlc/prepared/issues/713/design.md",
+      ".csdlc/prepared/issues/713/diagram.mmd"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +53,9 @@
       "ast_digest": "9229df9af5aa5af7ac52ed14ba0d20f780ebda4e094c151f8732141f3efc3a7a"
     },
     "srp": {
-      "values_digest": "3491e3536a71b130201c21ff99efd45b11ca51ab16aec31d50fae82bd8e9fec9",
-      "rendered_digest": "36a4dd72c72ea74abda3748383894c77ec4df299900c8d9397820f30ba5d16ce",
-      "ast_digest": "6fd12a0daf18c99001eeed39db4d9421d074f17347d3f490a1dfd8a91afb47a3"
+      "values_digest": "09f6e7b8afb44de04e8761138eda1b14b5f4cbf22d4e491661be3c6226e0c1b2",
+      "rendered_digest": "bb6d755e5a6cd863f0a2609e923ce8d660e55e2b421217f6c7039f24d62bba87",
+      "ast_digest": "c4d71ce5b4021aeeaf44bf0e867605d471b1e48a579efd1209cdb5fae07a36c1"
     },
     "sor": {
       "values_digest": "4b3082c2fd5da4e2f914e644c55c174e049aa2a32d67148cab47d2fce9ce3234",
@@ -218,6 +226,13 @@
       "actor": "fresh-session:99aef44c-2b7c-4a82-afde-330ba1abc844",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3\",\"design_ref\":\".csdlc/prepared/issues/713/design.md\",\"diagram_digest\":\"0130ada9fadf6f4b748d59a8040eb2c97ed4496fff77c960f7c709fed1808c64\",\"diagram_ref\":\".csdlc/prepared/issues/713/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:worker-7-r4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
