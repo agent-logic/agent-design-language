@@ -1129,7 +1129,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .clone()
     }
 
-    fn orientation_for_agent(&self, agent_id: &str) -> Option<AgentOrientationResource> {
+    pub fn orientation_for_agent(&self, agent_id: &str) -> Option<AgentOrientationResource> {
         self.agent_orientation_deliveries
             .lock()
             .expect("agent orientation delivery state poisoned")
@@ -8425,6 +8425,7 @@ async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), Agen
 
 pub async fn preload_resident_shepherd_model(
     config: &ResidentShepherdInitConfig,
+    orientation: &AgentOrientationResource,
     cancellation: &CancellationToken,
 ) -> Result<(), &'static str> {
     if !crate::resident_shepherd_provider_is_available(&config.provider) {
@@ -8451,11 +8452,12 @@ pub async fn preload_resident_shepherd_model(
             })?;
     }
     if config.preload.enabled || config.provider != "ollama" {
+        let prompt = orientation.inject_initial_context("Reply with READY.");
         invoke_resident_shepherd_provider(
             &config.provider,
             &config.endpoint,
             &config.model,
-            "Reply with READY.",
+            &prompt,
             cancellation,
         )
         .await?;
@@ -9257,6 +9259,7 @@ fn persist_json_atomically(path: &Path, value: &impl Serialize) -> Result<(), Co
 #[cfg(test)]
 mod orientation_tests {
     use super::*;
+    use crate::ResidentShepherdPreloadConfig;
 
     struct FakeLifecycle;
 
@@ -9291,6 +9294,119 @@ mod orientation_tests {
             model: "gemma4:e4b-mlx".to_owned(),
             endpoint: "http://127.0.0.1:11434".to_owned(),
         }
+    }
+
+    async fn read_http_fixture_request(socket: &mut tokio::net::TcpStream) -> Vec<u8> {
+        use tokio::io::AsyncReadExt;
+
+        let mut request = Vec::new();
+        while request.len() < 65_536 {
+            let mut chunk = [0_u8; 2_048];
+            let read = socket.read(&mut chunk).await.expect("fixture reads");
+            assert!(
+                read > 0,
+                "fixture connection closed before request completed"
+            );
+            request.extend_from_slice(&chunk[..read]);
+            let Some(header_end) = request
+                .windows(4)
+                .position(|window| window == b"\r\n\r\n")
+                .map(|index| index + 4)
+            else {
+                continue;
+            };
+            let content_length = String::from_utf8_lossy(&request[..header_end])
+                .lines()
+                .find_map(|line| {
+                    let (name, value) = line.split_once(':')?;
+                    name.eq_ignore_ascii_case("content-length")
+                        .then(|| value.trim().parse::<usize>().ok())
+                        .flatten()
+                })
+                .unwrap_or_default();
+            if request.len() >= header_end + content_length {
+                break;
+            }
+        }
+        request
+    }
+
+    #[tokio::test]
+    async fn resident_shepherd_preload_receives_orientation_before_ready_probe() {
+        use tokio::io::AsyncWriteExt;
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0")
+            .await
+            .expect("bind preload fixture");
+        let endpoint = format!("http://{}", listener.local_addr().expect("fixture address"));
+        let server = tokio::spawn(async move {
+            let (mut tags, _) = listener.accept().await.expect("tags request");
+            let request =
+                String::from_utf8_lossy(&read_http_fixture_request(&mut tags).await).to_string();
+            assert!(request.starts_with("GET /api/tags HTTP/1.1"));
+            let body = br#"{"models":[{"name":"qwen3:8b"}]}"#;
+            tags.write_all(
+                format!(
+                    "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+                    body.len()
+                )
+                .as_bytes(),
+            )
+            .await
+            .expect("tags headers write");
+            tags.write_all(body).await.expect("tags body write");
+            drop(tags);
+
+            let (mut generate, _) = listener.accept().await.expect("generate request");
+            let request_bytes = read_http_fixture_request(&mut generate).await;
+            let request = String::from_utf8_lossy(&request_bytes);
+            assert!(request.starts_with("POST /api/generate HTTP/1.1"));
+            let body_start = request
+                .find("\r\n\r\n")
+                .map(|index| index + 4)
+                .expect("request body starts");
+            let value: serde_json::Value =
+                serde_json::from_slice(&request_bytes[body_start..]).expect("body parses");
+            let prompt = value["prompt"].as_str().expect("prompt is string");
+            let orientation_offset = prompt
+                .find("Axioma Polis Welcome Package")
+                .expect("orientation package present");
+            let ready_offset = prompt
+                .find("Reply with READY.")
+                .expect("ready probe present");
+            assert!(orientation_offset < ready_offset);
+            assert!(prompt.contains("non-authoritative orientation only"));
+
+            let body = br#"{"response":"READY"}"#;
+            generate
+                .write_all(
+                    format!(
+                        "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+                        body.len()
+                    )
+                    .as_bytes(),
+                )
+                .await
+                .expect("generate headers write");
+            generate.write_all(body).await.expect("generate body write");
+        });
+
+        preload_resident_shepherd_model(
+            &ResidentShepherdInitConfig {
+                name: "beacon.axioma".to_owned(),
+                display_name: "Beacon Axioma".to_owned(),
+                office: "resident shepherd".to_owned(),
+                provider: "ollama".to_owned(),
+                model: "qwen3:8b".to_owned(),
+                endpoint,
+                preload: ResidentShepherdPreloadConfig::default(),
+            },
+            &AgentOrientationResource::bundled_default(),
+            &CancellationToken::new(),
+        )
+        .await
+        .expect("preload succeeds");
+        server.await.expect("fixture completes");
     }
 
     #[test]

@@ -801,12 +801,18 @@ async fn main() -> ExitCode {
                 init.kernel.weather_stale_after_millis,
             ));
             let api_shutdown = tokio_util::sync::CancellationToken::new();
-            for shepherd in init.resident_shepherd.iter().cloned() {
+            for (shepherd_index, shepherd) in init.resident_shepherd.iter().cloned().enumerate() {
+                let orientation_service = Arc::clone(&service);
                 let health_service = Arc::clone(&service);
                 let readiness = resident_shepherd_readiness.clone();
                 let probe_adapter = shepherd_probe.clone();
                 let probe_runtime_id = instance_id.clone();
                 let shutdown = api_shutdown.child_token();
+                let shepherd_agent_id = if shepherd_index == 0 {
+                    "shepherd".to_owned()
+                } else {
+                    format!("shepherd:{}", shepherd.name)
+                };
                 tokio::spawn(async move {
                     let name = shepherd.name.clone();
                     let policy = ResidentShepherdRecoveryPolicy {
@@ -833,8 +839,14 @@ async fn main() -> ExitCode {
                             let adapter = probe_adapter.clone();
                             let runtime_id = probe_runtime_id.clone();
                             let sequence = sequence.clone();
+                            let agent_id = shepherd_agent_id.clone();
+                            let orientation_service = Arc::clone(&orientation_service);
                             async move {
-                                preload_resident_shepherd_model(&shepherd, &shutdown).await?;
+                                let orientation = orientation_service
+                                    .orientation_for_agent(&agent_id)
+                                    .ok_or("agent_orientation_missing")?;
+                                preload_resident_shepherd_model(&shepherd, &orientation, &shutdown)
+                                    .await?;
                                 let probe_sequence = sequence.fetch_add(
                                     1,
                                     std::sync::atomic::Ordering::Relaxed,
