@@ -1,1 +1,4 @@
+Command: TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo check --locked --manifest-path adl-runtime-kernel/Cargo.toml --bins
+
+    Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/adl-runtime-kernel)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.14s

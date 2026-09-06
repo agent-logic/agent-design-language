@@ -27,50 +27,15 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 
 ## Execution
 
-- Added typed agent-orientation resource, delivery schema, validation, delivered-byte blake3 digesting, and a non-authoritative injection wrapper.
-- Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources for later prompt injection.
-- Updated Runtime init and config reload paths so valid package reloads affect future admissions while invalid or unreadable packages fail closed and preserve the last valid package.
-- Exposed orientation delivery version, digest, source path, and projection through roster evidence/read-model entries.
-- Rendered per-agent orientation provenance in the Observatory and rejected malformed or schema-mismatched orientation objects.
+- Added a first-class Runtime agent-orientation resource with schema, version, source path, deterministic full projection, blake3 digest over exact injected bytes, and validation that rejects disabled, malformed, unreadable, or non-welcome-package content.
+- Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.
+- Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.
+- Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.
+- Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Issue 708 diff hygiene validation",
-    "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
-  },
-  {
-    "command": [
-      "env",
-      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
-      "bash",
-      ".csdlc/prepared/issues/708/validate-orientation-plan.sh"
-    ],
-    "purpose": "Issue 708 prepared planning contract validation",
-    "outcome": "passed",
-    "evidence_ref": "planning-contract.log"
-  },
-  {
-    "command": [
-      "env",
-      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
-      "cargo",
-      "check",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml"
-    ],
-    "purpose": "Issue 708 runtime-kernel compile validation",
-    "outcome": "passed",
-    "evidence_ref": "runtime-kernel-compile.log"
-  },
   {
     "command": [
       "env",
@@ -83,9 +48,42 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
       "--lib",
       "orientation"
     ],
-    "purpose": "Issue 708 Runtime orientation contract validation",
+    "purpose": "Issue 708 Runtime orientation contract validation: delivered package ordering, per-agent provenance, startup initialization, reload retention, future-admission update, and fail-closed invalid reload.",
     "outcome": "passed",
-    "evidence_ref": "runtime-orientation-contract.log"
+    "evidence_ref": "terminal:running 4 tests; 4 passed"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "check",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--bins"
+    ],
+    "purpose": "Issue 708 Runtime binary compile validation after startup orientation wiring.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:cargo check --bins finished"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict lint validation for the touched Runtime library surface.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:cargo clippy --lib -D warnings finished"
   },
   {
     "command": [
@@ -94,9 +92,20 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
       "node",
       "demos/html-observatory/tests/agent_orientation.test.mjs"
     ],
-    "purpose": "Issue 708 Observatory orientation display validation",
+    "purpose": "Issue 708 Observatory orientation display and normalization validation.",
     "outcome": "passed",
-    "evidence_ref": "runtime-projection-observatory.log"
+    "evidence_ref": "terminal:2 tests passed"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "bash",
+      ".csdlc/prepared/issues/708/validate-orientation-plan.sh"
+    ],
+    "purpose": "Issue 708 prepared planning contract validation.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:validate-orientation-plan.sh exited 0"
   },
   {
     "command": [
@@ -107,9 +116,19 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
       "--",
       "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md"
     ],
-    "purpose": "Issue 708 welcome-package source immutability validation",
+    "purpose": "Issue 708 welcome-package source immutability validation.",
     "outcome": "passed",
-    "evidence_ref": "source-immutability.log"
+    "evidence_ref": "terminal:no diff for source welcome package"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Issue 708 diff hygiene validation.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:git diff --check exited 0"
   }
 ]
 

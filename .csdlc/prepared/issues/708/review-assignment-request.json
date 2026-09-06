@@ -1,0 +1,19 @@
+{
+  "issue": 708,
+  "expected_generation": 3,
+  "expected_digest": "855e0184c5de3882a1bc0aeaa5c19bed3110fb3218c216a4497e0259dea21b37",
+  "reviewer": "codex:required-pre-pr-review-subagent",
+  "assigned_by": "codex:issue-708-runtime-orientation",
+  "scope": [
+    "adl-runtime-kernel/src/agent_orientation.rs",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/control/feeds.rs",
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/tests/agent_orientation.test.mjs"
+  ]
+}
