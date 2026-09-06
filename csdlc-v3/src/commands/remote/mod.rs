@@ -821,6 +821,7 @@ pub fn observe_github_pr_readback(
     })
 }
 
+#[cfg(unix)]
 pub fn dispatch_operational_remote(
     repo_root: &Path,
     dispatch: &OperationalRemoteDispatchRequest,
@@ -865,6 +866,18 @@ pub fn dispatch_operational_remote(
         authority,
         outcome,
     })
+}
+
+#[cfg(not(unix))]
+pub fn dispatch_operational_remote(
+    _repo_root: &Path,
+    _dispatch: &OperationalRemoteDispatchRequest,
+    _process: &mut impl ProcessAdapter,
+) -> Result<OperationalRemoteDispatchResult, RemoteRouteFinding> {
+    Err(remote_finding(
+        "operational_remote_unsupported_platform",
+        "native v3 operational remote mutation is supported only on Unix platforms",
+    ))
 }
 
 pub fn canonical_authority_selector_digest(repo_root: &Path) -> Result<String, RemoteRouteFinding> {

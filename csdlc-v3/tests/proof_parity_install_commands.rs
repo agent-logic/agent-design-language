@@ -241,7 +241,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
     })
 }
 
-fn run_route(route: &str, body: &str) -> Value {
+fn run_route_output(route: &str, body: &str) -> std::process::Output {
     let path = write_request(&format!("{route}.json"), body);
     let request_value: Value = serde_json::from_str(body).expect("request body json");
     let evidence_root = request_value
@@ -249,12 +249,16 @@ fn run_route(route: &str, body: &str) -> Value {
         .and_then(Value::as_str)
         .map(PathBuf::from)
         .unwrap_or_else(|| PathBuf::from(env!("CARGO_MANIFEST_DIR")));
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+    Command::new(env!("CARGO_BIN_EXE_csdlc"))
         .current_dir(evidence_root)
         .args([route, "--request"])
         .arg(path)
         .output()
-        .unwrap_or_else(|error| panic!("csdlc {route} should run: {error}"));
+        .unwrap_or_else(|error| panic!("csdlc {route} should run: {error}"))
+}
+
+fn run_route(route: &str, body: &str) -> Value {
+    let output = run_route_output(route, body);
     assert!(
         output.status.success(),
         "{route} stderr: {}",
@@ -280,7 +284,15 @@ fn assert_ready_value(route: &str, body: Value) {
 }
 
 fn assert_blocked(route: &str, body: &str, code: &str) {
-    let value = run_route(route, body);
+    let output = run_route_output(route, body);
+    assert!(
+        !output.status.success(),
+        "blocked {route} must return nonzero"
+    );
+    let stderr = str::from_utf8(&output.stderr).expect("blocked route stderr utf8");
+    let value: Value =
+        serde_json::from_str(stderr.strip_prefix("csdlc: ").unwrap_or(stderr).trim())
+            .expect("blocked route stderr json");
     assert_eq!(value["status"], "blocked");
     let findings = value["findings"].as_array().unwrap();
     assert!(
@@ -290,7 +302,16 @@ fn assert_blocked(route: &str, body: &str, code: &str) {
 }
 
 fn assert_blocked_value(route: &str, body: Value, code: &str) {
-    let value = run_route_value(route, body);
+    let body = serde_json::to_string_pretty(&body).expect("request json");
+    let output = run_route_output(route, &body);
+    assert!(
+        !output.status.success(),
+        "blocked {route} must return nonzero"
+    );
+    let stderr = str::from_utf8(&output.stderr).expect("blocked route stderr utf8");
+    let value: Value =
+        serde_json::from_str(stderr.strip_prefix("csdlc: ").unwrap_or(stderr).trim())
+            .expect("blocked route stderr json");
     assert_eq!(value["status"], "blocked");
     let findings = value["findings"].as_array().unwrap();
     assert!(
@@ -303,6 +324,7 @@ fn assert_blocked_value(route: &str, body: Value, code: &str) {
 fn proof_route_accepts_fresh_deterministic_manifest_only() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("proof.json", br#"{"ok":true}"#);
+    let command = v3_doctor_spec_for(631, "proof command fixture");
     assert_ready_value(
         "proof",
         json!({
@@ -318,13 +340,15 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "evidence_ref": proof_ref,
             "evidence_digest": digest,
             "observed_digest": digest,
-            "stale": false
+            "stale": false,
+            "normalization": "doctor_issue_phase_v1",
+            "command": command
           }
         }),
     );
-    assert_blocked(
+    assert_blocked_value(
         "proof",
-        r#"{
+        json!({
           "issue": 631,
           "repository": "agent-logic/agent-design-language",
           "proof": {
@@ -334,9 +358,11 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "evidence_ref": ".csdlc/evidence/631/proof.json",
             "evidence_digest": "abc123",
             "observed_digest": "def456",
-            "stale": true
+            "stale": true,
+            "normalization": "doctor_issue_phase_v1",
+            "command": v3_doctor_spec_for(631, "proof command fixture")
           }
-        }"#,
+        }),
         "proof_lane_not_deterministic",
     );
     let (root, actual_ref, digest) = write_evidence("actual.json", br#"{"actual":true}"#);
@@ -354,7 +380,9 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "evidence_ref": actual_ref,
             "evidence_digest": digest,
             "observed_digest": "caller-forged",
-            "stale": false
+            "stale": false,
+            "normalization": "doctor_issue_phase_v1",
+            "command": v3_doctor_spec_for(631, "proof command fixture")
           }
         }),
         "proof_observed_digest_mismatch",
@@ -365,6 +393,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
 fn proof_route_retains_a_deterministic_native_receipt() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("native-proof.json", br#"{"ok":true}"#);
+    let command = v3_doctor_spec_for(631, "proof command fixture");
     let value = run_route_value(
         "proof",
         json!({
@@ -379,7 +408,9 @@ fn proof_route_retains_a_deterministic_native_receipt() {
             "evidence_ref": proof_ref,
             "evidence_digest": digest,
             "observed_digest": digest,
-            "stale": false
+            "stale": false,
+            "normalization": "doctor_issue_phase_v1",
+            "command": command
           }
         }),
     );
@@ -400,7 +431,9 @@ fn proof_route_retains_a_deterministic_native_receipt() {
             "evidence_ref": scoped_evidence_ref("native-proof.json"),
             "evidence_digest": digest,
             "observed_digest": digest,
-            "stale": false
+            "stale": false,
+            "normalization": "doctor_issue_phase_v1",
+            "command": v3_doctor_spec_for(631, "proof command fixture")
           }
         }),
     );
@@ -724,7 +757,7 @@ fn install_route_is_one_binary_plan_gated_by_505() {
             "executes_install": true
           }
         }),
-        "install_typed_authority_missing",
+        "install_canonical_selector_mismatch",
     );
     let scratch_root = scratch().join("caller-controlled-evidence-root");
     fs::create_dir_all(scratch_root.join(".csdlc/evidence/631/install"))

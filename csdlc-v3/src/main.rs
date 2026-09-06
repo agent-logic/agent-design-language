@@ -9,7 +9,7 @@ use csdlc_v3::{
         local_route_status, prepare_local_workflow, LocalPreparationRequest,
         OperationalLocalContext, PlanStatus, WorktreeRegistration, LOCAL_ROUTE_NAMES,
     },
-    commands::proof::{classify_route, ProofRouteRequest, PROOF_ROUTE_NAMES},
+    commands::proof::{classify_route, ProofRouteRequest, ProofRouteStatus, PROOF_ROUTE_NAMES},
     commands::remote::{
         dispatch_operational_remote, load_remote_route_receipts, observe_github_pr_readback,
         prepare_remote_publication_route_with_receipts, OperationalRemoteDispatchRequest,
@@ -19,7 +19,8 @@ use csdlc_v3::{
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     commands::terminal::{
         prepare_terminal_finish_with_github_observation, prepare_terminal_route, CleanupDecision,
-        CutoverOperation, FinishDecision, TerminalRouteRequest, TERMINAL_ROUTE_NAMES,
+        CutoverOperation, FinishDecision, TerminalRouteRequest, TerminalRouteStatus,
+        TERMINAL_ROUTE_NAMES,
     },
     repository::RepositoryContext,
 };
@@ -28,8 +29,7 @@ use serde::Serialize;
 const ROOT_USAGE: &str =
     "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github]\n  github-issue --request <path> [--observe-github]\n  github-pr --request <path> [--observe-github]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
-const LOCAL_USAGE: &str =
-    "usage: csdlc local --request <path> --registry <path> --registrations <path>";
+const LOCAL_USAGE: &str = "usage: csdlc local --request <path> --registry <path> --registrations <path> [--operational-context <path>]";
 const REMOTE_USAGE: &str =
     "usage: csdlc <github|github-issue|github-pr|pr-state|publish|review> --request <path> [--observe-github] [--execute]";
 const TERMINAL_USAGE: &str =
@@ -238,7 +238,12 @@ fn run_proof_route(command: &str, args: &[String]) -> Result<String, String> {
         .map_err(|error| format!("invalid request json: {error}"))?;
     let repo_root = discover_binary_checkout_repo_root();
     let report = classify_route(command, request, repo_root.as_deref());
-    serde_json::to_string(&report).map_err(|error| error.to_string())
+    let serialized = serde_json::to_string(&report).map_err(|error| error.to_string())?;
+    if report.status == ProofRouteStatus::Blocked {
+        Err(serialized)
+    } else {
+        Ok(serialized)
+    }
 }
 
 fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
@@ -356,6 +361,7 @@ fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
         prepare_terminal_route(terminal_route, &request)
             .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?
     };
+    let blocked = result.status == TerminalRouteStatus::Blocked;
     let performed_mutation = result.cutover.as_ref().is_some_and(|decision| {
         decision.executes_cutover
             || decision.operation == CutoverOperation::Rollback
@@ -387,7 +393,12 @@ fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
         cutover_issue: 505,
         result,
     };
-    serde_json::to_string(&report).map_err(|error| error.to_string())
+    let serialized = serde_json::to_string(&report).map_err(|error| error.to_string())?;
+    if blocked {
+        Err(serialized)
+    } else {
+        Ok(serialized)
+    }
 }
 
 fn merge_observed_receipts(receipts: &mut RemoteRouteReceipts, observed: RemoteRouteReceipts) {
@@ -621,7 +632,7 @@ impl TerminalArgs {
 impl LocalArgs {
     fn parse(args: &[String], route: &str) -> Result<Self, String> {
         let usage = format!(
-            "usage: csdlc {route} --request <path> --registry <path> --registrations <path>"
+            "usage: csdlc {route} --request <path> --registry <path> --registrations <path> [--operational-context <path>]"
         );
         let mut request = None;
         let mut registry = None;

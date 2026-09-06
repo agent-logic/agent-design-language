@@ -6,7 +6,8 @@ use csdlc_v3::commands::local::{
     authorize_bind, execute_operational_local_route, grants_operational_authority,
     inspect_local_lifecycle_state, local_route_command, local_route_status, plan_cards,
     prepare_local_workflow, required_local_commands, validate_contract, LocalPreparationRequest,
-    OperationalLocalContext, PlanStatus, PromptRegistry, WorktreeRegistration, LOCAL_ROUTE_NAMES,
+    OperationalLocalContext, PlanStatus, PromptRegistry, ScheduleReadinessInput,
+    ShepherdRoutingInput, WorktreeRegistration, LOCAL_ROUTE_NAMES,
 };
 use csdlc_v3::{is_v3d_local_preparation_predecessor, LOCAL_PREPARATION_PREDECESSORS};
 use std::fs;
@@ -37,6 +38,8 @@ fn request() -> LocalPreparationRequest {
         worktree: "adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec".into(),
         registry_version: "1.0.3".into(),
         expected_lifecycle_digest: None,
+        schedule_readiness: None,
+        shepherd_routing: None,
         commands: required_local_commands().to_vec(),
         card_updates: BTreeMap::new(),
     }
@@ -833,11 +836,19 @@ fn run_git(root: &Path, args: &[&str]) -> String {
 
 fn operational_registry(root: &Path) -> PromptRegistry {
     let template_root = root.join("templates");
+    let schema_root = root.join("schemas");
     fs::create_dir_all(&template_root).expect("template root");
+    fs::create_dir_all(&schema_root).expect("schema root");
     let mut template_paths = BTreeMap::new();
     for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
         let path = template_root.join(format!("{kind}.md"));
         fs::write(&path, format!("# {kind}\n{{{{title}}}}\n")).expect("template fixture");
+        fs::write(
+            schema_root.join(format!("{kind}.structure.json")),
+            serde_json::to_vec(&serde_json::json!({"scaffold_lines": [format!("# {kind}")]}))
+                .unwrap(),
+        )
+        .expect("structure schema fixture");
         template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());
     }
     PromptRegistry {
@@ -863,18 +874,6 @@ fn operational_authority_fixture(
     run_git(&repository_root, &["commit", "--quiet", "-m", "fixture"]);
     let exact_head = run_git(&repository_root, &["rev-parse", "HEAD"]);
 
-    let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
-    fs::create_dir_all(selector_path.parent().expect("selector parent"))
-        .expect("selector parent directory");
-    let selector_bytes = serde_json::to_vec_pretty(&serde_json::json!({
-        "schema": "csdlc.generation_selector.v1",
-        "default_generation": generation,
-        "opted_in_issues": []
-    }))
-    .expect("selector JSON");
-    fs::write(&selector_path, &selector_bytes).expect("canonical selector");
-    let selector_digest = blake3::hash(&selector_bytes).to_hex().to_string();
-
     let approval_path = PathBuf::from(".csdlc/evidence/505/cutover-approval.json");
     let approval_file = repository_root.join(&approval_path);
     fs::create_dir_all(approval_file.parent().expect("approval parent"))
@@ -885,11 +884,34 @@ fn operational_authority_fixture(
         "repository": "agent-logic/agent-design-language",
         "decision": "approved",
         "exact_head": exact_head,
-        "selector_metadata_digest": selector_digest
+        "selector_metadata_digest": "pre-cutover-selector"
     }))
     .expect("approval JSON");
     fs::write(&approval_file, &approval_bytes).expect("approval evidence");
     let approval_digest = blake3::hash(&approval_bytes).to_hex().to_string();
+    let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
+    fs::create_dir_all(selector_path.parent().expect("selector parent"))
+        .expect("selector parent directory");
+    let selector = if generation == "v3" {
+        serde_json::json!({
+            "schema": "csdlc.generation_selector.v2",
+            "default_generation": "v3",
+            "operational_authority": "csdlc-v3",
+            "authority_issue": 505,
+            "exact_review_sha": exact_head,
+            "readiness_evidence_digest": "fixture-readiness",
+            "approval_evidence_digest": approval_digest
+        })
+    } else {
+        serde_json::json!({
+            "schema": "csdlc.generation_selector.v1",
+            "default_generation": generation,
+            "opted_in_issues": []
+        })
+    };
+    let selector_bytes = serde_json::to_vec_pretty(&selector).expect("selector JSON");
+    fs::write(&selector_path, &selector_bytes).expect("canonical selector");
+    let selector_digest = blake3::hash(&selector_bytes).to_hex().to_string();
 
     let context = OperationalLocalContext {
         repository_root: repository_root.clone(),
@@ -1054,13 +1076,85 @@ fn canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initializat
 }
 
 #[test]
+fn operational_schedule_preserves_the_six_dimension_readiness_denominator() {
+    let (_, _, mut context, registry) = operational_authority_fixture("schedule-semantics", "v3");
+    let initialized = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect("initialize schedule fixture");
+    let mut scheduled = request();
+    scheduled.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+    scheduled.schedule_readiness = Some(ScheduleReadinessInput {
+        phase_ready: true,
+        cards_ready: true,
+        design_ready: true,
+        dependencies_ready: true,
+        paths_clear: true,
+        budget_available: true,
+    });
+    let ready = execute_operational_local_route("schedule", &scheduled, &registry, &context)
+        .expect("ready schedule report");
+    let report = ready.routing.expect("typed schedule report");
+    assert_eq!(report.schema, "csdlc.scheduler.report.v1");
+    assert_eq!(report.state, "ready");
+    assert_eq!(report.eligible_operations, ["validate"]);
+
+    scheduled
+        .schedule_readiness
+        .as_mut()
+        .unwrap()
+        .dependencies_ready = false;
+    let blocked = execute_operational_local_route("schedule", &scheduled, &registry, &context)
+        .expect("blocked schedule is a typed routing result");
+    let report = blocked.routing.expect("typed blocked schedule report");
+    assert_eq!(report.state, "blocked");
+    assert_eq!(report.blockers, ["dependencies_ready"]);
+    assert!(report.eligible_operations.is_empty());
+}
+
+#[test]
+fn operational_shepherd_preserves_v2_state_priority_and_operations() {
+    let (_, _, mut context, registry) = operational_authority_fixture("shepherd-semantics", "v3");
+    let initialized = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect("initialize shepherd fixture");
+    let mut shepherded = request();
+    shepherded.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+    shepherded.shepherd_routing = Some(ShepherdRoutingInput {
+        validation: Some("passed".into()),
+        dependency_wait: true,
+        retryable_failure: true,
+        repair_needed: true,
+        operator_decision_needed: true,
+    });
+    let operator = execute_operational_local_route("shepherd", &shepherded, &registry, &context)
+        .expect("operator-required shepherd report");
+    let report = operator.routing.expect("typed shepherd report");
+    assert_eq!(report.schema, "csdlc.shepherd.report.v1");
+    assert_eq!(report.state, "operator_required");
+    assert_eq!(report.eligible_operations, ["operator_decision"]);
+
+    shepherded.shepherd_routing = Some(ShepherdRoutingInput {
+        validation: Some("passed".into()),
+        dependency_wait: false,
+        retryable_failure: false,
+        repair_needed: false,
+        operator_decision_needed: false,
+    });
+    let ready = execute_operational_local_route("shepherd", &shepherded, &registry, &context)
+        .expect("ready shepherd report");
+    let report = ready.routing.expect("typed ready shepherd report");
+    assert_eq!(report.state, "ready");
+    assert_eq!(report.eligible_operations, ["schedule"]);
+}
+
+#[cfg(unix)]
+#[test]
 fn operational_local_authority_rejects_state_root_symlink_escape() {
     let (repository_root, _, mut context, registry) =
         operational_authority_fixture("state-root-symlink-escape", "v3");
     let outside = repository_root.parent().unwrap().join("outside-state");
     fs::create_dir_all(&outside).expect("outside state directory");
     let state_link = repository_root.join(".csdlc/escaped-state");
-    #[cfg(unix)]
     std::os::unix::fs::symlink(&outside, &state_link).expect("state symlink");
     context.state_root = state_link;
 

@@ -59,6 +59,46 @@ pub struct LocalPreparationRequest {
     /// Values merged by the native `edit` route, keyed by card kind.
     #[serde(default)]
     pub card_updates: BTreeMap<String, Value>,
+    /// Six-dimensional v2-compatible readiness denominator for `schedule`.
+    #[serde(default)]
+    pub schedule_readiness: Option<ScheduleReadinessInput>,
+    /// v2-compatible state-routing denominator for `shepherd`.
+    #[serde(default)]
+    pub shepherd_routing: Option<ShepherdRoutingInput>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ScheduleReadinessInput {
+    pub phase_ready: bool,
+    pub cards_ready: bool,
+    pub design_ready: bool,
+    pub dependencies_ready: bool,
+    pub paths_clear: bool,
+    pub budget_available: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ShepherdRoutingInput {
+    #[serde(default)]
+    pub validation: Option<String>,
+    #[serde(default)]
+    pub dependency_wait: bool,
+    #[serde(default)]
+    pub retryable_failure: bool,
+    #[serde(default)]
+    pub repair_needed: bool,
+    #[serde(default)]
+    pub operator_decision_needed: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct OperationalRoutingReport {
+    pub schema: String,
+    pub state: String,
+    pub blockers: Vec<String>,
+    pub eligible_operations: Vec<String>,
 }
 
 /// Filesystem authority supplied to the native local command executor.
@@ -86,7 +126,6 @@ struct CutoverApprovalEvidence {
     repository: String,
     decision: String,
     exact_head: String,
-    selector_metadata_digest: String,
 }
 
 /// Result of a native local mutation or diagnostic.
@@ -99,7 +138,31 @@ pub struct OperationalLocalResult {
     pub generation: Option<u64>,
     pub digest: Option<String>,
     pub next_route: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub routing: Option<OperationalRoutingReport>,
     pub findings: Vec<DoctorFinding>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+struct LocalMutationJournal {
+    schema: String,
+    issue: u64,
+    route: String,
+    request_digest: String,
+    result: OperationalLocalResult,
+    #[serde(default)]
+    bind_branch: Option<String>,
+    #[serde(default)]
+    bind_worktree: Option<PathBuf>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+struct LocalMutationCompletion {
+    schema: String,
+    issue: u64,
+    route: String,
+    request_digest: String,
+    result: OperationalLocalResult,
 }
 
 /// Exact Git worktree registration observed by a caller-owned adapter.
@@ -1104,16 +1167,29 @@ fn read_local_lifecycle_index(index_path: &Path) -> Result<LocalLifecycleIndex, 
 ///
 /// This entry point deliberately has no v2 subprocess fallback. Callers may
 /// expose it only after the v3 writer fence is active.
+#[cfg(unix)]
 pub fn execute_operational_local_route(
     route: &str,
     request: &LocalPreparationRequest,
     registry: &PromptRegistry,
     context: &OperationalLocalContext,
 ) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    if !LOCAL_ROUTE_NAMES.contains(&route) {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "unknown_local_route",
+            "unknown native v3 local route",
+        )]);
+    }
     validate_contract(request)?;
     plan_cards(request.issue, &request.registry_version, registry)?;
     validate_context(request, context)?;
     let _issue_lock = acquire_issue_mutation_lock(&context.state_root, request.issue)?;
+    recover_pending_local_transaction(context, request.issue)?;
+    let request_digest = local_request_digest(request)?;
+    if let Some(result) = load_local_completion(context, request, route, &request_digest)? {
+        return Ok(result);
+    }
     let issue_root = context.state_root.join(format!("issues/{}", request.issue));
     let before = inspect_lifecycle_issue_root(&issue_root, request.issue, "v3");
     require_operational_cas(route, request, &before)?;
@@ -1121,16 +1197,26 @@ pub fn execute_operational_local_route(
     match route {
         "issue" => initialize_operational_issue(request, registry, &issue_root),
         "bind" => bind_operational_issue(request, context, &issue_root),
-        "edit" => edit_operational_cards(request, registry, &issue_root),
+        "edit" => edit_operational_cards(request, registry, context, &issue_root),
         "validate" => validate_operational_issue(request, registry, &issue_root),
         "doctor" | "eligibility" => diagnose_operational_issue(route, request, registry, context),
         "schedule" | "shepherd" => route_operational_issue(route, request, registry, context),
-        _ => Err(vec![finding(
-            PlanStatus::Failed,
-            "unknown_local_route",
-            "unknown native v3 local route",
-        )]),
+        _ => unreachable!("route membership checked above"),
     }
+}
+
+#[cfg(not(unix))]
+pub fn execute_operational_local_route(
+    _route: &str,
+    _request: &LocalPreparationRequest,
+    _registry: &PromptRegistry,
+    _context: &OperationalLocalContext,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    Err(vec![finding(
+        PlanStatus::Blocked,
+        "operational_local_unsupported_platform",
+        "native v3 operational mutation is supported only on Unix platforms",
+    )])
 }
 
 fn acquire_issue_mutation_lock(
@@ -1160,6 +1246,364 @@ fn acquire_issue_mutation_lock(
     file.lock_exclusive()
         .map_err(io_finding("issue_lock_acquire_failed"))?;
     Ok(file)
+}
+
+fn local_request_digest(request: &LocalPreparationRequest) -> Result<String, Vec<DoctorFinding>> {
+    serde_json::to_vec(request)
+        .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
+        .map_err(|error| {
+            vec![finding(
+                PlanStatus::Failed,
+                "local_request_digest_failed",
+                &error.to_string(),
+            )]
+        })
+}
+
+fn local_transaction_root(context: &OperationalLocalContext) -> PathBuf {
+    context.state_root.join("transactions")
+}
+
+fn local_transaction_journal_path(context: &OperationalLocalContext, issue: u64) -> PathBuf {
+    local_transaction_root(context).join(format!("{issue}.json"))
+}
+
+fn local_transaction_paths(
+    context: &OperationalLocalContext,
+    issue: u64,
+    route: &str,
+    request_digest: &str,
+) -> (PathBuf, PathBuf, PathBuf) {
+    let issue_parent = context.state_root.join("issues");
+    let suffix = format!(".issue-{issue}-{route}-{request_digest}");
+    let stage = issue_parent.join(format!("{suffix}.stage"));
+    let backup = issue_parent.join(format!("{suffix}.backup"));
+    let completion = local_transaction_root(context)
+        .join("completed")
+        .join(issue.to_string())
+        .join(format!("{route}-{request_digest}.json"));
+    (stage, backup, completion)
+}
+
+fn prepare_local_transaction_stage(
+    context: &OperationalLocalContext,
+    issue: u64,
+    route: &str,
+    request_digest: &str,
+) -> Result<PathBuf, Vec<DoctorFinding>> {
+    let issue_root = context.state_root.join(format!("issues/{issue}"));
+    let (stage, backup, _) = local_transaction_paths(context, issue, route, request_digest);
+    if backup.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_orphaned_backup",
+            "an unjournaled lifecycle backup requires operator recovery",
+        )]);
+    }
+    if stage.exists() {
+        fs::remove_dir_all(&stage).map_err(io_finding("local_transaction_stage_cleanup_failed"))?;
+    }
+    copy_local_issue_tree(&issue_root, &stage)?;
+    Ok(stage)
+}
+
+fn copy_local_issue_tree(source: &Path, destination: &Path) -> Result<(), Vec<DoctorFinding>> {
+    let metadata = source
+        .symlink_metadata()
+        .map_err(io_finding("local_transaction_source_unavailable"))?;
+    if !metadata.is_dir() || metadata.file_type().is_symlink() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_source_invalid",
+            "lifecycle transaction source must be a real directory",
+        )]);
+    }
+    fs::create_dir(destination).map_err(io_finding("local_transaction_stage_create_failed"))?;
+    for entry in fs::read_dir(source).map_err(io_finding("local_transaction_source_read_failed"))? {
+        let entry = entry.map_err(io_finding("local_transaction_entry_read_failed"))?;
+        let file_type = entry
+            .file_type()
+            .map_err(io_finding("local_transaction_entry_metadata_failed"))?;
+        if file_type.is_symlink() {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_symlink_denied",
+                "lifecycle transaction images cannot contain symlinks",
+            )]);
+        }
+        let target = destination.join(entry.file_name());
+        if file_type.is_dir() {
+            copy_local_issue_tree(&entry.path(), &target)?;
+        } else if file_type.is_file() {
+            fs::copy(entry.path(), target)
+                .map_err(io_finding("local_transaction_file_copy_failed"))?;
+        } else {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_special_file_denied",
+                "lifecycle transaction images may contain only files and directories",
+            )]);
+        }
+    }
+    Ok(())
+}
+
+fn begin_local_transaction(
+    context: &OperationalLocalContext,
+    journal: LocalMutationJournal,
+) -> Result<(), Vec<DoctorFinding>> {
+    let journal_path = local_transaction_journal_path(context, journal.issue);
+    if journal_path.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_already_pending",
+            "a lifecycle mutation journal must be recovered before another mutation starts",
+        )]);
+    }
+    fs::create_dir_all(
+        journal_path
+            .parent()
+            .expect("transaction journal has a parent"),
+    )
+    .map_err(io_finding("local_transaction_root_create_failed"))?;
+    let value = serde_json::to_value(&journal).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "local_transaction_serialize_failed",
+            &error.to_string(),
+        )]
+    })?;
+    atomic_write_json(&journal_path, &value)
+}
+
+fn recover_pending_local_transaction(
+    context: &OperationalLocalContext,
+    issue: u64,
+) -> Result<(), Vec<DoctorFinding>> {
+    let journal_path = local_transaction_journal_path(context, issue);
+    if !journal_path.exists() {
+        return Ok(());
+    }
+    if journal_path
+        .symlink_metadata()
+        .is_ok_and(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_invalid",
+            "lifecycle mutation journal must be a regular file",
+        )]);
+    }
+    let journal: LocalMutationJournal = serde_json::from_slice(
+        &fs::read(&journal_path).map_err(io_finding("local_transaction_journal_read_failed"))?,
+    )
+    .map_err(|error| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_invalid",
+            &error.to_string(),
+        )]
+    })?;
+    if journal.schema != "csdlc.v3.local_mutation_journal.v1"
+        || journal.issue != issue
+        || !matches!(journal.route.as_str(), "bind" | "edit")
+        || journal.request_digest.len() != 64
+        || !journal
+            .request_digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_mismatch",
+            "lifecycle mutation journal identity is invalid",
+        )]);
+    }
+    if journal.route == "bind" {
+        let branch = journal.bind_branch.as_deref().ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_bind_identity_missing",
+                "bind recovery requires its exact branch identity",
+            )]
+        })?;
+        let target = journal.bind_worktree.as_deref().ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_bind_identity_missing",
+                "bind recovery requires its exact worktree identity",
+            )]
+        })?;
+        ensure_bind_registration(&context.repository_root, branch, target)?;
+    }
+    commit_local_transaction(context, &journal)
+}
+
+fn commit_pending_local_transaction(
+    context: &OperationalLocalContext,
+    issue: u64,
+) -> Result<(), Vec<DoctorFinding>> {
+    recover_pending_local_transaction(context, issue)
+}
+
+fn commit_local_transaction(
+    context: &OperationalLocalContext,
+    journal: &LocalMutationJournal,
+) -> Result<(), Vec<DoctorFinding>> {
+    let issue_root = context.state_root.join(format!("issues/{}", journal.issue));
+    let journal_path = local_transaction_journal_path(context, journal.issue);
+    let (stage, backup, completion) = local_transaction_paths(
+        context,
+        journal.issue,
+        &journal.route,
+        &journal.request_digest,
+    );
+    if issue_root.exists() && stage.exists() && !backup.exists() {
+        fs::rename(&issue_root, &backup)
+            .map_err(io_finding("local_transaction_backup_commit_failed"))?;
+        local_transaction_failpoint("after_backup_rename");
+    }
+    if !issue_root.exists() && stage.exists() && backup.exists() {
+        fs::rename(&stage, &issue_root)
+            .map_err(io_finding("local_transaction_stage_commit_failed"))?;
+        local_transaction_failpoint("after_stage_rename");
+    }
+    if !issue_root.exists() || stage.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_state_ambiguous",
+            "lifecycle transaction cannot reconcile its issue, stage, and backup state",
+        )]);
+    }
+    let completed = LocalMutationCompletion {
+        schema: "csdlc.v3.local_mutation_completion.v1".into(),
+        issue: journal.issue,
+        route: journal.route.clone(),
+        request_digest: journal.request_digest.clone(),
+        result: journal.result.clone(),
+    };
+    fs::create_dir_all(completion.parent().expect("completion has a parent"))
+        .map_err(io_finding("local_transaction_completion_parent_failed"))?;
+    let value = serde_json::to_value(completed).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "local_transaction_completion_serialize_failed",
+            &error.to_string(),
+        )]
+    })?;
+    atomic_write_json(&completion, &value)?;
+    if backup.exists() {
+        fs::remove_dir_all(&backup)
+            .map_err(io_finding("local_transaction_backup_cleanup_failed"))?;
+    }
+    fs::remove_file(&journal_path).map_err(io_finding("local_transaction_journal_cleanup_failed"))
+}
+
+fn load_local_completion(
+    context: &OperationalLocalContext,
+    request: &LocalPreparationRequest,
+    route: &str,
+    request_digest: &str,
+) -> Result<Option<OperationalLocalResult>, Vec<DoctorFinding>> {
+    if !matches!(route, "bind" | "edit") {
+        return Ok(None);
+    }
+    let (_, _, path) = local_transaction_paths(context, request.issue, route, request_digest);
+    if !path.exists() {
+        return Ok(None);
+    }
+    let completion: LocalMutationCompletion = serde_json::from_slice(
+        &fs::read(path).map_err(io_finding("local_transaction_completion_read_failed"))?,
+    )
+    .map_err(|error| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_completion_invalid",
+            &error.to_string(),
+        )]
+    })?;
+    if completion.schema != "csdlc.v3.local_mutation_completion.v1"
+        || completion.issue != request.issue
+        || completion.route != route
+        || completion.request_digest != request_digest
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_completion_mismatch",
+            "lifecycle mutation completion does not match the exact request",
+        )]);
+    }
+    let issue_root = context.state_root.join(format!("issues/{}", request.issue));
+    let observed = inspect_lifecycle_issue_root(&issue_root, request.issue, "v3");
+    if completion.result.route != route
+        || completion.result.issue != request.issue
+        || !completion.result.mutated
+        || completion.result.phase != observed.phase
+        || completion.result.generation != observed.generation
+        || completion.result.digest != observed.digest
+        || !observed.ready_to_execute
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_completion_state_mismatch",
+            "lifecycle mutation completion does not reconcile to the live issue state",
+        )]);
+    }
+    if route == "bind"
+        && !git_worktree_registration(
+            &context.repository_root,
+            &request.branch,
+            Path::new(&request.worktree),
+        )?
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_completion_bind_mismatch",
+            "bind completion does not reconcile to the exact Git worktree registration",
+        )]);
+    }
+    Ok(Some(completion.result))
+}
+
+fn ensure_bind_registration(
+    repository_root: &Path,
+    branch: &str,
+    target: &Path,
+) -> Result<(), Vec<DoctorFinding>> {
+    if git_worktree_registration(repository_root, branch, target)? {
+        return Ok(());
+    }
+    if target.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "unregistered_worktree_exists",
+            "target path exists but is not registered for the requested branch",
+        )]);
+    }
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(repository_root)
+        .args(["worktree", "add", "-b"])
+        .arg(branch)
+        .arg(target)
+        .arg("HEAD")
+        .output()
+        .map_err(io_finding("git_worktree_add_failed"))?;
+    if !output.status.success() || !git_worktree_registration(repository_root, branch, target)? {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "git_worktree_add_failed",
+            String::from_utf8_lossy(&output.stderr).trim(),
+        )]);
+    }
+    Ok(())
+}
+
+fn local_transaction_failpoint(name: &str) {
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok(name) {
+        std::process::exit(91);
+    }
 }
 
 fn validate_context(
@@ -1233,10 +1677,8 @@ fn validate_context(
             "canonical generation selector must be typed JSON",
         )]
     })?;
-    if !matches!(
-        selector.get("schema").and_then(Value::as_str),
-        Some("csdlc.generation_selector.v1" | "csdlc.generation_selector.v2")
-    ) || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
+    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.generation_selector.v2")
+        || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
     {
         return Err(vec![finding(
             PlanStatus::Blocked,
@@ -1328,8 +1770,8 @@ fn validate_context(
         || approval.repository != request.repository
         || approval.decision != "approved"
         || approval.exact_head != expected_head
-        || (!selector_is_v2 && approval.selector_metadata_digest != selector_digest)
-        || (selector_is_v2 && !selector_authority_exact)
+        || !selector_is_v2
+        || !selector_authority_exact
         || expected_head.len() != 40
         || !expected_head.bytes().all(|byte| byte.is_ascii_hexdigit())
     {
@@ -1546,35 +1988,19 @@ fn bind_operational_issue(
             "bind cannot target the primary checkout",
         )]);
     }
-    let registration =
-        git_worktree_registration(&context.repository_root, &request.branch, &target)?;
-    if !registration {
-        if target.exists() {
-            return Err(vec![finding(
-                PlanStatus::Blocked,
-                "unregistered_worktree_exists",
-                "target path exists but is not registered for the requested branch",
-            )]);
-        }
-        let output = Command::new("git")
-            .arg("-C")
-            .arg(&context.repository_root)
-            .args(["worktree", "add", "-b"])
-            .arg(&request.branch)
-            .arg(&target)
-            .arg("HEAD")
-            .output()
-            .map_err(io_finding("git_worktree_add_failed"))?;
-        if !output.status.success() {
-            return Err(vec![finding(
-                PlanStatus::Failed,
-                "git_worktree_add_failed",
-                String::from_utf8_lossy(&output.stderr).trim(),
-            )]);
-        }
+    if !git_worktree_registration(&context.repository_root, &request.branch, &target)?
+        && target.exists()
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "unregistered_worktree_exists",
+            "target path exists but is not registered for the requested branch",
+        )]);
     }
+    let request_digest = local_request_digest(request)?;
+    let stage = prepare_local_transaction_stage(context, request.issue, "bind", &request_digest)?;
     atomic_write_json(
-        &issue_root.join("binding.json"),
+        &stage.join("binding.json"),
         &serde_json::json!({
             "schema": "csdlc.v3.binding.v1",
             "issue": request.issue,
@@ -1582,7 +2008,7 @@ fn bind_operational_issue(
             "worktree": request.worktree
         }),
     )?;
-    let index = read_index_value(issue_root)?;
+    let index = read_index_value(&stage)?;
     let registry_version = index["template_registry_version"]
         .as_str()
         .unwrap_or(&request.registry_version);
@@ -1592,8 +2018,8 @@ fn bind_operational_issue(
         template_paths: BTreeMap::new(),
     };
     let generation = observed.generation.unwrap_or(1) + 1;
-    let (generation, digest) = persist_index(issue_root, request, &registry, "bound", generation)?;
-    Ok(operational_result(
+    let (generation, digest) = persist_index(&stage, request, &registry, "bound", generation)?;
+    let result = operational_result(
         "bind",
         request.issue,
         true,
@@ -1602,7 +2028,23 @@ fn bind_operational_issue(
         digest,
         Some("edit"),
         vec![],
-    ))
+    );
+    begin_local_transaction(
+        context,
+        LocalMutationJournal {
+            schema: "csdlc.v3.local_mutation_journal.v1".into(),
+            issue: request.issue,
+            route: "bind".into(),
+            request_digest,
+            result: result.clone(),
+            bind_branch: Some(request.branch.clone()),
+            bind_worktree: Some(target.clone()),
+        },
+    )?;
+    ensure_bind_registration(&context.repository_root, &request.branch, &target)?;
+    local_transaction_failpoint("bind_after_git");
+    commit_pending_local_transaction(context, request.issue)?;
+    Ok(result)
 }
 
 fn canonical_existing_ancestor_local(path: &Path) -> Option<PathBuf> {
@@ -1618,6 +2060,7 @@ fn canonical_existing_ancestor_local(path: &Path) -> Option<PathBuf> {
 fn edit_operational_cards(
     request: &LocalPreparationRequest,
     registry: &PromptRegistry,
+    context: &OperationalLocalContext,
     issue_root: &Path,
 ) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
     if request.card_updates.is_empty() {
@@ -1627,82 +2070,60 @@ fn edit_operational_cards(
             "edit requires at least one typed card update",
         )]);
     }
-    let mut prepared = Vec::new();
-    for (kind, update) in &request.card_updates {
-        if !REQUIRED_CARD_KINDS.contains(&kind.as_str()) || !update.is_object() {
-            return Err(vec![finding(
-                PlanStatus::Failed,
-                "card_update_invalid",
-                "card updates must be objects keyed by canonical card kind",
-            )]);
-        }
-        let values_path = issue_root.join(format!("cards/{kind}.values.json"));
-        let mut values: Value = serde_json::from_slice(
-            &fs::read(&values_path).map_err(io_finding("card_values_read_failed"))?,
-        )
-        .map_err(|error| {
-            vec![finding(
-                PlanStatus::Failed,
-                "card_values_invalid",
-                &error.to_string(),
-            )]
-        })?;
-        merge_json_object(&mut values, update);
-        let template = fs::read_to_string(
-            registry
-                .template_paths
-                .get(kind)
-                .expect("registry validated"),
-        )
-        .map_err(io_finding("template_read_failed"))?;
-        let rendered_path = issue_root.join(format!("cards/{kind}.md"));
-        let old_values = fs::read(&values_path).map_err(io_finding("card_values_read_failed"))?;
-        let old_rendered =
-            fs::read(&rendered_path).map_err(io_finding("card_render_read_failed"))?;
-        let new_values = serde_json::to_vec_pretty(&values).map_err(|error| {
-            vec![finding(
-                PlanStatus::Failed,
-                "card_values_serialize_failed",
-                &error.to_string(),
-            )]
-        })?;
-        let new_rendered = render_template(&template, &values).into_bytes();
-        prepared.push((values_path, old_values, new_values));
-        prepared.push((rendered_path, old_rendered, new_rendered));
-    }
-    for (applied, (path, _, bytes)) in prepared.iter().enumerate() {
-        if let Err(findings) = atomic_write(path, bytes) {
-            let mut findings = findings;
-            for (rollback_path, old_bytes, _) in prepared[..applied].iter().rev() {
-                if let Err(mut rollback_findings) = atomic_write(rollback_path, old_bytes) {
-                    findings.append(&mut rollback_findings);
-                }
-            }
-            return Err(findings);
-        }
-    }
     let observed = inspect_lifecycle_issue_root(issue_root, request.issue, "v3");
     let phase = observed.phase.as_deref().unwrap_or("ready");
-    let persisted = persist_index(
-        issue_root,
-        request,
-        registry,
-        phase,
-        observed.generation.unwrap_or(1) + 1,
-    );
-    let (generation, digest) = match persisted {
-        Ok(result) => result,
-        Err(findings) => {
-            let mut findings = findings;
-            for (path, old_bytes, _) in prepared.iter().rev() {
-                if let Err(mut rollback_findings) = atomic_write(path, old_bytes) {
-                    findings.append(&mut rollback_findings);
-                }
+    let request_digest = local_request_digest(request)?;
+    let stage = prepare_local_transaction_stage(context, request.issue, "edit", &request_digest)?;
+    let staged = (|| {
+        for (kind, update) in &request.card_updates {
+            if !REQUIRED_CARD_KINDS.contains(&kind.as_str()) || !update.is_object() {
+                return Err(vec![finding(
+                    PlanStatus::Failed,
+                    "card_update_invalid",
+                    "card updates must be objects keyed by canonical card kind",
+                )]);
             }
+            let values_path = stage.join(format!("cards/{kind}.values.json"));
+            let mut values: Value = serde_json::from_slice(
+                &fs::read(&values_path).map_err(io_finding("card_values_read_failed"))?,
+            )
+            .map_err(|error| {
+                vec![finding(
+                    PlanStatus::Failed,
+                    "card_values_invalid",
+                    &error.to_string(),
+                )]
+            })?;
+            merge_json_object(&mut values, update);
+            let template = fs::read_to_string(
+                registry
+                    .template_paths
+                    .get(kind)
+                    .expect("registry validated"),
+            )
+            .map_err(io_finding("template_read_failed"))?;
+            atomic_write_json(&values_path, &values)?;
+            atomic_write(
+                &stage.join(format!("cards/{kind}.md")),
+                render_template(&template, &values).as_bytes(),
+            )?;
+        }
+        persist_index(
+            &stage,
+            request,
+            registry,
+            phase,
+            observed.generation.unwrap_or(1) + 1,
+        )
+    })();
+    let (generation, digest) = match staged {
+        Ok(value) => value,
+        Err(mut findings) => {
+            append_directory_rollback_finding(&stage, &mut findings);
             return Err(findings);
         }
     };
-    Ok(operational_result(
+    let result = operational_result(
         "edit",
         request.issue,
         true,
@@ -1711,7 +2132,24 @@ fn edit_operational_cards(
         digest,
         Some("validate"),
         vec![],
-    ))
+    );
+    if let Err(mut findings) = begin_local_transaction(
+        context,
+        LocalMutationJournal {
+            schema: "csdlc.v3.local_mutation_journal.v1".into(),
+            issue: request.issue,
+            route: "edit".into(),
+            request_digest,
+            result: result.clone(),
+            bind_branch: None,
+            bind_worktree: None,
+        },
+    ) {
+        append_directory_rollback_finding(&stage, &mut findings);
+        return Err(findings);
+    }
+    commit_pending_local_transaction(context, request.issue)?;
+    Ok(result)
 }
 
 fn validate_operational_issue(
@@ -1798,19 +2236,90 @@ fn route_operational_issue(
     context: &OperationalLocalContext,
 ) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
     let mut result = diagnose_operational_issue(route, request, registry, context)?;
-    let blocked = result
+    let diagnostics_blocked = result
         .findings
         .iter()
         .any(|item| matches!(item.status, PlanStatus::Blocked | PlanStatus::Failed));
-    result.next_route = if blocked {
-        Some("doctor".into())
-    } else if result.phase.as_deref() == Some("ready") {
-        Some("bind".into())
-    } else if request.card_updates.is_empty() {
-        Some("edit".into())
+    if route == "schedule" {
+        let readiness = request.schedule_readiness.as_ref().ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "schedule_readiness_missing",
+                "schedule requires all six explicit readiness dimensions",
+            )]
+        })?;
+        let dimensions = [
+            ("phase_ready", readiness.phase_ready),
+            ("cards_ready", readiness.cards_ready),
+            ("design_ready", readiness.design_ready),
+            ("dependencies_ready", readiness.dependencies_ready),
+            ("paths_clear", readiness.paths_clear),
+            ("budget_available", readiness.budget_available),
+        ];
+        let mut blockers: Vec<String> = dimensions
+            .into_iter()
+            .filter_map(|(name, ready)| (!ready).then_some(name.to_owned()))
+            .collect();
+        if diagnostics_blocked {
+            blockers.push("operational_diagnostics".into());
+        }
+        let ready = blockers.is_empty();
+        result.next_route = Some(if ready { "validate" } else { "doctor" }.into());
+        result.routing = Some(OperationalRoutingReport {
+            schema: "csdlc.scheduler.report.v1".into(),
+            state: if ready { "ready" } else { "blocked" }.into(),
+            blockers,
+            eligible_operations: if ready {
+                vec!["validate".into()]
+            } else {
+                Vec::new()
+            },
+        });
     } else {
-        Some("validate".into())
-    };
+        let routing = request.shepherd_routing.as_ref().ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "shepherd_routing_missing",
+                "shepherd requires explicit waiting, retry, repair, and operator-decision state",
+            )]
+        })?;
+        let state = if routing.operator_decision_needed {
+            "operator_required"
+        } else if routing.repair_needed {
+            "repair_required"
+        } else if routing.retryable_failure {
+            "retryable"
+        } else if routing.dependency_wait {
+            "waiting"
+        } else if diagnostics_blocked {
+            "repair_required"
+        } else {
+            "ready"
+        };
+        let eligible_operations = match state {
+            "ready" => vec!["schedule".into()],
+            "retryable" => vec!["retry".into()],
+            "repair_required" => vec!["repair".into()],
+            "operator_required" => vec!["operator_decision".into()],
+            _ => Vec::new(),
+        };
+        result.next_route = Some(
+            match state {
+                "ready" => "schedule",
+                "retryable" => "retry",
+                "repair_required" => "doctor",
+                "operator_required" => "operator",
+                _ => "shepherd",
+            }
+            .into(),
+        );
+        result.routing = Some(OperationalRoutingReport {
+            schema: "csdlc.shepherd.report.v1".into(),
+            state: state.into(),
+            blockers: Vec::new(),
+            eligible_operations,
+        });
+    }
     Ok(result)
 }
 
@@ -2117,6 +2626,7 @@ fn operational_result(
         generation: Some(generation),
         digest: Some(digest),
         next_route: next_route.map(str::to_string),
+        routing: None,
         findings,
     }
 }

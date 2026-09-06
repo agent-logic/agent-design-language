@@ -743,7 +743,7 @@ fn classify_cleanup_from_git(
                 "cleanup removal requires a preview receipt for the same Git registration",
             ));
         }
-        if !canonical_v3_authority(&repository_root)? {
+        if !canonical_v3_authority(&repository_root, Some(expected_head))? {
             return Ok(CleanupDecision::RemovalDeniedPreCutover {
                 path: candidate,
                 receipt_digest,
@@ -773,7 +773,7 @@ fn persist_terminal_finish(
         return Ok(());
     };
     let repository_root = canonical_dir(&write_request.repository_root, "repository_root")?;
-    if !canonical_v3_authority(&repository_root)? {
+    if !canonical_v3_authority(&repository_root, request.expected_head_sha.as_deref())? {
         return Err(finding(
             "terminal_persistence_denied_pre_cutover",
             "v3 finish cannot persist terminal state before the canonical selector activates v3",
@@ -856,7 +856,10 @@ fn persist_terminal_finish(
     write_staged(&receipt_path, &receipt_bytes)
 }
 
-fn canonical_v3_authority(repository_root: &Path) -> Result<bool, TerminalFinding> {
+fn canonical_v3_authority(
+    repository_root: &Path,
+    expected_head: Option<&str>,
+) -> Result<bool, TerminalFinding> {
     let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
     let metadata = match selector_path.symlink_metadata() {
         Ok(metadata) => metadata,
@@ -887,13 +890,25 @@ fn canonical_v3_authority(repository_root: &Path) -> Result<bool, TerminalFindin
                 "canonical generation selector must be typed JSON",
             )
         })?;
-    if selector["schema"] != "csdlc.generation_selector.v1" {
+    if selector["schema"] == "csdlc.generation_selector.v1" {
+        return Ok(false);
+    }
+    if selector["schema"] != "csdlc.generation_selector.v2" {
         return Err(finding(
             "generation_selector_invalid",
-            "canonical generation selector schema must be csdlc.generation_selector.v1",
+            "canonical generation selector must use the evidence-bound v2 schema",
         ));
     }
-    Ok(selector["default_generation"] == "v3")
+    Ok(selector["default_generation"] == "v3"
+        && selector["operational_authority"] == "csdlc-v3"
+        && selector["authority_issue"] == 505
+        && expected_head.is_some_and(|head| selector["exact_review_sha"] == head)
+        && selector["readiness_evidence_digest"]
+            .as_str()
+            .is_some_and(|digest| !digest.is_empty())
+        && selector["approval_evidence_digest"]
+            .as_str()
+            .is_some_and(|digest| !digest.is_empty()))
 }
 
 fn remove_registered_worktree(
@@ -1187,7 +1202,16 @@ struct V2IssueReviewRecord {
     phase: String,
     generation: u64,
     digest: String,
+    review_assignment: Option<V2ReviewAssignment>,
     review: Option<V2ReviewEvidence>,
+}
+
+#[derive(Debug, Deserialize)]
+struct V2ReviewAssignment {
+    reviewer: String,
+    assigned_by: String,
+    revision: String,
+    scope: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1216,6 +1240,37 @@ struct ProofCommandReceipt {
     deterministic: bool,
     source_evidence_ref: PathBuf,
     source_evidence_digest: String,
+    command: crate::commands::proof::ShadowCommandSpec,
+    request_evidence: ProofRequestEvidence,
+    binary: ProofBinaryEvidence,
+    exit: ProofExitEvidence,
+    normalized_output: serde_json::Value,
+    side_effect_boundary: Vec<ProofBoundaryEvidence>,
+    provider_side_effects: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProofRequestEvidence {
+    #[serde(rename = "ref")]
+    reference: PathBuf,
+    digest: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProofBinaryEvidence {
+    identity: PathBuf,
+    digest: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProofExitEvidence {
+    code: Option<i32>,
+    success: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProofBoundaryEvidence {
+    changed: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1227,7 +1282,13 @@ struct AuthorityCutoverApproval {
     exact_head: String,
     selected_binary_digest: String,
     rollback_evidence_digest: String,
+    review_record_digest: String,
     approved_by: String,
+}
+
+struct VerifiedReviewAuthority {
+    record_digest: String,
+    assigned_by: String,
 }
 
 struct VerifiedCutoverReadiness {
@@ -1613,14 +1674,21 @@ fn verify_cutover_readiness(
         verify_immutable_proof(repository_root, proof, &evidence.selected_revision)?;
     }
     for (route, proof) in &evidence.route_proofs {
-        verify_route_readiness(repository_root, route, proof, &evidence.selected_revision)?;
+        verify_route_readiness(
+            repository_root,
+            route,
+            proof,
+            &evidence.selected_revision,
+            selected_binary_digest,
+        )?;
     }
     verify_v3_only_canary(
         repository_root,
         &evidence.canary_proof,
         &evidence.selected_revision,
+        selected_binary_digest,
     )?;
-    verify_independent_review(
+    let review_authority = verify_independent_review(
         repository_root,
         &evidence.review_proof,
         &evidence.selected_revision,
@@ -1633,6 +1701,7 @@ fn verify_cutover_readiness(
         selected_binary_digest,
         &evidence.approval_proof,
         &evidence.rollback_proof,
+        &review_authority,
     )?;
     Ok(VerifiedCutoverReadiness {
         selected_revision: evidence.selected_revision,
@@ -1667,6 +1736,7 @@ fn verify_route_readiness(
     route: &str,
     proof: &ImmutableProofRef,
     revision: &str,
+    selected_binary_digest: &str,
 ) -> Result<(), TerminalFinding> {
     verify_proof_command_receipt(
         repository_root,
@@ -1674,6 +1744,7 @@ fn verify_route_readiness(
         revision,
         &format!("route-{route}"),
         "route-readiness",
+        selected_binary_digest,
     )
 }
 
@@ -1681,6 +1752,7 @@ fn verify_v3_only_canary(
     repository_root: &Path,
     proof: &ImmutableProofRef,
     revision: &str,
+    selected_binary_digest: &str,
 ) -> Result<(), TerminalFinding> {
     verify_proof_command_receipt(
         repository_root,
@@ -1688,6 +1760,7 @@ fn verify_v3_only_canary(
         revision,
         "v3-only-canary",
         "v3-only-canary",
+        selected_binary_digest,
     )
 }
 
@@ -1697,26 +1770,91 @@ fn verify_proof_command_receipt(
     revision: &str,
     manifest_id: &str,
     lane: &str,
+    selected_binary_digest: &str,
 ) -> Result<(), TerminalFinding> {
     let expected_path = PathBuf::from(format!(".csdlc/evidence/505/v3-proof/{manifest_id}.json"));
     let evidence: ProofCommandReceipt =
         read_proof_json(repository_root, proof, "proof_command_receipt_invalid")?;
-    if proof.path != expected_path
-        || proof.revision != revision
-        || evidence.schema != "csdlc.v3.proof_receipt.v1"
+    if proof.path != expected_path || proof.revision != revision {
+        return Err(finding(
+            "proof_command_reference_not_exact",
+            "proof readiness reference must use the canonical manifest path and exact revision",
+        ));
+    }
+    if evidence.schema != "csdlc.v3.proof_receipt.v2"
         || evidence.issue != 505
         || evidence.repository != "agent-logic/agent-design-language"
-        || evidence.manifest_id != manifest_id
-        || evidence.lane != lane
-        || !evidence.deterministic
-        || !valid_blake3_digest(&evidence.source_evidence_digest)
+    {
+        return Err(finding(
+            "proof_command_receipt_identity_invalid",
+            "proof readiness receipt must use the v2 schema and canonical issue identity",
+        ));
+    }
+    if evidence.manifest_id != manifest_id || evidence.lane != lane || !evidence.deterministic {
+        return Err(finding(
+            "proof_command_manifest_mismatch",
+            &format!(
+                "proof readiness expected manifest {manifest_id}/{lane}, observed {}/{} deterministic={}",
+                evidence.manifest_id, evidence.lane, evidence.deterministic
+            ),
+        ));
+    }
+    if !valid_blake3_digest(&evidence.source_evidence_digest)
         || !evidence
             .source_evidence_ref
             .starts_with(Path::new(".csdlc/evidence/505"))
     {
         return Err(finding(
-            "proof_command_receipt_not_exact",
-            "readiness proofs must be canonical proof-command receipts with exact manifest and lane identity",
+            "proof_command_source_invalid",
+            "proof readiness source must be retained beneath issue #505 evidence with a digest",
+        ));
+    }
+    if evidence.command.generation != crate::commands::proof::ShadowGeneration::V3
+        || evidence.command.provider_side_effects
+        || evidence.provider_side_effects
+        || evidence.command.argv.first().map(String::as_str) != Some("doctor")
+    {
+        return Err(finding(
+            "proof_command_identity_invalid",
+            "proof readiness requires a credential-cleared v3 doctor command",
+        ));
+    }
+    if Path::new(&evidence.command.request_ref) != evidence.request_evidence.reference
+        || Path::new(&evidence.command.binary_ref) != evidence.binary.identity
+    {
+        return Err(finding(
+            "proof_command_provenance_mismatch",
+            "proof command argv inputs must match the retained request and binary identities",
+        ));
+    }
+    if evidence.binary.digest != selected_binary_digest {
+        return Err(finding(
+            "proof_binary_not_selected",
+            "proof command must execute the exact selected cutover binary",
+        ));
+    }
+    if evidence.exit.code != Some(0) || !evidence.exit.success {
+        return Err(finding(
+            "proof_command_not_successful",
+            "proof readiness requires an observed successful command exit",
+        ));
+    }
+    if evidence.normalized_output["command"] != "doctor"
+        || evidence.normalized_output["issue"] != 505
+    {
+        return Err(finding(
+            "proof_command_output_mismatch",
+            "proof readiness requires typed doctor output bound to issue #505",
+        ));
+    }
+    if evidence
+        .side_effect_boundary
+        .iter()
+        .any(|boundary| boundary.changed)
+    {
+        return Err(finding(
+            "proof_command_side_effect_detected",
+            "proof readiness command changed a declared read-only boundary",
         ));
     }
     let source = repo_existing_file(
@@ -1732,6 +1870,32 @@ fn verify_proof_command_receipt(
             "proof-command source evidence does not match its retained digest",
         ));
     }
+    let binary = repo_existing_file(
+        repository_root,
+        Some(&evidence.binary.identity),
+        "proof_binary_missing",
+        "proof-command selected binary must remain available",
+        "proof_binary",
+    )?;
+    if digest_file(&binary)? != evidence.binary.digest {
+        return Err(finding(
+            "proof_binary_digest_mismatch",
+            "proof-command binary bytes do not match the selected binary digest",
+        ));
+    }
+    let command_request = repo_existing_file(
+        repository_root,
+        Some(&evidence.request_evidence.reference),
+        "proof_request_missing",
+        "proof-command request evidence must remain available",
+        "proof_request",
+    )?;
+    if digest_file(&command_request)? != evidence.request_evidence.digest {
+        return Err(finding(
+            "proof_request_digest_mismatch",
+            "proof-command request bytes do not match the execution receipt",
+        ));
+    }
     Ok(())
 }
 
@@ -1740,7 +1904,7 @@ fn verify_independent_review(
     proof: &ImmutableProofRef,
     revision: &str,
     operator: &str,
-) -> Result<(), TerminalFinding> {
+) -> Result<VerifiedReviewAuthority, TerminalFinding> {
     if proof.path != Path::new(".csdlc/issues/505/index.json") {
         return Err(finding(
             "review_proof_not_v2_lifecycle_record",
@@ -1754,16 +1918,29 @@ fn verify_independent_review(
         "cutover requires retained independent review evidence",
         "review_proof",
     )?;
-    let record: V2IssueReviewRecord = serde_json::from_slice(
-        &fs::read(path).map_err(|error| finding("review_proof_unreadable", &error.to_string()))?,
-    )
-    .map_err(|_| {
+    let bytes =
+        fs::read(path).map_err(|error| finding("review_proof_unreadable", &error.to_string()))?;
+    let record: V2IssueReviewRecord = serde_json::from_slice(&bytes).map_err(|_| {
         finding(
             "independent_review_invalid",
             "review proof must be the typed v2 issue record",
         )
     })?;
     let review = record.review.as_ref();
+    let assignment = record.review_assignment.as_ref();
+    let mut canonical: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
+        finding(
+            "independent_review_invalid",
+            "review proof must be canonical typed JSON",
+        )
+    })?;
+    canonical["digest"] = serde_json::Value::String(String::new());
+    let canonical_digest = blake3::hash(
+        &serde_json::to_vec(&canonical)
+            .map_err(|error| finding("independent_review_invalid", &error.to_string()))?,
+    )
+    .to_hex()
+    .to_string();
     let expected_revision = format!(
         "git-blake3:{revision}:{}",
         blake3::hash(revision.as_bytes()).to_hex()
@@ -1776,8 +1953,15 @@ fn verify_independent_review(
             "reviewed" | "published" | "merge_ready"
         )
         || record.generation == 0
-        || !valid_blake3_digest(&record.digest)
+        || record.digest != canonical_digest
+        || assignment.is_none()
         || review.is_none()
+        || assignment.is_some_and(|assignment| {
+            !valid_fresh_session_identity(&assignment.reviewer)
+                || assignment.assigned_by != operator
+                || assignment.scope.is_empty()
+                || assignment.revision != expected_revision
+        })
         || review.is_some_and(|review| {
             review.reviewer.trim().is_empty()
                 || review.reviewer == operator
@@ -1790,13 +1974,36 @@ fn verify_independent_review(
                         && !matches!(finding.disposition.as_str(), "fixed" | "accepted_risk")
                 })
         })
+        || assignment.zip(review).is_some_and(|(assignment, review)| {
+            assignment.reviewer != review.reviewer
+                || assignment.scope != review.scope
+                || assignment.revision != review.reviewed_revision
+        })
     {
         return Err(finding(
             "independent_review_not_proven",
             "typed v2 lifecycle state must retain a completed independent exact-head review with resolved findings",
         ));
     }
-    Ok(())
+    let assignment = assignment.expect("assignment verified above");
+    Ok(VerifiedReviewAuthority {
+        record_digest: record.digest,
+        assigned_by: assignment.assigned_by.clone(),
+    })
+}
+
+fn valid_fresh_session_identity(value: &str) -> bool {
+    let Some(id) = value.strip_prefix("fresh-session:") else {
+        return false;
+    };
+    id.len() == 36
+        && id.chars().enumerate().all(|(index, character)| {
+            if matches!(index, 8 | 13 | 18 | 23) {
+                character == '-'
+            } else {
+                character.is_ascii_hexdigit()
+            }
+        })
 }
 
 fn verify_cutover_approval(
@@ -1806,6 +2013,7 @@ fn verify_cutover_approval(
     selected_binary_digest: &str,
     approval_proof: &ImmutableProofRef,
     rollback_proof: &ImmutableProofRef,
+    review_authority: &VerifiedReviewAuthority,
 ) -> Result<(PathBuf, String), TerminalFinding> {
     let approval_path = PathBuf::from(request.approval.trim());
     if approval_path != Path::new(".csdlc/evidence/505/cutover-approval.json")
@@ -1839,7 +2047,9 @@ fn verify_cutover_approval(
         || approval.exact_head != revision
         || approval.selected_binary_digest != selected_binary_digest
         || approval.rollback_evidence_digest != rollback_proof.digest
-        || approval.approved_by != request.operator
+        || approval.review_record_digest != review_authority.record_digest
+        || approval.approved_by != review_authority.assigned_by
+        || request.operator != review_authority.assigned_by
     {
         return Err(finding(
             "cutover_approval_not_exact",
@@ -1852,6 +2062,7 @@ fn verify_cutover_approval(
         revision,
         "rollback-readiness",
         "rollback-readiness",
+        selected_binary_digest,
     )?;
     Ok((approval_path, approval_proof.digest.clone()))
 }

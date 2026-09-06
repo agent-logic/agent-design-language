@@ -41,6 +41,8 @@ pub struct ProofManifest {
     pub evidence_digest: String,
     pub observed_digest: String,
     pub stale: bool,
+    pub normalization: ShadowNormalizationContract,
+    pub command: ShadowCommandSpec,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
@@ -309,6 +311,7 @@ fn validate_proof_manifest(
     manifest: &ProofManifest,
     findings: &mut Vec<ProofRouteFinding>,
 ) {
+    validate_command_spec(&manifest.command, ShadowGeneration::V3, findings);
     require_nonempty(
         &manifest.manifest_id,
         "proof_manifest_id_missing",
@@ -579,13 +582,32 @@ fn retain_proof_receipt(
     request: &ProofRouteRequest,
     manifest: &ProofManifest,
 ) -> Result<String, ProofRouteFinding> {
+    let root = request_root(request)?;
+    let execution = execute_shadow_command(&root, &manifest.command, manifest.normalization)?;
+    if execution.exit_code != Some(0) {
+        return Err(finding(
+            "proof_command_not_successful",
+            "a non-successful command cannot establish proof readiness",
+        ));
+    }
+    if execution
+        .normalized_output
+        .get("issue")
+        .and_then(serde_json::Value::as_u64)
+        != Some(request.issue)
+    {
+        return Err(finding(
+            "proof_command_issue_mismatch",
+            "executed proof output must bind the requested issue",
+        ));
+    }
     let reference = format!(
         ".csdlc/evidence/{}/v3-proof/{}.json",
         request.issue,
         safe_component(&manifest.manifest_id)?
     );
     let receipt = serde_json::json!({
-        "schema": "csdlc.v3.proof_receipt.v1",
+        "schema": "csdlc.v3.proof_receipt.v2",
         "issue": request.issue,
         "repository": request.repository,
         "manifest_id": manifest.manifest_id,
@@ -593,6 +615,26 @@ fn retain_proof_receipt(
         "deterministic": true,
         "source_evidence_ref": manifest.evidence_ref,
         "source_evidence_digest": manifest.observed_digest,
+        "normalization": manifest.normalization,
+        "command": execution.spec,
+        "request_evidence": {
+            "ref": execution.spec.request_ref,
+            "digest": execution.request_digest,
+        },
+        "binary": {
+            "identity": execution.spec.binary_ref,
+            "digest": execution.binary_digest,
+        },
+        "exit": {
+            "code": execution.exit_code,
+            "success": true,
+        },
+        "stdout_digest": execution.stdout_digest,
+        "stderr_digest": execution.stderr_digest,
+        "normalized_output": execution.normalized_output,
+        "side_effect_boundary": execution.side_effect_boundary,
+        "environment": "cleared_no_provider_credentials",
+        "provider_side_effects": false,
     });
     write_canonical_evidence(request, &reference, &receipt)?;
     Ok(reference)
@@ -1256,30 +1298,24 @@ fn active_canonical_v3_selector(
             "canonical v3 authority selector must be typed valid JSON",
         )
     })?;
-    if !matches!(
-        selector["schema"].as_str(),
-        Some("csdlc.generation_selector.v1" | "csdlc.generation_selector.v2")
-    ) {
+    if selector["schema"] != "csdlc.generation_selector.v2" {
         return Err(finding(
             "install_canonical_selector_mismatch",
-            "canonical selector must use a supported live generation-selector schema",
+            "canonical v3 authority requires the evidence-bound generation-selector v2 schema",
         ));
     }
     if selector["default_generation"] != "v3" {
         return Ok(false);
     }
-    if selector["schema"] == "csdlc.generation_selector.v2" {
-        return Ok(selector["operational_authority"] == "csdlc-v3"
-            && selector["authority_issue"] == 505
-            && selector["exact_review_sha"] == install.exact_head
-            && selector["readiness_evidence_digest"]
-                .as_str()
-                .is_some_and(|digest| !digest.trim().is_empty())
-            && selector["approval_evidence_digest"]
-                .as_str()
-                .is_some_and(|digest| !digest.trim().is_empty()));
-    }
-    Ok(true)
+    Ok(selector["operational_authority"] == "csdlc-v3"
+        && selector["authority_issue"] == 505
+        && selector["exact_review_sha"] == install.exact_head
+        && selector["readiness_evidence_digest"]
+            .as_str()
+            .is_some_and(|digest| !digest.trim().is_empty())
+        && selector["approval_evidence_digest"]
+            .as_str()
+            .is_some_and(|digest| !digest.trim().is_empty()))
 }
 
 fn request_root(request: &ProofRouteRequest) -> Result<PathBuf, ProofRouteFinding> {
@@ -1584,13 +1620,13 @@ mod tests {
             cutover_approval_ref: None,
             cutover_approval_digest: None,
         };
-        assert!(!active_canonical_v3_selector(&root, &install).unwrap());
+        assert!(active_canonical_v3_selector(&root, &install).is_err());
         fs::write(
             root.join("csdlc-v2/operator/generation-selector.json"),
             br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v3","opted_in_issues":[]}"#,
         )
         .unwrap();
-        assert!(active_canonical_v3_selector(&root, &install).unwrap());
+        assert!(active_canonical_v3_selector(&root, &install).is_err());
         fs::write(
             root.join("csdlc-v2/operator/generation-selector.json"),
             br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"exact_review_sha":"0123456789012345678901234567890123456789","readiness_evidence_digest":"readiness","approval_evidence_digest":"approval"}"#,

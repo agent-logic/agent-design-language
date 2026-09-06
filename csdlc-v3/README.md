@@ -93,6 +93,16 @@ cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- soak --hel
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- sprint --repo-root . --request <request.json>
 ```
 
+After the canonical evidence-bound v2 selector activates v3 authority for the
+exact reviewed #505 head, local routes use `--operational-context <path>` to
+enter native operational mode. The context binds the canonical selector,
+cutover approval, exact head, state root, repository root, and allowed
+worktree parent; omitting it remains construction-only and performs no live
+lifecycle mutation. Operational `schedule` requests must provide all six
+`schedule_readiness` dimensions. Operational `shepherd` requests must provide
+`shepherd_routing`, which deterministically classifies waiting, retryable,
+repair-required, operator-required, or ready state.
+
 Those advertised commands are still construction interfaces. They do not grant
 live lifecycle, GitHub, publication, finish, cleanup, install, or cutover
 authority before #505.

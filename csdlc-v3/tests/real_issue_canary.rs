@@ -127,6 +127,8 @@ fn real_issue_request(
             .to_owned(),
         registry_version: registry.version.clone(),
         expected_lifecycle_digest: index["digest"].as_str().map(str::to_owned),
+        schedule_readiness: None,
+        shepherd_routing: None,
         commands: required_local_commands().to_vec(),
         card_updates: BTreeMap::new(),
     }
