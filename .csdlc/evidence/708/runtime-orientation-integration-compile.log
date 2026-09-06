@@ -1,0 +1,12 @@
+Issue 708 runtime orientation integration-compile regression proof
+
+Command:
+TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml orientation_tests -- --nocapture
+
+Outcome:
+passed
+
+Evidence summary:
+- adl_runtime_kernel lib orientation_tests: 5 passed, 0 failed.
+- Integration test targets including tests/agent_roster.rs and tests/control.rs compiled under the orientation_tests filter and completed with 0 selected tests.
+- This proves the public AgentSample and AgentRuntimeEvidence fixture surfaces carry explicit orientation state after the issue 708 orientation field additions.

@@ -22,6 +22,8 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 - adl-runtime-kernel/src/control/feeds.rs
 - adl-runtime-kernel/src/agent_roster.rs
 - adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/tests/agent_roster.rs
+- adl-runtime-kernel/tests/control.rs
 - demos/html-observatory/app.js
 - demos/html-observatory/tests/agent_orientation.test.mjs
 
@@ -33,11 +35,29 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 - Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.
 - Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.
 - Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.
+- Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.
 - Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "orientation_tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Regression for integration-test compilation after adding required orientation fields to public roster/feed structs.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/708/runtime-orientation-integration-compile.log"
+  },
   {
     "command": [
       "env",
