@@ -6,10 +6,19 @@
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
   "phase": "implemented",
   "generation": 44,
-  "digest": "1d125d70f1f9b07ab93501ccd1424a0929b2b0c1c7912df535920ac5e99536ff",
+  "digest": "82cf690cfad2a241e83571c9749908d6ac3d6cffe9f22de25ff39ce33472ead1",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:issue-708-review-blocker-current-head-review",
+    "assigned_by": "codex:issue-708-runtime-orientation",
+    "revision": "git-blake3:5a5165ad86ff9012e494c6823033eb2db282d87f:ddc9fb6eda5c0a50b151e044c68e357c02dea6b70e566336483cce00819902da",
+    "scope": [
+      "adl-runtime-kernel/src/agent_orientation.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +54,9 @@
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "e8d88bf261e487e3deb91555188aaa02e97073570d59d562d34140f203b4ad65",
-      "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
-      "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
+      "values_digest": "65bea699f274df6c2d71eb5aae4a58457387312b56f7bfbd01b67c3e59721730",
+      "rendered_digest": "4c0b6529e4e48a629767a46ed4ce383327a722989057784e82b17bf12c5f6ec9",
+      "ast_digest": "1e72291e818101b7fefde3bb48fbbc5dee25310aadf4bad0377abcedbd26e7d2"
     },
     "sor": {
       "values_digest": "576e16f93a504578c99443c4e4d56c8621dc3dbee9a927d5c04043149f8535a3",
@@ -659,6 +668,13 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Recover stale review after the #708 review-blocker fix review metadata tail so a current-head review can be assigned before republishing PR #709.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 44,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
