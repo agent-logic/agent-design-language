@@ -1077,7 +1077,7 @@ fn decide_cutover(
             "cutover decision requires explicit selected binary provenance",
         ));
     }
-    if !request.approval.contains("#505") {
+    if !request.execute && !request.approval.contains("#505") {
         findings.push(finding(
             "missing_505_approval",
             "cutover approval must explicitly cite #505",
@@ -1089,21 +1089,21 @@ fn decide_cutover(
             "cutover undo boundary must be fail-closed",
         ));
     }
-    if !request.execute {
-        if findings.is_empty() {
-            return Ok(CutoverDecision {
-                operation: request.operation,
-                approved_by: request.operator.clone(),
-                selected_binary_provenance: request.selected_binary_provenance.clone(),
-                rollback_evidence: request.rollback_evidence.clone(),
-                undo_boundary: request.undo_boundary.clone(),
-                executes_cutover: false,
-                authority_selector_path: None,
-                install_destination_path: None,
-                rollback_receipt_path: None,
-            });
-        }
+    if !findings.is_empty() {
         return Err(findings);
+    }
+    if !request.execute {
+        return Ok(CutoverDecision {
+            operation: request.operation,
+            approved_by: request.operator.clone(),
+            selected_binary_provenance: request.selected_binary_provenance.clone(),
+            rollback_evidence: request.rollback_evidence.clone(),
+            undo_boundary: request.undo_boundary.clone(),
+            executes_cutover: false,
+            authority_selector_path: None,
+            install_destination_path: None,
+            rollback_receipt_path: None,
+        });
     }
 
     let execution = match execute_cutover(request) {
@@ -1180,39 +1180,42 @@ struct ImmutableProofRef {
 }
 
 #[derive(Debug, Deserialize)]
-struct IndependentReviewEvidence {
+struct V2IssueReviewRecord {
     schema: String,
-    authority_issue: u64,
+    issue: u64,
+    repository: String,
+    phase: String,
+    generation: u64,
+    digest: String,
+    review: Option<V2ReviewEvidence>,
+}
+
+#[derive(Debug, Deserialize)]
+struct V2ReviewEvidence {
     reviewer: String,
+    scope: Vec<String>,
     reviewed_revision: String,
-    verdict: String,
-    independent: bool,
+    findings: Vec<V2ReviewFinding>,
+    completed: bool,
 }
 
 #[derive(Debug, Deserialize)]
-struct RouteReadinessEvidence {
-    schema: String,
-    route: String,
-    revision: String,
-    result: String,
+struct V2ReviewFinding {
+    actionable: bool,
+    in_scope: bool,
+    disposition: String,
 }
 
 #[derive(Debug, Deserialize)]
-struct V3OnlyCanaryEvidence {
+struct ProofCommandReceipt {
     schema: String,
-    authority_issue: u64,
-    revision: String,
-    result: String,
-    v3_only: bool,
-}
-
-#[derive(Debug, Deserialize)]
-struct RollbackReadinessEvidence {
-    schema: String,
-    authority_issue: u64,
-    selected_revision: String,
-    result: String,
-    fail_closed: bool,
+    issue: u64,
+    repository: String,
+    manifest_id: String,
+    lane: String,
+    deterministic: bool,
+    source_evidence_ref: PathBuf,
+    source_evidence_digest: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1236,6 +1239,23 @@ struct VerifiedCutoverReadiness {
 }
 
 fn execute_cutover(request: &CutoverDecisionRequest) -> Result<CutoverExecution, TerminalFinding> {
+    execute_cutover_platform(request)
+}
+
+#[cfg(not(unix))]
+fn execute_cutover_platform(
+    _request: &CutoverDecisionRequest,
+) -> Result<CutoverExecution, TerminalFinding> {
+    Err(finding(
+        "cutover_unsupported_platform",
+        "authority cutover and rollback are fail-closed on unsupported platforms",
+    ))
+}
+
+#[cfg(unix)]
+fn execute_cutover_platform(
+    request: &CutoverDecisionRequest,
+) -> Result<CutoverExecution, TerminalFinding> {
     let repository_root = request
         .repository_root
         .as_ref()
@@ -1535,6 +1555,14 @@ fn verify_cutover_readiness(
         "soak",
         "validate",
     ];
+    if request.readiness_evidence_path.as_deref()
+        != Some(Path::new(".csdlc/evidence/505/authority-readiness.json"))
+    {
+        return Err(finding(
+            "readiness_evidence_path_not_canonical",
+            "authority readiness must use the canonical #505 evidence path",
+        ));
+    }
     let path = repo_existing_file(
         repository_root,
         request.readiness_evidence_path.as_ref(),
@@ -1640,19 +1668,13 @@ fn verify_route_readiness(
     proof: &ImmutableProofRef,
     revision: &str,
 ) -> Result<(), TerminalFinding> {
-    let evidence: RouteReadinessEvidence =
-        read_proof_json(repository_root, proof, "route_proof_invalid")?;
-    if evidence.schema != "csdlc.v3.route_readiness.v1"
-        || evidence.route != route
-        || evidence.revision != revision
-        || evidence.result != "pass"
-    {
-        return Err(finding(
-            "route_readiness_not_proven",
-            "every required route proof must name the route, exact revision, and pass result",
-        ));
-    }
-    Ok(())
+    verify_proof_command_receipt(
+        repository_root,
+        proof,
+        revision,
+        &format!("route-{route}"),
+        "route-readiness",
+    )
 }
 
 fn verify_v3_only_canary(
@@ -1660,17 +1682,54 @@ fn verify_v3_only_canary(
     proof: &ImmutableProofRef,
     revision: &str,
 ) -> Result<(), TerminalFinding> {
-    let evidence: V3OnlyCanaryEvidence =
-        read_proof_json(repository_root, proof, "canary_proof_invalid")?;
-    if evidence.schema != "csdlc.v3.v3_only_canary.v1"
-        || evidence.authority_issue != 505
-        || evidence.revision != revision
-        || evidence.result != "pass"
-        || !evidence.v3_only
+    verify_proof_command_receipt(
+        repository_root,
+        proof,
+        revision,
+        "v3-only-canary",
+        "v3-only-canary",
+    )
+}
+
+fn verify_proof_command_receipt(
+    repository_root: &Path,
+    proof: &ImmutableProofRef,
+    revision: &str,
+    manifest_id: &str,
+    lane: &str,
+) -> Result<(), TerminalFinding> {
+    let expected_path = PathBuf::from(format!(".csdlc/evidence/505/v3-proof/{manifest_id}.json"));
+    let evidence: ProofCommandReceipt =
+        read_proof_json(repository_root, proof, "proof_command_receipt_invalid")?;
+    if proof.path != expected_path
+        || proof.revision != revision
+        || evidence.schema != "csdlc.v3.proof_receipt.v1"
+        || evidence.issue != 505
+        || evidence.repository != "agent-logic/agent-design-language"
+        || evidence.manifest_id != manifest_id
+        || evidence.lane != lane
+        || !evidence.deterministic
+        || !valid_blake3_digest(&evidence.source_evidence_digest)
+        || !evidence
+            .source_evidence_ref
+            .starts_with(Path::new(".csdlc/evidence/505"))
     {
         return Err(finding(
-            "v3_only_canary_not_proven",
-            "cutover requires a passing exact-revision v3-only canary proof",
+            "proof_command_receipt_not_exact",
+            "readiness proofs must be canonical proof-command receipts with exact manifest and lane identity",
+        ));
+    }
+    let source = repo_existing_file(
+        repository_root,
+        Some(&evidence.source_evidence_ref),
+        "proof_source_missing",
+        "proof-command source evidence must be retained",
+        "proof_source",
+    )?;
+    if digest_file(&source)? != evidence.source_evidence_digest {
+        return Err(finding(
+            "proof_source_digest_mismatch",
+            "proof-command source evidence does not match its retained digest",
         ));
     }
     Ok(())
@@ -1682,6 +1741,12 @@ fn verify_independent_review(
     revision: &str,
     operator: &str,
 ) -> Result<(), TerminalFinding> {
+    if proof.path != Path::new(".csdlc/issues/505/index.json") {
+        return Err(finding(
+            "review_proof_not_v2_lifecycle_record",
+            "cutover review proof must be the canonical typed v2 issue record",
+        ));
+    }
     let path = repo_existing_file(
         repository_root,
         Some(&proof.path),
@@ -1689,26 +1754,46 @@ fn verify_independent_review(
         "cutover requires retained independent review evidence",
         "review_proof",
     )?;
-    let review: IndependentReviewEvidence = serde_json::from_slice(
+    let record: V2IssueReviewRecord = serde_json::from_slice(
         &fs::read(path).map_err(|error| finding("review_proof_unreadable", &error.to_string()))?,
     )
     .map_err(|_| {
         finding(
             "independent_review_invalid",
-            "review proof must be typed independent exact-head review evidence",
+            "review proof must be the typed v2 issue record",
         )
     })?;
-    if review.schema != "csdlc.v3.independent_review.v1"
-        || review.authority_issue != 505
-        || review.reviewer.trim().is_empty()
-        || review.reviewer == operator
-        || review.reviewed_revision != revision
-        || review.verdict != "pass"
-        || !review.independent
+    let review = record.review.as_ref();
+    let expected_revision = format!(
+        "git-blake3:{revision}:{}",
+        blake3::hash(revision.as_bytes()).to_hex()
+    );
+    if record.schema != "csdlc.issue.index.v1"
+        || record.issue != 505
+        || record.repository != "agent-logic/agent-design-language"
+        || !matches!(
+            record.phase.as_str(),
+            "reviewed" | "published" | "merge_ready"
+        )
+        || record.generation == 0
+        || !valid_blake3_digest(&record.digest)
+        || review.is_none()
+        || review.is_some_and(|review| {
+            review.reviewer.trim().is_empty()
+                || review.reviewer == operator
+                || review.scope.is_empty()
+                || review.reviewed_revision != expected_revision
+                || !review.completed
+                || review.findings.iter().any(|finding| {
+                    finding.actionable
+                        && finding.in_scope
+                        && !matches!(finding.disposition.as_str(), "fixed" | "accepted_risk")
+                })
+        })
     {
         return Err(finding(
             "independent_review_not_proven",
-            "cutover requires a distinct independent reviewer, pass verdict, and exact reviewed revision",
+            "typed v2 lifecycle state must retain a completed independent exact-head review with resolved findings",
         ));
     }
     Ok(())
@@ -1723,7 +1808,8 @@ fn verify_cutover_approval(
     rollback_proof: &ImmutableProofRef,
 ) -> Result<(PathBuf, String), TerminalFinding> {
     let approval_path = PathBuf::from(request.approval.trim());
-    if approval_path != approval_proof.path
+    if approval_path != Path::new(".csdlc/evidence/505/cutover-approval.json")
+        || approval_path != approval_proof.path
         || rollback_proof.path.as_path() != Path::new(request.rollback_evidence.trim())
     {
         return Err(finding(
@@ -1746,8 +1832,6 @@ fn verify_cutover_approval(
             "cutover approval must be typed JSON evidence",
         )
     })?;
-    let rollback: RollbackReadinessEvidence =
-        read_proof_json(repository_root, rollback_proof, "rollback_proof_invalid")?;
     if approval.schema != "csdlc.v3.cutover_approval.v1"
         || approval.authority_issue != 505
         || approval.repository != "agent-logic/agent-design-language"
@@ -1756,17 +1840,19 @@ fn verify_cutover_approval(
         || approval.selected_binary_digest != selected_binary_digest
         || approval.rollback_evidence_digest != rollback_proof.digest
         || approval.approved_by != request.operator
-        || rollback.schema != "csdlc.v3.rollback_readiness.v1"
-        || rollback.authority_issue != 505
-        || rollback.selected_revision != revision
-        || rollback.result != "pass"
-        || !rollback.fail_closed
     {
         return Err(finding(
             "cutover_approval_not_exact",
             "typed #505 approval must bind repository, exact head, selected binary, and operator",
         ));
     }
+    verify_proof_command_receipt(
+        repository_root,
+        rollback_proof,
+        revision,
+        "rollback-readiness",
+        "rollback-readiness",
+    )?;
     Ok((approval_path, approval_proof.digest.clone()))
 }
 
@@ -1799,6 +1885,10 @@ fn verify_immutable_proof(
 
 fn is_immutable_revision(value: &str) -> bool {
     matches!(value.len(), 40 | 64) && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
+
+fn valid_blake3_digest(value: &str) -> bool {
+    value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
 fn validate_cutover_journal(

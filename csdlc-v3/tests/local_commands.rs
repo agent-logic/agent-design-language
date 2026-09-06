@@ -995,6 +995,55 @@ fn operational_local_cas_recomputes_card_bytes_before_mutation() {
 }
 
 #[test]
+fn operational_issue_lock_serializes_competing_initializers() {
+    let (_, _, context, registry) = operational_authority_fixture("issue-lock-race", "v3");
+    let barrier = std::sync::Arc::new(std::sync::Barrier::new(2));
+    let workers = [0, 1].map(|_| {
+        let context = context.clone();
+        let registry = registry.clone();
+        let barrier = barrier.clone();
+        std::thread::spawn(move || {
+            barrier.wait();
+            execute_operational_local_route("issue", &request(), &registry, &context)
+        })
+    });
+    let outcomes = workers.map(|worker| worker.join().expect("initializer thread"));
+    assert_eq!(outcomes.iter().filter(|outcome| outcome.is_ok()).count(), 1);
+    assert_eq!(
+        outcomes.iter().filter(|outcome| outcome.is_err()).count(),
+        1
+    );
+    assert!(context.state_root.join("issues/503/index.json").is_file());
+}
+
+#[test]
+fn operational_initialization_failure_never_publishes_partial_issue_root() {
+    let (repository_root, _, context, mut registry) =
+        operational_authority_fixture("initialization-transaction", "v3");
+    let unreadable_template = repository_root.join("template-directory");
+    fs::create_dir(&unreadable_template).expect("template directory");
+    registry.template_paths.insert(
+        "stp".into(),
+        unreadable_template.to_string_lossy().into_owned(),
+    );
+
+    let findings = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect_err("staged initialization must fail on unreadable template");
+    assert!(findings
+        .iter()
+        .any(|finding| finding.code == "template_read_failed"));
+    assert!(!context.state_root.join("issues/503").exists());
+    let issue_parent = context.state_root.join("issues");
+    assert!(fs::read_dir(issue_parent)
+        .expect("issue parent")
+        .all(|entry| !entry
+            .unwrap()
+            .file_name()
+            .to_string_lossy()
+            .contains(".init-")));
+}
+
+#[test]
 fn canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initialization() {
     let (_, _, context, registry) = operational_authority_fixture("v3-authorizes", "v3");
     let result = execute_operational_local_route("issue", &request(), &registry, &context)

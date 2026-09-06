@@ -8,10 +8,13 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     fs,
+    io::Write,
     path::{Path, PathBuf},
     process::Command,
+    sync::atomic::{AtomicU64, Ordering},
 };
 
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -1110,6 +1113,7 @@ pub fn execute_operational_local_route(
     validate_contract(request)?;
     plan_cards(request.issue, &request.registry_version, registry)?;
     validate_context(request, context)?;
+    let _issue_lock = acquire_issue_mutation_lock(&context.state_root, request.issue)?;
     let issue_root = context.state_root.join(format!("issues/{}", request.issue));
     let before = inspect_lifecycle_issue_root(&issue_root, request.issue, "v3");
     require_operational_cas(route, request, &before)?;
@@ -1127,6 +1131,35 @@ pub fn execute_operational_local_route(
             "unknown native v3 local route",
         )]),
     }
+}
+
+fn acquire_issue_mutation_lock(
+    state_root: &Path,
+    issue: u64,
+) -> Result<fs::File, Vec<DoctorFinding>> {
+    let lock_root = state_root.join("locks");
+    fs::create_dir_all(&lock_root).map_err(io_finding("issue_lock_parent_create_failed"))?;
+    let lock_path = lock_root.join(format!("{issue}.lock"));
+    if lock_path
+        .symlink_metadata()
+        .is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "issue_lock_symlink_denied",
+            "issue mutation lock must not be a symlink",
+        )]);
+    }
+    let file = fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .open(lock_path)
+        .map_err(io_finding("issue_lock_open_failed"))?;
+    file.lock_exclusive()
+        .map_err(io_finding("issue_lock_acquire_failed"))?;
+    Ok(file)
 }
 
 fn validate_context(
@@ -1376,21 +1409,50 @@ fn initialize_operational_issue(
             "native issue initialization is create-only",
         )]);
     }
-    let cards_root = issue_root.join("cards");
-    fs::create_dir_all(&cards_root).map_err(io_finding("issue_state_create_failed"))?;
-    for kind in REQUIRED_CARD_KINDS {
-        let values = initial_card_values(request, registry, kind);
-        let template_path = registry
-            .template_paths
-            .get(kind)
-            .expect("registry validated");
-        let template =
-            fs::read_to_string(template_path).map_err(io_finding("template_read_failed"))?;
-        let rendered = render_template(&template, &values);
-        atomic_write_json(&cards_root.join(format!("{kind}.values.json")), &values)?;
-        atomic_write(&cards_root.join(format!("{kind}.md")), rendered.as_bytes())?;
+    let parent = issue_root.parent().ok_or_else(|| {
+        vec![finding(
+            PlanStatus::Failed,
+            "issue_state_parent_missing",
+            "issue state path must have a parent",
+        )]
+    })?;
+    fs::create_dir_all(parent).map_err(io_finding("issue_state_parent_create_failed"))?;
+    let stage = parent.join(format!(
+        ".issue-{}.init-{}-{}",
+        request.issue,
+        std::process::id(),
+        next_local_temp_sequence()
+    ));
+    fs::create_dir(&stage).map_err(io_finding("issue_stage_create_failed"))?;
+    let staged_result = (|| {
+        let cards_root = stage.join("cards");
+        fs::create_dir(&cards_root).map_err(io_finding("issue_state_create_failed"))?;
+        for kind in REQUIRED_CARD_KINDS {
+            let values = initial_card_values(request, registry, kind);
+            let template_path = registry
+                .template_paths
+                .get(kind)
+                .expect("registry validated");
+            let template =
+                fs::read_to_string(template_path).map_err(io_finding("template_read_failed"))?;
+            let rendered = render_template(&template, &values);
+            atomic_write_json(&cards_root.join(format!("{kind}.values.json")), &values)?;
+            atomic_write(&cards_root.join(format!("{kind}.md")), rendered.as_bytes())?;
+        }
+        persist_index(&stage, request, registry, "ready", 1)
+    })();
+    let (generation, digest) = match staged_result {
+        Ok(result) => result,
+        Err(mut findings) => {
+            append_directory_rollback_finding(&stage, &mut findings);
+            return Err(findings);
+        }
+    };
+    if let Err(error) = fs::rename(&stage, issue_root) {
+        let mut findings = io_finding("issue_state_commit_failed")(error);
+        append_directory_rollback_finding(&stage, &mut findings);
+        return Err(findings);
     }
-    let (generation, digest) = persist_index(issue_root, request, registry, "ready", 1)?;
     Ok(operational_result(
         "issue",
         request.issue,
@@ -1401,6 +1463,16 @@ fn initialize_operational_issue(
         Some("bind"),
         vec![],
     ))
+}
+
+fn append_directory_rollback_finding(path: &Path, findings: &mut Vec<DoctorFinding>) {
+    if let Err(error) = fs::remove_dir_all(path) {
+        findings.push(finding(
+            PlanStatus::Failed,
+            "issue_state_rollback_failed",
+            &error.to_string(),
+        ));
+    }
 }
 
 fn initial_card_values(
@@ -1600,8 +1672,11 @@ fn edit_operational_cards(
     }
     for (applied, (path, _, bytes)) in prepared.iter().enumerate() {
         if let Err(findings) = atomic_write(path, bytes) {
+            let mut findings = findings;
             for (rollback_path, old_bytes, _) in prepared[..applied].iter().rev() {
-                let _ = atomic_write(rollback_path, old_bytes);
+                if let Err(mut rollback_findings) = atomic_write(rollback_path, old_bytes) {
+                    findings.append(&mut rollback_findings);
+                }
             }
             return Err(findings);
         }
@@ -1618,8 +1693,11 @@ fn edit_operational_cards(
     let (generation, digest) = match persisted {
         Ok(result) => result,
         Err(findings) => {
+            let mut findings = findings;
             for (path, old_bytes, _) in prepared.iter().rev() {
-                let _ = atomic_write(path, old_bytes);
+                if let Err(mut rollback_findings) = atomic_write(path, old_bytes) {
+                    findings.append(&mut rollback_findings);
+                }
             }
             return Err(findings);
         }
@@ -1992,14 +2070,28 @@ fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), Vec<DoctorFinding>> {
     })?;
     fs::create_dir_all(parent).map_err(io_finding("write_parent_create_failed"))?;
     let temporary = parent.join(format!(
-        ".{}.tmp-{}",
+        ".{}.tmp-{}-{}",
         path.file_name()
             .and_then(|name| name.to_str())
             .unwrap_or("state"),
-        std::process::id()
+        std::process::id(),
+        next_local_temp_sequence()
     ));
-    fs::write(&temporary, bytes).map_err(io_finding("temporary_write_failed"))?;
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&temporary)
+        .map_err(io_finding("temporary_create_failed"))?;
+    file.write_all(bytes)
+        .map_err(io_finding("temporary_write_failed"))?;
+    file.sync_all()
+        .map_err(io_finding("temporary_sync_failed"))?;
     fs::rename(&temporary, path).map_err(io_finding("atomic_rename_failed"))
+}
+
+fn next_local_temp_sequence() -> u64 {
+    static SEQUENCE: AtomicU64 = AtomicU64::new(0);
+    SEQUENCE.fetch_add(1, Ordering::Relaxed)
 }
 
 fn io_finding(code: &'static str) -> impl FnOnce(std::io::Error) -> Vec<DoctorFinding> {

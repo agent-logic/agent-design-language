@@ -427,39 +427,24 @@ fn shadow_route_executes_real_typed_v2_and_v3_doctor_commands() {
         }),
     );
     assert_eq!(value["operational_authority"], false);
-    match value["status"].as_str().expect("typed shadow status") {
-        "ready" => {
-            assert_eq!(value["performed_mutation"], true);
-            assert_eq!(value["evidence_refs"].as_array().unwrap().len(), 4);
-            let v2_receipt = binary_repo_root().join(value["evidence_refs"][1].as_str().unwrap());
-            let receipt: Value = serde_json::from_slice(&fs::read(v2_receipt).unwrap()).unwrap();
-            assert_eq!(receipt["schema"], "csdlc.v3.shadow_execution.v1");
-            assert_eq!(receipt["exit"]["success"], true);
-            assert_eq!(receipt["provider_side_effects"], false);
-            assert_eq!(receipt["operational_authority"], false);
-            assert!(receipt["binary"]["digest"].as_str().unwrap().len() >= 64);
-            assert!(receipt["stdout_digest"].as_str().unwrap().len() >= 64);
-            assert!(receipt["stderr_digest"].as_str().unwrap().len() >= 64);
-            assert_eq!(receipt["normalized_output"]["issue"], SHADOW_TARGET_ISSUE);
-            assert_eq!(
-                receipt["normalized_output"]["phase"],
-                issue_phase(SHADOW_TARGET_ISSUE)
-            );
-            assert_eq!(receipt["side_effect_boundary"][0]["changed"], false);
-        }
-        "blocked" => {
-            assert_eq!(value["read_only"], true);
-            assert_eq!(value["performed_mutation"], false);
-            assert!(value["evidence_refs"].as_array().unwrap().is_empty());
-            assert!(value["findings"].as_array().unwrap().iter().any(|finding| {
-                matches!(
-                    finding["code"].as_str(),
-                    Some("shadow_normalized_mismatch" | "shadow_command_not_successful")
-                )
-            }));
-        }
-        other => panic!("unexpected shadow status: {other}"),
-    }
+    assert_eq!(value["status"], "ready", "{value:#}");
+    assert_eq!(value["performed_mutation"], true);
+    assert_eq!(value["evidence_refs"].as_array().unwrap().len(), 4);
+    let v2_receipt = binary_repo_root().join(value["evidence_refs"][1].as_str().unwrap());
+    let receipt: Value = serde_json::from_slice(&fs::read(v2_receipt).unwrap()).unwrap();
+    assert_eq!(receipt["schema"], "csdlc.v3.shadow_execution.v1");
+    assert_eq!(receipt["exit"]["success"], true);
+    assert_eq!(receipt["provider_side_effects"], false);
+    assert_eq!(receipt["operational_authority"], false);
+    assert!(receipt["binary"]["digest"].as_str().unwrap().len() >= 64);
+    assert!(receipt["stdout_digest"].as_str().unwrap().len() >= 64);
+    assert!(receipt["stderr_digest"].as_str().unwrap().len() >= 64);
+    assert_eq!(receipt["normalized_output"]["issue"], SHADOW_TARGET_ISSUE);
+    assert_eq!(
+        receipt["normalized_output"]["phase"],
+        issue_phase(SHADOW_TARGET_ISSUE)
+    );
+    assert_eq!(receipt["side_effect_boundary"][0]["changed"], false);
 }
 
 #[test]

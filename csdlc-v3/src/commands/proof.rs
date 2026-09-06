@@ -1245,7 +1245,7 @@ fn authorize_install_execution(
 
 fn active_canonical_v3_selector(
     root: &Path,
-    _install: &InstallPlanInput,
+    install: &InstallPlanInput,
 ) -> Result<bool, ProofRouteFinding> {
     let Ok(bytes) = fs::read(root.join("csdlc-v2/operator/generation-selector.json")) else {
         return Ok(false);
@@ -1256,13 +1256,30 @@ fn active_canonical_v3_selector(
             "canonical v3 authority selector must be typed valid JSON",
         )
     })?;
-    if selector["schema"] != "csdlc.generation_selector.v1" {
+    if !matches!(
+        selector["schema"].as_str(),
+        Some("csdlc.generation_selector.v1" | "csdlc.generation_selector.v2")
+    ) {
         return Err(finding(
             "install_canonical_selector_mismatch",
-            "canonical selector must use the live csdlc.generation_selector.v1 schema",
+            "canonical selector must use a supported live generation-selector schema",
         ));
     }
-    Ok(selector["default_generation"] == "v3")
+    if selector["default_generation"] != "v3" {
+        return Ok(false);
+    }
+    if selector["schema"] == "csdlc.generation_selector.v2" {
+        return Ok(selector["operational_authority"] == "csdlc-v3"
+            && selector["authority_issue"] == 505
+            && selector["exact_review_sha"] == install.exact_head
+            && selector["readiness_evidence_digest"]
+                .as_str()
+                .is_some_and(|digest| !digest.trim().is_empty())
+            && selector["approval_evidence_digest"]
+                .as_str()
+                .is_some_and(|digest| !digest.trim().is_empty()));
+    }
+    Ok(true)
 }
 
 fn request_root(request: &ProofRouteRequest) -> Result<PathBuf, ProofRouteFinding> {
@@ -1571,6 +1588,12 @@ mod tests {
         fs::write(
             root.join("csdlc-v2/operator/generation-selector.json"),
             br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v3","opted_in_issues":[]}"#,
+        )
+        .unwrap();
+        assert!(active_canonical_v3_selector(&root, &install).unwrap());
+        fs::write(
+            root.join("csdlc-v2/operator/generation-selector.json"),
+            br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"exact_review_sha":"0123456789012345678901234567890123456789","readiness_evidence_digest":"readiness","approval_evidence_digest":"approval"}"#,
         )
         .unwrap();
         assert!(active_canonical_v3_selector(&root, &install).unwrap());

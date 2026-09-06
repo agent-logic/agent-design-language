@@ -180,6 +180,7 @@ fn read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift
     assert!(error.to_string().contains("does not match requested"));
 }
 
+#[cfg(unix)]
 #[test]
 fn repository_context_rejects_symlink_escape_for_issue_records() {
     let fixture = FixtureRepo::new("symlink-escape");

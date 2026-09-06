@@ -1,10 +1,13 @@
 use csdlc_v3::{
     adapters::{CommandInvocation, ProcessAdapter, ProcessOutput, ProcessStatus},
-    commands::terminal::{
-        prepare_terminal_finish_with_github_observation, prepare_terminal_route, CleanupDecision,
-        CleanupRouteRequest, CutoverDecisionRequest, CutoverOperation, DurableTerminalReceipt,
-        FinishDecision, TerminalPublicationMode, TerminalRouteRequest, TerminalRouteStatus,
-        TerminalStateWriteRequest,
+    commands::{
+        proof::{classify_route, ProofManifest, ProofRouteRequest, ProofRouteStatus},
+        terminal::{
+            prepare_terminal_finish_with_github_observation, prepare_terminal_route,
+            CleanupDecision, CleanupRouteRequest, CutoverDecisionRequest, CutoverOperation,
+            DurableTerminalReceipt, FinishDecision, TerminalPublicationMode, TerminalRouteRequest,
+            TerminalRouteStatus, TerminalStateWriteRequest,
+        },
     },
 };
 use std::{
@@ -500,6 +503,33 @@ fn cutover_requires_operator_approval_rollback_and_fail_closed_undo() {
     let ready = prepare_terminal_route("cutover", &request).expect("cutover plan");
     assert_eq!(ready.status, TerminalRouteStatus::Ready);
     assert!(!ready.cutover.unwrap().executes_cutover);
+}
+
+#[test]
+fn executable_cutover_cannot_bypass_preview_findings() {
+    let root = fixture_root("cutover-preview-gate");
+    let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
+    let mut request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
+    let cutover = request.cutover.as_mut().unwrap();
+    cutover.operator.clear();
+    cutover.undo_boundary = "manual undo".into();
+
+    let blocked = prepare_terminal_route("cutover", &request).expect("cutover plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_operator"));
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "missing_fail_closed_undo"));
+    assert!(!root.join(".adl/bin/csdlc").exists());
+    let selector: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(selector["default_generation"], "v2");
 }
 
 #[test]
@@ -1101,69 +1131,51 @@ fn write_cutover_fixture(root: &Path, binary: &[u8]) -> String {
     ]
     .into_iter()
     .map(|route| {
-        let bytes = serde_json::to_vec(&serde_json::json!({
-            "schema": "csdlc.v3.route_readiness.v1",
-            "route": route,
-            "revision": revision,
-            "result": "pass"
-        }))
-        .unwrap();
-        let path = format!("build/route-{route}.json");
-        fs::write(root.join(&path), &bytes).expect("route proof");
         (
             route.to_owned(),
-            serde_json::json!({
-                "path": path,
-                "digest": blake3::hash(&bytes).to_hex().to_string(),
-                "revision": revision
-            }),
+            write_proof_command_fixture(
+                root,
+                &format!("route-{route}"),
+                "route-readiness",
+                revision,
+            ),
         )
     })
     .collect::<serde_json::Map<String, serde_json::Value>>();
+    let reviewed_revision = format!(
+        "git-blake3:{revision}:{}",
+        blake3::hash(revision.as_bytes()).to_hex()
+    );
     let review = serde_json::to_vec(&serde_json::json!({
-        "schema": "csdlc.v3.independent_review.v1",
-        "authority_issue": 505,
-        "reviewer": "independent-reviewer",
-        "reviewed_revision": revision,
-        "verdict": "pass",
-        "independent": true
+        "schema": "csdlc.issue.index.v1",
+        "issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "phase": "reviewed",
+        "generation": 82,
+        "digest": "a".repeat(64),
+        "review": {
+            "reviewer": "independent-reviewer",
+            "scope": ["csdlc-v3/**"],
+            "reviewed_revision": reviewed_revision,
+            "findings": [],
+            "residual_risks": [],
+            "completed": true,
+            "non_substantive_proof": null
+        }
     }))
     .unwrap();
-    fs::write(root.join("build/review.json"), &review).expect("review proof");
+    fs::create_dir_all(root.join(".csdlc/issues/505")).expect("v2 review record parent");
+    fs::write(root.join(".csdlc/issues/505/index.json"), &review).expect("v2 review record");
     let review_ref = serde_json::json!({
-        "path": "build/review.json",
+        "path": ".csdlc/issues/505/index.json",
         "digest": blake3::hash(&review).to_hex().to_string(),
         "revision": revision
     });
-    let canary = serde_json::to_vec(&serde_json::json!({
-        "schema": "csdlc.v3.v3_only_canary.v1",
-        "authority_issue": 505,
-        "revision": revision,
-        "result": "pass",
-        "v3_only": true
-    }))
-    .unwrap();
-    fs::write(root.join("build/canary.json"), &canary).expect("canary proof");
-    let canary_ref = serde_json::json!({
-        "path": "build/canary.json",
-        "digest": blake3::hash(&canary).to_hex().to_string(),
-        "revision": revision
-    });
-    let rollback = serde_json::to_vec(&serde_json::json!({
-        "schema": "csdlc.v3.rollback_readiness.v1",
-        "authority_issue": 505,
-        "selected_revision": revision,
-        "result": "pass",
-        "fail_closed": true
-    }))
-    .unwrap();
-    fs::write(root.join("build/rollback.json"), &rollback).expect("rollback proof");
-    let rollback_digest = blake3::hash(&rollback).to_hex().to_string();
-    let rollback_ref = serde_json::json!({
-        "path": "build/rollback.json",
-        "digest": rollback_digest,
-        "revision": revision
-    });
+    let canary_ref =
+        write_proof_command_fixture(root, "v3-only-canary", "v3-only-canary", revision);
+    let rollback_ref =
+        write_proof_command_fixture(root, "rollback-readiness", "rollback-readiness", revision);
+    let rollback_digest = rollback_ref["digest"].as_str().unwrap().to_owned();
     let approval = serde_json::to_vec(&serde_json::json!({
         "schema": "csdlc.v3.cutover_approval.v1",
         "authority_issue": 505,
@@ -1176,9 +1188,14 @@ fn write_cutover_fixture(root: &Path, binary: &[u8]) -> String {
         "approved_by": "operator"
     }))
     .unwrap();
-    fs::write(root.join("build/approval.json"), &approval).expect("approval evidence");
+    fs::create_dir_all(root.join(".csdlc/evidence/505")).expect("approval parent");
+    fs::write(
+        root.join(".csdlc/evidence/505/cutover-approval.json"),
+        &approval,
+    )
+    .expect("approval evidence");
     let approval_ref = serde_json::json!({
-        "path": "build/approval.json",
+        "path": ".csdlc/evidence/505/cutover-approval.json",
         "digest": blake3::hash(&approval).to_hex().to_string(),
         "revision": revision
     });
@@ -1194,8 +1211,62 @@ fn write_cutover_fixture(root: &Path, binary: &[u8]) -> String {
         "rollback_proof": rollback_ref
     }))
     .unwrap();
-    fs::write(root.join("build/readiness.json"), &readiness).expect("readiness evidence");
+    fs::write(
+        root.join(".csdlc/evidence/505/authority-readiness.json"),
+        &readiness,
+    )
+    .expect("readiness evidence");
     blake3::hash(&readiness).to_hex().to_string()
+}
+
+fn write_proof_command_fixture(
+    root: &Path,
+    manifest_id: &str,
+    lane: &str,
+    revision: &str,
+) -> serde_json::Value {
+    let source_ref = format!(".csdlc/evidence/505/readiness-source/{manifest_id}.json");
+    let source = serde_json::to_vec(&serde_json::json!({
+        "manifest_id": manifest_id,
+        "revision": revision,
+        "result": "pass"
+    }))
+    .unwrap();
+    fs::create_dir_all(root.join(".csdlc/evidence/505/readiness-source"))
+        .expect("proof source parent");
+    fs::write(root.join(&source_ref), &source).expect("proof source");
+    let digest = blake3::hash(&source).to_hex().to_string();
+    let report = classify_route(
+        "proof",
+        ProofRouteRequest {
+            issue: 505,
+            repository: "agent-logic/agent-design-language".into(),
+            cutover_issue: Some(505),
+            operator_approval: None,
+            evidence_root: Some(root.to_string_lossy().into_owned()),
+            proof: Some(ProofManifest {
+                manifest_id: manifest_id.into(),
+                lane: lane.into(),
+                deterministic: true,
+                evidence_ref: source_ref,
+                evidence_digest: digest.clone(),
+                observed_digest: digest,
+                stale: false,
+            }),
+            shadow: None,
+            soak: None,
+            install: None,
+        },
+        Some(root),
+    );
+    assert_eq!(report.status, ProofRouteStatus::Ready);
+    let path = report.evidence_refs.first().expect("proof receipt path");
+    let bytes = fs::read(root.join(path)).expect("proof receipt");
+    serde_json::json!({
+        "path": path,
+        "digest": blake3::hash(&bytes).to_hex().to_string(),
+        "revision": revision
+    })
 }
 
 fn cutover_request(
@@ -1207,9 +1278,9 @@ fn cutover_request(
     request.issue = 505;
     request.cutover = Some(CutoverDecisionRequest {
         operator: "operator".into(),
-        approval: "build/approval.json".into(),
+        approval: ".csdlc/evidence/505/cutover-approval.json".into(),
         selected_binary_provenance: "git:0123456789012345678901234567890123456789".into(),
-        rollback_evidence: "build/rollback.json".into(),
+        rollback_evidence: ".csdlc/evidence/505/v3-proof/rollback-readiness.json".into(),
         undo_boundary: "fail-closed before irreversible mutation".into(),
         operation,
         execute: true,
@@ -1218,7 +1289,9 @@ fn cutover_request(
         authority_selector_path: Some(PathBuf::from("csdlc-v2/operator/generation-selector.json")),
         install_destination_path: Some(PathBuf::from(".adl/bin/csdlc")),
         rollback_receipt_path: Some(PathBuf::from(".csdlc/evidence/505/cutover-receipt.json")),
-        readiness_evidence_path: Some(PathBuf::from("build/readiness.json")),
+        readiness_evidence_path: Some(PathBuf::from(
+            ".csdlc/evidence/505/authority-readiness.json",
+        )),
         readiness_evidence_digest: Some(readiness_digest),
     });
     request
