@@ -17,6 +17,7 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 ## Artifacts
 
 - adl-runtime-kernel/src/agent_orientation.rs
+- adl-runtime-kernel/src/assembly.rs
 - adl-runtime-kernel/src/config.rs
 - adl-runtime-kernel/src/control.rs
 - adl-runtime-kernel/src/control/feeds.rs
@@ -35,12 +36,31 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 - Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.
 - Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.
 - Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.
+- Moved provider-backed agent_runtime orientation delivery into a first-class internal task envelope so the original 4 KiB user-message bound remains intact while the model-facing prompt still receives the welcome package before task content.
 - Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.
 - Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Regression for provider-backed A2A delivery after moving the orientation package out of the 4 KiB user-input field and into a separate internal task envelope.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/708/runtime-orientation-a2a-envelope.log"
+  },
   {
     "command": [
       "env",

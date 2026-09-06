@@ -1,0 +1,18 @@
+Issue 708 runtime orientation A2A envelope regression proof
+
+Finding fixed:
+Provider-backed agent-to-agent conversation dispatch failed when the full orientation package was placed into the 4 KiB bounded user input field.
+
+Fix summary:
+The Runtime now passes the agent orientation package as a separate internal task field for provider-backed agent_runtime dispatch. The agent adapter keeps the original 4 KiB bound on operator/agent message input, validates a bounded internal orientation envelope separately, and prepends the orientation before the model-facing provider prompt content.
+
+Command:
+TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response -- --nocapture
+
+Outcome:
+passed
+
+Evidence summary:
+- The exact A2A model-action regression that previously returned failed now returns delivered.
+- The test now asserts Beacon's provider prompt starts with the Axioma Polis agent orientation package before the operator message.
+- The test now asserts Ember's provider prompt also starts with the Axioma Polis agent orientation package before the initiated task content.
