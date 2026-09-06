@@ -7,15 +7,15 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/agent_orientation.rs\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/control.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/agent_orientation.test.mjs",
-      "review_revision": "git-blake3:06cc4a8b2893d50a0a05b7331489e206d314f38c:d3f08aa984a45ba9b53944a62a28c35e36f2f6eb7fb46d87a29d81fb6baef914",
-      "reviewer": "codex:issue-708-current-agent-exact-head-audit",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any admitted agent reach its first model turn without the active orientation snapshot?",
         "Does the recorded digest cover the exact delivered bytes rather than a mutable source or global resource?",
@@ -26,7 +26,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

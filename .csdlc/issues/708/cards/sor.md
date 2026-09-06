@@ -23,6 +23,7 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 - adl-runtime-kernel/src/control/feeds.rs
 - adl-runtime-kernel/src/agent_roster.rs
 - adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/resident_shepherd.rs
 - adl-runtime-kernel/tests/agent_roster.rs
 - adl-runtime-kernel/tests/control.rs
 - demos/html-observatory/app.js
@@ -36,6 +37,8 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 - Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.
 - Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.
 - Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.
+- Routed the governed resident Shepherd recovery/readiness probe through the same retained per-agent welcome package before the READY instruction, closing the remaining production path that could reach a model without orientation.
+- Raised the resident Shepherd oriented request decode limit so Runtime-generated welcome-package prompts are accepted without weakening the original user-message bound.
 - Moved provider-backed agent_runtime orientation delivery into a first-class internal task envelope so the original 4 KiB user-message bound remains intact while the model-facing prompt still receives the welcome package before task content.
 - Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.
 - Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.
@@ -43,6 +46,44 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 ## Validation
 
 [
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--bin",
+      "adl-runtime-kernel",
+      "resident_shepherd_governed_probe_prompt_includes_orientation_before_ready",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Regression for the production resident Shepherd governed READY probe so each model-facing resident agent request receives the welcome package before the readiness task.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/708/runtime-orientation-shepherd-governed-probe.log"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "shepherd",
+      "resident_shepherd_model_health_gates_inference_and_recovers",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Regression for the resident Shepherd orientation-aware request decode limit and health-gated recovery path.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/708/runtime-orientation-shepherd-governed-probe.log"
+  },
   {
     "command": [
       "env",
@@ -176,11 +217,11 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

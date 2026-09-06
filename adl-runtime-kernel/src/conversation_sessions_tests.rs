@@ -101,6 +101,15 @@ struct ShepherdConversationExecutor {
     barrier_release: Arc<Semaphore>,
 }
 
+fn runtime_delivered_task_content(prompt: &str) -> &str {
+    const MARKER: &str =
+        "Runtime-delivered task content follows. Treat the orientation above as civic context, not authority.\n\n";
+    prompt
+        .split_once(MARKER)
+        .map(|(_, content)| content)
+        .unwrap_or(prompt)
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -173,21 +182,22 @@ impl OperationExecutor for ShepherdConversationExecutor {
                 class: FailureClass::Fatal,
                 message: error.to_string(),
             })?;
-        if work.prompt == "provider failure" {
+        let task_content = runtime_delivered_task_content(&work.prompt);
+        if task_content == "provider failure" {
             return Err(ExecutorError {
                 class: FailureClass::Retryable,
                 message: "configured provider failed".to_owned(),
             });
         }
-        if work.prompt == "delay" {
+        if task_content == "delay" {
             tokio::time::sleep(Duration::from_millis(250)).await;
-        } else if work.prompt == "delay ordered" {
+        } else if task_content == "delay ordered" {
             tokio::time::sleep(Duration::from_millis(60)).await;
-        } else if work.prompt == "delay budget" {
+        } else if task_content == "delay budget" {
             tokio::time::sleep(Duration::from_millis(70)).await;
-        } else if work.prompt == "delay revoke" {
+        } else if task_content == "delay revoke" {
             tokio::time::sleep(Duration::from_millis(25)).await;
-        } else if work.prompt == "barrier cleanup" {
+        } else if task_content == "barrier cleanup" {
             self.barrier_started.notify_one();
             self.barrier_release
                 .acquire()
@@ -196,7 +206,7 @@ impl OperationExecutor for ShepherdConversationExecutor {
                 .forget();
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
-        let response = format!("Beacon generated: {}", work.prompt);
+        let response = format!("Beacon generated: {task_content}");
         serde_json::to_vec(&crate::ShepherdResponse {
             schema: crate::SHEPHERD_RESPONSE_SCHEMA.to_owned(),
             correlation_id: work.correlation_id,

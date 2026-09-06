@@ -855,6 +855,8 @@ async fn main() -> ExitCode {
                                     "{}:resident-shepherd-probe:{probe_sequence}",
                                     shepherd.name
                                 );
+                                let governed_probe_prompt =
+                                    resident_shepherd_probe_prompt(&orientation);
                                 let governed_probe = OperationRequest {
                                     schema: OPERATION_REQUEST_SCHEMA.to_owned(),
                                     request_id: probe_id.clone(),
@@ -865,7 +867,7 @@ async fn main() -> ExitCode {
                                         "correlation_id": format!("{}-probe-{probe_sequence}", shepherd.name.replace('.', "-")),
                                         "runtime_id": runtime_id,
                                         "shepherd_name": shepherd.name,
-                                        "prompt": "Reply with READY."
+                                        "prompt": governed_probe_prompt
                                     })).expect("resident Shepherd probe request encodes"),
                                     permit: None,
                                 };
@@ -1366,6 +1368,12 @@ async fn main() -> ExitCode {
     }
 }
 
+fn resident_shepherd_probe_prompt(
+    orientation: &adl_runtime_kernel::AgentOrientationResource,
+) -> String {
+    orientation.inject_initial_context("Reply with READY.")
+}
+
 async fn bind_control_listener(
     socket_addrs: &[std::net::SocketAddr],
     attempts: u32,
@@ -1731,7 +1739,8 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability, ArchiveInFlightGuard,
+        preserve_runtime_result_after_observability, resident_shepherd_probe_prompt,
+        ArchiveInFlightGuard,
     };
     use std::sync::{atomic::AtomicBool, Arc};
 
@@ -1760,6 +1769,26 @@ mod tests {
     fn live_continuity_floor_does_not_rebase_birthday_authority_genesis() {
         assert_eq!(birthday_authority_generations(7, 0), (7, 1, 1));
         assert_eq!(birthday_authority_generations(7, 41), (7, 1, 1));
+    }
+
+    #[test]
+    fn resident_shepherd_governed_probe_prompt_includes_orientation_before_ready() {
+        let prompt = resident_shepherd_probe_prompt(
+            &adl_runtime_kernel::AgentOrientationResource::bundled_default(),
+        );
+        let orientation_index = prompt
+            .find("Axioma Polis agent orientation package")
+            .expect("probe includes orientation");
+        let ready_index = prompt
+            .find("Reply with READY.")
+            .expect("probe includes readiness instruction");
+        assert_eq!(orientation_index, 0);
+        assert!(
+            orientation_index < ready_index,
+            "orientation must precede the model-facing READY probe: {prompt}"
+        );
+        assert!(prompt.contains("grants no authority"));
+        assert!(prompt.contains("Runtime-delivered task content follows"));
     }
 
     #[test]

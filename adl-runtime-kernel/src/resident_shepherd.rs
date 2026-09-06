@@ -15,6 +15,8 @@ use crate::{
     SHEPHERD_RESPONSE_SCHEMA,
 };
 
+const RESIDENT_SHEPHERD_ORIENTED_PROMPT_LIMIT_BYTES: usize = 160 * 1024;
+
 /// Provider adapters that are compiled into this Runtime build. Configuration
 /// remains provider-shaped, but startup must reject profiles that have no
 /// executable adapter instead of admitting a permanently degraded resident.
@@ -229,8 +231,9 @@ impl ResidentShepherdExecutor {
                 .execute_with_cancellation(request, cancellation)
                 .await;
         }
-        let shepherd_request = decode_request(request, 16 * 1024)
-            .map_err(|_| Self::invalid("shepherd_invalid_request"))?;
+        let shepherd_request =
+            decode_request(request, RESIDENT_SHEPHERD_ORIENTED_PROMPT_LIMIT_BYTES)
+                .map_err(|_| Self::invalid("shepherd_invalid_request"))?;
         if shepherd_request.runtime_id != self.runtime_id {
             return Err(Self::invalid("shepherd_invalid_request"));
         }

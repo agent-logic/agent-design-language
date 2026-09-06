@@ -1131,7 +1131,7 @@ async fn resident_shepherd_model_health_gates_inference_and_recovers() {
         "schema": SHEPHERD_REQUEST_SCHEMA,
         "correlation_id": "health-correlation",
         "runtime_id": "runtime-test",
-        "prompt": "x".repeat(16 * 1024 + 1)
+        "prompt": "x".repeat(160 * 1024 + 1)
     }))
     .unwrap();
     assert_eq!(
