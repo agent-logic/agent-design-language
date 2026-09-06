@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 538,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+    "slug": "sprint-10-release-qualification-review-release",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #538 preparation revision, canonical Sprint 10 planning, execution packet, child readiness results, and first-child handoff.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet enumerate exactly #516 through #526 in strict order?",
+        "Are live prerequisites and predecessor gates represented without overclaim?",
+        "Are child prompt repairs routed through typed v2 editor authority?",
+        "Does the umbrella avoid implementing or completing child work?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 538,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+    "slug": "sprint-10-release-qualification-review-release",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Align and validate Sprint 10 coordination and child readiness only.",
+      "deliverables": [
+        "Canonical Sprint 10 planning update",
+        "Versioned sequential Sprint Execution Packet and sprint state",
+        "Mechanical structured-prompt readiness report for #516 through #526",
+        "Dependency-truth and first-child execution handoff"
+      ],
+      "acceptance_criteria": [
+        "AC-1: #538 membership is exactly #516 through #526 with one bounded result per child",
+        "AC-2: Canonical sprint planning and live membership version 7 agree",
+        "AC-3: The execution packet records the strict #516 through #526 sequential chain, watchers, issue-goal handoffs, and closeout bar",
+        "AC-4: Every child has issue-specific typed design-time prompt surfaces or an explicit fail-closed repair route",
+        "AC-5: #516 is handed off only when all declared admission prerequisites are closed; open prerequisites remain visible blockers",
+        "AC-6: No later child is executable before its immediate predecessor has a reviewed green merge on main",
+        "AC-7: Focused readiness, prompt, path, and diff validation pass"
+      ],
+      "dependencies": [
+        "Live sprint umbrella #538",
+        "Live child issues #516 through #526",
+        "#516 admission prerequisites, including #505 and #512"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "docs/templates/sprints/current.json",
+        "docs/templates/sprints/1.0.0/sprint_execution_packet.md",
+        "adl/tools/skills/sprint-conductor/scripts/check_sprint_readiness.py"
+      ],
+      "non_goals": [
+        "Implementing or merging child work",
+        "Collapsing child results into the umbrella",
+        "Weakening dependency or review gates",
+        "Executing release qualification or release ceremony"
+      ]
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 538,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+    "slug": "sprint-10-release-qualification-review-release",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Reconcile live and canonical membership, write the sequential execution packet, preflight all child prompt surfaces, and emit the first truthful child handoff.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Reconcile live #538 membership version 7 and the exact #516 through #526 dependency chain with canonical sprint planning.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Create the versioned sequential Sprint Execution Packet, watcher plan, issue-goal handoffs, activity log path, and closeout bar.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Mechanically preflight and route repairs for the eleven child prompt bundles without executing child work.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Recheck live prerequisite truth and emit the first-child handoff or exact blocker list.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "docs/milestones/v0.92.1/evidence/integration/sprint-10",
+        ".csdlc/issues/516",
+        ".csdlc/issues/517",
+        ".csdlc/issues/518",
+        ".csdlc/issues/519",
+        ".csdlc/issues/520",
+        ".csdlc/issues/521",
+        ".csdlc/issues/522",
+        ".csdlc/issues/523",
+        ".csdlc/issues/524",
+        ".csdlc/issues/525",
+        ".csdlc/issues/526",
+        ".csdlc/issues/538",
+        ".csdlc/prepared/issues/538",
+        ".csdlc/prepared/issues/538/validate-sprint10-readiness.sh"
+      ],
+      "invariants": [
+        "Eleven child issues remain distinct",
+        "Execution stays strictly sequential",
+        "Preparation never satisfies a dependency",
+        "Every live child has a watcher during execution",
+        "Every implementation session creates its own issue-bound goal",
+        "The umbrella never fabricates child completion"
+      ],
+      "risks": [
+        "Canonical planning may still describe the superseded Sprint 9 through Sprint 11 split",
+        "Generic or absent child prompt bundles could make execution ambiguous",
+        "Open #516 prerequisites could be mistaken for readiness",
+        "Stale preparation worktrees could be confused with current authority"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Live #538 membership differs from #516 through #526",
+        "A child dependency differs from the strict sequential chain",
+        "A child prompt surface cannot be repaired through its typed editor route",
+        "An open #516 prerequisite is omitted from the handoff",
+        "Concurrent work owns a surface required for repair"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/538/design.md",
+      "design_digest": "9723dc8ebdcc85fd322f896e34aaa383b8a83424f62687f279f8487c4f81b399",
+      "diagram_ref": ".csdlc/prepared/issues/538/diagram.mmd",
+      "diagram_digest": "1840b9e98a56856f14afaf85a4939d426c8405560747e84dc38d306b8ecd8ae5"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 538,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+    "slug": "sprint-10-release-qualification-review-release",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prepare and coordinate the exact eleven-child v0.92.1 release tail from admission through release ceremony.",
+      "required_outcome": "Canonical planning, live issue membership, typed child readiness, sequential dependency gates, watcher policy, and first-child handoff agree without claiming unresolved dependencies are satisfied.",
+      "declared_scope": [
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "docs/milestones/v0.92.1/evidence/integration/sprint-10/**",
+        ".csdlc/issues/516 through .csdlc/issues/526 readiness truth",
+        ".csdlc/prepared/issues/516 through .csdlc/prepared/issues/526",
+        ".csdlc/issues/538/**",
+        ".csdlc/prepared/issues/538/**"
+      ],
+      "authority_boundary": [
+        "Live issue #538 membership version 7 is the sprint roster authority",
+        "Each child issue remains the authority for its own result and acceptance criteria",
+        "Typed C-SDLC v2 remains lifecycle authority until explicit #505 cutover",
+        "A predecessor reviewed green merge is required before its successor executes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not implement child work inside #538",
+        "Do not start #516 while any declared admission prerequisite is open",
+        "Do not start later children before their immediate predecessor has merged green",
+        "Do not treat typed finish or worktree cleanup as a successor execution dependency",
+        "Preserve stale or concurrently owned worktrees untouched"
+      ]
+    }
+  }
+}
