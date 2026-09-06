@@ -1496,6 +1496,7 @@ fn write_proof_command_fixture(
     lane: &str,
     revision: &str,
 ) -> serde_json::Value {
+    let route_preview = manifest_id.strip_prefix("route-");
     let source_ref = format!(".csdlc/evidence/505/readiness-source/{manifest_id}.json");
     let source = serde_json::to_vec(&serde_json::json!({
         "manifest_id": manifest_id,
@@ -1539,23 +1540,34 @@ fn write_proof_command_fixture(
         .unwrap(),
     )
     .expect("proof command registrations");
+    let (normalization, argv) = if let Some(route) = route_preview {
+        (
+            ShadowNormalizationContract::RoutePreviewV1,
+            vec![route.into(), "--help".into()],
+        )
+    } else {
+        (
+            ShadowNormalizationContract::DoctorIssuePhaseV1,
+            vec![
+                "doctor".into(),
+                "--request".into(),
+                request_ref.clone(),
+                "--registry".into(),
+                repository_root
+                    .join("docs/templates/prompts/current.json")
+                    .to_string_lossy()
+                    .into_owned(),
+                "--registrations".into(),
+                registrations_ref.into(),
+                "--repo-root".into(),
+                repository_root.to_string_lossy().into_owned(),
+            ],
+        )
+    };
     let command = ShadowCommandSpec {
         generation: ShadowGeneration::V3,
         binary_ref: "build/csdlc".into(),
-        argv: vec![
-            "doctor".into(),
-            "--request".into(),
-            request_ref.clone(),
-            "--registry".into(),
-            repository_root
-                .join("docs/templates/prompts/current.json")
-                .to_string_lossy()
-                .into_owned(),
-            "--registrations".into(),
-            registrations_ref.into(),
-            "--repo-root".into(),
-            repository_root.to_string_lossy().into_owned(),
-        ],
+        argv,
         request_ref,
         timeout_millis: 10_000,
         side_effect_boundary_refs: vec![source_ref.clone()],
@@ -1577,7 +1589,7 @@ fn write_proof_command_fixture(
                 evidence_digest: digest.clone(),
                 observed_digest: digest,
                 stale: false,
-                normalization: ShadowNormalizationContract::DoctorIssuePhaseV1,
+                normalization,
                 command,
             }),
             shadow: None,
@@ -1586,7 +1598,7 @@ fn write_proof_command_fixture(
         },
         Some(root),
     );
-    assert_eq!(report.status, ProofRouteStatus::Ready);
+    assert_eq!(report.status, ProofRouteStatus::Ready, "{report:#?}");
     let path = report.evidence_refs.first().expect("proof receipt path");
     let bytes = fs::read(root.join(path)).expect("proof receipt");
     serde_json::json!({

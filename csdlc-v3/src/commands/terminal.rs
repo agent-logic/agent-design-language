@@ -1240,6 +1240,7 @@ struct ProofCommandReceipt {
     deterministic: bool,
     source_evidence_ref: PathBuf,
     source_evidence_digest: String,
+    normalization: crate::commands::proof::ShadowNormalizationContract,
     command: crate::commands::proof::ShadowCommandSpec,
     request_evidence: ProofRequestEvidence,
     binary: ProofBinaryEvidence,
@@ -1809,14 +1810,27 @@ fn verify_proof_command_receipt(
             "proof readiness source must be retained beneath issue #505 evidence with a digest",
         ));
     }
+    let route_preview = manifest_id.strip_prefix("route-");
+    let command_identity_valid = if let Some(route) = route_preview {
+        evidence.normalization
+            == crate::commands::proof::ShadowNormalizationContract::RoutePreviewV1
+            && evidence.command.argv == [route, "--help"]
+            && evidence.normalized_output["command"] == route
+            && evidence.normalized_output["mode"] == "preview"
+    } else {
+        evidence.normalization
+            == crate::commands::proof::ShadowNormalizationContract::DoctorIssuePhaseV1
+            && evidence.command.argv.first().map(String::as_str) == Some("doctor")
+            && evidence.normalized_output["command"] == "doctor"
+    };
     if evidence.command.generation != crate::commands::proof::ShadowGeneration::V3
         || evidence.command.provider_side_effects
         || evidence.provider_side_effects
-        || evidence.command.argv.first().map(String::as_str) != Some("doctor")
+        || !command_identity_valid
     {
         return Err(finding(
             "proof_command_identity_invalid",
-            "proof readiness requires a credential-cleared v3 doctor command",
+            "proof readiness requires the exact credential-cleared v3 route preview or declared doctor command",
         ));
     }
     if Path::new(&evidence.command.request_ref) != evidence.request_evidence.reference
@@ -1839,12 +1853,10 @@ fn verify_proof_command_receipt(
             "proof readiness requires an observed successful command exit",
         ));
     }
-    if evidence.normalized_output["command"] != "doctor"
-        || evidence.normalized_output["issue"] != 505
-    {
+    if evidence.normalized_output["issue"] != 505 {
         return Err(finding(
             "proof_command_output_mismatch",
-            "proof readiness requires typed doctor output bound to issue #505",
+            "proof readiness requires typed route output bound to issue #505",
         ));
     }
     if evidence

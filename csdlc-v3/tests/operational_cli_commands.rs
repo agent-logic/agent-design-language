@@ -213,6 +213,29 @@ fn bind_recovers_after_process_exit_following_git_side_effect() {
 }
 
 #[test]
+fn bind_recovers_after_branch_creation_before_worktree_registration() {
+    let mut fixture = operational_fixture("bind-branch-crash-recovery");
+    initialize_operational_fixture(&mut fixture);
+    let crashed = run_operational(&fixture, "bind", Some("bind_after_branch_creation"));
+    assert_eq!(crashed.status.code(), Some(91));
+    assert!(!Path::new(&fixture.request.worktree).exists());
+
+    let recovered = run_operational(&fixture, "bind", None);
+    assert!(
+        recovered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&recovered.stderr)
+    );
+    assert_eq!(
+        git(
+            &fixture.root,
+            &["-C", &fixture.request.worktree, "rev-parse", "HEAD"]
+        ),
+        git(&fixture.root, &["rev-parse", "HEAD"])
+    );
+}
+
+#[test]
 fn edit_recovers_after_process_exit_between_directory_swaps() {
     let mut fixture = operational_fixture("edit-crash-recovery");
     initialize_operational_fixture(&mut fixture);
@@ -250,7 +273,7 @@ fn edit_recovers_after_process_exit_between_directory_swaps() {
 }
 
 #[test]
-fn local_operational_route_is_reachable_and_fails_closed_under_v2_selector() {
+fn v2_selector_keeps_named_local_cli_in_construction_mode() {
     let fixture = fixture("local-v2-fence");
     let request = LocalPreparationRequest {
         issue: 505,
@@ -271,10 +294,18 @@ fn local_operational_route_is_reachable_and_fails_closed_under_v2_selector() {
     let request_path = fixture.join("local.json");
     let registrations_path = fixture.join("registrations.json");
     fs::write(&request_path, serde_json::to_vec(&request).unwrap()).unwrap();
-    fs::write(&registrations_path, b"[]").unwrap();
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&json!([{
+            "branch": request.branch,
+            "worktree": request.worktree,
+            "primary": false
+        }]))
+        .unwrap(),
+    )
+    .unwrap();
 
     let registry = repo_root().join("docs/templates/prompts/current.json");
-    let state_root = fixture.join(".csdlc/v3");
     let output = run(
         &[
             "issue",
@@ -286,19 +317,14 @@ fn local_operational_route_is_reachable_and_fails_closed_under_v2_selector() {
             registrations_path.to_str().unwrap(),
             "--repo-root",
             fixture.to_str().unwrap(),
-            "--v3-state-root",
-            state_root.to_str().unwrap(),
         ],
         &repo_root(),
     );
 
-    assert!(!output.status.success(), "{output:?}");
-    assert!(
-        String::from_utf8_lossy(&output.stderr).contains("canonical_v3_authority_inactive"),
-        "{}",
-        String::from_utf8_lossy(&output.stderr)
-    );
-    assert!(!state_root.exists());
+    assert!(output.status.success(), "{output:?}");
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(report["operational_authority"], false);
+    assert_eq!(report["writes_v3_state"], false);
 }
 
 #[test]

@@ -156,11 +156,7 @@ pub fn discover_operational_local_context(
             .and_then(Value::as_str)
             != Some("csdlc-v3")
     {
-        return Err(vec![finding(
-            PlanStatus::Blocked,
-            "canonical_v3_authority_inactive",
-            "named operational routes remain denied until the canonical selector activates v3",
-        )]);
+        return Ok(None);
     }
     let expected_head_sha = selector
         .get("exact_review_sha")
@@ -1521,7 +1517,12 @@ fn recover_pending_local_transaction(
                 "bind recovery requires its exact worktree identity",
             )]
         })?;
-        ensure_bind_registration(&context.repository_root, branch, target)?;
+        ensure_bind_registration(
+            &context.repository_root,
+            branch,
+            target,
+            &context.expected_head_sha,
+        )?;
     }
     commit_local_transaction(context, &journal)
 }
@@ -1656,9 +1657,10 @@ fn ensure_bind_registration(
     repository_root: &Path,
     branch: &str,
     target: &Path,
+    expected_head: &str,
 ) -> Result<(), Vec<DoctorFinding>> {
     if git_worktree_registration(repository_root, branch, target)? {
-        return Ok(());
+        return verify_bound_worktree(branch, target, expected_head);
     }
     if target.exists() {
         return Err(vec![finding(
@@ -1667,13 +1669,38 @@ fn ensure_bind_registration(
             "target path exists but is not registered for the requested branch",
         )]);
     }
+    let branch_ref = format!("refs/heads/{branch}");
+    let branch_exists = Command::new("git")
+        .arg("-C")
+        .arg(repository_root)
+        .args(["show-ref", "--verify", "--quiet", &branch_ref])
+        .status()
+        .map_err(io_finding("git_branch_probe_failed"))?
+        .success();
+    if !branch_exists {
+        let branch_output = Command::new("git")
+            .arg("-C")
+            .arg(repository_root)
+            .args(["branch", "--"])
+            .arg(branch)
+            .arg(expected_head)
+            .output()
+            .map_err(io_finding("git_branch_create_failed"))?;
+        if !branch_output.status.success() {
+            return Err(vec![finding(
+                PlanStatus::Failed,
+                "git_branch_create_failed",
+                String::from_utf8_lossy(&branch_output.stderr).trim(),
+            )]);
+        }
+        local_transaction_failpoint("bind_after_branch_creation");
+    }
     let output = Command::new("git")
         .arg("-C")
         .arg(repository_root)
-        .args(["worktree", "add", "-b"])
-        .arg(branch)
+        .args(["worktree", "add", "--"])
         .arg(target)
-        .arg("HEAD")
+        .arg(branch)
         .output()
         .map_err(io_finding("git_worktree_add_failed"))?;
     if !output.status.success() || !git_worktree_registration(repository_root, branch, target)? {
@@ -1681,6 +1708,62 @@ fn ensure_bind_registration(
             PlanStatus::Failed,
             "git_worktree_add_failed",
             String::from_utf8_lossy(&output.stderr).trim(),
+        )]);
+    }
+    verify_bound_worktree(branch, target, expected_head)
+}
+
+fn verify_bound_worktree(
+    branch: &str,
+    target: &Path,
+    expected_head: &str,
+) -> Result<(), Vec<DoctorFinding>> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(target)
+        .args(["rev-parse", "--is-inside-work-tree", "HEAD"])
+        .output()
+        .map_err(io_finding("bound_worktree_health_check_failed"))?;
+    let lines: Vec<_> = String::from_utf8_lossy(&output.stdout)
+        .lines()
+        .map(str::to_owned)
+        .collect();
+    if !output.status.success()
+        || lines.first().map(String::as_str) != Some("true")
+        || lines.get(1).map(String::as_str) != Some(expected_head)
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "bound_worktree_head_mismatch",
+            "registered worktree must be a healthy checkout at the exact expected head",
+        )]);
+    }
+    let branch_output = Command::new("git")
+        .arg("-C")
+        .arg(target)
+        .args(["symbolic-ref", "--quiet", "--short", "HEAD"])
+        .output()
+        .map_err(io_finding("bound_worktree_branch_check_failed"))?;
+    if !branch_output.status.success()
+        || String::from_utf8_lossy(&branch_output.stdout).trim() != branch
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "bound_worktree_branch_mismatch",
+            "registered worktree branch does not match the requested branch",
+        )]);
+    }
+    let status = Command::new("git")
+        .arg("-C")
+        .arg(target)
+        .args(["status", "--porcelain"])
+        .output()
+        .map_err(io_finding("bound_worktree_status_failed"))?;
+    if !status.status.success() || !status.stdout.is_empty() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "bound_worktree_not_clean",
+            "newly bound worktree must be clean before lifecycle completion is published",
         )]);
     }
     Ok(())
@@ -2128,7 +2211,12 @@ fn bind_operational_issue(
             bind_worktree: Some(target.clone()),
         },
     )?;
-    ensure_bind_registration(&context.repository_root, &request.branch, &target)?;
+    ensure_bind_registration(
+        &context.repository_root,
+        &request.branch,
+        &target,
+        &context.expected_head_sha,
+    )?;
     local_transaction_failpoint("bind_after_git");
     commit_pending_local_transaction(context, request.issue)?;
     Ok(result)
