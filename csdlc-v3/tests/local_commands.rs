@@ -981,7 +981,7 @@ fn operational_local_cas_recomputes_card_bytes_before_mutation() {
     let initialized = execute_operational_local_route("issue", &request(), &registry, &context)
         .expect("initialize authoritative lifecycle state");
     fs::write(
-        context.state_root.join("issues/503/cards/SIP.md"),
+        context.state_root.join("issues/503/cards/sip.md"),
         "tampered after persisted digest",
     )
     .expect("tamper retained card bytes");
