@@ -125,11 +125,11 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
             ));
         }
     }
-    if route != "local" && args.operational_context.is_some() {
-        let context_path = args
-            .operational_context
-            .as_ref()
-            .expect("checked operational context");
+    if let Some(context_path) = args
+        .operational_context
+        .as_ref()
+        .filter(|_| route != "local")
+    {
         let context_bytes = fs::read(context_path)
             .map_err(|error| format!("failed to read operational context: {error}"))?;
         let context: OperationalLocalContext = serde_json::from_slice(&context_bytes)
