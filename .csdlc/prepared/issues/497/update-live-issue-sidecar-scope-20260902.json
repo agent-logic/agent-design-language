@@ -1,0 +1,18 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "issue-497-sidecar-scope-correction-20260902",
+  "token_file": null,
+  "issue": 497,
+  "pull_request": null,
+  "title": "[v0.92.1][CORP-C] Corporate IP-transfer acceptance",
+  "body": "## Outcome\n\nProduce one accepted corporate IP-transfer acceptance record for CORP-C, with operational hardening residuals routed separately.\n\n## Primary deliverable\n\nOne accepted corporate control-transfer/IP-transfer acceptance record covering the #497 transfer boundary and preserving evidence for the AWS-C Terraform bootstrap readback.\n\n## Verification result\n\nThe prerequisite census passes for CORP-A (#482), CORP-B (#483), GCP-D (#493), and AWS-G (#496). The Agent Logic business AWS profile is read back through redacted retained evidence. The #497 acceptance packet records the single authorized Terraform bootstrap mutation and routes broader operational-control hardening residuals to sidecar #624.\n\n## Sidecar boundary\n\nBroader post-move-in operational hardening is tracked in #624 and does not block #497 closure. That sidecar owns GitHub/CI authority hardening, DNS and certificate ownership/rollback readbacks, AWS account guardrails, private custody receipt, and deployment rollback readback.\n\n## Unit boundary\n\nIssue completion is exactly one corporate IP-transfer acceptance decision for CORP-C. Operational hardening rows discovered during closeout are preserved as #624 follow-up scope rather than reopened #497 blockers.\n\n## Dependencies\n\n- CORP-A: #482\n- CORP-B: #483\n- AWS-G: #496\n- GCP-D: #493\n\n## Retained predecessor scope\n\n- #157\n- #158\n- #159\n\n## Acceptance criteria\n\n- [x] CORP-A, CORP-B, AWS-G, and GCP-D prerequisite issue/PR ancestry is retained.\n- [x] AWS uses the approved business-account profile for #497 evidence and records only redacted account-hash readback.\n- [x] Terraform bootstrap authority is company-controlled for #497 scope and the authorized AWS-C bootstrap apply/readback is retained.\n- [x] Operational hardening residuals are explicitly routed to nonblocking sidecar #624.\n\n## Owned paths\n\n- `docs/operations/corporate/control-transfer/**`\n- `infra/**`\n- `.github/workflows/**`\n- `docs/milestones/v0.92.1/evidence/corporate/corp-c/**`\n\n## PVF lanes\n\n- `control-plane-readback`\n- `aws-business-account`\n- `deployment-rollback`\n- `secret-redaction`\n\n## Stop conditions\n\n- A production mutation lacks operator authorization.\n- Credential or private custody material would be exposed.\n- #624 is misrepresented as complete.\n\n## Non-goals\n\n- Completing #624 operational hardening inside #497.\n- Unreviewed production cutover.\n- Credential disclosure.\n- Replacing counsel or committing private diligence material.\n\n## Canonical planning identity\n\n- Planned ID: `CORP-C`\n- Canonical title: `[v0.92.1][CORP-C] Corporate operational-control transfer`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-C`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-C:create -->",
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

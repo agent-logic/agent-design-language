@@ -1,0 +1,36 @@
+{
+  "issue": 506,
+  "expected_generation": 20,
+  "expected_digest": "a2ad2001fb054a74644af8fc349826b918834eaac9232d5c3051b4570b0ea4e0",
+  "actor": "fresh-session:57ba3dc2-e7d8-463b-8bcf-70963e12dcbb",
+  "evidence": {
+    "reviewer": "fresh-session:57ba3dc2-e7d8-463b-8bcf-70963e12dcbb",
+    "scope": [
+      ".csdlc/prepared/issues/506/design.md",
+      ".csdlc/prepared/issues/506/diagram.mmd",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+    ],
+    "reviewed_revision": "git-blake3:d20902de0916b8bf9f45acb77bc0026717bba30a:c6ef1c9cebe00c1ae5daa8229a39b6a5aea769d103a46acbe33fb35ef7a4e5f0",
+    "findings": [
+      {
+        "id": "F-506-57BA3DC2-1",
+        "severity": "p1",
+        "summary": "negative_matrix still does not prove the invalid-input causes for each denied ACIP vector; denial can remain label-driven because expected denied vectors cannot accept.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Read-only exact-head review only; no live cloud/provider proof was run or claimed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

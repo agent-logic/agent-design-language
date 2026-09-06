@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 263,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast directory submission runbooks and operator preflight",
+    "slug": "podcast-directory-runbooks",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prepare current provider-specific directory submission runbooks and one redacted operator preflight without mutating provider accounts.",
+      "required_outcome": "Apple, Spotify, Amazon, and YouTube runbooks identify every account-side and irreversible step, consume the exact production feed, and hand a safe ledger schema to #264.",
+      "declared_scope": [
+        "docs/milestones/v0.92.1/evidence/podcast/51-c",
+        "docs/milestones/v0.92.1/review/podcast_directory_263"
+      ],
+      "authority_boundary": [
+        "Issue 263 owns only its declared result and paths; Sprint 8 umbrella #536 coordinates but cannot implement or approve this child."
+      ],
+      "initial_assumptions": [
+        "Sprint 8 podcast preparation uses `The Cognitive Stack` as the operator-directed working show name unless superseded by a later typed issue update.",
+        "The working show name is not a legal or trademark clearance claim, directory availability proof, mailbox ownership proof, or public launch authorization."
+      ],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle only",
+        "Use a dedicated FastWork issue worktree and issue-bound session goal",
+        "Run one bounded exact-head review before publication",
+        "Do not retain credentials, verification codes, recovery material, TLS private keys, or private account data",
+        "Do not widen into another Sprint 8 child's ownership"
+      ]
+    }
+  }
+}

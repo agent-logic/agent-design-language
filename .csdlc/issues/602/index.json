@@ -1,0 +1,577 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 602,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
+  "phase": "closed_out",
+  "generation": 32,
+  "digest": "70679100c9eb04f1b4f07f010a7a89bfd654e7d782ef0822efe4cbdddddb3ca0",
+  "branch": "codex/602-runtime-csmctl-agent-add",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
+  "review_assignment": {
+    "reviewer": "codex-subagent:issue_602_queue_review",
+    "assigned_by": "codex:issue-602-completion",
+    "revision": "git-blake3:a6c5bd5cf3156a7efdc64d0c5a651fde32642a30:08d0247414fbd3f0d15d3e01cc404bc4862bd0935b6a80903d68b5c31747ab0c",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/evidence/602/live-wuji-acceptance.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:issue_602_queue_review",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/evidence/602/live-wuji-acceptance.md"
+    ],
+    "reviewed_revision": "git-blake3:a6c5bd5cf3156a7efdc64d0c5a651fde32642a30:08d0247414fbd3f0d15d3e01cc404bc4862bd0935b6a80903d68b5c31747ab0c",
+    "findings": [],
+    "residual_risks": [
+      "Live Wuji proves exact-candidate lifecycle, inference, clean shutdown, and restart; the 10-minute queue-expiry branch is proven deterministically rather than by an unnecessary live wait."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 602,
+    "pull_request": 614,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/614",
+    "base": "main",
+    "head": "codex/602-runtime-csmctl-agent-add",
+    "revision": "git-blake3:5270891fbfafadae4659206551661a69e0ff3474:1579c417a3652c8071db2e0eb3848a6290fb022c1644e5a9e7bdcac24f04effb",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 614,
+    "disposition": "merged",
+    "observed_sha": "c9c28bb43d89b786ca22cb450f993e0c933bc522",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/602.json",
+    "branch": "codex/602-runtime-csmctl-agent-add",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/602/design.md",
+  "diagram_path": ".csdlc/prepared/issues/602/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:eb4e86bd-92b2-46e8-a480-50cf12642990",
+      "revision": "c0ec199912a0a77bf5b599ac006daac660997eeacf32027503ae4432aac78827"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6e97aced356b24007fcebe5e07e5d709518c3b995d1ea559d926bf7d2eceee1d",
+      "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
+      "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
+    },
+    "stp": {
+      "values_digest": "52b7220106817bf2503a6783b64af60fa1c012cb4e497671c2860b7a90689659",
+      "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
+      "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
+    },
+    "spp": {
+      "values_digest": "10d02bd4fca72d9d4371d6cac7007f72a4907fcc330018a8c53e25f2a0811bc8",
+      "rendered_digest": "78487fb0b8b99fff3f2d481ee00aa4ffc01d9ddea98dac8a23c515aed4e8d476",
+      "ast_digest": "4fb8d7b9806968f3ecceb4cb131519c78e77c47d3e1a2c9be836745552f18e6b"
+    },
+    "vpp": {
+      "values_digest": "01f289b2f1d1e5e2c542dd3d24f3ec545dc0eca24ad9ddcc53ad40a7a4e1363e",
+      "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
+      "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
+    },
+    "srp": {
+      "values_digest": "15150d6b020f95d5e3c3fe9f3929660f672571e8f4f47bb8ef24ebca8218bd6c",
+      "rendered_digest": "b7960686a782379df4cc604d56b2b6b2a3a1d563ea5fd0c273af863bf4b14307",
+      "ast_digest": "8f6e08be89ecc37fda685e9b0fa2e840444181afbf674a503e5318ad30e32203"
+    },
+    "sor": {
+      "values_digest": "b385782f1bbe75aef77328ec0389eae9a36dfbaf17e20174199b45fbc28906e5",
+      "rendered_digest": "88df93aa66a0fb041f497edc0adf553a35927f889f31821faa656bf5aa0a8814",
+      "ast_digest": "fe1cc957fcf242b3db14e828b0d3019558995469b08158adf92db188f33f9484"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "Refresh exact-head review after the review-evidence metadata commit changed files inside the assigned review scope."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:602-remediation",
+      "reason": "Recover stale review and publication identity after rebase, review fixes, and exact-candidate live Wuji proof."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:602-remediation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:602-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:602-ci-remediation",
+      "reason": "Substantive conversation timeout correction after published-head CI failure; return to implemented for fresh exact-head review."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:602-ci-remediation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:602-ci-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:602-ci-remediation",
+      "reason": "Correct stale Guardian lease ownership fixtures exposed by exact-head Runtime CI; return to implemented for fresh review."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:602-ci-remediation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:602-ci-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:602-ci-remediation",
+      "reason": "Add focused authenticated lifecycle coverage after the authoritative changed-source coverage gate failed."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:602-ci-remediation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:602-ci-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-602-completion",
+      "reason": "Runtime queue and provider timeout correction plus refreshed exact-candidate Wuji acceptance require current review and publication truth."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-602-completion",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-602-completion",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 23,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 24,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 25,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #602 from retained derived terminal PR #614."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-602-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-602",
+      "reason": "Declare exact repository-owned implementation and proving validation paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csmctl_cmd.rs\",\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\".csdlc/prepared/issues/602/validate-focused.sh\",\".csdlc/prepared/issues/602/validate-live-wuji.sh\",\".csdlc/evidence/602\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-602",
+      "reason": "Route focused and live proof through exact issue-owned executable validators.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-agent-admission\",\"proof_role\":\"Prove csmctl parsing authenticated transport validation idempotence persistence roster projection OpenAPI parity and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":7000,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-focused.sh\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"live-wuji-agent-admission\",\"proof_role\":\"Prove first add duplicate roster health Shepherd preservation and restart recovery against the installed Wuji gemma4:e4b-mlx model.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":420,\"budget_tokens\":2400,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-live-wuji.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Runs after focused proof and exact candidate deployment using the existing installed model without paid cloud resources.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-602",
+      "reason": "Operator expanded #602 from add-only admission to a coherent portable agent lifecycle with freeze-dry migration and destination rehydration.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"csmctl exposes agent add, list, get, remove, dehydrate, migrate, and rehydrate commands without Runtime init edits or ordinary restart requirements\",\"A verified added or rehydrated agent is immediately healthy, available, communication-eligible, and visible while Shepherd remains ready and cannot be removed or migrated\",\"Identical mutations are idempotent, conflicting identities and stale migration commits fail closed, and list/get are authenticated through the configured Runtime trust boundary\",\"Invalid authorization, provider, model, endpoint, identity, role, display name, unavailable model, or tampered artifact fails before durable or live mutation with actionable secret-free diagnostics\",\"Successful lifecycle mutations are atomically persisted under Runtime state and restored on restart; invalid persisted state fails closed\",\"Dehydrate produces an integrity-bound portable freeze-dried agent artifact and migrate uses a two-phase freeze-write-commit sequence so failure cannot silently erase the source agent\",\"Rehydrate verifies artifact integrity, identity continuity, destination provider/model availability, and conflict freedom before atomic destination admission\",\"Focused command, API, persistence, roster, artifact, restart, and live Wuji proofs pass at the exact reviewed revision\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement the authenticated Runtime agent lifecycle API, atomic store, synchronized roster, two-phase dehydration, portable bundle, removal, and rehydration.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement csmctl agent add, list, get, remove, dehydrate, migrate, and rehydrate with exact TLS, bearer handling, atomic artifact writes, and secret-free output.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Update API contracts and run focused lifecycle, persistence, artifact-tamper, roster, formatting, and lint proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Deploy the exact candidate on Wuji and prove add, duplicate, freeze-dry migration, rehydration, roster health, Shepherd preservation, and restart recovery with gemma4:e4b-mlx.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run bounded exact-head review, fix actionable findings, and publish the stacked #602 PR without merging or modifying #589.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"focused-agent-admission\",\"proof_role\":\"Prove the complete csmctl and Runtime agent lifecycle, authenticated transport, validation, idempotence, atomic persistence, freeze-dry integrity, rehydration, roster projection, OpenAPI parity, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-focused.sh\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"live-wuji-agent-admission\",\"proof_role\":\"Prove add, duplicate, freeze-dry migration, rehydration, roster health, Shepherd preservation, and restart recovery against installed Wuji gemma4:e4b-mlx.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-live-wuji.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Runs after focused proof and exact candidate deployment using the existing installed model without paid cloud resources.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-602",
+      "reason": "Operator explicitly required a first-class csmctl agent checkpoint command and checkpoint-backed migration continuity.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"csmctl exposes agent add, list, get, checkpoint, remove, dehydrate, migrate, and rehydrate commands without Runtime init edits or ordinary restart requirements\",\"A verified added or rehydrated agent is immediately healthy, available, communication-eligible, and visible while Shepherd remains ready and cannot be removed, checkpointed, or migrated\",\"Identical mutations are idempotent, conflicting identities and stale migration commits fail closed, and list/get are authenticated through the configured Runtime trust boundary\",\"Invalid authorization, provider, model, endpoint, identity, role, display name, unavailable model, or tampered checkpoint or artifact fails before durable or live mutation with actionable secret-free diagnostics\",\"Successful lifecycle mutations and checkpoints are atomically persisted under Runtime state and restored on restart; invalid persisted state fails closed\",\"Dehydrate embeds a durable integrity-bound checkpoint in a portable freeze-dried agent artifact and migrate uses a two-phase checkpoint-freeze-write-commit sequence so failure cannot silently erase the source agent\",\"Rehydrate verifies checkpoint and artifact integrity, identity continuity, destination provider/model availability, and conflict freedom before atomic destination admission\",\"Focused command, API, persistence, checkpoint, roster, artifact, restart, and live Wuji proofs pass at the exact reviewed revision\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-602",
+      "reason": "Operator required csmctl agent add to consume one runtime-loaded agent configuration with a stable multi-part agent name independent of provider, model, office, and host.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Implement the authenticated Runtime agent lifecycle API, atomic store, synchronized roster, two-phase dehydration, portable bundle, removal, and rehydration.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement csmctl agent add --config with a strict runtime-loaded declaration containing stable multi-part name, display name, office, provider, model, endpoint, and Runtime connection reference; keep lifecycle artifacts identity-preserving.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Update API contracts and run focused config parsing, identity separation, lifecycle, persistence, artifact-tamper, roster, formatting, and lint proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Deploy the exact candidate on Wuji and prove config-driven add, duplicate handling, freeze-dry migration, rehydration, roster identity, Shepherd preservation, and restart recovery with gemma4:e4b-mlx.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run bounded exact-head review, fix actionable findings, and publish the stacked #602 PR without merging or modifying #589.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "Refresh exact-head review after the review-evidence metadata commit changed files inside the assigned review scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-602-runtime-agent-lifecycle",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:602-remediation",
+      "reason": "Recover stale review and publication identity after rebase, review fixes, and exact-candidate live Wuji proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:602-remediation",
+      "reason": "{\"disposition\":\"Refresh authored design and diagram digests after the review-requested range-diff whitespace correction.\",\"false_reviewer\":\"codex:issue-602-design-review\",\"previous_approval\":{\"reviewer\":\"codex:issue-602-design-review\",\"revision\":\"8ec2477720ecd6e79add81268ac981bfbe427822a88219b463d19a4c13ee2235\"},\"reason\":\"The committed EOF whitespace correction changed the authored design identities without changing their semantics.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:602-remediation",
+      "reason": "Refresh authored bindings after the review-requested EOF whitespace correction.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/602/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/602/diagram.mmd\",\"new_design_digest\":\"c0ec199912a0a77bf5b599ac006daac660997eeacf32027503ae4432aac78827\",\"new_diagram_digest\":\"a0537252b6076f8d9d79ebe006443712fcdbbbc8796c7cebfad75846edce8775\",\"old_design_digest\":\"8ec2477720ecd6e79add81268ac981bfbe427822a88219b463d19a4c13ee2235\",\"old_diagram_digest\":\"db4dc6f1b58fbe972497399037f5a3cb17293843c4c7d8e16c45c37b709b2463\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":11,\"recovery_sequence\":15}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "fresh-session:eb4e86bd-92b2-46e8-a480-50cf12642990",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"c0ec199912a0a77bf5b599ac006daac660997eeacf32027503ae4432aac78827\",\"design_ref\":\".csdlc/prepared/issues/602/design.md\",\"diagram_digest\":\"a0537252b6076f8d9d79ebe006443712fcdbbbc8796c7cebfad75846edce8775\",\"diagram_ref\":\".csdlc/prepared/issues/602/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:602-remediation",
+      "reason": "Record exact-candidate live Wuji lifecycle and inference acceptance.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented config-driven dynamic Ollama agent admission and lifecycle management through csmctl and proved the exact candidate live on Wuji.\",\"changes\":[\"Added authenticated csmctl agent add --config plus list, get, checkpoint, dehydrate, migrate, rehydrate, and remove commands.\",\"Separated canonical two-part agent identity and display name from provider, model, endpoint, and first-class office configuration; persisted records reject simultaneous current office and legacy role authority.\",\"Added durable Runtime dynamic-agent state, governed Ollama execution, health, checkpoints with conversation continuity, two-phase migration, and unambiguous legacy persisted-store compatibility.\",\"Rebased issue 602 onto current main so PR 614 contains only issue 602 work.\"],\"artifacts\":[\".csdlc/prepared/issues/602/design.md\",\".csdlc/prepared/issues/602/diagram.mmd\",\".csdlc/prepared/issues/602/validate-focused.sh\",\".csdlc/evidence/602/live-wuji-acceptance.md\",\"infra/runtime-v3/agents/ember.axioma.yaml\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:602-remediation",
+      "reason": "Record focused and exact-candidate live Wuji proof after review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash .csdlc/prepared/issues/602/validate-focused.sh\",\"exact-candidate csmctl add, duplicate, checkpoint, migrate, rehydrate, authenticated WSS inference, clean restart, and roster verification on Wuji\"],\"purpose\":\"Prove issue 602 focused contracts and the required live Wuji lifecycle and gemma4:e4b-mlx inference acceptance.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/602/live-wuji-acceptance.md\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:602-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:602-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:602-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:602-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:602-ci-remediation",
+      "reason": "Substantive conversation timeout correction after published-head CI failure; return to implemented for fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "Correct stale Guardian lease ownership fixtures exposed by exact-head Runtime CI; return to implemented for fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:602-ci-remediation",
+      "reason": "Add focused authenticated lifecycle coverage after the authoritative changed-source coverage gate failed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:602-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:602-ci-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:issue-602-completion",
+      "reason": "Runtime queue and provider timeout correction plus refreshed exact-candidate Wuji acceptance require current review and publication truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 29,
+      "actor": "codex:issue-602-completion",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "codex:issue-602-completion",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 31,
+      "actor": "codex:issue-602-completion",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 43,
+      "generation": 32,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #602 from retained derived terminal PR #614.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

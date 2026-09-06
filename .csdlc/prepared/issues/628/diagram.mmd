@@ -1,0 +1,18 @@
+flowchart TD
+  A[#627 command manifest] --> B[csdlc local route dispatcher]
+  B --> C[issue]
+  B --> D[bind]
+  B --> E[edit]
+  B --> F[validate]
+  B --> G[doctor]
+  B --> H[schedule]
+  B --> I[shepherd]
+  B --> J[eligibility]
+  C --> K[v3 construction-state store]
+  D --> K
+  E --> K
+  F --> K
+  G --> K
+  K --> L[SIP -> STP -> SPP -> VPP -> SRP -> SOR]
+  L --> M[ready-to-execute local canary]
+  M --> N[#632 defect/readiness capture]

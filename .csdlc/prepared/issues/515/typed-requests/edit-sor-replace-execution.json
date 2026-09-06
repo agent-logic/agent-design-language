@@ -1,0 +1,103 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "sor",
+  "expected_digest": "808d341bd96197387d3a8711a3537762863650529468fc6610afb5fc48dc7740",
+  "expected_generation": 4,
+  "issue": 515,
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented a local-only, non-authoritative provider shadow completion helper that preserves the authoritative provider output as the only accepted result, records shadow observations separately, and emits redacted digest/class comparison evidence.",
+    "changes": [
+      "Added distinct provider shadow authority/shadow channel types and redacted comparison records in adl/src/provider/mod.rs.",
+      "Added complete_with_local_model_shadow so authority executes first and shadow success or failure cannot replace or mask authoritative output.",
+      "Added issue-owned integration tests for shadow isolation, deterministic comparison, and fallback behavior.",
+      "Added redacted PROV-B evidence under docs/milestones/v0.92.1/evidence/provider/prov-b/."
+    ],
+    "artifacts": [
+      "adl/src/provider/mod.rs",
+      "adl/tests/provider_shadow_isolation.rs",
+      "adl/tests/provider_shadow_comparison.rs",
+      "adl/tests/provider_shadow_fallback.rs",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json"
+    ],
+    "validation": [
+      {
+        "purpose": "Prove authority and shadow paths are distinguishable and shadow output cannot mutate authoritative state.",
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "-p",
+          "adl",
+          "--test",
+          "provider_shadow_isolation"
+        ],
+        "outcome": "passed",
+        "evidence_ref": "terminal:provider_shadow_isolation:1 passed"
+      },
+      {
+        "purpose": "Prove exact deterministic comparison inputs and rule set for authority-versus-shadow observations.",
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "-p",
+          "adl",
+          "--test",
+          "provider_shadow_comparison"
+        ],
+        "outcome": "passed",
+        "evidence_ref": "terminal:provider_shadow_comparison:1 passed"
+      },
+      {
+        "purpose": "Prove shadow failures preserve the authoritative result and do not convert shadow success into authority.",
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "-p",
+          "adl",
+          "--test",
+          "provider_shadow_fallback"
+        ],
+        "outcome": "passed",
+        "evidence_ref": "terminal:provider_shadow_fallback:2 passed"
+      },
+      {
+        "purpose": "Prove PROV-B evidence excludes common credential, private payload, prompt, and host-local path markers.",
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh"
+        ],
+        "outcome": "passed",
+        "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/prov-b/local-model-shadow-comparison.json"
+      },
+      {
+        "purpose": "Prove exact branch diff hygiene and Rust formatting.",
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "outcome": "passed",
+        "evidence_ref": "terminal:git diff --check"
+      },
+      {
+        "purpose": "Prove Rust formatting for the touched provider and test surfaces.",
+        "command": [
+          "cargo",
+          "fmt",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "--check"
+        ],
+        "outcome": "passed",
+        "evidence_ref": "terminal:cargo fmt --check"
+      }
+    ]
+  },
+  "reason": "Record #515 local-model shadow execution and focused validation truth before phase advancement."
+}

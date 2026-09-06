@@ -1,0 +1,19 @@
+{
+  "issue": 596,
+  "card": "sip",
+  "expected_generation": 18,
+  "expected_digest": "3dade20e3cc7dfe475a26cabbcd2876b8b5d47689138b72deebc728c645290b6",
+  "actor": "codex:worker-6",
+  "reason": "Correct SIP declared scope after restoring #596 to a v3-separate remediation branch.",
+  "operation": {
+    "operation": "correct_declared_scope_before_publication",
+    "values": [
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json",
+      ".csdlc/issues/596",
+      ".csdlc/prepared/issues/596",
+      ".csdlc/evidence/604/full-cycle-defects-tail.md"
+    ]
+  },
+  "fail_after_backup": false
+}

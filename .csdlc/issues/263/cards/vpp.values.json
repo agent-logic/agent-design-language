@@ -1,0 +1,67 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 263,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast directory submission runbooks and operator preflight",
+    "slug": "podcast-directory-runbooks",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-263-focused",
+          "proof_role": "Official-instruction freshness, feed identity, operator-action census, redaction, and ledger-schema checks",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/263/validate-directory-runbooks.rb"
+          ],
+          "parallel_group": "sprint8-issue-263",
+          "defer_reason": "Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication."
+        },
+        {
+          "lane": "issue-263-diff-hygiene",
+          "proof_role": "Reject malformed tracked changes before exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "sprint8-hygiene",
+          "defer_reason": "Run after the issue has a bounded candidate diff."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency, ownership, authority, privacy, validation, exact-revision, or review drift; preserve evidence and route separate defects without widening the issue.",
+      "design_ref": ".csdlc/prepared/issues/263/design.md",
+      "design_digest": "acfac8b873ef7ffe15f472da207706573e6bd06235b6a90b5b1bfa05e832c6fd",
+      "diagram_ref": ".csdlc/prepared/issues/263/diagram.mmd",
+      "diagram_digest": "fdd855bdb0cdc1ff056718bf7b783f2a077edcf16e27ba1d5fcd5681b32d67ee"
+    }
+  }
+}

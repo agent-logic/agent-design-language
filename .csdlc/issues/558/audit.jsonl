@@ -9,3 +9,4 @@
 {"sequence":9,"generation":6,"actor":"codex:issue-558-shared-gate","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":7,"actor":"codex:issue-558-shared-gate","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":11,"generation":8,"actor":"codex:issue-558-shared-gate","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":12,"generation":9,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #558 from retained derived terminal PR #559.","operation":"materialize_derived_terminal"}

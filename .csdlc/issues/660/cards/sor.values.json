@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 660,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Remove unintended public /podcast/ exposure and keep show under _preview",
+    "slug": "podcast-public-exposure-emergency",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "complete",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [],
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
+      "follow_ups": []
+    }
+  }
+}

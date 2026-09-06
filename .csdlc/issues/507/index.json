@@ -1,0 +1,245 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 507,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "23ba8f7d15d8319b39008f9453f898689137c0788dadffa3d95110777da6d5eb",
+  "phase": "closed_out",
+  "generation": 8,
+  "digest": "44151341eb5388f211d7220e93ac93c86f109e29f6fc8d1dcf040ae080a1eb37",
+  "branch": "codex/507-six-resident-uts-qualification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-507-six-resident-uts-qualification",
+  "review_assignment": {
+    "reviewer": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:cd5251801646070e1af21bea50b11902c21e61c8:779b10e20bea40314d793a172cd0207ea6c02ea2635325d36af3bd632e0935bd",
+    "scope": [
+      ".csdlc/evidence/507",
+      ".csdlc/prepared/issues/507",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_b.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+    "scope": [
+      ".csdlc/evidence/507",
+      ".csdlc/prepared/issues/507",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_contract/main.rs",
+      "adl-runtime/tests/distributed_contract/validate_drt_b.sh",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+    ],
+    "reviewed_revision": "git-blake3:cd5251801646070e1af21bea50b11902c21e61c8:779b10e20bea40314d793a172cd0207ea6c02ea2635325d36af3bd632e0935bd",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer confirmed exact substantive revision cd5251801646070e1af21bea50b11902c21e61c8 and observed only uncommitted review-assignment metadata after that SHA.",
+      "Reviewer reran the focused DRT-B six-resident Rust test and confirmed digest b84cc6f1503e3547082034b5d6e437a85d0cb4e7805ae2052e1ed32683804a11.",
+      "Review is local deterministic DRT-B proof only; it does not prove live GPU/provider execution, DRT-C #508, or DRT-D #509."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 507,
+    "pull_request": 619,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/619",
+    "base": "main",
+    "head": "codex/507-six-resident-uts-qualification",
+    "revision": "git-blake3:4d7b9ab22583333fafa706b9eafd62cd2c030d34:2fc84694a9a7024cdb640eb33510e379a2fcd1fbb09e3cdf3b08c5afa7389031",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 619,
+    "disposition": "merged",
+    "observed_sha": "cca85d6fd4976e2b2358d0d130b8291a88cb1c95",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/507.json",
+    "branch": "codex/507-six-resident-uts-qualification",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-507-six-resident-uts-qualification"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/507/design.md",
+  "diagram_path": ".csdlc/prepared/issues/507/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:91e45f3c-a018-4df3-bac7-051033211091",
+      "revision": "98ee0b91f6b5ca60446be945be671806c00fdf50217f8554de3e1e39f869b40f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8646a2e276ebf98bdbdeccfada01f9909bde5f9654b38f922388d5d736f8fa2f",
+      "rendered_digest": "55f6a2bcf3e2639bf32a4fc08e0a22013e8ae5194d5d45a8df1b391c5c8344f0",
+      "ast_digest": "2b5f7df764bdb9955c3e3e0ba5d9446808d3f56887b096b502a3a946a294cb2c"
+    },
+    "stp": {
+      "values_digest": "aae1e4d006e872b56564f5ff3d0df48887b8302646fb73dc45f5be3b24ca692d",
+      "rendered_digest": "ca81feaee42d04eb7cedc6ddd14c88497a03716551d08d4593b9c5a194228ee2",
+      "ast_digest": "81f96bba3b4dc0d3b506d17711725b3bd85ac55192a0e6d74c51220876baf172"
+    },
+    "spp": {
+      "values_digest": "0732aafb70759713a50c6aff7a16a19a329092ae3499875bce2cd2f2f0737b62",
+      "rendered_digest": "7e8176d4a72aaf5913ad896485b6106a52d7e217407c6e92314887a528d5963b",
+      "ast_digest": "2263f61e3aa1611f76a65a6b060801aa0d0c24d9f0bd1f4053ec301a146a446b"
+    },
+    "vpp": {
+      "values_digest": "d5369746f986fc769b83cc34225d7ea6c70be48d253c739074b69c0f672ef0b6",
+      "rendered_digest": "4833b16b5dc5bb5d6b74d7484c8d563f21bf9a540562c4be11cd184d2da8a6ec",
+      "ast_digest": "d8353daa96ae66dec85ef4d1f95448a38a411ddd48688e4aad3389caa073dcb6"
+    },
+    "srp": {
+      "values_digest": "566cb56414ddf2fdbc89bda0e11eca2a2b9c99f182996306563fc051febf93e3",
+      "rendered_digest": "1055955cabdb6cb0c3ba1346bf69c5daa62dbbe209f7f9de5ad0051828ccc5ad",
+      "ast_digest": "ec06965c9d29e0b17f0845c9acf4b1444fe971ddbdd4877d76af371a83c9dc59"
+    },
+    "sor": {
+      "values_digest": "b62d68da7f997992203fba0649818dcf8144975f9e1dce46f2e7f59fbf95d023",
+      "rendered_digest": "854687593c2aa000d704c0b475a9dd618492821690626692726e6663ef2cb964",
+      "ast_digest": "d2091323ef6d40d3c5ae6f90bbe70aac2c12252a60d36c44ee1430c86b794001"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #507 from retained derived terminal PR #619."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Make the #507 issue-owned validator an exact owned path so typed readiness can recognize the VPP shell lanes as governed.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/qualification\",\"adl-runtime/tests/distributed_contract\",\"adl-runtime-kernel/src\",\"adl/tools/run_issue268_\",\"docs/milestones/v0.92.1/evidence/runtime/drt-b\",\".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh\",\".csdlc/prepared/issues/507\",\".csdlc/evidence/507\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Make the #507 issue-owned validator an exact deliverable so typed readiness can verify the governed shell lanes.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Deterministic DRT-B six-resident qualification contract/proof surface\",\"Focused continuity, dehydrate/restore, replay, reclamation, and cleanup evidence under docs/milestones/v0.92.1/evidence/runtime/drt-b/\",\".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh\",\"Issue-owned validation lane for six-resident UTS, continuity reclamation, cost/resource envelope checks, and cleanup-zero checks\",\"Typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Limit #507 VPP readiness lanes to the governed issue-owned validator while preserving all acceptance coverage; exact-head review remains a lifecycle gate recorded after implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-drt-b-packet\",\"proof_role\":\"Proves #507 design packet readiness, #506 terminal cache, #345 closed predecessor observation via local cache or live read-only GitHub state, owned-path boundaries, six-resident denominator, paid/cloud proof gating, and pre-publication review gating before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh\",\"--lane=prebind\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"drt-b-six-resident-uts\",\"proof_role\":\"After bind, verifies six distinct resident identities, one UTS workload receipt per resident, lineage digest, and replay cursor evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh\",\"--lane=six-resident-uts\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #507 is bound and implementation creates the DRT-B proof surfaces.\"},{\"lane\":\"drt-b-continuity-reclamation\",\"proof_role\":\"After bind, verifies dehydrate/restore exact population preservation, replay/idempotency, resource-envelope, negative-matrix, and cleanup-zero evidence.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh\",\"--lane=continuity-reclamation\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #507 is bound and implementation creates continuity/reclamation evidence.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:91e45f3c-a018-4df3-bac7-051033211091",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"98ee0b91f6b5ca60446be945be671806c00fdf50217f8554de3e1e39f869b40f\",\"design_ref\":\".csdlc/prepared/issues/507/design.md\",\"diagram_digest\":\"2532bce733a5afdef1330fe2feb308e870515883f47b7ce6db31f5859f34de8a\",\"diagram_ref\":\".csdlc/prepared/issues/507/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:83b4d11d-102f-430d-9c5c-db3cc3ae7a7f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #507 from retained derived terminal PR #619.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

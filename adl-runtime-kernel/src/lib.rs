@@ -2,6 +2,7 @@
 
 pub mod acip;
 pub mod adaptive_learning;
+pub mod agent_partial_checkpoint;
 pub mod agent_roster;
 pub mod assembly;
 pub mod birth_witness;
@@ -14,6 +15,7 @@ pub mod cognition;
 pub mod cognitive_profile;
 pub mod component;
 pub mod config;
+pub mod config_generation;
 pub mod config_reload;
 pub mod continuity;
 pub mod continuity_control;
@@ -41,6 +43,7 @@ pub mod proof;
 pub mod protocol_adapters;
 pub mod reasoning;
 pub mod resident_cycle;
+pub mod resident_shepherd;
 pub mod shepherd;
 pub mod supervisor;
 pub mod telemetry;
@@ -58,6 +61,7 @@ mod conversation_sessions_tests;
 
 pub use acip::*;
 pub use adaptive_learning::*;
+pub use agent_partial_checkpoint::*;
 pub use agent_roster::*;
 pub use assembly::*;
 pub use birth_witness::*;
@@ -74,6 +78,7 @@ pub use component::{
     PortAccessError, PortProtocol, PortSpec, RunningState, SupervisionScope,
 };
 pub use config::*;
+pub use config_generation::*;
 pub use config_reload::*;
 pub use continuity::*;
 pub use continuity_control::*;
@@ -105,6 +110,7 @@ pub use protocol_adapters::{
 };
 pub use reasoning::*;
 pub use resident_cycle::*;
+pub use resident_shepherd::*;
 pub use shepherd::*;
 pub use supervisor::{Kernel, KernelControl, KernelError, KernelExit, KernelHandle};
 pub use telemetry::*;

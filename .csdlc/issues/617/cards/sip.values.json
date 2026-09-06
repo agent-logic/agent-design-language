@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 617,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+    "slug": "runtime-api-canonical-agent-names",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Expose each agent's canonical two-part name directly in Runtime v3 roster and detail responses without changing lifecycle semantics or existing identifiers.",
+      "required_outcome": "AgentRosterEntry, roster/detail JSON, OpenAPI, and focused tests expose stable truthful canonical names for dynamic agents and the Shepherd while preserving operational ID, display name, and public office as separate fields.",
+      "declared_scope": [
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/agent_roster.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/support/runtime_init.rs",
+        "adl-runtime-kernel/tests/agent_roster.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        "adl-runtime-kernel/tests/observatory.rs",
+        "adl-runtime-kernel/tests/openapi_contract.rs",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "infra/runtime-v3/runtime-init.toml",
+        ".csdlc/prepared/issues/617",
+        ".csdlc/evidence/617",
+        ".csdlc/issues/617"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#617",
+        "Merged issue #602 supplies canonical agent lifecycle state",
+        "Existing operational IDs and lifecycle semantics remain unchanged",
+        "Only Runtime v3 roster and detail projection plus its schema and tests are in scope"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Do not infer canonical identity from operational ID, display label, or office",
+        "Keep the API change additive and compatibility-tested",
+        "Use the current typed C-SDLC v2 route"
+      ]
+    }
+  }
+}

@@ -31,6 +31,29 @@ display_name = "Agent Logic Development Polis"
 public_domain = "runtime.dev.agent-logic.ai"
 observatory_public_origin = "https://observatory.dev.agent-logic.ai"
 
+[polis.vertex_ai]
+provider = "vertex_ai"
+gcp_project = "agent-logic-dev"
+vertex_location = "us-central1"
+model = "gemini-2.5-flash"
+
+[polis.vertex_ai.credential_source]
+kind = "application_default_credentials"
+
+[resident_shepherd]
+name = "beacon.axioma"
+display_name = "Beacon Axioma"
+office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
+
+[resident_shepherd.preload]
+enabled = true
+timeout_millis = 900000
+retry_initial_millis = 5000
+retry_max_millis = 60000
+
 [observatory]
 allowed_origins = [
   "https://observatory.dev.agent-logic.ai",
@@ -43,8 +66,8 @@ checkpoint_channel_capacity = 4
 component_readiness_timeout_millis = 5000
 observability_poll_millis = 50
 weather_stale_after_millis = 2000
-guardian_lease_connect_millis = 5000
-guardian_lease_auth_millis = 5000
+guardian_lease_connect_millis = 30000
+guardian_lease_auth_millis = 30000
 trusted_time_sample_timeout_millis = 3000
 trusted_time_max_offset_millis = 5000
 trusted_time_max_round_trip_millis = 2000
@@ -117,6 +140,19 @@ spool_retained_files = 4
 region = "us-west-2"
 log_group = "/agent-logic/runtime-v3/axioma-wuji-dev"
 log_stream = "wuji"
+
+[agent_partial_checkpoints]
+enabled = true
+interval_seconds = 300
+snapshot_concurrency = 4
+max_partial_bytes = 16777216
+local_max_bytes = 2147483648
+local_max_files = 8192
+retained_partials_per_agent = 12
+spool_max_bytes = 536870912
+spool_max_files = 4096
+# S3 archive values come from infra/aws/runtime/agent-checkpoint-archive outputs.
+# Add [agent_partial_checkpoints.s3_archive] during the separately authorized deploy.
 
 [weather]
 sample_millis = 1000

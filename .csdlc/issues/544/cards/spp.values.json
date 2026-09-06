@@ -7,7 +7,7 @@
     "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
     "slug": "v0-92-1-csdlc-primary-checkout-bootstrap-guard",
     "version": "v0.92.1",
-    "generation": 31
+    "generation": 32
   },
   "status": "ready",
   "content": {
@@ -26,7 +26,7 @@
             "AC-4",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -37,7 +37,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -49,7 +49,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -62,7 +62,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

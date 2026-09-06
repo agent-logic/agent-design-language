@@ -1,0 +1,43 @@
+{
+  "issue": 602,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "90b157eb39dce4664ea2be840d760f3172394c80b1b85e819df4b4f9ecdd9b43",
+  "actor": "codex:issue-602",
+  "reason": "Operator required csmctl agent add to consume one runtime-loaded agent configuration with a stable multi-part agent name independent of provider, model, office, and host.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Implement the authenticated Runtime agent lifecycle API, atomic store, synchronized roster, two-phase dehydration, portable bundle, removal, and rehydration.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement csmctl agent add --config with a strict runtime-loaded declaration containing stable multi-part name, display name, office, provider, model, endpoint, and Runtime connection reference; keep lifecycle artifacts identity-preserving.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Update API contracts and run focused config parsing, identity separation, lifecycle, persistence, artifact-tamper, roster, formatting, and lint proof.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Deploy the exact candidate on Wuji and prove config-driven add, duplicate handling, freeze-dry migration, rehydration, roster identity, Shepherd preservation, and restart recovery with gemma4:e4b-mlx.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5", "AC-6", "AC-7", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Run bounded exact-head review, fix actionable findings, and publish the stacked #602 PR without merging or modifying #589.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

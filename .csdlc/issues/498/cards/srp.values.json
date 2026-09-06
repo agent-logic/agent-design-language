@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 498,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+    "slug": "v0-92-1-corp-d-corporate-diligence-acceptance",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/498\n.csdlc/prepared/issues/498\ndocs/milestones/v0.92.1/evidence/corporate/corp-d\ndocs/operations/corporate/diligence",
+      "review_revision": "git-blake3:ac6b1891ddf6f82996a3419d204f9caa4de286fc:09f64e339a1421fbaba128f2f4921005ff67c92203e563c3bf4c5c435f5df4b9",
+      "reviewer": "subagent:498-corp-d-exact-head-review-r7",
+      "review_prompts": [
+        "Does #498 refuse acceptance while CORP-C #497 remains open, non-closing, or non-ancestral?",
+        "Does the diligence index cover every CORP-A through CORP-C blocker/disposition input without inventing legal conclusions?",
+        "Are counsel-controlled judgments represented only as bounded public or redacted receipts?",
+        "Does the acceptance record bind the exact diligence index and avoid private/secret material?",
+        "Does Sprint 4 umbrella truth distinguish #498 readiness from #498 terminal completion?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

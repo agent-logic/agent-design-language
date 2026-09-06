@@ -1,0 +1,14 @@
+{
+  "issue": 689,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "014115e455e9f10616f83f5159633391a93bd86032ea6acfda46933675b7e4f1",
+  "actor": "codex:/root",
+  "reason": "restrict owned paths to existing safe repository surfaces before binding",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": ["CSMctl", "docs/tooling/START_CSM_RUNBOOK.md", "adl/tools/test_csmctl_linux_backend.sh", ".csdlc/issues/689", ".csdlc/prepared/issues/689", ".csdlc/evidence/689"]
+  },
+  "fail_after_backup": false
+}

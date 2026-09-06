@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 629,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
+    "slug": "v3-h3-github-publication",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #629 only: github, github-issue, github-pr, pr-state, publish, and review routes plus tests, manifest updates, canaries, and issue-owned validation.",
+      "deliverables": [
+        "Implemented v3 one-binary routes for GitHub issue, GitHub PR, PR state, review, and publication surfaces.",
+        "Authenticated readback model that rejects caller-forged GitHub/PR evidence.",
+        "Closing-vs-part-of linkage handling with visible Closes #xxx behavior for closing publications.",
+        "Credential redaction and no raw token exposure in route outputs.",
+        "Issue-owned validator proving #629 route ownership and no v2 source changes."
+      ],
+      "acceptance_criteria": [
+        "v3 records exact-head review assignment and review result with self-review protection.",
+        "v3 publication refuses missing or stale review truth.",
+        "PR creation or update visibly includes Closes #xxx when closing linkage is intended.",
+        "PR-state readback authenticates live GitHub state rather than trusting caller strings.",
+        "Tests cover closing-vs-part-of linkage, stale PR event recovery, raw-credential redaction, caller-forged readback rejection, and review-authority denial.",
+        "A real issue canary reaches an open PR through v3.",
+        "No raw gh lifecycle writes, no v2 operational fallback, and no csdlc-v2 source changes."
+      ],
+      "dependencies": [
+        "#625 sprint umbrella exists.",
+        "#627 command denominator is locally available on the execution base."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#629",
+        "agent-logic/agent-design-language#625",
+        "agent-logic/agent-design-language#627",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/remote",
+        "csdlc-v3/src/publication",
+        "csdlc-v3/src/review",
+        "root AGENTS.md"
+      ],
+      "non_goals": [
+        "No merge.",
+        "No finish.",
+        "No cleanup.",
+        "No install/proof/soak/cutover authority.",
+        "No #505 closure or v2 retirement."
+      ]
+    }
+  }
+}

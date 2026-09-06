@@ -12,7 +12,9 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    ControlAction, DomainWork, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, DOMAIN_WORK_SCHEMA,
+    activate_config_generation, provision_config_generation, ControlAction, DomainWork,
+    SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, CONFIG_GENERATION_ENV, CONFIG_RECEIPT_DIGEST_ENV,
+    DOMAIN_WORK_SCHEMA,
 };
 
 #[path = "support/runtime_init.rs"]
@@ -59,7 +61,9 @@ impl TestGuardianLease {
             let mut supplied = vec![0_u8; token_for_thread.len()];
             stream.read_exact(&mut supplied).unwrap();
             assert_eq!(supplied, token_for_thread.as_bytes());
-            stream.write_all(b"ok").unwrap();
+            let mut acknowledgement = b"ok".to_vec();
+            acknowledgement.extend_from_slice(&std::process::id().to_be_bytes());
+            stream.write_all(&acknowledgement).unwrap();
             let _ = release_rx.recv();
         });
         Self {
@@ -277,8 +281,41 @@ fn local_state_root(directory: &Path, name: &str) -> PathBuf {
 fn runtime_kernel_command(init: &Path, lease: &TestGuardianLease) -> Command {
     let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
     command.arg("serve").arg("--init").arg(init);
+    apply_runtime_config_generation(init, &mut command);
     lease.apply(&mut command);
     command
+}
+
+#[cfg(unix)]
+fn apply_runtime_config_generation(init: &Path, command: &mut Command) {
+    let init = init.canonicalize().unwrap();
+    let generation = runtime_kernel_generation_from_init(&init);
+    let identity = provision_config_generation(&init, &generation).unwrap();
+    activate_config_generation(&init, &identity).unwrap();
+    command
+        .env(CONFIG_GENERATION_ENV, identity.generation)
+        .env(CONFIG_RECEIPT_DIGEST_ENV, identity.receipt_digest);
+}
+
+#[cfg(unix)]
+fn runtime_kernel_generation_from_init(init: &Path) -> String {
+    let text = std::fs::read_to_string(init).unwrap();
+    let document = toml::from_str::<toml::Value>(&text).unwrap();
+    let kernel = document
+        .get("binaries")
+        .and_then(toml::Value::as_table)
+        .and_then(|table| table.get("kernel_path"))
+        .and_then(toml::Value::as_str)
+        .unwrap();
+    Path::new(kernel)
+        .canonicalize()
+        .unwrap()
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .unwrap()
+        .to_owned()
 }
 
 #[cfg(unix)]
@@ -334,10 +371,10 @@ async fn guardian_lease_loss_checkpoints_and_stops_the_real_kernel() {
     let lease_listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
     let lease_address = lease_listener.local_addr().unwrap();
     let lease_token = "portable-guardian-lease-token-00000001";
-    let mut child = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"))
-        .arg("serve")
-        .arg("--init")
-        .arg(&init)
+    let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
+    command.arg("serve").arg("--init").arg(&init);
+    apply_runtime_config_generation(&init, &mut command);
+    let mut child = command
         .env(
             "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS",
             lease_address.to_string(),
@@ -355,7 +392,9 @@ async fn guardian_lease_loss_checkpoints_and_stops_the_real_kernel() {
     let mut supplied = vec![0_u8; lease_token.len()];
     lease.read_exact(&mut supplied).await.unwrap();
     assert_eq!(supplied, lease_token.as_bytes());
-    lease.write_all(b"ok").await.unwrap();
+    let mut acknowledgement = b"ok".to_vec();
+    acknowledgement.extend_from_slice(&std::process::id().to_be_bytes());
+    lease.write_all(&acknowledgement).await.unwrap();
 
     let stderr = child.stderr.take().unwrap();
     let (ready_tx, ready_rx) = std::sync::mpsc::channel();
@@ -465,7 +504,7 @@ fn pressure_checkpoint_failure_keeps_signal_shutdown_responsive() {
     let state_root = local_state_root(directory.path(), "pressure-failure-state");
     let continuity_root = state_root.join("continuity");
     std::fs::create_dir_all(&continuity_root).unwrap();
-    std::fs::create_dir(continuity_root.join(".generation-1.pending")).unwrap();
+    std::fs::create_dir(continuity_root.join(".generation-2.pending")).unwrap();
     let probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
     let address = probe.local_addr().unwrap();
     drop(probe);
@@ -539,7 +578,7 @@ fn pressure_checkpoint_failure_keeps_signal_shutdown_responsive() {
         std::net::TcpStream::connect(address).is_ok(),
         "checkpoint failure must leave the control API reachable"
     );
-    std::fs::remove_dir(continuity_root.join(".generation-1.pending")).unwrap();
+    std::fs::remove_dir(continuity_root.join(".generation-2.pending")).unwrap();
     assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
     let deadline = std::time::Instant::now() + Duration::from_secs(15);
     let status = loop {
@@ -680,7 +719,7 @@ async fn pressure_closes_ingress_serializes_live_work_and_stops_cleanly() {
     );
     assert!(stderr.contains("event=resource_pressure_stop"));
     let checkpoint: serde_json::Value = serde_json::from_slice(
-        &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
+        &std::fs::read(continuity_root.join("generation-2/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
     assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
@@ -1060,7 +1099,8 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     forged.signature = hex::encode([0_u8; 64]);
     assert!(request(forged).await.starts_with("HTTP/1.1 401"));
     assert!(child.try_wait().unwrap().is_none());
-    assert!(!continuity_root.join("generation-1").exists());
+    assert!(continuity_root.join("generation-1").exists());
+    assert!(!continuity_root.join("generation-2").exists());
 
     assert!(request(signed(
         "valid-stop",
@@ -1116,7 +1156,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     assert!(String::from_utf8_lossy(&restore_output.stderr)
         .contains("runtime continuity restore refused"));
     let checkpoint: serde_json::Value = serde_json::from_slice(
-        &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
+        &std::fs::read(continuity_root.join("generation-2/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
     assert_eq!(checkpoint["ingress"]["accepted_through"], 1);

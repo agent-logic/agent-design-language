@@ -12,6 +12,22 @@ const MAX_PAGE_SIZE: usize = 100;
 const MAX_FILTER_BYTES: usize = 64;
 const MAX_ROSTER_ENTRIES: usize = 10_000;
 
+pub fn is_canonical_agent_name(name: &str) -> bool {
+    let segments = name.split('.').collect::<Vec<_>>();
+    segments.len() == 2
+        && segments.iter().all(|segment| {
+            let bytes = segment.as_bytes();
+            !segment.is_empty()
+                && segment.len() <= 32
+                && bytes[0].is_ascii_lowercase()
+                && (bytes[bytes.len() - 1].is_ascii_lowercase()
+                    || bytes[bytes.len() - 1].is_ascii_digit())
+                && bytes
+                    .iter()
+                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || *byte == b'-')
+        })
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum AgentPresence {
@@ -24,11 +40,98 @@ pub enum AgentPresence {
     Unknown,
 }
 
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum InferenceReadinessState {
+    #[default]
+    Unimplemented,
+    Unavailable,
+    ModelLoading,
+    Failed,
+    Ready,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct InferenceReadinessProjection {
+    pub presence: AgentPresence,
+    pub health: &'static str,
+    pub availability: &'static str,
+    pub activity: Option<&'static str>,
+    pub communication_eligible: bool,
+}
+
+impl InferenceReadinessState {
+    pub fn from_projection_state(state: &str) -> Self {
+        match state {
+            "ready" => Self::Ready,
+            "model_loading" | "loading" | "starting" => Self::ModelLoading,
+            "failed" | "unhealthy" => Self::Failed,
+            "unavailable" | "degraded" | "recovering" | "unreachable" => Self::Unavailable,
+            "unimplemented" | "unsupported" => Self::Unimplemented,
+            _ => Self::Unimplemented,
+        }
+    }
+
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Unimplemented => "unimplemented",
+            Self::Unavailable => "unavailable",
+            Self::ModelLoading => "model_loading",
+            Self::Failed => "failed",
+            Self::Ready => "ready",
+        }
+    }
+
+    pub fn projection(self) -> InferenceReadinessProjection {
+        match self {
+            Self::Unimplemented => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "unimplemented",
+                availability: "unavailable",
+                activity: Some("adapter_unimplemented"),
+                communication_eligible: false,
+            },
+            Self::Unavailable => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "unavailable",
+                availability: "unavailable",
+                activity: Some("provider_unavailable"),
+                communication_eligible: false,
+            },
+            Self::ModelLoading => InferenceReadinessProjection {
+                presence: AgentPresence::Unknown,
+                health: "loading",
+                availability: "unavailable",
+                activity: Some("model_preload"),
+                communication_eligible: false,
+            },
+            Self::Failed => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "failed",
+                availability: "unavailable",
+                activity: Some("inference_probe_failed"),
+                communication_eligible: false,
+            },
+            Self::Ready => InferenceReadinessProjection {
+                presence: AgentPresence::Ready,
+                health: "healthy",
+                availability: "available",
+                activity: None,
+                communication_eligible: true,
+            },
+        }
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AgentRuntimeEvidence {
     pub agent_id: String,
+    pub name: String,
     pub display_name: String,
     pub public_role: String,
+    pub provider: Option<String>,
+    pub model: Option<String>,
+    pub inference_readiness: InferenceReadinessState,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -68,8 +171,28 @@ impl AgentRosterPolicy {
 pub struct AgentRosterEntry {
     pub schema: String,
     pub id: String,
+    #[serde(default)]
+    pub name: String,
     pub label: String,
     pub role: String,
+    #[serde(default)]
+    pub provider: Option<String>,
+    #[serde(default)]
+    pub model: Option<String>,
+    #[serde(default)]
+    pub last_snapshot_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub last_archive_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub snapshot_sequence: Option<u64>,
+    #[serde(default)]
+    pub pending_archive_count: u64,
+    #[serde(default)]
+    pub snapshot_state: AgentSnapshotState,
+    #[serde(default)]
+    pub archive_state: AgentArchiveState,
+    #[serde(default)]
+    pub inference_readiness: InferenceReadinessState,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -81,6 +204,27 @@ pub struct AgentRosterEntry {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AgentSnapshotState {
+    #[default]
+    NeverSnapshotted,
+    Current,
+    Overdue,
+    Failed,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AgentArchiveState {
+    #[default]
+    Disabled,
+    Current,
+    Pending,
+    Degraded,
+    SpoolSaturated,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -391,6 +535,7 @@ fn validate_query(query: &AgentRosterQuery) -> Result<(), AgentRosterError> {
 fn validate_evidence(item: &AgentRuntimeEvidence) -> Result<(), AgentRosterError> {
     if item.agent_id.is_empty()
         || item.agent_id.len() > 128
+        || !is_canonical_agent_name(&item.name)
         || item.display_name.is_empty()
         || item.display_name.len() > 128
         || item.public_role.is_empty()
@@ -416,8 +561,18 @@ fn project_entry(
     AgentRosterEntry {
         schema: AGENT_ROSTER_ENTRY_SCHEMA.to_owned(),
         id: item.agent_id.clone(),
+        name: item.name.clone(),
         label: item.display_name.clone(),
         role: item.public_role.clone(),
+        provider: item.provider.clone(),
+        model: item.model.clone(),
+        last_snapshot_at_unix_millis: None,
+        last_archive_at_unix_millis: None,
+        snapshot_sequence: None,
+        pending_archive_count: 0,
+        snapshot_state: AgentSnapshotState::NeverSnapshotted,
+        archive_state: AgentArchiveState::Disabled,
+        inference_readiness: item.inference_readiness,
         presence: if stale {
             AgentPresence::Unknown
         } else {

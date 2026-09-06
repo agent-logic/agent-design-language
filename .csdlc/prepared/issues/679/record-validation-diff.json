@@ -1,0 +1,17 @@
+{
+  "issue": 679,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "19e9f3c566339875b7af4eea798cc6dea51754a8f421781dcd29c72f86e7d630",
+  "actor": "codex:679-validation",
+  "reason": "Record issue-diff hygiene validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["git", "diff", "--check"],
+      "purpose": "Reject whitespace errors and conflict markers in the issue worktree.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/679/diff-check.log; PASS"
+    }
+  }
+}

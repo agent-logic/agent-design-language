@@ -1,0 +1,13 @@
+flowchart TD
+  A["PR #646 merged at stale reviewed head"] --> B["#648 corrective issue"]
+  B --> C["Run-scoped ProviderReloadHandle"]
+  C --> D["Sequential execution"]
+  C --> E["Concurrent execution"]
+  C --> F["Called workflows"]
+  B --> G["Identity-aware compatibility global guard"]
+  D --> H["Offline focused validation"]
+  E --> H
+  F --> H
+  G --> H
+  H --> I["Fresh exact-head review"]
+  I --> J["Corrective PR against main"]

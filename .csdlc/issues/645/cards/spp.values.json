@@ -1,0 +1,104 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 645,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC v2][bug] Reject stacked closing publication without a GitHub closing relation",
+    "slug": "stacked-closing-relation",
+    "version": "v0.92.1",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Bootstrap and bind #645, reproduce the typed publication mismatch with offline test fixtures and current live read-only PR state, add the fail-closed closing relation guard, and validate the C-SDLC v2 publication lane.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind #645 into a FastWork issue worktree and confirm live read-only PR #644 still has no GitHub closing relation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Add or tighten the csdlc-publish closing-mode reconciliation guard against live PR-state linked_issue/linkage_source.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Preserve explicit non-closing checkpoint semantics for stacked dependency PRs.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused C-SDLC v2 publication regression tests, formatting, and diff hygiene.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/bin/csdlc-publish.rs",
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/tests/gate_github_actions.rs",
+        ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh",
+        ".csdlc/prepared/issues/645/design.md",
+        ".csdlc/prepared/issues/645/diagram.mmd",
+        ".csdlc/prepared/issues/645/create-request.json",
+        ".csdlc/prepared/issues/645/bind-request.json",
+        ".csdlc/prepared/issues/645/edit-vpp-issue-owned-denominator.json",
+        ".csdlc/prepared/issues/645/edit-stp-validator-deliverable.json",
+        ".csdlc/prepared/issues/645/edit-spp-validator-owned-path.json",
+        ".csdlc/issues/645/index.json"
+      ],
+      "invariants": [
+        "GitHub closingIssuesReferences is required for terminal closing authority",
+        "Body keyword parsing remains necessary but not sufficient",
+        "Non-default stack-base PRs fail closed unless GitHub reports the exact closing relation",
+        "Checkpoint/dependency publication is explicit and non-terminal",
+        "Main remains inspection-only"
+      ],
+      "risks": [
+        "A helper may still infer linked_issue from PR body after the guard is added",
+        "Existing publish tests may assume body keyword validation alone is enough",
+        "Non-closing checkpoint paths may need clearer linkage-mode output to avoid overclaim",
+        "Live GitHub API shape could differ from offline fixtures"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The issue cannot be bootstrapped or bound without writing tracked work on main",
+        "The live PR-state relation cannot be verified read-only",
+        "The fix requires mutating PR #644 or bypassing typed lifecycle writes",
+        "Focused regression tests cannot model closingIssuesReferences absence deterministically"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/645/design.md",
+      "design_digest": "0bc4f8014dee0971babeb07386088a49551df6391cd1c072e7051cddd5b37f96",
+      "diagram_ref": ".csdlc/prepared/issues/645/diagram.mmd",
+      "diagram_digest": "93e135c5fb690336255a542ea32c12205800d5c953053476bb9262521b49717a"
+    }
+  }
+}

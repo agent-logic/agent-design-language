@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 648,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C][corrective] Repair provider reload ownership after #646",
+    "slug": "provider-reload-ownership-corrective",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Rebase or replay the local #622 repair packet onto a #648 issue-bound FastWork worktree and publish a corrective PR against current main.",
+      "deliverables": [
+        "Run-scoped provider reload handle wiring for production CSM execution",
+        "Identity-aware compatibility global reload guard",
+        "Overlapping two-workflow and shutdown-order regression tests",
+        "Direct global guard ownership regression test",
+        "Fresh exact-head review and corrective PR readiness evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Production CSM adl_workflow execution passes an explicit run-scoped ProviderReloadHandle into execution.",
+        "AC-2: Sequential, deterministic concurrent, retry, and called-workflow paths propagate the scoped handle before any compatibility global fallback.",
+        "AC-3: Dropping an older compatibility global guard cannot clear a newer global registration.",
+        "AC-4: Two overlapping workflows with the same provider id and distinct sidecars keep separate provider snapshots.",
+        "AC-5: Shutting down one workflow's provider reload owner does not clear or alter the other workflow's active reload handle.",
+        "AC-6: Focused production and safety validation lanes pass with nonzero tests and no live provider credentials.",
+        "AC-7: Formatting and clippy validation pass locally before review.",
+        "AC-8: Fresh exact-head independent review passes for the corrective PR head.",
+        "AC-9: Corrective PR is open against current main with issue-closing linkage for #648 and required CI/checks green before merge-ready."
+      ],
+      "dependencies": [
+        "#622 closed by PR #646 at stale head; retained as provenance and not semantic completion",
+        "PR #646 merge commit 290d5e9b9798bd90770b3c6b4b39f5075ada24e8",
+        "Planning #4 owns live Runtime/#640 cutover and live config"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#648",
+        "agent-logic/agent-design-language#622",
+        "agent-logic/agent-design-language#646",
+        "adl/src/provider/reload.rs",
+        "adl/src/execute/mod.rs",
+        "adl/src/execute/runner.rs",
+        "adl/src/execute/tests.rs",
+        "adl/src/long_lived_agent.rs"
+      ],
+      "non_goals": [
+        "Live Runtime/#640 cutover, restart, stop, replacement, or config mutation",
+        "Credential-backed provider inference or paid provider proof",
+        "Provider architecture redesign beyond scoped reload ownership",
+        "Rewriting unrelated #622 lifecycle history",
+        "Merging without explicit operator authorization"
+      ]
+    }
+  }
+}

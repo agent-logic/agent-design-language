@@ -1,0 +1,33 @@
+{
+  "issue": 661,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "b991cff0d82b6e6d5a29c83817ce4c9505a9540ae3de60c5212d53658fc5e924",
+  "actor": "codex:661-implementation",
+  "reason": "Record provider-backed Shepherd conversation execution and focused local proof before exact-head review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Routed resident Shepherd conversation turns through the configured Shepherd operation adapter, projected generated provider responses into the existing conversation reply contract, and preserved explicit provider failure.",
+    "changes": [
+      "Recognize resident Shepherd recipient ids from the canonical population and submit ShepherdRequest work to the Shepherd adapter.",
+      "Project only structurally valid, correlation-bound ShepherdResponse payloads as public conversation replies.",
+      "Carry the conversation recipient id inside the governed Shepherd request so public output remains bound to the addressed recipient.",
+      "Replace the hardcoded Shepherd acknowledgement assertion with deterministic generated-output and provider-failure proof."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+    ],
+    "validation": [
+      {"command":["bash",".csdlc/prepared/issues/661/validate-focused.sh"],"outcome":"passed","purpose":"prove a fresh Shepherd turn invokes the Shepherd provider adapter, returns non-empty generated output with exact recipient and correlation fields, and exposes provider failure without acknowledgement fallback","evidence_ref":"local worktree output at b5b124f83"},
+      {"command":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--lib"],"outcome":"passed","purpose":"prove the complete Runtime-kernel library test denominator after conversation routing changes","evidence_ref":"local worktree output: 127 passed, 0 failed at b5b124f83"},
+      {"command":["cargo","clippy","--manifest-path","adl-runtime-kernel/Cargo.toml","--lib","--","-D","warnings"],"outcome":"passed","purpose":"prove strict lint cleanliness for the changed Runtime library","evidence_ref":"local worktree output at b5b124f83"},
+      {"command":["cargo","check","--manifest-path","adl-runtime-kernel/Cargo.toml","--bin","adl-runtime-kernel"],"outcome":"passed","purpose":"prove the production Runtime kernel binary compiles with Shepherd conversation request routing","evidence_ref":"local worktree output at b5b124f83"},
+      {"command":["cargo","fmt","--manifest-path","adl-runtime-kernel/Cargo.toml","--all","--","--check"],"outcome":"passed","purpose":"prove Rust formatting","evidence_ref":"local worktree output at b5b124f83"},
+      {"command":["git","diff","--check"],"outcome":"passed","purpose":"reject whitespace errors","evidence_ref":"local worktree output at b5b124f83"}
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -16,7 +16,7 @@ After #528 is terminal, configure Polis for explicit Vertex AI provider use, doc
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -27,7 +27,7 @@ Revision 1
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -36,7 +36,7 @@ Revision 1
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -46,7 +46,7 @@ Revision 1
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -56,7 +56,7 @@ Revision 1
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -87,13 +87,13 @@ Revision 1
 
 .csdlc/prepared/issues/592/design.md
 
-Digest: 52344f3d53425ecafda019572e6b91844f58c034170a52585767865c531d9565
+Digest: 8893dad30ac140b733c64ad5c0854a2172a166a61507788033b78e4ae8345b9f
 
 ## Diagram
 
 .csdlc/prepared/issues/592/diagram.mmd
 
-Digest: 514f9d344bfa5f73c5ddfb14b4869f63254a9723171908bc1b5210332f06b3e2
+Digest: 418858da707f792c5780b301838db1ccc57093c57c0f0b2fb586dcceeaa39e2a
 
 ## Stop Conditions
 

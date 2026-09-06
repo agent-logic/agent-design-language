@@ -1,0 +1,149 @@
+{
+  "issue": 622,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:622-readiness",
+  "design_path": ".csdlc/prepared/issues/622/design.md",
+  "diagram_path": ".csdlc/prepared/issues/622/diagram.mmd",
+  "design_reviewer": "codex:622-readiness-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
+    "slug": "provider-profile-hotload",
+    "version": "v0.92.1",
+    "goal": "Production-wire validated provider-instance and inference-profile hot loading without restarting the consuming process.",
+    "required_outcome": "A provider-only configuration sidecar is watched through the existing reload substrate, accepted candidates atomically replace the active provider snapshot, rejected candidates retain last-known-good, and subsequent production inference consumes the new snapshot.",
+    "declared_scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/execute/runner.rs",
+      "adl/tests/provider_profile_hot_reload.rs",
+      "docs/providers/provider-profile-hot-loading.md",
+      ".csdlc/prepared/issues/622/**",
+      ".csdlc/issues/622/**"
+    ],
+    "authority_boundary": [
+      "Reuse the existing Runtime-kernel watcher and existing provider candidate activation",
+      "The watched document is provider-only and cannot grant authority or define executable work",
+      "Each inference call retains the immutable provider snapshot selected before dispatch",
+      "Credentials remain separately governed references and values are never reload payload",
+      "Only later inference consumes an accepted replacement"
+    ],
+    "operator_constraints": [
+      "Do not build a second watcher or provider registry",
+      "Do not reload secrets or authority-bearing objects",
+      "Do not implement MLX or OCI packaging",
+      "Do not restart the process to claim hot loading",
+      "Do not expand into provider architecture redesign"
+    ],
+    "task_boundary": "Add one production provider reload owner and connect it to per-step provider resolution in the existing execution runner.",
+    "deliverables": [
+      "ProviderReloadOwner using the existing watcher",
+      "Provider-only sidecar validation and atomic snapshot publication",
+      "Production execution-runner snapshot consumption",
+      "Focused positive negative concurrency and shutdown proof",
+      "Operator documentation"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A production provider owner starts the existing watcher against an explicit provider-only configuration path",
+      "AC-2: A valid provider or profile edit becomes active for subsequent inference without process restart",
+      "AC-3: Invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic",
+      "AC-4: Concurrent readers observe either the old or new complete snapshot and never a partial mixture",
+      "AC-5: In-flight inference retains its starting snapshot while later inference consumes the accepted replacement",
+      "AC-6: Endpoint model parameter timeout capability and profile changes have focused positive and negative proof",
+      "AC-7: Credential values authority objects and executable workflow content are rejected from the provider-only sidecar",
+      "AC-8: Unknown mandatory parameters and unsupported capabilities fail closed",
+      "AC-9: Debounce duplicate event same-content rapid rewrite and watcher shutdown behavior is proven",
+      "AC-10: Exact production call-path formatting lint diff hygiene and independent review pass"
+    ],
+    "dependencies": [
+      "#510 generic hot-reload substrate",
+      "#514 shared provider inference profiles",
+      "#551 bounded production reload precedent"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#622",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/execute/runner.rs",
+      "docs/runtime/config-hot-reload.md"
+    ],
+    "non_goals": [
+      "Reload credentials signing keys database pools authority objects or model weights",
+      "Create a second watcher or provider registry",
+      "Implement MLX OCI packaging automatic tuning or provider UI",
+      "Change an in-flight request after dispatch",
+      "Redesign the full provider system"
+    ],
+    "plan_summary": "Define a provider-only sidecar, reuse the existing watcher and candidate activation, publish immutable last-known-good snapshots, connect per-step production provider resolution, then prove atomicity redaction and shutdown.",
+    "steps": [
+      {"id":"S1","action":"Define provider-only sidecar validation, snapshot identity, bounded diagnostics, and reload-owner interfaces.","acceptance_ids":["AC-1","AC-3","AC-7","AC-8"],"status":"pending"},
+      {"id":"S2","action":"Implement ProviderReloadOwner using the existing watcher and last-known-good candidate activation.","acceptance_ids":["AC-2","AC-3","AC-4","AC-9"],"status":"pending"},
+      {"id":"S3","action":"Connect the production execution runner so each inference selects and retains one immutable snapshot.","acceptance_ids":["AC-2","AC-5","AC-10"],"status":"pending"},
+      {"id":"S4","action":"Add focused parameter capability concurrency redaction debounce and shutdown tests plus operator documentation.","acceptance_ids":["AC-4","AC-6","AC-7","AC-8","AC-9"],"status":"pending"},
+      {"id":"S5","action":"Run focused Rust validation and bounded independent exact-head review.","acceptance_ids":["AC-10"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/execute/runner.rs",
+      "adl/tests/provider_profile_hot_reload.rs",
+      "docs/providers/provider-profile-hot-loading.md",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      ".csdlc/prepared/issues/622/**",
+      ".csdlc/issues/622/**"
+    ],
+    "invariants": [
+      "One existing watcher mechanism",
+      "Complete immutable snapshots",
+      "Last-known-good retention",
+      "No credential values or authority mutation",
+      "No in-flight request mutation",
+      "Production call-path proof"
+    ],
+    "risks": [
+      "Testing helper activation without production consumption",
+      "Mixing provider changes across one inference call",
+      "Leaking secret values in diagnostics or digests",
+      "Accepting executable workflow content through the sidecar",
+      "Duplicating watcher or registry infrastructure"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The implementation requires a second watcher or provider registry",
+      "A credential value or authority-bearing object enters reload state",
+      "Production runner ownership cannot be made explicit",
+      "A partial provider snapshot can become visible",
+      "Only helper tests exist without production call-path proof"
+    ],
+    "validation_lanes": [
+      {
+        "lane":"provider-reload-production",
+        "proof_role":"Prove valid activation last-known-good retention and the production execution call path with a nonzero exact target.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-5","AC-10"],
+        "deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":4000,
+        "argv":["bash",".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh","production"],
+        "parallel_group":"provider-runtime","defer_reason":null
+      },
+      {
+        "lane":"provider-reload-safety",
+        "proof_role":"Prove atomic concurrency parameter capability redaction debounce and shutdown behavior with nonzero focused tests.",
+        "acceptance_ids":["AC-4","AC-6","AC-7","AC-8","AC-9"],
+        "deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":4000,
+        "argv":["bash",".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh","safety"],
+        "parallel_group":"provider-safety","defer_reason":null
+      }
+    ],
+    "failure_policy": "Fail closed on missing production ownership, partial snapshots, invalid-candidate promotion, credential disclosure, authority mutation, restart-based substitution, zero-test selectors, or absent exact-head review.",
+    "review_prompts": [
+      "Does a real production execution path consume the reload owner rather than only helper tests?",
+      "Does every inference call retain exactly one immutable starting snapshot?",
+      "Can malformed unsupported or secret-bearing candidates ever replace last-known-good state?",
+      "Does the implementation reuse the existing watcher and provider registry?",
+      "Are accepted and rejected diagnostics bounded and redacted?"
+    ],
+    "review_scope": "Provider-only configuration parsing, existing watcher reuse, candidate activation, immutable snapshot ownership, production execution-runner consumption, concurrency, redaction, shutdown, and focused documentation only."
+  }
+}

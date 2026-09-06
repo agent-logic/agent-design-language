@@ -369,15 +369,20 @@ pub struct RuntimeInitConfig {
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub polis: PolisInitConfig,
+    pub resident_shepherd: ResidentShepherdSetInitConfig,
     pub kernel: RuntimeKernelInitConfig,
     #[serde(default)]
     pub continuity_control: Option<crate::ContinuityControlInitConfig>,
     pub credentials: RuntimeCredentialInitConfig,
     pub shutdown: RuntimeShutdownInitConfig,
+    #[serde(default)]
+    pub service_convergence: RuntimeServiceConvergenceInitConfig,
     pub guardian: RuntimeGuardianInitConfig,
     pub qualification: RuntimeQualificationInitConfig,
     pub observatory: ObservatoryInitConfig,
     pub observability_pipeline: RuntimeObservabilityInitConfig,
+    #[serde(default)]
+    pub agent_partial_checkpoints: AgentPartialCheckpointInitConfig,
     pub weather: WeatherConfig,
 }
 
@@ -453,6 +458,8 @@ impl RuntimeInitConfig {
             });
         }
         self.polis.validate(public_host)?;
+        self.resident_shepherd.validate()?;
+        self.service_convergence.validate()?;
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
                 "api.bind_attempts must be between 1 and 100".to_owned(),
@@ -600,6 +607,7 @@ impl RuntimeInitConfig {
             ));
         }
         self.observability_pipeline.validate()?;
+        self.agent_partial_checkpoints.validate()?;
         self.weather
             .validate()
             .map_err(|error| RuntimeInitError::Weather(error.to_string()))?;
@@ -676,7 +684,190 @@ impl RuntimeInitConfig {
                 serde_json::Value::Array(Vec::new()),
             );
         }
+        if let Some(resident_shepherd) = value.get_mut("resident_shepherd") {
+            match resident_shepherd {
+                serde_json::Value::Object(shepherd) => {
+                    shepherd.remove("display_name");
+                }
+                serde_json::Value::Array(shepherds) => {
+                    for shepherd in shepherds {
+                        if let Some(shepherd) = shepherd.as_object_mut() {
+                            shepherd.remove("display_name");
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
         Ok(value)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct AgentPartialCheckpointInitConfig {
+    pub enabled: bool,
+    pub interval_seconds: u64,
+    pub snapshot_concurrency: usize,
+    pub max_partial_bytes: u64,
+    pub local_max_bytes: u64,
+    pub local_max_files: usize,
+    pub retained_partials_per_agent: usize,
+    pub spool_max_bytes: u64,
+    pub spool_max_files: usize,
+    pub s3_archive: Option<AgentPartialS3ArchiveInitConfig>,
+}
+
+impl Default for AgentPartialCheckpointInitConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            interval_seconds: 300,
+            snapshot_concurrency: 4,
+            max_partial_bytes: 16 * 1024 * 1024,
+            local_max_bytes: 2 * 1024 * 1024 * 1024,
+            local_max_files: 8_192,
+            retained_partials_per_agent: 12,
+            spool_max_bytes: 512 * 1024 * 1024,
+            spool_max_files: 4_096,
+            s3_archive: None,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AgentPartialS3ArchiveInitConfig {
+    pub region: String,
+    pub bucket: String,
+    pub kms_key_arn: String,
+    #[serde(default)]
+    pub restore_profile: Option<String>,
+}
+
+impl AgentPartialCheckpointInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if !(60..=86_400).contains(&self.interval_seconds) {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints.interval_seconds must be between 60 and 86400"
+                    .to_owned(),
+            ));
+        }
+        if self.snapshot_concurrency == 0 || self.snapshot_concurrency > 64 {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints.snapshot_concurrency must be between 1 and 64"
+                    .to_owned(),
+            ));
+        }
+        if self.max_partial_bytes == 0
+            || self.max_partial_bytes > 16 * 1024 * 1024
+            || self.local_max_bytes < self.max_partial_bytes
+            || self.local_max_bytes > 2 * 1024 * 1024 * 1024
+            || self.local_max_files == 0
+            || self.local_max_files > 8_192
+            || self.retained_partials_per_agent == 0
+            || self.retained_partials_per_agent > 12
+            || self.spool_max_bytes < self.max_partial_bytes
+            || self.spool_max_bytes > 512 * 1024 * 1024
+            || self.spool_max_files == 0
+            || self.spool_max_files > 4_096
+        {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints storage bounds exceed the governed limits".to_owned(),
+            ));
+        }
+        if let Some(archive) = &self.s3_archive {
+            validate_s3_bucket_name(
+                "agent_partial_checkpoints.s3_archive.bucket",
+                &archive.bucket,
+            )?;
+            validate_non_empty_trimmed(
+                "agent_partial_checkpoints.s3_archive.region",
+                &archive.region,
+            )?;
+            if let Some(profile) = &archive.restore_profile {
+                validate_non_empty_trimmed(
+                    "agent_partial_checkpoints.s3_archive.restore_profile",
+                    profile,
+                )?;
+                if !profile
+                    .bytes()
+                    .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+                {
+                    return Err(RuntimeInitError::Policy(
+                        "agent_partial_checkpoints S3 restore profile is invalid".to_owned(),
+                    ));
+                }
+            }
+            validate_non_empty_trimmed(
+                "agent_partial_checkpoints.s3_archive.kms_key_arn",
+                &archive.kms_key_arn,
+            )?;
+            if !archive
+                .region
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+                || !archive.kms_key_arn.starts_with("arn:")
+            {
+                return Err(RuntimeInitError::Policy(
+                    "agent_partial_checkpoints S3 region or KMS key ARN is invalid".to_owned(),
+                ));
+            }
+        }
+        Ok(())
+    }
+}
+
+pub const MIN_SERVICE_CONVERGENCE_MILLIS: u64 = 1_000;
+pub const MAX_SERVICE_CONVERGENCE_MILLIS: u64 = 3_600_000;
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct RuntimeServiceConvergenceInitConfig {
+    pub stop_timeout_millis: u64,
+    pub unload_timeout_millis: u64,
+    pub listener_timeout_millis: u64,
+    pub readiness_timeout_millis: u64,
+}
+
+impl Default for RuntimeServiceConvergenceInitConfig {
+    fn default() -> Self {
+        Self {
+            stop_timeout_millis: 300_000,
+            unload_timeout_millis: 300_000,
+            listener_timeout_millis: 300_000,
+            readiness_timeout_millis: 900_000,
+        }
+    }
+}
+
+impl RuntimeServiceConvergenceInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        for (field, value) in [
+            (
+                "service_convergence.stop_timeout_millis",
+                self.stop_timeout_millis,
+            ),
+            (
+                "service_convergence.unload_timeout_millis",
+                self.unload_timeout_millis,
+            ),
+            (
+                "service_convergence.listener_timeout_millis",
+                self.listener_timeout_millis,
+            ),
+            (
+                "service_convergence.readiness_timeout_millis",
+                self.readiness_timeout_millis,
+            ),
+        ] {
+            if !(MIN_SERVICE_CONVERGENCE_MILLIS..=MAX_SERVICE_CONVERGENCE_MILLIS).contains(&value) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "{field} must be between {MIN_SERVICE_CONVERGENCE_MILLIS} and {MAX_SERVICE_CONVERGENCE_MILLIS}"
+                )));
+            }
+        }
+        Ok(())
     }
 }
 
@@ -1109,6 +1300,174 @@ pub struct PolisInitConfig {
     pub display_name: String,
     pub public_domain: String,
     pub observatory_public_origin: String,
+    #[serde(default)]
+    pub vertex_ai: Option<PolisVertexAiInitConfig>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PolisVertexAiInitConfig {
+    pub provider: String,
+    pub gcp_project: String,
+    pub vertex_location: String,
+    pub model: String,
+    pub credential_source: VertexAiCredentialSource,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
+pub enum VertexAiCredentialSource {
+    ApplicationDefaultCredentials,
+    ServiceAccountFile { path: PathBuf },
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum VertexAiProviderFailure {
+    MissingCredentials,
+    DisabledApi,
+    ProjectLocationMismatch,
+    QuotaOrAuth,
+    ModelOrRequest,
+    Transport,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentShepherdInitConfig {
+    pub name: String,
+    pub display_name: String,
+    pub office: String,
+    pub provider: String,
+    pub model: String,
+    pub endpoint: String,
+    #[serde(default)]
+    pub preload: ResidentShepherdPreloadConfig,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ResidentShepherdSetInitConfig {
+    One(ResidentShepherdInitConfig),
+    Many(Vec<ResidentShepherdInitConfig>),
+}
+
+impl ResidentShepherdSetInitConfig {
+    pub fn iter(&self) -> std::slice::Iter<'_, ResidentShepherdInitConfig> {
+        match self {
+            Self::One(config) => std::slice::from_ref(config).iter(),
+            Self::Many(configs) => configs.iter(),
+        }
+    }
+
+    pub fn primary(&self) -> &ResidentShepherdInitConfig {
+        self.iter()
+            .next()
+            .expect("validated Shepherd set is non-empty")
+    }
+
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        let configs = self.iter().collect::<Vec<_>>();
+        if configs.is_empty() {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd must contain at least one configured Shepherd".to_owned(),
+            ));
+        }
+        let mut names = std::collections::BTreeSet::new();
+        for config in configs {
+            config.validate()?;
+            if !names.insert(config.name.as_str()) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "duplicate resident_shepherd.name: {}",
+                    config.name
+                )));
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentShepherdPreloadConfig {
+    #[serde(default = "default_true")]
+    pub enabled: bool,
+    #[serde(default = "default_shepherd_preload_timeout_millis")]
+    pub timeout_millis: u64,
+    #[serde(default = "default_shepherd_retry_initial_millis")]
+    pub retry_initial_millis: u64,
+    #[serde(default = "default_shepherd_retry_max_millis")]
+    pub retry_max_millis: u64,
+}
+
+impl Default for ResidentShepherdPreloadConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            timeout_millis: default_shepherd_preload_timeout_millis(),
+            retry_initial_millis: default_shepherd_retry_initial_millis(),
+            retry_max_millis: default_shepherd_retry_max_millis(),
+        }
+    }
+}
+
+const fn default_true() -> bool {
+    true
+}
+const fn default_shepherd_preload_timeout_millis() -> u64 {
+    15 * 60 * 1_000
+}
+const fn default_shepherd_retry_initial_millis() -> u64 {
+    5_000
+}
+const fn default_shepherd_retry_max_millis() -> u64 {
+    60_000
+}
+
+impl ResidentShepherdInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if !crate::is_canonical_agent_name(&self.name) {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd.name must be a canonical two-part agent name".to_owned(),
+            ));
+        }
+        validate_non_empty_trimmed("resident_shepherd.display_name", &self.display_name)?;
+        validate_non_empty_trimmed("resident_shepherd.office", &self.office)?;
+        validate_non_empty_trimmed("resident_shepherd.provider", &self.provider)?;
+        validate_non_empty_trimmed("resident_shepherd.model", &self.model)?;
+        validate_non_empty_trimmed("resident_shepherd.endpoint", &self.endpoint)?;
+        if self.provider.len() > 64
+            || !self
+                .provider
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+        {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd.provider must be a lowercase provider identifier".to_owned(),
+            ));
+        }
+        if !crate::resident_shepherd_provider_is_available(&self.provider) {
+            return Err(RuntimeInitError::Policy(format!(
+                "resident_shepherd.provider '{}' has no executable adapter in this Runtime build",
+                self.provider
+            )));
+        }
+        if crate::control::validate_private_provider_binding(&self.model, &self.endpoint).is_err() {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd model and endpoint must form a valid private provider binding"
+                    .to_owned(),
+            ));
+        }
+        if self.preload.timeout_millis < 60_000
+            || self.preload.retry_initial_millis == 0
+            || self.preload.retry_max_millis < self.preload.retry_initial_millis
+        {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd preload and retry budgets are invalid".to_owned(),
+            ));
+        }
+        Ok(())
+    }
 }
 
 impl PolisInitConfig {
@@ -1139,8 +1498,77 @@ impl PolisInitConfig {
             ));
         }
         validate_origin(&self.observatory_public_origin)?;
+        if let Some(vertex_ai) = &self.vertex_ai {
+            vertex_ai.validate()?;
+        }
         Ok(())
     }
+}
+
+impl PolisVertexAiInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if self.provider != "vertex_ai" {
+            return Err(RuntimeInitError::Policy(
+                "polis.vertex_ai.provider must be vertex_ai".to_owned(),
+            ));
+        }
+        validate_gcp_project("polis.vertex_ai.gcp_project", &self.gcp_project)?;
+        validate_safe_label("polis.vertex_ai.vertex_location", &self.vertex_location)?;
+        validate_safe_label("polis.vertex_ai.model", &self.model)?;
+        match &self.credential_source {
+            VertexAiCredentialSource::ApplicationDefaultCredentials => {}
+            VertexAiCredentialSource::ServiceAccountFile { path } => {
+                validate_absolute_path("polis.vertex_ai.credential_source.path", path)?;
+            }
+        }
+        Ok(())
+    }
+}
+
+pub fn classify_vertex_ai_provider_failure(
+    status: Option<u16>,
+    body: &str,
+) -> VertexAiProviderFailure {
+    let normalized = body.to_ascii_lowercase();
+    if normalized.contains("application default credentials")
+        || normalized.contains("could not load the default credentials")
+        || normalized.contains("missing credentials")
+        || normalized.contains("credential")
+            && (normalized.contains("not found") || normalized.contains("unavailable"))
+    {
+        return VertexAiProviderFailure::MissingCredentials;
+    }
+    if normalized.contains("api has not been used")
+        || normalized.contains("service disabled")
+        || normalized.contains("enable it by visiting")
+        || normalized.contains("aiplatform.googleapis.com") && normalized.contains("disabled")
+    {
+        return VertexAiProviderFailure::DisabledApi;
+    }
+    if normalized.contains("location")
+        && (normalized.contains("project") || normalized.contains("region"))
+        || normalized.contains("not found in location")
+        || normalized.contains("publisher model")
+            && (normalized.contains("not found") || normalized.contains("location"))
+    {
+        return VertexAiProviderFailure::ProjectLocationMismatch;
+    }
+    if matches!(status, Some(401 | 403 | 429))
+        || normalized.contains("permission")
+        || normalized.contains("quota")
+        || normalized.contains("rate limit")
+        || normalized.contains("unauthorized")
+    {
+        return VertexAiProviderFailure::QuotaOrAuth;
+    }
+    if matches!(status, Some(400 | 404))
+        || normalized.contains("invalid argument")
+        || normalized.contains("model")
+        || normalized.contains("request")
+    {
+        return VertexAiProviderFailure::ModelOrRequest;
+    }
+    VertexAiProviderFailure::Transport
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1170,6 +1598,8 @@ pub struct RuntimeObservabilityInitConfig {
     pub spool_retained_files: usize,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cloudwatch: Option<RuntimeCloudWatchInitConfig>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub s3_archive: Option<RuntimeS3LogArchiveInitConfig>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1178,6 +1608,16 @@ pub struct RuntimeCloudWatchInitConfig {
     pub region: String,
     pub log_group: String,
     pub log_stream: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeS3LogArchiveInitConfig {
+    pub region: String,
+    pub bucket: String,
+    pub environment: String,
+    pub polis_id: String,
+    pub runtime_id: String,
 }
 
 impl RuntimeObservabilityInitConfig {
@@ -1282,6 +1722,53 @@ impl RuntimeObservabilityInitConfig {
                 ));
             }
         }
+        if let Some(archive) = self.s3_archive.as_ref() {
+            for (field, value) in [
+                ("observability_pipeline.s3_archive.region", &archive.region),
+                ("observability_pipeline.s3_archive.bucket", &archive.bucket),
+                (
+                    "observability_pipeline.s3_archive.environment",
+                    &archive.environment,
+                ),
+                (
+                    "observability_pipeline.s3_archive.polis_id",
+                    &archive.polis_id,
+                ),
+                (
+                    "observability_pipeline.s3_archive.runtime_id",
+                    &archive.runtime_id,
+                ),
+            ] {
+                validate_non_empty_trimmed(field, value)?;
+            }
+            for (field, value) in [
+                (
+                    "observability_pipeline.s3_archive.environment",
+                    archive.environment.as_str(),
+                ),
+                (
+                    "observability_pipeline.s3_archive.polis_id",
+                    archive.polis_id.as_str(),
+                ),
+                (
+                    "observability_pipeline.s3_archive.runtime_id",
+                    archive.runtime_id.as_str(),
+                ),
+            ] {
+                validate_dns_safe_label(field, value)?;
+            }
+            validate_s3_bucket_name("observability_pipeline.s3_archive.bucket", &archive.bucket)?;
+            if !archive
+                .region
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+            {
+                return Err(RuntimeInitError::Policy(
+                    "observability_pipeline.s3_archive.region must be lowercase AWS region syntax"
+                        .to_owned(),
+                ));
+            }
+        }
         for (field, path) in [
             ("vector_config_path", &self.vector_config_path),
             ("ingress_spool_path", &self.ingress_spool_path),
@@ -1296,10 +1783,81 @@ impl RuntimeObservabilityInitConfig {
     }
 }
 
+fn validate_dns_safe_label(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    if value.len() > 63
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+        || value.starts_with('-')
+        || value.ends_with('-')
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be a lowercase DNS-safe label"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_s3_bucket_name(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    if value.len() < 3
+        || value.len() > 63
+        || !value.bytes().all(|byte| {
+            byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-' || byte == b'.'
+        })
+        || value.starts_with(['-', '.'])
+        || value.ends_with(['-', '.'])
+        || value.contains("..")
+        || value.contains(".-")
+        || value.contains("-.")
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be a DNS-compatible S3 bucket name"
+        )));
+    }
+    Ok(())
+}
+
 fn validate_non_empty_trimmed(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
     if value.trim().is_empty() || value != value.trim() {
         return Err(RuntimeInitError::Policy(format!(
             "{field} must be non-empty without surrounding whitespace"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_safe_label(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    validate_non_empty_trimmed(field, value)?;
+    if value.len() > 128
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be a bounded provider label"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_gcp_project(field: &'static str, value: &str) -> Result<(), RuntimeInitError> {
+    validate_non_empty_trimmed(field, value)?;
+    if value.len() < 6
+        || value.len() > 30
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+        || !value
+            .bytes()
+            .next()
+            .is_some_and(|byte| byte.is_ascii_lowercase())
+        || !value
+            .bytes()
+            .last()
+            .is_some_and(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit())
+    {
+        return Err(RuntimeInitError::Policy(format!(
+            "{field} must be an explicit GCP project id, not an ambient default"
         )));
     }
     Ok(())

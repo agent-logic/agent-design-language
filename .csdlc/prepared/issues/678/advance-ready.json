@@ -1,0 +1,12 @@
+{
+  "issue": 678,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "93aaa26d48d5a846c7f7f38799a41dbb6a5e77a857a4cb54e0c1971525c6f9b3",
+  "actor": "codex:678-preparation",
+  "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 263,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast directory submission runbooks and operator preflight",
+    "slug": "podcast-directory-runbooks",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #263: Podcast directory submission runbooks and operator preflight.",
+      "deliverables": [
+        "Apple, Spotify, Amazon, and YouTube runbooks identify every account-side and irreversible step, consume the exact production feed, and hand a safe ledger schema to #264.",
+        "Issue-specific retained validation evidence",
+        "Exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Each runbook is verified against current official provider instructions at exact-head review time.",
+        "AC-2: The exact #261 identity and #262 production feed/enclosures are referenced.",
+        "AC-3: Account, 2FA, rights, verification, submit, and publish actions are marked operator-controlled.",
+        "AC-4: No provider mutation, directory submission, credential capture, or public launch occurs.",
+        "AC-5: The ledger schema retains canonical IDs/status without secrets or unsupported acceptance claims."
+      ],
+      "dependencies": [
+        "Terminal #261",
+        "Terminal #262",
+        "Sprint 8 umbrella #536"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/evidence/podcast/51-c",
+        "docs/milestones/v0.92.1/review/podcast_directory_263",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Provider submission",
+        "Provider account creation or mutation",
+        "Hosting implementation",
+        "Public launch"
+      ]
+    }
+  }
+}

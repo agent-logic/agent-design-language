@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 594,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3 on a bounded schedule",
+    "slug": "runtime-v3-bounded-s3-log-archive",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Regularly archive redacted Runtime v3 logs to private encrypted S3 storage without coupling archival availability to Runtime readiness.",
+      "required_outcome": "A Terraform-owned S3 archive and least-privilege Vector delivery path provide identity-partitioned bounded uploads, observable failure, and live retrieval proof while the Runtime remains operational during S3 failure.",
+      "declared_scope": [
+        "adl-runtime-kernel/src/observability/vector.rs",
+        "adl-runtime-kernel/src/observability.rs",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/tests/observability.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/guardian_soak.rs",
+        "infra/aws/runtime/log-archive",
+        ".csdlc/prepared/issues/594",
+        ".csdlc/evidence/594",
+        ".csdlc/issues/594"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#594",
+        "CloudWatch health and SSM recovery remain independent and are not replaced",
+        "Live AWS mutation requires separate operator authorization and the agent-logic-admin business profile",
+        "C-SDLC v3 is not live lifecycle authority before explicit operator-reviewed cutover"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Use Terraform rather than CloudFormation",
+        "Never archive secrets, credentials, unredacted payloads, or machine-local paths",
+        "Do not make S3 availability a Runtime readiness dependency"
+      ]
+    }
+  }
+}

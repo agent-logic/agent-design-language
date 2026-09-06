@@ -1,0 +1,271 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 678,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "52323b455bb82ca6a60dae8343ecd2d432f7c9a203f987c847063f9039f61b6a",
+  "phase": "closed_out",
+  "generation": 12,
+  "digest": "d002bc217784410c167b78df7a1f565bcbb100f00c5c320d0201978fbe28eab8",
+  "branch": "codex/678-stable-csm-active-generation-route",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-678-stable-csm-active-generation-route",
+  "review_assignment": {
+    "reviewer": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "scope": [
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678",
+      ".csdlc/evidence/678"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+    "scope": [
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678",
+      ".csdlc/evidence/678"
+    ],
+    "reviewed_revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "findings": [],
+    "residual_risks": [
+      "Review and validation used the isolated Runtime v3 generation fixture; no live Runtime rollout, restart, reload, stop, provider, model, agent, or Observatory path was exercised."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 678,
+    "pull_request": 682,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/682",
+    "base": "main",
+    "head": "codex/678-stable-csm-active-generation-route",
+    "revision": "git-blake3:2e6a9660d865d44027b6e9e36ea2117a4753de67:7115905ca0860569d22cb5f40b09aadeec937cd469886accaed71b2f3b1a693b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 682,
+    "disposition": "merged",
+    "observed_sha": "072d29ad17a9aacdd87384a0c5423f0077869c1b",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/678.json",
+    "branch": "codex/678-stable-csm-active-generation-route",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-678-stable-csm-active-generation-route"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/678/design.md",
+  "diagram_path": ".csdlc/prepared/issues/678/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:06f7907d-d2cd-441c-aaad-c31a645933c8",
+      "revision": "c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5a99cf86284e757b5c48b8b99019192156799993d7ea532db37e2eed65ed2e03",
+      "rendered_digest": "9c296fb02207b3a27c6e09f3bff16ba12e1131d53c01d70e2d17e936003c35f0",
+      "ast_digest": "a955b47b08929c9f70717fb81a6ba9b80803165de0b9a14fffc68d26d0bdea03"
+    },
+    "stp": {
+      "values_digest": "a96e74a313bf25714fd43920fa46ab79c85f5feeacf0db9fa25fbc1e83c4842e",
+      "rendered_digest": "809be64d74b001df03e0ed6ae64e749cd118df8d48cfba2b5170c10e2077125c",
+      "ast_digest": "6e629369f786426ea0b3ae609a9312b8612da6429f6cb4b749f5770001dcd630"
+    },
+    "spp": {
+      "values_digest": "7fb70505f63889f63276e8071814722b28f87619f78bff36e53107547debfbaa",
+      "rendered_digest": "e8aa59c2c7de852de4bfc8ac75534548a78f7bc3c02ab8f1f82589f510787e54",
+      "ast_digest": "a2ed6661c671b9553606587f58ba111fbd3cade852b9d744107ad3a03bf04814"
+    },
+    "vpp": {
+      "values_digest": "885f9918d60de893ad343b683c909dab7a55ae87e3b7d26ec0a97ecfdc14631b",
+      "rendered_digest": "dfe99bbc9da281179e035679b362a62a31664615106f8eeaa743a9e12c2d1e0f",
+      "ast_digest": "a31d70e02068e734181e72ccf9218be473d1f03c11e673309466c181bb3e9e6b"
+    },
+    "srp": {
+      "values_digest": "f9a882c55ef4994a935e9003c516e3febdaa6cfb57e71e3a07c1cce48061462b",
+      "rendered_digest": "e7944388446956c3f028ab150f8833dc72307affdbdd6211e3a02c6654386743",
+      "ast_digest": "488290f3e9da97ea293c814bc7566ca866a0205d0dc546663ccbafd590f6aee0"
+    },
+    "sor": {
+      "values_digest": "1e6442eda8bc0ffcafb32f36dd6756a26429722694cc9b6c330778a03f8c6354",
+      "rendered_digest": "7e03b8311e04dd7d2d776df1fe747af4dc984c006294a0b7c955a6d4326ffe2a",
+      "ast_digest": "378a3c041fa21f70638bcda4926cc0ee114aa291a553305c8c474f726e947bbf"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:678-preparation",
+      "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:678-implementation",
+      "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #678 from retained derived terminal PR #682."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:stable-csm-active-generation-route",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:06f7907d-d2cd-441c-aaad-c31a645933c8",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"c2702f898a72ef448edb3e65e488725e2c60fd332fca7bc038cd550bd8ace73e\",\"design_ref\":\".csdlc/prepared/issues/678/design.md\",\"diagram_digest\":\"ae358d55ee65dfd2ff5ef4d65a4bf5a37bb81031096f6b58faf57b4f52a88fdf\",\"diagram_ref\":\".csdlc/prepared/issues/678/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:678-preparation",
+      "reason": "Issue #678 has concrete issue-owned paths, an executable issue-owned validation denominator, and fresh-session design approval; advance to ready before execution binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:678-implementation",
+      "reason": "Record that the stable CSM route implementation owns the delegated Runtime v3 generation installer Python module as well as the shell entrypoint.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".csdlc/prepared/issues/678/design.md\",\".csdlc/prepared/issues/678/diagram.mmd\",\".csdlc/evidence/678/runtime-v3-generation-install.log\",\".csdlc/evidence/678/diff-check.log\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:678-implementation",
+      "reason": "Record the delegated Runtime v3 generation Python module as a concrete implementation deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:678-implementation",
+      "reason": "Record the real implementation denominator including the delegated Runtime v3 generation Python module.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/runtime_v3_generation.py\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:678-implementation",
+      "reason": "Record #678 stable CSM active-generation route implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented installer-managed stable CSM routing so .adl/bin/csm execs the active Runtime v3 generation's CSM instead of remaining an independent stale binary.\",\"changes\":[\"Added atomic stable CSM launcher installation in adl/tools/runtime_v3_generation.py before generation activation and rollback symlink switches.\",\"Strengthened the Runtime v3 generation installer fixture to prove stable route parity with current/bin/csm, stale stable binary repair, rollback route switching, and missing active-generation CSM failure.\",\"Updated the issue-owned validation wrapper to retain the focused proof log under .csdlc/evidence/678.\",\"Added the hidden operator note for the stable CSM route contract under .adl/docs/TBD/resilience/.\"],\"artifacts\":[\"adl/tools/runtime_v3_generation.py\",\"adl/tools/install_runtime_v3_generation.sh\",\"adl/tools/test_runtime_v3_generation_install.sh\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\",\".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:678-validation",
+      "reason": "Record #678 validation: Runtime v3 generation installer stable CSM route fixture.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/678/validate-stable-csm-route.sh\"],\"purpose\":\"Runtime v3 generation installer stable CSM route fixture\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/678/runtime-v3-generation-install.log; runtime v3 generation installer: PASS\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:678-validation",
+      "reason": "Record #678 validation: Git diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git diff hygiene proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/678/diff-check.log; clean\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:678-implementation",
+      "reason": "Issue #678 implementation and focused validation evidence are recorded; advance to implemented for review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "fresh-session:efe65191-215a-4132-bbe4-565769e1ea92",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #678 from retained derived terminal PR #682.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

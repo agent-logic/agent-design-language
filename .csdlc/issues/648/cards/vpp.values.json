@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 648,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C][corrective] Repair provider reload ownership after #646",
+    "slug": "provider-reload-ownership-corrective",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "provider-reload-corrective-production",
+          "proof_role": "Prove production CSM execution consumes a run-scoped provider reload handle and the focused provider reload production path remains nonzero.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+            "production"
+          ],
+          "parallel_group": "provider-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "provider-reload-corrective-safety",
+          "proof_role": "Prove overlap, shutdown-order, compatibility global guard, credential-boundary, and local lint safety without live Runtime mutation.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+            "safety"
+          ],
+          "parallel_group": "provider-safety",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing issue-bound worktree, process-global production ownership, missing overlap or guard regression, zero-test selectors, live Runtime mutation, credential-backed provider execution, stale exact-head review, red CI, or missing corrective issue linkage.",
+      "design_ref": ".csdlc/prepared/issues/648/design.md",
+      "design_digest": "752accf4705a4e5c4559b72ff5051629a23d03975617874c43eb1b5d09081baf",
+      "diagram_ref": ".csdlc/prepared/issues/648/diagram.mmd",
+      "diagram_digest": "996951b2b4df6fd37781c583a86b695f0b0e09b22be42deb659c130ec995a9bc"
+    }
+  }
+}

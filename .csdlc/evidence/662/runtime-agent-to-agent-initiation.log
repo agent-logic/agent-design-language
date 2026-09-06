@@ -1,0 +1,11 @@
+
+running 3 tests
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_delivers_configured_provider_work_and_activity ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_replay_and_conflict_are_explicit ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_terminal_failures_are_truthful ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 127 filtered out; finished in 0.01s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.51s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)

@@ -1,0 +1,9 @@
+flowchart LR
+  O[Operator] -->|csmctl agent add| C[csmctl]
+  C -->|TLS + bearer POST /v1/agents| R[Runtime v3 control API]
+  R --> V[Validate declaration]
+  V --> M[Verify Ollama model]
+  M --> P[Atomic admission store]
+  P --> A[Live agent roster]
+  A --> Q[GET /v1/agents]
+  S[Resident Shepherd] --> A

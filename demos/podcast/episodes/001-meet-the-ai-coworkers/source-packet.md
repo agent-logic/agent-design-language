@@ -4,10 +4,10 @@ Status: complete candidate held for human review
 
 ## Show Identity
 
-- Show: Cognitive Spacetime: The Agent Logic Podcast
+- Show: The Cognitive Stack
 - Episode: 001
 - Title: Meet the AI Coworkers
-- Canonical GUID: `agent-logic-cognitive-spacetime-episode-001`
+- Canonical GUID: `agent-logic-the-cognitive-stack-episode-001`
 
 ## Dialogue Provenance
 
@@ -35,5 +35,7 @@ contains the bounded dialogue-source and rendered-segment production evidence.
 The package uses Agent Logic-authored production structure, model-generated
 dialogue, operator-selected artwork, and licensed provider-generated synthetic
 speech. It contains no external human guest and makes no guest-consent claim.
-Publication, directory submission, and mailbox verification remain separate
-human-controlled launch actions.
+Publication and directory submission remain separate human-controlled launch
+actions. The #261 launch packet verifies `podcast@agent-logic.ai` receipt for
+show identity; directory-specific account-side verification mail remains part
+of the later #264 submission workflow.

@@ -1,0 +1,128 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 627,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.1] Define v3 command denominator and one-binary CLI shell",
+    "slug": "v3-h1-command-denominator-one-binary-cli-shell",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "627-denominator-manifest",
+          "proof_role": "Prove the machine-readable denominator covers all 21 v2 binaries and identifies the 19 sprint replacement routes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh",
+            "manifest"
+          ],
+          "parallel_group": "627-focused",
+          "defer_reason": "Runs after the issue-owned validator and manifest are implemented."
+        },
+        {
+          "lane": "627-cli-help",
+          "proof_role": "Prove one `csdlc` binary exposes the manifest command surface through stable help or semantic command listing.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "command_manifest"
+          ],
+          "parallel_group": "627-focused",
+          "defer_reason": "Runs after command manifest tests are implemented."
+        },
+        {
+          "lane": "627-fail-closed",
+          "proof_role": "Prove unimplemented live-authority routes fail closed without invoking v2, raw gh, or shell wrappers.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "command_manifest",
+            "fail_closed"
+          ],
+          "parallel_group": "627-focused",
+          "defer_reason": "Runs after fail-closed route handling is implemented."
+        },
+        {
+          "lane": "627-no-v2-source-change",
+          "proof_role": "Reject C-SDLC v2 source changes in this issue's diff.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 400,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh",
+            "no-v2-source-change"
+          ],
+          "parallel_group": "627-focused",
+          "defer_reason": "Runs after implementation diff exists."
+        },
+        {
+          "lane": "627-diff-hygiene",
+          "proof_role": "Reject whitespace and conflict artifacts in the bounded issue diff.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 400,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "627-focused",
+          "defer_reason": "Runs after implementation changes exist."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on denominator drift, missing route ownership, hidden v2/raw-gh/v1 fallback, live v3 authority claims before #505, or any C-SDLC v2 source change.",
+      "design_ref": ".csdlc/prepared/issues/627/design.md",
+      "design_digest": "dca1208e4d4b73d2e1848dca19978f06b5e2c377fea89576f8e8c0e95d2610dd",
+      "diagram_ref": ".csdlc/prepared/issues/627/diagram.mmd",
+      "diagram_digest": "e7bf94eabbac6c71577f94162fabf619a55418214985e2c542c1fdfb39b69ed7"
+    }
+  }
+}

@@ -346,17 +346,24 @@ async fn run_guardian_internal(
         let mut lease_finished = false;
 
         if let Some(polis_runtime) = &polis_runtime {
-            let now = std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .map(|duration| duration.as_millis() as u64)
-                .unwrap_or(0);
-            let deadline = now.saturating_add(config.lease_auth_timeout_ms);
-            let readiness = timeout(
-                Duration::from_millis(config.lease_auth_timeout_ms),
-                polis_runtime.establish_continuity(attempts, deadline, &shutdown),
-            )
-            .await;
-            if !matches!(readiness, Ok(Ok(()))) {
+            let continuity_ready = loop {
+                let now = std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .map(|duration| duration.as_millis() as u64)
+                    .unwrap_or(0);
+                let deadline = now.saturating_add(config.lease_auth_timeout_ms);
+                match polis_runtime
+                    .establish_continuity(attempts, deadline, &shutdown)
+                    .await
+                {
+                    Ok(()) => break true,
+                    Err(_) if !shutdown.is_cancelled() => {
+                        sleep(Duration::from_millis(config.backoff_base_ms)).await;
+                    }
+                    Err(_) => break false,
+                }
+            };
+            if !continuity_ready {
                 lease_shutdown.cancel();
                 let _ = await_lease_task(&mut lease_task).await;
                 let signals = child.force_shutdown();

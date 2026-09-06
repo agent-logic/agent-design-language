@@ -1,0 +1,12 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "spp",
+  "expected_digest": "e1b02fb32de76671189c64a2755cde0387fdf7d1ab24b31eef20861c573e3e27",
+  "expected_generation": 10,
+  "issue": 515,
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "reason": "Advance #515 after implementing the provider shadow helper, issue-owned validators, redacted evidence, and passing all focused validation lanes."
+}

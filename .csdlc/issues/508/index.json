@@ -1,0 +1,258 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 508,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "cfacb01c100d1f8699ae21e7fe2c4e0178460ab0e6e27cee132722b2022f850a",
+  "phase": "closed_out",
+  "generation": 9,
+  "digest": "8c7ac7eed3e0358767d2d170c4cd4d6dc00205553488a1153350829f3d53dc36",
+  "branch": "codex/508-drt-c-final-qualification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification",
+  "review_assignment": {
+    "reviewer": "fresh-session:0ba5fda7-e4a6-4153-8c75-180a9bcf0d25",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1fcb977bc1460a44d52729bddd07a79301b6c275:ceaef1688ac82651f3aa2e0b341ce50c94962df73af928fcb37dbcd94de58210",
+    "scope": [
+      ".csdlc/evidence/508",
+      ".csdlc/prepared/issues/508",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:0ba5fda7-e4a6-4153-8c75-180a9bcf0d25",
+    "scope": [
+      ".csdlc/evidence/508",
+      ".csdlc/prepared/issues/508",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/qualification/mod.rs",
+      "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+      "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+    ],
+    "reviewed_revision": "git-blake3:1fcb977bc1460a44d52729bddd07a79301b6c275:ceaef1688ac82651f3aa2e0b341ce50c94962df73af928fcb37dbcd94de58210",
+    "findings": [],
+    "residual_risks": [
+      "No broad workspace validation was run; proof was limited to the focused DRT-C lanes selected for #508.",
+      "No live paid distributed Runtime soak was run by the reviewer; #508 retains deterministic final qualification evidence only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 508,
+    "pull_request": 623,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/623",
+    "base": "main",
+    "head": "codex/508-drt-c-final-qualification",
+    "revision": "git-blake3:82836de1bbc9f638abf13bc1e9f42e5425297acc:e72d9be90a2bcf4162e8c99abcc8b66cbaf9a28db7b8c11081dfa09d55b6089b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 623,
+    "disposition": "merged",
+    "observed_sha": "cca4f7f675241a0a473b38006c8be2eb95165028",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/508.json",
+    "branch": "codex/508-drt-c-final-qualification",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/508/design.md",
+  "diagram_path": ".csdlc/prepared/issues/508/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:2ddde716-896e-4f67-9996-508d8dd0e0e1",
+      "revision": "c026d7b487a5a1a18f2a9a5c3280e3670da70eedcff07b9bdfe9c3cae3d0ecc1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d217d97c9c7f15807c8afc1ce0219858a06706ea1ed2a63f45babbbb4455339c",
+      "rendered_digest": "d2ac930dc2c4cfe6450a0585c40dfe3f9a42bca95a9c526d611dcad29993ad8a",
+      "ast_digest": "481f7cdad101abda9f1eabf908a5f5f36e6a004cefa7267fe9022a458985ea42"
+    },
+    "stp": {
+      "values_digest": "353a02dd022a4d1bc37a209c7b591046f2616536c230493b58d773a7bd2a06c6",
+      "rendered_digest": "4b599c930e63aea9afd5626f13c4e14b3a92aa6c35744a3b75b0d00e16879847",
+      "ast_digest": "89f6d7fbd778850223d59e725ed4fd0a38dcd294e94e5c2847b21763f00616a8"
+    },
+    "spp": {
+      "values_digest": "991261c96dab176af49d5d719fa739f554bc29fa6d5cd416eb097657bbd22549",
+      "rendered_digest": "5a679511a10a62709d082cbda718029f56a0cfd867bb357e7d891005ebda095c",
+      "ast_digest": "912dcd58596bb5a5b35eb244acf9dc0ab71b4584c4e7fac2bdcf03da4b8e0564"
+    },
+    "vpp": {
+      "values_digest": "5499ef693ef5f80f5fa3e29c8b6fcbb80f0041c8cdd2b01ffc92de5ea9462859",
+      "rendered_digest": "41909d7734f98c9b440979a1f63e7e94812581696a87f1cfaaf74d84b93ce99e",
+      "ast_digest": "3504504691e747421b0bf4d8b8fddc8baf5723ed3c348e216296a1bc51ec65c7"
+    },
+    "srp": {
+      "values_digest": "a21d68c207a232c372dd9ef4db3c09a306563acdf0a4a4cc69dc479591f450cc",
+      "rendered_digest": "47528e3be392eae34360347c8b1358a2772c676b549251b47b3851bc238011f2",
+      "ast_digest": "61ea0913c6685a5256911a05741437e9a5250840c3f76454256be6229d62b721"
+    },
+    "sor": {
+      "values_digest": "5e1d0cc8a0bd2cc4750cbd2762f2c7dabbef21da3c3f819e1129a35dc1e1ac95",
+      "rendered_digest": "ac6eac3084cd943132d52c341976fe8d5dcec874bbb5a71e895a52c0e508d21e",
+      "ast_digest": "d388d892b1e5b45544d4ebbc2b529b74337442c8955f50e1c649e4b00e9a8dc2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #508 to ready/unbound after current-main bootstrap from #507 terminal merge d022d6c198669bcbc10cd98bee4d7c8520f9c4d4, issue-local readiness proof PASS, fresh design review PASS, typed design approval, and doctor/validate readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #508 from retained derived terminal PR #623."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:2ddde716-896e-4f67-9996-508d8dd0e0e1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"c026d7b487a5a1a18f2a9a5c3280e3670da70eedcff07b9bdfe9c3cae3d0ecc1\",\"design_ref\":\".csdlc/prepared/issues/508/design.md\",\"diagram_digest\":\"f3d5356d4260195b695d12ba35a2e94decdc828c278d84ccd0c78d1c8bbf5f31\",\"diagram_ref\":\".csdlc/prepared/issues/508/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance #508 to ready/unbound after current-main bootstrap from #507 terminal merge d022d6c198669bcbc10cd98bee4d7c8520f9c4d4, issue-local readiness proof PASS, fresh design review PASS, typed design approval, and doctor/validate readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover #508 after fresh-session:2f0bb473-4c5c-4779-a0b0-4f0f33333d508 exact implementation review found P1 stale runtime_revision evidence and P1 incomplete #187 soak denominator; bounded in-scope remediation requires a new substantive commit and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record #508 remediation after R1 exact review found stale runtime_revision evidence and incomplete #187 soak denominator.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated the DRT-C final distributed Runtime qualification decision. The retained qualification evidence now binds to the immutable Runtime qualification source revision, models both required #187 soak windows with exact command/model/receipt digests, independent replay, clock bounds, and cleanup readback, and keeps the decision within #508 without absorbing #509/GCP or Observatory product redesign scope.\",\"changes\":[\"Added a deterministic DRT-C qualification decision model and validator to the Runtime qualification module.\",\"Added a focused DRT-C integration test under the distributed_failure surface that proves requirements #185-#187, fail-closed identity/provider/transport cases, Runtime-authentic redacted Observatory evidence, bounded soak, cleanup-zero, and retained evidence equality.\",\"Removed the stale hardcoded parent #507 SHA from the focused test; the test now derives the qualification subject from retained evidence.\",\"Strengthened #187 soak evidence from a single positive duration into two required windows with source revision, command digest, model digest, clock bounds, receipt digest, independent replay, and cleanup readback.\",\"Strengthened the issue-owned implementation validator so retained evidence fails closed unless runtime_revision equals the latest Runtime qualification source commit and the full soak denominator is present.\",\"Retained the exact DRT-C qualification decision artifact under docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json.\"],\"artifacts\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/src/qualification/mod.rs\",\"adl-runtime/tests/distributed_failure/drt_c_qualification.rs\",\"docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json\",\".csdlc/prepared/issues/508/validate-readiness.rb\",\".csdlc/prepared/issues/508/validate-implementation.rb\",\".csdlc/evidence/508/drt-c-rust-fmt-r2.log\",\".csdlc/evidence/508/drt-c-focused-r2.log\",\".csdlc/evidence/508/drt-c-implementation-validator-r2.log\",\".csdlc/evidence/508/drt-c-diff-check-r2.log\",\".csdlc/issues/508\",\".csdlc/prepared/issues/508\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for the DRT-C Runtime qualification model and focused test.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-rust-fmt-r2.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_failure_drt_c\",\"drt_c_final_qualification_decision_is_exact\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the deterministic DRT-C Runtime qualification decision validates and matches retained evidence exactly, including the Runtime source revision and #187 soak denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-focused-r2.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/508/validate-implementation.rb\"],\"purpose\":\"Prove retained DRT-C qualification JSON binds exact Runtime source revision, fail-closed cases, Runtime-authentic Observatory evidence, two-window bounded soak denominator, synthesis, and cleanup-zero.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-implementation-validator-r2.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue across the #508 remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/508/drt-c-diff-check-r2.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #508 from retained derived terminal PR #623.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

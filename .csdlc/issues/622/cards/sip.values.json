@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 622,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
+    "slug": "provider-profile-hotload",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Production-wire validated provider-instance and inference-profile hot loading without restarting the consuming process.",
+      "required_outcome": "A provider-only configuration sidecar is watched through the existing reload substrate, accepted candidates atomically replace the active provider snapshot, rejected candidates retain last-known-good, and subsequent production inference consumes the new snapshot.",
+      "declared_scope": [
+        "adl/src/provider/reload.rs",
+        "adl/src/provider/mod.rs",
+        "adl/src/provider/profiles.rs",
+        "adl/src/execute/runner.rs",
+        "adl/tests/provider_profile_hot_reload.rs",
+        "docs/providers/provider-profile-hot-loading.md",
+        ".csdlc/prepared/issues/622/**",
+        ".csdlc/issues/622/**"
+      ],
+      "authority_boundary": [
+        "Reuse the existing Runtime-kernel watcher and existing provider candidate activation",
+        "The watched document is provider-only and cannot grant authority or define executable work",
+        "Each inference call retains the immutable provider snapshot selected before dispatch",
+        "Credentials remain separately governed references and values are never reload payload",
+        "Only later inference consumes an accepted replacement"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not build a second watcher or provider registry",
+        "Do not reload secrets or authority-bearing objects",
+        "Do not implement MLX or OCI packaging",
+        "Do not restart the process to claim hot loading",
+        "Do not expand into provider architecture redesign"
+      ]
+    }
+  }
+}

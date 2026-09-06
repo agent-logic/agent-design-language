@@ -1,0 +1,39 @@
+{
+  "schema": "adl.issue670.residual-inventory.v1",
+  "status": "clean",
+  "observed_at": "2026-09-04T00:36:53Z",
+  "project": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+  "filters": {
+    "name_regex": "g670|adl-670",
+    "retained_snapshot_generation": "g670-20260903b"
+  },
+  "residual_issue_resources": {
+    "instances": [],
+    "disks": [],
+    "firewalls": [],
+    "images": [],
+    "addresses": []
+  },
+  "retained_snapshots": [
+    {
+      "name": "adl-663-g670-20260903b-ollama",
+      "status": "READY",
+      "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-ollama",
+      "storageBytes": "14336168576"
+    },
+    {
+      "name": "adl-663-g670-20260903b-runtime",
+      "status": "READY",
+      "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-runtime",
+      "storageBytes": "117435392"
+    }
+  ],
+  "commands": [
+    ["gcloud", "compute", "instances", "list", "--filter=name~'g670|adl-670'"],
+    ["gcloud", "compute", "disks", "list", "--filter=name~'g670|adl-670'"],
+    ["gcloud", "compute", "firewall-rules", "list", "--filter=name~'g670|adl-670'"],
+    ["gcloud", "compute", "images", "list", "--filter=name~'g670|adl-670'"],
+    ["gcloud", "compute", "addresses", "list", "--filter=name~'g670|adl-670'"],
+    ["gcloud", "compute", "snapshots", "list", "--filter=name~'g670|adl-670'"]
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 648,
+  "expected_generation": 4,
+  "expected_digest": "be7326bf98445524dc23cd10d135bc2dce4386ee0b12a30487a27905ab19a02c",
+  "actor": "codex:/root",
+  "summary": "Implemented the corrective provider reload ownership repair after PR #646 merged stale by replaying the run-scoped handle fix through issue #648.",
+  "changes": [
+    "Added run-scoped ProviderReloadHandle propagation through sequential, concurrent, retry, and called-workflow execution paths.",
+    "Changed production CSM adl_workflow hotload ownership to retain and pass an explicit run-scoped provider reload handle instead of depending on process-global registration.",
+    "Retained compatibility global registration with identity-aware guard clearing so older guards cannot clear newer registrations.",
+    "Added overlap, shutdown-order, in-flight snapshot, and direct global guard regression coverage.",
+    "Kept proof local and offline without live provider, AWS, paid runner, Runtime restart, cutover, or merge action."
+  ],
+  "artifacts": [
+    "adl/src/provider/reload.rs",
+    "adl/src/execute/mod.rs",
+    "adl/src/execute/runner.rs",
+    "adl/src/execute/tests.rs",
+    "adl/src/long_lived_agent.rs",
+    ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "provider-reload-corrective-production",
+          "proof_role": "Production provider reload ownership proof",
+          "purpose": "Prove production provider profile, provider reload, in-flight snapshot, and CSM hotload-owner behavior after the run-scoped reload handle repair.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 2,
+            "memory_mib": 4096,
+            "tokens": 4000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "provider-runtime",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "bash",
+          "argv": [
+            ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+            "production"
+          ],
+          "evidence": {
+            "max_log_bytes": 131072,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "provider-reload-corrective-safety",
+          "proof_role": "Safety, ownership regression, lint, and diff hygiene proof",
+          "purpose": "Prove config reload safety, provider reload ownership regressions, fmt, clippy, and diff hygiene without live provider, AWS, paid runner, Runtime restart, cutover, or merge action.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 2,
+            "memory_mib": 4096,
+            "tokens": 4000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "provider-reload-corrective-production"
+          ],
+          "parallel_group": "provider-safety",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 1200,
+          "executable": "bash",
+          "argv": [
+            ".csdlc/prepared/issues/648/validate-provider-reload-corrective.sh",
+            "safety"
+          ],
+          "evidence": {
+            "max_log_bytes": 131072,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "provider-reload-corrective-production",
+        "provider-reload-corrective-safety"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 2,
+      "memory_mib": 4096,
+      "tokens": 8000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-648-provider-reload-ownership-corrective-bound",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-648-provider-reload-ownership-corrective-bound/.csdlc/evidence/648",
+    "cancellation_file": null
+  }
+}

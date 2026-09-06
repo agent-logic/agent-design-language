@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 686,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
+    "slug": "runtime-governed-config-generation-handoff",
+    "version": "v0.92.1",
+    "generation": 48
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/config_reload.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/tests/guardian_cli.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/tests/csm_runtime_v3_generation.rs\n.csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py\n.csdlc/evidence/686",
+      "review_revision": "git-blake3:17bd7c74bd9269489727c99e36cebbae765a0aa0:18a353c065b3810cba1a8d1c757443c90a7cfcb089dd76aa051c8efaaf500ae8",
+      "reviewer": "codex-subagent:/root/review_686_runtime_config_generation_r17",
+      "review_prompts": [
+        "Can any partial candidate or mutable file become authority without a committed receipt?",
+        "Do CSM Guardian kernel status and readiness prove identical generation and digest?",
+        "Can a secret value enter any durable or observable surface?",
+        "Does every named failpoint recover deterministically to either the candidate commit or prior generation?",
+        "Does validation avoid the live Runtime?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "PR #692 still needs typed republication from the repaired and resynced branch head and hosted CI must pass at the republished head before merge.",
+        "Validation evidence records post-resync source/evidence head 142f90c44e06532cbf727363b22946ba513b4b28 and SOR/evidence commit 17bd7c74bd9269489727c99e36cebbae765a0aa0; r17 classified the later review-assignment tail 5b139808f2312a837793e990be1f1074862808f3 as metadata only.",
+        "Live Runtime restart, launchd/systemd mutation, cloud, credential, deployment, paid execution, and merge were not performed as part of local #686 proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

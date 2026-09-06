@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 508,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+    "slug": "v0-92-1-drt-c-final-distributed-runtime-qualification",
+    "version": "v0.92.1",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one final distributed Runtime qualification decision.",
+      "required_outcome": "One final distributed Runtime qualification decision for requirements 185 through 187.",
+      "declared_scope": [
+        "Map requirements 185 through 187 to one DRT-C qualification decision",
+        "Prove identity, provider, and transport failures fail closed",
+        "Bind Runtime-authentic Observatory evidence to the exact Runtime revision",
+        "Bind bounded-soak, synthesis, and cleanup-zero evidence to the exact Runtime revision"
+      ],
+      "authority_boundary": [
+        "Consume #507 DRT-B terminal merge d022d6c198669bcbc10cd98bee4d7c8520f9c4d4 as dependency authority",
+        "Do not redesign the Observatory product",
+        "Do not run unbounded soak",
+        "Do not leave residual cloud or local runtime resources",
+        "Do not absorb #509 GCP portability qualification"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Use FastWork worktrees only for tracked execution",
+        "Keep primary main clean",
+        "Use standard CI runners only",
+        "Record any paid or external proof gate truthfully before execution"
+      ]
+    }
+  }
+}

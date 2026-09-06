@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 679,
+  "expected_generation": 14,
+  "expected_digest": "88e1a78077b35090eba5801ed7e75a296db034935a0c0de618b27f2c4a6dd492",
+  "reviewer": "codex:issue-679-review",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "infra/aws/observatory",
+    "docs/operations/cloud/aws/observatory",
+    ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+    ".csdlc/evidence/679"
+  ]
+}

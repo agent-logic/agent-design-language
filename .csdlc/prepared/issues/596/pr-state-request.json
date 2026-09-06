@@ -1,10 +1,9 @@
 {
-  "action": "pr_state",
   "repository": "agent-logic/agent-design-language",
-  "pull_request": 597,
+  "pull_request": 615,
   "required_checks": [],
   "require_review": false,
   "token_file": null,
-  "linked_issue": null,
+  "linked_issue": 596,
   "linked_issue_repository": "agent-logic/agent-design-language"
 }

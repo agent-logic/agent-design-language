@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 506,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+    "slug": "v0-92-1-drt-a-distributed-qualification-contract",
+    "version": "v0.92.1",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Implement the smallest deterministic DRT-A contract, prove ACIP identity/authority/replay behavior, and retain exact evidence without cloud or UI scope.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Map requirements 181 and 182 into a committed DRT-A qualification denominator.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Implement deterministic identity and authority checks without synthetic provenance.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Implement replay and duplicate-denial receipts that cannot mutate authority.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Exercise the fail-closed negative matrix for stale, duplicate, reordered, malformed, unsigned, wrong-domain, cross-Polis, and authority-mutation inputs.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+      ],
+      "invariants": [
+        "Identity provenance is not synthetic.",
+        "Replay cannot change authority.",
+        "Duplicate denial is receipt-exact rather than string-only.",
+        "The issue remains independent from paid AWS execution and Observatory redesign."
+      ],
+      "risks": [
+        "Replay behavior could mutate authority if the contract boundary is weak.",
+        "Synthetic identity provenance could make qualification evidence non-proving.",
+        "Duplicate-denial evidence could become string-based instead of receipt-exact.",
+        "Negative coverage could miss a recipient or authority variant."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Identity provenance is synthetic.",
+        "Replay can change authority.",
+        "Duplicate-denial receipts are not exact.",
+        "Paid AWS execution is requested without explicit operator authorization."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/506/design.md",
+      "design_digest": "88120bc83fdbe01e9af1298bb6dd178c8639b6a041c2b0a2f7239b2ecd8bd744",
+      "diagram_ref": ".csdlc/prepared/issues/506/diagram.mmd",
+      "diagram_digest": "37f9fb27c6cc7258c306155f658c74be781bdcbdd4a141ab6d4fc65e0e3f780d"
+    }
+  }
+}

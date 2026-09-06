@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 508,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+    "slug": "v0-92-1-drt-c-final-distributed-runtime-qualification",
+    "version": "v0.92.1",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "drt-c-readiness",
+          "proof_role": "Prove #508 design/readiness names terminal #507 and the Runtime-authentic Observatory boundary before bind.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/508/validate-readiness.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "drt-c-focused",
+          "proof_role": "Prove failure matrix, Runtime-authentic Observatory, bounded soak, exact revision, synthesis, and cleanup-zero.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 6000,
+          "budget_tokens": 8000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/508/validate-implementation.rb"
+          ],
+          "parallel_group": "qualification",
+          "defer_reason": "Requires implementation/qualification evidence; any paid or external proof remains operator-gated."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on stale dependency truth, synthetic Observatory evidence, failed negative behavior, unbounded soak, missing cleanup, or evidence that does not bind the exact Runtime revision.",
+      "design_ref": ".csdlc/prepared/issues/508/design.md",
+      "design_digest": "c026d7b487a5a1a18f2a9a5c3280e3670da70eedcff07b9bdfe9c3cae3d0ecc1",
+      "diagram_ref": ".csdlc/prepared/issues/508/diagram.mmd",
+      "diagram_digest": "f3d5356d4260195b695d12ba35a2e94decdc828c278d84ccd0c78d1c8bbf5f31"
+    }
+  }
+}

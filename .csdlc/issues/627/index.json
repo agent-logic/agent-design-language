@@ -1,0 +1,328 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 627,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a3a1af8ad7546be2138865ddae6273471360ac25e43389f7865d1a25272d687d",
+  "phase": "closed_out",
+  "generation": 11,
+  "digest": "8f0e0df39db7e62e3b45b65beb636aa99e9426ad9be4175790ad0eaec4c74d10",
+  "branch": "codex/627-v3-h1-command-denominator-r2",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_627_r5_exact_head",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/627",
+      ".csdlc/evidence/627"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-reviewer:review_627_r5_exact_head",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/627",
+      ".csdlc/evidence/627"
+    ],
+    "reviewed_revision": "git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a",
+    "findings": [],
+    "residual_risks": [
+      "Remote PR #635 branch remains stale until typed publication pushes this reviewed local candidate."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:295c2319b95622c82360d3f4c794efed44fc5d3c:b7ab776004cc5ef7b184fc5a3e39ca8db1ebe527b9e7d1ea1e953f77900e4e3a",
+      "to_revision": "git-blake3:80b4821e4198c66f8635192bff0f5044d94392de:63f655250d129f3e795d2c60c67997fb4d676c2b3652abd36ed74717166600d9",
+      "from_commit": "295c2319b95622c82360d3f4c794efed44fc5d3c",
+      "to_commit": "80b4821e4198c66f8635192bff0f5044d94392de",
+      "changed_paths": [
+        ".csdlc/issues/627/audit.jsonl",
+        ".csdlc/issues/627/index.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 627,
+    "pull_request": 635,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/635",
+    "base": "main",
+    "head": "codex/627-v3-h1-command-denominator-r2",
+    "revision": "git-blake3:80b4821e4198c66f8635192bff0f5044d94392de:63f655250d129f3e795d2c60c67997fb4d676c2b3652abd36ed74717166600d9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 635,
+    "disposition": "merged",
+    "observed_sha": "83e5b39252070acf50b46360b6ae3d642776f43e",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/627.json",
+    "branch": "codex/627-v3-h1-command-denominator-r2",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/627/design.md",
+  "diagram_path": ".csdlc/prepared/issues/627/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:sprint-625-setup",
+      "revision": "dca1208e4d4b73d2e1848dca19978f06b5e2c377fea89576f8e8c0e95d2610dd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a78cf89fca1edb863b771edd2fd4d46ac698636e829a932f88124225e3d3d1a8",
+      "rendered_digest": "855325a14477c7ce2e1b90f0e6d9ba912151de93354db72604eabd9fbad12879",
+      "ast_digest": "544e4a1cf30b8a35ebf34e687ba209a9cce107857d5c68eaa83b22298762dcfd"
+    },
+    "stp": {
+      "values_digest": "15a18f6a381b9345a86a969c7d1ebe311dbd74d1a0f389bd9f32e943de971b76",
+      "rendered_digest": "334cf29cd98a42918bca8ba4052870d45b62144849805c43ad5cee1b0c6b4bca",
+      "ast_digest": "70bdafa0bcf9400aa34200a029f4a1c1f3c876b3356549201f24269e27c7261a"
+    },
+    "spp": {
+      "values_digest": "8ed2f98104252a297b48c6f70c2a0cc8775d99b692293cd6d88c95217e676d1a",
+      "rendered_digest": "df9f98206c82ba12d2169943f93a3357a81bc14ab917f4b96df038b6e318ce4b",
+      "ast_digest": "2449344510802a5d82861041a6bae30125133706d79984fb46d44252cba3d793"
+    },
+    "vpp": {
+      "values_digest": "1c313c2cabeb85340cd37c541e8505226d4f5943d7b5379b171019ecdfbda1a5",
+      "rendered_digest": "fd2f7ae0bb0ffee7657ed885c898fb788e9f93c6eb12e2c2ce88aea7a7ba6f80",
+      "ast_digest": "afeb335bdfb40004b4fec5a919bf5065dfc8a9bc4aa2ed73e5343f2fbb68b159"
+    },
+    "srp": {
+      "values_digest": "fb71f71d017fe7dabf5969f7a628195a5840bde2f72606cb1c1f4f0bd5f35ad8",
+      "rendered_digest": "0976167d78f3c68f707b808389ad70c86cbd3d74e89eae4b6f46ff475404afff",
+      "ast_digest": "1b8b87ebf249ee96722775696232b1537b2873a343c653b020ed805e08a1de19"
+    },
+    "sor": {
+      "values_digest": "8658fe55641b7eee252862d36655588b29d5df4cad5bc7747af309be6412fceb",
+      "rendered_digest": "3079d3346229f3ff1bfa28331c1f13d946b57ce0644a434032e9952464f86b65",
+      "ast_digest": "b26756203d2ef94f2c0b73594467329c67b6470df043a2670c6ccf232eaae413"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance clean #627 r2 prep to ready/unbound after typed validation and doctor passed for the no-blank-EOF design packet."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after exact-head evidence refresh: previous review/publication pointed at 94845ff while current PR head includes refreshed non-empty validation receipts."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after publication guard found review_stale because review metadata was committed after the previously reviewed substantive evidence head."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 12,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 13,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #627 from retained derived terminal PR #635."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "repair pre-bind readiness by making issue-owned validator and test targets explicit owned paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/csdlc-v3/full-replacement-denominator.json\",\"docs/csdlc-v3/v3-command-manifest.json\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands\",\"csdlc-v3/tests/command_manifest.rs\",\".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh\",\".csdlc/prepared/issues/627\",\".csdlc/issues/627\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Advance clean #627 r2 prep to ready/unbound after typed validation and doctor passed for the no-blank-EOF design packet.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after exact-head evidence refresh: previous review/publication pointed at 94845ff while current PR head includes refreshed non-empty validation receipts.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover #627 after publication guard found review_stale because review metadata was committed after the previously reviewed substantive evidence head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #627 from retained derived terminal PR #635.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "action": "pr_update",
+  "repository": "agent-logic/agent-design-language",
+  "operation_key": "worker-7-pr613-after-terraform-readback-repair-20260902",
+  "token_file": null,
+  "issue": null,
+  "pull_request": 613,
+  "title": null,
+  "body": "Part-Of #497\n\nThis PR records the current CORP-C control-transfer repair. It is not terminal for issue 497.\n\nCurrent truth:\n- `issue_ready_to_close=false`.\n- CORP-C acceptance is `blocked_missing_required_readbacks`, not accepted.\n- The typed issue state is `phase=implemented` and `ready=false`.\n- The live #497 denominator remains in force: corporate ownership and rollback for required control planes, approved Agent Logic business AWS target, company-controlled Terraform/CI authority, and availability/recovery readbacks.\n- Exactly one external mutation is now recorded: `corp-c-aws-c-terraform-bootstrap-apply`, the operator-authorized AWS-C Terraform bootstrap apply and state migration under `agent-logic-admin`.\n- No credential, billing, DNS, certificate, workflow, private-custody, deployment, or rollback mutation is claimed by this PR update.\n\nRepair since review:\n- Diagnosed the Terraform gap: #486/PR #567 delivered code and static/local proof, but did not create the live S3 backend bucket or DynamoDB lock table.\n- Applied the bounded AWS-C Terraform bootstrap root, migrated state to the new remote backend, and retained sanitized hash/shape readbacks for bucket, lock table, encryption, versioning, public-access block, role, and PITR state.\n- Updated Terraform bootstrap docs and AWS runtime backend examples to use the live foundation backend naming contract instead of stale unsuffixed names.\n- Added GitHub/CI, DNS/certificate/public availability, and live control-plane evidence packets without retaining secret values, raw AWS account identifiers, ARNs, or credential material.\n- Updated the control-plane denominator, external-action classifier, operational acceptance record, validator, and SOR so the authorized Terraform mutation is explicit and the remaining live readbacks stay blockers.\n\nStill missing before issue 497 can reach terminal closeout:\n- Corporate GitHub/CI authority readbacks covering admin continuity, recovery, environment/workflow policy, and rollback expectations.\n- Runtime origin-smoke DNS/availability readback.\n- DNS registrar/delegation, DNS rollback/recovery, certificate renewal/reissue, and deployment rollback/recovery readbacks.\n- AWS account-level control readbacks outside the Terraform bootstrap root, including root/billing/IAM Identity Center/MFA/break-glass/recovery expectations.\n- Private custody/key-vault/password-manager transfer evidence with only redacted or hashed retained proof.\n\nValidation:\n- `ruby .csdlc/evidence/497/validate-readiness.rb` passed with `issue_ready_to_close=false`, `external_mutations_performed=true`, and authorized mutations limited to `corp-c-aws-c-terraform-bootstrap-apply`.\n- Terraform bootstrap `fmt`, `init -backend=false`, and `validate` passed.\n- JSON parse smoke for CORP-C evidence, control-transfer evidence, and prepared request JSON passed.\n- Scoped credential/account leak scan found only validator deny-list strings and SHA-256 values.\n- Scoped closing-keyword scan for issue 497 surfaces returned no matches.\n- `csdlc-doctor` and `csdlc-validate` passed with `phase=implemented` and `ready=false`.\n- `git diff --check origin/main...HEAD` passed.\n\nNon-claims:\n- This PR does not mark issue 497 ready, complete, accepted, merge-ready, merged, finished, or terminally reconciled.\n- This PR is not a terminal closeout vehicle while required live proof remains missing.",
+  "base": null,
+  "head": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

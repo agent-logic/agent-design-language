@@ -1,0 +1,17 @@
+{
+  "issue": 687,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "640ecf714d7bdf7d4ad09fc46c09f1c590801e0b70e4df4fe825e37ac00d054b",
+  "actor": "codex:worker-7",
+  "reason": "Record deterministic local no-cloud validation proof for the provider inference-readiness repair.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["see", ".csdlc/evidence/687/validation-summary.json"],
+      "purpose": "Retain exact local formatting, diff hygiene, compile, roster, shepherd, assembly, and control validation results without cloud/provider execution.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/687/validation-summary.json"
+    }
+  }
+}

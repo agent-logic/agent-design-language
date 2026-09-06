@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 679,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Observatory][infra] S3 deployable Observatory",
+    "slug": "s3-deployable-observatory",
+    "version": "v0.92.1",
+    "generation": 20
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "infra/aws/observatory\ndocs/operations/cloud/aws/observatory\n.csdlc/prepared/issues/679/validate_s3_deployable_observatory.py\n.csdlc/evidence/679\n.csdlc/issues/679",
+      "review_revision": "git-blake3:bd8f54f7b75644d0268e957380a8a76b132d0184:cb01f62414352cf8abf38f73a7080c66436d17906f665c0a6486661a92153661",
+      "reviewer": "subagent:/root/review_679_acl_fix_r1",
+      "review_prompts": [
+        "Does the issue keep #512 product work separate from #679 infrastructure deployability?",
+        "Does the deployment plan avoid live AWS mutation unless separately authorized and retain truthful dry-run/readback classification?",
+        "Do validators prove redaction, profile gating, static asset relativity, CSP/header behavior, and no credential persistence?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Live AWS plan, apply, and readback remain deferred pending explicit operator authorization.",
+        "GitHub CI must rerun after republishing the repaired PR head."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

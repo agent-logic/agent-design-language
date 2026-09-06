@@ -91,6 +91,8 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 });
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v3";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
+const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA = "adl.runtime_v3.observatory_conversation_history_request.v1";
+const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS = 2048;
 const LARGE_POLIS_LIMITS = Object.freeze({
   maxVisibleAgents: 120,
   maxTranscriptTurns: 300,
@@ -1576,6 +1578,7 @@ function connectRuntimeV3ObservatoryWebSocket(
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
                  frame.schema === "adl.runtime_v3.observatory_conversation_result.v1" ||
+                 frame.schema === OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
                  frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
                  frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
@@ -1606,6 +1609,24 @@ function authenticateRuntimeV3ObservatorySocket(socket, token) {
   socket.send(JSON.stringify({
     schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
     bearer_token: writeToken
+  }));
+}
+
+function requestRuntimeConversationHistory(socket, conversationId, pageSize = RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    throw new Error("Runtime v3 Observatory WebSocket is not open.");
+  }
+  const boundedConversationId = String(conversationId || "");
+  if (!/^[A-Za-z0-9._:-]{1,128}$/.test(boundedConversationId) ||
+      !Number.isSafeInteger(pageSize) ||
+      pageSize < 1 ||
+      pageSize > RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
+    throw new Error("Conversation history request is invalid.");
+  }
+  socket.send(JSON.stringify({
+    schema: RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA,
+    conversation_id: boundedConversationId,
+    page_size: pageSize
   }));
 }
 
@@ -1645,11 +1666,25 @@ function conversationFrameTransition(frame, pending) {
   if (frame.status === "delivered" && !reply) {
     return null;
   }
-  return {
+  const transition = {
     status: frame.status,
     terminal: frame.status !== "accepted",
     reply
   };
+  if (typeof frame.sender_id === "string" && frame.sender_id.length <= 128) {
+    transition.senderId = frame.sender_id;
+  }
+  if (typeof frame.initiated_work_id === "string" && frame.initiated_work_id.length <= 128) {
+    transition.initiatedWorkId = frame.initiated_work_id;
+  }
+  if (typeof frame.initiated_recipient_id === "string" && frame.initiated_recipient_id.length <= 128) {
+    transition.initiatedRecipientId = frame.initiated_recipient_id;
+  }
+  if (typeof frame.initiated_correlation_id === "string" &&
+      /^[0-9a-f]{32}$/.test(frame.initiated_correlation_id)) {
+    transition.initiatedCorrelationId = frame.initiated_correlation_id;
+  }
+  return transition;
 }
 
 function conversationReplyFromFrame(frame, pending) {
@@ -1707,7 +1742,8 @@ function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
       history.schema !== OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
       typeof history.conversation_id !== "string" ||
       history.conversation_id.length === 0 ||
-      !Array.isArray(history.records)) {
+      !Array.isArray(history.records) ||
+      history.records.length > RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
     return { accepted: false, reason: "invalid_runtime_history" };
   }
   const expectedIncarnation = feed.runtime_incarnation_id || feed.runtimeIncarnationId || "";
@@ -1755,6 +1791,22 @@ function restoreConversationTranscriptFromRuntimeHistory(history, feed = {}, app
     }
   }
   return normalized;
+}
+
+function conversationTranscriptBaseTurnId(turnId) {
+  return String(turnId || "").replace(/:(outbound|reply)$/, "");
+}
+
+function conversationTranscriptRoleKey(speaker) {
+  const value = String(speaker || "runtime");
+  if (value === "operator") return "operator";
+  if (value.startsWith("agent")) return "agent";
+  return value;
+}
+
+function conversationTranscriptRenderKey(speaker, turnId) {
+  const baseTurnId = conversationTranscriptBaseTurnId(turnId);
+  return baseTurnId ? `${conversationTranscriptRoleKey(speaker)}:${baseTurnId}` : "";
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -2206,6 +2258,14 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       id: agent.id,
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
+      provider: agent.provider || null,
+      model: agent.model || null,
+      lastSnapshotAtUnixMillis: Number(agent.last_snapshot_at_unix_millis || 0),
+      lastArchiveAtUnixMillis: Number(agent.last_archive_at_unix_millis || 0),
+      snapshotSequence: agent.snapshot_sequence == null ? null : Number(agent.snapshot_sequence),
+      pendingArchiveCount: Number(agent.pending_archive_count || 0),
+      snapshotState: agent.snapshot_state || "never_snapshotted",
+      archiveState: agent.archive_state || "disabled",
       state: agent.state || primaryState,
       detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`,
       health: agent.health || "unknown",
@@ -2413,7 +2473,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
     <button type="button" class="agent-row roster-row" data-state="${escapeHtml(stateTone(agent.state))}" data-agent-id="${escapeHtml(agent.id)}" aria-pressed="${rosterUiState.selectedId === agent.id ? "true" : "false"}">
       <span class="row-kicker">${escapeHtml(agent.id)}</span>
       <strong>${escapeHtml(agent.label || agent.id)}</strong>
-      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</span>
+      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(agent.provider || "no provider")} / ${escapeHtml(agent.model || "no model")}</span>
     </button>
   `));
 
@@ -2428,6 +2488,11 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
         <div><dt>Health</dt><dd>${escapeHtml(formatLabel(selected.health))}</dd></div>
         <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(selected.availability))}</dd></div>
         <div><dt>Communication</dt><dd>${selected.communicationEligible ? "Eligible" : "Unavailable"}</dd></div>
+        <div><dt>Backing model</dt><dd>${escapeHtml(selected.provider && selected.model ? `${selected.provider} / ${selected.model}` : "Not configured")}</dd></div>
+        <div><dt>Last snapshot</dt><dd>${escapeHtml(selected.lastSnapshotAtUnixMillis ? formatTimestampLabel(selected.lastSnapshotAtUnixMillis) : "Never")}</dd></div>
+        <div><dt>Snapshot state</dt><dd>${escapeHtml(formatLabel(selected.snapshotState))}${selected.snapshotSequence == null ? "" : ` (#${escapeHtml(selected.snapshotSequence)})`}</dd></div>
+        <div><dt>Last S3 archive</dt><dd>${escapeHtml(selected.lastArchiveAtUnixMillis ? formatTimestampLabel(selected.lastArchiveAtUnixMillis) : "Never")}</dd></div>
+        <div><dt>Archive state</dt><dd>${escapeHtml(formatLabel(selected.archiveState))}${selected.pendingArchiveCount ? ` (${escapeHtml(selected.pendingArchiveCount)} pending)` : ""}</dd></div>
         <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
         <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
       </dl>
@@ -2960,11 +3025,20 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
 
   const appendConversationTurn = (speaker, message, turnId, status = "") => {
     if (!conversationTranscript) return;
+    const renderKey = conversationTranscriptRenderKey(speaker, turnId);
+    const duplicate = Array.from(conversationTranscript.querySelectorAll(".conversation-turn"))
+      .find((item) => item.dataset.renderKey === renderKey);
+    if (duplicate) {
+      const state = duplicate.querySelector(".conversation-turn-status");
+      if (state && status) state.textContent = status;
+      return duplicate;
+    }
     conversationTranscript.querySelector(".conversation-empty")?.remove();
     const item = document.createElement("li");
     item.className = "conversation-turn";
     item.dataset.speaker = speaker;
-    if (turnId) item.dataset.turnId = turnId;
+    if (turnId) item.dataset.turnId = conversationTranscriptBaseTurnId(turnId);
+    if (renderKey) item.dataset.renderKey = renderKey;
     const content = document.createElement("span");
     content.className = "conversation-turn-content";
     content.textContent = message;
@@ -3046,10 +3120,32 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
 
+  const requestAvailableConversationHistories = () => {
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) return;
+    const recipients = new Set(
+      Array.from(conversationRecipient?.options || [])
+        .map((option) => option.value)
+        .filter(Boolean)
+    );
+    if (conversationRecipient?.value) recipients.add(conversationRecipient.value);
+    for (const recipientId of recipients) {
+      requestRuntimeConversationHistory(liveSocket, `conversation-${recipientId}`);
+    }
+  };
+
   const renderControlFrame = (frame) => {
     if (frame.status === "authenticated") {
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
       replayPendingConversationsAfterAuthentication();
+      requestAvailableConversationHistories();
+      return;
+    }
+    if (frame.schema === OBSERVATORY_CONVERSATION_HISTORY_SCHEMA) {
+      restoreConversationTranscriptFromRuntimeHistory(
+        frame,
+        { runtime_incarnation_id: liveRuntimeIncarnationId },
+        appendConversationTurn
+      );
       return;
     }
     if (frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
@@ -3090,7 +3186,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       setConversationTurnStatus(pending, transition.status);
       if (transition.reply) {
-        appendConversationTurn("agent", transition.reply, pending.turnId, "delivered");
+        const speaker = transition.senderId
+          ? `agent:${transition.senderId}`
+          : "agent";
+        const status = transition.initiatedWorkId && transition.initiatedRecipientId
+          ? `delivered / A2A ${transition.initiatedRecipientId} ${transition.initiatedWorkId}`
+          : "delivered";
+        appendConversationTurn(speaker, transition.reply, pending.turnId, status);
       }
       if (transition.terminal) {
         pending.terminal = true;
@@ -3535,6 +3637,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (conversationSend) {
       conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
     }
+    if (conversationAuthorized && conversationRecipient.value) {
+      requestRuntimeConversationHistory(liveSocket, `conversation-${conversationRecipient.value}`);
+    }
   });
   roomRecipients?.addEventListener("change", updateRoomSendState);
   roomMessage?.addEventListener("input", updateRoomSendState);
@@ -3743,6 +3848,10 @@ globalThis.AdlHtmlObservatory = {
   projectPolisIdentity,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
+  requestRuntimeConversationHistory,
+  conversationTranscriptBaseTurnId,
+  conversationTranscriptRoleKey,
+  conversationTranscriptRenderKey,
   conversationFrameTransition,
   conversationFrameProvesAcceptance,
   conversationReconnectIntent,

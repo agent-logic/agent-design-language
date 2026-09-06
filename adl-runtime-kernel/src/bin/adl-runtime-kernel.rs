@@ -4,7 +4,10 @@ use std::{
     path::{Path, PathBuf},
     pin::Pin,
     process::ExitCode,
-    sync::Arc,
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc,
+    },
 };
 
 #[path = "../observability.rs"]
@@ -17,16 +20,20 @@ use adl_runtime_kernel::layer8_authority::{
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
-    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
-    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
+    build_production_operation_executors_with_recorder, config_generation_identity_from_env,
+    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
+    monitor_until_stop, preload_resident_shepherd_model, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
-    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
-    verifying_key_from_hex, AdapterKind, AgentPopulationFeed, CatalogSigningAuthority,
-    CheckpointShutdownRequest, CheckpointingControl, ConfigApplier, ConfigParser,
-    ConfigReloadError, ConfigReloadOptions, ContinuityControlService, ControlApiPolicy,
-    ControlAuthority, ControlCapability, ControlService, DurableContinuityJournal, Kernel,
-    KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
-    ObservabilityHealth, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource,
+    start_config_reload_with_applier_and_shutdown,
+    validate_config_generation_identity_matches_active, validate_production_operation_executors,
+    verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
+    CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
+    ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
+    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
+    DurableContinuityJournal, FailureClass, Kernel, KernelExit, LiveBindings, LiveContinuity,
+    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
+    OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor,
+    ResidentShepherdProbeExecutor, ResidentShepherdRecoveryPolicy, RsntpTimeSampleSource,
     RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
     TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
     TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
@@ -38,6 +45,14 @@ use tokio::net::TcpStream;
 
 const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
+
+struct ArchiveInFlightGuard(Arc<AtomicBool>);
+
+impl Drop for ArchiveInFlightGuard {
+    fn drop(&mut self) {
+        self.0.store(false, Ordering::Release);
+    }
+}
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -239,7 +254,7 @@ async fn main() -> ExitCode {
                 }
             };
             let continuity_reasoning = reasoning.clone();
-            let operation_executors = match build_production_operation_executors_with_recorder(
+            let mut operation_executors = match build_production_operation_executors_with_recorder(
                 operation_state_identity.clone(),
                 recorder.clone(),
             ) {
@@ -249,6 +264,34 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let native_shepherd_executor = operation_executors
+                .get(&AdapterKind::Shepherd)
+                .cloned()
+                .expect("production assembly contains native Shepherd admission");
+            let resident_shepherd = Arc::new(ResidentShepherdExecutor::new(
+                instance_id.clone(),
+                init.resident_shepherd.iter().cloned(),
+                native_shepherd_executor,
+            ));
+            let resident_shepherd_readiness = resident_shepherd.readiness();
+            let shepherd_probe = Arc::new(
+                OperationalAdapter::new(
+                    AdapterKind::Shepherd,
+                    AdapterPolicy {
+                        capacity: 16,
+                        max_in_flight: 1,
+                        shutdown_grace_millis: 60_000,
+                        max_attempts: 1,
+                        idempotency_entries: 16,
+                        authority: AuthorityMode::Internal,
+                    },
+                    Arc::new(ResidentShepherdProbeExecutor::new(
+                        resident_shepherd.clone(),
+                    )),
+                )
+                .expect("resident Shepherd probe policy is valid"),
+            );
+            operation_executors.insert(AdapterKind::Shepherd, resident_shepherd);
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
@@ -520,9 +563,21 @@ async fn main() -> ExitCode {
                 minimum_generation,
             )
             .with_canonical_ingress(assembly.canonical_ingress.clone());
-            if let Err(error) = continuity.restore_latest(&recorder).await {
-                eprintln!("runtime continuity restore refused: {error}");
-                return ExitCode::from(78);
+            match continuity.restore_latest(&recorder).await {
+                Ok(Some(_)) => {}
+                Ok(None) => {
+                    if let Err(error) = continuity
+                        .establish_genesis(&recorder, standard_checkpoint_deadline)
+                        .await
+                    {
+                        eprintln!("runtime continuity genesis checkpoint failed: {error}");
+                        return ExitCode::from(70);
+                    }
+                }
+                Err(error) => {
+                    eprintln!("runtime continuity restore refused: {error}");
+                    return ExitCode::from(78);
+                }
             }
             let authority = ControlAuthority::new(BTreeMap::from([(
                 key_id,
@@ -610,17 +665,78 @@ async fn main() -> ExitCode {
                 authority,
                 init.kernel.control_history_capacity,
                 init.observatory_allowed_origins(),
-                AgentPopulationFeed::resident_shepherd(),
+                AgentPopulationFeed::resident_shepherds_from_config(&init.resident_shepherd),
             )
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
+            .with_readiness_time(Arc::new(roster_trusted_time.clone()))
             .with_canonical_ingress(assembly.canonical_ingress.clone());
+            let config_generation_identity =
+                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
+                    Ok(identity) => identity,
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            let kernel_binary_generation =
+                match runtime_binary_generation(&init.binaries.kernel_path) {
+                    Ok(generation) => generation,
+                    Err(error) => {
+                        eprintln!("runtime kernel generation invalid: {error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            if let Err(error) = validate_config_generation_identity_matches_active(
+                &init_path,
+                &kernel_binary_generation,
+                &config_generation_identity,
+            ) {
+                eprintln!("{error}");
+                return ExitCode::from(78);
+            }
+            service = service.with_config_generation(
+                config_generation_identity.generation,
+                config_generation_identity.receipt_digest,
+            );
             if let Some((authority, exchange)) = layer8 {
                 service = service
                     .with_layer8_authority(authority)
                     .with_layer8_signed_exchange(exchange);
             }
+            if let Err(error) = service.configure_dynamic_agent_store(
+                operation_state_identity.join("dynamic-agent-admissions.json"),
+            ) {
+                eprintln!("runtime dynamic agent store is invalid: {error}");
+                return ExitCode::from(78);
+            }
+            if let Err(error) = service.configure_agent_partial_checkpoints(
+                operation_state_identity.join("agent-partial-checkpoints"),
+                init.agent_partial_checkpoints.clone(),
+            ) {
+                eprintln!("runtime agent partial checkpoint store is invalid: {error}");
+                return ExitCode::from(78);
+            }
+            if let Err(error) = service.restore_local_agent_partial_checkpoints() {
+                eprintln!("runtime agent partial checkpoint restore refused: {error}");
+                return ExitCode::from(78);
+            }
             let service = Arc::new(service);
+            let archive_restore_service = Arc::clone(&service);
+            tokio::spawn(async move {
+                if let Err(error) = archive_restore_service
+                    .restore_archived_agent_partial_checkpoints()
+                    .await
+                {
+                    tracing::warn!(
+                        target: "adl_runtime_kernel",
+                        schema = "adl.runtime_v3.agent_partial_restore.v1",
+                        event = "agent_partial_archive_restore_degraded",
+                        error = %error,
+                        "archived agent partial restore degraded; Runtime remains available"
+                    );
+                }
+            });
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
                 &continuity_secret,
@@ -681,6 +797,81 @@ async fn main() -> ExitCode {
                 init.kernel.weather_stale_after_millis,
             ));
             let api_shutdown = tokio_util::sync::CancellationToken::new();
+            for shepherd in init.resident_shepherd.iter().cloned() {
+                let health_service = Arc::clone(&service);
+                let readiness = resident_shepherd_readiness.clone();
+                let probe_adapter = shepherd_probe.clone();
+                let probe_runtime_id = instance_id.clone();
+                let shutdown = api_shutdown.child_token();
+                tokio::spawn(async move {
+                    let name = shepherd.name.clone();
+                    let policy = ResidentShepherdRecoveryPolicy {
+                        timeout: std::time::Duration::from_millis(shepherd.preload.timeout_millis),
+                        retry_initial: std::time::Duration::from_millis(
+                            shepherd.preload.retry_initial_millis,
+                        ),
+                        retry_max: std::time::Duration::from_millis(
+                            shepherd.preload.retry_max_millis,
+                        ),
+                    };
+                    let attempt_shutdown = shutdown.clone();
+                    let attempt_shepherd = shepherd.clone();
+                    let health_name = name.clone();
+                    let sequence = Arc::new(std::sync::atomic::AtomicU64::new(0));
+                    run_resident_shepherd_recovery(
+                        &name,
+                        policy,
+                        readiness,
+                        shutdown,
+                        move || {
+                            let shepherd = attempt_shepherd.clone();
+                            let shutdown = attempt_shutdown.clone();
+                            let adapter = probe_adapter.clone();
+                            let runtime_id = probe_runtime_id.clone();
+                            let sequence = sequence.clone();
+                            async move {
+                                preload_resident_shepherd_model(&shepherd, &shutdown).await?;
+                                let probe_sequence = sequence.fetch_add(
+                                    1,
+                                    std::sync::atomic::Ordering::Relaxed,
+                                ) + 1;
+                                let probe_id = format!(
+                                    "{}:resident-shepherd-probe:{probe_sequence}",
+                                    shepherd.name
+                                );
+                                let governed_probe = OperationRequest {
+                                    schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                                    request_id: probe_id.clone(),
+                                    idempotency_key: probe_id,
+                                    principal: "runtime-bootstrap".to_owned(),
+                                    payload: serde_json::to_vec(&serde_json::json!({
+                                        "schema": adl_runtime_kernel::SHEPHERD_REQUEST_SCHEMA,
+                                        "correlation_id": format!("{}-probe-{probe_sequence}", shepherd.name.replace('.', "-")),
+                                        "runtime_id": runtime_id,
+                                        "shepherd_name": shepherd.name,
+                                        "prompt": "Reply with READY."
+                                    })).expect("resident Shepherd probe request encodes"),
+                                    permit: None,
+                                };
+                                adapter
+                                    .invoke(governed_probe)
+                                    .await
+                                    .map(|_| ())
+                                    .map_err(|_| "resident_shepherd_governed_probe_failed")
+                            }
+                        },
+                        move |state| {
+                            let (status, detail) = state.health();
+                            health_service.update_resident_shepherd_health(
+                                &health_name,
+                                status,
+                                detail,
+                            );
+                        },
+                    )
+                    .await;
+                });
+            }
             let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
                 RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
                     eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
@@ -785,16 +976,23 @@ async fn main() -> ExitCode {
                     .to_vec(),
                 permit: None,
             };
-            if let Err(error) = resident_shepherd_executor
-                .execute(&shepherd_admission)
-                .await
-            {
-                eprintln!("runtime resident Shepherd admission failed: {error}");
-                let _ = handle.shutdown(kernel_shutdown_grace).await;
-                if let Some(observability) = observability.as_mut() {
-                    let _ = observability.shutdown().await;
+            loop {
+                match resident_shepherd_executor
+                    .execute(&shepherd_admission)
+                    .await
+                {
+                    Ok(_) => break,
+                    Err(error) if error.class == FailureClass::Retryable => {
+                        eprintln!("runtime resident Shepherd admission pending: {error}");
+                        tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                    }
+                    Err(error) => {
+                        eprintln!(
+                            "runtime resident Shepherd admission degraded; Runtime remains available: {error}"
+                        );
+                        break;
+                    }
                 }
-                return ExitCode::from(70);
             }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
                 private_listener,
@@ -838,9 +1036,29 @@ async fn main() -> ExitCode {
             let mut shepherd_heartbeat =
                 tokio::time::interval(std::time::Duration::from_millis(1_000));
             shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut dynamic_agent_heartbeat =
+                tokio::time::interval(std::time::Duration::from_secs(10));
+            dynamic_agent_heartbeat
+                .set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let mut cloud_health_heartbeat =
                 tokio::time::interval(std::time::Duration::from_secs(30));
             cloud_health_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let agent_partial_interval = std::time::Duration::from_secs(
+                service
+                    .agent_partial_checkpoint_interval_seconds()
+                    .unwrap_or(86_400),
+            );
+            let mut agent_partial_tick = tokio::time::interval_at(
+                tokio::time::Instant::now() + agent_partial_interval,
+                agent_partial_interval,
+            );
+            agent_partial_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+            let mut agent_archive_tick = tokio::time::interval_at(
+                tokio::time::Instant::now() + std::time::Duration::from_secs(5),
+                std::time::Duration::from_secs(5),
+            );
+            agent_archive_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
+            let archive_in_flight = Arc::new(AtomicBool::new(false));
             let serve_result = 'serve: loop {
                 if let Some(observability) = observability.as_mut() {
                     if let Err(error) = observability.poll_health() {
@@ -897,6 +1115,9 @@ async fn main() -> ExitCode {
                             }
                         }
                     },
+                    _ = dynamic_agent_heartbeat.tick() => {
+                        service.refresh_dynamic_agent_health().await;
+                    },
                     _ = cloud_health_heartbeat.tick() => {
                         let snapshot = recorder.snapshot();
                         let health = recorder.health();
@@ -923,6 +1144,40 @@ async fn main() -> ExitCode {
                             saturated_queues = health.saturated_queues.len(),
                             "runtime health heartbeat"
                         );
+                    },
+                    _ = agent_partial_tick.tick() => {
+                        let partial_service = Arc::clone(&service);
+                        tokio::spawn(async move {
+                            let completed = partial_service.snapshot_all_resident_agents().await;
+                            tracing::info!(
+                                target: "adl_runtime_kernel",
+                                schema = "adl.runtime_v3.agent_partial_cycle.v1",
+                                event = "agent_partial_cycle_completed",
+                                completed_agents = completed,
+                                "agent partial checkpoint cycle completed"
+                            );
+                        });
+                    },
+                    _ = agent_archive_tick.tick() => {
+                        if archive_in_flight
+                            .compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
+                            .is_ok()
+                        {
+                            let archive_service = Arc::clone(&service);
+                            let archive_flag = Arc::clone(&archive_in_flight);
+                            tokio::spawn(async move {
+                                let _archive_guard = ArchiveInFlightGuard(archive_flag);
+                                if let Err(error) = archive_service.archive_pending_agent_partials().await {
+                                    tracing::warn!(
+                                        target: "adl_runtime_kernel",
+                                        schema = "adl.runtime_v3.agent_partial_archive.v1",
+                                        event = "agent_partial_archive_degraded",
+                                        error = %error,
+                                        "agent partial archive remains pending"
+                                    );
+                                }
+                            });
+                        }
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {
@@ -1216,6 +1471,22 @@ fn usage() -> &'static str {
     "usage: adl-runtime-kernel serve --init <absolute-runtime-init.toml>"
 }
 
+fn runtime_binary_generation(kernel: &Path) -> Result<String, String> {
+    let generation = kernel
+        .canonicalize()
+        .map_err(|error| format!("resolve Runtime kernel generation: {error}"))?
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| "Runtime kernel generation identity is invalid".to_owned())?
+        .to_owned();
+    if generation.is_empty() {
+        return Err("Runtime kernel generation identity is empty".to_owned());
+    }
+    Ok(generation)
+}
+
 fn canonical_init_path(path: &Path) -> std::io::Result<PathBuf> {
     if !path.is_absolute() {
         return Err(std::io::Error::new(
@@ -1444,8 +1715,18 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability,
+        preserve_runtime_result_after_observability, ArchiveInFlightGuard,
     };
+    use std::sync::{atomic::AtomicBool, Arc};
+
+    #[test]
+    fn archive_in_flight_guard_always_releases_scheduler_slot() {
+        let flag = Arc::new(AtomicBool::new(true));
+        {
+            let _guard = ArchiveInFlightGuard(Arc::clone(&flag));
+        }
+        assert!(!flag.load(std::sync::atomic::Ordering::Acquire));
+    }
 
     #[test]
     fn config_reload_diagnostics_are_bounded_and_redacted() {

@@ -1,0 +1,117 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 631,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
+    "slug": "v3-h5-proof-parity-soak-shadow-install",
+    "version": "v0.92.1",
+    "generation": 32
+  },
+  "status": "complete",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented non-authoritative v3 proof, shadow, soak, and install construction routes under the single csdlc binary while preserving the #505 cutover authority boundary, binding proof/install evidence to the binary checkout repository root, requiring typed install provenance evidence, and making that binary-checkout discovery work under external Cargo target directories used by CI.",
+      "actual_changes": [
+        "Added a typed csdlc-v3 proof command module for proof, shadow, soak, and install route request classification.",
+        "Routed csdlc proof, shadow, soak, and install through implemented-construction CLI handling that emits machine-readable non-authoritative JSON reports.",
+        "Kept all four routes read-only and blocked from lifecycle authority, provider side effects, binary installation, selector mutation, GitHub mutation, or #505 cutover.",
+        "Updated the one-binary v3 command manifest and manifest tests so #631-owned routes no longer appear as placeholder fail-closed or partial routes.",
+        "Replaced the placeholder #631 canary with behavior tests covering positive and negative proof, bounded shadow parity, soak hidden-state denial, full-replacement denominator status, and one-binary install gating.",
+        "Bound proof/install evidence roots to the repository root discovered from the csdlc binary checkout, rejected caller-controlled scratch roots even when their internal artifact, selector, and provenance bytes are self-consistent, and rejected untyped install provenance JSON.",
+        "Repaired binary-checkout root discovery for CI by falling back from the executable path to the compile-time Cargo manifest directory, without reintroducing a caller-cwd or request-controlled root fallback."
+      ],
+      "artifacts": [
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/src/commands/mod.rs",
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/tests/command_manifest.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs",
+        "csdlc-v3/tests/real_issue_canary.rs",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        "docs/csdlc-v3/full-replacement-denominator.json",
+        ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "proof_parity_install_commands",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Re-run the exact #631 proof/parity/install test file that failed in GitHub Actions before the CI root-discovery repair.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:3f86681c9:4-passed"
+        },
+        {
+          "command": [
+            "ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/adl-validation-targets/631-ci-shape-target",
+            "bash",
+            "adl/tools/run_cargo_validation.sh",
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "proof_parity_install_commands",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Reproduce the GitHub Actions external-target topology locally without /private/tmp and verify proof-root discovery no longer depends on the test binary living inside the checkout.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:3f86681c9:ci-shape-4-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml"
+          ],
+          "purpose": "Run the full csdlc-v3 regression suite after the CI root-discovery repair.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:3f86681c9:all-v3-tests-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "purpose": "Reject Rust formatting drift after the CI root-discovery repair.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:3f86681c9:passed"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject whitespace and conflict-marker artifacts before refreshed review.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head:3f86681c9:passed"
+        }
+      ],
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
+      "follow_ups": []
+    }
+  }
+}

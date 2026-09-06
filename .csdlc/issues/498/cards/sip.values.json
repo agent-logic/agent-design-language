@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 498,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+    "slug": "v0-92-1-corp-d-corporate-diligence-acceptance",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one corporate diligence acceptance record bound to the exact diligence index.",
+      "required_outcome": "One corporate diligence acceptance record binds the exact diligence index to live CORP-A, CORP-B, and CORP-C dispositions, while counsel-controlled judgments remain bounded receipts and private advice stays outside Git.",
+      "declared_scope": [
+        "docs/operations/corporate/diligence/**",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-d/**",
+        ".csdlc/prepared/issues/498/**",
+        ".csdlc/evidence/498/**"
+      ],
+      "authority_boundary": [
+        "Issue #498 owns only the CORP-D corporate diligence acceptance decision.",
+        "Issue #482 owns CORP-A critical-asset schedule truth.",
+        "Issue #483 owns CORP-B custody-register truth.",
+        "Issue #497 owns CORP-C operational-control transfer truth and must be live merged and ancestral before CORP-D can accept diligence.",
+        "Sprint umbrella #532 coordinates child dispositions only and does not absorb child implementation.",
+        "Counsel-controlled judgments are recorded only as bounded public or redacted receipts; private legal advice is never committed.",
+        "No provider, account, billing, credential, DNS, certificate, CI, Terraform, deployment, or production mutation is authorized by #498."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main.",
+        "Use the bound FastWork issue worktree for execution.",
+        "Preserve typed C-SDLC v2 lifecycle authority.",
+        "Do not print, copy, commit, or expose secrets, credentials, private legal advice, private diligence material, account identifiers, or recovery factors.",
+        "Treat typed finish and cleanup receipts as audit-only; live merged/ancestral prerequisite truth is the execution gate.",
+        "Stop before any external mutation unless the operator explicitly authorizes the exact operation in a separate typed lane."
+      ]
+    }
+  }
+}

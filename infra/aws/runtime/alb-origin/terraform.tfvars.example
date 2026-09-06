@@ -2,7 +2,7 @@ environment    = "dev"
 csm_name       = "wuji"
 zone_name      = "csm.agent-logic.ai"
 
-expected_aws_account_id      = "123456789012"
+expected_aws_account_id      = "<agent-logic-aws-account-id>"
 expected_terraform_workspace = "aws-f-runtime-alb-origin-dev"
 
 vpc_id            = "vpc-REPLACE"

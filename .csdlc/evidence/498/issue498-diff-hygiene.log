@@ -1,0 +1,14 @@
+{
+  "schema": "adl.issue498.diff_hygiene.v1",
+  "status": "pass",
+  "command": [
+    "git",
+    "diff",
+    "--check",
+    "origin/main...HEAD"
+  ],
+  "base": "origin/main",
+  "revision_binding": "exact HEAD is supplied by the committed issue record, typed review assignment, and publication guard to avoid self-staling this retained receipt",
+  "stdout": "",
+  "stderr": ""
+}

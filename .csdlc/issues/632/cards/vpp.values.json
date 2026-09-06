@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 632,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
+    "slug": "v3-h6-real-canaries-docs-readiness",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "typed-issue-632",
+          "proof_role": "Validate canonical #632 typed lifecycle record and six cards.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "632"
+          ],
+          "parallel_group": "bootstrap",
+          "defer_reason": null
+        },
+        {
+          "lane": "route-coverage-matrix",
+          "proof_role": "Prove every v3 command-equivalent route has real canary, deterministic fixture, or cutover-blocking disposition.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh"
+          ],
+          "parallel_group": "readiness",
+          "defer_reason": "Run after canary evidence and docs updates exist."
+        },
+        {
+          "lane": "docs-route-scan",
+          "proof_role": "Prove docs, skills, AGENTS, and onboarding guidance preserve the pre-cutover and post-cutover route boundary.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/632/validate-v3-guidance.sh"
+          ],
+          "parallel_group": "readiness",
+          "defer_reason": "Run after guidance updates exist."
+        },
+        {
+          "lane": "sprint-review-readiness",
+          "proof_role": "Prove the final sprint review packet is complete enough for independent exact-head review.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh"
+          ],
+          "parallel_group": "readiness",
+          "defer_reason": "Run after canary evidence, defect dispositions, and guidance updates exist."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed: any missing real canary proof, unowned defect, stale v2/v3 authority guidance, or raw gh lifecycle write blocks #505 cutover.",
+      "design_ref": ".csdlc/prepared/issues/632/design.md",
+      "design_digest": "6ff2e30b0473290c866aad33ad1d72c6509adc78c89f7de9167067eb0fce59be",
+      "diagram_ref": ".csdlc/prepared/issues/632/diagram.mmd",
+      "diagram_digest": "e7e5a1be284aaf9562bc42e1a889f950ddb41a422dad957a42621c9d4cf5ae2e"
+    }
+  }
+}

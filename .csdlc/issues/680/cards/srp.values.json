@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 680,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[provider] Add first-class Moonshot/Kimi K3 provider support",
+    "slug": "moonshot-kimi-k3-provider",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/src/provider/http_family.rs\nadl/src/provider/mod.rs\nadl/src/provider/profiles.rs\nadl/src/provider_adapter.rs\nadl/src/provider_communication.rs\nadl/src/provider_substrate.rs\nadl/src/cli/provider_cmd.rs\nadl/src/cli/usage.rs\ndocs/tooling/PROVIDER_SETUP.md\nadl/tests/provider_moonshot_kimi_k3.rs\n.csdlc/evidence/680",
+      "review_revision": "git-blake3:589c88d578ebf9d5598a5ed81e8ca3a448bb3829:70034edda94c1af786e3a4c5334e04bfa82ba95d04190414970a76147766da1a",
+      "reviewer": "fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e",
+      "review_prompts": [
+        "Does the change make Moonshot/Kimi K3 first-class without breaking existing kimi:k2.5 or OpenRouter Kimi behavior?",
+        "Do tests prove setup/profile/provider selection and auth behavior without leaking credentials or claiming live provider proof?",
+        "Is the external model-id truth recorded accurately enough for future catalog drift?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No live Moonshot API call was performed; #680 proof uses deterministic loopback provider tests plus setup/profile/runtime-adapter validation, with live credentials remaining operator-controlled."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

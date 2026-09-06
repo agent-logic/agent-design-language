@@ -1,0 +1,12 @@
+{
+  "issue": 607,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "d87e154c2a935d495d2f51a817537176d3606901d62679acb7fde6c34ee7e449",
+  "actor": "codex:/root:issue-607-readiness",
+  "reason": "Advance the independently approved and doctor-ready preparation packet so typed card reconciliation and binding can proceed.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

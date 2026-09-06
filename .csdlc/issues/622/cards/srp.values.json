@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 622,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
+    "slug": "provider-profile-hotload",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/src/provider/reload.rs\nadl/src/provider/mod.rs\nadl/src/provider/local.rs\nadl/src/execute/runner.rs\nadl/src/execute/tests.rs\nadl-runtime-kernel/src/config_reload.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/tests.rs\n.csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\ndocs/providers/provider-profile-hot-loading.md\nadl-runtime-kernel/src/control.rs\nadl/src/cli/csmctl_cmd.rs\nbounded PR #646 CI janitor fixes for rustfmt and csmctl private import",
+      "review_revision": "git-blake3:92e8d07d7d6ab73159264a25e94f5bb44a0bbf04:96b78dcb8eb9a2dd269618910a6676a43c62dbbd763a18463b6b5138100115a5",
+      "reviewer": "codex-subagent:/root/review_622_ci_janitor_exact_head",
+      "review_prompts": [
+        "Does a real production execution path consume the reload owner rather than only helper tests?",
+        "Does every inference call retain exactly one immutable starting snapshot?",
+        "Can malformed unsupported or secret-bearing candidates ever replace last-known-good state?",
+        "Does the implementation reuse the existing watcher and provider registry?",
+        "Are accepted and rejected diagnostics bounded and redacted?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review passed for local exact head 92e8d07d7d6ab73159264a25e94f5bb44a0bbf04; PR #646 must be republished/updated and CI must rerun before remote merge readiness can be claimed.",
+        "Reviewer did not rerun cargo tests or clippy; local fmt/clippy proof was run and recorded by the implementation session before review."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

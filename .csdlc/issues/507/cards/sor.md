@@ -1,0 +1,129 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 507
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: complete
+
+## Summary
+
+Implement deterministic DRT-B six-resident UTS qualification proof as Sprint 7's #507 bridge from completed #506/#345 into #508/#509, without live GPU/provider scope.
+
+## Artifacts
+
+- adl-runtime/src/qualification/mod.rs
+- adl-runtime/tests/distributed_contract/main.rs
+- adl-runtime/tests/distributed_contract/validate_drt_b.sh
+- docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json
+- .csdlc/prepared/issues/507/validate-drt-b-six-resident.sh
+- .csdlc/issues/507
+- .csdlc/prepared/issues/507
+
+## Execution
+
+- Add a deterministic DRT-B qualification contract model derived from the existing DRT-A distributed qualification contract, with six distinct resident identities, one UTS workload receipt per resident, lineage digests, replay cursors, and fail-closed negative cases.
+- Retain the exact six-resident DRT-B proof packet under docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json with digest b84cc6f1503e3547082034b5d6e437a85d0cb4e7805ae2052e1ed32683804a11.
+- Add focused Rust tests for six-resident UTS equality against retained evidence and continuity/reclamation semantics, plus issue-owned shell validator lanes for six-resident UTS and continuity reclamation.
+
+## Validation
+
+[
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run git diff whitespace hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "507-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_contract",
+      "drt_b_continuity_reclamation",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run the focused Rust continuity and reclamation test.",
+    "outcome": "passed",
+    "evidence_ref": "507-drt-b-continuity-reclamation-rust.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh",
+      "--lane=continuity-reclamation"
+    ],
+    "purpose": "Run the issue-owned DRT-B continuity reclamation validator lane.",
+    "outcome": "passed",
+    "evidence_ref": "507-drt-b-continuity-reclamation-validator.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_contract",
+      "drt_b_six_resident_uts",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run the focused Rust test for retained DRT-B six-resident UTS contract proof.",
+    "outcome": "passed",
+    "evidence_ref": "507-drt-b-six-resident-uts-rust.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh",
+      "--lane=six-resident-uts"
+    ],
+    "purpose": "Run the issue-owned DRT-B six-resident validator lane.",
+    "outcome": "passed",
+    "evidence_ref": "507-drt-b-six-resident-uts-validator.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-507-six-resident-uts-qualification",
+      "issue",
+      "--issue",
+      "507"
+    ],
+    "purpose": "Run C-SDLC v2 typed issue validation for #507.",
+    "outcome": "passed",
+    "evidence_ref": "507-typed-validate.log"
+  }
+]
+
+## Integration
+
+merged
+
+## Publication
+
+Publication: closed
+
+Merge: merged
+
+## Closeout
+
+complete
+
+## Follow Ups
+
+- none

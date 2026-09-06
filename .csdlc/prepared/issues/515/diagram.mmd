@@ -1,0 +1,10 @@
+flowchart LR
+  Input["Exact provider input"] --> Authority["Authoritative provider path"]
+  Input --> Shadow["Local-model shadow path"]
+  Authority --> Result["Authoritative result returned"]
+  Shadow --> Observation["Redacted shadow observation"]
+  Authority --> Compare["Deterministic comparison record"]
+  Shadow --> Compare
+  Compare --> Evidence["PROV-B redacted evidence"]
+  Shadow -. "failure never replaces" .-> Result
+  Evidence -. "no authority" .-> Result

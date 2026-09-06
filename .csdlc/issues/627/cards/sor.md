@@ -1,0 +1,141 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 627
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: complete
+
+## Summary
+
+Implemented the V3-H.1 command denominator and one-binary C-SDLC v3 CLI shell as non-authoritative construction evidence for sprint #625.
+
+## Artifacts
+
+- docs/csdlc-v3/v3-command-manifest.json
+- csdlc-v3/src/main.rs
+- csdlc-v3/tests/command_manifest.rs
+- .csdlc/prepared/issues/627/design.md
+- .csdlc/prepared/issues/627/diagram.mmd
+- .csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh
+- .csdlc/issues/627
+
+## Execution
+
+- Created the #627 typed issue record, six cards, and issue-owned design packet in the bound FastWork worktree.
+- Added docs/csdlc-v3/v3-command-manifest.json recording the 21 v2 denominator, existing v3 construction surfaces, and 19 remaining fail-closed replacement routes.
+- Expanded the single csdlc binary help surface to expose the replacement command route names through one command shell.
+- Added explicit fail-closed behavior for not-yet-implemented live-authority routes, preserving that v3 is not live authority before #505 cutover.
+- Added issue-owned validator and Rust tests for manifest coverage, help surface, fail-closed routing, partial construction routing, and no v2 source changes.
+- Fixed pre-PR review finding by making reserved-route --help return truthful non-authoritative help instead of failing closed after advertising subcommand help.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict Clippy across csdlc-v3 targets.",
+    "outcome": "passed",
+    "evidence_ref": "627-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "command_manifest"
+    ],
+    "purpose": "Run the focused command manifest integration tests.",
+    "outcome": "passed",
+    "evidence_ref": "627-command-manifest-tests.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh",
+      "all"
+    ],
+    "purpose": "Run the #627 issue-owned manifest validator.",
+    "outcome": "passed",
+    "evidence_ref": "627-denominator-manifest.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "627-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "Run all C-SDLC v3 tests.",
+    "outcome": "passed",
+    "evidence_ref": "627-full-v3-regression.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Verify rustfmt.",
+    "outcome": "passed",
+    "evidence_ref": "627-rustfmt.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-627-v3-h1-command-denominator-r2",
+      "issue",
+      "--issue",
+      "627"
+    ],
+    "purpose": "Verify #627 C-SDLC issue state.",
+    "outcome": "passed",
+    "evidence_ref": "627-typed-issue-validation.log"
+  }
+]
+
+## Integration
+
+merged
+
+## Publication
+
+Publication: closed
+
+Merge: merged
+
+## Closeout
+
+complete
+
+## Follow Ups
+
+- none

@@ -1,0 +1,13 @@
+{
+  "actor": "codex:/root",
+  "card": "spp",
+  "expected_digest": "aee2b244b57087def9a8016025470c3386afd3c64a9c273bf56238358a0cca97",
+  "expected_generation": 3,
+  "issue": 506,
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "completed"
+  },
+  "reason": "Replay and duplicate-denial receipts are implemented and covered by the focused replay-conformance proof lane."
+}

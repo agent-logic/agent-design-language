@@ -1,0 +1,24 @@
+{
+  "issue": 617,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "f6f0eb44c5bc37ed08c73d5575e8def7db8f647be95218ce3405ba4bd384413b",
+  "actor": "codex:/root",
+  "reason": "Replace semantic area labels with the exact safe repository-owned implementation and proof path denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      ".csdlc/prepared/issues/617",
+      ".csdlc/evidence/617"
+    ]
+  }
+}

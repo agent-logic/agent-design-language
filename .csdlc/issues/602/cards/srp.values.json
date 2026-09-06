@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 602,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
+    "slug": "runtime-csmctl-dynamic-agent-admission",
+    "version": "v0.92.1",
+    "generation": 32
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/control.rs\n.csdlc/evidence/602/live-wuji-acceptance.md",
+      "review_revision": "git-blake3:a6c5bd5cf3156a7efdc64d0c5a651fde32642a30:08d0247414fbd3f0d15d3e01cc404bc4862bd0935b6a80903d68b5c31747ab0c",
+      "reviewer": "codex-subagent:issue_602_queue_review",
+      "review_prompts": [
+        "Can any unauthorized or conflicting request mutate durable or live roster state?",
+        "Can persistence and in-memory roster truth split after any modeled failure?",
+        "Does restart reload preserve exact admission and reject corrupt state?",
+        "Does csmctl keep credentials out of argv output errors and persisted state?",
+        "Does the live proof preserve Shepherd and avoid init mutation or restart for first add?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Live Wuji proves exact-candidate lifecycle, inference, clean shutdown, and restart; the 10-minute queue-expiry branch is proven deterministically rather than by an unnecessary live wait."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root",
+  "card": "sor",
+  "expected_digest": "defc6b3e0c8f6be1d9de9e9ecdbfa1f87544ef02841067338f1d31f6bf7b63fc",
+  "expected_generation": 6,
+  "issue": 506,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+        "qualification-contract"
+      ],
+      "purpose": "Prove deterministic DRT-A requirement mapping and topology qualification.",
+      "outcome": "passed",
+      "evidence_ref": "qualification_contract test passed locally: 1 passed, 0 failed, 3 filtered out"
+    }
+  },
+  "reason": "Record focused #506 qualification-contract proof lane."
+}

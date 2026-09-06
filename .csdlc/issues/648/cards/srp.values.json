@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 648,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C][corrective] Repair provider reload ownership after #646",
+    "slug": "provider-reload-ownership-corrective",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/src/provider/reload.rs\nadl/src/execute/mod.rs\nadl/src/execute/runner.rs\nadl/src/execute/tests.rs\nadl/src/long_lived_agent.rs\n.csdlc/prepared/issues/648\n.csdlc/evidence/648",
+      "review_revision": "git-blake3:2437e24b13f4553715ef8189df3e5f5c963505e8:2c72fd9d0593ba95a48b98de6d6bd7107f7fb49bfe9da2148bfda215c06b25bd",
+      "reviewer": "codex-subagent:/root/review_648_provider_reload_corrective_exact_head",
+      "review_prompts": [
+        "Does the corrective branch actually differ from current main by the run-scoped reload ownership repair?",
+        "Can overlapping workflows still consume or clear each other's provider snapshot?",
+        "Does the compatibility global guard direct test catch old-drop/new-registration clearing?",
+        "Were all proofs offline and free of live Runtime or provider credential mutation?",
+        "Does the corrective PR close #648 rather than pretending #622 was semantically complete?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review did not run live provider, AWS, paid/cloud, Runtime restart, cutover, or CI checks.",
+        "Publication/PR/CI readiness remains unproven until typed publication creates a PR and GitHub checks complete."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

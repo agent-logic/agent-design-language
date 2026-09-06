@@ -1,0 +1,363 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 622,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d6c4238885e7aed0e7494a1a8ae5d4009a664205b5984c4870c66e4dbda39b0f",
+  "phase": "closed_out",
+  "generation": 18,
+  "digest": "e0b2e756744a86b8552491207e2a414485839332b21a9487758071dd2be72d00",
+  "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload",
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_622_ci_janitor_exact_head",
+    "assigned_by": "codex:/root:issue-622-ci-janitor",
+    "revision": "git-blake3:92e8d07d7d6ab73159264a25e94f5bb44a0bbf04:96b78dcb8eb9a2dd269618910a6676a43c62dbbd763a18463b6b5138100115a5",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md",
+      "adl-runtime-kernel/src/control.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "bounded PR #646 CI janitor fixes for rustfmt and csmctl private import"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_622_ci_janitor_exact_head",
+    "scope": [
+      "adl/src/provider/reload.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/local.rs",
+      "adl/src/execute/runner.rs",
+      "adl/src/execute/tests.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      ".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh",
+      "docs/providers/provider-profile-hot-loading.md",
+      "adl-runtime-kernel/src/control.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "bounded PR #646 CI janitor fixes for rustfmt and csmctl private import"
+    ],
+    "reviewed_revision": "git-blake3:92e8d07d7d6ab73159264a25e94f5bb44a0bbf04:96b78dcb8eb9a2dd269618910a6676a43c62dbbd763a18463b6b5138100115a5",
+    "findings": [],
+    "residual_risks": [
+      "Review passed for local exact head 92e8d07d7d6ab73159264a25e94f5bb44a0bbf04; PR #646 must be republished/updated and CI must rerun before remote merge readiness can be claimed.",
+      "Reviewer did not rerun cargo tests or clippy; local fmt/clippy proof was run and recorded by the implementation session before review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 622,
+    "pull_request": 646,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/646",
+    "base": "main",
+    "head": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
+    "revision": "git-blake3:1bc7416fb7b3739723046fa16b19cb1653c88ca3:688738578fb4382ff12d7dfcdc5f52391579c196d47a53c3f0f3634964f0bdcd",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 646,
+    "disposition": "merged",
+    "observed_sha": "4c442cef90b06c4a491860ce1e9d9053dfed26eb",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/622.json",
+    "branch": "codex/622-v0-92-1-prov-c-provider-profile-hotload",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-622-provider-profile-hotload"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/622/design.md",
+  "diagram_path": ".csdlc/prepared/issues/622/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:622-readiness-design-review",
+      "revision": "ea275103456f784d54a414064086d2bd7e100815c04337cd95b857e3ee868966"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5c4b01cd77ee2e36d48a8bfaa75ab81e4e342c63ea5fa8da2acb9a595f42ca91",
+      "rendered_digest": "f502e2fc4b01d62cae2893b617fd2e5c8c578198b3d8ecc032f8f4adca0a2846",
+      "ast_digest": "6ede3073f981a2e26d18c95c2c841d9baf4a1456931b948af44e84bda56ddabd"
+    },
+    "stp": {
+      "values_digest": "f6e9f45a78a7f3b3c9ac233db85e02d79fcc7afe24e1fce5d19a00f4fe4432a4",
+      "rendered_digest": "be0390ba5ff7336147dcd33f9f586823af0a2c2089f0d5111c74be7a4b7e76a8",
+      "ast_digest": "f65730fd6f901596b29bf29ca04248874466e6faec53c09055fcada19b7945d3"
+    },
+    "spp": {
+      "values_digest": "4a0cd233e77bfeb9bda87be444565439e55ce3704981436d0bba02b6c46b88c7",
+      "rendered_digest": "bb3ea05288412df92e08b1a360e7d5637b3f8f9e50b587f503fc307516d357cb",
+      "ast_digest": "fd93cd273c34330d6429e79c62cdb15b9a4637c70df554ca4aae63312763efb9"
+    },
+    "vpp": {
+      "values_digest": "912006d33aa2f31562e63f0ce5255f5eced3700ef49305f579af16758faf3609",
+      "rendered_digest": "515227eab06a14bec6fe45e061c9770325f06a7384aa6b22cc206ebaa3ef6ef2",
+      "ast_digest": "ee27ad3a095477d223b305973f3b618d96cba828a30191b8750a271dca203d67"
+    },
+    "srp": {
+      "values_digest": "16117a9234448b9ba0d48df5cfb06814420247ba99551bed3a317dde615ab69c",
+      "rendered_digest": "3d879a9460f49cb8dd527e2bf6d879eab390d262cbecf94eaec01e4fb0c6ca83",
+      "ast_digest": "49fbbb544b2bccf0219ee07e700e2602064dd9bf64c8cf387f088ffbf77f4fbd"
+    },
+    "sor": {
+      "values_digest": "8278c9f09a6ef8506f2ba4027d1c25a04a58864bb631e8467e39250f61f7ce93",
+      "rendered_digest": "4f06c8e9b961964c6c70d75b40e37512e47850eb6a1634a1a3b7cde9bf1bab3c",
+      "ast_digest": "53d32f4fbe0dfa71df20b36886038e8121005b6e2aaf26867f743a493f041766"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:622-readiness",
+      "reason": "All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Advance #622 after implementing production provider/profile hot loading, documenting behavior, and passing the declared focused production and safety validation lanes."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Recover #622 from published phase so bounded CI janitor fixes for the blocking fmt/clippy lane can be committed, validated, re-reviewed, and republished truthfully."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 10,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 11,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #622 from retained derived terminal PR #646."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:622-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:622-readiness",
+      "reason": "All six issue-specific design-time cards, approved design envelope, dependency receipts, and declared PVF lanes pass typed validation; advance to ready while leaving execution binding and implementation unperformed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record #622 implementation evidence before validation and implemented-phase advancement.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented production provider/profile hot loading through a provider reload owner, sidecar validation, immutable per-step runner snapshots, last-known-good preservation on invalid updates, credential-value rejection, and focused production/safety proof lanes.\",\"changes\":[\"Added a provider reload owner and global handle in adl/src/provider/reload.rs for provider-only sidecar loading, validation, diagnostics, stable provider digests, shutdown, and last-known-good preservation.\",\"Wired the production execution runner to resolve provider specs from the current reload snapshot for each step while preserving the in-flight step's start snapshot.\",\"Added deterministic mock-provider configuration hooks for fixed output and bounded sleep to prove reload behavior without external provider calls.\",\"Added focused provider reload, production runner, and runtime-kernel watcher tests covering valid reloads, invalid reload retention, credential-value rejection, duplicate debounce, shutdown, and in-flight snapshot isolation.\",\"Updated the #622 validation script to run focused production and safety lanes that avoid unrelated binary compile surfaces.\",\"Documented provider profile hot-loading behavior, accepted sidecar shape, credential boundary, snapshot semantics, validation evidence, and non-goals.\"],\"artifacts\":[\"adl/src/provider/reload.rs\",\"adl/src/provider/mod.rs\",\"adl/src/provider/local.rs\",\"adl/src/execute/runner.rs\",\"adl/src/execute/tests.rs\",\"adl-runtime-kernel/src/config_reload.rs\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"docs/providers/provider-profile-hot-loading.md\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record the passing #622 production validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"production\"],\"purpose\":\"Prove the production provider/profile hot-loading lane, including existing provider profile invariants, accepted reloads without restart, invalid reload last-known-good retention, credential-value rejection, and in-flight step snapshot isolation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-production-lane:provider_mod_profile 14 passed; provider_reload 4 passed; in-flight snapshot 1 passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record the passing #622 safety validation lane.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"safety\"],\"purpose\":\"Prove the safety lane for reload debounce, shutdown, invalid-update last-known-good retention, credential boundary, focused production invariants, and whitespace/diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 4 passed; in-flight snapshot 1 passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Advance #622 after implementing production provider/profile hot loading, documenting behavior, and passing the declared focused production and safety validation lanes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Recover #622 after recording the failed exact-head review so fixes for production reload startup, credential-value rejection, and provider reload generation can be committed and re-reviewed at a fresh exact head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record fixes for the failed #622 exact-head review before re-review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Addressed exact-head review blockers by adding production CSM adl_workflow reload startup, broadening credential-value rejection, preserving provider-level generation truth, and adding production entrypoint proof.\",\"changes\":[\"Added workflow.run_args.provider_reload_sidecar_path support to the CSM adl_workflow production cycle so it starts ProviderReloadOwner, installs the global handle for the execution lifetime, records reload status, and shuts the owner down after execution.\",\"Extended provider sidecar credential rejection to cover password, client_secret, private_key, access/refresh tokens, and credential-shaped raw scalar values under neutral containers such as auth.value while retaining env-reference fields.\",\"Tracked provider-level reload generations in ProviderReloadSnapshot and diagnostics instead of hard-coding zero.\",\"Added a long-lived-agent production tick test proving the real CSM ADL workflow entrypoint consumes sidecar provider output through the reload owner.\",\"Updated #622 validation lanes and documentation to name the production config knob and stronger credential boundary.\"],\"artifacts\":[\"adl/src/long_lived_agent.rs\",\"adl/src/long_lived_agent/tests.rs\",\"adl/src/provider/reload.rs\",\"adl/src/execute/tests.rs\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"docs/providers/provider-profile-hot-loading.md\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record refreshed #622 production validation after exact-head review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"production\"],\"purpose\":\"Prove the refreshed production lane after exact-head review fixes, including real CSM adl_workflow reload startup through workflow.run_args.provider_reload_sidecar_path.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-post-review-production-lane:provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "Record refreshed #622 safety validation after exact-head review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/622/validate-provider-profile-hotload.sh\",\"safety\"],\"purpose\":\"Prove the refreshed safety lane after exact-head review fixes, including runtime-kernel debounce/shutdown, stronger credential rejection, generation truth, production tick proof, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-post-review-safety-lane:config_reload 2 passed; provider_mod_profile 14 passed; provider_reload 5 passed; in-flight snapshot 1 passed; tick_adl_workflow_starts_hotload_owner_from_run_args 1 passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root:issue-622-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Recover #622 from published phase so bounded CI janitor fixes for the blocking fmt/clippy lane can be committed, validated, re-reviewed, and republished truthfully.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Record bounded PR #646 CI janitor fixes before refreshed validation and review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Applied bounded CI janitor fixes after PR #646 reported an adl-rust-fmt-clippy failure.\",\"changes\":[\"Ran rustfmt across the ADL workspace and accepted the single formatting change in adl-runtime-kernel/src/control.rs required by the hosted fmt check.\",\"Fixed the csmctl command import to use the public adl_runtime_kernel::agent_roster::is_canonical_agent_name path instead of the private control re-export surface.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl/src/cli/csmctl_cmd.rs\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "Record passing local fmt/clippy proof for PR #646 CI janitor fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt --all -- --check && cargo clippy --all-targets -- -D warnings\"],\"purpose\":\"Prove the local equivalent of the failed hosted adl-rust-fmt-clippy lane after bounded CI janitor fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-622-ci-janitor-local-fmt-clippy: cargo fmt --all -- --check passed; cargo clippy --all-targets -- -D warnings finished successfully in adl/\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root:issue-622-ci-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #622 from retained derived terminal PR #646.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 629,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
+    "slug": "v3-h3-github-publication",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/tests/remote_publication_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs",
+      "review_revision": "git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9",
+      "reviewer": "codex-reviewer:review_629_title_readback",
+      "review_prompts": [
+        "Verify remote authority is not caller-forgeable.",
+        "Verify publication refuses stale or missing review truth.",
+        "Verify closing publications produce visible and typed Closes #xxx linkage.",
+        "Verify credentials are redacted and no raw gh lifecycle writes are used."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "C-SDLC v3 GitHub and publication routes remain non-authoritative until explicit V3-F/#505 cutover.",
+        "This change binds PR title into authenticated v3 PR readback receipts; it does not make v3 perform PR title writes before cutover."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

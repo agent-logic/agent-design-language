@@ -1,0 +1,21 @@
+{
+  "issue": 678,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "7426e0d17f5cb97684e5e1c9c5f846df11bbd71706b60f0da639797488e5a579",
+  "actor": "codex:678-validation",
+  "reason": "Record #678 validation: Git diff hygiene proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "purpose": "Git diff hygiene proof",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/678/diff-check.log; clean"
+    }
+  }
+}

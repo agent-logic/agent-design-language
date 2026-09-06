@@ -1,0 +1,7 @@
+{
+  "issue": 592,
+  "base_branch": "codex/592-vertex-polis-preparation",
+  "branch": "codex/592-runtime-gcp-polis-vertex-ai",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-592-runtime-gcp-polis-vertex-ai",
+  "code_repository": "agent-logic/agent-design-language"
+}

@@ -1,0 +1,37 @@
+{
+  "issue": 607,
+  "card": "vpp",
+  "expected_generation": 2,
+  "expected_digest": "eed2cebb6490f2012c1e01ddf77649f50916ca4ab729f1185f456159b3482c56",
+  "actor": "codex:/root:issue-607-readiness",
+  "reason": "Use the real issue-owned preparation contract before binding; implementation and paid lanes remain explicit planned deliverables and will replace this readiness lane after their targets exist.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "issue607-preparation-contract",
+        "proof_role": "Validate the exact #607 design packet, acceptance and plan denominator, baseline Terraform and runner inputs, startup targets, and USD 20 operator constraint before implementation binding.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["bash", ".csdlc/prepared/issues/607/validate-preparation.sh"],
+        "parallel_group": "readiness",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue607-diff-hygiene",
+        "proof_role": "Reject preparation and later implementation diff hygiene defects.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 624,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "95821c25503a43b4ed19dc5b544881152c93fea2c708670ce2170e18ff7999e2",
+  "phase": "closed_out",
+  "generation": 11,
+  "digest": "fb0b44de41b1b7a33a5c598cb970ba3a1467436c66b59aaea2b4137cbea61ec2",
+  "branch": "codex/624-corporate-sidecar-operational-hardening",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
+  "review_assignment": {
+    "reviewer": "fresh-session:3819b4d2-7021-4f47-b923-ce3ab875c0b7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1b8f2436babc0bed94cdc4aa772fb8d255e9e17d:0a3d4160ca977d219d9e6a53a0868c43151ad5807e8fd9619561ee7d59a5b344",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3819b4d2-7021-4f47-b923-ce3ab875c0b7",
+    "scope": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/validate-diff-check.py",
+      ".csdlc/prepared/issues/624/finalize-implementation.json",
+      ".csdlc/evidence/624/issue624-sidecar-receipt.log",
+      ".csdlc/evidence/624/issue624-json-parse.log",
+      ".csdlc/evidence/624/issue624-diff-hygiene.log"
+    ],
+    "reviewed_revision": "git-blake3:1b8f2436babc0bed94cdc4aa772fb8d255e9e17d:0a3d4160ca977d219d9e6a53a0868c43151ad5807e8fd9619561ee7d59a5b344",
+    "findings": [],
+    "residual_risks": [
+      "Read-only review only; no live GitHub, AWS, DNS, certificate, custody, deployment, or other external/admin readbacks or mutations were performed.",
+      "The reviewer verified the bridge from assigned revision 1b8f2436babc0bed94cdc4aa772fb8d255e9e17d to current head 82823354480eb46cb9c733e7646ee8aeb0ee669c changed only typed lifecycle/review-assignment metadata and no reviewed artifact, validator, evidence log, receipt, or operational claim.",
+      "The packet intentionally leaves all operational hardening rows as follow_on_required until independently authorized execution performs the external readbacks or mutations."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 624,
+    "pull_request": 655,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/655",
+    "base": "main",
+    "head": "codex/624-corporate-sidecar-operational-hardening",
+    "revision": "git-blake3:d8df87a961d9beedd5e4b4c12c24b1dbfd6525e5:05fa1229f8c7656206c8fc83ee60e54f908b5f357478505d17c9964c7d20e8b4",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 655,
+    "disposition": "merged",
+    "observed_sha": "120357a5bc2490e038ce5fe7166adf61a957af9f",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/624.json",
+    "branch": "codex/624-corporate-sidecar-operational-hardening",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/624/design.md",
+  "diagram_path": ".csdlc/prepared/issues/624/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:624-preparation-design-review",
+      "revision": "6aa84e4c78bdd78f4717d3788df93bf40cddede933ca16ec19e60e5af915dd9b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "74a8c7dfc9cc633b2e4c780518123f03b37e23c7104f41090f16d390bf5df95a",
+      "rendered_digest": "178e833abe2b52ed51498bd1f33b08d4a5460f30cb659131d49394c626ace5fa",
+      "ast_digest": "3a011837c6252ffb523cb2b6496061b1c394e526a77fe253d90423b5b0d05519"
+    },
+    "stp": {
+      "values_digest": "8812fd20ce233ffc81e810d78195fca3a5aa8db0c9e851eb514feff155b6ebd9",
+      "rendered_digest": "da5de2cf9e9453239574fc79588f610493992f24eb528146b96dddd00cee4c08",
+      "ast_digest": "74abf5a4d0df01a61d1cc5e54f20891ce84ab02571fd67ae421214147909c69b"
+    },
+    "spp": {
+      "values_digest": "14fffca398eea888376ab8a1903618b3a573b5718e88945dd5bcb372dea455cb",
+      "rendered_digest": "b86b6a0a783f514955d3fd3a1fc35791e11e9badf22e19e1648226c853c303ca",
+      "ast_digest": "aef14ce74fdab909ce26f1955f0efcc1e3d4adf4dc28c3bd54531a854608e639"
+    },
+    "vpp": {
+      "values_digest": "890bd66cbf6aefb8a86ee90a7a30054a532384c4fc111815df75e8e006909f10",
+      "rendered_digest": "4ad50171a537aeec464e3b84f923e5c1129309590ad88c6417dde02bebbdd6c9",
+      "ast_digest": "c4be5adce64ff7383609fcae2fdd13e22f3391766082625779f4a6eddca00273"
+    },
+    "srp": {
+      "values_digest": "55c0c1f29e14badfb7c0bb6a32222616e9cee68e4a7e3af76fe2bfb531bbacac",
+      "rendered_digest": "8ff11c5802b0d086faf5665a1b0a20c736b38a2d9d14084cdea081e0f17afb82",
+      "ast_digest": "7c97cafbb979e941f107bea7b1e982706aa2253138229cfb00c1de8eca1ac388"
+    },
+    "sor": {
+      "values_digest": "8c1ed3594e91bd478b6a9f43bbb763b9f6b139e4246052eab8ac5dbef8ddb946",
+      "rendered_digest": "947d4bcf741092169f8c208c50cb66d41350dc0de26e58aea6e1d91d02946aff",
+      "ast_digest": "20d89fb25ece6abd488543b7c8decbab8bf3fcd9031e40fe2413905197930939"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:624-preparation",
+      "reason": "Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover self-staling explicit non-substantive proof after review-record metadata advanced the branch head; preserve the PASS/no-findings reviewer result and re-record with the lifecycle-supported automatic metadata-only guard."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 9,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 10,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #624 from retained derived terminal PR #655."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:624-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:624-preparation",
+      "reason": "Repair readiness by using only executable issue-owned validation lanes and covering review acceptance through the sidecar validator contract.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"corp-sidecar-hardening-register\",\"proof_role\":\"Prove #624 row denominator completeness, proof/follow-on disposition, evidence references, non-mutation posture, redaction hygiene, and review-ready boundary truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"python3\",\".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py\"],\"parallel_group\":\"corporate-sidecar-docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove the committed range has no whitespace errors.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":400,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"corporate-sidecar-docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:624-preparation",
+      "reason": "Declare exact issue-owned validator and output artifacts so doctor can prove the #624 denominator is executable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md\",\"docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json\",\".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py\",\".csdlc/prepared/issues/624/\",\".csdlc/issues/624/\",\".csdlc/evidence/624/\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:624-preparation",
+      "reason": "Advance #624 to ready after doctor reported pass with concrete issue-owned validation target and sidecar external-action boundaries.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover self-staling explicit non-substantive proof after review-record metadata advanced the branch head; preserve the PASS/no-findings reviewer result and re-record with the lifecycle-supported automatic metadata-only guard.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover after exact review P2 found the #624 validator did not lock the exact seven-row denominator; remediate validator and refresh implementation evidence before fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #624 from retained derived terminal PR #655.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

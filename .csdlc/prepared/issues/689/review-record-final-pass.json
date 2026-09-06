@@ -1,0 +1,22 @@
+{
+  "issue": 689,
+  "expected_generation": 14,
+  "expected_digest": "38c2be828040c5cfc6bff9d33323e6f86789a2cf0cbd49e0a90d67b9d9829be9",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "codex:/root/issue_689_final_review",
+    "scope": [
+      "CSMctl",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      ".csdlc/evidence/689"
+    ],
+    "reviewed_revision": "git-blake3:0dcf2a1a068a3379dbba655172adf40b64e6325c:173d333e19104b76364b1f767fb7cccf8d97ebba18d648853c576afcd5d4cbb2",
+    "findings": [],
+    "residual_risks": [
+      "The review was intentionally non-mutating and did not exercise the live Runtime, launchd or systemd, network paths, or GitHub publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

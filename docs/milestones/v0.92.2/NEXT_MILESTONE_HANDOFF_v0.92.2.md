@@ -17,7 +17,7 @@ The successor receives:
 
 ## Candidate Successor Work
 
-Runtime v4 may be scheduled in v0.92.3 or v0.93 according to readiness. ATE remains targeted separately, currently no earlier than v0.94 planning. MLX/Metal, OCI model packaging, enterprise connectors, public customer-scale deployment, and optional modernization remain deferred until explicitly admitted.
+Runtime v4 may be scheduled in v0.92.3 or v0.93 according to readiness. ATE remains targeted separately, currently no earlier than v0.94 planning. OCI model packaging, enterprise connectors, public customer-scale deployment, and optional modernization remain deferred until explicitly admitted. MLX/Metal is admitted only through the bounded v0.92.2 PLAT-MLX track after PLAT-PROVIDER.
 
 ## Non-Gating Rule
 

@@ -1,0 +1,7 @@
+{
+  "issue": 506,
+  "expected_generation": 13,
+  "expected_digest": "c04e326ddca3af7e0c05ff7d8a0d83ae20220a4e369d446b69b29b692f07234b",
+  "actor": "codex:/root",
+  "reason": "Recover #506 after fresh exact-head review found actionable in-scope receipt/proof/evidence/export gaps; preserve the findings and return to implemented remediation before a new exact-head review."
+}

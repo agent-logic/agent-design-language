@@ -112,6 +112,21 @@ assert.deepEqual(conversationFrameTransition(delivered, pending), {
   terminal: true,
   reply: "Agent response"
 });
+assert.deepEqual(conversationFrameTransition({
+  ...delivered,
+  sender_id: "beacon",
+  initiated_recipient_id: "ember",
+  initiated_correlation_id: "abcdef0123456789abcdef0123456789",
+  initiated_work_id: "a2a-work-0123456789abcdef"
+}, pending), {
+  status: "delivered",
+  terminal: true,
+  reply: "Agent response",
+  senderId: "beacon",
+  initiatedRecipientId: "ember",
+  initiatedCorrelationId: "abcdef0123456789abcdef0123456789",
+  initiatedWorkId: "a2a-work-0123456789abcdef"
+});
 for (const status of ["refused", "failed", "timed_out", "cancelled"]) {
   assert.deepEqual(
     conversationFrameTransition({ ...delivered, status, reply: undefined }, pending),

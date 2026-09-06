@@ -1,0 +1,29 @@
+{
+  "issue": 617,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "85f3744bebd4f74b708d880957c765d1febb9727a9d68eae79d3085f913350ab",
+  "actor": "codex:/root",
+  "reason": "Align exact execution ownership with the configured Shepherd authority and compatibility proof required by independent review.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/617/validate-canonical-agent-name.sh",
+      ".csdlc/evidence/617"
+    ]
+  }
+}

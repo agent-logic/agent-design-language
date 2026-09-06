@@ -1,0 +1,120 @@
+
+running 1 test
+DRT_B_CONTRACT_DIGEST=b84cc6f1503e3547082034b5d6e437a85d0cb4e7805ae2052e1ed32683804a11
+DRT_B_CONTRACT_JSON={
+  "schema": "adl.runtime.qualification.drt_b_contract.v1",
+  "issue": 507,
+  "requirements": [
+    "#183",
+    "#184"
+  ],
+  "source_drt_a_contract_digest": "f240bdc0d3e324d1a5f12001b8aa2fc2c226bf5d4a7fc0abf5a8ad2d2fdc7074",
+  "resident_count": 6,
+  "residents": [
+    {
+      "resident_id": "5608dddd847c18e4acf81387c27fef0226f5d00ffbb5e01507861ceda31c3a8e",
+      "participant_id": "voter-a",
+      "participant_role": "voter",
+      "identity": "did:adl:runtime:voter-a",
+      "workload_id": "uts-workload-01",
+      "workload_receipt_id": "e8e31fbdec5f25646fe395c33a5c45f3b19b81b1f59286e2050010ba4f606e53",
+      "lineage_digest": "2e9fd75f8b05d41a23636aa2c6e39477641faf8a728b03c53a3252ac231ea6c2",
+      "replay_cursor": 10000
+    },
+    {
+      "resident_id": "f08022c8e2fb7b56a638429a18cf38942443bcb7a7b8367b1438f535d97278cd",
+      "participant_id": "voter-b",
+      "participant_role": "voter",
+      "identity": "did:adl:runtime:voter-b",
+      "workload_id": "uts-workload-02",
+      "workload_receipt_id": "efb3b07bd6cbe7f7602f142814cb875f22f96315a5a8e5c7bffca3f26123bd99",
+      "lineage_digest": "edac3ddd92e1a43d8dfddfb89ae4db6bf5fe2814dbf9de422a74fdc82f38851e",
+      "replay_cursor": 10001
+    },
+    {
+      "resident_id": "8220b943b554ece5385482d6ac8e43ca07caec3e9e97aecbc3b83950fc4ff03c",
+      "participant_id": "voter-c",
+      "participant_role": "voter",
+      "identity": "did:adl:runtime:voter-c",
+      "workload_id": "uts-workload-03",
+      "workload_receipt_id": "3be7ea3e40dcddb456f4e1b32efcba9179a734b59fe2e4e48297ccb3602d436e",
+      "lineage_digest": "aee270cfdb656b7159f41f52a7ae3f84c4d0477cdab0147a943aeea371fd5343",
+      "replay_cursor": 10002
+    },
+    {
+      "resident_id": "06c90c1379506345f8dca7ca4bc40734c928a79a2ed157e7fc0e90a53fb0e10a",
+      "participant_id": "agent-alpha",
+      "participant_role": "governed_agent",
+      "identity": "did:adl:runtime:agent-alpha",
+      "workload_id": "uts-workload-04",
+      "workload_receipt_id": "06fa860e20e589062ecf6b5904c9568f976b0f60b206de4c4c81d0797df8933e",
+      "lineage_digest": "3e08fcbfda96c3fdac6b7747551d03f8e81e0d5a90bd5114e5bb2f07377edcfc",
+      "replay_cursor": 10003
+    },
+    {
+      "resident_id": "0b157ae4040045f7ac236d09faf799a0abafb51145d4d5e0eec2b87a10b9be3f",
+      "participant_id": "agent-beta",
+      "participant_role": "governed_agent",
+      "identity": "did:adl:runtime:agent-beta",
+      "workload_id": "uts-workload-05",
+      "workload_receipt_id": "d13a67dd125b000c875d418247178ad2428155c0e932b2eac134b8c436daa86d",
+      "lineage_digest": "b247a05744e95dee7d5eb53c4127f0957cbb6884d035a46c5635e87e3ff60717",
+      "replay_cursor": 10004
+    },
+    {
+      "resident_id": "866f97f3e2be66788f7f7cc2f50f9413784afdf651a3db0d60919458216889f6",
+      "participant_id": "agent-gamma",
+      "participant_role": "governed_agent",
+      "identity": "did:adl:runtime:agent-gamma",
+      "workload_id": "uts-workload-06",
+      "workload_receipt_id": "77254a713283566f33adfa10f50c51504fe0ef8c9907fd1cee72bc0059b42529",
+      "lineage_digest": "d0041489f204568be51bebdf33cafb457ee898046a423b284232b02106f8959b",
+      "replay_cursor": 10005
+    }
+  ],
+  "dehydrate_restore": "exact",
+  "cleanup_zero": true,
+  "resource_envelope": {
+    "max_replay_cursor": 10005,
+    "resident_slots": 6,
+    "workload_receipts": 6
+  },
+  "cleanup_selectors": [
+    "drt-b:resident-state",
+    "drt-b:workload-receipts",
+    "drt-b:replay-cursors"
+  ],
+  "negative_matrix": [
+    {
+      "case": "duplicate_resident_identity",
+      "mutation": "reuse resident_id across two workload receipts",
+      "decision": "fail_closed"
+    },
+    {
+      "case": "missing_workload_receipt",
+      "mutation": "remove one resident workload receipt",
+      "decision": "fail_closed"
+    },
+    {
+      "case": "mutated_lineage",
+      "mutation": "change one resident lineage_digest",
+      "decision": "fail_closed"
+    },
+    {
+      "case": "replay_cursor_regression",
+      "mutation": "restore a replay cursor below snapshot value",
+      "decision": "fail_closed"
+    },
+    {
+      "case": "cleanup_selector_mismatch",
+      "mutation": "drop a cleanup selector before reclamation",
+      "decision": "fail_closed"
+    }
+  ]
+}
+test drt_b_six_resident_uts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.35s
+     Running tests/distributed_contract/main.rs (adl-runtime/target/debug/deps/distributed_contract-d20c4cb5bea8c1c1)

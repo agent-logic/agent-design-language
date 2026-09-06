@@ -1,0 +1,12 @@
+{
+  "issue": 695,
+  "expected_phase": "implemented",
+  "expected_generation": 2,
+  "expected_digest": "ffcb725599e11f5b5bc7e7e82a1f10458d636372725baf7d5fde0e9ffe9f5415",
+  "previous_reviewer": "codex:review-695-design",
+  "previous_revision": "905a3a37cb467c8d7f6979d9630f2473fe15ee8cb7e2123e9c77dbc556796782",
+  "false_reviewer": "codex:review-695-design",
+  "actor": "codex:/root",
+  "reason": "The committed design and diagram EOF hygiene corrections changed authored identities after the original design approval without changing issue semantics.",
+  "disposition": "Invalidate the stale authored tuple and require fresh exact-current design approval before execution review publication."
+}

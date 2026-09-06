@@ -1,0 +1,84 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 263,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast directory submission runbooks and operator preflight",
+    "slug": "podcast-directory-runbooks",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Validate dependencies, implement the smallest owned result, run focused proof, obtain one exact-head review, publish, shepherd, finish, and clean up.",
+      "steps": [
+        {
+          "id": "dependency-gate",
+          "action": "Verify all issue-specific dependencies and operator gates",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "implement",
+          "action": "Implement the bounded owned result",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "validate-review",
+          "action": "Run focused proof and one exact-head review before publication",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/evidence/podcast/51-c",
+        "docs/milestones/v0.92.1/review/podcast_directory_263",
+        ".csdlc/prepared/issues/263/validate-directory-runbooks.rb"
+      ],
+      "invariants": [
+        "No ownership widening",
+        "No action before dependencies",
+        "No secret retention",
+        "Review precedes publication",
+        "Failure preserves prior valid state and evidence"
+      ],
+      "risks": [
+        "Dependency truth could drift",
+        "A child could cross another issue's write boundary",
+        "Evidence could overclaim external or Runtime state"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Any dependency is nonterminal or ambiguous",
+        "Any owned-path collision",
+        "Any missing proof target",
+        "Any secret or private material would enter evidence",
+        "Any unresolved actionable review finding"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/263/design.md",
+      "design_digest": "acfac8b873ef7ffe15f472da207706573e6bd06235b6a90b5b1bfa05e832c6fd",
+      "diagram_ref": ".csdlc/prepared/issues/263/diagram.mmd",
+      "diagram_digest": "fdd855bdb0cdc1ff056718bf7b783f2a077edcf16e27ba1d5fcd5681b32d67ee"
+    }
+  }
+}

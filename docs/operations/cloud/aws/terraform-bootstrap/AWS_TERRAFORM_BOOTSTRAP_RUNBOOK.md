@@ -43,6 +43,21 @@ Expected resource classes:
 AWS_PROFILE=agent-logic-admin terraform -chdir=infra/aws/bootstrap apply issue486-bootstrap.tfplan
 ```
 
+## Migrate bootstrap state
+
+The bootstrap root starts with `-backend=false` because it creates its own
+backend. After the first reviewed apply succeeds, generate a private backend
+config from `terraform output backend_hcl`, set the key to
+`v0.92.1/aws-c/bootstrap/foundation.tfstate`, and run:
+
+```bash
+AWS_PROFILE=agent-logic-admin terraform -chdir=infra/aws/bootstrap init -migrate-state -backend-config=<private-backend.hcl>
+```
+
+The committed redacted shape is
+`infra/aws/bootstrap/backend.hcl.example`. Never commit the raw account id,
+private backend config, `.terraform/`, `terraform.tfstate`, or saved plan.
+
 ## Readback
 
 After apply, run:

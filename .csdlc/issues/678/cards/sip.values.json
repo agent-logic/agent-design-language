@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 678,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Route stable CSM commands through the active Runtime generation",
+    "slug": "stable-csm-active-runtime-generation-route",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make the stable .adl/bin/csm operator command route through the active atomic Runtime v3 generation instead of remaining an independently stale binary.",
+      "required_outcome": ".adl/bin/csm runtime-v3 ... deterministically executes .adl/runtime-v3/current/bin/csm, so generation activation and rollback atomically switch the stable route with the Runtime CSM, Guardian, and kernel artifacts.",
+      "declared_scope": [
+        "adl/tools/install_runtime_v3_generation.sh",
+        "adl/tools/runtime_v3_generation.py",
+        "adl/tools/test_runtime_v3_generation_install.sh",
+        ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+        ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+        ".csdlc/prepared/issues/678/design.md",
+        ".csdlc/prepared/issues/678/diagram.mmd",
+        ".csdlc/evidence/678/runtime-v3-generation-install.log",
+        ".csdlc/evidence/678/diff-check.log"
+      ],
+      "authority_boundary": [
+        "Issue #678 owns only the stable CSM route to the active Runtime v3 generation.",
+        "Issue #678 does not change Runtime convergence policy from #659.",
+        "Issue #678 does not perform a live Runtime rollout, restart, reload, or stop.",
+        "Issue #678 does not change provider, model, agent, or Observatory behavior."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle authority.",
+        "Use a bound FastWork issue worktree for tracked implementation edits.",
+        "Do not restart, reload, or stop the live Runtime during local validation.",
+        "Use isolated fixture generations for installer and rollback proof."
+      ]
+    }
+  }
+}

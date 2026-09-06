@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 689,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
+    "slug": "runtime-canonical-service-control-runbook",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Correct the stale operator route and disable misleading legacy Runtime lifecycle claims without reimplementing service ownership.",
+      "deliverables": [
+        "rewritten canonical Runtime startup runbook",
+        "legacy CSMctl Runtime verb refusal",
+        "routing and docs guard tests"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The runbook names the current-generation csm binary, stable live init path, and canonical launchd label.",
+        "AC-2: Read-only status guidance explains service_loaded, listener_ready, Guardian PID, Runtime PID, active init hash, and observability readiness.",
+        "AC-3: Obsolete service root and label are not presented as permanent Runtime authority.",
+        "AC-4: Legacy CSMctl Runtime verbs cannot emit authoritative pass and instead return a concise canonical-command message.",
+        "AC-5: CSMctl Observatory-only commands remain available and separate.",
+        "AC-6: Existing canonical ownership tests and new deterministic routing/docs guards pass without live service mutation.",
+        "AC-7: Shell syntax, diff hygiene, and independent exact-head review pass."
+      ],
+      "dependencies": [
+        "#678 / PR #682 is merged",
+        "#688 closed as false-premise bootstrap"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#689",
+        "docs/tooling/START_CSM_RUNBOOK.md",
+        "CSMctl",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl/src/cli/csm_cmd.rs"
+      ],
+      "non_goals": [
+        "New ownership or recovery implementation",
+        "Live Wuji restart or launchd changes",
+        "Cloud edge provider agent model or Observatory UI work",
+        "A second Runtime control plane"
+      ]
+    }
+  }
+}

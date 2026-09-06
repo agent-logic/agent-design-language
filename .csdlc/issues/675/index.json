@@ -1,0 +1,508 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 675,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "421c639338da4b4b87f4e83eb2bc04d509704baa043dfd1eed6262fcb2d57e4a",
+  "phase": "closed_out",
+  "generation": 26,
+  "digest": "89f3220947173741189f0c7a811308193838541eb59248b7b1fba0fdd37a2811",
+  "branch": "codex/675-first-class-a2a-live-path-impl",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-675-first-class-a2a-live-path-impl",
+  "review_assignment": {
+    "reviewer": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
+    "assigned_by": "codex:/root:issue-675-first-class-a2a",
+    "revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/prepared/issues/675"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/prepared/issues/675"
+    ],
+    "reviewed_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+    "findings": [
+      {
+        "id": "review-675-runtime-derived-a2a-ids",
+        "severity": "p1",
+        "summary": "Provider-driven A2A prompts advertised caller-supplied peer correlation fields even though Runtime requires 32 lowercase hex identifiers.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+        "route": null
+      },
+      {
+        "id": "review-675-structural-initiated-peer-result",
+        "severity": "p1",
+        "summary": "The initiating conversation result did not structurally expose the initiated peer work and message metadata.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+        "route": null
+      },
+      {
+        "id": "review-675-runtime-resident-pair-coverage",
+        "severity": "p1",
+        "summary": "Runtime resident A2A coverage needed to prove all resident agents can initiate internal messages to other runtime residents, not just a sample pair.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+        "route": null
+      },
+      {
+        "id": "review-675-observatory-transition-shape",
+        "severity": "p2",
+        "summary": "The Observatory UI transition object always emitted null initiated-peer keys, creating UI contract drift for ordinary turns without peer initiation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+        "route": null
+      },
+      {
+        "id": "review-675-config-reload-debounce-ci-flake",
+        "severity": "p2",
+        "summary": "Hosted CI exposed that the config reload debounce test accepted transient rewrite observations and then still published an extra same-content snapshot with in-place test writes.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "No live credential-backed provider inference, AWS, paid runner, external-network agent communication, or production runtime restart was performed or claimed.",
+      "Hosted PR checks are still pending after the exact-head recovery and must pass before merge readiness is claimed.",
+      "External agent communication remains intentionally deferred; this review covers runtime-internal resident A2A only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 675,
+    "pull_request": 677,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/677",
+    "base": "main",
+    "head": "codex/675-first-class-a2a-live-path-impl",
+    "revision": "git-blake3:59e34eb3b74178b081286c4315207aad3f6b915a:bcd65154980c10aae7ff7d89be33a91533274233297eed18d96e74d180174cd4",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 677,
+    "disposition": "merged",
+    "observed_sha": "33567c629d373d92a5cc1dc2e21433b10b5ce7c9",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/675.json",
+    "branch": "codex/675-first-class-a2a-live-path-impl",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-675-first-class-a2a-live-path-impl"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/675/design.md",
+  "diagram_path": ".csdlc/prepared/issues/675/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:366f21d8-2173-43f2-b0b6-5ea8df7cc72e",
+      "revision": "5e787ecedf1ff89ef8cc9d20ed325e778e8028fa97dccb26f58dadca83250628"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a7f6d53f174bf27fae704b4f2495433eccdcbf8e56700cf3b67465345c97703f",
+      "rendered_digest": "9b220d4fa0937aaeb000bd149aefbd15704ee1ecd0e91272ffa404d7def1c223",
+      "ast_digest": "0699f875edd27e63d09acc2081bb92416e23d902b6f54b69afd7f905a8d0695f"
+    },
+    "stp": {
+      "values_digest": "7674fcdb7c506828a19ba00edaf1fb76525247f16da9919682c30d31ba6afe4f",
+      "rendered_digest": "c8c8fad263f5e04e11b6473cc393b63cf4cd1764299ca7547f63cad7cdcade29",
+      "ast_digest": "64a3e7f6e00aabe76dfdca2408d06c4d828eb1d350995771eea427a58e139ea2"
+    },
+    "spp": {
+      "values_digest": "81dc0b8cab062d46bcc686c6db7b9ed7d475625781b8174f01aa29ac2e1e723e",
+      "rendered_digest": "fe7174ae94397e85cb947793a4fba1681f25de1e7bb06fe17575c414628a4c51",
+      "ast_digest": "802b0e1ae890013b3a93e334c5220f2652ac47ae246f285f8353804a83a2ead7"
+    },
+    "vpp": {
+      "values_digest": "be60c8aa138e7b35147d1d6f510c72d86da85c1ef13038e3a0289755978ede85",
+      "rendered_digest": "9b2ba5d7cccfb7b45334862edc672c548d666a9740a06cc0234b78007f0beb50",
+      "ast_digest": "53dfec33a381c7e5c5bde88852e1a6dfe581cc7a3e8e31e26c4cdec721774aea"
+    },
+    "srp": {
+      "values_digest": "01639690c26c852bac5b3e6e4b1047500da3b6c79e9be75e308542fc45d41e24",
+      "rendered_digest": "b9a77496bcf2eb2e4f9c5f43713c089659ee01ef3f9bd567336d346ea9bfd271",
+      "ast_digest": "d85ab566c900c8df7abd8dd064b4b70009c7d075639126101c3ff57099ba30ac"
+    },
+    "sor": {
+      "values_digest": "15c92ee8d5c04de630fef2f5bfaede5d7a6ca981c8c71846f7c45bcb160815f3",
+      "rendered_digest": "a2d1e39d58950f4acac4dd21cbf47cf39ec8872f34f20dfcd849e157a7a706f1",
+      "ast_digest": "12ea162f7c174cfafd4f780f639dad36a54e8b234fcdf24ac1b1cacfe1932d70"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #675 after implementation and local validation have been recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_675_provider_envelope_exact",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after PR review found stale exact-head coverage and Runtime A2A repair commits were added to the already-published PR branch."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:exact-head-review-after-subagent-finding",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after CI exposed a config reload debounce test flake and a narrow deterministic test hardening commit was added to the published PR branch."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:exact-head-review-after-config-reload-ci-fix",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after hosted CI exposed that the config reload debounce test still used in-place rewrites, and a narrow atomic publish test helper commit was added to the published PR branch."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 16,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 17,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #675 from retained derived terminal PR #677."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair execution readiness by replacing descriptive affected areas with safe repository-owned paths for the bounded #675 corrective implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/control.rs\",\"demos/html-observatory/app.js\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:366f21d8-2173-43f2-b0b6-5ea8df7cc72e",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"5e787ecedf1ff89ef8cc9d20ed325e778e8028fa97dccb26f58dadca83250628\",\"design_ref\":\".csdlc/prepared/issues/675/design.md\",\"diagram_digest\":\"00674d0782ab1e5022f79edeb41010c83cadfce7689adcb227452e85c83624d2\",\"diagram_ref\":\".csdlc/prepared/issues/675/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Record focused Runtime A2A validation for the first-class live-style Beacon-to-Ember action bridge.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"agent_to_agent\"],\"purpose\":\"Prove direct A2A semantics and the new operator-to-Beacon-to-Ember model-action bridge without live provider access.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-runtime-a2a-4-passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Record Observatory UI syntax validation for first-class A2A transcript metadata.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node\",\"--check\",\"demos/html-observatory/app.js\"],\"purpose\":\"Prove the Observatory conversation UI remains syntactically valid after preserving sender and initiated-work metadata.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-node-check\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record exact branch diff hygiene validation for #675.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace/diff hygiene for the #675 implementation branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-git-diff-check\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record #675 implementation truth before pre-PR review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a first-class Runtime bridge that projects provider-emitted agent_to_agent_initiation actions from ordinary conversation output into governed A2A initiation, with Runtime-owned sender attribution, queue-safe nested dispatch, and Observatory transcript metadata for sender/work identity.\",\"changes\":[\"Projected structured agent_to_agent_initiation requests from local agent execution public output while preserving existing conversation_reply projection.\",\"Converted provider A2A action requests into ObservatoryAgentInitiationIntent with sender_id inferred from the active recipient agent, not trusted from provider text.\",\"Released the initiating conversation queue slot before awaiting the nested peer dispatch to avoid self-deadlock.\",\"Rendered sender_id and initiated_work_id metadata in the Observatory conversation transcript.\",\"Added deterministic operator-to-Beacon-to-Ember regression coverage alongside the existing direct #662 primitive tests.\"],\"artifacts\":[\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"demos/html-observatory/app.js\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Advance #675 after implementation and local validation have been recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record projection-boundary validation for structured A2A model actions.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"agent_initiation_action\"],\"purpose\":\"Prove local-agent conversation output projects well-formed agent_to_agent_initiation actions and rejects malformed action payloads before Runtime treats them as governed A2A work.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-projection-boundary-2-passed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record strict Rust lint validation for the #675 Runtime bridge.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the Runtime control/ingress changes compile cleanly under strict Clippy before pre-PR review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-clippy-strict-passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record focused proof that live provider-backed conversation work receives and validates the first-class A2A action envelope.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"provider_conversation_action\"],\"purpose\":\"Prove provider conversation prompts advertise the governed A2A envelope and schema-tagged provider output projects an agent_to_agent_initiation while malformed context fails closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-provider-conversation-action-4-passed\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record corrective implementation truth for the provider-backed live conversation path after pre-PR review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Extended the first-class A2A bridge into the live provider-backed conversation adapter so ordinary resident models receive a shared response contract and schema-tagged provider output can trigger governed agent-to-agent initiation.\",\"changes\":[\"Passed conversation_id, turn_id, and correlation_id into conversation work so provider-emitted actions are bound to the active turn.\",\"Prompted provider-backed resident agents with a shared action-envelope contract instead of relying on roleplay or Shepherd-specific behavior.\",\"Parsed only schema-tagged provider action envelopes into agent_to_agent_initiation output while preserving ordinary plain-text and untagged JSON replies as normal messages.\",\"Rejected schema-tagged A2A action envelopes whose conversation, turn, or correlation identifiers do not match the active Runtime task.\",\"Added focused provider-envelope tests that prove the prompt contract, action projection, plain JSON fallback, and fail-closed context mismatch behavior.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"demos/html-observatory/app.js\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record broader Runtime kernel library validation after the provider-backed A2A action-envelope correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the provider-envelope correction, existing A2A behavior, ingress projection, control dispatch, and adjacent Runtime kernel library tests pass together.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-runtime-kernel-lib-137-passed\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record the pre-PR review finding and corrective fix for provider-emitted A2A conversation identity.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Corrected the provider action-envelope contract so a resident model initiates a new governed peer conversation instead of reusing the operator conversation identity and colliding with the active recipient session.\",\"changes\":[\"Stopped requiring provider-emitted A2A conversation_id, turn_id, and correlation_id to equal the active operator turn identifiers.\",\"Updated the provider-facing prompt contract to show active operator-turn context separately from the new peer conversation identifiers the A2A action should mint.\",\"Kept the Runtime-owned sender binding by deriving sender_id from the active recipient agent rather than from provider output.\",\"Added fail-closed validation for self-targeting provider actions before they reach Runtime dispatch.\",\"Updated provider-envelope tests to prove the provider-valid peer conversation shape matches the nested control dispatch regression.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record focused and broader validation after correcting provider A2A peer conversation identity.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove provider-valid A2A peer conversation identifiers no longer collide with the active operator conversation and the full Runtime kernel library still passes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal://2026-09-03#issue-675-peer-conversation-fix-runtime-kernel-lib-137-passed\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "subagent:/root/review_675_provider_envelope_exact",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after PR review found stale exact-head coverage and Runtime A2A repair commits were added to the already-published PR branch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root:exact-head-review-after-subagent-finding",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after CI exposed a config reload debounce test flake and a narrow deterministic test hardening commit was added to the published PR branch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root:exact-head-review-after-config-reload-ci-fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "Recover #675 lifecycle truth after hosted CI exposed that the config reload debounce test still used in-place rewrites, and a narrow atomic publish test helper commit was added to the published PR branch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root:exact-head-review-after-atomic-config-reload-ci-fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:/root:issue-675-first-class-a2a",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 32,
+      "generation": 26,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #675 from retained derived terminal PR #677.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

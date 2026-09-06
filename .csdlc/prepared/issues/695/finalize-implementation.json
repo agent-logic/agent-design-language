@@ -1,0 +1,57 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 695,
+  "expected_generation": 1,
+  "expected_digest": "b95d89b80dcd255a69eda8d77b86581020d3e9b2c371deb24d192a7d8c16cccb",
+  "actor": "codex:/root",
+  "summary": "Implemented five-minute per-agent partial checkpoints with bounded local retention, asynchronous KMS-encrypted S3 archival, tombstone and local/S3 restart restore, Runtime API continuity fields, Observatory rendering, and a production Terraform archive root. Live AWS apply and Wuji rollout were not performed.",
+  "changes": [
+    "Added a default 300-second monotonic skipped-tick coordinator with bounded per-agent concurrency and terminal-turn snapshot isolation.",
+    "Added self-contained checksummed partials, removal tombstones, atomic bounded local retention, coalesced bounded S3 spool, verified uploads, durable receipts/degradation/backoff, and full-checkpoint-lineage local/S3 restore.",
+    "Added provider, model, last snapshot/archive timestamps, sequence, backlog, and explicit continuity states to roster, detail, and Observatory API projections.",
+    "Rendered backing-model and continuity truth in the Observatory agent roster and detail view.",
+    "Added Terraform for a private versioned S3 bucket, rotating CMK, TLS and encryption enforcement, lifecycle retention, and separate least-privilege writer and restore policies."
+  ],
+  "artifacts": [
+    "adl-runtime-kernel/src/agent_partial_checkpoint.rs",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/control/feeds.rs",
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/tests/agent_continuity.test.mjs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "infra/aws/runtime/agent-checkpoint-archive",
+    "infra/runtime-v3/runtime-init.toml"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [{
+        "id": "agent-partial-checkpoint",
+        "proof_role": "Prove five-minute partial cadence, bounded persistence, tombstones, local and archived restore, API/Observatory projection, and Terraform archive policy.",
+        "purpose": "Issue #695 focused implementation validation",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 4, "memory_mib": 8192, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "runtime-continuity",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 1800,
+        "executable": "/bin/bash",
+        "argv": [".csdlc/prepared/issues/695/validate-implementation.sh"],
+        "evidence": {"max_log_bytes": 262144, "redact_values": [], "require_relative_paths": true}
+      }]
+    },
+    "selection": {"requested_lanes": ["agent-partial-checkpoint"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 1, "cpu_units": 4, "memory_mib": 8192, "tokens": 0},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-partial-checkpoint-s3/.csdlc/evidence/695",
+    "cancellation_file": null
+  }
+}

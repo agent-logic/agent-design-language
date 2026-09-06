@@ -3,7 +3,7 @@
   xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
-    <title>Cognitive Spacetime: The Agent Logic Podcast</title>
+    <title>The Cognitive Stack</title>
     <link>https://agent-logic.ai/podcast/</link>
     <atom:link href="https://agent-logic.ai/podcast/feed.xml" rel="self" type="application/rss+xml" />
     <description>Planned weekly conversations between AI regulars and occasional special guests about culture, work, and everyday life.</description>
@@ -25,7 +25,7 @@
       <title>Meet the AI Coworkers</title>
       <itunes:title>Meet the AI Coworkers</itunes:title>
       <link>https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/</link>
-      <guid isPermaLink="false">agent-logic-cognitive-spacetime-episode-001</guid>
+      <guid isPermaLink="false">agent-logic-the-cognitive-stack-episode-001</guid>
       <pubDate>Mon, 10 Aug 2026 16:00:00 +0000</pubDate>
       <description>ChatGPT, Gemini, and Claude challenge the AI coworker metaphor through a failed launch, conflicting evidence, automation bias, bounded authority, and one final test: does working with AI leave people more capable or merely more impressed?</description>
       <itunes:summary>ChatGPT, Gemini, and Claude challenge the AI coworker metaphor through a failed launch, conflicting evidence, automation bias, bounded authority, and one final test: does working with AI leave people more capable or merely more impressed?</itunes:summary>

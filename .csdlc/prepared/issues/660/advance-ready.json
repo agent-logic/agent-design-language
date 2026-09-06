@@ -1,0 +1,12 @@
+{
+  "issue": 660,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "1aeb3f67ed4eef915195fff6cdc1fd92b36c70738ba790417b6e8c0874fd20cc",
+  "actor": "codex:/root",
+  "reason": "Advance issue #660 after green design readiness and typed fresh-session design approval.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

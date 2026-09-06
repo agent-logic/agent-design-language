@@ -1,0 +1,21 @@
+{
+  "actor": "codex:/root:issue-515-implementation",
+  "card": "sor",
+  "expected_digest": "33684eb09aa89d1d386c234d6d19754c0eafef977bef36f71c778ed493711a55",
+  "expected_generation": 9,
+  "issue": 515,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "purpose": "Prove exact branch diff hygiene before review.",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "outcome": "passed",
+      "evidence_ref": "terminal:git diff --check"
+    }
+  },
+  "reason": "Record #515 diff-hygiene validation lane result."
+}

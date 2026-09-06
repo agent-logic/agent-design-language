@@ -10,8 +10,10 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    encode_acip_envelope, CanonicalIngress, ControlAction, DomainWork, IngressError,
-    RuntimeRecorder, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, DOMAIN_WORK_SCHEMA,
+    activate_config_generation, encode_acip_envelope, provision_config_generation,
+    CanonicalIngress, ControlAction, DomainWork, IngressError, RuntimeRecorder,
+    SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, CONFIG_GENERATION_ENV, CONFIG_RECEIPT_DIGEST_ENV,
+    DOMAIN_WORK_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 use futures::{SinkExt, StreamExt};
@@ -68,7 +70,9 @@ impl GuardianLease {
             let mut supplied = vec![0_u8; expected.len()];
             stream.read_exact(&mut supplied).unwrap();
             assert_eq!(supplied, expected.as_bytes());
-            stream.write_all(b"ok").unwrap();
+            let mut acknowledgement = b"ok".to_vec();
+            acknowledgement.extend_from_slice(&std::process::id().to_be_bytes());
+            stream.write_all(&acknowledgement).unwrap();
             let _ = release_rx.recv();
         });
         Self {
@@ -117,6 +121,36 @@ fn state_root(directory: &Path) -> std::path::PathBuf {
     let root = directory.join("production-acip-state");
     std::fs::create_dir_all(&root).unwrap();
     root.canonicalize().unwrap()
+}
+
+fn apply_runtime_config_generation(init: &Path, command: &mut Command) {
+    let init = init.canonicalize().unwrap();
+    let generation = runtime_kernel_generation_from_init(&init);
+    let identity = provision_config_generation(&init, &generation).unwrap();
+    activate_config_generation(&init, &identity).unwrap();
+    command
+        .env(CONFIG_GENERATION_ENV, identity.generation)
+        .env(CONFIG_RECEIPT_DIGEST_ENV, identity.receipt_digest);
+}
+
+fn runtime_kernel_generation_from_init(init: &Path) -> String {
+    let text = std::fs::read_to_string(init).unwrap();
+    let document = toml::from_str::<toml::Value>(&text).unwrap();
+    let kernel = document
+        .get("binaries")
+        .and_then(toml::Value::as_table)
+        .and_then(|table| table.get("kernel_path"))
+        .and_then(toml::Value::as_str)
+        .unwrap();
+    Path::new(kernel)
+        .canonicalize()
+        .unwrap()
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .unwrap()
+        .to_owned()
 }
 
 fn client_config(certificate_der: Vec<u8>) -> Arc<ClientConfig> {
@@ -208,6 +242,7 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
     let lease = GuardianLease::start();
     let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
     command.arg("serve").arg("--init").arg(&init);
+    apply_runtime_config_generation(&init, &mut command);
     lease.apply(&mut command);
     let mut child = ChildGuard(Some(
         command

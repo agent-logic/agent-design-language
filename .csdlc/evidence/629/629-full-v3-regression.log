@@ -1,0 +1,132 @@
+
+running 22 tests
+test commands::remote::tests::accepted_review_requires_typed_evidence_digest_and_scope ... ok
+test commands::remote::tests::already_removed_cleanup_still_requires_terminal_and_preview_gates ... ok
+test commands::remote::tests::v3e_denominator_is_exact ... ok
+test commands::remote::tests::finish_derives_terminal_truth_from_remote_readback_not_local_claims ... ok
+test commands::remote::tests::part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority ... ok
+test commands::remote::tests::same_principal_cannot_self_authorize_publication ... ok
+test commands::remote::tests::publication_modes_require_exact_relation ... ok
+test commands::remote::tests::verified_receipt_must_match_the_exact_subject_value ... ok
+test commands::remote::tests::review_binds_exact_scope_revision_reviewer_and_findings ... ok
+test commands::remote::tests::whitespace_variant_principal_cannot_self_authorize_publication ... ok
+test commands::remote::tests::cleanup_constructor_rejects_self_made_git_directory_registration ... ok
+test tests::contract_schema ... ok
+test tests::proportional_lifecycle ... ok
+test commands::remote::tests::cleanup_requires_committed_closed_out_state_and_receipt ... ok
+test tests::architecture_boundary ... ok
+test tests::predecessor_coverage ... ok
+test commands::remote::tests::remote_workflow_refuses_missing_pvf_and_revision_mismatch ... ok
+test commands::remote::tests::part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup ... ok
+test commands::remote::tests::remote_delivery_rejects_unverified_or_wrong_source_observations ... ok
+test commands::remote::tests::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
+test commands::remote::tests::cleanup_removal_executes_and_distinguishes_removed_states ... ok
+test commands::remote::tests::cleanup_is_separate_preview_first_and_path_exact ... ok
+
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test help_exposes_one_binary_command_surface ... ok
+test partial_routes_remain_non_authoritative ... ok
+test implemented_remote_publication_routes_expose_non_authoritative_help ... ok
+test fail_closed_routes_do_not_claim_live_authority ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+
+running 13 tests
+test application_context_reports_typed_missing_root_errors ... ok
+test repository_context_is_explicit ... ok
+test retained_requirement_behaviors_are_source_grounded ... ok
+test retained_requirements_164_through_167_are_bound ... ok
+test issue_start_projection_preserves_three_minute_budget_without_authority_cutover ... ok
+test projection_replay_is_deterministic ... ok
+test single_binary_foundation_command_is_read_only_and_explicit ... ok
+test repository_context_rejects_symlink_escape_for_issue_records ... ok
+test read_only_v2_import_rejects_malformed_issue_records ... ok
+test read_only_v2_import_rejects_issue_record_digest_drift ... ok
+test read_only_v2_import_loads_issue_record_and_cards ... ok
+test read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift ... ok
+test read_only_v2_import_verifies_real_issue_projection_digests ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 6 tests
+test topology_bind_requires_exact_registered_worktree ... ok
+test doctor_plan_preserves_distinct_outcome_states ... ok
+test contract_commands_are_typed_and_non_authoritative ... ok
+test card_roundtrip_uses_active_registry_denominator ... ok
+test local_preparation_cli_rejects_malformed_typed_request ... ok
+test local_preparation_cli_emits_machine_readable_non_authoritative_plan ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_replaced ... ok
+test adapters_canary_builds_real_issue_observation_commands_without_secret_leakage ... ok
+test lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4646 ... ok
+test foundation_and_local_commands_accept_real_issue_596_without_v3_authority ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 4 tests
+test pr_state_route_rejects_caller_forged_readback ... ok
+test publish_route_requires_current_review_and_closing_relation ... ok
+test review_route_rejects_self_review_even_with_whitespace ... ok
+test remote_publication_routes_are_typed_and_non_authoritative ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 24 tests
+test review_recovery_requires_structured_stale_truth_provenance ... ok
+test recovery_rejects_no_commit_records_with_invalid_integrity ... ok
+test adapter_branch_observation_never_authorizes_lifecycle_work ... ok
+test adapter_invocations_are_argv_based_and_shell_strings_are_rejected ... ok
+test adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction ... ok
+test transaction_commit_rechecks_cas_and_digest_binds_contents ... ok
+test transaction_commits_preserve_projection_invalidations ... ok
+test transaction_store_rejects_tampered_record_digest_on_ingress ... ok
+test transaction_state_commit_is_atomic_and_projection_failure_requires_repair ... ok
+test transaction_stale_writer_fails_before_commit ... ok
+test transition_branch_observation_alone_does_not_authorize_bind ... ok
+test recovery_classifies_interrupted_writes_without_losing_provenance ... ok
+test recovery_rejects_committed_state_intent_mismatches ... ok
+test transition_finish_requires_live_terminal_evidence_not_existing_receipt ... ok
+test recovery_honors_projection_repair_flag_from_committed_state ... ok
+test transition_merge_ready_requires_current_readiness_evidence ... ok
+test transition_matrix_explicitly_classifies_every_state_command_pair ... ok
+test transition_review_recovery_matches_retained_v2_behavior ... ok
+test durable_failed_state_replacement_does_not_advance_live_memory ... ok
+test durable_open_fails_closed_on_interrupted_intent ... ok
+test durable_transaction_store_rejects_stale_intent_before_journal_append ... ok
+test durable_projection_failure_after_state_commit_is_repair_authority ... ok
+test durable_transaction_store_persists_intent_before_atomic_state_replacement ... ok
+test durable_projection_success_is_repair_required_until_projection_is_written ... ok
+
+test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-ae7ae4773a2e7817)
+     Running unittests src/main.rs (csdlc-v3/target/debug/deps/csdlc-319d76563c029dcd)
+     Running tests/command_manifest.rs (csdlc-v3/target/debug/deps/command_manifest-efb203926538b5e4)
+     Running tests/foundation.rs (csdlc-v3/target/debug/deps/foundation-99855ea6931f3791)
+     Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-286e111367ea102a)
+     Running tests/real_issue_canary.rs (csdlc-v3/target/debug/deps/real_issue_canary-bf73b53ba1cfa6d0)
+     Running tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-746550c1fcb9f742)
+     Running tests/transactions.rs (csdlc-v3/target/debug/deps/transactions-66d26690cee5e131)
+   Doc-tests csdlc_v3

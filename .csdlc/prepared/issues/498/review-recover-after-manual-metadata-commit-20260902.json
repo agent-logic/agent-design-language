@@ -1,0 +1,7 @@
+{
+  "issue": 498,
+  "expected_generation": 10,
+  "expected_digest": "7221a3823bc79d1b4ec232c06dcc9ea721c48f12b43a634d6a0a4ec0d68b2d0c",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Recover after manually committing review metadata, which made the recorded review stale for publication; preserve audit history and re-review the current clean head."
+}

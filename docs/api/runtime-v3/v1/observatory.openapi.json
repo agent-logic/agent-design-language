@@ -46,6 +46,23 @@
           "403": {"$ref": "#/components/responses/OriginForbidden"}
         }
       },
+      "post": {
+        "operationId": "admitDynamicAgent",
+        "tags": ["runtime-control"],
+        "summary": "Verify and durably admit an Ollama-backed agent without restart",
+        "security": [{"AcipWriteBearer": []}],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentAdmissionRequest"}}}
+        },
+        "responses": {
+          "200": {"description": "Agent admitted or identical declaration already present.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentAdmissionResponse"}}}},
+          "401": {"description": "Missing or invalid Runtime write credential."},
+          "409": {"description": "The agent id is already bound to another declaration."},
+          "422": {"description": "Invalid declaration or requested model is not installed."},
+          "503": {"description": "Provider verification or durable persistence is unavailable."}
+        }
+      },
       "options": {
         "operationId": "agentRosterCorsPreflight",
         "tags": ["observatory"],
@@ -71,6 +88,14 @@
           "403": {"$ref": "#/components/responses/OriginForbidden"}
         }
       },
+      "delete": {
+        "operationId": "removeDynamicAgent",
+        "tags": ["runtime-control"],
+        "summary": "Idempotently remove a dynamic agent",
+        "security": [{"AcipWriteBearer": []}],
+        "parameters": [{"name":"agent_id","in":"path","required":true,"schema":{"type":"string","minLength":1,"maxLength":128}}],
+        "responses": {"200":{"description":"Removed or already absent."},"401":{"description":"Invalid write credential."},"422":{"description":"Protected or invalid agent."},"503":{"description":"Durable persistence unavailable."}}
+      },
       "options": {
         "operationId": "agentDetailCorsPreflight",
         "tags": ["observatory"],
@@ -79,6 +104,35 @@
           "204": {"description": "Allowed origin preflight."},
           "403": {"$ref": "#/components/responses/OriginForbidden"}
         }
+      }
+    },
+    "/v1/agents/{agent_id}/checkpoint": {
+      "post": {
+        "operationId":"checkpointDynamicAgent","tags":["runtime-control"],"summary":"Create and durably store an integrity-bound agent checkpoint","security":[{"AcipWriteBearer":[]}],
+        "parameters":[{"name":"agent_id","in":"path","required":true,"schema":{"type":"string"}}],
+        "responses":{"200":{"description":"Durable checkpoint.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AgentCheckpoint"}}}},"401":{"description":"Invalid write credential."},"422":{"description":"Agent unavailable or protected."}}
+      }
+    },
+    "/v1/agents/{agent_id}/dehydrate": {
+      "post": {
+        "operationId":"dehydrateDynamicAgent","tags":["runtime-control"],"summary":"Freeze an agent into a portable bundle without removing the source","security":[{"AcipWriteBearer":[]}],
+        "parameters":[{"name":"agent_id","in":"path","required":true,"schema":{"type":"string"}}],
+        "responses":{"200":{"description":"Portable freeze-dried artifact.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/FreezeDriedAgent"}}}},"401":{"description":"Invalid write credential."},"422":{"description":"Agent unavailable or protected."}}
+      }
+    },
+    "/v1/agents/{agent_id}/dehydrate/commit": {
+      "post": {
+        "operationId":"commitDynamicAgentMigration","tags":["runtime-control"],"summary":"Remove the source only after the exact bundle is durable","security":[{"AcipWriteBearer":[]}],
+        "parameters":[{"name":"agent_id","in":"path","required":true,"schema":{"type":"string"}}],
+        "requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["bundle_digest"],"properties":{"bundle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}}}}}},
+        "responses":{"200":{"description":"Source migration committed."},"401":{"description":"Invalid write credential."},"409":{"description":"Missing or stale migration digest."}}
+      }
+    },
+    "/v1/agents/rehydrate": {
+      "post": {
+        "operationId":"rehydrateDynamicAgent","tags":["runtime-control"],"summary":"Verify and admit a freeze-dried agent at this Runtime","security":[{"AcipWriteBearer":[]}],
+        "requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/FreezeDriedAgent"}}}},
+        "responses":{"200":{"description":"Agent rehydrated or already present."},"401":{"description":"Invalid write credential."},"409":{"description":"Agent identity conflict."},"422":{"description":"Artifact integrity or declaration invalid."},"503":{"description":"Destination provider or persistence unavailable."}}
       }
     },
     "/v1/observatory": {
@@ -234,6 +288,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "AcipWriteBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Runtime ACIP write token loaded from the sealed init credential path."
+      }
+    },
     "responses": {
       "OriginForbidden": {
         "description": "Origin is absent for WSS or not present in configured observatory.allowed_origins."
@@ -661,14 +722,122 @@
           }
         }
       },
-      "AgentRosterEntry": {
+      "AgentAdmissionRequest": {
         "type": "object",
-        "required": ["schema", "id", "label", "role", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "additionalProperties": false,
+        "required": ["schema", "id", "name", "display_name", "office", "provider", "model", "endpoint"],
         "properties": {
-          "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
+          "schema": {"const": "adl.runtime_v3.agent_admission.v1"},
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "name": {"type": "string", "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$", "description": "Canonical two-part neutral agent name; segments may not end in a hyphen."},
+          "display_name": {"type": "string", "minLength": 1, "maxLength": 128},
+          "office": {"type": "string", "minLength": 1, "maxLength": 128},
+          "role": {"type": "string", "maxLength": 128, "deprecated": true, "description": "Legacy persisted declaration field; new admissions use office."},
+          "provider": {"const": "ollama"},
+          "model": {"type": "string", "minLength": 1, "maxLength": 128},
+          "endpoint": {"type": "string", "format": "uri", "description": "Credential-free private HTTP Ollama endpoint."}
+        }
+      },
+      "AgentAdmissionResponse": {
+        "type": "object",
+        "required": ["schema", "status", "agent_id", "model", "roster_path"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.agent_admission.v1"},
+          "status": {"type": "string", "enum": ["admitted", "already_present"]},
+          "agent_id": {"type": "string"},
+          "model": {"type": "string"},
+          "roster_path": {"const": "/v1/agents"}
+        }
+      },
+      "AgentCheckpoint": {
+        "type":"object","additionalProperties":false,
+        "required":["schema","runtime_instance_id","declaration","roster_state","conversation_history","created_at_unix_millis","checkpoint_digest"],
+        "properties":{
+          "schema":{"const":"adl.runtime_v3.agent_checkpoint.v1"},
+          "runtime_instance_id":{"type":"string"},
+          "declaration":{"$ref":"#/components/schemas/AgentAdmissionRequest"},
+          "roster_state":{"$ref":"#/components/schemas/CheckpointAgentSample"},
+          "conversation_history":{"type":"array","items":{"$ref":"#/components/schemas/AgentConversationCheckpoint"}},
+          "created_at_unix_millis":{"type":"integer","minimum":1},
+          "checkpoint_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+        }
+      },
+      "CheckpointAgentSample": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "role", "state", "detail", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "properties": {
           "id": {"type": "string"},
           "label": {"type": "string"},
           "role": {"type": "string"},
+          "state": {"type": "string"},
+          "detail": {"type": "string"},
+          "health": {"type": "string"},
+          "availability": {"type": "string"},
+          "activity": {"type": ["string", "null"]},
+          "capabilities": {"type": "array", "items": {"type": "string"}},
+          "location": {"type": ["string", "null"]},
+          "communication_eligible": {"type": "boolean"},
+          "observed_at_unix_millis": {"type": "integer"},
+          "freshness_deadline_unix_millis": {"type": "integer"},
+          "source_revision": {"type": "string"},
+          "provenance": {"type": "string"}
+        }
+      },
+      "AgentConversationCheckpoint": {
+        "type":"object","additionalProperties":false,
+        "required":["conversation_id","session_sequence","next_turn_sequence","turns"],
+        "properties":{
+          "conversation_id":{"type":"string"},
+          "session_sequence":{"type":"integer","minimum":0},
+          "next_turn_sequence":{"type":"integer","minimum":0},
+          "turns":{"type":"array","items":{"$ref":"#/components/schemas/AgentTurnCheckpoint"}}
+        }
+      },
+      "AgentTurnCheckpoint": {
+        "type":"object","additionalProperties":false,
+        "required":["turn_id","fingerprint","correlation_id","sequence","terminal_status","reply","accepted_sequence","turn_sequence","terminal_error"],
+        "properties":{
+          "turn_id":{"type":"string"},
+          "fingerprint":{"type":"string"},
+          "correlation_id":{"type":"string"},
+          "sequence":{"type":"integer","minimum":1},
+          "terminal_status":{"type":"string","enum":["delivered","failed","refused","cancelled","timed_out"]},
+          "reply":{"type":["string","null"]},
+          "accepted_sequence":{"type":["integer","null"],"minimum":0},
+          "turn_sequence":{"type":["integer","null"],"minimum":0},
+          "terminal_error":{"type":["string","null"]}
+        }
+      },
+      "FreezeDriedAgent": {
+        "type":"object","additionalProperties":false,
+        "required":["schema","source_runtime_instance_id","declaration","checkpoint","dehydrated_at_unix_millis","bundle_digest"],
+        "properties":{
+          "schema":{"const":"adl.runtime_v3.freeze_dried_agent.v1"},
+          "source_runtime_instance_id":{"type":"string"},
+          "declaration":{"$ref":"#/components/schemas/AgentAdmissionRequest"},
+          "checkpoint":{"$ref":"#/components/schemas/AgentCheckpoint"},
+          "dehydrated_at_unix_millis":{"type":"integer","minimum":1},
+          "bundle_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+        }
+      },
+      "AgentRosterEntry": {
+        "type": "object",
+        "required": ["schema", "id", "name", "label", "role", "provider", "model", "last_snapshot_at_unix_millis", "last_archive_at_unix_millis", "snapshot_sequence", "pending_archive_count", "snapshot_state", "archive_state", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
+          "id": {"type": "string"},
+          "name": {"type": "string", "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"},
+          "label": {"type": "string"},
+          "role": {"type": "string"},
+          "provider": {"type": ["string", "null"]},
+          "model": {"type": ["string", "null"]},
+          "last_snapshot_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
+          "last_archive_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
+          "snapshot_sequence": {"type": ["integer", "null"], "minimum": 1},
+          "pending_archive_count": {"type": "integer", "minimum": 0},
+          "snapshot_state": {"type": "string", "enum": ["never_snapshotted", "current", "overdue", "failed"]},
+          "archive_state": {"type": "string", "enum": ["disabled", "current", "pending", "degraded", "spool_saturated"]},
           "presence": {"type": "string", "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]},
           "health": {"type": "string"},
           "availability": {"type": "string"},
@@ -686,8 +855,17 @@
         "type": "object",
         "required": [
           "id",
+          "name",
           "label",
           "role",
+          "provider",
+          "model",
+          "last_snapshot_at_unix_millis",
+          "last_archive_at_unix_millis",
+          "snapshot_sequence",
+          "pending_archive_count",
+          "snapshot_state",
+          "archive_state",
           "state",
           "detail",
           "health",
@@ -705,12 +883,24 @@
           "id": {
             "type": "string"
           },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+          },
           "label": {
             "type": "string"
           },
           "role": {
             "type": "string"
           },
+          "provider": {"type": ["string", "null"]},
+          "model": {"type": ["string", "null"]},
+          "last_snapshot_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
+          "last_archive_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
+          "snapshot_sequence": {"type": ["integer", "null"], "minimum": 1},
+          "pending_archive_count": {"type": "integer", "minimum": 0},
+          "snapshot_state": {"type": "string", "enum": ["never_snapshotted", "current", "overdue", "failed"]},
+          "archive_state": {"type": "string", "enum": ["disabled", "current", "pending", "degraded", "spool_saturated"]},
           "state": {
             "type": "string",
             "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]

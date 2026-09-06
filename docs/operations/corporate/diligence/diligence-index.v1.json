@@ -1,0 +1,44 @@
+{
+  "schema": "adl.corporate.diligence_index.v1",
+  "issue": 498,
+  "planned_id": "CORP-D",
+  "repository": "agent-logic/agent-design-language",
+  "scope": "v0.92.1 corporate diligence acceptance",
+  "entries": [
+    {
+      "planned_id": "CORP-A",
+      "issue": 482,
+      "disposition": "closed_by_merged_pr",
+      "receipt_ref": "GitHub issue #482 and merged PR #545",
+      "merge_commit": "e2c1d1649b0c930a5a1254575a07ef2a4496d48d",
+      "ancestral_to": "origin/main",
+      "blocker_status": "dispositioned"
+    },
+    {
+      "planned_id": "CORP-B",
+      "issue": 483,
+      "disposition": "closed_by_merged_pr",
+      "receipt_ref": "GitHub issue #483 and merged PR #562",
+      "merge_commit": "4a0b49c0071bacdaab19d6d9eb8c44380beb51be",
+      "ancestral_to": "origin/main",
+      "blocker_status": "dispositioned"
+    },
+    {
+      "planned_id": "CORP-C",
+      "issue": 497,
+      "disposition": "closed_by_merged_pr_with_sidecar_operational_hardening",
+      "receipt_ref": "GitHub issue #497, merged PR #613, Sprint umbrella #532, and sidecar issue #624",
+      "merge_commit": "8fa5129f4184d415bdd613285a6801801e101a5a",
+      "ancestral_to": "origin/main",
+      "blocker_status": "dispositioned",
+      "sidecar_issue": 624,
+      "sidecar_blocking_corp_d": false
+    }
+  ],
+  "non_claims": [
+    "This index does not close Sprint umbrella #532.",
+    "This index does not complete sidecar issue #624.",
+    "This index does not mutate provider, account, billing, credential, DNS, certificate, CI, Terraform, deployment, or production state.",
+    "This index records only public or redacted receipt references for counsel-controlled surfaces."
+  ]
+}

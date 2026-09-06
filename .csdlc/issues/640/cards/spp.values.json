@@ -1,0 +1,135 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 640,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
+    "slug": "runtime-model-backed-resident-shepherd",
+    "version": "v0.92.1",
+    "generation": 33
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Add provider-neutral configuration for a non-empty unique Shepherd set, replace native placeholder reasoning with the governed provider executor, implement preload and isolated lifetime recovery, derive all readiness projections from one snapshot, and prove it with focused tests plus bounded Wuji acceptance.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Extend and validate the non-empty uniquely named resident Shepherd set and thread authoritative identity/provider/model/preload values into Runtime bootstrap.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Wire each Shepherd reasoning path through its configured provider and the existing governed operation boundary.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Implement startup preload, truthful per-Shepherd readiness states, and idempotent lifetime recovery using generous bounded probes and backoff.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Derive /v1/ready, blocking_reasons, roster/detail, and Observatory snapshot/feed from one non-secret Shepherd health snapshot and update OpenAPI.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Run focused deterministic validation and bounded Wuji restart/preload/inference acceptance, then resolve independent exact-head review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/governed_operations.rs",
+        "adl-runtime-kernel/tests/assembly.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        "adl-runtime-kernel/tests/agent_roster.rs",
+        "adl-runtime-kernel/tests/governed_operations.rs",
+        "adl-runtime-kernel/tests/shepherd.rs",
+        "adl-runtime-kernel/tests/openapi_contract.rs",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        ".csdlc/prepared/issues/640/design.revised.md",
+        ".csdlc/prepared/issues/640/diagram.revised.mmd",
+        ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
+        ".csdlc/evidence/640"
+      ],
+      "invariants": [
+        "At least one resident Shepherd exists and each configured canonical identity is unique",
+        "Runtime configuration is authoritative for Shepherd identity and provider selection",
+        "No provider credential is serialized or logged",
+        "One health snapshot keeps Runtime readiness, blocking reasons, roster/detail, and Observatory projections consistent",
+        "Transient inference failure is isolated from global Runtime and non-Shepherd availability",
+        "Lifetime recovery uses bounded configurable probes and backoff; no short timeout terminates the Runtime",
+        "Canonical name and lifecycle continuity delivered by #617 remain unchanged"
+      ],
+      "risks": [
+        "Provider-specific preload behavior leaks into the Runtime contract",
+        "A cold model exceeds a small startup or inference budget and creates false failure",
+        "Recovery duplicates a configured Shepherd identity or provider task",
+        "API health claims ready before the model can infer",
+        "Provider failure globally blocks Runtime readiness or makes /v1/ready disagree with Observatory",
+        "Execution accidentally stacks or duplicates unmerged #617 changes"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Execution base does not contain merged #617/#636 state",
+        "Provider credentials would need to enter tracked config or API output",
+        "The design requires terminating or globally blocking the Runtime on temporary provider/model failure",
+        "A validation lane selects zero tests",
+        "Scope expands into general dynamic-agent lifecycle redesign",
+        "Wuji acceptance would overwrite another session's live configuration without coordination"
+      ],
+      "replan_triggers": [
+        "The existing governed operation boundary cannot host provider-backed Shepherd inference without semantic expansion",
+        "Runtime and Observatory readiness cannot share one authoritative health snapshot",
+        "Supporting a non-empty Shepherd set requires general distributed-runtime coordination"
+      ],
+      "design_ref": ".csdlc/prepared/issues/640/design.md",
+      "design_digest": "f73bbe055c9d064099191075b3e9c1e38eb3dee8693df8ed48569325290f1959",
+      "diagram_ref": ".csdlc/prepared/issues/640/diagram.mmd",
+      "diagram_digest": "81aeb9544c88940ec0fcef0ed2963e68ee37fd481c16f1199bd28c5f6ef0efaa"
+    }
+  }
+}
