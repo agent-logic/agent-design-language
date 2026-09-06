@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
   "phase": "implemented",
-  "generation": 41,
-  "digest": "975b5e0777563dc9b3301bfd8f92c28be86f33c7d429da9ea5b592470a28d19b",
+  "generation": 42,
+  "digest": "fe7d52d44d7c8a9beaa8d652788c9fd5dbb03500f4d5add4391376c3bd823a04",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "92452cfb1f2b78ffb236a486c503416c6d4015a895db26a94f6ecf0ef87d9969",
+      "values_digest": "7aa6febbda21a128b164997911ce4c2f5b5ffb33c591404e4da02b0d6d1c7532",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "2cf71540515a91fe8defe3bc0c877011a3073313247b5437b4626d93e52138be",
+      "values_digest": "804a731b6dc24b204aee3e04c105c3087445ceb8f350f2348325cec1f7454685",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "871bf8269c6eafb1e7a0df7717091383096d12322cb3489332c49e8db25b4f1a",
+      "values_digest": "2d2bb3ef08fb860765d89408b8a513b61e29940b06958035344720e8887c9807",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "d61fc6ee6105200ffc9680c9cc9f095225d3f5c02fb27d91da7036741d311384",
+      "values_digest": "123121a4db1affa1ae5dc883565a373e14e1afab242caab80a771e05ee96774d",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "f3ab0ab246333deb9ee3b883ae00582d2e87c290a1f08fd833d631f275349a43",
+      "values_digest": "55e4b719e816002b671b36874883f50097e3c51115a1d428b81d86a9b1b7eee8",
       "rendered_digest": "62ab5f287358985e07fcfccf313ada3bb09d9d35a3bce2910ec505a16407f03a",
       "ast_digest": "bf79e825124bb4faf8174828f06f6bae043d6603db6bad58cacefb9e329fa235"
     },
     "sor": {
-      "values_digest": "ab0191954bb5b2579e7c85d151b98d5802b694d87c73bfdc2f3cf558cc1017fd",
-      "rendered_digest": "443743fdff55541b2efe0fd843395a44d11ed8499dd3c147d89c7a6ddf1b991c",
-      "ast_digest": "561f5eab0dc0d145d62d9390e120b5ba54b5b6bcb5e42c4e78049bcf6a018528"
+      "values_digest": "bc1c22fe19be76aaf9864e73568c80ec1666b579271263bcd7e66a878ae54309",
+      "rendered_digest": "bea6e7a64646263f47981c7a381bfc626b3f125717c1fa241130de81a82f7b98",
+      "ast_digest": "002ee819c9cd238da6d800b8e8fe5c96b743228ce56e9919bc9ee888b0822ed3"
     }
   },
   "transitions": [
@@ -617,6 +617,13 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Recover stale publication truth after fixing exact-head PR #709 review blockers for durable per-agent orientation provenance, parts-only A2A normalization, configured default-source loading, and full-suite cleanup-race test stability.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 42,
+      "actor": "codex:issue-708-runtime-orientation",
+      "reason": "Record local proof for exact-head PR #709 review-blocker fixes before fresh review and republication.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\"],\"purpose\":\"CI-matching Runtime kernel library validation after fixing durable per-agent orientation persistence, parts-only provider A2A multipart normalization, configured default-source loading, and cleanup-race synchronization.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:187 tests passed; orientation provenance, provider_conversation_tool_tests, and shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress passed\"}}"
     }
   ]
 }

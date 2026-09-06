@@ -346,6 +346,21 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
     "purpose": "CI-matching Runtime v3 library validation after replacing the sleep-timed duplicate conversation in-flight assertion with the existing deterministic test barrier.",
     "outcome": "passed",
     "evidence_ref": "terminal:183 tests passed; formerly failing shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress passed"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "CI-matching Runtime kernel library validation after fixing durable per-agent orientation persistence, parts-only provider A2A multipart normalization, configured default-source loading, and cleanup-race synchronization.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:187 tests passed; orientation provenance, provider_conversation_tool_tests, and shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress passed"
   }
 ]
 
