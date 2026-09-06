@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/ingress.rs
 
 ## Prompts
 
