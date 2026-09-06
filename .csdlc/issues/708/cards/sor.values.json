@@ -7,7 +7,7 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 30
   },
   "status": "pre_phase",
   "content": {
@@ -26,6 +26,7 @@
         "Moved provider-backed agent_runtime orientation delivery into a first-class internal task envelope so the original 4 KiB user-message bound remains intact while the model-facing prompt still receives the welcome package before task content.",
         "Raised bounded Runtime agent-conversation single-message and per-part payloads from 4 KiB to 32 KiB, while retaining a finite 64-part and 256 KiB aggregate cap.",
         "Added first-class multipart `input_parts` and `message_parts` handling across Runtime conversation tasks, provider-selected A2A tool actions, and public output projection so larger governed resident handoffs do not flatten into an undersized single string.",
+        "Tightened multipart validation so an optional scalar `input` or `message` counts as one logical part against the shared 64-part cap, preventing scalar-plus-64 requests from slipping past the declared bound.",
         "Kept provider-selected A2A `message` as the summary/single-message field and `message_parts` as the separate multipart chunks so runtime-derived dispatch does not duplicate multipart task content when forwarding to the recipient.",
         "Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.",
         "Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance."
@@ -132,6 +133,40 @@
           "purpose": "Regression for 32 KiB single agent conversation inputs, multipart Runtime input assembly, and provider-projected multipart governed A2A envelopes.",
           "outcome": "passed",
           "evidence_ref": "terminal:running 7 tests; 7 passed"
+        },
+        {
+          "command": [
+            "env",
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "logical_message_parts",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Regression for the current-head review finding: scalar message plus 64 multipart entries must fail because the scalar counts as one logical part.",
+          "outcome": "passed",
+          "evidence_ref": "terminal:running 2 tests; 2 passed"
+        },
+        {
+          "command": [
+            "env",
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "conversation_task_input_accepts_32k_single_part_and_multipart_input",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Regression for Runtime task input assembly: scalar input and multipart input_parts share the same 64 logical-part cap while 32 KiB accepted parts remain valid.",
+          "outcome": "passed",
+          "evidence_ref": "terminal:running 1 test; 1 passed"
         },
         {
           "command": [
