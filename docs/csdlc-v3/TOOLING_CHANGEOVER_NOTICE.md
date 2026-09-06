@@ -20,8 +20,10 @@ happens.
 
 ## What will change after approved cutover
 
-After #505 is reviewed, approved, merged, and terminally reconciled, the default
-operator guidance may switch from the v2 owner-binary route to the v3 route.
+After #505 is reviewed and PR #591 is approved and merged, the default operator
+guidance switches from the v2 owner-binary route to the v3 route. Merge is the
+atomic authority cutover; terminal reconciliation records it afterward and is
+not a second activation gate.
 That switch is expected to be materially different: fewer hand-authored lifecycle
 steps, stronger typed authority boundaries, and a simpler path for getting an
 issue from ready state into execution.

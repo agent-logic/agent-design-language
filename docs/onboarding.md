@@ -27,8 +27,9 @@ routes are historical surfaces, not current lifecycle authority.
 Issue #505 is the pending V3-F tooling changeover decision. Before the default
 route changes, operators must receive the pre-change notice in
 `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md`. Until #505 is explicitly
-approved, merged, and terminally reconciled, v2 remains live authority and v3
-must be treated as construction/cutover evidence only.
+approved and PR #591 is merged, v2 remains live authority and v3 must be
+treated as construction/cutover evidence only. Merge is the atomic authority
+cutover; terminal reconciliation records the completed transition afterward.
 
 C-SDLC v3 is the planned clean replacement line, but before V3-F it is only
 construction and cutover-readiness evidence. Do not use v3 to bind worktrees,
