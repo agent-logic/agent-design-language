@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "67ad230ca41fe5451ab3c64ef33526b2cd36ad6b6f4681464680b4efbfadf9e1",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "9417b7a973397e09992756d60e9dc0b8bb6c69ff15196191566ca4aa2193f3f4",
+  "phase": "published",
+  "generation": 9,
+  "digest": "b17341be99eddceb90e60d467c0da57f358a283a23f769e8e48e3b16641cdd0c",
   "branch": "codex/707-runtime-generation-coherence-a2a-deploy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-707-runtime-generation-coherence-a2a-deploy",
   "review_assignment": {
     "reviewer": "subagent:/root/review_707_final",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:0681d06d580e2431df5956e5d3a132240bb8f66a:8fcd3482471ae32c1d29c07e6162e1822665baf60d93e66a3a2acc91cfb552ef",
+    "revision": "git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12",
     "scope": [
       "cross-binary configuration identity",
       "uniform all-agent A2A communication",
@@ -30,13 +30,24 @@
       "two fresh live Beacon-to-Ember deliveries",
       "focused validation and publication hygiene"
     ],
-    "reviewed_revision": "git-blake3:0681d06d580e2431df5956e5d3a132240bb8f66a:8fcd3482471ae32c1d29c07e6162e1822665baf60d93e66a3a2acc91cfb552ef",
+    "reviewed_revision": "git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12",
     "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 707,
+    "pull_request": 711,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/711",
+    "base": "main",
+    "head": "codex/707-runtime-generation-coherence-a2a-deploy",
+    "revision": "git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -50,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5640677b9861cbfa5c62c11ee798cd070adef6d5410731b45cc7de93a4a7427a",
+      "values_digest": "2f52e08a7f76c9d934a30752ccc26f6e0ec6cb9a228d5774426c44b464670c4d",
       "rendered_digest": "6e5e831eb11c8228061f40a6f241f0eabe55465de85b4d6f123d5721adc76b2a",
       "ast_digest": "1c67609962e8e129b8ba1ef3b0272a4c986468315fb050bedfa7cab59582ab77"
     },
     "stp": {
-      "values_digest": "99cf84f1fa18ef73fdbc4ab3165c19c410252ddbc0d59ae45f8420fd37cf2e59",
+      "values_digest": "1768a252d866c6061558730ab7aca89c5a05079475b16eaa43063e1cccdf6615",
       "rendered_digest": "1a778a5b924419266702bae6794cf48e08eb84615bbcde70a5a34ed18178a58b",
       "ast_digest": "4a0296704bfa40277f94114a7b96d2c4a8cc8cd2dd05a9b1c609c02294991280"
     },
     "spp": {
-      "values_digest": "ade8bead98ec98fc14175ac97a4169ecdeeb8a5da02e9d25038b64ef40ddd854",
+      "values_digest": "2b92be1ae942c695c5725cf90d48d996c69d009968167130e9bf8619ee2a2704",
       "rendered_digest": "8e4ef1a85385869606f137562281d277f6aee8af41eee6355bae45b8fda361c0",
       "ast_digest": "90d0ac48e6b17ea3ab80f7a65a050328c26116746b756c9547de03f24aa739bc"
     },
     "vpp": {
-      "values_digest": "1c982a70501137b3abcd63a2133a8f0d9d6c63eeee77be83bf93ae7ca25bc229",
+      "values_digest": "24be5725ba2bdda7e0e171c796e0a0cb2303b15d108d34d0cf9ef3be349e99c9",
       "rendered_digest": "90fe7590fad64ef873175b1ae1c48233f6aa0610722b8b105b704c4323c6c0c9",
       "ast_digest": "adbb1032c11cb32a2e5185ad2c5b0234ccd2036902ce7b4f7ddf1683667a440e"
     },
     "srp": {
-      "values_digest": "765432f0384042533f762f2f7cad8e85d1aa7523bb511be204fa019936323016",
-      "rendered_digest": "5d4ae0e191fe40e543bf589b3d16a73aa93a7f48d0a2c99cc16b8dfc0e788905",
-      "ast_digest": "0b516a51caef862103a2c582289837b8d3feaf16c8b904ee3d235a9372654d9c"
+      "values_digest": "543b8cc770dfc575c9cb95b573efc7906874fbe70bb97f8cff344ddf4d98cd3b",
+      "rendered_digest": "1be5e37737d1183e5710df2c744f85e122d67b2de80a06c0a1867e2656948fee",
+      "ast_digest": "680e6998cf8d6c4c1ec5ca337374b5efe16babd0e4fe0e42b8e2c5d37c05ee36"
     },
     "sor": {
-      "values_digest": "d93f5b110867a73d9a0f9b778307de92c68b8550da4a6b161e629e4f4e1a9436",
-      "rendered_digest": "669ef181dcbb88bf5ee832b92626a1274abe9b90c472fd2a8f5a93823af488be",
-      "ast_digest": "0ff9e121dc7920376523bfbde5a93caa09cabd9fd58b655a3a7af5bd249fcef5"
+      "values_digest": "70e451caa1453fe84a2333ddff3561af815dd3651e4cd15611dec2ce78010314",
+      "rendered_digest": "ffaee70afec0dd28ad87f7f685d6cbb68740d00b939659de9d401c9118c9b587",
+      "ast_digest": "8a7c80e0a3077577217766c092bc03ca562dce9a0aface16b2d6b3276e163d3b"
     }
   },
   "transitions": [
@@ -108,6 +119,27 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the exact-head review after retaining and executing the previously missing publication-proof validator."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -173,6 +205,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover the exact-head review after retaining and executing the previously missing publication-proof validator.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -39,7 +39,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:0681d06d580e2431df5956e5d3a132240bb8f66a:8fcd3482471ae32c1d29c07e6162e1822665baf60d93e66a3a2acc91cfb552ef")
+Revision: Some("git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12")
 
 Reviewer: Some("subagent:/root/review_707_final")
 
