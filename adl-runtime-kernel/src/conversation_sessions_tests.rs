@@ -325,6 +325,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
             freshness_deadline_unix_millis: 0,
             source_revision: "unobserved".to_owned(),
             provenance: "runtime_component_state".to_owned(),
+            orientation: None,
         });
     }
     let visible_agent_ids = population

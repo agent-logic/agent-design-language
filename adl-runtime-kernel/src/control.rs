@@ -43,7 +43,8 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, is_canonical_agent_name, AgentArchiveRecovery, AgentPartialCapture,
+    decode_acip_envelope, is_canonical_agent_name, AgentArchiveRecovery, AgentOrientationConfig,
+    AgentOrientationDelivery, AgentOrientationResource, AgentPartialCapture,
     AgentPartialCheckpointInitConfig, AgentPartialCheckpointStore, AgentRosterEntry,
     AgentRosterQuery, CanonicalIngress, CheckpointManifest, DomainResult, DomainWork,
     InferenceReadinessState, IngressError, KernelControl, KernelExit, LiveContinuity,
@@ -844,6 +845,8 @@ pub struct ControlService<C> {
     runtime_presentation: Arc<RwLock<RuntimePresentationState>>,
     readiness_time: Option<Arc<dyn crate::TrustedTime>>,
     agent_population: RwLock<AgentPopulationFeed>,
+    agent_orientation: RwLock<AgentOrientationResource>,
+    agent_orientation_deliveries: Mutex<BTreeMap<String, AgentOrientationResource>>,
     dynamic_agent_store: Mutex<Option<PathBuf>>,
     agent_partial_store: RwLock<Option<Arc<AgentPartialCheckpointStore>>>,
     agent_archive_operation: tokio::sync::Mutex<()>,
@@ -915,6 +918,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         );
         let origins = validate_observatory_origins(observatory_allowed_origins, true)
             .expect("observatory origins must be approved exact origins");
+        let agent_orientation = AgentOrientationResource::bundled_default();
+        let agent_orientation_delivery = agent_orientation.delivery();
+        for agent in &mut agent_population.sample {
+            agent.orientation = Some(agent_orientation_delivery.clone());
+        }
+        let agent_orientation_deliveries = agent_population
+            .sample
+            .iter()
+            .map(|agent| (agent.id.clone(), agent_orientation.clone()))
+            .collect::<BTreeMap<_, _>>();
         agent_population
             .sample
             .sort_by(|left, right| left.id.cmp(&right.id));
@@ -955,6 +968,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             runtime_presentation,
             readiness_time: None,
             agent_population: RwLock::new(agent_population),
+            agent_orientation: RwLock::new(agent_orientation),
+            agent_orientation_deliveries: Mutex::new(agent_orientation_deliveries),
             dynamic_agent_store: Mutex::new(None),
             agent_partial_store: RwLock::new(None),
             agent_archive_operation: tokio::sync::Mutex::new(()),
@@ -1036,6 +1051,98 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.replace_observatory_allowed_origins(init.observatory_allowed_origins())
     }
 
+    pub fn replace_agent_orientation_from_config(
+        &self,
+        config: &AgentOrientationConfig,
+    ) -> Result<AgentOrientationDelivery, ControlError> {
+        let resource = AgentOrientationResource::load_from_config(config)
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        let delivery = resource.delivery();
+        *self
+            .agent_orientation
+            .write()
+            .expect("agent orientation state poisoned") = resource;
+        Ok(delivery)
+    }
+
+    pub fn initialize_agent_orientation_from_config(
+        &self,
+        config: &AgentOrientationConfig,
+    ) -> Result<AgentOrientationDelivery, ControlError> {
+        let resource = AgentOrientationResource::load_from_config(config)
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        let delivery = resource.delivery();
+        *self
+            .agent_orientation
+            .write()
+            .expect("agent orientation state poisoned") = resource.clone();
+        let mut deliveries = self
+            .agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation delivery state poisoned");
+        let mut population = self
+            .agent_population
+            .write()
+            .expect("agent population state poisoned");
+        for agent in &mut population.sample {
+            agent.orientation = Some(delivery.clone());
+            deliveries.insert(agent.id.clone(), resource.clone());
+        }
+        Ok(delivery)
+    }
+
+    pub fn replace_agent_orientation_from_runtime_init(
+        &self,
+        init: &crate::RuntimeInitConfig,
+    ) -> Result<AgentOrientationDelivery, ControlError> {
+        self.replace_agent_orientation_from_config(&init.agent_orientation)
+    }
+
+    pub fn initialize_agent_orientation_from_runtime_init(
+        &self,
+        init: &crate::RuntimeInitConfig,
+    ) -> Result<AgentOrientationDelivery, ControlError> {
+        self.initialize_agent_orientation_from_config(&init.agent_orientation)
+    }
+
+    #[cfg(test)]
+    fn replace_agent_orientation_for_test(
+        &self,
+        version: &str,
+        source_path: &str,
+        content: &str,
+    ) -> Result<AgentOrientationDelivery, ControlError> {
+        let resource = AgentOrientationResource::from_content(version, source_path, content)
+            .map_err(|error| ControlError::Io(error.to_string()))?;
+        let delivery = resource.delivery();
+        *self
+            .agent_orientation
+            .write()
+            .expect("agent orientation state poisoned") = resource;
+        Ok(delivery)
+    }
+
+    fn active_agent_orientation(&self) -> AgentOrientationResource {
+        self.agent_orientation
+            .read()
+            .expect("agent orientation state poisoned")
+            .clone()
+    }
+
+    fn orientation_for_agent(&self, agent_id: &str) -> Option<AgentOrientationResource> {
+        self.agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation delivery state poisoned")
+            .get(agent_id)
+            .cloned()
+    }
+
+    fn inject_agent_orientation(&self, agent_id: &str, prompt: &str) -> String {
+        self.orientation_for_agent(agent_id)
+            .unwrap_or_else(|| self.active_agent_orientation())
+            .inject_initial_context(prompt)
+    }
+
     pub fn with_polis_identity(self, init: &crate::RuntimeInitConfig) -> Self {
         let mut active = self
             .runtime_presentation
@@ -1060,6 +1167,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn apply_runtime_init_reload(&self, init: &crate::RuntimeInitConfig) -> Result<(), String> {
         init.validate().map_err(|error| error.to_string())?;
+        let next_orientation = AgentOrientationResource::load_from_config(&init.agent_orientation)
+            .map_err(|error| error.to_string())?;
         let next_identity = PolisIdentityFeed {
             polis_id: init.polis.id.clone(),
             display_name: init.polis.display_name.clone(),
@@ -1078,6 +1187,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         active.public_base_url = init.api.public_base_url.clone();
         active.polis_identity = next_identity;
         active.observatory_allowed_origins = next_origins;
+        *self
+            .agent_orientation
+            .write()
+            .map_err(|_| "agent orientation state unavailable".to_owned())? = next_orientation;
         Ok(())
     }
 
@@ -1952,6 +2065,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .find(|agent| agent.id == dispatch.intent.recipient_id)
             .cloned();
+        let oriented_message =
+            self.inject_agent_orientation(&dispatch.intent.recipient_id, &dispatch.intent.message);
         let agent_task = match dynamic_binding {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
@@ -1959,7 +2074,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
-                "input": dispatch.intent.message,
+                "input": oriented_message.clone(),
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
                 "provider": agent.provider,
@@ -1972,7 +2087,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
-                "input": dispatch.intent.message,
+                "input": oriented_message.clone(),
                 "sender_id": dispatch.initiation.as_ref().map(|metadata| metadata.sender_id.clone()),
                 "initiated_work_id": dispatch.initiation.as_ref().map(|metadata| metadata.initiated_work_id.clone()),
             }),
@@ -1986,7 +2101,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     runtime_id: self.instance_id.clone(),
                     shepherd_name: Some(shepherd_name),
                     conversation_recipient_id: Some(dispatch.intent.recipient_id.clone()),
-                    prompt: dispatch.intent.message.clone(),
+                    prompt: oriented_message,
                 }),
             )
         } else {
@@ -2369,6 +2484,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .agent_population
             .write()
             .expect("agent population state poisoned");
+        let active_orientation = self.active_agent_orientation();
+        let mut deliveries = self
+            .agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation delivery state poisoned");
         for agent in &agents {
             validate_persisted_agent_admission(agent)?;
             if !seen.insert(agent.id.clone()) {
@@ -2376,6 +2496,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             }
             let mut sample = agent_sample(agent);
             sample.name = persisted_agent_canonical_name(agent);
+            let resource = deliveries
+                .entry(sample.id.clone())
+                .or_insert_with(|| active_orientation.clone());
+            sample.orientation = Some(resource.delivery());
             population.admit_dynamic(sample);
         }
         *self
@@ -2830,10 +2954,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 agents.sort_by(|left, right| left.id.cmp(&right.id));
                 persist_dynamic_agents(&path, &agents)
                     .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
+                let orientation = self.active_agent_orientation();
+                let mut sample = agent_sample(&request);
+                sample.orientation = Some(orientation.delivery());
+                self.agent_orientation_deliveries
+                    .lock()
+                    .expect("agent orientation delivery state poisoned")
+                    .insert(request.id.clone(), orientation);
                 self.agent_population
                     .write()
                     .expect("agent population state poisoned")
-                    .admit_dynamic(agent_sample(&request));
+                    .admit_dynamic(sample);
                 *agents_guard = agents;
                 "admitted"
             }
@@ -2905,6 +3036,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.pending_agent_migrations
             .lock()
             .expect("pending migration state poisoned")
+            .remove(agent_id);
+        self.agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation delivery state poisoned")
             .remove(agent_id);
         Ok("removed")
     }
@@ -5886,6 +6021,7 @@ mod layer8_conversation_ingress_tests {
                 freshness_deadline_unix_millis: 0,
                 source_revision: "unobserved".to_owned(),
                 provenance: "runtime_component_state".to_owned(),
+                orientation: None,
             });
         }
         population = population.with_public_policy(AgentRosterPolicy {
@@ -6327,6 +6463,7 @@ mod layer8_conversation_ingress_tests {
                 freshness_deadline_unix_millis: 0,
                 source_revision: "unobserved".to_owned(),
                 provenance: "runtime_component_state".to_owned(),
+                orientation: None,
             });
         }
         population = population.with_public_policy(AgentRosterPolicy {
@@ -9078,6 +9215,7 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
         .to_hex()
         .to_string(),
         provenance: "runtime_dynamic_admission".to_owned(),
+        orientation: None,
     }
 }
 
@@ -9114,6 +9252,236 @@ fn persist_json_atomically(path: &Path, value: &impl Serialize) -> Result<(), Co
         .and_then(|directory| directory.sync_all())
         .map_err(|error| ControlError::Io(error.to_string()))?;
     Ok(())
+}
+
+#[cfg(test)]
+mod orientation_tests {
+    use super::*;
+
+    struct FakeLifecycle;
+
+    #[async_trait]
+    impl LifecycleControl for FakeLifecycle {
+        async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
+            Ok(KernelExit::Clean)
+        }
+    }
+
+    fn service_with_resident() -> ControlService<FakeLifecycle> {
+        ControlService::new_with_observatory_config_and_agents(
+            "orientation-runtime",
+            RuntimeRecorder::new(16),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            AgentPopulationFeed::resident_shepherd(),
+        )
+    }
+
+    fn admission(id: &str, name: &str) -> AgentAdmissionRequest {
+        AgentAdmissionRequest {
+            schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+            id: id.to_owned(),
+            name: name.to_owned(),
+            display_name: name.to_owned(),
+            office: "resident agent".to_owned(),
+            role: String::new(),
+            provider: "ollama".to_owned(),
+            model: "gemma4:e4b-mlx".to_owned(),
+            endpoint: "http://127.0.0.1:11434".to_owned(),
+        }
+    }
+
+    #[test]
+    fn orientation_is_delivered_to_existing_resident_and_injected_before_task_content() {
+        let service = service_with_resident();
+        let population = service
+            .agent_population
+            .read()
+            .expect("agent population state poisoned");
+        let shepherd = population
+            .sample
+            .iter()
+            .find(|agent| agent.id == "shepherd")
+            .expect("resident shepherd is present");
+        let delivery = shepherd
+            .orientation
+            .as_ref()
+            .expect("resident shepherd has orientation delivery");
+        assert_eq!(delivery.version, crate::DEFAULT_AGENT_ORIENTATION_VERSION);
+        assert_eq!(
+            delivery.digest_algorithm,
+            crate::AGENT_ORIENTATION_DIGEST_ALGORITHM
+        );
+        assert_eq!(delivery.digest.len(), 64);
+        drop(population);
+
+        let prompt = service.inject_agent_orientation("shepherd", "Please greet Ember.");
+        let orientation_offset = prompt
+            .find("Axioma Polis Welcome Package")
+            .expect("orientation package is present");
+        let task_offset = prompt
+            .find("Please greet Ember.")
+            .expect("task content is present");
+        assert!(orientation_offset < task_offset);
+        assert!(prompt.contains("non-authoritative orientation only"));
+        assert!(prompt.contains("cannot override Runtime policy"));
+    }
+
+    #[test]
+    fn orientation_reload_preserves_existing_agents_and_applies_to_new_admissions() {
+        let service = service_with_resident();
+        let original_shepherd_digest = service
+            .orientation_for_agent("shepherd")
+            .expect("shepherd orientation exists")
+            .digest;
+        let v2_content = "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nNew civic orientation.";
+        let v2_delivery = service
+            .replace_agent_orientation_for_test(
+                "v2",
+                "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V2.md",
+                v2_content,
+            )
+            .expect("valid replacement orientation loads");
+        assert_ne!(v2_delivery.digest, original_shepherd_digest);
+
+        let shepherd_after_reload = service
+            .orientation_for_agent("shepherd")
+            .expect("shepherd retained original orientation");
+        assert_eq!(
+            shepherd_after_reload.version,
+            crate::DEFAULT_AGENT_ORIENTATION_VERSION
+        );
+        assert_eq!(shepherd_after_reload.digest, original_shepherd_digest);
+
+        let root = tempfile::tempdir().expect("test tempdir");
+        let store_path = root.path().join("dynamic-agents.json");
+        std::fs::write(
+            &store_path,
+            serde_json::to_vec_pretty(&DynamicAgentStore {
+                schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                agents: vec![admission("ember", "ember.axioma")],
+            })
+            .expect("store serializes"),
+        )
+        .expect("store writes");
+        service
+            .configure_dynamic_agent_store(store_path)
+            .expect("dynamic store configures");
+        let ember = service
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .find(|agent| agent.id == "ember")
+            .cloned()
+            .expect("dynamic agent admitted from store");
+        assert_eq!(
+            ember
+                .orientation
+                .as_ref()
+                .map(|delivery| delivery.digest.as_str()),
+            Some(v2_delivery.digest.as_str())
+        );
+
+        let invalid = service.replace_agent_orientation_for_test(
+            "v3",
+            "docs/runtime/invalid.md",
+            "no civic package here",
+        );
+        assert!(invalid.is_err());
+        assert_eq!(
+            service.active_agent_orientation().digest,
+            v2_delivery.digest
+        );
+    }
+
+    #[test]
+    fn startup_orientation_initialization_restamps_existing_residents_from_config() {
+        let service = service_with_resident();
+        let root = tempfile::tempdir().expect("test tempdir");
+        let source_path = root.path().join("welcome-v2.md");
+        std::fs::write(
+            &source_path,
+            "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nConfigured startup orientation.",
+        )
+        .expect("orientation source writes");
+        let delivery = service
+            .initialize_agent_orientation_from_config(&AgentOrientationConfig {
+                enabled: true,
+                version: "v2".to_owned(),
+                source_path,
+            })
+            .expect("startup orientation initializes");
+
+        let shepherd = service
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .find(|agent| agent.id == "shepherd")
+            .cloned()
+            .expect("resident shepherd exists");
+        assert_eq!(
+            shepherd
+                .orientation
+                .as_ref()
+                .map(|orientation| orientation.digest.as_str()),
+            Some(delivery.digest.as_str())
+        );
+        assert!(service
+            .inject_agent_orientation("shepherd", "hello")
+            .contains("Configured startup orientation."));
+    }
+
+    #[test]
+    fn production_runtime_init_reload_replaces_active_orientation_fail_closed() {
+        let service = service_with_resident();
+        let original_shepherd_digest = service
+            .orientation_for_agent("shepherd")
+            .expect("shepherd orientation exists")
+            .digest;
+        let original_active_digest = service.active_agent_orientation().digest;
+
+        let root = tempfile::tempdir().expect("test tempdir");
+        let v2_path = root.path().join("AXIOMA_POLIS_WELCOME_PACKAGE_V2.md");
+        std::fs::write(
+            &v2_path,
+            "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nReloaded civic orientation.",
+        )
+        .expect("v2 package writes");
+        let mut init = crate::RuntimeInitConfig::from_toml_str(include_str!(
+            "../../infra/runtime-v3/runtime-init.toml"
+        ))
+        .expect("fixture init is valid");
+        init.agent_orientation.version = "v2".to_owned();
+        init.agent_orientation.source_path = v2_path;
+
+        service
+            .apply_runtime_init_reload(&init)
+            .expect("valid orientation reload applies");
+        let v2_digest = service.active_agent_orientation().digest;
+        assert_ne!(v2_digest, original_active_digest);
+        assert_eq!(
+            service
+                .orientation_for_agent("shepherd")
+                .expect("existing shepherd delivery remains stamped")
+                .digest,
+            original_shepherd_digest
+        );
+
+        let invalid_path = root.path().join("invalid.md");
+        std::fs::write(&invalid_path, "not an Axioma Polis orientation package")
+            .expect("invalid package writes");
+        init.agent_orientation.version = "v3".to_owned();
+        init.agent_orientation.source_path = invalid_path;
+
+        assert!(service.apply_runtime_init_reload(&init).is_err());
+        assert_eq!(service.active_agent_orientation().digest, v2_digest);
+    }
 }
 
 fn agent_checkpoint_digest(checkpoint: &AgentCheckpoint) -> Result<String, ControlError> {

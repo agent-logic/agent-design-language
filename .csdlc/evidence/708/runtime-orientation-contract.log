@@ -1,0 +1,10 @@
+
+running 3 tests
+test control::orientation_tests::orientation_is_delivered_to_existing_resident_and_injected_before_task_content ... ok
+test control::orientation_tests::orientation_reload_preserves_existing_agents_and_applies_to_new_admissions ... ok
+test control::orientation_tests::production_runtime_init_reload_replaces_active_orientation_fail_closed ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 169 filtered out; finished in 0.03s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.26s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)

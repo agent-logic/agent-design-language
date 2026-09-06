@@ -7,16 +7,107 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 3
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Implemented the Runtime agent orientation resource path: the Axioma Polis welcome package is loaded as a typed versioned resource, stamped per admitted agent with blake3 delivery provenance, injected ahead of model-facing task content, retained per existing agent across orientation reloads, exposed through the Runtime roster/read model, and rendered by the Observatory as non-authoritative orientation metadata.",
+      "actual_changes": [
+        "Added typed agent-orientation resource, delivery schema, validation, delivered-byte blake3 digesting, and a non-authoritative injection wrapper.",
+        "Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources for later prompt injection.",
+        "Updated Runtime init and config reload paths so valid package reloads affect future admissions while invalid or unreadable packages fail closed and preserve the last valid package.",
+        "Exposed orientation delivery version, digest, source path, and projection through roster evidence/read-model entries.",
+        "Rendered per-agent orientation provenance in the Observatory and rejected malformed or schema-mismatched orientation objects."
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/agent_orientation.rs",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/agent_roster.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/tests/agent_orientation.test.mjs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Issue 708 diff hygiene validation",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "env",
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+            "bash",
+            ".csdlc/prepared/issues/708/validate-orientation-plan.sh"
+          ],
+          "purpose": "Issue 708 prepared planning contract validation",
+          "outcome": "passed",
+          "evidence_ref": "planning-contract.log"
+        },
+        {
+          "command": [
+            "env",
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+            "cargo",
+            "check",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml"
+          ],
+          "purpose": "Issue 708 runtime-kernel compile validation",
+          "outcome": "passed",
+          "evidence_ref": "runtime-kernel-compile.log"
+        },
+        {
+          "command": [
+            "env",
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "orientation"
+          ],
+          "purpose": "Issue 708 Runtime orientation contract validation",
+          "outcome": "passed",
+          "evidence_ref": "runtime-orientation-contract.log"
+        },
+        {
+          "command": [
+            "env",
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+            "node",
+            "demos/html-observatory/tests/agent_orientation.test.mjs"
+          ],
+          "purpose": "Issue 708 Observatory orientation display validation",
+          "outcome": "passed",
+          "evidence_ref": "runtime-projection-observatory.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--exit-code",
+            "origin/main...HEAD",
+            "--",
+            "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md"
+          ],
+          "purpose": "Issue 708 welcome-package source immutability validation",
+          "outcome": "passed",
+          "evidence_ref": "source-immutability.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

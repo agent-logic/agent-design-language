@@ -704,6 +704,10 @@ async fn main() -> ExitCode {
                     .with_layer8_authority(authority)
                     .with_layer8_signed_exchange(exchange);
             }
+            if let Err(error) = service.initialize_agent_orientation_from_runtime_init(&init) {
+                eprintln!("runtime agent orientation resource is invalid: {error}");
+                return ExitCode::from(78);
+            }
             if let Err(error) = service.configure_dynamic_agent_store(
                 operation_state_identity.join("dynamic-agent-admissions.json"),
             ) {
